@@ -1,0 +1,64 @@
+Subject: Bole Height to Merch. Top - Ht2TDib output
+Name: R. Havis
+Date: November 9, 2007
+Variants affected: All except R9
+
+Description: A new output column (Ht2TDib) was added to the cutlist data base
+             table, showing the bole length from stump to top inside bark
+             diameter Merch. Spec. These bole lengths are only available through
+             volume equations identified as Profile Models (except the Rustagi
+             Profile Model) in the measurements handbook - Volume Equation Numbers
+             http://www.fs.fed.us/fmsc/measure/handbooks/index.shtml
+
+Impact on users: Users should obtain a new executable if the output is needed.
+
+Files:
+
+VARVOL - The ARRAYS.F77 include file was added to the VARVOL routines and the Ht2TDib
+variable was set.
+MAKEFILES - the ARRAYS.F77 file dependency was added to the VARVOL compile instructions.
+
+./ak/obj/makefile
+./ak/src/varvol.f
+./base/src/revise.f
+./bm/obj/makefile
+./bm/src/varvol.f
+./ca/obj/makefile
+./ca/src/varvol.f
+./ci/obj/makefile
+./ci/src/varvol.f
+./common/ARRAYS.F77  - the new global variable Ht2TDib (dimensioned MAXTRE) was added
+./cr/obj/makefile
+./cr/src/varvol.f
+./dbs/src/dbscuts.f  - added a new colummn (Ht2TDib) to the cutlist table.
+./ec/obj/makefile
+./ec/src/varvol.f
+./em/obj/makefile
+./em/src/varvol.f
+./fire/base/src/fmcroww.f   - changed the last argument in NATCRS call statement to -1,
+                              so Ht2TDib is not set on this call.
+./fire/base/src/fmsvol.f  - changed the last argument in NATCRS call statement to -1.
+                              so Ht2TDib is not set on this call.
+./ie/obj/makefile
+./ie/src/varvol.f
+./ls/src/vols.f      - initialized Ht2TDib = 0
+./nc/obj/makefile
+./nc/src/varvol.f
+./ni/obj/makefile
+./ni/src/varvol.f
+./ni/src/vols.f      - initialized Ht2TDib = 0
+./pn/src/varvol.f
+./sn/obj/makefile
+./sn/src/varvol.f
+./so/obj/makefile
+./so33/obj/makefile
+./so33/src/varvol.f
+./tt/obj/makefile
+./tt/src/varvol.f
+./ut/obj/makefile
+./ut/src/varvol.f
+./wc/obj/makefile
+./wc/src/varvol.f
+./ws/obj/makefile
+./ws/src/varvol.f
+

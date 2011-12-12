@@ -1,0 +1,16 @@
+Subject: New R9 Variant Directories
+Name: R. Havis
+Date: September 28, 2006
+Variants affected: New versions of CS, LS and NE
+
+Description: New variant directories were added to the CVS repository to facilitate
+             the development and publication of updated versions of the R9
+             variants (CS, LS and NE). The variant directories are fvs/cs_new,
+             fvs/ne_new, and fvs/ls_new. Build instructions were added to the
+             makefiles for FVScs_new, FVSls_new, FVSlsfm_new, FVSne_new,
+             and FVSnefm_new.
+
+Impact on users: None
+
+Files: The CS, LS and NE source code, and makefiles were loaded into the new
+       directories for further development

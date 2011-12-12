@@ -1,0 +1,16 @@
+Subject: FFE - Incorporating Updates
+Name: R. Havis/Don Robinson ESSA
+Date: April 7, 2006
+Variants affected: FFE Extensions
+
+Description:-  Reconciled the recent SoilHeat
+routine changes with Carbon reporting versions that ESSA is working on.
+
+Impact on users: None
+
+Files:
+base/src/oplist.f
+fire/base/common/FMFCOM.F77 
+fire/base/src/fmin.f
+fire/base/src/fminit.f 
+

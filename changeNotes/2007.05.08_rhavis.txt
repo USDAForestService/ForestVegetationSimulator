@@ -1,0 +1,30 @@
+Subject: Misc. Updates
+Name: rhavis
+Date: May 8, 2007
+Variants affected: ALL
+
+Description:
+1) Enabled the DATAscrn keyword when using the DataBase extension.
+   The Datascrn keyword must appear before the DataBase keyword in the
+   keyword sequence. 
+2) Updated calculation of accretion to prevent negative values.
+3) Update Merch. Specs. see FVS update Bulletin No. 654 for the
+   Test R9 variants, cs_new, ls_new and ne_new
+
+Impact on users: Users should obtain new executables.
+
+Files:
+base/INITRE   - added SDLO and SDHI to DBSIN call statement in DataBase keyword
+                processing code section
+              - added delimiter to Format statement 2142
+base/EXDBS    - added SDLO and SDHI to entry parameter list
+base/REVISE
+
+dbs/DBSIN     - added SDLO and SDHI to subroutine parameter list, and to
+                INTREE call statement parameters list
+
+ls/VOLS       - updated logic to prevent negative accretion
+ni/VOLS       - updated logic to prevent negative accretion
+
+ls_new/VOLS   - updated logic to prevent negative accretion, and updated Merch. Specs.
+

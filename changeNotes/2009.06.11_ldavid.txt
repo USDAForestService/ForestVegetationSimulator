@@ -1,0 +1,54 @@
+Subject: Update of I&D models for Blue Mountains 18 species variant
+
+
+Name: Lance David
+Date: 06/11/2009
+
+Variants affected: BM
+
+Description: Updated Insect and Disease models to work with Blue Mountains 18 species
+             expansion. The I&D models include:
+                Douglas-fir Beetle Model
+                Douglas-fir Tussock Moth Model
+                Dwarf Mistletoe Model        **(updated by Gary Dixon)**
+                Lodgepole Mountain Pine Beetle Model
+                Western Root Disease Model
+                Western Spruce Budworm (Damage and GenDefol) Model
+
+
+Impact on users: Users of the BM variant should obtain a new executable.
+
+Files:
+
+modified files:
+
+bin          makefile    modified link instructions for FVSbmx. Removed duplicate extension
+                         stub entries in EM links.
+bm/obj       makefile    Added instructions to compile I&D code.
+
+dfb/src      dfblkdbm.f  Updated for 18 species.
+
+rd/obj       makefile    Removed compilation of BM and EM variant specific routines.
+
+rd/src       rdblk1bm.f  Updated for 18 species and host assignments.
+             rdblk1tt.f  Corrected TT vacant species index mapping having no user impact.
+             rdblk1.f    Corrected and added comments.
+             rdblk1ie.f  Corrected and added comments.
+             rdblk1pn.f  Corrected and added comments.
+             rdblk1wc.f  Corrected and added comments.
+
+wsbwe/src    bwebkbm.f   updated for 18 species.
+
+wsbwe/src    bwebmsbm.f  updated for 18 species.
+
+             
+new files:
+
+lpmpb/src    mpblkdbm.f Updated for 18 species. This had been shared with other variants.
+
+rd/src       rdinbm.f   Updated for 18 species. This had been shared with other variants.
+
+             
+note: Files that did not require modifcation for BM 18 species expansion include:
+      
+             dftm/src/tminit.f         

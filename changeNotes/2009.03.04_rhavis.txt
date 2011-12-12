@@ -1,0 +1,31 @@
+Subject: PV Code / PV Ref. Code cross walks, Salvage Bug, make utillity updates
+Name: R. Havis
+Date: March 4, 2009
+Variants affected: ALL - Salvage Bug
+                   CI, TT, UT -  PV Code / PV Ref. Code cross walks
+
+Description:
+
+1) The FVS Update Bulletin No. 672 describes the use of FSveg Potential
+   Vegetation Codes and Reference Codes in FVS. The list of valid PV Code,
+   PV Reference Code sets has been updated for all of Region 4 (CI, TT, and
+   UT variants). For details, please contact the Forest Management Service
+   Center.
+
+2) There was a problem when the salvage keyword was applied to a stand
+   consisting of all dead trees. The salvage action was not applied.
+   This has been corrected.
+
+Impact on users:
+
+Files:
+./base/src/cuts.f    - added call to FMSALV for special case where all trees are killed
+./base/src/revise.f
+./bin/makefile       - removed instruction to compile UT routines in TT build
+                     - Instructions for building BGC versions of CI, TT, and UT (CIB, TTb, UTb).
+                       Amended build for NIb to now include Fire and Econ.
+                     - Instructions for building CIb, TTb, and UTb.  Amended NIb instructions
+./ci/src/pvref4.f    - incorporated PV Code PV Reference Code cross walk from R4
+./fire/base/src/fmsalv.f    - added call to DBCHK and added DEBUG write statement
+./ut/obj/makefile    - Instructions for UT BGC compile
+./ut/src/pvref4.f    - incorporated PV Code PV Reference Code cross walk from R4

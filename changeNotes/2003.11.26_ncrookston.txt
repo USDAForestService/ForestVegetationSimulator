@@ -1,0 +1,22 @@
+Subject: Bug fix for one-tree case and structure class fix.
+Name: NCrookston
+Date: 11/26/2003
+
+Description:
+A bug was fixed in spesrt for the case where only 1 tree record exists on input.
+A bug was fixed in sstage. The post thinning structure stage event monitor 
+variables were being incorrectly reported to the event monitor in the case 
+where thinnings did not actually happen. 
+
+Impact on users:
+1. Runs with 1 tree record that failed will no longer fail.
+
+2. After-thin event monitor structure variables will be correct. This will only
+affect users that use any of the following event monitor variables: ASCLASS, 
+ASTRDBH, ACANCOV, AMAXHS, AMINHS, or ANUMSS.
+
+
+Files:
+base/src/spesrt.f -- modified as needed to set variables correctly in special case.
+base/src/sstage.f -- added code to set the correct values in the event monitor.
+base/src/evtstv.f -- added a new entry point to query event monitor variables.

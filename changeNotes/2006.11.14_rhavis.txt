@@ -1,0 +1,30 @@
+Subject: Coefficient Corrections
+Name: R. Havis
+Date: November 14, 2006
+Variants affected: ALL
+
+Description:
+
+1) A slight modification was made to the diamter assignment function for softwoods having
+   heights less than 4.5 ft. (CS, LS, NE). The assignment of diameter growth values was
+   corrected for softwoods having heights less than 4.5 ft. ft. the LS variant.
+2) A coeffient value was corrected in the small tree height growth function for western larch (BM).
+3) A coefficient value was corrected in the crown width equation for quaking aspen. This correction
+   affectes trees larger than 1.0 in DBH (CA, CR, IE, PN, SO, TT, UT and WC). Minimum diameter used
+   in the adjustment ratio for red alder crown width calculations (DBH less than 5 in) was changed
+   from 1 in to 5 in (AK, CA, PN, SO and WC).
+4) An update to the DBS extension can avoid a potential error (all variants)
+
+Impact on users:
+
+Files:
+./base/src/revise.f
+./bm/src/smhtgf.f    - corrected coefficient in western larch small tree height growth function
+./cs/src/rgntsw.f    - made a slight modification to the softwood diameter assignment (height < 4.5 ft.)
+./ls/src/rgntsw.f    - made a slight modification to the softwood diameter assignment, and
+                       corrected the softwood diameter growth assignment (height < 4.5 ft.)
+./ne/src/rgntsw.f    - made a slight modification to the softwood diameter assignment (height < 4.5 ft.)
+./ni/src/cwcalc.f    - corrected coefficient in Eq. No. 74605 (D >= Dmin)
+                     - corrected Dmin value in Eq. No. 35106 (D < Dmin)
+./dbs/src/dbstreesin.f   - minor change to avoid potential "internal read" error
+./dbs/src/dbsstandin.f   - minor change to avoid potential "internal read" error

@@ -1,0 +1,123 @@
+Subject: R9 Clark Volume Eqs., Retirement of Twigs Models.
+Name: R. Havis
+Date: March 29, 2011
+Variants affected: CS, LS, NE
+
+Description:
+1) The Region 9 TWIGS FVS variants have been replaced by the new R9 variants.
+   Over the past several years users have had the option of using the 
+   original R9 FVS variants that were based upon the TWIGS models, or the 
+   new FVS variants that use more traditional FVS logic. The TWIGS-based
+   FVS models will no longer be maintained.
+   
+2) Region 9 FVS variants have traditionally used the Gevorkiantz volume
+   equations by default. The Region has converted to use of volume equations
+   based on the work of Clark and others  The Clark volume equations are the
+   new default equations in R9 FVS variants. The Gevorkiantz volume equations
+   will continue to be available by setting Field 7 (volume calculation method)
+   of the BFVOLUME and/or VOLUME keywords equal to 5.
+
+   Clark, Alexander III, Souter, Ray A., Schlaegel, Bryce E. 1991. Stem 
+   Profile Equations for Southern Tree Species. Res. Pap. SE-282. U.S.
+   Department of Agriculture, Forest Service, Southeastern Forest Experiment
+   Station.
+
+Impact on users: All Region 9 users should obtain new executables.
+
+Files:
+
+Backing up local changes to files in your R9 variant directories is recommended before
+updating.
+
+The effect of replacing the R9 TWIGS variants with the new R9 variants, on the FVS
+directory structure, was the deletion of the cs, ls, and ne directories, and the renaming
+of the new R9 variant directories as follows.
+
+rename cs_new to cs
+rename ls_new to ls
+rename ne_new to ne
+rename ppne_new to ppne
+
+Developers using the FMSC SVN repository should follow these instructions when
+updating working copies.
+
+1) SmartSVN and TortoiseSVN users - In the Update dialogue window select Advanced and check the 
+   "Allow unversioned obstructions ("Force")" option.
+   
+2) After updating, manually delete the following directories from your working copy.
+cs_new
+ls_new
+ne_new
+ppne_new
+
+3) Delete the objects in the following directories.
+cs/obj
+ls/obj
+ne/obj
+
+Files:
+
+ak, bm, ca, cr, cs, dbs/so, em, ie, ne, ppne, sn, ppso/makefile - changed case /SO/ to /so/
+cs, ls, ne/makefile - changed all references ??_new to ?? where ?? refers to cs, ls, and ne
+                    - added compile instructions for EXPPNB, EXPPE, and MAIN
+                    - removed compile instructions for EXDBS  
+
+./ak/obj/makefile
+./base/src/revise.f removed logic referring to the ??_new variants
+bin/makefile - removed build instructions for TWIGS models
+             - changed all references ??_new to ?? where ?? refers to cs, ls, and ne
+             - removed references to TWIGS model build instructions
+             - added R9CLARK, R9LOGS, DEBUG_MOD, CLKCOEF_MOD to R9 variant link lists
+             - removed the ECON link lists for R9 builds - these objects are now linked
+               through the list commands referencing variant-specific object directories
+             - modified the PPLS and PPNE link lists to use updated objects
+             - removed the allfire make group
+             - commented out the allbase make group
+             - modified comments
+./bm/obj/makefile
+./ca/obj/makefile
+./common/includeSVN.f
+./cr/obj/makefile
+./cr/src/varvol.f - declared EQNC, and EQNB in main subroutine
+./cs/obj/makefile
+./cs/src/grohed.f - removed references to the character string TEST
+./cs/src/sitset.f - added logic to set volume equation numbers and write NVEL Eq. No. table
+                  - removed FIA code translation table header and added call to FIAHEAD
+./dbs/obj/so/makefile
+./em/obj/makefile
+./fire/base/src/fmsvol.f - added methc= 5 option to call OCFVOL
+./fire/bm/src/fmcba.f
+./fire/ca/src/fmcba.f
+./fire/pn/src/fmcba.f
+./fire/wc/src/fmcba.f
+./ie/obj/makefile
+./ls/obj/makefile
+./ls/src/gheads.f - added entries FIAHEAD, and VOLEQHEAD
+./ls/src/grohed.f - removed references to the character string TEST
+./ls/src/gvrvol.f - new routine containing the Gevorkiantz volume logic
+./ls/src/sitset.f - added logic to set volume equation numbers and write NVEL Eq. No. table
+                  - removed FIA code translation table header code and added call to FIAHEAD
+
+./ls/src/varvol.f - removed Gevorkiantz volume logic, added Clark volume logic and improved
+                    logic for calling volume routines, added calls to GVRVOL
+./ls/src/vols.f - added logic to call OCFVOL when methc=5 and to call OBFVOL when methb=5
+./ne/src/dgf.f - added arguments to PPDGF call statement for consistency with the ppec/PPDGF
+                 subroutine statement
+./ne/src/grohed.f - removed references to the character string TEST
+./ne/src/regent.f - added arguments to PPDGF call statement for consistency with the ppec/PPDGF
+                    subroutine statement
+./ne/src/sitset.f - added logic to set volume equation numbers and write NVEL Eq. No. table
+                  - removed FIA code translation table header code and added call to FIAHEAD
+../ppne/obj/makefile
+./ppso/obj/makefile
+./sn/obj/makefile
+./volume/obj/makefile - added compile instructions for CLKCOEF_MOD, R9CLARK, and R9LOGS
+./volume/src/clkcoef_mod.f - new routine
+./volume/src/R9coeff.inc - see V0153_020811.txt
+./volume/src/mrules.f - see V0005_090700.txt
+./volume/src/r9clark.f - new routine see V0150_071409.txt, V0152-0011210.TXT, V0152-020811.TXT,
+                         V0154_031811.TXT
+./volume/src/r9init.f - see V0133_060707.txt
+./volume/src/r9Logs.f - new routine, see V0152-0011210.TXT, V0152-020811.TXT, V0154_031811.TXT
+./volume/src/r9vol.f - see V0133_060707.txt
+./wc/obj/makefile

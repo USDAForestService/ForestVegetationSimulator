@@ -1,0 +1,68 @@
+Subject: Fire and Fuels Extension Code Change - Fuel Model and Fuel Load Initalization
+Name:  Stephanie Rebain
+Date:  07/10/2006
+
+Description:
+1 - Users can now initialize the fire behavior fuel model for a stand thru the
+StandInit table of an input FVS database.  Previously, this could only be
+done thru a keyword (FuelModl).  The new column name that FVS will recognize
+is FUEL_MODEL.  Entry is the fire behavior fuel model number (0-13 for the
+original set, 101-204 for the Scott and Burgan fuel models).  Custom fuel models
+can also be entered, as long as they have been defined (see the DeFulMod keyword).
+
+2 - The FFE keyword FuelInit has been expanded.  Originally, there were fields for
+the following dead surface fuel categories:
+0-1", 1-3", 3-6", 6-12", 12"+, litter, and duff
+
+The 0-1" fuel entered by a user was split half and half into the internal
+0-.25" and .25-1" pools.
+
+With this change, the keyword was expanded to include two subcategories - 
+0-.25" and .25-1" fuel.  Now if these extra fields are included in a run, they will
+override the 0-1" value.  If these extra fields are not included, the results
+will be the same as before with half of the 0-1" fuel in the 0-.25" class and half
+in the .25-1" class.  Accordingly, two new columns can be read from the StandInit
+table of an input FVS database (FUEL_0_25 and FUEL_25_1).
+
+Revised FuelInit keyword:
+Field 1: Initial fuel load for the 0-1" class (tons/acre)
+Field 2: Initial fuel load for the 1-3" class (tons/acre)
+Field 3: Initial fuel load for the 3-6" class (tons/acre)
+Field 4: Initial fuel load for the 6-12" class (tons/acre)
+Field 5: Initial fuel load for the 12"+ class (tons/acre)
+Field 6: Initial fuel load for litter(tons/acre)
+Field 7: Initial fuel load for duff (tons/acre)
+Field 8: Initial fuel load for the 0-0.25" class (tons/acre)
+Field 9: Initial fuel load for the 0.25-1" class (tons/acre)
+
+Impact on users:
+This has no effect on output.  It simply gives users additional features.
+The updated FuelInit keyword will be available in the next version of 
+Suppose.  The FFE addendum and Database Extension documentation will be
+updated shortly.
+
+Modified Files:
+fire/base/src/fmin.f - added two new fields to the FuelInit keyword
+dbs/src/dbsstandin.f - reads in three additional db columns - 0-.25" fuel, .25-1" fuel, and fuel model 
+fire/bm/src/fmcba.f -  processed the two new fields on the FuelInit keyword
+fire/ca/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/ci/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/cr/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/ls/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/ne/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/so/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/so33/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/ie/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/ni/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/sn/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/pn/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/wc/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/ws/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/nc/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/ec/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/tt/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/ut/src/fmcba.f - processed the two new fields on the FuelInit keyword
+fire/em/src/fmcba.f - processed the two new fields on the FuelInit keyword
+
+
+

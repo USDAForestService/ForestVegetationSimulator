@@ -1,0 +1,31 @@
+Subject: WWPB Model code corrections.  
+Name: Andrew J McMahan, ITX, Inc.  Ft. Collins, CO   (970) 295-5850
+Date: Dec 20, 2005
+Variants affected: All WWPBM extensions
+
+Description:
+There are two types of changes.
+(1) Ammended how "beetle model history" supplemental records (keyword
+BMHIST) are read in.  Now, no decimal place is assumed.
+(2) Output file changes: added cycle-beginning year to the "cycle"
+output file (*.bmc); corrected the header for the detailed BKP output
+file (*.bmb); increased reported precision of % BKP survival in detailed
+BKP output file.  Fixed alignment of header in landscape average output 
+file (*.bml).
+
+Routine specific changes:
+
+BMPPIN: Changed the format specification for the supplemental record READ 
+   for the third field of keyword BMHIST (number of trees per acre being 
+   initialized with BKP) to F10.0 (from F10.2).  Thus, now when user enters
+   values without a decimal point, no decimal place will be assumed. 
+BMOUT: corrected header in landscape average output file (*.bml)(moved "TPAH" one 
+   space to the left.)  Added cycle-beginning year to the "cycle" output file (*.bmc).
+   Accordingly, renamed the "YEAR" field; there are now 2 year fields, named 
+   YR_B and YR_E (for "cycle-Beginning" and "cycle-End" years).  Swapped the 
+   headers "TO_OW" and "FRMOW" (they were incorrectly placed) in the detailed 
+   BKP output file (*.bmb).  Note: they were already correctly placed in the DB 
+   output table.  The data field order in the standard output now matches that 
+   in the DB output table.
+   Changed reporting of BKP % survival (in the *.bmb) to 2 decimal places.
+BMSETP: Added additional DEBUG output (reporting the BMHIST initialization data).

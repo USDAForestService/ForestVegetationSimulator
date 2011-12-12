@@ -1,0 +1,25 @@
+Subject: Crown dubbing in variants having a Weibull-based crown model
+
+Name: Gary Dixon
+Date: 03/10/11
+
+Variants affected:AK, BM, CA, CI, EC, EM, IE, NC, PN, SN, SO, TT, UT, WC, WS
+
+Description: In variants using the Weibull distribution to dub crown ratios on trees 
+             with DBH 1.0" and larger, the relative SDI was not being computed before
+             crown dubbing was taking place. This affected the computation of average
+             crown ratio and therefore the Weibull distribution from which crown ratios
+             were being assigned. This has been corrected.
+
+Impact on users:  Users of the AK, BM, CA, CI, EC, EM, IE, NC, PN, SN, SO, TT, UT, WC,
+                  and WS variants need to obtain a new executable. Projections may be 
+                  slightly affected by this change.
+
+Files:
+base/src 
+   main.f       changed the date of revision; added a call to subroutine SDICLS to calculate 
+                SDI just before the call to subroutine CRATET
+                
+xx/src          where xx = AK, AN, BM, CA, CI, EC, EM, IE, NC, PN, SN, SO, TT, UT, WC, WS
+   crown.f      changed the date of revision; modified the debug write section echoing
+                the IND and ISORT arrays

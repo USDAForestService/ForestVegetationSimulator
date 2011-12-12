@@ -1,0 +1,89 @@
+Subject: New SETSITE Keyword and R1 Habitat Type - PV Code/PVRef. Code Cross Walk
+Name: R. Havis
+Date: January 22, 2008
+Variants affected: ALL
+
+Description:
+1) The new SETSITE Keyword is described below
+SETSITE	(SET  SITE related parameters)
+Variants: All
+Related keywords: STDINFO, SITECODE 
+
+Stand habitat type, plant association, or ecological unit is entered using field 2 of the STDINFO keyword record.
+Site index values for individual species are entered using the SITECODE keyword. These values are usually regarded
+as constants throughout a projection. Climate change research suggests that these values might change over time.
+This keyword allows users to change these values during a projection. 
+field 1: Year or cycle in which the site parameters will be changed. Enter 0 (zero) to affect all cycles. Default = 1
+field 2: Habitat type, plant association, or ecological unit. Default = blank; no change
+field 3: Species or species group whose site index will be changed. Default = blank (all species)
+field 4: Site index value or percent change. Default = 0.0
+field 5: Site index value code. 0 = the value in field 4 is a site index value; 1= the value in field 4 is a percent change. Default = 0.0
+Note: The PARMS format may NOT be used with this keyword at this time.
+Reference:	Essential FVS: A User’s Guide to the Forest Vegetation Simulator, s. 4.1.2.2
+
+2) The FVS Update Bulletin No. 672 describes the us of FSveg Potential Vegetation Codes and Reference Codes
+   in FVS. Region 1 has provided cross walks for the FSveg PV Codes / Reference codes to FVS habitat codes,
+   and these have been incorporated into the FVS model for The EM, IE, KT and NI variants.
+
+Impact on users: Users wishing to use the SETSITE keyword should obtain new executables. Users of FSveg data containing
+                 PV Codes and Reference codes to describe habitat type in Region 1 should obtain new executables.
+
+Files:
+
+base/src/INITRE  added code to schedule the SETSITE keyword
+base/src/GRINCR  added code to process the SETSITE keyword
+
+HABTYP   ak, bm, ca, ci, cr, ec, em, kt, ls, ls_new, nc, ni, pn, se, sn, so, so33, ut, wc, ws
+                      standardized the format statements
+                      added a conditional statement on all write statements
+
+MAKEFILE  base, ak, ca, cr, cs, cs_new, ie, ls, ls_new, ne, ne_new, se, sn, so33, ut, wc
+                     added the common ESHAP to the dependency list for GRINCR
+
+./ak/obj/makefile
+./ak/src/habtyp.f
+./base/obj/makefile
+./base/src/grincr.f
+./base/src/initre.f
+./base/src/revise.f
+./bin/makefile       - removed duplicate objects from so33 nd ie link lists
+./bm/src/habtyp.f
+./ca/obj/makefile
+./ca/src/habtyp.f
+./ci/src/habtyp.f
+./cr/obj/makefile
+./cr/src/habtyp.f
+./cs/obj/makefile
+./cs_new/obj/makefile
+./ec/src/habtyp.f
+./em/src/habtyp.f
+./em/src/pvref1.f    - added cross walk between FVS Habitat Type and FSveg PV Code Reference Codes,
+                       added decimal trap for KARD2 variable
+./ie/obj/makefile
+./kt/src/habtyp.f
+./kt/src/pvref1.f    - added cross walk between FVS Habitat Type and FSveg PV Code Reference Codes
+                       added decimal trap for KARD2 variable
+./ls/obj/makefile
+./ls/src/habtyp.f
+./ls_new/obj/makefile
+./ls_new/src/habtyp.f
+./nc/src/habtyp.f
+./ne/obj/makefile
+./ne_new/obj/makefile
+./ni/src/habtyp.f
+./ni/src/pvref1.f    - added cross walk between FVS Habitat Type and FSveg PV Code Reference Codes
+                       added decimal trap for KARD2 variable
+./pn/src/habtyp.f
+./se/obj/makefile
+./se/src/habtyp.f
+./sn/obj/makefile
+./sn/src/habtyp.f
+./so/src/habtyp.f
+./so33/obj/makefile
+./so33/src/habtyp.f
+./ut/obj/makefile
+./ut/src/habtyp.f
+./wc/obj/makefile
+./wc/src/habtyp.f
+./ws/src/habtyp.f
+

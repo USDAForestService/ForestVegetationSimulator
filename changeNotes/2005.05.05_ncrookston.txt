@@ -1,0 +1,20 @@
+Subject: PPE updates for fire
+Name: Nick Crookston
+Date: 2005.05.05
+Variants affected: All with PPE and Fire
+
+Description: Added a "fire" flag to the PPE_FFESelData.txt file, improved
+the processing of the RDACCESS file.
+
+Impact on users: None except those 2 groups using PPE/FFE
+
+Added a console message when external SYSTEM calls are made.
+
+Files:
+ppbase/src/hvproj.f -- write added variable
+ppbase/src/hvaloc.f -- write added variable in header
+ppbase/src/hvsel.f  --  added print statement
+ppbase/src/sprdrd.f -- changed processing in the case when the
+  rdaccess file is being read after all the stands have been defined.
+  Now, stands in the rdaccess file that are not in the simulation are
+  skipped.

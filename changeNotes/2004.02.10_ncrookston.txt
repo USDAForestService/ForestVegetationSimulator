@@ -1,0 +1,16 @@
+Subject: DBS Extension internal buffer increased  
+Name: NCrookston
+Date: 2004.02.10
+Variants affected: All with DBS
+
+Description: The internal command buffers were overflowing for the compute output. I 
+increased the buffer size for this and other tables where the problem might occur.
+
+Impact on users: Only those who have had problems need a new version. 
+
+Files:
+dbscmpu.f
+dbscuts.f
+dbsevm.f
+dbstrls.f
+dbsmis.f

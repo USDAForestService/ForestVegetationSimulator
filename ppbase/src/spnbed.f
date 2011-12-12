@@ -1,0 +1,34 @@
+      SUBROUTINE SPNBED (I,EDG,IRC)
+      IMPLICIT NONE
+C----------
+C  **SPNBED  DATE OF LAST REVISION:  07/31/08
+C----------
+C     RETURN THE AMOUNT OF EGDE (EDG) FOR STAND I.
+C
+C     IRC = RETURN CODE, 0=OK, 1=NO NEIGHBORS DATA.
+C
+COMMONS
+C
+C
+      INCLUDE 'PRGPRM.F77'
+C
+C
+      INCLUDE 'PPEPRM.F77'
+C
+C
+      INCLUDE 'PPSPNB.F77'
+C
+C
+COMMONS
+C
+      INTEGER I,IRC
+      REAL EDG
+C
+      IF (I.GT.NIDS) THEN
+         IRC=1
+      ELSE
+         IRC=0
+         EDG=EDGE(I)
+      ENDIF
+      RETURN
+      END

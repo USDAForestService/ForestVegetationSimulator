@@ -1,0 +1,59 @@
+Subject: R8 Merch. Specs. and Misc. Code Format Changes
+Name: R. Havis
+Date: October 14, 2010
+Variants affected: ALL
+
+Description: 
+
+1) The SN variant DBH Merch. Specs. were updated to be consistent
+   with the Merch. Specs. used by FSVeg.
+
+SPECIES                           PULP. DBH (IN)      SAW DBH (IN)    NATIONAL FORESTS
+2  = redcedar species (JU)                                9           Ozark & St. Francis
+7  = spruce pine (SR)                   6                             ALL
+13 = loblolly pine (LP)                 6                             ALL
+39 = loblolly-bay (LB)                  6                             ALL
+43 = black walnut (WN)                  6                             ALL
+44 = sweetgum (SU)                      6                             ALL
+52 = mulberry species (MB)              6                             ALL
+53 = water tupelo (WT)                  6                             ALL
+55 = swamp tupelo(TS)                   6                             ALL
+63 = white oak (WO)                     6                             ALL
+softwoods and hardwoods Default         4                             ALL
+softwoods               Default                           10          ALL
+hardwoods               Default                           12          ALL
+
+2) The default setting of input Tree Value Class was updated. If Tree Value Class
+   read from input data is blank or less than or equal to 0, Tree Value Class is
+   set equal to 1. If Tree Value Class read from input is greater than 3 then
+   Tree Value Class is set equal to 3.
+
+Impact on users: Users should obtain new executables. R8 users may notice slight differences
+                 in output volumes caused by the revised default DBH Merch. Specs.
+
+Files:
+
+VARVOLs - moved declaration from Entry to host module declarations section
+./ak/src/varvol.f    
+./an/src/varvol.f    
+./base/src/intree.f  - updated Tree Value Class defaults
+./bm/src/varvol.f    
+./ca/src/varvol.f    
+./ci/src/varvol.f    
+./cr/src/varvol.f    
+./ec/src/varvol.f    - modified code format
+./em/src/varvol.f    
+./ie/src/varvol.f    
+./ls/src/varvol.f    
+./ls/src/vols.f      - updated R8 DBH Merch. Specs.
+./ls_new/src/varvol.f
+./ls_new/src/vols.f  - updated R8 DBH Merch. Specs.
+./nc/src/varvol.f    
+./ni/src/varvol.f    
+./pn/src/varvol.f    
+./sn/src/varvol.f    
+./so/src/varvol.f    
+./tt/src/varvol.f    - modified code format
+./ut/src/varvol.f    
+./wc/src/varvol.f    
+./ws/src/varvol.f    

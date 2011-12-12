@@ -1,0 +1,26 @@
+Subject:  Fire and Fuels Extension Update
+Name: Stephanie Rebain	
+Date: 08/14/2007
+Variants affected:
+all variants except CS and AK
+
+Description:
+1 - A correction was made to the processing of the TREEBIO event monitor function.
+2 - A change was made to the processing of the CarbRept and CarbCut keywords so that the
+    carbon reports can be conditionally scheduled in a way such that output is generated only
+    for cycle boundaries.  Specifically, the keyword processing was adjusted to match that of
+    PotFire and FuelOut.
+3 - A bug was found in the Carbon Harvested Products report in which removed carbon was being
+    allocated incorrectly in simulations longer than 100 years.  This was fixed with a temporary
+    solution and may be adjusted again in the future.
+
+Impact on users:
+This affects users of the TREEBIO event monitor function and the FFE Carbon Reports.
+
+Files:
+fire/base/src/fmin.f - updated the processing of the CarbRept and CarbCut keywords to match PotFire and FuelOut
+fire/base/src/fmdout.f - updated the processing of the CarbRept and CarbCut keywords to match PotFire and FuelOut
+fire/base/src/fmchrvout.f - updated the processing of the CarbRept and CarbCut keywords to match PotFire and FuelOut
+fire/base/src/fmevmon.f - made a correction to the TREEBIO function on line 808
+ca/src/ecocls.f - changed the site species for 5 ecoclasses from SF to SH, since SF isn't a valid species 
+                  code in this variant.  This should have no impact on users, but does impact debug.

@@ -1,0 +1,23 @@
+Subject: Fire and Fuels Extension Update
+Name:  Stephanie Rebain
+Date:  12/01/2009
+Variants affected: All
+
+Description:
+This is a bug fix to prevent a potential divide by zero error.
+
+Impact on users:
+Users should download new executables.
+
+Modified Files:
+fire/ci/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/cs/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/em/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/ls/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/ne/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/ni/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/pn/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/sn/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/so/src/fmsfall.f - added a check for DENTTL .LE. 0 
+fire/ut/src/fmsfall.f - added a check for DENTTL .LE. 0 
+base/src/svsnage.f - edited a debug statement

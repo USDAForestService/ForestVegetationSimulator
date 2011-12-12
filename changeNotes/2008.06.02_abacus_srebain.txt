@@ -1,0 +1,128 @@
+Subject: Visualization Improvements
+Name:  Abacus, committed by Stephanie Rebain
+Date:  06/02/2008
+Variants affected: all
+
+Description:
+Changes were made to the way FVS creates SVS (Stand Visualization System) input files.
+Specifically, improvements were made to the snag and fuel dynamics in the pictures
+created so that they more closely match FFE output.  Users simulating salvage treatments
+will now see these treatments in their SVS images.
+
+Also, a change was made to the SVS keyword, field 5 (ground color code).  Negative values
+can now be input to request a solid color ground of a specified color.  For instance, -2
+would lead to a solid tan ground.
+
+Impact on users:
+Users who create SVS images with FVS should obtain new executables.
+
+New Files:
+fire/ak/src/fmsfall.f  
+fire/ci/src/fmsfall.f  
+fire/cs/src/fmsfall.f  
+fire/em/src/fmsfall.f  
+fire/ls/src/fmsfall.f  
+fire/ne/src/fmsfall.f  
+fire/ni/src/fmsfall.f  
+fire/pn/src/fmsfall.f  
+fire/sn/src/fmsfall.f  
+fire/so/src/fmsfall.f  
+fire/ut/src/fmsfall.f
+fire/base/src/fmsngdk.f
+fire/base/src/fmsnght.f  
+base/src/svsalv.f
+base/src/svcwd.f
+
+Modified Files:
+fire/base/src/fmmain.f
+fire/ni/src/fmcons.f
+fire/so/src/fmcons.f
+fire/base/src/fmeff.f
+fire/base/src/fmpocr.f
+fire/base/src/fmsalv.f
+fire/base/src/fmscro.f
+fire/ak/src/fmsnag.f  
+fire/ci/src/fmsnag.f  
+fire/cs/src/fmsnag.f  
+fire/em/src/fmsnag.f  
+fire/ls/src/fmsnag.f  
+fire/ne/src/fmsnag.f  
+fire/ni/src/fmsnag.f  
+fire/pn/src/fmsnag.f  
+fire/sn/src/fmsnag.f  
+fire/so/src/fmsnag.f  
+fire/ut/src/fmsnag.f 
+base/src/cuts.f
+base/src/svcuts.f 
+base/src/svestb.f
+base/src/svgrnd.f
+base/src/svinit.f
+base/src/svkey.f
+base/src/svout.f
+base/src/svsnad.f
+base/src/svsnage.f
+base/src/svstart.f
+base/src/svrmov.f
+base/src/svrann.f
+common/svdata.f77
+common/svdead.f77
+fire/ak/obj/makefile
+fire/base/obj/makefile
+fire/bm/obj/makefile
+fire/ca/obj/makefile
+fire/ci/obj/makefile
+fire/cr/obj/makefile
+fire/cs/obj/makefile
+fire/ec/obj/makefile
+fire/em/obj/makefile
+fire/ie/obj/makefile
+fire/ls/obj/makefile
+fire/ne/obj/makefile
+fire/ni/obj/makefile
+fire/pn/obj/makefile
+fire/sn/obj/makefile
+fire/so/obj/makefile
+fire/so33/obj/makefile
+fire/tt/obj/makefile
+fire/ut/obj/makefile
+fire/wc/obj/makefile
+fire/ppe/src/fmpphv.f
+ak/obj/makefile
+base/obj/makefile
+bin/makefile
+ca/obj/makefile
+cr/obj/makefile
+cs/obj/makefile
+cs_new/obj/makefile
+ie/obj/makefile
+ls/obj/makefile
+ls_new/obj/makefile
+ne/obj/makefile
+ne_new/obj/makefile
+sn/obj/makefile
+so33/obj/makefile
+ut/obj/makefile
+wc/obj/makefile
+ppbase/src/putstd.f
+ppbase/src/getstd.f
+fire/ak/src/fmcba.f
+fire/bm/src/fmcba.f
+fire/cs/src/fmcba.f
+fire/ec/src/fmcba.f
+fire/em/src/fmcba.f
+fire/ne/src/fmcba.f
+fire/ls/src/fmcba.f
+fire/ie/src/fmcba.f
+fire/pn/src/fmcba.f
+fire/ca/src/fmcba.f
+fire/nc/src/fmcba.f
+fire/cr/src/fmcba.f
+fire/ci/src/fmcba.f
+fire/ni/src/fmcba.f
+fire/sn/src/fmcba.f
+fire/so/src/fmcba.f
+fire/so33/src/fmcba.f
+fire/tt/src/fmcba.f
+fire/ut/src/fmcba.f
+fire/wc/src/fmcba.f
+fire/ws/src/fmcba.f

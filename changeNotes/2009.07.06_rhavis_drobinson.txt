@@ -1,0 +1,29 @@
+Subject: Single Tree Record Cover Calculations, and Misc. Corrections
+Name: R. Havis, D. Robinson
+Date: July 6, 2009
+Variants affected: ALL
+
+Description:
+
+1. The STRCLASS keyword was not producing cover values when there was only
+   one tree record in the tree list. This has been corrected.
+
+2) The logic in several routines was corrected (output not affected).
+
+Impact on users: Users should obtain new executables.
+
+Files:
+./base/src/evmon.f - changed location of call to PPEATV such that the variable LPATV
+                     is defined before used in IF statement near line 357. 
+./base/src/grincr.f - corrected indexing of PRM thanks to Don Robinson, ESSA
+./base/src/initre.f - deleted unneeded argument IRECNT in CALL CLIN argument list,
+                      thanks to Don Robinson, ESSA
+./base/src/sstage.f - corrected logic to calculate cover with only one tree record
+                      is present in tree list
+./base/src/svcwd.f - Complex if-then constructs failed because array bounds were
+                     exceeded. This may be a compiler-specific issue and was
+                     corrected by Don Robinson. ESSA. Removed unused variable LSVOBJ
+./fire/base/src/fmcrowe.f - corrected indexing of DBRK, thanks to Don Robinson ESSA
+./fire/base/src/fmsvsync.f - Complex if-then constructs failed because array bounds were 
+                             exceeded. This may be a compiler-specific issue and was
+                             corrected by Don Robinson. ESSA 

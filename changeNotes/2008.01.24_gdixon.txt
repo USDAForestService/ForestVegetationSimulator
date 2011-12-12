@@ -1,0 +1,40 @@
+Subject: THINRDSL keyword addtion
+Name: Gary Dixon
+Date:01/24/2008
+Variants affected:all variants to some extent, but mainly the NE, and NE_NEW variants since these will be the only variants
+where this keyword will be valid (at least initially)
+
+Description: Allows users to thin to a relative density target as defined in the SILVAH growth and yield model. SILVAH is
+the model built for the Northeastern U.S. by research and still broadly used today.
+
+Impact on users: No impact on current users. Change will provide additional functionality
+
+Files:
+common changes
+VARCOM.F77  added variable ISILFT to carry the computed SILVAH forest type
+OPCOM.F77   expanded the dimensions of TSTV1 to 49 and TSTV2 to 32
+
+source code file changes
+base/src/algkey.f    expanded the dimension of N6 to 35 and inserted event monitor variables BRDEN2 and ARDEN2 to carry the
+                     before and after silvah relative density values; expanded the dimension of N8 to 34 and inserted the
+                     event monitor variable SILVAHFT to carry the calculated silvah forest type.
+base/src/cuts.f      added logic to process the THINRDSL keyword
+base/src/evldx.f     added the calculation of silvah relative density as the 12th attribute of the SPMCDBH function
+base/src/evtstv.f    added the common block VARCOM; inserted code to compute the event monitor variables BRDEN2, ARDEN2, and
+                     SILVAHFT
+base/src/grincr.f    inserted the common block VARCOM; inserted a calls to entry SILFTY to calculate the silvah forest type
+                     before and after thinning
+base/src/sdical.f    added the common block VARCOM; added entry RDCLS2 to calculate the silvah relative density value for the
+                     stand; added entry RDSLTR to calculate the contribution of an individual tree to the silvah relative density
+                     value; added entry SILFTY to calculate the silvah forest type.
+
+dbs/src/dbsin.f      changed DBS ECON report keyword from ECON to ECONRPTS
+
+variant dependent files
+xx/src/grinit.f      where xx = ak, bm, ca, ci, cr, cs, cs_new, ec, em, ie, kt, ls, ls_new, nc, ne, ne_new, ni, pn, se, sn, so, 
+                                so33, tt, ut, wc, ws
+                     added the initialization of variable ISILFT to 0
+
+makefile changes
+xx/obj/makefile      where xx = base, ak, ca, cr, cs, cs_new, ie, ls, ls_new, ne, ne_new, se, sn, so33, ut, wc
+                     added the common block VARCOM to the dependency list for subroutines EVTSTV, GRINCR, and SDICAL 

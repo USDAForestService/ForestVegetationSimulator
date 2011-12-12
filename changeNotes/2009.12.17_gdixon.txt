@@ -1,0 +1,174 @@
+Subject: Miscellaneous code corrections and changes.
+Name: Gary Dixon
+Date: 12/17/09
+Variants affected: AK, AN, BM, CA, CR, CS_NEW, EC, EM, IE, LS_NEW, NC,
+                   NE_NEW, PN, SN, SO, TT, WC
+
+
+Description:
+         a) CR: CCF coefficient corection, corrected an error in the
+                fire code
+         b) SO: code cleanup, implementation of HCOR2 values from the
+                READCORH keyword
+         c) BM: corrected an error in the fire code
+         d) EM: corrected an error in the fire code
+         e) IE: code cleanup
+         f) AK, AN, BM, CA, CS_NEW, EC, LS_NEW, NC, NE_NEW, SN, SO, SO33, WC:
+                code cleanup for variables LHTDRG(ispc) and IABFLG(ispc)
+
+
+Impact on users: Users should obtain a new executables. Results for 
+                 base model projections may be slightly different due to these
+                 changes; results for fire projections involving hardwoods in
+                 the BM, CR, and EM variants will be different.                                             
+
+Files:
+common             CONTRL added definition of variable LHTDRG
+                   VARCOM clarified definition of variable IABFLG
+
+ak/src             CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, added test of IABFLG=0 to
+                          conditions involving LHTDRG being true, added a debug write
+                          write statement for LHTDRG and IABFLG, modified a conditional
+                          IF statement controlling the call to HTDBH
+
+an/src             CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, added test of IABFLG=0 to
+                          conditions involving LHTDRG being true, added a debug write
+                          write statement for LHTDRG and IABFLG, modified a conditional
+                          IF statement controlling the call to HTDBH
+
+bm/src             CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   CCFCAL corrected the RD2 coefficient from 0.0168 to 0.01676
+                          for the NI lodgepole pine equation which is used for species
+                          WJ, WB, LM                                             
+                   REGENT clarified comment statements, added test of IABFLG=0 to
+                          conditions involving LHTDRG being true, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+ca/src             CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, modified a conditional
+                          IF statement controlling the call to HTDBH, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+cr/src             CCFCAL corrected the RD2 coefficient from 0.0167 to 0.01676
+                          for the NI lodgepole pine equation which is used for species
+                          MH, RC, WL, BC, LM, LP, PI, WB, SW, JU, BS, AJ, RM, OJ,
+                          ER, PM, PD, AZ, and OH
+
+cs_new/src         CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, modified a conditional
+                          IF statement controlling the call to HTDBH, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+ec/src             CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, modified a conditional
+                          IF statement controlling the call to HTDBH, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+ls_new/src         CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, modified a conditional
+                          IF statement controlling the call to HTDBH, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+nc/src             CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, modified a conditional
+                          IF statement controlling the call to HTDBH, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+ne_new/src         CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, modified a conditional
+                          IF statement controlling the call to HTDBH, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+pn/src             CCFCAL corrected the RD1 coefficient from 0.02 to 0.01925 and the RD2
+                          coefficient from 0.0168 to 0.01676 for the NI lodgepole pine 
+                          equation which is used for species WB and KP
+
+sn/src             CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, modified a conditional
+                          IF statement controlling the call to HTDBH, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+so/src             CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, modified a conditional
+                          IF statement controlling the call to HTDBH, added a debug 
+                          write statement for LHTDRG and IABFLG.
+
+so33/src           CCFCAL corrected the RD2 coefficient from 0.0168 to 0.01676 
+                          for the NI lodgepole pine equation which is used 
+                          for species LP, WJ, and WB
+                   CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   DGF    removed tabs and indented lines 586-592, 598, 625-627
+                   HTGF   implemented use of height adjustment values entered using
+                          the READCORH keyword
+                   REGENT clarified comment statements, added test of IABFLG=0 to
+                          conditions involving LHTDRG being true, added IABFLG to
+                          one of the debug write statements.
+                          
+tt/src             CCFCAL corrected the RD2 coefficient from 0.0167 to 0.01676 
+                          for the NI lodgepole pine equation which is used 
+                          for species WB, LM, and OT
+
+wc/src             CCFCAL corrected the RD1 coefficient from 0.02 to 0.01925 and the RD2
+                          coefficient from 0.0168 to 0.01676 for the NI lodgepole pine 
+                          equation which is used for species WB, and KP
+                   CRATET removed the reset of variable LHTDRG to false; clarified
+                          comment statements concerning height dubbing; modified
+                          the conditions on the IF statement controlling the call to
+                          subroutine HTDBH.
+                   REGENT clarified comment statements, added test of IABFLG=0 to
+                          conditions involving LHTDRG being true, added IABFLG to
+                          one of the debug write statements.
+
+fire/bm/src        FMCROW added the call to FMCROWE for selected hardwood
+                          species; added dummy subroutine HTDBH
+
+fire/cr/src        FMCROW corrected species in the call to FMCROWE 
+                          CASE select
+                          
+fire/em/src        FMCROW added the call to FMCROWE for selected hardwood
+                          species; added dummy subroutine HTDBH
+
+fire/ie/src        FMCROW removed tabs and adjusted leading spaces for lines
+                          172-183 and 190-210. adjusted indentation lines 153-156
+                          
+fire/bm/obj        makefile added FMCROWE to the compile instructions
+
+fire/em/obj        makefile added FMCROWE to the compile instructions

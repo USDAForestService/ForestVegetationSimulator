@@ -1,0 +1,63 @@
+Subject: ODBC Upgrade, Misc. Bug Fixes and Code Maintenance
+Name: R. Havis
+Date: October 17, 2011
+Variants affected: ALL
+
+Description:
+
+1) Nick updated the FVS ODBC connection so that FVS can read/write to
+   Office 2007 files (i.e. accdb, and .xlsx files). Work is underway
+   to connect the Suppose interface to Office 2007 files.
+
+2) When using FSveg data, the PV Code / PV Reference Code sets are used to 
+   assign a stand habitat type that FVS recognizes. There was a problem if
+   a user reassigned the stand habitat type to an FVS habitat type code
+   with a StdInfo keyword after a PV Code / PV Reference Code set had
+   been processed. This has been corrected.
+
+3) The default sawtimiber Merch. Specs. for eastern redcedar in the Central
+   States variant were incorrect. They were changed so the sawtimber minimum
+   DBH is 6.0 inches, and the sawtimber minimum top diameter is 5.0 inches.
+   
+4) The estimated height was not being populated in the database cutlist table.
+   This has been corrected.
+
+Impact on users: All users should obtain new executables.
+
+Files:
+
+GROHED (all variants) - The SVN variable is assigned using a data statement
+                        in the includeSVN.f include file. The include statement
+                        occurred before the declaration of the SVN variable. This
+                        has been corrected in all GROHED files.
+
+./ak/src/grohed.f
+./an/src/grohed.f
+./base/src/initre.f - see 2) above
+./bin/makefile - removed duplicate ne_compile token in the FVSne build instructions
+./bm/src/grohed.f
+./ca/src/grohed.f
+./ci/src/grohed.f
+./common/includeSVN.f
+./cr/src/grohed.f
+./cs/src/grohed.f
+./cs/src/sitset.f - see 3) above
+./dbs/src/dbscuts.f - set ESTHT variable, see 4) above
+./dbs/src/dbsopen.f - see 1) above 
+./ec/src/grohed.f
+./em/src/grohed.f
+./ie/src/grohed.f
+./kt/src/grohed.f
+./ls/src/grohed.f
+./nc/src/grohed.f
+./ne/src/grohed.f
+./ne/src/sitset.f
+./ni/src/grohed.f
+./pn/src/grohed.f
+./sn/src/grohed.f
+./so/src/grohed.f
+./tt/src/grohed.f
+./ut/src/grohed.f
+./wc/src/grohed.f
+./ws/src/grohed.f
+

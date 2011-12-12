@@ -1,0 +1,63 @@
+Subject: 1) Fuel model selection
+         2) UT code cleanup
+         
+Name: Gary Dixon
+Date: 02/25/10
+
+Variants affected: Central Rockies (CR), Tetons (TT), Utah (UT)
+
+Description: 1) Updates the fuel model selection logic to correspond to the
+             expanded species lists that are now available in the CR and UT variants,
+             and will be available in the TT variant soon.
+             
+             CR variant: deleted the "juniper species", "cottonwood species", 
+             and "oak species" genus groups; added new species Utah juniper,
+             narrowleaf cottonwood, plains cottonwood, Gambel oak, Arizona white
+             oak, Emory oak, bur oak, silverleaf oak, paper birch, alligator juniper,
+             Rocky Mountain juniper, oneseed juniper, eastern redcedar, singleleaf
+             pinyon, border pinyon, Arizona pinyon, and Chihuahua pine; moved blue
+             spruce from the mixed conifer cover type to the spruce-fir cover type
+             
+             TT variant: added new species ponderosa pine, singleleaf pinyon, Utah
+             juniper, Rocky Mountain juniper, bigtooth maple, Rocky Mountain maple,
+             narrowleaf cottonwood, curlleaf mountain-mahogany, and "other hardwoods",
+             changed "other species" to "other softwoods; added logic for the ponderosa
+             pine and pinyon juniper cover types
+             
+             UT variant: moved blue spruce from the mixed conifer cover type to
+             the spruce-fir cover type; added new species Great Basin bristlecone
+             pine, narrowleaf cottonwood, Fremont cottonwood, curlleaf mountain-
+             mahogany, bigtooth maple, boxelder and "other hardwoods"; changed 
+             "oak species" to Gambel oak, changed "other species" to "other
+             softwoods" 
+             
+             2) Deletion of obsolete code and other general code cleanup.
+
+Impact on users: Users utilizing the Fuels and Fire Extension (FFE) in either the
+                 CR or UT variants should obtain a new executable. Users of the TT
+                 variant should wait until the 17 species version is released before
+                 obtaining a new executable.
+
+Files:
+
+fire/ut/src  fmcfmd.f changed the date of revision; added changes noted above;
+                      modified code structure to more closely match FVS coding
+                      standards
+                      
+fvs/ut/src   habtyp.f changed date of revision, added comment about
+                      parameter NR4 (this change occured in the previous revision
+                      of the routine)
+
+             sitset.f changed the date of revision; deleted obsolete code dealing
+                      with resetting the default volume equation numbers for the
+                      "other softwoods" species bin
+                      
+             varvol.f changed the date of revision; initialized the variable I0 to 0
+                      in the initialization section before it is used in the call to 
+                      R4VOL
+                      
+fvs/ni/src   vols.f   changed the date of revision; change lower case fortran code to
+                      upper case (call to CALL) at line 423
+                      
+fvs/ci/src   crown.f  changed the date of revision; corrected spelling in a comment; 
+                      reversed the order of lines 275-276.

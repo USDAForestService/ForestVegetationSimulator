@@ -1,0 +1,62 @@
+Subject:  New FFE Event Monitor Functions
+Name: Stephanie Rebain	
+Date: 12/08/2004
+Variants affected:
+all variants with FFE (all variants except LS, NE, CS, and AK)
+
+Description:
+Three new FFE event monitor functions were created.  
+
+PotFMort(arg1) returns potential fire mortality.
+arg1 = 1 returns potential severe fire mortality in terms of % BA
+arg1 = 2 returns potential moderate fire mortality in terms of % BA
+arg1 = 3 returns potential severe fire mortality in terms of cuft vol/acre
+arg1 = 4 returns potential moderate fire mortality in terms of cuft vol/acre
+
+FuelMods(arg1, arg2) returns the fuel models being used and their associated weights.
+arg1 can equal 1, 2, 3, or 4 and signals which of the four fuel models/weights to return.
+arg2 = 1 returns the actual fuel model number
+arg2 = 2 returns the weight
+
+SalvVol(arg1, arg2, arg3) returns the salvage volume removed in total cuft/acre.
+arg1 = species (0 for all)
+arg2 = min dbh value for the calculation
+arg3 = max dbh value for the calculation 
+If multiple salvage operations are scheduled for a given cycle, SalvVol returns the
+cumulative volume.
+
+
+Impact on users:
+The only change in output should be in the snag summary and detailed snag reports.
+In previous versions, these reports were output before salvage operations in a given year.
+In new versions, these reports are output after salvage operations in a given year.
+Also, salvage operations can now only occur at the beginning of a cycle.  In previous
+versions, salvage operations could be scheduled in any year.  Now if a salvage is scheduled
+mid-cycle, it will be done at the beginning of the cycle (much like the way the thinning
+keywords work).
+
+These functions are currently available for use in FVS.  They will be included in the next
+update of the Suppose interface.
+
+Files:
+fire/base/common/fmfcom.f77 - added 2 new variables, potkil and potvol, that represent
+                              potential fire mortality.
+fire/base/common/fmcom.f77  - added a new variable, salvspa, that tracks the salvaged snags per
+                              acre for each snag record.
+base/src/algkey.f - added the three new em functions, potfmort, salvvol, and fuelmods.
+base/src/evldx.f -  added code for the three new functions.
+base/src/algevl.f - added the three new em functions, potfmort, salvvol, and fuelmods.
+fire/base/src/fminit.f - initialized potkil, potvol, and salvspa to 0.
+fire/base/src/fmpofl.f - set potvol and potkil.
+fire/base/src/fmevmon.f - added three entry points (fmevsal, fmevmrt, fmevfmd) for the three
+                          new em functions.
+fire/base/src/fmmain.f - removed the call to fmsalv, so that it is not called each year.
+                         Also reset cwdcut to 0 in all years except the first of a cycle to
+                         prevent incorrect amounts of fuel from being left on the ground.
+fire/base/src/fmsdit.f - added a call to fmsalv, so that it is done each cyle, rather than each year.
+fire/base/src/fmsalv.f - initialized salvspa to 0 and set salvspa based on salvage
+                         operations each cycle.  Also changed it so that all salvage
+                         keywords for a given cycle are processed at the beginning of
+                         the cycle.
+fire/ppe/src/fmppget.f - added the new common variables (potkil, potvol, and salvspa)
+fire/ppe/src/fmppput.f - added the new common variables (potkil, potvol, and salvspa)

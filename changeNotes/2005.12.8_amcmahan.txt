@@ -1,0 +1,62 @@
+Subject: WWPB Model code corrections.  
+Name: Andrew J McMahan, ITX, Inc.  Ft. Collins, CO   (970) 295-5850
+Date: Dec 8, 2005
+Variants affected: All WWPBM extensions
+
+Description:
+Changes address problems (1) with how the WWPBM handles stands flagged as 
+"nonstocked" via WWPBM keyword NONSTOCK; (2) with how the model 
+behaves if and when WWPBM keyword DISPERSE invokes its (WWPBM's) cessation 
+prior to the end of the FVS/PPE simulation ; and (3) with how the model 
+initializes DB-writing variables in the WWPBM's setup (BMSETP) routine.  
+
+Prior to these changes, (1) calculations regarding stocked landscape acres was 
+incorrect if an FVS-projected stand was flagged as non-stocked; (2) some 
+routines were incorrectly proceeding even when the WWPBM projections were 
+supposed to cease; (3) WWPBM-DB-related variables were incorrectly being 
+initalized. 
+
+Routine specific changes:
+
+BMDRV: Use IBMYR1 instead of BMSTND as the flag controlling whether or not to 
+   proceed. 
+BMINIT: created two new logical variables, initialized to false: LDBINIT and 
+   LBMSETP.  (see also BMCOM.f77and BMPCOM.f77).
+   The first is set to true after the WWPBM-DB-writing variables have been 
+   initalized (which may not necessarily be in the first master cycle, because 
+   the DB-writing request may not occur until some time after the PPE or 
+   the WWPBM simulation begins.)  The second is set to true when certain other
+   initializations happening in BMSETP have been accomplished.  (This was 
+   created so that certain portions of BMSETP can be bypassed in subsequent PPE 
+   cycles.)  
+BMKILL: Use IBMYR1 instead of BMSTND as the flag controlling whether or not to 
+   proceed. Added comments.  Added condition to bypass portions of routine if 
+   stand is non-stocked.
+BMPPIN: Added comments.  Set default conditions to be Field 1 =1 and Field 2 = 50,
+   meaning: if field 1 is blank, start the WWPBM in master cycle 1; if field 2 is
+   blank, run the model for 50 years. (This now agrees with keyword guide.)
+BMOUT: corrected the use of stocked acres in derivations of landscape averages.
+   (Replaced TACRES with newly-created variable STKACR--see BMSETP notes.)
+BMSETP: Major overhaul.
+   Added 2 new local variables.  Added comments.  Moved DB-related 
+   initializations to an appropriate loop.  Removed the initialization of 
+   BMSTND to zero (this is done in BMINIT, and was needlessly done 
+   here).  Reconfigured the bypassing of the routine to use variable 
+   IBMYR1 as the trigger instead of BMSTND.  Bypass certain stand initiali-
+   zations in subsequent cycles if they're already done.  Corrected logic 
+   that heretofore appended all NONSTOCK stands to end of stand list.  (This 
+   had been incorrectly handled if a non-stocked stand (entered via WWPBM 
+   keyword NONSTOCK) was already entered as a stand to project).  New logic 
+   flags already-entered stands as nonstocked, and appends only "new" 
+   NONSTOCKed "stands".
+   Corrected the bookeeping of the total number of stands in the run, 
+   the # of stocked stands in the run, and the number of non-stocked stands 
+   in the run.  Enhanced debug output.  Created new variable (STKACR) to 
+   correctly bookkeep the amount of stocked acres (to be used in landscape 
+   average output). Slightly modified how certain sections of code are 
+   bypassed when calls to SPLAAR and/or SPLAEX return an IRC of something 
+   other than 0.
+BMCOM.f77:  Added LBMSETP (a flag set to true when stand identifications have 
+   been completed for the first time in BMSETP.)  Added STKACR (see BMSETP).
+BMPCOM.f77: Added LDBINIT (a flag set to true when the WWPBM-DB-writing flags 
+   have been initialized.) 

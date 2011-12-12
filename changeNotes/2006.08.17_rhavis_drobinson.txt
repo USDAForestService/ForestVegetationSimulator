@@ -1,0 +1,120 @@
+Subject: FFE-Carbon Tracking Update
+Name: D. Robinson (ESSA), R. Havis
+Date: August 17, 2006
+Variants affected: FFE only - bm, ca, ci, cr, ec, em, ie, ls, nc, ne, ni,
+                              pn, sn, so, so33, ut, wc, ws
+
+Description: Updates to Carbon Tracking FFE Code
+A new FFE variant-specific routine (FMCBLK.F) contains a BLOCK DATA statement
+and requires compile instructions, and addition to link lists.
+The data from FMCBLK.F is carried in common within a new INCLUDE file (FMPROP.F77)
+
+Impact on users: None - This code is in development and has not been
+                        implemented for users.
+
+Files:
+
+fvs/fire/base, ca, cr, ie, ls, ne, pn, sn, so33, ut, and wc/MAKEFILE
+added new include file fire/base/common/FMPROP.F77 to dependencies for the following
+routines FMBIO, FMCHRVOUT, and FMSCIT 
+
+fvs/fire/bm, ca, ci, cr, ec, em, ie, ls, nc, ne, ni, pn, sn, so, so33,
+         ut, wc, ws/MAKEFILE
+added compile instructions for variant specific routine FMCBLK.F
+
+bin/MAKEFILE
+added FMCBLK to FFE link lists
+
+base/src/natcrz.f. and econ/src/ecin.f - corrected placement of commas
+Thanks to Don Robinson for these corrections.
+
+Tue Aug 15 09:09:50 PDT 2006
+
+This package provides updates to the C reporting module currently
+under development. It should not have any effect upon current 
+FVS or FFE output. The next update of this code set will be
+the preliminary release version.
+
+==================================
+Files include in the tar archive
+==================================
+
+f:/fvs/fire/base/src/fmcbio.for
+- add FMPROP.F77 include file
+
+f:/fvs/fire/base/src/fmchrvout.for
+- add FMPROP.F77 include file
+- convert biomass to C
+- update comments and labels
+
+f:/fvs/fire/base/src/fmcrbout.for
+- correct and streamline biomass conversion
+- streamline metric/imperial units
+- update comments and labels
+
+f:/fvs/fire/base/src/fmfcom.f77 (fire/base/common in Ft Collins)
+- update comments for CRDCAY
+- remove comments and declarations for FAPROP & BIOGRP
+
+f:/fvs/fire/base/src/fmin.for
+- update comments & output text for CRDCAY
+
+f:/fvs/fire/base/src/fminit.for
+- update defaults for decay and pulp/saw DBH,
+  breakpoint, to be consistent with documentation
+
+f:/fvs/fire/base/src/fmprop.f77
+- new common block for variables defined in BLOCK DATA:
+  FAPROP & BIOGRP arrays
+
+f:/fvs/fire/base/src/fmscut.for
+- add FMPROP.F77 include file
+
+f:/fvs/fire/bm/src/fmcblk.for
+f:/fvs/fire/ca/src/fmcblk.for
+f:/fvs/fire/ci/src/fmcblk.for
+f:/fvs/fire/cr/src/fmcblk.for
+f:/fvs/fire/ec/src/fmcblk.for
+f:/fvs/fire/em/src/fmcblk.for
+f:/fvs/fire/ie/src/fmcblk.for
+f:/fvs/fire/ls/src/fmcblk.for
+f:/fvs/fire/nc/src/fmcblk.for
+f:/fvs/fire/ne/src/fmcblk.for
+f:/fvs/fire/ni/src/fmcblk.for
+f:/fvs/fire/pn/src/fmcblk.for
+f:/fvs/fire/sn/src/fmcblk.for
+f:/fvs/fire/so/src/fmcblk.for
+f:/fvs/fire/so33/src/fmcblk.for
+f:/fvs/fire/tt/src/fmcblk.for
+f:/fvs/fire/ut/src/fmcblk.for
+f:/fvs/fire/wc/src/fmcblk.for
+f:/fvs/fire/ws/src/fmcblk.for
+- new FM BLOCK DATA file for each variant,
+  containing BIOGRP & FAPROP DATA statements
+
+f:/fvs/fire/bm/src/fmvinit.for
+f:/fvs/fire/ca/src/fmvinit.for
+f:/fvs/fire/ci/src/fmvinit.for
+f:/fvs/fire/cr/src/fmvinit.for
+f:/fvs/fire/ec/src/fmvinit.for
+f:/fvs/fire/em/src/fmvinit.for
+f:/fvs/fire/ie/src/fmvinit.for
+f:/fvs/fire/ls/src/fmvinit.for
+f:/fvs/fire/nc/src/fmvinit.for
+f:/fvs/fire/ne/src/fmvinit.for
+f:/fvs/fire/ni/src/fmvinit.for
+f:/fvs/fire/pn/src/fmvinit.for
+f:/fvs/fire/sn/src/fmvinit.for
+f:/fvs/fire/so/src/fmvinit.for
+f:/fvs/fire/so33/src/fmvinit.for
+f:/fvs/fire/tt/src/fmvinit.for
+f:/fvs/fire/ut/src/fmvinit.for
+f:/fvs/fire/wc/src/fmvinit.for
+f:/fvs/fire/ws/src/fmvinit.for
+- remove BIOGRP & FAPROP DATA statements
+
+Don Robinson
+ESSA Technologies
+604-535-1997
+drobinson@essa.com
+

@@ -1,0 +1,32 @@
+Subject: Volume Updates
+Name: R. Havis
+Date: September 29, 2011
+Variants affected: AK
+
+Description: The modules used to evaluate profile models were updated to prevent
+             potential numerical errors. The algorithms used to evaluate volumes using
+             the Demars and Curtis profile models were changed for trees having
+             DBH greater than or equal to 9.0 inches and height greater than or
+             equal to 40 ft. Changes were made to the fwinit.f routine, but they 
+             do not affect FVS
+             
+Impact on users: In the Tongass NF (Forests 1002, 1003, 1005) and the British Columbia / 
+                 Makah Indian Reservation (Forest 701) the red alder volumes are
+                 affected for diameters greater than or equal to 9 in DBH and heights
+                 greater than or equal to 40 feet. Merch. board feet volumes are now
+                 available for red alder. In the Chugach NF (Forest 1004), volumes for 
+                 white spruce, western redcedar, Pacific silver fir, mountain hemlock,
+                 western hemlock, Alaska-cedar, lodgepole pine, Sitka spruce, subalpine
+                 fir, red alder, black cottonwood, other hardwoods, and other softwoods
+                 are affected for trees having diameters greater than or equal to 9.0
+                 inches DBH and heights greater than or equal to 40 feet. In addition
+                 Merch. board feet volumes are now available for red alder.
+
+Files:
+./ak/src/varvol.f - modified logic to call PROFILE except when using Demars or Curtis equations
+                    and trees are less than 9.0 in DBH or less than 40 feet height. In these cases
+                    the R10VOL module is called.
+./an/src/varvol.f - modified logic to call PROFILE except when using Demars or Curtis equations
+                    and trees are less than 9.0 in DBH or less than 40 feet height. In these cases
+                    the R10VOL module is called.
+./volume/src/fwinit.f

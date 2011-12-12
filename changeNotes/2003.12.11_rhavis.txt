@@ -1,0 +1,71 @@
+1. The changes to the CRATE, FINDAG, HTGF, RGNTHW, REGENT, COMCUP,and SMHTGF
+routines eliminate the recursive call from FINDAG to the GETMAX entry
+in the HTGF.  The coefficients, or constants, for estimating maximum
+tree height were moved from the routines that calculate height
+(e.g. the HTGF routine) into the FINDAG routines.  These values are
+now passed via subroutine arguments from FINDAG to HTGF.
+
+./se/src/findag.f
+./se/src/cratet.f
+./so/src/htgf.f
+./so/src/cratet.f
+./so/src/findag.f
+./tt/src/smhtgf.f
+./tt/src/cratet.f
+./tt/src/findag.f
+./ut/src/findag.f
+./ut/src/cratet.f
+./ut/src/regent.f
+./volume/src/blmvol.f  -- method for calculating logend diameter at the base of the first
+                          log was changed in the BLM Behre's hyperbola algorithm
+                          (see Volume Estimator Library Bulletin No. V0083_120903.txt)
+./volume/src/profile.f -- the variable INEEDSL was initialized in the internal
+                          FWSMALL subroutine and the argument list of FWSMALL was modified
+./volume/src/blmtap.f  -- same as BLMVOL
+./volume/src/sf_yhat.f -- the slope variable was initialized to zero
+./wc/src/htgf.f
+./wc/src/cratet.f
+./wc/src/findag.f
+./ws/src/findag.f
+./ws/src/cratet.f
+./ni/src/findag.f
+./ni/src/cratet.f
+./ne/src/rgnthw.f
+./ne/src/cratet.f
+./ne/src/findag.f
+./nc/src/htgf.f
+./nc/src/cratet.f
+./nc/src/findag.f
+./ls/src/rgnthw.f
+./ls/src/findag.f
+./ls/src/cratet.f
+./kt/src/cratet.f
+./ec/src/htgf.f
+./ec/src/cratet.f
+./ec/src/findag.f
+./em/src/habtyp.f
+./em/src/findag.f
+./em/src/cratet.f
+./cr/src/cratet.f
+./cr/src/findag.f  -- added IMPLICIT NONE statement
+./cs/src/rgnthw.f
+./cs/src/cratet.f
+./cs/src/findag.f
+./ci/src/findag.f
+./ci/src/cratet.f
+./ca/src/cratet.f
+./ca/src/htcalc.f  -- fixed edit descriptor in DEBUG write statement line 40
+./ca/src/htgf.f    -- removed dunning/levitan site curve coefficients to the FINDAG routine
+./ca/src/findag.f
+./base/src/revise.f
+./base/src/comcup.f
+./bm/src/htgf.f
+./bm/src/cratet.f
+./bm/src/findag.f
+./ak/src/htgf.f
+./ak/src/cratet.f
+./ak/src/findag.f
+./ie/src/cratet.f  -- set the ABIRTH array for the species 18, 20 and 21
+./ie/src/findag.f  -- corrected comments and DEBUG write statement
+./sn/src/cratet.f
+./sn/src/findag.f

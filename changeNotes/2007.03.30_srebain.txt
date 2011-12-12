@@ -1,0 +1,34 @@
+Subject:  New FFE Event Monitor Functions - POTSRATE, POTREINT
+Name: Stephanie Rebain	
+Date: 03/30/2007
+Variants affected:
+all variants with FFE (all variants except CS and AK)
+
+Description:
+Two new FFE event monitor functions were created.  
+
+PotSRate(arg1) returns potential fire spread rate in feet/min.
+arg1 = 1 returns the potential severe fire spread rate assuming a surface fire
+arg1 = 2 returns the potential moderate fire spread rate assuming a surface fire
+arg1 = 3 returns the final potential severe fire spread rate (taking any crown fire activity into account)
+arg1 = 4 returns the final potential moderate fire spread rate (taking any crown fire activity into account)
+
+PotReInt(arg1) returns potential fire reaction intensity in BTU/ft2/min.
+arg1 = 1 returns potential severe fire reaction intensity
+arg1 = 2 returns potential moderate fire reaction intensity
+
+Impact on users:
+This change does not affect output.  These functions simply give users more options.
+These functions will be included for selection in Suppose in its next update.
+
+Files:
+fire/base/common/fmfcom.f77 - added new variables potfsr and potrint
+base/src/algkey.f - added the new em functions potsrate and potreint
+base/src/evldx.f -  added code for the new functions
+base/src/algevl.f - added code for the new functions
+fire/base/src/fminit.f - initialized potfsr and potrint to 0
+fire/base/src/fmpofl.f - set potfsr and potrint
+fire/base/src/fmevmon.f - added new entry points (fmevsrt and fmevrin) for the new em functions.
+fire/ppe/src/fmppget.f - added the new common variables
+fire/ppe/src/fmppput.f - added the new common variables
+base/src/exfire.f - added entry points for fmevsrt and fmevrin

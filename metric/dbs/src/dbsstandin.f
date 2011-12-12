@@ -1,0 +1,1136 @@
+      SUBROUTINE DBSSTANDIN(SQLSTR,LKECHO)
+C
+C  **DBSSTANDIN--DBS/M  DATE OF LAST REVISION:  01/11/11
+C
+C     PURPOSE: TO POPULATE FVS STAND LEVEL DATA FROM THE DATABASE
+C     AUTH: D. GAMMEL -- SEM -- AUGUST 2002
+C     OVERHAUL: NL CROOKTON -- RMRS MOSCOW -- SEPTEMBER 2004
+C---
+COMMONS
+      use f90SQLConstants
+      use f90SQLStructures
+      use f90SQL
+      IMPLICIT NONE
+C
+      INCLUDE  'PRGPRM.F77'
+      INCLUDE  'ARRAYS.F77'
+      INCLUDE  'COEFFS.F77'
+      INCLUDE  'CONTRL.F77'
+      INCLUDE  'PLOT.F77'
+      INCLUDE  'OUTCOM.F77'
+      INCLUDE  'HTCAL.F77'
+      INCLUDE  'ECON.F77'
+      INCLUDE  'KEYCOM.F77'
+      INCLUDE  'MULTCM.F77'
+      INCLUDE  'VOLSTD.F77'
+      INCLUDE  'SCREEN.F77'
+      INCLUDE  'VARCOM.F77'
+      INCLUDE  'DBSCOM.F77'
+      INCLUDE  'METRIC.F77'
+
+COMMONS
+
+      CHARACTER*21 ColName
+      CHARACTER*5000 SQLSTR
+      CHARACTER*20 KARD12
+      CHARACTER(LEN=11) CECOREG
+      CHARACTER(LEN=21) CHAB
+      CHARACTER(LEN=14) CFotoCode
+      CHARACTER(LEN=LEN(DBCN)+1) TMP_DBCN
+      CHARACTER(LEN=LEN(NPLT)+1) CSTAND
+      CHARACTER*7 VVER
+      CHARACTER*9 CSITECODE
+      CHARACTER*40 PHOTOREF(32), REF
+      REAL      ARRAY2
+      REAL      XXG, FOTODATA(2),X(1)
+      REAL   (KIND=4) RSTANDDATA(63)
+      INTEGER(KIND=4) ISTANDDATA(63)
+      REAL DUM1,XTMP
+      EQUIVALENCE (RSTANDDATA,ISTANDDATA)
+      INTEGER J,I,KODE, FKOD,NUMPVREF,IXTMP,IXF
+      INTEGER(SQLSMALLINT_KIND)::ColNumber,NameLen,ColumnCount,DType,
+     -       NDecs, Nullable
+      INTEGER(SQLUINTEGER_KIND) NColSz
+      LOGICAL LSITEISNUM,LHABISNUM,LSTDISNUM,LFMLK,LFMYES,LKECHO,LFMD
+      LOGICAL LFOTO, LFOTO2, LECOISNUM, LFMYES2
+      INTEGER(SQLINTEGER_KIND)::IY_LI,Lat_LI,Long_LI,Location_LI,
+     -        Habitat_LI,Age_LI,Aspect_LI,Slope_LI,MaxSDI_LI,
+     -        Elev_LI,Basal_LI,PlotArea_LI,BPDBH_LI,NumPlots_LI,
+     -        NonStock_LI,SamWt_LI,Stock_LI,DGT_LI,DGM_LI,HTT_LI,HTM_LI,
+     -        SiteSp_LI,SiteIndx_LI,Mort_LI,MaxB_LI,Model_LI,PhysioR_LI,
+     -        ForType_LI,Stand_LI,DBCN_LI,Region_LI,Forest_LI,
+     -        District_LI,Compartment_LI,Ecoregion_LI,ElevFT_LI,
+     -        State_LI,Connty_LI,Fuel0_LI,Fuel1_LI,Fuel3_LI,
+     -        Fuel6_LI,Fuel12_LI,FuelLt_LI,FuelDf_LI,FuelModel_LI,
+     -        Fuel025_LI,Fuel251_LI,Fuel20_LI,Fuel35_LI,Fuel50_LI,
+     -        FotoRef_LI,FotoCode_LI,PvRefCode_LI,
+     -        FuelS025_LI,FuelS251_LI,FuelS1_LI,FuelS3_LI,FuelS6_LI,
+     -        FuelS12_LI,FuelS20_LI,FuelS35_LI,FuelS50_LI
+
+      DATA PHOTOREF / 'Fischer INT-96                      ',
+     >                'Fischer INT-97                      ',
+     >                'Fischer INT-98                      ',
+     >                '                                    ',
+     >                'Koski and Fischer INT-46            ',
+     >                'Maxwell and Ward PNW-52             ',
+     >                'Blonski and Schramel PSW-56         ',
+     >                'Maxwell and Ward PNW-105            ',
+     >                'Ottmar and Hardy PNW-GTR-231        ',
+     >                '                                    ',
+     >                'Maxwell A-89-6-82                   ',
+     >                'Southwestern region compilation     ',
+     >                'Maxwell and Ward PNW-51             ',
+     >                'Ottmar and others Volume I          ',
+     >                'Ottmar and others Volume I          ',
+     >                'Ottmar and Vihnanek Volume II / IIa ',
+     >                'Ottmar and others Volume III        ',
+     >                'Ottmar and others Volume V / Va     ',
+     >                'Ottmar and others Volume VI / VIa   ',
+     >                'Maxwell A-89-1-90                   ',
+     >                'Ottmar and others Volume IV         ',
+     >                'Wright and others PNW-GTR-545       ',
+     >                'Ottmar and others PNW-GTR-258       ',
+     >                'Lynch and Horton NA-FR-25           ',
+     >                'Wilcox and others NA-FR-22          ',
+     >                'Scholl and Waldrop GTR-SRS-26       ',
+     >                'Ottmar and others Volume VII        ',
+     >                'Maxwell and Ward PNW-95             ',
+     >                'Sanders and Van Lear GTR-SE-49      ',
+     >                'Wade and others GTR-SE-82           ',
+     >                'Blank GTR-NC-77                     ',
+     >                'Popp and Lundquist RMRS-GTR-172     ' /
+      IY_LI          = SQL_NULL_DATA
+      Lat_LI         = SQL_NULL_DATA
+      Long_LI        = SQL_NULL_DATA
+      Location_LI    = SQL_NULL_DATA
+      Habitat_LI     = SQL_NULL_DATA
+      Age_LI         = SQL_NULL_DATA
+      Aspect_LI      = SQL_NULL_DATA
+      Slope_LI       = SQL_NULL_DATA
+      MaxSDI_LI      = SQL_NULL_DATA
+      Elev_LI        = SQL_NULL_DATA
+      Basal_LI       = SQL_NULL_DATA
+      PlotArea_LI    = SQL_NULL_DATA
+      BPDBH_LI       = SQL_NULL_DATA
+      NumPlots_LI    = SQL_NULL_DATA
+      NonStock_LI    = SQL_NULL_DATA
+      SamWt_LI       = SQL_NULL_DATA
+      Stock_LI       = SQL_NULL_DATA
+      DGT_LI         = SQL_NULL_DATA
+      DGM_LI         = SQL_NULL_DATA
+      HTT_LI         = SQL_NULL_DATA
+      HTM_LI         = SQL_NULL_DATA
+      SiteSp_LI      = SQL_NULL_DATA
+      SiteIndx_LI    = SQL_NULL_DATA
+      Mort_LI        = SQL_NULL_DATA
+      MaxB_LI        = SQL_NULL_DATA
+      Model_LI       = SQL_NULL_DATA
+      PhysioR_LI     = SQL_NULL_DATA
+      ForType_LI     = SQL_NULL_DATA
+      Stand_LI       = SQL_NULL_DATA
+      DBCN_LI        = SQL_NULL_DATA
+      Region_LI      = SQL_NULL_DATA
+      Forest_LI      = SQL_NULL_DATA
+      District_LI    = SQL_NULL_DATA
+      Compartment_LI = SQL_NULL_DATA
+      Ecoregion_LI   = SQL_NULL_DATA
+      ElevFT_LI      = SQL_NULL_DATA
+      State_LI       = SQL_NULL_DATA
+      Connty_LI      = SQL_NULL_DATA
+      Fuel0_LI       = SQL_NULL_DATA
+      Fuel1_LI       = SQL_NULL_DATA
+      Fuel3_LI       = SQL_NULL_DATA
+      Fuel6_LI       = SQL_NULL_DATA
+      Fuel12_LI      = SQL_NULL_DATA
+      FuelLt_LI      = SQL_NULL_DATA
+      FuelDf_LI      = SQL_NULL_DATA
+      Fuel025_LI     = SQL_NULL_DATA
+      Fuel251_LI     = SQL_NULL_DATA
+      FuelModel_LI   = SQL_NULL_DATA
+      PvRefCode_LI   = SQL_NULL_DATA
+      FotoRef_LI     = SQL_NULL_DATA
+      FotoCode_LI    = SQL_NULL_DATA
+      Fuel20_LI      = SQL_NULL_DATA
+      Fuel35_LI      = SQL_NULL_DATA
+      Fuel50_LI      = SQL_NULL_DATA
+      FuelS025_LI    = SQL_NULL_DATA
+      FuelS251_LI    = SQL_NULL_DATA
+      FuelS1_LI      = SQL_NULL_DATA
+      FuelS3_LI      = SQL_NULL_DATA
+      FuelS6_LI      = SQL_NULL_DATA
+      FuelS12_LI     = SQL_NULL_DATA
+      FuelS20_LI     = SQL_NULL_DATA
+      FuelS35_LI     = SQL_NULL_DATA
+      FuelS50_LI     = SQL_NULL_DATA
+
+C     MAKE SURE WE HAVE AN OPEN CONNECTION
+
+      IF(ConnHndlIn.EQ.-1) CALL DBSOPEN(DSNIN,EnvHndlIn,
+     -                                 ConnHndlIn,DBMSIN,KODE)
+
+C     ALLOCATE A STATEMENT HANDLE
+
+      CALL f90SQLAllocHandle(SQL_HANDLE_STMT,ConnHndlIn,StmtHndlIn,
+     -                          iRet)
+      IF (iRet.NE.SQL_SUCCESS .AND.
+     -    iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
+        CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlIn,
+     -             'STANDIN:DSN Connection')
+      ELSE
+
+C       EXECUTE QUERY
+
+        CALL f90SQLExecDirect(StmtHndlIn,trim(SQLSTR),iRet)
+
+        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlIn,
+     -             'STANDIN:Query: '//trim(SQLSTR))
+      ENDIF
+
+C     GET NUMBER OF COLUMNS RETURNED
+
+      CALL f90SQLNumResultCols(StmtHndlIn,ColumnCount,iRet)
+
+C     INITIALIZE DATA ARRAY THAT BINDS TO COLUMNS
+
+      DO ColNumber = 1,ColumnCount
+        CALL f90SQLDescribeCol (StmtHndlIn, ColNumber, ColName,
+     -   NameLen, DType, NColSz, NDecs, Nullable, iRet)
+
+        DO I = 1, NameLen
+          CALL UPCASE(ColName(I:I))
+        END DO
+
+C       BIND COLUMNS TO THEIR VARIABLES
+
+        SELECT CASE(ColName(1:NameLen))
+
+         CASE('STAND_CN')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
+     -       TMP_DBCN,loc(DBCN_LI), iRet)
+
+         CASE('STAND_ID')
+          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR) THEN
+            CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
+     -        CSTAND,loc(Stand_LI), iRet)
+            LSTDISNUM=.FALSE.
+          ELSE
+            CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(28),loc(Stand_LI), iRet)
+            LSTDISNUM=.TRUE.
+          ENDIF
+
+         CASE('INV_YEAR')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(1),loc(IY_LI), iRet)
+
+         CASE('LATITUDE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(2),loc(Lat_LI), iRet)
+
+         CASE('LONGITUDE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(3),loc(Long_LI), iRet)
+
+         CASE('REGION')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(29),loc(Region_LI), iRet)
+
+         CASE('FOREST')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(30),loc(Forest_LI), iRet)
+
+         CASE('DISTRICT')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(31),loc(District_LI), iRet)
+
+         CASE('COMPARTMENT')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(32),loc(Compartment_LI), iRet)
+
+         CASE('ECOREGION')  
+          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR) THEN
+            CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
+     -        CECOREG,loc(Ecoregion_LI), iRet)
+            LECOISNUM =.FALSE.
+          ELSE
+            CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(54),loc(Ecoregion_LI), iRet)
+            LECOISNUM=.TRUE.
+          ENDIF
+
+         CASE('LOCATION')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(4),loc(Location_LI), iRet)
+
+         CASE('HABITAT','PV_CODE')
+          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR) THEN
+            CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
+     -        CHAB,loc(Habitat_LI), iRet)
+            LHABISNUM =.FALSE.
+          ELSE
+            CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(5),loc(Habitat_LI), iRet)
+            LHABISNUM=.TRUE.
+          ENDIF
+
+         CASE('PV_REF_CODE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        NUMPVREF,loc(PvRefCode_LI), iRet)
+
+         CASE('AGE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(6),loc(Age_LI), iRet)
+
+         CASE('ASPECT')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(7),loc(Aspect_LI), iRet)
+
+         CASE('SLOPE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(8),loc(Slope_LI), iRet)
+
+         CASE('ELEVATION')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(9),loc(Elev_LI), iRet)
+
+         CASE('ELEVFT')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(33),loc(ElevFt_LI), iRet)
+
+         CASE('BASAL_AREA_FACTOR')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(10),loc(Basal_LI), iRet)
+
+         CASE('INV_PLOT_SIZE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(11),loc(PlotArea_LI), iRet)
+
+         CASE('BRK_DBH')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(12),loc(BPDBH_LI), iRet)
+
+         CASE('NUM_PLOTS')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(13),loc(NumPlots_LI), iRet)
+
+         CASE('NONSTK_PLOTS')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(14),loc(NonStock_LI), iRet)
+
+         CASE('SAM_WT')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(15),loc(SamWt_LI), iRet)
+
+         CASE('STK_PCNT')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(16),loc(Stock_LI), iRet)
+
+         CASE('DG_TRANS')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(17),loc(DGT_LI), iRet)
+
+         CASE('DG_MEASURE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(18),loc(DGM_LI), iRet)
+
+         CASE('HTG_TRANS')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(19),loc(HTT_LI), iRet)
+
+         CASE('HTG_MEASURE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(20),loc(HTM_LI), iRet)
+
+         CASE('MORT_MEASURE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(21),loc(Mort_LI), iRet)
+
+         CASE('SITE_SPECIES')
+          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR) THEN
+            CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
+     -        CSITECODE,loc(SiteSp_LI), iRet)
+            LSITEISNUM=.FALSE.
+          ELSE
+            CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(34),loc(SiteSp_LI), iRet)
+            LSITEISNUM=.TRUE.
+          ENDIF
+
+         CASE('SITE_INDEX')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -      RSTANDDATA(35),loc(SiteIndx_LI), iRet)
+
+         CASE('MAX_BA')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(22),loc(MaxB_LI), iRet)
+
+         CASE('MAX_SDI')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -      RSTANDDATA(36),loc(MaxSDI_LI), iRet)
+
+         CASE('MODEL_TYPE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(25),loc(Model_LI), iRet)
+
+         CASE('PHYSIO_REGION')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(26),loc(PhysioR_LI), iRet)
+
+         CASE('FOREST_TYPE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(27),loc(ForType_LI), iRet)
+
+         CASE('STATE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(37),loc(State_LI), iRet)
+
+         CASE('COUNTY')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(38),loc(Connty_LI), iRet)
+
+         CASE('FUEL_0_1')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(39), loc(Fuel0_LI), iRet)
+         CASE('FUEL_1_3','FUEL_1_3_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(40), loc(Fuel1_LI), iRet)
+         CASE('FUEL_3_6','FUEL_3_6_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(41), loc(Fuel3_LI), iRet)
+         CASE('FUEL_6_12','FUEL_6_12_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(42), loc(Fuel6_LI), iRet)
+         CASE('FUEL_GT_12','FUEL_12_20','FUEL_12_20_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(43), loc(Fuel12_LI), iRet)
+         CASE('FUEL_LITTER')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(44), loc(FuelLt_LI), iRet)
+         CASE('FUEL_DUFF')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(45), loc(FuelDf_LI), iRet)
+         CASE('FUEL_0_25','FUEL_0_25_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(46), loc(Fuel025_LI), iRet)
+         CASE('FUEL_25_1','FUEL_25_1_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(47), loc(Fuel251_LI), iRet)
+         CASE('FUEL_20_35','FUEL_20_35_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(48), loc(Fuel20_LI), iRet)
+         CASE('FUEL_35_50','FUEL_35_50_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(49), loc(Fuel35_LI), iRet)     
+         CASE('FUEL_GT_50','FUEL_GT_50_H')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(50), loc(Fuel50_LI), iRet)
+
+         CASE('FUEL_0_25_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(55), loc(FuelS025_LI), iRet)
+         CASE('FUEL_25_1_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(56), loc(FuelS251_LI), iRet)
+         CASE('FUEL_1_3_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(57), loc(FuelS1_LI), iRet)
+         CASE('FUEL_3_6_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(58), loc(FuelS3_LI), iRet)
+         CASE('FUEL_6_12_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(59), loc(FuelS6_LI), iRet)
+         CASE('FUEL_12_20_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(60), loc(FuelS12_LI), iRet)
+         CASE('FUEL_20_35_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(61), loc(FuelS20_LI), iRet)
+         CASE('FUEL_35_50_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(62), loc(FuelS35_LI), iRet)     
+         CASE('FUEL_GT_50_S')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
+     -        RSTANDDATA(63), loc(FuelS50_LI), iRet)
+
+         CASE('FUEL_MODEL')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(51), loc(FuelModel_LI), iRet)
+         CASE('PHOTO_REF')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+     -        ISTANDDATA(52), loc(FotoRef_LI), iRet)
+         CASE('PHOTO_CODE')
+          CALL f90SQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
+     -        CFotoCode, loc(FotoCode_LI), iRet)
+        END SELECT
+
+      ENDDO
+
+      IF(LKECHO)WRITE(JOSTND,'(/T13,''STAND-LEVEL DATA BASE READ:'')')
+
+C     Fetch the Row Data
+
+      CALL f90SQLFetch(StmtHndlIn,iRet)
+      IF (iRet.NE.SQL_SUCCESS.AND.
+     -    iRet.NE.SQL_SUCCESS_WITH_INFO) THEN
+        IF (iRet.EQ.SQL_NO_DATA) THEN
+          CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlIn,
+     -     'STANDIN:No data returned on fetch: '//trim(SQLSTR))
+        ELSE
+          CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlIn,
+     -      'STANDIN:Fetch error: '//trim(SQLSTR))
+        ENDIF
+      ENDIF
+
+      CALL f90SQLFreeHandle(SQL_HANDLE_STMT, StmtHndlIn, iRet)
+
+C     DEFINE VVER IN CASE IT IS NEEDED.
+
+      CALL VARVER(VVER)
+
+C     CHECK FOR NULLS AND ASSIGN VALUES THAT WERE NOT NULL
+
+C     PROCESS STAND IDENTIFICATION CODE.
+C     STAND CONTROL NUMBER SET BY KEYWORD (STANDCN OR STDIDENT)
+C     IS HIGHEST PROIORITY. OTHERWISE USE VALUE FROM DATA BASE
+C
+      IF(DBCN.EQ.' ')THEN
+        IF(DBCN_LI.NE.SQL_NULL_DATA) THEN
+           I=INDEX(TMP_DBCN,CHAR(0))
+           IF (I.GT.0) TMP_DBCN(I:)=' '
+           DBCN = ADJUSTL(TMP_DBCN)
+           IF(LKECHO)WRITE(JOSTND,'(T13,''STAND_CN: '',A)') TRIM(DBCN)
+        ENDIF
+      ELSE
+         DBCN=TRIM(ADJUSTL(DBCN))
+      ENDIF
+      IF(NPLT.EQ.' ')THEN
+        IF(Stand_LI.NE.SQL_NULL_DATA) THEN
+           IF(LSTDISNUM) THEN
+              WRITE (CSTAND,*) ISTANDDATA(28)
+           ELSE
+              I=INDEX(CSTAND,CHAR(0))
+              IF (I.GT.0) CSTAND(I:)=' '
+           ENDIF
+           NPLT=ADJUSTL(CSTAND)
+           IF(LKECHO)WRITE(JOSTND,'(T13,''STAND_ID: '',A)') TRIM(NPLT)
+        ENDIF
+      ELSE
+        NPLT=TRIM(ADJUSTL(NPLT))
+      ENDIF
+C
+      IF(IY_LI.NE.SQL_NULL_DATA) THEN
+         IY(1) = ISTANDDATA(1)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''INV_YEAR: '',T35,I6)') IY(1)
+      ENDIF
+      IF(Long_LI.NE.SQL_NULL_DATA) THEN
+         TLONG = RSTANDDATA(3)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''LONGITUDE: '',T30,F11.4)') TLONG
+      ENDIF
+      IF((Region_LI.NE.SQL_NULL_DATA).AND.
+     >    LKECHO)WRITE(JOSTND,'(T13,''REGION: '',T35,I6)')
+     >    ISTANDDATA(29)
+      IF((Forest_LI.NE.SQL_NULL_DATA).AND.
+     >    LKECHO)WRITE(JOSTND,'(T13,''FOREST: '',T35,I6)')
+     >    ISTANDDATA(30)
+      IF((District_LI.NE.SQL_NULL_DATA).AND.
+     >    LKECHO)WRITE(JOSTND,'(T13,''DISTRICT: '',T35,I6)')
+     >    ISTANDDATA(31)
+      IF((Compartment_LI.NE.SQL_NULL_DATA).AND.
+     >    LKECHO)WRITE(JOSTND,'(T13,''COMPARTMENT: '',T35,I6)')
+     >    ISTANDDATA(32)
+
+C     CONVERT REGION, FOREST, DISTRICT, COMPARTMENT INTO LOCATION
+C     FOLLOWING VARIANT-SPECIFIC RULES.
+
+      IF(Region_LI.NE.SQL_NULL_DATA .AND.   ! Start with RFF
+     >   Forest_LI.NE.SQL_NULL_DATA) THEN
+         KODFOR = ISTANDDATA(29) * 100 + ISTANDDATA(30)
+         IF(VVER(:2).EQ.'KT' .OR.            ! Convert to RFFDD
+     >      VVER(:2).EQ.'WS' .OR.
+     >      VVER(:2).EQ.'SE' .OR.
+     >      VVER(:2).EQ.'SN') THEN
+            KODFOR = KODFOR * 100
+            IF (District_LI.NE.SQL_NULL_DATA)
+     >          KODFOR=KODFOR + ISTANDDATA(31)
+         ENDIF
+         IF(VVER(:2).EQ.'KT') THEN           ! Convert to RFFDDCCC
+            KODFOR = KODFOR * 1000
+            IF (Compartment_LI.NE.SQL_NULL_DATA)
+     >          KODFOR=KODFOR + ISTANDDATA(32)
+         ENDIF
+         IF(LKECHO)WRITE(JOSTND,'(T13,'' COMPOSITE LOC: '',T33,I8)')
+     >   KODFOR
+         CALL FORKOD
+      ENDIF
+
+C     Location code overrides.
+
+      IF(Location_LI.NE.SQL_NULL_DATA) THEN
+         KODFOR = ISTANDDATA(4)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''LOCATION: '',T33,I8)') KODFOR
+         CALL FORKOD
+      ENDIF
+
+C     SET DEFAULT LOCATION CODE IF NOT PRESENT IN INPUT DATA
+
+      IF(KODFOR.EQ.0)CALL FORKOD
+C
+      IF(Lat_LI.NE.SQL_NULL_DATA) THEN
+         TLAT = RSTANDDATA(2)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''LATITUDE: '',T30,F11.4)') TLAT
+      ENDIF
+
+      IF(PvRefCode_LI.NE.SQL_NULL_DATA)THEN
+        IF(NUMPVREF.LE.0)THEN
+          CPVREF='          '
+        ELSE
+          WRITE(CPVREF,'(I10)')NUMPVREF
+        ENDIF
+      ENDIF
+
+      IF(Habitat_LI.NE.SQL_NULL_DATA) THEN
+         IF (LHABISNUM) THEN   ! HABITAT CODE IS NUMBER.
+            WRITE (CHAB,*) ISTANDDATA(5)
+            GOTO 45
+         ELSE
+            I=INDEX(CHAB,CHAR(0))
+            IF (I.EQ.1) GOTO 45
+            IF (I.GT.0) CHAB(I:)=' '
+            CHAB = ADJUSTL(CHAB)
+            READ (CHAB,*,ERR=40)  ISTANDDATA(5)
+            GOTO 45
+   40       CONTINUE
+            ISTANDDATA(5)=0
+         ENDIF
+   45    CONTINUE
+         KARD12  = ADJUSTL(CHAB(1:20))
+         ARRAY2 = ISTANDDATA(5)
+         IF(VVER(:2).EQ.'SE' .OR. (VVER(:2).EQ.'SN' .AND. 
+     >   Ecoregion_LI.NE.SQL_NULL_DATA)) THEN
+           KODTYP=0
+           ICL5=0
+           IF(LKECHO)WRITE(JOSTND,'(T13,'' HABITAT/PV_CODE IGNORED.'')')
+         ELSE
+           KODTYP=IFIX(ARRAY2)
+           ICL5=KODTYP
+           CALL HABTYP (KARD12,ARRAY2)
+           IF (ICL5.LE.0) ICL5=KODTYP
+           IF (KODTYP.NE.ICL5) THEN
+              IF(LKECHO)WRITE (JOSTND,50) ADJUSTR(CHAB),KODTYP
+              IF(LKECHO)WRITE (JOSTND,62) ADJUSTR(CPVREF)
+           ELSE
+              IF(LKECHO)WRITE (JOSTND,50) ADJUSTR(CHAB)
+              IF(LKECHO)WRITE (JOSTND,62) ADJUSTR(CPVREF)
+          ENDIF
+   50      FORMAT (T13,'HABITAT/PV_CODE:',T30,A:
+     >             ' CONVERTED TO CODE: ',I4)
+   62      FORMAT (T13,'PV REFERENCE CODE:',T32,A)
+         ENDIF
+      ENDIF
+
+      IF(Ecoregion_LI.NE.SQL_NULL_DATA) THEN
+        IF (VVER(:2).EQ.'SN') THEN
+          IF (LECOISNUM) THEN   ! ECOREGION CODE IS NUMBER.
+            WRITE (CECOREG,*) ISTANDDATA(54)
+            GOTO 46
+          ELSE
+            I=INDEX(CECOREG,CHAR(0))
+            IF (I.EQ.1) GOTO 46
+            IF (I.GT.0) CECOREG(I:)=' '
+            CECOREG = ADJUSTL(CECOREG)
+            READ (CECOREG,*,ERR=41)  ISTANDDATA(54)
+            GOTO 46
+   41       CONTINUE
+            ISTANDDATA(54)=0
+          ENDIF
+   46     CONTINUE
+          KARD12  = ADJUSTL(CECOREG(1:10))
+          ARRAY2 = ISTANDDATA(54)
+          KODTYP=IFIX(ARRAY2)
+          ICL5=KODTYP
+          CALL HABTYP (KARD12,ARRAY2)
+          IF (ICL5.LE.0) ICL5=KODTYP
+          IF (KODTYP.NE.ICL5) THEN
+             IF(LKECHO)WRITE (JOSTND,51) ADJUSTR(CECOREG),KODTYP
+          ELSE
+             IF(LKECHO)WRITE (JOSTND,51) ADJUSTR(CECOREG)
+          ENDIF
+   51      FORMAT (T13,'ECOLOGICAL UNIT:',T30,A:
+     >              ' CONVERTED TO CODE: ',I4)
+        ENDIF 
+      ENDIF
+
+      IF(Age_LI.NE.SQL_NULL_DATA) THEN
+         IAGE = ISTANDDATA(6)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''AGE: '',T35,I6)') IAGE
+      ENDIF
+      IF(Aspect_LI.NE.SQL_NULL_DATA) THEN
+         ASPECT = RSTANDDATA(7)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''ASPECT: '',T35,F6.1)') ASPECT
+      ENDIF
+      IF(Slope_LI.NE.SQL_NULL_DATA) THEN
+         SLOPE = RSTANDDATA(8)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''SLOPE: '',T35,F6.2)') SLOPE
+      ENDIF
+      IF(Elev_LI.NE.SQL_NULL_DATA .AND.
+     >   ElevFT_LI.EQ.SQL_NULL_DATA) THEN
+         IF(RSTANDDATA(9).GT.0)ELEV = RSTANDDATA(9)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''ELEVATION: '',T35,F6.1)') ELEV
+      ENDIF
+      IF(ElevFT_LI.NE.SQL_NULL_DATA ) THEN
+         IF (VVER(1:2).EQ.'AK') THEN
+            IF(RSTANDDATA(33).GT.0.)ELEV = RSTANDDATA(33)*.1
+         ELSE
+            IF(RSTANDDATA(33).GT.0.)ELEV = RSTANDDATA(33)*.01*MtoFT
+         ENDIF
+         IF(LKECHO)WRITE(JOSTND,10) RSTANDDATA(33),ELEV
+   10    FORMAT (T13,'ELEVFT: ',T35,F6.1,' CONVERTED TO: ',F6.1)
+      ENDIF
+      IF(Basal_LI.NE.SQL_NULL_DATA) THEN
+         BAF = RSTANDDATA(10)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''BASAL_AREA_FACTOR: '',
+     >   T35,F6.1)') BAF 
+         IF (BAF .LT. 0.0) THEN
+            BAF = BAF / HAtoACR
+         ELSE
+            BAF = BAF * M2pHAtoFT2pACR
+         ENDIF
+      ENDIF
+      IF(PlotArea_LI.NE.SQL_NULL_DATA) THEN
+         FPA = RSTANDDATA(11)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''INV_PLOT_SIZE: '',T35,F6.0)')FPA
+         FPA = FPA * ACRtoHA        
+      ENDIF
+      IF(BPDBH_LI.NE.SQL_NULL_DATA) THEN
+         BRK = RSTANDDATA(12)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''BRK_DBH: '',T35,F6.1)') BRK
+         BRK = BRK * CMtoIN
+      ENDIF
+      IF(NumPlots_LI.NE.SQL_NULL_DATA) THEN
+         IPTINV = ISTANDDATA(13)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''NUM_PLOTS: '',T35,I6)') IPTINV
+      ENDIF
+      IF(NonStock_LI.NE.SQL_NULL_DATA) THEN
+         NONSTK = ISTANDDATA(14)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''NONSTK_PLOTS: '',T35,I6)')
+     >   NONSTK
+      ENDIF
+      IF(SamWt_LI.NE.SQL_NULL_DATA) THEN
+         SAMWT = RSTANDDATA(15)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''SAM_WT: '',T25,F16.6)') SAMWT
+      ENDIF
+      IF(Stock_LI.NE.SQL_NULL_DATA) THEN
+      IF (RSTANDDATA(16).GT.1.0 .AND. RSTANDDATA(16).LE.100.)
+     >    GROSPC=RSTANDDATA(16)*.01
+      IF (RSTANDDATA(16).GT.0.0 .AND. RSTANDDATA(16).LE.1.0)
+     >    GROSPC  =RSTANDDATA(16)
+      IF (GROSPC.LT.0.) THEN
+         XXG=1.0
+         IF (IPTINV.GT.0 .AND. NONSTK.GT.0 .AND.
+     >       IPTINV-NONSTK.GT.0) XXG=(FLOAT(IPTINV)-FLOAT(NONSTK))/
+     >                                FLOAT(IPTINV)
+      ELSE
+         XXG=GROSPC
+      ENDIF
+         IF(LKECHO)WRITE(JOSTND,'(T13,''STK_PCNT: '',T35,F6.1)') XXG
+      ENDIF
+      IF(DGT_LI.NE.SQL_NULL_DATA) THEN
+         IDG = ISTANDDATA(17)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''DG_TRANS: '',T35,I6)') IDG
+      ENDIF
+      IF(DGM_LI.NE.SQL_NULL_DATA) THEN
+         IFINT = ISTANDDATA(18)
+         FINT = FLOAT(IFINT)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''DG_MEASURE: '',T35,I6)') IFINT
+      ENDIF
+      IF(HTT_LI.NE.SQL_NULL_DATA) THEN
+         IHTG = ISTANDDATA(19)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''HTG_TRANS: '',T35,I6)') IHTG
+      ENDIF
+      IF(HTM_LI.NE.SQL_NULL_DATA) THEN
+         IFINTH = ISTANDDATA(20)
+         FINTH = FLOAT(IFINTH)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''HTG_MEASURE: '',T35,I6)') IFINTH
+      ENDIF
+      IF(Mort_LI.NE.SQL_NULL_DATA) THEN
+         FINTM = FLOAT(ISTANDDATA(21))
+         IF(FINTM.LE.0.)FINTM=5.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''MORT_MEASURE: '',T35,I6)')
+     >   IFIX(FINTM)
+      ENDIF
+
+C     SITE SPECIES CODE PROCESSING
+
+      IF(SiteSp_LI.NE.SQL_NULL_DATA) THEN
+         IF (LSITEISNUM) THEN   ! SITE SPECIES CODE IS NUMBER.
+            WRITE (CSITECODE,*) ISTANDDATA(34)
+         ENDIF
+
+         I=INDEX(CSITECODE,CHAR(0))
+         IF (I.GT.0) CSITECODE(I:)=' '
+         CSITECODE=ADJUSTL(CSITECODE)
+         NAMELEN=LEN_TRIM(CSITECODE)
+         DO J=1,NAMELEN
+         CALL UPCASE(CSITECODE(J:J))
+         ENDDO
+         DO I=1,MAXSP
+            IF(CSITECODE.EQ.NSP(I,1)(1:2).OR.CSITECODE.EQ.PLNJSP(I).OR.
+     >         CSITECODE.EQ.FIAJSP(I)) THEN
+               ISISP=I
+               LSITE=.TRUE.
+               EXIT
+            ENDIF
+         ENDDO
+         IF (LSITE) THEN
+            IF(LKECHO)WRITE (JOSTND,20) ADJUSTR(CSITECODE),
+     >                                  NSP(ISISP,1)(1:2)
+   20       FORMAT (T13,'SITE_SPECIES: ',T32,A9,
+     >                  ' MAPPED TO INTERNAL CODE: ',A)
+         ELSE
+            WRITE (JOSTND,25) ADJUSTR(CSITECODE)
+   25       FORMAT (T13,'SITE_SPECIES: ',T32,A9,' WAS NOT RECOGNIZED')
+         ENDIF
+      ENDIF
+
+C     SITE INDEX PROCESSING
+
+      IF(SiteIndx_LI.NE.SQL_NULL_DATA) THEN
+         IF (RSTANDDATA(35).LE. 7.) THEN   ! DUNNING CODE.
+            SELECT CASE (VVER(:2))
+            CASE('CA','NC','SO','WS')
+               IF(LKECHO)WRITE(JOSTND,27)
+   27          FORMAT(38X,'   SITE INDEX IS THAN 8 AND ',
+     &                'WILL BE INTERPRETED AS A DUNNING CODE.')
+            END SELECT
+            CALL DUNN(RSTANDDATA(35))
+            IF(LKECHO)WRITE(JOSTND,
+     >             '(T13,''SITE_INDEX (DUNNING CODE): '',T35,F6.1)')
+     >             RSTANDDATA(35)
+         ELSE
+            IF (ISISP.EQ.0) THEN
+               DO I=1,MAXSP
+                  SITEAR(I)=RSTANDDATA(35)*MtoFT
+               ENDDO
+               CSITECODE='ALL'
+            ELSE
+               SITEAR(ISISP)=RSTANDDATA(35)*MtoFT
+               CSITECODE=NSP(ISISP,1)(1:2)
+            ENDIF
+        ENDIF
+         IF(LKECHO)WRITE(JOSTND,30) RSTANDDATA(35)*MtoFT,TRIM(CSITECODE)
+   30    FORMAT (T13,'SITE_INDEX: ',T35,F6.1,' FOR SPECIES: ',A)
+
+      ENDIF
+
+      IF(MaxB_LI.NE.SQL_NULL_DATA) THEN
+         BAMAX = RSTANDDATA(22)
+         IF(BAMAX.GT.0.)LBAMAX=.TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''MAX_BA: '',T35,F6.1)') BAMAX
+         BAMAX = BAMAX * M2pHAtoFT2pACR
+      ENDIF
+      IF(MaxSDI_LI.NE.SQL_NULL_DATA) THEN
+         DO I=1,MAXSP
+           SDIDEF(I) = RSTANDDATA(36)*ACRtoHA
+         ENDDO
+         IF(LKECHO)WRITE(JOSTND,'(T13,''MAX_SDI: '',T35,F6.1)')
+     >      SDIDEF(1)/ACRtoHA
+      ENDIF
+      IF(Model_LI.NE.SQL_NULL_DATA) THEN
+         IMODTY = ISTANDDATA(25)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''MODEL_TYPE: '',T35,I6)') IMODTY
+      ENDIF
+      IF(PhysioR_LI.NE.SQL_NULL_DATA) THEN
+         IPHREG = ISTANDDATA(26)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''PHYSIO_REGION: '',T35,I6)')
+     >   IPHREG
+      ENDIF
+      IF(ForType_LI.NE.SQL_NULL_DATA) THEN
+         IFORTP = ISTANDDATA(27)
+         IF(IFORTP .GT. 999) THEN
+C----------
+C  THE LAST 3 CHARACTERS INDICATE THE FOREST TYPE AND THE FIRST
+C  CHARACTER INDICATES THAT THE USER SET THE FOREST TYPE TO BE
+C  CONSTANT FOR ALL CYCLES.  THE FIELD 3 INPUT IS DECODED
+C  AND LFLAGV IS SET TO TRUE TO INDICATE CONSTANT FOREST TYPE
+C----------
+          XTMP= FLOAT(IFORTP)
+          XTMP= XTMP/1000. + 0.00001
+          IXTMP= XTMP
+          IFORTP= (XTMP-IXTMP)*1000
+          LFLAGV= .TRUE.
+        ENDIF
+C----------
+C  CALL FORTYP TO CHECK FOR VALID USER INPUT OF IFORTP VALUE
+C----------
+         DUM1=0.
+         IXF=1
+         CALL FORTYP(IXF,DUM1)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FOREST_TYPE: '',T35,I6)') IFORTP
+      ENDIF
+      IF(State_LI.NE.SQL_NULL_DATA) THEN
+         ISTATE = ISTANDDATA(37)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''STATE: '',T35,I6)') ISTATE
+      ENDIF
+      IF(Connty_LI.NE.SQL_NULL_DATA) THEN
+         ICNTY = ISTANDDATA(38)
+         IF(LKECHO)WRITE(JOSTND,'(T13,''COUNTY: '',T35,I6)') ICNTY
+      ENDIF
+
+C     FUEL LOAD PARAMETERS
+
+      LFMYES = .FALSE.
+      IF(Fuel0_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_0_1_H: '',T33,F8.3)')
+     >   RSTANDDATA(39)
+      ELSE
+         RSTANDDATA(39) = -1.
+      ENDIF
+      IF(Fuel1_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_1_3_H: '',T33,F8.3)')
+     >   RSTANDDATA(40)
+      ELSE
+         RSTANDDATA(40) = -1.
+      ENDIF
+      IF(Fuel3_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_3_6_H: '',T33,F8.3)')
+     >   RSTANDDATA(41)
+      ELSE
+         RSTANDDATA(41) = -1.
+      ENDIF
+      IF(Fuel6_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_6_12_H: '',T33,F8.3)')
+     >   RSTANDDATA(42)
+      ELSE
+         RSTANDDATA(42) = -1.
+      ENDIF
+      IF(Fuel12_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_12_20_H: '',T33,F8.3)')
+     >   RSTANDDATA(43)
+      ELSE
+         RSTANDDATA(43) = -1.
+      ENDIF
+      IF(FuelLt_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_LITTER: '',T33,F8.3)')
+     >   RSTANDDATA(44)
+      ELSE
+         RSTANDDATA(44) = -1.
+      ENDIF
+      IF(FuelDf_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_DUFF: '',T33,F8.3)')
+     >   RSTANDDATA(45)
+      ELSE
+         RSTANDDATA(45) = -1.
+      ENDIF
+      IF(Fuel025_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_0_25_H: '',T33,F8.3)')
+     >   RSTANDDATA(46)
+      ELSE
+         RSTANDDATA(46) = -1.
+      ENDIF
+      IF(Fuel251_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_25_1_H: '',T33,F8.3)')
+     >   RSTANDDATA(47)
+      ELSE
+         RSTANDDATA(47) = -1.
+      ENDIF
+      IF(Fuel20_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_20_35_H: '',T33,F8.3)')
+     >   RSTANDDATA(48)
+      ELSE
+         RSTANDDATA(48) = -1.
+      ENDIF
+      IF(Fuel35_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_35_50_H: '',T33,F8.3)')
+     >   RSTANDDATA(49)
+      ELSE
+         RSTANDDATA(49) = -1.
+      ENDIF
+      IF(Fuel50_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_GT_50_H: '',T33,F8.3)')
+     >   RSTANDDATA(50)
+      ELSE
+         RSTANDDATA(50) = -1.
+      ENDIF
+
+      LFMYES2 = .FALSE.
+      IF(FuelS025_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_0_25_S: '',T33,F8.3)')
+     >   RSTANDDATA(55)
+      ELSE
+         RSTANDDATA(55) = -1.
+      ENDIF
+      IF(FuelS251_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_25_1_S: '',T33,F8.3)')
+     >   RSTANDDATA(56)
+      ELSE
+         RSTANDDATA(56) = -1.
+      ENDIF
+      IF(FuelS1_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_1_3_S: '',T33,F8.3)')
+     >   RSTANDDATA(57)
+      ELSE
+         RSTANDDATA(57) = -1.
+      ENDIF
+      IF(FuelS3_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_3_6_S: '',T33,F8.3)')
+     >   RSTANDDATA(58)
+      ELSE
+         RSTANDDATA(58) = -1.
+      ENDIF
+      IF(FuelS6_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_6_12_S: '',T33,F8.3)')
+     >   RSTANDDATA(59)
+      ELSE
+         RSTANDDATA(59) = -1.
+      ENDIF
+      IF(FuelS12_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_12_20_S: '',T33,F8.3)')
+     >   RSTANDDATA(60)
+      ELSE
+         RSTANDDATA(60) = -1.
+      ENDIF 
+      IF(FuelS20_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_20_35_S: '',T33,F8.3)')
+     >   RSTANDDATA(61)
+      ELSE
+         RSTANDDATA(61) = -1.
+      ENDIF
+      IF(FuelS35_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_35_50_S: '',T33,F8.3)')
+     >   RSTANDDATA(62)
+      ELSE
+         RSTANDDATA(62) = -1.
+      ENDIF
+      IF(FuelS50_LI.NE.SQL_NULL_DATA) THEN
+         LFMYES2 = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_GT_50_S: '',T33,F8.3)')
+     >   RSTANDDATA(63)
+      ELSE
+         RSTANDDATA(63) = -1.
+      ENDIF
+
+C     FUEL MODEL
+
+      LFMD = .FALSE.
+      IF(FuelModel_LI.NE.SQL_NULL_DATA) THEN
+         LFMD = .TRUE.
+         IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_MODEL: '',T35,I6)')
+     >   ISTANDDATA(51)
+      ELSE
+         ISTANDDATA(51) = -1.
+      ENDIF
+
+C     FUEL PHOTO REFERENCE
+
+      LFOTO = .FALSE.
+      IF(FOTOREF_LI.NE.SQL_NULL_DATA) THEN
+         LFOTO = .TRUE.
+         
+         IF ((ISTANDDATA(52) .NE. 4) .AND. (ISTANDDATA(52) .NE. 10)
+     >   .AND. (ISTANDDATA(52) .GE. 1) .AND. (ISTANDDATA(52) .LE. 32))
+     >   THEN
+           REF = PHOTOREF(ISTANDDATA(52))
+         ELSE
+           REF = 'UNKNOWN'
+           LFOTO = .FALSE.  
+         ENDIF
+         IF(LKECHO)WRITE (JOSTND,55) ISTANDDATA(52), REF
+ 
+   55    FORMAT (T13,'PHOTO_REF: ',T35,I6, ' = ',A)
+ 
+      ELSE
+         ISTANDDATA(52) = -1.
+      ENDIF
+
+C     FUEL PHOTO CODE
+
+      FKOD   = -1
+      LFOTO2 = .FALSE.
+      IF(FotoCode_LI.NE.SQL_NULL_DATA) THEN
+         LFOTO2 = .TRUE.
+         I=INDEX(CFotocode,CHAR(0))
+         IF (I.EQ.1) GOTO 60
+         IF (I.GT.0) CFotoCode(I:)=' '
+         CFotoCode = ADJUSTL(CFotoCode)
+         READ (CFotoCode,*,ERR=60)  ISTANDDATA(53)
+   60    CONTINUE
+         CALL FMPHOTOCODE(ISTANDDATA(52),CFotoCode(1:13),FKOD,1)
+         IF(LKECHO)WRITE (JOSTND,70) ADJUSTR(CFotoCode),FKOD
+   70    FORMAT (T13,'PHOTO_CODE:',T27,A:
+     >             ' CONVERTED TO CODE: ',I4)
+         IF (FKOD .EQ. -1) LFOTO2 = .FALSE.
+      ENDIF
+
+      FOTODATA(1) = ISTANDDATA(52)
+      FOTODATA(2) = FKOD
+
+C     Schedule an activity that changes the initial fuel values. This mimics
+C     the method used in the fire model.  First the fuels photo series photo 
+C     selected is set, followed by tons/acre entered directly.
+
+      CALL  FMLNKD(LFMLK)
+      
+      IF (LFMLK.AND.LFOTO.AND.LFOTO2) THEN
+         CALL OPNEW(I,1,2548,2,FOTODATA(1))
+      ELSEIF (LFOTO.AND.LFOTO2.AND. .NOT. LFMLK) THEN 
+        WRITE(JOSTND,
+     >  '(T13,''FIRE MODEL NOT LINKED, FUELS PHOTO DATA IGNORED.'')')
+      ELSEIF ((FOTOREF_LI.NE.SQL_NULL_DATA) .OR. 
+     >        (FotoCode_LI.NE.SQL_NULL_DATA)) THEN
+        WRITE(JOSTND,'(T13,''MISSING PHOTO ''
+     >  ''REFERENCE OR PHOTO CODE, FUELS PHOTO DATA IGNORED.'')')
+      ENDIF
+     
+      IF (LFMLK.AND.LFMYES) THEN
+        DO I=39,50
+            RSTANDDATA(I) = RSTANDDATA(I) * TMtoTI / HAtoACR
+        ENDDO
+        CALL OPNEW(I,1,2521,12,RSTANDDATA(39))
+      ENDIF
+      IF (LFMYES.AND. .NOT. LFMLK) WRITE(JOSTND,
+     >   '(T13,''FIRE MODEL NOT LINKED, FUELS DATA IGNORED.'')')
+
+      IF (LFMLK.AND.LFMYES2) THEN
+        DO I = 55,63
+            RSTANDDATA(I) = RSTANDDATA(I) * TMtoTI / HAtoACR        
+        ENDDO
+        CALL OPNEW(I,1,2553,9,RSTANDDATA(55))
+      ENDIF
+      IF (LFMYES2.AND. .NOT. LFMLK) WRITE(JOSTND,
+     >   '(T13,''FIRE MODEL NOT LINKED, SOFT FUELS DATA IGNORED.'')')
+
+C     Schedule an activity that changes the initial fuel model. This mimics
+C     the method used in the fire model.
+
+      IF (LFMLK.AND.LFMD) THEN
+        X(1) = FLOAT(ISTANDDATA(51))
+        CALL OPNEW(I,1,2538,1,X)
+      ENDIF
+      IF (LFMD.AND. .NOT. LFMLK) WRITE(JOSTND,
+     >   '(T13,''FIRE MODEL NOT LINKED, FUEL MODEL IGNORED.'')')
+
+      IF(LKECHO)WRITE(JOSTND,'(T13,''END OF DATA BASE READ.'')')
+
+      RETURN
+      END

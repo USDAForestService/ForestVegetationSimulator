@@ -1,0 +1,41 @@
+Subject: PV Code / PV Reference Code Crosswalk Update
+Name: R. Havis
+Date: May 14, 12009
+Variants affected: CA, NC and WC
+
+Description: 
+
+1) PV Reference Code / PV Code combinations read in input data (FSveg Data) are
+   cross-walked to FVS Habitat codes for processing (please see FVS Update
+   Bulletin No. 672). These cross-walks were updated for the Region 6 forests
+   of the CA, and NC variants and for the WC variant by Tom DeMeo,
+   R6 Regional Ecologist and NRIS Coordinator, and his staff. Some comments
+   from their work are that there are no models available
+   for tanoak, but I wonder if we should try to fit something, since this is
+   an important part of this ecoregion. The CA cross-walk is identical to the
+   NC crosswalk.  This does not mean the two variants have identical plant
+   associations.  For example, CA has white oak, ponderosa pine, and mtn
+   hemlock associations that NC does not (according to Pat's work). The
+   reason they are identical is that they both have the same set of FVS
+   models available.  For example, I chose not to match anything to the
+   oak series because no oak models are available.  It is too much of a
+   stretch to match a Doug fir model to an oak model, for example.     
+
+2) The forest code is an important input variable identifying the geographic
+   location of the stand and is used to set some of the cefficients in growth
+   equations. If a forest code is not provided in the input data, a defaut
+   forest code will be set by the FVS variant. In some variants using the
+   data base extension to input data, if the forest code was not specified,
+   the defaut forest code was not beeing set in the proper sequence to
+   avoid runtime errors. This problem was experienced in the AK, CA, NC, and
+   SO variants for some stands, and could potentially occure in other variants.
+   The problem has been corrected, but users are advised to carefully set
+   appropriate location codes for their simulations.
+
+Impact on users: Users should obtain new executables.
+
+Files:
+ca/src/pvref6.f     - updated arrays
+nc/src/pvref6.f
+wc/src/pvref6.f
+dbs/dbsstandin.f     - added call to FORKOD if KODFOR is zero

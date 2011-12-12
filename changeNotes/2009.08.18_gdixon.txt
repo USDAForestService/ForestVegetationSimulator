@@ -1,0 +1,52 @@
+Subject: Enhancement and further refinement of MORTMSB processing
+
+
+Name: Gary Dixon
+Date: 08/18/09
+
+Variants affected: AK, AN, BM, CA, CR, CS_NEW, EC, EM, LS_NEW, NC, NE_NEW,
+                   SN, SO, SO33, TT, UT, WS
+
+Description: Three fields were added to the MORTMSB keyword:
+                  f1: QMD at which the alternate mortality line will be invoked
+                  f2: Slope of the alternate mortality line relationship 
+                  f3: Proportion of each tree record that will be killed 
+              new f4: Smallest DBH to be considered for additional mortality (GE)
+              new f5: Largest DBH to be considered for additional mortality (LT)
+              new f6: Alternate mortality flag: 
+                        1 = kill from above within the specified dbh class 
+                        2 = kill from below within the specified dbh class
+                        3 = kill with equal proportion throughout the dbh class
+                            (when using this option file 3 is ignored and FVS
+                             computes the appropriate proportion)
+
+
+Impact on users: None since this feature has not been released for public use and 
+                 these changes do not affect existing runs
+
+Files:
+common     VARCOM.F77     changed the date of revison; added 3 variables (DLOMSB, DHIMSB,
+                          MFLMSB) to store values for the 3 new keyword fields   
+
+ppbase/src   getstd.f     changed the date of revision; changed MXR from 123 to 125;
+             putstd.f     changed MXI from 113 to 114; added the three new variables
+
+base/src     initre.f     changed the date of revision; inserted code to process the three
+                          new MORTMSB keyword fields
+
+             msbmrt.f     changed the date of revision; modified the code to allow
+                          mortality from above, below, or throughout a diameter class
+
+xx/src       grinit.f     xx = AK, AN, BM, CA, CI, CR, CS, CS_NEW, EC, EM, IE, KT, LS,
+                               LS_NEW, NC, NE, NE_NEW, NI, PN, SN, SO, SO33, TT, UT, WC, WS
+                          changed the date of revision; added initialization of the three
+                          new variables
+                          
+              morts.f     xx = AK, AN, BM, CA, CR, EM, LS_NEW, NC, SN, SO, SO33, TT, UT, WS
+                          changed the date of revision; modified alternated mortality logic
+                          to allow processing from above, below, or throughout a diameter
+                          class
+                          
+xx/obj       makefile     xx = BASE, AK, AN, BM, CA, CR, CS_NEW, EM, LS_NEW, NE_NEW, SN, 
+                               SO33, UT
+                          added the PLOT common to the dependency list for subroutine MSBMRT

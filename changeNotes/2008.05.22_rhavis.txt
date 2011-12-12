@@ -1,0 +1,52 @@
+Subject: shading adjustment PLANT and NATURAL Keywords,
+         species codes FVS_ECONHarvestValue data base table
+Name: R. Havis
+Date: May 22, 2008
+Variants affected: ALL
+
+Description:
+
+     1) When using the PLANT or NATURAL keywords, users have the option of
+        distributing seedlings throughout the stand, favoring shaded plots,
+        or favoring sunny plots. The shading adjustment has been modified
+        to have more of an effect.
+
+     2) Species code format control was implemented in the FVS_ECON_HarvestValue
+        data base table with FVS Update Buletin No. 690. There was a problem with
+        the specis codes in this table for the AK, CA, CR, CS, IE, LS, NE, PN,
+        SN, SO, UT, and WC variants. This has been corrected.
+
+Impact on users: Users utilizing the shade preference code on the PLANT or 
+                 NATURAL keywords (field 7) should obtain a new executable.
+                 Users of the ECON extension in the variants listed in No. 2 above
+                 should obtain new executables
+
+Files:
+
+variant specific makefiles - removed DBSEVM, added DBSECHARV, DBSHELPERS, and DBSDIAGS, deleted
+                             CNTRL.F77 from DBSCASE dependendies, edited order of dependencies in
+                             DBSEXECSQL, added DBSCOM.F77 to DBSPRSSQL dependencies
+
+./bin/makefile       - changed DBSHELPERS, DBSECHARV, and DBSDIAGS to variant specific object paths,
+                       and changed DBSEVM to generic object path
+./base/src/revise.f
+./dbs/obj/ak/makefile
+./dbs/obj/ca/makefile
+./dbs/obj/cr/makefile
+./dbs/obj/cs/makefile
+./dbs/obj/ie/makefile
+./dbs/obj/ls/makefile
+./dbs/obj/makefile - removed CONTRL.F77 from DBSCASE dependencies, added PRGPRM.F77 and CONTRL.F77
+                     to DBSDIAGS, and DBSECHARV  dependencies, added DBSCOM.F77 to DBSPRSSQL
+                     dependencies, edited order of dependencies in DBSEXECSQL, and edited order
+                     of compile instructions.
+./dbs/obj/ne/makefile
+./dbs/obj/pn/makefile
+./dbs/obj/sn/makefile
+./dbs/obj/so33/makefile
+./dbs/obj/ut/makefile
+./dbs/obj/wc/makefile
+./ak/src/estab.f     -modified the shade adjustment for planted trees,
+./estb/src/estab.f     -modified the shade adjustment for planted trees
+./ls_new/src/estab.f     -modified the shade adjustment for planted trees
+./strp/src/estab.f     -modified the shade adjustment for planted trees

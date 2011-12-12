@@ -1,0 +1,56 @@
+Subject: Implicit None Statement
+Name: R. Havis
+Date: September 18, 2008
+Variants affected: ALL
+
+Description: Added Implicit None statement and declared variables in the listed routines
+
+Impact on users: None
+
+Files:
+./base/src/revise.f
+./ppbm/src/ppdgf.f
+./ppci/src/ppdgf.f
+./ppci/src/ppregt.f
+./ppci/src/varget.f
+./ppci/src/varput.f
+./ppcr/src/ppdgf.f
+./ppcr/src/ppregt.f
+./ppcr/src/varget.f
+./ppcr/src/varput.f
+./ppec/src/ppdgf.f
+./ppec/src/ppregt.f
+./ppec/src/varget.f
+./ppec/src/varput.f
+./ppkt/src/ppdgf.f
+./ppkt/src/ppregt.f
+./ppkt/src/varget.f
+./ppkt/src/varput.f
+./ppni/src/ppdgf.f
+./ppni/src/ppregt.f
+./ppni/src/varget.f
+./ppni/src/varput.f
+./ppso/src/ppdgf.f
+./ppso/src/ppregt.f
+./ppso33/src/ppdgf.f
+./ppso33/src/ppregt.f
+./strp/src/esblkd.f
+./strp/src/escprs.f
+./strp/src/esetpr.f
+./strp/src/esfltr.f
+./strp/src/esgent.f
+./strp/src/esin.f
+./strp/src/esinit.f
+./strp/src/esmsgs.f
+./strp/src/esnutr.f
+./strp/src/esout.f
+./strp/src/esplt1.f
+./strp/src/esplt2.f
+./strp/src/esprep.f
+./strp/src/esprin.f
+./strp/src/esrann.f
+./strp/src/essubh.f
+./strp/src/estab.f
+./strp/src/estime.f
+./strp/src/estump.f
+./strp/src/esuckr.f

@@ -1,0 +1,14 @@
+Subject: Error Correction in EM variant
+Name: R. Havis
+Date: June 6, 2009
+Variants affected: EM
+
+Description: Corrected error in small tree growth logic for species derived
+             from the IE variant (species LL, RM, AS and PB). Potential problems
+             concerned small trees passing trough 4.5 feet height.
+
+Impact on users: Obtain a new executable.
+
+Files:
+fvs/em/REGENT
+fvs/em/BLKDAT - added comments

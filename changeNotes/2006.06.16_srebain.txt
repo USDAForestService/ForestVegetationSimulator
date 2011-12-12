@@ -1,0 +1,48 @@
+Subject: Fire and Fuels Extension Canopy Fuels Profile Output Database Table
+Name:  Stephanie Rebain
+Date:  06/16/2006
+Variants affected: All variants with FFE (All except AK and CS)
+
+Description:
+An output database table can now be created that contains canopy fuels 
+profile information.  Specific output includes the available canopy fuel 
+load (lbs/acre/foot and kg/m3) at various heights above the ground (ft and m).
+
+Users can request this report with the new FFE keyword CanFProf.
+
+CanFProf – request the canopy fuels profile output table. 
+Field 1: The FVS cycle number or the calendar year when the output starts; default is 1.
+Field 2: Number of years to output; default is 200.
+Field 3: Interval to ouput; default is 1 (every year).        
+
+Because the output is sent to a database (rather than the main output file), the output 
+database connection must also be set with the database extension keyword DSNOUT.
+
+Impact on users:
+This is a new feature for Fire and Fuels Extension and Database Extension users.
+This keyword will be available for selection in the next version of Suppose.
+Documentation on this table will be included in the next version of the
+Database Extension User's Guide and the FFE addendum.
+
+Modified Files:
+dbs/src/dbsfmcanpr.f - new routine to produce FVS_CanProfile table in output database
+dbs/src/dbfmlink.f - new routine that lets you pass variables from ffe to dbs
+dbs/src/dbsppput.f - added ICANPR
+dbs/src/dbsppget.f - added ICANPR
+fire/base/src/fmin.f - added the keyword CanFProf and call to dbsfmlink
+dbs/src/dbsinit.f - added ICANPR
+dbs/src/dbscase.f - added ICANPR
+dbs/src/DBSCOM.F77 - added ICANPR and CANPRID to the variable list
+dbs/src/dbsblkd.f - add CANPRID
+base/src/exdbs.f - added entry for dbsfmcanpr and dbsfmlink
+dbs/obj/makefile - added dbsfmcanpr and dbsfmlink
+bin/FCWindows_NT.make - added dbsfmcanpr and dbsfmlink
+fire/base/src/fmpocr.f - added a call to dbsfmcanpr, added year as an argument,
+                         added processing of CanFProf keyword
+fire/base/src/fmburn.f - added year to argument list in call to fmpocr
+base/src/oplist - added CanFProf
+fire/base/common/FMFCOM.F77 - added variables for reporting year, interval, and duration
+fire/base/src/fminit.f - initialize variables for reporting year and duration
+fire/ppe/src/fmppput.f - added variables for reporting year, interval, and duration  
+fire/ppe/src/fmppget.f - added variables for reporting year, interval, and duration
+

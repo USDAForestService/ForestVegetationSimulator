@@ -1,0 +1,112 @@
+Subject: Metric FVS Code
+Name: R. Havis
+Date: June 10, 2010
+Variants affected: Central Rockies
+
+Description: A new metric directory was added which contains metric versions of 
+             selected FVS input and output routines. The original metric versions
+             of the routines were provided by Don Robinson (ESSA Technologies Ltd.).
+             The FVS metric routines convert metric input data and control variables
+             to the standard units used by FVS, and then converts the model results to
+             metric units for output.
+
+Scope:       The metric version of the Central Rockies variant (FVScrm) has been
+             built using the FVS build system and has been qualitatively tested,
+             including the FFE, and the and Establishment (STRP) extensions. The DBS
+             extension code is present in the metric directory but the DBS metric I/O
+             conversion is not finished. Metric FVS Code for several I&D extensions
+             was provided by Don.
+
+Maintenance:  The source code and revision dates for all routines under the metric
+             directory have been synchronized with their FVS standard version
+             counter parts. Whenever a routine in the standard FVS code is modified,
+             the same revisions should be completed in the metric FVS code, where
+             applicable, and the revision date changed.
+             
+
+Impact on users: A metric version of the Central Rockies variant (FVScrm) of FVS is 
+                 available for testing and evaluation.
+
+Files:
+
+./bin/makefile              - added build instructions for FVScrm
+./common/METRIC.F77         - added parameter N_METRIC_PRMS
+./ls_new/src/prtrls.f       - dead tree list correction
+./metric/ak/src/estab.f     - new metric source code directory
+./metric/ak/src/sitset.f
+./metric/base/obj/makefile
+./metric/base/src/cwidth.f
+./metric/base/src/dense.f
+./metric/base/src/disply.f
+./metric/base/src/evldx.f
+./metric/base/src/ffin.f
+./metric/base/src/filopn.f
+./metric/base/src/gheads.f
+./metric/base/src/initre.f
+./metric/base/src/intree.f
+./metric/base/src/isstag.f
+./metric/base/src/ksstag.f
+./metric/base/src/mcnvrt.f
+./metric/base/src/opfind.f
+./metric/base/src/oplist.f
+./metric/base/src/oprdat.f
+./metric/base/src/prtrls.f
+./metric/base/src/sdichk.f
+./metric/base/src/sstage.f
+./metric/base/src/stats.f
+./metric/base/src/sumhed.f
+./metric/base/src/sumout.f
+./metric/clim/src/clin.f
+./metric/cr/obj/makefile
+./metric/cr/src/esuckr.f
+./metric/cr/src/sitset.f
+./metric/dbs/src/dbsatrtls.f
+./metric/dbs/src/dbscuts.f
+./metric/dbs/src/dbsfmfuel.f
+./metric/dbs/src/dbsfuels.f
+./metric/dbs/src/dbsmis.f
+./metric/dbs/src/dbsstandin.f
+./metric/dbs/src/dbssumry.f
+./metric/dbs/src/dbstrls.f
+./metric/dfb/src/dfbin.f
+./metric/estb/src/esin.f
+./metric/estb/src/estab.f
+./metric/estb/src/esuckr.f
+./metric/fire/base/src/fmdout.f
+./metric/fire/base/src/fmfout.f
+./metric/fire/base/src/fmin.f
+./metric/fire/base/src/fmpofl.f
+./metric/fire/base/src/fmsout.f
+./metric/fire/base/src/fmssum.f
+./metric/fire/cr/obj/makefile
+./metric/ls/src/gheads.f
+./metric/ls/src/prtrls.f
+./metric/ls/src/sumhed.f
+./metric/mistoe/src/misintpn.f
+./metric/ni/src/sitset.f
+./metric/ppbase/src/cmprt2.f
+./metric/ppbase/src/hvinit.f
+./metric/ppbase/src/hvsel.f
+./metric/ppbase/src/ppin.f
+./metric/ppbase/src/ppldx.f
+./metric/ppbase/src/rptwtr.f
+./metric/ppbase/src/splard.f
+./metric/rd/src/rdin.f
+./metric/rd/src/rdinca.f
+./metric/rd/src/rdincr.f
+./metric/rd/src/rdinie.f
+./metric/rd/src/rdinso33.f
+./metric/rd/src/rdinut.f
+./metric/rd/src/rdsout.f
+./metric/so/src/avht40.f
+./metric/strp/src/esin.f
+./metric/strp/src/estab.f
+./metric/strp/src/esuckr.f
+./metric/ut/src/sitset.f
+./metric/wc/src/blkdat.f
+./metric/wc/src/esuckr.f
+./metric/wc/src/sitset.f
+./metric/wwpb/src/bmdvo.f
+./metric/wwpb/src/bmout.f
+./metric/wwpb/src/bmoutm.f
+./metric/wwpb/src/bmppin.f

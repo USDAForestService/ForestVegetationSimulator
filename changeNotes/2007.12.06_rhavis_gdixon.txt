@@ -1,0 +1,45 @@
+Subject: DataScrn Keyword Enhancement
+Name: R. Haivs
+Date: December 6, 2007
+Variants affected: ALL
+
+Description:
+
+With these changes, users can screen out (or eliminate from the analysis)
+trees of a given species and diameter. If they want to screen out
+more than one species, then they
+should create a species group containing the species to be screened,
+and then specify the species group in field 3 of the DATASCRN keyword
+or field 5 of the TREEDATA keyword.  Multiple DATASCRN or TREEDATA keywords
+would not work when screening multiple species for obvious reasons.
+
+Impact on users:  Users who need the enhancement to the DataScreen keyword
+                  should obtain a new executable.
+
+Files:
+\base\src\initre.f   changed the date of revision
+                     inserted a call to VARVER to the beginning of the routine
+                     and deleted all other calls to VARVER throughout the routine
+                     for efficiency
+                     added field 5 to the TREEDATA keyword which is the species
+                     or species group for which the diameter range applies to.
+                     added field 3 of the DATASCRN keyword which is the species
+                     or speices group for which the diameter range applies to.
+                     added the species or species group to be screened to the
+                     argument list in the calls to INTREE and DBSIN
+\base\src\intree.f   changed the date of revision
+                     added species to the argument list
+                     added code to support adding species or species group to the
+                     screening criteria
+\base\src\dbsin.f    changed the date of revision
+                     added species to the argument list
+                     added species to the argument list in the call to INTREE
+
+in makefiles corrected pgrprm.f77 dependency in compile instructions when needed for:
+                     esadvh.f execon.f fortyp.f stkval.f svtrip.f, and brical.f
+                     thanks to Steve Scharosch of Abacus for finding these makefile
+                     problems.
+./ak/obj/makefile
+./ca/obj/makefile
+./cr/obj/makefile
+./sn/obj/makefile
