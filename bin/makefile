@@ -7742,7 +7742,6 @@ FIRE_WS_LINK = ${FIRE_WS_OBJ}cwhr.o${BJ} \
 
 # Clean Section 
 clean:
-	rm --force --verbose *.exe *.so 
 	rm --force --verbose ../*/*/obj/*.o${BJ} 
 	rm --force --verbose ../*/obj/*.o${BJ}
 	rm --force --verbose ../dbs/obj/*/*.o${BJ}
