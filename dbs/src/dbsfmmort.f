@@ -174,6 +174,8 @@ C---------
 
       DO 150 J = 1,MXSP1
       
+      !! this is where the defect occurs...
+      
         IF (J .EQ. MXSP1) THEN
         	CSP = 'ALL'
         ELSE
