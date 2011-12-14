@@ -175,7 +175,6 @@ C---------
       DO 150 J = 1,MXSP1
       
       !! this is where the defect occurs...
-      
         IF (J .EQ. MXSP1) THEN
         	CSP = 'ALL'
         ELSE
@@ -189,20 +188,31 @@ C
 C       DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
 C       KEYWORD OVER RIDES
 C     
-        IF(JSPIN(J).EQ.1)THEN
-          CSPECIES=ADJUSTL(JSP(J))
-        ELSEIF(JSPIN(J).EQ.2)THEN
-          CSPECIES=ADJUSTL(FIAJSP(J))
-        ELSEIF(JSPIN(J).EQ.3)THEN
-          CSPECIES=ADJUSTL(PLNJSP(J))
-        ELSE
-          CSPECIES=ADJUSTL(PLNJSP(J))
-        ENDIF
-C     
-        IF(ISPOUT21.EQ.1)CSPECIES=ADJUSTL(JSP(J))
-        IF(ISPOUT21.EQ.2)CSPECIES=ADJUSTL(FIAJSP(J))
-        IF(ISPOUT21.EQ.3)CSPECIES=ADJUSTL(PLNJSP(J))
-        IF(CSP.EQ.'ALL')CSPECIES='ALL'
+
+        !! write out individual species
+        if( J .LT. MAXSP1 ) then
+
+          IF(JSPIN(J).EQ.1)THEN
+            CSPECIES=ADJUSTL(JSP(J))
+          ELSEIF(JSPIN(J).EQ.2)THEN
+            CSPECIES=ADJUSTL(FIAJSP(J))
+          ELSEIF(JSPIN(J).EQ.3)THEN
+            CSPECIES=ADJUSTL(PLNJSP(J))
+          ELSE
+            CSPECIES=ADJUSTL(PLNJSP(J))
+          ENDIF
+    C     
+          IF(ISPOUT21.EQ.1)CSPECIES=ADJUSTL(JSP(J))
+          IF(ISPOUT21.EQ.2)CSPECIES=ADJUSTL(FIAJSP(J))
+          IF(ISPOUT21.EQ.3)CSPECIES=ADJUSTL(PLNJSP(J))
+
+        else
+          
+          IF(CSP.EQ.'ALL') then 
+            CSPECIES='ALL'
+          end if
+          
+        end if
 C       
 C       CREATE ENTRY FROM DATA FOR MORTALITY TABLE
 C       
