@@ -34,7 +34,7 @@ BASE_OBJS = algcmp.o${BJ} algevl.o${BJ} algexp.o${BJ} algkey.o${BJ} algslp.o${BJ
             intree.o${BJ} iqrsrt.o${BJ} isstag.o${BJ} istfnb.o${BJ} istlnb.o${BJ} keydmp.o${BJ} keyopn.o${BJ}  \
             keyrdr.o${BJ} keywds.o${BJ} ksstag.o${BJ} lb1mem.o${BJ} lbaglr.o${BJ} lbdset.o${BJ} lbget1.o${BJ}  \
             lbintr.o${BJ} lbmemr.o${BJ} lbsplr.o${BJ} lbsplw.o${BJ} lbstrd.o${BJ} lbtrim.o${BJ} lbunin.o${BJ}  \
-            lnkchn.o${BJ} lnkint.o${BJ} fvs.o${BJ}   mbacal.o${BJ} meansd.o${BJ} msbmrt.o${BJ} mults.o${BJ}   \
+            lnkchn.o${BJ} lnkint.o${BJ} fvs.o${BJ} cmdline.o${BJ}  mbacal.o${BJ} meansd.o${BJ} msbmrt.o${BJ} mults.o${BJ}   \
             myopen.o${BJ} natcrz.o${BJ} notre.o${BJ} opadd.o${BJ} opbisr.o${BJ} opcact.o${BJ} \
             opcset.o${BJ} opcycl.o${BJ} opdon2.o${BJ} opeval.o${BJ}    \
             opexpn.o${BJ} opfind.o${BJ} opget2.o${BJ} opget3.o${BJ} opinit.o${BJ} oplist.o${BJ} opmerg.o${BJ} \
@@ -104,6 +104,9 @@ ch4bsr.o${BJ}: ${BASE_SRC}ch4bsr.f
 
 ch4srt.o${BJ}: ${BASE_SRC}ch4srt.f
 	${FC} -c ${FFLAGS} ${BASE_SRC}ch4srt.f
+
+cmdline.o${BJ}: ${BASE_SRC}cmdline.f ${BASE_COM}GLBLCNTL.F77
+	${FC} -c ${FFLAGS} ${BASE_SRC}cmdline.f
 
 cmrang.o${BJ}: ${BASE_SRC}cmrang.f
 	${FC} -c ${FFLAGS} ${BASE_SRC}cmrang.f

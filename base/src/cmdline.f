@@ -1,7 +1,7 @@
       subroutine cmdLine(theCmdLine,lenCL)
       implicit none
       
-      include "GLBLCNTL.inc"
+      include "GLBLCNTL.F77"
       
       integer :: i,n,irtn,ieq,iend,lenCL
       character(len=256) arg
@@ -133,7 +133,7 @@ c     there is no attached file.
       subroutine getcheckpointcode (ckptcd,ckptyr)
       implicit none
       
-      include "GLBLCNTL.inc"
+      include "GLBLCNTL.F77"
       
       integer :: ckptcd,ckptyr
       ckptcd = checkptcode
@@ -144,7 +144,7 @@ c     there is no attached file.
       subroutine getrestartcode (restrtcd)
       implicit none
       
-      include "GLBLCNTL.inc"
+      include "GLBLCNTL.F77"
       
       integer :: restrtcd
       restrtcd = restartcode
@@ -154,7 +154,7 @@ c     there is no attached file.
       subroutine fvsRestart (restrtcd)
       implicit none
       
-      include "GLBLCNTL.inc"
+      include "GLBLCNTL.F77"
       
       integer :: restrtcd
       
@@ -166,7 +166,7 @@ c     there is no attached file.
       subroutine getkeywrd (fn,nch)
       implicit none
       
-      include "GLBLCNTL.inc"
+      include "GLBLCNTL.F77"
       
       integer :: nch
       character(len=*) fn
@@ -177,7 +177,7 @@ c     there is no attached file.
       subroutine setfvsRtnCode (rtnCode)
       implicit none
       
-      include "GLBLCNTL.inc"
+      include "GLBLCNTL.F77"
       
       integer :: rtnCode
       fvsRtnCode = rtnCode
@@ -192,7 +192,7 @@ c     there is no attached file.
       implicit none
       
       include "PRGPRM.F77"
-      include "GLBLCNTL.inc"
+      include "GLBLCNTL.F77"
       include "CONTRL.F77"
       
       integer :: LOCODE,ICKTAKEN

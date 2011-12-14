@@ -23,7 +23,7 @@ FFLAGS = ${I1}${IE_COM}${I2}${BASE_COM}${I2}${MIST_SRC}${I2}${FIRE_BASE_COM}
 PG_OBJS = apisubs.o${BJ} chget.o${BJ} cvget.o${BJ} ecnget.o${BJ} fmppget.o${BJ} \
           fmpphv.o${BJ} fmppput.o${BJ} putgetsubs.o${BJ} putstd.o${BJ} \
           chput.o${BJ} cvput.o${BJ} ecnput.o${BJ} \
-          cmdline.o${BJ} getstd.o${BJ} stash.o${BJ}
+          getstd.o${BJ} stash.o${BJ}
 
 pg: ${PG_OBJS}
 
@@ -101,9 +101,6 @@ ${FIRE_BASE_COM}FMFCOM.F77 \
 putgetsubs.o${BJ}: ${PGBASE_SRC}putgetsubs.f 
 	${FC} -c ${FFLAGS} ${PGBASE_SRC}putgetsubs.f
 
-cmdline.o${BJ}: ${PGBASE_SRC}cmdline.f ${PGBASE_SRC}GLBLCNTL.inc
-	${FC} -c ${FFLAGS} ${PGBASE_SRC}cmdline.f
-
 getstd.o${BJ}: ${PGBASE_SRC}getstd.f ${IE_COM}PRGPRM.F77  \
           ${BASE_COM}PPDNCM.F77 ${IE_COM}ESPARM.F77  \
           ${BASE_COM}ARRAYS.F77 ${BASE_COM}COEFFS.F77 ${BASE_COM}CONTRL.F77  \
@@ -131,8 +128,7 @@ putstd.o${BJ}:  ${PGBASE_SRC}putstd.f ${IE_COM}PRGPRM.F77 \
 	${FC} -c ${FFLAGS} ${PGBASE_SRC}putstd.f
 
 
-stash.o${BJ}: ${PGBASE_SRC}stash.f ${IE_COM}PRGPRM.F77  \
-          ${BASE_COM}PPCNTL.F77
+stash.o${BJ}: ${PGBASE_SRC}stash.f ${BASE_COM}GLBLCNTL.F77 
 	${FC} -c ${FFLAGS} ${PGBASE_SRC}stash.f
 
 

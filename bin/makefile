@@ -282,6 +282,7 @@ BASE_LINK      = ${BASE_OBJ}fvs.o${BJ}  \
                  ${BASE_OBJ}comprs.o${BJ} \
                  ${BASE_OBJ}covolp.o${BJ} \
                  ${BASE_OBJ}cuts.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${BASE_OBJ}cwidth.o${BJ} \
                  ${BASE_OBJ}damcds.o${BJ} \
                  ${BASE_OBJ}dampro.o${BJ} \
@@ -470,6 +471,7 @@ PN_WC_BASE_LINK = ${WC_OBJ}fvs.o${BJ}   \
                   ${WC_OBJ}comprs.o${BJ} \
                   ${WC_OBJ}covolp.o${BJ} \
                   ${WC_OBJ}cuts.o${BJ}   \
+                  ${BASE_OBJ}cmdline.o${BJ} \
                   ${WC_OBJ}cwidth.o${BJ} \
                   ${WC_OBJ}damcds.o${BJ} \
                   ${WC_OBJ}dampro.o${BJ} \
@@ -1505,6 +1507,7 @@ PPBASE_LINK    = ${PPBASE_OBJ}add1.o${BJ}   \
                  ${BASE_OBJ}comprs.o${BJ} \
                  ${BASE_OBJ}covolp.o${BJ} \
                  ${BASE_OBJ}cuts.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${BASE_OBJ}cwidth.o${BJ} \
                  ${BASE_OBJ}damcds.o${BJ} \
                  ${BASE_OBJ}dampro.o${BJ} \
@@ -2011,6 +2014,7 @@ CR_PPBASE_LINK = ${PPCR_OBJ}ppdgf.o${BJ} \
                  ${CR_OBJ}ch4srt.o${BJ} ${CR_OBJ}cmrang.o${BJ} ${CR_OBJ}comcup.o${BJ} \
                  ${CR_OBJ}comp.o${BJ}   ${CR_OBJ}comprs.o${BJ} ${CR_OBJ}covolp.o${BJ} \
                  ${CR_OBJ}cuts.o${BJ}   ${CR_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CR_OBJ}damcds.o${BJ} ${CR_OBJ}dampro.o${BJ} \
                  ${CR_OBJ}dbadd.o${BJ}  ${CR_OBJ}dball.o${BJ}  \
                  ${CR_OBJ}dbchk.o${BJ}  ${CR_OBJ}dbinit.o${BJ} ${CR_OBJ}dbprse.o${BJ} \
@@ -2271,6 +2275,7 @@ LS_PPBASE_LINK = ${PPLS_OBJ}ppdgf.o${BJ} \
                  ${LS_OBJ}ch4srt.o${BJ} ${LS_OBJ}cmrang.o${BJ} ${LS_OBJ}comcup.o${BJ} \
                  ${LS_OBJ}comp.o${BJ}   ${LS_OBJ}comprs.o${BJ} ${LS_OBJ}covolp.o${BJ} \
                  ${LS_OBJ}cuts.o${BJ}   ${LS_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${LS_OBJ}damcds.o${BJ} ${LS_OBJ}dampro.o${BJ} \
                  ${LS_OBJ}dbadd.o${BJ}  ${LS_OBJ}dball.o${BJ}  \
                  ${LS_OBJ}dbchk.o${BJ}  ${LS_OBJ}dbinit.o${BJ} ${LS_OBJ}dbprse.o${BJ} \
@@ -2670,6 +2675,7 @@ PN_WC_PPBASE_LINK = ${PPWC_OBJ}ppdgf.o${BJ}  ${PPWC_OBJ}ppregt.o${BJ} \
                   ${WC_OBJ}comprs.o${BJ} \
                   ${WC_OBJ}covolp.o${BJ} \
                   ${WC_OBJ}cuts.o${BJ}   \
+                  ${BASE_OBJ}cmdline.o${BJ} \
                   ${WC_OBJ}cwidth.o${BJ} \
                   ${WC_OBJ}damcds.o${BJ} \
                   ${WC_OBJ}dampro.o${BJ} \
@@ -3054,6 +3060,7 @@ UT_PPBASE_LINK = ${PPUT_OBJ}ppdgf.o${BJ} \
                  ${UT_OBJ}ch4srt.o${BJ} ${UT_OBJ}cmrang.o${BJ} ${UT_OBJ}comcup.o${BJ} \
                  ${UT_OBJ}comp.o${BJ}   ${UT_OBJ}comprs.o${BJ} ${UT_OBJ}covolp.o${BJ} \
                  ${UT_OBJ}cuts.o${BJ}   ${UT_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${UT_OBJ}damcds.o${BJ} ${UT_OBJ}dampro.o${BJ} \
                  ${UT_OBJ}dbadd.o${BJ}  ${UT_OBJ}dball.o${BJ}  \
                  ${UT_OBJ}dbchk.o${BJ}  ${UT_OBJ}dbinit.o${BJ} ${UT_OBJ}dbprse.o${BJ} \
@@ -3170,6 +3177,7 @@ AK_LINK        = ${AK_OBJ}blkdat.o${BJ} ${AK_OBJ}bratio.o${BJ} ${AK_OBJ}ccfcal.o
                  ${AK_OBJ}ch4srt.o${BJ} ${AK_OBJ}cmrang.o${BJ} ${AK_OBJ}comcup.o${BJ} \
                  ${AK_OBJ}comp.o${BJ}   ${AK_OBJ}comprs.o${BJ} ${AK_OBJ}covolp.o${BJ} \
                  ${AK_OBJ}cuts.o${BJ}   ${AK_OBJ}cwidth.o${BJ}  \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${AK_OBJ}damcds.o${BJ} ${AK_OBJ}dampro.o${BJ} \
                  ${AK_OBJ}dbadd.o${BJ}  ${AK_OBJ}dball.o${BJ}  \
                  ${AK_OBJ}dbchk.o${BJ}  ${AK_OBJ}dbinit.o${BJ} ${AK_OBJ}dbprse.o${BJ} \
@@ -3280,6 +3288,7 @@ AN_LINK        = ${AN_OBJ}blkdat.o${BJ} ${AN_OBJ}bratio.o${BJ} ${AN_OBJ}ccfcal.o
                  ${AN_OBJ}ch4srt.o${BJ} ${AN_OBJ}cmrang.o${BJ} ${AN_OBJ}comcup.o${BJ} \
                  ${AN_OBJ}comp.o${BJ}   ${AN_OBJ}comprs.o${BJ} ${AN_OBJ}covolp.o${BJ} \
                  ${AN_OBJ}cuts.o${BJ}   ${AN_OBJ}cwidth.o${BJ}  \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${AN_OBJ}damcds.o${BJ} ${AN_OBJ}dampro.o${BJ} \
                  ${AN_OBJ}dbadd.o${BJ}  ${AN_OBJ}dball.o${BJ}  \
                  ${AN_OBJ}dbchk.o${BJ}  ${AN_OBJ}dbinit.o${BJ} ${AN_OBJ}dbprse.o${BJ} \
@@ -3380,6 +3389,7 @@ BM_LINK        = ${BM_OBJ}bfvol.o${BJ}  ${BM_OBJ}blkdat.o${BJ} ${BM_OBJ}bmtmrt.o
                  ${BM_OBJ}ch4bsr.o${BJ} ${BM_OBJ}ch4srt.o${BJ} ${BM_OBJ}cmrang.o${BJ} \
                  ${BM_OBJ}comcup.o${BJ} ${BM_OBJ}comp.o${BJ}   ${BM_OBJ}comprs.o${BJ} \
                  ${BM_OBJ}covolp.o${BJ} ${BM_OBJ}cuts.o${BJ}   ${BM_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${BM_OBJ}damcds.o${BJ} ${BM_OBJ}dampro.o${BJ} ${BM_OBJ}dbadd.o${BJ}  \
                  ${BM_OBJ}dball.o${BJ}  ${BM_OBJ}dbchk.o${BJ}  ${BM_OBJ}dbinit.o${BJ} \
                  ${BM_OBJ}dbprse.o${BJ} ${BM_OBJ}dbscan.o${BJ} ${BM_OBJ}dense.o${BJ}  \
@@ -3483,6 +3493,7 @@ CA_LINK        = ${CA_OBJ}blkdat.o${BJ} ${CA_OBJ}bratio.o${BJ} ${CA_OBJ}ccfcal.o
                  ${CA_OBJ}ch4srt.o${BJ} ${CA_OBJ}cmrang.o${BJ} ${CA_OBJ}comcup.o${BJ} \
                  ${CA_OBJ}comp.o${BJ}   ${CA_OBJ}comprs.o${BJ} ${CA_OBJ}covolp.o${BJ} \
                  ${CA_OBJ}cuts.o${BJ}   ${CA_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CA_OBJ}damcds.o${BJ} ${CA_OBJ}dampro.o${BJ} \
                  ${CA_OBJ}dbadd.o${BJ}  ${CA_OBJ}dball.o${BJ}  \
                  ${CA_OBJ}dbchk.o${BJ}  ${CA_OBJ}dbinit.o${BJ} ${CA_OBJ}dbprse.o${BJ} \
@@ -3629,6 +3640,7 @@ CI_LINK        = ${CI_OBJ}bfvol.o${BJ} \
                  ${CI_OBJ}comprs.o${BJ} \
                  ${CI_OBJ}covolp.o${BJ} \
                  ${CI_OBJ}cuts.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CI_OBJ}cwidth.o${BJ} \
                  ${CI_OBJ}damcds.o${BJ} \
                  ${CI_OBJ}dampro.o${BJ} \
@@ -3867,6 +3879,7 @@ CR_LINK        = ${CR_OBJ}badist.o${BJ} ${CR_OBJ}bfvol.o${BJ}  \
                  ${CR_OBJ}ch4srt.o${BJ} ${CR_OBJ}cmrang.o${BJ} ${CR_OBJ}comcup.o${BJ} \
                  ${CR_OBJ}comp.o${BJ}   ${CR_OBJ}comprs.o${BJ} ${CR_OBJ}covolp.o${BJ} \
                  ${CR_OBJ}cuts.o${BJ}   ${CR_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CR_OBJ}damcds.o${BJ} ${CR_OBJ}dampro.o${BJ} \
                  ${CR_OBJ}dbadd.o${BJ}  ${CR_OBJ}dball.o${BJ}  \
                  ${CR_OBJ}dbchk.o${BJ}  ${CR_OBJ}dbinit.o${BJ} ${CR_OBJ}dbprse.o${BJ} \
@@ -4068,6 +4081,7 @@ EM_LINK        = ${EM_OBJ}bfvol.o${BJ} \
                  ${EM_OBJ}ch4srt.o${BJ} ${EM_OBJ}cmrang.o${BJ} ${EM_OBJ}comcup.o${BJ} \
                  ${EM_OBJ}comp.o${BJ}   ${EM_OBJ}comprs.o${BJ} ${EM_OBJ}covolp.o${BJ} \
                  ${EM_OBJ}cuts.o${BJ}   ${EM_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${EM_OBJ}damcds.o${BJ} ${EM_OBJ}dampro.o${BJ} \
                  ${EM_OBJ}dbadd.o${BJ}  ${EM_OBJ}dball.o${BJ}  \
                  ${EM_OBJ}dbchk.o${BJ}  ${EM_OBJ}dbinit.o${BJ} ${EM_OBJ}dbprse.o${BJ} \
@@ -4176,6 +4190,7 @@ IE_LINK        = ${IE_OBJ}bfvol.o${BJ}  ${IE_OBJ}blkdat.o${BJ} ${IE_OBJ}bratio.o
                  ${IE_OBJ}ch4srt.o${BJ} ${IE_OBJ}cmrang.o${BJ} ${IE_OBJ}comcup.o${BJ} \
                  ${IE_OBJ}comp.o${BJ}   ${IE_OBJ}comprs.o${BJ} ${IE_OBJ}covolp.o${BJ} \
                  ${IE_OBJ}cuts.o${BJ}   ${IE_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${IE_OBJ}damcds.o${BJ} ${IE_OBJ}dampro.o${BJ} \
                  ${IE_OBJ}dbadd.o${BJ}  ${IE_OBJ}dball.o${BJ}  \
                  ${IE_OBJ}dbchk.o${BJ}  ${IE_OBJ}dbinit.o${BJ} ${IE_OBJ}dbprse.o${BJ} \
@@ -4760,6 +4775,7 @@ PPCI_LINK      = ${PPCI_OBJ}ppdgf.o${BJ}  \
                  ${CI_OBJ}comprs.o${BJ} \
                  ${CI_OBJ}covolp.o${BJ} \
                  ${CI_OBJ}cuts.o${BJ}   \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CI_OBJ}cwidth.o${BJ} \
                  ${CI_OBJ}damcds.o${BJ} \
                  ${CI_OBJ}dampro.o${BJ} \
@@ -5148,6 +5164,7 @@ PPNC_LINK      = ${PPBASE_OBJ}add1.o${BJ}   \
                  ${BASE_OBJ}comprs.o${BJ} \
                  ${BASE_OBJ}covolp.o${BJ} \
                  ${BASE_OBJ}cuts.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${BASE_OBJ}cwidth.o${BJ} \
                  ${BASE_OBJ}damcds.o${BJ} \
                  ${BASE_OBJ}dampro.o${BJ} \
@@ -5516,6 +5533,7 @@ PPWS_LINK      = ${PPWS_OBJ}varget.o${BJ}   \
                  ${WS_OBJ}ch4srt.o${BJ} ${WS_OBJ}cmrang.o${BJ} ${WS_OBJ}comcup.o${BJ} \
                  ${WS_OBJ}comp.o${BJ}   ${WS_OBJ}comprs.o${BJ} ${WS_OBJ}covolp.o${BJ} \
                  ${WS_OBJ}cuts.o${BJ}   ${WS_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${WS_OBJ}damcds.o${BJ} ${WS_OBJ}dampro.o${BJ} \
                  ${WS_OBJ}dbadd.o${BJ}  ${WS_OBJ}dball.o${BJ}  \
                  ${WS_OBJ}dbchk.o${BJ}  ${WS_OBJ}dbinit.o${BJ} ${WS_OBJ}dbprse.o${BJ} \
@@ -5792,6 +5810,7 @@ SN_LINK        = ${SN_OBJ}blkdat.o${BJ} ${SN_OBJ}bratio.o${BJ}   \
                  ${SN_OBJ}ch4bsr.o${BJ} ${SN_OBJ}ch4srt.o${BJ} ${SN_OBJ}cmrang.o${BJ}   \
                  ${SN_OBJ}comcup.o${BJ} ${SN_OBJ}comp.o${BJ}   ${SN_OBJ}comprs.o${BJ}   \
                  ${SN_OBJ}covolp.o${BJ} ${SN_OBJ}cuts.o${BJ}   \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${SN_OBJ}cwidth.o${BJ} ${SN_OBJ}damcds.o${BJ} ${SN_OBJ}dampro.o${BJ} \
                  ${SN_OBJ}dbadd.o${BJ}  ${SN_OBJ}dball.o${BJ}  ${SN_OBJ}dbchk.o${BJ}   \
                  ${SN_OBJ}dbinit.o${BJ} ${SN_OBJ}dbprse.o${BJ} ${SN_OBJ}dbscan.o${BJ}   \
@@ -5898,6 +5917,7 @@ SO_LINK      = ${SO_OBJ}adjmai.o${BJ} ${SO_OBJ}avht40.o${BJ} ${SO_OBJ}blkdat.o${
                  ${SO_OBJ}ch4bsr.o${BJ} ${SO_OBJ}ch4srt.o${BJ} ${SO_OBJ}cmrang.o${BJ} \
                  ${SO_OBJ}comcup.o${BJ} ${SO_OBJ}comp.o${BJ}   ${SO_OBJ}comprs.o${BJ} \
                  ${SO_OBJ}covolp.o${BJ} ${SO_OBJ}cuts.o${BJ}   ${SO_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${SO_OBJ}damcds.o${BJ} ${SO_OBJ}dampro.o${BJ} \
                  ${SO_OBJ}dbadd.o${BJ}  ${SO_OBJ}dball.o${BJ}  \
                  ${SO_OBJ}dbchk.o${BJ}  ${SO_OBJ}dbinit.o${BJ} ${SO_OBJ}dbprse.o${BJ} \
@@ -5999,6 +6019,7 @@ TT_LINK        = ${TT_OBJ}bfvol.o${BJ}   ${TT_OBJ}blkdat.o${BJ}  ${TT_OBJ}bratio
                  ${TT_OBJ}ch4srt.o${BJ}  ${TT_OBJ}cmrang.o${BJ}  ${TT_OBJ}comcup.o${BJ} \
                  ${TT_OBJ}comp.o${BJ}    ${TT_OBJ}comprs.o${BJ}  ${TT_OBJ}covolp.o${BJ} \
                  ${TT_OBJ}cuts.o${BJ}    ${TT_OBJ}cwidth.o${BJ}  \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${TT_OBJ}damcds.o${BJ}  ${TT_OBJ}dampro.o${BJ}  \
                  ${TT_OBJ}dbadd.o${BJ}   ${TT_OBJ}dball.o${BJ}   \
                  ${TT_OBJ}dbchk.o${BJ}   ${TT_OBJ}dbinit.o${BJ}  ${TT_OBJ}dbprse.o${BJ} \
@@ -6122,6 +6143,7 @@ UT_LINK        = ${UT_OBJ}bfvol.o${BJ}  ${UT_OBJ}blkdat.o${BJ} ${UT_OBJ}bratio.o
                  ${UT_OBJ}ch4srt.o${BJ} ${UT_OBJ}cmrang.o${BJ} ${UT_OBJ}comcup.o${BJ} \
                  ${UT_OBJ}comp.o${BJ}   ${UT_OBJ}comprs.o${BJ} ${UT_OBJ}covolp.o${BJ} \
                  ${UT_OBJ}cuts.o${BJ}   ${UT_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${UT_OBJ}damcds.o${BJ} ${UT_OBJ}dampro.o${BJ} \
                  ${UT_OBJ}dbadd.o${BJ}  ${UT_OBJ}dball.o${BJ}  \
                  ${UT_OBJ}dbchk.o${BJ}  ${UT_OBJ}dbinit.o${BJ} ${UT_OBJ}dbprse.o${BJ} \
@@ -6311,6 +6333,7 @@ WS_LINK        = ${WS_OBJ}bfvol.o${BJ}   \
                  ${WS_OBJ}ch4srt.o${BJ} ${WS_OBJ}cmrang.o${BJ} ${WS_OBJ}comcup.o${BJ} \
                  ${WS_OBJ}comp.o${BJ}   ${WS_OBJ}comprs.o${BJ} ${WS_OBJ}covolp.o${BJ} \
                  ${WS_OBJ}cuts.o${BJ}   ${WS_OBJ}cwidth.o${BJ} \
+                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${WS_OBJ}damcds.o${BJ} ${WS_OBJ}dampro.o${BJ} \
                  ${WS_OBJ}dbadd.o${BJ}  ${WS_OBJ}dball.o${BJ}  \
                  ${WS_OBJ}dbchk.o${BJ}  ${WS_OBJ}dbinit.o${BJ} ${WS_OBJ}dbprse.o${BJ} \
@@ -7716,6 +7739,16 @@ FIRE_WS_LINK = ${FIRE_WS_OBJ}cwhr.o${BJ} \
 #    exppnb - BM, CI, KT, LS, NI, SO, WS
 #    formcl - BM, EC, NC, NI, SO, WC, PN
 #
+
+# Clean Section 
+clean:
+	rm --force --verbose *.exe *.so 
+	rm --force --verbose ../*/*/obj/*.o${BJ} 
+	rm --force --verbose ../*/obj/*.o${BJ}
+	rm --force --verbose ../dbs/obj/*/*.o${BJ}
+	rm --force --verbose ../pg/obj/*/*.o${BJ}
+	rm --force --verbose ../volume/obj/*.mod
+	
 
 # Link Section
 
@@ -9671,7 +9704,7 @@ FVSncx : base_compile covr_compile strp_compile mistoe_compile nc_compile      \
 FVSne  : base_compile ne_compile volume_compile dbs_compile_ne fire_fofem_compile    \
              fire_ne_compile ne_econ_compile pg_ne_compile
 	${FCL} $@${OUTSUFX} ${MAIN} ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
-                  `ls ${PG_NE_OBJ}*.o${BJ}`  \
+                  `ls ${PG_NE_OBJ}*.o${BJ}` ${BASE_OBJ}cmdline.o${BJ} \
                   ${VOLUME_OBJ}voleqdef.o${BJ} \
                   ${VOLUME_OBJ}r9vol.o${BJ}    \
                   ${VOLUME_OBJ}r9init.o${BJ}   \
@@ -9684,7 +9717,7 @@ FVSne  : base_compile ne_compile volume_compile dbs_compile_ne fire_fofem_compil
 FVSacd : base_compile acd_compile volume_compile dbs_compile_ne fire_fofem_compile    \
              fire_ne_compile acd_econ_compile pg_ne_compile
 	${FCL} $@${OUTSUFX} ${MAIN} ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
-                  `ls ${PG_NE_OBJ}*.o${BJ}`  \
+                  `ls ${PG_NE_OBJ}*.o${BJ}` ${BASE_OBJ}cmdline.o${BJ} \
                   ${VOLUME_OBJ}voleqdef.o${BJ} \
                   ${VOLUME_OBJ}r9vol.o${BJ}    \
                   ${VOLUME_OBJ}r9init.o${BJ}   \

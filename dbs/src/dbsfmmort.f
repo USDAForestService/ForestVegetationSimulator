@@ -2,7 +2,7 @@
      -  VOKILL,KODE)
       IMPLICIT NONE
 C----------
-C  **FMMORT--DBS  DATE OF LAST REVISION: 10/31/2011
+C  **FMMORT--DBS  DATE OF LAST REVISION: 12/14/2011
 C----------
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE MORTALITY REPORT
@@ -190,7 +190,7 @@ C       KEYWORD OVER RIDES
 C     
 
         !! write out individual species
-        if( J .LT. MAXSP1 ) then
+        if( J .LT. MXSP1 ) then
 
           IF(JSPIN(J).EQ.1)THEN
             CSPECIES=ADJUSTL(JSP(J))
@@ -201,7 +201,7 @@ C
           ELSE
             CSPECIES=ADJUSTL(PLNJSP(J))
           ENDIF
-    C     
+C     
           IF(ISPOUT21.EQ.1)CSPECIES=ADJUSTL(JSP(J))
           IF(ISPOUT21.EQ.2)CSPECIES=ADJUSTL(FIAJSP(J))
           IF(ISPOUT21.EQ.3)CSPECIES=ADJUSTL(PLNJSP(J))
