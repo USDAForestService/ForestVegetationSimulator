@@ -30,7 +30,7 @@ NE_OBJS   = badist.o${BJ} balmod.o${BJ} blkdat.o${BJ} cratet.o${BJ} crown.o${BJ}
             bfvol.o${BJ} ccfcal.o${BJ} cfvol.o${BJ} cwcalc.o${BJ} disply.o${BJ} estab.o${BJ} exppnb.o${BJ} \
             gheads.o${BJ} gvrvol.o${BJ} htcalc.o${BJ} maical.o${BJ} morts.o${BJ} prtexm.o${BJ} prtrls.o${BJ} ptbal.o${BJ} \
             spctrn.o${BJ} sumhed.o${BJ} sumout.o${BJ} varvol.o${BJ} \
-            habtyp.o${BJ} \
+            habtyp.o${BJ} apisubs.o${BJ} \
             bftopk.o${BJ} bratio.o${BJ} cftopk.o${BJ} dgbnd.o${BJ} dunn.o${BJ} rcon.o${BJ} vols.o${BJ} \
             adjmai.o${BJ} avht40.o${BJ} \
             algcmp.o${BJ} algevl.o${BJ} algexp.o${BJ} algkey.o${BJ}    \
@@ -83,6 +83,12 @@ econ: ${ECON_OBJS}
 ne: ${NE_OBJS}
 
 # compile routines in the NE source directory
+
+apisubs.o${BJ}:  ${BASE_SRC}apisubs.f ${NE_COM}PRGPRM.F77   \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77  \
+          ${BASE_COM}CALDEN.F77 ${BASE_COM}OPCOM.F77 ${BASE_COM}OUTCOM.F77   \
+          ${BASE_COM}PLOT.F77 
+	${FC} -c ${FFLAGS} ${BASE_SRC}apisubs.f
 
 badist.o${BJ}: ${NE_SRC}badist.f ${NE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77         \
           ${BASE_COM}CONTRL.F77 ${BASE_COM}TWIGCOM.F77

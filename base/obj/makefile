@@ -13,13 +13,13 @@ FFLAGS = ${I1}${BASE_COM}${I2}${FIRE_BASE_COM}
 BASE_SRC  = ./../src/
 
 # the SVN directory
-SVN_DIR = ./../../.svn/
+SVN_DIR = ./../../../.svn/
 
 # the Prognosis base model object files
 BASE_OBJS = algcmp.o${BJ} algevl.o${BJ} algexp.o${BJ} algkey.o${BJ} algslp.o${BJ} algspp.o${BJ} autcor.o${BJ}  \
             bachlo.o${BJ} basdam.o${BJ} behprm.o${BJ} behre.o${BJ} ch2num.o${BJ} ch4bsr.o${BJ} ch4srt.o${BJ}   \
             cmrang.o${BJ} comcup.o${BJ} comp.o${BJ} comprs.o${BJ} covolp.o${BJ} cuts.o${BJ} cwidth.o${BJ}   \
-            damcds.o${BJ} dampro.o${BJ} \
+            damcds.o${BJ} dampro.o${BJ} apisubs.o${BJ} \
             dbadd.o${BJ} dball.o${BJ} dbchk.o${BJ} dbinit.o${BJ} dbprse.o${BJ} \
             dbscan.o${BJ} dense.o${BJ} dgscor.o${BJ} disply.o${BJ} dist.o${BJ} ecopls.o${BJ} ecvols.o${BJ} \
             eigen.o${BJ} errgro.o${BJ} evage.o${BJ} evalnk.o${BJ} evcomp.o${BJ} evif.o${BJ} evkey.o${BJ} \
@@ -58,7 +58,7 @@ BASE_OBJS = algcmp.o${BJ} algevl.o${BJ} algexp.o${BJ} algkey.o${BJ} algslp.o${BJ
 base:     ${BASE_OBJS}
 
 ${BASE_COM}includeSVN.f: ${SVN_DIR}entries
-	echo "      DATA SVN/\"`grep -m 1 -A 1 dir  ../../.svn/entries  | tail -1`\"/" > ${BASE_COM}includeSVN.f
+	echo "      DATA SVN/\"`head --lines=1 ../../../.svn/entries `\"/" > ${BASE_COM}includeSVN.f
 
 algcmp.o${BJ}: ${BASE_SRC}algcmp.f
 	${FC} -c ${FFLAGS} ${BASE_SRC}algcmp.f
@@ -78,6 +78,12 @@ algslp.o${BJ}: ${BASE_SRC}algslp.f
 algspp.o${BJ}: ${BASE_SRC}algspp.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77 \
           ${BASE_COM}CONTRL.F77
 	${FC} -c ${FFLAGS} ${BASE_SRC}algspp.f
+
+apisubs.o${BJ}:  ${BASE_SRC}apisubs.f ${BASE_COM}PRGPRM.F77   \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77  \
+          ${BASE_COM}CALDEN.F77 ${BASE_COM}OPCOM.F77 ${BASE_COM}OUTCOM.F77   \
+          ${BASE_COM}PLOT.F77 
+	${FC} -c ${FFLAGS} ${BASE_SRC}apisubs.f
 
 autcor.o${BJ}: ${BASE_SRC}autcor.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}COEFFS.F77   \
           ${BASE_COM}CONTRL.F77 ${BASE_COM}ARRAYS.F77 ${BASE_COM}PDEN.F77   \

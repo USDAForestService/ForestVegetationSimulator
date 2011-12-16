@@ -20,18 +20,12 @@ PGBASE_SRC   = ../../src/
 FFLAGS = ${I1}${NE_COM}${I2}${BASE_COM}${I2}${MIST_SRC}${I2}${FIRE_BASE_COM}
 
 # the PG object files
-PG_OBJS = apisubs.o${BJ} chget.o${BJ} ecnget.o${BJ} fmppget.o${BJ} \
+PG_OBJS = chget.o${BJ} ecnget.o${BJ} fmppget.o${BJ} \
           fmpphv.o${BJ} fmppput.o${BJ} putgetsubs.o${BJ} putstd.o${BJ} \
           chput.o${BJ}  ecnput.o${BJ} \
           getstd.o${BJ} stash.o${BJ}
 
 pg: ${PG_OBJS}
-
-apisubs.o${BJ}:  ${PGBASE_SRC}apisubs.f ${NE_COM}PRGPRM.F77   \
-          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77  \
-          ${BASE_COM}CALDEN.F77 ${BASE_COM}OPCOM.F77 ${BASE_COM}OUTCOM.F77   \
-          ${BASE_COM}PLOT.F77 
-	${FC} -c ${FFLAGS} ${PGBASE_SRC}apisubs.f
 
 chget.o${BJ}:  ${PGBASE_SRC}chget.f ${NE_COM}PRGPRM.F77   \
           ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77  \

@@ -40,7 +40,7 @@ IE_OBJS   = bfvol.o${BJ} blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ} cratet.o${BJ}
             dgdriv.o${BJ} dgf.o${BJ} dubscr.o${BJ} esadvh.o${BJ} esdlay.o${BJ} espadv.o${BJ} espsub.o${BJ} \
             espxcs.o${BJ} essubh.o${BJ} esuckr.o${BJ} esxcsh.o${BJ} findag.o${BJ} formcl.o${BJ} grinit.o${BJ} \
             grohed.o${BJ} htgf.o${BJ} logs.o${BJ} maical.o${BJ} morts.o${BJ} regent.o${BJ} sitset.o${BJ} \
-            varvol.o${BJ} \
+            varvol.o${BJ} apisubs.o${BJ} \
             badist.o${BJ} \
             bftopk.o${BJ} cftopk.o${BJ} cfvol.o${BJ} cutstk.o${BJ} cwcalc.o${BJ} dgbnd.o${BJ} dunn.o${BJ} \
             exppnb.o${BJ} forkod.o${BJ} habtyp.o${BJ} pvref1.o${BJ} rcon.o${BJ} spctrn.o${BJ} vols.o${BJ} \
@@ -143,6 +143,12 @@ covr: ${COVR_OBJS}
 econ: ${ECON_OBJS}
 
 iex: ${DFB_OBJS} ${DFTM_OBJS} ${MPB_OBJS} ${RD_OBJS}
+
+apisubs.o${BJ}:  ${BASE_SRC}apisubs.f ${IE_COM}PRGPRM.F77   \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77  \
+          ${BASE_COM}CALDEN.F77 ${BASE_COM}OPCOM.F77 ${BASE_COM}OUTCOM.F77   \
+          ${BASE_COM}PLOT.F77 
+	${FC} -c ${FFLAGS} ${BASE_SRC}apisubs.f
 
 bfvol.o${BJ}:  ${IE_SRC}bfvol.f ${IE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77         \
           ${BASE_COM}COEFFS.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}OUTCOM.F77  \
