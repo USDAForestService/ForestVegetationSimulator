@@ -9,10 +9,10 @@
       character(len=1024) cmdLcopy
       
       keywordfile = " "
-      checkptfile = " "
+      stopptfile = " "
       fvsRtnCode = 0
       restartcode = 0
-      checkptcode = 0
+      stopptcode = 0
       
 c     the file unit numbers also act as switches, if the are -1, then
 c     there is no attached file.
@@ -61,25 +61,21 @@ c     there is no attached file.
         case ("--keywordfile=")
           keywordfile = cmdLcopy(ieq+1:iend)
 
-        case ("--checkpoint=")
-          checkptfile = cmdLcopy(ieq+1:iend)
-          read (checkptfile,*) checkptcode,checkptyear
+        case ("--stoppoint=")
+          stopptfile = cmdLcopy(ieq+1:iend)
+          read (stopptfile,*) stopptcode,stopptyear
 
-          ieq=index(checkptfile,",")
-          checkptfile = checkptfile(ieq+1:)
-          ieq=index(checkptfile,",")
-          if (ieq == 0) checkptfile=" "
-          checkptfile = checkptfile(ieq+1:)
+          ieq=index(stopptfile,",")
+          stopptfile = stopptfile(ieq+1:)
+          ieq=index(stopptfile,",")
+          if (ieq == 0) stopptfile=" "
+          stopptfile = stopptfile(ieq+1:)
 
-          if (checkptfile == " ") checkptfile="[none]"
-          if (checkptcode > 3 .or. checkptcode < 0) then
-            print *,"Checkpoint code error, set to zero (off)"
-            checkptcode = 0
-          else
-            print *,"Checkpoint code=",checkptcode,
-     -              " year=",checkptyear,
-     -              " output= ",checkptfile(:len_trim(checkptfile))
-          endif
+          if (stopptfile == " ") stopptfile="[none]"
+
+          print *,"Checkpoint code=",stopptcode,
+     -            " year=",stopptyear,
+     -            " output= ",stopptfile(:len_trim(stopptfile))
 
         case ("--restart=")
           restartcode = 1
@@ -106,40 +102,52 @@ c     there is no attached file.
         fvsRtnCode = 1
         return        
    40   continue
-        read (jdstash) restartcode,checkptyear,i,keywordfile(:i)
-        print *,"Restarting from year= ",checkptyear,
-     -          " using checkpoint code= ",restartcode
+        read (jdstash) restartcode,stopptyear,i,keywordfile(:i)
+        print *,"Restarting from year= ",stopptyear,
+     -          " using stoppoint code= ",restartcode
       endif
 
 
-      if (checkptcode /= 0 .and. checkptfile /= "[none]") then
+      if (stopptcode /= 0 .and. stopptfile /= "[none]") then
         jstash=71
         open (unit=jstash,form="unformatted",status="replace",
-     >        file=checkptfile(:len_trim(checkptfile)),err=10)
+     >        file=stopptfile(:len_trim(stopptfile)),err=10)
         goto 20
    10   continue
-        print *,"Checkpoint open error on file=",trim(checkptfile)
+        print *,"Checkpoint open error on file=",trim(stopptfile)
         fvsRtnCode = 1
         return
    20   continue
         i=len_trim(keywordfile)
-        write (jstash) checkptcode,checkptyear,i,keywordfile(:i)
+        write (jstash) stopptcode,stopptyear,i,keywordfile(:i)
         call flush(jstash)
       endif
       return
       end
       
       
-      subroutine getcheckpointcode (ckptcd,ckptyr)
+      subroutine getstoppointcodes (spptcd,spptyr)
       implicit none
       
       include "GLBLCNTL.F77"
       
-      integer :: ckptcd,ckptyr
-      ckptcd = checkptcode
-      ckptyr = checkptyear
+      integer :: spptcd,spptyr
+      spptcd = stopptcode
+      spptyr = stopptyear
       return
       end
+
+      subroutine setstoppointcodes (spptcd,spptyr)
+      implicit none
+      
+      include "GLBLCNTL.F77"
+      
+      integer :: spptcd,spptyr
+      stopptcode = spptcd 
+      stopptyear = spptyr 
+      return
+      end
+
 
       subroutine getrestartcode (restrtcd)
       implicit none
@@ -188,24 +196,31 @@ c     there is no attached file.
       end
       
       
-      subroutine fvsCheckPoint (LOCODE,ICKTAKEN)
+      subroutine fvsStopPoint (LOCODE,ISTOPDONE)
       implicit none
       
       include "PRGPRM.F77"
       include "GLBLCNTL.F77"
       include "CONTRL.F77"
       
-      integer :: LOCODE,ICKTAKEN
+      integer :: LOCODE,ISTOPDONE
       
-      ICKTAKEN = 0
-      IF (checkptcode /= LOCODE) return
-      IF (checkptyear /= 0) then
-        IF(checkptyear.lt.iy(icyc).or.checkptyear.ge.iy(icyc+1))return
-      ENDIF
+      ISTOPDONE = 0
+
+      IF (stopptcode == 0) return
+      IF (stopptcode > 0 .and. stopptcode /= LOCODE) return
+      
+      IF (stopptyear == 0) return
+      IF (stopptyear > 0 .and. 
+     -   (stopptyear < iy(icyc) .or. stopptyear >= iy(icyc+1)))
+     -      return
+      
       IF (jstash /= -1) call putstd
-      restartcode = checkptcode    
-      ICKTAKEN = 1
+
+      restartcode = stopptcode    
+      ISTOPDONE = 1
       return
       end
+
 
      

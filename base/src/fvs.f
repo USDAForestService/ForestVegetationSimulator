@@ -54,7 +54,7 @@ C
       INTEGER MYACT(1)
       REAL PRM(1)
       DATA MYACT/100/
-      INTEGER IRSTRTCD,ICKTAKEN,IRTNCD
+      INTEGER IRSTRTCD,ISTOPDONE,IRTNCD
 C
 C     ******************     EXECUTION BEGINS     ******************
 C   
@@ -287,8 +287,8 @@ C     ADVANCE TIME INCREMENT
 C
       ICYC = ICYC + 1
    
-      call fvsCheckPoint (1,ICKTAKEN)
-      IF (ICKTAKEN.NE.0) RETURN
+      call fvsStopPoint (1,ISTOPDONE)
+      IF (ISTOPDONE.NE.0) RETURN
    41 continue   
 
 C
@@ -300,8 +300,8 @@ C
       CALL TREGRO
       CALL getfvsRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-      CALL getrestartcode (ICKTAKEN)
-      IF (ICKTAKEN.NE.0) RETURN
+      CALL getrestartcode (ISTOPDONE)
+      IF (ISTOPDONE.NE.0) RETURN
 C
 C     ASSIGN THE EXAMPLE TREES TO THE OUTPUT ARRAYS.
 C

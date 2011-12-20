@@ -1,33 +1,40 @@
 CODE SEGMENT GLBLCNTL
-C----------
-C  **GLBLCNTL--COMMON   DATE OF LAST REVISION:  10/21/2011
-C----------
 C    
-      integer :: fvsRtnCode,restartcode,checkptcode,checkptyear,
+      integer :: fvsRtnCode,restartcode,stopptcode,stopptyear,
      -  jstash,jdstash
-      common /GLBLCNTL/ fvsRtnCode,restartCode,checkptcode,checkptyear,
+      common /GLBLCNTL/ fvsRtnCode,restartCode,stopptcode,stopptyear,
      -  jstash,jdstash
       
-      character(len=250) :: keywordfile,restartfile,checkptfile
-      common /GLBLCNTLC/ keywordfile,restartfile,checkptfile
+      character(len=250) :: keywordfile,restartfile,stopptfile
+      common /GLBLCNTLC/ keywordfile,restartfile,stopptfile
 
 C     fvsRtnCode= 0 if all is well, continue processing, 
 C                 1 if there is a error, return to caller, 
 C                 2 if EOF or STOP was found on the keyword file, return to caller.
 C                  (not an error, but don not continue).      
 C     restartcode= restart code. This value is the loction code where the 
-C         processing ended. That is, it is the value of checkptcode when
+C         processing ended. That is, it is the value of stopptcode when
 C         the program returned to the caller.
-C     checkptcode= checkpoint request code. This is the location code from
-C         where the program is being asked to return to the called.
-C     checkptyear= checkpoint year, if zero "0", then every cycle.
-
+C     stopptcode= stoppoint request code. This is the location code from
+C         where the program is being asked to return to the caller. 
+C         codes are:
+C          0 = Don't stop.
+C          -1 = Stop at every stop point.
+C          1 = Stop just before cuts, at the beginning of the cycle.
+C          2 = Stop after growth has been compute, but prior to adding
+C              the growth.
+C          3 = Stop just before the estab routines are called.
+C     stopptyear= stoppoint year.
+C          codes are:
+C          0 = Don't stop, even if stopptcode == -1.
+C          -1 = Stop at every cycle.
+C          >0 = Stop during the cycle that contains the year. 
 C     keywordfile= keyword file name.
 C     restartfile= recovery file name. If blank, the program assumes that
 C         its memory state is consistent with the last check point.
-C     checkptfile= checkpoint file name. If blank, or [none], the program does 
-C         not write a checkpoint file, it simply returns.
-C     jstash= checkpoint file unit number, if -1, then no file is output.
+C     stopptfile= stoppoint file name. If blank, or [none], the program does 
+C         not write a stoppoint file, it simply returns.
+C     jstash= stoppoint file unit number, if -1, then no file is output.
 C     jdstash= restart file unit number, if -1 then no file can be read.
 C
 C-----END SEGMENT

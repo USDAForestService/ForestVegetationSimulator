@@ -9068,6 +9068,7 @@ FVSiec  : base_compile ie_compile volume_compile dbs_compile_ie fire_fofem_compi
                   ${IE_ECON_LINK} ${COVR_IE_LINK} ${IE_CLIM_ADD} ${IE_CLIM_LINK} \
                   `ls ${PG_IE_OBJ}*.o${BJ}`  \
                   ${IE_OBJ}opget3.o${BJ}          \
+                  ${BASE_OBJ}apisubs.o${BJ}          \
                   ${VOLUME_OBJ}brk_up.o${BJ}      \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
                   ${VOLUME_OBJ}doyal78.o${BJ}     \
@@ -9704,6 +9705,7 @@ FVSne  : base_compile ne_compile volume_compile dbs_compile_ne fire_fofem_compil
              fire_ne_compile ne_econ_compile pg_ne_compile
 	${FCL} $@${OUTSUFX} ${MAIN} ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
                   `ls ${PG_NE_OBJ}*.o${BJ}` ${BASE_OBJ}cmdline.o${BJ} \
+                  ${BASE_OBJ}apisubs.o${BJ}          \
                   ${VOLUME_OBJ}voleqdef.o${BJ} \
                   ${VOLUME_OBJ}r9vol.o${BJ}    \
                   ${VOLUME_OBJ}r9init.o${BJ}   \
@@ -9717,6 +9719,7 @@ FVSacd : base_compile acd_compile volume_compile dbs_compile_ne fire_fofem_compi
              fire_ne_compile acd_econ_compile pg_ne_compile
 	${FCL} $@${OUTSUFX} ${MAIN} ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
                   `ls ${PG_NE_OBJ}*.o${BJ}` ${BASE_OBJ}cmdline.o${BJ} \
+                  ${BASE_OBJ}apisubs.o${BJ}          \
                   ${VOLUME_OBJ}voleqdef.o${BJ} \
                   ${VOLUME_OBJ}r9vol.o${BJ}    \
                   ${VOLUME_OBJ}r9init.o${BJ}   \
