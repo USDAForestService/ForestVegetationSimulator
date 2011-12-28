@@ -15,7 +15,7 @@ clean :
 FVSiec : FVSiec_sourceList.txt
 	$(MAKE) --file=newmakefile buildDir=$@_buildDir sourceFileList=$@_sourceList.txt $@.prg
  
-%.prg : $(sourceList) $(sourceFiles)
+%.prg : $(sourceList) $(sourceFileList)
 	mkdir --parents --verbose $(buildDir)
 	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(includes)
 	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(object)
