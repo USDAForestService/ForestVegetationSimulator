@@ -1,0 +1,31 @@
+FC     = gfortran
+
+ifdef sourceFileList
+ ifndef sourceList
+  export sourceList = $(shell cat $(sourceFileList))
+  export includes = $(notdir $(filter %.F77 %.inc,$(sourceList))) 
+  export source = $(notdir $(filter %f,$(sourceList))) 
+  export object = $(patsubst %.f,%.o,$(source))
+ endif
+endif
+
+clean :
+	rm --force --recursive --verbose *_buildDir
+
+FVSiec : FVSiec_sourceList.txt
+	$(MAKE) --file=newmakefile buildDir=$@_buildDir sourceFileList=$@_sourceList.txt $@.prg
+ 
+%.prg : $(sourceList) $(sourceFiles)
+	mkdir --parents --verbose $(buildDir)
+	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(includes)
+	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(object)
+	@echo link these $(object)
+	#touch FVSiec
+
+%.f :
+	cp --preserve --verbose ../$(shell grep \/$@ ../$(sourceFileList)) .
+               
+%.F77 %.inc :
+	cp --preserve --verbose ../$(shell grep \/$@ ../$(sourceFileList)) .
+	rm --force *.o
+
