@@ -3,7 +3,7 @@ FC     = gfortran
 ifdef sourceFileList
  ifndef sourceList
   export sourceList = $(shell cat $(sourceFileList))
-  export includes = $(notdir $(filter %.F77 %.inc,$(sourceList))) 
+  export includes = $(notdir $(filter %.F77 %.inc %.FOR %.INC,$(sourceList))) 
   export source = $(notdir $(filter %f,$(sourceList))) 
   export object = $(patsubst %.f,%.o,$(source))
  endif
@@ -18,14 +18,20 @@ FVSiec : FVSiec_sourceList.txt
 %.prg : $(sourceList) $(sourceFileList)
 	mkdir --parents --verbose $(buildDir)
 	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(includes)
-	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(object)
-	@echo link these $(object)
-	#touch FVSiec
+	$(MAKE) --no-builtin-rules --directory=$(buildDir) --file=../newmakefile $(object)
+	$(FC) -static -o $@ libfvsSQL.so $(addprefix $(buildDir)/,$(object))
 
+%.o : %.f
+	$(FC) $(FFLAGS) -c -o $@ $<
+
+#%.o : %.c
+#	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+	
 %.f :
+	@echo need $@
 	cp --preserve --verbose ../$(shell grep \/$@ ../$(sourceFileList)) .
                
-%.F77 %.inc :
+%.F77 %.inc %.FOR %.INC :
 	cp --preserve --verbose ../$(shell grep \/$@ ../$(sourceFileList)) .
 	rm --force *.o
 
