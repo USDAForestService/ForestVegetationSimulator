@@ -19,13 +19,13 @@ FVSiec : FVSiec_sourceList.txt
 	mkdir --parents --verbose $(buildDir)
 	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(includes)
 	$(MAKE) --no-builtin-rules --directory=$(buildDir) --file=../newmakefile $(object)
-	$(FC) -static -o $@ libfvsSQL.so $(addprefix $(buildDir)/,$(object))
+	$(FC) -static -o $@ libfvsSQL.so `ls ../fire/fofem/obj/*.o` $(addprefix $(buildDir)/,$(object))
 
 %.o : %.f
 	$(FC) $(FFLAGS) -c -o $@ $<
 
-#%.o : %.c
-#	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+%.o : %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 	
 %.f :
 	@echo need $@
