@@ -309,7 +309,6 @@
 ../dbs/src/dbssumry.f
 ../dbs/src/dbstreesin.f
 ../dbs/src/dbstrls.f
-../dbs/src/fvsSQL.c
 ../econ/src/eccalc.f
 ../econ/src/echarv.f
 ../econ/src/ecin.f
@@ -401,14 +400,14 @@
 ../fire/base/src/fmtrip.f
 ../fire/base/src/fmusrfm.f
 ../fire/ie/src/fmbrkt.f
-../fire/ni/src/fmsfall.f
-../fire/ni/src/fmmois.f
-../fire/ni/src/fmcfmd.f
-../fire/ni/src/fmcons.f
 ../fire/ie/src/fmcba.f
 ../fire/ie/src/fmcblk.f
 ../fire/ie/src/fmcrow.f
 ../fire/ie/src/fmvinit.f
+../fire/ni/src/fmcfmd.f
+../fire/ni/src/fmcons.f
+../fire/ni/src/fmmois.f
+../fire/ni/src/fmsfall.f
 ../ie/common/ESPARM.F77
 ../ie/common/PRGPRM.F77
 ../ie/src/bfvol.f

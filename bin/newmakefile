@@ -12,21 +12,18 @@ endif
 clean :
 	rm --force --recursive --verbose *_buildDir
 
-FVSiec : FVSiec_sourceList.txt
+FVSiec : libfofem.so libfvsSQL.so FVSiec_sourceList.txt
 	$(MAKE) --file=newmakefile buildDir=$@_buildDir sourceFileList=$@_sourceList.txt $@.prg
  
 %.prg : $(sourceList) $(sourceFileList)
 	mkdir --parents --verbose $(buildDir)
 	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(includes)
 	$(MAKE) --no-builtin-rules --directory=$(buildDir) --file=../newmakefile $(object)
-	$(FC) -static -o $@ libfvsSQL.so `ls ../fire/fofem/obj/*.o` $(addprefix $(buildDir)/,$(object))
+	$(FC) -static -o $@ libfvsSQL.so libfofem.so $(addprefix $(buildDir)/,$(object))
 
 %.o : %.f
 	$(FC) $(FFLAGS) -c -o $@ $<
 
-%.o : %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
-	
 %.f :
 	@echo need $@
 	cp --preserve --verbose ../$(shell grep \/$@ ../$(sourceFileList)) .
@@ -34,4 +31,11 @@ FVSiec : FVSiec_sourceList.txt
 %.F77 %.inc %.FOR %.INC :
 	cp --preserve --verbose ../$(shell grep \/$@ ../$(sourceFileList)) .
 	rm --force *.o
+
+libfofem.so : 
+	${MAKE} --directory=../fire/fofem/obj --file=makefile fofem
+	$(CC) $(shell ls ../fire/fofem/obj/*.o) -shared -o $@ 
+
+libfvsSQL.so : ../dbs/src/fvsSQL.c 
+	$(CC) $< -shared ${PIC} -l odbc32 -o $@ 
 
