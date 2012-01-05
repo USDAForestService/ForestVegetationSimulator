@@ -3,19 +3,20 @@ FC     = gfortran
 ifdef sourceFileList
  ifndef sourceList
   export sourceList = $(shell cat $(sourceFileList))
-  export includes = $(notdir $(filter %.F77 %.inc %.FOR %.INC,$(sourceList))) 
+  export includes = $(notdir $(filter %.F77 %.INC %.FOR %.inc,$(sourceList))) 
   export source = $(notdir $(filter %f,$(sourceList))) 
   export object = $(patsubst %.f,%.o,$(source))
  endif
 endif
 
 clean :
-	rm --force --recursive --verbose *_buildDir
+	rm --force --recursive --verbose *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so \
+	   ../fire/fofem/obj/*.o libfofem.so
 
-FVSiec : libfofem.so libfvsSQL.so FVSiec_sourceList.txt
+FVSiec : libfofem.so FVSiec_sourceList.txt
 	$(MAKE) --file=newmakefile buildDir=$@_buildDir sourceFileList=$@_sourceList.txt $@.prg
  
-%.prg : $(sourceList) $(sourceFileList)
+%.prg : libfvsSQL.so $(sourceList) $(sourceFileList)
 	mkdir --parents --verbose $(buildDir)
 	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(includes)
 	$(MAKE) --no-builtin-rules --directory=$(buildDir) --file=../newmakefile $(object)
@@ -34,7 +35,10 @@ FVSiec : libfofem.so libfvsSQL.so FVSiec_sourceList.txt
 
 libfofem.so : 
 	${MAKE} --directory=../fire/fofem/obj --file=makefile fofem
-	$(CC) $(shell ls ../fire/fofem/obj/*.o) -shared -o $@ 
+	$(CC) $(addprefix ../fire/fofem/obj/,bur_bov.o bur_brn.o fm_fofem.o fof_bcm.o \
+          fof_ci.o fof_cm.o fof_co.o fof_duf.o fof_hsf.o fof_lem.o \
+          fof_mrt.o fof_sd.o fof_se.o fof_sgv.o fof_sh.o fof_sha.o \
+          fof_soi.o fof_unix.o fof_util.o) -shared -o $@ 
 
 libfvsSQL.so : ../dbs/src/fvsSQL.c 
 	$(CC) $< -shared ${PIC} -l odbc32 -o $@ 
