@@ -2,6 +2,7 @@ FC     = gfortran
 
 ifdef sourceFileList
  ifndef sourceList
+  export sourceFileList
   export sourceList = $(shell cat $(sourceFileList))
   export includes = $(notdir $(filter %.F77 %.INC %.FOR %.inc,$(sourceList))) 
   export source = $(notdir $(filter %f,$(sourceList))) 
@@ -10,30 +11,20 @@ ifdef sourceFileList
 endif
 
 clean :
-	rm --force --recursive --verbose *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so \
+	rm -frv *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so \
 	   ../fire/fofem/obj/*.o libfofem.so
 
-FVSiec : libfofem.so FVSiec_sourceList.txt
-	$(MAKE) --file=newmakefile buildDir=$@_buildDir sourceFileList=$@_sourceList.txt $@.prg
- 
-%.prg : libfvsSQL.so $(sourceList) $(sourceFileList)
-	mkdir --parents --verbose $(buildDir)
-	$(MAKE) --directory=$(buildDir) --file=../newmakefile $(includes)
-	$(MAKE) --no-builtin-rules --directory=$(buildDir) --file=../newmakefile $(object)
-	$(FC) -static -o $@ libfvsSQL.so libfofem.so $(addprefix $(buildDir)/,$(object))
+ifndef sourceFileList
 
-%.o : %.f
-	$(FC) $(FFLAGS) -c -o $@ $<
+FVSiec : FVSiec_sourceList.txt libfvsSQL.so libfofem.so $(shell cat FVSiec_sourceList.txt)
+	rm -fv $@.prg
+	@echo buildDir is $@_buildDir
+	mkdir -pv $@_buildDir
+	cp -p `cat FVSiec_sourceList.txt` $@_buildDir
+	$(MAKE) --no-builtin-rules --file=../newmakefile --directory=$@_buildDir buildDir=$@_buildDir \
+                 sourceFileList=../$@_sourceList.txt $@.prg
 
-%.f :
-	@echo need $@
-	cp --preserve --verbose ../$(shell grep \/$@ ../$(sourceFileList)) .
-               
-%.F77 %.inc %.FOR %.INC :
-	cp --preserve --verbose ../$(shell grep \/$@ ../$(sourceFileList)) .
-	rm --force *.o
-
-libfofem.so : 
+libfofem.so : ../fire/fofem/src/*
 	${MAKE} --directory=../fire/fofem/obj --file=makefile fofem
 	$(CC) $(addprefix ../fire/fofem/obj/,bur_bov.o bur_brn.o fm_fofem.o fof_bcm.o \
           fof_ci.o fof_cm.o fof_co.o fof_duf.o fof_hsf.o fof_lem.o \
@@ -42,4 +33,15 @@ libfofem.so :
 
 libfvsSQL.so : ../dbs/src/fvsSQL.c 
 	$(CC) $< -shared ${PIC} -l odbc32 -o $@ 
+
+endif
+
+.PRECIOUS : $(object) $(includes)
+
+%.prg : $(object)
+	$(FC) -static -o ../$@ ../libfvsSQL.so ../libfofem.so $(object)
+
+%.o : %.f $(includes)
+	$(FC) $(FFLAGS) -c -o $@ $<
+
 
