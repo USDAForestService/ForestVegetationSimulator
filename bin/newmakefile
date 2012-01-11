@@ -1,11 +1,51 @@
-FC     = gfortran
+
+# note: that assumption is that if OS is defined, then then we are 32 bit windows
+# other wise, we are Linix and 64 bit. Those are the only two systems
+# supported right now.
+
+ifdef OS
+ ODBC = odbc32
+ ifeq (${as.shared},1)
+  SHARED = -shared 
+  OUTSUFX = .so
+  MAIN = 0
+  PIC = 
+ else
+  SHARED = -static
+  OUTSUFX = .exe
+  MAIN = 1
+  PIC = 
+ endif
+#not 32 bit windows.
+else
+ ODBC = odbc 
+ ifeq (${as.shared},1)
+  SHARED = -shared 
+  OUTSUFX = .so
+  MAIN = 0
+  PIC = -fPIC
+ else
+  SHARED =
+  OUTSUFX =
+  MAIN = 1
+  PIC = 
+ endif
+endif
+
+export FC = gfortran
+export CC = gcc
 
 ifdef sourceFileList
  ifndef sourceList
   export sourceFileList
   export sourceList = $(shell cat $(sourceFileList))
   export includes = $(notdir $(filter %.F77 %.INC %.FOR %.inc,$(sourceList))) 
-  export source = $(notdir $(filter %f,$(sourceList))) 
+  export src1 = $(notdir $(filter %f,$(sourceList))) 
+  ifeq (${MAIN},0) 
+   export source = $(filter-out main.f,$(src1))
+  else
+   export source = $(src1)
+  endif
   export object = $(patsubst %.f,%.o,$(source))
  endif
 endif
@@ -17,12 +57,18 @@ clean :
 ifndef sourceFileList
 
 FVSiec : FVSiec_sourceList.txt libfvsSQL.so libfofem.so $(shell cat FVSiec_sourceList.txt)
-	rm -fv $@.prg
 	@echo buildDir is $@_buildDir
 	mkdir -pv $@_buildDir
 	cp -p `cat FVSiec_sourceList.txt` $@_buildDir
-	$(MAKE) --no-builtin-rules --file=../newmakefile --directory=$@_buildDir buildDir=$@_buildDir \
+	$(MAKE) --file=../newmakefile --directory=$@_buildDir buildDir=$@_buildDir \
                  sourceFileList=../$@_sourceList.txt $@.prg
+
+FVSpnc : FVSpnc_sourceList.txt libfvsSQL.so libfofem.so $(shell cat FVSpnc_sourceList.txt)
+	@echo buildDir is $@_buildDir
+	mkdir -pv $@_buildDir
+	cp -p `cat FVSpnc_sourceList.txt` $@_buildDir
+	$(MAKE) --file=../newmakefile --directory=$@_buildDir buildDir=$@_buildDir \
+                 sourceFileList=../$@_sourceList.txt $@.prg 
 
 libfofem.so : ../fire/fofem/src/*
 	${MAKE} --directory=../fire/fofem/obj --file=makefile fofem
@@ -32,14 +78,14 @@ libfofem.so : ../fire/fofem/src/*
           fof_soi.o fof_unix.o fof_util.o) -shared -o $@ 
 
 libfvsSQL.so : ../dbs/src/fvsSQL.c 
-	$(CC) $< -shared ${PIC} -l odbc32 -o $@ 
+	$(CC) $< -shared ${PIC} -l $(ODBC) -o $@ 
 
 endif
 
-.PRECIOUS : $(object) $(includes)
+.PRECIOUS : $(object) 
 
 %.prg : $(object)
-	$(FC) -static -o ../$@ ../libfvsSQL.so ../libfofem.so $(object)
+	$(FC) $(SHARED) -o $(basename ../$@)${OUTSUFX} ../libfvsSQL.so ../libfofem.so $(object)
 
 %.o : %.f $(includes)
 	$(FC) $(FFLAGS) -c -o $@ $<
