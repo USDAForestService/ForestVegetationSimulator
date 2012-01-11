@@ -33,7 +33,7 @@ else
 endif
 
 export FC = gfortran
-export FFLAGS = $(PIC) -DANSI -DCMP${CC}
+export FFLAGS = $(PIC)
 export CC = gcc
 export CFLAGS = $(PIC) -DANSI -DCMP${CC}
 
