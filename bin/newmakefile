@@ -16,7 +16,7 @@ ifdef OS
   MAIN = 1
   PIC = 
  endif
-#not 32 bit windows.
+#not 32 bit windows, assume 64 bit Linux.
 else
  ODBC = odbc 
  ifeq (${as.shared},1)
@@ -33,49 +33,46 @@ else
 endif
 
 export FC = gfortran
+export FFLAGS = $(PIC) -DANSI -DCMP${CC}
 export CC = gcc
+export CFLAGS = $(PIC) -DANSI -DCMP${CC}
 
+# these variables are not processed until sourceFileList is defined...and that happens
+# when the first rule fires (the %.setup rule).
 ifdef sourceFileList
  ifndef sourceList
   export sourceFileList
   export sourceList = $(shell cat $(sourceFileList))
-  export includes = $(notdir $(filter %.F77 %.INC %.FOR %.inc,$(sourceList))) 
-  export src1 = $(notdir $(filter %f,$(sourceList))) 
+  export includes = $(notdir $(filter %.F77 %.INC %.FOR %.inc %.h,$(sourceList))) 
+  export src1 = $(notdir $(filter %.c %.f,$(sourceList))) 
   ifeq (${MAIN},0) 
    export source = $(filter-out main.f,$(src1))
   else
    export source = $(src1)
   endif
-  export object = $(patsubst %.f,%.o,$(source))
+  export object = $(addsuffix .o,$(basename $(source)))
  endif
 endif
 
 clean :
-	rm -frv *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so \
-	   ../fire/fofem/obj/*.o libfofem.so
+	rm -frv *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so
 
 ifndef sourceFileList
 
-FVSiec : FVSiec_sourceList.txt libfvsSQL.so libfofem.so $(shell cat FVSiec_sourceList.txt)
-	@echo buildDir is $@_buildDir
-	mkdir -pv $@_buildDir
-	cp -p `cat FVSiec_sourceList.txt` $@_buildDir
-	$(MAKE) --file=../newmakefile --directory=$@_buildDir buildDir=$@_buildDir \
-                 sourceFileList=../$@_sourceList.txt $@.prg
-
-FVSpnc : FVSpnc_sourceList.txt libfvsSQL.so libfofem.so $(shell cat FVSpnc_sourceList.txt)
-	@echo buildDir is $@_buildDir
-	mkdir -pv $@_buildDir
-	cp -p `cat FVSpnc_sourceList.txt` $@_buildDir
-	$(MAKE) --file=../newmakefile --directory=$@_buildDir buildDir=$@_buildDir \
-                 sourceFileList=../$@_sourceList.txt $@.prg 
-
-libfofem.so : ../fire/fofem/src/*
-	${MAKE} --directory=../fire/fofem/obj --file=makefile fofem
-	$(CC) $(addprefix ../fire/fofem/obj/,bur_bov.o bur_brn.o fm_fofem.o fof_bcm.o \
-          fof_ci.o fof_cm.o fof_co.o fof_duf.o fof_hsf.o fof_lem.o \
-          fof_mrt.o fof_sd.o fof_se.o fof_sgv.o fof_sh.o fof_sha.o \
-          fof_soi.o fof_unix.o fof_util.o) -shared -o $@ 
+FVSiec : FVSiec_sourceList.txt $(shell cat FVSiec_sourceList.txt)
+	$(MAKE) --file=newmakefile $@.setup
+	
+FVSpnc : FVSiec_sourceList.txt $(shell cat FVSiec_sourceList.txt)
+	$(MAKE) --file=newmakefile $@.setup
+	
+# here is the rule that sets up the directories and copies the source, then it calls make
+# again to build the target.
+%.setup : libfvsSQL.so 
+	mkdir -pv $(basename $@)_buildDir
+	cp -p `cat $(basename $@)_sourceList.txt` $(basename $@)_buildDir
+	$(MAKE) --file=../newmakefile --directory=$(basename $@)_buildDir \
+	               buildDir=$(basename $@)_buildDir \
+                 sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg
 
 libfvsSQL.so : ../dbs/src/fvsSQL.c 
 	$(CC) $< -shared ${PIC} -l $(ODBC) -o $@ 
@@ -85,9 +82,12 @@ endif
 .PRECIOUS : $(object) 
 
 %.prg : $(object)
-	$(FC) $(SHARED) -o $(basename ../$@)${OUTSUFX} ../libfvsSQL.so ../libfofem.so $(object)
+	@echo object = $(object)
+	$(FC) $(SHARED) -o $(basename ../$@)${OUTSUFX} ../libfvsSQL.so $(object)
 
 %.o : %.f $(includes)
 	$(FC) $(FFLAGS) -c -o $@ $<
 
+%.o : %.c $(includes)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
