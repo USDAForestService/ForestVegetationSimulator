@@ -220,6 +220,8 @@ C
       if (LOPEN) close(unit=ISTDAT)
       inquire(unit=JOTREE,opened=LOPEN)
       if (LOPEN) close(unit=JOTREE)
+      inquire(unit=JOSUM,opened=LOPEN)
+      if (LOPEN) close(unit=JOSUM)
      
       END
       

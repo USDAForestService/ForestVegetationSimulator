@@ -263,7 +263,9 @@
 ../covr/src/cvsum.f
 ../cr/src/badist.f
 ../dbs/src/DBSCOM.F77
-../dbs/src/DBSTYPEDEFS.F77
+../dbs/src/DBSTYPEDEFS_w32.F77
+../dbs/src/DBSTYPEDEFS_osx.F77
+../dbs/src/DBSTYPEDEFS_l64.F77
 ../dbs/src/dbsatrtls.f
 ../dbs/src/dbsblkd.f
 ../dbs/src/dbsbmbkp.f

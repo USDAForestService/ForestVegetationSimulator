@@ -1,9 +1,14 @@
 
-# note: that assumption is that if OS is defined, then then we are 32 bit windows
-# other wise, we are Linix and 64 bit. Those are the only two systems
-# supported right now.
+# Notes: If OS is defined, then then we are 32 bit windows, otherwise, we are Linix 
+# x86_64 or mac osx x86_64. 
+# Key switches/flags:
+# WIN is set to -DWINDOWS and this is used in the conditional compile of fvsSQL.c (also for CFLAGS)
+# OSARCH is used to select the ODBC type defs in DBSTYPEDEFS.F77 (see the copy command below). 
+#  Valuses are: "w32" on Windows x86 (32 bit), "osx" on MAC x86_64, and l64 on generic Linux x86_64.
 
 ifdef OS
+ WIN = -DWINDOWS
+ OSARCH = w32
  ODBC = odbc32
  ifeq (${as.shared},1)
   SHARED = -shared 
@@ -16,8 +21,16 @@ ifdef OS
   MAIN = 1
   PIC = 
  endif
-#not 32 bit windows, assume 64 bit Linux.
+#not 32 bit windows, assume 64 bit Linux or mac osx.
 else
+ WIN = 
+ ifdef OSTYPE
+  ifeq ($(OSTYPE),linux)
+    OSARCH = l64
+  else
+    OSARCH = osx
+  endif
+ endif
  ODBC = odbc 
  ifeq (${as.shared},1)
   SHARED = -shared 
@@ -35,7 +48,7 @@ endif
 export FC = gfortran
 export FFLAGS = $(PIC)
 export CC = gcc
-export CFLAGS = $(PIC) -DANSI -DCMP${CC}
+export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
 
 # these variables are not processed until sourceFileList is defined...and that happens
 # when the first rule fires (the %.setup rule).
@@ -55,7 +68,7 @@ ifdef sourceFileList
 endif
 
 clean :
-	rm -frv *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so
+	rm -frv *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so FVSiec$(OUTSUFX) FVSpnc$(OUTSUFX)
 
 ifndef sourceFileList
 
@@ -67,22 +80,22 @@ FVSpnc : FVSiec_sourceList.txt $(shell cat FVSiec_sourceList.txt)
 	
 # here is the rule that sets up the directories and copies the source, then it calls make
 # again to build the target.
-%.setup : libfvsSQL.so 
+%.setup : libfvsSQL.so
 	mkdir -pv $(basename $@)_buildDir
 	cp -p `cat $(basename $@)_sourceList.txt` $(basename $@)_buildDir
+	cp -p $(basename $@)_buildDir/DBSTYPEDEFS_$(OSARCH).F77 $(basename $@)_buildDir/DBSTYPEDEFS.F77
 	$(MAKE) --file=../newmakefile --directory=$(basename $@)_buildDir \
 	               buildDir=$(basename $@)_buildDir \
                  sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg
 
 libfvsSQL.so : ../dbs/src/fvsSQL.c 
-	$(CC) $< -shared ${PIC} -l $(ODBC) -o $@ 
+	$(CC) $< -shared ${PIC} -l $(ODBC) $(WIN) -o $@ 
 
 endif
 
 .PRECIOUS : $(object) 
 
 %.prg : $(object)
-	@echo object = $(object)
 	$(FC) $(SHARED) -o $(basename ../$@)${OUTSUFX} ../libfvsSQL.so $(object)
 
 %.o : %.f $(includes)

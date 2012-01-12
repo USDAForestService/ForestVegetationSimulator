@@ -5,16 +5,17 @@
 
 // to compile: gcc -c fvsSQL.c
 
+#ifdef WINDOWS
 #include <windows.h>
+#endif
+
 #include <stdio.h>
 #include <sql.h>
 #include <sqlext.h>
 
-void genTypes(void)
+/***** Run to generate the type definitions for DBSTYPEDEFS.F77
+void main(void)
 {
-  /***** Run to generate the type definitions for DBSTYPEDEFS.F77
-         Call it from fvssqldriverconnect_
-  */
   SQLCHAR       SQLCHAR_KIND;      printf("\n      integer,parameter:: SQLCHAR_KIND=      %d\n",sizeof(SQLCHAR_KIND     ));             
   SQLSMALLINT   SQLSMALLINT_KIND;  printf("      integer,parameter:: SQLSMALLINT_KIND=  %d\n",sizeof(SQLSMALLINT_KIND));             
   SQLUSMALLINT  SQLUSMALLINT_KIND; printf("      integer,parameter:: SQLUSMALLINT_KIND= %d\n",sizeof(SQLUSMALLINT_KIND));
@@ -36,7 +37,7 @@ void genTypes(void)
   SQLULEN       SQLULEN_KIND;      printf("      integer,parameter:: SQLULEN_KIND=      %d\n",sizeof(SQLULEN_KIND     ));
   printf("      integer,parameter:: SQL_OV_ODBC3_KIND= %d\n",sizeof(SQL_OV_ODBC3));
 }
-
+*/
 
 /**************************************
 SQLRETURN SQLAllocHandle(
@@ -49,7 +50,6 @@ int fvssqlallochandle_(
       SQLHANDLE   *InputHandle,
       SQLHANDLE   *OutputHandlePtr)
 {
- /*   genTypes();    */
    SQLHANDLE lOutputHandlePtr;
    int rtn = SQLAllocHandle(
      *HandleType,
