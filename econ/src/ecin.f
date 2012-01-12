@@ -57,7 +57,10 @@ C  Author Fred Martin, WA DNR,
          isEconToBe = .TRUE.
          CALL KEYRDR(IREAD, JOSTND, .FALSE., KEYWRD, isNotBlank,
      &           realFields, IRECNT, errCode, charFields, LFLAG, LKECHO) !KEYRDR fills realField w/ 0.0 unless actual number
-         if (errCode == 2) call ERRGRO(.FALSE., 2)                       !.FALSE. causes ERRGRO not to return, 2 = EOF before END keyword
+         if (errCode == 2) then
+           call ERRGRO(.FALSE., 2)                                       !.FALSE. causes ERRGRO to set global return code
+           return
+         endif
          parmsField = 0
          if (errCode < 0) parmsField = -errCode                          !Negative errCode used to return field containing "PARMS" keyword
 
@@ -65,6 +68,7 @@ C  Author Fred Martin, WA DNR,
          select case (KEYWRD)
 !        ====================== CASE ANNUCST ===========================
          case ('ANNUCST')
+          print *,"annCostCnt = ",annCostCnt,"rateCnt=",rateCnt
             if (annCostCnt == MAX_KEYWORDS) then
                write (JOSTND,'(/, 1x, a12, "# ", a8, " KEYWORDS ",
      &             "ENTERED EXCEEDS MAXIMUM, RECORD", i4, " IGNORED.")')
@@ -89,7 +93,7 @@ C  Author Fred Martin, WA DNR,
      &              " WILL BE APPLIED FOR: ", a, ".")') KEYWRD,
      &              annCostAmt(annCostCnt), trim(adjustl(charFields(2)))
 
-               do i = 1, rateCnt
+               do i = 1, annCostCnt
                   write (JOSTND,'(T13, "APPRECIATION RATE: ", F6.1,
      &                                        "% FOR", i4, " YEARS.")')
      &                                        annCostRate(annCostCnt,i),
@@ -818,7 +822,8 @@ C  Author Fred Martin, WA DNR,
          if (ios < 0) then                                               !EOF, should not happen before an END keyword
             write (JOSTND,'(/,1x,8x,"   ERROR READING SUPPLEMENTAL ",
      &                                     "RATES & DURATIONS RECORD")')
-            call ERRGRO(.FALSE., 2)                                      !.FALSE. causes ERRGRO not to return, 1 = invalid keyword
+            call ERRGRO(.FALSE., 2)
+            return
          end if
 
 !       Read value rates and durations allowing for free-field format w/in 5-character fields

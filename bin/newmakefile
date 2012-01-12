@@ -75,7 +75,7 @@ ifndef sourceFileList
 FVSiec : FVSiec_sourceList.txt $(shell cat FVSiec_sourceList.txt)
 	$(MAKE) --file=newmakefile $@.setup
 	
-FVSpnc : FVSiec_sourceList.txt $(shell cat FVSiec_sourceList.txt)
+FVSpnc : FVSpnc_sourceList.txt $(shell cat FVSpnc_sourceList.txt)
 	$(MAKE) --file=newmakefile $@.setup
 	
 # here is the rule that sets up the directories and copies the source, then it calls make
