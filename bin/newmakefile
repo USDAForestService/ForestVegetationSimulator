@@ -1,4 +1,7 @@
 
+#	$Id$	
+
+
 # Notes: If OS is defined, then then we are 32 bit windows, otherwise, we are Linix 
 # x86_64 or mac osx x86_64. 
 # Key switches/flags:
@@ -74,10 +77,10 @@ ifndef sourceFileList
 
 FVSiec : FVSiec_sourceList.txt $(shell cat FVSiec_sourceList.txt)
 	$(MAKE) --file=newmakefile $@.setup
-	
+
 FVSpnc : FVSpnc_sourceList.txt $(shell cat FVSpnc_sourceList.txt)
 	$(MAKE) --file=newmakefile $@.setup
-	
+
 # here is the rule that sets up the directories and copies the source, then it calls make
 # again to build the target.
 %.setup : libfvsSQL.so
