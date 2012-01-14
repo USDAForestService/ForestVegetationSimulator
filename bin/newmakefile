@@ -30,9 +30,10 @@ else
  ifdef OSTYPE
   ifeq ($(OSTYPE),linux)
     OSARCH = l64
-  else
-    OSARCH = osx
   endif
+ endif
+ ifndef OSARCH
+   OSARCH = osx
  endif
  ODBC = odbc 
  ifeq (${as.shared},1)
