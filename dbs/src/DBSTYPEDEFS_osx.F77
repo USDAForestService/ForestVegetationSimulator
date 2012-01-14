@@ -49,7 +49,8 @@ C     FOUND IN fvsSQL.c  IT SHOULD BE RUN ONCE FOR EACH PLATFORM.
 !     integer,parameter:: SQLULEN_KIND=      4
 !     integer,parameter:: SQL_OV_ODBC3_KIND= 8
 
-! Use on OSX (64)      
+! Use on MAC OSX (64)      
+
       integer,parameter:: SQLCHAR_KIND=      1
       integer,parameter:: SQLSMALLINT_KIND=  2
       integer,parameter:: SQLUSMALLINT_KIND= 2
@@ -67,10 +68,9 @@ C     FOUND IN fvsSQL.c  IT SHOULD BE RUN ONCE FOR EACH PLATFORM.
       integer,parameter:: SQLHSTMT_KIND=     8
       integer,parameter:: SQLHDESC_KIND=     8
       integer,parameter:: SQLHWND_KIND=      8
-      integer,parameter:: SQLULEN_KIND=      4
+      integer,parameter:: SQLULEN_KIND=      8
       integer,parameter:: SQL_OV_ODBC3_KIND= 8
-      
-      
+
       integer(SQL_OV_ODBC3_KIND), parameter:: SQL_OV_ODBC3 = 3
 
       integer(SQLPOINTER_KIND),parameter:: SQL_NULL_PTR=0
