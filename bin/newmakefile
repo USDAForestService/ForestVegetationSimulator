@@ -82,6 +82,9 @@ FVSiec : FVSiec_sourceList.txt $(shell cat FVSiec_sourceList.txt)
 FVSpnc : FVSpnc_sourceList.txt $(shell cat FVSpnc_sourceList.txt)
 	$(MAKE) --file=newmakefile $@.setup
 
+FVSne : FVSne_sourceList.txt $(shell cat FVSne_sourceList.txt)
+	$(MAKE) --file=newmakefile $@.setup
+
 # here is the rule that sets up the directories and copies the source, then it calls make
 # again to build the target.
 %.setup : libfvsSQL.so
