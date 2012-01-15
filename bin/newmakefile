@@ -49,7 +49,7 @@ else
  endif
 endif
 
-export FC = gfortran
+export FC = gfortran -g -Wall -ffixed-line-length-132
 export FFLAGS = $(PIC)
 export CC = gcc
 export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
