@@ -103,15 +103,26 @@ FVSne : FVSne_sourceList.txt $(shell cat FVSne_sourceList.txt)
 	               buildDir=$(basename $@)_buildDir \
                  sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg
 
+ifeq (${OSARCH},l64) 
 libfvsSQL.so : ../dbs/src/fvsSQL.c 
-	$(CC) $< -shared ${PIC} -l $(ODBC) $(WIN) -o $@ 
+	$(CC) $< -shared -fPIC -l $(ODBC) $(WIN) -o $@ 
+else
+libfvsSQL.so : ../dbs/src/fvsSQL.c 
+	$(CC) $< -shared -l $(ODBC) $(WIN) -o $@ 
+endif
 
 endif
 
 .PRECIOUS : $(object) 
 
+#TODO: this might work for now on w32 and osx 
+ifeq (${OSARCH},l64) 
+%.prg : $(object)
+	$(LD) $(SHARED) -o $(basename ../$@)${OUTSUFX} $(realpath ../libfvsSQL.so) $(object)
+else
 %.prg : $(object)
 	$(LD) $(SHARED) -o $(basename ../$@)${OUTSUFX} ../libfvsSQL.so $(object)
+endif
 
 %.o : %.f $(includes)
 	@echo using basic build rule
