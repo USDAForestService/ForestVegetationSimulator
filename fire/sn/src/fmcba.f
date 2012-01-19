@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-SN-DATE OF LAST REVISION:  01/04/11
+C  **FMCBA   FIRE-SN-DATE OF LAST REVISION:  01/19/2011
 C----------
 C  SINGLE-STAND VERSION
 C  CALLED FROM: FMMAIN
@@ -141,7 +141,7 @@ C-----------
         ELSE
           SHRUBAGE = (IYR - IY(1) + 5) ! so default is 5 years before inventory
         ENDIF
-        SHRUBAGE = MIN(20,MAX(1,SHRUBAGE))
+        SHRUBAGE = MIN(20,MAX(1,INT(SHRUBAGE)))
  
         DO L=1,8
           FULIV3(L) = FULIV2(L,J)
