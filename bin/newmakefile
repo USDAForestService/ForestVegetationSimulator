@@ -80,7 +80,7 @@ ifdef sourceFileList
 endif
 
 clean :
-	rm -frv *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so FVSiec$(OUTSUFX) FVSpnc$(OUTSUFX) FVSne$(OUTSUFX)
+	rm -frv *_buildDir ../dbs/obj/fvsSQL.o libfvsSQL.so FVSiec$(OUTSUFX) FVSpnc$(OUTSUFX) FVSne$(OUTSUFX) FVSsn$(OUTSUFX)
 
 ifndef sourceFileList
 
@@ -91,6 +91,9 @@ FVSpnc : FVSpnc_sourceList.txt $(shell cat FVSpnc_sourceList.txt)
 	$(MAKE) --file=newmakefile $@.setup
 
 FVSne : FVSne_sourceList.txt $(shell cat FVSne_sourceList.txt)
+	$(MAKE) --file=newmakefile $@.setup
+
+FVSsn : FVSsn_sourceList.txt $(shell cat FVSsn_sourceList.txt)
 	$(MAKE) --file=newmakefile $@.setup
 
 # here is the rule that sets up the directories and copies the source, then it calls make

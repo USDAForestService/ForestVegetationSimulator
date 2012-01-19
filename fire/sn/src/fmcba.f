@@ -141,7 +141,7 @@ C-----------
         ELSE
           SHRUBAGE = (IYR - IY(1) + 5) ! so default is 5 years before inventory
         ENDIF
-        SHRUBAGE = MIN(20,MAX(1,INT(SHRUBAGE)))
+        SHRUBAGE = MIN(20.0,MAX(1.0,SHRUBAGE))
  
         DO L=1,8
           FULIV3(L) = FULIV2(L,J)
