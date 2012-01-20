@@ -488,6 +488,8 @@
 ../strp/src/esuckr.f
 ../volume/src/clkcoef_mod.f
 ../volume/src/debug_mod.f
+../volume/src/r8clist.for
+../volume/src/r8vlist.for
 ../volume/src/r8dib.inc
 ../volume/src/r8init.f
 ../volume/src/r9clark.f
