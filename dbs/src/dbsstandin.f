@@ -783,6 +783,11 @@ C
 
 C     SITE SPECIES CODE PROCESSING
 
+c$$$At line 788 of file dbsstandin.f
+c$$$Fortran runtime error: End of record
+c$$$macbook:bin hamannjd$ 
+
+C TODO: There's something here that causes a crash in the example.
       IF(SiteSp_LI.NE.SQL_NULL_DATA) THEN
          IF (LSITEISNUM) THEN   ! SITE SPECIES CODE IS NUMBER.
             WRITE (CSITECODE,*) ISTANDDATA(34)
