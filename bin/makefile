@@ -85,16 +85,16 @@ clean :
 ifndef sourceFileList
 
 FVSiec : FVSiec_sourceList.txt $(shell cat FVSiec_sourceList.txt)
-	$(MAKE) --file=newmakefile $@.setup
+	$(MAKE) --file=makefile $@.setup
 
 FVSpnc : FVSpnc_sourceList.txt $(shell cat FVSpnc_sourceList.txt)
-	$(MAKE) --file=newmakefile $@.setup
+	$(MAKE) --file=makefile $@.setup
 
 FVSne : FVSne_sourceList.txt $(shell cat FVSne_sourceList.txt)
-	$(MAKE) --file=newmakefile $@.setup
+	$(MAKE) --file=makefile $@.setup
 
 FVSsn : FVSsn_sourceList.txt $(shell cat FVSsn_sourceList.txt)
-	$(MAKE) --file=newmakefile $@.setup
+	$(MAKE) --file=makefile $@.setup
 
 # here is the rule that sets up the directories and copies the source, then it calls make
 # again to build the target.
@@ -102,7 +102,7 @@ FVSsn : FVSsn_sourceList.txt $(shell cat FVSsn_sourceList.txt)
 	mkdir -pv $(basename $@)_buildDir
 	cp -p `cat $(basename $@)_sourceList.txt` $(basename $@)_buildDir
 	cp -p $(basename $@)_buildDir/DBSTYPEDEFS_$(OSARCH).F77 $(basename $@)_buildDir/DBSTYPEDEFS.F77
-	$(MAKE) --file=../newmakefile --directory=$(basename $@)_buildDir \
+	$(MAKE) --file=../makefile --directory=$(basename $@)_buildDir \
 	               buildDir=$(basename $@)_buildDir \
                  sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg
 
