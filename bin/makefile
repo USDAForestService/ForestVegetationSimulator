@@ -128,7 +128,6 @@ else
 endif
 
 %.o : %.f $(includes)
-	@echo using basic build rule
 	$(FC) $(FFLAGS) -c -o $@ $<
 
 %.o : %.c $(includes)

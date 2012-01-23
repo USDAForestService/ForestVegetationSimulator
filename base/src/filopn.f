@@ -1,7 +1,7 @@
       SUBROUTINE FILOPN
       IMPLICIT NONE
 C--------
-C  **FILOPN--BASE   DATE OF LAST REVISION:  07/23/08
+C  **FILOPN--BASE   DATE OF LAST REVISION:  01/22/2012
 C----------
 C
 C  THIS ROUTINE OPENS THE FILES FOR THE PROGNOSIS MODEL.
@@ -222,6 +222,8 @@ C
       if (LOPEN) close(unit=JOTREE)
       inquire(unit=JOSUM,opened=LOPEN)
       if (LOPEN) close(unit=JOSUM)
+      inquire(unit=JOLIST,opened=LOPEN)
+      if (LOPEN) close(unit=JOLIST)
      
       END
       
