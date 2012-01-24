@@ -57,13 +57,14 @@ C
       INTEGER IRSTRTCD,ISTOPDONE,IRTNCD
 C
 C     ******************     EXECUTION BEGINS     ******************
-C   
+C 
+      DEBUG=.FALSE.  
       call fvsRestart (IRSTRTCD)
+      call getfvsRtnCode(IRTNCD)
+      if (IRTNCD.ne.0) return
       if (IRSTRTCD.ge.1) goto 41
 C
       ICL1=0
-   10 CONTINUE
-
       LSTART = .TRUE.
       LFLAG = .TRUE.
       ICYC=0
@@ -300,7 +301,7 @@ C
       CALL TREGRO
       CALL getfvsRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-      CALL getrestartcode (ISTOPDONE)
+      call getAmStopping (ISTOPDONE)
       IF (ISTOPDONE.NE.0) RETURN
 C
 C     ASSIGN THE EXAMPLE TREES TO THE OUTPUT ARRAYS.
@@ -392,6 +393,6 @@ C
 C
       CALL GENPRT
 C
-      GO TO 10
+      RETURN
 C
       END

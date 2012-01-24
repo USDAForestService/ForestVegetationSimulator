@@ -73,7 +73,7 @@ C
       READ (JDSTASH,END=10,ERR=10) BUFFER
       RETURN
    10 CONTINUE
-      CALL GRSTOP
+      fvsRtnCode = 2
       RETURN
       END
       
@@ -103,7 +103,7 @@ C
       READ (JDSTASH,END=10,ERR=10) CBUFF
       RETURN
    10 CONTINUE
-      CALL GRSTOP
+      fvsRtnCode = 2
       RETURN
       END
 

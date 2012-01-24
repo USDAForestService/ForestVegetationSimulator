@@ -53,7 +53,7 @@ C----------
           open(unit=JOSTND,file=trim(cname),status="replace",
      -         err=102)
         else
-          open(unit=JOSTND,file=trim(cname),status="old",
+          open(unit=JOSTND,file=trim(cname),status="unknown",
      -         position="append",err=102)
         endif
         CALL KEYFN(KWDFIL)

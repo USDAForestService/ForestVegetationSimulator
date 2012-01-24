@@ -137,12 +137,10 @@ C
      >            (WK6,LOGICS),(WK6,INTS),(IDTREE,RDTREE),
      >            (SVSED0,SVS0),(SVSED1,SVS1)
 C
-      
-      if (itable(2) .ne. 0) then
+      if (itable(2) .eq. 0) then
         print *,"In putstd, turning off example tree table."
         itable(2) = 1
-      endif
-      
+      endif      
       ILIMIT=IRECLN
 C
 C     STORE THE INTEGER SCALARS IN THE ARRAY INTS.
@@ -817,7 +815,7 @@ C
 C
 C     WRITE THE ECONOMIC MODEL VARIABLES
 C
- !     CALL ECNPUT (WK3,IPNT,ILIMIT)
+      CALL ECNPUT (WK3,IPNT,ILIMIT)
 C
 C     WRITE THE DATA BASE VARIABLES
 C

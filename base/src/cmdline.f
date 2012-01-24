@@ -3,7 +3,7 @@
       
       include "GLBLCNTL.F77"
       
-      integer :: i,n,irtn,ieq,iend,lenCL
+      integer :: i,n,irtn,ieq,iend,lenCL,oldstopyr
       character(len=256) arg
       character(len=*) theCmdLine
       character(len=1024) cmdLcopy
@@ -13,12 +13,15 @@
       fvsRtnCode = 0
       restartcode = 0
       stopptcode = 0
-      
+      actualstoppt = 0
+      stopptreached = 0
+      firstWrite = 1
+            
 c     the file unit numbers also act as switches, if the are -1, then
 c     there is no attached file.
+
       jstash = -1
       jdstash = -1
-
 
       if (lenCL > 0) then
         cmdLcopy=theCmdLine(:lenCL)
@@ -34,7 +37,7 @@ c     there is no attached file.
           if (i == 1) then
             cmdLcopy = arg(:iend) // " "
           else
-            cmdLcopy = trim(cmdLcopy) // arg(:iend) // " "
+            cmdLcopy = trim(cmdLcopy)// " " // arg(:iend) 
           endif
         enddo
         lenCL = len_trim(cmdLcopy)
@@ -73,7 +76,7 @@ c     there is no attached file.
 
           if (stopptfile == " ") stopptfile="[none]"
 
-          print *,"Checkpoint code=",stopptcode,
+          print *,"Stop point code=",stopptcode,
      -            " year=",stopptyear,
      -            " output= ",stopptfile(:len_trim(stopptfile))
 
@@ -102,9 +105,9 @@ c     there is no attached file.
         fvsRtnCode = 1
         return        
    40   continue
-        read (jdstash) restartcode,stopptyear,i,keywordfile(:i)
-        print *,"Restarting from year= ",stopptyear,
-     -          " using stoppoint code= ",restartcode
+        read (jdstash) restartcode,oldstopyr,i,keywordfile(:i)
+        print *,"Restarting from year= ",oldstopyr,
+     -          " using stop point code= ",restartcode
       endif
 
 
@@ -118,9 +121,6 @@ c     there is no attached file.
         fvsRtnCode = 1
         return
    20   continue
-        i=len_trim(keywordfile)
-        write (jstash) stopptcode,stopptyear,i,keywordfile(:i)
-        call flush(jstash)
       endif
       return
       end
@@ -167,6 +167,7 @@ c     there is no attached file.
       integer :: restrtcd
       
       if (jdstash /= -1) call getstd
+      if (fvsRtnCode /= 0) restartcode = -1
       restrtcd = restartcode
       return
       end
@@ -203,22 +204,44 @@ c     there is no attached file.
       include "GLBLCNTL.F77"
       include "CONTRL.F77"
       
-      integer :: LOCODE,ISTOPDONE
+      integer :: LOCODE,ISTOPDONE,i
       
       ISTOPDONE = 0
-
+      stopptreached = 0
       IF (stopptcode == 0) return
       IF (stopptcode > 0 .and. stopptcode /= LOCODE) return
       
       IF (stopptyear == 0) return
-      IF (stopptyear > 0 .and. 
+      IF (LOCODE > 0 .and. 
      -   (stopptyear < iy(icyc) .or. stopptyear >= iy(icyc+1)))
      -      return
       
-      IF (jstash /= -1) call putstd
+      actualstoppt = LOCODE
 
-      restartcode = stopptcode    
+c     If the program is "stopping", the store the data, but only if
+c     there is a file (or "location") to store it. If there is no
+c     location, the it means the fvs is returning to its caller without
+c     storing the state of the system. At this point, the restartcode
+c     needs to be set so that when FVS is recalled, the program will
+c     start computing from where it left off.
+      
+      IF (jstash /= -1) then
+      	if (firstWrite == 1) then      	
+         i=len_trim(keywordfile)
+         write (jstash) actualstoppt,stopptyear,i,keywordfile(:i)
+         call flush(jstash)
+         firstWrite = 0
+        endif
+        call putstd
+      else
+        restartcode = LOCODE
+      endif
       ISTOPDONE = 1
+      stopptreached = 1
+      return
+
+      entry getAmStopping (ISTOPDONE)
+      ISTOPDONE = stopptreached
       return
       end
 
