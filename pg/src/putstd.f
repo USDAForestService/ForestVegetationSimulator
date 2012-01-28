@@ -138,8 +138,8 @@ C
      >            (SVSED0,SVS0),(SVSED1,SVS1)
 C
       if (itable(2) .eq. 0) then
-        print *,"In putstd, turning off example tree table."
         itable(2) = 1
+        print *,"FVS turned off the example tree table output."
       endif      
       ILIMIT=IRECLN
 C

@@ -1,6 +1,6 @@
 c     This is a collection of routines that provide an interface to 
 c     the shared library version of FVS. Other routines that exist
-c     inside FVS may also be called. ,
+c     inside FVS may also be called.
 
       subroutine fvsDimSizes(ntrees,ncycles,maxtrees,maxspecies,
      -                       maxplots,maxcycles)

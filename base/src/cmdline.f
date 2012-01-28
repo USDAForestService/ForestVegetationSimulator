@@ -3,18 +3,27 @@
       
       include "GLBLCNTL.F77"
       
-      integer :: i,n,irtn,ieq,iend,lenCL,oldstopyr
+      integer :: i,n,irtn,ieq,iend,lenCL
+      logical fstat
       character(len=256) arg
       character(len=*) theCmdLine
       character(len=1024) cmdLcopy
       
       keywordfile = " "
+      maxStoppts = 3
       stopptfile = " "
       fvsRtnCode = 0
       restartcode = 0
-      stopptcode = 0
+      minorstopptcode = 0
+      minorstopptyear = 0
+      majorstopptcode = 0
+      majorstopptyear = 0
       actualstoppt = 0
-      stopptreached = 0
+      actualstopyear = 0   
+      stopstatcd = 0
+      originalRestartCode = 0
+      
+      oldstopyr = -1
       firstWrite = 1
             
 c     the file unit numbers also act as switches, if the are -1, then
@@ -66,8 +75,9 @@ c     there is no attached file.
 
         case ("--stoppoint=")
           stopptfile = cmdLcopy(ieq+1:iend)
-          read (stopptfile,*) stopptcode,stopptyear
-
+          read (stopptfile,*) majorstopptcode,majorstopptyear
+          if (majorstopptcode < -1) majorstopptcode = -1
+          if (majorstopptcode > maxStoppts) majorstopptcode=maxStoppts
           ieq=index(stopptfile,",")
           stopptfile = stopptfile(ieq+1:)
           ieq=index(stopptfile,",")
@@ -76,9 +86,14 @@ c     there is no attached file.
 
           if (stopptfile == " ") stopptfile="[none]"
 
-          print *,"Stop point code=",stopptcode,
-     -            " year=",stopptyear,
-     -            " output= ",stopptfile(:len_trim(stopptfile))
+c         when there is no "output", then downgrade the stop to minor
+
+	        if (stopptfile == "[none]") then
+          	minorstopptcode = majorstopptcode
+          	minorstopptyear = majorstopptyear
+          	majorstopptcode = 0
+          	majorstopptyear = 0
+          endif
 
         case ("--restart=")
           restartcode = 1
@@ -97,6 +112,10 @@ c     there is no attached file.
         endif
 
         jdstash=72
+        inquire(unit=jdstash,opened=fstat)
+        if (fstat) close(jdstash)
+        inquire(file=restartfile(:len_trim(restartfile)),number=i)
+        if (i > 0) close(i)
         open (unit=jdstash,form="unformatted",status="old",
      >        file=restartfile(:len_trim(restartfile)),err=30)
         goto 40
@@ -108,16 +127,25 @@ c     there is no attached file.
         read (jdstash) restartcode,oldstopyr,i,keywordfile(:i)
         print *,"Restarting from year= ",oldstopyr,
      -          " using stop point code= ",restartcode
+
+c       store the last used restart code that was used to store all the stands.    
+
+        originalRestartCode = restartcode
+        stopstatcd = 1
+
       endif
 
-
-      if (stopptcode /= 0 .and. stopptfile /= "[none]") then
+      if (majorstopptcode /= 0 .and. stopptfile /= "[none]") then
         jstash=71
+        inquire(unit=jstash,opened=fstat)
+        if (fstat) close(jstash)
+        inquire(file=stopptfile(:len_trim(stopptfile)),number=i)
+        if (i > 0) close(i)
         open (unit=jstash,form="unformatted",status="replace",
      >        file=stopptfile(:len_trim(stopptfile)),err=10)
         goto 20
    10   continue
-        print *,"Checkpoint open error on file=",trim(stopptfile)
+        print *,"Stop point open error on file=",trim(stopptfile)
         fvsRtnCode = 1
         return
    20   continue
@@ -132,8 +160,8 @@ c     there is no attached file.
       include "GLBLCNTL.F77"
       
       integer :: spptcd,spptyr
-      spptcd = stopptcode
-      spptyr = stopptyear
+      spptcd = minorstopptcode
+      spptyr = minorstopptyear
       return
       end
 
@@ -143,8 +171,8 @@ c     there is no attached file.
       include "GLBLCNTL.F77"
       
       integer :: spptcd,spptyr
-      stopptcode = spptcd 
-      stopptyear = spptyr 
+      minorstopptcode = spptcd
+      minorstopptyear = spptyr 
       return
       end
 
@@ -165,10 +193,37 @@ c     there is no attached file.
       include "GLBLCNTL.F77"
       
       integer :: restrtcd
+
+c     if the current return code is not zero, then no restart is reasonable.
       
-      if (jdstash /= -1) call getstd
-      if (fvsRtnCode /= 0) restartcode = -1
+      if (fvsRtnCode /= 0) then
+        restartcode = -1
+        return
+      endif
+            
+      select case (stopstatcd)
+      case (0) ! no stopping was done
+        restartcode = 0
+      case (1,2) ! stopWithStore OR simulation end signal on the last stand
+
+        if (jdstash /= -1) then
+          call getstd
+          restartcode = -1 ! signal return to caller
+          stopstatcd = 4
+        else ! stop with store without reloading
+        	stopstatcd = 0
+          restartcode = 0 ! should force reading from the keyword file
+        endif
+        
+      case (3) ! stopWithoutStore
+        stopstatcd = 0
+        restartcode = restartcode
+      case (4) ! stopWithStore, second call.
+        stopstatcd = 0
+        restartcode = originalRestartCode
+      end select   
       restrtcd = restartcode
+      
       return
       end
       
@@ -187,7 +242,6 @@ c     there is no attached file.
       implicit none
       
       include "GLBLCNTL.F77"
-      
       integer :: rtnCode
       fvsRtnCode = rtnCode
       return
@@ -200,6 +254,8 @@ c     there is no attached file.
       subroutine fvsStopPoint (LOCODE,ISTOPDONE)
       implicit none
       
+c     note that this routine is called during the simulation      
+      
       include "PRGPRM.F77"
       include "GLBLCNTL.F77"
       include "CONTRL.F77"
@@ -207,41 +263,98 @@ c     there is no attached file.
       integer :: LOCODE,ISTOPDONE,i
       
       ISTOPDONE = 0
-      stopptreached = 0
-      IF (stopptcode == 0) return
-      IF (stopptcode > 0 .and. stopptcode /= LOCODE) return
-      
-      IF (stopptyear == 0) return
-      IF (LOCODE > 0 .and. 
-     -   (stopptyear < iy(icyc) .or. stopptyear >= iy(icyc+1)))
-     -      return
-      
-      actualstoppt = LOCODE
+      actualstopyear = 0
+      actualstoppt = 0
+      stopstatcd = 0
 
-c     If the program is "stopping", the store the data, but only if
-c     there is a file (or "location") to store it. If there is no
-c     location, the it means the fvs is returning to its caller without
-c     storing the state of the system. At this point, the restartcode
-c     needs to be set so that when FVS is recalled, the program will
-c     start computing from where it left off.
+      if (LOCODE == -1) then
+        stopstatcd = 2
+        ISTOPDONE = 1
+        return
+      endif
+
+      if (majorstopptyear == 0 .or. majorstopptcode == 0) goto 100
+
+c     set up the test code. Use the most restrictive (the one
+c     that results in the most stoppage (major or minor).
+
+      if (firstWrite == 1) then
+        IF (majorstopptyear == -1) then
+          majorstopptyear = iy(icyc)
+        endif
+        IF (majorstopptcode == -1) then 
+          majorstopptcode = restartcode + 1
+          IF (majorstopptcode > maxStoppts) majorstopptcode=1
+        endif
+      endif
+      actualstopyear = majorstopptyear
+      actualstoppt = majorstopptcode         
+
+      IF (actualstoppt == 0) goto 100
+      IF (actualstoppt > 0 .and. actualstoppt /= LOCODE) goto 100
+      
+      IF (actualstopyear == 0) goto 100
+      IF (LOCODE > 0 .and. 
+     -   (actualstopyear < iy(icyc) .or. 
+     -    actualstopyear >= iy(icyc+1))) goto 100
+      
+c     If the program is "stopping", the store the data
       
       IF (jstash /= -1) then
-      	if (firstWrite == 1) then      	
+      	if (firstWrite == 1) then
          i=len_trim(keywordfile)
-         write (jstash) actualstoppt,stopptyear,i,keywordfile(:i)
+         write (jstash) actualstoppt,actualstopyear,i,
+     -                  keywordfile(:i)
          call flush(jstash)
          firstWrite = 0
         endif
         call putstd
-      else
-        restartcode = LOCODE
       endif
+
+      stopstatcd = 1 ! stop was caused by stopWithStore
+      restartcode = LOCODE
       ISTOPDONE = 1
-      stopptreached = 1
+      return
+      
+  100 continue
+      if (minorstopptyear == 0 .or. minorstopptcode == 0) return
+        
+      actualstopyear = 0
+      actualstoppt = 0
+      IF (minorstopptyear == -1) then
+        actualstopyear = iy(icyc)
+      else
+        actualstopyear = minorstopptyear
+      endif  
+      IF (minorstopptcode == -1) then 
+        actualstoppt = restartcode + 1
+        IF (actualstoppt > maxStoppts) actualstoppt=1
+      else
+        actualstoppt = minorstopptcode         
+      endif
+      
+      IF (actualstoppt == 0) return
+      IF (actualstoppt > 0 .and. actualstoppt /= LOCODE) return
+      
+      IF (actualstopyear == 0) return
+      IF (LOCODE > 0 .and. 
+     -   (actualstopyear < iy(icyc) .or. 
+     -    actualstopyear >= iy(icyc+1))) return
+
+      stopstatcd = 3 ! stop was caused by stopWithoutStore
+      restartcode = LOCODE
+      ISTOPDONE = 1
       return
 
+C     This entry is called from places in FVS or its routines to see if 
+C     the stop point was found and "returning" is in progress.
+
       entry getAmStopping (ISTOPDONE)
-      ISTOPDONE = stopptreached
+      if (stopstatcd > 0) then
+        ISTOPDONE = 1
+      else
+      	ISTOPDONE = 0
+      endif
       return
       end
 

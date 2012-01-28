@@ -59,9 +59,14 @@ C
 C     ******************     EXECUTION BEGINS     ******************
 C 
       DEBUG=.FALSE.  
+
+C     FIND THE RESTART, AND BRANCH AS REQUIRED
+
       call fvsRestart (IRSTRTCD)
+
       call getfvsRtnCode(IRTNCD)
       if (IRTNCD.ne.0) return
+      if (IRSTRTCD.eq.-1) return
       if (IRSTRTCD.ge.1) goto 41
 C
       ICL1=0
@@ -357,6 +362,10 @@ C
       ENDIF
 C
       IF ( ICYC .LT. NCYC ) GO TO 40
+      
+C     signal that stopping for this stand can not continue.      
+
+      call fvsStopPoint (-1,ISTOPDONE)
 C
 C     PROJECTION COMPLETED.  SET ICL6 NEGATIVE, SAVE DENSITIES
 C     FOR PRINTING, AND CALL DISPLY.

@@ -49,7 +49,7 @@ else
  endif
 endif
 
-# FC is the fotran compiler
+# FC is the fortran compiler
 # FFLAGS are pasted to fortran
 # CC is the c compiler
 # CFLAGS are pased to C, of these CMPgcc is used by the fofem routines and WIN is used

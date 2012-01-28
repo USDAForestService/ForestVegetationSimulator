@@ -15,7 +15,7 @@ C
 C     When running as a program, having a stop point without a stop point 
 C     is nonsense. Kill the run. 
 
-      if (stopptcode /= 0 .and. jstash == -1) then
+      if (majorstopptcode /= 0 .and. jstash == -1) then
       	print *,"Setting a stop point requires a stop point file",
      >    " when running as a program rather than a shared library."
         goto 10
