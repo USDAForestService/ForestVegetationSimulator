@@ -2,19 +2,18 @@ CODE SEGMENT GLBLCNTL
 C    
       integer :: fvsRtnCode,restartcode,minorstopptcode,
      -  minorstopptyear,jstash,jdstash,actualstoppt,
-     -  firstWrite,maxStoppts,actualstopyear,
-     -  majorstopptyear,majorstopptcode,oldstopyr,stopstatcd,
-     -  originalRestartCode
+     -  firstWrite,maxStoppts,actualstopyear,originalRestartCode,
+     -  majorstopptyear,majorstopptcode,oldstopyr,stopstatcd
       common /GLBLCNTL/ fvsRtnCode,restartCode,minorstopptcode,
      -  minorstopptyear,jstash,jdstash,actualstoppt,
-     -  firstWrite,maxStoppts,actualstopyear,
-     -  majorstopptyear,majorstopptcode,oldstopyr,stopstatcd,
-     -  originalRestartCode
+     -  firstWrite,maxStoppts,actualstopyear,originalRestartCode,
+     -  majorstopptyear,majorstopptcode,oldstopyr,stopstatcd
       
       character(len=250) :: keywordfile,restartfile,stopptfile
       common /GLBLCNTLC/ keywordfile,restartfile,stopptfile
 
-C     fvsRtnCode= 0 if all is well, continue processing, 
+C     fvsRtnCode= -1 no start up has happened.
+C                 0 if all is well, continue processing, 
 C                 1 if there is a error, return to caller, 
 C                 2 if EOF or STOP was found on the keyword file, return to caller.
 C                  (not an error, but don not continue).      

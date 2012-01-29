@@ -539,8 +539,22 @@ c     indx    = species index
       return
       end
       
+      subroutine fvsStandID(sID,mID,ncsID,ncmID)
+
+      include "PRGPRM.F77"
+      include "PLOT.F77"
       
+      integer :: rtnCode,ncsID,ncmID
+      character(len=26) sID
+      character(len=4)  mID
       
+      sID = NPLT
+      mID = MGMID
+      ncsID = len_trim(NPLT)
+      ncmID = len_trim(MGMID)
+      return
+      end
+
 
       
 

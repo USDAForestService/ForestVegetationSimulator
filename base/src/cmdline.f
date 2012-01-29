@@ -150,9 +150,18 @@ c       store the last used restart code that was used to store all the stands.
         return
    20   continue
       endif
+      
+c     open/reopen the keyword/output file.
+
+      call filopn
+
       return
       end
       
+      block data setglblcntl
+      include "GLBLCNTL.F77"
+      data fvsRtnCode/-1/
+      end      
       
       subroutine getstoppointcodes (spptcd,spptyr)
       implicit none

@@ -54,12 +54,20 @@ C
       INTEGER MYACT(1)
       REAL PRM(1)
       DATA MYACT/100/
-      INTEGER IRSTRTCD,ISTOPDONE,IRTNCD
+      INTEGER IRSTRTCD,ISTOPDONE,IRTNCD,lenCl
 C
 C     ******************     EXECUTION BEGINS     ******************
 C 
       DEBUG=.FALSE.  
 
+C     Check the current return code, if -1 the cmdLine has never been processed.
+
+      call getfvsRtnCode(IRTNCD)
+      if (IRTNCD == -1) then
+        lenCl = 0
+        CALL cmdline(' ',lenCl)
+      endif
+ 
 C     FIND THE RESTART, AND BRANCH AS REQUIRED
 
       call fvsRestart (IRSTRTCD)
