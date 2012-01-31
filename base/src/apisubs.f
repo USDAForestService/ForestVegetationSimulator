@@ -17,22 +17,23 @@ c     inside FVS may also be called.
       return
       end
 
-      subroutine fvsSummary(summary,row,ncycles,maxrow,maxcol,rtnCode)
+      subroutine fvsSummary(summary,icycle,ncycles,maxrow,maxcol,
+     -                      rtnCode)
       implicit none
 
       include "PRGPRM.F77"
       include "CONTRL.F77"
       include "OUTCOM.F77"
       
-      integer :: summary(20),row,ncycles,maxrow,maxcol,rtnCode
+      integer :: summary(20),icycle,ncycles,maxrow,maxcol,rtnCode
       
       maxrow = maxcy1
       maxcol = 20
       ncycles = ncyc
-      if (row <= 0 .or. row > ncyc+1) then
+      if (icycle <= 0 .or. icycle > ncyc+1) then
         rtnCode = 1
       else
-        summary = iosum(:maxcol,row)
+        summary = iosum(:maxcol,icycle)
         rtnCode = 0
       endif
       return
@@ -520,16 +521,16 @@ c     indx    = species index
       end
       
       
-      subroutine fvsCutTrees(pToCut,nt,rtnCode)
+      subroutine fvsCutTrees(pToCut,ntrees,rtnCode)
 
       include "PRGPRM.F77"
       include "ARRAYS.F77"
       include "CONTRL.F77"
       
-      integer :: nt,rtnCode
-      double precision :: pToCut(nt)
-      
-      if (nt <= 0 .or. nt > maxtre) then
+      integer :: ntrees,rtnCode
+      double precision :: pToCut(ntrees)
+      pToCut = 0.
+      if (ntrees <= 0 .or. ntrees > maxtre) then
         rtnCode = 1
         return
       endif
@@ -544,7 +545,7 @@ c     indx    = species index
       include "PRGPRM.F77"
       include "PLOT.F77"
       
-      integer :: rtnCode,ncsID,ncmID
+      integer :: ncsID,ncmID
       character(len=26) sID
       character(len=4)  mID
       
