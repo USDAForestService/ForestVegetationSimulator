@@ -557,5 +557,25 @@ c     indx    = species index
       end
 
 
+      subroutine fvsCloseFile(filename,nch)
+      implicit none
+
+C     this routine closes "filename" if it is opened, it is not called
+C     from within FVS. nch is the length of filename.
+
+      integer nch,i
+      character(len=nch) filename
+      logical ls
+      if (nch <= 0) return
+      inquire(file=filename(:nch),opened=ls)
+      if (ls) then
+        inquire(file=filename(:nch),number=i)
+        if (i > 0) close(unit=i)
+      endif
+      return
+      end
+      
+      
+
       
 

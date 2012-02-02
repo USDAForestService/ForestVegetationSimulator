@@ -1,13 +1,13 @@
 CODE SEGMENT GLBLCNTL
 C    
       integer :: fvsRtnCode,restartcode,minorstopptcode,
-     -  minorstopptyear,jstash,jdstash,actualstoppt,
-     -  firstWrite,maxStoppts,actualstopyear,originalRestartCode,
-     -  majorstopptyear,majorstopptcode,oldstopyr,stopstatcd
+     -  minorstopptyear,jstash,jdstash,firstWrite,maxStoppts,
+     -  originalRestartCode,majorstopptyear,majorstopptcode,
+     -  oldstopyr,stopstatcd
       common /GLBLCNTL/ fvsRtnCode,restartCode,minorstopptcode,
-     -  minorstopptyear,jstash,jdstash,actualstoppt,
-     -  firstWrite,maxStoppts,actualstopyear,originalRestartCode,
-     -  majorstopptyear,majorstopptcode,oldstopyr,stopstatcd
+     -  minorstopptyear,jstash,jdstash,firstWrite,maxStoppts,
+     -  originalRestartCode,majorstopptyear,majorstopptcode,
+     -  oldstopyr,stopstatcd
       
       character(len=250) :: keywordfile,restartfile,stopptfile
       common /GLBLCNTLC/ keywordfile,restartfile,stopptfile
@@ -15,16 +15,13 @@ C
 C     fvsRtnCode= -1 no start up has happened.
 C                 0 if all is well, continue processing, 
 C                 1 if there is a error, return to caller, 
-C                 2 if EOF or STOP was found on the keyword file, return to caller.
+C                 2 if EOF on or STOP was found on the keyword file
+C                   or on the restart file. 
 C                  (not an error, but don not continue).      
-C     restartcode= restart code. This value is the loction code where the 
-C         processing ended. That is, it is the value of minor|major stopptcode when
-C         the program returned to the caller. If -1, then processing
-C         should stop.
-C     actualstoppt= the value of stoppoint as it is accomplished. This
-C         will never be -1, but it will be 0 if no stopping is done.
-C     actualstopyear= the value of stopptyear as it is accomplished. This
-C         will never be -1, but it will be 0 if no stopping is done.
+C     restartcode= restart code. This value is the loction code 
+C         where the processing ended. That is, it is the value 
+C         of minor|major stopptcode when the program returned 
+C         to the caller. If -1, then processing should stop.
 C     maxStoppts= the maximum value of minorstopptcode permitted.
 C     majorstopptcode= stoppoint request code (stopWithStore, see next definition).
 C     minorstopptcode= stoppoint request code (stopWithoutStore).
@@ -33,10 +30,13 @@ C         is being asked to return to the caller.
 C         codes are:
 C          0 = Don't stop.
 C          -1 = Stop at every stop point.
-C          1 = Stop just before cuts, at the beginning of the cycle.
-C          2 = Stop after growth has been compute, but prior to adding
-C              the growth.
-C          3 = Stop just before the estab routines are called.
+C          1 = Stop just before the first call to the Event Monitor.
+C          2 = Stop just after the first call to the Event Monitor.
+C          3 = Stop just before the second call to the Event Monitor.
+C          4 = Stop just after the second call to the Event Monitor.
+C          5 = Stop after growth has been computed, but prior to 
+C              adding the growth.
+C          6 = Stop just before the estab routines are called.
 C     majorstopptyear= stopptyear request code (stopWithStore, see next definition).
 C     minorstopptyear= stopptyear request code (stopWithoutStore).
 C          codes are:

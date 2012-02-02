@@ -59,7 +59,8 @@ C
 C     ******************     EXECUTION BEGINS     ******************
 C 
       DEBUG=.FALSE.  
-
+      DEBUG=.true.  
+ 
 C     Check the current return code, if -1 the cmdLine has never been processed.
 
       call getfvsRtnCode(IRTNCD)
@@ -71,8 +72,9 @@ C     Check the current return code, if -1 the cmdLine has never been processed.
 C     FIND THE RESTART, AND BRANCH AS REQUIRED
 
       call fvsRestart (IRSTRTCD)
-
       call getfvsRtnCode(IRTNCD)
+      IF (DEBUG) WRITE(JOSTND,*) "In FVS, IRSTRTCD=",IRSTRTCD,
+     >                           " IRTNCD=",IRTNCD
       if (IRTNCD.ne.0) return
       if (IRSTRTCD.eq.-1) return
       if (IRSTRTCD.ge.1) goto 41
@@ -301,9 +303,7 @@ C     ADVANCE TIME INCREMENT
 C
       ICYC = ICYC + 1
    
-      call fvsStopPoint (1,ISTOPDONE)
-      IF (ISTOPDONE.NE.0) RETURN
-   41 continue   
+   41 CONTINUE  
 
 C
 C     SIMULATE HARVEST (THINNINGS), GROWTH, MORTALITY, AND
@@ -314,7 +314,7 @@ C
       CALL TREGRO
       CALL getfvsRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-      call getAmStopping (ISTOPDONE)
+      CALL getAmStopping (ISTOPDONE)
       IF (ISTOPDONE.NE.0) RETURN
 C
 C     ASSIGN THE EXAMPLE TREES TO THE OUTPUT ARRAYS.
@@ -369,7 +369,10 @@ C
          ENDDO
       ENDIF
 C
-      IF ( ICYC .LT. NCYC ) GO TO 40
+      IF ( ICYC .LT. NCYC ) THEN
+        CALL ClearRestartCode
+        GOTO 40
+      ENDIF
       
 C     signal that stopping for this stand can not continue.      
 
