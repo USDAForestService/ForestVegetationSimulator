@@ -1,7 +1,7 @@
       SUBROUTINE DBSEXECSQL (SQLCMD,ConnHndl,LSCHED,IRC)
       IMPLICIT NONE
 C
-C  **DBSEXECSQL--DATE OF LAST REVISION: 10/31/2011
+C  **DBSEXECSQL--DATE OF LAST REVISION: 02/03/2012
 C
 C
 C     AUTH: D. GAMMEL -- RMRS -- MAY 2003
@@ -99,7 +99,7 @@ C
             DO I = 1, LEN_TRIM(ColName)
               CALL UPCASE(ColName(I:I))
             END DO
-            CALL ALGKEY(ColName,LEN_TRIM(ColName),IOPKD,INT(IRET,4))
+            CALL ALGKEY(ColName,LEN_TRIM(ColName),IOPKD,IRET)
             IF(IRET.EQ.0 .AND. IOPKD.GT.500 .AND. IOPKD.LT.700) THEN
               IBound = IBound + 1
               LI(IBound)=SQL_NULL_DATA
