@@ -50,7 +50,7 @@ c     there is no attached file.
         lenCL = len_trim(cmdLcopy)
       endif   
 
-      if (lenCL == 0) return
+      if (lenCL == 0) goto 100
       
       i = 1
       do
@@ -148,6 +148,7 @@ c       store the last used restart code that was used to store all the stands.
         return
    20   continue
       endif
+  100 continue
       
 c     open/reopen the keyword/output file.
 

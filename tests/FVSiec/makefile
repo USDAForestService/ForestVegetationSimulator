@@ -13,7 +13,7 @@ iet01 :
  
 iet02 : 
 	@echo Test iet02, test use of command line options 
-	-../../bin/FVSiec --keywordfile=iet02.key --stoppoint=1,2040,iet02.stop
+	-../../bin/FVSiec --keywordfile=iet02.key --stoppoint=2,2040,iet02.stop
 	-../../bin/FVSiec --restart=iet02.stop
 	-diff iet02.sum iet02.sum.save
 	@echo Test iet02 ended

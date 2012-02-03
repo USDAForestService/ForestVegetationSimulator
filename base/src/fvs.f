@@ -59,8 +59,7 @@ C
 C     ******************     EXECUTION BEGINS     ******************
 C 
       DEBUG=.FALSE.  
-      DEBUG=.true.  
- 
+       
 C     Check the current return code, if -1 the cmdLine has never been processed.
 
       call getfvsRtnCode(IRTNCD)
