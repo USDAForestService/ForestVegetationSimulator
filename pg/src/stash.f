@@ -70,7 +70,13 @@ C
 C
       INTEGER IPNT
       REAL BUFFER (IPNT)
-      READ (JDSTASH,END=10,ERR=10) BUFFER
+      IF (seekReadPos.gt.0) then
+        READ (JDSTASH,END=10,ERR=10,
+     -       POS=seekReadPos) BUFFER
+        seekReadPos = -1
+      ELSE
+        READ (JDSTASH,END=10,ERR=10) BUFFER
+      ENDIF  
       RETURN
    10 CONTINUE
       call setfvsRtnCode(2) ! signal end of file

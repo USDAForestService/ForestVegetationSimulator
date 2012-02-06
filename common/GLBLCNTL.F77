@@ -3,11 +3,11 @@ C
       integer :: fvsRtnCode,restartcode,minorstopptcode,
      -  minorstopptyear,jstash,jdstash,firstWrite,maxStoppts,
      -  originalRestartCode,majorstopptyear,majorstopptcode,
-     -  oldstopyr,stopstatcd
+     -  oldstopyr,stopstatcd,readFilePos,seekReadPos
       common /GLBLCNTL/ fvsRtnCode,restartCode,minorstopptcode,
      -  minorstopptyear,jstash,jdstash,firstWrite,maxStoppts,
      -  originalRestartCode,majorstopptyear,majorstopptcode,
-     -  oldstopyr,stopstatcd
+     -  oldstopyr,stopstatcd,readFilePos,seekReadPos
       
       character(len=250) :: keywordfile,restartfile,stopptfile
       common /GLBLCNTLC/ keywordfile,restartfile,stopptfile
@@ -61,5 +61,9 @@ C                  2=stop was caused by a simulation end signal
 C                  3=stop was caused by a stopWithoutStore
 C                  4=stop was caused by a the reload of a stand
 C    originalRestartCode = restartCode used when a stopWithStore was done.
+C    readFilePos=The file position where the current stand starts, can 
+C        be used to recall the stand for another alternative.
+C    seekReadPos=A semaphore, readFilePos for first read, -1 for rest of current
+C        stand. This support re-reading a stand. 
 C
 C-----END SEGMENT

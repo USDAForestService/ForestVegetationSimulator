@@ -20,7 +20,7 @@
       majorstopptyear = 0
       stopstatcd = 0
       originalRestartCode = 0
-      
+      readFilePos = -1     
       oldstopyr = -1
       firstWrite = 1
             
@@ -114,8 +114,8 @@ c         when there is no "output", then downgrade the stop to minor
         if (fstat) close(jdstash)
         inquire(file=restartfile(:len_trim(restartfile)),number=i)
         if (i > 0) close(i)
-        open (unit=jdstash,form="unformatted",status="old",
-     >        file=restartfile(:len_trim(restartfile)),err=30)
+        open (unit=jdstash,form="unformatted",status="old",err=30,
+     >        access="stream",file=restartfile(:len_trim(restartfile)))
         goto 40
    30   continue
         print *,"Restart open error on file=",trim(restartfile)
@@ -139,8 +139,8 @@ c       store the last used restart code that was used to store all the stands.
         if (fstat) close(jstash)
         inquire(file=stopptfile(:len_trim(stopptfile)),number=i)
         if (i > 0) close(i)
-        open (unit=jstash,form="unformatted",status="replace",
-     >        file=stopptfile(:len_trim(stopptfile)),err=10)
+        open (unit=jstash,form="unformatted",status="replace",err=10,
+     >        access="stream",file=stopptfile(:len_trim(stopptfile)))
         goto 20
    10   continue
         print *,"Stop point open error on file=",trim(stopptfile)
@@ -222,6 +222,8 @@ c     if the current return code is not zero, then no restart is reasonable.
       case (1,2) ! stopWithStore OR simulation end signal on the last stand
 
         if (jdstash /= -1) then
+          inquire (unit=jdstash,pos=readFilePos) ! save position where stand is stored
+          seekReadPos = readFilePos ! start reading form here.
           call getstd
           restartcode = -1 ! signal return to caller
           stopstatcd = 4
@@ -239,6 +241,25 @@ c     if the current return code is not zero, then no restart is reasonable.
       restrtcd = restartcode
 cc      print *,"at the end of fvsRestart, stopstatcd=",stopstatcd,
 cc     -        " restrtcd=",restrtcd
+      return
+      end
+
+
+      subroutine fvsRestartLastStand(restrtcd)
+      implicit none
+      
+      include "GLBLCNTL.F77"
+      
+      integer :: restrtcd
+      if (readFilePos == -1) then
+        fvsRtnCode = 1
+        restrtcd = fvsRtnCode
+      endif
+    
+      seekReadPos = readFilePos ! start reading form here.
+      call getstd
+      restartcode = -1 ! signal return to caller
+      stopstatcd = 4
       return
       end
       
