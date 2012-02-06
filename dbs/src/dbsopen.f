@@ -110,10 +110,12 @@ C
      -            ';SyncPragma=NORMAL;StepAPI=0;NoWCHAR=0'
         ELSE
           IF(SUFFIX.EQ.'XLS') THEN
-            ConnStr='DRIVER={Microsoft Excel Driver (*.xls)}'        
+            ConnStr='DRIVER={Microsoft Excel Driver (*.xls)}'//
+     -                    ';ReadOnly=False'        
           ELSEIF (SUFFIX.EQ.'XLSX') THEN
             ConnStr='DRIVER={Microsoft Excel Driver (*.xls, '//
-     -                      '*.xlsx, *.xlsm, *.xlsb)}'
+     -                      '*.xlsx, *.xlsm, *.xlsb)}'//
+     -                      ';ReadOnly=False'
           ELSEIF(SUFFIX.EQ.'MDB'.OR.SUFFIX.EQ.'ACCDB')THEN
             ConnStr='DRIVER={Microsoft Access Driver (*.mdb, '//
      -              '*.accdb)}'
