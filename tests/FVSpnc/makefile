@@ -6,7 +6,7 @@ pnt01 :
 	-../../bin/FVSpnc < pnt01.rsp
 	grep -v "\-999" pnt01.sum      > pnt01.tmp
 	grep -v "\-999" pnt01.sum.save > pnt01.tmp.save
-	diff pnt01.tmp pnt01.tmp.save
+	diff -w pnt01.tmp pnt01.tmp.save
 	rm pnt01.tmp pnt01.tmp.save
 	@echo Test pnt01 passed
 	

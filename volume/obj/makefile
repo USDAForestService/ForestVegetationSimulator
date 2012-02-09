@@ -10,7 +10,7 @@ VOLUME_OBJS = debug_mod.o${BJ} \
               doyal78.o${BJ} dvest.o${BJ} f_alaska.o${BJ} f_ingy.o${BJ} f_other.o${BJ} \
               f_west.o${BJ} formclas.o${BJ} fwinit.o${BJ} intl78.o${BJ} mrules.o${BJ}  \
               numlog.o${BJ} profile.o${BJ} \
-              r1allen.o${BJ} r1byrne.o${BJ} r1kemp.o${BJ} r1tap.o${BJ} \
+              r1allen.o${BJ} r1kemp.o${BJ} r1tap.o${BJ} \
               r2oldv.o${BJ} r2tap.o${BJ} r3d2hv.o${BJ}  r4d2h.o${BJ} r4vol.o${BJ} r5harv.o${BJ} \
               r5tap.o${BJ} r6dibs.o${BJ} r6fix.o${BJ} r6vol.o${BJ} r6vol1.o${BJ} r6vol2.o${BJ} \
               r6vol3.o${BJ} r8init.o${BJ} r8vol.o${BJ} r8vol1.o${BJ} r8vol2.o${BJ} r9clark.o${BJ} \
@@ -80,9 +80,6 @@ profile.o${BJ}:  ${VOLUME_SRC}profile.f
 r1allen.o${BJ}:    ${VOLUME_SRC}r1allen.f
 	${FC} -c ${FFLAGS} ${VOLUME_SRC}r1allen.f
 
-r1byrne.o${BJ}:    ${VOLUME_SRC}r1byrne.f
-	${FC} -c ${FFLAGS} ${VOLUME_SRC}r1byrne.f
-
 r1kemp.o${BJ}:    ${VOLUME_SRC}r1kemp.f
 	${FC} -c ${FFLAGS} ${VOLUME_SRC}r1kemp.f
 
@@ -134,13 +131,14 @@ r8init.o${BJ}:    ${VOLUME_SRC}r8init.f
 r8vol.o${BJ}:    ${VOLUME_SRC}r8vol.f
 	${FC} -c ${FFLAGS} ${VOLUME_SRC}r8vol.f
 
-r8vol1.o${BJ}:   ${VOLUME_SRC}r8vol1.f
+r8vol1.o${BJ}:   ${VOLUME_SRC}r8vol1.f ${VOLUME_SRC}R8CLIST.INC \
+                 ${VOLUME_SRC}R8VLIST.INC
 	${FC} -c ${FFLAGS} ${VOLUME_SRC}r8vol1.f
 
 r8vol2.o${BJ}:   ${VOLUME_SRC}r8vol2.f ${VOLUME_SRC}R8DIB.INC
 	${FC} -c ${FFLAGS} ${VOLUME_SRC}r8vol2.f
 
-r9clark.o${BJ}:   ${VOLUME_SRC}r9clark.f ${VOLUME_SRC}r9coeff.inc
+r9clark.o${BJ}:   ${VOLUME_SRC}r9clark.f ${VOLUME_SRC}R9COEFF.INC
 	${FC} -c ${FFLAGS} ${VOLUME_SRC}r9clark.f
 
 r9init.o${BJ}:    ${VOLUME_SRC}r9init.f

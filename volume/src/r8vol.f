@@ -1,4 +1,4 @@
-!== last modified  02-16-2007
+!== last modified  12-06-2011
       SUBROUTINE R8VOL(VOLEQ,DBHOB,HTTOT,UPSHT1,HT1PRD,MTOPP,PROD,VOL,
      >                 FORST,SI,BA,CTYPE,BFPFLG,CUPFLG,SPFLG,ERRFLAG)
 
@@ -8,12 +8,12 @@ C             R8 VOLUMES.
 C  DECLARE VARIABLES
       CHARACTER*1 CTYPE
       CHARACTER*2 PROD,FORST
-      character*10 VOLEQ
+      character*10 VOLEQ,VOLEQTMP
 
       INTEGER BFPFLG,CUPFLG,SPFLG
-      INTEGER ERRFLAG,I,SI,BA
+      INTEGER ERRFLAG,I,SI,BA,VOLSP
 
-      REAL DBHOB, HT1PRD, UPSHT1, VOL(15), HTTOT, MTOPP
+      REAL DBHOB, HT1PRD, UPSHT1, VOL(15), HTTOT, MTOPP,VOLTMP(15)
 
       LOGICAL VOL1, VOL2
 
@@ -49,7 +49,21 @@ C  DECLARE VARIABLES
 
 	IF(HT1PRD.LE.0)THEN
 	    IF(CTYPE.EQ.'F' .AND. HTTOT.GT.0)THEN
-	       CALL R8_MHTS(FORST,VOLEQ,DBHOB,HTTOT,SI,BA,HT1PRD,ERRFLAG)
+C           R8_MHTS has problem to calculate merch height because the original species FIA code
+C           is not retained in the VOLEQ. Changed to call R8VOL2 to calc merch height
+C           YW 12/08/2011
+c	       CALL R8_MHTS(FORST,VOLEQ,DBHOB,HTTOT,SI,BA,HT1PRD,ERRFLAG)
+             VOLEQTMP(1:2) = '89'
+             VOLEQTMP(4:7) = 'CLKE'
+             VOLEQTMP(8:10) = VOLEQ(8:10)
+             READ (VOLEQ(8:10),'(I3)') VOLSP
+             IF(VOLSP .lt. 300) THEN
+               VOLEQTMP(3:3) = '7'
+             ELSE
+               VOLEQTMP(3:3) = '9'
+             ENDIF
+             CALL R8VOL2 (VOLEQTMP,VOLTMP,DBHOB,HT1PRD,UPSHT1,MTOPP,
+     >                      HTTOT,CTYPE, ERRFLAG)
 	    ENDIF
 	ENDIF
       IF(VOL1) CALL R8VOL1 (VOLEQ,DBHOB,HT1PRD,UPSHT1,PROD,VOL,ERRFLAG)

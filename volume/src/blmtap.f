@@ -1,14 +1,39 @@
 !== last modified  4-13-2004
       SUBROUTINE BLMTAP(DBHOB,HTTOT,TLH,HTUP,D17,TOP,XLEN,D2,Profile)
 C###########################################################
-      REAL BLMBA (6,9)
+      USE DEBUG_MOD
+      
+      REAL BLMTHT (4,10),BLMBA (6,9)
       REAL HTUP,D2,TLH,H,SMALLH,C
 C     REAL HBUTT, HTDIB, HTUP
       REAL D17,TOP,HBUTT,XLEN,HTDIB,RA,TOLERANCE,TOL_LIMIT
       REAL DBHOB,HTTOT,DIBCOR,A,B,LN
       REAL       E
       PARAMETER (E=2.7182818284)
-      INTEGER    Profile,ILIMIT,ICOUNT
+      INTEGER    Profile,ILIMIT,ICOUNT,profileht
+
+C          COFFICIENTS FOR BEHRE'S HYPERBOLA (B0,B1,B2,B3)
+C  01 zone 01
+      DATA (( BLMTHT(I,J), I=1,4), J=1,10)
+     >      / 0.6448,  -0.00196,  0.0,       0.0,
+C  01 zone 02
+     >        0.6096,  -0.00196,  0.0,       0.0,
+C  10, 11
+     >        0.31385,  0.0,      0.002985, -0.00003386,
+C  13
+     >        0.4779,   0.0,      0.0,       0.0,
+C  14
+     >        0.5455,  -0.00196,  0.0,       0.0,
+C  31 zone 1, 33
+     >        0.45648,  0.00289,  0.0,       0.0,
+C  32, 34, 35
+     >        0.6014,   0.0,      0.0,       0.0, 
+C  48
+     >        0.54568,  0.0,      0.0,       0.0000546,
+C  51, 54, 55 
+     >        0.4606,   0.0,      0.0,       0.0, 
+C  ALL OTHER SPECIES
+     >        0.6200,   0.0,      0.0,       0.0/
 
 C          COFFICIENTS FOR BEHRE'S HYPERBOLA (B0,B1,B2,B3,B4,B5)
 C  DOUGLAS FIR, COAST
@@ -35,6 +60,11 @@ C *************************************************************
 C     THIS IS THE START OF THE MAIN LOGIC
 C *************************************************************
 C
+      IF (DEBUG%MODEL) THEN
+         WRITE  (LUDBG, '(A)') ' -->Enter BLMTAP'
+   		ENDIF
+     
+     
 C   DETERMINE IF HEIGHT IS IN LOGS OR FEET
       IF (TLH.EQ.0.0) THEN
 
@@ -45,13 +75,14 @@ C-- BEHRE'S HYPERBOLA PORTION TO Calculate DIB *************************
         HBUTT = HTTOT - (XLEN + 1.5)
         HTDIB = HTTOT - HTUP
  
-        A = BLMBA(1,Profile) +
-     >      (BLMBA(2,Profile) * HTTOT**BLMBA(3,Profile)) /
-     >      (BLMBA(4,Profile) *   DBHOB**BLMBA(5,Profile)) +
-     >       BLMBA(6,Profile)   / DBHOB
+        A = BLMTHT(1,Profile) +
+     >       BLMTHT(2,Profile)*DBHOB +
+     >       BLMTHT(3,Profile)*HTTOT +
+     >       BLMTHT(4,Profile)*DBHOB*HTTOT
+
         B = 1.0 - A
 
-        DIBCOR = D17 * ( (HTDIB/HBUTT) / (A*(HTDIB/HBUTT)+(1.0-A)) )
+        DIBCOR = D17 * ( (HTDIB/HBUTT) / (A*(HTDIB/HBUTT)+(B)) )
         D2 = DIBCOR
 C
 C     Return a Zero Value for the Diameter-Inside-Bark IFF height is
@@ -73,13 +104,13 @@ C--  Following checks per J. Alegria, 7 Dec 93.  RJM, 931.5.
            D2 = D17
            Return
          Elseif(TLH.EQ.2.0) Then
-	     If(HTUP.EQ.1.0) Then
-	        D2 = D17
-	     Else
-	        D2 = TOP
+	         If(HTUP.EQ.1.0) Then
+	           D2 = D17
+	         Else
+	           D2 = TOP
            EndIf
-	     Return
-	   Endif
+	         Return
+	       Endif
 
          If (TOP .EQ. D17)  Then
            D2 = D17
@@ -101,20 +132,33 @@ C        Tree Height in LOGS <TLH>, the DBHOB, <D>, and the Top Diameter <TOP>:
 
          iLimit      = 20
          iCount      =  0
+
+!         Write (LUDBG,1) Profile, iCount,  TLH, DBHOB, D17, TOP,
+!     & C, H, HtTot, A, RA
+!1      Format  ( ' BLMTap:', 2I3,  ';',     4F6.2,     ';', 5F7.2)
+
          Do While (Tolerance .GT. Tol_Limit .AND. iCount .LT. iLimit)
-C       Write (*,1) Profile, iCount,  TLH, DBHOB, D17, TOP,  C, H, HtTot
-C 1     Format  ( ' BLMTap:', 2I3,  ';',     4F6.2,     ';', 3F6.2)
+       
            iCount    = iCount + 1
-           A         = BLMBA(1,Profile) +
-     >                (BLMBA(2,Profile) * HtTot**BLMBA(3,Profile)) /
-     >                (BLMBA(4,Profile) *   DBHOB**BLMBA(5,Profile)) +
-     >                 BLMBA(6,Profile) /   DBHOB
+        A = BLMTHT(1,Profile) +
+     >       BLMTHT(2,Profile)*DBHOB +
+     >       BLMTHT(3,Profile)*HTTOT +
+     >       BLMTHT(4,Profile)*DBHOB*HTTOT
+c           A         = BLMBA(1,Profile) +
+c     >                (BLMBA(2,Profile) * HtTot**BLMBA(3,Profile)) /
+c     >                (BLMBA(4,Profile) *   DBHOB**BLMBA(5,Profile)) +
+c     >                 BLMBA(6,Profile) /   DBHOB
            B         = 1.0 - A
 
            H         =  C / (1.0 - TOP * B / (D17 - A * TOP) )
            HtTot     =  H + XLEN + 1.5
 
            Tolerance = Abs ( RA - A )
+           
+!           Write (LUDBG,2) Profile, iCount,  TLH, DBHOB, D17, TOP,
+!     & C, H, HtTot, A, RA
+!2      Format  ( ' BLMTap:', 2I3,  ';',     4F6.2,     ';', 5F7.2)
+           
            RA        = A
 
            End Do
@@ -128,13 +172,27 @@ C-- BEHRE'S HYPERBOLA PORTION TO Calculate DIB ************************
            DIBCOR =        D17 * LN / (A * LN + B) 
 
            D2 = DIBCOR
-
+           
+           IF (DEBUG%MODEL) THEN
+              WRITE  (LUDBG, 300)'  A      B     C    H    HTTOT' 
+     &        //'   SMALLH  LN  DIBCOR  TOP  PROFILE  B0     B1   B2'
+     &        //'   B3'
+300           FORMAT (A)
+  		        WRITE  (LUDBG, 320)A, B, C, H, HTTOT, SMALLH, LN, DIBCOR
+     &        ,TOP, PROFILE, BLMTHT(1,PROFILE), BLMTHT(2,PROFILE),
+     &        BLMTHT(3,PROFILE), BLMTHT(4,PROFILE)
+320           FORMAT(5F6.1, 3X, 5F6.1, 2X,4F6.3)
+           ENDIF
       ENDIF
 
 C*****************************************************************
 C    THIS IS THE END OF THE MAIN LOGIC
 C*****************************************************************
 
+      IF (DEBUG%MODEL) THEN
+         WRITE  (LUDBG, '(A)') ' <--Exit BLMTAP'
+      ENDIF
+      
       RETURN
       END
 C      Input Variables:

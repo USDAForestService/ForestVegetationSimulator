@@ -1,0 +1,25 @@
+Subject: Miscellaneous changes
+
+Name: Gary Dixon
+Date: 11/18/11
+
+Variants affected: Klammath Mountains (NC), West Cascades (WC)
+
+Description: A debug format statement was corrected in WC. 
+             The NC variant now has its own DUBSCR routine. NC previously used 
+             the DUBSCR routine from the EC variant. The EC variant is now being
+             expanded to 32 species.
+
+Impact on users: None
+
+Files:
+wc/src  dgf.f      changed the date of revision; changed the 9030 FORMAT specification
+                   from 13F9.5 to 14F9.5
+
+nc/src  dubscr.f   new routine; added to version control
+
+nc/obj  makefile   added compile instructions for subroutine DUBSCR
+
+bin     makefile   added DUBSCR to NC_LINK and modified the build instructions for
+                   FVSnc, FVSncc, FVSncx, FVSppnc, FVSppncp, and FVSttb accordingly.
+                   

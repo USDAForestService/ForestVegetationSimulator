@@ -1,4 +1,4 @@
-!== last modified  08-08-2011
+!== last modified  12-07-2011
       SUBROUTINE VOLEQDEF (VAR,REGN,FORST,DIST,SPEC,PROD,VOLEQ,ERRFLAG)
 
 C    SUBROUTINE WILL RETURN THE DEFAULT VOLUME EQUATION NUMBER
@@ -978,7 +978,7 @@ c        Deschutes
             ELSE IF(SPEC.EQ. 122) THEN
                DONEI = 20
             ELSE IF(SPEC.EQ.202 ) THEN
-               DONEI = 14
+               DONEI = 21
             ELSE IF(SPEC.EQ. 81) THEN
                DONEI = 22
             ENDIF
@@ -1234,8 +1234,8 @@ C//////////////////////////////////////////////////////////////////
       CHARACTER*2 PROD,VAR,FORST,DIST
       CHARACTER*10 VOLEQ,VEQTEM
       INTEGER SPEC,ERRFLAG,FORNUM,DISTNUM,FIRST,HALF,LAST,DONE,I,J
-      CHARACTER*3 SNSP(92),SESP(118)
-      INTEGER SNFIA(92),SEFIA(118)
+      CHARACTER*3 SNSP(92)
+      INTEGER SNFIA(92)
 
 c     match species to valid species equation code
       DATA (SNFIA(I),I=1,92)/
@@ -1249,21 +1249,6 @@ c     match species to valid species equation code
      > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838, 
      > 901, 920, 931, 950, 970, 971, 972, 975, 998, 999/
 
-      DATA (SEFIA(I),I=1,118)/
-     >  57,  68, 110, 111, 115, 121, 122, 126, 128, 129,
-     > 131, 132, 221, 222, 261, 310, 313, 316, 317, 318,
-     > 323, 331, 370, 371, 372, 373, 391, 400, 401, 402, 
-     > 403, 404, 405, 407, 408, 409, 450, 461, 462, 471, 
-     > 491, 500, 521, 531, 540, 541, 543, 544, 545, 546,
-     > 552, 555, 571, 591, 601, 602, 611, 621, 641, 651, 
-     > 652, 653, 680, 681, 682, 691, 692, 693, 694, 701, 
-     > 711, 721, 731, 740, 741, 742, 743, 746, 762, 802, 
-     > 804, 806, 809, 812, 813, 817, 819, 820, 822, 823, 
-     > 824, 825, 826, 827, 828, 830, 831, 832, 833, 834,
-     > 835, 836, 837, 838, 840, 842, 901, 920, 922, 931, 
-     > 951, 970, 971, 972, 974, 975, 977, 994/
-
-
       DATA (SNSP(I), I=1,92)/
      &'261','100','115','132','110','111','115','121','126','126','128',
      &'129','132','131','132','221','222','261','132','500','500',
@@ -1274,20 +1259,6 @@ c     match species to valid species equation code
      &'300','300','300','802','806','812','813','800','800','822',
      &'800','800','800','827','827','832','833','800','835','800','835',
      &'901','300','300','300','970','970','970','970','300','300'/
-
-      DATA (SESP(I), I=1,118)/
-     >'100','100','110','111','115','121','100','126','128','129',
-     >'131','132','221','222','261','300','500','316','300','500',
-     >'300','330','370','370','370','370','370','400','400','400',
-     >'400','404','400','400','400','400','300','500','460','300',
-     >'300','500','500','531','541','541','300','544','300','300',
-     >'500','300','500','300','500','500','611','621','500','300',
-     >'652','653','300','300','300','300','693','693','694','500',
-     >'300','300','731','300','300','300','300','300','300','802',
-     >'800','806','800','812','813','800','800','800','822','800',
-     >'800','800','800','827','828','800','831','832','833','800',
-     >'835','835','837','800','835','800','901','300','300','300',
-     >'300','970','970','970','970','970','970','300'/
 
       DATA (GEOCODES(I), I=1,33)/
      >  '01','02','03','04','05','06','07','08','09','10',
@@ -1303,16 +1274,8 @@ C
         DO I=1,33
         VEQTEM(2:3)=GEOCODES(I)
 C  SN
-        DO J=1,67
+        DO J=1,92
         VEQTEM(8:10)=SNSP(J)
-        IF(VOLEQ.EQ.VEQTEM)THEN
-          SPEC=8888
-          RETURN
-        ENDIF
-        ENDDO
-C  SE
-        DO J=1,96
-        VEQTEM(8:10)=SESP(J)
         IF(VOLEQ.EQ.VEQTEM)THEN
           SPEC=8888
           RETURN
@@ -1447,52 +1410,32 @@ C     CREATE THE VOLUME EQUATION NUMBER
 C     FIND CORRECT SPECIES
       DONE = 0
       FIRST = 1
-      IF(VAR.EQ."SE" .OR. VAR.EQ."se") THEN
-         LAST = 118
-         DO 15, WHILE (DONE.EQ.0)
-            HALF = (LAST - FIRST +1)/2 + FIRST
-             IF(SEFIA(HALF) .EQ. SPEC)THEN
-                DONE = HALF
-             ELSEIF(FIRST .EQ. LAST) THEN
-                ERRFLAG = 1
-                DONE = -1
-            ELSE IF (SEFIA(HALF) .LT. SPEC) THEN
-                FIRST = HALF
-             ELSE
-                LAST = HALF - 1
-             ENDIF
-  15     CONTINUE 
-         IF(DONE .LT. 0) DONE = 118
+      LAST = 92
+      DO 5, WHILE (DONE.EQ.0)
+         HALF = (LAST - FIRST +1)/2 + FIRST
+          IF(SNFIA(HALF) .EQ. SPEC)THEN
+             DONE = HALF
+          ELSEIF(FIRST .EQ. LAST) THEN
+             ERRFLAG = 1
+             DONE = -1
+         ELSE IF (SNFIA(HALF) .LT. SPEC) THEN
+             FIRST = HALF
+          ELSE
+             LAST = HALF - 1
+          ENDIF
+  5   CONTINUE 
+      IF(DONE .LT. 0) DONE = 92
 
-         VOLEQ(8:10) = SESP(DONE)
-      ELSE
-         LAST = 92
-         DO 5, WHILE (DONE.EQ.0)
-            HALF = (LAST - FIRST +1)/2 + FIRST
-             IF(SNFIA(HALF) .EQ. SPEC)THEN
-                DONE = HALF
-             ELSEIF(FIRST .EQ. LAST) THEN
-                ERRFLAG = 1
-                DONE = -1
-            ELSE IF (SNFIA(HALF) .LT. SPEC) THEN
-                FIRST = HALF
-             ELSE
-                LAST = HALF - 1
-             ENDIF
-  5      CONTINUE 
-         IF(DONE .LT. 0) DONE = 90
-
-         VOLEQ(8:10) = SNSP(DONE)
-      ENDIF
-       RETURN
+      VOLEQ(8:10) = SNSP(DONE)
+      RETURN
       END
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R8_CEQN(FORST,DIST,SPEC,PROD,VAR,VOLEQ,ERRFLAG)
       CHARACTER*1 GEOAREA,TOPCODE(4),ICHAR
       CHARACTER*2 PROD,VAR,FORST,DIST
       CHARACTER*10 VOLEQ,VEQTEM
-      CHARACTER*3 SNSP(92),SESP(118)
-      INTEGER SNFIA(92),SEFIA(118)
+      CHARACTER*3 SNSP(92)
+      INTEGER SNFIA(92)
       INTEGER SPEC,ERRFLAG,FORNUM,DISTNUM,FIRST,HALF,LAST,DONE,I,J,K
 
 c     match species to valid species equation code
@@ -1507,21 +1450,6 @@ c     match species to valid species equation code
      > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838, 
      > 901, 920, 931, 950, 970, 971, 972, 975, 998, 999/
 
-      DATA (SEFIA(I),I=1,118)/
-     >  57,  68, 110, 111, 115, 121, 122, 126, 128, 129,
-     > 131, 132, 221, 222, 261, 310, 313, 316, 317, 318,
-     > 323, 331, 370, 371, 372, 373, 391, 400, 401, 402, 
-     > 403, 404, 405, 407, 408, 409, 450, 461, 462, 471, 
-     > 491, 500, 521, 531, 540, 541, 543, 544, 545, 546,
-     > 552, 555, 571, 591, 601, 602, 611, 621, 641, 651, 
-     > 652, 653, 680, 681, 682, 691, 692, 693, 694, 701, 
-     > 711, 721, 731, 740, 741, 742, 743, 746, 762, 802, 
-     > 804, 806, 809, 812, 813, 817, 819, 820, 822, 823, 
-     > 824, 825, 826, 827, 828, 830, 831, 832, 833, 834,
-     > 835, 836, 837, 838, 840, 842, 901, 920, 922, 931, 
-     > 951, 970, 971, 972, 974, 975, 977, 994/
-
-
       DATA (SNSP(I), I=1,92)/
      &'261','100','115','132','110','111','115','121','126','126','128',
      &'129','132','131','132','221','222','261','132','500','500',
@@ -1532,20 +1460,6 @@ c     match species to valid species equation code
      &'300','300','300','802','806','812','813','800','800','822',
      &'800','800','800','827','827','832','833','800','835','800','835',
      &'901','300','300','300','970','970','970','970','300','300'/
-
-      DATA (SESP(I), I=1,118)/
-     >'100','100','110','111','115','121','100','126','128','129',
-     >'131','132','221','222','261','300','500','316','300','500',
-     >'300','330','370','370','370','370','370','400','400','400',
-     >'400','404','400','400','400','400','300','500','460','300',
-     >'300','500','500','531','541','541','300','544','300','300',
-     >'500','300','500','300','500','500','611','621','500','300',
-     >'652','653','300','300','300','300','693','693','694','500',
-     >'300','300','731','300','300','300','300','300','300','802',
-     >'800','806','800','812','813','800','800','800','822','800',
-     >'800','800','800','827','828','800','831','832','833','800',
-     >'835','835','837','800','835','800','901','300','300','300',
-     >'300','970','970','970','970','970','970','300'/
 C
       DATA TOPCODE / '4','7','8','9' /
 C
@@ -1560,16 +1474,8 @@ C
         DO J=1,4
         VEQTEM(3:3)=TOPCODE(J)
 C  SN
-        DO K=1,90
+        DO K=1,92
         VEQTEM(8:10)=SNSP(K)
-        IF(VOLEQ.EQ.VEQTEM)THEN
-          SPEC=8888
-          RETURN
-        ENDIF
-        ENDDO
-C  SE
-        DO K=1,118
-        VEQTEM(8:10)=SESP(K)
         IF(VOLEQ.EQ.VEQTEM)THEN
           SPEC=8888
           RETURN
@@ -1674,43 +1580,23 @@ C           4 INCH TOP
 C     FIND CORRECT SPECIES
       DONE = 0
       FIRST = 1
-      IF(VAR.EQ."SE" .OR. VAR.EQ."se") THEN
-         LAST = 118
-         DO 15, WHILE (DONE.EQ.0)
-            HALF = (LAST - FIRST +1)/2 + FIRST
-             IF(SEFIA(HALF) .EQ. SPEC)THEN
-                DONE = HALF
-             ELSEIF(FIRST .EQ. LAST) THEN
-                ERRFLAG = 1
-                DONE = -1
-            ELSE IF (SEFIA(HALF) .LT. SPEC) THEN
-                FIRST = HALF
-             ELSE
-                LAST = HALF - 1
-             ENDIF
-  15     CONTINUE 
-         IF(DONE .LT. 0) DONE = 118
+      LAST = 92
+      DO 5, WHILE (DONE.EQ.0)
+         HALF = (LAST - FIRST +1)/2 + FIRST
+          IF(SNFIA(HALF) .EQ. SPEC)THEN
+             DONE = HALF
+          ELSEIF(FIRST .EQ. LAST) THEN
+             ERRFLAG = 1
+             DONE = -1
+         ELSE IF (SNFIA(HALF) .LT. SPEC) THEN
+             FIRST = HALF
+          ELSE
+             LAST = HALF - 1
+          ENDIF
+  5   CONTINUE 
+      IF(DONE .LT. 0) DONE = 92
 
-         VOLEQ(8:10) = SESP(DONE)
-      ELSE
-         LAST = 92
-         DO 5, WHILE (DONE.EQ.0)
-            HALF = (LAST - FIRST +1)/2 + FIRST
-             IF(SNFIA(HALF) .EQ. SPEC)THEN
-                DONE = HALF
-             ELSEIF(FIRST .EQ. LAST) THEN
-                ERRFLAG = 1
-                DONE = -1
-            ELSE IF (SNFIA(HALF) .LT. SPEC) THEN
-                FIRST = HALF
-             ELSE
-                LAST = HALF - 1
-             ENDIF
-  5      CONTINUE 
-         IF(DONE .LT. 0) DONE = 90
-
-         VOLEQ(8:10) = SNSP(DONE)
-      ENDIF
+      VOLEQ(8:10) = SNSP(DONE)
 
        RETURN
       END
@@ -1820,7 +1706,7 @@ C  SEARCH FOR VALID EQUATION NUMBER
 C  FIRST, SEARCH FOR CLKE OR DVEE
 C
       IF(SPEC.EQ.9999)THEN
-        IF(VOLEQ(1:7) .EQ. '900CLKE')THEN
+        IF((VOLEQ(1:7).EQ.'900CLKE').OR.(VOLEQ(1:7).EQ.'900DVEE'))THEN
 C  LS
           DO J=1,69
           IF(VOLEQ(8:10).EQ.LSSP(J))THEN
@@ -1850,45 +1736,6 @@ C  SN
           ENDIF
           ENDDO
           RETURN
-
-        ELSEIF(VOLEQ(1:7) .EQ. '900DVEE')THEN
-
-          IF(SPEC.EQ.9999)THEN
-            VEQTEM(1:7)='900DVEE'
-C  LS
-            DO J=1,69
-            VEQTEM(8:10)=LSSP(J)
-            IF(VOLEQ.EQ.VEQTEM)THEN
-              SPEC=8888
-              RETURN
-            ENDIF
-            ENDDO
-C  CS
-            DO J=1,97
-            VEQTEM(8:10)=CSSP(J)
-            IF(VOLEQ.EQ.VEQTEM)THEN
-              SPEC=8888
-              RETURN
-            ENDIF
-            ENDDO
-C  NE
-            DO J=1,108
-            VEQTEM(8:10)=NESP(J)
-            IF(VOLEQ.EQ.VEQTEM)THEN
-              SPEC=8888
-              RETURN
-            ENDIF
-            ENDDO
-C  SN
-            DO J=1,92
-            VEQTEM(8:10)=SNSP(J)
-            IF(VOLEQ.EQ.VEQTEM)THEN
-              SPEC=8888
-              RETURN
-            ENDIF
-            ENDDO
-          RETURN
-          ENDIF
         ELSE
 C     NOT A VALID REGION 9 EQUATION
           RETURN
@@ -1951,7 +1798,7 @@ C     FIND CORRECT SPECIES
   15      CONTINUE 
           IF(DONE .LT. 0) DONE = 97
            VOLEQ(8:10) = CSSP(DONE)
-        ELSE
+        ELSE IF(VAR.EQ.'NE' .OR. VAR.EQ.'ne')THEN
           LAST = 108
           DO 25, WHILE (DONE.EQ.0)
           HALF = (LAST - FIRST +1)/2 + FIRST
@@ -1968,8 +1815,44 @@ C     FIND CORRECT SPECIES
   25      CONTINUE 
           IF(DONE .LT. 0) DONE = 108
           VOLEQ(8:10) = NESP(DONE)
-        ENDIF
+        ELSE
+C
+C  SOUTHERN VARIANT RUNNING REGION 9 FORESTS AND GEVORKIANTZ METH=5
+C
+          LAST = 92
+          DO 35, WHILE (DONE.EQ.0)
+          HALF = (LAST - FIRST +1)/2 + FIRST
+          IF(SNFIA(HALF) .EQ. SPEC)THEN
+            DONE = HALF
+          ELSEIF(FIRST .EQ. LAST) THEN
+            ERRFLAG = 1
+            DONE = -1
+          ELSE IF (SNFIA(HALF) .LT. SPEC) THEN
+            FIRST = HALF
+          ELSE
+            LAST = HALF - 1
+          ENDIF
+  35      CONTINUE 
+          IF(DONE .LT. 0) DONE = 92
+          VOLEQ(8:10) = SNSP(DONE)
+          ENDIF
+        RETURN
       ENDIF
+C     End FVS check equation
+C     NEW CLARK'S PROFILE MODEL VOLUME EQUATION NUMBERS
+C     MAKE SURE SPEC IS A 3 CHARACTER FIELD.      
+C
+        VOLEQ(1:7)='900CLKE'
+        WRITE(ASPEC,'(I3)')SPEC
+     
+        IF(SPEC .LT.10)THEN
+          ASPEC(1:2) = '00'
+        ELSEIF(SPEC.LT.100)THEN
+          ASPEC(1:1) = '0'
+        ENDIF
+
+        VOLEQ(8:10) = ASPEC
+      
       RETURN
       END
 C//////////////////////////////////////////////////////////////////

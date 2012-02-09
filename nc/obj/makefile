@@ -24,12 +24,13 @@ STRP_SRC = ./../../strp/src/
 FFLAGS = ${I1}${NC_COM}${I2}${BASE_COM}
 
 # The NC object files
-NC_OBJS  = bfvol.o${BJ} blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ} cratet.o${BJ} crown.o${BJ}      \
-           dgf.o${BJ} dunn.o${BJ} ecocls.o${BJ} essubh.o${BJ} findag.o${BJ} forkod.o${BJ} formcl.o${BJ} grinit.o${BJ} \
-           grohed.o${BJ} habtyp.o${BJ} htcalc.o${BJ} htdbh.o${BJ} htgf.o${BJ} htgr5.o${BJ} logs.o${BJ} morts.o${BJ}  \
-           nwcmrt.o${BJ} pvref5.o${BJ} pvref6.o${BJ} regent.o${BJ} sichg.o${BJ} sitset.o${BJ} varvol.o${BJ}      \
-           esfltr.o${BJ} esgent.o${BJ} esin.o${BJ} esinit.o${BJ} esprep.o${BJ} estab.o${BJ} estime.o${BJ}    \
-           estump.o${BJ} esuckr.o${BJ} crdecd.o${BJ} avht40.o${BJ} r6crwd.o${BJ} \
+NC_OBJS  = bfvol.o${BJ}  blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ} cratet.o${BJ} crown.o${BJ}  \
+           dgf.o${BJ}    dubscr.o${BJ} dunn.o${BJ}   ecocls.o${BJ} essubh.o${BJ} findag.o${BJ} \
+           forkod.o${BJ} formcl.o${BJ} grinit.o${BJ} grohed.o${BJ} habtyp.o${BJ} htcalc.o${BJ} \
+           htdbh.o${BJ}  htgf.o${BJ}   htgr5.o${BJ}  logs.o${BJ}   morts.o${BJ}  nwcmrt.o${BJ} \
+           pvref5.o${BJ} pvref6.o${BJ} regent.o${BJ} sichg.o${BJ}  sitset.o${BJ} varvol.o${BJ} \
+           esfltr.o${BJ} esgent.o${BJ} esin.o${BJ}   esinit.o${BJ} esprep.o${BJ} estab.o${BJ}  \
+           estime.o${BJ} estump.o${BJ} esuckr.o${BJ} crdecd.o${BJ} avht40.o${BJ} r6crwd.o${BJ} \
            r5crwd.o${BJ}
 
 nc: ${NC_OBJS}
@@ -109,6 +110,15 @@ ${BASE_COM}PLOT.F77 \
 ${BASE_COM}PDEN.F77 \
 ${BASE_COM}VARCOM.F77
 	${FC} -c ${FFLAGS} ${NC_SRC}dgf.f
+
+dubscr.o${BJ}: \
+${NC_SRC}dubscr.f \
+${BASE_COM}PRGPRM.F77 \
+${BASE_COM}ARRAYS.F77 \
+${BASE_COM}PLOT.F77   \
+${BASE_COM}CONTRL.F77 \
+${BASE_COM}PDEN.F77
+	${FC} -c ${FFLAGS} ${NC_SRC}dubscr.f
 
 dunn.o${BJ}: \
 ${NC_SRC}dunn.f \

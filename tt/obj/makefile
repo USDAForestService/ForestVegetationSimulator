@@ -1306,10 +1306,6 @@ dfbin.o${BJ}:    ${DFB_SRC}dfbin.f ${TT_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77   \
             ${DFB_COM}DFBCOM.F77
 	${FC} -c ${FFLAGS} ${DFB_SRC}dfbin.f
 
-dfbincr.o${BJ}:  ${DFB_SRC}dfbincr.f ${TT_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
-            ${BASE_COM}PLOT.F77 ${DFB_COM}DFBCOM.F77
-	${FC} -c ${FFLAGS} ${DFB_SRC}dfbincr.f
-
 dfbind.o${BJ}:   ${DFB_SRC}dfbind.f
 	${FC} -c ${FFLAGS} ${DFB_SRC}dfbind.f
 

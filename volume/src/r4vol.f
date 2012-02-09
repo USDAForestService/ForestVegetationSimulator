@@ -1,11 +1,11 @@
-!== last modified  03-21-2006
+!== last modified  12-09-2011
       SUBROUTINE R4VOL(REGN,VOLEQ,MTOPP,HTTOT,DBHOB,HT1PRD,VOL,NOLOGP,
      >           NOLOGS,CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG,ERRFLAG)
       IMPLICIT NONE
 C**********************************************************************
       CHARACTER*10 VOLEQ
       
-      INTEGER II,L,M,NUM,NUMLGS,ERRFLAG,I,REGN
+      INTEGER II,L,M,NUM,NUMLGS,ERRFLAG,I,REGN,J
       INTEGER CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG
 C                            BUT MAY BE USED IN RMSTAND, FVS, ETC
       REAL B,BFGRS,BUTTCF,CF0,CFGRS,BFINT,BFSCR,CFVOL,THT,HT1PRD
@@ -271,6 +271,13 @@ C     BOARD FOOT VOLUME
                  IF(REGN.EQ.7) THEN
                     CALL SCRIB (DSM(1),16.0,'N',BFSCR)
                  ELSE
+                    IF(INT(DSM(1)-5.) .GT. 70)THEN
+                      ERRFLAG = 4
+                      DO 555, J = 1,15
+                        VOL(J) = 0.0
+555                   CONTINUE
+                     RETURN
+                    ENDIF
                      BFSCR = SCRIBC(INT(DSM(1)-5.),INT((16./2.)))
 	           ENDIF
                  LOGVOL(1,I) = BFSCR
@@ -286,6 +293,14 @@ C  NOTE THAT CORDWOOD (M=2) ADDS TRIM INTO VOLR4
 
               IF(NUMLGS.GT.2)THEN
 C  FOR LOGS 2 TO TOTLGS - 1
+                 IF (NUMLGS .GT. 20) THEN
+                   ERRFLAG = 4
+                   DO 666, J = 1,15
+                     VOL(J) = 0.0
+666                CONTINUE
+                   RETURN
+                ENDIF
+
                 DO 1100 NUM = 2,NUMLGS-1
                   DLG(NUM) = DSM(NUM-1)
                   DSM(NUM)=INT(STUMPD*((THT-16.5*FLOAT(NUM))/THT)**B
@@ -303,6 +318,13 @@ C     BOARD FOOT VOLUME
                     IF(REGN.EQ.7) THEN
                        CALL SCRIB (DSM(NUM),16.0,'N',BFSCR)
                     ELSE
+                     IF (INT(DSM(NUM)-5.) .GT. 70) THEN
+                       ERRFLAG = 4
+                       DO 777, J = 1,15
+                         VOL(J) = 0.0
+777                    CONTINUE
+                       RETURN
+                     ENDIF
                        BFSCR=SCRIBC(INT(DSM(NUM)-5.),INT((16./2.)))
                     ENDIF
                     LOGVOL(1,I) = BFSCR
@@ -340,6 +362,13 @@ C     BOARD FOOT VOLUME
                IF(REGN.EQ.7) THEN
                   CALL SCRIB (DSM(NUMLGS),LEN,'N',BFSCR)
                ELSE
+                     IF (INT(DSM(NUMLGS)-5.) .GT. 70) THEN
+                       ERRFLAG = 4
+                       DO 888, J = 1,15
+                         VOL(J) = 0.0
+888                    CONTINUE
+                       RETURN
+                     ENDIF
                   BFSCR = SCRIBC(INT(DSM(NUMLGS)-5.),INT((LEN/2)))
 	         ENDIF
                LOGVOL(1,I) = BFSCR

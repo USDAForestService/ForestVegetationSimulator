@@ -6,7 +6,7 @@ net01 :
 	-../../bin/FVSne < net01.rsp
 	grep -v "\-999" net01.sum      > net01.tmp
 	grep -v "\-999" net01.sum.save > net01.tmp.save
-	diff net01.tmp net01.tmp.save
+	diff -w net01.tmp net01.tmp.save
 	rm net01.tmp net01.tmp.save
 	@echo Test net01 passed
 	

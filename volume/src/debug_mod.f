@@ -5,7 +5,8 @@
       IMPLICIT  NONE
 
 !CREV  Created TDH 04/01/09
-!CREV  Revised iii mm/dd/yy .
+!CREV  Revised TDH 11/18/09
+!CREV  added VEDBG unit number for debugging the getvoleq subroutine
 
       TYPE :: DEBUG_INDICATORS
          LOGICAL   INPUT             ! LBP input debug
@@ -22,6 +23,7 @@
       LOGICAL   ANY_DEBUG          / .FALSE. /
       
       INTEGER   LUDBG /  1 /  ! Debug report unit number
+      INTEGER   VEDBG /  3 /  ! Vol Eq report unit number
       INTEGER   LUOUT /  2 /  ! Ouput report unit number
       TYPE(DEBUG_INDICATORS) DEBUG
 

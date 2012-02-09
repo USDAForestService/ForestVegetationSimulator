@@ -1,4 +1,4 @@
-!== last modified  10-30-2003
+!== last modified  06-24-2005
       SUBROUTINE BRK_UP(JSP,GEOSUB,DBHOB,THT,DBTBH,HTUP,DIB,DOB,DBT)
 c             given a section height (HTUP) and dib, calculate the ratio:
 c                            DBT/DOB
@@ -25,7 +25,7 @@ c                            DBT/DOB
           endif
         ENDIF
 
-c      ELSEIF (JSP.GE.30 .AND. JSP.LE.34) THEN
+c      ELSEIF (JSP.GE.31 .AND. JSP.LE.34) THEN
 c          CALL BRK_AK(JSP,DBHOB,DOB,HTUP,DBTBH,DIB,DBT)
 
       else if(JSP.GE.3 .AND. JSP.LE.5) THEN     

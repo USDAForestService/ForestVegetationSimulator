@@ -1,30 +1,37 @@
+C  subroutine for calculating region log volumes
+C
+C  Created TDH 11/20/09 
+C
+C  Revised TDH 07/26/10
+C  Added a check to makes sure pulp height > 0 and > sawht
+C  was causing problems in the loglen variable and subsequent
+C  boardfoot calcs
+C
+C  Revised TDH 03/03/2011 
+C  Made changes to how R9LOGLEN was calculating top piece(LEFTOV)
+C  Made it so you get volume for a leftover piece of secondary
+C  change made on line 115
+C
+C  Revised YW 12/08/2011
+C  Added check number of logs not greater than 20 in r9logs and write round
+C  DBH to logdia(1,1).
 C_______________________________________________________________________
 C
       SUBROUTINE R9LOGS(SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM,
      &                  LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS, COEFFS)      
 C_______________________________________________________________________
 C
-!...  subroutine for calculating region log volumes
+
       USE DEBUG_MOD
       USE CLKCOEF_MOD
       
       IMPLICIT NONE
 
-!     Created TDH 11/20/09 
-!REV  Revised TDH 07/26/10
-!REV  Added a check to makes sure pulp height > 0 and > sawht
-!REV  was causing problems in the loglen variable and subsequent
-!REV  boardfoot calcs
-!
-!REV  Revised TDH 03/03/2011 
-!REV  Made changes to how R9LOGLEN was calculating top piece(LEFTOV)
-!REV  Made it so you get volume for a leftover piece of secondary
-!REV  change made on line 115
 !**********************************************************************
 !...  Parameters
       REAL    SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM 
       REAL    LOGLEN(20), LOGDIA(21,3)
-      INTEGER NOLOGP, NOLOGS, TLOGS 
+      INTEGER NOLOGP, NOLOGS, TLOGS, NUMSEG
       TYPE(CLKCOEF):: COEFFS
       
 !...  Local Variables
@@ -39,8 +46,18 @@ C
 125      FORMAT (A)
          WRITE  (LUDBG, 150)SAWHT, PLPHT, MINLEN, MAXLEN, TRIM
 150      FORMAT (5F6.1)      
-   		END IF
-   		
+   	END IF
+C     Check number of logs
+      IF (SAWHT .GT. 0) THEN
+        LMERCH = SAWHT-STUMP
+        NOLOGP = INT(LMERCH/(MAXLEN+TRIM))
+        NUMSEG = NOLOGP
+      ELSE
+        LMERCH = PLPHT-STUMP
+        NOLOGS = INT(LMERCH/(MAXLEN+TRIM))
+        NUMSEG = NOLOGS
+      ENDIF
+      IF (NUMSEG .GT. 20) RETURN
 !------ Sawtimber segmentation----------------------------------------
       IF (SAWHT .GT. 0) THEN
 
@@ -131,13 +148,13 @@ C
       CALL R9LOGDIB(TLOGS, TRIM, STUMP, LOGLEN, LOGDIA, COEFFS)
 
 !...      WRITE OUT ALL LOGLEN/LOGDIA TO DEBUG FILE
-!      IF (DEBUG%MODEL) THEN
-!         DO 650 I=1,TLOGS
-!         WRITE  (LUDBG, 600)'LOGDIA ', I, LOGDIA(I,1),'LOGLEN ', I,
-!     &     LOGLEN(I)
-!  600    FORMAT (A, I2, F6.1, 2X, A,I2, F6.1)
-!  650    CONTINUE
-!      END IF
+      IF (DEBUG%MODEL) THEN
+         DO 650 I=1,TLOGS
+         WRITE  (LUDBG, 600)'LOGDIA ', I, LOGDIA(I,1),'LOGLEN ', I,
+     &     LOGLEN(I)
+  600    FORMAT (A, I2, F6.1, 2X, A,I2, F6.1)
+  650    CONTINUE
+      END IF
 
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 1000) ' <--EXIT R9LOGS'
@@ -147,19 +164,20 @@ C
       END SUBROUTINE R9LOGS
 !********************************************************************
 
+!********************************************************************
+C  subroutine for calculating region 9 log lenghts
+
+C Created TDH 11/20/09 
+
+C  Revised TDH 12/21/09
+C  Fixed bug that was incorrectly calculating num segs.
+C
 C_______________________________________________________________________
 C
       SUBROUTINE R9LOGLEN(ILOG, JLOG, NUMSEG, MINLEN, MAXLEN, TRIM, 
      &                     LOGLEN, LEFTOV)      
 C_______________________________________________________________________
 C
-!...  subroutine for calculating region 9 log lenghts
-
-!REV  Created TDH 11/20/09 
-!REV  Revised TDH 12/21/09
-
-!REV  Fixed bug that was incorrectly calculAting num segs.
-
       USE DEBUG_MOD
       
       IMPLICIT NONE
@@ -226,17 +244,19 @@ C
       
 !********************************************************************
 
+!********************************************************************
+C  subroutine for calculating r9 log dib's
+C
+C  Created TDH 11/20/09 
+C
+C  Revised ... ../../..
+C
 C_______________________________________________________________________
 C
       SUBROUTINE R9LOGDIB(NUMSEG, TRIM, STUMP, LOGLEN, LOGDIA, 
      &                    COEFFS)     
 C_______________________________________________________________________
 C
-!...  subroutine for calculating r9 log dib's
-
-!REV  Created TDH 11/20/09 
-!REV  Revised ... ../../..
-
       USE CLKCOEF_MOD
       
 !**********************************************************************
@@ -259,7 +279,7 @@ c--     Get DIB at 4.5'
         HT=4.5
         CALL R9DIB(DIB,HT,COEFFS)
         LOGDIA(1,2)= DIB
-!        LOGDIA(1,1)=INT(DIB+0.499)
+        LOGDIA(1,1)=INT(DIB+0.499)
 !        LOGDIA(1,3)= 0.0
         
 c--     Get DIB at all log ends
@@ -288,15 +308,19 @@ c--       Never let height get above sawtimber height
      
 !********************************************************************
 
+
+!********************************************************************
+C  subroutine for calculating weighted r9 log volumes
+C
+C  Created TDH 11/24/09 
+C
+C  Revised ... ../../..
+C
 C_______________________________________________________________________
 C
       SUBROUTINE R9LGCFT(TLOGS, LOGLEN, LOGDIA, LOGVOL,TLOGVOL,TCFVOL)
 C_______________________________________________________________________
 C
-!...  subroutine for calculating weighted r9 log volumes
-
-!REV  Created TDH 11/24/09 
-!REV  Revised ... ../../..
 
       USE DEBUG_MOD
 
@@ -357,13 +381,3 @@ C
 
 
       END SUBROUTINE R9LGCFT
-      
-      SUBROUTINE R9BONE(TCFVOL)
-      
-      IMPLICIT NONE
-!      INTEGER TLOGS
-!      REAL    LOGLEN(20), LOGDIA(21,3), LOGVOL(7,20), TLOGVOL, TCFVOL
-      REAL TCFVOL
-      
-      TCFVOL = 12
-      END SUBROUTINE R9BONE

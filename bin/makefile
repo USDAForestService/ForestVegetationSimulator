@@ -68,7 +68,7 @@ ifdef sourceFileList
  ifndef sourceList
   export sourceFileList
   export sourceList = $(shell cat $(sourceFileList))
-  export includes = $(notdir $(filter %.F77 %.INC %.FOR %.inc %.h,$(sourceList))) 
+  export includes = $(notdir $(filter %.F77 %.INC %.h,$(sourceList))) 
   export src1 = $(notdir $(filter %.c %.f,$(sourceList))) 
   ifeq (${MAIN},0) 
    export source = $(filter-out main.f,$(src1))

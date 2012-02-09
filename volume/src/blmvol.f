@@ -1,4 +1,4 @@
-!== last modified  03-20-2006
+!== last modified  09-19-2007
       SUBROUTINE BLMVOL(VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,FCLASS,
      >        VOL,LOGDIA,LOGLEN,LOGVOL,TLOGS,NOLOGP,NOLOGS,APC,BFPFLG,
      >        CUPFLG,ERRFLAG)
@@ -18,19 +18,21 @@ C     SEGMNT  - EXTERNAL - NO CALLS
 C **************************************************************
 C **************************************************************
 
+      USE DEBUG_MOD
+
       CHARACTER*10 VOLEQ
       CHARACTER*4 APC
       CHARACTER*1 COR, HTTYPE
 
-      INTEGER EVOD,NUMSEG,OPT,TAPEQU,FCLASS,ERRFLAG,I,J
+      INTEGER EVOD,NUMSEG,OPT,TAPEQU,FCLASS,ERRFLAG,I,J,lcnt
       INTEGER PROFILE, bfpflg,cupflg,tlogs,ITAPER
 
-      REAL DBHOB,DIB,DBHIB,LOGVOL(7,20),MTOPP,D2,BOTV16,R
+      REAL DBHOB,DIB,DBHIB,LOGVOL(7,20),MTOPP,D2
       REAL HTTOT,TTH,D17,TLH,LENGTH,MERCHL,HALFLOG,DIBL,DIBS
       REAL LMERCH,LOGV,HGT2,HT1PRD,MAXLEN,MINLEN,NOLOGP,NOLOGS
       REAL STUMP,TRIM,VOL(15),LOGDIA(21,3),LOGLEN(20),HTLOG
       REAL BLMBUTT(3,9),LOGVOL32(20),TOTCUB,SMD_17,TCVOL
-      REAL BFINT,TOPV16
+      REAL BFINT
 C     COEFFICIENTS FOR THE BUTT LOGS (B1,B2,B3)
 
 C     DOUGLAS FIR, COAST
@@ -53,6 +55,26 @@ C     CEDARS
 C     ALL OTHER SPECIES
      >                 0.7150,  0.294,    0.0  /
 
+      IF (DEBUG%MODEL) THEN
+         WRITE  (LUDBG, 90) ' -->Enter BLMVOL'
+   90    FORMAT (A)   
+   		   
+         WRITE  (LUDBG, 100)'  VOLEQ     MTOPP HTTOT HT1PRD DBHOB 
+     &    HTTYPE FCLASS'
+100      FORMAT (A)
+  		   WRITE  (LUDBG, 104)VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
+     &                       FCLASS
+104      FORMAT(A, 1X, F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 5X, A, 
+     &          1X, I5)
+         
+         WRITE  (LUDBG, 300)'TLOGS NOLOGP NOLOGS APC BFPFLG CUPFLG
+     &                        ERRFLAG'
+  300    FORMAT (A)
+  		   WRITE  (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,APC,BFPFLG,CUPFLG,
+     &                         ERRFLAG
+  320    FORMAT(1X, I2, 2X, F5.1, 2X, F5.1, 2X, A, 1X, I5, I5, 1X,I5)
+      ENDIF
+      
 C   SET ALL POTENTIAL VOLUMES AND AVG NUM OF LOGS TO ZERO
       DO 10 I = 1, 15
           VOL(I) = 0.0
@@ -86,6 +108,7 @@ C   IF DBHOB OR HT EQUALS ZERO THEN DON'T CALCULATE THE VOLUME
      
       IF(FCLASS .LE. 0) THEN
           ERRFLAG = 2
+	    GO TO 1000
       ENDIF
 
 
@@ -124,89 +147,130 @@ c         READ(APC(1:2),'(I2)') ITAPER
          IF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B01'
      >               .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
             TAPEQU = ITAPER
+	      PROFILE = 1
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B01'
      >               .AND. ITAPER .EQ. 0) THEN
             TAPEQU = 1
+	      PROFILE = 1
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B02'
      >               .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
             TAPEQU = ITAPER
+	      PROFILE = 2
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B02'
      >               .AND. ITAPER .EQ. 0) THEN
             TAPEQU = 2
+	      PROFILE = 2
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B03'
      >                .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
             TAPEQU = ITAPER
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B03'
      >               .AND. ITAPER .EQ. 0) THEN
             TAPEQU = 3
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B04')THEN
             TAPEQU = 4
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'211')THEN
             TAPEQU = 5
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B05')THEN
             TAPEQU = 6
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'122' .AND. VOLEQ(1:3).EQ.'B01')THEN
             TAPEQU = 10
+	      PROFILE = 3
          ELSEIF(VOLEQ(8:10).EQ.'122' .AND. VOLEQ(1:3).EQ.'B00')THEN
             TAPEQU = 11 
+	      PROFILE = 3
          ELSEIF(VOLEQ(8:10).EQ.'116')THEN
             TAPEQU = 12 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'117')THEN
             TAPEQU = 13 
+	      PROFILE = 4
          ELSEIF(VOLEQ(8:10).EQ.'119')THEN
             TAPEQU = 14 
+	      PROFILE = 5
          ELSEIF(VOLEQ(8:10).EQ.'108')THEN
             TAPEQU = 15 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'231')THEN
             TAPEQU = 20 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'631')THEN
             TAPEQU = 21 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'351')THEN
             TAPEQU = 22 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'998')THEN
             TAPEQU = 23 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'312')THEN
             TAPEQU = 24 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'361')THEN
             TAPEQU = 25 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'431')THEN
             TAPEQU = 26 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'542')THEN
             TAPEQU = 27 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'747')THEN
             TAPEQU = 28 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'800')THEN
             TAPEQU = 29 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'015' .AND. VOLEQ(1:3).EQ.'B01')THEN
             TAPEQU = 30 
-         ELSEIF(VOLEQ(8:10).EQ.'015' .AND. VOLEQ(1:3).EQ.'B00')THEN
+	      PROFILE = 6
+         ELSEIF(VOLEQ(8:10).EQ.'015' .AND. (VOLEQ(1:3).EQ.'B00' .OR. 
+     >                  VOLEQ(1:3).EQ.'B02'))THEN
             TAPEQU = 31 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'021')THEN
-            TAPEQU = 32 
+            TAPEQU = 32
+	      PROFILE = 7
          ELSEIF(VOLEQ(8:10).EQ.'017')THEN
             TAPEQU = 33 
+	      PROFILE = 6
          ELSEIF(VOLEQ(8:10).EQ.'011')THEN
             TAPEQU = 34 
+	      PROFILE = 7
          ELSEIF(VOLEQ(8:10).EQ.'022')THEN
             TAPEQU = 35 
+	      PROFILE = 7
          ELSEIF(VOLEQ(8:10).EQ.'093')THEN
             TAPEQU = 41 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'098')THEN
             TAPEQU = 42 
-         ELSEIF(VOLEQ(8:10).EQ.'260')THEN
+	      PROFILE = 10
+         ELSEIF(VOLEQ(8:10).EQ.'260' .OR. VOLEQ(8:10).EQ.'263')THEN
             TAPEQU = 48 
+	      PROFILE = 8
          ELSEIF(VOLEQ(8:10).EQ.'081')THEN
             TAPEQU = 51 
+	      PROFILE = 9
          ELSEIF(VOLEQ(8:10).EQ.'042')THEN
             TAPEQU = 52             
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'041')THEN
             TAPEQU = 53 
+	      PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'242')THEN
             TAPEQU = 54 
+	      PROFILE = 9
          ELSEIF(VOLEQ(8:10).EQ.'073')THEN
             TAPEQU = 55 
+	      PROFILE = 9
          ELSE
             TAPEQU = 56
+	      PROFILE = 10
          ENDIF
       ENDIF
 
@@ -215,31 +279,35 @@ C     the (Species Code plus 700), provided in the VOLUME EQUATIONs given
 C     in the Key File, which, for the BLM, is the Equation Number,
 C     and is now the value of <TAPEQU>:
 
-      IF (TAPEQU.EQ.1) THEN
-        PROFILE = 1
-      ELSEIF (TAPEQU.EQ.2) THEN
-        PROFILE = 2
-      ELSEIF (TAPEQU.EQ.3.OR.TAPEQU.EQ.4.OR.
-     >        TAPEQU.EQ.6.OR.TAPEQU.EQ.55) THEN
-        PROFILE = 3
-      ELSEIF (TAPEQU.GE.10.AND.TAPEQU.LE.14) THEN
-        PROFILE = 4
-      ELSEIF (TAPEQU.EQ.30.OR.TAPEQU.EQ.31.OR.
-     >        TAPEQU.EQ.33.OR.TAPEQU.EQ.41.OR.
-     >        TAPEQU .EQ. 42) THEN
-        PROFILE = 5
-      ELSEIF (TAPEQU.EQ.32.OR.TAPEQU.EQ.34.OR.
-     >        TAPEQU.EQ.35) THEN
-        PROFILE = 6
-      ELSEIF (TAPEQU.EQ.48) THEN
-        PROFILE = 7
-      ELSEIF (TAPEQU.GE.51.AND.TAPEQU.LE.54) THEN
-        PROFILE = 8
-      ELSE
-        PROFILE = 9
-      ENDIF
+c      IF (TAPEQU.EQ.1) THEN
+c        PROFILE = 1
+c      ELSEIF (TAPEQU.EQ.2) THEN
+c        PROFILE = 2
+c      ELSEIF (TAPEQU.EQ.3.OR.TAPEQU.EQ.4.OR.
+c     >        TAPEQU.EQ.6.OR.TAPEQU.EQ.55) THEN
+c        PROFILE = 3
+c      ELSEIF (TAPEQU.GE.10.AND.TAPEQU.LE.14) THEN
+c        PROFILE = 4
+c      ELSEIF (TAPEQU.EQ.30.OR.TAPEQU.EQ.31.OR.
+c     >        TAPEQU.EQ.33.OR.TAPEQU.EQ.41.OR.
+c     >        TAPEQU .EQ. 42) THEN
+c        PROFILE = 5
+c      ELSEIF (TAPEQU.EQ.32.OR.TAPEQU.EQ.34.OR.
+c     >        TAPEQU.EQ.35) THEN
+c        PROFILE = 6
+c      ELSEIF (TAPEQU.EQ.48) THEN
+c        PROFILE = 7
+c      ELSEIF (TAPEQU.GE.51.AND.TAPEQU.LE.54) THEN
+c        PROFILE = 8
+c      ELSE
+c        PROFILE = 9
+c      ENDIF
       
       CALL DOUBLE_BARK (TAPEQU, DBHOB, DBHIB)
+
+      IF (MTOPP.LE.0)THEN
+         MTOPP = anint((0.184*DBHOB)+2.24)
+      ENDIF
       
 c     small tree fixes for FVS
 c     Tree must be measured in feet.
@@ -251,12 +319,8 @@ c     Tree must be measured in feet.
                 goto 1000
           ELSE
             
-            SMD_17 = AINT(SQRT(DBHIB*DBHIB-(DBHIB*DBHIB)*17.8/TTH)+0.5)
+            SMD_17 = AINT(SQRT(DBHIB*DBHIB-(DBHIB*DBHIB)*17.3/TTH)+0.5)
             
-              IF (MTOPP.LE.0)THEN
-                 MTOPP = 5.0
-              ENDIF
-
             IF(SMD_17.LT.MTOPP) THEN
                 TOTCUB=0.00272708*(DBHIB*DBHIB)*TTH
                 VOL(1) = TOTCUB
@@ -277,7 +341,7 @@ C **************************************************************
 c
 
       if(cupflg.eq.1) then
-         D17 = (DBHOB*FCLASS) / 100.0
+         D17 = ANINT((DBHOB*FCLASS) / 100.0)
          call BLMTCUB (PROFILE, DBHOB, TTH, TLH, D17, MTOPP, HTLOG,
      >                    TCVOL)
          vol(1) = tcvol
@@ -299,16 +363,13 @@ C *************** USE STEM PROFILE MODEL TO DETERMINE VOLUME
 c              MAXLEN = 32.0
          MINLEN = 8.0
          OPT = 23              !changed from 21, 10/11/2001 klc
-         STUMP =  1.5
-         IF (MTOPP.LE.0)THEN
-            MTOPP = 5.0
-         ENDIF
+         STUMP =  1.0
 
          TRIM = 0.3
          MERCHL = 8
 C         ROUNDING IN ACCORDANCE WITH BLM STANDARDS.
-C Ref:      D17 = ANINT ((DBHOB*FCLASS) / 100)
-         D17 = (DBHOB*FCLASS) / 100.0
+          D17 = ANINT ((DBHOB*FCLASS) / 100)
+
          IF (HTTYPE.EQ.'L'.OR.HTTYPE.EQ.'l') THEN
 c check for half logs
             NUMSEG = INT(TLH)
@@ -316,8 +377,21 @@ c check for half logs
             LOGDIA(1,2) = 0.0
             DO 102, I = 1, NUMSEG
                HGT2 = FLOAT(I)
+           
                CALL BLMTAP (DBHOB,TTH,TLH,HGT2,D17,MTOPP,HTLOG,D2,
      >                         PROFILE)
+
+
+            IF (DEBUG%MODEL) THEN
+              WRITE  (LUDBG, 400)'  DBHOB   TTH    TLH     HGT2   D17'
+     &        //'   MTOPP  HTLOG  D2   PROFILE'
+400            FORMAT (A)
+  		         WRITE  (LUDBG, 420)DBHOB,TTH,TLH,HGT2,D17,MTOPP,HTLOG,
+     >         D2, PROFILE
+420            FORMAT(9F7.1) 
+            ENDIF
+
+
 
 C               PUTS DIAMETERS IN PROPER DIAMETER CLASS
 C               ROUNDING CONDITION USED WAS .49 WHICH IS IN
@@ -377,7 +451,7 @@ C           NOLOGP = LMERCH / 16.0
 C             SUBROUTINE "BLMGDIB" IS INTERNAL AND USES PROFILE MODEL
 
             CALL BLMGDIB (PROFILE,MTOPP,TTH,TLH,DBHOB,DBHIB,D17,STUMP,
-     >                        TRIM, NUMSEG,HTLOG,LOGLEN, LOGDIA)
+     >                     TRIM, NUMSEG,HTLOG,LOGLEN, LOGDIA)
 
          ENDIF
 
@@ -405,6 +479,7 @@ C               ENDIF
                CALL SCRIB (DIB,LENGTH,COR,LOGV)
       
                LOGVOL(1,I) = ANINT(LOGV)        !ROUND EACH LOG VOLUME
+!               write(LUDBG, '(F8.1)')LOGVOL(1,I)
 c               VOL(2) = VOL(2) + LOGVOL(1,I)
 
 c  international 1/4                 
@@ -434,14 +509,14 @@ C                  ENDIF
                   CALL SCRIB (DIB,LENGTH,COR,LOGV)
                   LOGVOL32(I) = ANINT(LOGV)
  260           CONTINUE
-c    prorate 32 volumes into 16 foot pieces
+c    DIVIDE 32 volumes into 16 foot pieces
 C
-               do 261, i=2,numseg,2
-                  topv16 = logvol(1,i)
-                 botv16 = logvol(1,i-1)
-                   R = TOPV16 / (TOPV16 + BOTV16)
-                  logvol(1,I) = logvol32(i) * R
-                   logvol(1,I-1) = logvol32(i) - logvol(1,i) 
+               DO 261, i=2,numseg,2
+C                  topv16 = logvol(1,i)
+C                  botv16 = logvol(1,i-1)
+C                   R = TOPV16 / (TOPV16 + BOTV16)
+                  logvol(1,I-1) = ANINT(logvol32(i)/2.0)
+                  logvol(1,I) = logvol32(i) - logvol(1,i-1) 
  261           continue
             endif
 c ************** 32 foot logs endif ******************************
@@ -525,7 +600,10 @@ C 630  CONTINUE
 
  1000 CONTINUE
 
-
+      IF (DEBUG%MODEL) THEN
+         WRITE  (LUDBG, '(A)')'<--Exit BLMVOL'
+      ENDIF
+      
       RETURN
       END
 

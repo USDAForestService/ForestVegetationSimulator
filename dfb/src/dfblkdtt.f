@@ -45,9 +45,9 @@ C....
 C.... THE ARRAY IFVSSP IS USED TO INDEX THE SPECIES DEPENDENT ARRAY
 C.... WINSUC. IFVSSP CAN BE MODIFIED FOR DIFFERENT VARIANTS OF FVS SO
 C.... THAT SPECIES MATCH BETWEEN FVS AND THE DOUGLAS-FIR BEETLE MODEL.
-C.... UPDATED fSPECIES 16-APR-10 LANCE DAVID (FMSC)
+C.... UPDATED SPECIES 16-APR-10 LANCE DAVID (FMSC)
 C....
-C.... This IFVSSP is for the variant UT 24 species
+C.... This IFVSSP is for the variant TT 18 species
 C....              1   2   3   4   5   6   7   8   9   10  -- FVS index
 C....              WB  LM  DF  PM  BS  AS  LP  ES  AF  PP  -- FVS species
       DATA IFVSSP /22, 23,  3, 33, 20, 19,  7,  8,  9, 10, 

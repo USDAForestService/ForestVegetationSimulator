@@ -14,8 +14,6 @@ C
 !REV  Revised TDH 01/12/2010
 !REV  Fixed bug, missing '.' in species 066 equation
 
-!== last modified  3-29-2004
-
 !**********************************************************************
 
       CHARACTER*10 VOLEQ

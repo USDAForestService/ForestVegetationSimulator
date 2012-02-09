@@ -1,7 +1,7 @@
        SUBROUTINE GRINIT
        IMPLICIT NONE
 C----------
-C  **GRINIT--SN   DATE OF LAST REVISION:  07/21/11
+C  **GRINIT--SN   DATE OF LAST REVISION:  02/09/12
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
@@ -149,7 +149,7 @@ C----------
       BJTHET = 0.42
       ASPECT = 0.
       LAUTON = .FALSE.
-      LFIA = .TRUE.
+      LFIA = .FALSE.
       AUTMAX = 60.0
       AUTMIN = 45.0
       BAF = 40.

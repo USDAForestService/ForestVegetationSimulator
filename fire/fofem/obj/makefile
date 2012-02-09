@@ -1,4 +1,4 @@
-CFLAGS=-c -fPIC -DANSI -DCMP${CC} 
+CFLAGS=-c -DANSI -DCMP${CC}
 FOFEM_SRC = ./../src/
 
 objects = fof_cm.o${BJ}   \

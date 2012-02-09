@@ -1,7 +1,7 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
 C----------
-C  **REGENT--EM   DATE OF LAST REVISION:   08/16/11
+C  **REGENT--EM   DATE OF LAST REVISION:   01/11/12
 C----------
 C  **REGENT** COMPUTES HEIGHT AND DIAMETER INCREMENTS FOR SMALL
 C  TREES.  THE HEIGHT INCREMENT MODEL IS APPLIED TO TREES THAT ARE LESS
@@ -403,6 +403,7 @@ C  CALL IS FROM **ESTAB** AND TREE SUBSCRIPT IS LESS THAN ITRNIN.
 C----------
       I=IND1(I3)
       D=DBH(I)
+      H=HT(I)
       IF(DEBUG)WRITE(JOSTND,*)' ISPC,I,D,XMX,LESTB,ITRNIN= ',
      &ISPC,I,D,XMX,LESTB,ITRNIN
       IF(D.GE.XMX) GO TO 15
@@ -896,12 +897,12 @@ C----------
       ELSE
         IF(EMVAR)THEN
           CALL SMDGF(ISPC,HT(K),CR,PCCF(ITRE(I)),DKK)
-          BARK = BRATIO(ISPC,DK,HK)
+          BARK = BRATIO(ISPC,D,H)
           DG(K)=(DK-DKK)*BARK
-          DDS = DG(K)*(2.0*BARK*DK+DG(K))*SCALE
-          IF(DEBUG)WRITE(JOSTND,*)' K,DKK,DK,BARK,DDS,DG(K)= ',
-     &    K,DKK,DK,BARK,DDS,DG(K)
-          DG(K)=SQRT((DK*BARK)**2.0+DDS)-BARK*DK
+          DDS = DG(K)*(2.0*BARK*D+DG(K))*SCALE
+          IF(DEBUG)WRITE(JOSTND,*)' K,D,DKK,DK,BARK,DDS,DG(K)= ',
+     &    K,D,DKK,DK,BARK,DDS,DG(K)
+          DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
 C----------
 C  IF CALLED FROM ESTAB, BOUND DIAMETER INCREMENT FOR ADVANCED
 C  REGENERATION.
@@ -960,12 +961,12 @@ C----------
      &    + 0.001711*CR + 0.17023*HLESS4
             DKK=(DLESS3+0.3)
             IF(DKK.LT.DIAM(ISPC))DKK=DIAM(ISPC)
-            BARK = BRATIO(ISPC,DK,HK)
+            BARK = BRATIO(ISPC,D,H)
             DG(K)=(DK-DKK)*BARK
-            DDS = DG(K)*(2.0*BARK*DK+DG(K))
-            IF(DEBUG)WRITE(JOSTND,*)' K,DKK,DK,BARK,DDS,DG(K)= ',
-     &      K,DKK,DK,BARK,DDS,DG(K)
-            DG(K)=SQRT((DK*BARK)**2.0+DDS)-BARK*DK
+            DDS = DG(K)*(2.0*BARK*D+DG(K))
+            IF(DEBUG)WRITE(JOSTND,*)' K,D,DKK,DK,BARK,DDS,DG(K)= ',
+     &      K,D,DKK,DK,BARK,DDS,DG(K)
+            DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
           ELSE
             DG(K)=0.0
           ENDIF
@@ -1008,14 +1009,14 @@ C         SCALE DIAMETER INCREMENT FOR BARK AND PERIOD LENGTH.
 C         IN ORDER TO MAINTAIN CONSISTENCY WITH **GRADD**,
 C         ADJUSTMENTS ARE MADE ON THE DDS SCALE.
 C----------
-          BARK=BRATIO(ISPC,DBH(K),HK)
+          BARK=BRATIO(ISPC,DBH(K),HT(K))
           IF(NIVAR)THEN
             DG(K)=DGK*BARK
           ELSEIF(CRVAR.OR.UTVAR)THEN
             DG(K) = DGK
           ENDIF
-          DDS = DG(K)*(2.0*BARK*DK+DG(K))*SCALE
-          DG(K)=SQRT((DK*BARK)**2.0+DDS)-BARK*DK
+          DDS = DG(K)*(2.0*BARK*D+DG(K))*SCALE
+          DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
         ENDIF
         IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
           DG(K)=DIAM(ISPC)-DBH(K)

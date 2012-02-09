@@ -13,13 +13,13 @@ FFLAGS = ${I1}${BASE_COM}${I2}${FIRE_BASE_COM}
 BASE_SRC  = ./../src/
 
 # the SVN directory
-SVN_DIR = ./../../../.svn/
+SVN_DIR = ./../../.svn/
 
 # the Prognosis base model object files
 BASE_OBJS = algcmp.o${BJ} algevl.o${BJ} algexp.o${BJ} algkey.o${BJ} algslp.o${BJ} algspp.o${BJ} autcor.o${BJ}  \
             bachlo.o${BJ} basdam.o${BJ} behprm.o${BJ} behre.o${BJ} ch2num.o${BJ} ch4bsr.o${BJ} ch4srt.o${BJ}   \
             cmrang.o${BJ} comcup.o${BJ} comp.o${BJ} comprs.o${BJ} covolp.o${BJ} cuts.o${BJ} cwidth.o${BJ}   \
-            damcds.o${BJ} dampro.o${BJ} apisubs.o${BJ} \
+            damcds.o${BJ} dampro.o${BJ} \
             dbadd.o${BJ} dball.o${BJ} dbchk.o${BJ} dbinit.o${BJ} dbprse.o${BJ} \
             dbscan.o${BJ} dense.o${BJ} dgscor.o${BJ} disply.o${BJ} dist.o${BJ} ecopls.o${BJ} ecvols.o${BJ} \
             eigen.o${BJ} errgro.o${BJ} evage.o${BJ} evalnk.o${BJ} evcomp.o${BJ} evif.o${BJ} evkey.o${BJ} \
@@ -34,11 +34,11 @@ BASE_OBJS = algcmp.o${BJ} algevl.o${BJ} algexp.o${BJ} algkey.o${BJ} algslp.o${BJ
             intree.o${BJ} iqrsrt.o${BJ} isstag.o${BJ} istfnb.o${BJ} istlnb.o${BJ} keydmp.o${BJ} keyopn.o${BJ}  \
             keyrdr.o${BJ} keywds.o${BJ} ksstag.o${BJ} lb1mem.o${BJ} lbaglr.o${BJ} lbdset.o${BJ} lbget1.o${BJ}  \
             lbintr.o${BJ} lbmemr.o${BJ} lbsplr.o${BJ} lbsplw.o${BJ} lbstrd.o${BJ} lbtrim.o${BJ} lbunin.o${BJ}  \
-            lnkchn.o${BJ} lnkint.o${BJ} fvs.o${BJ} cmdline.o${BJ}  mbacal.o${BJ} meansd.o${BJ} msbmrt.o${BJ} mults.o${BJ}   \
+            lnkchn.o${BJ} lnkint.o${BJ} main.o${BJ}   mbacal.o${BJ} meansd.o${BJ} msbmrt.o${BJ} mults.o${BJ}   \
             myopen.o${BJ} natcrz.o${BJ} notre.o${BJ} opadd.o${BJ} opbisr.o${BJ} opcact.o${BJ} \
             opcset.o${BJ} opcycl.o${BJ} opdon2.o${BJ} opeval.o${BJ}    \
             opexpn.o${BJ} opfind.o${BJ} opget2.o${BJ} opget3.o${BJ} opinit.o${BJ} oplist.o${BJ} opmerg.o${BJ} \
-            opnew.o${BJ} oprdat.o${BJ} main.o${BJ} \
+            opnew.o${BJ} oprdat.o${BJ} \
             opnewc.o${BJ} opsame.o${BJ} opsort.o${BJ} opstus.o${BJ} pctile.o${BJ} prtexm.o${BJ} prtrls.o${BJ}  \
             ptbal.o${BJ} rxdibs.o${BJ} rann.o${BJ} rcdset.o${BJ} rdpsrt.o${BJ} reass.o${BJ} resage.o${BJ} \
             revise.o${BJ} scalef.o${BJ} sdefet.o${BJ} sdefln.o${BJ} sdical.o${BJ} sdichk.o${BJ} setup.o${BJ}   \
@@ -58,7 +58,7 @@ BASE_OBJS = algcmp.o${BJ} algevl.o${BJ} algexp.o${BJ} algkey.o${BJ} algslp.o${BJ
 base:     ${BASE_OBJS}
 
 ${BASE_COM}includeSVN.f: ${SVN_DIR}entries
-	echo "      DATA SVN/\"`head --lines=1 ../../../.svn/entries `\"/" > ${BASE_COM}includeSVN.f
+	echo "      DATA SVN/\"`grep -m 1 -A 1 dir  ../../.svn/entries  | tail -1`\"/" > ${BASE_COM}includeSVN.f
 
 algcmp.o${BJ}: ${BASE_SRC}algcmp.f
 	${FC} -c ${FFLAGS} ${BASE_SRC}algcmp.f
@@ -78,12 +78,6 @@ algslp.o${BJ}: ${BASE_SRC}algslp.f
 algspp.o${BJ}: ${BASE_SRC}algspp.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77 \
           ${BASE_COM}CONTRL.F77
 	${FC} -c ${FFLAGS} ${BASE_SRC}algspp.f
-
-apisubs.o${BJ}:  ${BASE_SRC}apisubs.f ${BASE_COM}PRGPRM.F77   \
-          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77  \
-          ${BASE_COM}CALDEN.F77 ${BASE_COM}OPCOM.F77 ${BASE_COM}OUTCOM.F77   \
-          ${BASE_COM}PLOT.F77 
-	${FC} -c ${FFLAGS} ${BASE_SRC}apisubs.f
 
 autcor.o${BJ}: ${BASE_SRC}autcor.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}COEFFS.F77   \
           ${BASE_COM}CONTRL.F77 ${BASE_COM}ARRAYS.F77 ${BASE_COM}PDEN.F77   \
@@ -110,9 +104,6 @@ ch4bsr.o${BJ}: ${BASE_SRC}ch4bsr.f
 
 ch4srt.o${BJ}: ${BASE_SRC}ch4srt.f
 	${FC} -c ${FFLAGS} ${BASE_SRC}ch4srt.f
-
-cmdline.o${BJ}: ${BASE_SRC}cmdline.f ${BASE_COM}GLBLCNTL.F77
-	${FC} -c ${FFLAGS} ${BASE_SRC}cmdline.f
 
 cmrang.o${BJ}: ${BASE_SRC}cmrang.f
 	${FC} -c ${FFLAGS} ${BASE_SRC}cmrang.f
@@ -448,12 +439,9 @@ lnkchn.o${BJ}: ${BASE_SRC}lnkchn.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77  
 lnkint.o${BJ}: ${BASE_SRC}lnkint.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77
 	${FC} -c ${FFLAGS} ${BASE_SRC}lnkint.f
 
-fvs.o${BJ}:   ${BASE_SRC}fvs.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77    \
+main.o${BJ}:   ${BASE_SRC}main.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77    \
           ${BASE_COM}PLOT.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}OUTCOM.F77  \
           ${BASE_COM}PDEN.F77 ${BASE_COM}ECON.F77 ${BASE_COM}WORKCM.F77
-	${FC} -c ${FFLAGS} ${BASE_SRC}fvs.f
-
-main.o${BJ}:   ${BASE_SRC}main.f 
 	${FC} -c ${FFLAGS} ${BASE_SRC}main.f
 
 mbacal.o${BJ}: ${BASE_SRC}mbacal.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77  \

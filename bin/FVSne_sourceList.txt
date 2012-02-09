@@ -491,7 +491,7 @@
 ../volume/src/clkcoef_mod.f
 ../volume/src/debug_mod.f
 ../volume/src/r9clark.f
-../volume/src/r9coeff.inc
+../volume/src/R9COEFF.INC
 ../volume/src/r9init.f
 ../volume/src/r9logs.f
 ../volume/src/r9vol.f

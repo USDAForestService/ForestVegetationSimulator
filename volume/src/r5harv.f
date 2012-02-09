@@ -1,4 +1,4 @@
-!== last modified  09-14-2005
+!== last modified  12-09-2011
       SUBROUTINE  R5HARV (VOLEQ,DBHOB,HTTOT,MTOPP,VOL,BFPFLG,CUPFLG,
      >                    ERRFLAG)
 C FROM THE PNW RESEARCH NOTE PNW-414
@@ -87,6 +87,7 @@ C NOT TO BE USED
 C ENGLEMANN OAK         79   
       DATA (COFA(15,I),I=1,4)/.0053866353,2.61268,.31103,0.0/
       DATA (COFB(15,I),I=1,4)/0.0,0.0,0.0,0.0/
+c      DATA (COFB(15,I),I=1,4)/0.0006540144,2.24437,0.81358,0.43381/
       DATA (COFC(15,I),I=1,4)/.0191453191,2.40248,.28060,0.0/
 C GIANT SEQUOIA
       DATA (COEFSEQB(I),I=1,3) /0.001682608,1.755956,1.490641/
@@ -140,6 +141,8 @@ C CHECK FOR VALID SPECIES AND IF NOT SET VOLUME TO -1 AND RETURN
           SPEC = 15
         ELSE
           SPEC = -1
+          errflag = 1
+          return
         ENDIF
       ENDIF       
 

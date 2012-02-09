@@ -1,7 +1,7 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
 C----------
-C  **REGENT--TT   DATE OF LAST REVISION:   01/17/11
+C  **REGENT--TT   DATE OF LAST REVISION:   01/11/12
 C----------
 C  **REGENT** COMPUTES HEIGHT AND DIAMETER INCREMENTS FOR SMALL TREES.
 C
@@ -955,12 +955,12 @@ C----------
             IF(DEBUG)WRITE(JOSTND,*)' SMDGF CALL PARMS = ',I,ISPC,HT(I),
      &      CR,PCCF(ITRE(I)),DKK
 C            IF(DKK.LT.DIAM(ISPC))DKK=DIAM(ISPC)
-            BARK = BRATIO(ISPC,DK,HK)
+            BARK = BRATIO(ISPC,D,HT(K))
             DG(K)=(DK-DKK)*BARK
-            DDS = DG(K)*(2.0*BARK*DK+DG(K))*SCALE2
-            IF(DEBUG)WRITE(JOSTND,*)' K,DKK,DK,BARK,DDS,DG(K)= ',
-     &      K,DKK,DK,BARK,DDS,DG(K)
-            DG(K)=SQRT((DK*BARK)**2.0+DDS)-BARK*DK
+            DDS = DG(K)*(2.0*BARK*D+DG(K))*SCALE2
+            IF(DEBUG)WRITE(JOSTND,*)' K,D,DKK,DK,BARK,DDS,DG(K)= ',
+     &      K,D,DKK,DK,BARK,DDS,DG(K)
+            DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
           ELSE
             DG(K)=0.0
           ENDIF
@@ -1056,18 +1056,18 @@ C         SCALE DIAMETER INCREMENT FOR BARK AND PERIOD LENGTH.
 C         IN ORDER TO MAINTAIN CONSISTENCY WITH **GRADD**,
 C         ADJUSTMENTS ARE MADE ON THE DDS SCALE.
 C----------
-          BARK=BRATIO(ISPC,DBH(K),HK)
+          BARK=BRATIO(ISPC,DBH(K),HT(K))
           IF(CIVAR)THEN
             DG(K)=(DK-DKK)*BARK*XRDGRO
           ELSEIF(UTVAR)THEN
             IF (DG(K) .GT. DGMX) DG(K)=DGMX
           ENDIF
           IF(CIVAR .OR. UTVAR)THEN
-            DDS=(DG(K)*(2.0*BARK*DK+DG(K))) * SCALE2
+            DDS=(DG(K)*(2.0*BARK*D+DG(K))) * SCALE2
           ELSE
-            DDS = DG(K)*(2.0*BARK*DK+DG(K))*SCALE2
+            DDS = DG(K)*(2.0*BARK*D+DG(K))*SCALE2
           ENDIF
-          DG(K)=SQRT((DK*BARK)**2.0+DDS)-BARK*DK
+          DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
         ENDIF
         IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
           DG(K)=DIAM(ISPC)-DBH(K)

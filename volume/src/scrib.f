@@ -1,4 +1,4 @@
-!== last modified  4-9-2002
+!== last modified  10-30-2003
       SUBROUTINE SCRIB(DIA,LEN,COR,VOL)
 C     DIA-REAL  LEN-REAL COR-CHAR  VOL-REAL
 
@@ -137,14 +137,16 @@ C    START OF MAIN LOGIC
 C *************************************************************
 
       IF(COR .NE. 'Y' .AND. COR .NE. 'N')THEN
-         WRITE(*,46)'  ERROR : COR NOT Y OR N'
-  46     FORMAT(A24)
+c         WRITE(*,46)'  ERROR : COR NOT Y OR N'
+c  46     FORMAT(A24)
       ENDIF
       IF(DIA .LT. 1) THEN
          VOL = 0.0
          RETURN
       ENDIF
-
+c     set maximum small end diameter 
+      if(DIA .GT. 120) DIA = 120
+      
       Q9=DIA
       IF (DIA .GT. 5.0 .AND. DIA .LE. 11) THEN
         IF ((LEN.GT.15).AND.(LEN.LT.32)) Q9=DIA+115
@@ -193,38 +195,61 @@ C************************************************************
 
       SUBROUTINE INTL14(DIB,LENGTH,BFINT)
       
-      REAL DIB, LENGTH, BFINT, FF, SEGVOL, LOGVOL, SEDIAM
+      !parameters
+      REAL DIB    !small end diameter inside bark
+      REAL LENGTH !log length
+      REAL BFINT  !board foot international
+      !local variables
+      REAl FF     !fraction of 4' segment (.25, .5 or .75)
+      REAL SEGVOL !segment volume (4' segments)
+      REAL LOGVOL 
+      REAL SEDIAM !small end diameter
       INTEGER LOGSEG,IRNDVOL,JJJ,J
-
+      
+      !if diameter inside bark is lt 4 there is no bd ft volume
       IF(DIB .LT. 4.0) THEN
         BFINT = 0
         RETURN
       ENDIF
+      
       LOGVOL = 0.0
+      !calculate the number of 4'segments in the passed in log
       LOGSEG = INT(LENGTH/4.0)
+      
+      !get the leftover piece .25, .5 or .75% of 4' piece
       FF = LENGTH/4.0 - LOGSEG
 
+      !for each 4' segment get the small end diameter which assumes
+      !1/2" taper per segment
       DO 100, J = 1,LOGSEG
         SEDIAM = DIB + (LOGSEG-J)/2.0
-         SEGVOL = (0.22*(SEDIAM)**2 - 0.71*(SEDIAM)) * 0.905
-         LOGVOL = LOGVOL + SEGVOL
-
+        SEGVOL = (0.22*(SEDIAM)**2 - 0.71*(SEDIAM)) * 0.905
+        LOGVOL = LOGVOL + SEGVOL
   100 CONTINUE
+  
+      !if there is a leftover piece get the volume of the top
+      !4' piece and scale it by the percentage of 4'
       IF (FF.GT.0.0) THEN
           SEGVOL = FF*(.22*(DIB)**2 -
      >             0.71 *(DIB))*0.905
           LOGVOL = LOGVOL + SEGVOL
       ENDIF
-
+      
+      !logic for rounding to the nearest 5 board feet.
       IF(LOGVOL .LT. 7.5) THEN
           LOGVOL = 5
       ELSE
+        !get the largest multiple of 10
         IRNDVOL=INT(LOGVOL/10.0)
+        !get the remaining ones and tenths places in integer
          JJJ=INT(((LOGVOL/10.0) - IRNDVOL)*100)
+        !if you have lt 2.5  board feet remainder round down 10
         IF(JJJ .LT. 25) THEN
            LOGVOL = IRNDVOL*10
+        !if you have ge 7.5 board feet remainder round up 10
         ELSE IF(JJJ .GE. 75) THEN
            LOGVOL = (IRNDVOL+1) * 10
+        !else round to 5
         ELSE
            LOGVOL = IRNDVOL*10 + 5
         ENDIF

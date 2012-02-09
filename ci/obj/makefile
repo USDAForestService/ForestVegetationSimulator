@@ -21,8 +21,13 @@ ESTB_SRC = ../../estb/src/
 MIST_SRC = ../../mistoe/src/
 COVR_SRC =  ../../covr/src/
 ECON_SRC = ../../econ/src/
+DFB_SRC = ../../dfb/src/
+DFB_COM = ../../dfb/common/
+MPB_SRC = ../../lpmpb/src/
+RD_SRC = ../../rd/src/
+BW_SRC = ../../wsbwe/src/
 
-FFLAGS = ${I1}${CI_COM}${I2}${BASE_COM}${I2}${FIRE_BASE_COM}
+FFLAGS = ${I1}${CI_COM}${I2}${BASE_COM}${I2}${FIRE_BASE_COM}${I2}${DFB_COM}
 
 # the CI object files
 CI_OBJS  = bfvol.o${BJ}  blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ} cratet.o${BJ} crown.o${BJ} \
@@ -86,12 +91,55 @@ COVR_OBJS = cvbcal.o${BJ} cvbrow.o${BJ} cvcbms.o${BJ} cvclas.o${BJ} cvcnop.o${BJ
 ECON_OBJS =  eccalc.o${BJ} echarv.o${BJ} ecin.o${BJ} ecinit.o${BJ} \
              ecsetp.o${BJ} ecstatus.o${BJ} ecvol.o${BJ}
 
+# Dwarf Mistletoe objects are included in the base object list above.
+
+# Douglas-fir Beetle
+DFB_OBJS = dfbdam.o${BJ} dfbdbh.o${BJ} dfbdrv.o${BJ} dfber.o${BJ}  dfbgo.o${BJ}  dfbhed.o${BJ} \
+           dfbin.o${BJ}  dfbind.o${BJ} dfbint.o${BJ} dfbinv.o${BJ} dfblkdci.o${BJ} \
+           dfbmod.o${BJ} dfbmrt.o${BJ} dfbout.o${BJ} dfbprb.o${BJ} dfbran.o${BJ} dfbsch.o${BJ} \
+           dfbtab.o${BJ} dfbwin.o${BJ}
+
+# Lodgepole Mountain Pine Beetle
+MPB_OBJS = back.o${BJ}   betin.o${BJ}  coldbh.o${BJ} coldrv.o${BJ} colind.o${BJ} colmod.o${BJ} colmrt.o${BJ} \
+           emerg.o${BJ}  forw.o${BJ}   garbel.o${BJ} grclas.o${BJ} grpsum.o${BJ} mpbcup.o${BJ} mpbdam.o${BJ} \
+           mpbdrv.o${BJ} mpber.o${BJ}  mpbgam.o${BJ} mpbgo.o${BJ}  mpbhed.o${BJ} mpbin.o${BJ}  mpbint.o${BJ} \
+           mpblkdci.o${BJ} mpbmod.o${BJ} mpbout.o${BJ} mpbtab.o${BJ} mpgr.o${BJ} mpotpr.o${BJ} mprann.o${BJ} \
+           mpsdlp.o${BJ} percnt.o${BJ} pmslp.o${BJ}  pqsml.o${BJ}  ptary.o${BJ}  ptbno.o${BJ}  ptgrp.o${BJ} \
+           ptint.o${BJ}  ptplt.o${BJ}  ptsav.o${BJ}  ptscl.o${BJ}  ptsrg.o${BJ}  ptssc.o${BJ}  ptsym.o${BJ} \
+           surfce.o${BJ} surflp.o${BJ} tafit.o${BJ}
+
+# Western Root Disease V3.0
+RD_OBJS  = rdarea.o${BJ} rdatv.o${BJ}  rdbb1.o${BJ}  rdbb2.o${BJ}  rdbb3.o${BJ}  rdbb4.o${BJ}  rdbbdo.o${BJ} \
+           rdblk1ci.o${BJ} rdbout.o${BJ} rdcent.o${BJ} \
+           rdcloc.o${BJ} rdcmpr.o${BJ} rdcntl.o${BJ} rdcsd.o${BJ}  rddam.o${BJ}  rddbug.o${BJ} rddout.o${BJ} \
+           rddst.o${BJ}  rdend.o${BJ}  rdescp.o${BJ} rdesin.o${BJ} rdestb.o${BJ} rdgrow.o${BJ} rdinci.o${BJ} \
+           rdinf.o${BJ}  rdinit.o${BJ} rdinoc.o${BJ} rdinsd.o${BJ} rdinup.o${BJ} rdiout.o${BJ} rdiprp.o${BJ} \
+           rdjump.o${BJ} rdload.o${BJ} rdmn1.o${BJ}  rdmn2.o${BJ}  rdmort.o${BJ} rdmrec.o${BJ} rdoagm.o${BJ} \
+           rdowi.o${BJ}  rdowin.o${BJ} rdpr.o${BJ}   rdprin.o${BJ} rdpush.o${BJ} rdrani.o${BJ} rdrann.o${BJ} \
+           rdranp.o${BJ} rdrate.o${BJ} rdrdel.o${BJ} rdroot.o${BJ} rdrout.o${BJ} rdsadd.o${BJ} \
+           rdsetp.o${BJ} rdshrk.o${BJ} rdshst.o${BJ} rdslp.o${BJ}  rdsout.o${BJ} rdspl1.o${BJ} rdspl2.o${BJ} \
+           rdspor.o${BJ} rdsprd.o${BJ} rdspup.o${BJ} rdssiz.o${BJ} rdstp.o${BJ}  rdstr.o${BJ}  rdsum.o${BJ} \
+           rdtdel.o${BJ} rdtim.o${BJ}  rdtout.o${BJ} rdtreg.o${BJ} rdtres.o${BJ} rdtrip.o${BJ} rdtrp.o${BJ} \
+           rdzero.o${BJ}
+
+# Western Spruce Budworm (GenDefol)
+WSBWE_OBJS = bweadv.o${BJ} bweage.o${BJ} bwebet.o${BJ} bwebkci.o${BJ} bwebmsci.o${BJ} \
+             bwecrc.o${BJ} bwecup.o${BJ} \
+             bwedam.o${BJ} bwedef.o${BJ} bwedie.o${BJ} bwedr.o${BJ} bweerr.o${BJ} \
+             bweest.o${BJ} bwefdk.o${BJ} bwego.o${BJ} bwein.o${BJ} bweint.o${BJ} \
+             bwekdp.o${BJ} bwekey.o${BJ} bwekrd.o${BJ} bwelit.o${BJ} bweob.o${BJ} \
+             bweout.o${BJ} bwep1.o${BJ} bwep3.o${BJ} bwep4.o${BJ} \
+             bwepdm.o${BJ} bweprb.o${BJ} bweran.o${BJ} bwernp.o${BJ} bwesin.o${BJ} \
+             bwesit.o${BJ} bweslp.o${BJ} bweuca.o${BJ} bweuky.o${BJ} bwewea.o${BJ} \
+             fxnote.o${BJ} txnote.o${BJ}
 
 ci: ${CI_OBJS} ${COVR_OBJS} ${ECON_OBJS}
 
 econ: ${ECON_OBJS}
 
 covr: ${COVR_OBJS}
+
+cix: ${DFB_OBJS} ${MPB_OBJS} ${RD_OBJS} ${WSBWE_OBJS}
 
 # compile routines from CI source directory
 
@@ -107,7 +155,7 @@ blkdat.o${BJ}: ${CI_SRC}blkdat.f ${CI_COM}PRGPRM.F77 ${BASE_COM}COEFFS.F77    \
           ${BASE_COM}CICOM.F77  ${BASE_COM}FVSSTDCM.F77
 	${FC} -c ${FFLAGS} ${CI_SRC}blkdat.f
 
-bratio.o${BJ}: ${CI_SRC}bratio.f 
+bratio.o${BJ}: ${CI_SRC}bratio.f ${CI_COM}PRGPRM.F77
 	${FC} -c ${FFLAGS} ${CI_SRC}bratio.f
 
 ccfcal.o${BJ}: ${CI_SRC}ccfcal.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
@@ -1327,3 +1375,725 @@ ecstatus.o${BJ}: ${ECON_SRC}ecstatus.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ECNCOM.F77
 
 ecvol.o${BJ}: ${ECON_SRC}ecvol.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ECNCOM.F77
 	${FC} -c ${FFLAGS} ${ECON_SRC}ecvol.f
+
+# Douglas-fir Beetle
+
+dfbdam.o${BJ}:   ${DFB_SRC}dfbdam.f ${CI_COM}PRGPRM.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbdam.f
+
+dfbdbh.o${BJ}:   ${DFB_SRC}dfbdbh.f ${CI_COM}PRGPRM.F77 ${DFB_COM}DFBCOM.F77   \
+            ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbdbh.f
+
+dfbdrv.o${BJ}:   ${DFB_SRC}dfbdrv.f ${CI_COM}PRGPRM.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbdrv.f
+
+dfber.o${BJ}:    ${DFB_SRC}dfber.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
+            ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfber.f
+
+dfbgo.o${BJ}:    ${DFB_SRC}dfbgo.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
+            ${BASE_COM}CONTRL.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbgo.f
+
+dfbhed.o${BJ}:   ${DFB_SRC}dfbhed.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77    \
+            ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbhed.f
+
+dfbin.o${BJ}:    ${DFB_SRC}dfbin.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77   \
+            ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbin.f
+
+dfbind.o${BJ}:   ${DFB_SRC}dfbind.f
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbind.f
+
+dfbint.o${BJ}:   ${DFB_SRC}dfbint.f ${CI_COM}PRGPRM.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbint.f
+
+dfbinv.o${BJ}:   ${DFB_SRC}dfbinv.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77 \
+            ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbinv.f
+
+dfblkdci.o${BJ}: ${DFB_SRC}dfblkdci.f ${CI_COM}PRGPRM.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfblkdci.f
+
+dfbmod.o${BJ}:   ${DFB_SRC}dfbmod.f ${CI_COM}PRGPRM.F77 ${DFB_COM}DFBCOM.F77    \
+            ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbmod.f
+
+dfbmrt.o${BJ}:   ${DFB_SRC}dfbmrt.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
+            ${BASE_COM}CONTRL.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbmrt.f
+
+dfbout.o${BJ}:   ${DFB_SRC}dfbout.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77   \
+            ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbout.f
+
+dfbprb.o${BJ}:   ${DFB_SRC}dfbprb.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77   \
+            ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbprb.f
+
+dfbran.o${BJ}:   ${DFB_SRC}dfbran.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77  \
+            ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbran.f
+
+dfbsch.o${BJ}:   ${DFB_SRC}dfbsch.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77  \
+            ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbsch.f
+
+dfbtab.o${BJ}:   ${DFB_SRC}dfbtab.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77  \
+            ${BASE_COM}CONTRL.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbtab.f
+
+dfbwin.o${BJ}:   ${DFB_SRC}dfbwin.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77 \
+            ${BASE_COM}CONTRL.F77 ${DFB_COM}DFBCOM.F77
+	${FC} -c ${FFLAGS} ${DFB_SRC}dfbwin.f
+
+# Lodgepole Mountain Pine Beetle
+
+back.o${BJ}:   ${MPB_SRC}back.f ${MPB_SRC}MPBETA.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}back.f
+
+betin.o${BJ}:  ${MPB_SRC}betin.f ${MPB_SRC}MPBETA.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}betin.f
+
+coldbh.o${BJ}: ${MPB_SRC}coldbh.f ${CI_COM}PRGPRM.F77 ${MPB_SRC}COLCOM.F77    \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}coldbh.f
+
+coldrv.o${BJ}: ${MPB_SRC}coldrv.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77     \
+          ${BASE_COM}CONTRL.F77 ${MPB_SRC}COLCOM.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}coldrv.f
+
+colind.o${BJ}: ${MPB_SRC}colind.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}colind.f
+
+colmod.o${BJ}: ${MPB_SRC}colmod.f ${CI_COM}PRGPRM.F77 ${MPB_SRC}COLCOM.F77    \
+          ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}colmod.f
+
+colmrt.o${BJ}: ${MPB_SRC}colmrt.f ${CI_COM}PRGPRM.F77 ${MPB_SRC}MPBCOM.F77    \
+          ${MPB_SRC}COLCOM.F77 ${BASE_COM}PLOT.F77 ${BASE_COM}ARRAYS.F77   \
+          ${BASE_COM}CONTRL.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}colmrt.f
+
+emerg.o${BJ}:  ${MPB_SRC}emerg.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}emerg.f
+
+forw.o${BJ}:   ${MPB_SRC}forw.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}forw.f
+
+garbel.o${BJ}: ${MPB_SRC}garbel.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}garbel.f
+
+grclas.o${BJ}: ${MPB_SRC}grclas.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}grclas.f
+
+grpsum.o${BJ}: ${MPB_SRC}grpsum.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}grpsum.f
+
+mpbcup.o${BJ}: ${MPB_SRC}mpbcup.f ${CI_COM}PRGPRM.F77 ${MPB_SRC}MPBCOM.F77    \
+          ${BASE_COM}PLOT.F77 ${BASE_COM}CONTRL.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbcup.f
+
+mpbdam.o${BJ}: ${MPB_SRC}mpbdam.f ${CI_COM}PRGPRM.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbdam.f
+
+mpbdrv.o${BJ}: ${MPB_SRC}mpbdrv.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbdrv.f
+
+mpber.o${BJ}:  ${MPB_SRC}mpber.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77    \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpber.f
+
+mpbgam.o${BJ}: ${MPB_SRC}mpbgam.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbgam.f
+
+mpbgo.o${BJ}:  ${MPB_SRC}mpbgo.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77    \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbgo.f
+
+mpbhed.o${BJ}: ${MPB_SRC}mpbhed.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77     \
+          ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbhed.f
+
+mpbin.o${BJ}:  ${MPB_SRC}mpbin.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77    \
+          ${BASE_COM}PLOT.F77 ${MPB_SRC}MPBCOM.F77 ${MPB_SRC}COLCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbin.f
+
+mpbint.o${BJ}: ${MPB_SRC}mpbint.f ${CI_COM}PRGPRM.F77 ${MPB_SRC}MPBCOM.F77    \
+          ${MPB_SRC}COLCOM.F77 ${MPB_SRC}MPBETA.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbint.f
+
+mpblkdci.o${BJ}: ${MPB_SRC}mpblkdci.f ${CI_COM}PRGPRM.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpblkdci.f
+
+mpbmod.o${BJ}: ${MPB_SRC}mpbmod.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77   \
+          ${BASE_COM}PLOT.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbmod.f
+
+mpbout.o${BJ}: ${MPB_SRC}mpbout.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77     \
+          ${BASE_COM}CONTRL.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbout.f
+
+mpbtab.o${BJ}: ${MPB_SRC}mpbtab.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
+          ${BASE_COM}CONTRL.F77 ${MPB_SRC}MPBCOM.F77 ${MPB_SRC}COLCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpbtab.f
+
+mpgr.o${BJ}:   ${MPB_SRC}mpgr.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77     \
+          ${BASE_COM}CONTRL.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpgr.f
+
+mpotpr.o${BJ}: ${MPB_SRC}mpotpr.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77   \
+          ${BASE_COM}PLOT.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpotpr.f
+
+mprann.o${BJ}: ${MPB_SRC}mprann.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}mprann.f
+
+mpsdlp.o${BJ}: ${MPB_SRC}mpsdlp.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77 \
+          ${BASE_COM}CONTRL.F77 ${MPB_SRC}MPBCOM.F77 ${MPB_SRC}COLCOM.F77   \
+          ${BASE_COM}PLOT.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}mpsdlp.f
+
+percnt.o${BJ}: ${MPB_SRC}percnt.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}percnt.f
+
+pmslp.o${BJ}:  ${MPB_SRC}pmslp.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}pmslp.f
+
+pqsml.o${BJ}:  ${MPB_SRC}pqsml.f ${MPB_SRC}MPBETA.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}pqsml.f
+
+ptary.o${BJ}:  ${MPB_SRC}ptary.f ${MPB_SRC}PT.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptary.f
+
+ptbno.o${BJ}:  ${MPB_SRC}ptbno.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptbno.f
+
+ptgrp.o${BJ}:  ${MPB_SRC}ptgrp.f ${MPB_SRC}PT.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptgrp.f
+
+ptint.o${BJ}:  ${MPB_SRC}ptint.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptint.f
+
+ptplt.o${BJ}:  ${MPB_SRC}ptplt.f ${MPB_SRC}PT.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptplt.f
+
+ptsav.o${BJ}:  ${MPB_SRC}ptsav.f ${MPB_SRC}PT.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptsav.f
+
+ptscl.o${BJ}:  ${MPB_SRC}ptscl.f ${MPB_SRC}PT.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptscl.f
+
+ptsrg.o${BJ}:  ${MPB_SRC}ptsrg.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptsrg.f
+
+ptssc.o${BJ}:  ${MPB_SRC}ptssc.f ${MPB_SRC}PT.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptssc.f
+
+ptsym.o${BJ}:  ${MPB_SRC}ptsym.f ${MPB_SRC}PT.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}ptsym.f
+
+surfce.o${BJ}: ${MPB_SRC}surfce.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}surfce.f
+
+surflp.o${BJ}: ${MPB_SRC}surflp.f
+	${FC} -c ${FFLAGS} ${MPB_SRC}surflp.f
+
+tafit.o${BJ}:  ${MPB_SRC}tafit.f ${CI_COM}PRGPRM.F77 ${MPB_SRC}MPBCOM.F77
+	${FC} -c ${FFLAGS} ${MPB_SRC}tafit.f
+
+# Root Disease V3.0
+
+rdarea.o${BJ}: ${RD_SRC}rdarea.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdarea.f
+
+rdatv.o${BJ}: ${RD_SRC}rdatv.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdatv.f
+
+rdbb1.o${BJ}: ${RD_SRC}rdbb1.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdbb1.f
+
+rdbb2.o${BJ}: ${RD_SRC}rdbb2.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 \
+         ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdbb2.f
+
+rdbb3.o${BJ}: ${RD_SRC}rdbb3.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdbb3.f
+
+rdbb4.o${BJ}: ${RD_SRC}rdbb4.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77 ${BASE_COM}PLOT.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdbb4.f
+
+rdbbdo.o${BJ}: ${RD_SRC}rdbbdo.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdbbdo.f
+
+rdblk1ci.o${BJ}: ${RD_SRC}rdblk1ci.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}METRIC.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDCRY.F77 \
+          ${RD_SRC}RDARRY.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdblk1ci.f
+
+rdbout.o${BJ}: ${RD_SRC}rdbout.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDADD.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+          ${BASE_COM}METRIC.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdbout.f
+
+rdcent.o${BJ}: ${RD_SRC}rdcent.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+          ${RD_SRC}RDPARM.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdcent.f
+
+rdcloc.o${BJ}: ${RD_SRC}rdcloc.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdcloc.f
+
+rdcmpr.o${BJ}: ${RD_SRC}rdcmpr.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDCOM.F77 ${BASE_COM}CONTRL.F77 ${RD_SRC}RDARRY.F77 \
+          ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdcmpr.f
+
+rdcntl.o${BJ}: ${RD_SRC}rdcntl.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${RD_SRC}RDCRY.F77 ${BASE_COM}ARRAYS.F77 \
+          ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdcntl.f
+
+rdcsd.o${BJ}: ${RD_SRC}rdcsd.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77 ${BASE_COM}PLOT.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdcsd.f
+
+rddam.o${BJ}: ${RD_SRC}rddam.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+         ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${BASE_COM}HTCAL.F77 \
+         ${BASE_COM}ESTREE.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rddam.f
+
+rddbug.o${BJ}: ${RD_SRC}rddbug.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rddbug.f
+
+rddout.o${BJ}: ${RD_SRC}rddout.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77 \
+          ${BASE_COM}METRIC.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rddout.f
+
+rddst.o${BJ}: ${RD_SRC}rddst.f ${RD_SRC}RDPARM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rddst.f
+
+rdend.o${BJ}: ${RD_SRC}rdend.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 \
+         ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdend.f
+
+rdescp.o${BJ}: ${RD_SRC}rdescp.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDCOM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdescp.f
+
+rdesin.o${BJ}: ${RD_SRC}rdesin.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77 \
+          ${BASE_COM}ESHAP.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdesin.f
+
+rdestb.o${BJ}: ${RD_SRC}rdestb.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77 ${RD_SRC}RDARRY.F77 \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdestb.f
+
+rdgrow.o${BJ}: ${RD_SRC}rdgrow.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdgrow.f
+
+rdinci.o${BJ}: ${RD_SRC}rdinci.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+        ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77  \
+        ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77  \
+        ${BASE_COM}METRIC.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdinci.f
+
+rdinf.o${BJ}: ${RD_SRC}rdinf.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+         ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdinf.f
+
+rdinit.o${BJ}: ${RD_SRC}rdinit.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}METRIC.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDCRY.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}ARRAYS.F77 \
+          ${BASE_COM}PLOT.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdinit.f
+
+rdinoc.o${BJ}: ${RD_SRC}rdinoc.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77 ${RD_SRC}RDCOM.F77 \
+          ${BASE_COM}PLOT.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdinoc.f
+
+rdinsd.o${BJ}: ${RD_SRC}rdinsd.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdinsd.f
+
+rdinup.o${BJ}: ${RD_SRC}rdinup.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDCOM.F77 ${BASE_COM}PLOT.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdinup.f
+
+rdiout.o${BJ}: ${RD_SRC}rdiout.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 \
+          ${RD_SRC}RDARRY.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDCRY.F77 \
+          ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdiout.f
+
+rdiprp.o${BJ}: ${RD_SRC}rdiprp.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdiprp.f
+
+rdjump.o${BJ}: ${RD_SRC}rdjump.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdjump.f
+
+rdload.o${BJ}: ${RD_SRC}rdload.f
+	${FC} -c ${FFLAGS} ${RD_SRC}rdload.f
+
+rdmn1.o${BJ}: ${RD_SRC}rdmn1.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${BASE_COM}ARRAYS.F77 \
+         ${BASE_COM}OUTCOM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdmn1.f
+
+rdmn2.o${BJ}: ${RD_SRC}rdmn2.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${RD_SRC}RDCRY.F77 \
+         ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdmn2.f
+
+rdmort.o${BJ}: ${RD_SRC}rdmort.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdmort.f
+
+rdmrec.o${BJ}: ${RD_SRC}rdmrec.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdmrec.f
+
+rdoagm.o${BJ}: ${RD_SRC}rdoagm.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDADD.F77 ${RD_SRC}RDARRY.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdoagm.f
+
+rdowi.o${BJ}: ${RD_SRC}rdowi.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdowi.f
+
+rdowin.o${BJ}: ${RD_SRC}rdowin.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 \
+          ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdowin.f
+
+rdpr.o${BJ}: ${RD_SRC}rdpr.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+        ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 \
+        ${RD_SRC}RDARRY.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDCRY.F77 \
+        ${RD_SRC}RDADD.F77 ${BASE_COM}METRIC.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdpr.f
+
+rdprin.o${BJ}: ${RD_SRC}rdprin.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdprin.f
+
+rdpush.o${BJ}: ${RD_SRC}rdpush.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdpush.f
+
+rdrani.o${BJ}: ${RD_SRC}rdrani.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdrani.f
+
+rdrann.o${BJ}: ${RD_SRC}rdrann.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdrann.f
+
+rdranp.o${BJ}: ${RD_SRC}rdranp.f
+	${FC} -c ${FFLAGS} ${RD_SRC}rdranp.f
+
+rdrate.o${BJ}: ${RD_SRC}rdrate.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdrate.f
+
+rdrdel.o${BJ}: ${RD_SRC}rdrdel.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${BASE_COM}ARRAYS.F77 \
+          ${BASE_COM}OUTCOM.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 \
+          ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdrdel.f
+
+rdroot.o${BJ}: ${RD_SRC}rdroot.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}PLOT.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdroot.f
+
+rdrout.o${BJ}: ${RD_SRC}rdrout.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdrout.f
+
+rdsadd.o${BJ}: ${RD_SRC}rdsadd.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 \
+          ${RD_SRC}RDADD.F77 ${BASE_COM}ARRAYS.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdsadd.f
+
+rdsetp.o${BJ}: ${RD_SRC}rdsetp.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdsetp.f
+
+rdshrk.o${BJ}: ${RD_SRC}rdshrk.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdshrk.f
+
+rdshst.o${BJ}: ${RD_SRC}rdshst.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${RD_SRC}RDCOM.F77 ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdshst.f
+
+rdslp.o${BJ}: ${RD_SRC}rdslp.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdslp.f
+
+rdsout.o${BJ}: ${RD_SRC}rdsout.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 \
+          ${RD_SRC}RDARRY.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDCRY.F77 \
+          ${RD_SRC}RDADD.F77 ${BASE_COM}METRIC.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdsout.f
+
+rdspl1.o${BJ}: ${RD_SRC}rdspl1.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdspl1.f
+
+rdspl2.o${BJ}: ${RD_SRC}rdspl2.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdspl2.f
+
+rdspor.o${BJ}: ${RD_SRC}rdspor.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdspor.f
+
+rdsprd.o${BJ}: ${RD_SRC}rdsprd.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdsprd.f
+
+rdspup.o${BJ}: ${RD_SRC}rdspup.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 \
+          ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdspup.f
+
+rdssiz.o${BJ}: ${RD_SRC}rdssiz.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdssiz.f
+
+rdstp.o${BJ}: ${RD_SRC}rdstp.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdstp.f
+
+rdstr.o${BJ}: ${RD_SRC}rdstr.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdstr.f
+
+rdsum.o${BJ}: ${RD_SRC}rdsum.f ${RD_SRC}RDPARM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdsum.f
+
+rdtdel.o${BJ}: ${RD_SRC}rdtdel.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77 \
+          ${RD_SRC}RDARRY.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdtdel.f
+
+rdtim.o${BJ}: ${RD_SRC}rdtim.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 \
+         ${BASE_COM}CONTRL.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdtim.f
+
+rdtout.o${BJ}: ${RD_SRC}rdtout.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDARRY.F77 \
+          ${RD_SRC}RDADD.F77 ${BASE_COM}METRIC.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdtout.f
+
+rdtreg.o${BJ}: ${RD_SRC}rdtreg.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77 \
+          ${RD_SRC}RDARRY.F77 ${RD_SRC}RDCRY.F77 ${BASE_COM}ARRAYS.F77 \
+          ${BASE_COM}PLOT.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdtreg.f
+
+rdtres.o${BJ}: ${RD_SRC}rdtres.f ${RD_SRC}RDPARM.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdtres.f
+
+rdtrip.o${BJ}: ${RD_SRC}rdtrip.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${RD_SRC}RDCOM.F77 ${RD_SRC}RDADD.F77 \
+          ${RD_SRC}RDARRY.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdtrip.f
+
+rdtrp.o${BJ}: ${RD_SRC}rdtrp.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+         ${BASE_COM}CONTRL.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdtrp.f
+
+rdzero.o${BJ}: ${RD_SRC}rdzero.f ${CI_COM}PRGPRM.F77 ${RD_SRC}RDPARM.F77 \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${RD_SRC}RDCOM.F77 \
+          ${RD_SRC}RDARRY.F77 ${BASE_COM}ARRAYS.F77 ${RD_SRC}RDADD.F77
+	${FC} -c ${FFLAGS} ${RD_SRC}rdzero.f
+
+# GenDefol (western spruce budworm)
+
+bweadv.o${BJ}: ${BW_SRC}bweadv.f ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bweadv.f
+  
+bweage.o${BJ}: ${BW_SRC}bweage.f  ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bweage.f 
+
+bwebet.o${BJ}: ${BW_SRC}bwebet.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bwebet.f 
+
+bwebkci.o${BJ}: ${BW_SRC}bwebkci.f  ${CI_COM}PRGPRM.F77 ${BW_SRC}BWECOM.F77 \
+               ${BW_SRC}BWESTD.F77 ${BW_SRC}BWEBOX.F77 ${BW_SRC}BWECM2.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwebkci.f
+
+bwebmsci.o${BJ}: ${BW_SRC}bwebmsci.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77 \
+               ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwebmsci.f
+
+bwecrc.o${BJ}: ${BW_SRC}bwecrc.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bwecrc.f
+
+bwecup.o${BJ}: ${BW_SRC}bwecup.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77 \
+               ${BASE_COM}CONTRL.F77 ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 \
+               ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwecup.f
+
+bwedam.o${BJ}: ${BW_SRC}bwedam.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+               ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 
+	${FC} -c ${FFLAGS} ${BW_SRC}bwedam.f
+
+bwedef.o${BJ}: ${BW_SRC}bwedef.f ${CI_COM}PRGPRM.F77 ${BW_SRC}BWESTD.F77 \
+               ${BW_SRC}BWECOM.F77 
+	${FC} -c ${FFLAGS} ${BW_SRC}bwedef.f
+
+bwedie.o${BJ}: ${BW_SRC}bwedie.f ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 \
+               ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwedie.f
+
+bwedr.o${BJ}: ${BW_SRC}bwedr.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+              ${BASE_COM}OPCOM.F77 ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 \
+              ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwedr.f
+
+bweerr.o${BJ}: ${BW_SRC}bweerr.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bweerr.f
+
+bweest.o${BJ}: ${BW_SRC}bweest.f ${BASE_COM}ESWSBW.F77 ${BW_SRC}BWESTD.F77 \
+               ${BW_SRC}BWECOM.F77 
+	${FC} -c ${FFLAGS} ${BW_SRC}bweest.f
+
+bwefdk.o${BJ}: ${BW_SRC}bwefdk.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bwefdk.f
+
+bwego.o${BJ}: ${BW_SRC}bwego.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+              ${BASE_COM}PLOT.F77 ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 \
+              ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwego.f
+
+bwein.o${BJ}: ${BW_SRC}bwein.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+              ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 \
+              ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwein.f
+
+bweint.o${BJ}: ${BW_SRC}bweint.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+               ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 \
+               ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bweint.f
+
+bwekdp.o${BJ}: ${BW_SRC}bwekdp.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bwekdp.f
+
+bwekey.o${BJ}: ${BW_SRC}bwekey.f ${BW_SRC}BWECOM.F77 
+	${FC} -c ${FFLAGS} ${BW_SRC}bwekey.f
+
+bwekrd.o${BJ}: ${BW_SRC}bwekrd.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bwekrd.f
+
+bwelit.o${BJ}: ${BW_SRC}bwelit.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+               ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 \
+               ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwelit.f
+
+bweob.o${BJ}: ${BW_SRC}bweob.f ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bweob.f
+
+bweout.o${BJ}: ${BW_SRC}bweout.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+               ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bweout.f
+
+bwep1.o${BJ}: ${BW_SRC}bwep1.f ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwep1.f
+
+bwep2.o${BJ}: ${BW_SRC}bwep2.f ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwep2.f
+
+bwep3.o${BJ}: ${BW_SRC}bwep3.f ${CI_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77 \
+              ${BW_SRC}BWECOM.F77 ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwep3.f
+
+bwep4.o${BJ}: ${BW_SRC}bwep4.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77 \
+               ${BASE_COM}CONTRL.F77 ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwep4.f
+
+bwepdm.o${BJ}: ${BW_SRC}bwepdm.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77 \
+               ${BASE_COM}CONTRL.F77 ${BASE_COM}ARRAYS.F77 ${BASE_COM}COEFFS.F77 \
+               ${BW_SRC}BWECOM.F77 ${BW_SRC}BWESTD.F77 ${MIST_SRC}MISCOM.F77
+	${FC} -c ${FFLAGS}${I2}${MIST_SRC} ${BW_SRC}bwepdm.f
+
+bweprb.o${BJ}: ${BW_SRC}bweprb.f ${CI_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77 \
+               ${BASE_COM}CONTRL.F77 ${BW_SRC}BWESTD.F77 ${BW_SRC}BWECOM.F77 
+	${FC} -c ${FFLAGS} ${BW_SRC}bweprb.f
+
+bweran.o${BJ}: ${BW_SRC}bweran.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bweran.f
+
+bwernp.o${BJ}: ${BW_SRC}bwernp.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bwernp.f
+
+bwesin.o${BJ}: ${BW_SRC}bwesin.f ${CI_COM}PRGPRM.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwesin.f
+
+bwesit.o${BJ}: ${BW_SRC}bwesit.f ${CI_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77 \
+               ${BASE_COM}CONTRL.F77 ${BASE_COM}COEFFS.F77 ${BW_SRC}BWESTD.F77 \
+               ${BW_SRC}BWECM2.F77 ${BW_SRC}BWECOM.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwesit.f
+
+bweslp.o${BJ}: ${BW_SRC}bweslp.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bweslp.f
+
+bweuca.o${BJ}: ${BW_SRC}bweuca.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bweuca.f
+
+bweuky.o${BJ}: ${BW_SRC}bweuky.f
+	${FC} -c ${FFLAGS} ${BW_SRC}bweuky.f
+
+bwewea.o${BJ}: ${BW_SRC}bwewea.f ${BW_SRC}BWECOM.F77 \
+               ${BW_SRC}BWECM2.F77 ${BW_SRC}BWEBOX.F77
+	${FC} -c ${FFLAGS} ${BW_SRC}bwewea.f
+
+# Multiple pest link notification from WSBWE source
+
+fxnote.o${BJ}: ${BW_SRC}txnote.f
+	${FC} -c ${FFLAGS} ${BW_SRC}fxnote.f
+
+txnote.o${BJ}: ${BW_SRC}txnote.f
+	${FC} -c ${FFLAGS} ${BW_SRC}txnote.f

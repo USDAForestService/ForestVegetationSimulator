@@ -30,7 +30,7 @@ NE_OBJS   = badist.o${BJ} balmod.o${BJ} blkdat.o${BJ} cratet.o${BJ} crown.o${BJ}
             bfvol.o${BJ} ccfcal.o${BJ} cfvol.o${BJ} cwcalc.o${BJ} disply.o${BJ} estab.o${BJ} exppnb.o${BJ} \
             gheads.o${BJ} gvrvol.o${BJ} htcalc.o${BJ} maical.o${BJ} morts.o${BJ} prtexm.o${BJ} prtrls.o${BJ} ptbal.o${BJ} \
             spctrn.o${BJ} sumhed.o${BJ} sumout.o${BJ} varvol.o${BJ} \
-            habtyp.o${BJ} apisubs.o${BJ} \
+            habtyp.o${BJ} \
             bftopk.o${BJ} bratio.o${BJ} cftopk.o${BJ} dgbnd.o${BJ} dunn.o${BJ} rcon.o${BJ} vols.o${BJ} \
             adjmai.o${BJ} avht40.o${BJ} \
             algcmp.o${BJ} algevl.o${BJ} algexp.o${BJ} algkey.o${BJ}    \
@@ -50,7 +50,7 @@ NE_OBJS   = badist.o${BJ} balmod.o${BJ} blkdat.o${BJ} cratet.o${BJ} crown.o${BJ}
             hbdecd.o${BJ} htgstp.o${BJ} iapsrt.o${BJ} initre.o${BJ} intree.o${BJ} iqrsrt.o${BJ} istfnb.o${BJ}    \
             istlnb.o${BJ} keydmp.o${BJ} keyopn.o${BJ} keyrdr.o${BJ} keywds.o${BJ} lb1mem.o${BJ} lbaglr.o${BJ}    \
             lbdset.o${BJ} lbget1.o${BJ} lbintr.o${BJ} lbmemr.o${BJ} lbsplr.o${BJ} lbsplw.o${BJ} lbstrd.o${BJ}    \
-            lbtrim.o${BJ} lbunin.o${BJ} lnkchn.o${BJ} lnkint.o${BJ} fvs.o${BJ} mbacal.o${BJ} meansd.o${BJ}      \
+            lbtrim.o${BJ} lbunin.o${BJ} lnkchn.o${BJ} lnkint.o${BJ} main.o${BJ} mbacal.o${BJ} meansd.o${BJ}      \
             msbmrt.o${BJ} mults.o${BJ}  myopen.o${BJ} natcrz.o${BJ} notre.o${BJ} opadd.o${BJ} opbisr.o${BJ} \
             opcact.o${BJ} opcset.o${BJ} opcycl.o${BJ} oprdat.o${BJ} \
             opdon2.o${BJ} opeval.o${BJ} opexpn.o${BJ} opfind.o${BJ} opget2.o${BJ} opget3.o${BJ} opinit.o${BJ}  \
@@ -83,12 +83,6 @@ econ: ${ECON_OBJS}
 ne: ${NE_OBJS}
 
 # compile routines in the NE source directory
-
-apisubs.o${BJ}:  ${BASE_SRC}apisubs.f ${NE_COM}PRGPRM.F77   \
-          ${BASE_COM}ARRAYS.F77 ${BASE_COM}CONTRL.F77  \
-          ${BASE_COM}CALDEN.F77 ${BASE_COM}OPCOM.F77 ${BASE_COM}OUTCOM.F77   \
-          ${BASE_COM}PLOT.F77 
-	${FC} -c ${FFLAGS} ${BASE_SRC}apisubs.f
 
 badist.o${BJ}: ${NE_SRC}badist.f ${NE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77         \
           ${BASE_COM}CONTRL.F77 ${BASE_COM}TWIGCOM.F77
@@ -677,10 +671,10 @@ lnkchn.o${BJ}: ${BASE_SRC}lnkchn.f ${NE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77  \
 lnkint.o${BJ}: ${BASE_SRC}lnkint.f ${NE_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77
 	${FC} -c ${FFLAGS} ${BASE_SRC}lnkint.f
 
-fvs.o${BJ}:   ${BASE_SRC}fvs.f ${NE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77    \
+main.o${BJ}:   ${BASE_SRC}main.f ${NE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77    \
           ${BASE_COM}PLOT.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}OUTCOM.F77  \
           ${BASE_COM}PDEN.F77 ${BASE_COM}ECON.F77 ${BASE_COM}WORKCM.F77
-	${FC} -c ${FFLAGS} ${BASE_SRC}fvs.f
+	${FC} -c ${FFLAGS} ${BASE_SRC}main.f
 
 mbacal.o${BJ}: ${BASE_SRC}mbacal.f ${NE_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77  \
           ${BASE_COM}COEFFS.F77 ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77  \

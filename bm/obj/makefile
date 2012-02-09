@@ -172,7 +172,7 @@ bmtmrt.o${BJ}: ${BM_SRC}bmtmrt.f ${BM_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77     \
           ${BASE_COM}PDEN.F77
 	${FC} -c ${FFLAGS} ${BM_SRC}bmtmrt.f
 
-bratio.o${BJ}: ${BM_SRC}bratio.f
+bratio.o${BJ}: ${BM_SRC}bratio.f ${BM_COM}PRGPRM.F77
 	${FC} -c ${FFLAGS} ${BM_SRC}bratio.f
 
 ccfcal.o${BJ}: ${BM_SRC}ccfcal.f ${BM_COM}PRGPRM.F77

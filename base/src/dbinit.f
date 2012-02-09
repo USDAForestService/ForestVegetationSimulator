@@ -1,7 +1,7 @@
       SUBROUTINE DBINIT
       IMPLICIT NONE
 C----------
-C  **DBINIT--BASE DATE OF LAST REVISION:  07/23/08
+C  **DBINIT--BASE DATE OF LAST REVISION:  02/08/2012
 C----------
 C
 C
@@ -14,9 +14,6 @@ C
 COMMONS
 C
 C
-      ALLSUB='$**SUB'
-      MAXTOP=255
       ITOP=0
-      MAXLEN=20
       RETURN
       END

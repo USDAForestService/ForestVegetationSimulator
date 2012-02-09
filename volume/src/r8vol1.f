@@ -1,4 +1,5 @@
-!== last modified  10-26-2005
+!== last modified  02-07-2012
+!== RNH chenged names of include files to R8CLIST.INC and R8VLIST.INC
       SUBROUTINE R8VOL1(VOLEQ,DBHOB,HTONE,HTTWO,PROD,VOL,ERRFLAG)
 
 C  CREATED:   05-28-91
@@ -15,14 +16,14 @@ C     CHARACTER*8 READIT
 
       INTEGER ERRFLAG,DONEFLAG,LAST,HALF,LASTFLAG
       INTEGER GC1
-      INTEGER J,SPEC,VSPEC,FIRST
+      INTEGER SPEC,VSPEC,FIRST
       INTEGER COEFEQ(4)
 
       REAL DBHOB, HTONE, HTTWO,VEQ
-      REAL VOL(15), COFARR(162,10)
+      REAL VOL(15)
 
-      include 'R8CLIST.FOR'
-      include 'R8VLIST.FOR'
+      include 'R8CLIST.INC'
+      include 'R8VLIST.INC'
 
 c      INCLUDE 'COMM0'
 

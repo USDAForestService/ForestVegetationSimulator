@@ -182,7 +182,7 @@ blkdat.o${BJ}: ${SO_SRC}blkdat.f ${SO_COM}PRGPRM.F77 ${SO_COM}ESPARM.F77     \
           ${BASE_COM}VARCOM.F77 ${BASE_COM}FVSSTDCM.F77
 	${FC} -c ${FFLAGS} ${SO_SRC}blkdat.f
 
-bratio.o${BJ}: ${SO_SRC}bratio.f ${SO_COM}PRGPRM.F77 ${BASE_COM}COEFFS.F77
+bratio.o${BJ}: ${SO_SRC}bratio.f ${SO_COM}PRGPRM.F77
 	${FC} -c ${FFLAGS} ${SO_SRC}bratio.f
 
 ccfcal.o${BJ}: ${SO_SRC}ccfcal.f ${SO_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77

@@ -1,5 +1,6 @@
 !== last modified  11-06-2009
 !== tdh added httwo = httot before prod 08
+!== RNH changed name of include file to R8DIB.INC
       SUBROUTINE R8VOL2(VOLEQ,VOL,DBHOB,HTONE,HTTWO,MTOPP,HTTOT,CTYPE,
      >                  ERRFLAG)
 C      *** SUBROUTINE TO CALCULATE NEW VOLUMES ***

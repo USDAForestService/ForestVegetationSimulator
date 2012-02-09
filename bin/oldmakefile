@@ -123,9 +123,6 @@ AN_OBJ    = ../an/obj/
 # the BM (Blue Mountains) object directory
 BM_OBJ    = ../bm/obj/
 
-# the ACD (Acaidain) object directory
-ACD_OBJ    = ../acd/obj/
-
 # the CA (Inland Calif / Southern Cascades) object directory
 CA_OBJ    = ../ca/obj/
 
@@ -256,12 +253,8 @@ WWPB_OBJ = ../wwpb/obj/
 FIREM_CR_OBJ = ../metric/fire/cr/obj/
 CRM_OBJ      = ../metric/cr/obj/
 
-# PUTGET object directories for IE
-PG_IE_OBJ =  ../pg/obj/ie/
-PG_NE_OBJ =  ../pg/obj/ne/
-
 # all base Prognosis code needed for a variant link
-BASE_LINK      = ${BASE_OBJ}fvs.o${BJ}  \
+BASE_LINK      = ${BASE_OBJ}main.o${BJ}  \
                  ${BASE_OBJ}algcmp.o${BJ} \
                  ${BASE_OBJ}algevl.o${BJ} \
                  ${BASE_OBJ}algexp.o${BJ} \
@@ -282,7 +275,6 @@ BASE_LINK      = ${BASE_OBJ}fvs.o${BJ}  \
                  ${BASE_OBJ}comprs.o${BJ} \
                  ${BASE_OBJ}covolp.o${BJ} \
                  ${BASE_OBJ}cuts.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${BASE_OBJ}cwidth.o${BJ} \
                  ${BASE_OBJ}damcds.o${BJ} \
                  ${BASE_OBJ}dampro.o${BJ} \
@@ -450,7 +442,7 @@ BASE_LINK      = ${BASE_OBJ}fvs.o${BJ}  \
 
 # All the BASE, STRP, MISTOE routines compiled specifically for the WC
 # variant into wc/obj and also used in the PN variant
-PN_WC_BASE_LINK = ${WC_OBJ}fvs.o${BJ}   \
+PN_WC_BASE_LINK = ${WC_OBJ}main.o${BJ}   \
                   ${WC_OBJ}algcmp.o${BJ} \
                   ${WC_OBJ}algevl.o${BJ} \
                   ${WC_OBJ}algexp.o${BJ} \
@@ -471,7 +463,6 @@ PN_WC_BASE_LINK = ${WC_OBJ}fvs.o${BJ}   \
                   ${WC_OBJ}comprs.o${BJ} \
                   ${WC_OBJ}covolp.o${BJ} \
                   ${WC_OBJ}cuts.o${BJ}   \
-                  ${BASE_OBJ}cmdline.o${BJ} \
                   ${WC_OBJ}cwidth.o${BJ} \
                   ${WC_OBJ}damcds.o${BJ} \
                   ${WC_OBJ}dampro.o${BJ} \
@@ -1507,7 +1498,6 @@ PPBASE_LINK    = ${PPBASE_OBJ}add1.o${BJ}   \
                  ${BASE_OBJ}comprs.o${BJ} \
                  ${BASE_OBJ}covolp.o${BJ} \
                  ${BASE_OBJ}cuts.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${BASE_OBJ}cwidth.o${BJ} \
                  ${BASE_OBJ}damcds.o${BJ} \
                  ${BASE_OBJ}dampro.o${BJ} \
@@ -2014,7 +2004,6 @@ CR_PPBASE_LINK = ${PPCR_OBJ}ppdgf.o${BJ} \
                  ${CR_OBJ}ch4srt.o${BJ} ${CR_OBJ}cmrang.o${BJ} ${CR_OBJ}comcup.o${BJ} \
                  ${CR_OBJ}comp.o${BJ}   ${CR_OBJ}comprs.o${BJ} ${CR_OBJ}covolp.o${BJ} \
                  ${CR_OBJ}cuts.o${BJ}   ${CR_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CR_OBJ}damcds.o${BJ} ${CR_OBJ}dampro.o${BJ} \
                  ${CR_OBJ}dbadd.o${BJ}  ${CR_OBJ}dball.o${BJ}  \
                  ${CR_OBJ}dbchk.o${BJ}  ${CR_OBJ}dbinit.o${BJ} ${CR_OBJ}dbprse.o${BJ} \
@@ -2275,7 +2264,6 @@ LS_PPBASE_LINK = ${PPLS_OBJ}ppdgf.o${BJ} \
                  ${LS_OBJ}ch4srt.o${BJ} ${LS_OBJ}cmrang.o${BJ} ${LS_OBJ}comcup.o${BJ} \
                  ${LS_OBJ}comp.o${BJ}   ${LS_OBJ}comprs.o${BJ} ${LS_OBJ}covolp.o${BJ} \
                  ${LS_OBJ}cuts.o${BJ}   ${LS_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${LS_OBJ}damcds.o${BJ} ${LS_OBJ}dampro.o${BJ} \
                  ${LS_OBJ}dbadd.o${BJ}  ${LS_OBJ}dball.o${BJ}  \
                  ${LS_OBJ}dbchk.o${BJ}  ${LS_OBJ}dbinit.o${BJ} ${LS_OBJ}dbprse.o${BJ} \
@@ -2675,7 +2663,6 @@ PN_WC_PPBASE_LINK = ${PPWC_OBJ}ppdgf.o${BJ}  ${PPWC_OBJ}ppregt.o${BJ} \
                   ${WC_OBJ}comprs.o${BJ} \
                   ${WC_OBJ}covolp.o${BJ} \
                   ${WC_OBJ}cuts.o${BJ}   \
-                  ${BASE_OBJ}cmdline.o${BJ} \
                   ${WC_OBJ}cwidth.o${BJ} \
                   ${WC_OBJ}damcds.o${BJ} \
                   ${WC_OBJ}dampro.o${BJ} \
@@ -3060,7 +3047,6 @@ UT_PPBASE_LINK = ${PPUT_OBJ}ppdgf.o${BJ} \
                  ${UT_OBJ}ch4srt.o${BJ} ${UT_OBJ}cmrang.o${BJ} ${UT_OBJ}comcup.o${BJ} \
                  ${UT_OBJ}comp.o${BJ}   ${UT_OBJ}comprs.o${BJ} ${UT_OBJ}covolp.o${BJ} \
                  ${UT_OBJ}cuts.o${BJ}   ${UT_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${UT_OBJ}damcds.o${BJ} ${UT_OBJ}dampro.o${BJ} \
                  ${UT_OBJ}dbadd.o${BJ}  ${UT_OBJ}dball.o${BJ}  \
                  ${UT_OBJ}dbchk.o${BJ}  ${UT_OBJ}dbinit.o${BJ} ${UT_OBJ}dbprse.o${BJ} \
@@ -3177,7 +3163,6 @@ AK_LINK        = ${AK_OBJ}blkdat.o${BJ} ${AK_OBJ}bratio.o${BJ} ${AK_OBJ}ccfcal.o
                  ${AK_OBJ}ch4srt.o${BJ} ${AK_OBJ}cmrang.o${BJ} ${AK_OBJ}comcup.o${BJ} \
                  ${AK_OBJ}comp.o${BJ}   ${AK_OBJ}comprs.o${BJ} ${AK_OBJ}covolp.o${BJ} \
                  ${AK_OBJ}cuts.o${BJ}   ${AK_OBJ}cwidth.o${BJ}  \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${AK_OBJ}damcds.o${BJ} ${AK_OBJ}dampro.o${BJ} \
                  ${AK_OBJ}dbadd.o${BJ}  ${AK_OBJ}dball.o${BJ}  \
                  ${AK_OBJ}dbchk.o${BJ}  ${AK_OBJ}dbinit.o${BJ} ${AK_OBJ}dbprse.o${BJ} \
@@ -3209,7 +3194,7 @@ AK_LINK        = ${AK_OBJ}blkdat.o${BJ} ${AK_OBJ}bratio.o${BJ} ${AK_OBJ}ccfcal.o
                  ${AK_OBJ}lbintr.o${BJ} ${AK_OBJ}lbmemr.o${BJ} ${AK_OBJ}lbsplr.o${BJ} \
                  ${AK_OBJ}lbsplw.o${BJ} ${AK_OBJ}lbstrd.o${BJ} ${AK_OBJ}lbtrim.o${BJ} \
                  ${AK_OBJ}lbunin.o${BJ} ${AK_OBJ}lnkchn.o${BJ} ${AK_OBJ}lnkint.o${BJ} \
-                 ${AK_OBJ}fvs.o${BJ}   ${AK_OBJ}mbacal.o${BJ} ${AK_OBJ}meansd.o${BJ} \
+                 ${AK_OBJ}main.o${BJ}   ${AK_OBJ}mbacal.o${BJ} ${AK_OBJ}meansd.o${BJ} \
                  ${AK_OBJ}msbmrt.o${BJ} \
                  ${AK_OBJ}mults.o${BJ}  ${AK_OBJ}myopen.o${BJ} ${AK_OBJ}natcrz.o${BJ} \
                  ${AK_OBJ}notre.o${BJ}  ${AK_OBJ}opadd.o${BJ}  ${AK_OBJ}opbisr.o${BJ} \
@@ -3288,7 +3273,6 @@ AN_LINK        = ${AN_OBJ}blkdat.o${BJ} ${AN_OBJ}bratio.o${BJ} ${AN_OBJ}ccfcal.o
                  ${AN_OBJ}ch4srt.o${BJ} ${AN_OBJ}cmrang.o${BJ} ${AN_OBJ}comcup.o${BJ} \
                  ${AN_OBJ}comp.o${BJ}   ${AN_OBJ}comprs.o${BJ} ${AN_OBJ}covolp.o${BJ} \
                  ${AN_OBJ}cuts.o${BJ}   ${AN_OBJ}cwidth.o${BJ}  \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${AN_OBJ}damcds.o${BJ} ${AN_OBJ}dampro.o${BJ} \
                  ${AN_OBJ}dbadd.o${BJ}  ${AN_OBJ}dball.o${BJ}  \
                  ${AN_OBJ}dbchk.o${BJ}  ${AN_OBJ}dbinit.o${BJ} ${AN_OBJ}dbprse.o${BJ} \
@@ -3320,7 +3304,7 @@ AN_LINK        = ${AN_OBJ}blkdat.o${BJ} ${AN_OBJ}bratio.o${BJ} ${AN_OBJ}ccfcal.o
                  ${AN_OBJ}lbintr.o${BJ} ${AN_OBJ}lbmemr.o${BJ} ${AN_OBJ}lbsplr.o${BJ} \
                  ${AN_OBJ}lbsplw.o${BJ} ${AN_OBJ}lbstrd.o${BJ} ${AN_OBJ}lbtrim.o${BJ} \
                  ${AN_OBJ}lbunin.o${BJ} ${AN_OBJ}lnkchn.o${BJ} ${AN_OBJ}lnkint.o${BJ} \
-                 ${AN_OBJ}fvs.o${BJ}   ${AN_OBJ}mbacal.o${BJ} ${AN_OBJ}meansd.o${BJ} \
+                 ${AN_OBJ}main.o${BJ}   ${AN_OBJ}mbacal.o${BJ} ${AN_OBJ}meansd.o${BJ} \
                  ${AN_OBJ}msbmrt.o${BJ} \
                  ${AN_OBJ}mults.o${BJ}  ${AN_OBJ}myopen.o${BJ} ${AN_OBJ}natcrz.o${BJ} \
                  ${AN_OBJ}notre.o${BJ}  ${AN_OBJ}opadd.o${BJ}  ${AN_OBJ}opbisr.o${BJ} \
@@ -3389,7 +3373,6 @@ BM_LINK        = ${BM_OBJ}bfvol.o${BJ}  ${BM_OBJ}blkdat.o${BJ} ${BM_OBJ}bmtmrt.o
                  ${BM_OBJ}ch4bsr.o${BJ} ${BM_OBJ}ch4srt.o${BJ} ${BM_OBJ}cmrang.o${BJ} \
                  ${BM_OBJ}comcup.o${BJ} ${BM_OBJ}comp.o${BJ}   ${BM_OBJ}comprs.o${BJ} \
                  ${BM_OBJ}covolp.o${BJ} ${BM_OBJ}cuts.o${BJ}   ${BM_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${BM_OBJ}damcds.o${BJ} ${BM_OBJ}dampro.o${BJ} ${BM_OBJ}dbadd.o${BJ}  \
                  ${BM_OBJ}dball.o${BJ}  ${BM_OBJ}dbchk.o${BJ}  ${BM_OBJ}dbinit.o${BJ} \
                  ${BM_OBJ}dbprse.o${BJ} ${BM_OBJ}dbscan.o${BJ} ${BM_OBJ}dense.o${BJ}  \
@@ -3493,7 +3476,6 @@ CA_LINK        = ${CA_OBJ}blkdat.o${BJ} ${CA_OBJ}bratio.o${BJ} ${CA_OBJ}ccfcal.o
                  ${CA_OBJ}ch4srt.o${BJ} ${CA_OBJ}cmrang.o${BJ} ${CA_OBJ}comcup.o${BJ} \
                  ${CA_OBJ}comp.o${BJ}   ${CA_OBJ}comprs.o${BJ} ${CA_OBJ}covolp.o${BJ} \
                  ${CA_OBJ}cuts.o${BJ}   ${CA_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CA_OBJ}damcds.o${BJ} ${CA_OBJ}dampro.o${BJ} \
                  ${CA_OBJ}dbadd.o${BJ}  ${CA_OBJ}dball.o${BJ}  \
                  ${CA_OBJ}dbchk.o${BJ}  ${CA_OBJ}dbinit.o${BJ} ${CA_OBJ}dbprse.o${BJ} \
@@ -3640,7 +3622,6 @@ CI_LINK        = ${CI_OBJ}bfvol.o${BJ} \
                  ${CI_OBJ}comprs.o${BJ} \
                  ${CI_OBJ}covolp.o${BJ} \
                  ${CI_OBJ}cuts.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CI_OBJ}cwidth.o${BJ} \
                  ${CI_OBJ}damcds.o${BJ} \
                  ${CI_OBJ}dampro.o${BJ} \
@@ -3879,7 +3860,6 @@ CR_LINK        = ${CR_OBJ}badist.o${BJ} ${CR_OBJ}bfvol.o${BJ}  \
                  ${CR_OBJ}ch4srt.o${BJ} ${CR_OBJ}cmrang.o${BJ} ${CR_OBJ}comcup.o${BJ} \
                  ${CR_OBJ}comp.o${BJ}   ${CR_OBJ}comprs.o${BJ} ${CR_OBJ}covolp.o${BJ} \
                  ${CR_OBJ}cuts.o${BJ}   ${CR_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CR_OBJ}damcds.o${BJ} ${CR_OBJ}dampro.o${BJ} \
                  ${CR_OBJ}dbadd.o${BJ}  ${CR_OBJ}dball.o${BJ}  \
                  ${CR_OBJ}dbchk.o${BJ}  ${CR_OBJ}dbinit.o${BJ} ${CR_OBJ}dbprse.o${BJ} \
@@ -3905,7 +3885,7 @@ CR_LINK        = ${CR_OBJ}badist.o${BJ} ${CR_OBJ}bfvol.o${BJ}  \
                  ${CR_OBJ}lbintr.o${BJ} ${CR_OBJ}lbmemr.o${BJ} ${CR_OBJ}lbsplr.o${BJ} \
                  ${CR_OBJ}lbsplw.o${BJ} ${CR_OBJ}lbstrd.o${BJ} ${CR_OBJ}lbtrim.o${BJ} \
                  ${CR_OBJ}lbunin.o${BJ} ${CR_OBJ}lnkchn.o${BJ} ${CR_OBJ}lnkint.o${BJ} \
-                 ${CR_OBJ}fvs.o${BJ}   ${CR_OBJ}mbacal.o${BJ} ${CR_OBJ}meansd.o${BJ} \
+                 ${CR_OBJ}main.o${BJ}   ${CR_OBJ}mbacal.o${BJ} ${CR_OBJ}meansd.o${BJ} \
                  ${CR_OBJ}msbmrt.o${BJ} \
                  ${CR_OBJ}mults.o${BJ}  ${CR_OBJ}myopen.o${BJ} ${CR_OBJ}natcrz.o${BJ} \
                  ${CR_OBJ}notre.o${BJ}  ${CR_OBJ}opadd.o${BJ}  ${CR_OBJ}opbisr.o${BJ} \
@@ -4081,7 +4061,6 @@ EM_LINK        = ${EM_OBJ}bfvol.o${BJ} \
                  ${EM_OBJ}ch4srt.o${BJ} ${EM_OBJ}cmrang.o${BJ} ${EM_OBJ}comcup.o${BJ} \
                  ${EM_OBJ}comp.o${BJ}   ${EM_OBJ}comprs.o${BJ} ${EM_OBJ}covolp.o${BJ} \
                  ${EM_OBJ}cuts.o${BJ}   ${EM_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${EM_OBJ}damcds.o${BJ} ${EM_OBJ}dampro.o${BJ} \
                  ${EM_OBJ}dbadd.o${BJ}  ${EM_OBJ}dball.o${BJ}  \
                  ${EM_OBJ}dbchk.o${BJ}  ${EM_OBJ}dbinit.o${BJ} ${EM_OBJ}dbprse.o${BJ} \
@@ -4108,7 +4087,7 @@ EM_LINK        = ${EM_OBJ}bfvol.o${BJ} \
                  ${EM_OBJ}lbintr.o${BJ} ${EM_OBJ}lbmemr.o${BJ} ${EM_OBJ}lbsplr.o${BJ} \
                  ${EM_OBJ}lbsplw.o${BJ} ${EM_OBJ}lbstrd.o${BJ} ${EM_OBJ}lbtrim.o${BJ} \
                  ${EM_OBJ}lbunin.o${BJ} ${EM_OBJ}lnkchn.o${BJ} ${EM_OBJ}lnkint.o${BJ} \
-                 ${EM_OBJ}fvs.o${BJ}   ${EM_OBJ}mbacal.o${BJ} ${EM_OBJ}meansd.o${BJ} \
+                 ${EM_OBJ}main.o${BJ}   ${EM_OBJ}mbacal.o${BJ} ${EM_OBJ}meansd.o${BJ} \
                  ${EM_OBJ}msbmrt.o${BJ} \
                  ${EM_OBJ}mults.o${BJ}  ${EM_OBJ}myopen.o${BJ} ${EM_OBJ}natcrz.o${BJ} \
                  ${EM_OBJ}notre.o${BJ}  ${EM_OBJ}opadd.o${BJ}  ${EM_OBJ}opbisr.o${BJ} \
@@ -4164,7 +4143,7 @@ EM_LINK        = ${EM_OBJ}bfvol.o${BJ} \
 # for the IE variant (no cover, no mistletoe)
 
 IE_LINK        = ${IE_OBJ}bfvol.o${BJ}  ${IE_OBJ}blkdat.o${BJ} ${IE_OBJ}bratio.o${BJ} \
-                 ${IE_OBJ}ccfcal.o${BJ} ${IE_OBJ}apisubs.o${BJ} \
+                 ${IE_OBJ}ccfcal.o${BJ} \
                  ${IE_OBJ}cratet.o${BJ} ${IE_OBJ}crown.o${BJ}  ${IE_OBJ}cubrds.o${BJ} \
                  ${IE_OBJ}dgdriv.o${BJ} ${IE_OBJ}dgf.o${BJ}    ${IE_OBJ}dubscr.o${BJ} \
                  ${IE_OBJ}esadvh.o${BJ} ${IE_OBJ}esdlay.o${BJ} ${IE_OBJ}espadv.o${BJ} \
@@ -4190,7 +4169,6 @@ IE_LINK        = ${IE_OBJ}bfvol.o${BJ}  ${IE_OBJ}blkdat.o${BJ} ${IE_OBJ}bratio.o
                  ${IE_OBJ}ch4srt.o${BJ} ${IE_OBJ}cmrang.o${BJ} ${IE_OBJ}comcup.o${BJ} \
                  ${IE_OBJ}comp.o${BJ}   ${IE_OBJ}comprs.o${BJ} ${IE_OBJ}covolp.o${BJ} \
                  ${IE_OBJ}cuts.o${BJ}   ${IE_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${IE_OBJ}damcds.o${BJ} ${IE_OBJ}dampro.o${BJ} \
                  ${IE_OBJ}dbadd.o${BJ}  ${IE_OBJ}dball.o${BJ}  \
                  ${IE_OBJ}dbchk.o${BJ}  ${IE_OBJ}dbinit.o${BJ} ${IE_OBJ}dbprse.o${BJ} \
@@ -4220,7 +4198,7 @@ IE_LINK        = ${IE_OBJ}bfvol.o${BJ}  ${IE_OBJ}blkdat.o${BJ} ${IE_OBJ}bratio.o
                  ${IE_OBJ}lbintr.o${BJ} ${IE_OBJ}lbmemr.o${BJ} ${IE_OBJ}lbsplr.o${BJ} \
                  ${IE_OBJ}lbsplw.o${BJ} ${IE_OBJ}lbstrd.o${BJ} ${IE_OBJ}lbtrim.o${BJ} \
                  ${IE_OBJ}lbunin.o${BJ} ${IE_OBJ}lnkchn.o${BJ} ${IE_OBJ}lnkint.o${BJ} \
-                 ${IE_OBJ}fvs.o${BJ}   ${IE_OBJ}mbacal.o${BJ} ${IE_OBJ}meansd.o${BJ} \
+                 ${IE_OBJ}main.o${BJ}   ${IE_OBJ}mbacal.o${BJ} ${IE_OBJ}meansd.o${BJ} \
                  ${IE_OBJ}mults.o${BJ}  ${IE_OBJ}myopen.o${BJ} ${IE_OBJ}natcrz.o${BJ} \
                  ${IE_OBJ}notre.o${BJ}  ${IE_OBJ}opadd.o${BJ}  ${IE_OBJ}opbisr.o${BJ} \
                  ${IE_OBJ}opcact.o${BJ} ${IE_OBJ}opcset.o${BJ} ${IE_OBJ}oprdat.o${BJ} \
@@ -4298,10 +4276,11 @@ NC_LINK        = ${NC_OBJ}bfvol.o${BJ}    \
                  ${NC_OBJ}cratet.o${BJ}   \
                  ${NC_OBJ}crown.o${BJ}    \
                  ${NC_OBJ}dgf.o${BJ}      \
+                 ${NC_OBJ}dubscr.o${BJ}   \
                  ${NC_OBJ}dunn.o${BJ}     \
                  ${NC_OBJ}ecocls.o${BJ}   \
-                 ${NC_OBJ}essubh.o${BJ}    \
-                 ${NC_OBJ}findag.o${BJ}    \
+                 ${NC_OBJ}essubh.o${BJ}   \
+                 ${NC_OBJ}findag.o${BJ}   \
                  ${NC_OBJ}forkod.o${BJ}   \
                  ${NC_OBJ}formcl.o${BJ}   \
                  ${NC_OBJ}grinit.o${BJ}   \
@@ -4775,7 +4754,6 @@ PPCI_LINK      = ${PPCI_OBJ}ppdgf.o${BJ}  \
                  ${CI_OBJ}comprs.o${BJ} \
                  ${CI_OBJ}covolp.o${BJ} \
                  ${CI_OBJ}cuts.o${BJ}   \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${CI_OBJ}cwidth.o${BJ} \
                  ${CI_OBJ}damcds.o${BJ} \
                  ${CI_OBJ}dampro.o${BJ} \
@@ -5164,7 +5142,6 @@ PPNC_LINK      = ${PPBASE_OBJ}add1.o${BJ}   \
                  ${BASE_OBJ}comprs.o${BJ} \
                  ${BASE_OBJ}covolp.o${BJ} \
                  ${BASE_OBJ}cuts.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${BASE_OBJ}cwidth.o${BJ} \
                  ${BASE_OBJ}damcds.o${BJ} \
                  ${BASE_OBJ}dampro.o${BJ} \
@@ -5533,7 +5510,6 @@ PPWS_LINK      = ${PPWS_OBJ}varget.o${BJ}   \
                  ${WS_OBJ}ch4srt.o${BJ} ${WS_OBJ}cmrang.o${BJ} ${WS_OBJ}comcup.o${BJ} \
                  ${WS_OBJ}comp.o${BJ}   ${WS_OBJ}comprs.o${BJ} ${WS_OBJ}covolp.o${BJ} \
                  ${WS_OBJ}cuts.o${BJ}   ${WS_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${WS_OBJ}damcds.o${BJ} ${WS_OBJ}dampro.o${BJ} \
                  ${WS_OBJ}dbadd.o${BJ}  ${WS_OBJ}dball.o${BJ}  \
                  ${WS_OBJ}dbchk.o${BJ}  ${WS_OBJ}dbinit.o${BJ} ${WS_OBJ}dbprse.o${BJ} \
@@ -5810,7 +5786,6 @@ SN_LINK        = ${SN_OBJ}blkdat.o${BJ} ${SN_OBJ}bratio.o${BJ}   \
                  ${SN_OBJ}ch4bsr.o${BJ} ${SN_OBJ}ch4srt.o${BJ} ${SN_OBJ}cmrang.o${BJ}   \
                  ${SN_OBJ}comcup.o${BJ} ${SN_OBJ}comp.o${BJ}   ${SN_OBJ}comprs.o${BJ}   \
                  ${SN_OBJ}covolp.o${BJ} ${SN_OBJ}cuts.o${BJ}   \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${SN_OBJ}cwidth.o${BJ} ${SN_OBJ}damcds.o${BJ} ${SN_OBJ}dampro.o${BJ} \
                  ${SN_OBJ}dbadd.o${BJ}  ${SN_OBJ}dball.o${BJ}  ${SN_OBJ}dbchk.o${BJ}   \
                  ${SN_OBJ}dbinit.o${BJ} ${SN_OBJ}dbprse.o${BJ} ${SN_OBJ}dbscan.o${BJ}   \
@@ -5840,7 +5815,7 @@ SN_LINK        = ${SN_OBJ}blkdat.o${BJ} ${SN_OBJ}bratio.o${BJ}   \
                  ${SN_OBJ}lbget1.o${BJ} ${SN_OBJ}lbintr.o${BJ} ${SN_OBJ}lbmemr.o${BJ}   \
                  ${SN_OBJ}lbsplr.o${BJ} ${SN_OBJ}lbsplw.o${BJ} ${SN_OBJ}lbstrd.o${BJ}   \
                  ${SN_OBJ}lbtrim.o${BJ} ${SN_OBJ}lbunin.o${BJ} ${SN_OBJ}lnkchn.o${BJ}   \
-                 ${SN_OBJ}lnkint.o${BJ} ${SN_OBJ}fvs.o${BJ}   ${SN_OBJ}mbacal.o${BJ}   \
+                 ${SN_OBJ}lnkint.o${BJ} ${SN_OBJ}main.o${BJ}   ${SN_OBJ}mbacal.o${BJ}   \
                  ${SN_OBJ}meansd.o${BJ} ${SN_OBJ}msbmrt.o${BJ} ${SN_OBJ}mults.o${BJ}    \
                  ${SN_OBJ}myopen.o${BJ}   \
                  ${SN_OBJ}natcrz.o${BJ} ${SN_OBJ}notre.o${BJ}  ${SN_OBJ}opadd.o${BJ}    \
@@ -5917,7 +5892,6 @@ SO_LINK      = ${SO_OBJ}adjmai.o${BJ} ${SO_OBJ}avht40.o${BJ} ${SO_OBJ}blkdat.o${
                  ${SO_OBJ}ch4bsr.o${BJ} ${SO_OBJ}ch4srt.o${BJ} ${SO_OBJ}cmrang.o${BJ} \
                  ${SO_OBJ}comcup.o${BJ} ${SO_OBJ}comp.o${BJ}   ${SO_OBJ}comprs.o${BJ} \
                  ${SO_OBJ}covolp.o${BJ} ${SO_OBJ}cuts.o${BJ}   ${SO_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${SO_OBJ}damcds.o${BJ} ${SO_OBJ}dampro.o${BJ} \
                  ${SO_OBJ}dbadd.o${BJ}  ${SO_OBJ}dball.o${BJ}  \
                  ${SO_OBJ}dbchk.o${BJ}  ${SO_OBJ}dbinit.o${BJ} ${SO_OBJ}dbprse.o${BJ} \
@@ -6019,7 +5993,6 @@ TT_LINK        = ${TT_OBJ}bfvol.o${BJ}   ${TT_OBJ}blkdat.o${BJ}  ${TT_OBJ}bratio
                  ${TT_OBJ}ch4srt.o${BJ}  ${TT_OBJ}cmrang.o${BJ}  ${TT_OBJ}comcup.o${BJ} \
                  ${TT_OBJ}comp.o${BJ}    ${TT_OBJ}comprs.o${BJ}  ${TT_OBJ}covolp.o${BJ} \
                  ${TT_OBJ}cuts.o${BJ}    ${TT_OBJ}cwidth.o${BJ}  \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${TT_OBJ}damcds.o${BJ}  ${TT_OBJ}dampro.o${BJ}  \
                  ${TT_OBJ}dbadd.o${BJ}   ${TT_OBJ}dball.o${BJ}   \
                  ${TT_OBJ}dbchk.o${BJ}   ${TT_OBJ}dbinit.o${BJ}  ${TT_OBJ}dbprse.o${BJ} \
@@ -6046,7 +6019,7 @@ TT_LINK        = ${TT_OBJ}bfvol.o${BJ}   ${TT_OBJ}blkdat.o${BJ}  ${TT_OBJ}bratio
                  ${TT_OBJ}lbintr.o${BJ}  ${TT_OBJ}lbmemr.o${BJ}  ${TT_OBJ}lbsplr.o${BJ} \
                  ${TT_OBJ}lbsplw.o${BJ}  ${TT_OBJ}lbstrd.o${BJ}  ${TT_OBJ}lbtrim.o${BJ} \
                  ${TT_OBJ}lbunin.o${BJ}  ${TT_OBJ}lnkchn.o${BJ}  ${TT_OBJ}lnkint.o${BJ} \
-                 ${TT_OBJ}fvs.o${BJ}    ${TT_OBJ}mbacal.o${BJ}  ${TT_OBJ}meansd.o${BJ} \
+                 ${TT_OBJ}main.o${BJ}    ${TT_OBJ}mbacal.o${BJ}  ${TT_OBJ}meansd.o${BJ} \
                  ${TT_OBJ}msbmrt.o${BJ} \
                  ${TT_OBJ}mults.o${BJ}   ${TT_OBJ}myopen.o${BJ}  ${TT_OBJ}natcrz.o${BJ} \
                  ${TT_OBJ}notre.o${BJ}   ${TT_OBJ}opadd.o${BJ}   ${TT_OBJ}opbisr.o${BJ} \
@@ -6143,7 +6116,6 @@ UT_LINK        = ${UT_OBJ}bfvol.o${BJ}  ${UT_OBJ}blkdat.o${BJ} ${UT_OBJ}bratio.o
                  ${UT_OBJ}ch4srt.o${BJ} ${UT_OBJ}cmrang.o${BJ} ${UT_OBJ}comcup.o${BJ} \
                  ${UT_OBJ}comp.o${BJ}   ${UT_OBJ}comprs.o${BJ} ${UT_OBJ}covolp.o${BJ} \
                  ${UT_OBJ}cuts.o${BJ}   ${UT_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${UT_OBJ}damcds.o${BJ} ${UT_OBJ}dampro.o${BJ} \
                  ${UT_OBJ}dbadd.o${BJ}  ${UT_OBJ}dball.o${BJ}  \
                  ${UT_OBJ}dbchk.o${BJ}  ${UT_OBJ}dbinit.o${BJ} ${UT_OBJ}dbprse.o${BJ} \
@@ -6170,7 +6142,7 @@ UT_LINK        = ${UT_OBJ}bfvol.o${BJ}  ${UT_OBJ}blkdat.o${BJ} ${UT_OBJ}bratio.o
                  ${UT_OBJ}lbintr.o${BJ} ${UT_OBJ}lbmemr.o${BJ} ${UT_OBJ}lbsplr.o${BJ} \
                  ${UT_OBJ}lbsplw.o${BJ} ${UT_OBJ}lbstrd.o${BJ} ${UT_OBJ}lbtrim.o${BJ} \
                  ${UT_OBJ}lbunin.o${BJ} ${UT_OBJ}lnkchn.o${BJ} ${UT_OBJ}lnkint.o${BJ} \
-                 ${UT_OBJ}fvs.o${BJ}   ${UT_OBJ}mbacal.o${BJ} ${UT_OBJ}meansd.o${BJ} \
+                 ${UT_OBJ}main.o${BJ}   ${UT_OBJ}mbacal.o${BJ} ${UT_OBJ}meansd.o${BJ} \
                  ${UT_OBJ}msbmrt.o${BJ} \
                  ${UT_OBJ}mults.o${BJ}  ${UT_OBJ}myopen.o${BJ} ${UT_OBJ}natcrz.o${BJ} \
                  ${UT_OBJ}notre.o${BJ}  ${UT_OBJ}opadd.o${BJ}  ${UT_OBJ}opbisr.o${BJ} \
@@ -6333,7 +6305,6 @@ WS_LINK        = ${WS_OBJ}bfvol.o${BJ}   \
                  ${WS_OBJ}ch4srt.o${BJ} ${WS_OBJ}cmrang.o${BJ} ${WS_OBJ}comcup.o${BJ} \
                  ${WS_OBJ}comp.o${BJ}   ${WS_OBJ}comprs.o${BJ} ${WS_OBJ}covolp.o${BJ} \
                  ${WS_OBJ}cuts.o${BJ}   ${WS_OBJ}cwidth.o${BJ} \
-                 ${BASE_OBJ}cmdline.o${BJ} \
                  ${WS_OBJ}damcds.o${BJ} ${WS_OBJ}dampro.o${BJ} \
                  ${WS_OBJ}dbadd.o${BJ}  ${WS_OBJ}dball.o${BJ}  \
                  ${WS_OBJ}dbchk.o${BJ}  ${WS_OBJ}dbinit.o${BJ} ${WS_OBJ}dbprse.o${BJ} \
@@ -6360,7 +6331,7 @@ WS_LINK        = ${WS_OBJ}bfvol.o${BJ}   \
                  ${WS_OBJ}lbintr.o${BJ} ${WS_OBJ}lbmemr.o${BJ} ${WS_OBJ}lbsplr.o${BJ} \
                  ${WS_OBJ}lbsplw.o${BJ} ${WS_OBJ}lbstrd.o${BJ} ${WS_OBJ}lbtrim.o${BJ} \
                  ${WS_OBJ}lbunin.o${BJ} ${WS_OBJ}lnkchn.o${BJ} ${WS_OBJ}lnkint.o${BJ} \
-                 ${WS_OBJ}fvs.o${BJ}   ${WS_OBJ}mbacal.o${BJ} ${WS_OBJ}meansd.o${BJ} \
+                 ${WS_OBJ}main.o${BJ}   ${WS_OBJ}mbacal.o${BJ} ${WS_OBJ}meansd.o${BJ} \
                  ${WS_OBJ}msbmrt.o${BJ} \
                  ${WS_OBJ}mults.o${BJ}  ${WS_OBJ}myopen.o${BJ} ${WS_OBJ}natcrz.o${BJ} \
                  ${WS_OBJ}notre.o${BJ}  ${WS_OBJ}opadd.o${BJ}  ${WS_OBJ}opbisr.o${BJ} \
@@ -7740,19 +7711,9 @@ FIRE_WS_LINK = ${FIRE_WS_OBJ}cwhr.o${BJ} \
 #    formcl - BM, EC, NC, NI, SO, WC, PN
 #
 
-# Clean Section 
-clean:
-	rm --force --verbose ../*/*/obj/*.o${BJ} 
-	rm --force --verbose ../*/obj/*.o${BJ}
-	rm --force --verbose ../dbs/obj/*/*.o${BJ}
-	rm --force --verbose ../pg/obj/*/*.o${BJ}
-	rm --force --verbose ../volume/obj/*.mod
-	
-
 # Link Section
 
 all : FVSak        \
-      FVSacd    \
       FVSbm     \
       FVSca     \
       FVSci     \
@@ -7904,7 +7865,7 @@ FVSbm : base_compile bm_compile volume_compile fire_fofem_compile fire_bm_compil
         dbs_compile_bm
 	${FCL} $@ ${BM_LINK} ${BM_BASE_ADD} ${DBS_LINK_BM} ${BM_ECON_LINK} ${COVR_BM_LINK} \
 	          ${FIRE_FOFEM_LINK} `ls ${FIRE_BM_OBJ}*.o${BJ}` \
-                  ${BM_OBJ}fvs.o${BJ}   \
+                  ${BM_OBJ}main.o${BJ}   \
                   ${BM_OBJ}exclim.o${BJ}   \
                   ${BM_OBJ}exbgc.o${BJ}  ${BM_OBJ}exppe.o${BJ} ${BM_OBJ}exppnb.o${BJ}  \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
@@ -7951,7 +7912,7 @@ FVSbmc : base_compile bm_compile volume_compile fire_fofem_compile fire_bm_compi
 	${FCL} $@ ${BM_LINK} ${BM_BASE_ADD} ${DBS_LINK_BM} ${BM_ECON_LINK} ${COVR_BM_LINK} \
 	          ${FIRE_FOFEM_LINK} `ls ${FIRE_BM_OBJ}*.o${BJ}` \
 	          ${BM_CLIM_LINK} \
-                  ${BM_OBJ}fvs.o${BJ}   \
+                  ${BM_OBJ}main.o${BJ}   \
                   ${BM_OBJ}exbgc.o${BJ}  ${BM_OBJ}exppe.o${BJ} ${BM_OBJ}exppnb.o${BJ}  \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
@@ -7995,7 +7956,7 @@ FVSbmx : base_compile bm_compile volume_compile fire_fofem_compile fire_bm_compi
         dbs_compile_bm bmx_compile
 	${FCL} $@ ${BM_LINK} ${DBS_LINK_BM} ${BM_ECON_LINK} ${COVR_BM_LINK} \
 	          ${FIRE_FOFEM_LINK} `ls ${FIRE_BM_OBJ}*.o${BJ}` \
-                  ${BM_OBJ}fvs.o${BJ}   \
+                  ${BM_OBJ}main.o${BJ}   \
                   ${BM_OBJ}exclim.o${BJ}   \
                   ${BM_OBJ}exbgc.o${BJ}  ${BM_OBJ}exppe.o${BJ} ${BM_OBJ}exppnb.o${BJ}  \
                   ${BM_OBJ}exbm.o${BJ}   \
@@ -8051,7 +8012,7 @@ FVSca : base_compile ca_compile fire_ca_compile fire_fofem_compile volume_compil
                   ${CA_OBJ}exbm.o${BJ}  \
                   ${CA_OBJ}exclim.o${BJ} \
                   ${CA_OBJ}exppe.o${BJ}           \
-                  ${CA_OBJ}fvs.o${BJ}            \
+                  ${CA_OBJ}main.o${BJ}            \
                   ${CA_OBJ}opget3.o${BJ} \
                   ${VOLUME_OBJ}brk_up.o${BJ}      \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
@@ -8099,7 +8060,7 @@ FVScac : base_compile ca_compile fire_ca_compile fire_fofem_compile volume_compi
                   ${CA_CLIM_LINK} \
                   ${CA_OBJ}exbm.o${BJ}  \
                   ${CA_OBJ}exppe.o${BJ}           \
-                  ${CA_OBJ}fvs.o${BJ}            \
+                  ${CA_OBJ}main.o${BJ}            \
                   ${CA_OBJ}opget3.o${BJ} \
                   ${VOLUME_OBJ}brk_up.o${BJ}      \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
@@ -8144,7 +8105,7 @@ FVSci : base_compile ci_compile volume_compile fire_ci_compile    \
         fire_fofem_compile dbs_compile_ci
 	${FCL} $@ ${CI_LINK} ${CI_BASE_ADD} ${DBS_LINK_CI} ${CI_ECON_LINK} ${COVR_CI_LINK} \
                   ${FIRE_FOFEM_LINK} `ls ${FIRE_CI_OBJ}*.o${BJ}` \
-                  ${CI_OBJ}fvs.o${BJ}   \
+                  ${CI_OBJ}main.o${BJ}   \
                   ${CI_OBJ}exclim.o${BJ}   \
                   ${CI_OBJ}exbgc.o${BJ}  ${CI_OBJ}exppe.o${BJ} ${CI_OBJ}exppnb.o${BJ}  \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
@@ -8197,7 +8158,7 @@ FVScic : base_compile ci_compile volume_compile fire_ci_compile    \
 	${FCL} $@ ${CI_LINK} ${DBS_LINK_CI} ${CI_ECON_LINK} ${COVR_CI_LINK} \
                   ${CI_CLIM_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_CI_OBJ}*.o${BJ}` \
                   ${CI_CLIM_ADD}  \
-                  ${CI_OBJ}fvs.o${BJ}   \
+                  ${CI_OBJ}main.o${BJ}   \
                   ${CI_OBJ}exppnb.o${BJ}  \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
                   ${VOLUME_OBJ}debug_mod.o${BJ}         \
@@ -8313,88 +8274,230 @@ FVScib : base_compile covr_compile estb_compile mistoe_compile ci_compile      \
                   ${VOLUME_OBJ}sf_zero.o${BJ}           \
                   ${VOLUME_OBJ}voleqdef.o${BJ}         
 
-FVScix : base_compile covr_compile estb_compile mistoe_compile ci_compile  \
-        ni_compile volume_compile fire_base_compile fire_fofem_compile fire_ni_compile     \
-        fire_ci_compile dbs_compile econ_compile dfb_compile lpmpb_compile rd_compile \
-        wsbe_compile
-	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} \
-                  ${MIST_LINK} ${CI_LINK} ${ECON_LINK}     \
-                  ${BASE_OBJ}opget3.o${BJ} \
-                  ${FIRE_BASE_LINK} ${FIRE_FOFEM_LINK} ${FIRE_CI_LINK}     \
-                  ${MIST_OBJ}misintci.o${BJ}            \
-                  ${CIX_ADD}               \
-                  ${DFB_LINK}             \
-                  ${DFB_OBJ}dfbin.o${BJ}  \
-                  ${DFB_OBJ}dfblkd.o${BJ} \
-                  ${MPB_LINK}             \
-                  ${MPB_OBJ}mpbin.o${BJ}  \
-                  ${MPB_OBJ}mpblkd.o${BJ} \
-                  ${RD_LINK}              \
-                  ${RD_OBJ}rdin.o${BJ}    \
-                  ${RD_OBJ}rdblk1.o${BJ}  \
-                  ${WSBE_LINK}             \
-                  ${WSBE_OBJ}bwebk.o${BJ}  \
-                  ${WSBE_OBJ}bwebms.o${BJ} \
-                  ${BASE_OBJ}formcl.o${BJ} ${BASE_OBJ}intree.o${BJ} \
-                  ${ESTB_OBJ}esadvh.o${BJ} ${ESTB_OBJ}esblkd.o${BJ} ${ESTB_OBJ}escprs.o${BJ} \
-                  ${ESTB_OBJ}esdlay.o${BJ} ${ESTB_OBJ}esetpr.o${BJ} ${ESTB_OBJ}esfltr.o${BJ} \
-                  ${ESTB_OBJ}esgent.o${BJ} ${ESTB_OBJ}esin.o${BJ}   ${ESTB_OBJ}esmsgs.o${BJ} \
-                  ${ESTB_OBJ}esnspe.o${BJ} ${ESTB_OBJ}esnutr.o${BJ} ${ESTB_OBJ}esout.o${BJ}  \
-                  ${ESTB_OBJ}espadv.o${BJ} ${ESTB_OBJ}esplt1.o${BJ} ${ESTB_OBJ}esplt2.o${BJ} \
-                  ${ESTB_OBJ}esprep.o${BJ} ${ESTB_OBJ}esprin.o${BJ} ${ESTB_OBJ}espsub.o${BJ} \
-                  ${ESTB_OBJ}espxcs.o${BJ} ${ESTB_OBJ}esrann.o${BJ} ${ESTB_OBJ}essubh.o${BJ} \
-                  ${ESTB_OBJ}estab.o${BJ}  ${ESTB_OBJ}estime.o${BJ} ${ESTB_OBJ}estock.o${BJ} \
-                  ${ESTB_OBJ}estpp.o${BJ}  ${ESTB_OBJ}estump.o${BJ} ${ESTB_OBJ}esuckr.o${BJ} \
-                  ${ESTB_OBJ}esxcsh.o${BJ} ${ESTB_OBJ}esaddt.o${BJ}                  \
-                  ${NI_OBJ}bftopk.o${BJ}   ${NI_OBJ}bfvol.o${BJ}    ${NI_OBJ}cftopk.o${BJ}       \
-                  ${NI_OBJ}cfvol.o${BJ}    ${NI_OBJ}cubrds.o${BJ}   ${NI_OBJ}cutstk.o${BJ}       \
-                  ${NI_OBJ}cwcalc.o${BJ} \
-                  ${NI_OBJ}dgbnd.o${BJ}    ${NI_OBJ}dgdriv.o${BJ}   ${NI_OBJ}dubscr.o${BJ}       \
-                  ${NI_OBJ}dunn.o${BJ}     ${NI_OBJ}logs.o${BJ}     ${NI_OBJ}maical.o${BJ}       \
-                  ${NI_OBJ}rcon.o${BJ}     ${NI_OBJ}spctrn.o${BJ}   ${NI_OBJ}vols.o${BJ}          \
-                  ${VOLUME_OBJ}brk_up.o${BJ}            \
-                  ${VOLUME_OBJ}debug_mod.o${BJ}          \
-                  ${VOLUME_OBJ}doyal78.o${BJ}          \
-                  ${VOLUME_OBJ}dvest.o${BJ}            \
-                  ${VOLUME_OBJ}f_alaska.o${BJ}          \
-                  ${VOLUME_OBJ}f_ingy.o${BJ}            \
-                  ${VOLUME_OBJ}f_other.o${BJ}           \
-                  ${VOLUME_OBJ}f_west.o${BJ}            \
-                  ${VOLUME_OBJ}fwinit.o${BJ}            \
-                  ${VOLUME_OBJ}intl78.o${BJ}      \
-                  ${VOLUME_OBJ}mrules.o${BJ}            \
-                  ${VOLUME_OBJ}numlog.o${BJ}            \
-                  ${VOLUME_OBJ}profile.o${BJ}           \
-                  ${VOLUME_OBJ}r10tap.o${BJ}            \
-                  ${VOLUME_OBJ}r10d2h.o${BJ}            \
-                  ${VOLUME_OBJ}r1allen.o${BJ}     \
-                  ${VOLUME_OBJ}r1kemp.o${BJ}            \
-                  ${VOLUME_OBJ}r1tap.o${BJ}             \
-                  ${VOLUME_OBJ}r2oldv.o${BJ}            \
-                  ${VOLUME_OBJ}r2tap.o${BJ}             \
-                  ${VOLUME_OBJ}r3d2hv.o${BJ}            \
-                  ${VOLUME_OBJ}r4d2h.o${BJ}             \
-                  ${VOLUME_OBJ}r4vol.o${BJ}             \
-                  ${VOLUME_OBJ}r5tap.o${BJ}             \
-                  ${VOLUME_OBJ}r5harv.o${BJ}            \
-                  ${VOLUME_OBJ}r9init.o${BJ}            \
-                  ${VOLUME_OBJ}r9vol.o${BJ}            \
-                  ${VOLUME_OBJ}scrib.o${BJ}             \
-                  ${VOLUME_OBJ}segmnt.o${BJ}            \
-                  ${VOLUME_OBJ}sf_2pt.o${BJ}            \
-                  ${VOLUME_OBJ}sf_2pth.o${BJ}           \
-                  ${VOLUME_OBJ}sf_3z.o${BJ}             \
-                  ${VOLUME_OBJ}sf_3pt.o${BJ}            \
-                  ${VOLUME_OBJ}sf_corr.o${BJ}           \
-                  ${VOLUME_OBJ}sf_dfz.o${BJ}            \
-                  ${VOLUME_OBJ}sf_ds.o${BJ}             \
-                  ${VOLUME_OBJ}sf_hs.o${BJ}             \
-                  ${VOLUME_OBJ}sf_shp.o${BJ}            \
-                  ${VOLUME_OBJ}sf_taper.o${BJ}          \
-                  ${VOLUME_OBJ}sf_yhat.o${BJ}           \
-                  ${VOLUME_OBJ}sf_yhat3.o${BJ}          \
-                  ${VOLUME_OBJ}sf_zero.o${BJ}           \
-                  ${VOLUME_OBJ}voleqdef.o${BJ}         
+# Combined FFE, ECON, MIST, DFB, LPMPB, RD, WSBW
+FVScix : base_compile ci_compile volume_compile fire_ci_compile    \
+        fire_fofem_compile dbs_compile_ci cix_compile
+	${FCL} $@ ${CI_LINK} ${DBS_LINK_CI} ${CI_ECON_LINK} ${COVR_CI_LINK} \
+                  ${FIRE_FOFEM_LINK} `ls ${FIRE_CI_OBJ}*.o${BJ}` \
+                  ${CI_OBJ}main.o${BJ}   \
+                  ${CIX_ADD} \
+                  ${CI_OBJ}exppnb.o${BJ}   \
+                  ${VOLUME_OBJ}brk_up.o${BJ}    \
+                  ${VOLUME_OBJ}debug_mod.o${BJ} \
+                  ${VOLUME_OBJ}doyal78.o${BJ}   \
+                  ${VOLUME_OBJ}dvest.o${BJ}     \
+                  ${VOLUME_OBJ}f_alaska.o${BJ}  \
+                  ${VOLUME_OBJ}f_ingy.o${BJ}    \
+                  ${VOLUME_OBJ}f_other.o${BJ}   \
+                  ${VOLUME_OBJ}f_west.o${BJ}    \
+                  ${VOLUME_OBJ}fwinit.o${BJ}    \
+                  ${VOLUME_OBJ}intl78.o${BJ}    \
+                  ${VOLUME_OBJ}mrules.o${BJ}    \
+                  ${VOLUME_OBJ}numlog.o${BJ}    \
+                  ${VOLUME_OBJ}profile.o${BJ}   \
+                  ${VOLUME_OBJ}r10tap.o${BJ}    \
+                  ${VOLUME_OBJ}r10d2h.o${BJ}    \
+                  ${VOLUME_OBJ}r1allen.o${BJ}   \
+                  ${VOLUME_OBJ}r1kemp.o${BJ}    \
+                  ${VOLUME_OBJ}r1tap.o${BJ}     \
+                  ${VOLUME_OBJ}r2oldv.o${BJ}    \
+                  ${VOLUME_OBJ}r2tap.o${BJ}     \
+                  ${VOLUME_OBJ}r3d2hv.o${BJ}    \
+                  ${VOLUME_OBJ}r4d2h.o${BJ}     \
+                  ${VOLUME_OBJ}r4vol.o${BJ}     \
+                  ${VOLUME_OBJ}r5tap.o${BJ}     \
+                  ${VOLUME_OBJ}r5harv.o${BJ}    \
+                  ${VOLUME_OBJ}r9init.o${BJ}    \
+                  ${VOLUME_OBJ}r9vol.o${BJ}     \
+                  ${VOLUME_OBJ}scrib.o${BJ}     \
+                  ${VOLUME_OBJ}segmnt.o${BJ}    \
+                  ${VOLUME_OBJ}sf_2pt.o${BJ}    \
+                  ${VOLUME_OBJ}sf_2pth.o${BJ}   \
+                  ${VOLUME_OBJ}sf_3z.o${BJ}     \
+                  ${VOLUME_OBJ}sf_3pt.o${BJ}    \
+                  ${VOLUME_OBJ}sf_corr.o${BJ}   \
+                  ${VOLUME_OBJ}sf_dfz.o${BJ}    \
+                  ${VOLUME_OBJ}sf_ds.o${BJ}     \
+                  ${VOLUME_OBJ}sf_hs.o${BJ}     \
+                  ${VOLUME_OBJ}sf_shp.o${BJ}    \
+                  ${VOLUME_OBJ}sf_taper.o${BJ}  \
+                  ${VOLUME_OBJ}sf_yhat.o${BJ}   \
+                  ${VOLUME_OBJ}sf_yhat3.o${BJ}  \
+                  ${VOLUME_OBJ}sf_zero.o${BJ}   \
+                  ${VOLUME_OBJ}voleqdef.o${BJ}  \
+                  ${CI_OBJ}dfbin.o${BJ}    \
+                  ${CI_OBJ}dfblkdci.o${BJ} \
+                  ${CI_OBJ}dfbdam.o${BJ}   \
+                  ${CI_OBJ}dfbdbh.o${BJ}   \
+                  ${CI_OBJ}dfbdrv.o${BJ}   \
+                  ${CI_OBJ}dfber.o${BJ}    \
+                  ${CI_OBJ}dfbgo.o${BJ}    \
+                  ${CI_OBJ}dfbhed.o${BJ}   \
+                  ${CI_OBJ}dfbind.o${BJ}   \
+                  ${CI_OBJ}dfbint.o${BJ}   \
+                  ${CI_OBJ}dfbinv.o${BJ}   \
+                  ${CI_OBJ}dfbmod.o${BJ}   \
+                  ${CI_OBJ}dfbmrt.o${BJ}   \
+                  ${CI_OBJ}dfbout.o${BJ}   \
+                  ${CI_OBJ}dfbprb.o${BJ}   \
+                  ${CI_OBJ}dfbran.o${BJ}   \
+                  ${CI_OBJ}dfbsch.o${BJ}   \
+                  ${CI_OBJ}dfbtab.o${BJ}   \
+                  ${CI_OBJ}dfbwin.o${BJ}   \
+                  ${CI_OBJ}mpbin.o${BJ}    \
+                  ${CI_OBJ}mpblkdci.o${BJ} \
+                  ${CI_OBJ}back.o${BJ}   \
+                  ${CI_OBJ}betin.o${BJ}  \
+                  ${CI_OBJ}coldbh.o${BJ} \
+                  ${CI_OBJ}coldrv.o${BJ} \
+                  ${CI_OBJ}colind.o${BJ} \
+                  ${CI_OBJ}colmod.o${BJ} \
+                  ${CI_OBJ}colmrt.o${BJ} \
+                  ${CI_OBJ}emerg.o${BJ}  \
+                  ${CI_OBJ}forw.o${BJ}   \
+                  ${CI_OBJ}garbel.o${BJ} \
+                  ${CI_OBJ}grclas.o${BJ} \
+                  ${CI_OBJ}grpsum.o${BJ} \
+                  ${CI_OBJ}mpbcup.o${BJ} \
+                  ${CI_OBJ}mpbdam.o${BJ} \
+                  ${CI_OBJ}mpbdrv.o${BJ} \
+                  ${CI_OBJ}mpber.o${BJ}  \
+                  ${CI_OBJ}mpbgam.o${BJ} \
+                  ${CI_OBJ}mpbgo.o${BJ}  \
+                  ${CI_OBJ}mpbhed.o${BJ} \
+                  ${CI_OBJ}mpbint.o${BJ} \
+                  ${CI_OBJ}mpbmod.o${BJ} \
+                  ${CI_OBJ}mpbout.o${BJ} \
+                  ${CI_OBJ}mpbtab.o${BJ} \
+                  ${CI_OBJ}mpgr.o${BJ}   \
+                  ${CI_OBJ}mpotpr.o${BJ} \
+                  ${CI_OBJ}mprann.o${BJ} \
+                  ${CI_OBJ}mpsdlp.o${BJ} \
+                  ${CI_OBJ}percnt.o${BJ} \
+                  ${CI_OBJ}pmslp.o${BJ}  \
+                  ${CI_OBJ}pqsml.o${BJ}  \
+                  ${CI_OBJ}ptary.o${BJ}  \
+                  ${CI_OBJ}ptbno.o${BJ}  \
+                  ${CI_OBJ}ptgrp.o${BJ}  \
+                  ${CI_OBJ}ptint.o${BJ}  \
+                  ${CI_OBJ}ptplt.o${BJ}  \
+                  ${CI_OBJ}ptsav.o${BJ}  \
+                  ${CI_OBJ}ptscl.o${BJ}  \
+                  ${CI_OBJ}ptsrg.o${BJ}  \
+                  ${CI_OBJ}ptssc.o${BJ}  \
+                  ${CI_OBJ}ptsym.o${BJ}  \
+                  ${CI_OBJ}surfce.o${BJ} \
+                  ${CI_OBJ}surflp.o${BJ} \
+                  ${CI_OBJ}tafit.o${BJ}  \
+                  ${CI_OBJ}rdinci.o${BJ}   \
+                  ${CI_OBJ}rdblk1ci.o${BJ} \
+                  ${CI_OBJ}rdarea.o${BJ}   \
+                  ${CI_OBJ}rdatv.o${BJ}    \
+                  ${CI_OBJ}rdbb1.o${BJ}    \
+                  ${CI_OBJ}rdbb2.o${BJ}    \
+                  ${CI_OBJ}rdbb3.o${BJ}    \
+                  ${CI_OBJ}rdbb4.o${BJ}    \
+                  ${CI_OBJ}rdbbdo.o${BJ}   \
+                  ${CI_OBJ}rdbout.o${BJ}   \
+                  ${CI_OBJ}rdcent.o${BJ}   \
+                  ${CI_OBJ}rdcloc.o${BJ}   \
+                  ${CI_OBJ}rdcmpr.o${BJ}   \
+                  ${CI_OBJ}rdcntl.o${BJ}   \
+                  ${CI_OBJ}rdcsd.o${BJ}    \
+                  ${CI_OBJ}rddam.o${BJ}    \
+                  ${CI_OBJ}rddbug.o${BJ}   \
+                  ${CI_OBJ}rddout.o${BJ}   \
+                  ${CI_OBJ}rddst.o${BJ}    \
+                  ${CI_OBJ}rdend.o${BJ}    \
+                  ${CI_OBJ}rdescp.o${BJ}   \
+                  ${CI_OBJ}rdesin.o${BJ}   \
+                  ${CI_OBJ}rdestb.o${BJ}   \
+                  ${CI_OBJ}rdgrow.o${BJ}   \
+                  ${CI_OBJ}rdinf.o${BJ}    \
+                  ${CI_OBJ}rdinit.o${BJ}   \
+                  ${CI_OBJ}rdinoc.o${BJ}   \
+                  ${CI_OBJ}rdinsd.o${BJ}   \
+                  ${CI_OBJ}rdinup.o${BJ}   \
+                  ${CI_OBJ}rdiout.o${BJ}   \
+                  ${CI_OBJ}rdiprp.o${BJ}   \
+                  ${CI_OBJ}rdjump.o${BJ}   \
+                  ${CI_OBJ}rdload.o${BJ}   \
+                  ${CI_OBJ}rdmn1.o${BJ}    \
+                  ${CI_OBJ}rdmn2.o${BJ}    \
+                  ${CI_OBJ}rdmort.o${BJ}   \
+                  ${CI_OBJ}rdmrec.o${BJ}   \
+                  ${CI_OBJ}rdoagm.o${BJ}   \
+                  ${CI_OBJ}rdowi.o${BJ}    \
+                  ${CI_OBJ}rdowin.o${BJ}   \
+                  ${CI_OBJ}rdpr.o${BJ}     \
+                  ${CI_OBJ}rdprin.o${BJ}   \
+                  ${CI_OBJ}rdpush.o${BJ}   \
+                  ${CI_OBJ}rdrani.o${BJ}   \
+                  ${CI_OBJ}rdrann.o${BJ}   \
+                  ${CI_OBJ}rdranp.o${BJ}   \
+                  ${CI_OBJ}rdrate.o${BJ}   \
+                  ${CI_OBJ}rdrdel.o${BJ}   \
+                  ${CI_OBJ}rdroot.o${BJ}   \
+                  ${CI_OBJ}rdrout.o${BJ}   \
+                  ${CI_OBJ}rdsadd.o${BJ}   \
+                  ${CI_OBJ}rdsetp.o${BJ}   \
+                  ${CI_OBJ}rdshrk.o${BJ}   \
+                  ${CI_OBJ}rdshst.o${BJ}   \
+                  ${CI_OBJ}rdslp.o${BJ}    \
+                  ${CI_OBJ}rdsout.o${BJ}   \
+                  ${CI_OBJ}rdspl1.o${BJ}   \
+                  ${CI_OBJ}rdspl2.o${BJ}   \
+                  ${CI_OBJ}rdspor.o${BJ}   \
+                  ${CI_OBJ}rdsprd.o${BJ}   \
+                  ${CI_OBJ}rdspup.o${BJ}   \
+                  ${CI_OBJ}rdssiz.o${BJ}   \
+                  ${CI_OBJ}rdstp.o${BJ}    \
+                  ${CI_OBJ}rdstr.o${BJ}    \
+                  ${CI_OBJ}rdsum.o${BJ}    \
+                  ${CI_OBJ}rdtdel.o${BJ}   \
+                  ${CI_OBJ}rdtim.o${BJ}    \
+                  ${CI_OBJ}rdtout.o${BJ}   \
+                  ${CI_OBJ}rdtreg.o${BJ}   \
+                  ${CI_OBJ}rdtres.o${BJ}   \
+                  ${CI_OBJ}rdtrip.o${BJ}   \
+                  ${CI_OBJ}rdtrp.o${BJ}    \
+                  ${CI_OBJ}rdzero.o${BJ}  \
+                  ${CI_OBJ}bwebkci.o${BJ} \
+                  ${CI_OBJ}bwebmsci.o${BJ} \
+                  ${CI_OBJ}bweadv.o${BJ}  \
+                  ${CI_OBJ}bweage.o${BJ}  \
+                  ${CI_OBJ}bwebet.o${BJ}  \
+                  ${CI_OBJ}bwecrc.o${BJ}  \
+                  ${CI_OBJ}bwecup.o${BJ}  \
+                  ${CI_OBJ}bwedam.o${BJ}  \
+                  ${CI_OBJ}bwedef.o${BJ}  \
+                  ${CI_OBJ}bwedie.o${BJ}  \
+                  ${CI_OBJ}bwedr.o${BJ}   \
+                  ${CI_OBJ}bweerr.o${BJ}  \
+                  ${CI_OBJ}bweest.o${BJ}  \
+                  ${CI_OBJ}bwefdk.o${BJ}  \
+                  ${CI_OBJ}bwego.o${BJ}   \
+                  ${CI_OBJ}bwein.o${BJ}   \
+                  ${CI_OBJ}bweint.o${BJ}  \
+                  ${CI_OBJ}bwekdp.o${BJ}  \
+                  ${CI_OBJ}bwekey.o${BJ}  \
+                  ${CI_OBJ}bwekrd.o${BJ}  \
+                  ${CI_OBJ}bwelit.o${BJ}  \
+                  ${CI_OBJ}bweob.o${BJ}   \
+                  ${CI_OBJ}bweout.o${BJ}  \
+                  ${CI_OBJ}bwep1.o${BJ}   \
+                  ${CI_OBJ}bwep3.o${BJ}   \
+                  ${CI_OBJ}bwep4.o${BJ}   \
+                  ${CI_OBJ}bwepdm.o${BJ}  \
+                  ${CI_OBJ}bweprb.o${BJ}  \
+                  ${CI_OBJ}bweran.o${BJ}  \
+                  ${CI_OBJ}bwernp.o${BJ}  \
+                  ${CI_OBJ}bwesin.o${BJ}  \
+                  ${CI_OBJ}bwesit.o${BJ}  \
+                  ${CI_OBJ}bweslp.o${BJ}  \
+                  ${CI_OBJ}bweuca.o${BJ}  \
+                  ${CI_OBJ}bweuky.o${BJ}  \
+                  ${CI_OBJ}bwewea.o${BJ}
 
 # Combined FFE and ECON
 FVScr  : base_compile cr_compile volume_compile fire_cr_compile fire_fofem_compile  \
@@ -9059,14 +9162,11 @@ FVSie  : base_compile ie_compile volume_compile dbs_compile_ie fire_fofem_compil
                   ${VOLUME_OBJ}sf_zero.o${BJ}     \
                   ${VOLUME_OBJ}voleqdef.o${BJ}   
 
-
 # Combined FFE, ECON and CLIM
 FVSiec  : base_compile ie_compile volume_compile dbs_compile_ie fire_fofem_compile    \
-              fire_ie_compile ie_econ_compile covr_ie_compile clim_ie_compile \
-              pg_ie_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${IE_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_IE_OBJ}*.o${BJ}`  ${DBS_LINK_IE}   \
+              fire_ie_compile ie_econ_compile covr_ie_compile clim_ie_compile
+	${FCL} $@ ${IE_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_IE_OBJ}*.o${BJ}`  ${DBS_LINK_IE}   \
                   ${IE_ECON_LINK} ${COVR_IE_LINK} ${IE_CLIM_ADD} ${IE_CLIM_LINK} \
-                  `ls ${PG_IE_OBJ}*.o${BJ}`  \
                   ${IE_OBJ}opget3.o${BJ}          \
                   ${VOLUME_OBJ}brk_up.o${BJ}      \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
@@ -9116,6 +9216,7 @@ FVSiec  : base_compile ie_compile volume_compile dbs_compile_ie fire_fofem_compi
                   ${VOLUME_OBJ}sf_yhat3.o${BJ}    \
                   ${VOLUME_OBJ}sf_zero.o${BJ}     \
                   ${VOLUME_OBJ}voleqdef.o${BJ}   
+
 
 FVSiex  : base_compile ie_compile volume_compile dbs_compile dbs_compile_ie fire_fofem_compile \
           fire_ie_compile iex_compile ie_econ_compile covr_ie_compile
@@ -9537,7 +9638,6 @@ FVSnc : base_compile covr_compile strp_compile mistoe_compile nc_compile ec_comp
                   ${NI_OBJ}dgbnd.o${BJ}        \
                   ${NI_OBJ}dgdriv.o${BJ}   ${NI_OBJ}exppnb.o${BJ}   ${NI_OBJ}rcon.o${BJ}  \
                   ${NI_OBJ}spctrn.o${BJ}   ${NI_OBJ}maical.o${BJ}   ${NI_OBJ}vols.o${BJ}  \
-                  ${EC_OBJ}dubscr.o${BJ}  \
                   ${VOLUME_OBJ}blmvol.o${BJ}            \
                   ${VOLUME_OBJ}blmtap.o${BJ}            \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
@@ -9596,7 +9696,6 @@ FVSncc : base_compile covr_compile strp_compile mistoe_compile nc_compile      \
                   ${NI_OBJ}dgbnd.o${BJ}        \
                   ${NI_OBJ}dgdriv.o${BJ}   ${NI_OBJ}exppnb.o${BJ}   ${NI_OBJ}rcon.o${BJ}  \
                   ${NI_OBJ}spctrn.o${BJ}   ${NI_OBJ}maical.o${BJ}   ${NI_OBJ}vols.o${BJ}  \
-                  ${EC_OBJ}dubscr.o${BJ}  \
                   ${VOLUME_OBJ}blmvol.o${BJ}            \
                   ${VOLUME_OBJ}blmtap.o${BJ}            \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
@@ -9658,7 +9757,6 @@ FVSncx : base_compile covr_compile strp_compile mistoe_compile nc_compile      \
                   ${NI_OBJ}dgbnd.o${BJ}        \
                   ${NI_OBJ}dgdriv.o${BJ}   ${NI_OBJ}exppnb.o${BJ}   ${NI_OBJ}rcon.o${BJ}  \
                   ${NI_OBJ}spctrn.o${BJ}   ${NI_OBJ}maical.o${BJ}   ${NI_OBJ}vols.o${BJ}  \
-                  ${EC_OBJ}dubscr.o${BJ}  \
                   ${VOLUME_OBJ}blmvol.o${BJ}            \
                   ${VOLUME_OBJ}blmtap.o${BJ}            \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
@@ -9701,9 +9799,8 @@ FVSncx : base_compile covr_compile strp_compile mistoe_compile nc_compile      \
 
 # With ECON and FFE
 FVSne  : base_compile ne_compile volume_compile dbs_compile_ne fire_fofem_compile    \
-             fire_ne_compile ne_econ_compile pg_ne_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
-                  `ls ${PG_NE_OBJ}*.o${BJ}` ${BASE_OBJ}cmdline.o${BJ} \
+             fire_ne_compile ne_econ_compile
+	${FCL} $@ ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
                   ${VOLUME_OBJ}voleqdef.o${BJ} \
                   ${VOLUME_OBJ}r9vol.o${BJ}    \
                   ${VOLUME_OBJ}r9init.o${BJ}   \
@@ -9713,24 +9810,11 @@ FVSne  : base_compile ne_compile volume_compile dbs_compile_ne fire_fofem_compil
                   ${VOLUME_OBJ}r9logs.o${BJ}   \
                   `ls ${NE_OBJ}*.o${BJ}`
 
-FVSacd : base_compile acd_compile volume_compile dbs_compile_ne fire_fofem_compile    \
-             fire_ne_compile acd_econ_compile pg_ne_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
-                  `ls ${PG_NE_OBJ}*.o${BJ}` ${BASE_OBJ}cmdline.o${BJ} \
-                  ${VOLUME_OBJ}voleqdef.o${BJ} \
-                  ${VOLUME_OBJ}r9vol.o${BJ}    \
-                  ${VOLUME_OBJ}r9init.o${BJ}   \
-                  ${VOLUME_OBJ}debug_mod.o${BJ} \
-                  ${VOLUME_OBJ}clkcoef_mod.o${BJ} \
-                  ${VOLUME_OBJ}r9clark.o${BJ}  \
-                  ${VOLUME_OBJ}r9logs.o${BJ}   \
-                  `ls ${ACD_OBJ}*.o${BJ}`
-
 # Combined FFE and ECON
 FVSni : base_compile covr_compile estb_compile mistoe_compile ni_compile    \
             so_compile volume_compile econ_compile fire_base_compile fire_fofem_compile fire_ni_compile \
             dbs_compile 
-	${FCL} $@${OUTSUFX} ${MAIN} ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ESTB_LINK}   \
+	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ESTB_LINK}   \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NI_LINK}          \
                   ${MIST_LINK} ${NI_LINK}  ${ECON_ADD} ${ECON_LINK}    \
                   ${BASE_OBJ}intree.o${BJ}      \
@@ -9777,7 +9861,7 @@ FVSni : base_compile covr_compile estb_compile mistoe_compile ni_compile    \
 FVSnib : base_compile covr_compile estb_compile mistoe_compile ni_compile    \
             so_compile volume_compile econ_compile fire_base_compile fire_fofem_compile fire_ni_compile \
             dbs_compile bgc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ESTB_LINK}   \
+	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ESTB_LINK}   \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NI_LINK}          \
                   ${MIST_LINK} ${NI_LINK}  ${BGC_ADD} ${ECON_LINK} ${BGC_LINK}   \
                   ${BASE_OBJ}intree.o${BJ}      \
@@ -9824,7 +9908,7 @@ FVSnib : base_compile covr_compile estb_compile mistoe_compile ni_compile    \
 FVSnic : base_compile covr_compile estb_compile mistoe_compile ni_compile    \
             so_compile volume_compile econ_compile fire_base_compile fire_fofem_compile fire_ni_compile \
             dbs_compile clim_base_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ESTB_LINK}    \
+	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ESTB_LINK}    \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NI_LINK} \
                   ${MIST_LINK} ${NI_LINK} ${ECON_LINK}                  \
                   ${CLIM_ADD} ${BASE_CLIM_LINK}  \
@@ -9872,7 +9956,7 @@ FVSnix : base_compile covr_compile estb_compile mistoe_compile ni_compile \
          so_compile volume_compile fire_base_compile fire_fofem_compile fire_ni_compile      \
          dbs_compile dfb_compile dftm_compile lpmpb_compile rd_compile    \
          wpbr_compile wsbe_compile econ_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ESTB_LINK} \
+	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ESTB_LINK} \
                   ${MIST_LINK} ${NI_LINK} ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NI_LINK} \
                   ${ECON_LINK} \
                   ${NIX_ADD}                \
@@ -9935,7 +10019,7 @@ FVSnix : base_compile covr_compile estb_compile mistoe_compile ni_compile \
 # With ECON and FFE
 FVSpn : base_compile pn_compile wc_compile volume_compile dbs_compile_pn fire_fofem_compile  \
         fire_pn_compile wc_econ_compile covr_wc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_BASE_LINK} ${DBS_LINK_PN} ${PN_WC_BASE_ADD} ${PN_LINK}            \
+	${FCL} $@ ${PN_WC_BASE_LINK} ${DBS_LINK_PN} ${PN_WC_BASE_ADD} ${PN_LINK}            \
                   ${PN_WC_ECON_LINK} ${COVR_WC_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_PN_OBJ}*.o${BJ}`     \
                   ${WC_OBJ}exdfb.o${BJ}  ${WC_OBJ}r5crwd.o${BJ}                            \
                   ${WC_OBJ}exrd.o${BJ}   ${WC_OBJ}opget3.o${BJ}                             \
@@ -9990,7 +10074,7 @@ FVSpn : base_compile pn_compile wc_compile volume_compile dbs_compile_pn fire_fo
 # With ECON, FFE and CLIM
 FVSpnc : base_compile pn_compile wc_compile volume_compile dbs_compile_pn fire_fofem_compile   \
         fire_pn_compile wc_econ_compile covr_wc_compile clim_pn_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_BASE_LINK} ${DBS_LINK_PN} ${PN_WC_CLIM_ADD} ${PN_LINK}            \
+	${FCL} $@ ${PN_WC_BASE_LINK} ${DBS_LINK_PN} ${PN_WC_CLIM_ADD} ${PN_LINK}            \
                   ${PN_WC_ECON_LINK} ${PN_CLIM_LINK} \
                   ${COVR_WC_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_PN_OBJ}*.o${BJ}`     \
                   ${WC_OBJ}exdfb.o${BJ}  ${WC_OBJ}r5crwd.o${BJ}                            \
@@ -10045,7 +10129,7 @@ FVSpnc : base_compile pn_compile wc_compile volume_compile dbs_compile_pn fire_f
 
 FVSpnx : base_compile pn_compile wc_compile volume_compile dbs_compile_pn fire_fofem_compile   \
          fire_pn_compile pnx_compile wc_econ_compile covr_wc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_BASE_LINK} ${DBS_LINK_PN} ${PN_WC_BASE_ADD} ${PN_LINK}      \
+	${FCL} $@ ${PN_WC_BASE_LINK} ${DBS_LINK_PN} ${PN_WC_BASE_ADD} ${PN_LINK}      \
 	          ${PN_WC_ECON_LINK} ${COVR_WC_LINK} \
 	          ${WC_OBJ}opget3.o${BJ} \
                   ${FIRE_FOFEM_LINK} `ls ${FIRE_PN_OBJ}*.o${BJ}`  ${WC_OBJ}r5crwd.o${BJ}   \
@@ -10193,7 +10277,7 @@ FVSpnx : base_compile pn_compile wc_compile volume_compile dbs_compile_pn fire_f
 # With ECON and FFE
 FVSsn  : base_compile sn_compile volume_compile dbs_compile_sn fire_fofem_compile fire_sn_compile \
          sn_econ_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${SN_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_SN_OBJ}*.o${BJ}`   \
+	${FCL} $@ ${SN_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_SN_OBJ}*.o${BJ}`   \
                   ${DBS_LINK_SN}  ${SN_ECON_LINK}   \
                   ${SN_OBJ}exclim.o${BJ} \
                   ${SN_OBJ}opget3.o${BJ}     \
@@ -10212,13 +10296,13 @@ FVSsn  : base_compile sn_compile volume_compile dbs_compile_sn fire_fofem_compil
 # With ECON and FFE
 FVSso : base_compile so_compile dbs_compile_so volume_compile fire_fofem_compile fire_so_compile \
             so_econ_compile covr_so_compile
-	${FCL} $@${OUTSUFX} ${MAIN}  ${SO_LINK} ${SO_ECON_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_SO_OBJ}*.o${BJ}` \
+	${FCL} $@  ${SO_LINK} ${SO_ECON_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_SO_OBJ}*.o${BJ}` \
                   ${COVR_SO_LINK} ${SO_BASE_ADD} \
                   ${DBS_LINK_SO}                 \
                   ${SO_OBJ}exbm.o${BJ}           \
                   ${SO_OBJ}exppe.o${BJ} \
                   ${SO_OBJ}exppnb.o${BJ} \
-                  ${SO_OBJ}fvs.o${BJ}           \
+                  ${SO_OBJ}main.o${BJ}           \
                   ${VOLUME_OBJ}brk_up.o${BJ}       \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
                   ${VOLUME_OBJ}f_alaska.o${BJ}     \
@@ -10260,14 +10344,14 @@ FVSso : base_compile so_compile dbs_compile_so volume_compile fire_fofem_compile
 # With ECON, FFE and CLIM
 FVSsoc : base_compile so_compile dbs_compile_so volume_compile fire_fofem_compile fire_so_compile \
             so_econ_compile covr_so_compile clim_so_compile 
-	${FCL} $@${OUTSUFX} ${MAIN} ${SO_LINK} ${SO_ECON_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_SO_OBJ}*.o${BJ}` \
+	${FCL} $@ ${SO_LINK} ${SO_ECON_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_SO_OBJ}*.o${BJ}` \
                   ${COVR_SO_LINK} ${SO_CLIM_ADD} \
                   ${SO_CLIM_LINK} \
                   ${DBS_LINK_SO}                 \
                   ${SO_OBJ}exbm.o${BJ}           \
                   ${SO_OBJ}exppe.o${BJ} \
                   ${SO_OBJ}exppnb.o${BJ} \
-                  ${SO_OBJ}fvs.o${BJ}           \
+                  ${SO_OBJ}main.o${BJ}           \
                   ${VOLUME_OBJ}brk_up.o${BJ}       \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
                   ${VOLUME_OBJ}f_alaska.o${BJ}     \
@@ -10308,10 +10392,10 @@ FVSsoc : base_compile so_compile dbs_compile_so volume_compile fire_fofem_compil
 
 FVSsox : base_compile so_compile dbs_compile_so volume_compile fire_fofem_compile fire_so_compile \
            sox_compile so_econ_compile covr_so_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${SO_LINK} ${SO_ECON_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_SO_OBJ}*.o${BJ}` \
+	${FCL} $@ ${SO_LINK} ${SO_ECON_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_SO_OBJ}*.o${BJ}` \
                   ${COVR_SO_LINK} ${SOX_ADD}                 \
                   ${DBS_LINK_SO}                 \
-                  ${SO_OBJ}fvs.o${BJ}           \
+                  ${SO_OBJ}main.o${BJ}           \
                   ${VOLUME_OBJ}brk_up.o${BJ}       \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
                   ${VOLUME_OBJ}f_alaska.o${BJ}     \
@@ -10532,7 +10616,7 @@ FVSsox : base_compile so_compile dbs_compile_so volume_compile fire_fofem_compil
 # With ECON and FFE
 FVStt  : base_compile tt_compile volume_compile fire_fofem_compile fire_tt_compile dbs_compile_tt    \
          tt_econ_compile covr_tt_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${TT_LINK}  ${DBS_LINK_TT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_TT_OBJ}*.o${BJ}`    \
+	${FCL} $@ ${TT_LINK}  ${DBS_LINK_TT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_TT_OBJ}*.o${BJ}`    \
                   ${TT_BASE_ADD}  ${TT_ECON_LINK} ${COVR_TT_LINK}  \
                   ${TT_OBJ}opget3.o${BJ}             \
                   ${TT_OBJ}exppnb.o${BJ}             \
@@ -10583,7 +10667,7 @@ FVStt  : base_compile tt_compile volume_compile fire_fofem_compile fire_tt_compi
 # With ECON, FFE and CLIM
 FVSttc : base_compile tt_compile volume_compile fire_fofem_compile fire_tt_compile dbs_compile_tt \
          tt_econ_compile covr_tt_compile clim_tt_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${TT_LINK} ${DBS_LINK_TT} ${FIRE_FOFEM_LINK} `ls ${FIRE_TT_OBJ}*.o${BJ}`    \
+	${FCL} $@ ${TT_LINK} ${DBS_LINK_TT} ${FIRE_FOFEM_LINK} `ls ${FIRE_TT_OBJ}*.o${BJ}`    \
                   ${TT_CLIM_ADD} ${TT_ECON_LINK} ${COVR_TT_LINK} ${TT_CLIM_LINK} \
                   ${TT_OBJ}opget3.o${BJ}             \
                   ${TT_OBJ}exppnb.o${BJ}             \
@@ -10636,7 +10720,7 @@ FVSttb  : base_compile covr_compile strp_compile mistoe_compile tt_compile  \
          em_compile ni_compile so_compile ut_compile volume_compile \
          fire_base_compile fire_fofem_compile fire_tt_compile fire_ni_compile dbs_compile   \
          econ_compile bgc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${BASE_LINK} ${DBS_LINK} ${BGC_ADD} ${COVR_LINK} ${STRP_LINK}        \
+	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${BGC_ADD} ${COVR_LINK} ${STRP_LINK}        \
                   ${MIST_LINK} ${TT_LINK}  ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK}   \
                   ${FIRE_TT_LINK} ${ECON_LINK} ${BGC_LINK}                         \
                   ${TT_OBJ}exppnb.o${BJ} \
@@ -10648,7 +10732,6 @@ FVSttb  : base_compile covr_compile strp_compile mistoe_compile tt_compile  \
                   ${NI_OBJ}dgbnd.o${BJ}    ${NI_OBJ}dunn.o${BJ}        \
                   ${NI_OBJ}rcon.o${BJ}     ${NI_OBJ}spctrn.o${BJ}      \
                   ${NI_OBJ}vols.o${BJ}        \
-                  ${EC_OBJ}dubscr.o${BJ}       \
                   ${VOLUME_OBJ}brk_up.o${BJ}         \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
                   ${VOLUME_OBJ}doyal78.o${BJ}        \
@@ -10696,7 +10779,7 @@ FVSttb  : base_compile covr_compile strp_compile mistoe_compile tt_compile  \
 # With ECON, FFE, MIST, DFB, DFTM, LPMPB, RD and WSBW
 FVSttx : base_compile tt_compile volume_compile fire_fofem_compile fire_tt_compile dbs_compile_tt \
          tt_econ_compile covr_tt_compile ttx_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${TT_LINK}  ${DBS_LINK_TT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_TT_OBJ}*.o${BJ}`    \
+	${FCL} $@ ${TT_LINK}  ${DBS_LINK_TT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_TT_OBJ}*.o${BJ}`    \
                   ${TTX_ADD}  ${TT_ECON_LINK} ${COVR_TT_LINK}  \
                   ${TT_OBJ}opget3.o${BJ} ${TT_OBJ}exppnb.o${BJ} \
                   ${VOLUME_OBJ}brk_up.o${BJ}         \
@@ -10943,7 +11026,7 @@ FVSttx : base_compile tt_compile volume_compile fire_fofem_compile fire_tt_compi
 # With ECON and FFE
 FVSut  : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_compile dbs_compile_ut \
            ut_econ_compile covr_ut_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${UT_LINK}  ${DBS_LINK_UT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
+	${FCL} $@ ${UT_LINK}  ${DBS_LINK_UT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
                   ${UT_BASE_ADD}  ${UT_ECON_LINK} ${COVR_UT_LINK}   \
                   ${UT_OBJ}opget3.o${BJ}             \
                   ${VOLUME_OBJ}debug_mod.o${BJ}         \
@@ -10993,7 +11076,7 @@ FVSut  : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_compi
 # With ECON, FFE and CLIM
 FVSutc  : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_compile  \
            dbs_compile_ut ut_econ_compile covr_ut_compile clim_ut_compile 
-	${FCL} $@${OUTSUFX} ${MAIN} ${UT_LINK}  ${DBS_LINK_UT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
+	${FCL} $@ ${UT_LINK}  ${DBS_LINK_UT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
                   ${UT_CLIM_ADD}  ${UT_ECON_LINK} ${UT_CLIM_LINK} \
                   ${COVR_UT_LINK}  \
                   ${UT_OBJ}opget3.o${BJ}             \
@@ -11044,7 +11127,7 @@ FVSutc  : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_comp
 # With BGC (and ECON and FFE)
 FVSutb  : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_compile   \
            dbs_compile_ut ut_econ_compile covr_ut_compile ut_bgc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${UT_LINK}  ${DBS_LINK_UT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
+	${FCL} $@ ${UT_LINK}  ${DBS_LINK_UT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
                   ${UT_BGC_ADD}  ${UT_ECON_LINK} ${COVR_UT_LINK} ${UT_BGC_LINK}   \
                   ${UT_OBJ}opget3.o${BJ}             \
                   ${VOLUME_OBJ}brk_up.o${BJ}         \
@@ -11093,7 +11176,7 @@ FVSutb  : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_comp
 
 FVSutx : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_compile  \
          dbs_compile_ut utx_compile ut_econ_compile covr_ut_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${UT_LINK}  ${DBS_LINK_UT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
+	${FCL} $@ ${UT_LINK}  ${DBS_LINK_UT} ${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
                   ${UTX_ADD} ${UT_ECON_LINK} ${COVR_UT_LINK}       \
                   ${UT_OBJ}opget3.o${BJ}             \
                   ${VOLUME_OBJ}brk_up.o${BJ}         \
@@ -11304,7 +11387,7 @@ FVSutx : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_compi
 # With ECON and FFE
 FVSwc  : base_compile wc_compile volume_compile dbs_compile_wc fire_fofem_compile  \
          fire_wc_compile wc_econ_compile covr_wc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_BASE_LINK} ${DBS_LINK_WC} ${PN_WC_BASE_ADD} ${WC_LINK} ${PN_WC_ECON_LINK} \
+	${FCL} $@ ${PN_WC_BASE_LINK} ${DBS_LINK_WC} ${PN_WC_BASE_ADD} ${WC_LINK} ${PN_WC_ECON_LINK} \
                   ${FIRE_FOFEM_LINK} ${COVR_WC_LINK} `ls ${FIRE_WC_OBJ}*.o${BJ}`       \
                   ${WC_OBJ}exdfb.o${BJ}      \
                   ${WC_OBJ}exrd.o${BJ} ${WC_OBJ}opget3.o${BJ} \
@@ -11351,7 +11434,7 @@ FVSwc  : base_compile wc_compile volume_compile dbs_compile_wc fire_fofem_compil
 # With ECON, FFE and CLIM
 FVSwcc  : base_compile wc_compile volume_compile dbs_compile_wc fire_fofem_compile fire_wc_compile \
          wc_econ_compile covr_wc_compile clim_wc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_BASE_LINK} ${DBS_LINK_WC} ${PN_WC_CLIM_ADD} ${WC_LINK} ${PN_WC_ECON_LINK} \
+	${FCL} $@ ${PN_WC_BASE_LINK} ${DBS_LINK_WC} ${PN_WC_CLIM_ADD} ${WC_LINK} ${PN_WC_ECON_LINK} \
                   ${WC_CLIM_LINK} \
                   ${FIRE_FOFEM_LINK} ${COVR_WC_LINK} `ls ${FIRE_WC_OBJ}*.o${BJ}`       \
                   ${WC_OBJ}exdfb.o${BJ}      \
@@ -11398,7 +11481,7 @@ FVSwcc  : base_compile wc_compile volume_compile dbs_compile_wc fire_fofem_compi
 
 FVSwcx  : base_compile wc_compile volume_compile dbs_compile_wc fire_fofem_compile fire_wc_compile  \
           wcx_compile wc_econ_compile covr_wc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_BASE_LINK} ${DBS_LINK_WC} ${PN_WC_BASE_ADD} ${WC_LINK} ${PN_WC_ECON_LINK} \
+	${FCL} $@ ${PN_WC_BASE_LINK} ${DBS_LINK_WC} ${PN_WC_BASE_ADD} ${WC_LINK} ${PN_WC_ECON_LINK} \
                   ${COVR_WC_LINK} ${FIRE_FOFEM_LINK} `ls ${FIRE_WC_OBJ}*.o${BJ}`       \
                   ${WC_OBJ}exdfb.o${BJ}             \
                   ${WC_OBJ}exppnb.o${BJ} ${WC_OBJ}opget3.o${BJ} \
@@ -11519,7 +11602,7 @@ FVSwcx  : base_compile wc_compile volume_compile dbs_compile_wc fire_fofem_compi
 FVSws :  ws_compile volume_compile \
          dbs_compile_ws ws_econ_compile covr_ws_compile   \
          fire_base_compile fire_fofem_compile fire_ws_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${WS_LINK} ${DBS_LINK_WS} ${FIRE_FOFEM_LINK}  `ls ${FIRE_WS_OBJ}*.o${BJ}`  \
+	${FCL} $@ ${WS_LINK} ${DBS_LINK_WS} ${FIRE_FOFEM_LINK}  `ls ${FIRE_WS_OBJ}*.o${BJ}`  \
                   ${WS_BASE_ADD}  ${WS_ECON_LINK} ${COVR_WS_LINK}   \
                   ${WS_OBJ}opget3.o${BJ}             \
                   ${WS_OBJ}exppe.o${BJ}          \
@@ -11560,7 +11643,7 @@ FVSws :  ws_compile volume_compile \
 FVSwsc :  ws_compile volume_compile \
          dbs_compile_ws ws_econ_compile covr_ws_compile   \
          fire_base_compile fire_fofem_compile fire_ws_compile clim_ws_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${WS_LINK} ${DBS_LINK_WS} ${WS_CLIM_ADD} ${WS_CLIM_LINK} \
+	${FCL} $@ ${WS_LINK} ${DBS_LINK_WS} ${WS_CLIM_ADD} ${WS_CLIM_LINK} \
                   ${FIRE_FOFEM_LINK}  `ls ${FIRE_WS_OBJ}*.o${BJ}` ${COVR_WS_LINK}   \
                   ${WS_ECON_LINK}  \
                   ${WS_OBJ}opget3.o${BJ}          \
@@ -11601,7 +11684,7 @@ FVSwsc :  ws_compile volume_compile \
 FVSwsx : ws_compile volume_compile \
          dbs_compile_ws ws_econ_compile covr_ws_compile   \
          fire_base_compile fire_fofem_compile fire_ws_compile wsx_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${WS_LINK} ${DBS_LINK_WS} ${FIRE_FOFEM_LINK}  `ls ${FIRE_WS_OBJ}*.o${BJ}`  \
+	${FCL} $@ ${WS_LINK} ${DBS_LINK_WS} ${FIRE_FOFEM_LINK}  `ls ${FIRE_WS_OBJ}*.o${BJ}`  \
                   ${WS_ECON_LINK} ${COVR_WS_LINK}   \
                   ${WSX_ADD} \
                   ${WS_OBJ}rdinws.o${BJ}   \
@@ -11716,7 +11799,7 @@ FVSwsx : ws_compile volume_compile \
 FVSppbm : base_compile bm_compile volume_compile dbs_compile_bm ppbm_compile \
           fire_fofem_compile fire_bm_compile \
           fire_bm_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${BM_LINK} ${BM_BASE_ADD} ${DBS_LINK_BM} ${BM_ECON_LINK} ${COVR_BM_LINK} \
+	${FCL} $@ ${BM_LINK} ${BM_BASE_ADD} ${DBS_LINK_BM} ${BM_ECON_LINK} ${COVR_BM_LINK} \
                   ${PPBM_LINK} ${DBSppLk} `ls ${FIRE_BM_OBJ}*.o${BJ}` \
                   ${FIRE_FOFEM_LINK}  \
                   ${BM_OBJ}exbgc.o${BJ}  \
@@ -11762,7 +11845,7 @@ FVSppbme : base_compile ppbase_compile covr_compile strp_compile \
           mistoe_compile ppbm_compile ppni_compile ppso_compile \
           bm_compile ni_compile so_compile volume_compile dbs_compile \
           wsbe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${BASE_OBJ}exbgc.o${BJ} \
+	${FCL} $@ ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${BASE_OBJ}exbgc.o${BJ} \
                   ${BASE_OBJ}exbrus.o${BJ} ${BASE_OBJ}exdfb.o${BJ} \
                   ${BASE_OBJ}exdftm.o${BJ} ${BASE_OBJ}execon.o${BJ} \
                   ${BASE_OBJ}exmpb.o${BJ} ${BASE_OBJ}exrd.o${BJ} \
@@ -11839,7 +11922,7 @@ FVSppbme : base_compile ppbase_compile covr_compile strp_compile \
 FVSppbmp : base_compile bm_compile ppbase_compile volume_compile dbs_compile_bm ppbm_compile \
           fire_fofem_compile fire_bm_compile \
           fire_bm_compile fire_ppe_compile wwpb_compile 
-	${FCL} $@${OUTSUFX} ${MAIN} ${BM_LINK} ${DBS_LINK_BM} ${COVR_BM_LINK} \
+	${FCL} $@ ${BM_LINK} ${DBS_LINK_BM} ${COVR_BM_LINK} \
                   ${PPBM_LINK} ${DBSppLk} `ls ${FIRE_BM_OBJ}*.o${BJ}` \
                   ${FIRE_FOFEM_LINK}  \
                   ${WWPB_LINK} ${WWPB_OBJ}bmblkdbm.o${BJ} \
@@ -11889,7 +11972,7 @@ FVSppbmp : base_compile bm_compile ppbase_compile volume_compile dbs_compile_bm 
 FVSppca  : base_compile ca_compile volume_compile dbs_compile_ca ppca_compile \
            fire_fofem_compile ca_econ_compile fire_ca_compile ca_econ_compile covr_ca_compile \
            fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${CA_LINK} ${COVR_CA_LINK} ${CA_PPBASE_LINK} ${DBS_LINK_CA} ${DBSppLk} \
+	${FCL} $@ ${CA_LINK} ${COVR_CA_LINK} ${CA_PPBASE_LINK} ${DBS_LINK_CA} ${DBSppLk} \
                   ${FIRE_FOFEM_LINK} `ls ${FIRE_CA_OBJ}*.o${BJ}` ${CA_ECON_LINK} \
                   ${CA_OBJ}exbm.o${BJ}  \
                   ${CA_OBJ}exclim.o${BJ} \
@@ -11940,7 +12023,7 @@ FVSppca  : base_compile ca_compile volume_compile dbs_compile_ca ppca_compile \
 # With FFE and WWPB
 FVSppcap :  base_compile ca_compile volume_compile dbs_compile_ca ppca_compile \
             fire_fofem_compile fire_ca_compile ppcawwpb_compile covr_ca_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${CA_LINK} ${CA_PPBASE_LINK} ${COVR_CA_LINK} ${DBS_LINK_CA} ${DBSppLk} \
+	${FCL} $@ ${CA_LINK} ${CA_PPBASE_LINK} ${COVR_CA_LINK} ${DBS_LINK_CA} ${DBSppLk} \
                   ${FIRE_FOFEM_LINK}  `ls ${FIRE_CA_OBJ}*.o${BJ}` \
                   ${CA_OBJ}exclim.o${BJ} \
                   ${CA_OBJ}execon.o${BJ} \
@@ -12038,7 +12121,7 @@ FVSppcap :  base_compile ca_compile volume_compile dbs_compile_ca ppca_compile \
 FVSppci : ci_compile volume_compile fire_ci_compile \
           ppci_compile dbs_compile_ci               \
           fire_base_compile fire_fofem_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPCI_LINK} ${CI_BASE_ADD} ${DBS_LINK_CI} ${CI_ECON_LINK} ${COVR_CI_LINK} \
+	${FCL} $@ ${PPCI_LINK} ${CI_BASE_ADD} ${DBS_LINK_CI} ${CI_ECON_LINK} ${COVR_CI_LINK} \
 	                ${DBSppLk} ${PPMIST_LINK}           \
                   ${FIRE_FOFEM_LINK} `ls ${FIRE_CI_OBJ}*.o${BJ}` \
                   ${CI_OBJ}exclim.o${BJ} ${CI_OBJ}exbgc.o${BJ}  \
@@ -12094,7 +12177,7 @@ FVSppci : ci_compile volume_compile fire_ci_compile \
 FVSppcr : base_compile cr_compile volume_compile ppcr_compile dbs_compile_cr  \
           fire_fofem_compile fire_cr_compile cr_econ_compile covr_cr_compile \
           fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${VOLUME_LINK} ${CR_PPBASE_LINK} ${DBS_LINK_CR} ${DBSppLk} \
+	${FCL} $@ ${VOLUME_LINK} ${CR_PPBASE_LINK} ${DBS_LINK_CR} ${DBSppLk} \
                   ${FIRE_FOFEM_LINK} ${CR_ECON_LINK} ${COVR_CR_LINK} `ls ${FIRE_CR_OBJ}*.o${BJ}`  \
                   ${CR_OBJ}opget3.o${BJ}     \
                   ${CR_OBJ}exclim.o${BJ} \
@@ -12108,7 +12191,7 @@ FVSppcr : base_compile cr_compile volume_compile ppcr_compile dbs_compile_cr  \
 FVSppcrp : base_compile cr_compile volume_compile ppcr_compile dbs_compile_cr \
              fire_fofem_compile fire_cr_compile ppcrwwpb_compile covr_cr_compile \
              fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${VOLUME_LINK} ${COVR_CR_LINK} ${CR_PPBASE_LINK} ${DBS_LINK_CR} ${DBSppLk} \
+	${FCL} $@ ${VOLUME_LINK} ${COVR_CR_LINK} ${CR_PPBASE_LINK} ${DBS_LINK_CR} ${DBSppLk} \
                   ${FIRE_FOFEM_LINK}  `ls ${FIRE_CR_OBJ}*.o${BJ}` \
                   ${CR_OBJ}exclim.o${BJ} \
                   ${CR_OBJ}execon.o${BJ} \
@@ -12169,7 +12252,7 @@ FVSppec : base_compile ppbase_compile covr_compile strp_compile \
           ni_compile so_compile volume_compile dbs_compile \
           fire_base_compile fire_fofem_compile fire_ni_compile fire_ec_compile \
           econ_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD}  \
+	${FCL} $@ ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD}  \
                   ${PPEC_LINK} ${COVR_LINK} ${STRP_LINK} ${MIST_LINK} ${ECON_LINK}  \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_EC_LINK} $(FIRE_PPE_LINK)  \
                   ${PPMIST_LINK} ${EC_LINK} ${BASE_OBJ}opget3.o${BJ}  \
@@ -12225,7 +12308,7 @@ FVSppkt : base_compile ppbase_compile covr_compile estb_compile kt_compile \
           mistoe_compile ppkt_compile ni_compile so_compile volume_compile \
           dbs_compile fire_base_compile fire_fofem_compile fire_ni_compile \
           econ_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD}  \
+	${FCL} $@ ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD}  \
                   ${PPKT_LINK} ${COVR_LINK} ${ESTB_LINK} ${MIST_LINK}      \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NI_LINK} ${ECON_LINK} \
                   $(FIRE_PPE_LINK)                                \
@@ -12288,7 +12371,7 @@ FVSppkt : base_compile ppbase_compile covr_compile estb_compile kt_compile \
 # With ECON and FFE
 FVSppls : base_compile ls_compile ppls_compile dbs_compile_ls fire_fofem_compile fire_ls_compile  \
           ls_econ_compile fire_ppe_compile volume_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${LS_PPBASE_LINK} ${DBS_LINK_LS} ${DBSppLk} ${VOLUME_OBJ}r9vol.o${BJ} \
+	${FCL} $@ ${LS_PPBASE_LINK} ${DBS_LINK_LS} ${DBSppLk} ${VOLUME_OBJ}r9vol.o${BJ} \
                  ${FIRE_FOFEM_LINK} `ls ${FIRE_LS_OBJ}*.o${BJ}` \
                   ${LS_OBJ}exclim.o${BJ} \
                   ${LS_OBJ}opget3.o${BJ}          \
@@ -12306,7 +12389,7 @@ FVSppnc : base_compile ppbase_compile ppec_compile covr_compile strp_compile \
           mistoe_compile nc_compile ec_compile ni_compile ppnc_compile so_compile   \
           volume_compile dbs_compile fire_base_compile fire_fofem_compile \
           fire_nc_compile fire_ni_compile fire_ppe_compile econ_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPNC_LINK}  ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD} \
+	${FCL} $@ ${PPNC_LINK}  ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD} \
                   ${PPEC_LINK} ${PPMIST_LINK} ${COVR_LINK} ${MIST_LINK} ${NC_LINK}  \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NC_LINK} ${FIRE_PPE_LINK} \
                   ${ECON_LINK}                                       \
@@ -12321,7 +12404,6 @@ FVSppnc : base_compile ppbase_compile ppec_compile covr_compile strp_compile \
                   ${NI_OBJ}cwcalc.o${BJ} \
                   ${NI_OBJ}dgdriv.o${BJ}    ${NI_OBJ}rcon.o${BJ}     ${NI_OBJ}maical.o${BJ}       \
                   ${NI_OBJ}spctrn.o${BJ}    ${NI_OBJ}vols.o${BJ}                           \
-                  ${EC_OBJ}dubscr.o${BJ}                \
                   ${VOLUME_OBJ}blmvol.o${BJ}            \
                   ${VOLUME_OBJ}blmtap.o${BJ}            \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
@@ -12368,7 +12450,7 @@ FVSppncp : base_compile ppbase_compile ppec_compile covr_compile strp_compile \
           volume_compile dbs_compile wwpb_compile \
           fire_base_compile fire_fofem_compile fire_ws_compile fire_nc_compile fire_ni_compile \
           fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPNC_LINK}  ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} \
+	${FCL} $@ ${PPNC_LINK}  ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} \
                   ${PPEC_LINK} ${PPMIST_LINK} ${COVR_LINK} ${MIST_LINK} ${NC_LINK}  \
                   ${WWPB_LINK} ${WWPB_OBJ}bmblkdnc.o${BJ} \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NC_LINK} ${FIRE_PPE_LINK} \
@@ -12384,7 +12466,6 @@ FVSppncp : base_compile ppbase_compile ppec_compile covr_compile strp_compile \
                   ${NI_OBJ}cwcalc.o${BJ} \
                   ${NI_OBJ}dgdriv.o${BJ}   ${NI_OBJ}rcon.o${BJ}     ${NI_OBJ}maical.o${BJ}       \
                   ${NI_OBJ}spctrn.o${BJ}   ${NI_OBJ}vols.o${BJ}                           \
-                  ${EC_OBJ}dubscr.o${BJ}                \
                   ${VOLUME_OBJ}blmvol.o${BJ}            \
                   ${VOLUME_OBJ}blmtap.o${BJ}            \
                   ${VOLUME_OBJ}brk_up.o${BJ}            \
@@ -12429,7 +12510,7 @@ FVSppncp : base_compile ppbase_compile ppec_compile covr_compile strp_compile \
 # With PPE, ECON and FFE
 FVSppne  : base_compile ne_compile volume_compile dbs_compile_ne fire_fofem_compile    \
              fire_ne_compile ne_econ_compile fire_ppe_compile ppne_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
+	${FCL} $@ ${DBS_LINK_NE} ${FIRE_FOFEM_LINK} `ls ${FIRE_NE_OBJ}*.o${BJ}` \
 	${VOLUME_OBJ}r9vol.o${BJ} ${VOLUME_OBJ}r9init.o${BJ}  ${VOLUME_OBJ}voleqdef.o${BJ} \
 	${VOLUME_OBJ}r9clark.o${BJ} ${VOLUME_OBJ}r9logs.o${BJ} ${VOLUME_OBJ}debug_mod.o${BJ}  \
        ${NE_PPBASE_LINK} ${DBSppLk}  \
@@ -12442,7 +12523,7 @@ FVSppni : base_compile ppbase_compile covr_compile estb_compile \
           mistoe_compile ppni_compile ni_compile so_compile volume_compile \
           dbs_compile fire_fofem_compile fire_ppe_compile fire_ni_compile \
           fire_base_compile econ_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD}  \
+	${FCL} $@ ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD}  \
                   ${PPNI_LINK} ${COVR_LINK} ${ESTB_LINK} ${MIST_LINK}     \
                   ${FIRE_BASE_LINK} ${FIRE_FOFEM_LINK} ${FIRE_NI_LINK}   \
                   ${PPMIST_LINK} $(FIRE_PPE_LINK) ${ECON_LINK}   \
@@ -12501,7 +12582,7 @@ FVSppni : base_compile ppbase_compile covr_compile estb_compile \
 FVSppnie : base_compile ppbase_compile covr_compile estb_compile \
           mistoe_compile ppni_compile ni_compile so_compile volume_compile \
           dbs_compile wsbe_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${BASE_OBJ}exbgc.o${BJ} \
+	${FCL} $@ ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${BASE_OBJ}exbgc.o${BJ} \
                   ${BASE_OBJ}exbrus.o${BJ} ${BASE_OBJ}exdfb.o${BJ} ${BASE_OBJ}exdftm.o${BJ} \
                   ${BASE_OBJ}exclim.o${BJ} \
                   ${BASE_OBJ}execon.o${BJ} ${BASE_OBJ}exmpb.o${BJ} ${BASE_OBJ}exrd.o${BJ} \
@@ -12571,7 +12652,7 @@ FVSppnip : base_compile ppbase_compile covr_compile estb_compile \
           mistoe_compile ppni_compile ni_compile so_compile volume_compile \
           dbs_compile fire_fofem_compile fire_ppe_compile fire_ni_compile \
           fire_base_compile wwpb_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD}  \
+	${FCL} $@ ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD}  \
                   ${PPNI_LINK} ${COVR_LINK} ${ESTB_LINK} ${MIST_LINK}     \
                   ${FIRE_BASE_LINK} ${FIRE_FOFEM_LINK} ${FIRE_NI_LINK}   \
                   ${PPMIST_LINK} $(FIRE_PPE_LINK)  \
@@ -12632,7 +12713,7 @@ FVSppnip : base_compile ppbase_compile covr_compile estb_compile \
 # With ECON and FFE
 FVSpppn  : base_compile pn_compile wc_compile ppwc_compile volume_compile dbs_compile_pn  \
             covr_wc_compile fire_ppe_compile fire_wc_compile wc_econ_compile covr_wc_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_PPBASE_LINK} ${DBS_LINK_PN} ${DBSppLk} ${PN_LINK} ${COVR_WC_LINK} \
+	${FCL} $@ ${PN_WC_PPBASE_LINK} ${DBS_LINK_PN} ${DBSppLk} ${PN_LINK} ${COVR_WC_LINK} \
                   ${FIRE_FOFEM_LINK}  `ls ${FIRE_PN_OBJ}*.o${BJ}` ${PN_WC_ECON_LINK} \
                   ${WC_OBJ}opget3.o${BJ}          \
                   ${PPWC_OBJ}fmppget.o${BJ}       \
@@ -12693,7 +12774,7 @@ FVSpppn  : base_compile pn_compile wc_compile ppwc_compile volume_compile dbs_co
 FVSppso : base_compile so_compile dbs_compile_so volume_compile ppso_compile \
             fire_fofem_compile fire_so_compile so_econ_compile covr_so_compile \
             fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN}  ${SO_LINK} ${COVR_SO_LINK} ${SO_BASE_ADD} ${SO_PPBASE_LINK}  \
+	${FCL} $@  ${SO_LINK} ${COVR_SO_LINK} ${SO_BASE_ADD} ${SO_PPBASE_LINK}  \
                   ${FIRE_FOFEM_LINK}  `ls ${FIRE_SO_OBJ}*.o${BJ}`  \
                   ${SO_ECON_LINK}               \
                   ${DBS_LINK_SO}   ${DBSppLk}    \
@@ -12743,7 +12824,7 @@ FVSppso : base_compile so_compile dbs_compile_so volume_compile ppso_compile \
 FVSppsop : base_compile so_compile dbs_compile_so volume_compile ppso_compile \
              fire_fofem_compile fire_so_compile ppsowwpb_compile covr_so_compile \
              fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN}  ${SO_LINK} ${SO_BASE_ADD} ${COVR_SO_LINK} ${SO_PPBASE_LINK}  \
+	${FCL} $@  ${SO_LINK} ${SO_BASE_ADD} ${COVR_SO_LINK} ${SO_PPBASE_LINK}  \
                  ${FIRE_FOFEM_LINK}  `ls ${FIRE_SO_OBJ}*.o${BJ}`  \
                   ${DBS_LINK_SO}   ${DBSppLk}    \
                   ${SO_OBJ}execon.o${BJ}         \
@@ -12837,7 +12918,7 @@ FVSppsop : base_compile so_compile dbs_compile_so volume_compile ppso_compile \
 # With ECON and FFE
 FVSpput  : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_compile pput_compile \
            dbs_compile_ut ut_econ_compile covr_ut_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${UT_PPBASE_LINK} ${DBS_LINK_UT} ${DBSppLk} ${UT_ECON_LINK} ${COVR_UT_LINK} \
+	${FCL} $@ ${UT_PPBASE_LINK} ${DBS_LINK_UT} ${DBSppLk} ${UT_ECON_LINK} ${COVR_UT_LINK} \
 	${FIRE_FOFEM_LINK}  `ls ${FIRE_UT_OBJ}*.o${BJ}`    \
                   ${UT_OBJ}opget3.o${BJ}             \
                   ${PPUT_OBJ}fmppget.o${BJ}       \
@@ -12890,7 +12971,7 @@ FVSpput  : base_compile ut_compile volume_compile fire_fofem_compile fire_ut_com
 #With ECON and FFE
 FVSppwc  : base_compile wc_compile ppwc_compile volume_compile dbs_compile_wc   \
            fire_wc_compile wc_econ_compile covr_wc_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_PPBASE_LINK} ${DBS_LINK_WC} ${DBSppLk} ${WC_LINK} ${COVR_WC_LINK} \
+	${FCL} $@ ${PN_WC_PPBASE_LINK} ${DBS_LINK_WC} ${DBSppLk} ${WC_LINK} ${COVR_WC_LINK} \
                   ${FIRE_FOFEM_LINK}  `ls ${FIRE_WC_OBJ}*.o${BJ}` ${PN_WC_ECON_LINK} \
                   ${WC_OBJ}opget3.o${BJ}          \
                   ${PPWC_OBJ}fmppget.o${BJ}       \
@@ -12940,7 +13021,7 @@ FVSppwc  : base_compile wc_compile ppwc_compile volume_compile dbs_compile_wc   
 # With FFE and WWPB
 FVSppwcp : base_compile wc_compile ppwc_compile volume_compile dbs_compile_wc fire_fofem_compile \
             fire_wc_compile covr_wc_compile ppwcwwpb_compile 
-	${FCL} $@${OUTSUFX} ${MAIN} ${PN_WC_PPBASE_LINK} ${DBS_LINK_WC} ${DBSppLk} ${WC_LINK} ${COVR_WC_LINK} \
+	${FCL} $@ ${PN_WC_PPBASE_LINK} ${DBS_LINK_WC} ${DBSppLk} ${WC_LINK} ${COVR_WC_LINK} \
                   ${FIRE_FOFEM_LINK}  `ls ${FIRE_WC_OBJ}*.o${BJ}` \
                   ${WC_OBJ}execon.o${BJ} \
                   ${WC_OBJ}exclim.o${BJ} \
@@ -13038,7 +13119,7 @@ FVSppws : ws_compile volume_compile ppws_compile  \
           dbs_compile_ws ws_econ_compile covr_ws_compile \
           fire_ws_compile  \
           fire_base_compile fire_fofem_compile fire_ppe_compile
-	${FCL} $@${OUTSUFX} ${MAIN} ${PPWS_LINK} ${DBS_LINK_WS} ${DBSppLk}  \
+	${FCL} $@ ${PPWS_LINK} ${DBS_LINK_WS} ${DBSppLk}  \
                   ${WS_BASE_ADD}  ${WS_ECON_LINK} ${COVR_WS_LINK}   \
                   ${PPMIST_LINK} ${FIRE_FOFEM_LINK} \
                   `ls ${FIRE_WS_OBJ}*.o${BJ}`  $(FIRE_PPE_LINK) \
@@ -13100,9 +13181,6 @@ mistoe_compile :
 ak_compile :
 	cd ${AK_OBJ} ; ${MAKE} ak
 
-acd_compile :
-	cd ${ACD_OBJ} ; ${MAKE} acd
-
 covr_ak_compile :
 	cd ${AK_OBJ} ; ${MAKE} covr
 
@@ -13135,6 +13213,10 @@ ca_econ_compile :
 
 ci_compile :
 	cd ${CI_OBJ} ; ${MAKE} ci
+
+cix_compile :
+	cd ${CI_OBJ} ; ${MAKE} cix
+	cd ${WSBE_OBJ} ; ${MAKE} txnote.o${BJ}
 
 cr_compile :
 	cd ${CR_OBJ} ; ${MAKE} cr
@@ -13198,9 +13280,6 @@ nc_compile :
 
 ne_compile :
 	cd ${NE_OBJ} ; ${MAKE} ne
-
-acd_econ_compile : 
-	cd ${ACD_OBJ} ; ${MAKE} econ
 
 ne_econ_compile :
 	cd ${NE_OBJ} ; ${MAKE} econ
@@ -13494,10 +13573,3 @@ ppwcwwpb_compile :
 
 ppws_compile :
 	cd ${PPWS_OBJ} ; ${MAKE} ppws
-
-pg_ie_compile :
-	cd ${PG_IE_OBJ} ; ${MAKE} pg
-	
-pg_ne_compile :
-	cd ${PG_NE_OBJ} ; ${MAKE} pg
-	

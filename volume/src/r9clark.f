@@ -18,7 +18,21 @@ C                          in R9PREP.
 C
 C  revised TDH 03/03/2011  Add ABS(R) on line 904 since negative
 C                          values for R would cause problems.
+
+C  revised TDH 5/24/2011   Added comments and an ISNAN check to final
+C                          stemHt in r9Ht
+C  revised RNH 5/24/2011   Added subroutine IISNAN to replace ISNAN check
+C                          which isn't available in Lahey Fortran
+C
 C  revised RNH 07/21/2011  reassigned sawHT to ht1prd
+c
+C  revised YW  11/15/2011  Added upsHt1 to r9clark, r9prep, and r9dia417.
+C                          Also added logVol to r9bdft and cType to r9clark.
+C
+C          YW  12/08/2011  Added check number of logs not greater than 20.
+C
+C          RNH 02/08/2012 changed case of include file name r9coeff,inc
+C                         to R9COEFF.INC
 C
 C  This subroutine is designed for use with the VOLLIB routines in 
 C  the National Volume Estimator Library.  It returns arrays filled 
@@ -33,7 +47,7 @@ C
       subroutine r9clark (volEq,stump,mTopP,mTopS,dbhOb,
      &                    ht1Prd,ht2Prd,htTot,logDia,bolHt,Loglen,
      &                    logVol,vol,cutFlg,bfpFlg,cupFlg,cdpFlg,
-     &                    spFlg,prod,errFlg)
+     &                    spFlg,prod,errFlg,cType,upsHt1)
 C_______________________________________________________________________
 C
  
@@ -47,8 +61,9 @@ C     Shared variables
       integer   geog,iProd,cutFlg,bfpFlg,cupFlg,spFlg,cdpFlg
       integer   errFlg
       real      minBfD,maxLen,minLen,merchL,mTopP,mTopS,stump,trim
-      real      dbhOb,ht1Prd,ht2Prd,htTot,topDib 
+      real      dbhOb,ht1Prd,ht2Prd,htTot,topDib,upsHt1 
       real      logVol(7,20),logDia(21,3),bolHt(21),vol(15),logLen(20)
+      character*1 cType
 C     Internal variables
       integer   numSeg,spp,i,j
       real      plpDib,sawDib,plpHt,sawHt,topHt,totHt,dbhIb,dib17
@@ -73,6 +88,8 @@ C     Internal variables
       END IF
       
 C     Initialize output variables
+
+      cfVol = 0
       TLOGVOL = 0
       numSeg=0
       errFlg=0
@@ -92,17 +109,21 @@ C     Initialize output variables
       do 130,i=1,15
          vol(i)=0.0
 130   continue
-
 C-----Check input values and prepare variables
+      if (upsHt1 .gt. 0.0 .and. ht1Prd .le. 0.0) then
+        ht1Prd = upsHt1
+        upsHt1 = 0
+      endif
       call r9Prep(volEq,dbhOb,topDib,topHt,ht1Prd,ht2Prd,htTot,
      &            spp,geog,COEFFS,forst,maxLen,
      &            minLen,merchL,mTopP,mTopS,stump,trim,minBfD,
-     &            prod,iProd,sawDib,plpDib,short,shrtHt,errFlg)
+     &            prod,iProd,sawDib,plpDib,short,shrtHt,errFlg,
+     &            upsHt1)
       if(errFlg.ne.0) return
 
 C-----Get DIBs at heights of 4.5' and 17.3'
       call r9dia417(COEFFS,topDib,dbhOb,topHt,ht1Prd,ht2Prd,
-     &              htTot,sawDib,plpDib,errFlg)
+     &               htTot,sawDib,plpDib,errFlg,upsHt1)
       if(errFlg.ne.0) return
 
       IF (DEBUG%MODEL) THEN
@@ -181,18 +202,28 @@ C-----Get total merchantable product volumes
 C-----Get height to sawtimber top
       sawHt=0.0
       if(iProd.eq.1) then
-        if(ht1Prd.gt.4.5) then
-          sawHt=ht1Prd
-        elseif(ht1prd.gt.0.0) then
+c       cType is checked to let Volume Tester program to calculate boardfoot
+c       volume for FVS if only total height is provided. 11/15/2011 (yw)
+        if(cType.eq.'F' .or. cType.eq.'f') then
+          if(ht1Prd.gt.4.5) then
+            sawHt=ht1Prd
+          else
+            call r9ht(sawHt,COEFFS, sawDib,errFlg)
+          endif
+        else
+          if(ht1Prd.gt.4.5) then
+            sawHt=ht1Prd
+          elseif(ht1prd.gt.0.0) then
 c         Saw height calc is requested by having 1 < ht1prd < 4.5'
-          call r9ht(sawHt,COEFFS, sawDib,errFlg)
+            call r9ht(sawHt,COEFFS, sawDib,errFlg)
+          endif
         endif
         if(errFlg.ne.0) return
         if(topDib.le.sawDib .and. topHt.lt.sawHt) sawHt=topHt
         if(sawHt.lt.minLen+trim+stump) sawHt=0.0
-        !reassign sawHT to ht1prd 
+				!reassign sawHT to ht1prd 
          ht1prd = sawHT
-
+         
 C-----Get sawtimber cubic volumes
         if(cupFlg.eq.1 .or. spFlg.eq.1) then
           call r9cuft(cfVol,COEFFS,STUMP,SAWHT,errFlg)
@@ -219,6 +250,13 @@ C-----Get topwood cubic volumes
      
      
         NUMSEG = NOLOGP
+        IF(NUMSEG .GT. 20) THEN
+          ERRFLG = 4
+          DO 525, I=1,15
+             VOL(I) = 0.0
+  525     CONTINUE
+          RETURN
+        ENDIF
       
       IF (DEBUG%MODEL) THEN
          DO 550 I=1,TLOGS
@@ -234,7 +272,7 @@ C-----Get topwood cubic volumes
      
 C-----Get board foot volumes
         if(bfpFlg.eq.1) then
-          call r9bdft(vol,logLen,NUMSEG,logDia,errFlg)
+          call r9bdft(vol,logLen,NUMSEG,logDia,errFlg,logVol)
           if(errFlg.ne.0) return
         endif
        
@@ -248,6 +286,13 @@ C-----Get board foot volumes
       
         CALL R9LOGS(SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM,
      &            LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS,COEFFS) 
+        IF(NOLOGS .GT. 20) THEN
+          ERRFLG = 4
+          DO 575, I=1,15
+             VOL(I) = 0.0
+  575     CONTINUE
+          RETURN
+        ENDIF
       
       endif !prod eq 1
 !***********************************************************************
@@ -306,7 +351,8 @@ C
       subroutine r9Prep(volEq,dbhOb,topDib,topHt,ht1Prd,ht2Prd,htTot,
      &                  spp,geog,COEFFS,forst,maxLen,
      &                  minLen,merchL,mTopP,mTopS,stump,trim,minBfD,
-     &                  prod,iProd,sawDib,plpDib,short,shrtHt,errFlg)
+     &                  prod,iProd,sawDib,plpDib,short,shrtHt,errFlg,
+     &                  upsHt1)
 C_______________________________________________________________________
 C
 C  Parse out the info in the volume equation (volEq).  Check to see if 
@@ -317,11 +363,11 @@ C  merchantability rules for the specified species and product.
       USE CLKCOEF_MOD
       
       implicit none
-      INCLUDE 'r9coeff.inc'
+      INCLUDE 'R9COEFF.INC'
       
       integer   errFlg,spp,sppGrp,geog,iProd,k,sppIdx
       real      dbhOb,topDib,topHt,sawHt,maxLen,minLen
-      real      dib17,upprHt,lowrHt,merchL,stump
+      real      dib17,upprHt,lowrHt,merchL,stump,upsHt1
       real      mTopP,mTopS,trim,minBfD,ht1Prd,ht2Prd,htTot
       TYPE(CLKCOEF):: COEFFS
       real      plpDib,sawDib,shrtHt
@@ -362,7 +408,7 @@ C-----Check to determine if the heights and diameters are reasonable.
         errFlg=10
 c      elseif(ht2Prd.eq.0.0 .and. htTot.eq.0.0) then
       elseif(ht1Prd.eq.0.0 .and. ht2Prd.eq.0.0 
-     &  .and. htTot.eq.0.0) then
+     &  .and. htTot.eq.0.0 .and. upsHt1.eq.0.0) then
         errFlg=10
       elseif(htTot.gt.0.0.and.htTot.le.17.3) then
         errFlg=10
@@ -381,6 +427,10 @@ c      elseif(ht2Prd.gt.35.0*sqrt(max(dbhOb,0.0))) then
 c        errFlg=5
 c      elseif(ht1Prd.gt.35.0*sqrt(max(dbhOb-4.0,0.0))) then
 c        errFlg=5
+c     check sawtimber reference height (upsHt1) and saw height ht1Prd
+      elseif(upsHt1.gt.0 .and. ht1Prd.gt.0
+     &  .and. upsHt1.lt.ht1Prd) then
+        errFlg=10
       endif
       if(errFlg.ne.0) return
 
@@ -515,13 +565,25 @@ C-----Get top height and top DIB
         else
           topDib=9.0
         endif
-        if(ht1Prd.ge.17.3) then
+c       if sawtimber topHt is provided, no recalc topHt. 11/15/2011 (yw)
+        if(upsHt1.gt.0) then
+          if(upsHt1.ge.17.3) then
+            topHt=upsHt1
+          else
+            short=.true.
+            topHt=17.4
+            shrtHt=ht1Prd
+          endif
+          if(ht1prd.le.0) ht1Prd = upsHt1
+        else        
+          if(ht1Prd.ge.17.3) then
 c         Use linear extrapolation from sawDib to topDib
-          topHt=4.5+(ht1prd-4.5)*(dbhOb-topDib)/(dbhOb-sawDib)
-        else
-          short=.true.
-          topHt=17.4
-          shrtHt=ht1Prd
+            topHt=4.5+(ht1prd-4.5)*(dbhOb-topDib)/(dbhOb-sawDib)
+          else
+            short=.true.
+            topHt=17.4
+            shrtHt=ht1Prd
+          endif
         endif
       endif
       if(dbhOb.le.topDib) errFlg=11
@@ -582,7 +644,7 @@ C     total height, except a17 and b17, which correspond to the top DIB.
 C_______________________________________________________________________
 C
       subroutine r9dia417(COEFFS,topDib,dbhOb,topHt,ht1Prd,ht2Prd,
-     &                    htTot,sawDib,plpDib,errFlg)
+     &                    htTot,sawDib,plpDib,errFlg,upsHt1)
 C_______________________________________________________________________
 C
 C  Calculates inside bark diameter at 4.5' (dbhIb), inside-bark diameter 
@@ -598,7 +660,7 @@ C  inside-bark coefficients corresponding to the specified top diameter.
 !...  Parameters    
       TYPE(CLKCOEF)::COEFFS
       integer   errFlg
-      real      dbhOb,topHt,topDib,ht1Prd,ht2Prd,htTot
+      real      dbhOb,topHt,topDib,ht1Prd,ht2Prd,htTot,upsHt1
       real      sawDib,plpDib
 
 !...  Local variables
@@ -648,7 +710,7 @@ C-----Calculate DIB at 4.5' from DBH (eqn 7)
 C-----Calculate DIB at 17.3' from top height and DBH (eqn 9)
       if(ht2Prd.eq.17.3) then
         dib17=plpDib
-      elseif(ht1Prd.eq.17.3) then
+      elseif(ht1Prd.eq.17.3 .and. upsHt1.eq.0) then
         dib17=sawDib
       elseif(topHt.gt.17.3) then
         dib17=dbhIb*(a17+b17*(17.3/topHt)**2)
@@ -657,8 +719,10 @@ C-----Calculate DIB at 17.3' from top height and DBH (eqn 9)
         dib17=topDib-0.1
       endif
 c     Make sure DIB  at 17.3 is large enough for product top diameters
-      if(ht1prd.gt.17.3 .and. dib17.lt.sawDib) then
+      if(upsHt1.eq.0 .and. ht1prd.gt.17.3 .and. dib17.lt.sawDib) then
         dib17=sawDib+(dbhIb-sawDib)*(ht1prd-17.3)/(ht1prd-4.5)
+      elseif(upsHt1.gt.17.3 .and. dib17.lt.sawDib) then
+        dib17=sawDib+(dbhIb-sawDib)*(upsHt1-17.3)/(upsHt1-4.5)
       elseif(ht2prd.gt.17.3 .and. dib17.lt.plpDib) then
         dib17=plpDib+(dbhIb-plpDib)*(ht2prd-17.3)/(ht2prd-4.5)
       endif
@@ -945,6 +1009,8 @@ C  diameter (stmDib) occurs, given inside-bark dbh (dbhIb), inside-bark
 C  diameter at 17.3' (dib17) and total height (totHt).  r, c, e, p, b,
 C  and a are the coefficients for inside-bark calculations.
 
+CDate 5/24/2011
+CREV  TDH added comments and an ISNAN check to final stemHt
       USE CLKCOEF_MOD
 
       IMPLICIT NONE
@@ -956,6 +1022,7 @@ C  and a are the coefficients for inside-bark calculations.
       REAL      stmDib
       
 !... Local variables
+      logical  res
       REAL      totHt,dbhIb,dib17
       real      r,c,e,p,b,a,G,W,X,Y,Z,Qa,Qb,Qc,Is,Ib,It,Im
 !======================================================================
@@ -981,6 +1048,8 @@ c-----Set combined variables
 
 c-----Set height indicator variables
       if(stmDib.ge.dbhIb) then
+      !not sure why we need to get the height if it is less than
+      !4.5'(dbh) since there would be no pulp or saw volume anyway
         Is=1.0
       else
         Is=0.0
@@ -1007,19 +1076,30 @@ c-----Set height indicator variables
 C-----Get height to specified DIB
 C     Eqn 2: split since terms are undefined when evaluated together.
       if(Is.eq.1)  then
+      !this equation causes illegal math for many species so we
+      !catch this at the bottom of this subroutine
         stemHt=totHt*(1-((stmDib**2/dbhIb**2-1)/W+G)**(1/r))
       elseif(Ib.eq.1) then
         stemHt=totHt*(1-(X-(dbhIb**2-stmDib**2)/Z)**(1/p))
       else
         stemHt=17.3+(totHt-17.3)*((-Qb-(Qb**2-4*Qa*Qc)**0.5)/(2*Qa))
       endif
-
-      if(stemHt.lt.0.0) stemHt=0.0
+      
+      !added the ISNAN check as per the above comments
+      ! Lahey doesn't provide the ISNAN intrinsic function, so
+      ! we use the subroutine IISNAN (RNH)
+      call IISNAN(stemHt,res)
+      if((stemHt.lt.0.0).OR. res ) stemHt=0.0
       return
       end
-C_______________________________________________________________________
 C
-      subroutine r9bdft(vol,logLen,NUMSEG,logDia,errFlg)
+      subroutine iisnan(x,res)
+      real, intent(in) :: x
+      logical :: res
+      integer, parameter :: NaN = Z"7FC00000"
+      res = ieor(transfer(x,Nan), NaN) == 0
+      end subroutine
+      subroutine r9bdft(vol,logLen,NUMSEG,logDia,errFlg,logVol)
 C_______________________________________________________________________
 C
 C  Calculates board foot volumes (in the vol array) from the specified 

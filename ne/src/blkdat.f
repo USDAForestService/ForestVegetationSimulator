@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C  **BLKDAT--NE  DATE OF LAST REVISION:  10/19/11
+C  **BLKDAT--NE  DATE OF LAST REVISION:  02/09/2012
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -155,7 +155,7 @@ C
      & '998',   '330',   '332',   '374',   '462',   '521',   '591',
      & '601',   '602',   '641',   '650',   '653',   '660',   '691',
      & '693',   '711',   '712',   '731',   '831',   '901',   '922',
-     & '931',   '951',   '952',   '970',   '972',   '975',   '999',
+     & '931',   '951',   '952',   '970',   '972',   '975',   '   ',
      & '313',   '315',   '341',   '356',   '391',   '491',   '500',
      & '701',   '760',   '761'/
 C
@@ -173,7 +173,7 @@ C
      & '2TD   ','AESCU ','AEFL  ','BEOC2 ','CEOC  ','DIVI5 ','ILOP  ',
      & 'JUCI  ','JUNI  ','MAPO  ','MAGNO ','MAVI2 ','MALUS ','NYAQ2 ',
      & 'NYSY  ','OXAR  ','PATO2 ','PLOC  ','QUPH  ','ROPS  ','SANI  ',
-     & 'SAAL5 ','TIAM  ','TIAMH ','ULMUS ','ULAM  ','ULRU  ','2TREE ',
+     & 'SAAL5 ','TIAM  ','TIAMH ','ULMUS ','ULAM  ','ULRU  ','------',
      & 'ACNE2 ','ACPE  ','AIAL  ','AMELA ','CACA18','COFL2 ','CRATA ',
      & 'OSVI  ','PRUNU ','PRPE2 '/
 C

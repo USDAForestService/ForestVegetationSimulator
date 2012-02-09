@@ -491,6 +491,7 @@
 ../ie/src/sitset.f
 ../ie/src/varvol.f
 ../mistoe/src/MISCOM.F77
+../mistoe/src/misact.f
 ../mistoe/src/miscnt.f
 ../mistoe/src/miscpf.f
 ../mistoe/src/misdam.f
@@ -503,6 +504,8 @@
 ../mistoe/src/misintie.f
 ../mistoe/src/mismrt.f
 ../mistoe/src/misprt.f
+../mistoe/src/msppgt.f
+../mistoe/src/mspppt.f
 ../mistoe/src/misputz.f
 ../mistoe/src/misran.f
 ../mistoe/src/mistoe.f
@@ -537,10 +540,9 @@
 ../so/src/avht40.f
 ../so/src/r6crwd.f
 ../ut/src/dgfasp.f
-../volume/src/R8CLIST.FOR
-../volume/src/R8DIB.FOR
+../volume/src/R8CLIST.INC
 ../volume/src/R8DIB.INC
-../volume/src/R8VLIST.FOR
+../volume/src/R8VLIST.INC
 ../volume/src/blmtap.f
 ../volume/src/blmvol.f
 ../volume/src/brk_up.f
@@ -587,7 +589,7 @@
 ../volume/src/r8vol1.f
 ../volume/src/r8vol2.f
 ../volume/src/r9clark.f
-../volume/src/r9coeff.inc
+../volume/src/R9COEFF.INC
 ../volume/src/r9init.f
 ../volume/src/r9logs.f
 ../volume/src/r9vol.f
