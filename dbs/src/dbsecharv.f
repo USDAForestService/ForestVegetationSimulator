@@ -5,16 +5,11 @@
         include 'DBSCOM.F77'
 
         character(len=*), parameter :: TABLENAME='FVS_EconHarvestValue'
-
+        
+        character(len=30)   :: decoratedTableName
         character(len=1000) :: SQLStmtStr
         logical success
         integer(SQLPOINTER_KIND) :: maybeNullNeg
-        character :: decorateTableName
-        character(len=45) :: columnDecl
-        logical :: tooManyRows
-        character(len=3) :: tInt
-        character(len=6) :: tReal
-        character(len=9) :: tText
 
         if(IDBSECON < 2) return
 
@@ -36,34 +31,71 @@
             return
          end if
 
-        ! Ensure that the FVS_EcHarvest table exists in the DB.
-         SQLStmtStr = 'SELECT * FROM ' // decorateTableName(TABLENAME)
+        ! Ensure that the FVS_EconHarvestValue table exists in the DB.
+         if(trim(DBMSOUT) .eq. 'EXCEL') then
+            decoratedTableName = '[' // TABLENAME // '$]'
+         else
+            decoratedTableName = TABLENAME
+         end if
+         SQLStmtStr = 'SELECT * FROM ' // decoratedTableName
          iRet = fvsSQLExecDirect(
      &         StmtHndlOut,SQLStmtStr,
      -         int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
 
          if(.not. success(iRet)) then
-            sqlStmtStr = 'CREATE TABLE ' // TABLENAME // ' ('
-     &         // columnDecl('CaseID',tInt(),'not null') // ','
-     &         // columnDecl('Year',tInt(),'not null') // ','
-     &         // columnDecl('Species',tText('8'),'not null') // ','
-     &         // columnDecl('Min_DIB',tReal(),'null') // ','
-     &         // columnDecl('Max_DIB',tReal(),'null') // ','
-     &         // columnDecl('Min_DBH',tReal(),'null') //','
-     &         // columnDecl('Max_DBH',tReal(),'null') // ','
-     &         // columnDecl('TPA_Removed',tInt(),'null') // ','
-     &         // columnDecl('TPA_Value',tInt(),'null') // ','
-     &         // columnDecl('Tons_Per_Acre',tInt(),'null') // ','
-     &         // columnDecl('Ft3_Removed',tInt(),'null') // ','
-     &         // columnDecl('Ft3_Value',tInt(),'null') // ','
-     &         // columnDecl('Board_Ft_Removed',tInt(),'null') //','
-     &         // columnDecl('Board_Ft_Value',tInt(),'null') // ','
-     &         // columnDecl('Total_Value',tInt(),'null') !// ','
-!     &         // omitForExcel(
-!     &               'CONSTRAINT ' // TABLENAME // '_PK '
-!     &                  // 'PRIMARY KEY(CaseID,Year,Species,Min_DIB,'
-!     &                  // 'Max_DIB,Min_DBH,Max_DBH)')
-     &         // ')'
+            if(trim(DBMSOUT) .eq. 'ACCESS') then
+                SQLStmtStr = 'CREATE TABLE ' // TABLENAME // ' ('
+     &              // 'CaseID int not null,'
+     &              // 'Year int not null,'
+     &              // 'Species text not null,'
+     &              // 'Min_DIB double null,'
+     &              // 'Max_DIB double null,'
+     &              // 'Min_DBH double null,'
+     &              // 'Max_DBH double null,'
+     &              // 'TPA_Removed int null,'
+     &              // 'TPA_Value int null,'
+     &              // 'Tons_Per_Acre int null,'
+     &              // 'Ft3_Removed int null,'
+     &              // 'Ft3_Value int null,'
+     &              // 'Board_Ft_Removed int null,'
+     &              // 'Board_Ft_Value int null,'
+     &              // 'Total_Value int null)'
+            elseif(trim(DBMSOUT) .eq. 'EXCEL') then
+                SQLStmtStr = 'CREATE TABLE ' // TABLENAME // ' ('
+     &              // 'CaseID Int,'
+     &              // 'Year Int,'
+     &              // 'Species Text,'
+     &              // 'Min_DIB Number,'
+     &              // 'Max_DIB Number,'
+     &              // 'Min_DBH Number,'
+     &              // 'Max_DBH Number,'
+     &              // 'TPA_Removed Int,'
+     &              // 'TPA_Value Int,'
+     &              // 'Tons_Per_Acre Int,'
+     &              // 'Ft3_Removed Int,'
+     &              // 'Ft3_Value Int,'
+     &              // 'Board_Ft_Removed Int,'
+     &              // 'Board_Ft_Value Int,'
+     &              // 'Total_Value Int)'
+            else
+                SQLStmtStr = 'CREATE TABLE ' // TABLENAME // ' ('
+     &              // 'CaseID int not null,'
+     &              // 'Year int not null,'
+     &              // 'Species char(8) not null,'
+     &              // 'Min_DIB real null,'
+     &              // 'Max_DIB real null,'
+     &              // 'Min_DBH real null,'
+     &              // 'Max_DBH real null,'
+     &              // 'TPA_Removed int null,'
+     &              // 'TPA_Value int null,'
+     &              // 'Tons_Per_Acre int null,'
+     &              // 'Ft3_Removed int null,'
+     &              // 'Ft3_Value int null,'
+     &              // 'Board_Ft_Removed int null,'
+     &              // 'Board_Ft_Value int null,'
+     &              // 'Total_Value int null)'
+            end if
+            
             iRet = fvsSQLFreeStmt(StmtHndlOut, SQL_CLOSE)
             iRet = fvsSQLExecDirect(
      &            StmtHndlOut, trim(SQLStmtStr),
@@ -75,7 +107,7 @@
          end if
 
          write(SQLStmtStr, *) 'INSERT INTO ',
-     &      decorateTableName(TABLENAME),'(CaseID,Year,Species,',
+     &      decoratedTableName,'(CaseID,Year,Species,',
      &      'Min_DIB,Max_DIB,Min_DBH,Max_DBH,TPA_Removed,TPA_Value,',
      &      'Tons_Per_Acre,Ft3_Removed,Ft3_Value,Board_Ft_Removed,',
      &      'Board_Ft_Value,Total_Value) VALUES (',ICASE,
@@ -108,14 +140,12 @@
          real    :: minDia, maxDia, minDbh, maxDbh
          integer :: beginAnalYear, tpaCut, tpaValue, tonsPerAcre,
      &              ft3Volume, ft3Value, bfVolume, bfValue, totalValue
-         integer :: speciesLength
          integer, intent(in) :: speciesId
-         logical :: tooManyRows
          integer(SQLPOINTER_KIND) :: maybeNullNeg
          
          if(IDBSECON < 2) return                                         !ECON harvest table was not requested
 
-         if(tooManyRows(TABLENAME)) return                               !database table will exceed Excel's maximum row count
+         !if(tooManyRows(decoratedTableName)) return                               !database table will exceed Excel's maximum row count
 
          !Determine preferred species output format - keyword has precedence
          select case (ISPOUT30)
@@ -137,7 +167,6 @@
                endif
           end select
 
-          speciesLength = len_trim(species)
           iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
      &            int(1, SQLSMALLINT_KIND),
@@ -147,6 +176,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            beginAnalYear,
+     &            SQL_NULL_PTR,
      &            SQL_NULL_PTR)
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -156,8 +186,9 @@
      &            SQL_CHAR,
      &            int(8, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
-     &            trim(species),
-     &            loc(speciesLength))
+     &            species,
+     &            int(len_trim(species), SQLLEN_KIND),
+     &            int(len_trim(species), SQLLEN_KIND))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
      &            int(3, SQLSMALLINT_KIND),
@@ -167,6 +198,7 @@
      &            int(1, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            minDia,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(minDia))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -177,6 +209,7 @@
      &            int(1, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            maxDia,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(maxDia))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -187,6 +220,7 @@
      &            int(1, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            minDbh,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(minDbh))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -197,6 +231,7 @@
      &            int(1, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            maxDbh,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(maxDbh))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -207,6 +242,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            tpaCut,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(real(tpaCut)))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -217,6 +253,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            tpaValue,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(real(tpaValue)))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -227,6 +264,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            tonsPerAcre,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(real(tonsPerAcre)))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -237,6 +275,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            ft3Volume,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(real(ft3Volume)))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -247,6 +286,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            ft3Value,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(real(ft3Value)))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -257,6 +297,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            bfVolume,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(real(bfVolume)))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -267,6 +308,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            bfValue,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(real(bfValue)))
          iRet = fvsSQLBindParameter(
      &            StmtHndlOut,
@@ -277,6 +319,7 @@
      &            int(0, SQLUINTEGER_KIND),
      &            int(0, SQLSMALLINT_KIND),
      &            totalValue,
+     &            SQL_NULL_PTR,
      &            maybeNullNeg(real(totalValue)))
          iRet = fvsSQLFreeStmt(StmtHndlOut, SQL_CLOSE)
          iRet = fvsSQLExecute(StmtHndlOut)
