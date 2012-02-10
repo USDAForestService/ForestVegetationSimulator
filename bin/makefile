@@ -132,4 +132,16 @@ endif
 
 %.o : %.c $(includes)
 	$(CC) $(CFLAGS) -c -o $@ $<
+	
+blmvol.o : blmvol.f debug_mod.mod $(includes) 
+	$(FC) $(FFLAGS) -c -o $@ blmvol.f
+
+blmtap.o : blmtap.f debug_mod.mod $(includes) 
+	$(FC) $(FFLAGS) -c -o $@ blmtap.f
+
+profile.o : profile.f debug_mod.mod $(includes) 
+	$(FC) $(FFLAGS) -c -o $@ profile.f
+
+debug_mod.mod : debug_mod.f $(includes) 
+	$(FC) $(FFLAGS) -c debug_mod.f
 
