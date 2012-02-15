@@ -104,7 +104,7 @@ C
           DSN = TRIM(ConnStr)//"/"//TRIM(DSN)
          ENDIF
         IF(SUFFIX.EQ.'DB') THEN
-          ConnStr='DRIVER=SQLite'//
+          ConnStr='DRIVER=SQLite3 ODBC Driver'//
      -            ';Database='//TRIM(DSN)//
      -            ';Version=3;LongNames=0;Timeout=300;NoTXN=0'//
      -            ';SyncPragma=NORMAL;StepAPI=0;NoWCHAR=0'
