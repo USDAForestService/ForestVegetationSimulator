@@ -1,7 +1,7 @@
       SUBROUTINE DBSSTANDIN(SQLSTR,LKECHO)
       IMPLICIT NONE
 C
-C  **DBSSTANDIN--DBS  DATE OF LAST REVISION: 10/31/2011
+C  **DBSSTANDIN--DBS  DATE OF LAST REVISION: 02/15/2012
 C
 C     PURPOSE: TO POPULATE FVS STAND LEVEL DATA FROM THE DATABASE
 C     AUTH: D. GAMMEL -- SEM -- AUGUST 2002
@@ -55,7 +55,7 @@ COMMONS
 
       CHARACTER*100 ColName
       CHARACTER*5000 SQLSTR
-      CHARACTER*10 KARD(7),KARD2
+      CHARACTER*10 KARD2
       CHARACTER(LEN=11) CHAB,CECOREG
       CHARACTER(LEN=14) CFotoCode
       CHARACTER(LEN=LEN(DBCN)+1) TMP_DBCN
@@ -63,17 +63,16 @@ COMMONS
       CHARACTER*7 VVER
       CHARACTER*9 CSITECODE
       CHARACTER*40 PHOTOREF(32), REF
-      REAL ARRAY(7),ARRAY2,X(1)
-      REAL FMAXSDI,XXG, FOTODATA(2)
+      REAL ARRAY2,X(1)
+      REAL XXG,FOTODATA(2)
       REAL   (KIND=4) RSTANDDATA(63)
       REAL DUM1,XTMP
       INTEGER(KIND=4) ISTANDDATA(63)
       EQUIVALENCE (RSTANDDATA,ISTANDDATA)
-      INTEGER IS,J,I,KODE, FKOD,NUMPVREF,IXTMP,IXF
+      INTEGER J,I,KODE, FKOD,NUMPVREF,IXTMP,IXF
       INTEGER(SQLSMALLINT_KIND)::ColNumber,NameLen,ColumnCount,DType,
      -       NDecs, Nullable
       INTEGER(SQLUINTEGER_KIND) NColSz
-      INTEGER IHAB
       LOGICAL LSITEISNUM,LHABISNUM,LSTDISNUM,LFMLK,LFMYES,LKECHO,LFMD
       LOGICAL LFOTO, LFOTO2, LECOISNUM, LFMYES2
       INTEGER(SQLINTEGER_KIND)::IY_LI,Lat_LI,Long_LI,Location_LI,
@@ -220,7 +219,7 @@ C     INITIALIZE DATA ARRAY THAT BINDS TO COLUMNS
         iRet = fvsSQLDescribeCol (StmtHndlIn, ColNumber, ColName,
      -   int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DType, 
      -   NColSz, NDecs, Nullable)
- 
+     
         DO I = 1, NameLen
           CALL UPCASE(ColName(I:I))
         END DO
@@ -235,7 +234,8 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -           DBCN_LI)
 
          CASE('STAND_ID')
-          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR) THEN
+          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
+     -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
      -        CSTAND,int(LEN(CSTAND),SQLLEN_KIND),Stand_LI)
             LSTDISNUM=.FALSE.
@@ -275,7 +275,8 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        ISTANDDATA(32),int(4,SQLLEN_KIND),Compartment_LI)
 
          CASE('ECOREGION')  
-          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR) THEN
+          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
+     -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
      -        CECOREG,int(LEN(CECOREG),SQLLEN_KIND),Ecoregion_LI)
             LECOISNUM =.FALSE.
@@ -290,7 +291,8 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        ISTANDDATA(4),int(4,SQLLEN_KIND),Location_LI)
 
          CASE('HABITAT','PV_CODE')
-          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR) THEN
+          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
+     -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
      -        CHAB,int(LEN(CHAB),SQLLEN_KIND),Habitat_LI)
             LHABISNUM =.FALSE.
@@ -373,7 +375,8 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        ISTANDDATA(21),int(4,SQLLEN_KIND),Mort_LI)
 
          CASE('SITE_SPECIES')
-          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR) THEN
+          IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
+     -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
      -        CSITECODE,int(LEN(CSITECODE),SQLLEN_KIND),SiteSp_LI)
             LSITEISNUM=.FALSE.
@@ -535,7 +538,7 @@ c           DBCN = ADJUSTL(TMP_DBCN)
       IF(NPLT.EQ.' ')THEN
         IF(Stand_LI.NE.SQL_NULL_DATA) THEN
            IF(LSTDISNUM) THEN
-              WRITE (CSTAND,*) ISTANDDATA(28)
+              WRITE (CSTAND,'(I8)') ISTANDDATA(28)
            ELSE
               I=INDEX(CSTAND,CHAR(0))
               IF (I.GT.0) CSTAND(I:)=' '
@@ -619,7 +622,7 @@ C
 
       IF(Habitat_LI.NE.SQL_NULL_DATA) THEN
          IF (LHABISNUM) THEN   ! HABITAT CODE IS NUMBER.
-            WRITE (CHAB,*) ISTANDDATA(5)
+            WRITE (CHAB,'(I10)') ISTANDDATA(5)
          GOTO 45 
          ELSE
             I=INDEX(CHAB,CHAR(0))
@@ -660,7 +663,7 @@ C
       IF(Ecoregion_LI.NE.SQL_NULL_DATA) THEN
         IF (VVER(:2).EQ.'SN') THEN
           IF (LECOISNUM) THEN   ! ECOREGION CODE IS NUMBER.
-            WRITE (CECOREG,*) ISTANDDATA(54)
+            WRITE (CECOREG,'(I10)') ISTANDDATA(54)
             GOTO 46
           ELSE
             I=INDEX(CECOREG,CHAR(0))
@@ -783,14 +786,9 @@ C
 
 C     SITE SPECIES CODE PROCESSING
 
-c$$$At line 788 of file dbsstandin.f
-c$$$Fortran runtime error: End of record
-c$$$macbook:bin hamannjd$ 
-
-C TODO: There's something here that causes a crash in the example.
       IF(SiteSp_LI.NE.SQL_NULL_DATA) THEN
          IF (LSITEISNUM) THEN   ! SITE SPECIES CODE IS NUMBER.
-            WRITE (CSITECODE,*) ISTANDDATA(34)
+            WRITE (CSITECODE,'(I8)') ISTANDDATA(34)
          ENDIF
 
          I=INDEX(CSITECODE,CHAR(0))

@@ -108,17 +108,19 @@ C     FOUND IN fvsSQL.c  IT SHOULD BE RUN ONCE FOR EACH PLATFORM.
       integer(SQLSMALLINT_KIND),parameter::  SQL_PARAM_INPUT = 1
       integer(SQLSMALLINT_KIND),parameter:: SQL_REAL = 7
       integer(SQLSMALLINT_KIND),parameter:: SQL_VARCHAR = 12
+      integer(SQLSMALLINT_KIND),parameter:: SQL_LONGVARCHAR =-1
       integer(SQLSMALLINT_KIND), parameter:: SQL_C_LONG = SQL_INTEGER 
       integer(SQLSMALLINT_KIND), parameter:: SQL_F_CHAR = SQL_CHAR  
       integer(SQLSMALLINT_KIND), parameter:: SQL_F_FLOAT = SQL_REAL  
       integer(SQLSMALLINT_KIND), parameter:: SQL_F_DOUBLE = SQL_DOUBLE 
       integer(SQLSMALLINT_KIND), parameter:: SQL_F_INTEGER = SQL_INTEGER 
-      integer(SQLSMALLINT_KIND), parameter:: SQL_SIGNED_OFFSET = (-20)  
-      integer(SQLSMALLINT_KIND), parameter:: SQL_UNSIGNED_OFFSET = (-22)
+      integer(SQLSMALLINT_KIND), parameter:: SQL_SIGNED_OFFSET = (-20) 
+      integer(SQLSMALLINT_KIND), parameter:: 
+     >                                  SQL_UNSIGNED_OFFSET = (-22)
       integer(SQLSMALLINT_KIND), parameter:: SQL_F_SLONG = 
-     >                                    (SQL_C_LONG+SQL_SIGNED_OFFSET) 
+     >                                 (SQL_C_LONG+SQL_SIGNED_OFFSET) 
       integer(SQLSMALLINT_KIND), parameter:: SQL_F_ULONG = 
-     >                                  (SQL_C_LONG+SQL_UNSIGNED_OFFSET) 
+     >                                 (SQL_C_LONG+SQL_UNSIGNED_OFFSET) 
       integer(SQLSMALLINT_KIND),parameter:: SQL_FETCH_NEXT = 1
       integer(SQLSMALLINT_KIND),parameter:: SQL_FETCH_FIRST = 2
       integer(SQLSMALLINT_KIND),parameter:: SQL_FETCH_LAST = 3
