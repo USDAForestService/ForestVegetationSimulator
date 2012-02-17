@@ -2,6 +2,7 @@
       IMPLICIT NONE
 C----------
 C  **STASH   DATE OF LAST REVISION:  07/31/08
+C	$Id$	
 C----------
 C
 C     STASH A BUFFER FULL OF DATA
