@@ -71,7 +71,10 @@ C
       INTEGER IPNT
       REAL BUFFER (IPNT)
       IF (seekReadPos.gt.0) then
-        READ (JDSTASH,END=10,ERR=10,
+c$$$        READ (JDSTASH,END=10,ERR=10,
+c$$$     -       POS=seekReadPos) BUFFER
+
+        READ (JDSTASH,ERR=10,
      -       POS=seekReadPos) BUFFER
         seekReadPos = -1
       ELSE
