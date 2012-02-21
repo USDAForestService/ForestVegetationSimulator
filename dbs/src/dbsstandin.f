@@ -1,7 +1,7 @@
       SUBROUTINE DBSSTANDIN(SQLSTR,LKECHO)
       IMPLICIT NONE
 C
-C  **DBSSTANDIN--DBS  DATE OF LAST REVISION: 02/15/2012
+C  **DBSSTANDIN--DBS  DATE OF LAST REVISION: 02/21/2012
 C
 C     PURPOSE: TO POPULATE FVS STAND LEVEL DATA FROM THE DATABASE
 C     AUTH: D. GAMMEL -- SEM -- AUGUST 2002
@@ -75,6 +75,7 @@ COMMONS
       INTEGER(SQLUINTEGER_KIND) NColSz
       LOGICAL LSITEISNUM,LHABISNUM,LSTDISNUM,LFMLK,LFMYES,LKECHO,LFMD
       LOGICAL LFOTO, LFOTO2, LECOISNUM, LFMYES2
+      INTEGER(SQLLEN_KIND)::tmpNotUsed
       INTEGER(SQLINTEGER_KIND)::IY_LI,Lat_LI,Long_LI,Location_LI,
      -        Habitat_LI,Age_LI,Aspect_LI,Slope_LI,MaxSDI_LI,
      -        Elev_LI,Basal_LI,PlotArea_LI,BPDBH_LI,NumPlots_LI,
@@ -215,11 +216,15 @@ C     GET NUMBER OF COLUMNS RETURNED
 C     INITIALIZE DATA ARRAY THAT BINDS TO COLUMNS
 
       DO ColNumber = 1,ColumnCount
-       
+        
         iRet = fvsSQLDescribeCol (StmtHndlIn, ColNumber, ColName,
      -   int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DType, 
      -   NColSz, NDecs, Nullable)
-     
+
+cc        print *,"ColNumber=",ColNumber,
+cc     -      " NameLen",NameLen," ColName=",ColName(1:NameLen),
+cc     -      " DType=",DType
+      
         DO I = 1, NameLen
           CALL UPCASE(ColName(I:I))
         END DO
@@ -240,14 +245,14 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        CSTAND,int(LEN(CSTAND),SQLLEN_KIND),Stand_LI)
             LSTDISNUM=.FALSE.
           ELSE
-            iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+            iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(28),int(4,SQLLEN_KIND),
      -        Stand_LI)
             LSTDISNUM=.TRUE.
           ENDIF
           
          CASE('INV_YEAR')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(1),int(4,SQLLEN_KIND),IY_LI)
 
          CASE('LATITUDE')
@@ -259,19 +264,19 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        RSTANDDATA(3),int(4,SQLLEN_KIND),Long_LI)
 
          CASE('REGION')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(29),int(4,SQLLEN_KIND),Region_LI)
 
          CASE('FOREST')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(30),int(4,SQLLEN_KIND),Forest_LI)
 
          CASE('DISTRICT')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(31),int(4,SQLLEN_KIND),District_LI)
 
          CASE('COMPARTMENT')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(32),int(4,SQLLEN_KIND),Compartment_LI)
 
          CASE('ECOREGION')  
@@ -281,13 +286,13 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        CECOREG,int(LEN(CECOREG),SQLLEN_KIND),Ecoregion_LI)
             LECOISNUM =.FALSE.
           ELSE
-            iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+            iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(54),int(4,SQLLEN_KIND),Ecoregion_LI)
             LECOISNUM=.TRUE.
           ENDIF
 
          CASE('LOCATION')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(4),int(4,SQLLEN_KIND),Location_LI)
 
          CASE('HABITAT','PV_CODE')
@@ -297,17 +302,17 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        CHAB,int(LEN(CHAB),SQLLEN_KIND),Habitat_LI)
             LHABISNUM =.FALSE.
           ELSE
-            iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+            iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(5),int(4,SQLLEN_KIND),Habitat_LI)
             LHABISNUM=.TRUE.
           ENDIF
 
          CASE('PV_REF_CODE')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        NUMPVREF,int(4,SQLLEN_KIND),PvRefCode_LI)
 
          CASE('AGE')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(6),int(4,SQLLEN_KIND),Age_LI)
 
          CASE('ASPECT')
@@ -339,11 +344,11 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        RSTANDDATA(12),int(4,SQLLEN_KIND),BPDBH_LI)
 
          CASE('NUM_PLOTS')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(13),int(4,SQLLEN_KIND),NumPlots_LI)
 
          CASE('NONSTK_PLOTS')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(14),int(4,SQLLEN_KIND),NonStock_LI)
 
          CASE('SAM_WT')
@@ -355,23 +360,23 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        RSTANDDATA(16),int(4,SQLLEN_KIND),Stock_LI)
 
          CASE('DG_TRANS')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(17),int(4,SQLLEN_KIND),DGT_LI)
 
          CASE('DG_MEASURE')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(18),int(4,SQLLEN_KIND),DGM_LI)
 
          CASE('HTG_TRANS')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(19),int(4,SQLLEN_KIND),HTT_LI)
 
          CASE('HTG_MEASURE')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(20),int(4,SQLLEN_KIND),HTM_LI)
 
          CASE('MORT_MEASURE')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(21),int(4,SQLLEN_KIND),Mort_LI)
 
          CASE('SITE_SPECIES')
@@ -381,7 +386,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        CSITECODE,int(LEN(CSITECODE),SQLLEN_KIND),SiteSp_LI)
             LSITEISNUM=.FALSE.
           ELSE
-            iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+            iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(34),int(4,SQLLEN_KIND),SiteSp_LI)
             LSITEISNUM=.TRUE.
           ENDIF
@@ -399,23 +404,23 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -      RSTANDDATA(36),int(4,SQLLEN_KIND),MaxSDI_LI)
 
          CASE('MODEL_TYPE')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(25),int(4,SQLLEN_KIND),Model_LI)
 
          CASE('PHYSIO_REGION')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(26),int(4,SQLLEN_KIND),PhysioR_LI)
 
          CASE('FOREST_TYPE')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(27),int(4,SQLLEN_KIND),ForType_LI)
 
          CASE('STATE')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(37),int(4,SQLLEN_KIND),State_LI)
 
          CASE('COUNTY')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(38),int(4,SQLLEN_KIND),Connty_LI)
 
          CASE('FUEL_0_1')
@@ -484,10 +489,10 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        RSTANDDATA(63),int(4,SQLLEN_KIND), FuelS50_LI)
 
          CASE('FUEL_MODEL')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(51),int(4,SQLLEN_KIND), FuelModel_LI)
          CASE('PHOTO_REF')
-          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_SLONG,
+          iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(52),int(4,SQLLEN_KIND), FotoRef_LI)
          CASE('PHOTO_CODE')
           iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
@@ -526,9 +531,9 @@ C     IS HIGHEST PROIORITY. OTHERWISE USE VALUE FROM DATA BASE
 C
       IF(DBCN.EQ.' ')THEN
         IF(DBCN_LI.NE.SQL_NULL_DATA) THEN
-c           I=INDEX(TMP_DBCN,CHAR(0))
-c           IF (I.GT.0) TMP_DBCN(I:)=' '
-c           DBCN = ADJUSTL(TMP_DBCN)
+           I=INDEX(TMP_DBCN,CHAR(0))
+           IF (I.GT.0) TMP_DBCN(I:)=' '
+           DBCN = ADJUSTL(TMP_DBCN)
            DBCN = ADJUSTL(TMP_DBCN(:DBCN_LI))
            IF(LKECHO)WRITE(JOSTND,'(T13,''STAND_CN: '',A)') TRIM(DBCN)
         ENDIF
@@ -538,7 +543,7 @@ c           DBCN = ADJUSTL(TMP_DBCN)
       IF(NPLT.EQ.' ')THEN
         IF(Stand_LI.NE.SQL_NULL_DATA) THEN
            IF(LSTDISNUM) THEN
-              WRITE (CSTAND,'(I8)') ISTANDDATA(28)
+              WRITE (CSTAND,'(I26)') ISTANDDATA(28)
            ELSE
               I=INDEX(CSTAND,CHAR(0))
               IF (I.GT.0) CSTAND(I:)=' '

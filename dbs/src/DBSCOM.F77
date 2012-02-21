@@ -55,7 +55,7 @@ C
 C    REGEN DATABASE VERSIONS OF OTHER DBS VARIABLES
 C
       COMMON / DBSCOM2 /
-     &       IRGIN,EnvHndlRgnIn,ConnHndlRgnIn,StmtHndlRgn,
+     &       EnvHndlRgnIn,ConnHndlRgnIn,StmtHndlRgn,IRGIN,
      &       rsRgnData
 C
 C     ICASE= THE UNIQUE DATABASE CASE NUMBER FOR KEEPING TRACK OF

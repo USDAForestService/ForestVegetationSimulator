@@ -13,31 +13,6 @@
 #include <sql.h>
 #include <sqlext.h>
 
-/***** Run to generate the type definitions for DBSTYPEDEFS.F77
-void main(void)
-{
-  SQLCHAR       SQLCHAR_KIND;      printf("\n      integer,parameter:: SQLCHAR_KIND=      %d\n",sizeof(SQLCHAR_KIND     ));             
-  SQLSMALLINT   SQLSMALLINT_KIND;  printf("      integer,parameter:: SQLSMALLINT_KIND=  %d\n",sizeof(SQLSMALLINT_KIND));             
-  SQLUSMALLINT  SQLUSMALLINT_KIND; printf("      integer,parameter:: SQLUSMALLINT_KIND= %d\n",sizeof(SQLUSMALLINT_KIND));
-  SQLINTEGER    SQLINTEGER_KIND;   printf("      integer,parameter:: SQLINTEGER_KIND=   %d\n",sizeof(SQLINTEGER_KIND  ));             
-  SQLUINTEGER   SQLUINTEGER_KIND;  printf("      integer,parameter:: SQLUINTEGER_KIND=  %d\n",sizeof(SQLUINTEGER_KIND ));
-  SQLREAL       SQLREAL_KIND;      printf("      integer,parameter:: SQLREAL_KIND=      %d\n",sizeof(SQLREAL_KIND     ));             
-  SQLDOUBLE     SQLDOUBLE_KIND;    printf("      integer,parameter:: SQLDOUBLE_KIND=    %d\n",sizeof(SQLDOUBLE_KIND   ));            
-  SQLLEN        SQLLEN_KIND;       printf("      integer,parameter:: SQLLEN_KIND=       %d\n",sizeof(SQLLEN_KIND      ));
-  SQLFLOAT      SQLFLOAT_KIND;     printf("      integer,parameter:: SQLFLOAT_KIND=     %d\n",sizeof(SQLFLOAT_KIND    ));
-  SQLRETURN     SQLRETURN_KIND;    printf("      integer,parameter:: SQLRETURN_KIND=    %d\n",sizeof(SQLRETURN_KIND   ));
-
-  SQLPOINTER    SQLPOINTER_KIND;   printf("\n      integer,parameter:: SQLPOINTER_KIND=   %d\n",sizeof(SQLPOINTER_KIND  ));
-  SQLHANDLE     SQLHANDLE_KIND;    printf("      integer,parameter:: SQLHANDLE_KIND=    %d\n",sizeof(SQLHANDLE_KIND   ));
-  SQLHENV       SQLHENV_KIND;      printf("      integer,parameter:: SQLHENV_KIND=      %d\n",sizeof(SQLHENV_KIND     ));
-  SQLHDBC       SQLHDBC_KIND;      printf("      integer,parameter:: SQLHDBC_KIND=      %d\n",sizeof(SQLHDBC_KIND     ));
-  SQLHSTMT      SQLHSTMT_KIND;     printf("      integer,parameter:: SQLHSTMT_KIND=     %d\n",sizeof(SQLHSTMT_KIND    ));
-  SQLHDESC      SQLHDESC_KIND;     printf("      integer,parameter:: SQLHDESC_KIND=     %d\n",sizeof(SQLHDESC_KIND    ));
-  SQLHWND       SQLHWND_KIND;      printf("      integer,parameter:: SQLHWND_KIND=      %d\n",sizeof(SQLHWND_KIND     ));
-  SQLULEN       SQLULEN_KIND;      printf("      integer,parameter:: SQLULEN_KIND=      %d\n",sizeof(SQLULEN_KIND     ));
-  printf("      integer,parameter:: SQL_OV_ODBC3_KIND= %d\n",sizeof(SQL_OV_ODBC3));
-}
-*/
 
 /**************************************
 SQLRETURN SQLAllocHandle(
