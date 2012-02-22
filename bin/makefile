@@ -57,10 +57,10 @@ ifdef sourceFileList
  ifndef sourceList
   export sourceFileList
   export sourceList = $(shell cat $(sourceFileList))
-  export includes = $(notdir $(filter %.F77 %.INC %.h,$(sourceList)))
+  export includes = $(notdir $(filter %.F77 %.INC %.h,$(sourceList))) DBSTYPEDEFS.F77
   export mods = $(notdir $(filter %_mod.f, $(sourceList)))
   export mods_mods = $(addsuffix .mod,$(basename $(mods)))
-  export source = $(notdir $(filter %.c %.f, $(sourceList))) 
+  export source = $(filter-out mkdbsTypeDefs.c, $(notdir $(filter %.c %.f, $(sourceList))))
   export object = $(addsuffix .o,$(basename $(source)))
  endif
 endif
@@ -97,24 +97,27 @@ FVSsn$(SLIBSUFX) FVSsn$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSsn) $(shell ca
 %.setup : 
 	mkdir -pv $(basename $@)_buildDir
 	cp -p `cat $(basename $@)_sourceList.txt` $(basename $@)_buildDir
-	cp -p $(basename $@)_buildDir/DBSTYPEDEFS_$(OSARCH).F77 $(basename $@)_buildDir/DBSTYPEDEFS.F77
 	$(MAKE) --file=../makefile --directory=$(basename $@)_buildDir \
 	               buildDir=$(basename $@)_buildDir \
                  sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg
 endif
 
-.PRECIOUS : $(object) $(mods_mods)
+.PRECIOUS : $(object) $(mods_mods) 
 
 ifeq (${OSARCH},w32) 
-%.prg : $(object)
+%.prg : $(object) 
 	$(CC) fvsSQL.o -shared -l $(ODBC) $(WIN) -o   ../libfvsSQL.dll 
 	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) ../libfvsSQL.dll  $(filter-out fvsSQL.o main.o,$(object))
 	$(LD)         -o $(basename ../$@)$(PRGSUFX)  ../libfvsSQL.dll  $(filter-out fvsSQL.o       ,$(object))
 else
-%.prg : $(object)
+%.prg : $(object) 
 	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) -l $(ODBC) $(filter-out main.o,$(object))
 	$(LD)         -o $(basename ../$@)$(PRGSUFX)  -l $(ODBC) $(object)
 endif
+
+DBSTYPEDEFS.F77 : mkdbsTypeDefs.c
+	$(CC) mkdbsTypeDefs.c $(WIN) -o mkdbsTypeDefs$(PRGSUFX)
+	./mkdbsTypeDefs$(PRGSUFX)
 
 %.mod : %.f $(includes)
 	$(FC) $(FFLAGS) -c $<

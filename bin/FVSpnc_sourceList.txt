@@ -266,9 +266,7 @@
 ../covr/src/cvshap.f
 ../covr/src/cvsum.f
 ../dbs/src/DBSCOM.F77
-../dbs/src/DBSTYPEDEFS_w32.F77
-../dbs/src/DBSTYPEDEFS_osx.F77
-../dbs/src/DBSTYPEDEFS_l64.F77
+../dbs/src/mkdbsTypeDefs.c
 ../dbs/src/fvsSQL.c
 ../dbs/src/dbsatrtls.f
 ../dbs/src/dbsblkd.f
