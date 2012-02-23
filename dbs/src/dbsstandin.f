@@ -70,9 +70,10 @@ COMMONS
       INTEGER(KIND=4) ISTANDDATA(63)
       EQUIVALENCE (RSTANDDATA,ISTANDDATA)
       INTEGER J,I,KODE, FKOD,NUMPVREF,IXTMP,IXF
-      INTEGER(SQLSMALLINT_KIND)::ColNumber,NameLen,ColumnCount,DType,
+      INTEGER(SQLUSMALLINT_KIND)::ColNumber
+      INTEGER(SQLSMALLINT_KIND)::NameLen,ColumnCount,DType,
      -       NDecs, Nullable
-      INTEGER(SQLUINTEGER_KIND) NColSz
+      INTEGER(SQLULEN_KIND) NColSz
       LOGICAL LSITEISNUM,LHABISNUM,LSTDISNUM,LFMLK,LFMYES,LKECHO,LFMD
       LOGICAL LFOTO, LFOTO2, LECOISNUM, LFMYES2
       INTEGER(SQLLEN_KIND)::tmpNotUsed
@@ -216,9 +217,9 @@ C     GET NUMBER OF COLUMNS RETURNED
 C     INITIALIZE DATA ARRAY THAT BINDS TO COLUMNS
 
       DO ColNumber = 1,ColumnCount
-        
+
         iRet = fvsSQLDescribeCol (StmtHndlIn, ColNumber, ColName,
-     -   int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DType, 
+     -   int(LEN(ColName),SQLSMALLINT_KIND), NameLen, DType, 
      -   NColSz, NDecs, Nullable)
 
 cc        print *,"ColNumber=",ColNumber,
@@ -241,13 +242,13 @@ C       BIND COLUMNS TO THEIR VARIABLES
          CASE('STAND_ID')
           IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
      -       DType.EQ.SQL_LONGVARCHAR) THEN
+     	          	
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
      -        CSTAND,int(LEN(CSTAND),SQLLEN_KIND),Stand_LI)
             LSTDISNUM=.FALSE.
           ELSE
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
-     -        ISTANDDATA(28),int(4,SQLLEN_KIND),
-     -        Stand_LI)
+     -        ISTANDDATA(28),int(4,SQLLEN_KIND),Stand_LI)
             LSTDISNUM=.TRUE.
           ENDIF
           
