@@ -360,36 +360,36 @@ C
        BSFUELWT(2)=INT((SFUELWT(2)*100.)+0.5)
        BSFUELWT(3)=INT((SFUELWT(3)*100.)+0.5)
        BSFUELWT(4)=INT((SFUELWT(4)*100.)+0.5)
-       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(Id,CaseID,
-     -       StandID,Year,Flame_Len_Sev,Flame_Len_Mod,
-     -       Canopy_Ht,Canopy_Density,Mortality_BA_Sev,
-     -       Mortality_BA_Mod,Mortality_VOL_Sev,Mortality_VOL_Mod,
-     -       Pot_Smoke_Sev,Pot_Smoke_Mod,Fuel_Mod1_mod,Fuel_Mod2_mod,
-     -       Fuel_Mod3_mod,Fuel_Mod4_mod,Fuel_Wt1_mod,Fuel_Wt2_mod,
-     -       Fuel_Wt3_mod,Fuel_Wt4_mod,Fuel_Mod1_Sev,
-     -       Fuel_Mod2_Sev,Fuel_Mod3_Sev,Fuel_Mod4_Sev,
-     -       Fuel_Wt1_Sev,Fuel_Wt2_Sev,Fuel_Wt3_Sev,
-     -       Fuel_Wt4_Sev)VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),
-     -       ',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
-     -       ,?,?,?,?)'
+       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(Id,CaseID,',
+     -     'StandID,Year,Flame_Len_Sev,Flame_Len_Mod,',
+     -     'Canopy_Ht,Canopy_Density,Mortality_BA_Sev,',
+     -     'Mortality_BA_Mod,Mortality_VOL_Sev,Mortality_VOL_Mod,',
+     -     'Pot_Smoke_Sev,Pot_Smoke_Mod,Fuel_Mod1_mod,Fuel_Mod2_mod,',
+     -     'Fuel_Mod3_mod,Fuel_Mod4_mod,Fuel_Wt1_mod,Fuel_Wt2_mod,',
+     -     'Fuel_Wt3_mod,Fuel_Wt4_mod,Fuel_Mod1_Sev,',
+     -     'Fuel_Mod2_Sev,Fuel_Mod3_Sev,Fuel_Mod4_Sev,',
+     -     'Fuel_Wt1_Sev,Fuel_Wt2_Sev,Fuel_Wt3_Sev,',
+     -     'Fuel_Wt4_Sev)VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),
+     -     ',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ',
+     -     ',?,?,?,?)'
       ELSE
-       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(Id,CaseID,
-     -       StandID,Year,Surf_Flame_Sev,Surf_Flame_Mod,
-     -       Tot_Flame_Sev,Tot_Flame_Mod,Fire_Type_Sev,Fire_Type_Mod,
-     -       PTorch_Sev,PTorch_Mod,Torch_Index,Crown_Index,
-     -       Canopy_Ht,Canopy_Density,Mortality_BA_Sev,
-     -       Mortality_BA_Mod,Mortality_VOL_Sev,Mortality_VOL_Mod,
-     -       Pot_Smoke_Sev,Pot_Smoke_Mod,Fuel_Mod1,Fuel_Mod2,
-     -       Fuel_Mod3,Fuel_Mod4,Fuel_Wt1,Fuel_Wt2,
-     -       Fuel_Wt3,Fuel_Wt4)
-     -       VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,',
-     -       CHAR(39),SFTYPE,CHAR(39),',',CHAR(39),MFTYPE,
+       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(Id,CaseID,',
+     -     'StandID,Year,Surf_Flame_Sev,Surf_Flame_Mod,',
+     -     'Tot_Flame_Sev,Tot_Flame_Mod,Fire_Type_Sev,Fire_Type_Mod,',
+     -     'PTorch_Sev,PTorch_Mod,Torch_Index,Crown_Index,',
+     -     'Canopy_Ht,Canopy_Density,Mortality_BA_Sev,',
+     -     'Mortality_BA_Mod,Mortality_VOL_Sev,Mortality_VOL_Mod,',
+     -     'Pot_Smoke_Sev,Pot_Smoke_Mod,Fuel_Mod1,Fuel_Mod2,',
+     -     'Fuel_Mod3,Fuel_Mod4,Fuel_Wt1,Fuel_Wt2,',
+     -     'Fuel_Wt3,Fuel_Wt4) ',
+     -     'VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,',
+     -       CHAR(39),TRIM(SFTYPE),CHAR(39),',',CHAR(39),TRIM(MFTYPE),
      -       CHAR(39),',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
       ENDIF
-
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+
       ColNumber=1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
@@ -466,7 +466,6 @@ C
 
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
-     -            SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -          INT(0,SQLSMALLINT_KIND),CNPYHT,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
@@ -615,7 +614,7 @@ C
 
   100 CONTINUE
 
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
+cc      iRet = fvsSQLCloseCursor(StmtHndlOut)
 
       iRet = fvsSQLExecute(StmtHndlOut)
       CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,

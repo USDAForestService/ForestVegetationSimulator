@@ -98,7 +98,7 @@ int fvssqlbindparameter_(
       *DecimalDigits,
        ParameterValuePtr,
       *BufferLength,
-       StrLen_or_IndPtr);
+      *StrLen_or_IndPtr);
   return rtn;   
 }
 

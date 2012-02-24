@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMHRPT(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C  **DBSFMHRPT-DBS  DATE OF LAST REVISION: 10/31/2011
+C  **DBSFMHRPT-DBS  DATE OF LAST REVISION: 02/24/2012
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE CARBON HARVEST
@@ -100,6 +100,7 @@ C     CHECK TO SEE IF THE CARBON HARVEST TABLE EXISTS IN DATBASE
      -              'Id int primary key,'//
      -              'CaseID int not null,'//
      -              'StandID char(26) not null,'//
+     -              'Year int null,' //
      -              'Products real null,' //
      -              'Landfill real null,' //
      -              'Energy real null,' //
