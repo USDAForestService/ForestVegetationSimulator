@@ -26,8 +26,11 @@ sn :
 	 
 fireTest : 
 	@echo fireTest  database read and write
-	rm -f FVS_Output.db
+	rm -f FVSieFireOutput.db
 	-../../../bin/FVSiec --keywordfile=fireTest.key 
+	-sqlite3 FVSieFireOutput.db .dump > fireTest.db_dump.txt
+	@echo This diff should show timestamp differences
+	-diff -w fireTest.db_dump.txt fireTest.db_dump.txt.save
 	@echo fireTest ended
 	
  
