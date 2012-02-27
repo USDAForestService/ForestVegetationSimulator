@@ -77,7 +77,7 @@ COMMONS
       LOGICAL LSITEISNUM,LHABISNUM,LSTDISNUM,LFMLK,LFMYES,LKECHO,LFMD
       LOGICAL LFOTO, LFOTO2, LECOISNUM, LFMYES2
       INTEGER(SQLLEN_KIND)::tmpNotUsed
-      INTEGER(SQLINTEGER_KIND)::IY_LI,Lat_LI,Long_LI,Location_LI,
+      INTEGER(SQLLEN_KIND)::IY_LI,Lat_LI,Long_LI,Location_LI,
      -        Habitat_LI,Age_LI,Aspect_LI,Slope_LI,MaxSDI_LI,
      -        Elev_LI,Basal_LI,PlotArea_LI,BPDBH_LI,NumPlots_LI,
      -        NonStock_LI,SamWt_LI,Stock_LI,DGT_LI,DGM_LI,HTT_LI,HTM_LI,
@@ -222,10 +222,6 @@ C     INITIALIZE DATA ARRAY THAT BINDS TO COLUMNS
      -   int(LEN(ColName),SQLSMALLINT_KIND), NameLen, DType, 
      -   NColSz, NDecs, Nullable)
 
-cc        print *,"ColNumber=",ColNumber,
-cc     -      " NameLen",NameLen," ColName=",ColName(1:NameLen),
-cc     -      " DType=",DType
-      
         DO I = 1, NameLen
           CALL UPCASE(ColName(I:I))
         END DO
