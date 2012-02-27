@@ -5,6 +5,14 @@ ie :
 	@echo Test ie database read
 	-../../../bin/FVSiec --keywordfile=ie.key 
 	@echo Test ie ended
+	@echo Test ie2 database read and write
+	rm -f FVSieOut.db
+	-../../../bin/FVSiec --keywordfile=ie2.key 
+	-sqlite3 FVSieOut.db .dump > ie2.db_dump.txt
+	@echo This diff should show timestamp differences
+	-diff -w ie2.db_dump.txt ie2.db_dump.txt.save
+	@echo Test ie2 ended
+	
 	
 ne : 
 	@echo Test ne database read
