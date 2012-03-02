@@ -1,6 +1,6 @@
       subroutine ECCALC(IY, ICYC, JSP, MGMID, NPLT, ITITLE)
 C----------
-C **ECCALC--ECON  DATE OF LAST REVISION: 09/20/2011
+C **ECCALC--ECON  DATE OF LAST REVISION: 03/03/2012
 C----------
 C Author Fred Martin, WA DNR,
 C Calculates costs & revenues associated with the FVS/ECON extension.
@@ -379,7 +379,7 @@ C  ITITLE - STDIDENT title
          if (doSev) sevSum = sevSum - sevAnnCst + sevAnnRvn
 
 !       Compute appreciated/depreciated annual costs from each ANNUCST keyword for each year of cycle
-      print *,"eccalc, annCostCnt=",annCostCnt," annRevCnt=",annRevCnt
+
          do i = 1, annCostCnt
             do j = beginTime, endTime, 1
                time = j - econStartYear                                  !Appreciation time is from start of ECON
@@ -1183,7 +1183,7 @@ C  ITITLE - STDIDENT title
 
       subroutine calcAnnCostRevSEV()
          endTime = 1; sevAnnCst = 0.0; sevAnnRvn = 0.0                  !Initialize for computing sev of annual cost or revenue
-      print *,"eccalc2, annCostCnt=",annCostCnt," annRevCnt=",annRevCnt
+ 
          do i = 1, annCostCnt
             sevAnnCst = sevAnnCst + calcAppreSev(1.0, annCostAmt(i),    !1.0=amt, 1=event time
      &                             annCostRate(i,:), annCostDur(i,:), 1)
