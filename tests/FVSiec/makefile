@@ -1,5 +1,5 @@
 
-all : iet01 iet02
+all : iet01 iet02 TestSpecialCostAndRevenue
 
 iet01 : 
 	@echo Test iet01, basic functionality 
@@ -18,6 +18,12 @@ iet02 :
 	-diff -w iet02.sum iet02.sum.save
 	@echo Test iet02 ended
 	
- 
+TestSpecialCostAndRevenue :
+	@echo Test ECON TestSpecialCostAndRevenue
+	-../../bin/FVSiec --keywordfile=TestSpecialCostAndRevenue.key
+	-diff -w TestSpecialCostAndRevenue.out TestSpecialCostAndRevenue.out.save
+	@echo Test ECON TestSpecialCostAndRevenue ended
+	
+	
  
 
