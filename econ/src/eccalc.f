@@ -48,9 +48,9 @@ C  ITITLE - STDIDENT title
       integer, parameter  :: MAX_HARVESTS = (MAXCYC / 2) * 40            !Logic - 40 harvest cycles = 20 x 40 species
       integer, parameter  :: MAX_COSTS    = (MAXCYC / 2) * 20            !Logic - 40 harvest cycles = 20 x 20 harvest costs
       integer, intent(in) :: IY(MAXCY1), ICYC
-      integer             :: beginAnalYear, beginTime, dbOutput,        !Year is  simulation year, time is investment period or number of years
+      integer             :: beginAnalYear, beginTime, dbOutput,         !Year is  simulation year, time is investment period or number of years
      &                       endAnalYear, endTime, evntCnt, i, IACTK,
-     &                       IDT, ISTAT, KODE, l, NTIMES, parmsCnt
+     &                       IDT, ISTAT, KODE, NTIMES, parmsCnt
       integer, save       :: IOUT, logTableId, startYear, sumTableId,
      &                       burnCnt, hrvCstCnt, hrvRvnCnt, mechCnt,
      &                       specCstCnt, specRvnCnt
@@ -114,7 +114,7 @@ C  ITITLE - STDIDENT title
          call valueHarvest()
          call calcEcon()
       end if
-	  
+    
 
 !    Subtract "pretend" harvests from accumulators, harvest always occur 1st year of a cycle
       if (isPretendActive .and. harvest(TPA) > 0.0) then
@@ -191,7 +191,7 @@ C  ITITLE - STDIDENT title
          harvest   = 0.0                                                 !Array (TPA : FT3_100)
          revVolume = 0.0                                                 !Array (1:MAXSP, 1:MAX_REV_UNITS, 1:MAX_KEYWORDS)
          pctBf     = 0.0; pctFt3     = 0.0; pctTpa     = 0.0             !Arrays (1:MAX_KEYWORDS)
-         hrvCostBf = 0.0; hrvCostFt3 = 0.0; hrvCostTpa = 0.0             !Arrays (1:MAX_KEYWORDS)
+         hrvCostBf = 0;   hrvCostFt3 = 0;   hrvCostTpa = 0               !Arrays (1:MAX_KEYWORDS)
          dbhSq     = 0.0; harvCst    = 0.0; harvRvn    = 0.0
          pctCst    = 0.0; sevSum     = 0.0
          return
@@ -766,12 +766,12 @@ C  ITITLE - STDIDENT title
      &              "-------", t98,"--------", t108, "--------", /,
      &              "$#*%")') logTableId, beginAnalYear, pretend
 
-			   tpaTotal=-1.0; tpaValueTotal=-1.0                         !-1 is used by the rtoc function to separate 0 from blank
-			   tonsTotal=-1.0
-			   ft3Total=-1.0; ft3ValueTotal=-1.0
-			   bfTotal=-1.0; bfValueTotal=-1.0
-			   outChar=BLANK7
-			   
+         tpaTotal=-1.0; tpaValueTotal=-1.0                         !-1 is used by the rtoc function to separate 0 from blank
+         tonsTotal=-1.0
+         ft3Total=-1.0; ft3ValueTotal=-1.0
+         bfTotal=-1.0; bfValueTotal=-1.0
+         outChar=BLANK7
+         
                do i = 1, MAXSP                                           !Loop over species
                   do j = 1, MAX_REV_UNITS                                !Loop over revenue quantity-units
                      do k  = hrvRevCnt(i,j), 1, -1                       !Loop over diameters
@@ -807,25 +807,25 @@ C  ITITLE - STDIDENT title
                            call accumulate(tpaTotal, revVolume(i,j,kk))
                            amt           = revVolume(i,j,kk) * price
                            tpaValue      = nint(amt)
-						   call accumulate(tpaValueTotal, amt)
+               call accumulate(tpaValueTotal, amt)
                         case (FT3_100, FT3_100_LOG)
                            if (lbsFt3Amt(i) > 0.0) then
                               amt = revVolume(i,j,kk) * (lbsFt3Amt(i)/
      &                                                           2000.0)
                               tonsPerAcre = nint(amt)
-							  call accumulate(tonsTotal, amt)
+                call accumulate(tonsTotal, amt)
                            end if
                            ft3Volume     = nint(revVolume(i,j,kk))
                            call accumulate(ft3Total, revVolume(i,j,kk))
                            amt           = revVolume(i,j,kk) * price
                            ft3Value      = nint(amt)
-						   call accumulate(ft3ValueTotal, amt)
+               call accumulate(ft3ValueTotal, amt)
                         case default
                            bfVolume     = nint(revVolume(i,j,kk))
                            call accumulate(bfTotal, revVolume(i,j,kk))
                            amt          = revVolume(i,j,kk) * price
                            bfValue      = nint(amt)
-						   call accumulate(bfValueTotal, amt)
+               call accumulate(bfValueTotal, amt)
                         end select
 !                      Write rows of values by species and diameter
                         call DBSECHARV_insert(beginAnalYear, i, minDia, ! i = speciesId
@@ -861,18 +861,18 @@ C  ITITLE - STDIDENT title
                end do                                                    !End species loop
                call DBSECHARV_close()
 
-			   outChar(1) = itoc(nint(tpaTotal))
-			   outChar(2) = itoc(nint(tpaValueTotal))
-			   outChar(3) = itoc(nint(tonsTotal))
-			   outChar(4) = itoc(nint(ft3Total))
-			   outChar(5) = itoc(nint(ft3ValueTotal))
-			   outChar(6) = itoc(nint(bfTotal))
-			   outChar(7) = itoc(nint(bfValueTotal))
+         outChar(1) = itoc(nint(tpaTotal))
+         outChar(2) = itoc(nint(tpaValueTotal))
+         outChar(3) = itoc(nint(tonsTotal))
+         outChar(4) = itoc(nint(ft3Total))
+         outChar(5) = itoc(nint(ft3ValueTotal))
+         outChar(6) = itoc(nint(bfTotal))
+         outChar(7) = itoc(nint(bfValueTotal))
                write (outChar(8),'(i7)') nint(
-     &					  max(0.0, tpaValueTotal)                        !Any of these three "total" variables may equal -1.0 (i.e., "empty")
+     &            max(0.0, tpaValueTotal)                        !Any of these three "total" variables may equal -1.0 (i.e., "empty")
      &                  + max(0.0, ft3ValueTotal)
      &                  + max(0.0, bfValueTotal))
-	 
+   
 !             Write totals, add 7 extra columns to tabs or GENRPT throws runtime error
                if (.not. noLogStockTable) then
                   write (IOUT,'(1x, i5, t49, "-------", t58, "--------",
@@ -896,14 +896,14 @@ C  ITITLE - STDIDENT title
         implicit none
         real, intent(inout) :: accumulator
         real, intent(in)    :: increment
-		
+    
         if(accumulator < 0.0) then
             accumulator = increment
         else
             accumulator = accumulator + increment
         end if
       end subroutine
-	  
+    
       pure character(len=5) function rtoc(n)
         implicit none
         real, intent(in) :: n
@@ -930,7 +930,7 @@ C  ITITLE - STDIDENT title
          real, parameter      :: IRR_TOLERANCE=0.00001,
      &                           IRR_INCREMENT=0.0001
 
-         irrCalculated = .FALSE.
+         irrCalculated = .FALSE.; computeIRR = 0.0
          if (costDisc < NEAR_ZERO .or. revDisc < NEAR_ZERO) return       !IRR undefined
 
          if (abs(pnv) < NEAR_ZERO) then
@@ -1076,7 +1076,7 @@ C  ITITLE - STDIDENT title
      &                                          valueDuration, evntTime)
          implicit none
          integer, intent(in) :: evntTime, valueDuration(*)
-         integer             :: apprecTime, discTime, repeatTime
+         integer             :: apprecTime, discTime
          logical             :: done
          real                :: apprecValue, factor, npv, priceOrCost,
      &                          undiscAmt
@@ -1165,7 +1165,7 @@ C  ITITLE - STDIDENT title
       real function sevHrvRevenues()
          implicit none
          integer :: i, j, k, l
-         real    :: price
+*         real    :: price
 
          sevHrvRevenues = 0.0
 
