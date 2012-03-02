@@ -184,7 +184,7 @@ C*******************************************************************************
 
 ! hasRevAmt - Array indicating if revenues have been specified for a specific species.  Used to control assigning
 !             values to ALL species without overwriting previous species.
-!             Array bounds (MAXSP, unitId : MAX_REV_UNITS)
+!             Array bounds (MAXSP, MAX_REV_UNITS)
 
 ! hrvCostBf  - Array containing net board foot volume of harvested trees by HRVVRCST keyword DBH-classes, array order same as HRVVRCST variables.
 !              Array bounds (MAX_KEYWORDS)
