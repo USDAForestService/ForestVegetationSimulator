@@ -62,7 +62,7 @@ C  ITITLE - STDIDENT title
       logical       :: isHarvestPct = .FALSE., isPretendActive = .FALSE.
 
       real, parameter     :: NEAR_ZERO = 0.01
-      real                :: harvCst, harvRvn, irr, pctCst, rate, sevSum
+      real, save          :: harvCst, harvRvn, irr, pctCst, rate, sevSum
       real, dimension(2)  :: parms                                       !2=maximum number of Event Monitor parms used in ECCALC
       real, save          :: costDisc, costUndisc, revDisc, revUndisc,
      &                       sevAnnCst, sevAnnRvn
@@ -379,6 +379,7 @@ C  ITITLE - STDIDENT title
          if (doSev) sevSum = sevSum - sevAnnCst + sevAnnRvn
 
 !       Compute appreciated/depreciated annual costs from each ANNUCST keyword for each year of cycle
+      print *,"eccalc, annCostCnt=",annCostCnt," annRevCnt=",annRevCnt
          do i = 1, annCostCnt
             do j = beginTime, endTime, 1
                time = j - econStartYear                                  !Appreciation time is from start of ECON
@@ -1182,6 +1183,7 @@ C  ITITLE - STDIDENT title
 
       subroutine calcAnnCostRevSEV()
          endTime = 1; sevAnnCst = 0.0; sevAnnRvn = 0.0                  !Initialize for computing sev of annual cost or revenue
+      print *,"eccalc2, annCostCnt=",annCostCnt," annRevCnt=",annRevCnt
          do i = 1, annCostCnt
             sevAnnCst = sevAnnCst + calcAppreSev(1.0, annCostAmt(i),    !1.0=amt, 1=event time
      &                             annCostRate(i,:), annCostDur(i,:), 1)

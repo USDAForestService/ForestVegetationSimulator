@@ -60,7 +60,10 @@ C  Author Fred Martin, WA DNR,
          isEconToBe = .TRUE.
          CALL KEYRDR(IREAD, JOSTND, .FALSE., KEYWRD, isNotBlank,
      &           realFields, IRECNT, errCode, charFields, LFLAG, LKECHO) !KEYRDR fills realField w/ 0.0 unless actual number
-         if (errCode == 2) call ERRGRO(.FALSE., 2)                       !.FALSE. causes ERRGRO not to return, 2 = EOF before END keyword
+         if (errCode == 2) then
+           call ERRGRO(.FALSE., 2)                       !.FALSE. causes ERRGRO to flag error condition, 2 = EOF before END keyword
+           return
+         endif
          parmsField = 0
          if (errCode < 0) parmsField = -errCode                          !Negative errCode used to return field containing "PARMS" keyword
 
@@ -578,6 +581,7 @@ C  Author Fred Martin, WA DNR,
             else if (realFields(1) <= 0.0) then
                call errMsg(negCostRev)
                cycle readKeyWd                                           !Go read next keyword
+
             else if (.not.isCorrectUnit(KEYWRD,int(realFields(2)))) then
                call errMsg(badUoM)
                cycle readKeyWd                                           !Go read next keyword
