@@ -129,7 +129,8 @@ C--           CHECK FOR VARIABLE LOG CRUISE
                     GOTO 1000
                  ENDIF
                  IF(HTLOG .LE. 0)THEN
-	              IF(VOLEQ(1:3).EQ.'A32' .OR. VOLEQ(1:3).EQ.'a32')THEN
+                 	  IF(VOLEQ(1:3).EQ.'A32' .OR. 
+     -                 VOLEQ(1:3).EQ.'a32')THEN
 	                  HTLOG = 32
 	              ELSE
 	                  HTLOG = 16
@@ -189,7 +190,7 @@ C           IF(HT1PRD.LE.0) HT1PRD = LMERCH + STUMP
         
         ENDIF
 
-      ELSEIF (VOLEQ(4:6).EQ.'CZ3' .OR. VOLEQ(4:6).EQ.'cz3') THEN
+         ELSEIF (VOLEQ(4:6).EQ.'CZ3' .OR. VOLEQ(4:6).EQ.'cz3') THEN
 C        initialize Czaplewski three point model
          IF(HTTOT.LE.4.5)THEN
 	      ERRFLAG = 4
