@@ -75,11 +75,13 @@ C  Author Fred Martin, WA DNR,
                write (JOSTND,'(/, 1x, a12, "# ", a8, " KEYWORDS ",
      &             "ENTERED EXCEEDS MAXIMUM, RECORD", i4, " IGNORED.")')
      &             warn,  KEYWRD, IRECNT
+               call RCDSET(1,.TRUE.)                                     !.TRUE. causes RCDSET to return, 
                cycle readKeyWd                                           !go read next keyword
             else if (realFields(1) <= 0.0) then
                write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ", 
      &                "HAS NO OR NEGATIVE COST, RECORD: ", i4)') warn, 
      &                KEYWRD, IRECNT
+               call RCDSET(1,.TRUE.)                                     !.TRUE. causes RCDSET to return, 
                cycle readKeyWd                                           !Go read next keyword
             end if
 
@@ -106,11 +108,13 @@ C  Author Fred Martin, WA DNR,
                write (JOSTND,'(/, 1x, a12, "# ", a8, " KEYWORDS ",
      &             "ENTERED EXCEEDS MAXIMUM, RECORD", i4, " IGNORED.")')
      &             warn, KEYWRD, IRECNT
+               call RCDSET(1,.TRUE.)                                     !.TRUE. causes RCDSET to return, 
                cycle readKeyWd                                           !go read next keyword
             else if (realFields(1) <= 0.0) then
                write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ", 
      &                "HAS NO OR NEGATIVE COST, RECORD: ", i4)') warn, 
      &                KEYWRD, IRECNT
+               call RCDSET(1,.TRUE.)                                     !.TRUE. causes RCDSET to return, 
                cycle readKeyWd                                           !go read next keyword
             end if
 
@@ -137,6 +141,7 @@ C  Author Fred Martin, WA DNR,
                write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ", 
      &                "HAS NO OR NEGATIVE COST, RECORD: ", i4)') warn, 
      &                KEYWRD, IRECNT
+               call RCDSET(1,.TRUE.)                                     !.TRUE. causes RCDSET to return, 
                cycle readKeyWd                                           !go read next keyword
             end if
 
@@ -167,11 +172,13 @@ C  Author Fred Martin, WA DNR,
                write (JOSTND,'(/, a12, "# ", a8, " KEYWORDS ENTERED ",
      &                     "EXCEEDS MAXIMUM, RECORD", i4, " IGNORED.")')
      &                     warn, KEYWRD, IRECNT
+               call RCDSET(1,.TRUE.)                                     !.TRUE. causes RCDSET to return, 
                cycle readKeyWd                                           !go read next keyword
             else if (realFields(1) <= 0.0) then
                write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ", 
      &                "HAS NO OR NEGATIVE COST, RECORD: ", i4)') warn, 
      &                KEYWRD, IRECNT
+               call RCDSET(1,.TRUE.)                                     !.TRUE. causes RCDSET to return, 
                cycle readKeyWd                                           !go read next keyword
             end if
 
@@ -258,6 +265,7 @@ C  Author Fred Martin, WA DNR,
                   price = realFields(1) / 1000.0
             end select
 
+!          Assign prices to speices, UoM, & DBH or DIB classes
             lastSpId = 0
             if (spId == 0) then                                          !Set values for all species not already set
                allSpecies: do i = 1, MAXSP
@@ -341,7 +349,7 @@ C  Author Fred Martin, WA DNR,
      &               f5.1, ", RECORD:", I4)') warn, KEYWRD, 
      &               NSP(spId,1)(1:2), trim(UNITS_LABEL(units)),         !NSP(spId,1)(1:2) is character species code not including tree value class
      &               realFields(3), IRECNT
-                  hasError = .TRUE.
+                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return, 
                   cycle readKeyWd                                        !Go read next keyword
                end if
                do k = 1, hrvRevCnt(spId,units)                           !Represents a diameter
@@ -353,7 +361,7 @@ C  Author Fred Martin, WA DNR,
      &                  ", & DIAMETER CLASS:", f5.1, ", RECORD:", I4)') 
      &                  warn, KEYWRD, NSP(spId,1)(1:2),                  !NSP(spId,1)(1:2) is character species code not including tree value class
      &                  trim(UNITS_LABEL(units)), realFields(3), IRECNT
-                     hasError = .TRUE.
+                     call RCDSET(1,.TRUE.)                               !.TRUE. causes RCDSET to return, 
                      cycle readKeyWd                                     !Go read next keyword
                   end if
                end do
@@ -387,7 +395,7 @@ C  Author Fred Martin, WA DNR,
                write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ",
      &                "HAS NO OR NEGATIVE CONVERSION VALUE, RECORD", 
      &                i4)') warn, KEYWRD, IRECNT
-               hasError = .TRUE.
+               call RCDSET(1,.TRUE.)                                     !.TRUE. causes RCDSET to return, 
                cycle readKeyWd                                           !Go read next keyword
             end if
 
@@ -407,8 +415,8 @@ C  Author Fred Martin, WA DNR,
                   write (JOSTND,'(/,1x,a12, a8, " - KEYWORD IGNORED, ",
      &                  "ALL INDIVIDUAL SPECIES PREVIOUSLY SET, RECORD",
      &                  i4)') warn, KEYWRD, IRECNT
-                  hasError = .TRUE.
-                  cycle readKeyWd                                       !Go read next keyword
+                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return, 
+                  cycle readKeyWd                                        !Go read next keyword
                end if
             else if (spId < 0) then                                      !Species group is specified
                do i = 2, ISPGRP(-spId,1) + 1
@@ -416,8 +424,8 @@ C  Author Fred Martin, WA DNR,
                      write(JOSTND,'(/, a12, 1x, a8, "   KEYWORD ", 
      &                  "IGNORED, VALUES PREVIOUSLY SET FOR THIS ", 
      &                  "SPECIES: ", a, ", RECORD:", I4)') warn, KEYWRD, 
-     &                  NSP(i,1)(1:2), IRECNT                           !NSP(i,1)(1:2) is character species code not including tree value class
-                  hasError = .TRUE.
+     &                  NSP(i,1)(1:2), IRECNT                            !NSP(i,1)(1:2) is character species code not including tree value class
+                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return, 
                   cycle readKeyWd                                        !Go read next keyword
                end if
                   lbsFt3Amt(ISPGRP(-spId,i)) = realFields(1)
@@ -428,7 +436,7 @@ C  Author Fred Martin, WA DNR,
      &                  "VALUES PREVIOUSLY SET FOR THIS SPECIES: ", a, 
      &                  ", RECORD:", I4)') warn, KEYWRD, 
      &                  trim(adjustl(charFields(2))), IRECNT
-                  hasError = .TRUE.
+                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return, 
                   cycle readKeyWd                                        !Go read next keyword
                end if
                lbsFt3Amt(spId) = realFields(1)
@@ -529,7 +537,7 @@ C  Author Fred Martin, WA DNR,
 !        =================== CASE PCTVRCST =============================
          case ('PCTVRCST')
             if (varPctCnt == MAX_KEYWORDS) then
-                call errMsg(maxKeyWds)
+               call errMsg(maxKeyWds)
                cycle readKeyWd                                           !Go read next keyword
             else if (realFields(1) <= 0.0) then
                call errMsg(negCostRev)
@@ -575,7 +583,7 @@ C  Author Fred Martin, WA DNR,
                   write (JOSTND,'(1x, a8, "   PLANTING COSTS UNITS ",i2,
      &                      " PREVIOUSLY SET, RECORD # IGNORED: ", i4)')
      &                      KEYWRD, plntCostUnits(1), IRECNT
-                  hasError = .TRUE.
+                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return, 
                   cycle readKeyWd                                        !Go read next keyword
                endif
             else if (realFields(1) <= 0.0) then
@@ -622,7 +630,7 @@ C  Author Fred Martin, WA DNR,
             if (.not.isNotBlank(2)) realFields(2) = 999.0                !Default duration for PRETEND keyword
 
 !          Register PRETEND keyword on the Event Monitor
-            call addEvent(PRETEND_ACTIVITY, 1, 1, 2)                     !Sets value of LMODE
+            call addEvent(PRETEND_ACTIVITY, 1, 1, 2)                     !Sets value of LMODE & errCode, error handled in addEvent
             if (errCode > 0) cycle readKeyWd                             !Go read next keyword
 
             if (LMODE .and. LKECHO) then
@@ -653,7 +661,7 @@ C  Author Fred Martin, WA DNR,
             end if
 
 !          Register SPECCST keyword on the Event Monitor
-            call addEvent(SPEC_COST_ACTIVITY, 0, 1, 3)
+            call addEvent(SPEC_COST_ACTIVITY, 0, 1, 3)                   !Sets value of LMODE & errCode, error handled in addEvent
             if (errCode > 0) cycle readKeyWd                             !Go read next keyword
             specCstCnt = specCstCnt + 1
 
@@ -681,7 +689,7 @@ C  Author Fred Martin, WA DNR,
             end if
 
 !          Register SPECRVN keyword on the Event Monitor
-            call addEvent(SPEC_REV_ACTIVITY, 0, 1, 3)
+            call addEvent(SPEC_REV_ACTIVITY, 0, 1, 3)                    !Sets value of LMODE & errCode, error handled in addEvent
             if (errCode > 0) cycle readKeyWd                             !Go read next keyword
             specRvnCnt = specRvnCnt + 1
 
@@ -701,7 +709,7 @@ C  Author Fred Martin, WA DNR,
 !          Register STRTECON keyword with the Event Monitor
             if (realFields(2) <= 0.0 .or. realFields(3) > 0.0) 
      &                                               realFields(4) = 0.0 !Set SEV compute to false if SEV is input or discount rate = 0 (SEV infinite)
-            call addEvent(ECON_START_YEAR, 1, 3, 2)                      !Sets value of LMODE
+            call addEvent(ECON_START_YEAR, 1, 3, 2)                      !Sets value of LMODE & errCode, error handled in addEvent
             if (errCode > 0) cycle readKeyWd                             !Go read next keyword
             
             econStartYear = 9999                                         !Used to indicate valid STRTECON keyword has been submitted
@@ -726,11 +734,10 @@ C  Author Fred Martin, WA DNR,
 
 !        ======================= CASE DEFAULT ==========================
          case default !keyword not found
-            call ERRGRO(.TRUE.,1)                                       !.TRUE. causes ERRGRO to return, 2=end-of-file code
-
+            call ERRGRO(.TRUE.,1)                                        !.TRUE. causes ERRGRO to return, 1=invalid keyword was specified
+            call RCDSET(1,.TRUE.)                                        !.TRUE. causes RCDSET to return, 
          end select
       end do readKeyWd
-      if (hasError) call RCDSET(1,.TRUE.)                                !.TRUE. causes RCDSET to return, 
       return
 
 !    Given an activityId, return the keyword name
@@ -874,7 +881,7 @@ C  Author Fred Martin, WA DNR,
             write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD FAILED TO ", 
      &             "REGISTER ON EVENT MONITOR, RECORD: ", i4)') 
      &             warn, KEYWRD, IRECNT
-            hasError = .TRUE.
+            call RCDSET(1,.TRUE.)                                        !.TRUE. causes RCDSET to return, 
          endif
          return
       end subroutine addEvent
@@ -901,7 +908,7 @@ C  Author Fred Martin, WA DNR,
      &             "ENTERED EXCEEDS MAXIMUM, RECORD", i4, " IGNORED.")')
      &             warn, KEYWRD, IRECNT
          end select
-         hasError = .TRUE.
+         call RCDSET(1,.TRUE.)                                           !.TRUE. causes RCDSET to return, 
          return
       end subroutine errMsg
 
