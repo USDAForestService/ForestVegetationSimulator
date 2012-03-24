@@ -1,7 +1,7 @@
       SUBROUTINE CLIN (DEBUG,LKECHO)
       IMPLICIT NONE
 C----------
-C  **CLIN  CLIMATE--DATE OF LAST REVISION:  09/13/2010
+C  **CLIN  CLIMATE--DATE OF LAST REVISION:  03/23/2012
 C----------
 C
 C     CLIMATE EXTENSION 
@@ -173,10 +173,12 @@ C                        OPTION NUMBER 2 -- CLIMDATA
         IF ('mmin' .EQ.TRIM(ATTR_LABELS(I1))) IXMMIN =I1
         IF ('dd0'  .EQ.TRIM(ATTR_LABELS(I1))) IXDD0  =I1
         IF ('pSite'.EQ.TRIM(ATTR_LABELS(I1))) IXPSITE=I1
+        IF ('PC1'  .EQ.TRIM(ATTR_LABELS(I1))) IXPCS  =I1
         IF (      IXMTCM.GT.0 .AND. IXMAT  .GT.0
      >      .AND. IXGSP .GT.0 .AND. IXD100 .GT.0
      >      .AND. IXMMIN.GT.0 .AND. IXDD0  .GT.0
-     >      .AND. IXDD5 .GT.0 .AND. IXPSITE.GT.0) EXIT
+     >      .AND. IXDD5 .GT.0 .AND. IXPSITE.GT.0
+     >      .AND. IXPCS .GT.0) EXIT
       ENDDO
 
       DO I=1,MAXSP
@@ -192,9 +194,11 @@ C                        OPTION NUMBER 2 -- CLIMDATA
         I2=1
         DO I=1,NATTRS
           CHTMP(I2:)=''
-          IF (IXMTCM.EQ.I .OR. IXDD5.EQ.I .OR. IXMAT.EQ.I  .OR.
-     >       IXPSITE.EQ.I .OR. IXGSP.EQ.I .OR. IXD100.EQ.I .OR. 
-     >        IXMMIN.EQ.I .OR. IXDD0.EQ.I ) CHTMP(I2:) = ' *USED*'
+          IF (IXMTCM.EQ.I .OR. IXDD5.EQ.I   .OR. IXMAT  .EQ.I .OR.
+     >       IXPSITE.EQ.I .OR. IXGSP.EQ.I   .OR. IXD100 .EQ.I .OR. 
+     >         IXPCS.EQ.I .OR. IXPCS+1.EQ.I .OR. IXPCS+2.EQ.I .OR.
+     >      IXPCS+3 .EQ.I .OR. IXMMIN.EQ.I  .OR. IXDD0.EQ.I ) 
+     >        CHTMP(I2:) = ' *USED*'
           DO I1=1,MAXSP
             IF (TRIM(PLNJSP(I1)).EQ.TRIM(ATTR_LABELS(I))) THEN
               WRITE (CHTMP(I2:),'(I3,"=",A)') I1,JSP(I1)
@@ -250,6 +254,7 @@ C                        OPTION NUMBER 2 -- CLIMDATA
       IF (IXMMIN .EQ.0) WRITE (JOSTND,295) 'mmin'
       IF (IXDD0  .EQ.0) WRITE (JOSTND,295) 'dd0'
       IF (IXPSITE.EQ.0) WRITE (JOSTND,295) 'pSite'
+      IF (IXPCS  .EQ.0) WRITE (JOSTND,295) 'PC1-4'
       GOTO 10
   296 CONTINUE
       WRITE (JOSTND,297) 
