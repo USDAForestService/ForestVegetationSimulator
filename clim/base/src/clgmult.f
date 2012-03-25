@@ -1,7 +1,7 @@
       SUBROUTINE CLGMULT(TREEMULT)
       IMPLICIT NONE
 C----------
-C  **CLGMULT CLIMATE--DATE OF LAST REVISION:  03/23/2012
+C  **CLGMULT CLIMATE--DATE OF LAST REVISION:  03/25/2012
 C----------
 C
 C     CLIMATE EXTENSION -- COMUTES TREE-LEVEL GROWTH MULTIPLIER
@@ -134,21 +134,21 @@ C         ABIRTH IS AGE, NOT YEAR OF BIRTH.  COMPUTE BIRTH YEAR:
      >                ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXGSP), 
      >                        NYEARS)
           
-C         FROM LEITES CHAPETER 3 FOR DOUGLAS FIR:
-C         b0 (intercept)  172.70
-C         b1 (MTCM_TD)     1.545  
-C         b2 (MTCM_TD^2)  -2.253
-C         b3 (MAT)         2.646
-C         b4 (MTCM_TD*MAT)-1.379
+C         FROM LEITES ET AL. ECOLOGICAL APPLICATIONS 22(1)-154-165
+C         b0 (intercept)  373.97 
+C         b1 (MTCM_TD)      6.799  
+C         b2 (MTCM_TD^2)   -3.726 
+C         b3 (MTCM)        38.52 
+C         b4 (MTCM_TD*MTCM)-3.602
           
 C         NOTE THAT MTCM_TD IS ACTUALLY THE DIFFERENCE BETWEEN TWO PLACES, HERE
-C         WE SUBSTITUE TIME FOR SPACE. MAT IS THE TEMPERATURE AT THE SEED
+C         WE SUBSTITUE TIME FOR SPACE. MTCM IS THE TEMPERATURE AT THE SEED
 C         SOURCE...WE USE IT HERE AS "BIRTH YEAR".
           
           MTCM_TD = MTCM_NOW - MTCM_INVYR
-          GROW_TD0 = 172.70 + 2.646*MAT_BIRTH 
-          GROW_TD1 = 172.70  + 1.545*MTCM_TD - 2.253*MTCM_TD**2 + 
-     >                 2.646 * MAT_BIRTH     - 1.379*MAT_BIRTH*MTCM_TD
+          GROW_TD0 = 373.97 + 38.52*MAT_BIRTH 
+          GROW_TD1 = 373.97 + 6.799*MTCM_TD - 3.726*MTCM_TD**2 + 
+     >                38.52 * MTCM_BIRTH    - 3.602*MTCM_BIRTH*MTCM_TD
           XDF = GROW_TD1/GROW_TD0
           
 C         FROM LEITES FINAL LARCH MODEL     
@@ -196,6 +196,7 @@ C         smi.trds:d100    0.15582
           ENDIF
         
           IF (ABS(XRELGR-1.0).LT. .015) XRELGR=1.0
+          IF (XRELGR .GT. 4.) XRELGR = 4.
           PS = MIN(XGSITE,XRELGR,VSCORE(ISP(I)))
           IF (PS.GT. 0.99) PS=MAX(XGSITE,XRELGR,VSCORE(ISP(I)))
           TREEMULT(I)=1.- ( (1.-PS)*CLGROWMULT(ISP(I)) )
