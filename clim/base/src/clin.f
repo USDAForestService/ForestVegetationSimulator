@@ -1,7 +1,7 @@
       SUBROUTINE CLIN (DEBUG,LKECHO)
       IMPLICIT NONE
 C----------
-C  **CLIN  CLIMATE--DATE OF LAST REVISION:  03/23/2012
+C  **CLIN  CLIMATE--DATE OF LAST REVISION:  03/29/2012
 C----------
 C
 C     CLIMATE EXTENSION 
@@ -22,7 +22,7 @@ C
       CHARACTER*10 KARD(7)
       CHARACTER*2048 CHTMP,FMT
       CHARACTER*30 CSTDID,CCLIM,CYR
-      LOGICAL      LNOTBK(7),LOK,LKECHO,DEBUG
+      LOGICAL      LNOTBK(7),LKECHO,DEBUG
       REAL         ARRAY(7),TMPATTRS(MXCLATTRS)
       INTEGER      KODE,IPRMPT,NUMBER,I,I1,I2,IYRTMP
 
@@ -167,18 +167,32 @@ C                        OPTION NUMBER 2 -- CLIMDATA
       DO I1=1,NATTRS
         IF ('dd5'  .EQ.TRIM(ATTR_LABELS(I1))) IXDD5  =I1
         IF ('mat'  .EQ.TRIM(ATTR_LABELS(I1))) IXMAT  =I1
+        IF ('map'  .EQ.TRIM(ATTR_LABELS(I1))) IXMAP  =I1
         IF ('mtcm' .EQ.TRIM(ATTR_LABELS(I1))) IXMTCM =I1
+        IF ('mtwm' .EQ.TRIM(ATTR_LABELS(I1))) IXMTWM =I1
         IF ('gsp'  .EQ.TRIM(ATTR_LABELS(I1))) IXGSP  =I1
         IF ('d100' .EQ.TRIM(ATTR_LABELS(I1))) IXD100 =I1
         IF ('mmin' .EQ.TRIM(ATTR_LABELS(I1))) IXMMIN =I1
         IF ('dd0'  .EQ.TRIM(ATTR_LABELS(I1))) IXDD0  =I1
+        IF ('gsdd5'.EQ.TRIM(ATTR_LABELS(I1))) IXGSDD5=I1
         IF ('pSite'.EQ.TRIM(ATTR_LABELS(I1))) IXPSITE=I1
-        IF ('PC1'  .EQ.TRIM(ATTR_LABELS(I1))) IXPCS  =I1
+        IF ('DEmtwm'  .EQ.TRIM(ATTR_LABELS(I1))) IDEmtwm  =I1
+        IF ('DEmtcm'  .EQ.TRIM(ATTR_LABELS(I1))) IDEmtcm  =I1
+        IF ('DEdd5'   .EQ.TRIM(ATTR_LABELS(I1))) IDEdd5   =I1
+        IF ('DEsdi'   .EQ.TRIM(ATTR_LABELS(I1))) IDEsdi   =I1
+        IF ('DEdd0'   .EQ.TRIM(ATTR_LABELS(I1))) IDEdd0   =I1
+        IF ('DEpdd5'  .EQ.TRIM(ATTR_LABELS(I1))) IDEmapdd5=I1       
         IF (      IXMTCM.GT.0 .AND. IXMAT  .GT.0
      >      .AND. IXGSP .GT.0 .AND. IXD100 .GT.0
      >      .AND. IXMMIN.GT.0 .AND. IXDD0  .GT.0
      >      .AND. IXDD5 .GT.0 .AND. IXPSITE.GT.0
-     >      .AND. IXPCS .GT.0) EXIT
+     >      .AND. IXGSDD5.GT.0
+     >      .AND. IDEmtwm   .GT. 0
+     >      .AND. IDEmtcm   .GT. 0
+     >      .AND. IDEdd5    .GT. 0
+     >      .AND. IDEsdi    .GT. 0
+     >      .AND. IDEdd0    .GT. 0
+     >      .AND. IDEmapdd5 .GT. 0) EXIT
       ENDDO
 
       DO I=1,MAXSP
@@ -195,9 +209,11 @@ C                        OPTION NUMBER 2 -- CLIMDATA
         DO I=1,NATTRS
           CHTMP(I2:)=''
           IF (IXMTCM.EQ.I .OR. IXDD5.EQ.I   .OR. IXMAT  .EQ.I .OR.
-     >       IXPSITE.EQ.I .OR. IXGSP.EQ.I   .OR. IXD100 .EQ.I .OR. 
-     >         IXPCS.EQ.I .OR. IXPCS+1.EQ.I .OR. IXPCS+2.EQ.I .OR.
-     >      IXPCS+3 .EQ.I .OR. IXMMIN.EQ.I  .OR. IXDD0.EQ.I ) 
+     >       IXPSITE.EQ.I .OR. IXGSP.EQ.I   .OR. IXD100 .EQ.I .OR.
+     >       IXGSDD5.EQ.I .OR. IXMMIN.EQ.I  .OR. IXDD0  .EQ.I .OR.
+     >       IXMTWM .EQ.I .OR. IXMAP .EQ.I  .OR.
+     >       IDEmtwm.EQ.I .OR. IDEmtcm.EQ.I .OR. IDEdd5.EQ.I  .OR.
+     >       IDEdd0 .EQ.I .OR. IDEmapdd5.EQ.I.OR.IDEsdi.EQ.I ) 
      >        CHTMP(I2:) = ' *USED*'
           DO I1=1,MAXSP
             IF (TRIM(PLNJSP(I1)).EQ.TRIM(ATTR_LABELS(I))) THEN
@@ -220,7 +236,11 @@ C                        OPTION NUMBER 2 -- CLIMDATA
             FMT(1:1)=ATTR_LABELS(I1)(1:1) 
             CALL UPCASE(FMT(1:1))
              IF (ATTR_LABELS(I1)(1:1).EQ.FMT(1:1)) THEN
-               FMT=TRIM(FMT)//',F8.3'
+               IF (ATTR_LABELS(I1)(1:2).EQ.'DE') THEN
+                 FMT=TRIM(FMT)//',F8.2'
+               ELSE
+                 FMT=TRIM(FMT)//',F8.3'
+               ENDIF
              ELSE
                FMT=TRIM(FMT)//',F8.1'
              ENDIF
@@ -245,16 +265,6 @@ C                        OPTION NUMBER 2 -- CLIMDATA
           ENDDO
         ENDIF
       ENDIF
-      IF (IXGSP  .EQ.0) WRITE (JOSTND,295) 'gsp'
-  295 FORMAT (/,' ********',T13,'WARNING: ',A,' NOT FOUND.')
-      IF (IXMAT  .EQ.0) WRITE (JOSTND,295) 'mat'
-      IF (IXD100 .EQ.0) WRITE (JOSTND,295) 'd100'
-      IF (IXGSP  .EQ.0) WRITE (JOSTND,295) 'gsp'
-      IF (IXD100 .EQ.0) WRITE (JOSTND,295) 'd100'
-      IF (IXMMIN .EQ.0) WRITE (JOSTND,295) 'mmin'
-      IF (IXDD0  .EQ.0) WRITE (JOSTND,295) 'dd0'
-      IF (IXPSITE.EQ.0) WRITE (JOSTND,295) 'pSite'
-      IF (IXPCS  .EQ.0) WRITE (JOSTND,295) 'PC1-4'
       GOTO 10
   296 CONTINUE
       WRITE (JOSTND,297) 

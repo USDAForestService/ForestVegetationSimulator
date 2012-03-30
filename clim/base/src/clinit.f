@@ -1,7 +1,7 @@
       SUBROUTINE CLINIT 
       IMPLICIT NONE
 C----------
-C  **CLINIT  CLIMATE--DATE OF LAST REVISION:  03/23/2012
+C  **CLINIT  CLIMATE--DATE OF LAST REVISION:  03/29/2012
 C----------
 C
 C     CLIMATE EXTENSION 
@@ -21,13 +21,20 @@ C
       NYEARS=0
       INDXSPECIES=0
       IXDD5=0
-      IXMTCM=0 
+      IXMTCM=0
+      IXMTWM=0 
       IXMAT=0 
       IXGSP=0
+      IXGSDD5=0
       IXD100=0 
       IXMMIN=0
       IXDD0=0
-      IXPCS=0
+      IDEmtwm=0
+      IDEmtcm=0
+      IDEdd5= 0
+      IDEsdi= 0
+      IDEdd0= 0
+      IDEmapdd5=0 
       IXPSITE=0
       AESNTREES = 500.
       NESPECIES = 4
