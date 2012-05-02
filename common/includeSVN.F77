@@ -1,1 +1,1 @@
-      DATA SVN/ $revision$ /
+      DATA SVN/ $Rev$ /
