@@ -1,1 +1,1 @@
-      DATA SVN/'"Id"'/
+      DATA SVN/"$Id$"/
