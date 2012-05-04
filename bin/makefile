@@ -48,7 +48,10 @@ export CC = gcc
 export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
 export LD = gfortran
 ifndef sourceFileList
- export FVSprgs = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
+# TODO: See comment below regarding generl rules. We can change to this rule for all
+# when we adopt a newer make on windows builds
+# export FVSprgs = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
+  export FVSprgs = FVSiec FVSpnc FVSne FVSsn
 endif
 
 # the following variables are not processed until sourceFileList is defined...and that happens
@@ -84,8 +87,8 @@ FVSne$(SLIBSUFX) FVSne$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSne) $(shell ca
 FVSsn$(SLIBSUFX) FVSsn$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSsn) $(shell cat $(addsuffix _sourceList.txt,FVSsn))
 	$(MAKE) --file=makefile FVSsn.setup
 
-#These rules work in place of those listed above (they are generated), but only on Linux. Perhaps we can add them later.
-#define P_template = 
+# TODO: These rules work in place of those listed above (they are generated), but only on Linux. 
+# when we adopt a newer make on windows builds
 #$(1)$(SLIBSUFX) $(1)$(PRGSUFX) : $$(addsuffix _sourceList.txt,$(1)) $$(shell cat $$(addsuffix _sourceList.txt,$(1)))
 #	@echo $(MAKE) $(1)$(SLIBSUFX) $(1)$(PRGSUFX) --file=makefile $(1).setup
 #	$(MAKE) --file=makefile $(1).setup
