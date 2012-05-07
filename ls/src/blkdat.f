@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C  **BLKDAT--LS  DATE OF LAST REVISION:  12/20/11
+C  **BLKDAT--LS  DATE OF LAST REVISION:  02/15/12
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -134,7 +134,7 @@ C
      & '975',   '977',   '371',   '951',   '318',   '314',   '531',
      & '541',   '802',   '804',   '823',   '826',   '833',   '837',
      & '809',   '402',   '403',   '407',   '743',   '746',   '741',
-     & '375',   '---',   '601',   '602',   '701',   '901',   '---',
+     & '375',   '   ',   '601',   '602',   '701',   '901',   '   ',
      & '313',   '315',   '319',   '391',   '421',   '462',   '491',
      & '500',   '660',   '693',   '731',   '761',   '763',   '760',
      & '920',   '922',   '923',   '931',   '935'/
@@ -146,7 +146,7 @@ C
      & 'ULRU  ','ULTH  ','BEAL2 ','TIAM  ','ACSA3 ','ACNI5 ','FAGR  ',
      & 'FRAM2 ','QUAL  ','QUBI  ','QUMA2 ','QUMU  ','QURU  ','QUVE  ',
      & 'QUEL  ','CACO15','CAGL8 ','CAOV2 ','POGR4 ','POTR5 ','POBA2 ',
-     & 'BEPA  ','------','JUCI  ','JUNI  ','OSVI  ','ROPS  ','------',
+     & 'BEPA  ','      ','JUCI  ','JUNI  ','OSVI  ','ROPS  ','      ',
      & 'ACNE2 ','ACPE  ','ACSP2 ','CACA18','CADE12','CEOC  ','COFL2 ',
      & 'CRATA ','MALUS ','NYSY  ','PLOC  ','PRPE2 ','PRVI  ','PRUNU ',
      & 'SALIX ','SANI  ','SAERF ','SAAL5 ','SOAM3 '/

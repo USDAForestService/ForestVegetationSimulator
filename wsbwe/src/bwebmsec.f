@@ -1,7 +1,7 @@
       SUBROUTINE BWEBMS (TRFBMS,ICVOPT)
       IMPLICIT NONE
 C----------
-C  **BWEBMS--EC             DATE OF LAST REVISION:  07/14/10
+C  **BWEBMS--EC             DATE OF LAST REVISION:  03/19/12
 C----------
 C
 C     COMPUTES FOLIAGE BIOMASS FOR INDIVIDUAL TREES.
@@ -35,6 +35,8 @@ c
 C  Revision History:
 C    14-JUL-2010 Lance R. David (FMSC)
 C       Added IMPLICIT NONE and declared variables as needed.
+C    19-MAR-2012 Lance R. David (FMSC)
+C       Updated for the East Cascades species expansion to 32 species.
 C----------
 C
 COMMONS
@@ -105,9 +107,12 @@ C     EQUATIONS IN THIS SUBROUTINE.
 C
 C**** IBIOMP AS MODIFIED FOR THE EAST CASCADES VARIANT.
 C     Same mapping used in WSBW model
-C     Was:          WP  WL  DF  SF  RC  GF  LP  ES  AF  PP  OT
-      DATA IBIOMP /  1,  2,  3,  4,  6,  4,  7,  8,  9, 10, 11 /
-C     Is Now:       WP   L  DF  GF   C  GF  LP   S  AF  PP  --
+C                  WP  WL  DF  SF  RC  GF  LP  ES  AF  PP  WH 
+      DATA IBIOMP / 1,  2,  3,  4,  6,  4,  7,  8,  9, 10,  5,
+C                  MH  PY  WB  NF  WF  LL  YC  WJ  BM  VN  RA 
+     &             5,  11,  1,  3,  4,  2,  6, 11, 11, 11, 11, 
+C                  PB  GC  DG  AS  CW  WO  PL  WI  OS  OH 
+     &             11, 11, 11, 11, 11, 11, 11, 11, 11, 11 /
 C
 C     INSURE THAT THE MODEL RUNS IF THERE ARE NO TREES IN THE
 C     TREE LIST.

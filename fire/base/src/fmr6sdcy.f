@@ -1,7 +1,7 @@
       SUBROUTINE FMR6SDCY (KSP, DBH, X, Y, SML)
       IMPLICIT NONE
 C----------
-C  **FMR6SDCY  FIRE--DATE OF LAST REVISION: 02/18/10
+C  **FMR6SDCY  FIRE--DATE OF LAST REVISION: 02/09/12
 C----------
 C     CALLED FROM: FMSNAG
 C
@@ -62,66 +62,82 @@ C
 *            3 = increase snag fall
 *
 ***********************************************************************
-
-C.... Common include files.
+C----------
+COMMONS
+C
       INCLUDE 'PRGPRM.F77' 
+C
+C
       INCLUDE 'CONTRL.F77'
+C
+C
       INCLUDE 'PLOT.F77'
-
-C.... Variable declarations.
-
+C
+COMMONS
+C----------
+C  Variable declarations.
+C----------
+      LOGICAL DEBUG
+      CHARACTER VVER*7
       INTEGER I, J, K, L, X, Y, KSP, SML, SPG, TEMP, MOIS
-      REAL    DBH, DBHCM
-      REAL    WSDBH1(39),WSDBH2(39),BMDBH1(18),BMDBH2(18),ECDBH1(11)  
-      REAL    ECDBH2(11),SODBH1(33),SODBH2(33),AKDBH1(13),AKDBH2(13)
-      INTEGER WSSPEC(39),BMSPEC(18),ECSPEC(11), SOSPEC(33), AKSPEC(13)
+      INTEGER WSSPEC(39),BMSPEC(18),ECSPEC(32), SOSPEC(33), AKSPEC(13)
       INTEGER PNWMC(75),PNWMD(75),WCWMC(139),WCWMD(139),SOHMC(92)
       INTEGER SOWMD(92),BMHMC(92),BMWMD(92),ECHMC(155),ECWMD(155)
       INTEGER PNYRSOFT(12,3,3,3),PNDCYADJ(12,3,3,3),ESYRSOFT(12,3,3,3)
       INTEGER ESDCYADJ(12,3,3,3),WCYRSOFT(12,3,3,3),WCDCYADJ(12,3,3,3)
-      LOGICAL DEBUG
-      CHARACTER VVER*7
-C
-C     DETERMINE WHICH VARIANT IS BEING USED.
-C
+      REAL    DBH, DBHCM
+      REAL    WSDBH1(39),WSDBH2(39),BMDBH1(18),BMDBH2(18),ECDBH1(32)  
+      REAL    ECDBH2(32),SODBH1(33),SODBH2(33),AKDBH1(13),AKDBH2(13)
+C----------
+C  DETERMINE WHICH VARIANT IS BEING USED.
+C----------
       CALL VARVER(VVER)
-C
-C     CHECK FOR DEBUG.
-C
+C----------
+C  CHECK FOR DEBUG.
+C----------
       CALL DBCHK (DEBUG,'FMR6SDCY',8,ICYC)
       IF (DEBUG) WRITE(JOSTND,7) ICYC, KSP, DBH, VVER(1:2), ITYPE
     7 FORMAT(' FMR6SDCY CYCLE=',I2,' KSP=',I5,' DBH=',F6.2,' VVER=',A2,
      &       ' ITYPE=',I5)
-
-C     THESE ARE THE WESTSIDE (PN/WC) DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
+C  THESE ARE THE WESTSIDE (PN/WC) DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
       DATA (WSDBH1(I), I=  1, 39) /
      & 25,25,25,20,25,25,25,25,25,25,
      & 20,20,25,25,20,25,25,25,25,25,
      & 25,20,20,20,25,20,25,25,20,20,
      & 20,20,20,20,20,20,20,20,20/
-
-C     THESE ARE THE BM DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
+C  THESE ARE THE BM DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
       DATA (BMDBH1(I), I= 1, 18) /
      & 25, 25, 25, 25, 25, 20, 20, 25, 20, 20,
      & 20, 20, 20, 25, 20, 25, 20, 20/
-
-C     THESE ARE THE EC DBH BREAKPOINTS (SMALL TO MED.) IN CM.
-      DATA (ECDBH1(I), I= 1, 11) /
-     & 25,25,25,25,25,25,20,25,20,20,25/
-     
-C     THESE ARE THE SO DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
+C  THESE ARE THE EC DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
+      DATA (ECDBH1(I), I= 1, 32) /
+     & 25, 25, 25, 25, 25, 25, 20, 25, 20, 20,
+     & 25, 25, 20, 20, 25, 25, 20, 25, 20, 25,
+     & 25, 20, 20, 25, 20, 20, 25, 25, 20, 20,
+     & 25, 20/
+C----------
+C  THESE ARE THE SO DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
       DATA (SODBH1(I), I= 1, 33) /
      & 25,25,25,25,25,25,20,25,25,20,
      & 20,25,20,25,25,20,25,25,25,20,
      & 20,20,25,20,25,20,25,20,25,20,
      & 20,25,20/
-
-C     THESE ARE THE AK DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
+C  THESE ARE THE AK DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C----------
       DATA (AKDBH1(I), I= 1, 13) /
      & 25,25,25,25,25,25,20,25,20,20,
      & 25,25,25/
-
-C     SET THE MEDIUM TO LARGE DBH BREAKPOINTS IN CM.
+C----------
+C  SET THE MEDIUM TO LARGE DBH BREAKPOINTS IN CM.
+C----------
       DO I = 1, 39
         IF (WSDBH1(I) .EQ. 20) THEN
           WSDBH2(I) = 50
@@ -149,7 +165,7 @@ C     SET THE MEDIUM TO LARGE DBH BREAKPOINTS IN CM.
             AKDBH2(I) = 75        	
           ENDIF
         ENDIF
-        IF (I .LE. 11) THEN
+        IF (I .LE. 32) THEN
           IF (ECDBH1(I) .EQ. 20) THEN
             ECDBH2(I) = 50
           ELSE
@@ -157,38 +173,46 @@ C     SET THE MEDIUM TO LARGE DBH BREAKPOINTS IN CM.
           ENDIF
         ENDIF
       ENDDO
-
-C     THESE ARE THE WESTSIDE (PN/WC) SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
+C  THESE ARE THE WESTSIDE (PN/WC) SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
       DATA (WSSPEC(I), I= 1, 39) /
      &  9, 8, 8, 9, 8, 6, 9, 1, 1, 6,
      &  5, 3, 2, 2, 3, 2, 1, 1, 7, 7,
      & 12,12,12,11, 4,11,11, 4, 1, 2,
      &  2, 5, 1,10,10,10,11,11,11/
-     
-C     THESE ARE THE BM SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
+C  THESE ARE THE BM SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
       DATA (BMSPEC(I), I= 1, 18) /
      &  2,  2,  2,  8,  7,  1,  5,  6,  8,  3,
      &  2,  2,  1,  1, 11, 11,  8, 11/  
-
-C     THESE ARE THE EC SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
-      DATA (ECSPEC(I), I= 1, 11) /
-     & 2,2,2,8,1,8,5,6,8,3,7/
-
-C     THESE ARE THE SO SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
+C  THESE ARE THE EC SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
+      DATA (ECSPEC(I), I= 1, 32) /
+     &  2,  2,  2,  8,  1,  8,  5,  6,  8,  3,
+     &  7,  7,  1,  2,  8,  8,  2,  1,  1, 12,
+     & 12, 12, 11,  4, 10, 11, 11,  4, 10, 11,
+     &  7, 10/
+C----------
+C  THESE ARE THE SO SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
       DATA (SOSPEC(I), I= 1, 33) /     
      &  2, 2, 2, 8, 7, 1, 5, 6, 9, 3,
      &  1, 8, 8, 8, 8, 2, 2, 1, 7, 1,
      & 12,12,12,11,11,10, 4,11, 4,11,
      & 11,2,11/
-
-C     THESE ARE THE AK SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
+C  THESE ARE THE AK SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C----------
       DATA (AKSPEC(I), I= 1, 13) /     
      &  6, 1, 9, 7, 7, 1, 5, 6, 8, 12,
      & 11,11, 9/
-
-C     EACH PN HABITAT CODE MAPS TO EITHER WARM (1), MODERATE (2)
-C     OR COLD (3).
-
+C----------
+C  EACH PN HABITAT CODE MAPS TO EITHER WARM (1), MODERATE (2)
+C  OR COLD (3).
+C----------
       DATA (PNWMC(I), I=   1,  50) /
      & 2, 2, 2, 3, 3, 3, 3, 3, 2, 3,
      & 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
@@ -199,9 +223,9 @@ C     OR COLD (3).
      & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
      & 2, 2, 2, 2, 2, 2, 3, 2, 2, 2,
      & 2, 2, 2, 2, 2/
-
-C     EACH PN HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-
+C----------
+C  EACH PN HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C----------
       DATA (PNWMD(I), I=   1,  50) /
      & 3, 3, 3, 3, 3, 3, 3, 1, 3, 2,
      & 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -212,10 +236,10 @@ C     EACH PN HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
      & 3, 2, 2, 2, 2, 2, 2, 1, 2, 1,
      & 1, 2, 2, 2, 2, 2, 2, 1, 1, 1,
      & 1, 1, 1, 1, 1/
-
-C     EACH WC HABITAT CODE MAPS TO EITHER WARM (1), MODERATE (2)
-C     OR COLD (3).
-
+C----------
+C  EACH WC HABITAT CODE MAPS TO EITHER WARM (1), MODERATE (2)
+C  OR COLD (3).
+C----------
       DATA (WCWMC(I), I=   1,  50) /
      & 3, 3, 3, 3, 3, 3, 3, 1, 2, 1,
      & 1, 1, 1, 1, 1, 1, 2, 2, 3, 3,
@@ -233,9 +257,9 @@ C     OR COLD (3).
      & 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
      & 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
      & 3, 3, 3, 3, 3, 3, 1, 1, 1/
-
-C     EACH WC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-
+C----------
+C  EACH WC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C----------
       DATA (WCWMD(I), I=   1,  50) /
      & 3, 2, 2, 2, 2, 2, 3, 3, 2, 3,
      & 3, 3, 3, 3, 3, 3, 1, 1, 2, 2,
@@ -253,10 +277,10 @@ C     EACH WC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
      & 2, 2, 2, 1, 3, 2, 3, 2, 1, 1,
      & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
      & 2, 2, 2, 2, 1, 2, 3, 3, 3/
-
-C     EACH SO HABITAT CODE MAPS TO EITHER HOT (1), MODERATE (2)
-C     OR COLD (3).
-
+C----------
+C  EACH SO HABITAT CODE MAPS TO EITHER HOT (1), MODERATE (2)
+C  OR COLD (3).
+C----------
       DATA (SOHMC(I), I=   1,  50) /
      & 2, 2, 2, 3, 3, 3, 3, 3, 3, 3,
      & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -269,9 +293,9 @@ C     OR COLD (3).
      & 2, 2, 2, 2, 1, 3, 2, 2, 2, 1,
      & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
      & 2, 2/
-
-C     EACH SO HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-
+C----------
+C  EACH SO HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C----------
       DATA (SOWMD(I), I=   1,  50) /
      & 2, 2, 2, 1, 1, 2, 1, 1, 3, 3,
      & 3, 3, 3, 3, 3, 3, 3, 3, 3, 2,
@@ -284,10 +308,10 @@ C     EACH SO HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
      & 2, 2, 3, 2, 3, 1, 2, 2, 2, 3,
      & 1, 3, 3, 3, 3, 2, 3, 2, 2, 2,
      & 1, 2/
-
-C     EACH BM HABITAT CODE MAPS TO EITHER HOT (1), MODERATE (2)
-C     OR COLD (3).
-
+C----------
+C  EACH BM HABITAT CODE MAPS TO EITHER HOT (1), MODERATE (2)
+C  OR COLD (3).
+C----------
       DATA (BMHMC(I), I=   1,  50) /
      & 3, 3, 2, 2, 2, 2, 2, 2, 2, 2,
      & 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 
@@ -300,9 +324,9 @@ C     OR COLD (3).
      & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
      & 2, 2, 2, 2, 2, 2, 3, 2, 2, 2,
      & 2, 1/
-
-C     EACH BM HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-
+C----------
+C  EACH BM HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C----------
       DATA (BMWMD(I), I=   1,  50) /
      & 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 
      & 3, 2, 3, 2, 1, 2, 3, 1, 1, 2, 
@@ -315,10 +339,10 @@ C     EACH BM HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
      & 2, 2, 2, 1, 1, 1, 3, 3, 3, 2, 
      & 2, 2, 3, 3, 2, 1, 3, 2, 1, 2,
      & 2, 2/
-
-C     EACH EC HABITAT CODE MAPS TO EITHER HOT (1), MODERATE (2)
-C     OR COLD (3).
-
+C----------
+C  EACH EC HABITAT CODE MAPS TO EITHER HOT (1), MODERATE (2)
+C  OR COLD (3).
+C----------
       DATA (ECHMC(I), I=   1,  50) /
      & 3, 3, 2, 2, 2, 2, 2, 2, 2, 2,
      & 2, 2, 2, 2, 1, 2, 2, 2, 2, 2,
@@ -339,9 +363,9 @@ C     OR COLD (3).
      & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2/
       DATA (ECHMC(I), I= 151, 155) /
      & 2, 2, 2, 2, 2/
-
-C     EACH EC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-
+C----------
+C  EACH EC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C----------
       DATA (ECWMD(I), I=   1,  50) /
      & 3, 3, 2, 2, 2, 2, 1, 2, 2, 2,
      & 3, 3, 3, 3, 3, 2, 3, 3, 3, 3,
@@ -362,8 +386,9 @@ C     EACH EC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
      & 2, 3, 2, 3, 3, 2, 2, 2, 2, 2/
       DATA (ECWMD(I), I= 151, 155) /
      & 2, 3, 2, 3, 2/
-
-C     PN - YEARS TO DECAY FROM HARD TO SOFT W/ LAG
+C----------
+C  PN - YEARS TO DECAY FROM HARD TO SOFT W/ LAG
+C----------
       DATA ((((PNYRSOFT(I,J,K,L), L=1,3), K=1,3), J=1,3), I=1,12) /
      & 36,42,46,36,42,46,36,42,46,36,70,94,36,70,94,36,70,94,69,76,
      & 94,69,76,94,69,76,94,21,25,27,21,25,27,21,25,27,21,40,52,21,
@@ -382,8 +407,9 @@ C     PN - YEARS TO DECAY FROM HARD TO SOFT W/ LAG
      & 9 ,12,4 ,9 ,12,4 ,9 ,12,9 ,10,12,9 ,10,12,9 ,10,12,3 ,5 ,5 ,
      & 3 ,5 ,5 ,3 ,5 ,5 ,3 ,7 ,9 ,3 ,7 ,9 ,3 ,7 ,9 ,6 ,7 ,9 ,6 ,7 ,
      & 9 ,6 ,7 ,9/
-
-C     PN - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE, 2 = NONE, 3 = INCREASE)                
+C----------
+C  PN - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE, 2 = NONE, 3 = INCREASE)                
+C----------
       DATA ((((PNDCYADJ(I,J,K,L), L=1,3), K=1,3), J=1,3), I=1,12) /
      & 3,3,3,3,3,3,3,3,3,3,2,1,3,2,1,3,2,1,2,1,
      & 1,2,1,1,2,1,1,3,3,3,3,3,3,3,3,3,3,2,1,3,
@@ -402,8 +428,9 @@ C     PN - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE, 2 = NONE, 3 = INCR
      & 2,1,3,2,1,3,2,1,2,1,1,2,1,1,2,1,1,3,3,3,
      & 3,3,3,3,3,3,3,2,1,3,2,1,3,2,1,2,1,1,2,1,
      & 1,2,1,1/
-
-C     WC - YEARS TO DECAY FROM HARD TO SOFT W/ LAG                 
+C----------
+C  WC - YEARS TO DECAY FROM HARD TO SOFT W/ LAG                 
+C----------
       DATA ((((WCYRSOFT(I,J,K,L), L=1,3), K=1,3), J=1,3), I=1,12) /
      & 36,42,46,36,42,46,36,49,73,36,70,94,36,70,94,41,70,94,69,76,
      & 94,69,76,94,69,76,94,21,25,27,21,25,27,21,28,38,21,40,52,21,
@@ -422,8 +449,9 @@ C     WC - YEARS TO DECAY FROM HARD TO SOFT W/ LAG
      & 10,12,4 ,10,12,5 ,10,12,9 ,10,12,9 ,10,12,9 ,10,12,3 ,5 ,5 ,
      & 3 ,5 ,5 ,3 ,5 ,6 ,3 ,7 ,9 ,3 ,7 ,9 ,4 ,7 ,9 ,6 ,7 ,9 ,6 ,7 ,
      & 9 ,6 ,7 ,9/      
-
-C     WC - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE, 2 = NONE, 3 = INCREASE)
+C----------
+C  WC - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE, 2 = NONE, 3 = INCREASE)
+C----------
       DATA ((((WCDCYADJ(I,J,K,L), L=1,3), K=1,3), J=1,3), I=1,12) /
      & 3,3,3,3,3,3,3,3,3,3,2,1,3,2,1,3,1,1,2,1,
      & 1,2,1,1,2,1,1,3,3,3,3,3,3,3,3,3,3,2,1,3,
@@ -442,8 +470,9 @@ C     WC - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE, 2 = NONE, 3 = INCR
      & 2,1,3,2,1,3,1,1,2,1,1,2,1,1,2,1,1,3,3,3,
      & 3,3,3,3,3,3,3,2,1,3,2,1,3,1,1,2,1,1,2,1,
      & 1,2,1,1/
-
-C     EASTSIDE (BM, SO, EC) - YEARS TO DECAY FROM HARD TO SOFT W/ LAG                 
+C----------
+C  EASTSIDE (BM, SO, EC) - YEARS TO DECAY FROM HARD TO SOFT W/ LAG                 
+C----------
       DATA ((((ESYRSOFT(I,J,K,L), L=1,3), K=1,3), J=1,3), I=1,6) /
      & 184,185,246,184,185,246,184,185,246,93 ,125,185,124,185,246,
      & 184,185,246,105,125,125,124,125,185,184,185,246,86 ,96 ,107,
@@ -456,7 +485,7 @@ C     EASTSIDE (BM, SO, EC) - YEARS TO DECAY FROM HARD TO SOFT W/ LAG
      & 25 ,38 ,49 ,37 ,40 ,49 ,24 ,26 ,29 ,24 ,29 ,38 ,41 ,42 ,49 ,
      & 58 ,59 ,68 ,58 ,59 ,68 ,63 ,59 ,68 ,29 ,40 ,55 ,37 ,55 ,68 ,
      & 54 ,59 ,68 ,34 ,38 ,40 ,37 ,40 ,55 ,58 ,59 ,68/
-     
+C     
       DATA ((((ESYRSOFT(I,J,K,L), L=1,3), K=1,3), J=1,3), I=7,12) /     
      & 55 ,56 ,67 ,55 ,56 ,67 ,61 ,56 ,67 ,28 ,40 ,54 ,35 ,54 ,67 ,
      & 53 ,56 ,67 ,32 ,36 ,40 ,32 ,40 ,54 ,55 ,56 ,67 ,45 ,46 ,55 ,
@@ -469,8 +498,9 @@ C     EASTSIDE (BM, SO, EC) - YEARS TO DECAY FROM HARD TO SOFT W/ LAG
      & 16 ,25 ,36 ,24 ,25 ,36 ,15 ,16 ,18 ,15 ,18 ,25 ,25 ,26 ,36 ,
      & 17 ,18 ,23 ,18 ,19 ,23 ,18 ,19 ,23 ,9  ,13 ,17 ,11 ,17 ,23 ,
      & 16 ,18 ,23 ,10 ,12 ,13 ,10 ,13 ,17 ,17 ,19 ,23/
-
-C     EASTSIDE (BM, SO, EC) - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE, 2 = NONE, 3 = INCREASE)
+C----------
+C  EASTSIDE (BM, SO, EC) - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE, 2 = NONE, 3 = INCREASE)
+C----------
       DATA ((((ESDCYADJ(I,J,K,L), L=1,3), K=1,3), J=1,3), I=1,12) /
      & 1,1,1,1,1,1,1,1,1,3,3,2,3,2,1,2,1,1,3,3,
      & 3,3,3,2,1,1,1,1,1,1,1,1,1,1,1,1,3,3,2,3,
@@ -489,11 +519,10 @@ C     EASTSIDE (BM, SO, EC) - DECAY RATE ADJUSTMENT FOR SNAG FALL (1 = DECREASE,
      & 3,2,3,2,1,2,1,1,3,3,3,3,3,2,1,1,1,1,1,1,
      & 1,1,1,1,1,1,3,3,2,3,2,1,2,1,1,3,3,3,3,3,
      & 2,1,1,1/
-
-C
-C      DETERMINE THE SPECIES GROUP, TEMPERATURE CODE, MOISTURE CODE, 
-C      AND SIZE CLASS - FIRST GET DBH IN TERMS OF CM.
-C 
+C----------
+C  DETERMINE THE SPECIES GROUP, TEMPERATURE CODE, MOISTURE CODE, 
+C  AND SIZE CLASS - FIRST GET DBH IN TERMS OF CM.
+C----------
       DBHCM = DBH * 2.54
       SELECT CASE (VVER(1:2))
         CASE('EC')
@@ -563,10 +592,10 @@ C
       	    SML = 3
           ENDIF 
       END SELECT
-C
-C      DETERMINE THE NUMBER OF YEARS FROM HARD TO SOFT AND THE SNAG FALL
-C      ADJUSTMENT FACTOR.
-C 
+C----------
+C  DETERMINE THE NUMBER OF YEARS FROM HARD TO SOFT AND THE SNAG FALL
+C  ADJUSTMENT FACTOR.
+C----------
       SELECT CASE (VVER(1:2))
         CASE('PN','AK')
           X = PNYRSOFT(SPG,TEMP,MOIS,SML)
@@ -578,10 +607,10 @@ C
           X = ESYRSOFT(SPG,TEMP,MOIS,SML)
           Y = ESDCYADJ(SPG,TEMP,MOIS,SML)         
       END SELECT
-      
+C      
       IF (DEBUG) WRITE(JOSTND,8) X, Y, SPG, TEMP, MOIS, SML, DBHCM
     8 FORMAT(' FMR6SDCY X=',I5,' Y=',I5,' SPG=',I3,' TEMP=',I2,
      &       ' MOIS=',I2,' SML=',I2,' DBHCM=',F6.2)      
-      
+C      
       RETURN
       END

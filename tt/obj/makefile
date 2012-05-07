@@ -36,7 +36,7 @@ FFLAGS = ${I1}${TT_COM}${I2}${BASE_COM}${I2}${FIRE_BASE_COM}${I2}${MIST_SRC}${I2
 
 # the TT object files
 TT_OBJS  = bfvol.o${BJ}  blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ} cratet.o${BJ} crown.o${BJ}  cubrds.o${BJ} \
-           dgdriv.o${BJ} dgf.o${BJ}    dubscr.o${BJ} essubh.o${BJ} estump.o${BJ} esuckr.o${BJ} findag.o${BJ} \
+           dgdriv.o${BJ} dgf.o${BJ}    dubscr.o${BJ} essubh.o${BJ} findag.o${BJ} \
            forkod.o${BJ} grinit.o${BJ} grohed.o${BJ} htgf.o${BJ}   maical.o${BJ} morts.o${BJ}  regent.o${BJ} \
            sitset.o${BJ} smdgf.o${BJ}  smhtgf.o${BJ} ttmrt.o${BJ}  varvol.o${BJ} \
            badist.o${BJ} crdecd.o${BJ} \
@@ -83,7 +83,7 @@ TT_OBJS  = bfvol.o${BJ}  blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ} cratet.o${BJ}
            trnslo.o${BJ} tvalue.o${BJ} unblnk.o${BJ} upcase.o${BJ} update.o${BJ} upkey.o${BJ}  volkey.o${BJ} \
            esaddt.o${BJ} esblkd.o${BJ} escprs.o${BJ} esetpr.o${BJ} esfltr.o${BJ} esgent.o${BJ} esin.o${BJ}   \
            esinit.o${BJ} esmsgs.o${BJ} esnutr.o${BJ} esout.o${BJ}  esplt1.o${BJ} esplt2.o${BJ} esprep.o${BJ} \
-           esprin.o${BJ} esrann.o${BJ} estab.o${BJ}  estime.o${BJ} \
+           esprin.o${BJ} esrann.o${BJ} essprt.o${BJ} estab.o${BJ}  estime.o${BJ} estump.o${BJ} esuckr.o${BJ} \
            miscnt.o${BJ} miscpf.o${BJ} misdam.o${BJ} misdgf.o${BJ} misget.o${BJ} mishgf.o${BJ} misin.o${BJ}  \
            misinf.o${BJ} misin0.o${BJ} misinttt.o${BJ} mismrt.o${BJ} misprt.o${BJ} misputz.o${BJ} misran.o${BJ} \
            mistoe.o${BJ} 
@@ -221,17 +221,6 @@ dubscr.o${BJ}: ${TT_SRC}dubscr.f ${TT_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77     \
 essubh.o${BJ}: ${TT_SRC}essubh.f ${TT_COM}PRGPRM.F77 ${TT_COM}ESPARM.F77 \
           ${TT_COM}ESCOMN.F77 
 	${FC} -c ${FFLAGS} ${TT_SRC}essubh.f
-
-estump.o${BJ}: ${TT_SRC}estump.f ${TT_COM}PRGPRM.F77 ${TT_COM}ESPARM.F77   \
-          ${BASE_COM}ESHOOT.F77 ${BASE_COM}ESHAP.F77 ${TT_COM}ESCOMN.F77
-	${FC} -c ${FFLAGS} ${TT_SRC}estump.f
-
-esuckr.o${BJ}: ${TT_SRC}esuckr.f ${TT_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
-          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${TT_COM}ESPARM.F77   \
-          ${BASE_COM}ESHOOT.F77 ${TT_COM}ESCOMN.F77 ${BASE_COM}ESHAP.F77  \
-          ${BASE_COM}ESTREE.F77 ${BASE_COM}STDSTK.F77 ${BASE_COM}VARCOM.F77 \
-          ${BASE_COM}COEFFS.F77
-	${FC} -c ${FFLAGS} ${TT_SRC}esuckr.f
 
 findag.o${BJ}: ${TT_SRC}findag.f ${TT_COM}PRGPRM.F77  \
           ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${BASE_COM}GGCOM.F77
@@ -1203,6 +1192,9 @@ esprin.o${BJ}: ${STRP_SRC}esprin.f
 esrann.o${BJ}: ${STRP_SRC}esrann.f ${BASE_COM}ESRNCM.F77
 	${FC} -c ${FFLAGS} ${STRP_SRC}esrann.f
 
+essprt.o${BJ}:  ${STRP_SRC}essprt.f
+	${FC} -c ${FFLAGS} ${STRP_SRC}essprt.f
+
 estab.o${BJ}:  ${STRP_SRC}estab.f ${TT_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77       \
           ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${TT_COM}ESPARM.F77    \
           ${BASE_COM}ESTREE.F77 ${BASE_COM}ESHAP.F77 ${BASE_COM}PDEN.F77   \
@@ -1212,6 +1204,17 @@ estab.o${BJ}:  ${STRP_SRC}estab.f ${TT_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77     
 estime.o${BJ}: ${STRP_SRC}estime.f ${TT_COM}PRGPRM.F77 ${TT_COM}ESPARM.F77   \
           ${TT_COM}ESCOMN.F77 ${BASE_COM}ESWSBW.F77
 	${FC} -c ${FFLAGS} ${STRP_SRC}estime.f
+
+estump.o${BJ}: ${STRP_SRC}estump.f ${TT_COM}PRGPRM.F77 ${TT_COM}ESPARM.F77   \
+          ${BASE_COM}ESHOOT.F77 ${BASE_COM}ESHAP.F77 ${TT_COM}ESCOMN.F77
+	${FC} -c ${FFLAGS} ${STRP_SRC}estump.f
+
+esuckr.o${BJ}: ${STRP_SRC}esuckr.f ${TT_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${TT_COM}ESPARM.F77   \
+          ${BASE_COM}ESHOOT.F77 ${TT_COM}ESCOMN.F77 ${BASE_COM}ESHAP.F77  \
+          ${BASE_COM}ESTREE.F77 ${BASE_COM}STDSTK.F77 ${BASE_COM}VARCOM.F77 \
+          ${BASE_COM}COEFFS.F77
+	${FC} -c ${FFLAGS} ${STRP_SRC}esuckr.f
 
 # compile the MISTOE source routine
 

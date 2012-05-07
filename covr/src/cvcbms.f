@@ -1,7 +1,7 @@
       SUBROUTINE CVCBMS (LTHIN)
       IMPLICIT NONE
 C----------
-C  **CVCBMS DATE OF LAST REVISION:  07/01/11
+C  **CVCBMS DATE OF LAST REVISION:  02/24/12
 C----------
 C  **CVCBMS** COMPUTES FOLIAGE BIOMASS FOR INDIVIDUAL TREES.
 C
@@ -57,15 +57,15 @@ C
 COMMONS
 C----------
       LOGICAL LTHIN,DEBUG
-      REAL RMSD,TPA,ALNTPA,D,H,CL,RD,DDS,AGE
+      CHARACTER VVER*7
       INTEGER I,ISPI,IICR
+      INTEGER MAPISP(49),MAPAK(49),MAPCA(49),MAPBM(49),MAPCI(49),
+     &         MAPCR(49),MAPEC(49),MAPEM(49),MAPIE(49),MAPNI(49),
+     &         MAPSO(49),MAPTT(49),MAPUT(49),MAPWC(49),MAPWS(49)
+      REAL RMSD,TPA,ALNTPA,D,H,CL,RD,DDS,AGE
       REAL BINT11(11), BCL11(11)
       REAL BINT12(11), BCL12(11)
       REAL BINT2(11)
-      INTEGER MAPISP(49),MAPAK(49),MAPCA(49),MAPBM(49),MAPCI(49),
-     &         MAPCR(49),MAPEM(49),MAPIE(49),MAPNI(49),MAPSO(49),
-     &         MAPTT(49),MAPUT(49),MAPWC(49),MAPWS(49)
-      CHARACTER VVER*7
 C----------
 C  DATA STATEMENTS
 C----------
@@ -141,6 +141,17 @@ C     OJ=RC,ER=RC,PM=PP,PD=PP,AZ=PP,CI=LP,OS=MH,OH=WL
      &    6,    6,   10,   10,   10,    7,   11,    2, 11*0/
 C
 C
+      DATA MAPEC /
+C     WP=WP,WL=WL,DF=DF,SF=GF,RC=RC,GF=GF,LP=LP,ES=ES,AF=AF,PP=PP
+     &    1,    2,    3,    4,    6,    4,    7,    8,    9,   10,
+C     WH=WH,MH=MH,PY=WH,WB=WP,NF=GF,WF=GF,LL=WL,YC=RC,WJ=RC,BM=WL
+     &    5,   11,    5,    1,    4,    4,    2,    6,    6,    2,
+C     VN=WL,RA=WL,PB=WL,GC=WL,DG=WL,AS=WL,CW=WL,WO=WL,PL=WL,WI=WL
+     &    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
+C     OS=MH,OH=WL
+     &   11,    2, 17*0/
+C
+C
       DATA MAPEM /
 C     WB=WP,WL=WL,DF=DF,LM=WP,LL=WL,RM=RC,LP=LP,ES=ES,AF=AF,PP=PP
      &    1,    2,    3,    1,    2,    6,    7,    8,    9,   10,
@@ -212,7 +223,7 @@ C----------
 C    
       SELECT CASE (VVER(:2))
 C  ORIGINAL 11 SPECIES VARIANTS
-      CASE('EC','KT','NC','NI')
+      CASE('KT','NC','NI')
         MAPISP=MAPNI
       CASE('AK')
         MAPISP=MAPAK
@@ -224,6 +235,8 @@ C  ORIGINAL 11 SPECIES VARIANTS
         MAPISP=MAPCI
       CASE('SM','SP','BP','SF','LP')
         MAPISP=MAPCR
+      CASE('EC')
+        MAPISP=MAPEC
       CASE('EM')
         MAPISP=MAPEM
       CASE('IE')

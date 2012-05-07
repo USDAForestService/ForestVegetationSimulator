@@ -4,6 +4,7 @@ include ../../bin/FC${OS}.make
 # the Prognosis common blocks directory
 BASE_COM = ../../common/
 NC_COM   = ../../nc/common/
+EC_COM   = ../../ec/common/
 
 # the dwarf mistletoe interim model source directory
 MIST_SRC = ../../mistoe/src/
@@ -12,13 +13,19 @@ MIST_SRC = ../../mistoe/src/
 # the PPE base source directory
 PPBASE_SRC   = ../../ppbase/src/
 
+# the PPEC source directory
+PPEC_SRC   = ../../ppec/src/
+
 # options for the compiler
 FFLAGS = ${I1}${NC_COM}${I2}${BASE_COM}${I2}${MIST_SRC}
 
-# the PPE CR (Central Rockies) object files
-PPNC_OBJS = getstd.o${BJ} putstd.o${BJ}
+# the PPE NC (Klammath Mountains) object files
+PPNC_OBJS = getstd.o${BJ} putstd.o${BJ} \
+            ppdgf.o${BJ}  ppregt.o${BJ} varget.o${BJ} varput.o${BJ}
 
 ppnc:    ${PPNC_OBJS}
+
+# compile routines from PPBASE source directory
 
 getstd.o${BJ}: ${PPBASE_SRC}getstd.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}PPEPRM.F77  \
           ${BASE_COM}PPCNTL.F77 ${BASE_COM}PPDNCM.F77 ${NC_COM}ESPARM.F77  \
@@ -46,4 +53,17 @@ putstd.o${BJ}:  ${PPBASE_SRC}putstd.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}PPEPRM.F7
            ${BASE_COM}CWDCOM.F77 ${BASE_COM}FVSSTDCM.F77
 	${FC} -c ${FFLAGS} ${PPBASE_SRC}putstd.f
 
+# compile routines from PPEC source directory
+
+ppdgf.o${BJ}:  ${PPEC_SRC}ppdgf.f ${BASE_COM}PPDNCM.F77
+	${FC} -c ${FFLAGS} ${PPEC_SRC}ppdgf.f
+
+ppregt.o${BJ}: ${PPEC_SRC}ppregt.f ${BASE_COM}PPDNCM.F77
+	${FC} -c ${FFLAGS} ${PPEC_SRC}ppregt.f
+
+varget.o${BJ}: ${PPEC_SRC}varget.f ${BASE_COM}PRGPRM.F77
+	${FC} -c ${FFLAGS} ${PPEC_SRC}varget.f
+
+varput.o${BJ}: ${PPEC_SRC}varput.f ${BASE_COM}PRGPRM.F77
+	${FC} -c ${FFLAGS} ${PPEC_SRC}varput.f
 

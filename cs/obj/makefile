@@ -71,7 +71,7 @@ CS_OBJS   = balmod.o${BJ} blkdat.o${BJ} cratet.o${BJ} crown.o${BJ} cubrds.o${BJ}
             triple.o${BJ} trnasp.o${BJ} trnslo.o${BJ} tvalue.o${BJ} unblnk.o${BJ} upcase.o${BJ} update.o${BJ} \
             upkey.o${BJ} volkey.o${BJ} esblkd.o${BJ} esaddt.o${BJ} escprs.o${BJ} esetpr.o${BJ} esfltr.o${BJ} \
             esgent.o${BJ} esin.o${BJ} esinit.o${BJ} esmsgs.o${BJ} esnutr.o${BJ} esout.o${BJ} esplt1.o${BJ} \
-            esplt2.o${BJ} esprep.o${BJ} esprin.o${BJ} esrann.o${BJ} \
+            esplt2.o${BJ} esprep.o${BJ} esprin.o${BJ} esrann.o${BJ} essprt.o${BJ} \
             estime.o${BJ} estump.o${BJ}    \
             esuckr.o${BJ}
 
@@ -1097,6 +1097,9 @@ esprin.o${BJ}: ${STRP_SRC}esprin.f
 
 esrann.o${BJ}: ${STRP_SRC}esrann.f ${BASE_COM}ESRNCM.F77
 	${FC} -c ${FFLAGS} ${STRP_SRC}esrann.f
+
+essprt.o${BJ}:  ${STRP_SRC}essprt.f
+	${FC} -c ${FFLAGS} ${STRP_SRC}essprt.f
 
 estime.o${BJ}: ${STRP_SRC}estime.f ${CS_COM}PRGPRM.F77 ${CS_COM}ESPARM.F77   \
           ${BASE_COM}ESCOMN.F77 ${BASE_COM}ESWSBW.F77

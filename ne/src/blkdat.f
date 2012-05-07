@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C  **BLKDAT--NE  DATE OF LAST REVISION:  02/09/2012
+C  **BLKDAT--NE  DATE OF LAST REVISION:  02/10/12
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -173,7 +173,7 @@ C
      & '2TD   ','AESCU ','AEFL  ','BEOC2 ','CEOC  ','DIVI5 ','ILOP  ',
      & 'JUCI  ','JUNI  ','MAPO  ','MAGNO ','MAVI2 ','MALUS ','NYAQ2 ',
      & 'NYSY  ','OXAR  ','PATO2 ','PLOC  ','QUPH  ','ROPS  ','SANI  ',
-     & 'SAAL5 ','TIAM  ','TIAMH ','ULMUS ','ULAM  ','ULRU  ','------',
+     & 'SAAL5 ','TIAM  ','TIAMH ','ULMUS ','ULAM  ','ULRU  ','      ',
      & 'ACNE2 ','ACPE  ','AIAL  ','AMELA ','CACA18','COFL2 ','CRATA ',
      & 'OSVI  ','PRUNU ','PRPE2 '/
 C

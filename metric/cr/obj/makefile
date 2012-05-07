@@ -28,13 +28,14 @@ COVR_SRC =  ./../../../covr/src/
 BGC_SRC =  ./../../../bgc/src/
 BASEM_SRC= ./../../base/src/
 STRPM_SRC = ./../../strp/src/
+CLIMM_SRC = ./../../clim/src/
 
 FFLAGS = ${I1}${CR_COM}${I2}${BASE_COM}${I2}${FIRE_BASE_COM}${I2}${MIST_SRC}
 
 # the CR object files
 CRM_OBJS  = badist.o${BJ} bfvol.o${BJ}  blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ} \
            cratet.o${BJ} crdecd.o${BJ} crown.o${BJ}  cubrds.o${BJ} cutstk.o${BJ} dgdriv.o${BJ} \
-           dgf.o${BJ} dubscr.o${BJ} essubh.o${BJ} estump.o${BJ} esuckr.o${BJ} findag.o${BJ} fndag.o${BJ} \
+           dgf.o${BJ} dubscr.o${BJ} essubh.o${BJ} findag.o${BJ} fndag.o${BJ} \
            forkod.o${BJ} gemcr.o${BJ}  \
            gemdg.o${BJ} gemht.o${BJ} grinit.o${BJ} grohed.o${BJ} habtyp.o${BJ} htgf.o${BJ}  \
            maical.o${BJ} mcnvrt.o${BJ} morts.o${BJ}  regent.o${BJ} sitset.o${BJ} varmrt.o${BJ} varvol.o${BJ} \
@@ -79,10 +80,11 @@ CRM_OBJS  = badist.o${BJ} bfvol.o${BJ}  blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ
            upkey.o${BJ} volkey.o${BJ} esaddt.o${BJ} \
            esblkd.o${BJ} escprs.o${BJ} esetpr.o${BJ} esfltr.o${BJ} esgent.o${BJ} esin.o${BJ} esinit.o${BJ}     \
            esmsgs.o${BJ} esnutr.o${BJ} esout.o${BJ} esplt1.o${BJ} esplt2.o${BJ} esprep.o${BJ} esprin.o${BJ}    \
-           esrann.o${BJ} estab.o${BJ} estime.o${BJ}    \
+           esrann.o${BJ} essprt.o${BJ} estab.o${BJ} estime.o${BJ} estump.o${BJ} esuckr.o${BJ}    \
            miscnt.o${BJ} miscpf.o${BJ} misdam.o${BJ} misdgf.o${BJ} misget.o${BJ} mishgf.o${BJ} misin.o${BJ} \
            misinf.o${BJ} misin0.o${BJ} misintcr.o${BJ} mismrt.o${BJ} misprt.o${BJ} misputz.o${BJ} misran.o${BJ} \
-           mistoe.o${BJ} 
+           mistoe.o${BJ}  \
+           clin.o${BJ}
 
 # lodgepole mountain pine beetle object files MPB_OBJS
 # root disease version 3.0 object files RD_OBJS
@@ -163,13 +165,6 @@ cr_bgc: ${BGC_OBJS}
 
 # CR variant METRIC files
 
-esuckr.o${BJ}: ${CRM_SRC}esuckr.f ${CR_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
-          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${CR_COM}ESPARM.F77   \
-          ${BASE_COM}ESHOOT.F77 ${CR_COM}ESCOMN.F77 ${BASE_COM}ESHAP.F77  \
-          ${BASE_COM}ESTREE.F77 ${BASE_COM}STDSTK.F77 ${BASE_COM}VARCOM.F77 \
-          ${BASE_COM}COEFFS.F77 ${BASE_COM}METRIC.F77
-	${FC} -c ${FFLAGS} ${CRM_SRC}esuckr.f
-
 sitset.o${BJ}: ${CRM_SRC}sitset.f ${CR_COM}PRGPRM.F77 ${BASE_COM}COEFFS.F77     \
           ${CR_COM}ESPARM.F77 ${CR_COM}ESCOMN.F77 ${BASE_COM}GGCOM.F77  \
           ${BASE_COM}PLOT.F77 ${BASE_COM}VARCOM.F77 ${BASE_COM}VOLSTD.F77   \
@@ -191,7 +186,8 @@ blkdat.o${BJ}: ${CR_SRC}blkdat.f ${CR_COM}PRGPRM.F77  ${BASE_COM}COEFFS.F77     
           ${CR_COM}ESPARM.F77 ${CR_COM}ESCOMN.F77 ${BASE_COM}PDEN.F77  \
           ${BASE_COM}ECON.F77 ${BASE_COM}GGCOM.F77 ${BASE_COM}HTCAL.F77    \
           ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${BASE_COM}KEYCOM.F77  \
-          ${BASE_COM}RANCOM.F77 ${BASE_COM}SCREEN.F77 ${BASE_COM}VARCOM.F77
+          ${BASE_COM}RANCOM.F77 ${BASE_COM}SCREEN.F77 ${BASE_COM}VARCOM.F77 \
+          ${BASE_COM}FVSSTDCM.F77
 	${FC} -c ${FFLAGS} ${CR_SRC}blkdat.f
 
 bratio.o${BJ}: ${CR_SRC}bratio.f ${CR_COM}PRGPRM.F77 ${BASE_COM}GGCOM.F77
@@ -202,7 +198,8 @@ ccfcal.o${BJ}: ${CR_SRC}ccfcal.f ${CR_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77
 
 cratet.o${BJ}: ${CR_SRC}cratet.f ${CR_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77     \
           ${BASE_COM}PLOT.F77 ${BASE_COM}COEFFS.F77 ${BASE_COM}CONTRL.F77   \
-          ${BASE_COM}OUTCOM.F77 ${BASE_COM}HTCAL.F77 ${BASE_COM}VARCOM.F77
+          ${BASE_COM}OUTCOM.F77 ${BASE_COM}HTCAL.F77 ${BASE_COM}VARCOM.F77  \
+          ${BASE_COM}GGCOM.F77
 	${FC} -c ${FFLAGS} ${CR_SRC}cratet.f
 
 crdecd.o${BJ}: ${CR_SRC}crdecd.f
@@ -241,12 +238,9 @@ essubh.o${BJ}: ${CR_SRC}essubh.f ${CR_COM}PRGPRM.F77 ${CR_COM}ESPARM.F77   \
           ${CR_COM}ESCOMN.F77
 	${FC} -c ${FFLAGS} ${CR_SRC}essubh.f
 
-estump.o${BJ}: ${CR_SRC}estump.f ${CR_COM}PRGPRM.F77 ${CR_COM}ESPARM.F77   \
-          ${BASE_COM}ESHOOT.F77 ${BASE_COM}ESHAP.F77 ${CR_COM}ESCOMN.F77
-	${FC} -c ${FFLAGS} ${CR_SRC}estump.f
 
 findag.o${BJ}: ${CR_SRC}findag.f ${CR_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77      \
-          ${BASE_COM}ARRAYS.F77 ${BASE_COM}PLOT.F77 ${BASE_COM}GGCOM.F77
+          ${BASE_COM}PLOT.F77 ${BASE_COM}GGCOM.F77
 	${FC} -c ${FFLAGS} ${CR_SRC}findag.f
 
 fndag.o${BJ}:  ${CR_SRC}fndag.f ${CR_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77      \
@@ -282,7 +276,7 @@ grohed.o${BJ}: ${CR_SRC}grohed.f ${CR_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77 \
 	${FC} -c ${FFLAGS} ${CR_SRC}grohed.f
 
 habtyp.o${BJ}: ${CR_SRC}habtyp.f ${CR_COM}PRGPRM.F77 ${BASE_COM}PLOT.F77      \
-          ${BASE_COM}CONTRL.F77
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}VARCOM.F77
 	${FC} -c ${FFLAGS} ${CR_SRC}habtyp.f
 
 htgf.o${BJ}:   ${CR_SRC}htgf.f ${CR_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77       \
@@ -1171,6 +1165,13 @@ estab.o${BJ}:  ${STRPM_SRC}estab.f ${CR_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77    
           ${BASE_COM}METRIC.F77
 	${FC} -c ${FFLAGS} ${STRPM_SRC}estab.f
 
+esuckr.o${BJ}: ${STRPM_SRC}esuckr.f ${CR_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
+          ${BASE_COM}CONTRL.F77 ${BASE_COM}PLOT.F77 ${CR_COM}ESPARM.F77   \
+          ${BASE_COM}ESHOOT.F77 ${CR_COM}ESCOMN.F77 ${BASE_COM}ESHAP.F77  \
+          ${BASE_COM}ESTREE.F77 ${BASE_COM}STDSTK.F77 ${BASE_COM}VARCOM.F77 \
+          ${BASE_COM}COEFFS.F77 ${BASE_COM}METRIC.F77
+	${FC} -c ${FFLAGS} ${STRPM_SRC}esuckr.f
+
 # compile the STRP source directory routines
 
 esaddt.o${BJ}:  ${STRP_SRC}esaddt.f ${CR_COM}PRGPRM.F77 ${BASE_COM}ARRAYS.F77   \
@@ -1233,9 +1234,16 @@ esprin.o${BJ}: ${STRP_SRC}esprin.f
 esrann.o${BJ}: ${STRP_SRC}esrann.f ${BASE_COM}ESRNCM.F77
 	${FC} -c ${FFLAGS} ${STRP_SRC}esrann.f
 
+essprt.o${BJ}:  ${STRP_SRC}essprt.f
+	${FC} -c ${FFLAGS} ${STRP_SRC}essprt.f
+
 estime.o${BJ}: ${STRP_SRC}estime.f ${CR_COM}PRGPRM.F77 ${CR_COM}ESPARM.F77   \
           ${CR_COM}ESCOMN.F77 ${BASE_COM}ESWSBW.F77
 	${FC} -c ${FFLAGS} ${STRP_SRC}estime.f
+
+estump.o${BJ}: ${STRP_SRC}estump.f ${CR_COM}PRGPRM.F77 ${CR_COM}ESPARM.F77   \
+          ${BASE_COM}ESHOOT.F77 ${BASE_COM}ESHAP.F77 ${CR_COM}ESCOMN.F77
+	${FC} -c ${FFLAGS} ${STRP_SRC}estump.f
 
 # compile the MISTOE source routines
 
@@ -2145,3 +2153,8 @@ sitocn.o${BJ}: ${BGC_SRC}sitocn.f ${BGC_SRC}ENTITY.F77 ${BGC_SRC}SITE.F77
 redolai.o${BJ}: ${BGC_SRC}redolai.f ${BGC_SRC}ENTITY.F77 ${BGC_SRC}SITE.F77
 	${FC} -c ${FFLAGS} ${BGC_SRC}redolai.f 
        
+# Compiled from the metric Climate source directory
+
+clin.o${BJ}: ${CLIMM_SRC}clin.f ${CR_COM}PRGPRM.F77 ${BASE_COM}CONTRL.F77     \
+          ${BASE_COM}PLOT.F77 ${BASE_COM}CLIMATE.F77 ${BASE_COM}METRIC.F77
+	${FC} -c ${FFLAGS} ${CLIMM_SRC}clin.f

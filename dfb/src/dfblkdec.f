@@ -1,7 +1,7 @@
       BLOCK DATA DFBLKD
       IMPLICIT NONE
 C----------
-C  **DFBLKD--EC   DATE OF LAST REVISION:  06/30/10
+C  **DFBLKD--EC   DATE OF LAST REVISION:  03/16/12
 C----------
 C
 C     DOUGLAS-FIR BEETLE MODEL BLOCK DATA
@@ -51,9 +51,14 @@ C.... THE ARRAY IFVSSP IS USED TO INDEX THE SPECIES DEPENDENT
 C.... ARRAY WINSUC. IFVSSP CAN BE MODIFIED FOR DIFFERENT VARIANTS
 C.... OF FVS SO THAT SPECIES MATCH BETWEEN FVS AND THE DOUGLAS-FIR
 C.... BEETLE MODEL.
-C.... This IFVSSP is for the variant EC
+C.... This IFVSSP is for the variant EC (32 species)
 
-      DATA IFVSSP / 1, 2, 3, 16, 6, 4, 7, 8, 9, 10, 30 /
+C....              WP  WL  DF  SF  RC  GF  LP  ES  AF  PP  WH
+      DATA IFVSSP / 1,  2,  3, 16,  6,  4,  7,  8,  9, 10,  5,
+C....              MH  PY  WB  NF  WF  LL  YC  WJ  BM  VN  RA 
+     &             11, 38, 22, 39, 13, 36, 34, 26, 18, 18, 18, 
+C....              PB  GC  DG  AS  CW  WO  PL  WI  OS  OH
+     &             18, 32, 18, 19, 24, 29, 18, 30, 17, 18 /
 
       DATA PERDD  / 0.30, 0.80, 0.95, 1.00 /
 

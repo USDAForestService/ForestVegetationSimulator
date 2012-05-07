@@ -75,8 +75,8 @@ AN_OBJS  = blkdat.o${BJ} bratio.o${BJ} ccfcal.o${BJ} cratet.o${BJ} crown.o${BJ} 
            triple.o${BJ} trnasp.o${BJ} trnslo.o${BJ} tvalue.o${BJ} unblnk.o${BJ} upcase.o${BJ} update.o${BJ} \
            upkey.o${BJ} volkey.o${BJ} \
            esblkd.o${BJ} escprs.o${BJ} esetpr.o${BJ} esfltr.o${BJ} esgent.o${BJ} esin.o${BJ} esinit.o${BJ} \
-           esmsgs.o${BJ} esout.o${BJ} esplt1.o${BJ} esplt2.o${BJ} esprin.o${BJ} esrann.o${BJ} estime.o${BJ} \
-           estump.o${BJ} esuckr.o${BJ} esaddt.o${BJ} \
+           esmsgs.o${BJ} esout.o${BJ} esplt1.o${BJ} esplt2.o${BJ} esprin.o${BJ} esrann.o${BJ} essprt.o${BJ} \
+           estime.o${BJ} estump.o${BJ} esuckr.o${BJ} esaddt.o${BJ} \
            miscnt.o${BJ} miscpf.o${BJ} misdam.o${BJ} misdgf.o${BJ} misget.o${BJ} mishgf.o${BJ} misin.o${BJ} \
            misinf.o${BJ} misin0.o${BJ} misintak.o${BJ} mismrt.o${BJ} misprt.o${BJ} misputz.o${BJ} \
            misran.o${BJ} mistoe.o${BJ}
@@ -1245,6 +1245,9 @@ esprin.o${BJ}:  ${ESTB_SRC}esprin.f
 
 esrann.o${BJ}:  ${ESTB_SRC}esrann.f ${BASE_COM}ESRNCM.F77
 	${FC} -c ${FFLAGS} ${ESTB_SRC}esrann.f
+
+essprt.o${BJ}:  ${ESTB_SRC}essprt.f
+	${FC} -c ${FFLAGS} ${ESTB_SRC}essprt.f
 
 estime.o${BJ}:  ${ESTB_SRC}estime.f ${AN_COM}PRGPRM.F77 ${AN_COM}ESPARM.F77   \
            ${BASE_COM}ESCOMN.F77 ${BASE_COM}ESCOM2.F77 ${BASE_COM}ESWSBW.F77

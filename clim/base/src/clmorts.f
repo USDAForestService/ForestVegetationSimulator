@@ -1,7 +1,7 @@
       SUBROUTINE CLMORTS
       IMPLICIT NONE
 C----------
-C  **CLMORTS CLIMATE--DATE OF LAST REVISION:  03/29/2012
+C  **CLMORTS CLIMATE--DATE OF LAST REVISION:  03/25/2010
 C----------
 C
 C     CLIMATE EXTENSION - COMPUTES CLIMATE-CAUSED MORTALITY
@@ -17,9 +17,8 @@ C
 COMMONS
 C
       INTEGER I,I1,I2
-      REAL THISYR,ALGSLP,X,XV,FYRMORT(MAXSP),CTHISYR(6),
-     >     CBIRTH(6),DTV(6),DMORT,BIRTHYR,SDI(MXCLYEARS)
-      LOGICAL DEBUG,LDMORT
+      REAL THISYR,ALGSLP,X,XV,FYRMORT(MAXSP)
+      LOGICAL DEBUG
 
       CALL DBCHK (DEBUG,'CLMORTS',7,ICYC)
 
@@ -79,90 +78,7 @@ C       CONVERT TO A MORTALITY RATE AND APPLY MULTIPLIER.
    10   FORMAT (' IN CLMORTS, THISYR=',I5,' I=',I3,1X,A3,' XV=',
      >          2F10.4,' CLMORTMULT=',F10.4,' MORT=',2F10.4)
       ENDDO
-      
-C     COMPUTE MORTALITY BASED ON CLIMATE TRANSFER DISTANCE. FIRST
-C     COMPUTE THE CLIMATE METRICS FOR "THIS" YEAR. THE SECOND
-C     PART IS FOR THE BIRTH YEAR, AND IT MUST BE DONE WITHIN THE
-C     TREE LOOP.
-
-      LDMORT = IDEmtwm.GT.0 .AND. IDEmtcm.GT.0 .AND. 
-     >         IDEdd5.GT.0 .AND. IDEsdi.GT.0 .AND. 
-     >         IDEdd0.GT.0 .AND. IDEmapdd5.GT.0 .AND. 
-     >         IXMTWM.GT.0 .AND. IXMTCM.GT.0 .AND. 
-     >         IXDD5.GT.0 .AND. IXDD0.GT.0 .AND. 
-     >         IXMAP.GT.0 .AND. IXGSP.GT.0 .AND. IXGSDD5.GT.0
-
-      IF (DEBUG) WRITE (JOSTND,11) LDMORT,IDEmtwm,IDEmtcm,
-     >         IDEdd5,IDEsdi,IDEdd0,IDEmapdd5,
-     >         IXMTWM,IXMTCM,IXDD5,IXDD0,IXMAP,IXGSP,IXGSDD5
-   11 FORMAT (' IN CLMORTS, LDMORT=',L2,13I3)
-
-      IF (LDMORT) THEN
-        CTHISYR(1) = ALGSLP(THISYR,FLOAT(YEARS),ATTRS(1,IXMTWM),
-     >                      NYEARS)                    
-        CTHISYR(2) = ALGSLP(THISYR,FLOAT(YEARS),ATTRS(1,IXMTCM),
-     >                      NYEARS)                    
-        CTHISYR(3) = ALGSLP(THISYR,FLOAT(YEARS),ATTRS(1,IXDD5),
-     >                      NYEARS)                    
-C       sdi=sqrt(gsdd5)/gsp
-        CTHISYR(4) = SQRT(ALGSLP(THISYR,FLOAT(YEARS),
-     >                           ATTRS(1,IXGSDD5),NYEARS))/
-     >                    ALGSLP(THISYR,FLOAT(YEARS),
-     >                           ATTRS(1,IXGSP),NYEARS)
-        CTHISYR(5) = ALGSLP(THISYR,FLOAT(YEARS),ATTRS(1,IXDD0),
-     >                      NYEARS)                    
-C       mapdd5 = map*dd5/1000   
-        CTHISYR(6) = ALGSLP(THISYR,FLOAT(YEARS),ATTRS(1,IXMAP),
-     >                      NYEARS)*CTHISYR(3)/1000    
-        IF (DEBUG) WRITE (JOSTND,12) CTHISYR
-   12   FORMAT (' IN CLMORTS, CTHISYR=',6F13.5)
-      ENDIF
-      
-      DO I=1,ITRN
-        DMORT = 0.
-        IF (LDMORT) THEN
-          BIRTHYR   = THISYR-ABIRTH(I)
-          CBIRTH(1) = ALGSLP(BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMTWM),
-     >                        NYEARS)                    
-          CBIRTH(2) = ALGSLP(BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMTCM),
-     >                        NYEARS)                    
-          CBIRTH(3) = ALGSLP(BIRTHYR,FLOAT(YEARS),ATTRS(1,IXDD5),
-     >                        NYEARS)                    
-C         sdi=sqrt(gsdd5)/gsp
-          CBIRTH(4) = SQRT(ALGSLP(BIRTHYR,FLOAT(YEARS),
-     >                            ATTRS(1,IXGSDD5),NYEARS))/
-     >                     ALGSLP(BIRTHYR,FLOAT(YEARS),
-     >                            ATTRS(1,IXGSP),NYEARS)
-          CBIRTH(5) = ALGSLP(BIRTHYR,FLOAT(YEARS),ATTRS(1,IXDD0),
-     >                       NYEARS)                    
-C         mapdd5 = map*dd5/1000  
-          CBIRTH(6) = ALGSLP(BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMAP),
-     >                       NYEARS)*CBIRTH(3)/1000 
-          DTV = CTHISYR - CBIRTH
-          DTV(1) = DTV(1) / ATTRS(1,IDEmtwm)  
-          DTV(2) = DTV(2) / ATTRS(1,IDEmtcm)  
-          DTV(3) = DTV(3) / ATTRS(1,IDEdd5)   
-          DTV(4) = DTV(4) / ATTRS(1,IDEsdi)   
-          DTV(5) = DTV(5) / ATTRS(1,IDEdd0)   
-          DTV(6) = DTV(6) / ATTRS(1,IDEmapdd5)
-          DMORT = (SUM(DTV)/6.)-1.1 ! COMPUTE THE AVERAGE, THEN TRANSLATE
-          IF (DMORT .LT. 0) DMORT = 0
-          DMORT = .9*(1-EXP(-(DMORT)**2.5))
-          DMORT = 1.-DMORT !CONVERT TO A SURVIVAL RATE
-          IF (DMORT.GT. 1E-5) THEN  ! VERY LOW SURVIVAL WILL BE 0
-            DMORT=EXP(LOG(DMORT)/10.)**FINT
-            IF (DMORT.LT.0.) THEN
-              DMORT=0.
-            ELSE IF (DMORT.GT.1.0) THEN
-              DMORT=1.0
-            ENDIF
-          ELSE
-            DMORT=0.
-          ENDIF
-          ! CONVERT BACK TO A MORTALITY RATE AND APPLY SPECIES MULT.           
-          DMORT = (1.-DMORT)*CLMORTMULT(ISP(I))
-        ENDIF
-        
+      DO I=1,ITRN 
         ! X IS THE FVS PERIODIC MORTALITY RATE (FINT-YEARS)...              
         IF (PROB(I)-WK2(I) .LE. 1E-10) THEN
           X=1.
@@ -171,18 +87,7 @@ C         mapdd5 = map*dd5/1000
         ELSE
           X = WK2(I)/PROB(I)
         ENDIF
-        IF (DEBUG) WRITE (JOSTND,15) I,ISP(I),X,FYRMORT(ISP(I)),DMORT,
-     >             CBIRTH,ATTRS(1,IDEmtwm),ATTRS(1,IDEmtcm),
-     >             ATTRS(1,IDEdd5),ATTRS(1,IDEsdi),ATTRS(1,IDEdd0),
-     >             ATTRS(1,IDEmapdd5),CTHISYR,DTV
-   15   FORMAT (' IN CLMORTS, I=',I4,' ISP=',I3,' X=',F10.4,
-     >        ' FYRMORT=',F10.4,' DMORT=',F10.4/
-     >        ' IN CLMORTS, CBIRTH =',6F13.5/
-     >        ' IN CLMORTS, deV    =',6F13.5/
-     >        ' IN CLMORTS, CTHISYR=',6F13.5/
-     >        ' IN CLMORTS, DTV    =',6F13.5)
-        IF (FYRMORT(ISP(I)).GT.DMORT) DMORT=FYRMORT(ISP(I))
-        IF (DMORT.GT.X) WK2(I)=PROB(I)*DMORT
+        IF (FYRMORT(ISP(I)).GT.X) WK2(I)=PROB(I)*FYRMORT(ISP(I))
       ENDDO      
       
       RETURN

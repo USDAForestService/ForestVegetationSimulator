@@ -1,7 +1,7 @@
       SUBROUTINE FMR6FALL(KSP,SML,JADJ,X)  
       IMPLICIT NONE
 C----------
-C  **FMR6FALL  FIRE--DATE OF LAST REVISION: 02/18/10
+C  **FMR6FALL  FIRE--DATE OF LAST REVISION: 02/09/12
 C----------
 C     CALLED FROM: FMSNAG
 C
@@ -65,77 +65,97 @@ C
 *            size (n:1-3)    
 *
 ***********************************************************************
-
-C.... Common include files.
+C----------
+COMMONS
+C
       INCLUDE 'PRGPRM.F77'
+C
+C
       INCLUDE 'CONTRL.F77'
+C
+C
       INCLUDE 'PLOT.F77'
-
-C.... Variable declarations.
-
+C
+COMMONS
+C----------
+C  Variable declarations.
+C----------
+      LOGICAL DEBUG, LOREG
+      CHARACTER VVER*7
       INTEGER I, J, K, L, M, N, KSP, SML, SPG, MOIS, OTSH, OTRT, JADJ
-      INTEGER WSSPEC(39,2),BMSPEC(18),ECSPEC(11,2),SOSPEC(33)
+      INTEGER WSSPEC(39,2),BMSPEC(18),ECSPEC(32,2),SOSPEC(33)
       INTEGER AKSPEC(13) 
       INTEGER PNWMD(75),WCWMD(139),SOWMD(92),BMWMD(92),ECWMD(155)
       INTEGER PNOTSH(75),WCOTSH(139),SOOTSH(92),BMOTSH(92),ECOTSH(155)
       INTEGER PNOTRT(75),WCOTRT(139),SOOTRT(92),BMOTRT(92),ECOTRT(155)
       REAL    SNFL(20,3,2,2,3,3), X
-      LOGICAL DEBUG, LOREG
-      CHARACTER VVER*7
-C
-C     DETERMINE WHICH VARIANT IS BEING USED.
-C
+C----------
+C  DETERMINE WHICH VARIANT IS BEING USED.
+C----------
       CALL VARVER(VVER)
-C
-C     CHECK FOR DEBUG.
-C
+C----------
+C  CHECK FOR DEBUG.
+C----------
       CALL DBCHK (DEBUG,'FMR6FALL',8,ICYC)
       IF (DEBUG) WRITE(JOSTND,7) ICYC, KSP, VVER(1:2), ITYPE
     7 FORMAT(' FMR6FALL CYCLE=',I2,' KSP=',I5,' VVER=',A2,' ITYPE=',I5)
-
-C     THESE ARE THE WESTSIDE (PN/WC) SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL IN OR
+C----------
+C  THESE ARE THE WESTSIDE (PN/WC) SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL IN OR
+C----------
       DATA (WSSPEC(I,1), I= 1, 39) /
-     &  15,17,17,15,17,10,15, 7, 7,10,
-     &   9,13, 5, 5,13, 1, 7, 7,11,12,
-     &  20,20,20,19, 8,19,19, 8, 7, 6,
-     &   5, 9, 7,18,18,18,19,19,19/  
-
-C     THESE ARE THE WESTSIDE (PN/WC) SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL IN WA
+     & 15, 17, 17, 15, 17, 10, 15,  7,  7, 10,
+     &  9, 13,  5,  5, 13,  1,  7,  7, 11, 12,
+     & 20, 20, 20, 19,  8, 19, 19,  8,  7,  6,
+     &  5,  9,  7, 18, 18, 18, 19, 19, 19/  
+C----------
+C  THESE ARE THE WESTSIDE (PN/WC) SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL IN WA
+C----------
       DATA (WSSPEC(I,2), I= 1, 39) /
-     &  16,17,17,16,17,10,16, 7, 7,10,
-     &   9,14, 5, 5,14, 2, 7, 7,11,12,
-     &  20,20,20,19, 8,19,19, 8, 7, 6,
-     &   5, 9, 7,18,18,18,19,19,19/       
-
-C     THESE ARE THE BM SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL
+     & 16, 17, 17, 16, 17, 10, 16,  7,  7, 10,
+     &  9, 14,  5,  5, 14,  2,  7,  7, 11, 12,
+     & 20, 20, 20, 19,  8, 19, 19,  8,  7,  6,
+     &  5,  9,  7, 18, 18, 18, 19, 19, 19/       
+C----------
+C  THESE ARE THE BM SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL
+C----------
       DATA (BMSPEC(I), I= 1, 18) /
      &  5,  6,  3, 17, 12,  7,  9, 10, 15, 13,
      &  5,  5,  7,  7, 19, 19, 13, 19/
-
-C     THESE ARE THE EC SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL IN OR
-      DATA (ECSPEC(I,1), I= 1, 11) /
-     &  5,2,3,15,7,17,9,10,15,13,12/
-
-C     THESE ARE THE EC SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL IN WA
-      DATA (ECSPEC(I,2), I= 1, 11) /
-     &  5,2,4,16,7,17,9,10,16,14,12/      
-      
-C     THESE ARE THE SO SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL
+C----------
+C  THESE ARE THE EC SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL IN OR
+C----------
+      DATA (ECSPEC(I,1), I= 1, 32) /
+     &  5,  2,  3, 15,  7, 17,  9, 10, 15, 13,
+     & 11, 12,  7,  5, 15, 17,  6,  7,  7, 20,
+     & 20, 20, 19,  8, 18, 19, 19,  8, 18, 19,
+     & 12, 19/
+C----------
+C  THESE ARE THE EC SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL IN WA
+C----------
+      DATA (ECSPEC(I,2), I= 1, 32) /
+     &  5,  2,  4, 16,  7, 17,  9, 10, 16, 14,
+     & 11, 12,  7,  5, 16, 17,  6,  7,  7, 20,
+     & 20, 20, 19,  8, 18, 19, 19,  8, 18, 19,
+     & 12, 19/      
+C----------
+C  THESE ARE THE SO SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL
+C----------
       DATA (SOSPEC(I), I= 1, 33) /     
      &  5 ,5 ,3 ,17,12,7 ,9 ,10,17,13,
      &  7 ,17,15,15,15,5 ,6 ,7 ,11,7 ,
      &  20,20,20,19,19,18,8 ,19,8 ,19,
      &  19,3 ,19/
-
-C     THESE ARE THE AK SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL
+C----------
+C  THESE ARE THE AK SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL
+C----------
       DATA (AKSPEC(I), I= 1, 13) /     
      &  10,7 ,16,12,11,7 ,9 ,10,16,20,
      &  19,19,16/
-
-C     EACH PN HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-C     THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
-C     DONE FOR SNAG DECAY.
-
+C----------
+C  EACH PN HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C  THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
+C  DONE FOR SNAG DECAY.
+C----------
       DATA (PNWMD(I), I=   1,  50) /
      & 3, 3, 3, 3, 3, 3, 3, 1, 2, 2,
      & 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -146,11 +166,11 @@ C     DONE FOR SNAG DECAY.
      & 3, 2, 2, 2, 2, 2, 2, 2, 2, 1,
      & 1, 2, 2, 2, 2, 2, 2, 1, 2, 2,
      & 2, 3, 2, 3, 1/
-
-C     EACH WC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-C     THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
-C     DONE FOR SNAG DECAY.
-
+C----------
+C  EACH WC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C  THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
+C  DONE FOR SNAG DECAY.
+C----------
       DATA (WCWMD(I), I=   1,  50) /
      & 3, 2, 2, 1, 2, 2, 2, 3, 3, 3,
      & 3, 3, 3, 3, 2, 2, 2, 2, 2, 2,
@@ -168,11 +188,11 @@ C     DONE FOR SNAG DECAY.
      & 2, 2, 2, 1, 3, 2, 3, 2, 2, 1,
      & 2, 2, 3, 2, 2, 2, 2, 2, 3, 2,
      & 2, 2, 2, 2, 1, 3, 2, 3, 3/
-
-C     EACH SO HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-C     THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
-C     DONE FOR SNAG DECAY.
-
+C----------
+C  EACH SO HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C  THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
+C  DONE FOR SNAG DECAY.
+C----------
       DATA (SOWMD(I), I=   1,  50) /
      & 2, 2, 2, 1, 1, 2, 1, 1, 3, 3,
      & 3, 3, 3, 3, 3, 3, 3, 3, 3, 2,
@@ -185,11 +205,11 @@ C     DONE FOR SNAG DECAY.
      & 2, 2, 3, 2, 3, 1, 2, 2, 2, 3,
      & 1, 3, 3, 3, 3, 2, 3, 2, 2, 2,
      & 1, 2/
-
-C     EACH BM HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-C     THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
-C     DONE FOR SNAG DECAY.
-
+C----------
+C  EACH BM HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C  THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
+C  DONE FOR SNAG DECAY.
+C----------
       DATA (BMWMD(I), I=   1,  50) /
      & 3, 3, 3, 3, 3, 2, 3, 3, 3, 3,
      & 3, 2, 3, 2, 1, 2, 3, 1, 1, 2,
@@ -202,11 +222,11 @@ C     DONE FOR SNAG DECAY.
      & 2, 2, 2, 1, 1, 1, 3, 3, 3, 2, 
      & 2, 2, 3, 3, 2, 1, 3, 2, 1, 2,
      & 1, 2/
-
-C     EACH EC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
-C     THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
-C     DONE FOR SNAG DECAY.
-
+C----------
+C  EACH EC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
+C  THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
+C  DONE FOR SNAG DECAY.
+C----------
       DATA (ECWMD(I), I=   1,  50) /
      & 3, 2, 2, 2, 2, 2, 1, 2, 3, 3,
      & 3, 3, 3, 3, 3, 2, 3, 3, 3, 3,
@@ -227,10 +247,10 @@ C     DONE FOR SNAG DECAY.
      & 2, 2, 2, 2, 2, 3, 3, 2, 2, 2/
       DATA (ECWMD(I), I= 151, 155) /
      & 2, 3, 2, 2, 1/
-
-C     EACH PN HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
-C     OF SOIL DEPTH.
-
+C----------
+C  EACH PN HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
+C  OF SOIL DEPTH.
+C----------
       DATA (PNOTSH(I), I=   1,  50) /
      & 1, 1, 2, 1, 1, 1, 2, 1, 1, 1,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -241,10 +261,10 @@ C     OF SOIL DEPTH.
      & 1, 1, 1, 1, 1, 1, 1, 1, 2, 1,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1, 1, 2, 1/
-
-C     EACH WC HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
-C     OF SOIL DEPTH.
-
+C----------
+C  EACH WC HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
+C  OF SOIL DEPTH.
+C----------
       DATA (WCOTSH(I), I=   1,  50) /
      & 2, 1, 1, 1, 1, 1, 1, 1, 1, 2,
      & 2, 2, 2, 2, 1, 1, 1, 1, 1, 1,
@@ -262,10 +282,10 @@ C     OF SOIL DEPTH.
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1, 2, 1, 2, 1, 1, 1, 2, 1,
      & 1, 1, 1, 1, 1, 2, 1, 2, 1/
-     
-C     EACH SO HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
-C     OF SOIL DEPTH.
-
+C----------
+C  EACH SO HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
+C  OF SOIL DEPTH.
+C----------
       DATA (SOOTSH(I), I=   1,  50) /
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -278,10 +298,10 @@ C     OF SOIL DEPTH.
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1/
-
-C     EACH BM HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
-C     OF SOIL DEPTH.
-
+C----------
+C  EACH BM HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
+C  OF SOIL DEPTH.
+C----------
       DATA (BMOTSH(I), I=   1,  50) /
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -294,10 +314,10 @@ C     OF SOIL DEPTH.
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
      & 1, 1/
-
-C     EACH EC HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
-C     OF SOIL DEPTH.
-
+C----------
+C  EACH EC HABITAT CODE MAPS TO OTHER (1) OR SHALLOW (2) IN TERMS
+C  OF SOIL DEPTH.
+C----------
       DATA (ECOTSH(I), I=   1,  50) /
      & 1, 2, 1, 1, 1, 1, 1, 1, 1, 2,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,
@@ -318,10 +338,10 @@ C     OF SOIL DEPTH.
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1/
       DATA (ECOTSH(I), I= 151, 155) /
      & 1, 1, 1, 1, 1/
-
-C     EACH PN HABITAT CODE MAPS TO OTHER (1) OR RIDGETOP (2) IN TERMS
-C     OF SLOPE POSITION.
-
+C----------
+C  EACH PN HABITAT CODE MAPS TO OTHER (1) OR RIDGETOP (2) IN TERMS
+C  OF SLOPE POSITION.
+C----------
       DATA (PNOTRT(I), I=   1,  50) /
      & 1, 1, 2, 1, 1, 1, 2, 1, 1, 1,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -332,10 +352,10 @@ C     OF SLOPE POSITION.
      & 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 2, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1, 1, 1, 1/
-
-C     EACH WC HABITAT CODE MAPS TO OTHER (1) OR RIDGETOP (2) IN TERMS
-C     OF SLOPE POSITION.
-
+C----------
+C  EACH WC HABITAT CODE MAPS TO OTHER (1) OR RIDGETOP (2) IN TERMS
+C  OF SLOPE POSITION.
+C----------
       DATA (WCOTRT(I), I=   1,  50) /
      & 1, 2, 1, 1, 2, 1, 1, 1, 1, 1,
      & 1, 2, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -353,10 +373,10 @@ C     OF SLOPE POSITION.
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1, 1, 1, 1, 1, 1, 2, 1/
-     
-C     EACH SO HABITAT CODE MAPS TO OTHER (1) OR RIDGETOP (2) IN TERMS
-C     OF SLOPE POSITION.
-
+C----------
+C  EACH SO HABITAT CODE MAPS TO OTHER (1) OR RIDGETOP (2) IN TERMS
+C  OF SLOPE POSITION.
+C----------
       DATA (SOOTRT(I), I=   1,  50) /
      & 1, 1, 2, 1, 1, 1, 1, 1, 2, 2,
      & 1, 1, 2, 2, 1, 1, 1, 1, 1, 1,
@@ -369,10 +389,10 @@ C     OF SLOPE POSITION.
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 2, 1, 2, 1, 2, 1, 1, 1, 1,
      & 1, 1/
-
-C     EACH BM HABITAT CODE MAPS TO OTHER (1) OR RIDGETOP (2) IN TERMS
-C     OF SLOPE POSITION.
-
+C----------
+C  EACH BM HABITAT CODE MAPS TO OTHER (1) OR RIDGETOP (2) IN TERMS
+C  OF SLOPE POSITION.
+C----------
       DATA (BMOTRT(I), I=   1,  50) /
      & 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 
      & 1, 1, 1, 1, 1, 1, 2, 1, 1, 1,
@@ -385,10 +405,10 @@ C     OF SLOPE POSITION.
      & 1, 1, 1, 1, 1, 1, 2, 1, 1, 1,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
      & 1, 1/
-
-C     EACH EC HABITAT CODE MAPS TO OTHER (1) OR SRIDGETOP (2) IN TERMS
-C     OF SLOPE POSITION.
-
+C----------
+C  EACH EC HABITAT CODE MAPS TO OTHER (1) OR SRIDGETOP (2) IN TERMS
+C  OF SLOPE POSITION.
+C----------
       DATA (ECOTRT(I), I=   1,  50) /
      & 2, 1, 1, 1, 1, 1, 1, 1, 1, 2,
      & 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,
@@ -409,8 +429,9 @@ C     OF SLOPE POSITION.
      & 1, 1, 1, 1, 1, 2, 2, 1, 1, 1/
       DATA (ECOTRT(I), I= 151, 155) /
      & 1, 1, 1, 1, 1/
-
-C     SNAG FALL PROPORTIONS
+C----------
+C  SNAG FALL PROPORTIONS
+C----------
       DATA (((((SNFL(1,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /
      & 0.041, 0.018, 0.006, 0.046, 0.020, 0.007, 0.056, 0.025,
@@ -427,7 +448,7 @@ C     SNAG FALL PROPORTIONS
      & 0.040, 0.013, 0.052, 0.023, 0.008, 0.056, 0.025, 0.008,
      & 0.056, 0.025, 0.008, 0.094, 0.042, 0.014, 0.094, 0.042,
      & 0.014, 0.094, 0.042, 0.014/ 
-     
+C     
       DATA (((((SNFL(2,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /    
      & 0.032, 0.016, 0.009, 0.035, 0.018, 0.010, 0.043, 0.022, 
@@ -444,7 +465,7 @@ C     SNAG FALL PROPORTIONS
      & 0.034, 0.019, 0.040, 0.020, 0.011, 0.043, 0.022, 0.012,
      & 0.043, 0.022, 0.012, 0.072, 0.036, 0.020, 0.072, 0.036,
      & 0.020, 0.072, 0.036, 0.020/
-     
+C
       DATA (((((SNFL(3,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.067, 0.028, 0.016, 0.074, 0.031, 0.018, 0.091, 0.038,
@@ -461,7 +482,7 @@ C     SNAG FALL PROPORTIONS
      & 0.061, 0.034, 0.084, 0.035, 0.020, 0.091, 0.038, 0.022,
      & 0.091, 0.038, 0.022, 0.152, 0.064, 0.036, 0.152, 0.064,
      & 0.036, 0.152, 0.064, 0.036/ 
-     
+C
       DATA (((((SNFL(4,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /    
      & 0.051, 0.022, 0.016, 0.057, 0.024, 0.018, 0.070, 0.030,
@@ -478,7 +499,7 @@ C     SNAG FALL PROPORTIONS
      & 0.048, 0.034, 0.064, 0.028, 0.020, 0.070, 0.030, 0.022,
      & 0.070, 0.030, 0.022, 0.116, 0.050, 0.036, 0.116, 0.050,
      & 0.036, 0.116, 0.050, 0.036/
-     
+C
       DATA (((((SNFL(5,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.030, 0.012, 0.011, 0.033, 0.014, 0.012, 0.041, 0.017,
@@ -495,7 +516,7 @@ C     SNAG FALL PROPORTIONS
      & 0.027, 0.023, 0.037, 0.015, 0.013, 0.041, 0.017, 0.014,
      & 0.041, 0.017, 0.014, 0.068, 0.028, 0.024, 0.068, 0.028,
      & 0.024, 0.068, 0.028, 0.024/
-     
+C
       DATA (((((SNFL(6,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.054, 0.028, 0.025, 0.060, 0.031, 0.027, 0.074, 0.038,
@@ -512,7 +533,7 @@ C     SNAG FALL PROPORTIONS
      & 0.061, 0.053, 0.068, 0.035, 0.031, 0.074, 0.038, 0.034,
      & 0.074, 0.038, 0.034, 0.124, 0.064, 0.056, 0.124, 0.064,
      & 0.056, 0.124, 0.064, 0.056/
-     
+C
       DATA (((((SNFL(7,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.036, 0.009, 0.007, 0.040, 0.010, 0.008, 0.049, 0.012,
@@ -529,7 +550,7 @@ C     SNAG FALL PROPORTIONS
      & 0.019, 0.015, 0.045, 0.011, 0.009, 0.049, 0.012, 0.010,
      & 0.049, 0.012, 0.010, 0.082, 0.020, 0.016, 0.082, 0.020,
      & 0.016, 0.082, 0.020, 0.016/
-     
+C
       DATA (((((SNFL(8,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.067, 0.066, 0.066, 0.075, 0.073, 0.073, 0.092, 0.090,
@@ -546,7 +567,7 @@ C     SNAG FALL PROPORTIONS
      & 0.143, 0.143, 0.085, 0.083, 0.083, 0.092, 0.090, 0.090,
      & 0.092, 0.090, 0.090, 0.154, 0.150, 0.150, 0.154, 0.150,
      & 0.150, 0.154, 0.150, 0.150/
-     
+C
       DATA (((((SNFL(9,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /      
      & 0.076, 0.069, 0.069, 0.085, 0.077, 0.077, 0.104, 0.095, 
@@ -563,7 +584,7 @@ C     SNAG FALL PROPORTIONS
      & 0.150, 0.150, 0.096, 0.087, 0.087, 0.104, 0.095, 0.095, 
      & 0.104, 0.095, 0.095, 0.174, 0.158, 0.158, 0.174, 0.158, 
      & 0.158, 0.174, 0.158, 0.158/
-     
+C
       DATA (((((SNFL(10,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.067, 0.040, 0.038, 0.074, 0.045, 0.042, 0.091, 0.055,
@@ -580,7 +601,7 @@ C     SNAG FALL PROPORTIONS
      & 0.087, 0.082, 0.084, 0.051, 0.047, 0.091, 0.055, 0.052,
      & 0.091, 0.055, 0.052, 0.152, 0.092, 0.086, 0.152, 0.092,
      & 0.086, 0.152, 0.092, 0.086/ 
-        
+C
       DATA (((((SNFL(11,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.053, 0.032, 0.018, 0.059, 0.036, 0.020, 0.073, 0.044, 
@@ -597,7 +618,7 @@ C     SNAG FALL PROPORTIONS
      & 0.070, 0.038, 0.067, 0.041, 0.022, 0.073, 0.044, 0.024, 
      & 0.073, 0.044, 0.024, 0.122, 0.074, 0.040, 0.122, 0.074, 
      & 0.040, 0.122, 0.074, 0.040/
-     
+C
       DATA (((((SNFL(12,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.042, 0.035, 0.019, 0.047, 0.039, 0.021, 0.058, 0.048,
@@ -614,7 +635,7 @@ C     SNAG FALL PROPORTIONS
      & 0.076, 0.042, 0.053, 0.044, 0.024, 0.058, 0.048, 0.026,
      & 0.058, 0.048, 0.026, 0.096, 0.080, 0.044, 0.096, 0.080,
      & 0.044, 0.096, 0.080, 0.044/
-        
+C
       DATA (((((SNFL(13,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /      
      & 0.123, 0.059, 0.025, 0.137, 0.065, 0.027, 0.169, 0.080, 
@@ -631,7 +652,7 @@ C     SNAG FALL PROPORTIONS
      & 0.127, 0.053, 0.155, 0.074, 0.031, 0.169, 0.080, 0.034, 
      & 0.169, 0.080, 0.034, 0.282, 0.134, 0.056, 0.282, 0.134, 
      & 0.056, 0.282, 0.134, 0.056/
-     
+C
       DATA (((((SNFL(14,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.137, 0.071, 0.025, 0.152, 0.079, 0.027, 0.187, 0.097,
@@ -648,7 +669,7 @@ C     SNAG FALL PROPORTIONS
      & 0.154, 0.053, 0.172, 0.089, 0.031, 0.187, 0.097, 0.034,
      & 0.187, 0.097, 0.034, 0.312, 0.162, 0.056, 0.312, 0.162,
      & 0.056, 0.312, 0.162, 0.056/ 
-     
+C
       DATA (((((SNFL(15,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /        
      & 0.067, 0.038, 0.017, 0.075, 0.042, 0.019, 0.092, 0.052, 
@@ -665,7 +686,7 @@ C     SNAG FALL PROPORTIONS
      & 0.082, 0.036, 0.085, 0.047, 0.021, 0.092, 0.052, 0.023, 
      & 0.092, 0.052, 0.023, 0.154, 0.086, 0.038, 0.154, 0.086, 
      & 0.038, 0.154, 0.086, 0.038/ 
-     
+C
       DATA (((((SNFL(16,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.043, 0.026, 0.011, 0.048, 0.029, 0.013, 0.059, 0.036,
@@ -682,7 +703,7 @@ C     SNAG FALL PROPORTIONS
      & 0.057, 0.025, 0.054, 0.033, 0.014, 0.059, 0.036, 0.016,
      & 0.059, 0.036, 0.016, 0.098, 0.060, 0.026, 0.098, 0.060,
      & 0.026, 0.098, 0.060, 0.026/ 
-         
+C
       DATA (((((SNFL(17,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.088, 0.032, 0.016, 0.098, 0.035, 0.018, 0.120, 0.043, 
@@ -699,7 +720,7 @@ C     SNAG FALL PROPORTIONS
      & 0.068, 0.034, 0.110, 0.040, 0.020, 0.120, 0.043, 0.022, 
      & 0.120, 0.043, 0.022, 0.200, 0.072, 0.036, 0.200, 0.072, 
      & 0.036, 0.200, 0.072, 0.036/ 
-     
+C
       DATA (((((SNFL(18,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.106, 0.052, 0.036, 0.118, 0.058, 0.040, 0.145, 0.071,
@@ -716,7 +737,7 @@ C     SNAG FALL PROPORTIONS
      & 0.112, 0.078, 0.133, 0.065, 0.045, 0.145, 0.071, 0.049,
      & 0.145, 0.071, 0.049, 0.242, 0.118, 0.082, 0.242, 0.118,
      & 0.082, 0.242, 0.118, 0.082/
-     
+C
       DATA (((((SNFL(19,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.124, 0.071, 0.056, 0.138, 0.079, 0.062, 0.170, 0.097, 
@@ -733,7 +754,7 @@ C     SNAG FALL PROPORTIONS
      & 0.154, 0.122, 0.156, 0.089, 0.070, 0.170, 0.097, 0.077, 
      & 0.170, 0.097, 0.077, 0.284, 0.162, 0.128, 0.284, 0.162, 
      & 0.128, 0.284, 0.162, 0.128/
-     
+C
       DATA (((((SNFL(20,J,K,L,M,N), N=1,3), M=1,3), L=1,2), K=1,2), 
      &                              J=1,3) /     
      & 0.122, 0.069, 0.054, 0.136, 0.077, 0.060, 0.167, 0.095,
@@ -750,8 +771,9 @@ C     SNAG FALL PROPORTIONS
      & 0.150, 0.118, 0.153, 0.087, 0.068, 0.167, 0.095, 0.074,
      & 0.167, 0.095, 0.074, 0.278, 0.158, 0.124, 0.278, 0.158,
      & 0.124, 0.278, 0.158, 0.124/
-
-C     DETERMINE IF WE ARE IN OREGON OR WASHINGTON
+C----------
+C  DETERMINE IF WE ARE IN OREGON OR WASHINGTON
+C----------
       LOREG = .TRUE.
       IF ((KODFOR .EQ. 609) .OR. (KODFOR .EQ. 709) .OR. 
      &    (KODFOR .EQ. 603) .OR. (KODFOR .EQ. 605) .OR. 
@@ -759,16 +781,16 @@ C     DETERMINE IF WE ARE IN OREGON OR WASHINGTON
      &    (KODFOR .EQ. 699) .OR. (KODFOR .EQ. 613) .OR.
      &    (KODFOR .EQ. 701) .OR. (KODFOR .GT. 999) .OR.
      &    (KODFOR .EQ. 800)) LOREG = .FALSE.
-
+C
       J = 2
       IF (LOREG) J = 1
-
+C
       IF (DEBUG) WRITE(JOSTND,8) KODFOR, J
     8 FORMAT(' FMR6FALL KODFOR=',I5,' J=',I2)
-C
-C      DETERMINE THE SPECIES GROUP, MOISTURE CODE, SOIL DEPTH, AND SLOPE
-C      POSITION.
-C 
+C----------
+C  DETERMINE THE SPECIES GROUP, MOISTURE CODE, SOIL DEPTH, AND SLOPE
+C  POSITION.
+C----------
       SELECT CASE (VVER(1:2))
         CASE('EC')
           MOIS = ECWMD(ITYPE)
@@ -801,14 +823,14 @@ C
           OTSH = 1
           OTRT = 1 
       END SELECT
-C
-C      DETERMINE THE SNAG FALL RATE.
-C 
+C----------
+C  DETERMINE THE SNAG FALL RATE.
+C----------
       X = SNFL(SPG,MOIS,OTSH,OTRT,JADJ,SML)
-
+C
       IF (DEBUG) WRITE(JOSTND,9) X, SPG, MOIS, SML, JADJ, OTSH, OTRT
     9 FORMAT(' FMR6FALL X=',F6.2,' SPG=',I3,' MOIS=',I2,' SML=',I2,
      &                           ' JADJ=',I2,' OTSH=',I2,' OTRT=',I2)      
-      
+C
       RETURN
       END

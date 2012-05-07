@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C  **BLKDAT--CS  DATE OF LAST REVISION: 12/20/11
+C  **BLKDAT--CS  DATE OF LAST REVISION: 02/15/12
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -137,7 +137,7 @@ C----------
 C
       DATA FIAJSP /
      & '068',   '057',   '110',   '132',   '131',   '298',   '129',
-     & '602',   '601',   '690',   '694',   '691',   '693',   '---',
+     & '602',   '601',   '690',   '694',   '691',   '693',   '   ',
      & '407',   '405',   '409',   '403',   '400',   '401',   '402',
      & '404',   '408',   '531',   '543',   '545',   '546',   '742',
      & '316',   '313',   '317',   '762',   '972',   '461',   '462',
@@ -145,15 +145,15 @@ C
      & '318',   '540',   '541',   '544',   '802',   '833',   '812',
      & '837',   '806',   '824',   '826',   '804',   '823',   '825',
      & '835',   '836',   '832',   '830',   '813',   '817',   '822',
-     & '827',   '828',   '831',   '834',   '---',   '931',   '331',
+     & '827',   '828',   '831',   '834',   '   ',   '931',   '331',
      & '450',   '521',   '552',   '741',   '743',   '746',   '901',
-     & '---',   '731',   '221',   '373',   '611',   '920',   '922',
-     & '---',   '391',   '471',   '491',   '500',   '571',   '641',
+     & '   ',   '731',   '221',   '373',   '611',   '920',   '922',
+     & '   ',   '391',   '471',   '491',   '500',   '571',   '641',
      & '651',   '653',   '680',   '701',   '711'/
 C
       DATA PLNJSP /
      &'JUVI  ','JUNIP ','PIEC2 ','PIVI2 ','PITA  ','2TE   ','PIST  ',
-     &'JUNI  ','JUCI  ','NYSSA ','NYBI  ','NYAQ2 ','NYSY  ','------',
+     &'JUNI  ','JUCI  ','NYSSA ','NYBI  ','NYAQ2 ','NYSY  ','      ',
      &'CAOV2 ','CALA21','CAAL27','CAGL8 ','CARYA ','CAAQ2 ','CACO15',
      &'CAIL2 ','CATE9 ','FAGR  ','FRNI  ','FRPR  ','FRQU  ','PODE3 ',
      &'ACRU  ','ACNE2 ','ACSA2 ','PRSE2 ','ULAM  ','CELA  ','CEOC  ',
@@ -161,10 +161,10 @@ C
      &'ACSA3 ','FRAXI ','FRAM2 ','FRPE  ','QUAL  ','QURU  ','QUFA  ',
      &'QUVE  ','QUCO2 ','QUMA3 ','QUMU  ','QUBI  ','QUMA2 ','QUMI  ',
      &'QUST  ','QUSI2 ','QUPR2 ','QUPA2 ','QUPA5 ','QUIM  ','QULY  ',
-     &'QUNI  ','QUNU  ','QUPH  ','QUSH  ','------','SAAL5 ','AEGL  ',
+     &'QUNI  ','QUNU  ','QUPH  ','QUSH  ','      ','SAAL5 ','AEGL  ',
      &'CATAL ','DIVI5 ','GLTR  ','POBA2 ','POGR4 ','POTR5 ','ROPS  ',
-     &'------','PLOC  ','TADI2 ','BENI  ','LIST2 ','SALIX ','SANI  ',
-     &'------','CACA18','CECA4 ','COFL2 ','CRATA ','GYDI  ','MAPO  ',
+     &'      ','PLOC  ','TADI2 ','BENI  ','LIST2 ','SALIX ','SANI  ',
+     &'      ','CACA18','CECA4 ','COFL2 ','CRATA ','GYDI  ','MAPO  ',
      &'MAAC  ','MAVI2 ','MORUS ','OSVI  ','OXAR  '/
 C
       DATA JTYPE /122*0/

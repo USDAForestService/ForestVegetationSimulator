@@ -1,6 +1,6 @@
       BLOCK DATA RDBLK1
 C----------
-C  **RDBLK1-EC  LAST REVISION:  10/21/97
+C  **RDBLK1-EC  LAST REVISION:  03/16/12
 C----------
 C
 C  Purpose :
@@ -46,9 +46,13 @@ C.... IRTSPC can be modified for different variants of FVS so
 C.... that species match between FVS and the root disease
 C.... model.
 
-C.... The following IRTSPC is for the EC variant.
-
-      DATA IRTSPC / 1,  2,  3, 16,  6,  4,  7,  8,  9, 10, 30/
+C.... The following IRTSPC is for the EC (32 species) variant.
+C....              WP  WL  DF  SF  RC  GF  LP  ES  AF  PP  WH 
+      DATA IRTSPC / 1,  2,  3, 16,  6,  4,  7,  8,  9, 10,  5,
+C....              MH  PY  WB  NF  WF  LL  YC  WJ  BM  VN  RA 
+     &              8, 38, 22, 39, 13, 36, 34, 26, 40, 40, 40,
+C....              PB  GC  DG  AS  CW  WO  PL  WI  OS  OH 
+     &             40, 40, 40, 19, 40, 40, 40, 40, 17, 18 /
 
       DATA DICLAS /0.0, 5.0, 12.0, 24.0/
       DATA DSFAC  /1.0, 0.75/

@@ -5,8 +5,8 @@ Variants affected: Southern Variant
 
 Description: The include files in the FVS volume source code used a mixture of 
              file name extensions (.FOR, .inc, .INC), and a mixture of upper and
-             lower case characters in the include file names. This has been change so that
-             all FVS volume source code include files have upper case file name
+             lower case characters in the include file names. This has been changed
+             so that all FVS volume source code include files have upper case file name
              characters and use the same extension .INC. All file names
              in include statements were modified to match the include file name
              convention (i.e. all upper case). Additional code maintenance is

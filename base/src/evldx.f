@@ -1,7 +1,7 @@
       SUBROUTINE EVLDX (XLDREG,NXLDX,INSTR,IRC)
       IMPLICIT NONE
 C----------
-C  **EVLDX--BASE   DATE OF LAST REVISION: 07/15/10
+C  **EVLDX--BASE   DATE OF LAST REVISION: 03/15/2012
 C----------
 C
 C     CALLED FROM ALGEVL
@@ -56,8 +56,9 @@ C
       INTEGER IRC,INSTR,NXLDX,I,J,JARGS,MYSTR,L,IGRP
       REAL STAGEB,STAGEA,XSDI,CUT,DEAD,RES,XLDBH,XHDBH,SUMP,TPA,TREERD
       REAL TEMSUM,RVAL,XLHT,XHHT,HTPCT,P,SUMPIN
-      INTEGER JPNUM,IGSP
+      INTEGER JPNUM,IGSP,IPNTR(MAXTRE)
       EXTERNAL RANN
+      REAL TPA3,DCM,ADIV,HPCT(MAXTRE),JUNK,BADJ,ACRN
 C
       ITMPDX(1) = 0
 C
@@ -962,6 +963,124 @@ C----------
         CALL FMDWD(RVAL, L, J, K, M, I)
         IF (I.EQ.1) GOTO 1001
         XLDREG(1) = RVAL
+C
+        GOTO 1000
+      ENDIF
+C----------
+C     DECODE INSTRUCTION AND EXECUTE.    ACORNS:
+C----------
+C      1ST ARUGMENT: 
+C         1 = NUMBER OF ACORNS PER ACRE
+C         2 = LBS OF ACORNS PER ACRE
+C      2ND ARGUMENT: SPECIES
+C         0 = ALL SPECIES
+C        -X = SPECIES GROUP X
+C
+C  VARIABLE LINCL IS USED TO INDICATE WHETHER A TREE GETS INCLUDED IN
+C  THE CALCULATION OR NOT.
+      IF (MYSTR.EQ.13400) THEN
+C----------
+C       RETURN IF THE WRONG NUMBER OF ARGUMENTS ARE PRESENT
+C----------
+        IF (JARGS.NE.2) GOTO 1002
+        L=IFIX(XLDREG(1)+.5)
+        IF(XLDREG(2).GE. 0.)THEN
+          J=IFIX(XLDREG(2)+.5)
+        ELSE
+          J=IFIX(XLDREG(2)-.5)
+        ENDIF
+C----------
+C       IF THE ATTRIBUTE (L) IS OUT OF RANGE OR UNDEFINED IN THE
+C       PHASE, THEN: ISSUE ERROR CODE.
+C----------
+        IF (L.LE.0 .OR. L.GT.2) GOTO 1002
+C----------
+C       IF THE SPECIES (J) IS OUT OF RANGE, THEN: ISSUE ERROR CODE.
+C       NOTE: A NEGATIVE SPECIES NUMBER INDICATES A SPECIES GROUP
+C----------
+        IF (J.GT.MAXSP) GOTO 1002
+        IF (J.LT.0 .AND. NSPGRP.LT.-J) GOTO 1002
+C----------
+        ACRN=0.
+        XLDREG(1)=0.
+        ILIM=ITRN
+        IF (ILIM.GT.0) THEN
+          DO 450 I=1,ILIM
+          LINCL = .FALSE.
+          IF(FIAJSP(ISP(I)).EQ."802" .OR. FIAJSP(ISP(I)).EQ."806" .OR. 
+     >       FIAJSP(ISP(I)).EQ."832" .OR. FIAJSP(ISP(I)).EQ."833" .OR. 
+     >       FIAJSP(ISP(I)).EQ."837") THEN
+            IF(J.EQ.0 .OR. J.EQ.ISP(I))THEN
+              LINCL = .TRUE.
+            ELSEIF(J.LT.0)THEN
+              IGRP = -J
+              IULIM = ISPGRP(IGRP,1)+1
+              DO 451 IG=2,IULIM
+              IF(ISP(I) .EQ. ISPGRP(IGRP,IG))THEN
+                LINCL = .TRUE.
+              GO TO 452
+              ENDIF
+  451       CONTINUE
+            ENDIF
+  452       CONTINUE
+          ENDIF
+C----------
+C       CALCULATE PERCENTAGE IN HEIGHT DISTRIBUTION FOR USE IN 
+C       IDENTIFYING CO-DOMINANT AND DOMINANT TREES.
+C----------     
+          CALL RDPSRT(ITRN,HT,IPNTR,.TRUE.)
+          CALL PCTILE (ITRN,IPNTR,PROB,HPCT,JUNK)
+          IF(LINCL .AND. 
+     >      (DBH(I).GE.5.0) .AND.
+     >      (HPCT(I).GE.60.0)) THEN
+            DCM = DBH(I)*2.54
+            TPA3 = PROB(I)
+            ACRN = 0.
+C----------
+C       SET RETURN VALUE TO # IF L=1, LBS IF L=2
+C----------
+            SELECT CASE (L)
+            CASE(1)
+              ADIV = 1.  
+            CASE(2)
+              SELECT CASE (FIAJSP(ISP(I)))
+              CASE("802")
+                ADIV = 140.
+              CASE("806")
+                ADIV = 180.
+              CASE("832")
+                ADIV = 115.                              
+              CASE("833")
+                ADIV = 100.              
+              CASE("837")
+                ADIV = 160.
+              END SELECT 
+            END SELECT
+            SELECT CASE (FIAJSP(ISP(I)))
+              CASE("802")
+                BADJ = 0.6**2*(1-0.6**2)/2 
+                ACRN = (0.71155+0.06346*DCM -0.00034290*DCM*DCM) 
+                ACRN = (TPA3*(10**(ACRN+BADJ)-1))/ADIV
+              CASE("806")
+                BADJ = 0.5**2*(1-0.5**2)/2
+                ACRN = (1.16744+0.05158*DCM -0.00026797*DCM*DCM) 
+                ACRN = (TPA3*(10**(ACRN+BADJ)-1))/ADIV
+              CASE("832")
+                BADJ = 0.6**2*(1-0.6**2)/2 
+                ACRN = (0.20984+0.06029*DCM-0.00039431*DCM*DCM)
+                ACRN = (TPA3*(10**(ACRN+BADJ)-1))/ADIV
+              CASE("833")
+                BADJ = 0.6**2*(1-0.6**2)/2
+                ACRN = (-0.14836+0.07539*DCM-0.00039950*DCM*DCM) 
+                ACRN = (TPA3*(10**(ACRN+BADJ)-1))/ADIV
+              CASE("837")
+                BADJ = 0.4**2*(1-0.4**2)/2              
+                ACRN = (TPA3*(10**(1.06367+0.03123*DCM+BADJ)-1))/ADIV
+            END SELECT
+            XLDREG(1)=XLDREG(1)+(ACRN)
+          ENDIF
+  450     CONTINUE
+        ENDIF
 C
         GOTO 1000
       ENDIF

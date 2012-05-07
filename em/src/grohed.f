@@ -8,7 +8,7 @@ C
       CHARACTER DAT*10,TIM*8,VVER*7,DVVER*7,REV*10,SVN*8
       DATA DVVER/'EM     '/
       INTEGER IUNIT
-      DATA SVN/"OFVS 001"/
+      DATA SVN/"OFVS-002"/
 C----------
 C  SPECIES ORDER:
 C   1=WB,  2=WL,  3=DF,  4=LM,  5=LL,  6=RM,  7=LP,  8=ES,

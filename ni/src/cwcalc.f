@@ -1,7 +1,7 @@
       SUBROUTINE CWCALC(ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND)
       IMPLICIT NONE
 C----------
-C  **CWCALC--NI   DATE OF LAST REVISION:   02/08/12
+C  **CWCALC--NI   DATE OF LAST REVISION:   02/28/12
 C----------
 COMMONS
 C
@@ -62,7 +62,7 @@ C----------
 C      LOGICAL DEBUG
       CHARACTER CWEQN*5, VVER*7,FIASP*3
       CHARACTER AKMAP(13)*5, BMMAP(18)*5, CAMAP(49)*5, CIMAP(19)*5
-      CHARACTER CRMAP(38)*5, ECMAP(11)*5, EMMAP(19)*5, IEMAP(23)*5
+      CHARACTER CRMAP(38)*5, ECMAP(32)*5, EMMAP(19)*5, IEMAP(23)*5
       CHARACTER KTMAP(11)*5, NCMAP(11)*5, NIMAP(11)*5, PNMAP(39)*5
       CHARACTER SOMAP(33)*5, TTMAP(18)*5, UTMAP(24)*5, WCMAP(39)*5
       CHARACTER WSMAP(43)*5
@@ -141,10 +141,21 @@ C             AZ       CI       OS       OH
 C----------
 C  EAST CASCADES
 C----------
-C                      WP       WL       DF       SF       RC       GF
-       DATA ECMAP/ '11905', '07303', '20205', '01105', '24205', '01703',
-C             LP       ES       AF       PP       OT
-     &    '10805', '09305', '01905', '12205', '12205'/
+       DATA ECMAP/
+C             WP       WL       DF       SF       RC 
+     &    '11905', '07303', '20205', '01105', '24205',
+C             GF       LP       ES       AF       PP
+     &    '01703', '10805', '09305', '01905', '12205',
+C             WH       MH       PY       WB       NF
+     &    '26305', '26403', '23104', '10105', '02206',
+C             WF       LL       YC       WJ       BM
+     &    '01505', '07204', '04205', '06405', '31206',
+C             VN       RA       PB   GCtoTO   DGtoRA
+     &    '32102', '35106', '37506', '63102', '35106',
+C             AS       CW       WO   PLtoRA   WItoBM
+     &    '74605', '74705', '81505', '35106', '31206',
+C             OS       OH 
+     &    '26403', '74605'/
 C----------
 C  EASTERN MONTANA
 C----------
@@ -346,11 +357,11 @@ C     &ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND
 C----------
 C SET R6 FOREST SPECIFIC CONSTANTS FOR CROOKSTON(R6) MODELS
 C----------
-      FIASP=FIAJSP(ISPC)
+      FIASP=CWEQN(1:3)
       BF=1.0
       IF (IFOR.LT.601 .OR. IFOR.GT.621)GO TO 10
       SELECT CASE (IFOR)
-        CASE(601)
+        CASE(601)                 !DESCHUTES
           SELECT CASE (FIASP)
             CASE('015')
               BF=1.044
@@ -371,7 +382,7 @@ C----------
             CASE('263')
               BF=1.097
           END SELECT
-        CASE(602)
+        CASE(602)                 !FREMONT
           SELECT CASE (FIASP)
             CASE('011')
               BF=1.032
@@ -384,7 +395,7 @@ C----------
             CASE('264')
               BF=1.257
           END SELECT
-        CASE(603)
+        CASE(603)                 !GIFFORD PINCHOT
           SELECT CASE (FIASP)
             CASE('011')
               BF=1.032
@@ -403,7 +414,7 @@ C----------
             CASE('264')
               BF=1.077
           END SELECT
-        CASE(604)
+        CASE(604)                 !MALHEUR
           SELECT CASE (FIASP)
             CASE('019')
               BF=1.110
@@ -418,7 +429,7 @@ C----------
             CASE('202')
               BF=1.058
           END SELECT
-        CASE(605)
+        CASE(605)                 !MT BAKER-SNOQUALMIE
           SELECT CASE (FIASP)
             CASE('019')
               BF=0.886
@@ -435,7 +446,7 @@ C----------
             CASE('242')
               BF=0.973
           END SELECT
-        CASE(606)
+        CASE(606)                 !MT HOOD
           SELECT CASE (FIASP)
             CASE('011')
               BF=1.296
@@ -462,7 +473,7 @@ C----------
             CASE('264')
               BF=1.106
           END SELECT
-        CASE(607)
+        CASE(607)                 !OCHOCO
           SELECT CASE (FIASP)
             CASE('019')
               BF=1.110
@@ -475,7 +486,7 @@ C----------
             CASE('202')
               BF=1.055
           END SELECT
-        CASE(608)
+        CASE(608)                 !OKANOGAN
           SELECT CASE (FIASP)
             CASE('073')
               BF=0.952
@@ -488,7 +499,7 @@ C----------
             CASE('264')
               BF=0.900
           END SELECT
-        CASE(609)
+        CASE(609)                 !OLYMPIC
           SELECT CASE (FIASP)
             CASE('011')
               BF=1.032
@@ -499,7 +510,7 @@ C----------
             CASE('242')
               BF=0.941
           END SELECT
-        CASE(610)
+        CASE(610)                 !ROGUE RIVER
           SELECT CASE (FIASP)
             CASE('019')
               BF=0.886
@@ -520,7 +531,7 @@ C----------
             CASE('264')
               BF=0.900
           END SELECT
-        CASE(611)
+        CASE(611)                 !SISKIYOU
           SELECT CASE (FIASP)
             CASE('351')
               BF=0.810
@@ -539,7 +550,7 @@ C----------
             CASE('264')
               BF=0.900
           END SELECT
-        CASE(612)
+        CASE(612)                 !SIUSLAW
           SELECT CASE (FIASP)
             CASE('202')
               BF=0.977
@@ -548,7 +559,7 @@ C----------
             CASE('263')
               BF=0.924
           END SELECT
-        CASE(614)
+        CASE(614)                 !UMATILLA
           SELECT CASE (FIASP)
             CASE('017')
               BF=1.076
@@ -573,7 +584,7 @@ C----------
             CASE('263')
               BF=1.106
           END SELECT
-        CASE(615)
+        CASE(615)                 !UMPQUA
           SELECT CASE (FIASP)
             CASE('011')
               BF=1.032
@@ -600,7 +611,7 @@ C----------
             CASE('263')
               BF=1.106
           END SELECT
-        CASE (616)
+        CASE (616)                !WALLOWA-WHITMAN
            SELECT CASE (FIASP)
             CASE('073')
               BF=0.818
@@ -611,7 +622,7 @@ C----------
             CASE('264')
               BF=1.077
           END SELECT
-        CASE(617)
+        CASE(617)                 !WENATCHEE
           SELECT CASE (FIASP)
             CASE('017')
               BF=0.972
@@ -636,7 +647,7 @@ C----------
             CASE('264')
               BF=0.952
           END SELECT
-        CASE(618)
+        CASE(618)                 !WILLAMETTE
           SELECT CASE (FIASP)
             CASE('017')
               BF=0.972
@@ -657,7 +668,7 @@ C----------
             CASE('263')
               BF=1.087
           END SELECT
-        CASE(620)
+        CASE(620)                 !WINEMA
           SELECT CASE (FIASP)
             CASE('015')
               BF=1.095
@@ -676,7 +687,7 @@ C----------
             CASE('264')
               BF=1.077
           END SELECT
-        CASE(621)
+        CASE(621)                 !COLVILLE
           SELECT CASE (FIASP)
             CASE('017')
               BF=1.130

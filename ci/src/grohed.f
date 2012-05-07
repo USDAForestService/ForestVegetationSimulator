@@ -11,7 +11,7 @@ C----------
 C  DATA STATEMENTS
 C----------
       DATA DVVER/'CI     '/
-      DATA SVN/"OFVS 001"/
+      DATA SVN/"OFVS-002"/
 C----------
 C     CALL REVISE TO GET THE LATEST REVISION DATE FOR THIS VARIANT.
 C----------

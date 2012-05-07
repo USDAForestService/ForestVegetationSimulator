@@ -644,6 +644,7 @@ PN_WC_BASE_LINK = ${WC_OBJ}main.o${BJ}   \
                   ${WC_OBJ}esprep.o${BJ} \
                   ${WC_OBJ}esprin.o${BJ} \
                   ${WC_OBJ}esrann.o${BJ} \
+                  ${WC_OBJ}essprt.o${BJ} \
                   ${WC_OBJ}essubh.o${BJ} \
                   ${WC_OBJ}esaddt.o${BJ} \
                   ${WC_OBJ}estab.o${BJ}  \
@@ -705,6 +706,13 @@ CR_CLIM_LINK   = ${CLIM_CR_OBJ}clauestb.o${BJ} \
                  ${CLIM_CR_OBJ}clgmult.o${BJ} \
                  ${CLIM_CR_OBJ}clmorts.o${BJ} 
 
+# all FVS/CLIMate Central Rockies variant objects
+CR_CLIMM_LINK  = ${CLIM_CR_OBJ}clauestb.o${BJ} \
+                 ${CLIM_CR_OBJ}clinit.o${BJ} \
+                 ${CLIM_CR_OBJ}clmaxden.o${BJ} \
+                 ${CLIM_CR_OBJ}clgmult.o${BJ} \
+                 ${CLIM_CR_OBJ}clmorts.o${BJ} 
+
 # all FVS/CLIMate Central States variant objects
 CS_CLIM_LINK   = ${CLIM_CS_OBJ}clauestb.o${BJ} \
                  ${CLIM_CS_OBJ}clin.o${BJ} \
@@ -713,7 +721,15 @@ CS_CLIM_LINK   = ${CLIM_CS_OBJ}clauestb.o${BJ} \
                  ${CLIM_CS_OBJ}clgmult.o${BJ} \
                  ${CLIM_CS_OBJ}clmorts.o${BJ} 
 
-# all FVS/CLIMate Wester Sierra Nevada variant objects
+# all FVS/CLIMate East Cascades variant objects
+EC_CLIM_LINK   = ${CLIM_EC_OBJ}clauestb.o${BJ} \
+                 ${CLIM_EC_OBJ}clin.o${BJ} \
+                 ${CLIM_EC_OBJ}clinit.o${BJ} \
+                 ${CLIM_EC_OBJ}clmaxden.o${BJ} \
+                 ${CLIM_EC_OBJ}clgmult.o${BJ} \
+                 ${CLIM_EC_OBJ}clmorts.o${BJ} 
+
+# all FVS/CLIMate Western Sierra Nevada variant objects
 EM_CLIM_LINK   = ${CLIM_EM_OBJ}clauestb.o${BJ} \
                  ${CLIM_EM_OBJ}clin.o${BJ} \
                  ${CLIM_EM_OBJ}clinit.o${BJ} \
@@ -863,6 +879,15 @@ CR_ECON_LINK   = ${CR_OBJ}eccalc.o${BJ}  \
                  ${CR_OBJ}ecsetp.o${BJ}  \
                  ${CR_OBJ}ecstatus.o${BJ}  \
                  ${CR_OBJ}ecvol.o${BJ}      
+
+# all ECON code for the EC variant
+EC_ECON_LINK   = ${EC_OBJ}eccalc.o${BJ}  \
+                 ${EC_OBJ}echarv.o${BJ}  \
+                 ${EC_OBJ}ecin.o${BJ}   \
+                 ${EC_OBJ}ecinit.o${BJ}  \
+                 ${EC_OBJ}ecsetp.o${BJ}  \
+                 ${EC_OBJ}ecstatus.o${BJ}  \
+                 ${EC_OBJ}ecvol.o${BJ}      
 
 # all ECON code for the EM variant
 EM_ECON_LINK   = ${EM_OBJ}eccalc.o${BJ}  \
@@ -1202,12 +1227,9 @@ CIX_ADD        = ${BASE_OBJ}exbgc.o${BJ}  \
 #    Western root disease model vers 3.0
 #    Western spruce budworm damage model (and GenDefol)
 #
-ECX_ADD        = ${BASE_OBJ}exbgc.o${BJ}  \
-                 ${BASE_OBJ}exbm.o${BJ}   \
-                 ${BASE_OBJ}exbrus.o${BJ} \
-                 ${BASE_OBJ}exclim.o${BJ} \
-                 ${BASE_OBJ}exppe.o${BJ}  \
-                 ${WSBE_OBJ}txnote.o${BJ}
+ECX_ADD        = ${EC_OBJ}exbm.o${BJ}   \
+                 ${EC_OBJ}exbrus.o${BJ} \
+                 ${EC_OBJ}txnote.o${BJ}
 
 # extension model stubs needed for EM variant link with
 # model extensions:
@@ -2074,7 +2096,7 @@ CR_PPBASE_LINK = ${PPCR_OBJ}ppdgf.o${BJ} \
                  ${CR_OBJ}esin.o${BJ}   ${CR_OBJ}esinit.o${BJ} \
                  ${CR_OBJ}esmsgs.o${BJ} ${CR_OBJ}esnutr.o${BJ} ${CR_OBJ}esout.o${BJ}  \
                  ${CR_OBJ}esplt1.o${BJ} ${CR_OBJ}esplt2.o${BJ} ${CR_OBJ}esprep.o${BJ} \
-                 ${CR_OBJ}esprin.o${BJ} ${CR_OBJ}esrann.o${BJ} \
+                 ${CR_OBJ}esprin.o${BJ} ${CR_OBJ}esrann.o${BJ} ${CR_OBJ}essprt.o${BJ} \
                  ${CR_OBJ}estab.o${BJ}  ${CR_OBJ}esaddt.o${BJ}  \
                  ${CR_OBJ}estime.o${BJ} ${CR_OBJ}estump.o${BJ} ${CR_OBJ}esuckr.o${BJ} \
                  ${CR_OBJ}miscnt.o${BJ} ${CR_OBJ}miscpf.o${BJ} ${CR_OBJ}misdam.o${BJ} \
@@ -2329,7 +2351,7 @@ LS_PPBASE_LINK = ${PPLS_OBJ}ppdgf.o${BJ} \
                  ${LS_OBJ}esfltr.o${BJ} ${LS_OBJ}esin.o${BJ}   ${LS_OBJ}esinit.o${BJ} \
                  ${LS_OBJ}esmsgs.o${BJ} ${LS_OBJ}esnutr.o${BJ} ${LS_OBJ}esout.o${BJ}  \
                  ${LS_OBJ}esplt1.o${BJ} ${LS_OBJ}esplt2.o${BJ} ${LS_OBJ}esprep.o${BJ} \
-                 ${LS_OBJ}esprin.o${BJ} ${LS_OBJ}esrann.o${BJ} ${LS_OBJ}essubh.o${BJ} \
+                 ${LS_OBJ}esprin.o${BJ} ${LS_OBJ}esrann.o${BJ} ${LS_OBJ}essprt.o${BJ} ${LS_OBJ}essubh.o${BJ} \
                  ${LS_OBJ}estab.o${BJ}  ${LS_OBJ}estime.o${BJ} ${LS_OBJ}estump.o${BJ} \
                  ${LS_OBJ}esuckr.o${BJ} ${LS_OBJ}esaddt.o${BJ}                        \
                  ${LS_OBJ}eccalc.o${BJ} ${LS_OBJ}echarv.o${BJ} ${LS_OBJ}ecin.o${BJ}   \
@@ -2515,7 +2537,7 @@ NE_PPBASE_LINK = ${PPNE_OBJ}ppdgf.o${BJ} \
                  ${NE_OBJ}esgent.o${BJ} ${NE_OBJ}esin.o${BJ} ${NE_OBJ}esinit.o${BJ} \
                  ${NE_OBJ}esmsgs.o${BJ} ${NE_OBJ}esnutr.o${BJ} ${NE_OBJ}esout.o${BJ} \
                  ${NE_OBJ}esplt1.o${BJ} ${NE_OBJ}esplt2.o${BJ} ${NE_OBJ}esprep.o${BJ} \
-                 ${NE_OBJ}esprin.o${BJ} ${NE_OBJ}esrann.o${BJ} ${NE_OBJ}essubh.o${BJ} \
+                 ${NE_OBJ}esprin.o${BJ} ${NE_OBJ}esrann.o${BJ} ${NE_OBJ}essprt.o${BJ} ${NE_OBJ}essubh.o${BJ} \
                  ${NE_OBJ}estab.o${BJ} ${NE_OBJ}estime.o${BJ} ${NE_OBJ}estump.o${BJ} \
                  ${NE_OBJ}esuckr.o${BJ} ${NE_OBJ}evage.o${BJ} ${NE_OBJ}evalnk.o${BJ} \
                  ${NE_OBJ}evcomp.o${BJ} ${NE_OBJ}evif.o${BJ} ${NE_OBJ}evkey.o${BJ} \
@@ -2845,6 +2867,7 @@ PN_WC_PPBASE_LINK = ${PPWC_OBJ}ppdgf.o${BJ}  ${PPWC_OBJ}ppregt.o${BJ} \
                   ${WC_OBJ}esprep.o${BJ} \
                   ${WC_OBJ}esprin.o${BJ} \
                   ${WC_OBJ}esrann.o${BJ} \
+                  ${WC_OBJ}essprt.o${BJ} \
                   ${WC_OBJ}essubh.o${BJ} \
                   ${WC_OBJ}estab.o${BJ}  \
                   ${WC_OBJ}estime.o${BJ} \
@@ -3025,7 +3048,7 @@ UT_PPBASE_LINK = ${PPUT_OBJ}ppdgf.o${BJ} \
                  ${UT_OBJ}bfvol.o${BJ}  ${UT_OBJ}blkdat.o${BJ} ${UT_OBJ}bratio.o${BJ}  \
                  ${UT_OBJ}ccfcal.o${BJ} ${UT_OBJ}cratet.o${BJ} ${UT_OBJ}crown.o${BJ}   \
                  ${UT_OBJ}cubrds.o${BJ} ${UT_OBJ}dgdriv.o${BJ} ${UT_OBJ}dgf.o${BJ}     \
-                 ${UT_OBJ}dgfasp.o${BJ} ${UT_OBJ}dubscr.o${BJ} ${UT_OBJ}esuckr.o${BJ}  \
+                 ${UT_OBJ}dgfasp.o${BJ} ${UT_OBJ}dubscr.o${BJ}  \
                  ${UT_OBJ}findag.o${BJ} ${UT_OBJ}fndag.o${BJ}  ${UT_OBJ}forkod.o${BJ}  \
                  ${UT_OBJ}grinit.o${BJ} ${UT_OBJ}grohed.o${BJ}  \
                  ${UT_OBJ}habtyp.o${BJ} ${UT_OBJ}htgf.o${BJ}   ${UT_OBJ}logs.o${BJ}    \
@@ -3118,9 +3141,9 @@ UT_PPBASE_LINK = ${PPUT_OBJ}ppdgf.o${BJ} \
                  ${UT_OBJ}esin.o${BJ}   ${UT_OBJ}esinit.o${BJ} \
                  ${UT_OBJ}esmsgs.o${BJ} ${UT_OBJ}esnutr.o${BJ} ${UT_OBJ}esout.o${BJ}  \
                  ${UT_OBJ}esplt1.o${BJ} ${UT_OBJ}esplt2.o${BJ} ${UT_OBJ}esprep.o${BJ} \
-                 ${UT_OBJ}esprin.o${BJ} ${UT_OBJ}esrann.o${BJ} ${UT_OBJ}essubh.o${BJ} \
-                 ${UT_OBJ}estab.o${BJ}  ${UT_OBJ}esaddt.o${BJ} \
-                 ${UT_OBJ}estime.o${BJ} ${UT_OBJ}estump.o${BJ} \
+                 ${UT_OBJ}esprin.o${BJ} ${UT_OBJ}esrann.o${BJ} ${UT_OBJ}essprt.o${BJ} \
+                 ${UT_OBJ}essubh.o${BJ} ${UT_OBJ}estab.o${BJ}  ${UT_OBJ}esaddt.o${BJ} \
+                 ${UT_OBJ}estime.o${BJ} ${UT_OBJ}estump.o${BJ} ${UT_OBJ}esuckr.o${BJ} \
                  ${UT_OBJ}miscnt.o${BJ} ${UT_OBJ}miscpf.o${BJ} ${UT_OBJ}misdam.o${BJ} \
                  ${UT_OBJ}misdgf.o${BJ} ${UT_OBJ}misget.o${BJ} ${UT_OBJ}mishgf.o${BJ} \
                  ${UT_OBJ}misin.o${BJ}  ${UT_OBJ}misinf.o${BJ} ${UT_OBJ}misin0.o${BJ} \
@@ -3234,7 +3257,7 @@ AK_LINK        = ${AK_OBJ}blkdat.o${BJ} ${AK_OBJ}bratio.o${BJ} ${AK_OBJ}ccfcal.o
                  ${AK_OBJ}esin.o${BJ}   ${AK_OBJ}esinit.o${BJ} \
                  ${AK_OBJ}esmsgs.o${BJ} ${AK_OBJ}esout.o${BJ}  \
                  ${AK_OBJ}esplt1.o${BJ} ${AK_OBJ}esplt2.o${BJ} \
-                 ${AK_OBJ}esprin.o${BJ} ${AK_OBJ}esrann.o${BJ} \
+                 ${AK_OBJ}esprin.o${BJ} ${AK_OBJ}esrann.o${BJ} ${AK_OBJ}essprt.o${BJ} \
                  ${AK_OBJ}estime.o${BJ} ${AK_OBJ}estump.o${BJ} ${AK_OBJ}esuckr.o${BJ}
 
 # all of the AN variant specific routines.
@@ -3344,7 +3367,7 @@ AN_LINK        = ${AN_OBJ}blkdat.o${BJ} ${AN_OBJ}bratio.o${BJ} ${AN_OBJ}ccfcal.o
                  ${AN_OBJ}esin.o${BJ}   ${AN_OBJ}esinit.o${BJ} \
                  ${AN_OBJ}esmsgs.o${BJ} ${AN_OBJ}esout.o${BJ}  \
                  ${AN_OBJ}esplt1.o${BJ} ${AN_OBJ}esplt2.o${BJ} \
-                 ${AN_OBJ}esprin.o${BJ} ${AN_OBJ}esrann.o${BJ} \
+                 ${AN_OBJ}esprin.o${BJ} ${AN_OBJ}esrann.o${BJ} ${AN_OBJ}essprt.o${BJ} \
                  ${AN_OBJ}estime.o${BJ} ${AN_OBJ}estump.o${BJ} ${AN_OBJ}esuckr.o${BJ}
 
 # all of the BM variant specific routines.
@@ -3434,8 +3457,8 @@ BM_LINK        = ${BM_OBJ}bfvol.o${BJ}  ${BM_OBJ}blkdat.o${BJ} ${BM_OBJ}bmtmrt.o
                  ${BM_OBJ}esin.o${BJ}   ${BM_OBJ}esinit.o${BJ} ${BM_OBJ}esmsgs.o${BJ} \
                  ${BM_OBJ}esnutr.o${BJ} ${BM_OBJ}esout.o${BJ}  ${BM_OBJ}esplt1.o${BJ} \
                  ${BM_OBJ}esplt2.o${BJ} ${BM_OBJ}esprep.o${BJ} ${BM_OBJ}esprin.o${BJ} \
-                 ${BM_OBJ}esrann.o${BJ} ${BM_OBJ}estab.o${BJ}  ${BM_OBJ}estime.o${BJ} \
-                 ${BM_OBJ}estump.o${BJ} ${BM_OBJ}esuckr.o${BJ} \
+                 ${BM_OBJ}esrann.o${BJ} ${BM_OBJ}essprt.o${BJ} ${BM_OBJ}estab.o${BJ}  \
+                 ${BM_OBJ}estime.o${BJ} ${BM_OBJ}estump.o${BJ} ${BM_OBJ}esuckr.o${BJ} \
                  ${BM_OBJ}miscnt.o${BJ} ${BM_OBJ}miscpf.o${BJ} ${BM_OBJ}misdam.o${BJ} \
                  ${BM_OBJ}misdgf.o${BJ} ${BM_OBJ}misget.o${BJ} ${BM_OBJ}mishgf.o${BJ} \
                  ${BM_OBJ}misin.o${BJ} ${BM_OBJ}misinf.o${BJ} ${BM_OBJ}misin0.o${BJ} \
@@ -3541,14 +3564,14 @@ CA_LINK        = ${CA_OBJ}blkdat.o${BJ} ${CA_OBJ}bratio.o${BJ} ${CA_OBJ}ccfcal.o
                  ${CA_OBJ}trnasp.o${BJ} ${CA_OBJ}trnslo.o${BJ} ${CA_OBJ}tvalue.o${BJ} \
                  ${CA_OBJ}unblnk.o${BJ} ${CA_OBJ}upcase.o${BJ} ${CA_OBJ}update.o${BJ} \
                  ${CA_OBJ}upkey.o${BJ}  ${CA_OBJ}volkey.o${BJ} \
-                 ${CA_OBJ}esblkd.o${BJ} ${CA_OBJ}escprs.o${BJ} ${CA_OBJ}esetpr.o${BJ} \
-                 ${CA_OBJ}esfltr.o${BJ} ${CA_OBJ}esgent.o${BJ} \
+                 ${CA_OBJ}esaddt.o${BJ} ${CA_OBJ}esblkd.o${BJ} ${CA_OBJ}escprs.o${BJ} \
+                 ${CA_OBJ}esetpr.o${BJ} ${CA_OBJ}esfltr.o${BJ} ${CA_OBJ}esgent.o${BJ} \
                  ${CA_OBJ}esin.o${BJ}   ${CA_OBJ}esinit.o${BJ} \
                  ${CA_OBJ}esmsgs.o${BJ} ${CA_OBJ}esnutr.o${BJ} ${CA_OBJ}esout.o${BJ}  \
                  ${CA_OBJ}esplt1.o${BJ} ${CA_OBJ}esplt2.o${BJ} ${CA_OBJ}esprep.o${BJ} \
-                 ${CA_OBJ}esprin.o${BJ} ${CA_OBJ}esrann.o${BJ} \
+                 ${CA_OBJ}esprin.o${BJ} ${CA_OBJ}esrann.o${BJ} ${CA_OBJ}essprt.o${BJ} \
                  ${CA_OBJ}estab.o${BJ}  ${CA_OBJ}estime.o${BJ} ${CA_OBJ}estump.o${BJ} \
-                 ${CA_OBJ}esuckr.o${BJ} ${CA_OBJ}esaddt.o${BJ} \
+                 ${CA_OBJ}esuckr.o${BJ} \
                  ${CA_OBJ}miscnt.o${BJ} ${CA_OBJ}miscpf.o${BJ} ${CA_OBJ}misdam.o${BJ} \
                  ${CA_OBJ}misdgf.o${BJ} ${CA_OBJ}misget.o${BJ} ${CA_OBJ}mishgf.o${BJ} \
                  ${CA_OBJ}misin.o${BJ}  ${CA_OBJ}misinf.o${BJ} ${CA_OBJ}misin0.o${BJ} \
@@ -3573,7 +3596,6 @@ CI_LINK        = ${CI_OBJ}bfvol.o${BJ} \
                  ${CI_OBJ}espsub.o${BJ} \
                  ${CI_OBJ}espxcs.o${BJ} \
                  ${CI_OBJ}essubh.o${BJ} \
-                 ${CI_OBJ}esuckr.o${BJ} \
                  ${CI_OBJ}esxcsh.o${BJ} \
                  ${CI_OBJ}findag.o${BJ} \
                  ${CI_OBJ}forkod.o${BJ} \
@@ -3806,11 +3828,13 @@ CI_LINK        = ${CI_OBJ}bfvol.o${BJ} \
                  ${CI_OBJ}esprep.o${BJ} \
                  ${CI_OBJ}esprin.o${BJ} \
                  ${CI_OBJ}esrann.o${BJ} \
+                 ${CI_OBJ}essprt.o${BJ} \
                  ${CI_OBJ}estab.o${BJ} \
                  ${CI_OBJ}estime.o${BJ} \
                  ${CI_OBJ}estock.o${BJ} \
                  ${CI_OBJ}estpp.o${BJ} \
                  ${CI_OBJ}estump.o${BJ} \
+                 ${CI_OBJ}esuckr.o${BJ} \
                  ${CI_OBJ}miscnt.o${BJ} \
                  ${CI_OBJ}miscpf.o${BJ} \
                  ${CI_OBJ}misdam.o${BJ} \
@@ -3926,7 +3950,7 @@ CR_LINK        = ${CR_OBJ}badist.o${BJ} ${CR_OBJ}bfvol.o${BJ}  \
                  ${CR_OBJ}esin.o${BJ}   ${CR_OBJ}esinit.o${BJ} \
                  ${CR_OBJ}esmsgs.o${BJ} ${CR_OBJ}esnutr.o${BJ} ${CR_OBJ}esout.o${BJ}  \
                  ${CR_OBJ}esplt1.o${BJ} ${CR_OBJ}esplt2.o${BJ} ${CR_OBJ}esprep.o${BJ} \
-                 ${CR_OBJ}esprin.o${BJ} ${CR_OBJ}esrann.o${BJ}  \
+                 ${CR_OBJ}esprin.o${BJ} ${CR_OBJ}esrann.o${BJ} ${CR_OBJ}essprt.o${BJ}  \
                  ${CR_OBJ}estab.o${BJ}  ${CR_OBJ}esaddt.o${BJ} \
                  ${CR_OBJ}estime.o${BJ} ${CR_OBJ}estump.o${BJ} ${CR_OBJ}esuckr.o${BJ} \
                  ${CR_OBJ}miscnt.o${BJ} ${CR_OBJ}miscpf.o${BJ} ${CR_OBJ}misdam.o${BJ} \
@@ -3979,12 +4003,16 @@ CRXU_ADD       = ${CR_OBJ}exbgc.o${BJ}  ${CR_OBJ}exbm.o${BJ} \
                  ${CR_OBJ}extree.o${BJ} ${WSBE_OBJ}txnote.o${BJ}
 
 # all of the EC variant specific routines.
-EC_LINK        = ${EC_OBJ}blkdat.o${BJ} \
+EC_LINK        = ${EC_OBJ}bfvol.o${BJ} \
+                 ${EC_OBJ}blkdat.o${BJ} \
+                 ${EC_OBJ}bratio.o${BJ} \
                  ${EC_OBJ}ccfcal.o${BJ} \
                  ${EC_OBJ}cratet.o${BJ} \
                  ${EC_OBJ}crown.o${BJ}  \
+                 ${EC_OBJ}cubrds.o${BJ} \
+                 ${EC_OBJ}dgdriv.o${BJ} \
                  ${EC_OBJ}dgf.o${BJ}    \
-                 ${EC_OBJ}dubscr.o${BJ}    \
+                 ${EC_OBJ}dubscr.o${BJ} \
                  ${EC_OBJ}ecocls.o${BJ} \
                  ${EC_OBJ}essubh.o${BJ} \
                  ${EC_OBJ}findag.o${BJ} \
@@ -4004,10 +4032,114 @@ EC_LINK        = ${EC_OBJ}blkdat.o${BJ} \
                  ${EC_OBJ}smhtgf.o${BJ} \
                  ${EC_OBJ}varmrt.o${BJ} \
                  ${EC_OBJ}varvol.o${BJ} \
+                 ${EC_OBJ}logs.o${BJ} \
+                 ${EC_OBJ}bftopk.o${BJ} \
+                 ${EC_OBJ}cftopk.o${BJ} \
+                 ${EC_OBJ}cfvol.o${BJ} \
+                 ${EC_OBJ}cutstk.o${BJ} \
+                 ${EC_OBJ}cwcalc.o${BJ} \
+                 ${EC_OBJ}dgbnd.o${BJ} \
+                 ${EC_OBJ}dunn.o${BJ} \
+                 ${EC_OBJ}maical.o${BJ} \
+                 ${EC_OBJ}rcon.o${BJ} \
+                 ${EC_OBJ}spctrn.o${BJ} \
+                 ${EC_OBJ}vols.o${BJ} \
                  ${EC_OBJ}avht40.o${BJ} \
                  ${EC_OBJ}r6crwd.o${BJ} \
-                 ${EC_OBJ}r5crwd.o${BJ}
+                 ${EC_OBJ}r5crwd.o${BJ} \
+                 ${EC_OBJ}algcmp.o${BJ} ${EC_OBJ}algevl.o${BJ} ${EC_OBJ}algexp.o${BJ} \
+                 ${EC_OBJ}algkey.o${BJ} ${EC_OBJ}algslp.o${BJ} ${EC_OBJ}algspp.o${BJ} \
+                 ${EC_OBJ}autcor.o${BJ} ${EC_OBJ}bachlo.o${BJ} ${EC_OBJ}basdam.o${BJ} \
+                 ${EC_OBJ}behprm.o${BJ} \
+                 ${EC_OBJ}behre.o${BJ}  ${EC_OBJ}ch2num.o${BJ} ${EC_OBJ}ch4bsr.o${BJ} \
+                 ${EC_OBJ}ch4srt.o${BJ} ${EC_OBJ}cmrang.o${BJ} ${EC_OBJ}comcup.o${BJ} \
+                 ${EC_OBJ}comp.o${BJ}   ${EC_OBJ}comprs.o${BJ} ${EC_OBJ}covolp.o${BJ} \
+                 ${EC_OBJ}cuts.o${BJ}   ${EC_OBJ}cwidth.o${BJ} \
+                 ${EC_OBJ}damcds.o${BJ} ${EC_OBJ}dampro.o${BJ} \
+                 ${EC_OBJ}dbadd.o${BJ}  ${EC_OBJ}dball.o${BJ}  \
+                 ${EC_OBJ}dbchk.o${BJ}  ${EC_OBJ}dbinit.o${BJ} ${EC_OBJ}dbprse.o${BJ} \
+                 ${EC_OBJ}dbscan.o${BJ} ${EC_OBJ}dense.o${BJ}  ${EC_OBJ}dgscor.o${BJ} \
+                 ${EC_OBJ}disply.o${BJ} \
+                 ${EC_OBJ}dist.o${BJ}   ${EC_OBJ}ecopls.o${BJ} ${EC_OBJ}ecvols.o${BJ} \
+                 ${EC_OBJ}eigen.o${BJ}  ${EC_OBJ}errgro.o${BJ} ${EC_OBJ}evage.o${BJ}  \
+                 ${EC_OBJ}evalnk.o${BJ} ${EC_OBJ}evcomp.o${BJ} ${EC_OBJ}evif.o${BJ}   \
+                 ${EC_OBJ}evkey.o${BJ}  ${EC_OBJ}evldx.o${BJ}  \
+                 ${EC_OBJ}evmkv.o${BJ}  ${EC_OBJ}evmon.o${BJ}  \
+                 ${EC_OBJ}evpost.o${BJ} ${EC_OBJ}evpred.o${BJ} ${EC_OBJ}evtact.o${BJ} \
+                 ${EC_OBJ}evtstv.o${BJ} ${EC_OBJ}evusrv.o${BJ} ${EC_OBJ}extree.o${BJ} \
+                 ${EC_OBJ}ffert.o${BJ}  ${EC_OBJ}ffin.o${BJ}   ${EC_OBJ}filopn.o${BJ} \
+                 ${EC_OBJ}fndkey.o${BJ} ${EC_OBJ}fortyp.o${BJ} \
+                 ${EC_OBJ}fvsstd.o${BJ} ${EC_OBJ}genrpt.o${BJ} ${EC_OBJ}getsed.o${BJ} \
+                 ${EC_OBJ}gheads.o${BJ} ${EC_OBJ}gradd.o${BJ} \
+                 ${EC_OBJ}grdtim.o${BJ} ${EC_OBJ}grincr.o${BJ} ${EC_OBJ}hbdecd.o${BJ} \
+                 ${EC_OBJ}htgstp.o${BJ} ${EC_OBJ}iapsrt.o${BJ} ${EC_OBJ}initre.o${BJ} \
+                 ${EC_OBJ}intree.o${BJ} ${EC_OBJ}iqrsrt.o${BJ} \
+                 ${EC_OBJ}isstag.o${BJ} ${EC_OBJ}istfnb.o${BJ} \
+                 ${EC_OBJ}istlnb.o${BJ} ${EC_OBJ}keydmp.o${BJ} ${EC_OBJ}keyopn.o${BJ} \
+                 ${EC_OBJ}keyrdr.o${BJ} ${EC_OBJ}keywds.o${BJ} \
+                 ${EC_OBJ}ksstag.o${BJ} ${EC_OBJ}lb1mem.o${BJ} \
+                 ${EC_OBJ}lbaglr.o${BJ} ${EC_OBJ}lbdset.o${BJ} ${EC_OBJ}lbget1.o${BJ} \
+                 ${EC_OBJ}lbintr.o${BJ} ${EC_OBJ}lbmemr.o${BJ} ${EC_OBJ}lbsplr.o${BJ} \
+                 ${EC_OBJ}lbsplw.o${BJ} ${EC_OBJ}lbstrd.o${BJ} ${EC_OBJ}lbtrim.o${BJ} \
+                 ${EC_OBJ}lbunin.o${BJ} ${EC_OBJ}lnkchn.o${BJ} ${EC_OBJ}lnkint.o${BJ} \
+                 ${EC_OBJ}mbacal.o${BJ} ${EC_OBJ}meansd.o${BJ} \
+                 ${EC_OBJ}msbmrt.o${BJ} \
+                 ${EC_OBJ}mults.o${BJ}  ${EC_OBJ}myopen.o${BJ} ${EC_OBJ}natcrz.o${BJ} \
+                 ${EC_OBJ}notre.o${BJ}  ${EC_OBJ}opadd.o${BJ}  ${EC_OBJ}opbisr.o${BJ} \
+                 ${EC_OBJ}opcact.o${BJ} ${EC_OBJ}opcset.o${BJ} \
+                 ${EC_OBJ}opcycl.o${BJ} ${EC_OBJ}opdon2.o${BJ} ${EC_OBJ}opeval.o${BJ} \
+                 ${EC_OBJ}opexpn.o${BJ} ${EC_OBJ}opfind.o${BJ} ${EC_OBJ}opget2.o${BJ} \
+                 ${EC_OBJ}opget3.o${BJ} \
+                 ${EC_OBJ}opinit.o${BJ} ${EC_OBJ}oplist.o${BJ} ${EC_OBJ}opmerg.o${BJ} \
+                 ${EC_OBJ}opnew.o${BJ}  ${EC_OBJ}opnewc.o${BJ} \
+                 ${EC_OBJ}oprdat.o${BJ} ${EC_OBJ}opsame.o${BJ} \
+                 ${EC_OBJ}opsort.o${BJ} ${EC_OBJ}opstus.o${BJ} ${EC_OBJ}pctile.o${BJ} \
+                 ${EC_OBJ}prtexm.o${BJ} ${EC_OBJ}prtrls.o${BJ} ${EC_OBJ}ptbal.o${BJ}  \
+                 ${EC_OBJ}rxdibs.o${BJ} ${EC_OBJ}rann.o${BJ}   ${EC_OBJ}rcdset.o${BJ} \
+                 ${EC_OBJ}rdpsrt.o${BJ} ${EC_OBJ}reass.o${BJ}  ${EC_OBJ}resage.o${BJ} \
+                 ${EC_OBJ}revise.o${BJ} ${EC_OBJ}scalef.o${BJ} ${EC_OBJ}sdefet.o${BJ} \
+                 ${EC_OBJ}sdefln.o${BJ} ${EC_OBJ}sdical.o${BJ} ${EC_OBJ}sdichk.o${BJ} \
+                 ${EC_OBJ}setup.o${BJ}  ${EC_OBJ}sgdecd.o${BJ} \
+                 ${EC_OBJ}spdecd.o${BJ} ${EC_OBJ}spesrt.o${BJ} ${EC_OBJ}sstage.o${BJ} \
+                 ${EC_OBJ}stats.o${BJ}  ${EC_OBJ}stkval.o${BJ} \
+                 ${EC_OBJ}sumhed.o${BJ} ${EC_OBJ}sumout.o${BJ} \
+                 ${EC_OBJ}svblkd.o${BJ} ${EC_OBJ}svcdbh.o${BJ} ${EC_OBJ}svcmp1.o${BJ} \
+                 ${EC_OBJ}svcmp2.o${BJ} ${EC_OBJ}svcmp3.o${BJ} ${EC_OBJ}svcrol.o${BJ} \
+                 ${EC_OBJ}svcuts.o${BJ} ${EC_OBJ}svcwd.o${BJ}  ${EC_OBJ}svdfln.o${BJ} \
+                 ${EC_OBJ}svestb.o${BJ} ${EC_OBJ}svgrnd.o${BJ} \
+                 ${EC_OBJ}svgtpl.o${BJ} ${EC_OBJ}svgtpt.o${BJ} ${EC_OBJ}svhabt.o${BJ} \
+                 ${EC_OBJ}svinit.o${BJ} ${EC_OBJ}svkey.o${BJ}  ${EC_OBJ}svlcol.o${BJ} \
+                 ${EC_OBJ}svlnol.o${BJ} ${EC_OBJ}svlsol.o${BJ} ${EC_OBJ}svmort.o${BJ} \
+                 ${EC_OBJ}svntr.o${BJ}  ${EC_OBJ}svobol.o${BJ} ${EC_OBJ}svonln.o${BJ} \
+                 ${EC_OBJ}svout.o${BJ}  ${EC_OBJ}svrann.o${BJ} ${EC_OBJ}svrmov.o${BJ}  \
+                 ${EC_OBJ}svstart.o${BJ} \
+                 ${EC_OBJ}svsnad.o${BJ} ${EC_OBJ}svsnage.o${BJ} ${EC_OBJ}svtdel.o${BJ} \
+                 ${EC_OBJ}svtrip.o${BJ} ${EC_OBJ}svsalv.o${BJ}               \
+                 ${EC_OBJ}tredel.o${BJ} ${EC_OBJ}tregro.o${BJ} \
+                 ${EC_OBJ}tremov.o${BJ} ${EC_OBJ}tresor.o${BJ} ${EC_OBJ}triple.o${BJ} \
+                 ${EC_OBJ}trnasp.o${BJ} ${EC_OBJ}trnslo.o${BJ} ${EC_OBJ}tvalue.o${BJ} \
+                 ${EC_OBJ}unblnk.o${BJ} ${EC_OBJ}upcase.o${BJ} ${EC_OBJ}update.o${BJ} \
+                 ${EC_OBJ}upkey.o${BJ}  ${EC_OBJ}volkey.o${BJ} \
+                 ${EC_OBJ}esaddt.o${BJ} \
+                 ${EC_OBJ}esblkd.o${BJ} ${EC_OBJ}escprs.o${BJ} ${EC_OBJ}esetpr.o${BJ} \
+                 ${EC_OBJ}esfltr.o${BJ} ${EC_OBJ}esgent.o${BJ} \
+                 ${EC_OBJ}esin.o${BJ}   ${EC_OBJ}esinit.o${BJ} \
+                 ${EC_OBJ}esmsgs.o${BJ} ${EC_OBJ}esnutr.o${BJ} ${EC_OBJ}esout.o${BJ}  \
+                 ${EC_OBJ}esplt1.o${BJ} ${EC_OBJ}esplt2.o${BJ} ${EC_OBJ}esprep.o${BJ} \
+                 ${EC_OBJ}esprin.o${BJ} ${EC_OBJ}esrann.o${BJ} ${EC_OBJ}essprt.o${BJ}  \
+                 ${EC_OBJ}estab.o${BJ}  \
+                 ${EC_OBJ}estime.o${BJ} ${EC_OBJ}estump.o${BJ} ${EC_OBJ}esuckr.o${BJ} \
+                 ${EC_OBJ}miscnt.o${BJ} ${EC_OBJ}miscpf.o${BJ} ${EC_OBJ}misdam.o${BJ} \
+                 ${EC_OBJ}misdgf.o${BJ} ${EC_OBJ}misget.o${BJ} ${EC_OBJ}mishgf.o${BJ} \
+                 ${EC_OBJ}misin.o${BJ}  ${EC_OBJ}misinf.o${BJ} ${EC_OBJ}misin0.o${BJ} \
+                 ${EC_OBJ}misintec.o${BJ} ${EC_OBJ}mismrt.o${BJ} ${EC_OBJ}misprt.o${BJ} \
+                 ${EC_OBJ}misputz.o${BJ} ${EC_OBJ}misran.o${BJ} ${EC_OBJ}mistoe.o${BJ}
 
+
+# insect and disease stubs for EC
+EC_BASE_ADD    = ${EC_OBJ}exdfb.o${BJ} ${EC_OBJ}exdftm.o${BJ} ${EC_OBJ}exmpb.o${BJ} \
+                 ${EC_OBJ}exbm.o${BJ}  ${EC_OBJ}exbrus.o${BJ} ${EC_OBJ}exbudl.o${BJ} \
+                 ${EC_OBJ}exrd.o${BJ}
 
 # all of the BASE, STRP and EM variant specific routines.
 EM_LINK        = ${EM_OBJ}bfvol.o${BJ} \
@@ -4022,7 +4154,7 @@ EM_LINK        = ${EM_OBJ}bfvol.o${BJ} \
                  ${EM_OBJ}dubscr.o${BJ} \
                  ${EM_OBJ}esadvh.o${BJ} ${EM_OBJ}esdlay.o${BJ} ${EM_OBJ}espadv.o${BJ} \
                  ${EM_OBJ}espsub.o${BJ} ${EM_OBJ}espxcs.o${BJ} ${EM_OBJ}essubh.o${BJ} \
-                 ${EM_OBJ}esuckr.o${BJ} ${EM_OBJ}esxcsh.o${BJ}  \
+                 ${EM_OBJ}esxcsh.o${BJ}  \
                  ${EM_OBJ}findag.o${BJ} \
                  ${EM_OBJ}forkod.o${BJ} \
                  ${EM_OBJ}grinit.o${BJ} \
@@ -4129,9 +4261,9 @@ EM_LINK        = ${EM_OBJ}bfvol.o${BJ} \
                  ${EM_OBJ}esin.o${BJ}   ${EM_OBJ}esinit.o${BJ} ${EM_OBJ}esmsgs.o${BJ} \
                  ${EM_OBJ}esnspe.o${BJ} ${EM_OBJ}esnutr.o${BJ} ${EM_OBJ}esout.o${BJ}  \
                  ${EM_OBJ}esplt1.o${BJ} ${EM_OBJ}esplt2.o${BJ} ${EM_OBJ}esprep.o${BJ} \
-                 ${EM_OBJ}esprin.o${BJ} ${EM_OBJ}esrann.o${BJ} \
+                 ${EM_OBJ}esprin.o${BJ} ${EM_OBJ}esrann.o${BJ} ${EM_OBJ}essprt.o${BJ} \
                  ${EM_OBJ}estab.o${BJ}  ${EM_OBJ}estime.o${BJ} ${EM_OBJ}estock.o${BJ} \
-                 ${EM_OBJ}estpp.o${BJ}  ${EM_OBJ}estump.o${BJ} \
+                 ${EM_OBJ}estpp.o${BJ}  ${EM_OBJ}estump.o${BJ} ${EM_OBJ}esuckr.o${BJ} \
                  ${EM_OBJ}miscnt.o${BJ} ${EM_OBJ}miscpf.o${BJ} ${EM_OBJ}misdam.o${BJ} \
                  ${EM_OBJ}misdgf.o${BJ} ${EM_OBJ}misget.o${BJ} ${EM_OBJ}mishgf.o${BJ} \
                  ${EM_OBJ}misin.o${BJ}  ${EM_OBJ}misinf.o${BJ} ${EM_OBJ}misin0.o${BJ} \
@@ -4148,7 +4280,7 @@ IE_LINK        = ${IE_OBJ}bfvol.o${BJ}  ${IE_OBJ}blkdat.o${BJ} ${IE_OBJ}bratio.o
                  ${IE_OBJ}dgdriv.o${BJ} ${IE_OBJ}dgf.o${BJ}    ${IE_OBJ}dubscr.o${BJ} \
                  ${IE_OBJ}esadvh.o${BJ} ${IE_OBJ}esdlay.o${BJ} ${IE_OBJ}espadv.o${BJ} \
                  ${IE_OBJ}espsub.o${BJ} ${IE_OBJ}espxcs.o${BJ} ${IE_OBJ}essubh.o${BJ} \
-                 ${IE_OBJ}esuckr.o${BJ} ${IE_OBJ}esxcsh.o${BJ} ${IE_OBJ}esaddt.o${BJ}  \
+                 ${IE_OBJ}esxcsh.o${BJ} ${IE_OBJ}esaddt.o${BJ}  \
                  ${IE_OBJ}findag.o${BJ} ${IE_OBJ}formcl.o${BJ} ${IE_OBJ}grinit.o${BJ} \
                  ${IE_OBJ}grohed.o${BJ} ${IE_OBJ}htgf.o${BJ}   ${IE_OBJ}logs.o${BJ}   \
                  ${IE_OBJ}maical.o${BJ} ${IE_OBJ}morts.o${BJ}  ${IE_OBJ}regent.o${BJ} \
@@ -4239,9 +4371,9 @@ IE_LINK        = ${IE_OBJ}bfvol.o${BJ}  ${IE_OBJ}blkdat.o${BJ} ${IE_OBJ}bratio.o
                  ${IE_OBJ}esin.o${BJ}   ${IE_OBJ}esinit.o${BJ} ${IE_OBJ}esmsgs.o${BJ} \
                  ${IE_OBJ}esnspe.o${BJ} ${IE_OBJ}esnutr.o${BJ} ${IE_OBJ}esout.o${BJ}  \
                  ${IE_OBJ}esplt1.o${BJ} ${IE_OBJ}esplt2.o${BJ} ${IE_OBJ}esprep.o${BJ} \
-                 ${IE_OBJ}esprin.o${BJ} ${IE_OBJ}esrann.o${BJ} \
+                 ${IE_OBJ}esprin.o${BJ} ${IE_OBJ}esrann.o${BJ} ${IE_OBJ}essprt.o${BJ} \
                  ${IE_OBJ}estab.o${BJ}  ${IE_OBJ}estime.o${BJ} ${IE_OBJ}estock.o${BJ} \
-                 ${IE_OBJ}estpp.o${BJ}  ${IE_OBJ}estump.o${BJ} \
+                 ${IE_OBJ}estpp.o${BJ}  ${IE_OBJ}estump.o${BJ} ${IE_OBJ}esuckr.o${BJ} \
                  ${IE_OBJ}miscnt.o${BJ} ${IE_OBJ}miscpf.o${BJ} ${IE_OBJ}misdam.o${BJ} \
                  ${IE_OBJ}misdgf.o${BJ} ${IE_OBJ}misget.o${BJ} ${IE_OBJ}mishgf.o${BJ} \
                  ${IE_OBJ}misin.o${BJ}  ${IE_OBJ}misinf.o${BJ} ${IE_OBJ}misin0.o${BJ} \
@@ -4266,7 +4398,7 @@ KT_LINK        = ${KT_OBJ}blkdat.o${BJ} \
                  ${KT_OBJ}regent.o${BJ} \
                  ${KT_OBJ}smhtrg.o${BJ} \
                  ${KT_OBJ}r6crwd.o${BJ} \
-                 ${IE_OBJ}r5crwd.o${BJ}
+                 ${KT_OBJ}r5crwd.o${BJ}
 
 # all of the STRP and NC variant specific routines.
 NC_LINK        = ${NC_OBJ}bfvol.o${BJ}    \
@@ -4705,7 +4837,6 @@ PPCI_LINK      = ${PPCI_OBJ}ppdgf.o${BJ}  \
                  ${CI_OBJ}espsub.o${BJ} \
                  ${CI_OBJ}espxcs.o${BJ} \
                  ${CI_OBJ}essubh.o${BJ} \
-                 ${CI_OBJ}esuckr.o${BJ} \
                  ${CI_OBJ}esxcsh.o${BJ} \
                  ${CI_OBJ}findag.o${BJ} \
                  ${CI_OBJ}forkod.o${BJ} \
@@ -4938,11 +5069,13 @@ PPCI_LINK      = ${PPCI_OBJ}ppdgf.o${BJ}  \
                  ${CI_OBJ}esprep.o${BJ} \
                  ${CI_OBJ}esprin.o${BJ} \
                  ${CI_OBJ}esrann.o${BJ} \
+                 ${CI_OBJ}essprt.o${BJ} \
                  ${CI_OBJ}estab.o${BJ}  \
                  ${CI_OBJ}estime.o${BJ} \
                  ${CI_OBJ}estock.o${BJ} \
                  ${CI_OBJ}estpp.o${BJ}  \
                  ${CI_OBJ}estump.o${BJ} \
+                 ${CI_OBJ}esuckr.o${BJ} \
                  ${CI_OBJ}miscnt.o${BJ} \
                  ${CI_OBJ}miscpf.o${BJ} \
                  ${CI_OBJ}misdam.o${BJ} \
@@ -4963,7 +5096,161 @@ PPCI_LINK      = ${PPCI_OBJ}ppdgf.o${BJ}  \
 PPEC_LINK      = ${PPEC_OBJ}ppdgf.o${BJ}  \
                  ${PPEC_OBJ}ppregt.o${BJ} \
                  ${PPEC_OBJ}varget.o${BJ} \
-                 ${PPEC_OBJ}varput.o${BJ}
+                 ${PPEC_OBJ}varput.o${BJ} \
+                 ${PPEC_OBJ}add1.o${BJ}   \
+                 ${PPEC_OBJ}alinit.o${BJ} \
+                 ${PPEC_OBJ}alstd1.o${BJ} \
+                 ${PPEC_OBJ}alstd2.o${BJ} \
+                 ${PPEC_OBJ}bfread.o${BJ} \
+                 ${PPEC_OBJ}bfwrit.o${BJ} \
+                 ${PPEC_OBJ}bygrps.o${BJ} \
+                 ${PPEC_OBJ}c11srt.o${BJ} \
+                 ${PPEC_OBJ}c26bsr.o${BJ} \
+                 ${PPEC_OBJ}c26srt.o${BJ} \
+                 ${PPEC_OBJ}ch8bsr.o${BJ} \
+                 ${PPEC_OBJ}ch8srt.o${BJ} \
+                 ${PPEC_OBJ}chdsth.o${BJ} \
+                 ${PPEC_OBJ}chget.o${BJ}  \
+                 ${PPEC_OBJ}chput.o${BJ}  \
+                 ${PPEC_OBJ}chread.o${BJ} \
+                 ${PPEC_OBJ}chstsh.o${BJ} \
+                 ${PPEC_OBJ}chwrit.o${BJ} \
+                 ${PPEC_OBJ}cmadds.o${BJ} \
+                 ${PPEC_OBJ}cmprt2.o${BJ} \
+                 ${PPEC_OBJ}cvget.o${BJ}  \
+                 ${PPEC_OBJ}cvput.o${BJ}  \
+                 ${PPEC_OBJ}dstash.o${BJ} \
+                 ${PPEC_OBJ}ecnget.o${BJ} \
+                 ${PPEC_OBJ}ecnput.o${BJ} \
+                 ${PPEC_OBJ}evagrp.o${BJ} \
+                 ${PPEC_OBJ}getprt.o${BJ} \
+                 ${PPEC_OBJ}getstd.o${BJ} \
+                 ${PPEC_OBJ}gpadd.o${BJ}  \
+                 ${PPEC_OBJ}gpadsd.o${BJ} \
+                 ${PPEC_OBJ}gpclos.o${BJ} \
+                 ${PPEC_OBJ}gpcset.o${BJ} \
+                 ${PPEC_OBJ}gpcycl.o${BJ} \
+                 ${PPEC_OBJ}gpget.o${BJ}  \
+                 ${PPEC_OBJ}gpinit.o${BJ} \
+                 ${PPEC_OBJ}gpload.o${BJ} \
+                 ${PPEC_OBJ}gpnew.o${BJ}  \
+                 ${PPEC_OBJ}grcend.o${BJ} \
+                 ${PPEC_OBJ}groend.o${BJ} \
+                 ${PPEC_OBJ}grstnd.o${BJ} \
+                 ${PPEC_OBJ}histrd.o${BJ} \
+                 ${PPEC_OBJ}histwt.o${BJ} \
+                 ${PPEC_OBJ}hvalid.o${BJ} \
+                 ${PPEC_OBJ}hvaloc.o${BJ} \
+                 ${PPEC_OBJ}hvccut.o${BJ} \
+                 ${PPEC_OBJ}hvcntg.o${BJ} \
+                 ${PPEC_OBJ}hvdnsl.o${BJ} \
+                 ${PPEC_OBJ}hvfxlb.o${BJ} \
+                 ${PPEC_OBJ}hvhrv1.o${BJ} \
+                 ${PPEC_OBJ}hvin.o${BJ}   \
+                 ${PPEC_OBJ}hvinit.o${BJ} \
+                 ${PPEC_OBJ}hvlbwt.o${BJ} \
+                 ${PPEC_OBJ}hvnedn.o${BJ} \
+                 ${PPEC_OBJ}hvproj.o${BJ} \
+                 ${PPEC_OBJ}hvreps.o${BJ} \
+                 ${PPEC_OBJ}hvsel.o${BJ}  \
+                 ${PPEC_OBJ}hvstsl.o${BJ} \
+                 ${PPEC_OBJ}hvthn1.o${BJ} \
+                 ${PPEC_OBJ}hvupst.o${BJ} \
+                 ${PPEC_OBJ}hxindx.o${BJ} \
+                 ${PPEC_OBJ}ifread.o${BJ} \
+                 ${PPEC_OBJ}ifwrit.o${BJ} \
+                 ${PPEC_OBJ}inscyc.o${BJ} \
+                 ${PPEC_OBJ}instnd.o${BJ} \
+                 ${PPEC_OBJ}lbrnls.o${BJ} \
+                 ${PPEC_OBJ}ldarea.o${BJ} \
+                 ${PPEC_OBJ}ldsum.o${BJ}  \
+                 ${PPEC_OBJ}lfread.o${BJ} \
+                 ${PPEC_OBJ}lfwrit.o${BJ} \
+                 ${PPEC_OBJ}lladd.o${BJ}  \
+                 ${PPEC_OBJ}llconc.o${BJ} \
+                 ${PPEC_OBJ}llcopy.o${BJ} \
+                 ${PPEC_OBJ}lldele.o${BJ} \
+                 ${PPEC_OBJ}lldisp.o${BJ} \
+                 ${PPEC_OBJ}llerrp.o${BJ} \
+                 ${PPEC_OBJ}llinit.o${BJ} \
+                 ${PPEC_OBJ}lllist.o${BJ} \
+                 ${PPEC_OBJ}llnew.o${BJ}  \
+                 ${PPEC_OBJ}llnext.o${BJ} \
+                 ${PPEC_OBJ}llnull.o${BJ} \
+                 ${PPEC_OBJ}llscrh.o${BJ} \
+                 ${PPEC_OBJ}llsetp.o${BJ} \
+                 ${PPEC_OBJ}llvalu.o${BJ} \
+                 ${PPEC_OBJ}mstime.o${BJ} \
+                 ${PPEC_OBJ}mstrgt.o${BJ} \
+                 ${PPEC_OBJ}mstrit.o${BJ} \
+                 ${PPEC_OBJ}mstrpt.o${BJ} \
+                 ${PPEC_OBJ}oneisn.o${BJ} \
+                 ${PPEC_OBJ}onerpt.o${BJ} \
+                 ${PPEC_OBJ}plbwts.o${BJ} \
+                 ${PPEC_OBJ}pparps.o${BJ} \
+                 ${PPEC_OBJ}ppauid.o${BJ} \
+                 ${PPEC_OBJ}ppause.o${BJ} \
+                 ${PPEC_OBJ}ppbrph.o${BJ} \
+                 ${PPEC_OBJ}ppclop.o${BJ} \
+                 ${PPEC_OBJ}ppcvut.o${BJ} \
+                 ${PPEC_OBJ}ppeatv.o${BJ} \
+                 ${PPEC_OBJ}ppeblk.o${BJ} \
+                 ${PPEC_OBJ}ppecyc.o${BJ} \
+                 ${PPEC_OBJ}ppeget.o${BJ} \
+                 ${PPEC_OBJ}ppeopn.o${BJ} \
+                 ${PPEC_OBJ}pperrp.o${BJ} \
+                 ${PPEC_OBJ}ppevmi.o${BJ} \
+                 ${PPEC_OBJ}ppin.o${BJ}   \
+                 ${PPEC_OBJ}ppinit.o${BJ} \
+                 ${PPEC_OBJ}ppintr.o${BJ} \
+                 ${PPEC_OBJ}ppisn.o${BJ}  \
+                 ${PPEC_OBJ}ppkey.o${BJ}  \
+                 ${PPEC_OBJ}pplabs.o${BJ} \
+                 ${PPEC_OBJ}ppldev.o${BJ} \
+                 ${PPEC_OBJ}ppldx.o${BJ}  \
+                 ${PPEC_OBJ}ppmclk.o${BJ} \
+                 ${PPEC_OBJ}pppden.o${BJ} \
+                 ${PPEC_OBJ}ppweig.o${BJ} \
+                 ${PPEC_OBJ}prtbrh.o${BJ} \
+                 ${PPEC_OBJ}prtspa.o${BJ} \
+                 ${PPEC_OBJ}putstd.o${BJ} \
+                 ${PPEC_OBJ}ritcol.o${BJ} \
+                 ${PPEC_OBJ}rptwtr.o${BJ} \
+                 ${PPEC_OBJ}sched.o${BJ}  \
+                 ${PPEC_OBJ}selint.o${BJ} \
+                 ${PPEC_OBJ}slcond.o${BJ} \
+                 ${PPEC_OBJ}sndtbs.o${BJ} \
+                 ${PPEC_OBJ}spamgm.o${BJ} \
+                 ${PPEC_OBJ}sparls.o${BJ} \
+                 ${PPEC_OBJ}spasgn.o${BJ} \
+                 ${PPEC_OBJ}spbsrx.o${BJ} \
+                 ${PPEC_OBJ}spcntg.o${BJ} \
+                 ${PPEC_OBJ}spextr.o${BJ} \
+                 ${PPEC_OBJ}splaar.o${BJ} \
+                 ${PPEC_OBJ}splads.o${BJ} \
+                 ${PPEC_OBJ}splaex.o${BJ} \
+                 ${PPEC_OBJ}splait.o${BJ} \
+                 ${PPEC_OBJ}splalo.o${BJ} \
+                 ${PPEC_OBJ}splard.o${BJ} \
+                 ${PPEC_OBJ}spnbbd.o${BJ} \
+                 ${PPEC_OBJ}spnbed.o${BJ} \
+                 ${PPEC_OBJ}spnbex.o${BJ} \
+                 ${PPEC_OBJ}spnbit.o${BJ} \
+                 ${PPEC_OBJ}spnbrd.o${BJ} \
+                 ${PPEC_OBJ}sprdis.o${BJ} \
+                 ${PPEC_OBJ}sprdit.o${BJ} \
+                 ${PPEC_OBJ}sprdrd.o${BJ} \
+                 ${PPEC_OBJ}srtisn.o${BJ} \
+                 ${PPEC_OBJ}stash.o${BJ}  \
+                 ${PPEC_OBJ}stoprt.o${BJ} \
+                 ${PPEC_OBJ}wrthst.o${BJ} \
+                 ${PPEC_OBJ}yields.o${BJ} \
+                 ${PPEC_OBJ}fmppget.o${BJ} \
+                 ${PPEC_OBJ}fmppput.o${BJ} \
+                 ${PPEC_OBJ}fmpphv.o${BJ} \
+                 ${PPEC_OBJ}misact.o${BJ} \
+                 ${PPEC_OBJ}msppgt.o${BJ} \
+                 ${PPEC_OBJ}mspppt.o${BJ} 
 
 # all of the KT PPE variant specific routines
 PPKT_LINK      = ${PPKT_OBJ}ppdgf.o${BJ}  \
@@ -4973,7 +5260,13 @@ PPKT_LINK      = ${PPKT_OBJ}ppdgf.o${BJ}  \
 
 # all of the NC variant routines and PPE base extension routines.
 # except exbm.
-PPNC_LINK      = ${PPBASE_OBJ}add1.o${BJ}   \
+PPNC_LINK      = ${PPNC_OBJ}getstd.o${BJ}   \
+                 ${PPNC_OBJ}putstd.o${BJ}   \
+                 ${PPNC_OBJ}ppdgf.o${BJ}    \
+                 ${PPNC_OBJ}ppregt.o${BJ}   \
+                 ${PPNC_OBJ}varget.o${BJ}   \
+                 ${PPNC_OBJ}varput.o${BJ}   \
+                 ${PPBASE_OBJ}add1.o${BJ}   \
                  ${PPBASE_OBJ}alinit.o${BJ} \
                  ${PPBASE_OBJ}alstd1.o${BJ} \
                  ${PPBASE_OBJ}alstd2.o${BJ} \
@@ -5000,7 +5293,6 @@ PPNC_LINK      = ${PPBASE_OBJ}add1.o${BJ}   \
                  ${PPBASE_OBJ}ecnput.o${BJ} \
                  ${PPBASE_OBJ}evagrp.o${BJ} \
                  ${PPBASE_OBJ}getprt.o${BJ} \
-                 ${PPNC_OBJ}getstd.o${BJ} \
                  ${PPBASE_OBJ}gpadd.o${BJ}  \
                  ${PPBASE_OBJ}gpadsd.o${BJ} \
                  ${PPBASE_OBJ}gpclos.o${BJ} \
@@ -5090,7 +5382,6 @@ PPNC_LINK      = ${PPBASE_OBJ}add1.o${BJ}   \
                  ${PPBASE_OBJ}ppweig.o${BJ} \
                  ${PPBASE_OBJ}prtbrh.o${BJ} \
                  ${PPBASE_OBJ}prtspa.o${BJ} \
-                 ${PPNC_OBJ}putstd.o${BJ} \
                  ${PPBASE_OBJ}ritcol.o${BJ} \
                  ${PPBASE_OBJ}rptwtr.o${BJ} \
                  ${PPBASE_OBJ}sched.o${BJ}  \
@@ -5577,9 +5868,9 @@ PPWS_LINK      = ${PPWS_OBJ}varget.o${BJ}   \
                  ${WS_OBJ}esin.o${BJ}   ${WS_OBJ}esinit.o${BJ} \
                  ${WS_OBJ}esmsgs.o${BJ} ${WS_OBJ}esnutr.o${BJ} ${WS_OBJ}esout.o${BJ}  \
                  ${WS_OBJ}esplt1.o${BJ} ${WS_OBJ}esplt2.o${BJ} ${WS_OBJ}esprep.o${BJ} \
-                 ${WS_OBJ}esprin.o${BJ} ${WS_OBJ}esrann.o${BJ}  \
-                 ${WS_OBJ}estab.o${BJ}  ${WS_OBJ}esuckr.o${BJ} \
-                 ${WS_OBJ}estime.o${BJ} ${WS_OBJ}estump.o${BJ} \
+                 ${WS_OBJ}esprin.o${BJ} ${WS_OBJ}esrann.o${BJ} ${WS_OBJ}essprt.o${BJ}  \
+                 ${WS_OBJ}estab.o${BJ}  \
+                 ${WS_OBJ}estime.o${BJ} ${WS_OBJ}estump.o${BJ} ${WS_OBJ}esuckr.o${BJ} \
                  ${WS_OBJ}miscnt.o${BJ} ${WS_OBJ}miscpf.o${BJ} ${WS_OBJ}misdam.o${BJ} \
                  ${WS_OBJ}misdgf.o${BJ} ${WS_OBJ}misget.o${BJ} ${WS_OBJ}mishgf.o${BJ} \
                  ${WS_OBJ}misin.o${BJ}  ${WS_OBJ}misinf.o${BJ} ${WS_OBJ}misin0.o${BJ} \
@@ -5772,13 +6063,13 @@ SN_LINK        = ${SN_OBJ}blkdat.o${BJ} ${SN_OBJ}bratio.o${BJ}   \
                  ${SN_OBJ}cutstk.o${BJ} ${SN_OBJ}dgbnd.o${BJ}  ${SN_OBJ}dgdriv.o${BJ}    \
                  ${SN_OBJ}dunn.o${BJ}   ${SN_OBJ}maical.o${BJ} ${SN_OBJ}rcon.o${BJ}       \
                  ${SN_OBJ}avht40.o${BJ} ${SN_OBJ}exppnb.o${BJ}  \
-                 ${SN_OBJ}esblkd.o${BJ} ${SN_OBJ}escprs.o${BJ} ${SN_OBJ}esetpr.o${BJ}   \
+                 ${SN_OBJ}esaddt.o${BJ} ${SN_OBJ}esblkd.o${BJ} ${SN_OBJ}escprs.o${BJ} ${SN_OBJ}esetpr.o${BJ}   \
                  ${SN_OBJ}esfltr.o${BJ} ${SN_OBJ}esgent.o${BJ} ${SN_OBJ}esin.o${BJ}     \
                  ${SN_OBJ}esinit.o${BJ} ${SN_OBJ}esmsgs.o${BJ} ${SN_OBJ}esnutr.o${BJ}   \
                  ${SN_OBJ}esout.o${BJ}  ${SN_OBJ}esplt1.o${BJ} ${SN_OBJ}esplt2.o${BJ}   \
-                 ${SN_OBJ}esprep.o${BJ} ${SN_OBJ}esprin.o${BJ} ${SN_OBJ}esrann.o${BJ}   \
+                 ${SN_OBJ}esprep.o${BJ} ${SN_OBJ}esprin.o${BJ} ${SN_OBJ}esrann.o${BJ} ${SN_OBJ}essprt.o${BJ}   \
                  ${SN_OBJ}estab.o${BJ}  ${SN_OBJ}estime.o${BJ} ${SN_OBJ}estump.o${BJ}   \
-                 ${SN_OBJ}esuckr.o${BJ} ${SN_OBJ}esaddt.o${BJ}   \
+                 ${SN_OBJ}esuckr.o${BJ}   \
                  ${SN_OBJ}algcmp.o${BJ} ${SN_OBJ}algevl.o${BJ} ${SN_OBJ}algexp.o${BJ}   \
                  ${SN_OBJ}algkey.o${BJ} ${SN_OBJ}algslp.o${BJ} ${SN_OBJ}algspp.o${BJ}   \
                  ${SN_OBJ}autcor.o${BJ} ${SN_OBJ}bachlo.o${BJ} ${SN_OBJ}basdam.o${BJ}   \
@@ -5877,8 +6168,8 @@ SO_LINK      = ${SO_OBJ}adjmai.o${BJ} ${SO_OBJ}avht40.o${BJ} ${SO_OBJ}blkdat.o${
                  ${SO_OBJ}esin.o${BJ}   ${SO_OBJ}esinit.o${BJ} ${SO_OBJ}esmsgs.o${BJ} \
                  ${SO_OBJ}esnutr.o${BJ} ${SO_OBJ}esout.o${BJ}  ${SO_OBJ}esplt1.o${BJ} \
                  ${SO_OBJ}esplt2.o${BJ} ${SO_OBJ}esprep.o${BJ} ${SO_OBJ}esprin.o${BJ} \
-                 ${SO_OBJ}esrann.o${BJ} ${SO_OBJ}estab.o${BJ}  ${SO_OBJ}estime.o${BJ} \
-                 ${SO_OBJ}estump.o${BJ} ${SO_OBJ}esuckr.o${BJ}  \
+                 ${SO_OBJ}esrann.o${BJ} ${SO_OBJ}essprt.o${BJ} ${SO_OBJ}estab.o${BJ}  \
+                 ${SO_OBJ}estime.o${BJ} ${SO_OBJ}estump.o${BJ} ${SO_OBJ}esuckr.o${BJ}  \
                  ${SO_OBJ}miscnt.o${BJ} ${SO_OBJ}miscpf.o${BJ} ${SO_OBJ}misdam.o${BJ} \
                  ${SO_OBJ}misdgf.o${BJ} ${SO_OBJ}misget.o${BJ} ${SO_OBJ}mishgf.o${BJ} \
                  ${SO_OBJ}misin.o${BJ}  \
@@ -5969,8 +6260,8 @@ SO_CLIM_ADD   =  ${SO_OBJ}exbgc.o${BJ}  \
 TT_LINK        = ${TT_OBJ}bfvol.o${BJ}   ${TT_OBJ}blkdat.o${BJ}  ${TT_OBJ}bratio.o${BJ}  \
                  ${TT_OBJ}ccfcal.o${BJ}  ${TT_OBJ}cratet.o${BJ}  ${TT_OBJ}crown.o${BJ}   \
                  ${TT_OBJ}cubrds.o${BJ}  ${TT_OBJ}dgdriv.o${BJ}  ${TT_OBJ}dgf.o${BJ}     \
-                 ${TT_OBJ}dubscr.o${BJ}  ${TT_OBJ}essubh.o${BJ}  ${TT_OBJ}estump.o${BJ}  \
-                 ${TT_OBJ}esuckr.o${BJ}  ${TT_OBJ}findag.o${BJ}  ${TT_OBJ}forkod.o${BJ}  \
+                 ${TT_OBJ}dubscr.o${BJ}  ${TT_OBJ}essubh.o${BJ}   \
+                 ${TT_OBJ}findag.o${BJ}  ${TT_OBJ}forkod.o${BJ}  \
                  ${TT_OBJ}grinit.o${BJ}  ${TT_OBJ}grohed.o${BJ}  ${TT_OBJ}htgf.o${BJ}    \
                  ${TT_OBJ}maical.o${BJ}  ${TT_OBJ}morts.o${BJ}   ${TT_OBJ}regent.o${BJ}  \
                  ${TT_OBJ}sitset.o${BJ}  ${TT_OBJ}smdgf.o${BJ}   ${TT_OBJ}smhtgf.o${BJ}  \
@@ -6055,14 +6346,14 @@ TT_LINK        = ${TT_OBJ}bfvol.o${BJ}   ${TT_OBJ}blkdat.o${BJ}  ${TT_OBJ}bratio
                  ${TT_OBJ}trnasp.o${BJ}  ${TT_OBJ}trnslo.o${BJ}  ${TT_OBJ}tvalue.o${BJ} \
                  ${TT_OBJ}unblnk.o${BJ}  ${TT_OBJ}upcase.o${BJ}  ${TT_OBJ}update.o${BJ} \
                  ${TT_OBJ}upkey.o${BJ}   ${TT_OBJ}volkey.o${BJ} \
-                 ${TT_OBJ}esblkd.o${BJ}  ${TT_OBJ}escprs.o${BJ}  ${TT_OBJ}esetpr.o${BJ} \
-                 ${TT_OBJ}esfltr.o${BJ}  ${TT_OBJ}esgent.o${BJ}  \
+                 ${TT_OBJ}esaddt.o${BJ}  ${TT_OBJ}esblkd.o${BJ}  ${TT_OBJ}escprs.o${BJ}  \
+                 ${TT_OBJ}esetpr.o${BJ}  ${TT_OBJ}esfltr.o${BJ}  ${TT_OBJ}esgent.o${BJ}  \
                  ${TT_OBJ}esin.o${BJ}    ${TT_OBJ}esinit.o${BJ}  \
                  ${TT_OBJ}esmsgs.o${BJ}  ${TT_OBJ}esnutr.o${BJ}  ${TT_OBJ}esout.o${BJ}  \
                  ${TT_OBJ}esplt1.o${BJ}  ${TT_OBJ}esplt2.o${BJ}  ${TT_OBJ}esprep.o${BJ} \
-                 ${TT_OBJ}esprin.o${BJ}  ${TT_OBJ}esrann.o${BJ}  \
-                 ${TT_OBJ}estab.o${BJ}   ${TT_OBJ}esaddt.o${BJ}  \
-                 ${TT_OBJ}estime.o${BJ}  \
+                 ${TT_OBJ}esprin.o${BJ}  ${TT_OBJ}esrann.o${BJ}  ${TT_OBJ}essprt.o${BJ} \
+                 ${TT_OBJ}estab.o${BJ}    \
+                 ${TT_OBJ}estime.o${BJ}  ${TT_OBJ}estump.o${BJ} ${TT_OBJ}esuckr.o${BJ} \
                  ${TT_OBJ}miscnt.o${BJ}  ${TT_OBJ}miscpf.o${BJ}  ${TT_OBJ}misdam.o${BJ} \
                  ${TT_OBJ}misdgf.o${BJ}  ${TT_OBJ}misget.o${BJ}  ${TT_OBJ}mishgf.o${BJ} \
                  ${TT_OBJ}misin.o${BJ}   ${TT_OBJ}misinf.o${BJ}  ${TT_OBJ}misin0.o${BJ} \
@@ -6093,7 +6384,7 @@ TT_BGC_ADD   =   ${TT_OBJ}exbm.o${BJ}  \
 UT_LINK        = ${UT_OBJ}bfvol.o${BJ}  ${UT_OBJ}blkdat.o${BJ} ${UT_OBJ}bratio.o${BJ}  \
                  ${UT_OBJ}ccfcal.o${BJ} ${UT_OBJ}cratet.o${BJ} ${UT_OBJ}crown.o${BJ}   \
                  ${UT_OBJ}cubrds.o${BJ} ${UT_OBJ}dgdriv.o${BJ} ${UT_OBJ}dgf.o${BJ}     \
-                 ${UT_OBJ}dgfasp.o${BJ} ${UT_OBJ}dubscr.o${BJ} ${UT_OBJ}esuckr.o${BJ}  \
+                 ${UT_OBJ}dgfasp.o${BJ} ${UT_OBJ}dubscr.o${BJ}  \
                  ${UT_OBJ}findag.o${BJ} ${UT_OBJ}fndag.o${BJ}  \
                  ${UT_OBJ}forkod.o${BJ} ${UT_OBJ}grinit.o${BJ} ${UT_OBJ}grohed.o${BJ}  \
                  ${UT_OBJ}habtyp.o${BJ} ${UT_OBJ}htgf.o${BJ}   ${UT_OBJ}logs.o${BJ}    \
@@ -6183,9 +6474,9 @@ UT_LINK        = ${UT_OBJ}bfvol.o${BJ}  ${UT_OBJ}blkdat.o${BJ} ${UT_OBJ}bratio.o
                  ${UT_OBJ}esin.o${BJ}   ${UT_OBJ}esinit.o${BJ} \
                  ${UT_OBJ}esmsgs.o${BJ} ${UT_OBJ}esnutr.o${BJ} ${UT_OBJ}esout.o${BJ}  \
                  ${UT_OBJ}esplt1.o${BJ} ${UT_OBJ}esplt2.o${BJ} ${UT_OBJ}esprep.o${BJ} \
-                 ${UT_OBJ}esprin.o${BJ} ${UT_OBJ}esrann.o${BJ} ${UT_OBJ}essubh.o${BJ} \
-                 ${UT_OBJ}estab.o${BJ}  ${UT_OBJ}esaddt.o${BJ} \
-                 ${UT_OBJ}estime.o${BJ} ${UT_OBJ}estump.o${BJ} \
+                 ${UT_OBJ}esprin.o${BJ} ${UT_OBJ}esrann.o${BJ} ${UT_OBJ}essprt.o${BJ} \
+                 ${UT_OBJ}essubh.o${BJ} ${UT_OBJ}estab.o${BJ}  ${UT_OBJ}esaddt.o${BJ} \
+                 ${UT_OBJ}estime.o${BJ} ${UT_OBJ}estump.o${BJ} ${UT_OBJ}esuckr.o${BJ} \
                  ${UT_OBJ}miscnt.o${BJ} ${UT_OBJ}miscpf.o${BJ} ${UT_OBJ}misdam.o${BJ} \
                  ${UT_OBJ}misdgf.o${BJ} ${UT_OBJ}misget.o${BJ} ${UT_OBJ}mishgf.o${BJ} \
                  ${UT_OBJ}misin.o${BJ}  ${UT_OBJ}misinf.o${BJ} ${UT_OBJ}misin0.o${BJ} \
@@ -6372,9 +6663,9 @@ WS_LINK        = ${WS_OBJ}bfvol.o${BJ}   \
                  ${WS_OBJ}esin.o${BJ}   ${WS_OBJ}esinit.o${BJ} \
                  ${WS_OBJ}esmsgs.o${BJ} ${WS_OBJ}esnutr.o${BJ} ${WS_OBJ}esout.o${BJ}  \
                  ${WS_OBJ}esplt1.o${BJ} ${WS_OBJ}esplt2.o${BJ} ${WS_OBJ}esprep.o${BJ} \
-                 ${WS_OBJ}esprin.o${BJ} ${WS_OBJ}esrann.o${BJ}  \
-                 ${WS_OBJ}estab.o${BJ}  ${WS_OBJ}esuckr.o${BJ} \
-                 ${WS_OBJ}estime.o${BJ} ${WS_OBJ}estump.o${BJ} \
+                 ${WS_OBJ}esprin.o${BJ} ${WS_OBJ}esrann.o${BJ} ${WS_OBJ}essprt.o${BJ}  \
+                 ${WS_OBJ}estab.o${BJ}  \
+                 ${WS_OBJ}estime.o${BJ} ${WS_OBJ}estump.o${BJ} ${WS_OBJ}esuckr.o${BJ} \
                  ${WS_OBJ}miscnt.o${BJ} ${WS_OBJ}miscpf.o${BJ} ${WS_OBJ}misdam.o${BJ} \
                  ${WS_OBJ}misdgf.o${BJ} ${WS_OBJ}misget.o${BJ} ${WS_OBJ}mishgf.o${BJ} \
                  ${WS_OBJ}misin.o${BJ}  ${WS_OBJ}misinf.o${BJ} ${WS_OBJ}misin0.o${BJ} \
@@ -6511,6 +6802,22 @@ COVR_CR_LINK   = ${CR_OBJ}cvbcal.o${BJ} \
                  ${CR_OBJ}cvshap.o${BJ} \
                  ${CR_OBJ}cvsum.o${BJ}
 
+# cover model extension routines for EC
+COVR_EC_LINK   = ${EC_OBJ}cvbcal.o${BJ} \
+                 ${EC_OBJ}cvbrow.o${BJ} \
+                 ${EC_OBJ}cvcbms.o${BJ} \
+                 ${EC_OBJ}cvclas.o${BJ} \
+                 ${EC_OBJ}cvcnop.o${BJ} \
+                 ${EC_OBJ}cvcw.o${BJ} \
+                 ${EC_OBJ}cvgo.o${BJ} \
+                 ${EC_OBJ}cvin.o${BJ} \
+                 ${EC_OBJ}cvinit.o${BJ} \
+                 ${EC_OBJ}cvnohd.o${BJ} \
+                 ${EC_OBJ}cvout.o${BJ} \
+                 ${EC_OBJ}cvscon.o${BJ} \
+                 ${EC_OBJ}cvshap.o${BJ} \
+                 ${EC_OBJ}cvsum.o${BJ}
+
 # cover model extension routines for EM
 COVR_EM_LINK   = ${EM_OBJ}cvbcal.o${BJ} \
                  ${EM_OBJ}cvbrow.o${BJ} \
@@ -6646,6 +6953,7 @@ ESTB_LINK      = ${ESTB_OBJ}esaddt.o${BJ} \
                  ${ESTB_OBJ}espsub.o${BJ} \
                  ${ESTB_OBJ}espxcs.o${BJ} \
                  ${ESTB_OBJ}esrann.o${BJ} \
+                 ${ESTB_OBJ}essprt.o${BJ} \
                  ${ESTB_OBJ}essubh.o${BJ} \
                  ${ESTB_OBJ}estab.o${BJ} \
                  ${ESTB_OBJ}estime.o${BJ} \
@@ -6673,8 +6981,11 @@ STRP_LINK      = ${STRP_OBJ}esaddt.o${BJ} \
                  ${STRP_OBJ}esprep.o${BJ} \
                  ${STRP_OBJ}esprin.o${BJ} \
                  ${STRP_OBJ}esrann.o${BJ} \
+                 ${STRP_OBJ}essprt.o${BJ} \
                  ${STRP_OBJ}estab.o${BJ}  \
-                 ${STRP_OBJ}estime.o${BJ}
+                 ${STRP_OBJ}estime.o${BJ} \
+                 ${STRP_OBJ}estump.o${BJ} \
+                 ${STRP_OBJ}esuckr.o${BJ}
 
 # all ot the volume subroutines for the CR variant
 VOLUME_LINK    = ${VOLUME_OBJ}brk_up.o${BJ}    \
@@ -6872,6 +7183,31 @@ BM_DFB_LINK    = ${BM_OBJ}dfbin.o${BJ}     \
                  ${BM_OBJ}dfbtab.o${BJ}   \
                  ${BM_OBJ}dfbwin.o${BJ}
 
+# The Douglas-fir beetle model routines for East Cascades Variant.
+# There are two variant dependent routines:
+#                dfbin
+#                dfblkd
+
+EC_DFB_LINK    = ${EC_OBJ}dfbin.o${BJ}     \
+                 ${EC_OBJ}dfblkdec.o${BJ}  \
+                 ${EC_OBJ}dfbdam.o${BJ}   \
+                 ${EC_OBJ}dfbdbh.o${BJ}   \
+                 ${EC_OBJ}dfbdrv.o${BJ}   \
+                 ${EC_OBJ}dfber.o${BJ}    \
+                 ${EC_OBJ}dfbgo.o${BJ}    \
+                 ${EC_OBJ}dfbhed.o${BJ}   \
+                 ${EC_OBJ}dfbind.o${BJ}   \
+                 ${EC_OBJ}dfbint.o${BJ}   \
+                 ${EC_OBJ}dfbinv.o${BJ}   \
+                 ${EC_OBJ}dfbmod.o${BJ}   \
+                 ${EC_OBJ}dfbmrt.o${BJ}   \
+                 ${EC_OBJ}dfbout.o${BJ}   \
+                 ${EC_OBJ}dfbprb.o${BJ}   \
+                 ${EC_OBJ}dfbran.o${BJ}   \
+                 ${EC_OBJ}dfbsch.o${BJ}   \
+                 ${EC_OBJ}dfbtab.o${BJ}   \
+                 ${EC_OBJ}dfbwin.o${BJ}
+
 # The Douglas-fir Tussock Moth model routines.
 #
 # These routines also exist in the MPB_LINK object list,
@@ -6940,6 +7276,41 @@ BM_DFTM_LINK   = ${BM_OBJ}tminit.o${BJ}     \
                  ${BM_OBJ}y0comp.o${BJ}   \
                  ${BM_OBJ}y1comp.o${BJ}   \
                  ${BM_OBJ}z1comp.o${BJ}
+
+# The Douglas-fir Tussock Moth model routines for East Cascades Variant.
+#
+# These routines also exist in the MPB_LINK object list,
+# so are not included here.
+#                ${DFTM_OBJ}garbel.o${BJ}   \
+#                ${DFTM_OBJ}grclas.o${BJ}   \
+#                ${DFTM_OBJ}grpsum.o${BJ}   \
+#
+# There is one variant dependent routine:
+#                tminit
+EC_DFTM_LINK   = ${EC_OBJ}tminitec.o${BJ}     \
+                 ${EC_OBJ}dfole8.o${BJ}   \
+                 ${EC_OBJ}dftmgo.o${BJ}   \
+                 ${EC_OBJ}dftmin.o${BJ}   \
+                 ${EC_OBJ}dftmod.o${BJ}   \
+                 ${EC_OBJ}g0comp.o${BJ}   \
+                 ${EC_OBJ}gfcomp.o${BJ}   \
+                 ${EC_OBJ}inscyc.o${BJ}   \
+                 ${EC_OBJ}redist.o${BJ}   \
+                 ${EC_OBJ}tmbchl.o${BJ}   \
+                 ${EC_OBJ}tmbmas.o${BJ}   \
+                 ${EC_OBJ}tmcoup.o${BJ}   \
+                 ${EC_OBJ}tmdam.o${BJ}    \
+                 ${EC_OBJ}tmdtls.o${BJ}   \
+                 ${EC_OBJ}tmhed.o${BJ}    \
+                 ${EC_OBJ}tmotpr.o${BJ}   \
+                 ${EC_OBJ}tmout.o${BJ}    \
+                 ${EC_OBJ}tmrann.o${BJ}   \
+                 ${EC_OBJ}tmschd.o${BJ}   \
+                 ${EC_OBJ}uv1.o${BJ}      \
+                 ${EC_OBJ}uv2.o${BJ}      \
+                 ${EC_OBJ}y0comp.o${BJ}   \
+                 ${EC_OBJ}y1comp.o${BJ}   \
+                 ${EC_OBJ}z1comp.o${BJ}
 
 # The lodgepole mountain pine beetle model routines.
 # variant specific routines: mpbin
@@ -7083,6 +7454,55 @@ CR_MPB_LINK    = ${CR_OBJ}back.o${BJ}   \
                  ${CR_OBJ}surfce.o${BJ} \
                  ${CR_OBJ}surflp.o${BJ} \
                  ${CR_OBJ}tafit.o${BJ}
+
+# The lodgepole mountain pine beetle model routines for East Cascades Variant.
+# variant specific routines: mpbin
+#                            mpblkd
+EC_MPB_LINK    = ${EC_OBJ}mpbin.o${BJ}   \
+                 ${EC_OBJ}mpblkdec.o${BJ} \
+                 ${EC_OBJ}back.o${BJ}   \
+                 ${EC_OBJ}betin.o${BJ}  \
+                 ${EC_OBJ}coldbh.o${BJ} \
+                 ${EC_OBJ}coldrv.o${BJ} \
+                 ${EC_OBJ}colind.o${BJ} \
+                 ${EC_OBJ}colmod.o${BJ} \
+                 ${EC_OBJ}colmrt.o${BJ} \
+                 ${EC_OBJ}emerg.o${BJ}  \
+                 ${EC_OBJ}forw.o${BJ}   \
+                 ${EC_OBJ}garbel.o${BJ} \
+                 ${EC_OBJ}grclas.o${BJ} \
+                 ${EC_OBJ}grpsum.o${BJ} \
+                 ${EC_OBJ}mpbcup.o${BJ} \
+                 ${EC_OBJ}mpbdam.o${BJ} \
+                 ${EC_OBJ}mpbdrv.o${BJ} \
+                 ${EC_OBJ}mpber.o${BJ}  \
+                 ${EC_OBJ}mpbgam.o${BJ} \
+                 ${EC_OBJ}mpbgo.o${BJ}  \
+                 ${EC_OBJ}mpbhed.o${BJ} \
+                 ${EC_OBJ}mpbint.o${BJ} \
+                 ${EC_OBJ}mpbmod.o${BJ} \
+                 ${EC_OBJ}mpbout.o${BJ} \
+                 ${EC_OBJ}mpbtab.o${BJ} \
+                 ${EC_OBJ}mpgr.o${BJ}   \
+                 ${EC_OBJ}mpotpr.o${BJ} \
+                 ${EC_OBJ}mprann.o${BJ} \
+                 ${EC_OBJ}mpsdlp.o${BJ} \
+                 ${EC_OBJ}percnt.o${BJ} \
+                 ${EC_OBJ}pmslp.o${BJ}  \
+                 ${EC_OBJ}pqsml.o${BJ}  \
+                 ${EC_OBJ}ptary.o${BJ}  \
+                 ${EC_OBJ}ptbno.o${BJ}  \
+                 ${EC_OBJ}ptgrp.o${BJ}  \
+                 ${EC_OBJ}ptint.o${BJ}  \
+                 ${EC_OBJ}ptplt.o${BJ}  \
+                 ${EC_OBJ}ptsav.o${BJ}  \
+                 ${EC_OBJ}ptscl.o${BJ}  \
+                 ${EC_OBJ}ptsrg.o${BJ}  \
+                 ${EC_OBJ}ptssc.o${BJ}  \
+                 ${EC_OBJ}ptsym.o${BJ}  \
+                 ${EC_OBJ}surfce.o${BJ} \
+                 ${EC_OBJ}surflp.o${BJ} \
+                 ${EC_OBJ}tafit.o${BJ}
 
 # The western root disease model V3.0 routines.
 # There are two variant dependent routines:
@@ -7319,6 +7739,85 @@ CR_RD_LINK     = ${CR_OBJ}rdarea.o${BJ}   \
                  ${CR_OBJ}rdtrp.o${BJ}    \
                  ${CR_OBJ}rdzero.o${BJ}
 
+# The western root disease model V3.0 routines for East Cascades Variant
+# There are two variant dependent routines:
+#                rdin
+#                rdblk1
+
+EC_RD_LINK     = ${EC_OBJ}rdinec.o${BJ}   \
+                 ${EC_OBJ}rdblk1ec.o${BJ} \
+                 ${EC_OBJ}rdarea.o${BJ}   \
+                 ${EC_OBJ}rdatv.o${BJ}    \
+                 ${EC_OBJ}rdbb1.o${BJ}    \
+                 ${EC_OBJ}rdbb2.o${BJ}    \
+                 ${EC_OBJ}rdbb3.o${BJ}    \
+                 ${EC_OBJ}rdbb4.o${BJ}    \
+                 ${EC_OBJ}rdbbdo.o${BJ}   \
+                 ${EC_OBJ}rdbout.o${BJ}   \
+                 ${EC_OBJ}rdcent.o${BJ}   \
+                 ${EC_OBJ}rdcloc.o${BJ}   \
+                 ${EC_OBJ}rdcmpr.o${BJ}   \
+                 ${EC_OBJ}rdcntl.o${BJ}   \
+                 ${EC_OBJ}rdcsd.o${BJ}    \
+                 ${EC_OBJ}rddam.o${BJ}    \
+                 ${EC_OBJ}rddbug.o${BJ}   \
+                 ${EC_OBJ}rddout.o${BJ}   \
+                 ${EC_OBJ}rddst.o${BJ}    \
+                 ${EC_OBJ}rdend.o${BJ}    \
+                 ${EC_OBJ}rdescp.o${BJ}   \
+                 ${EC_OBJ}rdesin.o${BJ}   \
+                 ${EC_OBJ}rdestb.o${BJ}   \
+                 ${EC_OBJ}rdgrow.o${BJ}   \
+                 ${EC_OBJ}rdinf.o${BJ}    \
+                 ${EC_OBJ}rdinit.o${BJ}   \
+                 ${EC_OBJ}rdinoc.o${BJ}   \
+                 ${EC_OBJ}rdinsd.o${BJ}   \
+                 ${EC_OBJ}rdinup.o${BJ}   \
+                 ${EC_OBJ}rdiout.o${BJ}   \
+                 ${EC_OBJ}rdiprp.o${BJ}   \
+                 ${EC_OBJ}rdjump.o${BJ}   \
+                 ${EC_OBJ}rdload.o${BJ}   \
+                 ${EC_OBJ}rdmn1.o${BJ}    \
+                 ${EC_OBJ}rdmn2.o${BJ}    \
+                 ${EC_OBJ}rdmort.o${BJ}   \
+                 ${EC_OBJ}rdmrec.o${BJ}   \
+                 ${EC_OBJ}rdoagm.o${BJ}   \
+                 ${EC_OBJ}rdowi.o${BJ}    \
+                 ${EC_OBJ}rdowin.o${BJ}   \
+                 ${EC_OBJ}rdpr.o${BJ}     \
+                 ${EC_OBJ}rdprin.o${BJ}   \
+                 ${EC_OBJ}rdpush.o${BJ}   \
+                 ${EC_OBJ}rdrani.o${BJ}   \
+                 ${EC_OBJ}rdrann.o${BJ}   \
+                 ${EC_OBJ}rdranp.o${BJ}   \
+                 ${EC_OBJ}rdrate.o${BJ}   \
+                 ${EC_OBJ}rdrdel.o${BJ}   \
+                 ${EC_OBJ}rdroot.o${BJ}   \
+                 ${EC_OBJ}rdrout.o${BJ}   \
+                 ${EC_OBJ}rdsadd.o${BJ}   \
+                 ${EC_OBJ}rdsetp.o${BJ}   \
+                 ${EC_OBJ}rdshrk.o${BJ}   \
+                 ${EC_OBJ}rdshst.o${BJ}   \
+                 ${EC_OBJ}rdslp.o${BJ}    \
+                 ${EC_OBJ}rdsout.o${BJ}   \
+                 ${EC_OBJ}rdspl1.o${BJ}   \
+                 ${EC_OBJ}rdspl2.o${BJ}   \
+                 ${EC_OBJ}rdspor.o${BJ}   \
+                 ${EC_OBJ}rdsprd.o${BJ}   \
+                 ${EC_OBJ}rdspup.o${BJ}   \
+                 ${EC_OBJ}rdssiz.o${BJ}   \
+                 ${EC_OBJ}rdstp.o${BJ}    \
+                 ${EC_OBJ}rdstr.o${BJ}    \
+                 ${EC_OBJ}rdsum.o${BJ}    \
+                 ${EC_OBJ}rdtdel.o${BJ}   \
+                 ${EC_OBJ}rdtim.o${BJ}    \
+                 ${EC_OBJ}rdtout.o${BJ}   \
+                 ${EC_OBJ}rdtreg.o${BJ}   \
+                 ${EC_OBJ}rdtres.o${BJ}   \
+                 ${EC_OBJ}rdtrip.o${BJ}   \
+                 ${EC_OBJ}rdtrp.o${BJ}    \
+                 ${EC_OBJ}rdzero.o${BJ}
+
 # The white pine blister rust model routines
 # variant specific routine: brblkd
 WPBR_LINK      = ${WPBR_OBJ}brann.o${BJ}   \
@@ -7481,6 +7980,46 @@ BM_WSBE_LINK   = ${BM_OBJ}bwebkbm.o${BJ} \
                  ${BM_OBJ}bweuky.o${BJ}  \
                  ${BM_OBJ}bwewea.o${BJ}
 
+# Western Spruce Budworm Damage and General Defoliator for East Cascades Variant.
+# variant specifics routines: bwebk
+#                             bwebms
+EC_WSBE_LINK   = ${EC_OBJ}bwebkec.o${BJ} \
+                 ${EC_OBJ}bwebmsec.o${BJ} \
+                 ${EC_OBJ}bweadv.o${BJ}  \
+                 ${EC_OBJ}bweage.o${BJ}  \
+                 ${EC_OBJ}bwebet.o${BJ}  \
+                 ${EC_OBJ}bwecrc.o${BJ}  \
+                 ${EC_OBJ}bwecup.o${BJ}  \
+                 ${EC_OBJ}bwedam.o${BJ}  \
+                 ${EC_OBJ}bwedef.o${BJ}  \
+                 ${EC_OBJ}bwedie.o${BJ}  \
+                 ${EC_OBJ}bwedr.o${BJ}   \
+                 ${EC_OBJ}bweerr.o${BJ}  \
+                 ${EC_OBJ}bweest.o${BJ}  \
+                 ${EC_OBJ}bwefdk.o${BJ}  \
+                 ${EC_OBJ}bwego.o${BJ}   \
+                 ${EC_OBJ}bwein.o${BJ}   \
+                 ${EC_OBJ}bweint.o${BJ}  \
+                 ${EC_OBJ}bwekdp.o${BJ}  \
+                 ${EC_OBJ}bwekey.o${BJ}  \
+                 ${EC_OBJ}bwekrd.o${BJ}  \
+                 ${EC_OBJ}bwelit.o${BJ}  \
+                 ${EC_OBJ}bweob.o${BJ}   \
+                 ${EC_OBJ}bweout.o${BJ}  \
+                 ${EC_OBJ}bwep1.o${BJ}   \
+                 ${EC_OBJ}bwep3.o${BJ}   \
+                 ${EC_OBJ}bwep4.o${BJ}   \
+                 ${EC_OBJ}bwepdm.o${BJ}  \
+                 ${EC_OBJ}bweprb.o${BJ}  \
+                 ${EC_OBJ}bweran.o${BJ}  \
+                 ${EC_OBJ}bwernp.o${BJ}  \
+                 ${EC_OBJ}bwesin.o${BJ}  \
+                 ${EC_OBJ}bwesit.o${BJ}  \
+                 ${EC_OBJ}bweslp.o${BJ}  \
+                 ${EC_OBJ}bweuca.o${BJ}  \
+                 ${EC_OBJ}bweuky.o${BJ}  \
+                 ${EC_OBJ}bwewea.o${BJ}
+
 #
 # Westwide Pine Beetle model routines.
 # There is one variant-specific routine: bmblkdxx
@@ -7628,15 +8167,15 @@ FIRE_CI_LINK = ${FIRE_CI_OBJ}fmbrkt.o${BJ} \
                ${FIRE_CI_OBJ}fmmois.o${BJ}
 
 
-FIRE_EC_LINK = ${FIRE_EC_OBJ}fmbrkt.o${BJ} \
-               ${FIRE_EC_OBJ}fmcba.o${BJ} \
+FIRE_EC_LINK = ${FIRE_EC_OBJ}fmbrkt.o${BJ}  \
+               ${FIRE_EC_OBJ}fmcba.o${BJ}   \
                ${FIRE_EC_OBJ}fmcblk.o${BJ}  \
-               ${FIRE_EC_OBJ}fmcfmd.o${BJ} \
-               ${FIRE_EC_OBJ}fmcrow.o${BJ} \
-               ${FIRE_EC_OBJ}fmsfall.o${BJ} \
+               ${FIRE_EC_OBJ}fmcfmd.o${BJ}  \
+               ${FIRE_EC_OBJ}fmcrow.o${BJ}  \
                ${FIRE_EC_OBJ}fmvinit.o${BJ} \
                ${FIRE_NI_OBJ}fmcons.o${BJ}  \
-               ${FIRE_NI_OBJ}fmmois.o${BJ}
+               ${FIRE_NI_OBJ}fmmois.o${BJ}  \
+               ${FIRE_EC_OBJ}fmsfall.o${BJ}
 
 FIRE_EM_LINK = ${FIRE_EM_OBJ}fmcrow.o${BJ} \
                ${FIRE_EM_OBJ}fmbrkt.o${BJ} \
@@ -8527,6 +9066,13 @@ FVScrm : base_compile cr_compile volume_compile fire_cr_compile fire_fofem_compi
 	           ${FIRE_FOFEM_LINK} ${CR_ECON_LINK} ${COVR_CR_LINK} \
 	           `ls ${CRM_OBJ}*.o${BJ}` `ls ${FIREM_CR_OBJ}*.o${BJ}`
 
+# Metric version of the CR variant with climate extension
+FVScrmc : base_compile cr_compile volume_compile fire_cr_compile fire_fofem_compile dbs_compile_cr  \
+          dbs_compile_crm cr_econ_compile covr_cr_compile crm_compile firem_cr_compile clim_cr_compile
+	${FCL} $@  ${DBS_LINK_CRM} ${VOLUME_LINK} ${CR_CLIM_ADD} ${CR_CLIMM_LINK} \
+	           ${FIRE_FOFEM_LINK} ${CR_ECON_LINK} ${COVR_CR_LINK} \
+	           `ls ${CRM_OBJ}*.o${BJ}` `ls ${FIREM_CR_OBJ}*.o${BJ}`
+
 FVScru : base_compile cr_compile volume_compile fire_cr_compile dbs_compile_cr crx_compile
 	${FCL} $@  ${DBS_LINK_CR} ${VOLUME_LINK} ${CR_LINK} ${CRU_ADD} \
                    ${CR_WPBR_LINK} \
@@ -8559,25 +9105,15 @@ FVScs  : base_compile cs_compile volume_compile dbs_compile_cs cs_econ_compile \
                   ${VOLUME_OBJ}r9logs.o${BJ}
 
 #With ECON and FFE
-FVSec : base_compile covr_compile strp_compile mistoe_compile ec_compile    \
-        ni_compile so_compile volume_compile fire_base_compile fire_fofem_compile     \
-        fire_ni_compile fire_ec_compile dbs_compile econ_compile
-	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${BASE_ADD} ${COVR_LINK} ${ECON_LINK}          \
-                  ${STRP_LINK} ${MIST_LINK} ${EC_LINK}          \
-                  ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_EC_LINK}                  \
-                  ${BASE_OBJ}intree.o${BJ} ${BASE_OBJ}msbmrt.o${BJ} ${BASE_OBJ}opget3.o${BJ} \
-                  ${MIST_OBJ}misintec.o${BJ}                                             \
-                  ${NI_OBJ}bftopk.o${BJ}   ${NI_OBJ}bfvol.o${BJ}    ${NI_OBJ}bratio.o${BJ}   \
-                  ${NI_OBJ}cftopk.o${BJ}   ${NI_OBJ}cfvol.o${BJ}    ${NI_OBJ}cubrds.o${BJ}   \
-                  ${NI_OBJ}cutstk.o${BJ}   ${NI_OBJ}cwcalc.o${BJ}                          \
-                  ${NI_OBJ}dgbnd.o${BJ}    ${NI_OBJ}dgdriv.o${BJ}                          \
-                  ${NI_OBJ}dunn.o${BJ}     ${NI_OBJ}exppnb.o${BJ}   ${NI_OBJ}logs.o${BJ}    \
-                  ${NI_OBJ}maical.o${BJ}                                                 \
-                  ${NI_OBJ}rcon.o${BJ}     ${NI_OBJ}spctrn.o${BJ}   ${NI_OBJ}vols.o${BJ}      \
-                  ${STRP_OBJ}esuckr.o${BJ}                      \
-                  ${STRP_OBJ}estump.o${BJ}                      \
+FVSec : ec_compile volume_compile fire_ec_compile    \
+        fire_base_compile fire_fofem_compile dbs_compile_ec
+	${FCL} $@ ${EC_LINK} ${EC_BASE_ADD} ${DBS_LINK_EC} ${EC_ECON_LINK} ${COVR_EC_LINK}  \
+                  ${FIRE_FOFEM_LINK} `ls ${FIRE_EC_OBJ}*.o${BJ}` \
+                  ${EC_OBJ}main.o${BJ}   \
+                  ${EC_OBJ}exclim.o${BJ} \
+                  ${EC_OBJ}exbgc.o${BJ}  ${EC_OBJ}exppe.o${BJ} ${EC_OBJ}exppnb.o${BJ}  \
                   ${VOLUME_OBJ}brk_up.o${BJ}                    \
-                  ${VOLUME_OBJ}debug_mod.o${BJ}          \
+                  ${VOLUME_OBJ}debug_mod.o${BJ}                 \
                   ${VOLUME_OBJ}f_alaska.o${BJ}                  \
                   ${VOLUME_OBJ}f_ingy.o${BJ}                    \
                   ${VOLUME_OBJ}f_other.o${BJ}                   \
@@ -8614,25 +9150,16 @@ FVSec : base_compile covr_compile strp_compile mistoe_compile ec_compile    \
                   ${VOLUME_OBJ}voleqdef.o${BJ}                 
 
 #With ECON, FFE and CLIM
-FVSecc : base_compile covr_compile strp_compile mistoe_compile ec_compile    \
-        ni_compile so_compile volume_compile fire_base_compile fire_fofem_compile     \
-        fire_ni_compile fire_ec_compile dbs_compile econ_compile clim_base_compile
-	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${CLIM_ADD} ${COVR_LINK} ${ECON_LINK} ${BASE_CLIM_LINK} \
-                  ${STRP_LINK} ${MIST_LINK} ${EC_LINK}          \
-                  ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_EC_LINK}                  \
-                  ${BASE_OBJ}intree.o${BJ} ${BASE_OBJ}msbmrt.o${BJ} ${BASE_OBJ}opget3.o${BJ} \
-                  ${MIST_OBJ}misintec.o${BJ}                                             \
-                  ${NI_OBJ}bftopk.o${BJ}   ${NI_OBJ}bfvol.o${BJ}    ${NI_OBJ}bratio.o${BJ}   \
-                  ${NI_OBJ}cftopk.o${BJ}   ${NI_OBJ}cfvol.o${BJ}    ${NI_OBJ}cubrds.o${BJ}   \
-                  ${NI_OBJ}cutstk.o${BJ}   ${NI_OBJ}cwcalc.o${BJ}                          \
-                  ${NI_OBJ}dgbnd.o${BJ}    ${NI_OBJ}dgdriv.o${BJ}                          \
-                  ${NI_OBJ}dunn.o${BJ}     ${NI_OBJ}exppnb.o${BJ}   ${NI_OBJ}logs.o${BJ}    \
-                  ${NI_OBJ}maical.o${BJ}                                                 \
-                  ${NI_OBJ}rcon.o${BJ}     ${NI_OBJ}spctrn.o${BJ}   ${NI_OBJ}vols.o${BJ}      \
-                  ${STRP_OBJ}esuckr.o${BJ}                      \
-                  ${STRP_OBJ}estump.o${BJ}                      \
+FVSecc : ec_compile volume_compile fire_ec_compile    \
+         fire_base_compile fire_fofem_compile dbs_compile_ec     \
+         clim_ec_compile
+	${FCL} $@ ${EC_LINK} ${EC_BASE_ADD} ${DBS_LINK_EC} ${EC_ECON_LINK} ${COVR_EC_LINK}  \
+            ${FIRE_FOFEM_LINK} `ls ${FIRE_EC_OBJ}*.o${BJ}` \
+	          ${EC_CLIM_LINK} \
+                  ${EC_OBJ}main.o${BJ}   \
+                  ${EC_OBJ}exbgc.o${BJ}  ${EC_OBJ}exppe.o${BJ} ${EC_OBJ}exppnb.o${BJ}  \
                   ${VOLUME_OBJ}brk_up.o${BJ}                    \
-                  ${VOLUME_OBJ}debug_mod.o${BJ}          \
+                  ${VOLUME_OBJ}debug_mod.o${BJ}                 \
                   ${VOLUME_OBJ}f_alaska.o${BJ}                  \
                   ${VOLUME_OBJ}f_ingy.o${BJ}                    \
                   ${VOLUME_OBJ}f_other.o${BJ}                   \
@@ -8668,46 +9195,28 @@ FVSecc : base_compile covr_compile strp_compile mistoe_compile ec_compile    \
                   ${VOLUME_OBJ}sf_zero.o${BJ}                   \
                   ${VOLUME_OBJ}voleqdef.o${BJ}                 
 
-FVSecx : base_compile covr_compile strp_compile mistoe_compile ec_compile    \
-        ni_compile so_compile volume_compile fire_base_compile fire_fofem_compile     \
-        fire_ni_compile fire_ec_compile dbs_compile econ_compile dfb_compile dftm_compile  \
-        lpmpb_compile rd_compile wsbe_compile
-	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${COVR_LINK} ${ECON_LINK}  \
-                  ${STRP_LINK} ${MIST_LINK} ${EC_LINK}   \
-                  ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_EC_LINK}      \
-                  ${ECX_ADD}               \
-                  ${DFB_LINK}             \
-                  ${DFB_OBJ}dfbin.o${BJ}  \
-                  ${DFB_OBJ}dfblkdec.o${BJ} \
-                  ${DFTM_LINK}            \
-                  ${DFTM_OBJ}tminitec.o${BJ} \
-                  ${MPB_LINK}             \
-                  ${MPB_OBJ}mpbin.o${BJ}  \
-                  ${MPB_OBJ}mpblkd.o${BJ} \
-                  ${RD_LINK}              \
-                  ${RD_OBJ}rdin.o${BJ}    \
-                  ${RD_OBJ}rdblk1ec.o${BJ}  \
-                  ${WSBE_LINK}             \
-                  ${WSBE_OBJ}bwebkec.o${BJ}  \
-                  ${WSBE_OBJ}bwebmsec.o${BJ} \
-                  ${MIST_OBJ}misintec.o${BJ}                                       \
-                  ${BASE_OBJ}intree.o${BJ} ${BASE_OBJ}msbmrt.o${BJ} ${BASE_OBJ}opget3.o${BJ}                \
-                  ${NI_OBJ}bftopk.o${BJ}   ${NI_OBJ}bfvol.o${BJ}    ${NI_OBJ}bratio.o${BJ}       \
-                  ${NI_OBJ}cftopk.o${BJ}   ${NI_OBJ}cfvol.o${BJ}    ${NI_OBJ}cubrds.o${BJ}      \
-                  ${NI_OBJ}cutstk.o${BJ}   ${NI_OBJ}cwcalc.o${BJ} \
-                  ${NI_OBJ}dgbnd.o${BJ}    ${NI_OBJ}dgdriv.o${BJ}      \
-                  ${NI_OBJ}dunn.o${BJ}     ${NI_OBJ}exppnb.o${BJ}   ${NI_OBJ}logs.o${BJ}   \
-                  ${NI_OBJ}maical.o${BJ}  \
-                  ${NI_OBJ}rcon.o${BJ}     ${NI_OBJ}spctrn.o${BJ}   ${NI_OBJ}vols.o${BJ}          \
-                  ${STRP_OBJ}esuckr.o${BJ}                      \
-                  ${STRP_OBJ}estump.o${BJ}                      \
+#With ECON, FFE, DM, DFB, DFTM, LPMPB, WRD and WSBW
+FVSecx : ec_compile volume_compile fire_ec_compile    \
+        fire_base_compile fire_fofem_compile dbs_compile_ec \
+        ecx_compile 
+	${FCL} $@ ${EC_LINK} ${DBS_LINK_EC} ${EC_ECON_LINK} ${COVR_EC_LINK}  \
+                  ${FIRE_FOFEM_LINK} `ls ${FIRE_EC_OBJ}*.o${BJ}` \
+                  ${EC_OBJ}main.o${BJ}   \
+                  ${ECX_ADD}       \
+                  ${EC_DFB_LINK}   \
+                  ${EC_DFTM_LINK}  \
+                  ${EC_MPB_LINK}   \
+                  ${EC_RD_LINK}    \
+                  ${EC_WSBE_LINK}  \
+                  ${EC_OBJ}exclim.o${BJ} \
+                  ${EC_OBJ}exbgc.o${BJ}  ${EC_OBJ}exppe.o${BJ} ${EC_OBJ}exppnb.o${BJ}  \
                   ${VOLUME_OBJ}brk_up.o${BJ}                    \
-                  ${VOLUME_OBJ}debug_mod.o${BJ}          \
+                  ${VOLUME_OBJ}debug_mod.o${BJ}                 \
                   ${VOLUME_OBJ}f_alaska.o${BJ}                  \
                   ${VOLUME_OBJ}f_ingy.o${BJ}                    \
                   ${VOLUME_OBJ}f_other.o${BJ}                   \
                   ${VOLUME_OBJ}f_west.o${BJ}                    \
-                  ${VOLUME_OBJ}formclas.o${BJ}                 \
+                  ${VOLUME_OBJ}formclas.o${BJ}                  \
                   ${VOLUME_OBJ}fwinit.o${BJ}                    \
                   ${VOLUME_OBJ}mrules.o${BJ}                    \
                   ${VOLUME_OBJ}numlog.o${BJ}                    \
@@ -9438,7 +9947,7 @@ FVSiex  : base_compile ie_compile volume_compile dbs_compile dbs_compile_ie fire
 # With ECON and FFE
 FVSkt  : base_compile covr_compile estb_compile mistoe_compile kt_compile    \
          ni_compile so_compile volume_compile fire_base_compile fire_fofem_compile fire_ni_compile \
-         dbs_compile econ_compile ie_compile
+         dbs_compile econ_compile
 	${FCL} $@ ${BASE_LINK} ${DBS_LINK} ${BASE_ADD} ${COVR_LINK}                          \
                   ${ESTB_LINK} ${MIST_LINK} ${KT_LINK}              \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NI_LINK}  ${ECON_LINK}       \
@@ -9621,7 +10130,7 @@ FVSls  : base_compile ls_compile volume_compile dbs_compile_ls fire_fofem_compil
                   `ls ${LS_OBJ}*.o${BJ}`
 
 # With ECON and FFE
-FVSnc : base_compile covr_compile strp_compile mistoe_compile nc_compile ec_compile \
+FVSnc : base_compile covr_compile strp_compile mistoe_compile nc_compile \
         ni_compile so_compile volume_compile dbs_compile fire_nc_compile \
         fire_base_compile fire_fofem_compile fire_ws_compile fire_ni_compile         \
         econ_compile
@@ -9631,7 +10140,7 @@ FVSnc : base_compile covr_compile strp_compile mistoe_compile nc_compile ec_comp
                   ${STRP_OBJ}esblkd.o${BJ} ${STRP_OBJ}escprs.o${BJ} ${STRP_OBJ}esetpr.o${BJ} \
                   ${STRP_OBJ}esmsgs.o${BJ} ${STRP_OBJ}esnutr.o${BJ} ${STRP_OBJ}esaddt.o${BJ} \
                   ${STRP_OBJ}esout.o${BJ}  ${STRP_OBJ}esplt1.o${BJ} ${STRP_OBJ}esplt2.o${BJ} \
-                  ${STRP_OBJ}esprin.o${BJ} ${STRP_OBJ}esrann.o${BJ}                     \
+                  ${STRP_OBJ}esprin.o${BJ} ${STRP_OBJ}esrann.o${BJ} ${STRP_OBJ}essprt.o${BJ} \
                   ${MIST_OBJ}misintnc.o${BJ}                                       \
                   ${NI_OBJ}bftopk.o${BJ}   ${NI_OBJ}cftopk.o${BJ}   ${NI_OBJ}cfvol.o${BJ}        \
                   ${NI_OBJ}cubrds.o${BJ}   ${NI_OBJ}cutstk.o${BJ}   ${NI_OBJ}cwcalc.o${BJ} \
@@ -9689,7 +10198,7 @@ FVSncc : base_compile covr_compile strp_compile mistoe_compile nc_compile      \
                   ${STRP_OBJ}esblkd.o${BJ} ${STRP_OBJ}escprs.o${BJ} ${STRP_OBJ}esetpr.o${BJ} \
                   ${STRP_OBJ}esmsgs.o${BJ} ${STRP_OBJ}esnutr.o${BJ} ${STRP_OBJ}esaddt.o${BJ} \
                   ${STRP_OBJ}esout.o${BJ}  ${STRP_OBJ}esplt1.o${BJ} ${STRP_OBJ}esplt2.o${BJ} \
-                  ${STRP_OBJ}esprin.o${BJ} ${STRP_OBJ}esrann.o${BJ}                     \
+                  ${STRP_OBJ}esprin.o${BJ} ${STRP_OBJ}esrann.o${BJ} ${STRP_OBJ}essprt.o${BJ}  \
                   ${MIST_OBJ}misintnc.o${BJ}                                       \
                   ${NI_OBJ}bftopk.o${BJ}   ${NI_OBJ}cftopk.o${BJ}   ${NI_OBJ}cfvol.o${BJ}        \
                   ${NI_OBJ}cubrds.o${BJ}   ${NI_OBJ}cutstk.o${BJ}   ${NI_OBJ}cwcalc.o${BJ} \
@@ -9751,7 +10260,7 @@ FVSncx : base_compile covr_compile strp_compile mistoe_compile nc_compile      \
                   ${STRP_OBJ}esblkd.o${BJ} ${STRP_OBJ}escprs.o${BJ} ${STRP_OBJ}esetpr.o${BJ} \
                   ${STRP_OBJ}esmsgs.o${BJ} ${STRP_OBJ}esnutr.o${BJ} ${STRP_OBJ}esaddt.o${BJ} \
                   ${STRP_OBJ}esout.o${BJ}  ${STRP_OBJ}esplt1.o${BJ} ${STRP_OBJ}esplt2.o${BJ} \
-                  ${STRP_OBJ}esprin.o${BJ} ${STRP_OBJ}esrann.o${BJ}                     \
+                  ${STRP_OBJ}esprin.o${BJ} ${STRP_OBJ}esrann.o${BJ} ${STRP_OBJ}essprt.o${BJ}  \
                   ${NI_OBJ}bftopk.o${BJ}   ${NI_OBJ}cftopk.o${BJ}   ${NI_OBJ}cfvol.o${BJ}        \
                   ${NI_OBJ}cubrds.o${BJ}   ${NI_OBJ}cutstk.o${BJ}   ${NI_OBJ}cwcalc.o${BJ} \
                   ${NI_OBJ}dgbnd.o${BJ}        \
@@ -12245,27 +12754,16 @@ FVSppcrp : base_compile cr_compile volume_compile ppcr_compile dbs_compile_cr \
                   ${PPCR_OBJ}bmtrip.o${BJ} \
                   ${PPCR_OBJ}gpget2.o${BJ}     
 
-
 # With ECON and FFE
-FVSppec : base_compile ppbase_compile covr_compile strp_compile \
-          mistoe_compile ppec_compile ec_compile  \
-          ni_compile so_compile volume_compile dbs_compile \
-          fire_base_compile fire_fofem_compile fire_ni_compile fire_ec_compile \
-          econ_compile fire_ppe_compile
-	${FCL} $@ ${PPBASE_LINK} ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD}  \
-                  ${PPEC_LINK} ${COVR_LINK} ${STRP_LINK} ${MIST_LINK} ${ECON_LINK}  \
-                  ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_EC_LINK} $(FIRE_PPE_LINK)  \
-                  ${PPMIST_LINK} ${EC_LINK} ${BASE_OBJ}opget3.o${BJ}  \
-                  ${BASE_OBJ}intree.o${BJ} ${BASE_OBJ}msbmrt.o${BJ}                          \
-                  ${MIST_OBJ}misintec.o${BJ}                                                 \
-                  ${NI_OBJ}bftopk.o${BJ} ${NI_OBJ}bfvol.o${BJ}  ${NI_OBJ}bratio.o${BJ}       \
-                  ${NI_OBJ}cftopk.o${BJ} ${NI_OBJ}cfvol.o${BJ}  ${NI_OBJ}cubrds.o${BJ}      \
-                  ${NI_OBJ}cutstk.o${BJ} ${NI_OBJ}cwcalc.o${BJ} \
-                  ${NI_OBJ}dgbnd.o${BJ}  ${NI_OBJ}dgdriv.o${BJ}      \
-                  ${NI_OBJ}dunn.o${BJ}   ${NI_OBJ}logs.o${BJ}   ${NI_OBJ}maical.o${BJ}      \
-                  ${NI_OBJ}rcon.o${BJ}   ${NI_OBJ}spctrn.o${BJ} ${NI_OBJ}vols.o${BJ}        \
-                  ${STRP_OBJ}esuckr.o${BJ}    \
-                  ${STRP_OBJ}estump.o${BJ}    \
+FVSppec : ppec_compile ec_compile volume_compile fire_ec_compile \
+          fire_fofem_compile fire_ec_compile dbs_compile_ec \
+          fire_base_compile fire_ppe_compile
+	${FCL} $@ ${PPEC_LINK} ${DBSppLk}  \
+            ${EC_LINK} ${EC_BASE_ADD} ${DBS_LINK_CI} ${EC_ECON_LINK} ${COVR_EC_LINK} \
+                  ${FIRE_FOFEM_LINK} `ls ${FIRE_EC_OBJ}*.o${BJ}` \
+                  ${PPEC_OBJ}ppmain.o${BJ}   \
+                  ${EC_OBJ}exclim.o${BJ}   \
+                  ${EC_OBJ}exbgc.o${BJ}    \
                   ${VOLUME_OBJ}brk_up.o${BJ}                    \
                   ${VOLUME_OBJ}debug_mod.o${BJ}          \
                   ${VOLUME_OBJ}f_alaska.o${BJ}                  \
@@ -12386,18 +12884,18 @@ FVSppls : base_compile ls_compile ppls_compile dbs_compile_ls fire_fofem_compile
  
 # With ECON and FFE
 FVSppnc : base_compile ppbase_compile ppec_compile covr_compile strp_compile \
-          mistoe_compile nc_compile ec_compile ni_compile ppnc_compile so_compile   \
+          mistoe_compile nc_compile ni_compile ppnc_compile so_compile   \
           volume_compile dbs_compile fire_base_compile fire_fofem_compile \
           fire_nc_compile fire_ni_compile fire_ppe_compile econ_compile fire_ppe_compile
 	${FCL} $@ ${PPNC_LINK}  ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} ${PPWWPB_ADD} \
-                  ${PPEC_LINK} ${PPMIST_LINK} ${COVR_LINK} ${MIST_LINK} ${NC_LINK}  \
+                  ${PPMIST_LINK} ${COVR_LINK} ${MIST_LINK} ${NC_LINK}  \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NC_LINK} ${FIRE_PPE_LINK} \
                   ${ECON_LINK}                                       \
                   ${BASE_OBJ}intree.o${BJ}  ${BASE_OBJ}opget3.o${BJ} \
                   ${STRP_OBJ}esblkd.o${BJ}  ${STRP_OBJ}escprs.o${BJ} ${STRP_OBJ}esetpr.o${BJ} \
                   ${STRP_OBJ}esmsgs.o${BJ}  ${STRP_OBJ}esnutr.o${BJ} ${STRP_OBJ}esaddt.o${BJ} \
                   ${STRP_OBJ}esout.o${BJ}   ${STRP_OBJ}esplt1.o${BJ} ${STRP_OBJ}esplt2.o${BJ} \
-                  ${STRP_OBJ}esprin.o${BJ}  ${STRP_OBJ}esrann.o${BJ}                     \
+                  ${STRP_OBJ}esprin.o${BJ}  ${STRP_OBJ}esrann.o${BJ} ${STRP_OBJ}essprt.o${BJ} \
                   ${MIST_OBJ}misintnc.o${BJ}                                       \
                   ${NI_OBJ}bftopk.o${BJ}    ${NI_OBJ}cftopk.o${BJ}   ${NI_OBJ}cfvol.o${BJ}        \
                   ${NI_OBJ}cubrds.o${BJ}    ${NI_OBJ}cutstk.o${BJ}   ${NI_OBJ}dgbnd.o${BJ}        \
@@ -12446,12 +12944,12 @@ FVSppnc : base_compile ppbase_compile ppec_compile covr_compile strp_compile \
 
 # With FFE and WWPB
 FVSppncp : base_compile ppbase_compile ppec_compile covr_compile strp_compile \
-          mistoe_compile nc_compile ec_compile ni_compile ppnc_compile so_compile  \
+          mistoe_compile nc_compile ni_compile ppnc_compile so_compile  \
           volume_compile dbs_compile wwpb_compile \
           fire_base_compile fire_fofem_compile fire_ws_compile fire_nc_compile fire_ni_compile \
           fire_ppe_compile
 	${FCL} $@ ${PPNC_LINK}  ${DBS_LINK} ${DBSppLk} ${PPBASE_ADD} \
-                  ${PPEC_LINK} ${PPMIST_LINK} ${COVR_LINK} ${MIST_LINK} ${NC_LINK}  \
+                  ${PPMIST_LINK} ${COVR_LINK} ${MIST_LINK} ${NC_LINK}  \
                   ${WWPB_LINK} ${WWPB_OBJ}bmblkdnc.o${BJ} \
                   ${FIRE_BASE_LINK}  ${FIRE_FOFEM_LINK} ${FIRE_NC_LINK} ${FIRE_PPE_LINK} \
                   ${BASE_OBJ}execon.o${BJ}  \
@@ -13248,6 +13746,9 @@ cs_compile :
 ec_compile :
 	cd ${EC_OBJ} ; ${MAKE} ec
 
+ecx_compile :
+	cd ${EC_OBJ} ; ${MAKE} ecx
+
 em_compile :
 	cd ${EM_OBJ} ; ${MAKE} em
 
@@ -13411,6 +13912,9 @@ clim_cr_compile :
 
 clim_cs_compile :
 	cd ${CLIM_CS_OBJ} ; ${MAKE} clim
+
+clim_ec_compile :
+	cd ${CLIM_EC_OBJ} ; ${MAKE} clim
 
 clim_em_compile :
 	cd ${CLIM_EM_OBJ} ; ${MAKE} clim

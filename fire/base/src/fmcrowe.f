@@ -1,7 +1,7 @@
       SUBROUTINE FMCROWE (SPIE,SPIW,ISEFOR,KODIST,D,H,IC,SG,XV)
       IMPLICIT NONE
 
-C   **FMCROWE  FIRE-BASE DATE OF LAST REVISION:  02/11/11
+C   **FMCROWE  FIRE-BASE DATE OF LAST REVISION:  04/10/12
 
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS: HTDBH, FMSVL2, SEVLHT
@@ -218,12 +218,13 @@ C       STRAIGHT DUBBING IS USED FOR CR-, UT-, TT-FFE, WS(SOME SPECIES)
           END SELECT
         ENDIF
         IF (VVER(1:2) .EQ. 'CA' .OR.
+     >      VVER(1:2) .EQ. 'EC' .OR.
      >      VVER(1:2) .EQ. 'SN' .OR.
      >      VVER(1:2) .EQ. 'PN' .OR.
      >      VVER(1:2) .EQ. 'WC' .OR.
      >      VVER(1:2) .EQ. 'SO' .OR.
      >     (VVER(1:2) .EQ. 'WS' .AND. LHTDBH)) THEN
-          CALL HTDBH(IFOR,SPIW,D,H,0)
+          CALL HTDBH(IFOR,IGL,SPIW,D,H,0)
         ELSE
           IF(IABFLG(SPIW).EQ.1) THEN
             AX = HT1(SPIW)

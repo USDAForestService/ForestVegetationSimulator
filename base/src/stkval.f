@@ -1,7 +1,7 @@
       SUBROUTINE STKVAL(S)
       IMPLICIT NONE
 C----------
-C  **STKVAL--BASE  DATE OF LAST REVISION: 12/14/2010
+C  **STKVAL--BASE  DATE OF LAST REVISION: 02/10/2012
 C----------
 C     THIS ROUTINE CALCULATES THE STOCKING VALUES FOR EACH
 C     TREE IN THE STAND BASED ON ARNER 2001, NATIONAL ALGORITHMS
@@ -384,7 +384,7 @@ C --- STEP 1: ASSIGN INITIAL STOCKING VALUE FOR EACH TREE
          I1=ISCT(ISPC,1)
          IF (I1.GT.0) THEN
             I2=ISCT(ISPC,2)
-            IF(FIAJSP(ISPC).EQ.'---')THEN
+            IF(FIAJSP(ISPC).EQ.'   ')THEN
               IFIA=998
             ELSE
               READ (FIAJSP(ISPC),'(I4)') IFIA                                   !FIA SPECIES CODE
@@ -416,7 +416,7 @@ C --- STEP 2: ADJUST INITIAL STOCKING TO REFLECT COMPETITIVE POSITION
          I1=ISCT(ISPC,1)
          IF (I1.GT.0) THEN
             I2=ISCT(ISPC,2)
-            IF(FIAJSP(ISPC).EQ.'---')THEN
+            IF(FIAJSP(ISPC).EQ.'   ')THEN
               IFIA=998
             ELSE
               READ(FIAJSP(ISPC),'(I4)')IFIA
@@ -471,7 +471,7 @@ C --- STEP 3 & 4: DETERMINE 'FUTURE STAND' OR STANDARD VALUES FOR SEEDS/SAPS
             I1=ISCT(ISPC,1)
             IF (I1.GT.0) THEN
                I2=ISCT(ISPC,2)
-               IF(FIAJSP(ISPC).EQ.'---')THEN
+               IF(FIAJSP(ISPC).EQ.'   ')THEN
                  IFIA=998
                ELSE
                  READ(FIAJSP(ISPC),'(I4)')IFIA
@@ -539,7 +539,7 @@ C --- STEP 5: ASSURE SEEDS/SAPS DO NOT REDUCE STOCK VALUES OF LARGER TREES
          I1=ISCT(ISPC,1)
          IF (I1.GT.0) THEN
             I2=ISCT(ISPC,2)
-            IF(FIAJSP(ISPC).EQ.'---')THEN
+            IF(FIAJSP(ISPC).EQ.'   ')THEN
               IFIA=998
             ELSE
               READ(FIAJSP(ISPC),'(I4)')IFIA
@@ -627,7 +627,7 @@ C     READ THE FIA NUMBER TO LOCATE SPECIES IN TAB3 ARRAY
 C     IF SPECIES IS IN ITG GROUP THEN ADD INTO STOCKING FOR THE ITG GROUP
       DO IS=1,210
          DO ISPC=1,MAXSP
-            IF(FIAJSP(ISPC) .EQ. '---')GO TO 99
+            IF(FIAJSP(ISPC) .EQ. '   ')GO TO 99
             READ (FIAJSP(ISPC),'(I4)') IFIA
             IF (TAB3(IFIA,1).EQ.IS) THEN
             	S(IS)=S(IS)+SS(ISPC)

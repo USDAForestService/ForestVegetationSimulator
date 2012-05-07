@@ -12,9 +12,9 @@ FFLAGS = ${I1}${BASE_COM}
 # the ESTB model object files
 ESTB_OBJS = esaddt.o${BJ} esadvh.o${BJ} esblkd.o${BJ} escprs.o${BJ} esdlay.o${BJ} esetpr.o${BJ} esfltr.o${BJ} esgent.o${BJ}  \
             esin.o${BJ} esinit.o${BJ} esmsgs.o${BJ} esnspe.o${BJ} esnutr.o${BJ} esout.o${BJ} espadv.o${BJ}     \
-            esplt1.o${BJ} esplt2.o${BJ} esprep.o${BJ} esprin.o${BJ} espsub.o${BJ} espxcs.o${BJ} esrann.o${BJ}  \
-            essubh.o${BJ} estab.o${BJ} estime.o${BJ} estock.o${BJ} estpp.o${BJ} estump.o${BJ} esuckr.o${BJ}    \
-            esxcsh.o${BJ}
+            esplt1.o${BJ} esplt2.o${BJ} esprep.o${BJ} esprin.o${BJ} espsub.o${BJ} espxcs.o${BJ} esrann.o${BJ} essprt.o${BJ}  \
+            essubh.o${BJ} estab.o${BJ} estime.o${BJ} estock.o${BJ} estpp.o${BJ} estump.o${BJ}    \
+            esuckr.o${BJ} esxcsh.o${BJ}
 
 estb:      ${ESTB_OBJS}
 
@@ -112,6 +112,9 @@ espxcs.o${BJ}:  ${ESTB_SRC}espxcs.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}ESPARM.F77 
 
 esrann.o${BJ}:  ${ESTB_SRC}esrann.f ${BASE_COM}ESRNCM.F77
 	${FC} -c ${FFLAGS} ${ESTB_SRC}esrann.f
+
+essprt.o${BJ}:  ${ESTB_SRC}essprt.f
+	${FC} -c ${FFLAGS} ${ESTB_SRC}essprt.f
 
 essubh.o${BJ}:  ${ESTB_SRC}essubh.f ${BASE_COM}PRGPRM.F77 ${BASE_COM}ESPARM.F77   \
            ${BASE_COM}ESCOMN.F77 ${BASE_COM}ESCOM2.F77

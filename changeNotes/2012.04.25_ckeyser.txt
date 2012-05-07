@@ -1,0 +1,23 @@
+Subject:Species code changes
+Name:Alaska cedar scientific name change
+Date:04.25.2012
+Variants affected:All
+
+Description:The International Botanical Congress updated the scientific name
+of Alaska cedar to Callitropsis nootkatensis (Plants symbol=CANO9) from 
+Chamaecyparis nootkatensis (Plants symbol=CHNO)in the summer of 2011. The 
+plants symbol has been updated in the appropriate variants and in the species
+translator.
+
+
+Impact on users:User's will be able to use the new PLANTS symbol to identify
+                Alaska cedar.
+
+Files:
+ak\src\blkdat.f
+bm\src\blkdat.f
+ec\src\blkdat.f
+pn\src\blkdat.f
+wc\src\blkdat.f
+ni\src\spctrn.f
+

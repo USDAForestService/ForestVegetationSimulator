@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C  **BLKDAT--WC/M   DATE OF LAST REVISION:  06/03/10
+C  **BLKDAT--WC/M   DATE OF LAST REVISION:  02/15/12
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -93,7 +93,7 @@ C     3 = GRAND FIR (GF)               ABIES GRANDIS			[BG]
 C     4 = SUBALPINE FIR (AF)           ABIES LASIOCARPA			[BL]
 C     5 = CALIFORNIA RED FIR (RF)/     ABIES MAGNIFICA			[BM]
 C         SHASTA RED FIR
-C     6 = ---
+C     6 =
 C     7 = NOBLE FIR (NF)               ABIES PROCERA			[BP]
 C     8 = ALASKA CEDAR (YC)/           CHAMAECYPARIS NOOTKATENSIS	[YC]
 C         WESTERN LARCH                LARIX OCCIDENTALIS		[LW]
@@ -130,32 +130,32 @@ C    34 = PACIFIC DOGWOOD (DG)         CORNUS NUTTALLII			[GP]
 C    35 = HAWTHORN (HT)                CRATAEGUS sp.			[HT] - unchanged
 C    36 = BITTER CHERRY (CH)           PRUNUS EMARGINATA		[VB]
 C    37 = WILLOW (WI)                  SALIX sp.				[W ]
-C    38 = ---
+C    38 =
 C    39 = OTHER (OT)
 C
       DATA JSP /
-     & 'BA ',   'BC ',   'BG ',   'BL ',   'BM ',   '-- ',   'BP ',
+     & 'BA ',   'BC ',   'BG ',   'BL ',   'BM ',   '   ',   'BP ',
      & 'YC ',   'OA ',   'SE ',   'PL ',   'JP ',   'PS ',   'PW ',
      & 'PY ',   'FD ',   'OC ',   'CW ',   'HW ',   'HM ',   'MB ',
      & 'DR ',   'RA ',   'EP ',   'GC ',   'AT ',   'AC ',   'QG ',
      & 'WJ ',   'LA ',   'PA ',   'KP ',   'TW ',   'GP ',   'HT ',
-     & 'VB ',   'WI ',   '-- ',   'OT '/
+     & 'VB ',   'WI ',   '   ',   'OT '/
 C
       DATA FIAJSP /
-     & '011',   '015',   '017',   '019',   '020',   '---',   '022',
+     & '011',   '015',   '017',   '019',   '020',   '   ',   '022',
      & '042',   '081',   '093',   '108',   '116',   '117',   '119',
      & '122',   '202',   '211',   '242',   '263',   '264',   '312',
      & '351',   '352',   '375',   '431',   '746',   '747',   '815',
      & '064',   '072',   '101',   '103',   '231',   '492',   '500',
-     & '768',   '920',   '---',   '999'/
+     & '768',   '920',   '   ',   '999'/
 C
       DATA PLNJSP /
-     & 'ABAM  ','ABCO  ','ABGR  ','ABLA  ','ABMA  ','------','ABPR  ',
+     & 'ABAM  ','ABCO  ','ABGR  ','ABLA  ','ABMA  ','      ','ABPR  ',
      & 'CHNO  ','CADE27','PIEN  ','PICO  ','PIJE  ','PILA  ','PIMO3 ',
      & 'PIPO  ','PSME  ','SESE3 ','THPL  ','TSHE  ','TSME  ','ACMA3 ',
      & 'ALRU2 ','ALRH2 ','BEPA  ','CHCHC4','POTR5 ','POBAT ','QUGA4 ',
      & 'JUOC  ','LALY  ','PIAL  ','PIAT  ','TABR2 ','CONU4 ','CRATA ',
-     & 'PREM  ','SALIX ','------','2TREE '/
+     & 'PREM  ','SALIX ','      ','2TREE '/
 C
       DATA JTYPE /130,170,250,260,280,290,310,320,330,420,
      &            470,510,520,530,540,550,570,610,620,640,

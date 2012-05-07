@@ -1,15 +1,19 @@
       BLOCK DATA FMCBLK
       IMPLICIT NONE
 C----------
-C   **FMCBLK--FIRE-EC  DATE OF LAST REVISION:   08/15/06
+C   **FMCBLK--FIRE-EC  DATE OF LAST REVISION:   02/06/12
 C----------
 COMMONS
 C
       INCLUDE 'PRGPRM.F77'
+C
+C
       INCLUDE 'FMPROP.F77'
-
+C
+COMMONS
+C----------
       INTEGER J
-
+C----------
 C     GROUPING FOR THE JENKINS BIOMASS EQUATIONS FOR C REPORTING
 C     SOFTWOODS
 C       1=CEDAR/LARCH
@@ -23,12 +27,13 @@ C       7=SOFT MAPLE/BIRCH
 C       8=MIXED HARDWOOD
 C       9=HARD MAPLE/OAK/HICKORY/BEECH
 C      10=WOODLAND JUNIPER/OAK/MESQUITE
-
+C----------
       DATA BIOGRP/
-     & 4, 1, 2, 3, 1,
-     & 3, 4, 5, 3, 4, ! 10
-     & 3 /
-
+     & 4, 1, 2, 3, 1, 3, 4, 5, 3, 4, ! 10
+     & 3, 3, 3, 4, 3, 3, 1, 1,10, 7, ! 20
+     & 7, 6, 7, 8, 8, 6, 6, 9, 8, 6, ! 30
+     & 3, 8/
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -37,7 +42,7 @@ C SubRegion index I = 1
 C  DataType index K = 1 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 1 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,1,1,1), J= 1,101) /
      & 0.6367,0.6012,0.5694,0.5413,0.5162,0.4937,0.4731,0.4543,0.4366,
      & 0.4202,0.4053,0.3919,0.3800,0.3693,0.3597,0.3508,0.3426,0.3350,
@@ -51,7 +56,7 @@ C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
      & 0.1399,0.1385,0.1370,0.1356,0.1342,0.1329,0.1315,0.1302,0.1289,
      & 0.1276,0.1264,0.1251,0.1239,0.1227,0.1215,0.1203,0.1191,0.1180,
      & 0.1169,0.1157/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -60,7 +65,7 @@ C SubRegion index I = 1
 C  DataType index K = 2 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 1 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,2,1,1), J= 1,101) /
      & 0.0000,0.0161,0.0306,0.0434,0.0548,0.0650,0.0743,0.0826,0.0904,
      & 0.0976,0.1041,0.1098,0.1149,0.1195,0.1237,0.1275,0.1310,0.1342,
@@ -74,7 +79,7 @@ C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
      & 0.2108,0.2114,0.2120,0.2126,0.2132,0.2138,0.2143,0.2149,0.2154,
      & 0.2160,0.2165,0.2170,0.2176,0.2181,0.2186,0.2191,0.2196,0.2201,
      & 0.2206,0.2211/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -83,7 +88,7 @@ C SubRegion index I = 1
 C  DataType index K = 3 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 1 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,3,1,1), J= 1,101) /
      & 0.1969,0.2067,0.2154,0.2232,0.2300,0.2361,0.2416,0.2467,0.2515,
      & 0.2559,0.2599,0.2635,0.2666,0.2693,0.2718,0.2739,0.2759,0.2778,
@@ -97,7 +102,7 @@ C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
      & 0.3116,0.3117,0.3117,0.3117,0.3117,0.3118,0.3118,0.3118,0.3118,
      & 0.3118,0.3118,0.3118,0.3118,0.3118,0.3118,0.3118,0.3118,0.3118,
      & 0.3118,0.3118/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -106,7 +111,7 @@ C SubRegion index I = 1
 C  DataType index K = 1 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 2 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,1,2,1), J= 1,101) /
      & 0.6367,0.6012,0.5694,0.5413,0.5162,0.4937,0.4731,0.4543,0.4366,
      & 0.4202,0.4053,0.3919,0.3800,0.3693,0.3597,0.3508,0.3426,0.3350,
@@ -120,7 +125,7 @@ C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
      & 0.1399,0.1385,0.1370,0.1356,0.1342,0.1329,0.1315,0.1302,0.1289,
      & 0.1276,0.1264,0.1251,0.1239,0.1227,0.1215,0.1203,0.1191,0.1180,
      & 0.1169,0.1157/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -129,7 +134,7 @@ C SubRegion index I = 1
 C  DataType index K = 2 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 2 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,2,2,1), J= 1,101) /
      & 0.0000,0.0161,0.0306,0.0434,0.0548,0.0650,0.0743,0.0826,0.0904,
      & 0.0976,0.1041,0.1098,0.1149,0.1195,0.1237,0.1275,0.1310,0.1342,
@@ -143,7 +148,7 @@ C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
      & 0.2108,0.2114,0.2120,0.2126,0.2132,0.2138,0.2143,0.2149,0.2154,
      & 0.2160,0.2165,0.2170,0.2176,0.2181,0.2186,0.2191,0.2196,0.2201,
      & 0.2206,0.2211/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -152,7 +157,7 @@ C SubRegion index I = 1
 C  DataType index K = 3 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 2 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,3,2,1), J= 1,101) /
      & 0.1969,0.2067,0.2154,0.2232,0.2300,0.2361,0.2416,0.2467,0.2515,
      & 0.2559,0.2599,0.2635,0.2666,0.2693,0.2718,0.2739,0.2759,0.2778,
@@ -166,7 +171,7 @@ C     Sw/Hw index N = 1 (1=Soft;  2=Hard)
      & 0.3116,0.3117,0.3117,0.3117,0.3117,0.3118,0.3118,0.3118,0.3118,
      & 0.3118,0.3118,0.3118,0.3118,0.3118,0.3118,0.3118,0.3118,0.3118,
      & 0.3118,0.3118/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -175,7 +180,7 @@ C SubRegion index I = 1
 C  DataType index K = 1 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 1 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,1,1,2), J= 1,101) /
      & 0.5676,0.5288,0.4945,0.4639,0.4366,0.4122,0.3897,0.3691,0.3498,
      & 0.3319,0.3156,0.3010,0.2879,0.2762,0.2656,0.2559,0.2470,0.2387,
@@ -189,7 +194,7 @@ C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
      & 0.0612,0.0603,0.0594,0.0585,0.0576,0.0567,0.0559,0.0551,0.0543,
      & 0.0535,0.0527,0.0520,0.0512,0.0505,0.0498,0.0491,0.0484,0.0478,
      & 0.0471,0.0465/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -198,7 +203,7 @@ C SubRegion index I = 1
 C  DataType index K = 2 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 1 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,2,1,2), J= 1,101) /
      & 0.0000,0.0181,0.0342,0.0484,0.0612,0.0726,0.0830,0.0924,0.1011,
      & 0.1091,0.1163,0.1228,0.1285,0.1337,0.1383,0.1425,0.1464,0.1499,
@@ -212,7 +217,7 @@ C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
      & 0.2137,0.2140,0.2144,0.2147,0.2150,0.2153,0.2155,0.2158,0.2161,
      & 0.2164,0.2167,0.2169,0.2172,0.2174,0.2177,0.2180,0.2182,0.2184,
      & 0.2187,0.2189/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -221,7 +226,7 @@ C SubRegion index I = 1
 C  DataType index K = 3 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 1 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,3,1,2), J= 1,101) /
      & 0.2559,0.2668,0.2768,0.2858,0.2938,0.3009,0.3075,0.3135,0.3193,
      & 0.3246,0.3295,0.3338,0.3377,0.3411,0.3442,0.3470,0.3495,0.3519,
@@ -235,7 +240,7 @@ C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
      & 0.3997,0.3998,0.4000,0.4001,0.4002,0.4003,0.4004,0.4005,0.4005,
      & 0.4006,0.4007,0.4008,0.4008,0.4009,0.4009,0.4010,0.4010,0.4010,
      & 0.4011,0.4011/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -244,7 +249,7 @@ C SubRegion index I = 1
 C  DataType index K = 1 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 2 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,1,2,2), J= 1,101) /
      & 0.5676,0.5288,0.4945,0.4639,0.4366,0.4122,0.3897,0.3691,0.3498,
      & 0.3319,0.3156,0.3010,0.2879,0.2762,0.2656,0.2559,0.2470,0.2387,
@@ -258,7 +263,7 @@ C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
      & 0.0612,0.0603,0.0594,0.0585,0.0576,0.0567,0.0559,0.0551,0.0543,
      & 0.0535,0.0527,0.0520,0.0512,0.0505,0.0498,0.0491,0.0484,0.0478,
      & 0.0471,0.0465/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -267,7 +272,7 @@ C SubRegion index I = 1
 C  DataType index K = 2 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 2 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,2,2,2), J= 1,101) /
      & 0.0000,0.0181,0.0342,0.0484,0.0612,0.0726,0.0830,0.0924,0.1011,
      & 0.1091,0.1163,0.1228,0.1285,0.1337,0.1383,0.1425,0.1464,0.1499,
@@ -281,7 +286,7 @@ C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
      & 0.2137,0.2140,0.2144,0.2147,0.2150,0.2153,0.2155,0.2158,0.2161,
      & 0.2164,0.2167,0.2169,0.2172,0.2174,0.2177,0.2180,0.2182,0.2184,
      & 0.2187,0.2189/
-
+C----------
 C DATA Statement Debug Information
 C         Variant   = EC
 C        Interval   = 1 yrs
@@ -290,7 +295,7 @@ C SubRegion index I = 1
 C  DataType index K = 3 (1=InUse; 2=Landfill; 3=Energy)
 C  Pulp/Saw index M = 2 (1=Pulp;  2=Saw)
 C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
-
+C----------
       DATA (FAPROP(1,J,3,2,2), J= 1,101) /
      & 0.2559,0.2668,0.2768,0.2858,0.2938,0.3009,0.3075,0.3135,0.3193,
      & 0.3246,0.3295,0.3338,0.3377,0.3411,0.3442,0.3470,0.3495,0.3519,
@@ -304,5 +309,5 @@ C     Sw/Hw index N = 2 (1=Soft;  2=Hard)
      & 0.3997,0.3998,0.4000,0.4001,0.4002,0.4003,0.4004,0.4005,0.4005,
      & 0.4006,0.4007,0.4008,0.4008,0.4009,0.4009,0.4010,0.4010,0.4010,
      & 0.4011,0.4011/
-
+C
       END

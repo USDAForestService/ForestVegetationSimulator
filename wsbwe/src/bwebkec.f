@@ -1,7 +1,7 @@
       BLOCK DATA BWEBK
       IMPLICIT NONE
 C----------
-C  **BWEBK--EC          DATE OF LAST REVISION:  07/14/10
+C  **BWEBK--EC          DATE OF LAST REVISION:  03/19/12
 C----------
 C
 C     BLOCKDATA FOR THE  BUDWORM MODEL.
@@ -50,6 +50,8 @@ C    09-SEP-06 Lance David (FHTET)
 C       Moved non-static variables FOLDVY, FOLWTY and IOUT6A to bweint.f.
 C    14-JUL-2010 Lance R. David (FMSC)
 C       Added IMPLICIT NONE and declared variables as needed.
+C    19-MAR-2012 Lance R. David (FMSC)
+C       Updated for the East Cascades species expansion to 32 species.
 C----------------------------------------------------------------------
 C
 COMMONS
@@ -74,10 +76,13 @@ C       5 = ES - Engelmann spruce
 C       6 = WL - Western Larch
 C       7 = Not a host
 C
-C     FVS EC VARIANT SPECIES INDICES:
-C       1-WP 2-WL 3-DF 4-SF 5-RC 6-GF 7-LP 8-ES 9-AF 10-PP 11-OT
-
-      DATA IBWSPM/7,7,2,7,7,3,7,5,4,7,7/
+C     FVS EC VARIANT SPECIES 
+C                 WP WL DF SF RC GF LP ES AF PP WH 
+      DATA IBWSPM/ 7, 7, 2, 7, 7, 3, 7, 5, 4, 7, 7,
+C                 MH PY WB NF WF LL YC WJ BM VN RA 
+     &             7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+C                 PB GC DG AS CW WO PL WI OS OH 
+     &             7, 7, 7, 7, 7, 7, 7, 7, 7, 7 / 
 
       DATA PRCRN3/ 0.05, 0.3, 0.65, 0.15, 0.45, 0.40, 0.15, 0.45, 0.40/
       DATA THEOFL/ 0.70, 0.24, 0.04, 0.02,

@@ -1,7 +1,7 @@
       SUBROUTINE HTCALC(SINDX,ISPC,AG,HGUESS,JOSTND,DEBUG)
       IMPLICIT NONE
 C----------
-C  **HTCALC--WC   DATE OF LAST REVISION:  01/12/11
+C  **HTCALC--WC   DATE OF LAST REVISION:  03/07/12
 C----------
 C THIS ROUTINE CALCULATES A POTENTIAL HEIGHT GIVEN A SPECIES SITE AND
 C AGE; IT IS USED TO CALCULATE POTENTIAL HEIGHT AND SITE WHITE OAK IS NOT
@@ -26,7 +26,7 @@ C
       DATA SPCMAP /
      &  1, 2, 2, 3, 4, 4, 5, 6, 7, 3,
      &  8, 7, 9, 9, 7, 6, 6, 6,10,11, 6,
-     & 12,5*6,6,6,13,9*6/
+     & 12,5*6,14,6,13,9*6/
 C
       IF(DEBUG)WRITE(JOSTND,10)
    10 FORMAT(' ENTERING HTCALC')
@@ -166,6 +166,14 @@ C----------
      &         B4*AG**4 + (SINDX -4.5)*(B5 + B6*AG
      &         + B7*AG*AG + B8*AG**3)-
      &         B9*(B10 + B11*AG + B12*AG*AG + B13*AG**3)
+C----------
+C DOUGLAS FIR -- KING, WEYERHAUSER FOR RPT #8, 1966
+C----------
+      CASE(14)
+        IF(DEBUG)WRITE(JOSTND,*)' DOUGLAS-FIR EQUATION'
+        Z = 2500./(SINDX-4.5)
+        HGUESS = (AG*AG/(B0 + B1*Z + (B2 + B3*Z)*AG +
+     &            (B4 + B5*Z)*(AG*AG))) + 4.5
 C
       END SELECT
 C

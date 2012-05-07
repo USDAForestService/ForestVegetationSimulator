@@ -1,7 +1,7 @@
       SUBROUTINE SICHG(ISISP,SSITE,SIAGE)
       IMPLICIT NONE
 C----------
-C  **SICHG--BM   DATE OF LAST REVISION:  04/28/09
+C  **SICHG--BM   DATE OF LAST REVISION:  01/27/12
 C
 C THIS ROUTINE TAKES THE SITE FROM THE STDINFO CARD AND CALCULATES AN AGE
 C THAT CURVE, GIVEN THE SITE, WHERE A NEW HT (OR PROXY AGE) MAY ME LOOKE
@@ -54,11 +54,11 @@ C----------
      &        -0.05586, -0.04286,  -0.05586/
       DATA REFLOC/ 'T',      'B',       'B',      'B',      'B',
      &             'T',      'T',       'B',      'B',      'B',
-     &             'T',      'T',       'B',      'B',      'T',
+     &             'T',      'T',       'B',      'B',      'B',
      &             'B',      'B',       'B'/
       DATA REFAGE/  50,       50,        50,       50,      100,
      &             100,       50,       100,      100,      100,
-     &             100,      100,       100,      100,      100,
+     &             100,      100,       100,      100,       80,
      &             100,      100,       100/
 C
 C ISILOC IS THE PLACE THE AGE FOR THE SITE SPECIES.
