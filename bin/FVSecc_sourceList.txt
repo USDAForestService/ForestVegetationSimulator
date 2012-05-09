@@ -198,7 +198,6 @@
 ../base/src/update.f
 ../base/src/upkey.f
 ../base/src/volkey.f
-../bm/common/PRGPRM.F77
 ../clim/base/src/clauestb.f
 ../clim/base/src/clgmult.f
 ../clim/base/src/clin.f
