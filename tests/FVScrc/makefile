@@ -1,12 +1,12 @@
 
-all : wct01 
+all : crt01 
 
-wct01 : 
-	@echo Test wct01, basic functionality 
-	-../../bin/FVSwcc --keywordfile=wct01.key
-	grep -v "\-999" wct01.sum      > wct01.tmp
-	grep -v "\-999" wct01.sum.save > wct01.tmp.save
-	diff -w wct01.tmp wct01.tmp.save
-	rm wct.tmp wct01.tmp.save
-	@echo Test wct01 passed
+crt01 : 
+	@echo Test crt01, basic functionality 
+	-../../bin/FVScrc --keywordfile=crt01.key
+	grep -v "\-999" crt01.sum      > crt01.tmp
+	grep -v "\-999" crt01.sum.save > crt01.tmp.save
+	diff -w crt01.tmp crt01.tmp.save
+	rm crt01.tmp crt01.tmp.save
+	@echo Test crt01 passed
 	
