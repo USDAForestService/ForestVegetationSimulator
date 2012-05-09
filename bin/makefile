@@ -75,20 +75,65 @@ clean :
 
 ifndef sourceFileList
 
+FVSak$(SLIBSUFX) FVSak$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSak) $(shell cat $(addsuffix _sourceList.txt,FVSak))
+	$(MAKE) --file=makefile FVSak.setup
+
+FVSbmc$(SLIBSUFX) FVSbmc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSbmc) $(shell cat $(addsuffix _sourceList.txt,FVSbmc))
+	$(MAKE) --file=makefile FVSbmc.setup
+
+FVScac$(SLIBSUFX) FVScac$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVScac) $(shell cat $(addsuffix _sourceList.txt,FVScac))
+	$(MAKE) --file=makefile FVScac.setup
+
+FVScic$(SLIBSUFX) FVScic$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVScic) $(shell cat $(addsuffix _sourceList.txt,FVScic))
+	$(MAKE) --file=makefile FVScic.setup
+	
+FVScrc$(SLIBSUFX) FVScrc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVScrc) $(shell cat $(addsuffix _sourceList.txt,FVScrc))
+	$(MAKE) --file=makefile FVScrc.setup
+
+FVScs$(SLIBSUFX) FVScs$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVScs) $(shell cat $(addsuffix _sourceList.txt,FVScs))
+	$(MAKE) --file=makefile FVScs.setup
+
+FVSecc$(SLIBSUFX) FVSecc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSecc) $(shell cat $(addsuffix _sourceList.txt,FVSecc))
+	$(MAKE) --file=makefile FVSecc.setup
+
+FVSemc$(SLIBSUFX) FVSemc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSemc) $(shell cat $(addsuffix _sourceList.txt,FVSemc))
+	$(MAKE) --file=makefile FVSemc.setup
+
 FVSiec$(SLIBSUFX) FVSiec$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSiec) $(shell cat $(addsuffix _sourceList.txt,FVSiec))
 	$(MAKE) --file=makefile FVSiec.setup
+
+FVSktc$(SLIBSUFX) FVSktc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSktc) $(shell cat $(addsuffix _sourceList.txt,FVSktc))
+	$(MAKE) --file=makefile FVSktc.setup
+
+FVSls$(SLIBSUFX) FVSls$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSls) $(shell cat $(addsuffix _sourceList.txt,FVSls))
+	$(MAKE) --file=makefile FVSls.setup
+
+FVSncc$(SLIBSUFX) FVSncc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSncc) $(shell cat $(addsuffix _sourceList.txt,FVSncc))
+	$(MAKE) --file=makefile FVSncc.setup
+	
+FVSne$(SLIBSUFX) FVSne$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSne) $(shell cat $(addsuffix _sourceList.txt,FVSne))
+	$(MAKE) --file=makefile FVSne.setup
 
 FVSpnc$(SLIBSUFX) FVSpnc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSpnc) $(shell cat $(addsuffix _sourceList.txt,FVSpnc))
 	$(MAKE) --file=makefile FVSpnc.setup
 
-FVScrc$(SLIBSUFX) FVScrc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVScrc) $(shell cat $(addsuffix _sourceList.txt,FVScrc))
-	$(MAKE) --file=makefile FVScrc.setup
-
-FVSne$(SLIBSUFX) FVSne$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSne) $(shell cat $(addsuffix _sourceList.txt,FVSne))
-	$(MAKE) --file=makefile FVSne.setup
-
 FVSsn$(SLIBSUFX) FVSsn$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSsn) $(shell cat $(addsuffix _sourceList.txt,FVSsn))
 	$(MAKE) --file=makefile FVSsn.setup
+
+FVSsoc$(SLIBSUFX) FVSsoc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSsoc) $(shell cat $(addsuffix _sourceList.txt,FVSsoc))
+	$(MAKE) --file=makefile FVSsoc.setup
+
+FVSttc$(SLIBSUFX) FVSttc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSttc) $(shell cat $(addsuffix _sourceList.txt,FVSttc))
+	$(MAKE) --file=makefile FVSttc.setup
+
+FVSutc$(SLIBSUFX) FVSutc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSutc) $(shell cat $(addsuffix _sourceList.txt,FVSutc))
+	$(MAKE) --file=makefile FVSutc.setup
+
+FVSwcc$(SLIBSUFX) FVSwcc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwcc) $(shell cat $(addsuffix _sourceList.txt,FVSwcc))
+	$(MAKE) --file=makefile FVSwcc.setup
+
+FVSwsc$(SLIBSUFX) FVSwsc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwsc) $(shell cat $(addsuffix _sourceList.txt,FVSwsc))
+	$(MAKE) --file=makefile FVSwsc.setup
 
 # TODO: These rules work in place of those listed above (they are generated), but only on Linux. 
 # when we adopt a newer make on windows builds

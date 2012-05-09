@@ -215,6 +215,7 @@
 ../common/ECNCOM.F77
 ../common/ECON.F77
 ../common/ESCOMN.F77
+../common/ESCOM2.F77
 ../common/ESHAP.F77
 ../common/ESHAP2.F77
 ../common/ESHOOT.F77
@@ -565,4 +566,5 @@
 ../wc/src/sitset.f
 ../wc/src/smhtgf.f
 ../wc/src/varvol.f
+../wc/src/pvref6.f
 ../ws/src/r5crwd.f
