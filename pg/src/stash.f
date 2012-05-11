@@ -1,7 +1,6 @@
       SUBROUTINE STASH (BUFFER,ILIMIT)
       IMPLICIT NONE
 C----------
-C  **STASH   DATE OF LAST REVISION:  07/31/08
 C	$Id$	
 C----------
 C
@@ -27,9 +26,6 @@ C
       
       SUBROUTINE CHSTSH (CBUFF,LNCBUF)
       IMPLICIT NONE
-C----------
-C  **STASH   DATE OF LAST REVISION:  07/31/08
-C----------
 C
 C     STASH A BUFFER FULL OF DATA
 C
@@ -54,9 +50,6 @@ C
       
       SUBROUTINE DSTASH (BUFFER,IPNT)
       IMPLICIT NONE
-C----------
-C  **DSTASH  DATE OF LAST REVISION:  07/31/08
-C----------
 C
 C     GET DATA STASHED WITH STASH.
 C
@@ -69,14 +62,12 @@ C
 COMMONS
 C
 C
-      INTEGER IPNT
+      INTEGER IPNT,ISIZE
       REAL BUFFER (IPNT)
       IF (seekReadPos.gt.0) then
-c$$$        READ (JDSTASH,END=10,ERR=10,
-c$$$     -       POS=seekReadPos) BUFFER
-
-        READ (JDSTASH,ERR=10,
-     -       POS=seekReadPos) BUFFER
+        INQUIRE (UNIT=JDSTASH,SIZE=ISIZE)
+        IF (seekReadPos .gt. isize) GOTO 10
+        READ (JDSTASH,ERR=10,POS=seekReadPos) BUFFER
         seekReadPos = -1
       ELSE
         READ (JDSTASH,END=10,ERR=10) BUFFER
@@ -90,9 +81,6 @@ c$$$     -       POS=seekReadPos) BUFFER
       
       SUBROUTINE CHDSTH (CBUFF,IPNT)
       IMPLICIT NONE
-C----------
-C  **STASH   DATE OF LAST REVISION:  07/31/08
-C----------
 C
 C     GET A BUFFER FULL OF DATA
 C

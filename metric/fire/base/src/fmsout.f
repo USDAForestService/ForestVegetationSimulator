@@ -213,6 +213,10 @@ C
      &  TOTDS/ACRtoHA,YRLAST,DBSKODE)
       IF (DBSKODE.EQ.0) GOTO 500
 
+C     Make sure JSNOUT is openned.
+
+      CALL openIfClosed (JSNOUT,"sng")
+
 C     Print the snag output headings.
 
       IF (LSHEAD) THEN

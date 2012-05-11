@@ -224,13 +224,33 @@ C
       if (LOPEN) close(unit=JOSUM)
       inquire(unit=JOLIST,opened=LOPEN)
       if (LOPEN) close(unit=JOLIST)
-     
+      inquire(unit=JOSUME,opened=LOPEN)
+      if (LOPEN) close(unit=JOSUME)
+      
+      return
+      end     
+
+      SUBROUTINE openIfClosed (ifileref,sufx)
+      integer ifileref
+      character (len=*) sufx
+      character (len=256) keywrdfn
+      logical lconn
+       
+      INQUIRE(UNIT=ifileref,opened=lconn)
+      IF (.NOT.lconn) THEN
+        CALL getkeywrd(keywrdfn,len(keywrdfn))
+        IF (keywrdfn.NE.' ') THEN
+          I = index(keywrdfn,".k")
+          IF (I == 0) I=index(keywrdfn,".K")
+          IF (I == 0) I=len_trim(keywrdfn)
+          keywrdfn=TRIM(keywrdfn(:I-1))//"."//trim(sufx)
+          OPEN(UNIT=ifileref,FILE=TRIM(keywrdfn),STATUS='replace')
+        ENDIF 
+      ENDIF                    
+
+
       END
       
-
-
-
-
 
 
 
