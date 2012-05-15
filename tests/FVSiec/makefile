@@ -24,6 +24,14 @@ TestSpecialCostAndRevenue :
 	-diff -w TestSpecialCostAndRevenue.out TestSpecialCostAndRevenue.out.save
 	@echo Test ECON TestSpecialCostAndRevenue ended
 	
+climate:
+	@echo Test Climate-FVS 
+	-../../bin/FVSiec --keywordfile=climate.key
+	grep -v "\-999" climate.sum      > climate.tmp
+	grep -v "\-999" climate.sum.save > climate.tmp.save
+	-diff -w climate.tmp climate.tmp.save
+	rm climate.tmp climate.tmp.save
+	@echo Test Climate-FVS ended
 	
  
 

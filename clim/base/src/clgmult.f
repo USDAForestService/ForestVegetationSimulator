@@ -1,7 +1,7 @@
       SUBROUTINE CLGMULT(TREEMULT)
       IMPLICIT NONE
 C----------
-C  **CLGMULT CLIMATE--DATE OF LAST REVISION:  11/01/2010
+C  **CLGMULT CLIMATE--DATE OF LAST REVISION:  04/14/2012
 C----------
 C
 C     CLIMATE EXTENSION -- COMUTES TREE-LEVEL GROWTH MULTIPLIER
@@ -22,11 +22,10 @@ C
      >     MTCM_INVYR,MTCM_TD,SMI_NOW,SMI_INVYR,SMI_BIRTH,SMI_TD,
      >     MMIN_NOW,MMIN_INVYR,MMIN_BIRTH,MMIN_TD,DD0_NOW,DD0_INVYR,
      >     PSITE_NOW,PSITE_INVYR,DD0_BIRTH,MAT_BIRTH,XDF,XWL,XPP,
-     >     XRELGR,XGSITE,VSCORE(MAXSP),PS,SPWTS(MAXSP),XWT
+     >     XRELGR,VSCORE(MAXSP),PS,SPWTS(MAXSP),XWT,XGSITE
       LOGICAL DEBUG
 
-      CALL DBCHK (DEBUG,'CLGMULT',7,ICYC)
-
+      CALL DBCHK (DEBUG,'CLGMULT',7,ICYC)     
       IF (DEBUG) WRITE (JOSTND,1) LCLIMATE
     1 FORMAT (' IN CLGMULT, LCLIMATE=',L2)
 
@@ -36,6 +35,7 @@ C     INITIALLY 1.0 (NO CLIMATE EFFECT).
       TREEMULT(1:ITRN)=1.
       SPGMULT = 0.
       SPVIAB = 1.     
+      SPSITGM = 1.
       
       IF (.NOT.LCLIMATE) RETURN
 
@@ -107,105 +107,103 @@ C     LOAD THE CLIMATE DATA FOR THIS YEAR.
       ENDDO
 
       DO I=1,ITRN
-        IF (PLNJSP(ISP(I)).EQ.'PSME'  .OR.
-     >      PLNJSP(ISP(I)).EQ.'LAOC'  .OR.
-     >      PLNJSP(ISP(I)).EQ.'PIPO'  .OR.
-     >      PLNJSP(ISP(I)).EQ.'PICO'  .OR.
-     >      PLNJSP(ISP(I)).EQ.'PIMO3' .OR.
-     >      PLNJSP(ISP(I)).EQ.'PIEN'  .OR.
-     >      PLNJSP(ISP(I)).EQ.'TSHE' ) THEN
       
-C         ABIRTH IS AGE, NOT YEAR OF BIRTH.  COMPUTE BIRTH YEAR:
-          
-          BIRTHYR   = THISYR-ABIRTH(I)
-          
-          MTCM_BIRTH= ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMTCM), 
-     >                        NYEARS)
-          MAT_BIRTH = ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMAT), 
-     >                        NYEARS)
-          MMIN_BIRTH= ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMMIN), 
-     >                        NYEARS)
-          DD0_BIRTH = ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXDD0),  
-     >                        NYEARS)
-          D100_BIRTH= ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXD100), 
-     >                        NYEARS)
-          SMI_BIRTH = ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXDD5),  
-     >                        NYEARS)   /
-     >                ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXGSP), 
-     >                        NYEARS)
-          
-C         FROM LEITES CHAPETER 3 FOR DOUGLAS FIR:
-C         b0 (intercept)  172.70
-C         b1 (MTCM_TD)     1.545  
-C         b2 (MTCM_TD^2)  -2.253
-C         b3 (MAT)         2.646
-C         b4 (MTCM_TD*MAT)-1.379
-          
-C         NOTE THAT MTCM_TD IS ACTUALLY THE DIFFERENCE BETWEEN TWO PLACES, HERE
-C         WE SUBSTITUE TIME FOR SPACE. MAT IS THE TEMPERATURE AT THE SEED
-C         SOURCE...WE USE IT HERE AS "BIRTH YEAR".
-          
-          MTCM_TD = MTCM_NOW - MTCM_INVYR
-          GROW_TD0 = 172.70 + 2.646*MAT_BIRTH 
-          GROW_TD1 = 172.70  + 1.545*MTCM_TD - 2.253*MTCM_TD**2 + 
-     >                 2.646 * MAT_BIRTH     - 1.379*MAT_BIRTH*MTCM_TD
-          XDF = GROW_TD1/GROW_TD0
-          
-C         FROM LEITES FINAL LARCH MODEL     
-C         b0 (intercept)     542.20
-C         b1 (mmin.trds)     17.50
-C         b2 (mmin.trds2)    -1.215
-C         b3 (dd0)           -0.1468
-C         b4 (mmin.trds*dd0) -0.0187
-          
-          MMIN_TD = MMIN_NOW - MMIN_INVYR            
-          GROW_TD0= 542.20 - 0.1468*DD0_BIRTH
-          GROW_TD1= 542.20 + 17.50*MMIN_TD - 1.215*MMIN_TD**2
-     >            - 0.1468*DD0_BIRTH - 0.0187*MMIN_TD*DD0_BIRTH
-          XWL = GROW_TD1/GROW_TD0
-          
-C         FROM LEITES PRELIMINARY PONDEROSA PINE MODEL
-C         (Intercept)     551.20221
-C         smi.trds        -14.88483
-C         I(smi.trds^2)   -0.58027 
-C         d100            -2.02135 
-C         smi.trds:d100    0.15582 
-          
-          SMI_TD = SMI_NOW - SMI_INVYR
-          GROW_TD0= 551.20221 - 2.02135*D100_BIRTH
-          GROW_TD1= 551.20221 -14.88483*SMI_TD -0.58027*SMI_TD**2
-     >             -2.02135*D100_BIRTH + 0.15582*SMI_TD*D100_BIRTH
-          XPP = GROW_TD1/GROW_TD0
-                  
-          IF     (PLNJSP(ISP(I)).EQ.'PSME') THEN
-            XRELGR=XDF
-          ELSEIF (PLNJSP(ISP(I)).EQ.'PICO') THEN
-            XRELGR=XDF
-          ELSEIF (PLNJSP(ISP(I)).EQ.'PIPO') THEN
-            XRELGR=XPP
-          ELSEIF (PLNJSP(ISP(I)).EQ.'LAOC') THEN
-            XRELGR=XWL
-          ELSEIF (PLNJSP(ISP(I)).EQ.'PIMO3') THEN
-            XRELGR=XWL
-          ELSEIF (PLNJSP(ISP(I)).EQ.'PIEN') THEN
-            XRELGR=XWL
-          ELSEIF (PLNJSP(ISP(I)).EQ.'TSHE') THEN
-            XRELGR=XWL
-          ELSE 
-            XRELGR = 1.
-          ENDIF
+C       ABIRTH IS AGE, NOT YEAR OF BIRTH.  COMPUTE BIRTH YEAR:
         
-          IF (ABS(XRELGR-1.0).LT. .015) XRELGR=1.0
-          PS = MIN(XGSITE,XRELGR,VSCORE(ISP(I)))
-          IF (PS.GT. 0.99) PS=MAX(XGSITE,XRELGR,VSCORE(ISP(I)))
-          TREEMULT(I)=1.- ( (1.-PS)*CLGROWMULT(ISP(I)) )
-          IF (DEBUG) WRITE (JOSTND,10) I,JSP(ISP(I)),BIRTHYR,
-     >               XRELGR,TREEMULT(I)
-   10     FORMAT (' IN CLGMULT, I=',I5,' SP=',A2,' BIRTHYR=',F7.1,
-     >            ' XRELGR=',F10.3,' TREEMULT=',F10.3)
-          
+        BIRTHYR   = THISYR-ABIRTH(I)
+        
+        MTCM_BIRTH= ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMTCM), 
+     >                      NYEARS)
+        MAT_BIRTH = ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMAT), 
+     >                      NYEARS)
+        MMIN_BIRTH= ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMMIN), 
+     >                      NYEARS)
+        DD0_BIRTH = ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXDD0),  
+     >                      NYEARS)
+        D100_BIRTH= ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXD100), 
+     >                      NYEARS)
+        SMI_BIRTH = ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXDD5),  
+     >                      NYEARS)   /
+     >              ALGSLP (BIRTHYR,FLOAT(YEARS),ATTRS(1,IXGSP), 
+     >                      NYEARS)
+        
+C       FROM LEITES ET AL. ECOLOGICAL APPLICATIONS 22(1)-154-165
+C       b0 (intercept)  373.97 
+C       b1 (MTCM_TD)      6.799  
+C       b2 (MTCM_TD^2)   -3.726 
+C       b3 (MTCM)        38.52 
+C       b4 (MTCM_TD*MTCM)-3.602
+        
+C       NOTE THAT MTCM_TD IS ACTUALLY THE DIFFERENCE BETWEEN TWO PLACES, HERE
+C       WE SUBSTITUE TIME FOR SPACE. MTCM IS THE TEMPERATURE AT THE SEED
+C       SOURCE...WE USE IT HERE AS "BIRTH YEAR".
+        
+        MTCM_TD = MTCM_NOW - MTCM_INVYR
+        GROW_TD0 = 373.97 + 38.52*MTCM_BIRTH 
+        GROW_TD1 = 373.97 + 6.799*MTCM_TD - 3.726*MTCM_TD**2 + 
+     >              38.52 * MTCM_BIRTH    - 3.602*MTCM_BIRTH*MTCM_TD
+        XDF = GROW_TD1/GROW_TD0
+        
+C       FROM LEITES FINAL LARCH MODEL     
+C       b0 (intercept)     542.20
+C       b1 (mmin.trds)     17.50
+C       b2 (mmin.trds2)    -1.215
+C       b3 (dd0)           -0.1468
+C       b4 (mmin.trds*dd0) -0.0187
+        
+        MMIN_TD = MMIN_NOW - MMIN_INVYR            
+        GROW_TD0= 542.20 - 0.1468*DD0_BIRTH
+        GROW_TD1= 542.20 + 17.50*MMIN_TD - 1.215*MMIN_TD**2
+     >          - 0.1468*DD0_BIRTH - 0.0187*MMIN_TD*DD0_BIRTH
+        XWL = GROW_TD1/GROW_TD0
+        
+C       FROM LEITES PRELIMINARY PONDEROSA PINE MODEL
+C       (Intercept)     551.20221
+C       smi.trds        -14.88483
+C       I(smi.trds^2)   -0.58027 
+C       d100            -2.02135 
+C       smi.trds:d100    0.15582 
+        
+        SMI_TD = SMI_NOW - SMI_INVYR
+        GROW_TD0= 551.20221 - 2.02135*D100_BIRTH
+        GROW_TD1= 551.20221 -14.88483*SMI_TD -0.58027*SMI_TD**2
+     >           -2.02135*D100_BIRTH + 0.15582*SMI_TD*D100_BIRTH
+        XPP = GROW_TD1/GROW_TD0
+                
+        IF     (PLNJSP(ISP(I)).EQ.'PSME') THEN
+          XRELGR=XDF
+        ELSEIF (PLNJSP(ISP(I)).EQ.'PICO') THEN
+          XRELGR=XDF
+        ELSEIF (PLNJSP(ISP(I)).EQ.'PIPO') THEN
+          XRELGR=XPP
+        ELSEIF (PLNJSP(ISP(I)).EQ.'LAOC') THEN
+          XRELGR=XWL
+        ELSEIF (PLNJSP(ISP(I)).EQ.'PIMO3') THEN
+          XRELGR=XWL
+        ELSEIF (PLNJSP(ISP(I)).EQ.'PIEN') THEN
+          XRELGR=XWL
+        ELSEIF (PLNJSP(ISP(I)).EQ.'TSHE') THEN
+          XRELGR=XWL
+        ELSE 
+          XRELGR = 1 + ((((XDF+XPP+XWL)/3.) - 1.) *.5)
         ENDIF
+        
+        IF (ABS(XRELGR-1.0).LT. .005) XRELGR=1.0
+        IF (XRELGR .GT. 4.) XRELGR = 4. 
+        
+        ! If the growth effects are above 1, then apply the one
+        ! that results in the most growth. Otherwise apply the one
+        ! that results in the least growth.
+        PS = MIN(XGSITE,XRELGR,VSCORE(ISP(I)))
+        IF (PS.GT. 0.99) PS=MAX(XGSITE,XRELGR,VSCORE(ISP(I)))
+        TREEMULT(I)=1.- ( (1.-PS)*CLGROWMULT(ISP(I)) )
+        IF (DEBUG) WRITE (JOSTND,10) I,JSP(ISP(I)),BIRTHYR,
+     >             XRELGR,TREEMULT(I)
+   10   FORMAT (' IN CLGMULT, I=',I5,' SP=',A2,' BIRTHYR=',F7.1,
+     >          ' XRELGR=',F10.3,' TREEMULT=',F10.3)
       ENDDO
+      ! Compute SPSITGM for reporting only (this is a vector operation).
+      SPSITGM = 1.- ( (1.-XGSITE)*CLGROWMULT )
       
 C     CREATE THE REPORTED AVERAGE SCORE. 
 
@@ -226,10 +224,10 @@ C     CREATE THE REPORTED AVERAGE SCORE.
 
       IF (DEBUG) THEN
         DO I=1,MAXSP
-          IF (SPWTS(I).GT.0.) WRITE (JOSTND,20) I,JSP(I),SPVIAB(I),
-     >            SPGMULT(I),SPWTS(I)
+          WRITE (JOSTND,20) I,JSP(I),SPVIAB(I),
+     >            SPSITGM(I),SPGMULT(I),SPWTS(I)
    20     FORMAT (' IN CLGMULT, I=',I5,' SP=',A2,' SPVIAB=',F7.3,
-     >            ' SPGMULT=',F10.3,' SPWTS=',F13.2)
+     >            ' SPSITGM=',F9.3,' SPGMULT=',F9.3,' SPWTS=',F13.2)
         ENDDO
       ENDIF
       
