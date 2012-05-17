@@ -140,7 +140,7 @@ C
           print *,"Data base connection error using connection: "
           print *,trim(ConnStr) 
           CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndl,
-     -                   'DBOPEN: Connection')
+     -                   'DBOPEN: Connect string: '//trim(ConnStr) )
           RETURN
         ENDIF
           
