@@ -1,7 +1,7 @@
       SUBROUTINE CLAUESTB
       IMPLICIT NONE
 C----------
-C  **CLAUESTB  CLIMATE--DATE OF LAST REVISION:  04/14/2012
+C  $Id$
 C----------
 C
 C     CLIMATE EXTENSION--AUTOMATIC ESTABLISHMENT ROUTINE 
@@ -144,13 +144,13 @@ C     WRITE THE REPORT, SKIP IF JCLREF IS -1 (A FLAG SUPPRESSING THE OUTPUT).
           CALL GETLUN(JOUT)
           WRITE (JOUT,'(1X,I5," $#*%")') JCLREF
           WRITE (JOUT,43) 
-   43     FORMAT(/T6,'CLIMATE-FVS VERSION 2.0 VIABILITY',
-     >          ' AND EFFECTS REPORT'/,63('-')/T11,'SP VIA-',
-     >          14X,'VIAB. dCLIM GROWTH SITE AUTOESTB'/
+   43     FORMAT(/T8,'CLIMATE-FVS VERSION 2.0 VIABILITY',
+     >          ' AND EFFECTS REPORT'/,69('-')/T11,'SP VIA-',
+     >          14X,'VIAB. dCLIM GROWTH SITE MXDEN AUTOESTB'/
      >          'YEAR SPEC BILITY  BA/A    TPA   MORT ',
-     >          ' MORT MULT   MULT    TPA'/
+     >          ' MORT MULT   MULT  MULT   TPA'/
      >          '---- ---- ------ ------ ------ ----- ',
-     >          '----- ----- ----- --------'/'$#*%')
+     >          '----- ----- ----- ----- --------'/'$#*%')
          
         ENDIF
         IF (I.EQ.1) THEN
@@ -178,8 +178,8 @@ C     WRITE THE REPORT, SKIP IF JCLREF IS -1 (A FLAG SUPPRESSING THE OUTPUT).
      >        INDXSPECIES(I).GT.0) THEN
             WRITE (JOUT,45) JCLREF,IY(ICYC),JSP(I),SPVIAB(I),
      >          SPBA(I),SPTPA(I),SPMORT1(I),SPMORT2(I),SPGMULT(I),
-     >          SPSITGM(I),POTESTAB(I)
-   45       FORMAT (1X,I5,1X,I4,3X,A2,F7.3,F7.2,F7.1,4F6.3,F9.1)
+     >          SPSITGM(I),MXDENMLT,POTESTAB(I)
+   45       FORMAT (1X,I5,1X,I4,3X,A2,F7.3,F7.2,F7.1,5F6.3,F9.1)
           ENDIF
         ENDDO
       ENDIF
