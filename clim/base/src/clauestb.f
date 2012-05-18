@@ -157,31 +157,48 @@ C     WRITE THE REPORT, SKIP IF JCLREF IS -1 (A FLAG SUPPRESSING THE OUTPUT).
           CALL GETLUN(JOUT)
           WRITE (JOUT,44) JCLREF
    44     FORMAT (1X,I5,' ')
+        ELSE
+          JOUT=0
         ENDIF
+      ENDIF
 
-        SPBA=0.
-        SPTPA=0.
-        DO I=1,ITRN
-          I1=ISP(I)
-          SPBA(I1)=SPBA(I1)+(DBH(I)*DBH(I)*PROB(I)*0.005454154)
-          SPTPA(I1)=SPTPA(I1)+PROB(I)
-        ENDDO
-        SPIMP=0.
-        XX=SUM(SPBA)
-        IF (XX.GT.0) SPIMP=SPBA/XX
-        XX=SUM(SPTPA)
-        IF (XX.GT.0) SPIMP=SPIMP+(SPTPA/XX)
-        XX=SUM(SPIMP)
-        IF (XX.GT.0) SPIMP=SPIMP/XX
-        DO I=1,MAXSP
-          IF ((SPIMP(I).GT. 0.1 .OR. SPVIAB(I).GT. .4) .AND. 
-     >        INDXSPECIES(I).GT.0) THEN
+      SPBA=0.
+      SPTPA=0.
+      DO I=1,ITRN
+        I1=ISP(I)
+        SPBA(I1)=SPBA(I1)+(DBH(I)*DBH(I)*PROB(I)*0.005454154)
+        SPTPA(I1)=SPTPA(I1)+PROB(I)
+      ENDDO
+      SPIMP=0.
+      XX=SUM(SPBA)
+      IF (XX.GT.0) SPIMP=SPBA/XX
+      XX=SUM(SPTPA)
+      IF (XX.GT.0) SPIMP=SPIMP+(SPTPA/XX)
+      XX=SUM(SPIMP)
+      IF (XX.GT.0) SPIMP=SPIMP/XX
+      I2 = 0
+      DO I=1,MAXSP
+        IF ((SPIMP(I).GT. 0.1 .OR. SPVIAB(I).GT. .4) .AND. 
+     >      INDXSPECIES(I).GT.0) THEN
+          I2 = 1
+          IF (JOUT.GT.0) THEN
             WRITE (JOUT,45) JCLREF,IY(ICYC),JSP(I),SPVIAB(I),
-     >          SPBA(I),SPTPA(I),SPMORT1(I),SPMORT2(I),SPGMULT(I),
+     >            SPBA(I),SPTPA(I),SPMORT1(I),SPMORT2(I),SPGMULT(I),
      >          SPSITGM(I),MXDENMLT,POTESTAB(I)
    45       FORMAT (1X,I5,1X,I4,3X,A2,F7.3,F7.2,F7.1,5F6.3,F9.1)
           ENDIF
-        ENDDO
+            CALL DBSCLSUM(NPLT,IY(ICYC),JSP(I),SPVIAB(I),
+     >           SPBA(I),SPTPA(I),SPMORT1(I),SPMORT2(I),SPGMULT(I),
+     >           SPSITGM(I),MXDENMLT,POTESTAB(I))
+        ENDIF
+      ENDDO
+      IF (I2.EQ.0) THEN
+        IF (JOUT.GT.0) THEN
+          WRITE (JOUT,45) JCLREF,IY(ICYC),"--",
+     >         0.,0.,0.,0.,0.,0.,0.,MXDENMLT,0.
+        ENDIF 
+        CALL DBSCLSUM(NPLT,IY(ICYC),"--",
+     >       0.,0.,0.,0.,0.,0.,0.,MXDENMLT,0.)
       ENDIF
         
       IF (.NOT.LAESTB) RETURN

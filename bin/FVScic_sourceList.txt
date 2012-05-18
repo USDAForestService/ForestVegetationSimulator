@@ -238,6 +238,7 @@
 ../clim/base/src/clinit.f
 ../clim/base/src/clmaxden.f
 ../clim/base/src/clmorts.f
+../clim/base/src/clputget.f
 ../common/ARRAYS.F77
 ../common/CALCOM.F77
 ../common/CALDEN.F77
@@ -297,12 +298,13 @@
 ../covr/src/cvscon.f
 ../covr/src/cvshap.f
 ../covr/src/cvsum.f
+../dbs/src/DBSCOM.F77
 ../dbs/src/dbsatrtls.f
 ../dbs/src/dbsblkd.f
 ../dbs/src/dbscase.f
 ../dbs/src/dbsclose.f
+../dbs/src/dbsclsum.f
 ../dbs/src/dbscmpu.f
-../dbs/src/DBSCOM.F77
 ../dbs/src/dbscuts.f
 ../dbs/src/dbsdiags.f
 ../dbs/src/dbsecharv.f
@@ -488,9 +490,9 @@
 ../fire/fofem/src/win_ccwf.h
 ../fire/ni/src/fmcons.f
 ../fire/ni/src/fmmois.f
+../mistoe/src/MISCOM.F77
 ../mistoe/src/misact.f
 ../mistoe/src/miscnt.f
-../mistoe/src/MISCOM.F77
 ../mistoe/src/miscpf.f
 ../mistoe/src/misdam.f
 ../mistoe/src/misdgf.f

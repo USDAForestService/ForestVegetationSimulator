@@ -1,7 +1,7 @@
       SUBROUTINE DBSINIT
       IMPLICIT NONE
 C----------
-C  **DBINIT--DBS DATE OF LAST REVISION: 10/31/2011
+C  **DBINIT--DBS DATE OF LAST REVISION: 05/18/2012
 C----------
 C
 C
@@ -33,6 +33,7 @@ C
       IFUELC   = 0
       ICMRPT   = 0
       ICHRPT   = 0
+      ICLIM    = 0
       IBURN    = 0
       IMORTF   = 0
       ISSUM    = 0

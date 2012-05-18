@@ -1,7 +1,7 @@
       SUBROUTINE DBSPPPUT (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
 C----------
-C  **DBSPPPUT--DBS DATE OF LAST REVISION: 10/31/2011
+C  **DBSPPPUT--DBS DATE OF LAST REVISION: 05/18/2012
 C----------
 C
 C
@@ -15,7 +15,7 @@ COMMONS
 C
 C
       INTEGER MXI,I
-      PARAMETER (MXI=68)
+      PARAMETER (MXI=69)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
@@ -90,6 +90,7 @@ C
       INTS( 68) = 0      
       IF (ConnHndlIn .NE.-1) INTS( 67)=1 ! The connection was openned
       IF (ConnHndlOut.NE.-1) INTS( 68)=1 
+      INTS( 69) = ICLIM
 C
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
       LENSTRINGS(1) = LEN_TRIM(DSNIN)

@@ -1,7 +1,7 @@
       SUBROUTINE DBSPPGET (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
 C----------
-C  **DBSPPGET--DBS DATE OF LAST REVISION: 10/31/2011
+C  **DBSPPGET--DBS DATE OF LAST REVISION: 05/18/2012
 C----------
 C
 COMMONS
@@ -14,7 +14,7 @@ COMMONS
 C
 C
       INTEGER MXI
-      PARAMETER (MXI=68)
+      PARAMETER (MXI=69)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
@@ -89,6 +89,7 @@ C
       ! note that ConnHndl[In,Out] could be long ints!
       IF (INTS(67).EQ.1) ConnHndlIn = 0 ! signal to reopen
       IF (INTS(68).EQ.1) ConnHndlOut= 0
+      ICLIM        = INTS( 69)
             
       CALL IFREAD(WK3, IPNT, ILIMIT, LENSTRINGS, 3, 2)
 C

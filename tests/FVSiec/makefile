@@ -1,5 +1,7 @@
 
-all : iet01 iet02 TestSpecialCostAndRevenue
+# $Id$
+
+all : iet01 iet02 TestSpecialCostAndRevenue climate climatePutGet
 
 iet01 : 
 	@echo Test iet01, basic functionality 
@@ -15,7 +17,10 @@ iet02 :
 	@echo Test iet02, test use of command line options 
 	-../../bin/FVSiec --keywordfile=iet02.key --stoppoint=2,2040,iet02.stop
 	-../../bin/FVSiec --restart=iet02.stop
-	-diff -w iet02.sum iet02.sum.save
+	grep -v "\-999" iet02.sum      > iet02.tmp
+	grep -v "\-999" iet02.sum.save > iet02.tmp.save
+	-diff -w iet02.tmp iet02.tmp.save
+	rm iet02.tmp iet02.tmp.save
 	@echo Test iet02 ended
 	
 TestSpecialCostAndRevenue :
@@ -32,6 +37,16 @@ climate:
 	-diff -w climate.tmp climate.tmp.save
 	rm climate.tmp climate.tmp.save
 	@echo Test Climate-FVS ended
+	
+climatePutGet:
+	@echo Test Climate-FVS with PutGet
+	-../../bin/FVSiec --keywordfile=climate.key --stoppoint=1,2040,climate.stop
+	-../../bin/FVSiec --restart=climate.stop
+	grep -v "\-999" climate.sum      > climate.tmp
+	grep -v "\-999" climate.sum.save > climate.tmp.save
+	-diff -w climate.tmp climate.tmp.save
+	rm climate.tmp climate.tmp.save
+	@echo Test Climate-FVS with PutGet ended
 	
  
 
