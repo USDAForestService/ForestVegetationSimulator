@@ -144,7 +144,6 @@ c
       action=action(1:3)
 
       rtncode = 0
-
       select case(name)
       case ("year")
         iv=101
@@ -377,7 +376,7 @@ c
       
       i = mod(iv,100)
       iv = iv/100
- 
+       
       select case (iv)
       case (1)
         if (action=="get") attr = tstv1(i)
@@ -547,18 +546,21 @@ c     indx    = species index
       return
       end
       
-      subroutine fvsStandID(sID,mID,ncsID,ncmID)
+      subroutine fvsStandID(sID,sCN,mID,ncsID,ncCN,ncmID)
 
       include "PRGPRM.F77"
       include "PLOT.F77"
       
-      integer :: ncsID,ncmID
+      integer :: ncsID,ncCN,ncmID
       character(len=26) sID
       character(len=4)  mID
+      character(len=40) sCN
       
       sID = NPLT
       mID = MGMID
+      sCN = DBCN
       ncsID = len_trim(NPLT)
+      ncCN  = len_trim(DBCN)
       ncmID = len_trim(MGMID)
       return
       end
