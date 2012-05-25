@@ -1,15 +1,22 @@
+c $Id$
+
 c     This is a collection of routines that provide an interface to 
 c     the shared library version of FVS. Other routines that exist
 c     inside FVS may also be called.
 
-      subroutine fvsDimSizes(ntrees,ncycles,maxtrees,maxspecies,
+c     Created in late 2011 by Nick Crookston, RMRS-Moscow
+
+      subroutine fvsDimSizes(ntrees,ncycles,nplots,maxtrees,maxspecies,
      -                       maxplots,maxcycles)
       implicit none
       include "PRGPRM.F77"
       include "CONTRL.F77"
-      integer :: ntrees,ncycles,maxtrees,maxspecies,maxplots,maxcycles
+      include "PLOT.F77"
+      integer :: ntrees,ncycles,nplots,maxtrees,maxspecies,maxplots,
+     -           maxcycles
       ntrees    = ITRN
       ncycles   = NCYC
+      nplots    = IPTINV
       maxtrees  = MAXTRE
       maxspecies= MAXSP 
       maxplots  = MAXPLT
