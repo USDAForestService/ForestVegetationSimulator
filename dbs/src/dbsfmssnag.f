@@ -1,9 +1,8 @@
       SUBROUTINE DBSFMSSNAG(IYEAR,NPLT,HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,
      -  SCL1,SCL2,SCL3,SCL4,SCL5,SCL6,KODE)
       IMPLICIT NONE
-C----------
-C  **DBSFMSSNAG--DBS  DATE OF LAST REVISION:  10/31/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE SUMMARY SNAG REPORT
 C              INFORMATION
@@ -41,13 +40,13 @@ COMMONS
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,SCL1,SCL2,SCL3,SCL4,SCL5,SCL6
       DOUBLE PRECISION HCL1B,HCL2B,HCL3B,HCL4B,HCL5B,HCL6B,SCL1B,SCL2B,
-     -  SCL3B,SCL4B,SCL5B,SCL6B 
+     -  SCL3B,SCL4B,SCL5B,SCL6B
       CHARACTER*2000 SQLStmtStr
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
 
 C     Initialize variables
- 
+
       IF(ISSUM.EQ.0) RETURN
       IF(ISSUM.EQ.2) KODE = 0
 
@@ -100,7 +99,7 @@ C---------
      -              'Soft_snags_class3 double null,'//
      -              'Soft_snags_class4 double null,'//
      -              'Soft_snags_class5 double null,'//
-     -              'Soft_snags_class6 double null)'   
+     -              'Soft_snags_class6 double null)'
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
@@ -140,7 +139,7 @@ C---------
      -              'Soft_snags_class5 real null,'//
      -              'Soft_snags_class6 real null)'
         ENDIF
-        
+
             iRet = fvsSQLCloseCursor(StmtHndlOut)
             iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
@@ -177,7 +176,7 @@ C
       SCL4B = SCL4
       SCL5B = SCL5
       SCL6B = SCL6
-     
+
       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
      -  StandID,Year,Hard_snags_class1,Hard_snags_class2,
      -  Hard_snags_class3,Hard_snags_class4,Hard_snags_class5,

@@ -1,7 +1,7 @@
       SUBROUTINE DBSSTANDIN(SQLSTR,LKECHO)
       IMPLICIT NONE
 C
-C  **DBSSTANDIN--DBS  DATE OF LAST REVISION: 02/21/2012
+C $Id$
 C
 C     PURPOSE: TO POPULATE FVS STAND LEVEL DATA FROM THE DATABASE
 C     AUTH: D. GAMMEL -- SEM -- AUGUST 2002
@@ -219,7 +219,7 @@ C     INITIALIZE DATA ARRAY THAT BINDS TO COLUMNS
       DO ColNumber = 1,ColumnCount
 
         iRet = fvsSQLDescribeCol (StmtHndlIn, ColNumber, ColName,
-     -   int(LEN(ColName),SQLSMALLINT_KIND), NameLen, DType, 
+     -   int(LEN(ColName),SQLSMALLINT_KIND), NameLen, DType,
      -   NColSz, NDecs, Nullable)
 
         DO I = 1, NameLen
@@ -238,7 +238,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
          CASE('STAND_ID')
           IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
      -       DType.EQ.SQL_LONGVARCHAR) THEN
-     	          	
+
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
      -        CSTAND,int(LEN(CSTAND),SQLLEN_KIND),Stand_LI)
             LSTDISNUM=.FALSE.
@@ -247,7 +247,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        ISTANDDATA(28),int(4,SQLLEN_KIND),Stand_LI)
             LSTDISNUM=.TRUE.
           ENDIF
-          
+
          CASE('INV_YEAR')
           iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(1),int(4,SQLLEN_KIND),IY_LI)
@@ -276,7 +276,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
           iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
      -        ISTANDDATA(32),int(4,SQLLEN_KIND),Compartment_LI)
 
-         CASE('ECOREGION')  
+         CASE('ECOREGION')
           IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
      -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
@@ -452,7 +452,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        RSTANDDATA(48),int(4,SQLLEN_KIND), Fuel20_LI)
          CASE('FUEL_35_50','FUEL_35_50_H')
           iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
-     -        RSTANDDATA(49),int(4,SQLLEN_KIND), Fuel35_LI)     
+     -        RSTANDDATA(49),int(4,SQLLEN_KIND), Fuel35_LI)
          CASE('FUEL_GT_50','FUEL_GT_50_H')
           iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
      -        RSTANDDATA(50),int(4,SQLLEN_KIND), Fuel50_LI)
@@ -480,7 +480,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        RSTANDDATA(61),int(4,SQLLEN_KIND), FuelS20_LI)
          CASE('FUEL_35_50_S')
           iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
-     -        RSTANDDATA(62),int(4,SQLLEN_KIND), FuelS35_LI)     
+     -        RSTANDDATA(62),int(4,SQLLEN_KIND), FuelS35_LI)
          CASE('FUEL_GT_50_S')
           iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_FLOAT,
      -        RSTANDDATA(63),int(4,SQLLEN_KIND), FuelS50_LI)
@@ -501,7 +501,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
       IF(LKECHO)WRITE(JOSTND,'(/T13,''STAND-LEVEL DATA BASE READ:'')')
 
 C     Fetch the Row Data
-      
+
       iRet = fvsSQLFetch(StmtHndlIn)
       IF (iRet.NE.SQL_SUCCESS.AND.
      -    iRet.NE.SQL_SUCCESS_WITH_INFO) THEN
@@ -515,7 +515,7 @@ C     Fetch the Row Data
       ENDIF
 
       iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlIn)
- 
+
 C     DEFINE VVER IN CASE IT IS NEEDED.
 
       CALL VARVER(VVER)
@@ -625,7 +625,7 @@ C
       IF(Habitat_LI.NE.SQL_NULL_DATA) THEN
          IF (LHABISNUM) THEN   ! HABITAT CODE IS NUMBER.
             WRITE (CHAB,'(I10)') ISTANDDATA(5)
-         GOTO 45 
+         GOTO 45
          ELSE
             I=INDEX(CHAB,CHAR(0))
             IF (I.EQ.1) GOTO 45
@@ -639,7 +639,7 @@ C
    45   CONTINUE
          KARD2  = ADJUSTL(CHAB(1:10))
          ARRAY2 = ISTANDDATA(5)
-         IF(VVER(:2).EQ.'SE' .OR. (VVER(:2).EQ.'SN' .AND. 
+         IF(VVER(:2).EQ.'SE' .OR. (VVER(:2).EQ.'SN' .AND.
      >   Ecoregion_LI.NE.SQL_NULL_DATA)) THEN
            KODTYP=0
            ICL5=0
@@ -661,7 +661,7 @@ C
    62      FORMAT (T13,'PV REFERENCE CODE:',T31,A)
          ENDIF
       ENDIF
-      
+
       IF(Ecoregion_LI.NE.SQL_NULL_DATA) THEN
         IF (VVER(:2).EQ.'SN') THEN
           IF (LECOISNUM) THEN   ! ECOREGION CODE IS NUMBER.
@@ -691,7 +691,7 @@ C
           ENDIF
    51      FORMAT (T13,'ECOLOGICAL UNIT:',T30,A:
      >              ' CONVERTED TO CODE: ',I4)
-        ENDIF 
+        ENDIF
       ENDIF
 
       IF(Age_LI.NE.SQL_NULL_DATA) THEN
@@ -1032,7 +1032,7 @@ C     FUEL LOAD PARAMETERS
      >   RSTANDDATA(60)
       ELSE
          RSTANDDATA(60) = -1.
-      ENDIF 
+      ENDIF
       IF(FuelS20_LI.NE.SQL_NULL_DATA) THEN
          LFMYES2 = .TRUE.
          IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_20_35_S: '',T33,F8.3)')
@@ -1071,19 +1071,19 @@ C     FUEL PHOTO REFERENCE
       LFOTO = .FALSE.
       IF(FOTOREF_LI.NE.SQL_NULL_DATA) THEN
          LFOTO = .TRUE.
-         
+
          IF ((ISTANDDATA(52) .NE. 4) .AND. (ISTANDDATA(52) .NE. 10)
      >   .AND. (ISTANDDATA(52) .GE. 1) .AND. (ISTANDDATA(52) .LE. 32))
      >   THEN
            REF = PHOTOREF(ISTANDDATA(52))
          ELSE
            REF = 'UNKNOWN'
-           LFOTO = .FALSE.  
+           LFOTO = .FALSE.
          ENDIF
          IF(LKECHO)WRITE (JOSTND,55) ISTANDDATA(52), REF
- 
+
    55    FORMAT (T13,'PHOTO_REF: ',T35,I6, ' = ',A)
- 
+
       ELSE
          ISTANDDATA(52) = -1.
       ENDIF
@@ -1109,24 +1109,24 @@ C     FUEL PHOTO CODE
 
       FOTODATA(1) = ISTANDDATA(52)
       FOTODATA(2) = FKOD
-      
+
 C     Schedule an activity that changes the initial fuel values. This mimics
-C     the method used in the fire model.  First the fuels photo series photo 
+C     the method used in the fire model.  First the fuels photo series photo
 C     selected is set, followed by tons/acre entered directly.
 
       CALL  FMLNKD(LFMLK)
-      
+
       IF (LFMLK.AND.LFOTO.AND.LFOTO2) THEN
          CALL OPNEW(I,1,2548,2,FOTODATA(1))
-      ELSEIF (LFOTO.AND.LFOTO2.AND. .NOT. LFMLK) THEN 
+      ELSEIF (LFOTO.AND.LFOTO2.AND. .NOT. LFMLK) THEN
         WRITE(JOSTND,
      >  '(T13,''FIRE MODEL NOT LINKED, FUELS PHOTO DATA IGNORED.'')')
-      ELSEIF ((FOTOREF_LI.NE.SQL_NULL_DATA) .OR. 
+      ELSEIF ((FOTOREF_LI.NE.SQL_NULL_DATA) .OR.
      >        (FotoCode_LI.NE.SQL_NULL_DATA)) THEN
         WRITE(JOSTND,'(T13,''MISSING PHOTO ''
      >  ''REFERENCE OR PHOTO CODE, FUELS PHOTO DATA IGNORED.'')')
       ENDIF
-     
+
       IF (LFMLK.AND.LFMYES) CALL OPNEW(I,1,2521,12,RSTANDDATA(39))
       IF (LFMYES.AND. .NOT. LFMLK) WRITE(JOSTND,
      >   '(T13,''FIRE MODEL NOT LINKED, FUELS DATA IGNORED.'')')

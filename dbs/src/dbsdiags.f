@@ -1,8 +1,7 @@
       SUBROUTINE DBSDIAGS(HndlType,Hndl,CallFrom)
       IMPLICIT NONE
-C----------
-C  **DBSDIAGS--DBS  DATE OF LAST REVISION: 05/18/2012
-C----------
+C
+C $Id$
 C
 C      THIS SUBROUTINE PRINTS ERROR DIAGNOSTICS FOR THE DBS
 C      CALLS TO THE SQL ODBC API
@@ -32,7 +31,7 @@ C----
       INTEGER(SQLRETURN_KIND):: DiagRet
 
       iDiag = 1
-     
+
       DO WHILE (.true. .and. iDiag.le.5)
          DiagRet = fvsSQLGetDiagRec(HndlType, Hndl, iDiag, SqlState,
      -             NativeError, Msg,
@@ -51,7 +50,7 @@ C----
          CALL RCDSET (2,.TRUE.)
 
          iDiag=iDiag+1
-         
+
 
       ENDDO
       RETURN

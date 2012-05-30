@@ -2,22 +2,21 @@
      >          SPBA,SPTPA,SPMORT1,SPMORT2,SPGMULT,
      >          SPSITGM,MXDENMLT,POTESTAB)
       IMPLICIT NONE
-C----------
-C  **DBSCLSUM--DBS DATE OF LAST REVISION: 05/18/2012
-C----------
+C
+C $Id$
 C
 C     POPULATE A DATABASE WITH THE CLIMATE SUMMARY
-      
+
       INCLUDE 'DBSCOM.F77'
 C
       INTEGER IYR
       CHARACTER(LEN=*) NPLT,SP
       REAL SPVIAB,SPBA,SPTPA,SPMORT1,SPMORT2,SPGMULT,
      >     SPSITGM,MXDENMLT,POTESTAB
-     
+
       CHARACTER*2000 SQLStmtStr
       CHARACTER(len=20) TABLENAME
-      
+
       IF (ICLIM.EQ.0) RETURN
 
 C     MAKE SURE WE HAVE AN UP TO DATE CASEID
@@ -108,22 +107,22 @@ C     CHECK TO SEE IF THE Climate TABLE EXISTS IN DATBASE
      -      'DBSCLSUM:Creating Table: '//trim(SQLStmtStr))
         IF (iRet.NE.SQL_SUCCESS) GOTO 200
       ENDIF
-       
+
       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,'//
      -   'StandID,Year,Species,Viability,BA,TPA,ViabMort,'//
      -   'dClimMort,GrowthMult,SiteMult,MxDenMult,AutoEstbTPA) '//
      -   'VALUES(',ICASE,',"',trim(NPLT),'",',IYR,',"',
      -   trim(SP),'",',SPVIAB,',',SPBA,',',SPTPA,',',
      -   SPMORT1,',',SPMORT2,',',SPGMULT,',',
-     -   SPSITGM,',',MXDENMLT,',',POTESTAB,')'     
-             
+     -   SPSITGM,',',MXDENMLT,',',POTESTAB,')'
+
       ! PRINT*, trim(SQLStmtStr)
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -       int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
       ! PRINT*, iRet
       CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -             'DBSCLSUM:Inserting Row')
-        
+
 
   200 CONTINUE
       !Release statement handle

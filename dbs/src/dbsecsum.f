@@ -5,12 +5,15 @@
      &      reprodValue, reprodValueCalculated, ft3Volume, bfVolume,
      &      discountRate, sevInput, sevInputUsed)
 
+C $Id$
+
+
       implicit none
 
       include 'DBSCOM.F77'
 
       character(len=*), parameter :: tableName = 'FVS_EconSummary'
-      
+
       character(len=30)   :: decoratedTableName
       character(len=*)    :: pretend
       character(len=2000) :: SQLStmtStr
@@ -130,7 +133,7 @@
      &          // 'CONSTRAINT ' // tableName // '_PK '
      &          // 'PRIMARY KEY(CaseID, Year))'
         end if
-         
+
          iRet = fvsSQLFreeStmt(StmtHndlOut, SQL_CLOSE)
          iRet = fvsSQLExecDirect(
      &         StmtHndlOut,
@@ -152,7 +155,7 @@
      &   decoratedTableName,'(CaseID, Year, Period,',
      &   'Pretend_Harvest, Undiscounted_Cost, Undiscounted_Revenue,',
      &   'Discounted_Cost, Discounted_Revenue, PNV, IRR, BC_Ratio,',
-     &   'RRR, SEV, Value_of_Forest, Value_of_Trees,', 
+     &   'RRR, SEV, Value_of_Forest, Value_of_Trees,',
      &   'Mrch_Cubic_Volume, Mrch_BoardFoot_Volume, Discount_Rate,',
      &   'Known_SEV)',
      &   'VALUES (',ICASE,',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'

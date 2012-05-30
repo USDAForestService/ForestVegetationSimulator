@@ -271,6 +271,7 @@
 ../dbs/src/dbscmpu.f
 ../dbs/src/dbscuts.f
 ../dbs/src/dbsdiags.f
+../dbs/src/dbsdriv.f
 ../dbs/src/dbsecharv.f
 ../dbs/src/dbsecsum.f
 ../dbs/src/dbsevm.f

@@ -1,8 +1,8 @@
       SUBROUTINE DBSCASE(IFORSURE)
       IMPLICIT NONE
-C----------
-C  **DBSCASE--DBS  DATE OF LAST REVISION: 10/31/2011
-C----------
+C
+C $Id$
+C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE PROGNOSIS MODEL
 C              OUTPUT.
@@ -46,12 +46,12 @@ C---
       CHARACTER*20 TABLENAME
 
       CHARACTER*7 VVER
-      
+
       CHARACTER*2 VAR
 
       CALL VARVER(VVER)
       VAR=VVER(:2)
-      IF(VAR.EQ.'BP' .OR. VAR.EQ.'LP' .OR. VAR.EQ.'SF' .OR. 
+      IF(VAR.EQ.'BP' .OR. VAR.EQ.'LP' .OR. VAR.EQ.'SF' .OR.
      & VAR.EQ.'SM' .OR. VAR.EQ.'SP')VAR='CR'
 
 C-----

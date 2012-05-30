@@ -1,17 +1,9 @@
       SUBROUTINE DBSINIT
       IMPLICIT NONE
-C----------
-C  **DBINIT--DBS DATE OF LAST REVISION: 05/18/2012
-C----------
 C
-C
-COMMONS
-C
+C $Id$
 C
       INCLUDE 'DBSCOM.F77'
-C
-C
-COMMONS
 C
 C
       ICASE    = -1
@@ -54,10 +46,10 @@ C
       ISPOUT31 = 0
       IDWDVOL  = 0
       IDWDCOV  = 0
-      
+
       RETURN
       END
-      
+
       SUBROUTINE DBSACTV(LACTV)
       LOGICAL LACTV
       LACTV = .TRUE.

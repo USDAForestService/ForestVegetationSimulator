@@ -1,13 +1,16 @@
-      SUBROUTINE DBSOPEN(CONNECT,EnvHndl,ConnHndl,DBMS,KODE)
+      SUBROUTINE DBSOPEN(CONNECT,EnvHndl,ConnHndl,DBMS,JOSTND,
+     -                   LKECHO,KODE)
       IMPLICIT NONE
 C
-C  **DBSOPEN--DBS  DATE OF LAST REVISION:  12/02/2011
+C $Id$
 C
 C     PURPOSE: TO OPEN A DATABASE CONNECTION
-C     INPUT: CONNECT  - CONNECTION STRING
+C     INPUT: CONNECT  - THE INPUT CONNECTION STRING (or file name)
 C            EnvHndl  - ENVIRONMENT HANDLE
 C            ConnHndl - CONNECTION HANDLE
 C            DBMS     - DATABASE MANAGEMENT SYSTEM NAME
+C            JOSTND   - OUTPUT FILE REFERENCE NUMBER
+C            LKECHO   - TRUE IF KEYWORD OUTPUT IS BEING OUTPUT
 C            KODE     - RETURN CODE 0: CONNECTION UN-SUCCESSFUL
 C                                   1: CONNECTION SUCCESSFUL
 C---
@@ -22,12 +25,13 @@ C
       INTEGER(SQLSMALLINT_KIND)::ConnStrLength,ConnStrLengthOut,LenDBMS
       INTEGER(SQLSMALLINT_KIND), PARAMETER::LenConnStr=500
       INTEGER(SQLSMALLINT_KIND)::DriverComplete
-      INTEGER I,KODE
+      INTEGER JOSTND,I,KODE
       CHARACTER(LEN=*) CONNECT,DBMS
       CHARACTER(LEN=LEN_TRIM(CONNECT)) SOURCE
       CHARACTER(LEN=LenConnStr) ConnStr,ConnStrOut
       CHARACTER*256 DSN
       CHARACTER*40 USER,PSSWRD,SUFFIX
+      LOGICAL LKECHO
 C
 C     CLOSE ANY OPEN CONNECTION
 C
@@ -56,6 +60,14 @@ C
      -  SQL_AUTOCOMMIT_ON,SQLINTEGER_KIND)
       iRet = fvsSQLSetConnectAttr (ConnHndl, SQL_ACCESS_MODE,
      -  SQL_MODE_READ_WRITE,SQLINTEGER_KIND)
+C
+C     If the first part CONNECT is "DRIVER=", then this is considered
+C     a full connection string.
+C
+      If (CONNECT(1:7).eq."DRIVER=") then
+        ConnStr = CONNECT
+        goto 10
+      endif
 C
 C     PARSE OUT NEEDED DATA FROM DSNOUT CHECKING FOR QUOTED STRINGS
 C
@@ -111,7 +123,7 @@ C
         ELSE
           IF(SUFFIX.EQ.'XLS') THEN
             ConnStr='DRIVER={Microsoft Excel Driver (*.xls)}'//
-     -                    ';ReadOnly=False'        
+     -                    ';ReadOnly=False'
           ELSEIF (SUFFIX.EQ.'XLSX') THEN
             ConnStr='DRIVER={Microsoft Excel Driver (*.xls, '//
      -                      '*.xlsx, *.xlsm, *.xlsb)}'//
@@ -128,22 +140,30 @@ C
         ENDIF
         DriverComplete = SQL_DRIVER_NOPROMPT
       ENDIF
+   10 CONTINUE
       ConnStrLength = LEN_TRIM(ConnStr)
       IF (ConnStrLength.GT.0) THEN
         iRet = fvsSQLDriverConnect(ConnHndl, SQL_NULL_PTR,
      -         ConnStr,ConnStrLength,ConnStrOut,LenConnStr,
      -         ConnStrLengthOut,DriverComplete)
 C
-C       MAKE SURE WE CONNECTED OK 
+C       MAKE SURE WE CONNECTED OK
 C
-        IF(iRet.NE.SQL_SUCCESS.AND.iRet.NE.SQL_SUCCESS_WITH_INFO) THEN
-          print *,"Data base connection error using connection: "
-          print *,trim(ConnStr) 
+        IF(iRet.NE.SQL_SUCCESS.AND.iRet.NE.SQL_SUCCESS_WITH_INFO)THEN
+          print *,"Data base connection error using connection:"
+          print *,trim(ConnStr)
           CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndl,
-     -                   'DBOPEN: Connect string: '//trim(ConnStr) )
+     -                   'DBOPEN: Error using connect string: '//
+     -                   trim(ConnStr))
           RETURN
+        ELSE
+          IF (LKECHO) THEN
+            WRITE(JOSTND,20) 'IN',ConnStr(:ConnStrLength)
+   20       FORMAT(T13,'CONNECT STRING (',A3,'): ',A)
+            WRITE(JOSTND,20) 'OUT',ConnStrOut(:ConnStrLengthOut)
+          ENDIF
         ENDIF
-          
+
       ELSE
         print *,"Data base connection error: connection string ",
      -          "could not be formed."

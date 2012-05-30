@@ -1,11 +1,13 @@
       subroutine DBSECHARV_open()
 
+C $Id$
+
         implicit none
 
         include 'DBSCOM.F77'
 
         character(len=*), parameter :: TABLENAME='FVS_EconHarvestValue'
-        
+
         character(len=30)   :: decoratedTableName
         character(len=1000) :: SQLStmtStr
         logical success
@@ -95,7 +97,7 @@
      &              // 'Board_Ft_Value int null,'
      &              // 'Total_Value int null)'
             end if
-            
+
             iRet = fvsSQLFreeStmt(StmtHndlOut, SQL_CLOSE)
             iRet = fvsSQLExecDirect(
      &            StmtHndlOut, trim(SQLStmtStr),
@@ -142,7 +144,7 @@
      &              ft3Volume, ft3Value, bfVolume, bfValue, totalValue
          integer, intent(in) :: speciesId
          integer(SQLPOINTER_KIND) :: maybeNullNeg
-         
+
          if(IDBSECON < 2) return                                         !ECON harvest table was not requested
 
          !if(tooManyRows(decoratedTableName)) return                               !database table will exceed Excel's maximum row count

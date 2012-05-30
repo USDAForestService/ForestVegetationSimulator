@@ -1,8 +1,7 @@
       SUBROUTINE DBSPPGET (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
-C----------
-C  **DBSPPGET--DBS DATE OF LAST REVISION: 05/18/2012
-C----------
+C
+C $Id$
 C
 COMMONS
 C
@@ -18,7 +17,7 @@ C
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
-      
+
       CALL IFREAD(WK3, IPNT, ILIMIT, INTS, MXI, 2)
       ICASE        = INTS(  1)
       ISUMARY      = INTS(  2)
@@ -90,12 +89,12 @@ C
       IF (INTS(67).EQ.1) ConnHndlIn = 0 ! signal to reopen
       IF (INTS(68).EQ.1) ConnHndlOut= 0
       ICLIM        = INTS( 69)
-            
+
       CALL IFREAD(WK3, IPNT, ILIMIT, LENSTRINGS, 3, 2)
 C
       RETURN
       END
-      
+
       SUBROUTINE DBSCHGET (CBUFF, IPNT, LNCBUF)
       IMPLICIT NONE
 C----------
@@ -120,13 +119,13 @@ C
           CALL CHREAD(CBUFF,IPNT,LNCBUF,DSNIN(J:J),2)
         ENDDO
       ENDIF
-      
+
       IF (LENSTRINGS(1).GT.0) THEN
         DO J=1,LENSTRINGS(2)
           CALL CHREAD(CBUFF,IPNT,LNCBUF,DSNOUT(J:J),2)
         ENDDO
       ENDIF
-      
+
       IF (LENSTRINGS(1).GT.0) THEN
         DO J=1,LENSTRINGS(3)
           CALL CHREAD(CBUFF,IPNT,LNCBUF,KEYFNAME(J:J),2)
@@ -134,7 +133,7 @@ C
       ENDIF
 
       ! reopen connections that were in use.
-      
+
       IF (ConnHndlIn.EQ.0) THEN
         ConnHndlIn = -1
         CALL DBSOPEN(DSNIN,EnvHndlIn,ConnHndlIn,DSNIN,KODE)
@@ -147,7 +146,7 @@ C
         IF (KODE.EQ.0) PRINT *,"Reopen DBMSOUT failed. DSNOUT=",
      -     DBMSIN(:LEN_TRIM(DBMSIN))
       ENDIF
-      
+
       RETURN
-      END      
+      END
 

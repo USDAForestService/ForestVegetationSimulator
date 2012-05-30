@@ -3,9 +3,8 @@
      &  S2MS1,S2MS2,S2SC,S3DBH,S3NHT,S3LHT,S3SHT,S3CB,S3CC,S3MS1,S3MS2,
      &  S3SC,NS,TOTCOV,SCLASS,KODE,NTREES)
       IMPLICIT NONE
-C----------
-C  **DBSSTRCLASS--DBS  DATE OF LAST REVISION: 10/31/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE STRUCTURE CLASS OUTPUT.
 C     AUTH: S. REBAIN -- FMSC -- AUGUST 2005
@@ -297,7 +296,7 @@ C
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -          INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
- 
+
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
@@ -325,7 +324,7 @@ C
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S1SHT,int(4,SQLLEN_KIND),          
+     -          INT(5,SQLSMALLINT_KIND),S1SHT,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
@@ -333,17 +332,17 @@ C
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -          INT(5,SQLSMALLINT_KIND),S1CB,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
-     
+
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S1CC,int(4,SQLLEN_KIND),     
+     -          INT(5,SQLSMALLINT_KIND),S1CC,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S1SC,int(4,SQLLEN_KIND), 
+     -          INT(5,SQLSMALLINT_KIND),S1SC,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
@@ -367,7 +366,7 @@ C
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S2SHT,int(4,SQLLEN_KIND),          
+     -          INT(5,SQLSMALLINT_KIND),S2SHT,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
@@ -375,19 +374,19 @@ C
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -          INT(5,SQLSMALLINT_KIND),S2CB,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
-    
+
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S2CC,int(4,SQLLEN_KIND),     
+     -          INT(5,SQLSMALLINT_KIND),S2CC,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S2SC,int(4,SQLLEN_KIND), 
+     -          INT(5,SQLSMALLINT_KIND),S2SC,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
-     
+
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
@@ -409,7 +408,7 @@ C
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S3SHT,int(4,SQLLEN_KIND),          
+     -          INT(5,SQLSMALLINT_KIND),S3SHT,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
@@ -417,29 +416,29 @@ C
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -          INT(5,SQLSMALLINT_KIND),S3CB,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
-     
+
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S3CC,int(4,SQLLEN_KIND),     
+     -          INT(5,SQLSMALLINT_KIND),S3CC,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),S3SC,int(4,SQLLEN_KIND),      
-     -          SQL_NULL_PTR)
-     
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),NS,int(4,SQLLEN_KIND), 
+     -          INT(5,SQLSMALLINT_KIND),S3SC,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(5,SQLSMALLINT_KIND),TOTCOV,int(4,SQLLEN_KIND),          
+     -          INT(5,SQLSMALLINT_KIND),NS,int(4,SQLLEN_KIND),
+     -          SQL_NULL_PTR)
+
+      ColNumber=ColNumber+1
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+     -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
+     -          INT(5,SQLSMALLINT_KIND),TOTCOV,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
   100 CONTINUE

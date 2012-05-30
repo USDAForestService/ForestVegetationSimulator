@@ -1,7 +1,7 @@
       SUBROUTINE DBSGETID(TABLENAME,IDNAME,ID)
       IMPLICIT NONE
 C
-C  **DBSGETID--DBS  DATE OF LAST REVISION: 10/31/2011
+C $Id$
 C
 C
 C     PURPOSE: TO SIMPLY RETURN THE MAX ID NUMBER IN THE SPECIFIED
@@ -41,7 +41,7 @@ COMMONS
       IF (iRet.EQ.SQL_SUCCESS .OR. iRet.EQ.SQL_SUCCESS_WITH_INFO) THEN
         ColNumber = 1
         iRet = fvsSQLBindCol (StmtHndlOut,ColNumber,SQL_F_INTEGER,
-     -        ID,int(4,SQLLEN_KIND),ID_LI)   
+     -        ID,int(4,SQLLEN_KIND),ID_LI)
         iRet = fvsSQLFetch(StmtHndlOut)
       ELSE
         PRINT *,'Error executing SQL query'

@@ -1,10 +1,10 @@
       SUBROUTINE DBSCUTS(IWHO,KODE)
       IMPLICIT NONE
-C----------
-C  **DBSCUTS--DBS  DATE OF LAST REVISION: 01/32/2012
-C----------
+C
+C $Id$
+C
 C     PURPOSE: TO OUTPUT THE CUTS LIST DATA TO THE DATABASE
-C 
+C
 C     INPUT: IWHO  - THE WHO CALLED ME VALUE WHICH MUST BE 2
 C                     INORDER FOR US TO CONTINUE
 C            KODE  - FOR LETTING CALLING ROUTINE KNOW IF THIS IS A
@@ -105,7 +105,7 @@ C---------
      -             'Year int null,'//
      -             'PrdLen int null,'//
      -             'TreeId Text null,'//
-     -             'TreeIndex int null,'//     
+     -             'TreeIndex int null,'//
      -             'Species Text null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
@@ -138,7 +138,7 @@ C---------
      -             'Year INT null,'//
      -             'PrdLen int null,'//
      -             'TreeId Text null,'//
-     -             'TreeIndex int null,'//  
+     -             'TreeIndex int null,'//
      -             'Species Text null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
@@ -170,7 +170,7 @@ C---------
      -             'Year int null,'//
      -             'PrdLen int null,'//
      -             'TreeId char(8) null,'//
-     -             'TreeIndex int null,'//  
+     -             'TreeIndex int null,'//
      -             'Species char(3) null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//

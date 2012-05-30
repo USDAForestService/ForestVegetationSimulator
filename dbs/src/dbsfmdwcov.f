@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMDWCOV(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C  **DBSFMDWVOL-DBS  DATE OF LAST REVISION: 10/31/2011
+C $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE DOWN WOOD COVER REPORT
@@ -32,7 +32,7 @@ C       KODE   - RETURN CODE
 COMMONS
 C
       INCLUDE 'DBSCOM.F77'
-C      
+C
 COMMONS
 
       INTEGER IYEAR, KODE,VARDIM
@@ -100,7 +100,7 @@ C     CHECK TO SEE IF THE DOWN WOOD COVER TABLE EXISTS IN DATBASE
      -              'DWD_Cover_35to50_Soft double null,'//
      -              'DWD_Cover_ge_50_Soft double null,'//
      -              'DWD_Cover_Total_Soft double null)'
-     
+
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Down_Wood_Cov('//
      -              'ID Int,'//

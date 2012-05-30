@@ -3,9 +3,8 @@
      -  SNAGSGT3,FOLIAGE,STANDLT3,STANDGT3,STANDTOTAL,BIOMASS,CONSUMED,
      -  REMOVED,KODE)
       IMPLICIT NONE
-C----------
-C  **DBSFUELS--DBS  DATE OF LAST REVISION: 10/31/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE FUELS REPORT INFORMATION
 C     AUTH: D. GAMMEL -- RMRS -- NOVEMBER 2002
@@ -177,7 +176,7 @@ C---------
      -              'Total_Consumed Int null,'//
      -              'Biomass_Removed Int null)'
         ENDIF
-        
+
             iRet = fvsSQLCloseCursor(StmtHndlOut)
             iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
