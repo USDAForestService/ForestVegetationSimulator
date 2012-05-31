@@ -1,4 +1,7 @@
       function success(returnCode)
+
+C $Id$
+
       INCLUDE 'DBSTYPEDEFS.F77'
             integer(SQLRETURN_KIND), intent(in) :: returnCode
             logical success
@@ -12,7 +15,7 @@
             integer(SQLPOINTER_KIND) :: maybeNullNeg
             integer(SQLPOINTER_KIND) :: maybeNullLog
             real, intent(in) :: n
-            
+
             maybeNullNeg = maybeNullLog(n, n >= 0.0)
       end function maybeNullNeg
 

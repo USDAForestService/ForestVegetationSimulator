@@ -1,7 +1,7 @@
       SUBROUTINE DBSATRTLS(IWHO,KODE,TEM)
-C----------
-C  **DBSATRTLS--DBS  DATE OF LAST REVISION: 01/22/2012
-C----------
+C
+C $Id$
+C
 C     PURPOSE: TO OUTPUT THE ATRTLIST DATA TO THE DATABASE
 C
 C     INPUT: IWHO  - THE WHO CALLED ME VALUE WHICH MUST BE 3
@@ -107,7 +107,7 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
      -             'Year int null,'//
      -             'PrdLen int null,'//
      -             'TreeId Text null,'//
-     -             'TreeIndex int null,'//       
+     -             'TreeIndex int null,'//
      -             'Species Text null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
@@ -140,7 +140,7 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
      -             'Year INT null,'//
      -             'PrdLen int null,'//
      -             'TreeId Text null,'//
-     -             'TreeIndex int null,'//  
+     -             'TreeIndex int null,'//
      -             'Species Text null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
@@ -172,7 +172,7 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
      -             'Year int null,'//
      -             'PrdLen int null,'//
      -             'TreeId char(8) null,'//
-     -             'TreeIndex int null,'//  
+     -             'TreeIndex int null,'//
      -             'Species char(3) null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//

@@ -1,8 +1,7 @@
       SUBROUTINE DBSCMPU
       IMPLICIT NONE
 C
-C  **DBSCMPU--DBS  DATE OF LAST REVISION: 10/31/2011
-C
+C $Id$
 C
 C     AUTH: D. GAMMEL -- SEM -- JUNE 2002
 C     PURPOSE: TO POPULATE A DATABASE WITH THE COMPUTE TABLE
@@ -32,7 +31,7 @@ C
 COMMONS
 C
 
-      CHARACTER*5000 SQLStmtStr, TABLESTR
+      CHARACTER*3000 SQLStmtStr, TABLESTR
       CHARACTER*20 TABLENAME,DTYPE
       CHARACTER*20 COLNAME
       CHARACTER*8 KEYWRD
@@ -134,7 +133,7 @@ C
         iRet = fvsSQLCloseCursor(StmtHndlOut)
         iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-        
+
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -       'DBSCMPU:Creating Table: '//trim(SQLStmtStr))
         CMPUID = 0
@@ -145,9 +144,8 @@ C
         iRet = fvsSQLNumResultCols(StmtHndlIn,ColumnCount)
 
         DO ColNumber = 1,ColumnCount
-       
           iRet = fvsSQLDescribeCol (StmtHndlIn, ColNumber, ColName,
-     -         int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DType, 
+     -         int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DTp,
      -         NColSz, NDecs, Nullable)
           COLNAME(NameLen+1:)=' '
           IF (ColNumber.GT.4) KWLIST(ColNumber-4) = COLNAME
@@ -213,12 +211,12 @@ C
                 ENDIF
               ENDDO
             ENDIF
+            
             !IF KW NOT IN LIST THEN DETERMINE IF WE WANT TO ALTER TABLE
             IF((.NOT.KWINLIST).AND.TRIM(DBMSOUT).NE.'EXCEL'
      -          .AND.IADDCMPU.LT.1) THEN
-              SQLStmtStr='ALTER TABLE '//TABLENAME//' ADD '//
-     -          LWRAP//TRIM(KEYWRD)//RWRAP//' '//DTYPE//' null'
-
+              SQLStmtStr='ALTER TABLE '//trim(TABLENAME)//' ADD '//
+     -          LWRAP//TRIM(KEYWRD)//RWRAP//' '//trim(DTYPE)//' null'
               !Close Cursor
               iRet = fvsSQLCloseCursor(StmtHndlOut)
               iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
@@ -294,17 +292,17 @@ C
       REAL,DIMENSION(NUMCMPU)::KWVALS
       DOUBLE PRECISION,DIMENSION(NUMCMPU)::CURVAL
       SELECT CASE(TRIM(DBMSOUT))
-      CASE('EXCEL') 
+      CASE('EXCEL')
         TABLENAME = '[FVS_Compute$]'
         DTYPE = 'Number'
         LWRAP = '['
         RWRAP = ']'
-      CASE('ACCESS') 
+      CASE('ACCESS')
         TABLENAME = 'FVS_Compute'
         DTYPE = 'Double'
         LWRAP = '['
         RWRAP = ']'
-      CASE('ORACLE') 
+      CASE('ORACLE')
         TABLENAME = 'FVS_Compute'
         DTYPE = 'real'
         LWRAP = '"'
@@ -342,7 +340,7 @@ C
       SQLStr2 = SQLStr1(1:(LEN(TRIM(SQLStr1))-1))
       SQLStmtStr = TRIM(SQLStr2)//')'
 
-      iRet = fvsSQLCloseCursor(StmtHndlOut)   
+      iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
 

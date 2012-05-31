@@ -1,3 +1,12 @@
+c $Id$
+
+c     This is a collection of routines that provide an interface to 
+c     elements of the FVS command line parameters, including the stop/
+c     restart facilities. These routines are most useful with the shared
+c     library version of FVS but they are also called from within FVS. 
+
+c     Created in 2011 by Nick Crookston, RMRS-Moscow
+
       subroutine cmdLine(theCmdLine,lenCL)
       implicit none
       

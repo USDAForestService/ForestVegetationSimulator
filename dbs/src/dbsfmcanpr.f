@@ -1,15 +1,14 @@
       SUBROUTINE DBSFMCANPR(IYEAR,CRFILL,NPLT)
       IMPLICIT NONE
-C----------
-C  **DBSFMCANPR--DBS  DATE OF LAST REVISION: 10/31/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH CANOPY PROFILE
 C              INFORMATION
 C     AUTH: S. REBAIN -- FMSC -- JUNE 2006
 C     INPUT:
 C              THE CANOPY PROFILE INFO FROM THE FIRE MODEL.
-C              1: BIOMASS OF CANOPY FUELS AT VARIOUS HEIGHTS 
+C              1: BIOMASS OF CANOPY FUELS AT VARIOUS HEIGHTS
 C                  ABOVE THE GROUND IN LBS/ACRE/FOOT.
 C
 C     THIS TABLE IS UNIQUE IN THAT THERE IS NOT A CORRESPONDING
@@ -92,7 +91,7 @@ C---------
      -              'Canopy_Fuel_kg_m3 Number,'//
      -              'Height_ft Number,'//
      -              'Canopy_Fuel_lbs_acre_ft Number)'
-     
+
         ELSE
           SQLStmtStr='CREATE TABLE FVS_CanProfile('//
      -              'Id int primary key,'//
@@ -103,7 +102,7 @@ C---------
      -              'Canopy_Fuel_kg_m3 real null,'//
      -              'Height_ft real null,'//
      -              'Canopy_Fuel_lbs_acre_ft real null)'
-     
+
         ENDIF
         !PRINT*, SQLStmtStr
 
@@ -118,76 +117,76 @@ C---------
       ENDIF
 
       DO I = 1,200
-      
+
         IF (CRFILL(I) .LE. 0) GOTO 150
-C        
+C
 C       CREATE ENTRY FROM DATA FOR CANOPY PROFILE TABLE
-C       
+C
         IF(CANPRID.EQ.-1) THEN
           CALL DBSGETID(TABLENAME,'Id',ID)
           CANPRID = ID
         ENDIF
         CANPRID = CANPRID + 1
-C       
+C
 C       MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C       
+C
         IF(CANPRID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-        
-C       
+
+C
 C       ASSIGN VALUES TO DOUBLE PRECISION VARS
-C       
+C
         CRFILLB(I) = CRFILL(I)
         CRFILLKG(I) = CRFILL(I)*0.45359237 / (4046.856422 * 0.3048)
         HTFT = I
         HTM = I*0.3048
-                                              
+
         WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
      -    StandID,Year,Height_m,Canopy_Fuel_kg_m3,Height_ft,
-     -    Canopy_Fuel_lbs_acre_ft) 
+     -    Canopy_Fuel_lbs_acre_ft)
      -    VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?)'
-        
+
         !PRINT*, SQLStmtStr
-C       
+C
 C       CLOSE CURSOR
-C       
+C
         iRet = fvsSQLCloseCursor(StmtHndlOut)
-C       
+C
 C       PREPARE THE SQL QUERY
-C       
+C
         iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-C       
+C
 C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
-C       
-        
+C
+
         ColNumber=1
-        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
      -    INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
      -    CANPRID,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
      -    INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
      -    ICASE,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_INTEGER, SQL_INTEGER,
      -    INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
      -    IYEAR,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    HTM,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
@@ -196,26 +195,26 @@ C
      -           SQL_NULL_PTR)
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    HTFT,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    CRFILLB(I),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
   100   CONTINUE
         !Close Cursor
         iRet = fvsSQLCloseCursor(StmtHndlOut)
-        
+
         iRet = fvsSQLExecute(StmtHndlOut)
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -                'DBSFMCANPR:Inserting Row')              
+     -                'DBSFMCANPR:Inserting Row')
   150   CONTINUE
 
       ENDDO

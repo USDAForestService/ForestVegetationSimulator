@@ -1,8 +1,8 @@
       SUBROUTINE DBSIN (KEYWRD,ARRAY,ISDSP,SDLO,SDHI,LNOTBK,LKECHO)
       IMPLICIT NONE
-C----------
-C  **DBSIN--DBS  DATE OF LAST REVISION: 05/18/2012
-C----------
+C
+C $Id$
+C
 C     OPTION PROCESSOR FOR DATA BASE CONNECTIVITY
 C
 COMMONS
@@ -39,7 +39,7 @@ COMMONS
 
       DATA TABLEME /
      >     'END     ','DSNOUT  ','SQLOUT  ','SUMMARY ','COMPUTE ',
-     >     'TREELIST','STANDIN ','CLIMREPT','        ','DSNIN   ',
+     >     'TREELIST','STANDIN ','CLIMREPT','DRIVERS ','DSNIN   ',
      >     'STANDSQL','TREESQL ','POTFIRE ','FUELSOUT','DSNESTAB',
      >     'SQLIN   ','CUTLIST ','MISRPTS ','FUELREPT','BURNREPT',
      >     'MORTREPT','SNAGSUM ','SNAGOUT ','STRCLASS','PPBMMAIN',
@@ -116,7 +116,8 @@ C                        OPTION NUMBER 2 -- DSNOUT
 C--------
 C     SIMPLY CALL THE DBS OPEN FUNCTION
 C--------
-      CALL DBSOPEN(DSNOUT,EnvHndlOut,ConnHndlOut,DBMSOUT,KODE)
+      CALL DBSOPEN(DSNOUT,EnvHndlOut,ConnHndlOut,DBMSOUT,JOSTND,
+     -             LKECHO,KODE)
       !MUST RESET ICASE
       ICASE     = -1
       CMPUID    = -1
@@ -166,6 +167,7 @@ C     CHECK TO SEE IF A CONNECTION WAS SUCCESSFULLY OPENED
         IBURN     = 0
         ICMRPT    = 0
         ICHRPT    = 0
+        ICLIM     = 0
         IMORTF    = 0
         ISSUM     = 0
         ISDET     = 0
@@ -175,7 +177,7 @@ C     CHECK TO SEE IF A CONNECTION WAS SUCCESSFULLY OPENED
         IBMTREE   = 0
         IBMVOL    = 0
         IDBSECON  = 0
-        
+
         WRITE(JOSTND,215)TRIM(DSNOUT)
   215   FORMAT(T13,'DBS ERROR: OUTPUT CONNECTION FAILED FOR DSN:',A)
       ELSE
@@ -294,7 +296,10 @@ C                        OPTION NUMBER 8 -- CLIMATE
   810 FORMAT(/1X,A8,'   OUTPUT THE CLIMATE-FVS TABLE',A)
       GOTO 10
   900 CONTINUE
-C                        OPTION NUMBER 9 -- 
+C                        OPTION NUMBER 9 -- DRIVERS
+      WRITE(JOSTND,910) KEYWRD
+  910 FORMAT(/1X,A8,'   ODBC DRIVERS AND ATTRIBUTES:')
+      CALL DBSDRIV(JOSTND)
       GOTO 10
  1000 CONTINUE
 C                        OPTION NUMBER 10 -- DSNIN
@@ -305,7 +310,8 @@ C                        OPTION NUMBER 10 -- DSNIN
 C--------
 C     SIMPLY CALL THE DBS OPEN FUNCTION
 C--------
-      CALL DBSOPEN(DSNIN,EnvHndlIn,ConnHndlIn,DBMSIN,KODE)
+      CALL DBSOPEN(DSNIN,EnvHndlIn,ConnHndlIn,DBMSIN,JOSTND,
+     -             LKECHO,KODE)
 C     CHECK TO SEE IF CONNECTION WAS SUCCESSFUL
       IF (KODE.EQ.0) THEN
         WRITE(JOSTND,1015)TRIM(DSNIN)
@@ -345,7 +351,7 @@ C                        OPTION NUMBER 12 -- TREESQL
       IF (KODE.EQ.0) THEN
 C        MAKE SURE WE HAVE AN OPEN CONNECTION
          IF(ConnHndlIn.EQ.-1) CALL DBSOPEN(DSNIN,EnvHndlIn,
-     -                                 ConnHndlIn,DBMSIN,KODE)
+     -                             ConnHndlIn,DBMSIN,JOSTND,LKECHO,KODE)
 C        ALLOCATE A STATEMENT HANDLE
 
          iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlIn,
@@ -427,7 +433,8 @@ C                        OPTION NUMBER 15 -- DSNESTAB
 C--------
 C     SIMPLY CALL THE DBS OPEN FUNCTION
 C--------
-      CALL DBSOPEN(DSNRGIN,EnvHndlRgnIn,ConnHndlRgnIn,DBMSRGIN,KODE)
+      CALL DBSOPEN(DSNRGIN,EnvHndlRgnIn,ConnHndlRgnIn,DBMSRGIN,
+     -             JOSTND,LKECHO,KODE)
       IF (KODE .EQ. 0) THEN
         IRGIN = 1
         IF(LKECHO)WRITE(JOSTND,1515) TRIM(DBMSRGIN)
@@ -640,7 +647,7 @@ C       WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
       IF(LKECHO)WRITE(JOSTND,2410) KEYWRD,TRIM(DSNOUT),YESNO(I)
  2410 FORMAT(/1X,A8,'   STRUCTURE CLASS INFO SENT TO CONNECTION ',A/
      >       T13,'INCLUDE REPORT IN OUT FILE: ',A)
-      IF(LKECHO)WRITE(JOSTND,'(T13,A)') TRIM(TYPEMSG(ISTRCLAS))   
+      IF(LKECHO)WRITE(JOSTND,'(T13,A)') TRIM(TYPEMSG(ISTRCLAS))
       GOTO 10
  2500 CONTINUE
 C                        OPTION NUMBER 25 --PPBMMAIN
@@ -739,7 +746,7 @@ C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
          WRITE(JOSTND,2910) KEYWRD,TRIM(DSNOUT)
          CALL ERRGRO (.TRUE.,11)
       ENDIF
-      GOTO 10                              
+      GOTO 10
 C
  3000 CONTINUE
 C                        OPTION NUMBER 30 -- ECONRPTS
@@ -759,7 +766,7 @@ C                        OPTION NUMBER 30 -- ECONRPTS
       IF(LKECHO) WRITE(JOSTND,3010) KEYWRD,TRIM(DSNOUT),CSPOUT
  3010 FORMAT(/1X,A8,'   ECON REPORTS SENT TO CONNECTION ', A/
      >       T13,'SPECIES CODE OUTPUT FORMAT: ',A)
-      GOTO 10                              
+      GOTO 10
  3100 CONTINUE
 C                        OPTION NUMBER 31 -- ATRTLIST
       IATRTLIST = 1
@@ -782,7 +789,7 @@ C                        OPTION NUMBER 31 -- ATRTLIST
      >       'TO CONNECTION ',A/
      >       T13,'SPECIES CODE OUTPUT FORMAT: ',A/
      >       T13,'CREATE TEXT FILE REPORT: ',A)
-      GOTO 10                              
+      GOTO 10
  3200 CONTINUE
 C                        OPTION NUMBER 32 -- DWDVLOUT
       CALL FMLNKD(LACT)

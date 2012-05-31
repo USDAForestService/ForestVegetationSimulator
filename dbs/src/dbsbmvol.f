@@ -1,10 +1,9 @@
       SUBROUTINE DBSBMVOL(NPLT,IYEAR,TVOL,HVOL,VOLK,NUMSC,CID)
       IMPLICIT NONE
-C----------
-C  **DBSBMVOL--DBS  DATE OF LAST REVISION:  10/31/2011
-C----------
 C
-C     PURPOSE: POPULATES A DATABASE TABLE WITH WWPBM OUTPUT 
+C $Id$
+C
+C     PURPOSE: POPULATES A DATABASE TABLE WITH WWPBM OUTPUT
 C              PERTAINING TO VOLUME-BY-SIZE-CLASS.
 C     AUTH: AJ MCMAHAN -- ITX, INC. SEPT. 2005
 C     INPUT:
@@ -32,7 +31,7 @@ C---
       CHARACTER(len=26) NPLT
 C
 C
-C     CASE ID WAS FETCHED IN BMSDIT.  
+C     CASE ID WAS FETCHED IN BMSDIT.
 C     THE WWPBM IS UNIQUE IN THIS REGARD BECAUSE OF ITS PPE MODE 2 OPERABILITY
 C     WE BOOKKEEP CASE ID WITHIN THE WWPBM AND PASS IT HERE.
 C
@@ -125,8 +124,8 @@ C
      -              'HV_SC6 Number,'//
      -              'HV_SC7 Number,'//
      -              'HV_SC8 Number,'//
-     -              'HV_SC9 Number,'// 
-     -              'HV_10  Number,'// 
+     -              'HV_SC9 Number,'//
+     -              'HV_10  Number,'//
      -              'VK_SC1 Number,'//
      -              'VK_SC2 Number,'//
      -              'VK_SC3 Number,'//
@@ -161,8 +160,8 @@ C
      -              'HV_SC6 real null,'//
      -              'HV_SC7 real null,'//
      -              'HV_SC8 real null,'//
-     -              'HV_SC9 real null,'// 
-     -              'HV_10  real null,'// 
+     -              'HV_SC9 real null,'//
+     -              'HV_10  real null,'//
      -              'VK_SC1 real null,'//
      -              'VK_SC2 real null,'//
      -              'VK_SC3 real null,'//

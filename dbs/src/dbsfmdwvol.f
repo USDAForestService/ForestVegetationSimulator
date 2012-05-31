@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMDWVOL(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C  **DBSFMDWVOL-DBS  DATE OF LAST REVISION: 10/31/2011
+C $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE DOWN WOOD VOLUME REPORT
@@ -104,7 +104,7 @@ C     CHECK TO SEE IF THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
      -              'DWD_Volume_35to50_Soft double null,'//
      -              'DWD_Volume_ge_50_Soft double null,'//
      -              'DWD_Volume_Total_Soft double null)'
-     
+
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Down_Wood_Vol('//
      -              'ID Int,'//

@@ -1,8 +1,7 @@
       SUBROUTINE DBSCLOSE(LCOUT,LCIN)
       IMPLICIT NONE
-C----------
-C  **DBSCLOSE--DBS  DATE OF LAST REVISION: 12/06/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO CLOSE DATABASE CONNECTION
 C
@@ -20,7 +19,7 @@ C
 
         !disconnect
         iRet = fvsSQLDisconnect(ConnHndlOut)
-        
+
         !release connection handles
         iRet = fvsSQLFreeHandle(SQL_HANDLE_DBC, ConnHndlOut)
         ConnHndlOut = -1
@@ -35,7 +34,7 @@ C
 
         !disconnect
         iRet = fvsSQLDisconnect(ConnHndlIn)
-        
+
         !release connection handles
         iRet = fvsSQLFreeHandle(SQL_HANDLE_DBC, ConnHndlIn)
         ConnHndlIn = -1

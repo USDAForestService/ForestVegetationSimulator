@@ -1,9 +1,8 @@
       SUBROUTINE DBSFMMORT(IYEAR,KILLED,TOTAL,BAKILL,
      -  VOKILL,KODE)
       IMPLICIT NONE
-C----------
-C  **FMMORT--DBS  DATE OF LAST REVISION: 12/14/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE MORTALITY REPORT
 C              INFORMATION
@@ -20,14 +19,14 @@ C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
 C
 COMMONS
 C
-C      
-      INCLUDE 'PRGPRM.F77'    
+C
+      INCLUDE 'PRGPRM.F77'
 C
 C
       INCLUDE 'DBSCOM.F77'
 C
 C
-      INCLUDE 'PLOT.F77'        
+      INCLUDE 'PLOT.F77'
 C
 COMMONS
 C---
@@ -110,7 +109,7 @@ C---------
      -              'Total_class6 double null,'//
      -              'Killed_class7 double null,'//
      -              'Total_class7 double null,'//
-     -              'Bakill double null,'//     
+     -              'Bakill double null,'//
      -              'Volkill double null)'
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
@@ -134,7 +133,7 @@ C---------
      -              'Total_class6 Number,'//
      -              'Killed_class7 Number,'//
      -              'Total_class7 Number,'//
-     -              'Bakill Number,'//     
+     -              'Bakill Number,'//
      -              'Volkill Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_Mortality('//
@@ -157,7 +156,7 @@ C---------
      -              'Total_class6 real null,'//
      -              'Killed_class7 real null,'//
      -              'Total_class7 real null,'//
-     -              'Bakill real null,'//     
+     -              'Bakill real null,'//
      -              'Volkill real null)'
         ENDIF
         !PRINT*, SQLStmtStr
@@ -173,13 +172,13 @@ C---------
       ENDIF
 
       DO 150 J = 1,MXSP1
-      
+
       !! this is where the defect occurs...
         IF (J .EQ. MXSP1) THEN
         	CSP = 'ALL'
         ELSE
         	CSP = JSP(J)
-        ENDIF		 
+        ENDIF
 
 C       ONLY WRITE INFO FOR SPECIES IN THE STAND
 
@@ -187,7 +186,7 @@ C       ONLY WRITE INFO FOR SPECIES IN THE STAND
 C
 C       DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
 C       KEYWORD OVER RIDES
-C     
+C
 
         !! write out individual species
         if( J .LT. MXSP1 ) then
@@ -201,109 +200,109 @@ C
           ELSE
             CSPECIES=ADJUSTL(PLNJSP(J))
           ENDIF
-C     
+C
           IF(ISPOUT21.EQ.1)CSPECIES=ADJUSTL(JSP(J))
           IF(ISPOUT21.EQ.2)CSPECIES=ADJUSTL(FIAJSP(J))
           IF(ISPOUT21.EQ.3)CSPECIES=ADJUSTL(PLNJSP(J))
 
         else
-          
-          IF(CSP.EQ.'ALL') then 
+
+          IF(CSP.EQ.'ALL') then
             CSPECIES='ALL'
           end if
-          
+
         end if
-C       
+C
 C       CREATE ENTRY FROM DATA FOR MORTALITY TABLE
-C       
+C
         IF(MORTID.EQ.-1) THEN
           CALL DBSGETID(TABLENAME,'Id',ID)
           MORTID = ID
         ENDIF
         MORTID = MORTID + 1
-C       
+C
 C       MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C       
+C
         IF(MORTID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-        
-C       
+
+C
 C       ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
-C       
+C
         BAKILLB(J) = BAKILL(J)
         VOKILLB(J) = VOKILL(J)
-         
+
         DO I = 1,8
         KILLEDB(J,I) = KILLED(J,I)
         TOTALB(J,I) = TOTAL(J,I)
         ENDDO
-        
+
         WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
      -    StandID,Year,Species,Killed_class1,Total_class1,Killed_class2,
      -    Total_class2,Killed_class3,Total_class3,Killed_class4,
      -    Total_class4,Killed_class5,Total_class5,Killed_class6,
-     -    Total_class6,Killed_class7,Total_class7,Bakill,Volkill) 
+     -    Total_class6,Killed_class7,Total_class7,Bakill,Volkill)
      -    VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,
      -   ',CHAR(39),TRIM(CSPECIES),CHAR(39),',?,?,?,?,?,?,?,?,?,?,?,
      -    ?,?,?,?,?)'
-        
+
         !PRINT*, SQLStmtStr
-C       
+C
 C       CLOSE CURSOR
-C       
+C
         iRet = fvsSQLCloseCursor(StmtHndlOut)
-C       
+C
 C       PREPARE THE SQL QUERY
-C       
+C
         iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-C       
+C
 C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
-C       
-        
+C
+
         ColNumber=1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -             SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -             INT(0,SQLSMALLINT_KIND),MORTID,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             
+     -
      -             SQL_PARAM_INPUT,
      -             SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -             INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             
+     -
      -             SQL_PARAM_INPUT,
      -             SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -             INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,1),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),TOTALB(J,1),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,2),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
@@ -316,7 +315,7 @@ C
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,3),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
@@ -329,79 +328,79 @@ C
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,4),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -         INT(5,SQLSMALLINT_KIND),TOTALB(J,4),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,5),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),TOTALB(J,5),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-     
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,6),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -         INT(5,SQLSMALLINT_KIND),TOTALB(J,6),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,7),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -         INT(5,SQLSMALLINT_KIND),TOTALB(J,7),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -       SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -       INT(5,SQLSMALLINT_KIND),BAKILLB(J),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
      -       SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -       INT(0,SQLSMALLINT_KIND),VOKILLB(J),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-        
+
   100   CONTINUE
         !Close Cursor
         iRet = fvsSQLCloseCursor(StmtHndlOut)
-        
+
         iRet = fvsSQLExecute(StmtHndlOut)
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -                'FMMORT:Inserting Row')
-        
-        
+
+
   150 CONTINUE
 
   200 CONTINUE

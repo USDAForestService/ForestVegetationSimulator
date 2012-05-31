@@ -67,6 +67,7 @@ int main(void)
   fprintf(out,"      integer(SQLRETURN_KIND) :: fvsSQLDescribeCol\n");
   fprintf(out,"      integer(SQLRETURN_KIND) :: fvsSQLDisconnect\n");
   fprintf(out,"      integer(SQLRETURN_KIND) :: fvsSQLDriverConnect\n");
+  fprintf(out,"      integer(SQLRETURN_KIND) :: fvsSQLDrivers\n");
   fprintf(out,"      integer(SQLRETURN_KIND) :: fvsSQLEndTran\n");   
   fprintf(out,"      integer(SQLRETURN_KIND) :: fvsSQLExecDirect\n");
   fprintf(out,"      integer(SQLRETURN_KIND) :: fvsSQLExecute\n");

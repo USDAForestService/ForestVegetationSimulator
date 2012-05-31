@@ -3,9 +3,8 @@
      &  MMORTBA,SMORTVOL,MMORTVOL,SPSMOKE,MPSMOKE,SFUELMOD,SFUELWT,
      &  FUELMOD,FUELWT,KODE)
       IMPLICIT NONE
-C----------
-C  **DBSFMPF--DBS  DATE OF LAST REVISION: 10/31/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE FIRE MODELS POTENTIAL FIRE
 C              OUTPUT.
@@ -100,7 +99,7 @@ C---------
         ENDIF
       ENDIF
       SQLStmtStr= 'SELECT * FROM ' // TABLENAME
- 
+
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
 

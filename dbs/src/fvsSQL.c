@@ -1,9 +1,7 @@
-
 // C language routines that link ODBC to FVS
-// NLCrookston -- RMRS -- Moscow -- October 2011 
-// fvsSQL -- DATE OF LAST REVISION:  10/31/2011
+// NLCrookston -- RMRS -- Moscow -- October 2011
 
-// to compile: gcc -c fvsSQL.c
+//  $Id$
 
 #ifdef WINDOWS
 #include <windows.h>
@@ -19,8 +17,8 @@ SQLRETURN SQLAllocHandle(
       SQLSMALLINT   HandleType,
       SQLHANDLE     InputHandle,
       SQLHANDLE *   OutputHandlePtr);
-*/      
-int fvssqlallochandle_(     
+*/
+int fvssqlallochandle_(
       SQLSMALLINT *HandleType,
       SQLHANDLE   *InputHandle,
       SQLHANDLE   *OutputHandlePtr)
@@ -30,9 +28,9 @@ int fvssqlallochandle_(
      *HandleType,
      *InputHandle,
      &lOutputHandlePtr);
-   *OutputHandlePtr = lOutputHandlePtr;   
+   *OutputHandlePtr = lOutputHandlePtr;
    return rtn;
-}      
+}
 
 /**************************************
 SQLRETURN SQLBindCol(
@@ -42,7 +40,7 @@ SQLRETURN SQLBindCol(
       SQLPOINTER     TargetValuePtr,
       SQLLEN         BufferLength,
       SQLLEN *       StrLen_or_Ind);
-*/      
+*/
 int fvssqlbindcol_(
       SQLHSTMT       *StatementHandle,
       SQLUSMALLINT   *ColumnNumber,
@@ -59,8 +57,8 @@ int fvssqlbindcol_(
        TargetValuePtr,
       *BufferLength,
        StrLen_or_Ind);
-  return rtn;  
-}      
+  return rtn;
+}
 
 /**************************************
 SQLRETURN SQLBindParameter(
@@ -99,7 +97,7 @@ int fvssqlbindparameter_(
        ParameterValuePtr,
       *BufferLength,
       StrLen_or_IndPtr);
-  return rtn;   
+  return rtn;
 }
 
 /**************************************
@@ -110,10 +108,10 @@ int fvssqlclosecursor_(
       SQLHSTMT        *StatementHandle)
 {
   return SQLCloseCursor(
-     *StatementHandle);  
+     *StatementHandle);
 }
 
-/************************************** 
+/**************************************
 SQLRETURN SQLColAttribute (
       SQLHSTMT        StatementHandle,
       SQLUSMALLINT    ColumnNumber,
@@ -141,7 +139,7 @@ int fvssqlcolattribute_(
       *BufferLength,
        StringLengthPtr,
        NumericAttributePtr);
-  return rtn;  
+  return rtn;
 }
 
 
@@ -179,9 +177,9 @@ int fvssqldescribecol_(
        ColumnSizePtr,
        DecimalDigitsPtr,
        NullablePtr);
-  return rtn;  
+  return rtn;
 }
-        
+
 
 /**************************************
 SQLRETURN SQLDisconnect(
@@ -191,11 +189,11 @@ int fvssqldisconnect_(
      SQLHDBC     *ConnectionHandle)
 {
   return SQLDisconnect(
-     *ConnectionHandle);  
+     *ConnectionHandle);
 }
-        
 
-/************************************** 
+
+/**************************************
 SQLRETURN SQLDriverConnect(
      SQLHDBC         ConnectionHandle,
      SQLHWND         WindowHandle,
@@ -231,7 +229,7 @@ int fvssqldriverconnect_(
 
   rtn = SQLDriverConnect(
      *ConnectionHandle,
-     *WindowHandle,    
+     *WindowHandle,
       InConnectionString,
      *StringLength1,
       OutConnectionString,
@@ -269,20 +267,20 @@ int fvssqldrivers_(
      SQLCHAR        *DriverAttributes,
      SQLSMALLINT    *BufferLength2,
      SQLSMALLINT    *AttributesLengthPtr)
-{ 
-  int rtn;     
+{
+  int rtn;
   rtn = SQLDrivers(
-    *EnvironmentHandle, 
-    *Direction, 
+    *EnvironmentHandle,
+    *Direction,
      DriverDescription,
-    *BufferLength1, 
-     DescriptionLengthPtr, 
+    *BufferLength1,
+     DescriptionLengthPtr,
      DriverAttributes,
-    *BufferLength2, 
-     AttributesLengthPtr); 
+    *BufferLength2,
+     AttributesLengthPtr);
   return rtn;
-}      
-     
+}
+
 
 /**************************************
 SQLRETURN SQLEndTran(
@@ -295,12 +293,12 @@ int fvssqlendtran_(
      SQLHANDLE     *Handle,
      SQLSMALLINT   *CompletionType)
 {
-  int rtn;     
+  int rtn;
   rtn = SQLEndTran(
      *HandleType,
      *Handle,
      *CompletionType);
-  return rtn;  
+  return rtn;
 }
 
 /**************************************
@@ -314,12 +312,12 @@ int fvssqlexecdirect_(
      SQLCHAR      *StatementText,
      SQLINTEGER   *TextLength)
 {
-  int rtn;     
+  int rtn;
   rtn = SQLExecDirect(
      *StatementHandle,
       StatementText,
      *TextLength);
-  return rtn;  
+  return rtn;
 }
 
 /**************************************
@@ -331,9 +329,9 @@ int fvssqlexecute_(
 {
   return SQLExecute(*StatementHandle);
 }
-        
 
-/************************************** 
+
+/**************************************
 SQLRETURN SQLFetch(
      SQLHSTMT     StatementHandle);
 */
@@ -343,8 +341,8 @@ int fvssqlfetch_(
   return SQLFetch(*StatementHandle);
 }
 
-        
-/************************************** 
+
+/**************************************
 SQLRETURN SQLFetchScroll(
       SQLHSTMT      StatementHandle,
       SQLSMALLINT   FetchOrientation,
@@ -360,7 +358,7 @@ int fvssqlfetchscroll_(
      *FetchOrientation,
      *FetchOffset);
 }
-        
+
 
 /**************************************
 SQLRETURN SQLFreeHandle(
@@ -370,12 +368,12 @@ SQLRETURN SQLFreeHandle(
 int fvssqlfreehandle_(
      SQLSMALLINT  *HandleType,
      SQLHANDLE    *Handle)
-{      
+{
  return SQLFreeHandle(*HandleType, *Handle);
-}      
+}
 
 
-/************************************** 
+/**************************************
 SQLRETURN SQLFreeStmt(
      SQLHSTMT       StatementHandle,
      SQLUSMALLINT   Option);
@@ -407,7 +405,7 @@ int fvssqlgetdata_(
       SQLLEN         *BufferLength,
       SQLLEN         *StrLen_or_IndPtr)
 {
-  int rtn;     
+  int rtn;
   rtn = SQLGetData(
      *StatementHandle,
      *Col_or_Param_Num,
@@ -415,11 +413,11 @@ int fvssqlgetdata_(
      *TargetValuePtr,
      *BufferLength,
       StrLen_or_IndPtr);
-  return rtn;  
-}     
-      
-      
-      
+  return rtn;
+}
+
+
+
 /**************************************
 SQLRETURN SQLGetDiagRec(
      SQLSMALLINT     HandleType,
@@ -442,7 +440,7 @@ int fvssqlgetdiagrec_(
      SQLSMALLINT     *TextLengthPtr)
 {
   int rtn;
- 
+
   rtn = SQLGetDiagRec(
      *HandleType,
      *Handle,
@@ -453,10 +451,10 @@ int fvssqlgetdiagrec_(
      *BufferLength,
       TextLengthPtr);
 
-  return rtn;  
-}     
+  return rtn;
+}
 
-/************************************** 
+/**************************************
 SQLRETURN SQLGetInfo(
      SQLHDBC         ConnectionHandle,
      SQLUSMALLINT    InfoType,
@@ -471,16 +469,16 @@ int fvssqlgetinfo_(
      SQLSMALLINT     *BufferLength,
      SQLSMALLINT     *StringLengthPtr)
 {
-  int rtn;     
+  int rtn;
   rtn = SQLGetInfo(
      *ConnectionHandle,
      *InfoType,
       InfoValuePtr,
      *BufferLength,
       StringLengthPtr);
-  return rtn;  
+  return rtn;
 }
-        
+
 
 /**************************************
 SQLRETURN SQLNumResultCols(
@@ -495,7 +493,7 @@ int fvssqlnumresultcols_(
      *StatementHandle,
       ColumnCountPtr);
 }
-        
+
 
 /**************************************
 SQLRETURN SQLPrepare(
@@ -508,14 +506,14 @@ int fvssqlprepare_(
      SQLCHAR       *StatementText,
      SQLINTEGER    *TextLength)
 {
-  int rtn;     
+  int rtn;
   rtn = SQLPrepare(
     *StatementHandle,
      StatementText,
     *TextLength);
-  return rtn;  
+  return rtn;
 }
-        
+
 
 /**************************************
 SQLRETURN SQLSetConnectAttr(
@@ -530,15 +528,15 @@ int fvssqlsetconnectattr_(
      SQLPOINTER    *ValuePtr,
      SQLINTEGER    *StringLength)
 {
-  int rtn;     
+  int rtn;
   rtn = SQLSetConnectAttr(
      *ConnectionHandle,
      *Attribute,
       ValuePtr,
      *StringLength);
-  return rtn;  
+  return rtn;
 }
-        
+
 
 /**************************************
 SQLRETURN SQLSetEnvAttr(
@@ -552,14 +550,14 @@ int fvssqlsetenvattr_(
      SQLINTEGER *Attribute,
      SQLPOINTER *ValuePtr,
      SQLINTEGER *StringLength)
-{     
+{
  int rtn = SQLSetEnvAttr(
-   *EnvironmentHandle, 
-   *Attribute, 
-   *ValuePtr, 
-   0);             // works when ValuePtr points to a number. 
-//  *StringLength);   should work   
+   *EnvironmentHandle,
+   *Attribute,
+   *ValuePtr,
+   0);             // works when ValuePtr points to a number.
+//  *StringLength);   should work
  return rtn;
-}      
+}
 
 

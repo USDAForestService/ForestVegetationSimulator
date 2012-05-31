@@ -1,9 +1,8 @@
       SUBROUTINE DBSFMBURN(IYEAR,NPLT,ONEHR,TENHR,HUNDHR,THOUSHR,DUFF,
      -  LIVEW,LIVEH,MFWIND,SLOPE,FLAME,SCORCH,FTYPE,FM,WT,KODE)
       IMPLICIT NONE
-C----------
-C  **DBSFMBURN--DBS  DATE OF LAST REVISION: 10/31/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE BURN CONDITIONS REPORT
 C              INFORMATION
@@ -36,9 +35,9 @@ COMMONS
 
       INTEGER IYEAR,ID,KODE,FM,SLOPE
       INTEGER(SQLSMALLINT_KIND)::ColNumber
-      REAL ONEHR, TENHR, HUNDHR, THOUSHR, DUFF, LIVEW, LIVEH, MFWIND, 
+      REAL ONEHR, TENHR, HUNDHR, THOUSHR, DUFF, LIVEW, LIVEH, MFWIND,
      -     FLAME, SCORCH, WT
-      DOUBLE PRECISION ONEHRB, TENHRB, HUNDHRB, THOUSHRB, DUFFB, LIVEWB, 
+      DOUBLE PRECISION ONEHRB, TENHRB, HUNDHRB, THOUSHRB, DUFFB, LIVEWB,
      -     LIVEHB, MFWINDB, FLAMEB, SCORCHB
       DIMENSION FM(4), WT(4)
       DOUBLE PRECISION,DIMENSION(4)::WTB
@@ -123,7 +122,7 @@ C---------
      -              'Thousand_Hr_Moisture Number,'//
      -              'Duff_Moisture Number,'//
      -              'Live_Woody_Moisture Number,'//
-     -              'Live_Herb_Moisture Number,'//     
+     -              'Live_Herb_Moisture Number,'//
      -              'Midflame_Wind Number,'//
      -              'Slope Number,'//
      -              'Flame_length Number,'//
@@ -136,7 +135,7 @@ C---------
      -              'FuelModl3 Number,'//
      -              'Weight3 Number,'//
      -              'FuelModl4 Number,'//
-     -              'Weight4 Number)'                       
+     -              'Weight4 Number)'
 
         ELSE
           SQLStmtStr='CREATE TABLE FVS_BurnReport('//
@@ -150,7 +149,7 @@ C---------
      -              'Thousand_Hr_Moisture real null,'//
      -              'Duff_Moisture real null,'//
      -              'Live_Woody_Moisture real null,'//
-     -              'Live_Herb_Moisture real null,'//     
+     -              'Live_Herb_Moisture real null,'//
      -              'Midflame_Wind real null,'//
      -              'Slope real null,'//
      -              'Flame_length real null,'//
@@ -159,11 +158,11 @@ C---------
      -              'FuelModl1 real null,'//
      -              'Weight1 real null,'//
      -              'FuelModl2 real null,'//
-     -              'Weight2 real null,'//     
+     -              'Weight2 real null,'//
      -              'FuelModl3 real null,'//
-     -              'Weight3 real null,'//     
+     -              'Weight3 real null,'//
      -              'FuelModl4 real null,'//
-     -              'Weight4 real null)'     
+     -              'Weight4 real null)'
 
         ENDIF
           iRet = fvsSQLCloseCursor(StmtHndlOut)
@@ -225,21 +224,21 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
 
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -          SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),BURNID,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -           SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -           SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
@@ -336,14 +335,14 @@ C
      -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -         SQL_PARAM_INPUT,
      -         SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -         INT(0,SQLSMALLINT_KIND),FM(3),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -         SQL_PARAM_INPUT,
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -         INT(0,SQLSMALLINT_KIND),WTB(3),int(4,SQLLEN_KIND),
@@ -357,12 +356,12 @@ C
      -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, 
+      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -         SQL_PARAM_INPUT,
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -         INT(0,SQLSMALLINT_KIND),WTB(4),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)          
-     
+     -           SQL_NULL_PTR)
+
 
   100 CONTINUE
 

@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMCRPT(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C  **DBSFMCRPT-DBS  DATE OF LAST REVISION: 10/31/2011
+C $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE MAIN CARBON REPORT
@@ -94,7 +94,7 @@ C     CHECK TO SEE IF THE MAIN CARBON TABLE EXISTS IN DATBASE
      -              'Total_Stand_Carbon double null,'//
      -              'Total_Removed_Carbon double null,'//
      -              'Carbon_Released_From_Fire double null)'
-     
+
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Carbon('//
      -              'ID Int,'//

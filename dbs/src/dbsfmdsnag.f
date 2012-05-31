@@ -1,9 +1,8 @@
       SUBROUTINE DBSFMDSNAG(IYEAR,SDBH,SHTH,SHTS,SVLH,SVLS,
      -  SDH,SDS,YRLAST,KODE)
       IMPLICIT NONE
-C----------
-C  **DBSFMDSNAG--DBS  DATE OF LAST REVISION:  10/31/2011
-C----------
+C
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE DETAILED SNAG REPORT
 C              INFORMATION
@@ -17,15 +16,15 @@ C              4: CURRENT VOLUME OF HARD SNAGS
 C              5: CURRENT VOLUME OF SOFT SNAGS
 C              6: DENSITY OF HARD SNAGS
 C              7: DENSITY OF SOFT SNAGS
-C              8: YRLAST 
+C              8: YRLAST
 C              9: KODE FOR WHETHER THE REPORT ALSO DUMPS TO FILE
 C
 C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
 C
 COMMONS
 C
-C      
-      INCLUDE 'PRGPRM.F77'        
+C
+      INCLUDE 'PRGPRM.F77'
 C
 C
       INCLUDE 'DBSCOM.F77'
@@ -40,7 +39,7 @@ COMMONS
       REAL SDBH, SHTH, SHTS, SDH, SDS, SDT
       DOUBLE PRECISION SDBHB, SHTHB, SHTSB, SDHB, SDSB, SDTB
       DIMENSION SVLH(MAXSP,100,6), SVLS(MAXSP,100,6), SVLT(MAXSP,100,6),
-     -  SDBH(MAXSP,100,6), SDBHB(MAXSP,100,6), SHTH(MAXSP,100,6), 
+     -  SDBH(MAXSP,100,6), SDBHB(MAXSP,100,6), SHTH(MAXSP,100,6),
      -  SHTHB(MAXSP,100,6), SHTS(MAXSP,100,6), SHTSB(MAXSP,100,6),
      -  SDH(MAXSP,100,6),SDS(MAXSP,100,6),SDT(MAXSP,100,6),
      -  SDHB(MAXSP,100,6),SDSB(MAXSP,100,6),SDTB(MAXSP,100,6)
@@ -159,7 +158,7 @@ C---------
 
       DO JYR= 1,YRLAST
          DO IDC= 1,MAXSP
-            DO JCL= 1,6 
+            DO JCL= 1,6
 
               CSP = JSP(IDC)
               YRDEAD = IYEAR - JYR + 1
@@ -169,7 +168,7 @@ C---------
 C
 C             DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
 C             KEYWORD OVER RIDES
-C     
+C
               IF(JSPIN(IDC).EQ.1)THEN
                 CSPECIES=ADJUSTL(JSP(IDC))
               ELSEIF(JSPIN(IDC).EQ.2)THEN
@@ -179,71 +178,71 @@ C
               ELSE
                 CSPECIES=ADJUSTL(PLNJSP(IDC))
               ENDIF
-C     
+C
               IF(ISPOUT23.EQ.1)CSPECIES=ADJUSTL(JSP(IDC))
               IF(ISPOUT23.EQ.2)CSPECIES=ADJUSTL(FIAJSP(IDC))
               IF(ISPOUT23.EQ.3)CSPECIES=ADJUSTL(PLNJSP(IDC))
-C              
+C
 C             CREATE ENTRY FROM DATA FOR DETAILED SNAG TABLE
-C             
+C
               IF(SDETID.EQ.-1) THEN
                 CALL DBSGETID(TABLENAME,'Id',ID)
                 SDETID = ID
               ENDIF
               SDETID = SDETID + 1
-C             
+C
 C             MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C             
+C
               IF(SDETID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-              
-C             
+
+C
 C             ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
-C             
+C
               SDBHB(IDC,JYR,JCL) = SDBH(IDC,JYR,JCL)
               SHTHB(IDC,JYR,JCL) = SHTH(IDC,JYR,JCL)
               SHTSB(IDC,JYR,JCL) = SHTS(IDC,JYR,JCL)
               SDHB(IDC,JYR,JCL) = SDH(IDC,JYR,JCL)
               SDSB(IDC,JYR,JCL) = SDS(IDC,JYR,JCL)
               SDTB(IDC,JYR,JCL) = SDT(IDC,JYR,JCL)
-              
-                                                    
+
+
               WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
      -          StandID,Year,Species,DBH_Class,Death_DBH,
      -          Current_Ht_Hard,Current_Ht_Soft,Current_Vol_Hard,
      -          Current_Vol_Soft,Total_Volume,Year_Died,Density_Hard,
-     -          Density_Soft,Density_Total) 
+     -          Density_Soft,Density_Total)
      -          VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,
      -          ',CHAR(39),TRIM(CSPECIES),CHAR(39),',?,?,?,?,?,?,?,
      -          ?,?,?,?)'
-              
+
               !PRINT*, SQLStmtStr
-C             
+C
 C             CLOSE CURSOR
-C             
+C
               iRet = fvsSQLCloseCursor(StmtHndlOut)
-C             
+C
 C             PREPARE THE SQL QUERY
-C             
+C
               iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-C             
+C
 C             BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
-C             
-              
+C
+
               ColNumber=1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
      -          INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
      -          SDETID,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
      -          INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
      -          ICASE,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT, SQL_F_INTEGER, SQL_INTEGER,
@@ -257,84 +256,84 @@ C
      -          INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
      -          JCL,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -          INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -          SDBHB(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT,SQL_F_DOUBLE, SQL_DOUBLE,
      -          INT(15,SQLUINTEGER_KIND), INT(5,SQLSMALLINT_KIND),
      -          SHTHB(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -          INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -          SHTSB(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
      -          INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -          SVLH(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
      -          INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -          SVLS(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT, SQL_F_INTEGER, SQL_INTEGER,
      -          INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -          SVLT(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT, SQL_F_INTEGER, SQL_INTEGER,
      -          INT(15,SQLUINTEGER_KIND), INT(5,SQLSMALLINT_KIND),
      -          YRDEAD,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -          INT(15,SQLUINTEGER_KIND), INT(5,SQLSMALLINT_KIND),
      -          SDHB(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -          INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -          SDSB(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
               ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT,SQL_F_DOUBLE, SQL_DOUBLE,
      -          INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -          SDTB(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-              
+
   100         CONTINUE
-              
+
               iRet = fvsSQLCloseCursor(StmtHndlOut)
-              
+
               iRet = fvsSQLExecute(StmtHndlOut)
               CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -                      'DBSFMDSNAG:Inserting Row')              
+     -                      'DBSFMDSNAG:Inserting Row')
   150         CONTINUE
             ENDDO
         ENDDO

@@ -1,10 +1,6 @@
       BLOCK DATA DBSBLKD
-C----------
-C  **DBSBLKD--DBS  DATE OF LAST REVISION: 10/31/2011
-C----------
 C
-C     STAND VISUALIZATION GENERATION
-C     D.L.GAMMEL -- SEM -- JULY 2002
+C $Id$
 C
 C     INITIALIZE DATABASE VARIABLES
 C
@@ -15,7 +11,7 @@ C
 C
 C
 COMMONS
-C     
+C
       DATA SUMRYID/-1/
       DATA CMPUID/-1/
       DATA TREEOUTID/-1/
@@ -32,7 +28,7 @@ C
       DATA SDETID/-1/
       DATA CANPRID/-1/
       DATA DWDVID/-1/
-      DATA DWDCID/-1/            
+      DATA DWDCID/-1/
       DATA STRCLID/-1/
       DATA BM_MNID/-1/
       DATA BMTREID/-1/
