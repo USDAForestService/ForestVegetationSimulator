@@ -31,7 +31,7 @@ C
 COMMONS
 C
 
-      CHARACTER*5000 SQLStmtStr, TABLESTR
+      CHARACTER*3000 SQLStmtStr, TABLESTR
       CHARACTER*20 TABLENAME,DTYPE
       CHARACTER*20 COLNAME
       CHARACTER*8 KEYWRD
@@ -144,9 +144,8 @@ C
         iRet = fvsSQLNumResultCols(StmtHndlIn,ColumnCount)
 
         DO ColNumber = 1,ColumnCount
-
           iRet = fvsSQLDescribeCol (StmtHndlIn, ColNumber, ColName,
-     -         int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DType,
+     -         int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DTp,
      -         NColSz, NDecs, Nullable)
           COLNAME(NameLen+1:)=' '
           IF (ColNumber.GT.4) KWLIST(ColNumber-4) = COLNAME
@@ -212,12 +211,12 @@ C
                 ENDIF
               ENDDO
             ENDIF
+            
             !IF KW NOT IN LIST THEN DETERMINE IF WE WANT TO ALTER TABLE
             IF((.NOT.KWINLIST).AND.TRIM(DBMSOUT).NE.'EXCEL'
      -          .AND.IADDCMPU.LT.1) THEN
-              SQLStmtStr='ALTER TABLE '//TABLENAME//' ADD '//
-     -          LWRAP//TRIM(KEYWRD)//RWRAP//' '//DTYPE//' null'
-
+              SQLStmtStr='ALTER TABLE '//trim(TABLENAME)//' ADD '//
+     -          LWRAP//TRIM(KEYWRD)//RWRAP//' '//trim(DTYPE)//' null'
               !Close Cursor
               iRet = fvsSQLCloseCursor(StmtHndlOut)
               iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
