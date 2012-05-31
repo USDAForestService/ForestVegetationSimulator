@@ -150,17 +150,16 @@ C
 C       MAKE SURE WE CONNECTED OK
 C
         IF(iRet.NE.SQL_SUCCESS.AND.iRet.NE.SQL_SUCCESS_WITH_INFO)THEN
-          print *,"Data base connection error using connection:"
-          print *,trim(ConnStr)
+          print *,"Data base connection error using connection string:"
+          print *,ConnStr(:ConnStrLength)
+          WRITE(JOSTND,20) ConnStr(:ConnStrLength)
           CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndl,
-     -                   'DBOPEN: Error using connect string: '//
-     -                   trim(ConnStr))
+     -                   'DBSOPEN: Connection error.')
           RETURN
         ELSE
           IF (LKECHO) THEN
-            WRITE(JOSTND,20) 'IN',ConnStr(:ConnStrLength)
-   20       FORMAT(T13,'CONNECT STRING (',A3,'): ',A)
-            WRITE(JOSTND,20) 'OUT',ConnStrOut(:ConnStrLengthOut)
+            WRITE(JOSTND,20) ConnStr(:ConnStrLength)
+   20       FORMAT(T13,'ODBC CONNECT STRING: ',A)
           ENDIF
         ENDIF
 
