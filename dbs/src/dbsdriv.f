@@ -49,6 +49,10 @@ C
              i1=i+1
            endif
          enddo
+         if (i1.eq.1) then ! maybe there are no null terminators
+           print *, "attr:", attr(:attrStrLen)
+           WRITE (JOSTND,30) attr(:attrStrLen)
+         endif  
        ENDIF
        direction = SQL_FETCH_NEXT
       enddo
