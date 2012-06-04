@@ -64,7 +64,7 @@ c
       include "CONTRL.F77"
 
       integer :: nch,rtnCode,ntrees
-      double precision  :: attr(ntrees)
+      real(kind=8)      :: attr(ntrees)
       character(len=10) :: name
       character(len=4)  :: action
 
@@ -86,31 +86,34 @@ c
       select case(name)
       case ("tpa")
         if (action=="get") attr = prob(:itrn)
-        if (action=="set") prob = attr
+        if (action=="set") prob(:itrn) = real(attr,4)
       case ("dbh")
         if (action=="get") attr = dbh(:itrn)
-        if (action=="set") dbh = attr
+        if (action=="set") dbh(:itrn) = real(attr,4)
       case ("dg")
         if (action=="get") attr = dg(:itrn)
-        if (action=="set") dg = attr
+        if (action=="set") dg(:itrn) = real(attr,4)
       case ("ht")
         if (action=="get") attr = ht(:itrn)
-        if (action=="set") ht = attr
+        if (action=="set") ht(:itrn) = real(attr,4)
       case ("htg")
         if (action=="get") attr = htg(:itrn)
-        if (action=="set") htg = attr
+        if (action=="set") htg(:itrn) = real(attr,4)
       case ("crwdth")
         if (action=="get") attr = crwdth(:itrn)
-        if (action=="set") ht = attr
+        if (action=="set") ht(:itrn) = real(attr,4)
       case ("cratio")
         if (action=="get") attr = icr(:itrn)
-        if (action=="set") icr = attr
+        if (action=="set") icr(:itrn) = int(attr,4)
       case ("species")
         if (action=="get") attr = isp(:itrn)
-        if (action=="set") isp = attr
+        if (action=="set") isp(:itrn) = int(attr,4)
       case ("age")
         if (action=="get") attr = abirth(:itrn)
-        if (action=="set") abirth = attr
+        if (action=="set") abirth(:itrn) = real(attr,4)
+      case ("plot")
+        if (action=="get") attr = itre(:itrn)
+        if (action=="set") itre(:itrn) = int(attr,4)
       case default
         rtnCode = 1
         attr = 0
@@ -380,13 +383,13 @@ c
       select case (iv)
       case (1)
         if (action=="get") attr = tstv1(i)
-        if (action=="set") tstv1(i) = attr
+        if (action=="set") tstv1(i) = real(attr,4)
       case (2)
         if (action=="get") attr = tstv2(i)
-        if (action=="set") tstv2(i) = attr
+        if (action=="set") tstv2(i) = real(attr,4)
       case (3)
         if (action=="get") attr = tstv3(i)
-        if (action=="set") tstv3(i) = attr
+        if (action=="set") tstv3(i) = real(attr,4)
       case (4)
         if (action=="get") then
           if (ltstv4(i)) then
@@ -397,7 +400,7 @@ c
           endif
         endif
         if (action=="set") then
-          tstv4(i) = attr
+          tstv4(i) = real(attr,4)
           ltstv4(i)=.true.
         endif
       end select
@@ -421,7 +424,7 @@ c                 or when ntrees is zero
       include "ESTREE.F77"
       include "STDSTK.F77"
 
-      double precision :: in_dbh(ntrees),in_species(ntrees),
+      real(kind=8) :: in_dbh(ntrees),in_species(ntrees),
      -    in_ht(ntrees),in_cratio(ntrees),in_plot(ntrees),
      -    in_tpa(ntrees)
       real :: cw,crdum
@@ -435,12 +438,12 @@ c                 or when ntrees is zero
 
       do i=1,ntrees
         itrn=itrn+1
-        dbh(itrn) = in_dbh    (i)
-        isp(itrn) = in_species(i)
-        ht (itrn) = in_ht     (i)
-        icr(itrn) = in_cratio (i)
-        itre(itrn)= in_plot   (i)
-        prob(itrn)= in_tpa    (i)
+        dbh(itrn) = real (in_dbh    (i),4)
+        isp(itrn) = int  (in_species(i),4)
+        ht (itrn) = real (in_ht     (i),4)
+        icr(itrn) = int  (in_cratio (i),4)
+        itre(itrn)= int  (in_plot   (i),4)
+        prob(itrn)= real (in_tpa    (i),4)
         imc(itrn)=2
         cfv(itrn)=0.0
         itrunc(itrn)=0
@@ -464,7 +467,7 @@ c
         call misputz(itrn,0)
 c       
         abirth(itrn)=5
-        defect(itrn)=0.
+        defect(itrn)=0
         ispecl(itrn)=0
         oldrn(itrn)=0.
         ptocfv(itrn)=0.
