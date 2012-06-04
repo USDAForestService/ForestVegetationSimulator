@@ -140,14 +140,18 @@ c
 
       integer :: nch,rtncode,iv,i
       double precision  :: attr
-      character(len=10) :: name
+      character(len=9)  :: name
       character(len=4)  :: action
-
-      name=name(1:nch)
+      character(len=8)  :: upname
+     
+      upname = ' '
+      upname = name(1:nch)
+      
       action=action(1:3)
+      if (action=="get") attr = 0
 
       rtncode = 0
-      select case(name)
+      select case(upname)
       case ("year")
         iv=101
       case ("age")
@@ -373,13 +377,40 @@ c
       end select
       
       if (iv == 0) then
-        rtncode = 2
+        do i=1,nch
+          call upcase(upname(i:i))
+        enddo
+        do i=1,ITST5
+          if (ctstv5(i).eq.upname) then
+            if (action=="get") then
+              if (LTSTV5(i)) then
+                attr = tstv5(i)
+              else
+                rtncode = 1
+              endif
+            elseif (action=="set") then 
+              tstv5(i) = real(attr,4)
+              LTSTV5(i) = .TRUE.
+            else
+              rtncode = 1
+            endif
+            return
+          endif
+        enddo
+        if (action=="set" .and. ITST5.lt.MXTST5) then
+          ITST5=ITST5+1
+          LTSTV5(ITST5) = .TRUE.
+          tstv5(ITST5) = real(attr,4)
+          ctstv5(ITST5) = upname
+        else
+          rtnCode=1
+        endif
         return
       endif
       
       i = mod(iv,100)
       iv = iv/100
-       
+
       select case (iv)
       case (1)
         if (action=="get") attr = tstv1(i)
@@ -395,7 +426,6 @@ c
           if (ltstv4(i)) then
             attr = tstv4(i)
           else
-            attr = 0
             rtncode = 1
           endif
         endif
@@ -588,6 +618,31 @@ C     from within FVS. nch is the length of filename.
       end
       
       
+      subroutine fvsAddActivity(idt,iactk,inprms,nprms,rtnCode)
+      implicit none
 
+C     add an activity to the schedule.
+
+      include "PRGPRM.F77"
+      include "CONTRL.F77"
       
+      integer :: i,idt,iactk,nprms,rtnCode,kode
+      integer, parameter :: mxtopass=20
+      real(kind=8) inprms(*)
+      real(kind=4) prms(mxtopass)
+
+      if (nprms > 0) then 
+        do i=1,min(nprms,mxtopass)
+          prms(i) = real(inprms(i),kind=4)
+        enddo
+      endif
+      call opadd(idt,iactk,0,nprms,prms,kode)
+      if (kode /= 0) then
+        rtnCode = 1
+      else
+        call opincr (IY,ICYC,NCYC)
+        rtnCode = 0
+      endif
+      return 
+      end
 
