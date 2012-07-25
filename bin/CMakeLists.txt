@@ -14,7 +14,6 @@ foreach (sourceList ${tobuild})
  
   get_filename_component (slfn ${sourceList} NAME CACHE)
   string(REPLACE "_sourceList.txt" "" prgName ${slfn})
-  message(STATUS "sourceList=" ${sourceList} "top slfn = ${slfn} prgName= ${prgName}")
 
   file(STRINGS ${sourceList}  sourceListStrings  NEWLINE_CONSUME) 
   string(REPLACE "../" "../../" newsourceList ${sourceListStrings})  
@@ -47,7 +46,7 @@ return()
 ##This text below this tag becomes the CMakeLists.txt file in the subdirectory 
 ##DO NOT REMOVE THIS TAG##
 
-##See the CMakeList.txt file in the parent directory.
+##If edits are made, make them in the CMakeList.txt file in the parent directory.
 cmake_minimum_required (VERSION 2.6) 
 project (FVS C Fortran)
 
