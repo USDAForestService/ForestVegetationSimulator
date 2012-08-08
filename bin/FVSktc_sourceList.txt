@@ -221,7 +221,6 @@
 ../common/ESHAP.F77
 ../common/ESHAP2.F77
 ../common/ESHOOT.F77
-../common/ESPARM.F77
 ../common/ESRNCM.F77
 ../common/ESTCOR.F77
 ../common/ESTREE.F77
@@ -239,7 +238,6 @@
 ../common/PDEN.F77
 ../common/PLOT.F77
 ../common/PPDNCM.F77
-../common/PRGPRM.F77
 ../common/RANCOM.F77
 ../common/SCREEN.F77
 ../common/SNCOM.F77
@@ -467,6 +465,8 @@
 ../fire/ni/src/fmmois.f
 ../fire/ni/src/fmsfall.f
 ../fire/ni/src/fmvinit.f
+../kt/common/ESPARM.F77
+../kt/common/PRGPRM.F77
 ../kt/src/blkdat.f
 ../kt/src/cftopk.f
 ../kt/src/cfvol.f
