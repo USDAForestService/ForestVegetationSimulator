@@ -43,5 +43,6 @@ C
       LAESTB = .FALSE.
       JCLREF = -1
       CLHABINDX = 0
+      SPCALIB = 0.
       RETURN
       END

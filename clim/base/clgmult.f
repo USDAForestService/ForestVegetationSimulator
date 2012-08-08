@@ -25,7 +25,8 @@ C
      >     XRELGR,VSCORE(MAXSP),PS,SPWTS(MAXSP),XWT,XGSITE
       LOGICAL DEBUG
 
-      CALL DBCHK (DEBUG,'CLGMULT',7,ICYC)     
+      CALL DBCHK (DEBUG,'CLGMULT',7,ICYC) 
+
       IF (DEBUG) WRITE (JOSTND,1) LCLIMATE
     1 FORMAT (' IN CLGMULT, LCLIMATE=',L2)
 
@@ -138,10 +139,12 @@ C       NOTE THAT MTCM_TD IS ACTUALLY THE DIFFERENCE BETWEEN TWO PLACES, HERE
 C       WE SUBSTITUE TIME FOR SPACE. MTCM IS THE TEMPERATURE AT THE SEED
 C       SOURCE...WE USE IT HERE AS "BIRTH YEAR".
         
-        MTCM_TD = MTCM_NOW - MTCM_INVYR
-        GROW_TD0 = 373.97 + 38.52*MTCM_BIRTH 
+        MTCM_TD = MTCM_NOW - MTCM_BIRTH
+        GROW_TD0 = 373.97 + 38.52*MTCM_BIRTH
         GROW_TD1 = 373.97 + 6.799*MTCM_TD - 3.726*MTCM_TD**2 + 
      >              38.52 * MTCM_BIRTH    - 3.602*MTCM_BIRTH*MTCM_TD
+        IF (GROW_TD0 .LT. 0.05) GROW_TD0 = 0.05
+        IF (GROW_TD1 .LT. 0.05) GROW_TD1 = 0.05
         XDF = GROW_TD1/GROW_TD0
         
 C       FROM LEITES FINAL LARCH MODEL     
@@ -151,10 +154,12 @@ C       b2 (mmin.trds2)    -1.215
 C       b3 (dd0)           -0.1468
 C       b4 (mmin.trds*dd0) -0.0187
         
-        MMIN_TD = MMIN_NOW - MMIN_INVYR            
+        MMIN_TD = MMIN_NOW - MMIN_BIRTH            
         GROW_TD0= 542.20 - 0.1468*DD0_BIRTH
         GROW_TD1= 542.20 + 17.50*MMIN_TD - 1.215*MMIN_TD**2
      >          - 0.1468*DD0_BIRTH - 0.0187*MMIN_TD*DD0_BIRTH
+        IF (GROW_TD0 .LT. 0.05) GROW_TD0 = 0.05
+        IF (GROW_TD1 .LT. 0.05) GROW_TD1 = 0.05
         XWL = GROW_TD1/GROW_TD0
         
 C       FROM LEITES PRELIMINARY PONDEROSA PINE MODEL
@@ -164,10 +169,12 @@ C       I(smi.trds^2)   -0.58027
 C       d100            -2.02135 
 C       smi.trds:d100    0.15582 
         
-        SMI_TD = SMI_NOW - SMI_INVYR
+        SMI_TD = SMI_NOW - SMI_BIRTH
         GROW_TD0= 551.20221 - 2.02135*D100_BIRTH
         GROW_TD1= 551.20221 -14.88483*SMI_TD -0.58027*SMI_TD**2
      >           -2.02135*D100_BIRTH + 0.15582*SMI_TD*D100_BIRTH
+        IF (GROW_TD0 .LT. 0.05) GROW_TD0 = 0.05
+        IF (GROW_TD1 .LT. 0.05) GROW_TD1 = 0.05
         XPP = GROW_TD1/GROW_TD0
                 
         IF     (PLNJSP(ISP(I)).EQ.'PSME') THEN
@@ -198,9 +205,10 @@ C       smi.trds:d100    0.15582
         IF (PS.GT. 0.99) PS=MAX(XGSITE,XRELGR,VSCORE(ISP(I)))
         TREEMULT(I)=1.- ( (1.-PS)*CLGROWMULT(ISP(I)) )
         IF (DEBUG) WRITE (JOSTND,10) I,JSP(ISP(I)),BIRTHYR,
-     >             XRELGR,TREEMULT(I)
+     >             XDF,XPP,XWL,PS,XRELGR,TREEMULT(I)
    10   FORMAT (' IN CLGMULT, I=',I5,' SP=',A2,' BIRTHYR=',F7.1,
-     >          ' XRELGR=',F10.3,' TREEMULT=',F10.3)
+     >          ' XDF=',F8.3,' XPP=',F8.3,' XWL=',F8.3,
+     >          ' PS=',F8.3,' XRELGR=',F8.3,' TREEMULT=',F8.3)
       ENDDO
       ! Compute SPSITGM for reporting only (this is a vector operation).
       SPSITGM = 1.- ( (1.-XGSITE)*CLGROWMULT )
