@@ -43,7 +43,7 @@ endif
 # LD is the linker
 
 export FC = gfortran 
-export FFLAGS = $(PIC) -g -Wall
+export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero
 export CC = gcc
 export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
 export LD = gfortran
