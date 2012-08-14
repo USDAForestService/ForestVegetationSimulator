@@ -69,9 +69,10 @@ C     DIMENSION OF THE ICITYP ARRAY IN CI **BLKDAT**
 C----------
       LOGICAL DEBUG
       INTEGER MXVCODE
-      INTEGER MYACT(3)
+      PARAMETER (MXVCODE = 130)
       INTEGER*1 COVINI(MXVCODE), MAPPVG(MXVCODE),
      &          MAPS9B(MXVCODE), MAPDRY(MXVCODE)
+      INTEGER MYACT(3)
       INTEGER IYR,KSP,I,ISZ,J,NPRM,IACTK,ISWTCH,JYR,IDC,PVG,S9B
       REAL BAMOST, TOTCRA, CWIDTH
       REAL FULIVE(2,MAXSP), FULIVI(2,MAXSP)
@@ -120,7 +121,6 @@ C
 C                  herbs, shrubs
 C----------
 C
-      PARAMETER (MXVCODE = 130)
 C
       DATA FULIVE /
      &            0.15,   0.1, !WP
@@ -143,7 +143,7 @@ C
      &            0.15,   0.2, !OS
      &            0.25,  0.25/ !OH use AS
 C----------
-C     INITIAL LIVE FUEL LOADING FOR 'INTIALIZING STANDS WITH 10% COVER
+C     INITIAL LIVE FUEL LOADING FOR INTIALIZING STANDS WITH 10% COVER
 C
 C                  herbs, shrubs
 C----------

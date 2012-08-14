@@ -576,5 +576,4 @@
 ../volume/src/sf_yhat3.f
 ../volume/src/sf_zero.f
 ../volume/src/voleqdef.f
-../ws/common/PRGPRM.F77
 ../ws/src/r5crwd.f

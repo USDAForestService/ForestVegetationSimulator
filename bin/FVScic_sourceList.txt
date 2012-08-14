@@ -226,6 +226,7 @@
 ../ci/src/grohed.f
 ../ci/src/habtyp.f
 ../ci/src/htgf.f
+../ci/src/logs.f
 ../ci/src/morts.f
 ../ci/src/pvref4.f
 ../ci/src/regent.f
@@ -517,7 +518,6 @@
 ../ni/src/cwcalc.f
 ../ni/src/dgbnd.f
 ../ni/src/dunn.f
-../ni/src/logs.f
 ../ni/src/maical.f
 ../ni/src/rcon.f
 ../ni/src/spctrn.f
