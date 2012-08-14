@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-PN  DATE OF LAST REVISION: 11/30/09
+C  **FMSFALL--FIRE-PN  DATE OF LAST REVISION: 06/26/12
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -79,7 +79,10 @@ C
       REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
      &        RSOFT, RSMAL, X
 C
-C
+C----------
+C  Check for debug:
+C----------
+      CALL DBCHK (DEBUG,'FMSFALL',7,ICYC)
 C----------
 C  In the first year after a fire, some work is required to determine
 C  what fall rates to use in the coming years.  First, calculate

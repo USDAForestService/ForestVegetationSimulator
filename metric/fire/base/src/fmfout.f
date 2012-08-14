@@ -144,7 +144,7 @@ C
    46     FORMAT (1X,I5,7X,'------------ % MOISTURE ------------- WIND',
      &         '  SLOPE  LENGTH HEIGHT',12X,31('-'))
    47     FORMAT (1X,I5,1X,'YEAR  1HR 10HR 100HR  3+ DUFF LIVE W LIVE',
-     &        ' H (KMH)  (%)    (FT)  (FT)  FIRE TYPE   ',4('MOD %WT '))
+     &        ' H (KMH)  (%)    (M)    (M)  FIRE TYPE   ',4('MOD %WT '))
         ENDIF
 
         IF (IFIRE .NE. 0) THEN
@@ -422,12 +422,12 @@ C
   319     FORMAT (1X,I5)
   320     FORMAT (1X,I5,21X,
      &      '   NUMBER KILLED / NUMBER BEFORE ',
-     &      '(BY DIAMETER CLASS IN CM) ',T111,'BASAL    TOTAL')
+     &      '(BY DIAMETER CLASS IN CMS) ',T111,'BASAL    TOTAL')
   420     FORMAT (1X,I5,21X,
      &      'NUMBER KILLED / NUMBER BEFORE ',
-     &      '(BY DIAMETER CLASS IN INCHES)',T111,'BASAL    MERCH')     
+     &      '(BY DIAMETER CLASS IN CMS)',T111,'BASAL    MERCH')     
   321     FORMAT (1X,I5,1X,'YEAR  SP  ',
-     &      6(2X,F4.1,'-',F4.1,2X),4X,'>=',F4.1,T111,'AREA      CU M')
+     &      6(1X,F5.1,'-',F5.1,1X),4X,'>=',F5.1,T111,'AREA      CU M')
         ENDIF
 
         LFIRST = .TRUE.

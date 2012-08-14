@@ -21,7 +21,6 @@ C
       INTEGER ITODO,IACTK,IDT,IRC,KODE,JOSTND
       CALL OPGETC (ITODO,SQLCMD)
 
-      print *,"inside DBSATRTLS"
       IF (SQLCMD.EQ.' ') RETURN
 C
 C     PREPROCESS THE COMMAND STRING.
@@ -31,7 +30,7 @@ C
       IF (IACTK.EQ.101) THEN          ! 101 IS SQLIN
         !SPECIFY TRUE FOR SCHEDULED
         IF(ConnHndlIn.EQ.-1) CALL DBSOPEN(DSNIN,EnvHndlIn,
-     -                                      ConnHndlIn,DBMSIN,KODE)
+     -                            ConnHndlIn,DBMSIN,0,.FALSE.,KODE)
 C       CHECK TO SEE IF CONNECTION WAS SUCCESSFUL
         IF (KODE.EQ.1) THEN
           WRITE (JOSTND,100)TRIM(DSNIN)
@@ -42,7 +41,7 @@ C       CHECK TO SEE IF CONNECTION WAS SUCCESSFUL
       ELSE IF (IACTK.EQ.102) THEN     ! 102 IS SQLOUT
         !SPECIFY TRUE FOR SCHEDULED
         IF(ConnHndlOut.EQ.-1) CALL DBSOPEN(DSNOUT,EnvHndlOut,
-     -                                      ConnHndlOut,DBMSOUT,KODE)
+     -                        ConnHndlOut,DBMSOUT,0,.FALSE.,KODE)
 C       CHECK TO SEE IF CONNECTION WAS SUCCESSFUL
         IF (KODE.EQ.1) THEN
           WRITE (JOSTND,200)TRIM(DSNOUT)

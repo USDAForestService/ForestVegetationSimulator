@@ -1,0 +1,16 @@
+Subject: Misc. Corrections
+Name: R. Havis
+Date: August 7, 2012
+Variants affected: None
+
+Description: This update contains corrections that have
+             no affect on model output or performance.
+
+Impact on users:
+
+Files:
+./ak/src/dubscr.f - removed numerical error trap that is apparently no
+                    longer needed
+./bm/src/regent.f - in case statement for WC species (line 573)
+                    changed 19 to 18. There is no affect on processing
+./fire/sn/src/fmcrow.f - Deleted an old comment that was no longer correct.

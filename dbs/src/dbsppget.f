@@ -136,13 +136,15 @@ C
 
       IF (ConnHndlIn.EQ.0) THEN
         ConnHndlIn = -1
-        CALL DBSOPEN(DSNIN,EnvHndlIn,ConnHndlIn,DSNIN,KODE)
+        CALL DBSOPEN(DSNIN,EnvHndlIn,ConnHndlIn,DBMSIN,0,
+     -     .FALSE.,KODE)
         IF (KODE.EQ.0) PRINT *,"Reopen DBSIN failed. DSNIN=",
      -     DBMSIN(:LEN_TRIM(DBMSIN))
       ENDIF
       IF (ConnHndlOut.EQ.0) THEN
         ConnHndlOut = -1
-        CALL DBSOPEN(DSNOUT,EnvHndlOut,ConnHndlOut,DSNOUT,KODE)
+        CALL DBSOPEN(DSNOUT,EnvHndlOut,ConnHndlOut,DBMSOUT,0,
+     -     .FALSE.,KODE)
         IF (KODE.EQ.0) PRINT *,"Reopen DBMSOUT failed. DSNOUT=",
      -     DBMSIN(:LEN_TRIM(DBMSIN))
       ENDIF

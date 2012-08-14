@@ -106,10 +106,11 @@ C         Magazine                                  81006
 C         St. Francis                               81007
 C  National Forests in North Carolina Cheoah        81102
 C         Croatan                                   81103
-C         Appalachian                               81104
+C         Appalachian (old)                         81104
 C         Grandfather                               81105
 C         Highlands                                 81106
 C         Pisgah                                    81107
+C         Appalachian                               81108
 C         Tusquitee                                 81109
 C         Uwharrie                                  81110
 C         Waysh                                     81111
@@ -231,7 +232,7 @@ C----------
       ELSEIF (JFOR(I) .EQ. 810) THEN
         IF(KODIST.LT.1 .OR. KODIST.GT.7)KODIST=5
       ELSEIF(JFOR(I) .EQ. 811)THEN
-        IF(KODIST.LT.2 .OR. KODIST.EQ.8 .OR. KODIST.GT.11)KODIST=5
+        IF(KODIST.LT.2 .OR. KODIST.GT.11)KODIST=5
       ELSEIF(JFOR(I) .EQ. 812)THEN
         IF(KODIST.LT.1 .OR. KODIST.EQ.4 .OR. KODIST.GT.5)KODIST=1
       ELSE

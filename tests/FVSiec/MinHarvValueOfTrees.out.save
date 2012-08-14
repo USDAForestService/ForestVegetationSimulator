@@ -1,4 +1,4 @@
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:38:06
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
 
  ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -190,7 +190,7 @@
  HEIGHT INCREMENT MODEL                          1.00
 
  NUMBER OF RECORDS WITH MISTLETOE                   0
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:38:06
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
 
  STAND ID: ValueOfTreesMinHarv           MGMT ID: NONE    Value of trees given known SEV constrained by MinHarv keyword.
 
@@ -331,7 +331,7 @@
          TOTAL        19.2   22.7   24.7   26.5   29.5    30.9    8605. CUFT     100.% DF1,   0.% RC1,   0.% RC2,   0.% GF1
          MERCH        19.6   23.2   24.8   26.5   29.5    30.9    7768. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
          MERCH        19.9   23.2   25.3   26.5   29.5    30.9   42763. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:38:07
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
 
  STAND ID: ValueOfTreesMinHarv           MGMT ID: NONE    Value of trees given known SEV constrained by MinHarv keyword.
 
@@ -455,7 +455,7 @@
                                                                           100      14.7      275.     324.       90.4    253.3
 
  ** NOTE:  DUE TO HARVEST, COMPRESSION, OR REGENERATION ESTABLISHMENT, NEW SAMPLE TREES WERE SELECTED.
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:38:07
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
 
  STAND ID: ValueOfTreesMinHarv           MGMT ID: NONE    Value of trees given known SEV constrained by MinHarv keyword.
 
@@ -525,7 +525,7 @@
    10   2094
                 BASE     THINDBH   2094  DELETED OR CANCELED         7.00    999.00      0.88      0.00     16.00      0.00
  ----------------------------------------------------------------------------------------------------------------------------------
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:38:07
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
  
  ----------------------------------------------------------------------------
                  REGENERATION ESTABLISHMENT MODEL VERSION 2.0
@@ -534,11 +534,9 @@
    121.3 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2023
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   3.  10.  51.   0.  51.   0.   0.   5.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -548,11 +546,9 @@
    159.3 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2043
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   6.   3.  63.   0.  78.   7.   1.   1.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -562,11 +558,9 @@
     75.6 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2063
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   3.   0.  16.   0.  52.   3.   1.   1.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -576,11 +570,9 @@
     84.7 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2083
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   2.   0.  23.   0.  55.   0.   1.   4.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -590,11 +582,9 @@
     80.9 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2103
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   0.   1.  33.   0.  40.   5.   1.   1.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  

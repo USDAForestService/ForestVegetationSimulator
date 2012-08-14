@@ -50,8 +50,8 @@ export LD = gfortran
 ifndef sourceFileList
 # TODO: See comment below regarding generl rules. We can change to this rule for all
 # when we adopt a newer make on windows builds
-# export FVSprgs = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
-  export FVSprgs = FVSbmc FVScrc FVSecc FVSiec FVSne FVSpnc FVSsn FVSwcc FVSwsc
+export FVSprgs = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
+#  export FVSprgs = FVSbmc FVScrc FVSecc FVSiec FVSne FVSpnc FVSsn FVSwcc FVSwsc
 endif
 
 # the following variables are not processed until sourceFileList is defined...and that happens

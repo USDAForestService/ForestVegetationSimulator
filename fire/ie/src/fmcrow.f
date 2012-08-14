@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C  **FMCROW  FIRE-IE DATE OF LAST REVISION:  12/02/09
+C  **FMCROW  FIRE-IE DATE OF LAST REVISION:  01/10/12
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
@@ -54,12 +54,12 @@ C  VARIABLE DECLARATIONS
 C----------
       LOGICAL DEBUG
       INTEGER I,J,IC,ISPMAP(MAXSP),HPOINT(MAXTRE)
-      INTEGER ITR,SPIW,SPIE,SNFOR,SNKOD
+      INTEGER ITR,SPIW,SPIE
       REAL    D,H,HPCT(MAXTRE),HP,SG,JUNK,XV(0:5)
 C----------
 C  INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C  EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
-C  BASED ON SN-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
+C  BASED ON LS-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
 C  ALL WESTERN FFE VARIANTS). IN THE TABLE BELOW, A '-' IN THE
 C  "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
 C
@@ -82,22 +82,17 @@ C    14 = SUBALPINE LARCH       subalpine fir        1
 C    15 = PINYON PINE              -                12
 C    16 = ROCKY MOUNTAIN JUNIPER   -                16
 C    17 = PACIFIC YEW           western redcedar     7
-C    18 = QUAKING ASPEN            -                        61 
-C    19 = COTTONWOODS           cottonwood sp               60
+C    18 = QUAKING ASPEN            -                        41 
+C    19 = COTTONWOODS           eastern cottonwood          17
 C    20 = MOUNTAIN MAPLE        bigleaf maple        5
-C    21 = PAPER BIRCH             aspen                     61
+C    21 = PAPER BIRCH              -                        43
 C    22 = OTHER HARDWOODS       red alder           23
 C    23 = OTHER SOFTWOODS     mountain hemlock      24
 C----------
       DATA ISPMAP / 15, 8, 3, 4, 6, 7, 11, 18, 1, 13,
-     &              24, 14, 11, 1, 12, 16, 7, 61, 60, 5,
-     &             61, 23, 24/ 
-C----------
-C  DEFAULT FOREST TYPE & CODE FOR WESTERN VARIANTS CALLING EASTERN
-C  EQUATIONS (EASTERN DEFAULT)
-C----------
-      DATA SNFOR / 801 /
-      DATA SNKOD /   6 /
+     &              24, 14, 11, 1, 12, 16, 7, 41, 17, 5,
+     &             43, 23, 24/ 
+
 C----------
 C  CHECK FOR DEBUG.
 C----------
@@ -151,7 +146,7 @@ C----------
 C
         SELECT CASE (SPIW)
         CASE (18,19,21)
-          CALL FMCROWE(SPIE,SPIW,SNFOR,SNKOD,D,H,IC,SG,XV)
+          CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
         CASE DEFAULT
           CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT
@@ -184,30 +179,4 @@ C
 C
       RETURN
       END
-C----------
-C  PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
-C----------
-      SUBROUTINE SEVLHT(X30,X31,L30,L31,X32,I30,L32,I31,C30)
-      IMPLICIT NONE
-C
-      LOGICAL   L30,L31,L32,L33
-      CHARACTER C30*3
-      INTEGER   I30,I31
-      REAL      X30,X31,X32
-C
-      L30 = .FALSE.
-      L31 = .FALSE.
-      L32 = .FALSE.
-      L33 = .FALSE.
-C
-      C30 = '---'
-C
-      I30 = 0
-      I31 = 0
-C
-      X30 = 0.0
-      X31 = 0.0
-      X32 = 0.0
-C
-      RETURN
-      END
+

@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C  **FMCROW  FIRE-AK DATE OF LAST REVISION:  03/04/08
+C  **FMCROW  FIRE-AK DATE OF LAST REVISION:  05/03/12
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
@@ -46,12 +46,12 @@ C.... Parameter statements.
 
       LOGICAL DEBUG
       INTEGER I,J,IC,ISPMAP(MAXSP),HPOINT(MAXTRE)
-      INTEGER ITR,SPIW,SPIE,SNFOR,SNKOD
+      INTEGER ITR,SPIW,SPIE
       REAL    D,H,HPCT(MAXTRE),HP,SG,JUNK,XV(0:5)
 
 C     INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C     EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
-C     BASED ON SN-FFE; IN THE TABLE BELOW, A '-' IN THE
+C     BASED ON LS-FFE; IN THE TABLE BELOW, A '-' IN THE
 C     "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
 
 C     I   NAME                     MAPS TO          WEST   EAST
@@ -66,18 +66,12 @@ C     7 = lodgepole pine            -             11
 C     8 = sitka spruce           Engelmann spruce 18
 C     9 = subalpine fir             -              1
 C    10 = red alder                 -             23    
-C    11 = black cottonwood       cottonwood sp.             60
-C    12 = other hardwoods        cottonwood sp.             60
+C    11 = black cottonwood       eastern cottonwood         17
+C    12 = other hardwoods        eastern cottonwood         17
 C    13 = other softwoods        grand fir         4 
 C --------------------------------------------------------------
 
-      DATA ISPMAP /18,7,4,24,6,7,11,18,1,23,60,60,4/
-
-C     DEFAULT FOREST TYPE & CODE FOR WESTERN VARIANTS CALLING EASTERN
-C     EQUATIONS (EASTERN DEFAULT)
-
-      DATA SNFOR / 801 /
-      DATA SNKOD /   6 /
+      DATA ISPMAP /18,7,4,24,6,7,11,18,1,23,17,17,4/
 
 C     CHECK FOR DEBUG
 
@@ -132,7 +126,7 @@ C       OF THIS LOOP IF THE TREE HAS NO DIAMETER, HEIGHT, OR LIVE CROWN.
 
         SELECT CASE (SPIW)
           CASE (11,12)
-            CALL FMCROWE(SPIE,SPIW,SNFOR,SNKOD,D,H,IC,SG,XV)
+            CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
           CASE DEFAULT
             CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT
@@ -147,30 +141,24 @@ C       COPY TEMPORARY VALUES TO FFE ARRAY
 
       RETURN
       END
+C
+C
+C----------
+C  PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
+C----------
+C      SUBROUTINE HTDBH(I10,I11,X10,X11,I12)
+C      IMPLICIT NONE
+C
+C      INTEGER I10,I11,I12
+C      REAL    X10,X11
+C
+C      I10 = 0
+C      I11 = 0
+C      I12 = 0
+C
+C      X10 = 0.0
+C      X11 = 0.0
+C
+C      RETURN
+C      END
 
-C     PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
-
-      SUBROUTINE SEVLHT(X30,X31,L30,L31,X32,I30,L32,I31,C30)
-      IMPLICIT NONE
-
-      LOGICAL   L30,L31,L32,L33
-      CHARACTER C30*3
-      INTEGER   I30,I31
-      REAL      X30,X31,X32
-
-      L30 = .FALSE.
-      L31 = .FALSE.
-      L32 = .FALSE.
-      L33 = .FALSE.
-
-      C30 = '---'
-
-      I30 = 0
-      I31 = 0
-
-      X30 = 0.0
-      X31 = 0.0
-      X32 = 0.0
-
-      RETURN
-      END

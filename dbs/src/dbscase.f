@@ -99,7 +99,7 @@ C---------
 C     MAKE SURE WE HAVE AN OPEN CONNECTION
 C---------
       IF(ConnHndlOut.EQ.-1) CALL DBSOPEN(DSNOUT,EnvHndlOut,
-     -                             ConnHndlOut,DBMSOUT,KODE)
+     -                      ConnHndlOut,DBMSOUT,0,.FALSE.,KODE)
 C---------
 C     ALLOCATE A STATEMENT HANDLE
 C---------
@@ -142,7 +142,7 @@ C---------
 C     MAKE SURE WE HAVE AN OPEN CONNECTION
 C---------
       IF(ConnHndlOut.EQ.-1) CALL DBSOPEN(DSNOUT,EnvHndlOut,
-     -                                 ConnHndlOut,DBMSOUT,KODE)
+     -                      ConnHndlOut,DBMSOUT,0,.FALSE.,KODE)
 C---------
 C     CHECK TO SEE IF THE FVS_Cases TABLE EXISTS IN DATBASE
 C---------

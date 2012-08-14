@@ -29,6 +29,12 @@ TestSpecialCostAndRevenue :
 	-diff -w TestSpecialCostAndRevenue.out TestSpecialCostAndRevenue.out.save
 	@echo Test ECON TestSpecialCostAndRevenue ended
 	
+MinHarvValueOfTrees :
+	@echo Test ECON MinHarvValueOfTrees
+	-../../bin/FVSiec --keywordfile=MinHarvValueOfTrees.key
+	-diff -w MinHarvValueOfTrees.out MinHarvValueOfTrees.out.save
+	@echo Test ECON MinHarvValueOfTrees ended
+	
 climate:
 	@echo Test Climate-FVS 
 	-../../bin/FVSiec --keywordfile=climate.key

@@ -1,7 +1,7 @@
       SUBROUTINE ESPXCS (RTOP40)
       IMPLICIT NONE
 C----------
-C  **ESPXCS--AK     DATE OF LAST REVISION:   02/14/08
+C  **ESPXCS--AK     DATE OF LAST REVISION:   05/08/12
 C
 C    PREDICT THE PROBABILITY OF EXCESS SPECIES
 C----------
@@ -52,7 +52,7 @@ C----------
       PXCS(5) = (60.187-0.022*RTOP40*RTOP40)/100.0 * OCURNF(IFO,5)
      &          * XESMLT(5)
 C----------
-C     P(EXCESS YELLOW CEDAR).
+C     P(EXCESS ALASKA CEDAR).
 C----------
       PXCS(6) = 0.01 * OCURNF(IFO,6) * XESMLT(6)
 C----------

@@ -2,7 +2,7 @@
      >                   KEYWRD,ARRAY,KARD)
       IMPLICIT NONE
 C----------
-C  **SPDECD--BASE   DATE OF LAST REVISION:  07/22/09
+C  **SPDECD--BASE   DATE OF LAST REVISION:  06/04/12
 C----------
 C
 C     DECODE THE SPECIES CODE.
@@ -112,7 +112,7 @@ C
             ISP=IFIX(ARRAY(IPOS))
             KARD(IPOS)=CNSP(ISP)(1:2)
          ENDIF
-         IF(ISP.GT.0)JSPIN(ISP)=1
+C
       ELSE
          CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
          IF(KEYWRD .EQ. 'SPGROUP')THEN

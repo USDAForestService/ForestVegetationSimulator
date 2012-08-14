@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C  **FMCROW  FIRE-CA DATE OF LAST REVISION:  09/18/03
+C  **FMCROW  FIRE-CA DATE OF LAST REVISION:  01/10/12
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
@@ -45,12 +45,12 @@ C.... Parameter statements.
 
       LOGICAL DEBUG
       INTEGER I,J,IC,ISPMAP(MAXSP),HPOINT(MAXTRE)
-      INTEGER ITR,SPIW,SPIE,SNFOR,SNKOD
+      INTEGER ITR,SPIW,SPIE
       REAL    D,H,HPCT(MAXTRE),HP,SG,JUNK,XV(0:5)
 
 C     INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C     EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
-C     BASED ON SN-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
+C     BASED ON LS-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
 C     ALL WESTERN FFE VARIANTS). IN THE TABLE BELOW, A '-' IN THE
 C     "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
 
@@ -90,18 +90,18 @@ C    31 = CALIFORNIA BLACK OAK     -                21
 C    32 = VALLEY WHITE OAK         Cal black oak    21
 C    33 = INTERIOR LIVE OAK        tanoak           17
 C    34 = BIGLEAF MAPLE            -                 5
-C    35 = CALIFORNIA BUCKEYE       buckeye sp               23
+C    35 = CALIFORNIA BUCKEYE       comm. hardwoods          44
 C    36 = RED ALDER                -                23
 C    37 = PACIFIC MADRONE          -                10
 C    38 = GOLDEN CHINKAPIN         tanoak           17
-C    39 = PACIFIC DOGWOOD          flowering dogwood        31
-C    40 = OREGON ASH               ash sp                   34
-C    41 = WALNUT                   black walnut             43
+C    39 = PACIFIC DOGWOOD          flowering dogwood        56
+C    40 = OREGON ASH               white ash                29
+C    41 = WALNUT                   black walnut             46
 C    42 = TANOAK                   -                17
-C    43 = CALIFORNIA SYCAMORE      sycamore sp              59
-C    44 = QUAKING ASPEN            bigtooth aspen           61
-C    45 = BLACK COTTONWOOD         cottonwood sp            60
-C    46 = WILLOW                   willow sp                81
+C    43 = CALIFORNIA SYCAMORE      sycamore                 60
+C    44 = QUAKING ASPEN            -                        41
+C    45 = BLACK COTTONWOOD         eastern cottonwood       17
+C    46 = WILLOW                   willow sp                64
 C    47 = CALIFORNIA NUTMEG        tanoak           17
 C    48 = CALIFORNIA LAUREL        tanoak           17
 C    49 = OTHER HARDWOODS          Cal black oak    21
@@ -109,14 +109,9 @@ C    49 = OTHER HARDWOODS          Cal black oak    21
       DATA ISPMAP / 7,20, 7, 4, 4, 4, 3, 6,24,14,
      >             11,11,11,11,15,15,15,13,13,11,
      >             16,18,19, 7,11,17,17,21,17,21,
-     >             21,21,17, 5,23,23,10,17,31,34,
-     >             43,17,59,61,60,81,17,17,21/
+     >             21,21,17, 5,44,23,10,17,56,29,
+     >             46,17,60,41,17,64,17,17,21/
 
-C     DEFAULT FOREST TYPE & CODE FOR WESTERN VARIANTS CALLING EASTERN
-C     EQUATIONS (EASTERN DEFAULT)
-
-      DATA SNFOR / 801 /
-      DATA SNKOD /   6 /
 
 C     CHECK FOR DEBUG
 
@@ -171,7 +166,7 @@ C       OF THIS LOOP IF THE TREE HAS NO DIAMETER, HEIGHT, OR LIVE CROWN.
 
         SELECT CASE (SPIW)
           CASE (35,39,40,41,43,44,45,46)
-            CALL FMCROWE(SPIE,SPIW,SNFOR,SNKOD,D,H,IC,SG,XV)
+            CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
           CASE DEFAULT
             CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT
@@ -187,29 +182,4 @@ C       COPY TEMPORARY VALUES TO FFE ARRAY
       RETURN
       END
 
-C     PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
 
-      SUBROUTINE SEVLHT(X30,X31,L30,L31,X32,I30,L32,I31,C30)
-      IMPLICIT NONE
-
-      LOGICAL   L30,L31,L32,L33
-      CHARACTER C30*3
-      INTEGER   I30,I31
-      REAL      X30,X31,X32
-
-      L30 = .FALSE.
-      L31 = .FALSE.
-      L32 = .FALSE.
-      L33 = .FALSE.
-
-      C30 = '---'
-
-      I30 = 0
-      I31 = 0
-
-      X30 = 0.0
-      X31 = 0.0
-      X32 = 0.0
-
-      RETURN
-      END

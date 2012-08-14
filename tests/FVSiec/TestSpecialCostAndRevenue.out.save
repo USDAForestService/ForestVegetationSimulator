@@ -1,145 +1,145 @@
-         FOREST VEGETATION SIMULATOR     VERSION      -- INLAND EMPIRE EXPANDED                 RV:12/20/11    03-01-2012  12:00:44
- 
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:29:00
+
  ----------------------------------------------------------------------------------------------------------------------------------
- 
+
                                                  OPTIONS SELECTED BY INPUT
- 
- KEYWORD FILE NAME: TestSpecialCostAndRevenue_New.key
+
+ KEYWORD FILE NAME: TestSpecialCostAndRevenue.key
  ----------------------------------------------------------------------------------------------------------------------------------
  KEYWORD    PARAMETERS:
  --------   -----------------------------------------------------------------------------------------------------------------------
- 
+
  STDIDENT
             STAND ID= TestSpecialCostAndRevenue                                                                                 
- 
+
  SCREEN     SUMMARY TABLE WILL BE PRINTED TO DATA SET REFERENCE NUMBER     6 AS RUN PROGRESSES.
- 
+
  INVYEAR    INVENTORY YEAR= 2004
- 
+
             HABITAT TYPE WILL BE MAPPED TO 260 FOR THIS PROJECTION.
- 
+
  STDINFO    FOREST-LOCATION CODE=     118; HABITAT TYPE=260; AGE=    0; ASPECT AZIMUTH IN DEGREES=   0.; SLOPE=   0.%
             ELEVATION(100'S FEET)= 30.0; REFERENCE CODE=     
- 
+
  DESIGN     BASAL AREA FACTOR=   40.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
             NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
             PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
             SEE "OPTIONS SELECTED BY DEFAULT" FOR FINAL DESIGN VALUES.
- 
+
  NUMCYCLE   NUMBER OF CYCLES= 10
- 
+
  ECON       ECONOMIC EXTENSION KEYWORDS:
- 
+
  SPECCST    $ 200. SPECIAL COST INCURRED FOR: spCst2, IN YEAR/CYCLE:    0
- 
+
  SPECRVN    $ 100. SPECIAL REVENUE ACCRUED FOR: spRvn1, IN YEAR/CYCLE:    0
- 
+
  SPECRVN    $ 400. SPECIAL REVENUE ACCRUED FOR: spRvn2, IN YEAR/CYCLE: 2034
- 
+
  SPECRVN    $ 400. SPECIAL REVENUE ACCRUED FOR: spRvn3, IN YEAR/CYCLE: 2044
- 
+
  SPECRVN    $ 400. SPECIAL REVENUE ACCRUED FOR: spRvn4, IN YEAR/CYCLE: 2054
- 
+
  SPECRVN    $ 400. SPECIAL REVENUE ACCRUED FOR: spRvn5, IN YEAR/CYCLE: 2064
- 
+
  END        END ECONOMIC EXTENSION KEYWORDS.
- 
+
  COMPUTE    DATE/CYCLE=    0; DEFINE THE FOLLOWING:
- 
+
             MYREVN = BBA
- 
+
  END
- 
+
  IF         MINIMUM DELAY TIME BETWEEN RESPONSES TO THE EVENT =     1
- 
+
             CYCLE EQ 1
- 
+
  THEN       ACTIVITIES WHICH FOLLOW WILL NOT BE SCHEDULED UNTIL THE EVENT HAPPENS (WHEN THE LOGICAL EXPRESSION IS TRUE).
- 
+
  ECON       ECONOMIC EXTENSION KEYWORDS:
- 
+
  SPECRVN    $   1. SPECIAL REVENUE ACCRUED FOR: spRvnif1, IN YEAR/CYCLE:    1
- 
+
  END        END ECONOMIC EXTENSION KEYWORDS.
- 
+
  ENDIF      ACTIVITIES WHICH FOLLOW WILL BE SCHEDULED.
- 
+
  IF         MINIMUM DELAY TIME BETWEEN RESPONSES TO THE EVENT =     1
- 
+
             CYCLE EQ 2
- 
+
  THEN       ACTIVITIES WHICH FOLLOW WILL NOT BE SCHEDULED UNTIL THE EVENT HAPPENS (WHEN THE LOGICAL EXPRESSION IS TRUE).
- 
+
  ECON       ECONOMIC EXTENSION KEYWORDS:
- 
+
  STRTECON   ECON START YEAR DELAYED   7 YEARS, DISCOUNT RATE:  4.0%, Known SEV: $ , SEV will be computed: TRUE
- 
+
  SPECRVN    $   2. SPECIAL REVENUE ACCRUED FOR: spRvnif2, IN YEAR/CYCLE:    2
- 
+
  END        END ECONOMIC EXTENSION KEYWORDS.
- 
+
  ENDIF      ACTIVITIES WHICH FOLLOW WILL BE SCHEDULED.
- 
+
  IF         MINIMUM DELAY TIME BETWEEN RESPONSES TO THE EVENT =     1
- 
+
             CYCLE EQ 3
- 
+
  THEN       ACTIVITIES WHICH FOLLOW WILL NOT BE SCHEDULED UNTIL THE EVENT HAPPENS (WHEN THE LOGICAL EXPRESSION IS TRUE).
- 
+
  ECON       ECONOMIC EXTENSION KEYWORDS:
- 
+
  SPECRVN    $   3. SPECIAL REVENUE ACCRUED FOR: spRvnif3, IN YEAR/CYCLE:    3
- 
+
  END        END ECONOMIC EXTENSION KEYWORDS.
- 
+
  ENDIF      ACTIVITIES WHICH FOLLOW WILL BE SCHEDULED.
- 
+
  IF         MINIMUM DELAY TIME BETWEEN RESPONSES TO THE EVENT =     1
- 
+
             CYCLE EQ 4 OR CYCLE EQ 8
- 
+
  THEN       ACTIVITIES WHICH FOLLOW WILL NOT BE SCHEDULED UNTIL THE EVENT HAPPENS (WHEN THE LOGICAL EXPRESSION IS TRUE).
- 
+
  ECON       ECONOMIC EXTENSION KEYWORDS:
- 
+
  STRTECON   ECON START YEAR DELAYED2004 YEARS, DISCOUNT RATE:  4.0%, Known SEV: $ , SEV will be computed: TRUE
- 
+
  SPECRVN    $  11. SPECIAL REVENUE ACCRUED FOR: spRvn6, IN YEAR/CYCLE:    0
- 
+
  SPECRVN    DATE/CYCLE=    0;   PARMS(10*MYREVN)                                 
- 
+
  END        END ECONOMIC EXTENSION KEYWORDS.
- 
+
  ENDIF      ACTIVITIES WHICH FOLLOW WILL BE SCHEDULED.
- 
+
  TREEDATA   DATA SET REFERENCE NUMBER= 15
- 
+
  PROCESS    PROCESS THE STAND.
  ----------------------------------------------------------------------------------------------------------------------------------
- 
+
                                                  OPTIONS SELECTED BY DEFAULT
- 
+
  ----------------------------------------------------------------------------------------------------------------------------------
- 
+
  TREEFMT    (I4,T1,I7,F6.0,I1,A3,F4.1,F3.1,2F3.0,F4.1,I1,3(I2,I2),2I1,I2,2I3,2I1,F3.0)      
                                                                                             
- 
+
  DESIGN     BASAL AREA FACTOR=   40.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
             NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
             PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
- 
+
  STDINFO    FOREST-LOCATION CODE=     118; HABITAT TYPE=260; AGE=    0; ASPECT AZIMUTH IN DEGREES=   0.; SLOPE=   0.%
             ELEVATION(100'S FEET)= 30.0;  REFERENCE CODE=     
- 
+
  SPECIES      WP      WL      DF      GF      WH      RC      LP      ES      AF      PP
  SDI MAX     669.    669.    669.    669.    669.    669.    669.    669.    669.    669.
- 
+
  SPECIES      MH      WB      LM      LL      PI      RM      PY      AS      CO      MM
  SDI MAX     669.    669.    669.    669.    669.    669.    669.    669.    669.    669.
- 
+
  SPECIES      PB      OH      OS
  SDI MAX     669.    669.    669.
- 
+
                                    NATIONAL VOLUME ESTIMATOR LIBRARY EQUATION NUMBERS
  SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT 
  ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- 
@@ -149,121 +149,121 @@
    LM    I00FW2W073 I00FW2W073   LL    I00FW2W019 I00FW2W019   PI    102DVEW106 102DVEW106   RM    102DVEW106 102DVEW106
    PY    616BEHW231 616BEHW231   AS    200DVEW746 200DVEW746   CO    101DVEW740 101DVEW740   MM    200DVEW746 200DVEW746
    PB    101DVEW375 101DVEW375   OH    200DVEW746 200DVEW746   OS    I00FW2W260 I00FW2W260
- 
+
  SITECODE   SITE INDEX INFORMATION:
              WP=    0.;  WL=    0.;  DF=    0.;  GF=    0.;  WH=    0.;  RC=    0.;  LP=    0.;  ES=    0.; AF=    0.
              PP=    0.;  MH=    0.;  WB=    0.;  LM=   35.;  LL=    0.;  PI=   12.;  RM=   10.;  PY=   35.; AS=   50.
              CO=   62.;  MM=   50.;  PB=   50.;  OH=   62.;  OS=    0.
             SITE SPECIES=DF CODE=    3
- 
+
  INVENTORY POINT CROSS REFERENCE (FVS SEQUENTIAL POINT NUMBER = POINT NUMBER AS ENTERED IN THE INPUT DATA):
    1=       1
  ----------------------------------------------------------------------------------------------------------------------------------
- 
- 
+
+
                                                       ACTIVITY SCHEDULE
- 
+
  STAND ID= TestSpecialCostAndRevenue     MGMT ID= NONE                                                                            
- 
+
  ----------------------------------------------------------------------------------------------------------------------------------
- 
+
  CYCLE  DATE  EXTENSION  KEYWORD   DATE  PARAMETERS:
  -----  ----  ---------  --------  ----  ------------------------------------------------------------------------------------------
- 
+
     1   2004
                 ECON     SPECCST   2004      200.00
                 ECON     SPECRVN   2004      100.00
                 CMPU     MYREVN    2004        0.00
- 
+
     2   2014
                 ECON     SPECCST   2014      200.00
                 ECON     SPECRVN   2014      100.00
                 CMPU     MYREVN    2014        0.00
- 
+
     3   2024
                 ECON     SPECCST   2024      200.00
                 ECON     SPECRVN   2024      100.00
                 CMPU     MYREVN    2024        0.00
- 
+
     4   2034
                 ECON     SPECRVN   2034      400.00
                 ECON     SPECCST   2034      200.00
                 ECON     SPECRVN   2034      100.00
                 CMPU     MYREVN    2034        0.00
- 
+
     5   2044
                 ECON     SPECRVN   2044      400.00
                 ECON     SPECCST   2044      200.00
                 ECON     SPECRVN   2044      100.00
                 CMPU     MYREVN    2044        0.00
- 
+
     6   2054
                 ECON     SPECRVN   2054      400.00
                 ECON     SPECCST   2054      200.00
                 ECON     SPECRVN   2054      100.00
                 CMPU     MYREVN    2054        0.00
- 
+
     7   2064
                 ECON     SPECRVN   2064      400.00
                 ECON     SPECCST   2064      200.00
                 ECON     SPECRVN   2064      100.00
                 CMPU     MYREVN    2064        0.00
- 
+
     8   2074
                 ECON     SPECCST   2074      200.00
                 ECON     SPECRVN   2074      100.00
                 CMPU     MYREVN    2074        0.00
- 
+
     9   2084
                 ECON     SPECCST   2084      200.00
                 ECON     SPECRVN   2084      100.00
                 CMPU     MYREVN    2084        0.00
- 
+
    10   2094
                 ECON     SPECCST   2094      200.00
                 ECON     SPECRVN   2094      100.00
                 CMPU     MYREVN    2094        0.00
  ----------------------------------------------------------------------------------------------------------------------------------
- 
- 
+
+
  CALIBRATION STATISTICS:
- 
- 
+
+
                                                   DF    WH    RC
                                                  ----  ----  ----
- 
+
  NUMBER OF RECORDS PER SPECIES                     18     2     1
- 
+
  NUMBER OF RECORDS WITH MISSING HEIGHTS             0     0     0
- 
+
  NUMBER OF RECORDS WITH BROKEN OR DEAD TOPS         0     0     0
- 
+
  NUMBER OF RECORDS WITH MISSING CROWN RATIOS       18     2     1
- 
+
  NUMBER OF RECORDS AVAILABLE FOR SCALING
  THE DIAMETER INCREMENT MODEL                       0     0     0
- 
+
  RATIO OF STANDARD ERRORS
  (INPUT DBH GROWTH DATA : MODEL)                 1.00  1.00  1.00
- 
+
  WEIGHT GIVEN TO THE INPUT GROWTH DATA WHEN
  DBH GROWTH MODEL SCALE FACTORS WERE COMPUTED    0.00  0.00  0.00
- 
+
  INITIAL SCALE FACTORS FOR THE
  DBH INCREMENT MODEL                             1.00  1.00  1.00
- 
+
  NUMBER OF RECORDS AVAILABLE FOR SCALING
  THE SMALL TREE HEIGHT INCREMENT MODEL             0     0     0
- 
+
  INITIAL SCALE FACTORS FOR THE SMALL TREE
  HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
- 
+
  NUMBER OF RECORDS WITH MISTLETOE                   0     0     0
-         FOREST VEGETATION SIMULATOR     VERSION      -- INLAND EMPIRE EXPANDED                 RV:12/20/11    03-01-2012  12:00:45
- 
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:29:00
+
  STAND ID: TestSpecialCostAndRevenue     MGMT ID: NONE     
- 
- 
+
+
                                          STAND COMPOSITION (BASED ON STOCKABLE AREA)
  --------------------------------------------------------------------------------------------------------------------------
                              PERCENTILE POINTS IN THE
@@ -272,139 +272,139 @@
  YEAR  ATTRIBUTES      10     30     50     70     90    100       ATTRIBUTES       SPECIES AND 3 USER-DEFINED SUBCLASSES
  ----  -----------   ------ ------ ------ ------ ------ ------   --------------  ------------------------------------------
                                   (DBH IN INCHES)
- 
- 
- 
- 2004  TREES           0.1    1.0    3.0    8.0   14.0    19.0     400. TREES     95.% DF1,   2.% RC1,   2.% WH1,   0.% ---
+
+
+
+ 2004  TREES           0.1    1.0    3.0    8.0   14.0    19.0     400. TREES     95.% DF1,   3.% RC1,   3.% WH1,   0.% ---
        VOLUME:  
-         TOTAL        10.0   12.0   14.0   16.0   19.0    19.0    4100. CUFT      74.% DF1,  20.% WH1,   7.% RC1,   0.% ---
+         TOTAL        10.0   12.0   14.0   16.0   19.0    19.0    4101. CUFT      74.% DF1,  20.% WH1,   7.% RC1,   0.% ---
          MERCH        10.0   12.0   14.0   16.0   19.0    19.0    3615. CUFT      73.% DF1,  21.% WH1,   7.% RC1,   0.% ---
          MERCH        10.0   13.0   14.0   16.0   19.0    19.0   19300. BDFT      72.% DF1,  22.% WH1,   6.% RC1,   0.% ---
- 
- 
+
+
        ACCRETION       9.0   11.0   14.0   15.0   18.0    19.0     101. CUFT/YR   72.% DF1,  18.% WH1,  10.% RC1,   0.% ---
        MORTALITY       8.0   11.0   13.0   15.0   18.0    19.0      26. CUFT/YR   84.% DF1,  12.% WH1,   4.% RC1,   0.% ---
- 
- 
- 
+
+
+
  2014  TREES           0.1    2.2    5.0   11.5   15.7    21.3     309. TREES     94.% DF1,   3.% RC1,   3.% WH1,   0.% ---
        VOLUME:  
          TOTAL        10.8   12.9   15.3   17.2   20.3    21.3    4844. CUFT      73.% DF1,  20.% WH1,   7.% RC1,   0.% ---
          MERCH        11.5   12.9   15.3   17.2   20.3    21.3    4300. CUFT      72.% DF1,  21.% WH1,   8.% RC1,   0.% ---
          MERCH        11.5   13.5   15.3   18.0   20.5    21.3   23466. BDFT      70.% DF1,  23.% WH1,   8.% RC1,   0.% ---
- 
- 
+
+
        ACCRETION       9.3   12.4   14.7   17.1   20.3    21.3     100. CUFT/YR   71.% DF1,  18.% WH1,  11.% RC1,   0.% ---
        MORTALITY       8.7   11.8   13.9   16.0   19.3    21.3      32. CUFT/YR   83.% DF1,  13.% WH1,   4.% RC1,   0.% ---
- 
- 
- 
- 2024  TREES           0.1    0.3    4.5   11.6   16.7    23.4     317. TREES     90.% DF1,   3.% RC1,   3.% WH1,   2.% PP1
+
+
+
+ 2024  TREES           0.1    0.3    4.4   11.6   16.7    23.4     317. TREES     90.% DF1,   3.% RC1,   3.% WH1,   2.% PP1
        VOLUME:  
          TOTAL        12.0   14.0   16.4   18.3   21.7    23.4    5520. CUFT      72.% DF1,  20.% WH1,   8.% RC1,   0.% ---
          MERCH        12.1   14.3   16.4   18.7   21.7    23.4    4942. CUFT      71.% DF1,  21.% WH1,   8.% RC1,   0.% ---
-         MERCH        12.2   14.4   16.7   19.1   21.7    23.4   27432. BDFT      69.% DF1,  22.% WH1,   8.% RC1,   0.% ---
- 
- 
+         MERCH        12.2   14.4   16.7   19.1   21.7    23.4   27433. BDFT      69.% DF1,  22.% WH1,   8.% RC1,   0.% ---
+
+
        ACCRETION      10.1   13.7   16.3   18.3   21.7    23.4      96. CUFT/YR   72.% DF1,  20.% WH1,   9.% RC1,   0.% ---
        MORTALITY       9.4   13.0   14.8   17.3   20.6    23.4      38. CUFT/YR   82.% DF1,  13.% WH1,   5.% RC1,   0.% ---
- 
- 
- 
+
+
+
  2034  TREES           0.1    2.5    7.8   13.7   18.8    25.5     239. TREES     90.% DF1,   4.% RC1,   4.% WH1,   2.% PP1
        VOLUME:  
          TOTAL        12.8   14.9   17.4   19.9   23.6    25.5    6101. CUFT      71.% DF1,  20.% WH1,   9.% RC1,   0.% ---
-         MERCH        12.9   15.2   17.4   19.9   23.6    25.5    5515. CUFT      70.% DF1,  21.% WH1,   9.% RC1,   0.% ---
-         MERCH        13.2   15.4   18.1   20.4   23.6    25.5   31145. BDFT      68.% DF1,  23.% WH1,   9.% RC1,   0.% ---
- 
- 
+         MERCH        12.9   15.2   17.4   19.9   23.6    25.5    5516. CUFT      70.% DF1,  21.% WH1,   9.% RC1,   0.% ---
+         MERCH        13.2   15.4   18.1   20.4   23.6    25.5   31147. BDFT      68.% DF1,  23.% WH1,   9.% RC1,   0.% ---
+
+
        ACCRETION      10.9   14.6   16.8   19.5   23.5    25.5      96. CUFT/YR   71.% DF1,  18.% WH1,  10.% RC1,   0.% ---
-       MORTALITY      10.1   13.7   16.1   18.8   21.7    25.5      46. CUFT/YR   81.% DF1,  13.% WH1,   5.% RC1,   0.% ---
- 
- 
- 
+       MORTALITY      10.1   13.7   16.1   18.7   21.7    25.5      46. CUFT/YR   81.% DF1,  13.% WH1,   5.% RC1,   0.% ---
+
+
+
  2044  TREES           0.1    0.5    8.1   14.4   19.4    27.2     232. TREES     89.% DF1,   4.% RC1,   4.% WH1,   2.% PP1
        VOLUME:  
-         TOTAL        13.9   16.3   18.5   21.3   24.6    27.2    6600. CUFT      70.% DF1,  20.% WH1,   9.% RC1,   0.% ---
-         MERCH        13.9   16.5   18.5   21.3   24.6    27.2    6025. CUFT      70.% DF1,  21.% WH1,   9.% RC1,   0.% ---
-         MERCH        14.1   16.5   18.7   22.1   24.8    27.2   34401. BDFT      67.% DF1,  24.% WH1,   9.% RC1,   0.% ---
- 
- 
+         TOTAL        13.9   16.3   18.5   21.3   24.6    27.2    6599. CUFT      70.% DF1,  21.% WH1,   9.% RC1,   0.% ---
+         MERCH        13.9   16.5   18.5   21.3   24.6    27.2    6026. CUFT      70.% DF1,  21.% WH1,   9.% RC1,   0.% ---
+         MERCH        14.1   16.5   18.7   22.1   24.8    27.2   34404. BDFT      67.% DF1,  24.% WH1,   9.% RC1,   0.% ---
+
+
        ACCRETION      11.2   15.8   17.7   20.5   24.6    27.2      88. CUFT/YR   68.% DF1,  20.% WH1,  12.% RC1,   0.% PP1
        MORTALITY      10.7   15.0   17.2   19.9   22.9    27.2      47. CUFT/YR   81.% DF1,  14.% WH1,   5.% RC1,   0.% ---
- 
- 
- 
+
+
+
  2054  TREES           0.1    4.5   11.3   16.7   21.0    28.4     177. TREES     89.% DF1,   5.% RC1,   4.% WH1,   1.% PP1
        VOLUME:  
-         TOTAL        14.3   17.2   19.4   22.2   26.0    28.4    7017. CUFT      69.% DF1,  21.% WH1,  10.% RC1,   0.% PP1
-         MERCH        14.8   17.2   19.4   22.2   26.0    28.4    6447. CUFT      69.% DF1,  21.% WH1,  10.% RC1,   0.% ---
-         MERCH        14.9   17.6   19.8   22.9   26.0    28.4   37412. BDFT      66.% DF1,  24.% WH1,  10.% RC1,   0.% ---
- 
- 
-       ACCRETION      12.9   16.5   18.8   21.1   25.7    28.4      92. CUFT/YR   66.% DF1,  19.% WH1,  15.% RC1,   0.% PP1
+         TOTAL        14.3   17.2   19.4   22.2   26.0    28.4    7016. CUFT      69.% DF1,  21.% WH1,  10.% RC1,   0.% PP1
+         MERCH        14.8   17.2   19.4   22.2   26.0    28.4    6448. CUFT      69.% DF1,  21.% WH1,  10.% RC1,   0.% ---
+         MERCH        14.9   17.6   19.8   22.9   26.0    28.4   37417. BDFT      66.% DF1,  24.% WH1,  10.% RC1,   0.% ---
+
+
+       ACCRETION      12.9   16.5   18.8   21.1   25.7    28.4      91. CUFT/YR   66.% DF1,  19.% WH1,  15.% RC1,   0.% PP1
        MORTALITY      11.8   15.9   18.5   20.7   24.2    28.4      56. CUFT/YR   82.% DF1,  13.% WH1,   5.% RC1,   0.% PP1
- 
- 
- 
- 2064  TREES           0.1    0.1    1.4   13.9   21.1    30.5     242. TREES     86.% DF1,   3.% RC1,   3.% WL1,   3.% WH1
+
+
+
+ 2064  TREES           0.1    0.1    1.3   13.9   21.1    30.5     242. TREES     86.% DF1,   3.% RC1,   3.% WL1,   3.% WH1
        VOLUME:  
-         TOTAL        15.2   18.1   20.5   23.2   27.4    30.5    7369. CUFT      68.% DF1,  21.% WH1,  11.% RC1,   0.% PP1
+         TOTAL        15.2   18.1   20.5   23.2   27.4    30.5    7367. CUFT      68.% DF1,  21.% WH1,  11.% RC1,   0.% PP1
          MERCH        15.4   18.1   20.6   23.8   27.4    30.5    6787. CUFT      68.% DF1,  22.% WH1,  11.% RC1,   0.% ---
-         MERCH        16.1   18.6   21.1   24.4   27.7    30.5   39806. BDFT      65.% DF1,  25.% WH1,  11.% RC1,   0.% ---
- 
- 
-       ACCRETION      13.6   17.6   20.2   22.5   27.1    30.5      91. CUFT/YR   67.% DF1,  20.% WH1,  14.% RC1,   0.% PP1
+         MERCH        16.1   18.6   21.1   24.4   27.7    30.5   39812. BDFT      65.% DF1,  25.% WH1,  11.% RC1,   0.% ---
+
+
+       ACCRETION      13.6   17.8   20.2   22.5   27.1    30.5      90. CUFT/YR   67.% DF1,  20.% WH1,  14.% RC1,   0.% PP1
        MORTALITY      11.8   17.0   19.1   21.8   25.3    30.5      49. CUFT/YR   79.% DF1,  14.% WH1,   6.% RC1,   0.% PP1
- 
- 
- 
- 2074  TREES           0.1    0.1   10.5   17.8   22.4    31.5     171. TREES     87.% DF1,   4.% RC1,   4.% WH1,   2.% WL1
+
+
+
+ 2074  TREES           0.1    0.1   10.5   18.1   22.4    31.5     171. TREES     87.% DF1,   4.% RC1,   4.% WH1,   2.% WL1
        VOLUME:  
-         TOTAL        16.5   19.2   21.9   24.7   28.8    31.5    7784. CUFT      67.% DF1,  22.% WH1,  11.% RC1,   0.% PP1
-         MERCH        16.5   19.2   21.9   25.1   28.8    31.5    7171. CUFT      67.% DF1,  22.% WH1,  11.% RC1,   0.% ---
-         MERCH        16.5   19.7   22.1   25.5   28.8    31.5   42715. BDFT      64.% DF1,  25.% WH1,  11.% RC1,   0.% ---
- 
- 
+         TOTAL        16.5   19.2   21.9   24.7   28.8    31.5    7783. CUFT      67.% DF1,  22.% WH1,  11.% RC1,   0.% PP1
+         MERCH        16.5   19.2   21.9   25.1   28.8    31.5    7165. CUFT      67.% DF1,  22.% WH1,  11.% RC1,   0.% ---
+         MERCH        16.6   19.7   22.1   25.5   28.8    31.5   42681. BDFT      64.% DF1,  25.% WH1,  11.% RC1,   0.% ---
+
+
        ACCRETION      15.2   18.2   21.7   23.7   28.1    31.5      95. CUFT/YR   59.% DF1,  23.% WH1,  18.% RC1,   0.% PP1
        MORTALITY      13.0   18.1   20.1   22.4   26.4    31.5      56. CUFT/YR   79.% DF1,  14.% WH1,   6.% RC1,   0.% PP1
- 
- 
- 
+
+
+
  2084  TREES           0.1    0.1    7.0   18.4   23.5    33.2     176. TREES     86.% DF1,   4.% RC1,   4.% WH1,   3.% WL1
        VOLUME:  
-         TOTAL        17.0   20.3   23.0   26.0   29.7    33.2    8173. CUFT      66.% DF1,  22.% WH1,  12.% RC1,   0.% PP1
-         MERCH        17.0   20.4   23.0   26.0   30.3    33.2    7557. CUFT      65.% DF1,  22.% WH1,  12.% RC1,   0.% ---
-         MERCH        17.4   20.6   23.2   26.1   30.3    33.2   46116. BDFT      62.% DF1,  25.% WH1,  12.% RC1,   0.% ---
- 
- 
-       ACCRETION      15.4   20.3   22.2   24.0   28.6    33.2      80. CUFT/YR   63.% DF1,  19.% RC1,  18.% WH1,   0.% PP1
+         TOTAL        17.0   20.3   23.0   26.0   29.7    33.2    8172. CUFT      65.% DF1,  22.% WH1,  12.% RC1,   0.% PP1
+         MERCH        17.0   20.4   23.0   26.0   30.3    33.2    7555. CUFT      65.% DF1,  22.% WH1,  12.% RC1,   0.% ---
+         MERCH        17.4   20.6   23.2   26.1   30.3    33.2   46114. BDFT      62.% DF1,  25.% WH1,  12.% RC1,   0.% ---
+
+
+       ACCRETION      15.4   20.3   22.2   24.2   28.6    33.2      80. CUFT/YR   63.% DF1,  19.% RC1,  18.% WH1,   0.% PP1
        MORTALITY      13.5   18.9   20.6   23.4   27.9    33.2      54. CUFT/YR   80.% DF1,  13.% WH1,   6.% RC1,   0.% PP1
- 
- 
- 
+
+
+
  2094  TREES           0.1    0.7   13.9   20.9   25.1    33.9     128. TREES     86.% DF1,   5.% RC1,   5.% WH1,   1.% WL1
        VOLUME:  
-         TOTAL        17.8   21.5   23.9   26.8   31.1    33.9    8437. CUFT      64.% DF1,  22.% WH1,  13.% RC1,   0.% PP1
-         MERCH        17.8   21.6   23.9   26.8   31.1    33.9    7831. CUFT      64.% DF1,  23.% WH1,  13.% RC1,   0.% ---
-         MERCH        18.7   21.7   23.9   27.3   31.1    33.9   48365. BDFT      61.% DF1,  26.% WH1,  14.% RC1,   0.% ---
- 
- 
+         TOTAL        17.8   21.5   23.9   26.8   31.1    33.9    8436. CUFT      64.% DF1,  22.% WH1,  13.% RC1,   0.% PP1
+         MERCH        18.0   21.6   23.9   26.8   31.1    33.9    7831. CUFT      64.% DF1,  23.% WH1,  13.% RC1,   0.% ---
+         MERCH        18.7   21.7   23.9   27.3   31.1    33.9   48386. BDFT      61.% DF1,  26.% WH1,  14.% RC1,   0.% ---
+
+
        ACCRETION      16.1   21.5   23.0   25.0   29.9    33.9      77. CUFT/YR   62.% DF1,  20.% RC1,  18.% WH1,   0.% PP1
        MORTALITY      14.9   19.6   21.7   24.4   28.6    33.9      63. CUFT/YR   80.% DF1,  14.% WH1,   6.% RC1,   0.% PP1
- 
- 
- 
+
+
+
  2104  TREES           0.1    0.1    0.1   14.3   24.6    34.6     205. TREES     88.% DF1,   3.% WL1,   3.% RC1,   3.% WH1
        VOLUME:  
-         TOTAL        18.6   23.0   24.6   27.7   32.0    34.6    8576. CUFT      63.% DF1,  23.% WH1,  14.% RC1,   0.% PP1
-         MERCH        18.7   23.0   24.6   27.9   32.0    34.6    7965. CUFT      63.% DF1,  23.% WH1,  14.% RC1,   0.% ---
-         MERCH        19.7   23.1   24.9   28.1   32.0    34.6   49655. BDFT      60.% DF1,  26.% WH1,  15.% RC1,   0.% ---
-         FOREST VEGETATION SIMULATOR     VERSION      -- INLAND EMPIRE EXPANDED                 RV:12/20/11    03-01-2012  12:00:45
- 
+         TOTAL        18.6   23.0   24.6   27.7   32.0    34.6    8575. CUFT      63.% DF1,  23.% WH1,  14.% RC1,   0.% PP1
+         MERCH        18.8   23.0   24.6   27.9   32.0    34.6    7964. CUFT      63.% DF1,  23.% WH1,  14.% RC1,   0.% ---
+         MERCH        19.7   23.1   24.9   28.1   32.0    34.6   49637. BDFT      59.% DF1,  26.% WH1,  15.% RC1,   0.% ---
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:29:01
+
  STAND ID: TestSpecialCostAndRevenue     MGMT ID: NONE    
- 
- 
+
+
  ------------------------------------------------------------------------------------------------------------------------------
                       ATTRIBUTES OF SELECTED SAMPLE TREES                 ADDITIONAL STAND ATTRIBUTES (BASED ON STOCKABLE AREA)
        -----------------------------------------------------------------  -----------------------------------------------------
@@ -412,9 +412,9 @@
        TREES/A            DBH    HEIGHT  CROWN   GROWTH   AREA     PER    STAND   MEAN DBH    PER     AREA     LARGEST   COMP
  YEAR   %TILE  SPECIES (INCHES)  (FEET)  RATIO  (INCHES)  %TILE    ACRE   AGE     (INCHES)    ACRE   (SQFT/A) 40/A (FT)  FACTOR
  ----  ------- ------- -------- -------- ------ --------- ------- ------  -----  ---------   ------ --------- --------- -------
- 
+
  2004                                          ( 10 YRS)
- 
+
          10     DF1       0.10     1.00    76     0.00      0.0  100.00
          30     DF1       1.00     5.00    56     0.25      0.2   50.00
          50     DF1       3.00    15.00    39     0.65      2.1   30.00
@@ -422,114 +422,114 @@
          90     DF1      14.00    89.00    39     1.87     63.8   15.00
         100     WH1      19.00   103.00    42     2.16    100.0    5.00
                                                                             0       7.6      400.     127.       94.9    140.0
- 
+
  2014                                          ( 10 YRS)
- 
+
          10     DF1       0.11     2.16    76     0.00      0.0   57.77
          30     DF1       1.20     6.87    56     0.17      0.1   33.61
-         50     DF1       3.74    18.92    39     0.64      1.8   24.10
+         50     DF1       3.74    18.92    36     0.64      1.8   24.10
          70     DF1       8.73    64.05    18     0.63     10.7    8.70
          90     DF1      15.29    94.13    38     1.12     60.5   14.20
         100     WH1      20.47   108.27    42     1.37     97.9    4.81
                                                                            10       9.2      309.     142.      100.0    150.0
- 
+
  2024 **                                       ( 10 YRS)
- 
+
          10     DF1       0.10     1.32    81     0.00      0.0    0.61
          30     DF1       0.33     4.53    76     0.19      0.0   11.80
-         50     DF1       4.47    22.78    37     0.63      1.6    7.00
+         50     DF1       4.43    22.74    33     0.60      1.6    7.00
          70     DF1      11.58    79.80    37     0.48     15.6    0.76
          90     DF1      16.66    98.52    40     0.85     59.8    0.77
         100     WH1      23.45   118.19    41     2.01    100.0    0.29
-                                                                           20       9.5      317.     155.      104.3    157.8
- 
+                                                                           20       9.5      317.     155.      104.3    157.7
+
  2034                                          ( 10 YRS)
- 
+
          10     DF1       0.11     2.35    81     0.00      0.0    0.34
          30     DF1       0.46     5.88    76     0.11      0.0    6.64
-         50     DF1       5.27    27.57    35     0.70      1.5    5.69
+         50     DF1       5.19    27.44    31     0.66      1.5    5.64
          70     DF1      12.32    83.24    37     0.64     14.8    0.65
          90     DF1      18.37   104.49    40     1.48     64.2    0.72
         100     WH1      25.52   124.67    40     1.93    100.0    0.28
-                                                                           30      11.3      239.     166.      108.1    162.4
- 
+                                                                           30      11.3      239.     165.      108.1    162.3
+
  2044 **                                       ( 10 YRS)
- 
+
          10     DF1       0.10     1.30    90     0.00      0.0    0.70
          30     PP1       0.55     5.69    82     0.39      0.0    0.21
-         50     DF1       8.10    62.05    20     0.36      3.4    0.41
+         50     DF1       8.10    62.05    20     0.36      3.3    0.41
          70     RC1      14.41   119.11    52     0.67     23.3    3.04
          90     DF1      19.44   108.14    40     0.93     64.1    0.69
         100     WH1      27.17   129.62    39     1.54    100.0    0.27
-                                                                           40      11.7      232.     173.      111.9    164.6
- 
+                                                                           40      11.7      232.     173.      111.9    164.4
+
  2054                                          ( 10 YRS)
- 
+
          10     DF1       0.11     2.48    90     0.00      0.0    0.39
-         30     PP1       1.20     8.65    82     0.58      0.0    0.11
-         50     DF1       8.70    65.38    19     0.53      3.0    0.32
+         30     PP1       1.20     8.66    82     0.58      0.0    0.11
+         50     DF1       8.70    65.39    19     0.53      2.9    0.32
          70     RC1      15.45   122.20    52     0.98     23.1    2.90
-         90     DF1      20.04   110.28    40     0.52     61.4    0.64
+         90     DF1      20.04   110.28    40     0.52     61.3    0.64
         100     WH1      27.92   132.02    39     0.71     98.1    0.26
-                                                                           50      13.6      177.     178.      114.7    165.2
- 
+                                                                           50      13.6      177.     178.      114.7    165.1
+
  2064 **                                       ( 10 YRS)
- 
+
          10     DF1       0.10     1.21    90     0.00      0.0    1.06
          30     LP1       0.10     1.39    90     0.00      0.0    1.06
-         50     DF1       1.38    15.33    76     0.43      0.0    0.58
-         70     DF1      13.88    90.19    26     0.81     12.4    0.69
+         50     PP1       1.34     8.62    90     0.71      0.0    0.06
+         70     DF1      13.88    90.19    26     0.81     12.3    0.69
          90     DF1      21.11   114.48    38     1.54     60.0    1.43
         100     WH1      30.49   138.99    38     1.95    100.0    0.14
-                                                                           60      11.7      242.     182.      118.1    164.3
- 
+                                                                           60      11.7      242.     182.      118.1    164.2
+
  2074                                          ( 10 YRS)
- 
+
          10     DF1       0.11     3.17    90     0.00      0.0    0.58
-         30     LP1       0.11     2.85    90     0.00      0.0    0.37
-         50     DF1       1.67    17.20    76     0.25      0.0    0.38
-         70     DF1      14.82    94.02    26     0.81     12.0    0.62
-         90     DF1      22.11   117.53    38     0.86     60.0    1.36
+         30     LP1       0.11     2.86    90     0.00      0.0    0.37
+         50     PP1       1.90    11.09    90     0.49      0.0    0.04
+         70     DF1      14.82    94.02    26     0.81     11.9    0.62
+         90     DF1      22.11   117.53    38     0.86     59.9    1.36
         100     WH1      31.24   141.20    38     0.70     98.4    0.14
-                                                                           70      14.1      171.     187.      121.3    165.3
- 
+                                                                           70      14.1      171.     187.      121.3    165.2
+
  2084 **                                       ( 10 YRS)
- 
+
          10     DF1       0.10     1.25    84     0.00      0.0    0.70
-         30     DF1       0.11     3.28    90     0.00      0.0    0.31
-         50     DF1       7.02    35.79    41     0.88      0.8    0.62
-         70     DF1      18.43   106.85    37     1.02     20.5    1.82
+         30     DF1       0.11     3.29    90     0.00      0.0    0.31
+         50     DF1       7.03    35.81    41     0.88      0.8    0.62
+         70     DF1      18.43   106.85    37     1.02     20.4    1.82
          90     DF1      23.51   121.53    39     1.22     65.4    1.28
         100     WH1      33.16   146.01    37     1.53    100.0    0.54
-                                                                           80      14.1      176.     190.      125.6    165.5
- 
+                                                                           80      14.1      176.     190.      125.6    165.4
+
  2094                                          ( 10 YRS)
- 
-         10     DF1       0.11     2.06    84     0.00      0.0    0.38
-         30     DF1       0.33     4.53    90     0.19      0.0    0.17
-         50     DF1       7.91    39.76    41     0.77      0.8    0.54
-         70     DF1      19.09   109.20    37     0.57     19.2    1.71
-         90     DF1      24.08   123.33    39     0.50     61.3    1.22
+
+         10     DF1       0.11     2.07    84     0.00      0.0    0.38
+         30     DF1       0.33     4.54    90     0.19      0.0    0.17
+         50     DF1       7.92    39.79    41     0.77      0.8    0.54
+         70     DF1      19.09   109.20    37     0.57     19.1    1.71
+         90     DF1      24.08   123.33    39     0.50     61.2    1.22
         100     WH1      33.87   147.99    37     0.66    100.0    0.52
-                                                                           90      16.6      128.     192.      128.3    164.3
- 
+                                                                           90      16.6      128.     192.      128.3    164.1
+
  2104 **                                       ( 10 YRS)
- 
+
          10     DF1       0.10     1.19    89     0.00      0.0    1.06
          30     DF1       0.10     1.34    83     0.00      0.0    1.06
-         50     DF1       0.10     1.55    90     0.00      0.0    1.06
-         70     DF1      14.27    76.35    40     0.92      5.5    0.87
-         90     DF1      24.57   124.68    37     0.59     57.0    2.83
+         50     DF1       0.10     1.56    90     0.00      0.0    1.06
+         70     DF1      14.27    76.35    40     0.92      5.4    0.87
+         90     DF1      24.57   124.68    37     0.59     56.9    2.83
         100     WH1      34.62   150.04    37     0.70    100.0    0.50
-                                                                          100      13.1      205.     191.      130.2    161.1
- 
+                                                                          100      13.1      205.     191.      130.2    161.0
+
  ** NOTE:  DUE TO HARVEST, COMPRESSION, OR REGENERATION ESTABLISHMENT, NEW SAMPLE TREES WERE SELECTED.
-         FOREST VEGETATION SIMULATOR     VERSION      -- INLAND EMPIRE EXPANDED                 RV:12/20/11    03-01-2012  12:00:45
- 
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:29:01
+
  STAND ID: TestSpecialCostAndRevenue     MGMT ID: NONE    
- 
- 
- 
+
+
+
                                  SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL STAND AREA)
  --------------------------------------------------------------------------------------------------------------------------------------
                 START OF SIMULATION PERIOD                     REMOVALS             AFTER TREATMENT    GROWTH THIS PERIOD
@@ -539,91 +539,91 @@
  ---- --- ----- --- ---- --- --- ---- ----- ----- ----- ----- ----- ----- ----- --- ---- --- --- ----  ------ ---- -----   ----- ------
  2004   0   400 127  258 140  95  7.6  4101  3615 19300     0     0     0     0 127  258 140  95  7.6      10  101    26     0.0 201 13
  2014  10   309 142  270 150 100  9.2  4844  4300 23466     0     0     0     0 142  270 150 100  9.2      10  100    32     0.0 201 13
- 2024  20   317 155  291 158 104  9.5  5520  4942 27432     0     0     0     0 155  291 158 104  9.5      10   96    38     0.0 201 12
- 2034  30   239 166  290 162 108 11.3  6101  5515 31145     0     0     0     0 166  290 162 108 11.3      10   96    46     0.0 201 12
- 2044  40   232 173  298 165 112 11.7  6600  6025 34401     0     0     0     0 173  298 165 112 11.7      10   88    47     0.0 201 12
- 2054  50   177 178  290 165 115 13.6  7017  6447 37412     0     0     0     0 178  290 165 115 13.6      10   92    56     0.0 201 12
- 2064  60   242 182  313 164 118 11.7  7369  6787 39806     0     0     0     0 182  313 164 118 11.7      10   91    49     0.0 201 12
- 2074  70   171 187  299 165 121 14.1  7784  7171 42715     0     0     0     0 187  299 165 121 14.1      10   95    56     0.0 201 12
- 2084  80   176 190  305 166 126 14.1  8173  7557 46116     0     0     0     0 190  305 166 126 14.1      10   80    54     0.0 201 12
- 2094  90   128 192  289 164 128 16.6  8437  7831 48365     0     0     0     0 192  289 164 128 16.6      10   77    63     0.0 201 12
- 2104 100   205 191  315 161 130 13.1  8576  7965 49655     0     0     0     0 191  315 161 130 13.1       0    0     0     0.0 201 12
+ 2024  20   317 155  291 158 104  9.5  5520  4942 27433     0     0     0     0 155  291 158 104  9.5      10   96    38     0.0 201 12
+ 2034  30   239 165  289 162 108 11.3  6101  5516 31147     0     0     0     0 165  289 162 108 11.3      10   96    46     0.0 201 12
+ 2044  40   232 173  298 164 112 11.7  6599  6026 34404     0     0     0     0 173  298 164 112 11.7      10   88    47     0.0 201 12
+ 2054  50   177 178  290 165 115 13.6  7016  6448 37417     0     0     0     0 178  290 165 115 13.6      10   91    56     0.0 201 12
+ 2064  60   242 182  312 164 118 11.7  7367  6787 39812     0     0     0     0 182  312 164 118 11.7      10   90    49     0.0 201 12
+ 2074  70   171 187  298 165 121 14.1  7783  7165 42681     0     0     0     0 187  298 165 121 14.1      10   95    56     0.0 201 12
+ 2084  80   176 190  305 165 126 14.1  8172  7555 46114     0     0     0     0 190  305 165 126 14.1      10   80    54     0.0 201 12
+ 2094  90   128 192  288 164 128 16.6  8436  7831 48386     0     0     0     0 192  288 164 128 16.6      10   77    63     0.0 201 12
+ 2104 100   205 191  315 161 130 13.1  8575  7964 49637     0     0     0     0 191  315 161 130 13.1       0    0     0     0.0 201 12
  
  
- 
- 
+
+
                                                       ACTIVITY SUMMARY 
- 
+
  STAND ID= TestSpecialCostAndRevenue     MGMT ID= NONE                                                                            
- 
+
  ----------------------------------------------------------------------------------------------------------------------------------
- 
+
  CYCLE  DATE  EXTENSION  KEYWORD   DATE  ACTIVITY DISPOSITION  PARAMETERS:
  -----  ----  ---------  --------  ----  --------------------  --------------------------------------------------------------------
- 
+
     1   2004
                 ECON     SPECCST   2004  NOT DONE                  200.00
                 ECON     SPECRVN   2004  NOT DONE                  100.00
                 CMPU     MYREVN    2004  DONE IN 2004              126.54
                 ECON     SPECRVN   2005  NOT DONE                    1.00
- 
+
     2   2014
                 ECON     SPECCST   2014  NOT DONE                  200.00
                 ECON     SPECRVN   2014  NOT DONE                  100.00
                 CMPU     MYREVN    2014  DONE IN 2014              142.35
                 ECON     SPECRVN   2016  NOT DONE                    2.00
                 ECON     STRTECON  2021  DONE IN 2021                4.00      0.00      1.00
- 
+
     3   2024
-                CMPU     MYREVN    2024  DONE IN 2024              155.49
+                CMPU     MYREVN    2024  DONE IN 2024              155.47
                 ECON     SPECCST   2024  DONE IN 2024              200.00
                 ECON     SPECRVN   2024  DONE IN 2024              100.00
                 ECON     SPECRVN   2027  DONE IN 2027                3.00
- 
+
     4   2034
-                CMPU     MYREVN    2034  DONE IN 2034              165.54
+                CMPU     MYREVN    2034  DONE IN 2034              165.49
                 ECON     SPECCST   2034  DONE IN 2034              200.00
                 ECON     SPECRVN   2034  DONE IN 2034              400.00
                 ECON     SPECRVN   2034  DONE IN 2034              100.00
                 ECON     SPECRVN   2034  DONE IN 2034               11.00
-                ECON     SPECRVN   2034  DONE IN 2034             1655.40
- 
+                ECON     SPECRVN   2034  DONE IN 2034             1654.87
+
     5   2044
-                CMPU     MYREVN    2044  DONE IN 2044              173.05
+                CMPU     MYREVN    2044  DONE IN 2044              172.96
                 ECON     SPECCST   2044  DONE IN 2044              200.00
                 ECON     SPECRVN   2044  DONE IN 2044              400.00
                 ECON     SPECRVN   2044  DONE IN 2044              100.00
- 
+
     6   2054
-                CMPU     MYREVN    2054  DONE IN 2054              178.49
+                CMPU     MYREVN    2054  DONE IN 2054              178.37
                 ECON     SPECCST   2054  DONE IN 2054              200.00
                 ECON     SPECRVN   2054  DONE IN 2054              400.00
                 ECON     SPECRVN   2054  DONE IN 2054              100.00
- 
+
     7   2064
-                CMPU     MYREVN    2064  DONE IN 2064              181.64
+                CMPU     MYREVN    2064  DONE IN 2064              181.51
                 ECON     SPECCST   2064  DONE IN 2064              200.00
                 ECON     SPECRVN   2064  DONE IN 2064              400.00
                 ECON     SPECRVN   2064  DONE IN 2064              100.00
- 
+
     8   2074
-                CMPU     MYREVN    2074  DONE IN 2074              186.72
+                CMPU     MYREVN    2074  DONE IN 2074              186.59
                 ECON     SPECCST   2074  DONE IN 2074              200.00
                 ECON     SPECRVN   2074  DONE IN 2074              100.00
                 ECON     SPECRVN   2074  DONE IN 2074               11.00
-                ECON     SPECRVN   2074  DONE IN 2074             1867.22
- 
+                ECON     SPECRVN   2074  DONE IN 2074             1865.93
+
     9   2084
-                CMPU     MYREVN    2084  DONE IN 2084              190.47
+                CMPU     MYREVN    2084  DONE IN 2084              190.34
                 ECON     SPECCST   2084  DONE IN 2084              200.00
                 ECON     SPECRVN   2084  DONE IN 2084              100.00
- 
+
    10   2094
-                CMPU     MYREVN    2094  DONE IN 2094              192.16
+                CMPU     MYREVN    2094  DONE IN 2094              192.02
                 ECON     SPECCST   2094  DONE IN 2094              200.00
                 ECON     SPECRVN   2094  DONE IN 2094              100.00
  ----------------------------------------------------------------------------------------------------------------------------------
-         FOREST VEGETATION SIMULATOR     VERSION      -- INLAND EMPIRE EXPANDED                 RV:12/20/11    03-01-2012  12:00:45
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:29:01
  
  ----------------------------------------------------------------------------
                  REGENERATION ESTABLISHMENT MODEL VERSION 2.0
@@ -632,11 +632,9 @@
     72.2 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2023
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   3.  58.   0.   0.   0.   4.   0.   0.   8.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -646,11 +644,9 @@
     45.4 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2043
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   2.  39.   0.   0.   0.   3.   0.   0.   2.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -660,11 +656,9 @@
    100.3 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2063
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   7.  84.   0.   0.   0.   5.   0.   0.   3.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -674,11 +668,9 @@
     46.5 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2083
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   4.  39.   0.   0.   0.   4.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -688,11 +680,9 @@
    105.6 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2103
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   6.  96.   0.   0.   0.   2.   0.   0.   1.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  
@@ -708,13 +698,13 @@
  ------------------------------------------------------------------------------------------------------------------------------------
   2021      3  NO           0        0       0        0     0                         0                    0      0   4.0
   2024     13  NO         200      103     171       88   -83   <0.0    0.5  -1.2  -208                    0      0   4.0
-  2034     23  NO         400     2269     286     1339  1052   34.9    4.7  11.2  1771                    0      0   4.0
+  2034     23  NO         400     2269     286     1338  1052   34.9    4.7  11.2  1770                    0      0   4.0
   2044     33  NO         600     2769     364     1534  1169   35.0    4.2   8.6  1611                    0      0   4.0
-  2054     43  NO         800     3269     417     1666  1248   35.0    4.0   7.4  1532                    0      0   4.0
-  2064     53  NO        1000     3769     453     1755  1302   35.0    3.9   6.7  1488                    0      0   4.0
-  2074     63  NO        1200     5748     477     1993  1516   35.0    4.2   6.4  1656                    0      0   4.0
-  2084     73  NO        1400     5848     493     2001  1508   35.0    4.1   6.0  1599                    0      0   4.0
-  2094     83  NO        1600     5948     504     2006  1502   35.0    4.0   5.7  1562                    0      0   4.0
+  2054     43  NO         800     3269     417     1665  1248   35.0    4.0   7.4  1532                    0      0   4.0
+  2064     53  NO        1000     3769     453     1754  1302   35.0    3.9   6.7  1488                    0      0   4.0
+  2074     63  NO        1200     5746     477     1992  1515   35.0    4.2   6.4  1655                    0      0   4.0
+  2084     73  NO        1400     5846     493     2000  1507   35.0    4.1   6.0  1598                    0      0   4.0
+  2094     83  NO        1600     5946     504     2006  1502   35.0    4.0   5.7  1562                    0      0   4.0
  
  
  HARVEST VOLUME AND GROSS VALUE REPORT
