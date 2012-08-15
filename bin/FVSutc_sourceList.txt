@@ -217,6 +217,7 @@
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
 ../common/ECON.F77
+../common/ESCOM2.F77
 ../common/ESCOMN.F77
 ../common/ESHAP.F77
 ../common/ESHAP2.F77

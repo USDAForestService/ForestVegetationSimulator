@@ -210,6 +210,7 @@
 ../common/CALCOM.F77
 ../common/CALDEN.F77
 ../common/CLIMATE.F77
+../common/CICOM.F77
 ../common/COEFFS.F77
 ../common/CONTRL.F77
 ../common/CVCOM.F77
@@ -217,6 +218,7 @@
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
 ../common/ECON.F77
+../common/ESCOM2.F77
 ../common/ESHAP.F77
 ../common/ESHAP2.F77
 ../common/ESHOOT.F77

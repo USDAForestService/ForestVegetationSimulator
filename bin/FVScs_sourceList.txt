@@ -329,7 +329,7 @@
 ../fire/base/src/fmchrvout.f
 ../fire/base/src/fmcmpr.f
 ../fire/base/src/fmcrbout.f
-../fire/base/src/fmcrowls.f
+../fire/base/src/fmcrowe.f
 ../fire/base/src/fmcwd.f
 ../fire/base/src/fmdout.f
 ../fire/base/src/fmdyn.f

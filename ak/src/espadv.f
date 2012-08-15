@@ -1,7 +1,7 @@
       SUBROUTINE ESPADV (RTOP40)
       IMPLICIT NONE
 C----------
-C   **ESPADV--AK     DATE OF LAST REVISION:   02/14/08
+C   **ESPADV--AK     DATE OF LAST REVISION:   05/08/12
 C
 C     SUBROUTINE TO PREDICT THE PROBS OF ADVANCE SPECIES.
 C----------
@@ -51,7 +51,7 @@ C----------
       PADV(5) = (60.187-0.022*RTOP40*RTOP40)/100.0 * OCURNF(IFO,5)
      &          * XESMLT(5)
 C----------
-C     P(ADVANCE YELLOW CEDAR).
+C     P(ADVANCE ALASKA CEDAR).
 C----------
       PADV(6) = 0.01 * OCURNF(IFO,6) * XESMLT(6)
 C----------

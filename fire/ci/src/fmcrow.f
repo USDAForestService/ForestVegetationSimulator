@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C  **FMCROW  FIRE-NI DATE OF LAST REVISION:  09/08/11
+C  **FMCROW  FIRE-NI DATE OF LAST REVISION:  01/10/12
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
@@ -52,7 +52,7 @@ COMMONS
 C----------
       LOGICAL DEBUG
       INTEGER I,J,IC,ISPMAP(MAXSP),HPOINT(MAXTRE)
-      INTEGER ITR,SPIW,SPIE,SNFOR,SNKOD
+      INTEGER ITR,SPIW,SPIE
       REAL    D,H,HPCT(MAXTRE),HP,SG,JUNK,XV(0:5)
 C----------
 C     SPECIES LIST FOR CENTRAL IDAHO VARIANT.
@@ -92,7 +92,7 @@ C                                                  REALLY WC39=OT)
 C----------
 C     INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C     EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
-C     BASED ON SN-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
+C     BASED ON LS-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
 C     ALL WESTERN FFE VARIANTS). IN THE TABLE BELOW, A '-' IN THE
 C     "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
 C
@@ -110,23 +110,18 @@ C     9 = SUBALPINE FIR            -                 1
 C    10 = PONDEROSA PINE           -                13
 C    11 = WHITEBARK PINE           -                14
 C    12 = PACIFIC YEW              western redcedar  7
-C    13 = QUAKING ASPEN            bigtooth aspen           61 
+C    13 = QUAKING ASPEN            -                        41 
 C    14 = WESTERN JUNIPER          R Mtn juniper    16
-C    15 = CURLLEAF MTN MAHOGANY    bigtooth aspen           61
+C    15 = CURLLEAF MTN MAHOGANY    quaking aspen            41
 C    16 = LIMBER PINE              lodgepole pine   11
-C    17 = BLACK COTTONWOOD         cottonwood sp            60
+C    17 = BLACK COTTONWOOD         eastern cottonwood       17
 C    18 = OTHER SOFTWOODS          mountain hemlock 24
-C    19 = OTHER HARDWOODS          cottonwood sp            60
+C    19 = OTHER HARDWOODS          eastern cottonwood       17
 C----------
       DATA ISPMAP /
      > 15,  8,  3,  4,  6,  7, 11, 18,  1, 13,
-     > 14,  7, 61, 16, 61, 11, 60, 24, 60/
-C
-C     DEFAULT FOREST TYPE & CODE FOR WESTERN VARIANTS CALLING EASTERN
-C     EQUATIONS (EASTERN DEFAULT)
+     > 14,  7, 41, 16, 41, 11, 17, 24, 17/
 
-      DATA SNFOR / 801 /
-      DATA SNKOD /   6 /
 C----------
 C     CHECK FOR DEBUG
 C----------
@@ -181,7 +176,7 @@ C----------
 C
         SELECT CASE (SPIW)
           CASE (13,15,17,19)
-            CALL FMCROWE(SPIE,SPIW,SNFOR,SNKOD,D,H,IC,SG,XV)
+            CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
           CASE DEFAULT
             CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT
@@ -215,29 +210,4 @@ C     PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
       RETURN
       END
 
-C     PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
 
-      SUBROUTINE SEVLHT(X30,X31,L30,L31,X32,I30,L32,I31,C30)
-      IMPLICIT NONE
-
-      LOGICAL   L30,L31,L32,L33
-      CHARACTER C30*3
-      INTEGER   I30,I31
-      REAL      X30,X31,X32
-
-      L30 = .FALSE.
-      L31 = .FALSE.
-      L32 = .FALSE.
-      L33 = .FALSE.
-
-      C30 = '---'
-
-      I30 = 0
-      I31 = 0
-
-      X30 = 0.0
-      X31 = 0.0
-      X32 = 0.0
-
-      RETURN
-      END

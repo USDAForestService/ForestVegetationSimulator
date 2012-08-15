@@ -109,20 +109,24 @@ C       SCALE THE TOP NESPECIES POTESTAB SCORES
         DO I=1,NSPEC
           XX=XX+POTESTAB(ISPINDX(I))
         ENDDO
-        DO I=1,NSPEC
-          POTESTAB(ISPINDX(I))=POTESTAB(ISPINDX(I))/XX
-        ENDDO
-        
-        DO I=1,MAXSP
-          IF (I.GT.NSPEC) THEN
-            POTESTAB(ISPINDX(I)) = 0
-          ELSE 
-            XX = PTREES*TTOADD*POTESTAB(ISPINDX(I))
-            IF (XX.LE.1.) XX=0.
-            POTESTAB(ISPINDX(I)) = XX
-          ENDIF
-        ENDDO
-      ELSE
+        IF (XX .GT. 0.001) THEN
+          DO I=1,NSPEC
+            POTESTAB(ISPINDX(I))=POTESTAB(ISPINDX(I))/XX
+          ENDDO 
+          DO I=1,MAXSP
+            IF (I.GT.NSPEC) THEN
+              POTESTAB(ISPINDX(I)) = 0
+            ELSE 
+              XX = PTREES*TTOADD*POTESTAB(ISPINDX(I))
+              IF (XX.LE.1.) XX=0.
+              POTESTAB(ISPINDX(I)) = XX
+            ENDIF
+          ENDDO
+        ELSE
+          NSPEC = 0
+        ENDIF
+      ENDIF  
+      IF (NSPEC.LE.0) THEN 
         POTESTAB=0. 
         ISPINDX=1
       ENDIF

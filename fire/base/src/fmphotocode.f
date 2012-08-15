@@ -1,7 +1,7 @@
       SUBROUTINE FMPHOTOCODE (FotoRef, CFotoCode, Fotocode, Icall)
       IMPLICIT NONE
 C----------
-C  **FMPHOTOCODE--FIRE--DATE OF LAST REVISION:  01/11/07
+C  **FMPHOTOCODE--FIRE--DATE OF LAST REVISION:  05/22/12
 C----------
 C
 C     TRANSLATES THE CHARACTER PHOTO SERIES PHOTO CODE INTO AN 
@@ -24,22 +24,23 @@ C
 C
 COMMONS
 C----------
-      CHARACTER*13 CFOTOCODE
+      CHARACTER*13 CFOTOCODE, CFOTOTMP
       INTEGER FOTOCODE, FOTOREF, I, N, ICALL
       LOGICAL DEBUG
-      CHARACTER*3  REF1COD(22), REF2COD(59), REF3COD(66), REF32COD(39)
-      CHARACTER*6  REF5COD(17), REF16COD(41), REF21COD(25), 
-     >             REF22COD(36)        
+      CHARACTER*3  REF1COD(22), REF2COD(59), REF3COD(66), REF32COD(39), 
+     >             REF29COD(16)
+      CHARACTER*6  REF5COD(17), REF21COD(25), 
+     >             REF28COD(30), REF30COD(16)                   
       CHARACTER*12 REF6COD(27)     
       CHARACTER*4  REF7COD(56), REF14COD(29), REF15COD(29),  
-     >             REF17COD(35), REF18COD(43)     
-      CHARACTER*10 REF8COD(86), REF29COD(16)    
-      CHARACTER*11 REF9COD(26), REF23COD(26), REF30COD(16)      
+     >             REF17COD(35), REF18COD(43), REF16COD(41)     
+      CHARACTER*10 REF8COD(86)    
+      CHARACTER*11 REF9COD(26), REF23COD(26)      
       CHARACTER*8  REF11COD(26), REF20COD(26), REF13COD(42)   
       CHARACTER*13 REF12COD(90)                   
-      CHARACTER*5  REF19COD(34), REF27COD(30), REF24COD(27)                        
-      CHARACTER*7  REF25COD(14), REF26COD(16)               
-      CHARACTER*9  REF28COD(30)          
+      CHARACTER*5  REF19COD(34), REF27COD(30), REF24COD(27),
+     >             REF22COD(36)                        
+      CHARACTER*7  REF25COD(14), REF26COD(16)                         
       CHARACTER*2  REF31COD(10)    
 C----------
       DATA REF1COD / '16 ', '15 ', '63 ', '65 ', '67 ', 
@@ -167,12 +168,12 @@ C----------
      &               '1PP&ASSOC3   ', '2PP&ASSOC3   ', '3PP&ASSOC3   ',  
      &               '4PP&ASSOC3   ', '5PP&ASSOC3   ', '1PP&ASSOC4   ', 
      &               '2PP&ASSOC4   ', '3PP&ASSOC4   ', '1PP1         ', 
-     &               '2PP1         ', '3PP1         ', '1PP2(PNW-105)', 
-     &               '2PP2(PNW-105)', '3PP2(PNW-105)', '4PP2(PNW-105)', 
-     &               '1PP3(PNW-105)', '2PP3(PNW-105)', '3PP3(PNW-105)', 
-     &               '4PP3(PNW-105)', '5PP3         ', '6PP3         ', 
-     &               '7PP3         ', '8PP3         ', '1PP4(PNW-105)', 
-     &               '2PP4(PNW-105)', '3PP4(PNW-105)', '4PP4         ', 
+     &               '2PP1         ', '3PP1         ', '1PP2(PNW105) ', 
+     &               '2PP2(PNW105) ', '3PP2(PNW105) ', '4PP2(PNW105) ', 
+     &               '1PP3(PNW105) ', '2PP3(PNW105) ', '3PP3(PNW105) ', 
+     &               '4PP3(PNW105) ', '5PP3         ', '6PP3         ', 
+     &               '7PP3         ', '8PP3         ', '1PP4(PNW105) ', 
+     &               '2PP4(PNW105) ', '3PP4(PNW105) ', '4PP4         ', 
      &               '1JU2         ', '2JU2         ', '1PP4PC       ', 
      &               '2PP4PC       ', '3PP4PC       ', '4PP4PC       ', 
      &               '5PP4PC       ', '1PP1TH       ', '2PP1TH       ', 
@@ -209,15 +210,15 @@ C----------
      &              'MC17','SB01','SB02','SB03','SB04',
      &              'WJ01','WJ02','WJ03','WJ04'/
      
-      DATA REF16COD / 'AKHD01','AKHD02','AKHD03','AKHD04','AKHD05',
-     &               'AKHD06','AKHD07','AKHD08','AKHD09','AKHD10',
-     &               'AKHD11','AKHD12','AKHD13','AKHD14','AKHD15',
-     &               'BS01  ','BS02  ','BS03  ','BS04  ','BS05  ',
-     &               'BS06  ','BS07  ','BS08  ','BS09  ','BS10  ',
-     &               'BS11  ','BS12  ','BS13  ','BS14  ','WS01  ',
-     &               'WS02  ','WS03  ','WS04  ','WS05  ','WS06  ',
-     &               'WS07  ','WS08  ','WS09  ','WS10  ','WS11  ',
-     &               'WS12  '/
+      DATA REF16COD / 'AH01','AH02','AH03','AH04','AH05',
+     &                'AH06','AH07','AH08','AH09','AH10',
+     &                'AH11','AH12','AH13','AH14','AH15',
+     &                'BS01','BS02','BS03','BS04','BS05',
+     &                'BS06','BS07','BS08','BS09','BS10',
+     &                'BS11','BS12','BS13','BS14','WS01',
+     &                'WS02','WS03','WS04','WS05','WS06',
+     &                'WS07','WS08','WS09','WS10','WS11',
+     &                'WS12'/
                                                 
       DATA REF17COD / 'GO01','GO02','GO03','GO04','GO05',
      &               'GO06','GO07','GO08','GO09','LP01',
@@ -242,7 +243,7 @@ C----------
       DATA REF19COD /'HP01 ', 'HP02 ', 'HP03 ', 'HP04 ', 'HP05 ', 
      &               'HP06 ', 'HP07 ', 'LLP01', 'LLP02', 'LLP03', 
      &               'LLP04', 'LLP05', 'LLP06', 'LLP07', 'LLP08', 
-     &               'LLP09', 'LLP10', 'P-W01', 'P-W02', 'SH01 ', 
+     &               'LLP09', 'LLP10', 'PW01 ', 'PW02 ', 'SH01 ', 
      &               'SH02 ', 'SH03 ', 'SH04 ', 'SH05 ', 'SH06 ', 
      &               'SH07 ', 'SH08 ', 'SH09 ', 'SH10 ', 'SH11 ', 
      &               'SPS01', 'SPS02', 'SPS03', 'SPS04'/         
@@ -261,14 +262,14 @@ C----------
      &               'SWSB02', 'SWSB03', 'SWSB04', 'SWSB05', 'SWSB06', 
      &               'SWSB07', 'SWSB08', 'SWSB09', 'SWSB10', 'SWSB11'/
      
-      DATA REF22COD /'HI-F01', 'HI-F02', 'HI-F03', 'HI-F04', 'HI-F05', 
-     &               'HI-F06', 'HI-F07', 'HI-F08', 'HI-F09', 'HI-G01', 
-     &               'HI-G02', 'HI-G03', 'HI-G04', 'HI-G05', 'HI-G06', 
-     &               'HI-G07', 'HI-G08', 'HI-G09', 'HI-G10', 'HI-G11', 
-     &               'HI-G12', 'HI-G13', 'HI-S01', 'HI-S02', 'HI-S03', 
-     &               'HI-S04', 'HI-S05', 'HI-S06', 'HI-S07', 'HI-W01', 
-     &               'HI-W02', 'HI-W03', 'HI-W04', 'HI-W05', 'HI-W06', 
-     &               'HI-W07'/
+      DATA REF22COD /'HIF01', 'HIF02', 'HIF03', 'HIF04', 'HIF05', 
+     &               'HIF06', 'HIF07', 'HIF08', 'HIF09', 'HIG01', 
+     &               'HIG02', 'HIG03', 'HIG04', 'HIG05', 'HIG06', 
+     &               'HIG07', 'HIG08', 'HIG09', 'HIG10', 'HIG11', 
+     &               'HIG12', 'HIG13', 'HIS01', 'HIS02', 'HIS03', 
+     &               'HIS04', 'HIS05', 'HIS06', 'HIS07', 'HIW01', 
+     &               'HIW02', 'HIW03', 'HIW04', 'HIW05', 'HIW06', 
+     &               'HIW07'/
      
       DATA REF23COD / '1DFWHPRE01 ', '1DFWHPRE02 ', '1DFWHPRE03 ', 
      &               '1DFWHPRE04 ', '1DFWHPRE05 ', '1DFWHPRE06 ', 
@@ -304,30 +305,30 @@ C----------
      &               'WO01 ', 'WO02 ', 'WO03 ', 'WO04 ', 'WO05 ', 
      &               'WO06 ', 'WO07 ', 'WO08 ', 'WO09 ', 'WO10 '/ 
      
-      DATA REF28COD / '1-MC-4-RC', '2-MC-4-RC', '3-MC-4-RC', 
-     &               '1-MC-4-PC', '2-MC-4-PC', '3-MC-4-PC', 
-     &               '4-MC-4-PC', '5-MC-4-PC', '6-MC-4-PC', 
-     &               '7-MC-4-PC', '8-MC-4-PC', '1-MC-3-PC', 
-     &               '2-MC-3-PC', '3-MC-3-PC', '4-MC-3-PC', 
-     &               '5-MC-3-PC', '6-MC-3-PC', '7-MC-3-PC', 
-     &               '8-MC-3-PC', '1-TF-4-RC', '2-TF-4-RC', 
-     &               '3-TF-4-RC', '4-TF-4-RC', '5-TF-4-RC', 
-     &               '6-TF-4-RC', '1-TF-4-PC', '2-TF-4-RC', 
-     &               '3-TF-4-PC', '4-TF-4-PC', '5-TF-4-PC'/
+      DATA REF28COD / '1MC4RC', '2MC4RC', '3MC4RC', 
+     &                '1MC4PC', '2MC4PC', '3MC4PC', 
+     &                '4MC4PC', '5MC4PC', '6MC4PC', 
+     &                '7MC4PC', '8MC4PC', '1MC3PC', 
+     &                '2MC3PC', '3MC3PC', '4MC3PC', 
+     &                '5MC3PC', '6MC3PC', '7MC3PC', 
+     &                '8MC3PC', '1TF4RC', '2TF4RC', 
+     &                '3TF4RC', '4TF4RC', '5TF4RC', 
+     &                '6TF4RC', '1TF4PC', '2TF4PC', 
+     &                '3TF4PC', '4TF4PC', '5TF4PC'/
                  
-      DATA REF29COD /'1-PREBURN ', '1-POSTBURN', '2-PREBURN ', 
-     &               '2-POSTBURN', '3-PREBURN ', '3-POSTBURN', 
-     &               '4-PREBURN ', '4-POSTBURN', '5-PREBURN ', 
-     &               '5-POSTBURN', '6-PREBURN ', '6-POSTBURN', 
-     &               '7-PREBURN ', '7-POSTBURN', '8-PREBURN ', 
-     &               '8-POSTBURN' /
+      DATA REF29COD /'6A ', '6B ', '8A ', 
+     &               '8B ', '10A', '10B', 
+     &               '12A', '12B', '14A', 
+     &               '14B', '16A', '16B', 
+     &               '18A', '18B', '20A', 
+     &               '20B' /
                  
-      DATA REF30COD / '3D-PREBURN ', '3D-POSTBURN', '2A-PREBURN ', 
-     &               '2A-POSTBURN', '3B-PREBURN ', '3B-POSTBURN', 
-     &               '2C-PREBURN ', '2C-POSTBURN', '2D-PREBURN ', 
-     &               '2D-POSTBURN', '1A-PREBURN ', '1A-POSTBURN', 
-     &               '1C-PREBURN ', '1C-POSTBURN', '1D-PREBURN ', 
-     &               '1D-POSTBURN'/
+      DATA REF30COD / '3D    ', '3DPOST', '2A    ', 
+     &                '2APOST', '3B    ', '3BPOST', 
+     &                '2C    ', '2CPOST', '2D    ', 
+     &                '2DPOST', '1A    ', '1APOST', 
+     &                '1C    ', '1CPOST', '1D    ', 
+     &                '1DPOST'/
                  
       DATA REF31COD / '1 ', '2 ', '3 ', '4 ', '5 ', 
      &               '6 ', '7 ', '8 ', '9 ', '10'/
@@ -347,12 +348,21 @@ C-----------
       
       IF (ICALL .EQ. 0) GO TO 70
 C----------
-C  DECODE FUELS PHOTO CODE FIELD BASED ON THE PHOTO REFERENCE NUMBER
+C  DECODE FUELS PHOTO CODE FIELD BASED ON THE PHOTO REFERENCE NUMBER.  STRIP OUT ANY DASHES BECAUSE
+C  FVS AND FSVEG ARE NOT CONSISTENT WITH THEM.
 C----------
       FOTOCODE = -1
       
       DO I=1,13
         CALL UPCASE(CFOTOCODE(I:I))
+        IF(CFOTOCODE(I:I).EQ.'-') THEN
+          CFOTOTMP=CFOTOCODE
+          IF(I.LT.13) THEN
+            CFOTOCODE=CFOTOTMP(1:I-1)//CFOTOTMP(I+1:)
+          ELSE
+            CFOTOCODE=CFOTOTMP(1:I-1)
+          ENDIF
+        ENDIF
       ENDDO
       
       SELECT CASE (FOTOREF)
@@ -476,7 +486,7 @@ C----------
       CASE (16) 
         N = 41
         DO I = 1, N
-          IF (CFOTOCODE(1:6) .EQ. REF16COD(I)) THEN
+          IF (CFOTOCODE(1:4) .EQ. REF16COD(I)) THEN
             FOTOCODE = I
             GO TO 50
           ENDIF
@@ -530,7 +540,7 @@ C----------
       CASE (22) 
         N = 36
         DO I = 1, N
-          IF (CFOTOCODE(1:6) .EQ. REF22COD(I)) THEN
+          IF (CFOTOCODE(1:5) .EQ. REF22COD(I)) THEN
             FOTOCODE = I
             GO TO 50
           ENDIF
@@ -584,7 +594,7 @@ C----------
       CASE (28) 
         N = 30
         DO I = 1, N
-          IF (CFOTOCODE(1:9) .EQ. REF28COD(I)) THEN
+          IF (CFOTOCODE(1:6) .EQ. REF28COD(I)) THEN
             FOTOCODE = I
             GO TO 50
           ENDIF
@@ -593,7 +603,7 @@ C----------
       CASE (29) 
         N = 16
         DO I = 1, N
-          IF (CFOTOCODE(1:10) .EQ. REF29COD(I)) THEN
+          IF (CFOTOCODE(1:3) .EQ. REF29COD(I)) THEN
             FOTOCODE = I
             GO TO 50
           ENDIF
@@ -602,7 +612,7 @@ C----------
       CASE (30)
         N = 16
         DO I = 1, N
-          IF (CFOTOCODE(1:11) .EQ. REF30COD(I)) THEN
+          IF (CFOTOCODE(1:6) .EQ. REF30COD(I)) THEN
             FOTOCODE = I
             GO TO 50
           ENDIF

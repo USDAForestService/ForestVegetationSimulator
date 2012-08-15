@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C  **FMCROW  FIRE-EC DATE OF LAST REVISION:  02/24/12
+C  **FMCROW  FIRE-EC DATE OF LAST REVISION:  05/03/12
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
@@ -53,12 +53,12 @@ COMMONS
 C----------
       LOGICAL DEBUG
       INTEGER I,J,IC,ISPMAP(MAXSP),HPOINT(MAXTRE)
-      INTEGER ITR,SPIW,SPIE,SNFOR,SNKOD
+      INTEGER ITR,SPIW,SPIE
       REAL    D,H,HPCT(MAXTRE),HP,SG,JUNK,XV(0:5)
 C----------
 C     INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C     EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
-C     BASED ON SN-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
+C     BASED ON LS-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
 C     ALL WESTERN FFE VARIANTS). IN THE TABLE BELOW, A '-' IN THE
 C     "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
 C
@@ -86,28 +86,23 @@ C    19 = WESTERN JUNIPER          R.M. juniper     16
 C    20 = BIGLEAF MAPLE            -                 5
 C    21 = VINE MAPLE               bigleaf maple     5
 C    22 = RED ALDER                -                23
-C    23 = PAPER BIRCH              birch sp                 24
+C    23 = PAPER BIRCH              -                        43
 C    24 = GOLDEN CHINKAPIN         tanoak           17
-C    25 = PACIFIC DOGWOOD          flowering dogwood        31
-C    26 = QUAKING ASPEN            bigtooth aspen           61
-C    27 = BLACK COTTONWOOD         cottonwood sp            60
+C    25 = PACIFIC DOGWOOD          flowering dogwood        56
+C    26 = QUAKING ASPEN                                     41
+C    27 = BLACK COTTONWOOD         eastern cottonwood       17
 C    28 = OREGON WHITE OAK         tanoak           17
-C    29 = CHERRY AND PLUM SPECIES  black cherry             62
-C    30 = WILLOW SPECIES           willow sp                81
+C    29 = CHERRY AND PLUM SPECIES  pin cherry               61
+C    30 = WILLOW SPECIES           willow sp                64
 C    31 = OTHER SOFTWOODS          mountain hemlock 24
-C    32 = OTHER HARDWOODS          bigtooth aspen           61
+C    32 = OTHER HARDWOODS          quaking aspen            41
 C----------
       DATA ISPMAP /
      & 15,  8,  3,  4,  7,  4, 11, 18,  1, 13,
      &  6, 24,  7, 14,  4,  4,  1,  8, 16,  5,
-     &  5, 23, 24, 17, 31, 61, 60, 17, 62, 81,
-     > 24, 61/
-C----------
-C     DEFAULT FOREST TYPE & CODE FOR WESTERN VARIANTS CALLING EASTERN
-C     EQUATIONS (EASTERN DEFAULT)
-C----------
-      DATA SNFOR / 801 /
-      DATA SNKOD /   6 /
+     &  5, 23, 43, 17, 56, 41, 17, 17, 61, 64,
+     & 24, 41/
+
 C----------
 C     CHECK FOR DEBUG
 C----------
@@ -162,7 +157,7 @@ C----------
 
         SELECT CASE (SPIW)
           CASE (23,25:27,29,30,32)
-            CALL FMCROWE(SPIE,SPIW,SNFOR,SNKOD,D,H,IC,SG,XV)
+            CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
           CASE DEFAULT
             CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT
@@ -177,50 +172,5 @@ C
 C
       RETURN
       END
-C
-C
-C----------
-C  PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
-C----------
-C      SUBROUTINE HTDBH(I10,I11,X10,X11,I12)
-C      IMPLICIT NONE
-C
-C      INTEGER I10,I11,I12
-C      REAL    X10,X11
-C
-C      I10 = 0
-C      I11 = 0
-C      I12 = 0
-C
-C      X10 = 0.0
-C      X11 = 0.0
-C
-C      RETURN
-C      END
-C----------
-C  PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
-C----------
-	SUBROUTINE SEVLHT(X30,X31,L30,L31,X32,I30,L32,I31,C30)
-	IMPLICIT NONE
-C
-        LOGICAL   L30,L31,L32,L33
-	CHARACTER C30*3
-	INTEGER   I30,I31
-	REAL      X30,X31,X32
-C
-	L30 = .FALSE.
-	L31 = .FALSE.
-	L32 = .FALSE.
-	L33 = .FALSE.
-C
-	C30 = '---'
-C
-	I30 = 0
-	I31 = 0
-C
-	X30 = 0.0
-	X31 = 0.0
-	X32 = 0.0
-C
-      RETURN
-      END
+
+

@@ -8,5 +8,5 @@ wct01 :
 	grep -v "\-999" wct01.sum.save > wct01.tmp.save
 	diff -w wct01.tmp wct01.tmp.save
 	rm wct01.tmp wct01.tmp.save
-	@echo Test wct01 passed
+	@echo Test wct01 ended
 	

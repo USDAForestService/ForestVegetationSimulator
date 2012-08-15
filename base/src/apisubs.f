@@ -64,7 +64,7 @@ c
       include "CONTRL.F77"
 
       integer :: nch,rtnCode,ntrees
-      double precision  :: attr(ntrees)
+      real(kind=8)      :: attr(ntrees)
       character(len=10) :: name
       character(len=4)  :: action
 
@@ -86,31 +86,34 @@ c
       select case(name)
       case ("tpa")
         if (action=="get") attr = prob(:itrn)
-        if (action=="set") prob = attr
+        if (action=="set") prob(:itrn) = real(attr,4)
       case ("dbh")
         if (action=="get") attr = dbh(:itrn)
-        if (action=="set") dbh = attr
+        if (action=="set") dbh(:itrn) = real(attr,4)
       case ("dg")
         if (action=="get") attr = dg(:itrn)
-        if (action=="set") dg = attr
+        if (action=="set") dg(:itrn) = real(attr,4)
       case ("ht")
         if (action=="get") attr = ht(:itrn)
-        if (action=="set") ht = attr
+        if (action=="set") ht(:itrn) = real(attr,4)
       case ("htg")
         if (action=="get") attr = htg(:itrn)
-        if (action=="set") htg = attr
+        if (action=="set") htg(:itrn) = real(attr,4)
       case ("crwdth")
         if (action=="get") attr = crwdth(:itrn)
-        if (action=="set") ht = attr
+        if (action=="set") ht(:itrn) = real(attr,4)
       case ("cratio")
         if (action=="get") attr = icr(:itrn)
-        if (action=="set") icr = attr
+        if (action=="set") icr(:itrn) = int(attr,4)
       case ("species")
         if (action=="get") attr = isp(:itrn)
-        if (action=="set") isp = attr
+        if (action=="set") isp(:itrn) = int(attr,4)
       case ("age")
         if (action=="get") attr = abirth(:itrn)
-        if (action=="set") abirth = attr
+        if (action=="set") abirth(:itrn) = real(attr,4)
+      case ("plot")
+        if (action=="get") attr = itre(:itrn)
+        if (action=="set") itre(:itrn) = int(attr,4)
       case default
         rtnCode = 1
         attr = 0
@@ -137,14 +140,18 @@ c
 
       integer :: nch,rtncode,iv,i
       double precision  :: attr
-      character(len=10) :: name
+      character(len=9)  :: name
       character(len=4)  :: action
-
-      name=name(1:nch)
+      character(len=8)  :: upname
+     
+      upname = ' '
+      upname = name(1:nch)
+      
       action=action(1:3)
+      if (action=="get") attr = 0
 
       rtncode = 0
-      select case(name)
+      select case(upname)
       case ("year")
         iv=101
       case ("age")
@@ -370,34 +377,60 @@ c
       end select
       
       if (iv == 0) then
-        rtncode = 2
+        do i=1,nch
+          call upcase(upname(i:i))
+        enddo
+        do i=1,ITST5
+          if (ctstv5(i).eq.upname) then
+            if (action=="get") then
+              if (LTSTV5(i)) then
+                attr = tstv5(i)
+              else
+                rtncode = 1
+              endif
+            elseif (action=="set") then 
+              tstv5(i) = real(attr,4)
+              LTSTV5(i) = .TRUE.
+            else
+              rtncode = 1
+            endif
+            return
+          endif
+        enddo
+        if (action=="set" .and. ITST5.lt.MXTST5) then
+          ITST5=ITST5+1
+          LTSTV5(ITST5) = .TRUE.
+          tstv5(ITST5) = real(attr,4)
+          ctstv5(ITST5) = upname
+        else
+          rtnCode=1
+        endif
         return
       endif
       
       i = mod(iv,100)
       iv = iv/100
-       
+
       select case (iv)
       case (1)
         if (action=="get") attr = tstv1(i)
-        if (action=="set") tstv1(i) = attr
+        if (action=="set") tstv1(i) = real(attr,4)
       case (2)
         if (action=="get") attr = tstv2(i)
-        if (action=="set") tstv2(i) = attr
+        if (action=="set") tstv2(i) = real(attr,4)
       case (3)
         if (action=="get") attr = tstv3(i)
-        if (action=="set") tstv3(i) = attr
+        if (action=="set") tstv3(i) = real(attr,4)
       case (4)
         if (action=="get") then
           if (ltstv4(i)) then
             attr = tstv4(i)
           else
-            attr = 0
             rtncode = 1
           endif
         endif
         if (action=="set") then
-          tstv4(i) = attr
+          tstv4(i) = real(attr,4)
           ltstv4(i)=.true.
         endif
       end select
@@ -421,7 +454,7 @@ c                 or when ntrees is zero
       include "ESTREE.F77"
       include "STDSTK.F77"
 
-      double precision :: in_dbh(ntrees),in_species(ntrees),
+      real(kind=8) :: in_dbh(ntrees),in_species(ntrees),
      -    in_ht(ntrees),in_cratio(ntrees),in_plot(ntrees),
      -    in_tpa(ntrees)
       real :: cw,crdum
@@ -435,12 +468,12 @@ c                 or when ntrees is zero
 
       do i=1,ntrees
         itrn=itrn+1
-        dbh(itrn) = in_dbh    (i)
-        isp(itrn) = in_species(i)
-        ht (itrn) = in_ht     (i)
-        icr(itrn) = in_cratio (i)
-        itre(itrn)= in_plot   (i)
-        prob(itrn)= in_tpa    (i)
+        dbh(itrn) = real (in_dbh    (i),4)
+        isp(itrn) = int  (in_species(i),4)
+        ht (itrn) = real (in_ht     (i),4)
+        icr(itrn) = int  (in_cratio (i),4)
+        itre(itrn)= int  (in_plot   (i),4)
+        prob(itrn)= real (in_tpa    (i),4)
         imc(itrn)=2
         cfv(itrn)=0.0
         itrunc(itrn)=0
@@ -464,7 +497,7 @@ c
         call misputz(itrn,0)
 c       
         abirth(itrn)=5
-        defect(itrn)=0.
+        defect(itrn)=0
         ispecl(itrn)=0
         oldrn(itrn)=0.
         ptocfv(itrn)=0.
@@ -585,6 +618,31 @@ C     from within FVS. nch is the length of filename.
       end
       
       
+      subroutine fvsAddActivity(idt,iactk,inprms,nprms,rtnCode)
+      implicit none
 
+C     add an activity to the schedule.
+
+      include "PRGPRM.F77"
+      include "CONTRL.F77"
       
+      integer :: i,idt,iactk,nprms,rtnCode,kode
+      integer, parameter :: mxtopass=20
+      real(kind=8) inprms(*)
+      real(kind=4) prms(mxtopass)
+
+      if (nprms > 0) then 
+        do i=1,min(nprms,mxtopass)
+          prms(i) = real(inprms(i),kind=4)
+        enddo
+      endif
+      call opadd(idt,iactk,0,nprms,prms,kode)
+      if (kode /= 0) then
+        rtnCode = 1
+      else
+        call opincr (IY,ICYC,NCYC)
+        rtnCode = 0
+      endif
+      return 
+      end
 

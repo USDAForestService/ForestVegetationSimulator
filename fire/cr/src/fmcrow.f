@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C  **FMCROW  FIRE-CR DATE OF LAST REVISION:  10/14/10
+C  **FMCROW  FIRE-CR DATE OF LAST REVISION:  01/10/12
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
@@ -47,12 +47,12 @@ C.... Parameter statements.
 
       LOGICAL DEBUG
       INTEGER I,J,IC,ISPMAP(MAXSP),HPOINT(MAXTRE)
-      INTEGER ITR,SPIW,SPIE,SNFOR,SNKOD
+      INTEGER ITR,SPIW,SPIE
       REAL    D,H,HPCT(MAXTRE),HP,SG,JUNK,XV(0:5)
 C
 C     INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C     EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
-C     BASED ON SN-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
+C     BASED ON LS-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
 C     ALL WESTERN FFE VARIANTS). IN THE TABLE BELOW, A '-' IN THE
 C     "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
 C
@@ -77,15 +77,15 @@ C    16 = UTAH JUNIPER             -                16
 C    17 = BLUE SPRUCE              Engelmann spruce 18
 C    18 = ENGELMANN SPRUCE         -                18
 C    19 = WHITE SPRUCE             Engelmann spruce 18
-C    20 = QUAKING ASPEN            bigtooth aspen          61
-C    21 = NARROWLEAF COTTONWOOD    cottonwood sp           60
-C    22 = PLAINS COTTONWOOD        cottonwood sp           60
+C    20 = QUAKING ASPEN            -                       41
+C    21 = NARROWLEAF COTTONWOOD    eastern cottonwood      17
+C    22 = PLAINS COTTONWOOD        eastern cottonwood      17
 C    23 = GAMBEL OAK               Gambel oak       22
 C    24 = ARIZONA WHITE OAK        Gambel oak       22
 C    25 = EMORY OAK                Gambel oak       22
 C    26 = BUR OAK                  Gambel oak       22
 C    27 = SILVERLEAF OAK           Gambel oak       22
-C    28 = PAPER BIRCH              bigtooth aspen          61
+C    28 = PAPER BIRCH              -                       43
 C    29 = ALLIGATOR JUNIPER        Utah juniper     16
 C    30 = ROCKY MOUNTAIN JUNIPER   Utah juniper     16
 C    31 = ONESEED JUNIPER          Utah juniper     16
@@ -95,21 +95,16 @@ C    34 = BORDER PINYON            pinyon pine      12
 C    35 = ARIZONA PINYON           pinyon pine      12
 C    36 = CHIHUAHUA PINE           ponderosa pine   13
 C    37 = OTHER SOFTWOODS          lodgepole pine   11
-C    38 = OTHER HARDWOODS          cottonwood sp           60
+C    38 = OTHER HARDWOODS          eastern cottonwood      17
 C
       DATA ISPMAP /  1,  1,  3,  4,  4, 24,  7,  8,  9, 11,
-     >              11, 12, 13, 14, 15, 16, 18, 18, 18, 61,
-     >              60, 60, 22, 22, 22, 22, 22, 61, 16, 16,
-     >              16, 16, 12, 12, 12, 13, 11, 60/
+     >              11, 12, 13, 14, 15, 16, 18, 18, 18, 41,
+     >              17, 17, 22, 22, 22, 22, 22, 43, 16, 16,
+     >              16, 16, 12, 12, 12, 13, 11, 17/
 
 C     MAKE CHANGE FOR PONDEROSA PINE IN THE BLACK HILLS OR NEBRASKA NF
       IF ((KODFOR .EQ. 203) .OR. (KODFOR .EQ. 207)) ISPMAP(13) = 25
 
-C     DEFAULT FOREST TYPE & CODE FOR WESTERN VARIANTS CALLING EASTERN
-C     EQUATIONS (EASTERN DEFAULT)
-
-      DATA SNFOR / 801 /
-      DATA SNKOD /   6 /
 
 C     CHECK FOR DEBUG.
 
@@ -165,7 +160,7 @@ C
 
         SELECT CASE (SPIW)
           CASE (20:22,28,38)
-            CALL FMCROWE(SPIE,SPIW,SNFOR,SNKOD,D,H,IC,SG,XV)
+            CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
           CASE DEFAULT
             CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT
@@ -199,29 +194,4 @@ C     PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
       RETURN
       END
 
-C     PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
 
-      SUBROUTINE SEVLHT(X30,X31,L30,L31,X32,I30,L32,I31,C30)
-      IMPLICIT NONE
-
-      LOGICAL   L30,L31,L32,L33
-      CHARACTER C30*3
-      INTEGER   I30,I31
-      REAL      X30,X31,X32
-
-      L30 = .FALSE.
-      L31 = .FALSE.
-      L32 = .FALSE.
-      L33 = .FALSE.
-
-      C30 = '---'
-
-      I30 = 0
-      I31 = 0
-
-      X30 = 0.0
-      X31 = 0.0
-      X32 = 0.0
-
-      RETURN
-      END

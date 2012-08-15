@@ -43,15 +43,15 @@ endif
 # LD is the linker
 
 export FC = gfortran 
-export FFLAGS = $(PIC) -g -Wall
+export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero
 export CC = gcc
 export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
 export LD = gfortran
 ifndef sourceFileList
 # TODO: See comment below regarding generl rules. We can change to this rule for all
 # when we adopt a newer make on windows builds
-# export FVSprgs = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
-  export FVSprgs = FVSbmc FVScrc FVSecc FVSiec FVSne FVSpnc FVSsn FVSwcc FVSwsc
+export FVSprgs = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
+#  export FVSprgs = FVSbmc FVScrc FVSecc FVSiec FVSne FVSpnc FVSsn FVSwcc FVSwsc
 endif
 
 # the following variables are not processed until sourceFileList is defined...and that happens
@@ -147,7 +147,14 @@ FVSwsc$(SLIBSUFX) FVSwsc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwsc) $(shel
 
 %.setup : 
 	mkdir -pv $(basename $@)_buildDir
+ifeq (${OSARCH},w32)
+# this command resets the acl's on Windows, if it causes problems, delete it!
+	-icacls $(basename $@)_buildDir /reset /T /Q
+endif
 	cp -p `cat $(basename $@)_sourceList.txt` $(basename $@)_buildDir
+ifeq (${OSARCH},w32)
+	-icacls $(basename $@)_buildDir /reset /T /Q
+endif
 	$(MAKE) --file=../makefile --directory=$(basename $@)_buildDir \
 	               buildDir=$(basename $@)_buildDir \
                  sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg

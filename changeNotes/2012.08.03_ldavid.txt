@@ -1,0 +1,20 @@
+Subject: Root Disease model tree records limitation increased
+         from 500 to 1500 records
+Name: Lance R. David
+Date: August 3, 2012
+Variants affected: ALL Western variants except AK and CA
+
+Description: The number of tree records that the Root Disease model can
+             handle has been increased from 500 to 1500 tree records. the
+             500 record limit was due to computing capacities of processing
+             speed and memory that are longer restricting factors. This
+             should eliminate the need to use the NoTriple and Compress
+             keywords in order for the RD model to function.
+
+Impact on users: Users should obtain new executables.
+
+Files:
+
+./rd/src/rdinsd.f - array dimensions defined by literal values changed to 
+                    parameter
+./rd/src/RDPARM.F77 - parameter IRRTRE changed from 500 to 1500

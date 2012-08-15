@@ -190,7 +190,7 @@ COMMONS
 C     MAKE SURE WE HAVE AN OPEN CONNECTION
 
       IF(ConnHndlIn.EQ.-1) CALL DBSOPEN(DSNIN,EnvHndlIn,
-     -                                 ConnHndlIn,DBMSIN,KODE)
+     -                          ConnHndlIn,DBMSIN,0,.FALSE.,KODE)
 
 C     ALLOCATE A STATEMENT HANDLE
 

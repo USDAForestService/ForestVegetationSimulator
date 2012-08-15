@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C  **FMCROW  FIRE-TT DATE OF LAST REVISION:  03/10/10
+C  **FMCROW  FIRE-TT DATE OF LAST REVISION:  01/10/12
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
@@ -54,7 +54,7 @@ COMMONS
 C----------
       LOGICAL DEBUG
       INTEGER I,J,IC,ISPMAP(MAXSP),HPOINT(MAXTRE)
-      INTEGER ITR,SPIW,SPIE,SNFOR,SNKOD
+      INTEGER ITR,SPIW,SPIE
       REAL    D,H,HPCT(MAXTRE),HP,SG,JUNK,XV(0:5)
 C----------
 C SPECIES ORDER FOR TETONS VARIANT:
@@ -76,7 +76,7 @@ C----------
 C
 C     INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C     EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
-C     BASED ON SN-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
+C     BASED ON LS-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
 C     ALL WESTERN FFE VARIANTS). IN THE TABLE BELOW, A '-' IN THE
 C     "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
 C
@@ -87,7 +87,7 @@ C     2 = LIMBER PINE              lodgepole pine   11
 C     3 = DOUGLAS-FIR              -                 3
 C     4 = SINGLELEAF PINYON        -                12
 C     5 = BLUE SPRUCE              -                18
-C     6 = QUAKING ASPEN            bigtooth aspen           61
+C     6 = QUAKING ASPEN            -                        41
 C     7 = LODGEPOLE PINE           -                11
 C     8 = ENGELMANN SPRUCE         -                18
 C     9 = SUBALPINE FIR            -                 1
@@ -96,21 +96,16 @@ C    11 = UTAH JUNIPER             R Mtn juniper    16
 C    12 = ROCKY MTN JUNIPER        R Mtn juniper    16
 C    13 = BIGTOOTH MAPLE           bigleaf maple     5
 C    14 = ROCKY MTN MAPLE          bigleaf maple     5
-C    15 = NARROWLEAF COTTONWOOD    cottonwood sp            60
-C    16 = CURLLEAF MTN-MAHOGANY    big tooth aspen          61
+C    15 = NARROWLEAF COTTONWOOD    eastern cottonwood       17
+C    16 = CURLLEAF MTN-MAHOGANY    quaking aspen            41
 C    17 = OTHER SOFTWOODS          whitebark pine   14
-C    18 = OTHER HARDWOODS          cottonwood sp            60
+C    18 = OTHER HARDWOODS          eastern cottonwood       17
 C
 C----------
       DATA ISPMAP /
-     > 14, 11,  3, 12, 18, 61, 11, 18,  1, 13,
-     > 16, 16,  5,  5, 60, 61, 14, 60/
-C----------
-C     DEFAULT FOREST TYPE & CODE FOR WESTERN VARIANTS CALLING EASTERN
-C     EQUATIONS (EASTERN DEFAULT)
-C----------
-      DATA SNFOR / 801 /
-      DATA SNKOD /   6 /
+     > 14, 11,  3, 12, 18, 41, 11, 18,  1, 13,
+     > 16, 16,  5,  5, 17, 41, 14, 17/
+
 C----------
 C     CHECK FOR DEBUG
 C----------
@@ -165,7 +160,7 @@ C----------
 C
         SELECT CASE (ISP(I))
           CASE (6,15,16,18)
-            CALL FMCROWE(SPIE,SPIW,SNFOR,SNKOD,D,H,IC,SG,XV)
+            CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
           CASE DEFAULT
             CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT
@@ -198,30 +193,4 @@ C
 C
       RETURN
       END
-C----------
-C     PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
-C----------
-      SUBROUTINE SEVLHT(X30,X31,L30,L31,X32,I30,L32,I31,C30)
-      IMPLICIT NONE
-C
-      LOGICAL   L30,L31,L32,L33
-      CHARACTER C30*3
-      INTEGER   I30,I31
-      REAL      X30,X31,X32
-C
-      L30 = .FALSE.
-      L31 = .FALSE.
-      L32 = .FALSE.
-      L33 = .FALSE.
-C
-      C30 = '---'
-C
-      I30 = 0
-      I31 = 0
-C
-      X30 = 0.0
-      X31 = 0.0
-      X32 = 0.0
-C
-      RETURN
-      END
+

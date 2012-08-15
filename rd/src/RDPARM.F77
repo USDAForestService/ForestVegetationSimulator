@@ -1,6 +1,6 @@
 CODE SEGMENT RDPARM
 C----------
-C  **RDPARM      LAST REVISION:  10/27/95
+C  **RDPARM      LAST REVISION:  08/03/12
 C----------
 C
 C  Parameters for the root disease model are :
@@ -11,7 +11,7 @@ C
       PARAMETER (DSII=2)
       PARAMETER (DSIU=3)
 
-      PARAMETER (IRRTRE=500)
+      PARAMETER (IRRTRE=1500)
       PARAMETER (IRRTP1=IRRTRE+1)
       PARAMETER (ITOTSP=40)
       PARAMETER (ITOTRR=4)

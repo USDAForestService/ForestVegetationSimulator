@@ -1,6 +1,6 @@
       SUBROUTINE RDINSD
 C----------
-C  **RDINSD      LAST REVISION:  03/21/00
+C  **RDINSD      LAST REVISION:  08/03/12
 C----------
 C
 C  Purpose :
@@ -41,6 +41,9 @@ C                annosus species
 C    21-MAR-00 Lance David (FHTET)
 C                Reduced RETURN statements to 1 at the end of routine.
 C                Added Debug code.
+C    03-AUG-2012 Lance David (FMSC)
+C                Array dimension of RRNINF and POLP changed from 500 to
+C                parameter IRRTRE.
 C....................................................................
 C
 
@@ -63,8 +66,8 @@ C.... Local variable declarations.
       LOGICAL DEBUG
       DIMENSION OAMOVE(3)
       
-      REAL    RRNINF(500)
-      REAL    POLP(500)
+      REAL    RRNINF(IRRTRE)
+      REAL    POLP(IRRTRE)
 
 C.... See if we need to do some debug.
 

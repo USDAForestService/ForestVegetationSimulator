@@ -1,7 +1,7 @@
       SUBROUTINE ECOCLS(APASS,ASPEC,RSDI,RSI,ISFLAG,NUM,INDEX,ISEQ)
       IMPLICIT NONE
 C----------
-C  **ECOCLS---EC      DATE OF LAST REVISION:  05/18/09
+C  **ECOCLS---EC      DATE OF LAST REVISION:  05/09/12
 C
 C  SETS DEFAULT MAX SDI VALUES, SITE INDICIES, AND SITE SPECIES
 C  BY PLANT ASSOCIATION (ECOCLASS CODE)
@@ -798,7 +798,7 @@ C
      &'CWS532  ','ABGR  ', 780,'GF  ',  98,   1,   1,   6,
 C--------------------------------------------------------------------
 C  144 = ABGR/CACH                            GBA: 214   p. 99
-C    Grand fir/chinkapin                                 R6 E TP-004-88
+C    Grand fir/chinquapin                                R6 E TP-004-88
 C
      &'CWS533  ','PSME  ', 690,'DF  ',  57,   1,   1,   3,
 C-------------------------------------------------------------------

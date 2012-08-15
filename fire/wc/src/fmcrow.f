@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 
-C  **FMCROW  FIRE-WC DATE OF LAST REVISION:  10/16/03
+C  **FMCROW  FIRE-WC DATE OF LAST REVISION:  01/10/12
 
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
@@ -46,12 +46,12 @@ C.... Parameter statements.
 
       LOGICAL DEBUG
       INTEGER I,J,IC,ISPMAP(MAXSP),HPOINT(MAXTRE)
-      INTEGER ITR,SPIW,SPIE,SNFOR,SNKOD
+      INTEGER ITR,SPIW,SPIE
       REAL    D,H,HPCT(MAXTRE),HP,SG,JUNK,XV(0:5)
 
 C     INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C     EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
-C     BASED ON SN-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
+C     BASED ON LS-FFE; WESTERN ON CR-FFE (BUT ARE NEARLY UNIFORM ACROSS
 C     ALL WESTERN FFE VARIANTS). IN THE TABLE BELOW, A '-' IN THE
 C     "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
 
@@ -82,34 +82,28 @@ C    20 = MOUNTAIN HEMLOCK         -                24
 C    21 = BIGLEAF MAPLE            -                 5
 C    22 = RED ALDER                -                23
 C    23 = WH. ALDER/PAC.MADRONE    -                10
-C    24 = PAPER BIRCH              birch sp                 24
+C    24 = PAPER BIRCH              -                        43
 C    25 = GIANT CHINKAPIN/TANOAK   tanoak           17
-C    26 = QUAKING ASPEN            bigtooth aspen           61
-C    27 = BLACK COTTONWOOD         cottonwood sp            60
+C    26 = QUAKING ASPEN            -                        41
+C    27 = BLACK COTTONWOOD         eastern cottonwood       17
 C    28 = OR.WH OAK/CA.BL OAK      tanoak           17
 C    29 = WESTERN JUNIPER          R.M. juniper     16
 C    30 = SUBALPINE LARCH          subalpine fir     1
 C    31 = WHITEBARK PINE           -                14
 C    32 = KNOBCONE PINE            lodgepole pine   11
 C    33 = PACIFIC YEW              western redcedar  7
-C    34 = PACIFIC DOGWOOD          flowering dogwood        31
-C    35 = HAWTHORN                 apple                    51
-C    36 = BITTER CHERRY            black cherry             62
-C    37 = WILLOW                   willow sp                81
+C    34 = PACIFIC DOGWOOD          flowering dogwood        56
+C    35 = HAWTHORN                 hawthorn sp              57
+C    36 = BITTER CHERRY            pin cherry               61
+C    37 = WILLOW                   willow sp                64
 C    38 = ---                      -                         0
-C    39 = OTHER                    bigtooth aspen           61
+C    39 = OTHER                    quaking aspen            41
 C --------------------------------------------------------------
 
       DATA ISPMAP / 4, 4, 4, 1, 4, 0, 4, 8,20,18,
      >             11,15,15,15,13, 3,19, 7, 6,24,
-     >              5,23,10,24,17,61,60,17,16, 1,
-     >             14,11, 7,31,51,62,81, 0,61/
-
-C     DEFAULT FOREST TYPE & CODE FOR WESTERN VARIANTS CALLING EASTERN
-C     EQUATIONS (EASTERN DEFAULT)
-
-      DATA SNFOR / 801 /
-      DATA SNKOD /   6 /
+     >              5,23,10,43,17,41,17,17,16, 1,
+     >             14,11, 7,56,57,61,64, 0,41/
 
 C     CHECK FOR DEBUG
 
@@ -164,7 +158,7 @@ C       OF THIS LOOP IF THE TREE HAS NO DIAMETER, HEIGHT, OR LIVE CROWN.
 
         SELECT CASE (SPIW)
           CASE (24,26,27,34,35,36,37,39)
-            CALL FMCROWE(SPIE,SPIW,SNFOR,SNKOD,D,H,IC,SG,XV)
+            CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
           CASE DEFAULT
             CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT
@@ -180,29 +174,4 @@ C       COPY TEMPORARY VALUES TO FFE ARRAY
       RETURN
       END
 
-C     PLACEHOLDER FOR UNUSED CALLS IN **FMCROWE**
 
-      SUBROUTINE SEVLHT(X30,X31,L30,L31,X32,I30,L32,I31,C30)
-      IMPLICIT NONE
-
-      LOGICAL   L30,L31,L32,L33
-      CHARACTER C30*3
-      INTEGER   I30,I31
-      REAL      X30,X31,X32
-
-      L30 = .FALSE.
-      L31 = .FALSE.
-      L32 = .FALSE.
-      L33 = .FALSE.
-
-      C30 = '---'
-
-      I30 = 0
-      I31 = 0
-
-      X30 = 0.0
-      X31 = 0.0
-      X32 = 0.0
-
-      RETURN
-      END

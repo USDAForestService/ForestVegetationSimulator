@@ -209,9 +209,10 @@ C  LEAVE MERCH BF IN IMPERIAL UNITS
      1    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
      2    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN') .OR.
      3    (VVER(:2) .EQ. 'ON')) THEN
+
         IF(LPRT)
      &  WRITE(JOSTND,20) IOSUM(1,I),IOSUM(2,I),
-     &                   X3,
+     &              NINT(X3),
      &                   X4,
      &                   X5,
      &                   X6,
