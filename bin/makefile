@@ -147,7 +147,14 @@ FVSwsc$(SLIBSUFX) FVSwsc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwsc) $(shel
 
 %.setup : 
 	mkdir -pv $(basename $@)_buildDir
+ifeq (${OSARCH},w32)
+# this command resets the acl's on Windows, if it causes problems, delete it!
+	-icacls $(basename $@)_buildDir /reset /T /Q
+endif
 	cp -p `cat $(basename $@)_sourceList.txt` $(basename $@)_buildDir
+ifeq (${OSARCH},w32)
+	-icacls $(basename $@)_buildDir /reset /T /Q
+endif
 	$(MAKE) --file=../makefile --directory=$(basename $@)_buildDir \
 	               buildDir=$(basename $@)_buildDir \
                  sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg
