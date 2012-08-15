@@ -8,7 +8,7 @@ sot01 :
 	grep -v "\-999" sot01.sum.save > sot01.tmp.save
 	diff -w sot01.tmp sot01.tmp.save
 	rm sot01.tmp sot01.tmp.save
-	@echo Test sot01 passed
+	@echo Test sot01 ended
 	
  
  

@@ -8,7 +8,7 @@ nct01 :
 	grep -v "\-999" nct01.sum.save > nct01.tmp.save
 	diff -w nct01.tmp nct01.tmp.save
 	rm nct01.tmp nct01.tmp.save
-	@echo Test nct01 passed
+	@echo Test nct01 ended
 	
  
  

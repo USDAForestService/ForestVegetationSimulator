@@ -8,7 +8,7 @@ net01 :
 	grep -v "\-999" net01.sum.save > net01.tmp.save
 	diff -w net01.tmp net01.tmp.save
 	rm net01.tmp net01.tmp.save
-	@echo Test net01 passed
+	@echo Test net01 ended
 	
  
  

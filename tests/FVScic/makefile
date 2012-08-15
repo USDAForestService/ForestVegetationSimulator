@@ -8,5 +8,5 @@ cit01 :
 	grep -v "\-999" cit01.sum.save > cit01.tmp.save
 	diff -w cit01.tmp cit01.tmp.save
 	rm cit01.tmp cit01.tmp.save
-	@echo Test cit01 passed
+	@echo Test cit01 ended
 	

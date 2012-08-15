@@ -1,7 +1,7 @@
 
 # $Id$
 
-all : iet01 iet02 TestSpecialCostAndRevenue climate climatePutGet
+all : iet01 TestSpecialCostAndRevenue MinHarvValueOfTrees climate climatePutGet
 
 iet01 : 
 	@echo Test iet01, basic functionality 

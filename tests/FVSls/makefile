@@ -8,7 +8,7 @@ lst01 :
 	grep -v "\-999" lst01.sum.save > lst01.tmp.save
 	diff -w lst01.tmp lst01.tmp.save
 	rm lst01.tmp lst01.tmp.save
-	@echo Test lst01 passed
+	@echo Test lst01 ended
 	
  
  

@@ -8,5 +8,5 @@ cst01 :
 	grep -v "\-999" cst01.sum.save > cst01.tmp.save
 	diff -w cst01.tmp cst01.tmp.save
 	rm cst01.tmp cst01.tmp.save
-	@echo Test cst01 passed
+	@echo Test cst01 ended
 	
