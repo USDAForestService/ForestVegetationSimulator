@@ -476,6 +476,8 @@
 ../pg/src/putgetsubs.f
 ../pg/src/putstd.f
 ../pg/src/stash.f
+../pg/src/varget.f
+../pg/src/varput.f
 ../so/common/ESPARM.F77
 ../so/common/PRGPRM.F77
 ../so/src/adjmai.f

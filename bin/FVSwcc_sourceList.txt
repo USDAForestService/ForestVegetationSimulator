@@ -476,6 +476,8 @@
 ../pg/src/putgetsubs.f
 ../pg/src/putstd.f
 ../pg/src/stash.f
+../pg/src/varget.f
+../pg/src/varput.f
 ../so/src/avht40.f
 ../so/src/r6crwd.f
 ../strp/src/esaddt.f

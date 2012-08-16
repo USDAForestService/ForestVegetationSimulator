@@ -1,7 +1,8 @@
 
 # $Id$
 
-all : iet01 TestSpecialCostAndRevenue MinHarvValueOfTrees climate climatePutGet
+all : iet01 iet02 iet03 TestSpecialCostAndRevenue MinHarvValueOfTrees \
+ climate climatePutGet
 
 iet01 : 
 	@echo Test iet01, basic functionality 
@@ -23,6 +24,16 @@ iet02 :
 	rm iet02.tmp iet02.tmp.save
 	@echo Test iet02 ended
 	
+iet03 : 
+	@echo Test iet03, simple test of ffe with stop/restart
+	-../../bin/FVSiec --keywordfile=iet03.key --stoppoint=1,2003,iet03.stop
+	-../../bin/FVSiec --restart=iet03.stop
+	grep -v "\-999" iet03.sum      > iet03.tmp
+	grep -v "\-999" iet03.sum.save > iet03.tmp.save
+	-diff -w iet03.tmp iet03.tmp.save
+	rm iet03.tmp iet03.tmp.save
+	@echo Test iet03 ended
+
 TestSpecialCostAndRevenue :
 	@echo Test ECON TestSpecialCostAndRevenue
 	-../../bin/FVSiec --keywordfile=TestSpecialCostAndRevenue.key

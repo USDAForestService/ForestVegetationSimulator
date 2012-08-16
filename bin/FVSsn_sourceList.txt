@@ -436,6 +436,8 @@
 ../pg/src/putgetsubs.f
 ../pg/src/putstd.f
 ../pg/src/stash.f
+../pg/src/varget.f
+../pg/src/varput.f
 ../sn/common/ESPARM.F77
 ../sn/common/PRGPRM.F77
 ../sn/common/R8DIB.F77

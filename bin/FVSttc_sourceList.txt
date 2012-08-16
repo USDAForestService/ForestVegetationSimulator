@@ -199,6 +199,8 @@
 ../base/src/update.f
 ../base/src/upkey.f
 ../base/src/volkey.f
+../ci/src/varget.f
+../ci/src/varput.f
 ../clim/base/clauestb.f
 ../clim/base/clgmult.f
 ../clim/base/clin.f
