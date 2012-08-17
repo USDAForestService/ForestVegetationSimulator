@@ -296,6 +296,8 @@
 ../cr/src/regent.f
 ../cr/src/sitset.f
 ../cr/src/varmrt.f
+../cr/src/varget.f
+../cr/src/varput.f
 ../cr/src/varvol.f
 ../dbs/src/DBSCOM.F77
 ../dbs/src/dbsatrtls.f
@@ -509,8 +511,6 @@
 ../pg/src/putgetsubs.f
 ../pg/src/putstd.f
 ../pg/src/stash.f
-../pg/src/varget.f
-../pg/src/varput.f
 ../so/src/adjmai.f
 ../strp/src/esaddt.f
 ../strp/src/esblkd.f

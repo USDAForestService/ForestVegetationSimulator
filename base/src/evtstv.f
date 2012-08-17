@@ -258,6 +258,7 @@ C
       TSTV1(42)=ISZCL
       TSTV1(43)=ISTCL
       TSTV1(44)=1./GROSPC
+      TSTV1(45)=0. !initialize so debug output is consistent. 
       TSTV1(46)=ICAGE
       TSTV1(48)=ISILFT
       CALL FISHER(FINDX)
@@ -283,7 +284,7 @@ C
          TSTV1(35)=0.0
       ENDIF
       TSTV1(36)=0.
-      IF (LDEB) WRITE (JOSTND,92) (TSTV1(I),I=1,40)
+      IF (LDEB) WRITE (JOSTND,92) (TSTV1(I),I=1,50)
    92 FORMAT (' TSTV1=',10E11.3)
       IF (IUSERV.LT.0) RETURN
 C----------
