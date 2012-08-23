@@ -2,8 +2,8 @@ Subject: Changes needed to make stop/restart work and to remove
 the need to have a specific search sequence in the directories 
 that contain files that are included in compile statements. Some 
 minor issues are also covered. Note that this changeNotes document
-does not list all the changes as some were made in the committed 
-with this set. Please consult the change logs in the open-fvs
+does not list all the changes recently made as some were committed 
+prior to this set. Please consult the change logs in the open-fvs
 repository. 
 
 Name: Nick Crookston
@@ -13,11 +13,12 @@ Variants affected: All (modified code is in open-fvs).
 
 Description: 
 
-First, note that changes were made to the metric variants and to
-variant ni were not tested. Furthermore, note that this changeNotes 
-document does not list all the changes recently made as some were 
-committed a few weeks ago. Please consult the change logs in the 
-open-fvs repository. 
+First, note that changes noted below were made to the metric variants 
+and to ni as well as those 20 currently being built in open-fvs. 
+Furthermore, note that this changeNotes document does not list all 
+the changes recently made as some were committed a few weeks ago. 
+Please consult the change logs in the open-fvs repository for r333 
+through r347.
 
 1) MXFRCDS was added to PRGPRM and used to set the size of some
 arrays in ESCOMN. All copies of PRGPRM are affected (and note that
