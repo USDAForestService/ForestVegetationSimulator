@@ -27,6 +27,5 @@ C
         IF (.NOT.LDEBG) CALL DBSCAN (LDEBG,ALLSUB,6,ICYC)
         IF (.NOT.LDEBG) CALL DBSCAN (LDEBG,SUBIN,NC,ICYC)
       ENDIF
-      ldebg = .true.
       RETURN
       END
