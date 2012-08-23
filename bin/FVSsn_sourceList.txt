@@ -436,8 +436,6 @@
 ../pg/src/putgetsubs.f
 ../pg/src/putstd.f
 ../pg/src/stash.f
-../pg/src/varget.f
-../pg/src/varput.f
 ../sn/common/ESPARM.F77
 ../sn/common/PRGPRM.F77
 ../sn/common/R8DIB.F77
@@ -464,7 +462,9 @@
 ../sn/src/regent.f
 ../sn/src/sevlht.f
 ../sn/src/sitset.f
+../sn/src/varget.f
 ../sn/src/varmrt.f
+../sn/src/varput.f
 ../sn/src/varvol.f
 ../so/src/avht40.f
 ../strp/src/esaddt.f

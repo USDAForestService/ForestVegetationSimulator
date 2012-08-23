@@ -607,8 +607,5 @@ C---------
       IF(LRCOR2.AND.RCOR2(ISPC).GT.0.0)
      &RHCON(ISPC) = RCOR2(ISPC)
    90 CONTINUE
-      DO I=1,MAXTRE
-      ZRAND(I)=-999.0
-      ENDDO
       RETURN
       END

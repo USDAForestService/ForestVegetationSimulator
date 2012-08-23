@@ -216,6 +216,7 @@
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
 ../common/ECON.F77
+../common/ESCOMN.F77
 ../common/ESCOM2.F77
 ../common/ESHAP.F77
 ../common/ESHAP2.F77
@@ -262,7 +263,6 @@
 ../covr/src/cvscon.f
 ../covr/src/cvshap.f
 ../covr/src/cvsum.f
-../cr/common/ESCOMN.F77
 ../cr/common/ESPARM.F77
 ../cr/common/PRGPRM.F77
 ../cr/src/badist.f

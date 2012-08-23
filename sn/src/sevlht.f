@@ -120,8 +120,9 @@ C  SET PNT TO DETERMINE WHICH COEFFICIENTS TO USE
 C----------
       PNT = INDVL(ISPC)
       READ (VLSP,'(I3)')IVLSP
-      IF ((ISPC .GE. 68 .AND. ISPC .LE. 69) .AND. (IREG .EQ. 3
-     &     .OR. IREG .EQ. 4 .OR. IREG .EQ. 6)) PNT = 25
+c** IREG is not defined any where!      
+c**      IF ((ISPC .GE. 68 .AND. ISPC .LE. 69) .AND. (IREG .EQ. 3
+c**    &     .OR. IREG .EQ. 4 .OR. IREG .EQ. 6)) PNT = 25
 C----------
 C  ASSIGN AF AND BF FROM R8DIB.  THIS DEPENDS UPON GEOGRAPHIC REGION
 C  AND SPECIES.

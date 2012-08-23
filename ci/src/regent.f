@@ -1649,9 +1649,5 @@ C----------
       IF(LRCOR2 .AND. RCOR2(ISPC).GT.0.0) RHCON(ISPC)=RCOR2(ISPC)
   110 CONTINUE
 C
-      DO I=1,MAXTRE
-      ZRAND(I)=-999.0
-      ENDDO
-C
       RETURN
       END

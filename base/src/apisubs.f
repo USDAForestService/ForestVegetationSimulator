@@ -507,6 +507,7 @@ c
         nbfdef(itrn)=0
         pdbh(itrn)=0.
         pht(itrn)=0.
+        zrand(itrn)=-999.
       enddo
 
 c     set the value of irec1 to point to the last location in the

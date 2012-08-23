@@ -594,6 +594,7 @@ C
       NBFDEF(ITRN)=0
       PDBH(ITRN)=0.
       PHT(ITRN)=0.
+      ZRAND(ITRN)=-999.
 C
       CALL RDESTB (ITRN,PROB(ITRN))
 C

@@ -1489,8 +1489,5 @@ C*******
      &   RHCON(ISPC)=RCOR2(ISPC)
       ENDIF
   110 CONTINUE
-      DO I=1,MAXTRE
-      ZRAND(I)=-999.0
-      ENDDO
       RETURN
       END
