@@ -52,16 +52,14 @@ C
       real MOIS1(2,5), MOIS2(2,5), MOIS3(2,5), MOIS4(2,5), soilmois
 
       interface
-	  integer function fm_fofem(fofem_input,fofem_output,fofem_msg)
+        integer function fm_fofem(fofem_input,fofem_output,fofem_msg)
         !dec$ attributes alias:'_fm_fofem'::fm_fofem
         real      fofem_input(*)
-	  real      fofem_output(*)
-	  character fofem_msg(*)
-	  end function
+        real      fofem_output(*)
+        character fofem_msg(*)
+	      end function
       end interface
-!      external fm_fofem
-!      integer  fm_fofem
-
+      
       data SMCAT /5,10,15,25/      
 C     check for debug
 

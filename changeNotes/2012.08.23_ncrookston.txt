@@ -47,44 +47,60 @@ updated to reflect these changes.
 7) In the tests directory in open-fvs, several of the save files were
 updated do to the change in ZRAND which caused answers to change.
 
+8) In some routines, minor changes were made to get consistent output
+when debug is turned on.
+
 Impact on users:
 Minor changes in results in some simulations. 
 
 Files:
 M       ut/src/regent.f
 M       ut/common/PRGPRM.F77
-A       changeNotes/2012.08.23_ncrookston.txt
+M       ppci/src/varput.f
+M       ppci/src/varget.f
 M       bm/src/regent.f
 M       bm/common/PRGPRM.F77
+A  +    changeNotes/2012.08.23_ncrookston.txt
 M       nc/src/regent.f
 M       nc/common/PRGPRM.F77
 M       ne/src/regent.f
 M       ne/common/PRGPRM.F77
+M       ppcr/src/varput.f
+M       ppcr/src/varget.f
 M       ni/src/regent.f
+M       ppkt/src/varput.f
+M       ppkt/src/varget.f
 M       ca/src/esuckr.f
 M       ca/src/regent.f
 M       ca/common/PRGPRM.F77
 M       strp/src/esuckr.f
 M       strp/src/estab.f
 M       ci/src/esuckr.f
+A  +    ci/src/varput.f
 M       ci/src/regent.f
+A  +    ci/src/varget.f
 M       ci/common/PRGPRM.F77
 M       cr/src/esuckr.f
+A  +    cr/src/varput.f
+M       cr/src/htgf.f
 M       cr/src/regent.f
+A  +    cr/src/varget.f
 D       cr/common/ESCOMN.F77
 M       cr/common/PRGPRM.F77
 M       cs/src/regent.f
 M       cs/common/PRGPRM.F77
 M       wc/src/regent.f
 M       wc/common/PRGPRM.F77
+A  +    kt/src/varput.f
 M       kt/src/regent.f
+A  +    kt/src/varget.f
 M       kt/common/PRGPRM.F77
 M       sn/src/grinit.f
 M       sn/src/htcalc.f
 M       sn/src/sevlht.f
-A       sn/src/varput.f
+A  +    sn/src/varput.f
 M       sn/src/regent.f
-A       sn/src/varget.f
+A  +    sn/src/varget.f
 M       sn/common/PRGPRM.F77
 M       so/src/regent.f
 M       so/common/PRGPRM.F77
@@ -102,20 +118,67 @@ M       acd/common/PRGPRM.F77
 M       ws/common/PRGPRM.F77
 M       estb/src/esuckr.f
 M       estb/src/estab.f
+M       tests/FVSiec/iet02.sum.save
+A  +    tests/FVSiec/iet03.key
+A  +    tests/FVSiec/iet03.sum.save
+M       tests/FVSiec/makefile
+A  +    tests/FVSiec/iet03.tre
+M       tests/FVSbmc/makefile
+M       tests/FVSne/makefile
+M       tests/FVSncc/nct01.sum.save
+M       tests/FVSncc/nct01.key
+M       tests/FVSncc/makefile
+M       tests/FVSemc/makefile
+M       tests/FVScs/makefile
+M       tests/FVScrc/makefile
+M       tests/FVSwcc/makefile
+M       tests/FVSls/makefile
+M       tests/FVSpnc/makefile
 M       tests/FVSsn/snt01.sum.save
 M       tests/FVSsn/makefile
+M       tests/FVSktc/makefile
+M       tests/FVSsoc/makefile
+M       tests/FVScac/makefile
+M       tests/FVSecc/makefile
 M       tests/FVSttc/ttt01.sum.save
+M       tests/FVSttc/makefile
+M       tests/FVSak/makefile
+M       tests/FVSwsc/makefile
+M       tests/FVScic/makefile
+A  +    pg/src/varput.f
+M       pg/src/putstd.f
+A  +    pg/src/varget.f
+M       pg/src/getstd.f
 M       bin/FVScrc_sourceList.txt
+M       bin/FVSwcc_sourceList.txt
+M       bin/FVSls_sourceList.txt
+M       bin/FVSpnc_sourceList.txt
 M       bin/FVSsn_sourceList.txt
+M       bin/FVSktc_sourceList.txt
+M       bin/FVSsoc_sourceList.txt
+M       bin/FVScac_sourceList.txt
+M       bin/FVSecc_sourceList.txt
+M       bin/FVSttc_sourceList.txt
+M       bin/FVSak_sourceList.txt
+M       bin/FVSutc_sourceList.txt
+M       bin/FVSwsc_sourceList.txt
+M       bin/FVScic_sourceList.txt
+M       bin/FVSiec_sourceList.txt
+M       bin/FVSbmc_sourceList.txt
+M       bin/FVSne_sourceList.txt
+M       bin/FVSncc_sourceList.txt
+M       bin/FVSemc_sourceList.txt
+M       bin/FVScs_sourceList.txt
 M       pn/common/PRGPRM.F77
 M       ls/src/estab.f
 M       ls/src/regent.f
 M       ls/common/PRGPRM.F77
-M       ec/src/regent.f
-M       ec/common/PRGPRM.F77
 M       tt/src/regent.f
 M       tt/src/smhtgf.f
+D       tt/common/ESCOMN.F77
 M       tt/common/PRGPRM.F77
+M       ec/src/regent.f
+M       ec/common/PRGPRM.F77
 M       common/SNCOM.F77
 M       common/ESCOMN.F77
 M       ak/src/estab.f
@@ -129,9 +192,16 @@ M       an/common/PRGPRM.F77
 M       em/src/esuckr.f
 M       em/src/regent.f
 M       em/common/PRGPRM.F77
+M       ppni/src/varput.f
+M       ppni/src/varget.f
 M       base/src/comprs.f
+M       base/src/evldx.f
+M       base/src/dbinit.f
 M       base/src/dbchk.f
+M       base/src/gradd.f
 M       base/src/intree.f
 M       base/src/initre.f
+M       base/src/evtstv.f
 M       base/src/apisubs.f
+M       base/src/dbscan.f
 
