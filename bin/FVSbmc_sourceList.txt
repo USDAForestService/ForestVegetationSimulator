@@ -510,6 +510,8 @@
 ../pg/src/putgetsubs.f
 ../pg/src/putstd.f
 ../pg/src/stash.f
+../pg/src/varget.f
+../pg/src/varput.f
 ../so/src/adjmai.f
 ../so/src/avht40.f
 ../strp/src/esaddt.f

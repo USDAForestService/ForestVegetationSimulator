@@ -232,6 +232,8 @@
 ../ci/src/regent.f
 ../ci/src/sitset.f
 ../ci/src/smhtgf.f
+../ci/src/varget.f
+../ci/src/varput.f
 ../ci/src/varvol.f
 ../clim/base/clauestb.f
 ../clim/base/clgmult.f

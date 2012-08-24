@@ -310,6 +310,10 @@ C  ESTABLISHMENT SYSTEM.
 C----------
       IESTAT(I)=0
 C----------
+C  INITIALIZE SERIAL CORRELATION.
+C----------      
+      ZRAND(I)=-999.
+C----------
 C  COUNT THE NUMBER ON NON-STOCKABLE SUB-PLOTS.
 C  IF IMC1 IS EQUAL TO 8 THE POINT IS NON-STOCKABLE
 C----------
@@ -496,6 +500,7 @@ C----------
       NORMHT(I)=0
       PDBH(I)=0.
       PHT(I)=0.
+      ZRAND(I)=-999.
       ABIRTH(I)=0.
       KUTKOD(I)=0
       DO I3 = 1,6

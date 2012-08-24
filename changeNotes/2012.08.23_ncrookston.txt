@@ -1,0 +1,137 @@
+Subject: Changes needed to make stop/restart work and to remove
+the need to have a specific search sequence in the directories 
+that contain files that are included in compile statements. Some 
+minor issues are also covered. Note that this changeNotes document
+does not list all the changes recently made as some were committed 
+prior to this set. Please consult the change logs in the open-fvs
+repository. 
+
+Name: Nick Crookston
+Date: Aug 23, 2012
+
+Variants affected: All (modified code is in open-fvs).
+
+Description: 
+
+First, note that changes noted below were made to the metric variants 
+and to ni as well as those 20 currently being built in open-fvs. 
+Furthermore, note that this changeNotes document does not list all 
+the changes recently made as some were committed a few weeks ago. 
+Please consult the change logs in the open-fvs repository for r333 
+through r347.
+
+1) MXFRCDS was added to PRGPRM and used to set the size of some
+arrays in ESCOMN. All copies of PRGPRM are affected (and note that
+PRGPRM is always variant specific, never in the common directory).
+
+2) ESCOMN was removed from cr as it's text is now the same for 
+all variants. A modified version is in the common directory.
+
+3) Initialization of ZRAND was removed from all copies of regent 
+as the approach being used did not work if the treelist gets shorter 
+and then longer during a single simulation. Code to correctly set 
+the value of ZRAND(I) was added to all copies of esuckr, estab 
+(estb and strp), intree, comprs, and apisubs.
+
+4) sn: Unused variables in SNCOMN were removed and the two that remain
+were added to varput/varget for the sn variant (they are new for the
+variant). ISEFOR = 0 was added to sn/src/grinit.f as it could otherwise 
+be left undefined do to obtuse code in sn/src/forkod.f. 
+
+5) Code that deals with the MODTYPE for the now retired se variant was
+removed from initre. 
+
+6) bin/FVScrc_sourceList.txt and bin/FVSsn_sourceList.txtfiles were 
+updated to reflect these changes.
+
+7) In the tests directory in open-fvs, several of the save files were
+updated do to the change in ZRAND which caused answers to change.
+
+Impact on users:
+Minor changes in results in some simulations. 
+
+Files:
+M       ut/src/regent.f
+M       ut/common/PRGPRM.F77
+A       changeNotes/2012.08.23_ncrookston.txt
+M       bm/src/regent.f
+M       bm/common/PRGPRM.F77
+M       nc/src/regent.f
+M       nc/common/PRGPRM.F77
+M       ne/src/regent.f
+M       ne/common/PRGPRM.F77
+M       ni/src/regent.f
+M       ca/src/esuckr.f
+M       ca/src/regent.f
+M       ca/common/PRGPRM.F77
+M       strp/src/esuckr.f
+M       strp/src/estab.f
+M       ci/src/esuckr.f
+M       ci/src/regent.f
+M       ci/common/PRGPRM.F77
+M       cr/src/esuckr.f
+M       cr/src/regent.f
+D       cr/common/ESCOMN.F77
+M       cr/common/PRGPRM.F77
+M       cs/src/regent.f
+M       cs/common/PRGPRM.F77
+M       wc/src/regent.f
+M       wc/common/PRGPRM.F77
+M       kt/src/regent.f
+M       kt/common/PRGPRM.F77
+M       sn/src/grinit.f
+M       sn/src/htcalc.f
+M       sn/src/sevlht.f
+A       sn/src/varput.f
+M       sn/src/regent.f
+A       sn/src/varget.f
+M       sn/common/PRGPRM.F77
+M       so/src/regent.f
+M       so/common/PRGPRM.F77
+M       metric/strp/src/esuckr.f
+M       metric/strp/src/estab.f
+M       metric/ak/src/estab.f
+M       metric/estb/src/esuckr.f
+M       metric/estb/src/estab.f
+M       metric/cr/src/esuckr.f
+M       metric/wc/src/esuckr.f
+M       metric/base/src/intree.f
+M       metric/ls/src/estab.f
+M       acd/src/regent.f
+M       acd/common/PRGPRM.F77
+M       ws/common/PRGPRM.F77
+M       estb/src/esuckr.f
+M       estb/src/estab.f
+M       tests/FVSsn/snt01.sum.save
+M       tests/FVSsn/makefile
+M       tests/FVSttc/ttt01.sum.save
+M       bin/FVScrc_sourceList.txt
+M       bin/FVSsn_sourceList.txt
+M       pn/common/PRGPRM.F77
+M       ls/src/estab.f
+M       ls/src/regent.f
+M       ls/common/PRGPRM.F77
+M       ec/src/regent.f
+M       ec/common/PRGPRM.F77
+M       tt/src/regent.f
+M       tt/src/smhtgf.f
+M       tt/common/PRGPRM.F77
+M       common/SNCOM.F77
+M       common/ESCOMN.F77
+M       ak/src/estab.f
+M       ak/src/regent.f
+M       ak/common/PRGPRM.F77
+M       ie/src/regent.f
+M       ie/common/PRGPRM.F77
+M       an/src/estab.f
+M       an/src/regent.f
+M       an/common/PRGPRM.F77
+M       em/src/esuckr.f
+M       em/src/regent.f
+M       em/common/PRGPRM.F77
+M       base/src/comprs.f
+M       base/src/dbchk.f
+M       base/src/intree.f
+M       base/src/initre.f
+M       base/src/apisubs.f
+

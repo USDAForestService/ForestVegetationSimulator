@@ -1055,8 +1055,5 @@ C----------
         RHCON(ISPC)=RHCON(ISPC) + RHSC(ISPC) + RHHAB(IRHHAB,ISPC)
       ENDIF
   110 CONTINUE
-      DO I=1,MAXTRE
-      ZRAND(I)=-999.0
-      ENDDO
       RETURN
       END

@@ -482,6 +482,8 @@
 ../kt/src/pvref1.f
 ../kt/src/regent.f
 ../kt/src/smhtrg.f
+../kt/src/varget.f
+../kt/src/varput.f
 ../mistoe/src/MISCOM.F77
 ../mistoe/src/misact.f
 ../mistoe/src/miscnt.f

@@ -1,5 +1,5 @@
 
-all : bmt01
+all : bmt01 bmt02
 
 bmt01 : 
 	@echo Test bmt01, basic functionality 

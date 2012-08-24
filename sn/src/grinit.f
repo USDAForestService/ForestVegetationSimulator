@@ -186,6 +186,7 @@ C----------
       CPVREF='          '
       PCOMX='        '
       KODIST = 6
+      ISEFOR = 0
       LDCOR2 = .FALSE.
       LDUBDG = .FALSE.
       LEVUSE = .TRUE.

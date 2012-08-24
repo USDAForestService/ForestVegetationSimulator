@@ -1,5 +1,5 @@
 
-all : cat01 
+all : cat01 cat02
 
 cat01 : 
 	@echo Test cat01, basic functionality 
