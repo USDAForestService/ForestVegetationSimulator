@@ -70,7 +70,9 @@ endif()
   
 set (OUTPUT_NAME ${prgName})
 set (includeDirs)
-set (sourceFiles)
+set (sourceFilesC1)
+set (sourceFilesC2)
+set (sourceFilesF)
   
 file(STRINGS ${prgName}_sourceList.txt fileList)
 
@@ -78,11 +80,16 @@ foreach (fn ${fileList})
   get_filename_component (fname   ${fn} NAME CACHE)
   get_filename_component (pname   ${fn} PATH CACHE)
   get_filename_component (extname ${fn} EXT  CACHE)  
-  if (${extname} STREQUAL ".F77" OR ${extname} MATCHES ".h")
+
+  if (${extname} STREQUAL ".h") # formerly MATCHES
     list (APPEND includeDirs  ${pname})
   endif()
+  if (${extname} STREQUAL ".F77")
+    list (APPEND includeDirs  ${pname})
+  endif()
+
   if (${extname} STREQUAL ".f")
-    list (APPEND sourceFiles ${fn})
+    list (APPEND sourceFilesF ${fn})
   elseif(${extname} STREQUAL ".c")   
     if (fname STREQUAL mkdbsTypeDefs.c)
       add_executable(mkdbsTypeDefs ${fn})
@@ -91,8 +98,10 @@ foreach (fn ${fileList})
                          COMMAND ${MKDBSTYPEDEFS_EXE} 
                          DEPENDS ${MKDBSTYPEDEFS_EXE})
       add_custom_target(dbstypedefs mkdbsTypeDefs)
+    elseif(fname STREQUAL fvsSQL.c)                                       
+      list (APPEND sourceFilesC1 ${fn})
     else()                                       
-      list (APPEND sourceFiles ${fn})
+      list (APPEND sourceFilesC2 ${fn})
     endif()
   endif()
   unset (fname   CACHE)
@@ -102,13 +111,19 @@ endforeach(fn)
 
 list (REMOVE_DUPLICATES includeDirs)
 list (APPEND includeDirs ${CMAKE_CURRENT_BINARY_DIR})
-message(STATUS "prgName= ${prgName} includeDirs = ${includeDirs}")
-include_directories(BEFORE ${includeDirs})
-get_directory_property(includeSoFar INCLUDE_DIRECTORIES)
-message(STATUS "includeSoFar= ${includeSoFar}")
 
-add_executable (${prgName} ${sourceFiles})
+include_directories(BEFORE ${includeDirs}) # why put this here ?
+
+#message(STATUS "includeDirs= ${includeDirs}")
+#message(STATUS "sourceFilesC1= ${sourceFilesC1}")
+#message(STATUS "sourceFilesC2= ${sourceFilesC2}")
+#message(STATUS "sourceFilesF= ${sourceFilesF}")
+
+add_library(sqllib ${sourceFilesC1})
+add_library(ffelib ${sourceFilesC2})
+
+add_executable (${prgName} ${sourceFilesF})
+target_link_libraries(${prgName} sqllib ffelib)
 add_dependencies(${prgName} dbstypedefs)
 
 set_target_properties(${prgName} PROPERTIES LINKER_LANGUAGE Fortran)
-
