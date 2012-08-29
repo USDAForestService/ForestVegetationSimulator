@@ -160,6 +160,8 @@ endif
                  sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg
 endif
 
+.SUFFIXES :
+
 .PRECIOUS : $(object) $(mods_mods) 
 
 ifeq (${OSARCH},w32) 
