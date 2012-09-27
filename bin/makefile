@@ -27,6 +27,10 @@ else
     OSARCH = l64
     PIC = -fPIC  # always use PIC on this OSARCH type
   endif
+  ifeq ($(OSTYPE),linux-gnu)
+    OSARCH = l64
+    PIC = -fPIC  # always use PIC on this OSARCH type
+  endif
  endif
  ifndef OSARCH
    OSARCH = osx
