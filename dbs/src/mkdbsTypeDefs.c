@@ -195,9 +195,97 @@ int main(void)
   fprintf(out,"     -                           SQL_COMMIT = %i\n", SQL_COMMIT);
   fprintf(out,"      integer(SQLSMALLINT_KIND),  parameter::\n");
   fprintf(out,"     -                         SQL_ROLLBACK = %i\n", SQL_ROLLBACK);
-
-  fprintf(out,"\nC-----END SEGMENT\n");
+  fprintf(out,"\nC----- END SEGMENT\n");
   fclose(out);
+  
+  /*
+     Interface blocks for Fotran/C calls - this approach causes difficulties for some calls
+     that return pointers to arrays of different types. The Intel ifort compiler complains
+     about different types. It is being bypassed in favor of the compiler-dependent
+     calling pattern shown in fvsSQL.c - DR/ESSA.
+  */
+
+  /*
+  fprintf(out2,"      INTERFACE\n");
+  fprintf(out2,"        integer(%i) function fvsSQLEndTran(HT,H,CT)\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"        !dec$ attributes alias:'_fvssqlendtran_'::fvsSQLEndTran\n");
+  fprintf(out2,"           integer(%i) HT\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) H\n",  sizeof(SQLHANDLE_KIND));
+  fprintf(out2,"           integer(%i) CT\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"        end function\n");
+  fprintf(out2,"      end interface\n\n");
+
+  fprintf(out2,"      INTERFACE\n");
+  fprintf(out2,"        integer(%i) function fvsSQLDisconnect(H)\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"        !dec$ attributes alias:'_fvssqldisconnect_'::fvsSQLDisconnect\n");
+  fprintf(out2,"           integer(%i) H\n", sizeof(SQLHDBC_KIND));
+  fprintf(out2,"        end function\n");
+  fprintf(out2,"      end interface\n\n");
+
+  fprintf(out2,"      INTERFACE\n");
+  fprintf(out2,"        integer(%i) function fvsSQLFreeHandle(HT,H)\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"        !dec$ attributes alias:'_fvssqlfreehandle_'::fvsSQLFreeHandle\n");
+  fprintf(out2,"           integer(%i) HT\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) H\n", sizeof(SQLHANDLE_KIND));
+  fprintf(out2,"        end function\n");
+  fprintf(out2,"      end interface\n\n");
+
+  fprintf(out2,"      INTERFACE\n");
+  fprintf(out2,"        integer(%i) function fvsSQLAllocHandle(HT,IH,OHP)\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"        !dec$ attributes alias:'_fvssqlallochandle_'::fvsSQLAllocHandle\n");
+  fprintf(out2,"           integer(%i) HT\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) IH\n", sizeof(SQLHANDLE_KIND));
+  fprintf(out2,"           integer(%i) OHP\n", sizeof(SQLHANDLE_KIND));
+  fprintf(out2,"        end function\n");
+  fprintf(out2,"      end interface\n\n");
+
+  fprintf(out2,"      INTERFACE\n");
+  fprintf(out2,"        integer(%i) function fvsSQLExecDirect(SH,ST,TL)\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"        !dec$ attributes alias:'_fvssqlexecdirect_'::fvsSQLExecDirect\n");
+  fprintf(out2,"           integer(%i) SH\n", sizeof(SQLHSTMT_KIND));
+  fprintf(out2,"           character(%i) ST\n", sizeof(SQLCHAR_KIND));
+  fprintf(out2,"           integer(%i) TL\n", sizeof(SQLINTEGER_KIND));
+  fprintf(out2,"        end function\n");
+  fprintf(out2,"      end interface\n\n");
+
+  fprintf(out2,"      INTERFACE\n");
+  fprintf(out2,"        integer(%i) function fvsSQLCloseCursor(SH)\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"        !dec$ attributes alias:'_fvssqlclosecursor_'::fvsSQLCloseCursor\n");
+  fprintf(out2,"           integer(%i) SH\n", sizeof(SQLHSTMT_KIND));
+  fprintf(out2,"        end function\n");
+  fprintf(out2,"      end interface\n\n");
+
+  fprintf(out2,"      INTERFACE\n");
+  fprintf(out2,"        integer(%i) function fvsSQLBindParameter(SH,PN,IOT,VT,PT,CS,\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"     >    DD,PVP,BL,SLI)\n");
+  fprintf(out2,"        !dec$ attributes alias:'_fvssqlbindparameter_'::fvsSQLBindParameter\n");
+  fprintf(out2,"           integer(%i) SH\n", sizeof(SQLHSTMT_KIND));
+  fprintf(out2,"           integer(%i) PN\n", sizeof(SQLUSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) IOT\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) VT\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) PT\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) CS\n", sizeof(SQLULEN_KIND));
+  fprintf(out2,"           integer(%i) DD\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) PVP\n", sizeof(SQLPOINTER_KIND)); 
+  fprintf(out2,"           integer(%i) BL\n", sizeof(SQLLEN_KIND));
+  fprintf(out2,"           integer(%i) SLI\n", sizeof(SQLLEN_KIND));
+  fprintf(out2,"        end function\n");
+  fprintf(out2,"      end interface\n\n");
+
+  fprintf(out2,"      INTERFACE\n");
+  fprintf(out2,"        integer(%i) function fvsSQLBindCol(SH,CN,TT,TVP,BL,SLI)\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"        !dec$ attributes alias:'_fvssqlbindcol_'::fvsSQLBindCol\n");
+  fprintf(out2,"           integer(%i) SH\n", sizeof(SQLHSTMT_KIND));
+  fprintf(out2,"           integer(%i) CN\n", sizeof(SQLUSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) TT\n", sizeof(SQLSMALLINT_KIND));
+  fprintf(out2,"           integer(%i) TVP\n", sizeof(SQLPOINTER_KIND));
+  fprintf(out2,"           integer(%i) BL\n", sizeof(SQLLEN_KIND));
+  fprintf(out2,"           integer(%i) SLI\n", sizeof(SQLLEN_KIND));
+  fprintf(out2,"        end function\n");
+  fprintf(out2,"      end interface\n\n");
+  
+  fclose(out2);
+  */
   exit(0);
 }
 

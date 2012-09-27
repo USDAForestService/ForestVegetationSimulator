@@ -219,5 +219,10 @@ C
       ENTRY getDbsEconStatus(status)
         status = 0
       RETURN
+      
+      ENTRY DBSCHPUT (KEYWRD,I1,I2)
+      RETURN
+      ENTRY DBSCHGET (KEYWRD,I1,I2)
+      RETURN
       END
 

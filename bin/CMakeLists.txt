@@ -4,7 +4,8 @@
 
 cmake_minimum_required (VERSION 2.6) 
 
-file(GLOB tobuild FVS*_sourceList.txt)
+file(GLOB tobuild FVSiec*_sourceList.txt)
+#file(GLOB tobuild FVS*_sourceList.txt)
 list(SORT tobuild)
 message(STATUS "tobuild = ${tobuild}")
 
@@ -70,7 +71,10 @@ endif()
   
 set (OUTPUT_NAME ${prgName})
 set (includeDirs)
-set (sourceFiles)
+set (CsourceSQL)
+set (CsourceFFE)
+set (FsourceFVS)
+set (FsourceMAIN)
   
 file(STRINGS ${prgName}_sourceList.txt fileList)
 
@@ -78,11 +82,20 @@ foreach (fn ${fileList})
   get_filename_component (fname   ${fn} NAME CACHE)
   get_filename_component (pname   ${fn} PATH CACHE)
   get_filename_component (extname ${fn} EXT  CACHE)  
-  if (${extname} STREQUAL ".F77" OR ${extname} MATCHES ".h")
+
+  if (${extname} STREQUAL ".h") 
     list (APPEND includeDirs  ${pname})
   endif()
+  if (${extname} STREQUAL ".F77")
+    list (APPEND includeDirs  ${pname})
+  endif()
+
   if (${extname} STREQUAL ".f")
-    list (APPEND sourceFiles ${fn})
+    if (${fname} STREQUAL "main.f")
+      list (APPEND FsourceMAIN ${fn})
+    else()
+      list (APPEND FsourceFVS ${fn})
+    endif()
   elseif(${extname} STREQUAL ".c")   
     if (fname STREQUAL mkdbsTypeDefs.c)
       add_executable(mkdbsTypeDefs ${fn})
@@ -91,8 +104,10 @@ foreach (fn ${fileList})
                          COMMAND ${MKDBSTYPEDEFS_EXE} 
                          DEPENDS ${MKDBSTYPEDEFS_EXE})
       add_custom_target(dbstypedefs mkdbsTypeDefs)
+    elseif(fname STREQUAL fvsSQL.c)                                       
+      list (APPEND CsourceSQL ${fn})
     else()                                       
-      list (APPEND sourceFiles ${fn})
+      list (APPEND CsourceFFE ${fn})
     endif()
   endif()
   unset (fname   CACHE)
@@ -102,13 +117,23 @@ endforeach(fn)
 
 list (REMOVE_DUPLICATES includeDirs)
 list (APPEND includeDirs ${CMAKE_CURRENT_BINARY_DIR})
-message(STATUS "prgName= ${prgName} includeDirs = ${includeDirs}")
-include_directories(BEFORE ${includeDirs})
-get_directory_property(includeSoFar INCLUDE_DIRECTORIES)
-message(STATUS "includeSoFar= ${includeSoFar}")
 
-add_executable (${prgName} ${sourceFiles})
-add_dependencies(${prgName} dbstypedefs)
+include_directories(BEFORE ${includeDirs}) 
+
+#message(STATUS "includeDirs= ${includeDirs}")
+#message(STATUS "CsourceSQL= ${CsourceSQL}")
+#message(STATUS "CsourceFFE= ${CsourceFFE}")
+#message(STATUS "FsourceFVS= ${FsourceFVS}")
+#message(STATUS "FsourceMAIN= ${FsourceMAIN}")
+
+add_library(sqllib SHARED ${CsourceSQL})
+add_library(ffelib SHARED ${CsourceFFE})
+add_library(fvslib SHARED ${FsourceFVS})
+add_library(_${prgName} SHARED ${FsourceMAIN}) # source is not actually needed
+target_link_libraries(_${prgName} fvslib sqllib ffelib)
+
+add_executable (${prgName} ${FsourceMAIN})
+target_link_libraries(${prgName} fvslib sqllib ffelib)
+add_dependencies(fvslib dbstypedefs)
 
 set_target_properties(${prgName} PROPERTIES LINKER_LANGUAGE Fortran)
-

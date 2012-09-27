@@ -18,7 +18,11 @@ SQLRETURN SQLAllocHandle(
       SQLHANDLE     InputHandle,
       SQLHANDLE *   OutputHandlePtr);
 */
+#ifdef CMPgcc
 int fvssqlallochandle_(
+#else
+int FVSSQLALLOCHANDLE(
+#endif
       SQLSMALLINT *HandleType,
       SQLHANDLE   *InputHandle,
       SQLHANDLE   *OutputHandlePtr)
@@ -41,7 +45,11 @@ SQLRETURN SQLBindCol(
       SQLLEN         BufferLength,
       SQLLEN *       StrLen_or_Ind);
 */
+#ifdef CMPgcc
 int fvssqlbindcol_(
+#else
+int FVSSQLBINDCOL(
+#endif
       SQLHSTMT       *StatementHandle,
       SQLUSMALLINT   *ColumnNumber,
       SQLSMALLINT    *TargetType,
@@ -73,7 +81,11 @@ SQLRETURN SQLBindParameter(
       SQLLEN          BufferLength,
       SQLLEN *        StrLen_or_IndPtr);
 */
+#ifdef CMPgcc
 int fvssqlbindparameter_(
+#else
+int FVSSQLBINDPARAMETER(
+#endif
       SQLHSTMT        *StatementHandle,
       SQLUSMALLINT    *ParameterNumber,
       SQLSMALLINT     *InputOutputType,
@@ -104,7 +116,11 @@ int fvssqlbindparameter_(
 SQLRETURN SQLCloseCursor(
      SQLHSTMT     StatementHandle);
 */
+#ifdef CMPgcc
 int fvssqlclosecursor_(
+#else
+int FVSSQLCLOSECURSOR(
+#endif
       SQLHSTMT        *StatementHandle)
 {
   return SQLCloseCursor(
@@ -121,7 +137,12 @@ SQLRETURN SQLColAttribute (
       SQLSMALLINT *   StringLengthPtr,
       SQLLEN *        NumericAttributePtr);
 */
+#ifdef CMPgcc
 int fvssqlcolattribute_(
+#else
+int FVSSQLCOLATTRIBUTE(
+#endif
+
       SQLHSTMT        *StatementHandle,
       SQLUSMALLINT    *ColumnNumber,
       SQLUSMALLINT    *FieldIdentifier,
@@ -155,7 +176,11 @@ SQLRETURN SQLDescribeCol(
       SQLSMALLINT *  DecimalDigitsPtr,
       SQLSMALLINT *  NullablePtr);
 */
+#ifdef CMPgcc
 int fvssqldescribecol_(
+#else
+int FVSSQLDESCRIBECOL(
+#endif
       SQLHSTMT       *StatementHandle,
       SQLUSMALLINT   *ColumnNumber,
       SQLCHAR        *ColumnName,
@@ -185,7 +210,11 @@ int fvssqldescribecol_(
 SQLRETURN SQLDisconnect(
      SQLHDBC     ConnectionHandle);
 */
+#ifdef CMPgcc
 int fvssqldisconnect_(
+#else
+int FVSSQLDISCONNECT(
+#endif
      SQLHDBC     *ConnectionHandle)
 {
   return SQLDisconnect(
@@ -204,9 +233,11 @@ SQLRETURN SQLDriverConnect(
      SQLSMALLINT *   StringLength2Ptr,
      SQLUSMALLINT    DriverCompletion);
 */
-
-
+#ifdef CMPgcc
 int fvssqldriverconnect_(
+#else
+int FVSSQLDRIVERCONNECT(
+#endif
      SQLHDBC         *ConnectionHandle,
      SQLHWND         *WindowHandle,
      SQLCHAR         *InConnectionString,
@@ -258,7 +289,11 @@ SQLRETURN SQLDrivers(
      SQLSMALLINT     BufferLength2,
      SQLSMALLINT *   AttributesLengthPtr);
 */
+#ifdef CMPgcc
 int fvssqldrivers_(
+#else
+int FVSSQLDRIVERS(
+#endif
      SQLHENV        *EnvironmentHandle,
      SQLUSMALLINT   *Direction,
      SQLCHAR        *DriverDescription,
@@ -288,7 +323,11 @@ SQLRETURN SQLEndTran(
      SQLHANDLE     Handle,
      SQLSMALLINT   CompletionType);
 */
+#ifdef CMPgcc
 int fvssqlendtran_(
+#else
+int FVSSQLENDTRAN(
+#endif
      SQLSMALLINT   *HandleType,
      SQLHANDLE     *Handle,
      SQLSMALLINT   *CompletionType)
@@ -307,7 +346,11 @@ SQLRETURN SQLExecDirect(
      SQLCHAR *    StatementText,
      SQLINTEGER   TextLength);
 */
+#ifdef CMPgcc
 int fvssqlexecdirect_(
+#else
+int FVSSQLEXECDIRECT(
+#endif
      SQLHSTMT     *StatementHandle,
      SQLCHAR      *StatementText,
      SQLINTEGER   *TextLength)
@@ -324,23 +367,29 @@ int fvssqlexecdirect_(
 SQLRETURN SQLExecute(
      SQLHSTMT     StatementHandle);
 */
+#ifdef CMPgcc
 int fvssqlexecute_(
+#else
+int FVSSQLEXECUTE(
+#endif
      SQLHSTMT     *StatementHandle)
 {
   return SQLExecute(*StatementHandle);
 }
 
-
 /**************************************
 SQLRETURN SQLFetch(
      SQLHSTMT     StatementHandle);
 */
+#ifdef CMPgcc
 int fvssqlfetch_(
+#else
+int FVSSQLFETCH(
+#endif
      SQLHSTMT     *StatementHandle)
 {
   return SQLFetch(*StatementHandle);
 }
-
 
 /**************************************
 SQLRETURN SQLFetchScroll(
@@ -348,7 +397,11 @@ SQLRETURN SQLFetchScroll(
       SQLSMALLINT   FetchOrientation,
       SQLLEN        FetchOffset);
 */
+#ifdef CMPgcc
 int fvssqlfetchscroll_(
+#else
+int FVSSQLFETCHSCROLL(
+#endif
       SQLHSTMT      *StatementHandle,
       SQLSMALLINT   *FetchOrientation,
       SQLLEN        *FetchOffset)
@@ -359,26 +412,32 @@ int fvssqlfetchscroll_(
      *FetchOffset);
 }
 
-
 /**************************************
 SQLRETURN SQLFreeHandle(
      SQLSMALLINT   HandleType,
      SQLHANDLE     Handle);
 */
+#ifdef CMPgcc
 int fvssqlfreehandle_(
+#else
+int FVSSQLFREEHANDLE(
+#endif
      SQLSMALLINT  *HandleType,
      SQLHANDLE    *Handle)
 {
  return SQLFreeHandle(*HandleType, *Handle);
 }
 
-
 /**************************************
 SQLRETURN SQLFreeStmt(
      SQLHSTMT       StatementHandle,
      SQLUSMALLINT   Option);
 */
+#ifdef CMPgcc
 int fvssqlfreestmt_(
+#else
+int FVSSQLFREESTMT(
+#endif
      SQLHSTMT       *StatementHandle,
      SQLUSMALLINT   *Option)
 {
@@ -386,7 +445,6 @@ int fvssqlfreestmt_(
      *StatementHandle,
      *Option);
 }
-
 
 /**************************************
 SQLRETURN SQLGetData(
@@ -397,7 +455,11 @@ SQLRETURN SQLGetData(
       SQLLEN         BufferLength,
       SQLLEN *       StrLen_or_IndPtr);
 */
+#ifdef CMPgcc
 int fvssqlgetdata_(
+#else
+int FVSSQLGETDATA(
+#endif
       SQLHSTMT       *StatementHandle,
       SQLUSMALLINT   *Col_or_Param_Num,
       SQLSMALLINT    *TargetType,
@@ -416,8 +478,6 @@ int fvssqlgetdata_(
   return rtn;
 }
 
-
-
 /**************************************
 SQLRETURN SQLGetDiagRec(
      SQLSMALLINT     HandleType,
@@ -429,7 +489,11 @@ SQLRETURN SQLGetDiagRec(
      SQLSMALLINT     BufferLength,
      SQLSMALLINT *   TextLengthPtr);
 */
+#ifdef CMPgcc
 int fvssqlgetdiagrec_(
+#else
+int FVSSQLGETDIAGREC(
+#endif
      SQLSMALLINT     *HandleType,
      SQLHANDLE       *Handle,
      SQLSMALLINT     *RecNumber,
@@ -462,7 +526,11 @@ SQLRETURN SQLGetInfo(
      SQLSMALLINT     BufferLength,
      SQLSMALLINT *   StringLengthPtr);
 */
+#ifdef CMPgcc
 int fvssqlgetinfo_(
+#else
+int FVSSQLGETINFO(
+#endif
      SQLHDBC         *ConnectionHandle,
      SQLUSMALLINT    *InfoType,
      SQLPOINTER      *InfoValuePtr,
@@ -479,13 +547,16 @@ int fvssqlgetinfo_(
   return rtn;
 }
 
-
 /**************************************
 SQLRETURN SQLNumResultCols(
      SQLHSTMT        StatementHandle,
      SQLSMALLINT *   ColumnCountPtr);
 */
+#ifdef CMPgcc
 int fvssqlnumresultcols_(
+#else
+int FVSSQLNUMRESULTCOLS(
+#endif
      SQLHSTMT        *StatementHandle,
      SQLSMALLINT     *ColumnCountPtr)
 {
@@ -494,14 +565,17 @@ int fvssqlnumresultcols_(
       ColumnCountPtr);
 }
 
-
 /**************************************
 SQLRETURN SQLPrepare(
      SQLHSTMT      StatementHandle,
      SQLCHAR *     StatementText,
      SQLINTEGER    TextLength);
 */
+#ifdef CMPgcc
 int fvssqlprepare_(
+#else
+int FVSSQLPREPARE(
+#endif
      SQLHSTMT      *StatementHandle,
      SQLCHAR       *StatementText,
      SQLINTEGER    *TextLength)
@@ -514,7 +588,6 @@ int fvssqlprepare_(
   return rtn;
 }
 
-
 /**************************************
 SQLRETURN SQLSetConnectAttr(
      SQLHDBC       ConnectionHandle,
@@ -522,7 +595,11 @@ SQLRETURN SQLSetConnectAttr(
      SQLPOINTER    ValuePtr,
      SQLINTEGER    StringLength);
 */
+#ifdef CMPgcc
 int fvssqlsetconnectattr_(
+#else
+int FVSSQLSETCONNECTATTR(
+#endif
      SQLHDBC       *ConnectionHandle,
      SQLINTEGER    *Attribute,
      SQLPOINTER    *ValuePtr,
@@ -537,7 +614,6 @@ int fvssqlsetconnectattr_(
   return rtn;
 }
 
-
 /**************************************
 SQLRETURN SQLSetEnvAttr(
      SQLHENV      EnvironmentHandle,
@@ -545,7 +621,11 @@ SQLRETURN SQLSetEnvAttr(
      SQLPOINTER   ValuePtr,
      SQLINTEGER   StringLength);
 */
+#ifdef CMPgcc
 int fvssqlsetenvattr_(
+#else
+int FVSSQLSETENVATTR(
+#endif
      SQLHENV    *EnvironmentHandle,
      SQLINTEGER *Attribute,
      SQLPOINTER *ValuePtr,
@@ -559,5 +639,4 @@ int fvssqlsetenvattr_(
 //  *StringLength);   should work
  return rtn;
 }
-
 
