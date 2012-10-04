@@ -93,15 +93,6 @@ c     there is no attached file.
 
           if (stopptfile == " ") stopptfile="[none]"
 
-c         when there is no "output", then downgrade the stop to minor
-
-          if (stopptfile == "[none]") then
-            minorstopptcode = majorstopptcode
-            minorstopptyear = majorstopptyear
-            majorstopptcode = 0
-            majorstopptyear = 0
-          endif
-
         case ("--restart=")
           restartcode = 1
           if (ieq+1 <= iend) restartfile = cmdLcopy(ieq+1:iend)
@@ -141,7 +132,6 @@ c       store the last used restart code that was used to store all the stands.
         stopstatcd = 1
 
       endif
-
       if (majorstopptcode /= 0 .and. stopptfile /= "[none]") then
         jstash=71
         inquire(unit=jstash,opened=fstat)
@@ -156,7 +146,14 @@ c       store the last used restart code that was used to store all the stands.
         fvsRtnCode = 1
         return
    20   continue
+        print *,"Stop point code=",majorstopptcode," Year=",
+     >     majorstopptyear," File=",trim(stopptfile)
+      else
+        if (majorstopptcode /= 0) print *,
+     >     "Stop point code=",majorstopptcode," Year=",
+     >     majorstopptyear," Will stop without saving data."
       endif
+      
   100 continue
       
 c     open/reopen the keyword/output file.
