@@ -119,7 +119,7 @@ C
       ENDIF
       IF (ICACT.GT.0) THEN
          DO I=1,ICACT
-            CALL CHWRIT (CBUFF,IPNT,LNCBUF,CACT(I),2)
+            CALL CHREAD (CBUFF,IPNT,LNCBUF,CACT(I),2)
          ENDDO
       ENDIF
 C

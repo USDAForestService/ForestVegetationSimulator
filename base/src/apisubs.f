@@ -629,7 +629,7 @@ C     add an activity to the schedule.
       
       integer :: i,idt,iactk,nprms,rtnCode,kode
       integer, parameter :: mxtopass=20
-      real(kind=8) inprms(*)
+      real(kind=8) inprms(nprms)
       real(kind=4) prms(mxtopass)
 
       if (nprms > 0) then 
