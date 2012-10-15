@@ -1,7 +1,7 @@
       PROGRAM MAIN
       IMPLICIT NONE
 C----------
-C  **MAIN--BASE DATE OF LAST REVISION:  11/30/2011
+C  **MAIN--BASE DATE OF LAST REVISION:  10/13/2012
 C----------
       include "GLBLCNTL.F77"
       INTEGER rtnCode,lenCL
@@ -12,15 +12,6 @@ C
       lenCl = 0
       CALL cmdline(' ',lenCL)
       
-C     When running as a program, having a stop point without a stop point 
-C     is nonsense. Kill the run. 
-
-      if (majorstopptcode /= 0 .and. jstash == -1) then
-      	print *,"Setting a stop point requires a stop point file",
-     >    " when running as a program rather than a shared library."
-        goto 10
-      endif
-
       IF (fvsRtnCode.NE.0) GOTO 10
 C
 C     INITIALIZE THE MULTIPLE REPORT ROUTINE (THIS DOES NOT OPEN A FILE)
