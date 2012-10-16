@@ -85,7 +85,10 @@ C
       IDWDCOV      = INTS( 64)
       DWDVID       = INTS( 65)
       DWDCID       = INTS( 66)
-      ! note that ConnHndl[In,Out] could be long ints!
+      ! note that ConnHndl[In,Out] could be long ints! If
+      ! the ConnHndlIn values are positive, then the data
+      ! bases are already opened. Make sure they are closed
+      CALL DBSCLOSE(.TRUE.,.TRUE.)
       IF (INTS(67).EQ.1) ConnHndlIn = 0 ! signal to reopen
       IF (INTS(68).EQ.1) ConnHndlOut= 0
       ICLIM        = INTS( 69)
