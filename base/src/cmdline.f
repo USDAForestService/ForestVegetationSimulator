@@ -105,7 +105,7 @@ c     there is no attached file.
       
         if (keywordfile /= " ") then
           print *,"Specifying a keyword file conflicts with",
-     -            " specifying a restart file; it is ignored."
+     -         " using a restart file; keyword file is ignored."
           keywordfile = " "
         endif
 
@@ -123,8 +123,10 @@ c     there is no attached file.
         return        
    40   continue
         read (jdstash) restartcode,oldstopyr,i,keywordfile(:i)
-        print *,"Restarting from year= ",oldstopyr,
-     -          " using stop point code= ",restartcode
+        write (*,41) restartfile(:len_trim(restartfile)),
+     >          oldstopyr,restartcode
+   41   format (" Restarting from file=",A," Year=",I5,
+     >          " Stop point code=",I2)
 
 c       store the last used restart code that was used to store all the stands.    
 
@@ -146,12 +148,12 @@ c       store the last used restart code that was used to store all the stands.
         fvsRtnCode = 1
         return
    20   continue
-        print *,"Stop point code=",majorstopptcode," Year=",
-     >     majorstopptyear," File=",trim(stopptfile)
+        write (*,21) majorstopptcode,
+     >     majorstopptyear," File= ",trim(stopptfile)
       else
-        if (majorstopptcode /= 0) print *,
-     >     "Stop point code=",majorstopptcode," Year=",
-     >     majorstopptyear," Will stop without saving data."
+        if (majorstopptcode /= 0) write (*,21) majorstopptcode,
+     >    majorstopptyear," Will stop without saving data."
+   21   format (" Stop point code=",I2," Year=",I5,A,A)
       endif
       
   100 continue
@@ -231,7 +233,7 @@ c     if the current return code is not zero, then no restart is reasonable.
           inquire (unit=jdstash,pos=readFilePos) ! save position where stand is stored
           seekReadPos = readFilePos ! start reading form here.
           call getstd
-          restartcode = -1 ! signal return to caller
+          restartcode = -originalRestartCode ! signal return to caller
           stopstatcd = 4
         else ! stop with store without reloading
           stopstatcd = 0
@@ -338,7 +340,7 @@ cc     -  iy(icyc)," +1=",iy(icyc+1)
         tmpyr=iy(icyc)
       endif
       
-c     If the program is "stopping", the store the data
+c     If the program is "stopping", then store the data (unless there is 
       
       IF (jstash /= -1) then
         if (firstWrite == 1) then

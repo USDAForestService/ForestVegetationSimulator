@@ -75,7 +75,7 @@ C     FIND THE RESTART, AND BRANCH AS REQUIRED
       IF (DEBUG) WRITE(JOSTND,*) "In FVS, IRSTRTCD=",IRSTRTCD,
      >                           " IRTNCD=",IRTNCD
       if (IRTNCD.ne.0) return
-      if (IRSTRTCD.eq.-1) return
+      if (IRSTRTCD.lt.0) return
       if (IRSTRTCD.ge.1) goto 41
 C
       ICL1=0

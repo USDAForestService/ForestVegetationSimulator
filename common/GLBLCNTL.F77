@@ -15,9 +15,9 @@ C
 C     fvsRtnCode= -1 no start up has happened.
 C                 0 if all is well, continue processing, 
 C                 1 if there is a error, return to caller, 
-C                 2 if EOF on or STOP was found on the keyword file
-C                   or on the restart file. 
-C                  (not an error, but don not continue).      
+C                 2 if STOP was found on the keyword file
+C                   or EOF on the restart file. 
+C                  (not an error, but do not continue).      
 C     restartcode= restart code. This value is the loction code 
 C         where the processing ended. That is, it is the value 
 C         of minor|major stopptcode when the program returned 
