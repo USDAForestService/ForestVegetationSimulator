@@ -4,6 +4,9 @@
 
 cmake_minimum_required (VERSION 2.6) 
 
+# set Visual Studio flags
+set (CMAKE_C_FLAGS "/DWIN32 /D_WINDOWS /W3 /Zm100" CACHE STRING "VS10 mod" FORCE)
+
 file(GLOB tobuild FVSiec*_sourceList.txt)
 #file(GLOB tobuild FVS*_sourceList.txt)
 list(SORT tobuild)
@@ -49,6 +52,10 @@ return()
 
 ##If edits are made, make them in the CMakeList.txt file in the parent directory.
 cmake_minimum_required (VERSION 2.6) 
+
+# set Visual Studio flags
+set (CMAKE_C_FLAGS "/DWIN32 /D_WINDOWS /W3 /Zm100" CACHE STRING "VS10 mod" FORCE)
+
 project (FVS C Fortran)
 
 set (CMAKE_Fortran_Format FIXED)
@@ -62,7 +69,7 @@ message(STATUS "slfn = ${slfn} prgName= ${prgName}")
 add_definitions(-DANSI)
 if(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Windows")
   link_libraries(odbc32)
-  add_definitions(-DWINDOWS)
+  add_definitions(-DWINDOWS -D_WINDLL)
 else()  
   link_libraries(odbc)
   add_definitions(-DCMPgcc)
@@ -75,6 +82,7 @@ set (CsourceSQL)
 set (CsourceFFE)
 set (FsourceFVS)
 set (FsourceMAIN)
+
   
 file(STRINGS ${prgName}_sourceList.txt fileList)
 
@@ -126,14 +134,14 @@ include_directories(BEFORE ${includeDirs})
 #message(STATUS "FsourceFVS= ${FsourceFVS}")
 #message(STATUS "FsourceMAIN= ${FsourceMAIN}")
 
-add_library(sqllib SHARED ${CsourceSQL})
-add_library(ffelib SHARED ${CsourceFFE})
-add_library(fvslib SHARED ${FsourceFVS})
-add_library(_${prgName} SHARED ${FsourceMAIN}) # source is not actually needed
-target_link_libraries(_${prgName} fvslib sqllib ffelib)
+add_library(sql SHARED ${CsourceSQL})
+add_library(ffe SHARED ${CsourceFFE})
+add_library(fvs SHARED ${FsourceFVS})
+add_executable (_${prgName} ${FsourceMAIN})
+# target_link_libraries(_${prgName} fvs sql ffe)
+target_link_libraries(_${prgName} fvs)
+target_link_libraries(fvs ffe)
+target_link_libraries(fvs sql)
+add_dependencies(fvs dbstypedefs)
 
-add_executable (${prgName} ${FsourceMAIN})
-target_link_libraries(${prgName} fvslib sqllib ffelib)
-add_dependencies(fvslib dbstypedefs)
-
-set_target_properties(${prgName} PROPERTIES LINKER_LANGUAGE Fortran)
+set_target_properties(_${prgName} PROPERTIES LINKER_LANGUAGE Fortran)
