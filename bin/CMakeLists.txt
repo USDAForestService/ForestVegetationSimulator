@@ -7,8 +7,9 @@ cmake_minimum_required (VERSION 2.6)
 # set Visual Studio flags
 set (CMAKE_C_FLAGS "/DWIN32 /D_WINDOWS /W3 /Zm100" CACHE STRING "VS10 mod" FORCE)
 
-file(GLOB tobuild FVSiec*_sourceList.txt)
-#file(GLOB tobuild FVS*_sourceList.txt)
+#file(GLOB tobuild FVSwsc*_sourceList.txt)
+file(GLOB tobuild FVS*_sourceList.txt)
+
 list(SORT tobuild)
 message(STATUS "tobuild = ${tobuild}")
 
@@ -18,6 +19,7 @@ foreach (sourceList ${tobuild})
  
   get_filename_component (slfn ${sourceList} NAME CACHE)
   string(REPLACE "_sourceList.txt" "" prgName ${slfn})
+  string(REPLACE "FVS" "" varName ${prgName})
 
   file(STRINGS ${sourceList}  sourceListStrings  NEWLINE_CONSUME) 
   string(REPLACE "../" "../../" newsourceList ${sourceListStrings})  
@@ -64,6 +66,7 @@ set (CMAKE_VERBOSE_MAKEFILE ON)
 file(GLOB sourceList FVS*_sourceList.txt)
 get_filename_component (slfn ${sourceList} NAME CACHE)
 string(REPLACE "_sourceList.txt" "" prgName ${slfn})
+string(REPLACE "FVS" "" varName ${prgName})
 message(STATUS "slfn = ${slfn} prgName= ${prgName}")
 
 add_definitions(-DANSI)
@@ -134,14 +137,17 @@ include_directories(BEFORE ${includeDirs})
 #message(STATUS "FsourceFVS= ${FsourceFVS}")
 #message(STATUS "FsourceMAIN= ${FsourceMAIN}")
 
-add_library(sql SHARED ${CsourceSQL})
-add_library(ffe SHARED ${CsourceFFE})
-add_library(fvs SHARED ${FsourceFVS})
+message(STATUS "FVSvariant = FVS${varName}")
+
+add_library(FVSsql SHARED ${CsourceSQL})
+add_library(FVSfofem SHARED ${CsourceFFE})
+add_library(FVS${varName} SHARED ${FsourceFVS}) 
 add_executable (_${prgName} ${FsourceMAIN})
-# target_link_libraries(_${prgName} fvs sql ffe)
-target_link_libraries(_${prgName} fvs)
-target_link_libraries(fvs ffe)
-target_link_libraries(fvs sql)
-add_dependencies(fvs dbstypedefs)
+target_link_libraries(_${prgName} FVS${varName} FVSsql FVSfofem)
+target_link_libraries(_${prgName} FVS${varName})
+target_link_libraries(FVS${varName} FVSfofem)
+target_link_libraries(FVS${varName} FVSsql)
+add_dependencies(FVS${varName} dbstypedefs)
 
 set_target_properties(_${prgName} PROPERTIES LINKER_LANGUAGE Fortran)
+set_target_properties(_${prgName} PROPERTIES OUTPUT_NAME FVS${varName})
