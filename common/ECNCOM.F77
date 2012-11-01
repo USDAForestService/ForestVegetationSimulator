@@ -1,6 +1,6 @@
 C COMMON BLOCK FOR FVS/ECON
 C----------
-C  **ECON   DATE OF LAST REVISION:  09/01/10
+C  **ECON   DATE OF LAST REVISION:  10/01/12
 C----------
 C Author Fred Martin, WA DNR
 
@@ -24,8 +24,7 @@ C   MAXTRE - maximum number of tree records that FVS can process, from PRGPRM.F7
       integer annCostCnt, annRevCnt, econStartYear, fixHrvCnt,
      &         fixPctCnt, pctMinUnits, plntCostCnt, varHrvCnt, varPctCnt
 
-      integer, dimension (MAX_KEYWORDS) :: hrvCostBf, hrvCostFt3,
-     &                              hrvCostTpa, varHrvUnits, varPctUnits
+      integer, dimension (MAX_KEYWORDS) :: varHrvUnits, varPctUnits
 
       integer, dimension (MAX_PLANT_COSTS)      :: plntCostUnits
 
@@ -47,10 +46,12 @@ C   MAXTRE - maximum number of tree records that FVS can process, from PRGPRM.F7
       real, dimension(TPA : FT3_100) :: harvest
 
       real, dimension (MAX_KEYWORDS) :: annCostAmt, annRevAmt,
-     &                                  fixHrvAmt, fixPctAmt, pctBf,
-     &                                  pctFt3, pctTpa, varHrvAmt,
-     &                                  varHrvDbhLo, varHrvDbhHi,
-     &                               varPctAmt, varPctDbhLo, varPctDbhHi
+     &                                  fixHrvAmt, fixPctAmt, hrvCostBf, 
+     &                                  hrvCostFt3,hrvCostTpa, 
+     &                                  pctBf, pctFt3, pctTpa, 
+     &                                  varHrvAmt, varHrvDbhLo, 
+     &                                  varHrvDbhHi, varPctAmt, 
+     &                                  varPctDbhLo, varPctDbhHi
 
       real, dimension (MAX_PLANT_COSTS) :: plntCostAmt
 
