@@ -1,10 +1,10 @@
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:02:19
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:17:43
 
  ----------------------------------------------------------------------------------------------------------------------------------
 
                                                  OPTIONS SELECTED BY INPUT
 
- KEYWORD FILE NAME: Example3Forest_New.key
+ KEYWORD FILE NAME: Example3Forest.key
  ----------------------------------------------------------------------------------------------------------------------------------
  KEYWORD    PARAMETERS:
  --------   -----------------------------------------------------------------------------------------------------------------------
@@ -220,7 +220,7 @@
  HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
 
  NUMBER OF RECORDS WITH MISTLETOE                   0     0     0
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:02:19
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:17:44
 
  STAND ID: ECON_UserManualExample_3      MGMT ID: NONE    - Economically efficient time to implement future perpetual prescription
 
@@ -361,7 +361,7 @@
          TOTAL        19.3   24.4   26.3   28.1   31.1    32.8    9673. CUFT      62.% DF1,  20.% WH1,  19.% RC1,   0.% ---
          MERCH        19.3   24.4   26.4   28.1   31.1    32.8    9031. CUFT      61.% DF1,  20.% WH1,  19.% RC1,   0.% ---
          MERCH        20.1   25.0   26.4   28.7   31.1    32.8   57707. BDFT      58.% DF1,  22.% WH1,  20.% RC1,   0.% ---
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:02:20
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:17:44
 
  STAND ID: ECON_UserManualExample_3      MGMT ID: NONE    - Economically efficient time to implement future perpetual prescription
 
@@ -483,7 +483,7 @@
          90     DF1      24.96   136.36    35     0.35     44.0    6.47
         100     WH1      31.14   152.57    36     0.86     92.7    3.00
                                                                           100      22.6       71.     198.      142.0    165.8
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:02:20
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:17:44
 
  STAND ID: ECON_UserManualExample_3      MGMT ID: NONE    - Economically efficient time to implement future perpetual prescription
 
@@ -565,15 +565,15 @@
   YEAR PERIOD ACTIVE     COST  REVENUE    COST  REVENUE   PNV    IRR  RATIO   RRR   SEV  FORST  TREES  HARV   HARV   RATE   SEV
  ------------------------------------------------------------------------------------------------------------------------------------
   2004     10  YES       1181     1407    1131     1352   221  >50.0    1.2   5.9          307    180      0  17006   4.0    127
-  2014     20  YES       1454     1828     946     1187   241   46.7    1.3   5.2          299    172      0  21678   4.0    127
-  2024     30  YES       1620     2328     723     1022   298   21.2    1.4   5.2          337    210      0  26249   4.0    127
-  2034     40  YES       1753     3082     544      914   370   14.8    1.7   5.4          397    270      0  30439   4.0    127
-  2044     50  YES       1804     3873     396      776   380   11.4    2.0   5.4          398    271      0  33971   4.0    127
-  2054     60  YES       1846     4854     293      657   363    9.5    2.2   5.4          376    249      0  36930   4.0    127
-  2064     70  YES       1908     5993     225      548   322    8.1    2.4   5.3          331    204      0  40242   4.0    127
-  2074     80  YES       1922     6874     176      424   249    7.0    2.4   5.2          254    127      0  42330   4.0    127
-  2084     90  YES       1840     7863     138      328   190    6.2    2.4   5.0          193     66      0  43344   4.0    127
-  2094    100  YES       1851     8948     117      252   135    5.6    2.2   4.8          137     10      0  44351   4.0    127
+  2014     20  YES       1456     1828     947     1187   240   46.6    1.3   5.2          298    171      0  21678   4.0    127
+  2024     30  YES       1625     2328     725     1022   296   21.1    1.4   5.2          335    208      0  26249   4.0    127
+  2034     40  YES       1758     3082     545      914   369   14.8    1.7   5.4          395    268      0  30439   4.0    127
+  2044     50  YES       1809     3873     397      776   379   11.4    2.0   5.4          397    270      0  33971   4.0    127
+  2054     60  YES       1850     4854     294      657   363    9.5    2.2   5.4          375    248      0  36930   4.0    127
+  2064     70  YES       1912     5993     226      548   322    8.1    2.4   5.3          330    203      0  40242   4.0    127
+  2074     80  YES       1927     6874     176      424   249    7.0    2.4   5.2          254    127      0  42330   4.0    127
+  2084     90  YES       1845     7863     139      328   190    6.2    2.4   5.0          193     66      0  43344   4.0    127
+  2094    100  YES       1856     8948     117      252   135    5.6    2.1   4.8          137     10      0  44351   4.0    127
  
  
  HARVEST VOLUME AND GROSS VALUE REPORT

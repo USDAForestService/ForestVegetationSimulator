@@ -1,4 +1,4 @@
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:53:06
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:41:23
 
  ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -84,7 +84,7 @@
 
  ECON       ECONOMIC EXTENSION KEYWORDS:
 
- STRTECON   ECON START YEAR/CYCLE:    1, DISCOUNT RATE:  4.0%, Known SEV: $ , SEV will be computed: TRUE
+ STRTECON   ECON START YEAR/CYCLE:    1, DISCOUNT RATE:  4.0%, Known SEV: $ , SEV will be computed: FALSE
 
 
             *Make all harvest "pretend" harvests
@@ -113,7 +113,7 @@
 
  HRVRVN     HARVEST PRICE: $ 300. PER 1000 BF-LOGS >= 24.0 INCHES DIB/DBH FOR SPECIES DF.
 
- ********    HRVRVN     KEYWORD IGNORED, VALUES PREVIOUSLY SET FOR THIS SPECIES: DF, UNITS-OF-MEASURE: 1000 BF-LOGS, & DIAMETER CLASS: 24.0, RECORD:  39
+ ********     HRVRVN     KEYWORD IGNORED, VALUES PREVIOUSLY SET FOR THIS SPECIES: DF, UNITS-OF-MEASURE: 1000 BF-LOGS, & DIAMETER CLASS: 24.0, RECORD:  39
 
  HRVRVN     HARVEST PRICE: $  50. PER 1000 BF-LOGS >=  6.0 INCHES DIB/DBH FOR SPECIES WH.
 
@@ -192,7 +192,7 @@
 
     1   2004
                 BASE     THINDBH   2004        6.00     16.00      0.90      0.00      0.00     10.00
-                ECON     STRTECON  2004        4.00      0.00      1.00
+                ECON     STRTECON  2004        4.00      0.00      0.00
                 ECON     PRETEND   2004      999.00
 
     2   2014
@@ -257,7 +257,7 @@
  HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
 
  NUMBER OF RECORDS WITH MISTLETOE                   0     0     0
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:53:06
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:41:23
 
  STAND ID: ECON_UserManualExample_1B     MGMT ID: NONE    Economically efficient time to harvest an existing stand.
 
@@ -398,7 +398,7 @@
          TOTAL        19.3   24.4   26.3   28.1   31.1    32.8    9673. CUFT      62.% DF1,  20.% WH1,  19.% RC1,   0.% ---
          MERCH        19.3   24.4   26.4   28.1   31.1    32.8    9031. CUFT      61.% DF1,  20.% WH1,  19.% RC1,   0.% ---
          MERCH        20.1   25.0   26.4   28.7   31.1    32.8   57707. BDFT      58.% DF1,  22.% WH1,  20.% RC1,   0.% ---
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:53:07
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:41:24
 
  STAND ID: ECON_UserManualExample_1B     MGMT ID: NONE    Economically efficient time to harvest an existing stand.
 
@@ -520,7 +520,7 @@
          90     DF1      24.96   136.36    35     0.35     44.0    6.47
         100     WH1      31.14   152.57    36     0.86     92.7    3.00
                                                                           100      22.6       71.     198.      142.0    165.8
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:53:07
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:41:24
 
  STAND ID: ECON_UserManualExample_1B     MGMT ID: NONE    Economically efficient time to harvest an existing stand.
 
@@ -558,7 +558,7 @@
  -----  ----  ---------  --------  ----  --------------------  --------------------------------------------------------------------
 
     1   2004
-                ECON     STRTECON  2004  DONE IN 2004                4.00      0.00      1.00
+                ECON     STRTECON  2004  DONE IN 2004                4.00      0.00      0.00
                 ECON     PRETEND   2004  DONE IN 2004              999.00
                 BASE     THINDBH   2004  DELETED OR CANCELED         6.00     16.00      0.89      0.00      0.00     10.00
 
@@ -601,16 +601,16 @@
        -MENT  MODE IS ---------------- ----------------                B/C               OF     OF     CU FT  BD FT  DISC  KNOWN
   YEAR PERIOD ACTIVE     COST  REVENUE    COST  REVENUE   PNV    IRR  RATIO   RRR   SEV  FORST  TREES  HARV   HARV   RATE   SEV
  ------------------------------------------------------------------------------------------------------------------------------------
-  2004     10  YES        945      972     904      935    31  >50.0    1.0   4.4    95                    0  11112   4.0
-  2014     20  YES       1142     1308     744      850   106   34.5    1.1   4.7   195                    0  14177   4.0
-  2024     30  YES       1252     1578     562      692   131   15.9    1.2   4.7   189                    0  16545   4.0
-  2034     40  YES       1395     1813     437      538   100    9.8    1.2   4.5   126                    0  18827   4.0
-  2044     50  YES       1333     1802     301      361    60    6.7    1.2   4.4    69                    0  18598   4.0
-  2054     60  YES       1616     2641     262      357    95    6.7    1.4   4.5   105                    0  24836   4.0
-  2064     70  YES       1951     4062     229      371   142    6.7    1.6   4.7   152                    0  31171   4.0
-  2074     80  YES       2287     5391     198      333   135    6.1    1.7   4.7   141                    0  37544   4.0
-  2084     90  YES       2416     6295     162      263   100    5.5    1.6   4.6   103                    0  39678   4.0
-  2094    100  YES       2693     7796     141      220    79    5.1    1.6   4.5    80                    0  44833   4.0
+  2004     10  YES        945      972     904      935    31  >50.0    1.0   4.3                          0  11112   4.0
+  2014     20  YES       1144     1308     745      850   105   34.4    1.1   4.7                          0  14177   4.0
+  2024     30  YES       1256     1578     563      692   129   15.9    1.2   4.7                          0  16545   4.0
+  2034     40  YES       1399     1813     439      538    99    9.7    1.2   4.5                          0  18827   4.0
+  2044     50  YES       1337     1802     302      361    59    6.7    1.2   4.4                          0  18598   4.0
+  2054     60  YES       1620     2641     263      357    95    6.7    1.4   4.5                          0  24836   4.0
+  2064     70  YES       1956     4062     230      371   142    6.7    1.6   4.7                          0  31171   4.0
+  2074     80  YES       2291     5391     198      333   134    6.1    1.7   4.7                          0  37544   4.0
+  2084     90  YES       2421     6295     163      263   100    5.5    1.6   4.6                          0  39678   4.0
+  2094    100  YES       2698     7796     141      220    79    5.1    1.6   4.5                          0  44833   4.0
  
  
  HARVEST VOLUME AND GROSS VALUE REPORT

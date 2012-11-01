@@ -1,4 +1,4 @@
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:52:23
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:15:57
 
  ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -278,7 +278,7 @@
  HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
 
  NUMBER OF RECORDS WITH MISTLETOE                   0     0     0
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:52:23
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:15:57
 
  STAND ID: ECON_UserManualExample_2      MGMT ID: NONE    Calculate SEV for a perpetual management prescription.
 
@@ -429,7 +429,7 @@
          TOTAL        19.5   23.3   25.1   26.9   30.6    34.0    8596. CUFT      42.% DF1,  36.% WP1,   6.% WH1,   5.% WP2
          MERCH        19.7   23.4   25.3   27.0   30.6    34.0    7897. CUFT      42.% DF1,  36.% WP1,   6.% WH1,   5.% WP2
          MERCH        20.1   23.8   25.7   27.2   30.7    34.0   48469. BDFT      42.% DF1,  37.% WP1,   7.% WH1,   5.% WP2
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:52:27
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:15:59
 
  STAND ID: ECON_UserManualExample_2      MGMT ID: NONE    Calculate SEV for a perpetual management prescription.
 
@@ -554,7 +554,7 @@
                                                                           101      20.5       88.     202.      122.6    150.2
 
  ** NOTE:  DUE TO HARVEST, COMPRESSION, OR REGENERATION ESTABLISHMENT, NEW SAMPLE TREES WERE SELECTED.
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:52:27
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:15:59
 
  STAND ID: ECON_UserManualExample_2      MGMT ID: NONE    Calculate SEV for a perpetual management prescription.
 
@@ -628,7 +628,7 @@
    10   2094
                 BASE     THINDBH   2094  DELETED OR CANCELED         6.00     99.00      0.82      0.00     16.00      0.00
  ----------------------------------------------------------------------------------------------------------------------------------
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  19:52:24
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:15:58
  
  ----------------------------------------------------------------------------
                  REGENERATION ESTABLISHMENT MODEL VERSION 2.0
@@ -700,13 +700,13 @@
   2004     10  NO          72        0      68        0   -68           0.0        -209                    0      0   4.0
   2014     20  NO          87        0      76        0   -76           0.0        -141                    0      0   4.0
   2024     30  NO          97        0      80        0   -80           0.0        -116                    0      0   4.0
-  2034     40  NO         262      101     129       30   -99   <0.0    0.2   0.3  -125                    0   1970   4.0
-  2044     50  YES        679     1497     212      310    98    6.2    1.5   4.8   114                    0   7219   4.0
-  2054     60  YES        869     2221     211      317   106    5.8    1.5   4.7   117                    0  10389   4.0
-  2064     70  YES       1068     3246     203      317   114    5.5    1.6   4.7   122                    0  14500   4.0
-  2074     80  YES       1312     4672     195      312   117    5.3    1.6   4.6   122                    0  19794   4.0
-  2084     90  YES       1624     6566     188      300   112    5.1    1.6   4.5   115                    0  26258   4.0
-  2094    100  YES       1969     8763     180      274    94    4.8    1.5   4.4    96                    0  33046   4.0
+  2034     40  NO         265      101     129       30   -99   <0.0    0.2   0.3  -126                    0   1970   4.0
+  2044     50  YES        693     1497     215      310    95    6.1    1.4   4.8   110                    0   7219   4.0
+  2054     60  YES        892     2221     214      317   102    5.7    1.5   4.7   113                    0  10389   4.0
+  2064     70  YES       1095     3246     206      317   111    5.5    1.5   4.6   119                    0  14500   4.0
+  2074     80  YES       1346     4672     198      312   114    5.3    1.6   4.6   120                    0  19794   4.0
+  2084     90  YES       1662     6566     190      300   110    5.1    1.6   4.5   113                    0  26258   4.0
+  2094    100  YES       2012     8763     182      274    92    4.8    1.5   4.4    94                    0  33046   4.0
  
  
  HARVEST VOLUME AND GROSS VALUE REPORT
