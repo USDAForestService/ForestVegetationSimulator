@@ -1,6 +1,6 @@
-      SUBROUTINE ECVOL(spId, treeId, LOGDIA, LOGVOL, isCubic)
+      SUBROUTINE ECVOL(treeId, LOGDIA, LOGVOL, isCubic)
 C----------
-C **ECVOL--ECON  DATE OF LAST REVISION: 09/02/2010
+C **ECVOL--ECON  DATE OF LAST REVISION: 0/12/2012
 C----------
 C Author Fred Martin, WA DNR,
 ! Loads gross log volumes and dibs for every FVS tree into an array by treeId by log for later use.
@@ -8,6 +8,8 @@ C Author Fred Martin, WA DNR,
 ! Only logs of trees with net volume need to be tracked because ECHARV filters on net tree volumes.
 
 ! Called from VOLS, once for each tree, need to visit each tree to zero log arrays
+
+C 0/12/2012 eliminated species identifier as provided duplicate information to treeId
 
 ! Variables from FVS
 !  isCubic - logical to deal with possilbly different merchantability specifications for cubic versus board foot volume
@@ -20,7 +22,6 @@ C Author Fred Martin, WA DNR,
 !              7=GROSS INTERNATIONAL 1/4 BF, as defined in VOLSTD.f77.
 !           Gross board feet (1) and gross cubic feet (4) used, as net and removed are not calculated by FVS.
 !           Net voluemes computed in echarv.f based on whole tree defect
-!  spId   - internal FVS species identifier, ISPC=FVS variable name.
 !  treeId - FVS internal sequential tree index number, 1 to number of trees in simulation.
 
       implicit none
@@ -30,7 +31,7 @@ C Author Fred Martin, WA DNR,
 
       integer, parameter  :: MAX_DIA_TYPE=3, MAX_VOL_TYPE=7              !These values from constants in VOLSTD
       integer             :: logId
-      integer, intent(in) :: spId, treeId
+      integer, intent(in) :: treeId
       logical             :: isCubic
 
       real, intent(in)    :: LOGDIA(MAX_LOGS+1, MAX_DIA_TYPE),
