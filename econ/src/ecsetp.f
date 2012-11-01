@@ -4,7 +4,7 @@ C **ECSETP--ECON  DATE OF LAST REVISION: 06/18/2009
 C----------
 C Author Fred Martin, WA DNR,
 
-C Initialize ECON start if necessary and creates sorted indexes for accumulating PCT and harvest costs and harvest revenues from keywords.
+C Initialize ECON start if necessary and creates sorted indexes for accumulating harvest revenues from keywords.
 
 C Called from MAIN in cycle=0, once for each simulated stand after reading all keywords.
 
@@ -38,7 +38,7 @@ C  MAXSP  - maximum number of species codes used by a specific variant, from PRG
       do i = 1, MAXSP
          do j = 1, MAX_REV_UNITS
             if (hrvRevCnt(i,j) > 0) then
-               hrvRevDiaIndx(i,j,:) = hrvRevDia(i,j,:)                   !Case if hrvRevCnt(i,j)=1
+***               hrvRevDiaIndx(i,j,:) = hrvRevDia(i,j,:)  DON'T SEE NEED FOR THIS   !Case if hrvRevCnt(i,j)=1
                call RDPSRT(hrvRevCnt(i,j), hrvRevDia(i,j,:),
      &                                     hrvRevDiaIndx(i,j,:), .TRUE.)
             end if
