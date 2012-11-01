@@ -1,4 +1,4 @@
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:05:58
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:50:11
 
  ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@
  END
 
 
-            *Test for current stand at target (90th % > 21" dbh), and set SEVSTART
+            *Test for current stand at target (90th % > 21" dbh), and re-start ECON w/ SEV c
 
  IF         MINIMUM DELAY TIME BETWEEN RESPONSES TO THE EVENT =   999
 
@@ -310,7 +310,7 @@
  HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
 
  NUMBER OF RECORDS WITH MISTLETOE                   0     0     0
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:05:58
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:50:11
 
  STAND ID: ECON_UserManualExample_4      MGMT ID: NONE    - Dynamically initiate a future perpetual prescription.
 
@@ -533,7 +533,7 @@
          TOTAL        14.1   21.3   24.8   27.9   35.4    37.7   14024. CUFT      38.% DF1,  19.% WH1,  16.% RC1,  14.% DF2
          MERCH        15.1   21.4   24.8   27.9   35.4    37.7   12609. CUFT      39.% DF1,  19.% WH1,  16.% RC1,  14.% DF2
          MERCH        15.9   21.9   25.9   33.2   36.2    37.7   76753. BDFT      37.% DF1,  21.% WH1,  19.% RC1,  13.% DF2
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:06:00
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:50:12
 
  STAND ID: ECON_UserManualExample_4      MGMT ID: NONE    - Dynamically initiate a future perpetual prescription.
 
@@ -718,7 +718,7 @@
                                                                           161      14.2      338.     374.      117.8    324.9
 
  ** NOTE:  DUE TO HARVEST, COMPRESSION, OR REGENERATION ESTABLISHMENT, NEW SAMPLE TREES WERE SELECTED.
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:06:00
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:50:12
 
  STAND ID: ECON_UserManualExample_4      MGMT ID: NONE    - Dynamically initiate a future perpetual prescription.
 
@@ -822,7 +822,7 @@
                 CMPU     WAIT      2155  DONE IN 2154               12.00
                 BASE     THINBTA   2154  DELETED OR CANCELED        16.00      1.00      0.00    999.90      0.00    999.00
  ----------------------------------------------------------------------------------------------------------------------------------
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:05:59
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:50:12
  
  ----------------------------------------------------------------------------
                  REGENERATION ESTABLISHMENT MODEL VERSION 2.0
@@ -897,19 +897,19 @@
   2014     20  NO           0        0       0        0     0                                              0      0   4.0
   2024     30  NO           0        0       0        0     0                                              0      0   4.0
   2034     40  NO           0        0       0        0     0                                              0      0   4.0
-  2044     41  NO        1074     7504     215     1503  1288  >50.0    7.0   9.0                       4956  27706   4.0
+  2044     41  NO        1078     7504     216     1503  1287  >50.0    7.0   9.0                       4956  27706   4.0
   2045      9  NO          50        0      48        0   -48           0.0        -162                    0      0   4.0
   2054     19  YES         50        0      48        0   -48           0.0         -92                    0      0   4.0
   2064     29  YES         50        0      48        0   -48           0.0         -71                    0      0   4.0
   2074     39  YES         50        0      48        0   -48           0.0         -61                    0      0   4.0
   2084     49  YES         50        0      48        0   -48           0.0         -56                    0      0   4.0
-  2094     59  YES        662     1415     134      199    65    5.8    1.5   4.7    72                 1585   7595   4.0
-  2104     69  YES        935     2754     132      262   130    6.3    2.0   5.0   139                 2900  13546   4.0
-  2114     79  YES       1181     4371     121      281   160    6.2    2.3   5.1   168                 4097  19888   4.0
-  2124     89  YES       1370     6154     105      267   162    6.0    2.5   5.1   167                 5254  26179   4.0
-  2134     99  YES       1403     7887      88      231   143    5.6    2.6   5.0   146                 6187  31698   4.0
-  2144    109  YES       1480     9786      76      194   117    5.3    2.5   4.9   119                 7069  37255   4.0
-  2154    119  YES       1565    11708      68      157    88    5.0    2.3   4.7    89                 7776  42412   4.0
+  2094     59  YES        664     1415     134      199    65    5.8    1.5   4.7    72                 1585   7595   4.0
+  2104     69  YES        938     2754     132      262   129    6.3    2.0   5.0   139                 2900  13546   4.0
+  2114     79  YES       1185     4371     121      281   160    6.2    2.3   5.1   167                 4097  19888   4.0
+  2124     89  YES       1376     6154     106      267   161    6.0    2.5   5.1   166                 5254  26179   4.0
+  2134     99  YES       1409     7887      88      231   143    5.6    2.6   5.0   146                 6187  31698   4.0
+  2144    109  YES       1487     9786      77      194   117    5.3    2.5   4.9   119                 7069  37255   4.0
+  2154    119  YES       1573    11708      68      157    88    5.0    2.3   4.7    89                 7776  42412   4.0
  
  
  HARVEST VOLUME AND GROSS VALUE REPORT

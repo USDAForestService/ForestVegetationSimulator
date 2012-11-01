@@ -1,4 +1,4 @@
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:28:18
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:20:34
 
  ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -184,7 +184,7 @@
  HEIGHT INCREMENT MODEL                          1.00
 
  NUMBER OF RECORDS WITH MISTLETOE                   0
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:28:18
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:20:34
 
  STAND ID: ECON_UserManualExample_5      MGMT ID: NONE    Value the trees in an immature stand given known SEV.
 
@@ -325,7 +325,7 @@
          TOTAL        19.2   22.7   24.7   26.5   29.5    30.9    8605. CUFT     100.% DF1,   0.% RC1,   0.% RC2,   0.% GF1
          MERCH        19.6   23.2   24.8   26.5   29.5    30.9    7768. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
          MERCH        19.9   23.2   25.3   26.5   29.5    30.9   42763. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:28:19
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:20:34
 
  STAND ID: ECON_UserManualExample_5      MGMT ID: NONE    Value the trees in an immature stand given known SEV.
 
@@ -449,7 +449,7 @@
                                                                           100      14.7      275.     324.       90.4    253.3
 
  ** NOTE:  DUE TO HARVEST, COMPRESSION, OR REGENERATION ESTABLISHMENT, NEW SAMPLE TREES WERE SELECTED.
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:28:19
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:20:34
 
  STAND ID: ECON_UserManualExample_5      MGMT ID: NONE    Value the trees in an immature stand given known SEV.
 
@@ -518,7 +518,7 @@
    10   2094
                 BASE     THINDBH   2094  DELETED OR CANCELED         7.00    999.00      0.88      0.00     16.00      0.00
  ----------------------------------------------------------------------------------------------------------------------------------
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS 001 -- INLAND EMPIRE EXPANDED             RV:12/20/11    03-09-2012  20:28:19
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:03/20/12    10-11-2012  16:20:34
  
  ----------------------------------------------------------------------------
                  REGENERATION ESTABLISHMENT MODEL VERSION 2.0
@@ -527,11 +527,9 @@
    121.3 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2023
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   3.  10.  51.   0.  51.   0.   0.   5.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -541,11 +539,9 @@
    159.3 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2043
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   6.   3.  63.   0.  78.   7.   1.   1.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -555,11 +551,9 @@
     75.6 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2063
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   3.   0.  16.   0.  52.   3.   1.   1.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -569,11 +563,9 @@
     84.7 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2083
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   2.   0.  23.   0.  55.   0.   1.   4.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  ----------------------------------------------------------------------------
@@ -583,11 +575,9 @@
     80.9 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2103
  
     SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
- 
     SPECIES:  PB   OH   OS
  
  TREES/ACRE:   0.   0.   1.  33.   0.  40.   5.   1.   1.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
- 
  TREES/ACRE:   0.   0.   0.
  
  
@@ -601,16 +591,16 @@
        -MENT  MODE IS ---------------- ----------------                B/C               OF     OF     CU FT  BD FT  DISC  KNOWN
   YEAR PERIOD ACTIVE     COST  REVENUE    COST  REVENUE   PNV    IRR  RATIO   RRR   SEV  FORST  TREES  HARV   HARV   RATE   SEV
  ------------------------------------------------------------------------------------------------------------------------------------
-  2004     10  YES        286      321     275      309    35  >50.0    1.1   5.2          120     -7      0   3572   4.0    127
-  2014     20  YES        481      663     312      431   118  >50.0    1.4   5.7          176     49      0   6887   4.0    127
-  2024     30  YES        730     1314     320      576   256  >50.0    1.8   6.1          295    168      0  11595   4.0    127
-  2034     40  YES        941     2237     279      663   384  >50.0    2.4   6.3          411    284      0  15537   4.0    127
-  2044     50  YES       1239     3344     248      670   422  >50.0    2.7   6.1          439    312      0  20461   4.0    127
-  2054     60  YES       1459     4296     197      581   384  >50.0    2.9   5.9          396    269      0  24220   4.0    127
-  2064     70  YES       1641     5113     150      467   317  >50.0    3.1   5.7          325    198      0  27295   4.0    127
-  2074     80  YES       1833     6234     113      385   272  >50.0    3.4   5.6          277    150      0  30518   4.0    127
-  2084     90  YES       1989     6914      83      288   205  >50.0    3.5   5.5          209     82      0  33086   4.0    127
-  2094    100  YES       2102     7409      59      209   150  >50.0    3.5   5.3          152     25      0  35063   4.0    127
+  2004     10  YES        286      321     275      309    34  >50.0    1.1   5.2          120     -7      0   3572   4.0    127
+  2014     20  YES        482      663     313      431   118  >50.0    1.4   5.7          176     49      0   6887   4.0    127
+  2024     30  YES        731     1314     321      576   255  >50.0    1.8   6.0          295    168      0  11595   4.0    127
+  2034     40  YES        943     2237     279      663   384  >50.0    2.4   6.3          410    283      0  15537   4.0    127
+  2044     50  YES       1241     3344     248      670   421  >50.0    2.7   6.1          439    312      0  20461   4.0    127
+  2054     60  YES       1461     4296     198      581   383  >50.0    2.9   5.9          396    269      0  24220   4.0    127
+  2064     70  YES       1643     5113     150      467   317  >50.0    3.1   5.7          325    198      0  27295   4.0    127
+  2074     80  YES       1835     6234     113      385   272  >50.0    3.4   5.6          277    150      0  30518   4.0    127
+  2084     90  YES       1991     6914      83      288   205  >50.0    3.5   5.4          209     82      0  33086   4.0    127
+  2094    100  YES       2104     7409      59      209   150  >50.0    3.5   5.3          152     25      0  35063   4.0    127
  
  
  HARVEST VOLUME AND GROSS VALUE REPORT
