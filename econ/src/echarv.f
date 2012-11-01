@@ -35,7 +35,7 @@ C Author Fred Martin, WA DNR,
       include 'PRGPRM.F77'
       include 'ECNCOM.F77'
 
-      integer :: i, indx, keyWdIdx, logId
+      integer :: i, keyWdIdx, logId
       integer, intent(in) :: ICYC, IY(MAXCY1), spId, treeId
       integer, dimension(MAX_LOGS) :: logDibIdx
 
