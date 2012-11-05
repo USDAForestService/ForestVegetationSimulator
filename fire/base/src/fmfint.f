@@ -60,7 +60,7 @@ C.... VARIABLE DECLARATIONS.
       REAL    XIO, MCSA(2), MDCSA(2), IR(2)
       REAL    G(2, 7), GS(2, 7), NOCLAS(2), BULK(2, 7)
       LOGICAL DEBUG
-      INTEGER IYR, ICALL
+      INTEGER IYR, ICALL, IRTNCD
       INTEGER JMAX,JMM,KM,K,IDA,IDB,KMAX,N1,N2,KMIN,N,JM,JJ,INB,I,J
       REAL    SUM1,SUM2,SUM3,SUM4,SIZA,SIZB,FINED,FINEL,WDFMN,FINDM,
      &        SA,EP,WTFAC,WMFAC,FACTOR,XMOISL,AA1,AA2,AA3,AA4,AA5,AX,
@@ -125,9 +125,13 @@ c       then we don't want to do any interpolation.
 
           IF (INB .GE. 2) GOTO 810
           CALL FMGFMV(IYR, 10)
+          CALL getfvsRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN          
         ELSE
           IF (FMOD(INB).EQ.0 .OR. FWT(INB) .LE. 0.0) GOTO 800
           CALL FMGFMV(IYR, FMOD(INB))
+          CALL getfvsRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN          
         ENDIF
 
         LARGE1 = ND
