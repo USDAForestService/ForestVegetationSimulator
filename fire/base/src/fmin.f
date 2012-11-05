@@ -36,6 +36,7 @@ C
       CHARACTER*13 CHARCODE
       LOGICAL      LNOTBK(12),LOK,LKECHO
       INTEGER      NPARMS, IDT, ICALL, IFMD, NVALS, ILEN, ICANPR, J, K
+      INTEGER      IRTNCD
       REAL         YRS50(2), YRS30(2)
       REAL         PRMS(13)
       REAL         ARRAY(12)
@@ -101,11 +102,12 @@ C
       NVALS = 12
       CALL FMKEYRDR (IREAD,JOSTND,.FALSE.,KEYWRD,LNOTBK,
      >             ARRAY,IRECNT,KODE,KARD,LFLAG,NVALS)
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN      
 C
 C  RETURN KODES 0=NO ERROR,1=COLUMN 1 BLANK OR ANOTHER ERROR,2=EOF
 C               LESS THAN ZERO...USE OF PARMS STATEMENT IS PRESENT.
 C
-
       IF (KODE.LT.0) THEN
          IPRMPT=-KODE
       ELSE
@@ -113,6 +115,9 @@ C
       ENDIF
       IF (KODE .LE. 0) GO TO 30
       IF (KODE .EQ. 2) CALL ERRGRO(.FALSE.,2)
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN      
+
       CALL ERRGRO (.TRUE.,6)
       GOTO 10
    30 CONTINUE
@@ -130,7 +135,10 @@ C
 C     SPECIAL END-OF-FILE TARGET
 C
    80 CONTINUE
-      CALL ERRGRO (.FALSE.,2)
+      CALL ERRGRO(.FALSE.,2)
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN         
+      
    90 CONTINUE
 C
 C     SIGNAL THAT THE FIRE MODEL IS NOW ACTIVE.
@@ -171,6 +179,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -266,6 +276,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -322,6 +334,8 @@ C     1 = early spring (compact leaves), 2 = before greenup, 3 = after greenup, 
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -389,6 +403,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -1015,6 +1031,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -1180,6 +1198,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -1285,6 +1305,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -1505,6 +1527,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                 IPRMPT,IRECNT,ICYC)
+          CALL getfvsRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN         
         ENDIF
         GOTO 10
       ENDIF
@@ -1547,6 +1571,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                 IPRMPT,IRECNT,ICYC)
+          CALL getfvsRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN         
         ENDIF
         GOTO 10
       ENDIF
@@ -1739,6 +1765,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >           IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -1815,6 +1843,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                 IPRMPT,IRECNT,ICYC)
+          CALL getfvsRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN         
         ENDIF
         GOTO 10
       ENDIF
@@ -2351,6 +2381,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -2431,6 +2463,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ENDIF
          GOTO 10
       ENDIF
@@ -2617,7 +2651,7 @@ C     NVALS = THE NUMBER OF KEYWORD FIELDS, OFTEN 7, CAN BE DIFFERENT.
 C----------
 C  DECLARATIONS AND DATA STATEMENTS:
 C----------
-      INTEGER NVALS
+      INTEGER NVALS,IRTNCD
       CHARACTER*130 RECORD
       CHARACTER*10 KARD(NVALS)
       CHARACTER*8 KEYWRD,TMP
@@ -2644,6 +2678,8 @@ C
       IF (TMP.EQ.'STOP') THEN
          IF (.NOT.LFLAG) WRITE (IOUT,'(/'' STOP'')')
          CALL GRSTOP
+         CALL getfvsRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN      
       ENDIF
       IF (LFLAG) THEN
          CALL GROHED (IOUT)
