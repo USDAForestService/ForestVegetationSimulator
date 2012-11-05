@@ -35,7 +35,7 @@ COMMONS
 C
       LOGICAL DEBUG
       CHARACTER VVER*7
-      INTEGER I,IYR,IL,ISZ,IDC,ITM
+      INTEGER I,IYR,IL,ISZ,IDC,ITM,IRTNCD
       INTEGER FMD
 
 C     CHECK FOR DEBUG.
@@ -145,6 +145,8 @@ C        process any fueltret keywords.
 C        CALL THE ACTUAL FIRE ROUTINES (TO CALCULATE INTENSITY AND EFFECTS)
 
          CALL FMBURN (IYR, FMD, .TRUE.)
+         CALL getfvsRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN          
 
 C        Add this year's litterfall, crown breakage, and snag-crown-fall
 C        to the CWD pools.
