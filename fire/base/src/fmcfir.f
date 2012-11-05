@@ -42,7 +42,7 @@ C     VARIABLE DECLARATIONS.
 
       INTEGER IYR,FMOIS
       INTEGER SWIND
-      INTEGER OLDND, OLDNL
+      INTEGER OLDND, OLDNL, IRTNCD
       REAL    OLDFWG(2,7), OLDMEX(3), OLDMPS(2,3), OLDEPT
       REAL    HPA, HPA2, HPA3, B, DIFF, BOUNDL, BOUNDU
       REAL    INIT1, RACT, RACT1
@@ -119,6 +119,9 @@ C
 C     CALL FMFINT TO GET THE INTERMEDIATE VALUES THAT WE NEED FOR THE CALC.
 C
       CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA2, 1)
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+      
       FWIND = SAVWND
 C
 C     DO THE CROWN CALCULATIONS
@@ -190,7 +193,10 @@ C
          ENDIF
 
          FWIND  = 999 * WMULT    
-         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)   
+         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)
+         CALL getfvsRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
+
          IF (SFRATE(2) .LT. RINIT1) THEN
            OINIT1(FMOIS) = 999
            GOTO 205
@@ -199,7 +205,10 @@ C
          IF (OINIT1(FMOIS) .GE. 999) OINIT1(FMOIS) = 999
 
          FWIND  = OINIT1(FMOIS) * WMULT    
-         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)   
+         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)
+         CALL getfvsRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
+
          DIFF = SFRATE(2) - RINIT1
          IF ((DIFF .LE. .001) .AND. (DIFF .GE. -.001)) GOTO 205
          
@@ -215,7 +224,10 @@ C
            ENDIF
            OINIT1(FMOIS) = (BOUNDU + BOUNDL)/2
            FWIND  = OINIT1(FMOIS) * WMULT    
-           CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)      
+           CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)
+           CALL getfvsRtnCode(IRTNCD)
+           IF (IRTNCD.NE.0) RETURN
+
            DIFF = SFRATE(2) - RINIT1          
            IF (DEBUG) WRITE(JOSTND,*) 'ITER NUMBER = ', I
            IF (DEBUG) WRITE(JOSTND,*) 'BOUNDL = ', BOUNDL 
@@ -309,6 +321,9 @@ C
         SAVWND = FWIND
         FWIND  = OACT1(FMOIS) * WMULT
         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA2, 2)
+        CALL getfvsRtnCode(IRTNCD)
+        IF (IRTNCD.NE.0) RETURN
+
         FWIND = SAVWND	
         CFB = (SFRATE(FMOIS) - RINIT1)/(SFRATE(2) - RINIT1)
         RFINAL = SFRATE(FMOIS) + CFB * (RACT - SFRATE(FMOIS))
