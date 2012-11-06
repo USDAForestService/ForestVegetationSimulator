@@ -21,7 +21,7 @@ C   IY         - array of actual simulation years, 1=inventory year, 2=end 1st c
 
       include 'PRGPRM.F77'
       include 'ECNCOM.F77'
-      include 'EcnComSaves.F77'
+      include 'ECNCOMSAVES.F77'
 
       integer               :: evntCnt, i, IACTK, IDT, parmsCnt
       integer, dimension(1) :: pretend   = (/PRETEND_ACTIVITY/),

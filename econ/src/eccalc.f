@@ -33,7 +33,7 @@ C  ITITLE - STDIDENT title
 
       include 'PRGPRM.F77'
       include 'ECNCOM.F77'
-      include 'EcnComSaves.F77'
+      include 'ECNCOMSAVES.F77'
 
       character (len=4),  intent(in) :: JSP(MAXSP), MGMID
       character (len=26), intent(in) :: NPLT
