@@ -46,6 +46,11 @@ C
 C
 COMMONS
 C
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT, C, DECORATE, ALIAS : "FVS" :: FVS
+!DEC$ ATTRIBUTES REFERENCE :: IRTNCD
+#endif
+      
       INTEGER I,IA,N,K,NTODO,ITODO,IACTK,IDAT,NP
       REAL STAGEA,STAGEB
       LOGICAL DEBUG,LCVGO
@@ -65,7 +70,8 @@ C     Check the current return code, if -1 the cmdLine has never been processed.
       call getfvsRtnCode(IRTNCD)
       if (IRTNCD == -1) then
         lenCl = 0
-        CALL cmdline(' ',lenCl)
+        CALL cmdline(' ',lenCl,IRTNCD)
+        IF (IRTNCD.NE.0) RETURN          
       endif
  
 C     FIND THE RESTART, AND BRANCH AS REQUIRED
@@ -258,6 +264,8 @@ C     WRITE INITIAL STAND STATISTICS.  MAKE SURE THAT ICL6 IS POSITIVE
 C
       ICL6=1
       CALL DISPLY
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 C
 C     IF TREE LIST OUTPUT IS REQUESTED...CALL TREE LIST PRINTER.
 C
@@ -328,6 +336,8 @@ C
       IF (DEBUG) WRITE (JOSTND,70) ICYC
    70 FORMAT (/,' CALLING DISPLY, CYCLE = ',I4)
       CALL DISPLY
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 C
 C     CALL RESAGE TO RESET STAND AGE.
 C
@@ -394,9 +404,11 @@ C
       CALL SDICLS(0,0.,999.,1,SDIBC,SDIBC2,STAGEA,STAGEB,0)
       SDIAC=SDIBC
       SDIAC2=SDIBC2
-      
 C
       CALL DISPLY
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
       IBA = 1
       CALL SSTAGE(IBA,ICYC,.FALSE.)
 C
