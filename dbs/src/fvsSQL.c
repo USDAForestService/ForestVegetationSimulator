@@ -7,10 +7,10 @@
 #include <windows.h>
 #endif
 
+
 #include <stdio.h>
 #include <sql.h>
 #include <sqlext.h>
-
 
 /**************************************
 SQLRETURN SQLAllocHandle(
@@ -18,6 +18,13 @@ SQLRETURN SQLAllocHandle(
       SQLHANDLE     InputHandle,
       SQLHANDLE *   OutputHandlePtr);
 */
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLALLOCHANDLE (
+      SQLSMALLINT *HandleType,
+      SQLHANDLE   *InputHandle,
+      SQLHANDLE   *OutputHandlePtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqlallochandle_(
 #else
@@ -45,6 +52,16 @@ SQLRETURN SQLBindCol(
       SQLLEN         BufferLength,
       SQLLEN *       StrLen_or_Ind);
 */
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLBINDCOL (
+      SQLHSTMT       *StatementHandle,
+      SQLUSMALLINT   *ColumnNumber,
+      SQLSMALLINT    *TargetType,
+      SQLPOINTER     *TargetValuePtr,
+      SQLLEN         *BufferLength,
+      SQLLEN         *StrLen_or_Ind);
+#endif
+
 #ifdef CMPgcc
 int fvssqlbindcol_(
 #else
@@ -81,6 +98,20 @@ SQLRETURN SQLBindParameter(
       SQLLEN          BufferLength,
       SQLLEN *        StrLen_or_IndPtr);
 */
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLBINDPARAMETER(
+      SQLHSTMT        *StatementHandle,
+      SQLUSMALLINT    *ParameterNumber,
+      SQLSMALLINT     *InputOutputType,
+      SQLSMALLINT     *ValueType,
+      SQLSMALLINT     *ParameterType,
+      SQLULEN         *ColumnSize,
+      SQLSMALLINT     *DecimalDigits,
+      SQLPOINTER      *ParameterValuePtr,
+      SQLLEN          *BufferLength,
+      SQLLEN          *StrLen_or_IndPtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqlbindparameter_(
 #else
@@ -116,6 +147,12 @@ int FVSSQLBINDPARAMETER(
 SQLRETURN SQLCloseCursor(
      SQLHSTMT     StatementHandle);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLCLOSECURSOR(
+        SQLHSTMT        *StatementHandle);
+#endif
+
 #ifdef CMPgcc
 int fvssqlclosecursor_(
 #else
@@ -137,12 +174,23 @@ SQLRETURN SQLColAttribute (
       SQLSMALLINT *   StringLengthPtr,
       SQLLEN *        NumericAttributePtr);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLCOLATTRIBUTE(
+      SQLHSTMT        *StatementHandle,
+      SQLUSMALLINT    *ColumnNumber,
+      SQLUSMALLINT    *FieldIdentifier,
+      SQLPOINTER      *CharacterAttributePtr,
+      SQLSMALLINT     *BufferLength,
+      SQLSMALLINT     *StringLengthPtr,
+      SQLLEN          *NumericAttributePtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqlcolattribute_(
 #else
 int FVSSQLCOLATTRIBUTE(
 #endif
-
       SQLHSTMT        *StatementHandle,
       SQLUSMALLINT    *ColumnNumber,
       SQLUSMALLINT    *FieldIdentifier,
@@ -163,7 +211,6 @@ int FVSSQLCOLATTRIBUTE(
   return rtn;
 }
 
-
 /**************************************
 SQLRETURN SQLDescribeCol(
       SQLHSTMT       StatementHandle,
@@ -176,6 +223,20 @@ SQLRETURN SQLDescribeCol(
       SQLSMALLINT *  DecimalDigitsPtr,
       SQLSMALLINT *  NullablePtr);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLDESCRIBECOL(
+      SQLHSTMT       *StatementHandle,
+      SQLUSMALLINT   *ColumnNumber,
+      SQLCHAR        *ColumnName,
+      SQLSMALLINT    *BufferLength,
+      SQLSMALLINT    *NameLengthPtr,
+      SQLSMALLINT    *DataTypePtr,
+      SQLULEN        *ColumnSizePtr,
+      SQLSMALLINT    *DecimalDigitsPtr,
+      SQLSMALLINT    *NullablePtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqldescribecol_(
 #else
@@ -205,22 +266,25 @@ int FVSSQLDESCRIBECOL(
   return rtn;
 }
 
-
 /**************************************
 SQLRETURN SQLDisconnect(
      SQLHDBC     ConnectionHandle);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLDISCONNECT(
+    SQLHDBC     *ConnectionHandle);
+#endif
+
 #ifdef CMPgcc
 int fvssqldisconnect_(
 #else
 int FVSSQLDISCONNECT(
 #endif
-     SQLHDBC     *ConnectionHandle)
+    SQLHDBC     *ConnectionHandle)
 {
-  return SQLDisconnect(
-     *ConnectionHandle);
+  return SQLDisconnect(*ConnectionHandle);
 }
-
 
 /**************************************
 SQLRETURN SQLDriverConnect(
@@ -233,6 +297,19 @@ SQLRETURN SQLDriverConnect(
      SQLSMALLINT *   StringLength2Ptr,
      SQLUSMALLINT    DriverCompletion);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLDRIVERCONNECT(
+     SQLHDBC         *ConnectionHandle,
+     SQLHWND         *WindowHandle,
+     SQLCHAR         *InConnectionString,
+     SQLSMALLINT     *StringLength1,
+     SQLCHAR         *OutConnectionString,
+     SQLSMALLINT     *BufferLength,
+     SQLSMALLINT     *StringLength2Ptr,
+     SQLUSMALLINT    *DriverCompletion);
+#endif
+
 #ifdef CMPgcc
 int fvssqldriverconnect_(
 #else
@@ -248,6 +325,7 @@ int FVSSQLDRIVERCONNECT(
      SQLUSMALLINT    *DriverCompletion)
 {
   int rtn;
+
 /********************** DEBUG
   *(InConnectionString + *StringLength1 + 1)=0;
   printf("\nSQLDriverConnect, InConnectionString= %s\n",InConnectionString);
@@ -289,6 +367,19 @@ SQLRETURN SQLDrivers(
      SQLSMALLINT     BufferLength2,
      SQLSMALLINT *   AttributesLengthPtr);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLDRIVERS(
+     SQLHENV        *EnvironmentHandle,
+     SQLUSMALLINT   *Direction,
+     SQLCHAR        *DriverDescription,
+     SQLSMALLINT    *BufferLength1,
+     SQLSMALLINT    *DescriptionLengthPtr,
+     SQLCHAR        *DriverAttributes,
+     SQLSMALLINT    *BufferLength2,
+     SQLSMALLINT    *AttributesLengthPtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqldrivers_(
 #else
@@ -323,6 +414,14 @@ SQLRETURN SQLEndTran(
      SQLHANDLE     Handle,
      SQLSMALLINT   CompletionType);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLENDTRAN(
+     SQLSMALLINT   *HandleType,
+     SQLHANDLE     *Handle,
+     SQLSMALLINT   *CompletionType);
+#endif
+
 #ifdef CMPgcc
 int fvssqlendtran_(
 #else
@@ -346,6 +445,14 @@ SQLRETURN SQLExecDirect(
      SQLCHAR *    StatementText,
      SQLINTEGER   TextLength);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLEXECDIRECT(
+     SQLHSTMT     *StatementHandle,
+     SQLCHAR      *StatementText,
+     SQLINTEGER   *TextLength);
+#endif
+
 #ifdef CMPgcc
 int fvssqlexecdirect_(
 #else
@@ -367,6 +474,12 @@ int FVSSQLEXECDIRECT(
 SQLRETURN SQLExecute(
      SQLHSTMT     StatementHandle);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLEXECUTE(
+     SQLHSTMT     *StatementHandle);
+#endif
+
 #ifdef CMPgcc
 int fvssqlexecute_(
 #else
@@ -381,6 +494,12 @@ int FVSSQLEXECUTE(
 SQLRETURN SQLFetch(
      SQLHSTMT     StatementHandle);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLFETCH(
+     SQLHSTMT     *StatementHandle);
+#endif
+
 #ifdef CMPgcc
 int fvssqlfetch_(
 #else
@@ -397,6 +516,14 @@ SQLRETURN SQLFetchScroll(
       SQLSMALLINT   FetchOrientation,
       SQLLEN        FetchOffset);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLFETCHSCROLL(
+      SQLHSTMT      *StatementHandle,
+      SQLSMALLINT   *FetchOrientation,
+      SQLLEN        *FetchOffset);
+#endif
+
 #ifdef CMPgcc
 int fvssqlfetchscroll_(
 #else
@@ -417,6 +544,13 @@ SQLRETURN SQLFreeHandle(
      SQLSMALLINT   HandleType,
      SQLHANDLE     Handle);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLFREEHANDLE(
+     SQLSMALLINT  *HandleType,
+     SQLHANDLE    *Handle);
+#endif
+
 #ifdef CMPgcc
 int fvssqlfreehandle_(
 #else
@@ -433,6 +567,13 @@ SQLRETURN SQLFreeStmt(
      SQLHSTMT       StatementHandle,
      SQLUSMALLINT   Option);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLFREESTMT(
+     SQLHSTMT       *StatementHandle,
+     SQLUSMALLINT   *Option);
+#endif
+
 #ifdef CMPgcc
 int fvssqlfreestmt_(
 #else
@@ -455,6 +596,17 @@ SQLRETURN SQLGetData(
       SQLLEN         BufferLength,
       SQLLEN *       StrLen_or_IndPtr);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLGETDATA(
+      SQLHSTMT       *StatementHandle,
+      SQLUSMALLINT   *Col_or_Param_Num,
+      SQLSMALLINT    *TargetType,
+      SQLPOINTER     *TargetValuePtr,
+      SQLLEN         *BufferLength,
+      SQLLEN         *StrLen_or_IndPtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqlgetdata_(
 #else
@@ -489,6 +641,19 @@ SQLRETURN SQLGetDiagRec(
      SQLSMALLINT     BufferLength,
      SQLSMALLINT *   TextLengthPtr);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLGETDIAGREC(
+     SQLSMALLINT     *HandleType,
+     SQLHANDLE       *Handle,
+     SQLSMALLINT     *RecNumber,
+     SQLCHAR         *SQLState,
+     SQLINTEGER      *NativeErrorPtr,
+     SQLCHAR         *MessageText,
+     SQLSMALLINT     *BufferLength,
+     SQLSMALLINT     *TextLengthPtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqlgetdiagrec_(
 #else
@@ -526,6 +691,16 @@ SQLRETURN SQLGetInfo(
      SQLSMALLINT     BufferLength,
      SQLSMALLINT *   StringLengthPtr);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLGETINFO(
+     SQLHDBC         *ConnectionHandle,
+     SQLUSMALLINT    *InfoType,
+     SQLPOINTER      *InfoValuePtr,
+     SQLSMALLINT     *BufferLength,
+     SQLSMALLINT     *StringLengthPtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqlgetinfo_(
 #else
@@ -552,6 +727,13 @@ SQLRETURN SQLNumResultCols(
      SQLHSTMT        StatementHandle,
      SQLSMALLINT *   ColumnCountPtr);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLNUMRESULTCOLS(
+     SQLHSTMT        *StatementHandle,
+     SQLSMALLINT     *ColumnCountPtr);
+#endif
+
 #ifdef CMPgcc
 int fvssqlnumresultcols_(
 #else
@@ -571,6 +753,14 @@ SQLRETURN SQLPrepare(
      SQLCHAR *     StatementText,
      SQLINTEGER    TextLength);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLPREPARE(
+     SQLHSTMT      *StatementHandle,
+     SQLCHAR       *StatementText,
+     SQLINTEGER    *TextLength);
+#endif
+
 #ifdef CMPgcc
 int fvssqlprepare_(
 #else
@@ -595,6 +785,15 @@ SQLRETURN SQLSetConnectAttr(
      SQLPOINTER    ValuePtr,
      SQLINTEGER    StringLength);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLSETCONNECTATTR(
+     SQLHDBC       *ConnectionHandle,
+     SQLINTEGER    *Attribute,
+     SQLPOINTER    *ValuePtr,
+     SQLINTEGER    *StringLength);
+#endif
+
 #ifdef CMPgcc
 int fvssqlsetconnectattr_(
 #else
@@ -621,6 +820,15 @@ SQLRETURN SQLSetEnvAttr(
      SQLPOINTER   ValuePtr,
      SQLINTEGER   StringLength);
 */
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FVSSQLSETENVATTR(
+     SQLHENV    *EnvironmentHandle,
+     SQLINTEGER *Attribute,
+     SQLPOINTER *ValuePtr,
+     SQLINTEGER *StringLength);
+#endif
+
 #ifdef CMPgcc
 int fvssqlsetenvattr_(
 #else
