@@ -104,7 +104,7 @@ C.... Variable declarations.
 
       LOGICAL LNOTBK(7),DEBUG,LKECHO
       REAL ARRAY(7)
-      INTEGER I,IDT,ISPL,KEY,KODE,NUMBR
+      INTEGER I,IDT,ISPL,KEY,KODE,NUMBR,IRTNCD
       CHARACTER*8 TABLE(ISIZE),KEYWRD,PASKEY
       CHARACTER*10 KARD(7)
       CHARACTER*7 VVER
@@ -142,6 +142,8 @@ C.... Process errors; 0=no error, 1=first column blank, 2=EOF.
       IF(KODE.NE.0) THEN
          IF(KODE.EQ.2) THEN
             CALL ERRGRO(.FALSE.,2)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          ELSE
             CALL ERRGRO(.TRUE.,6)
          ENDIF
@@ -162,6 +164,8 @@ C.... Special EOF target.
 
    60 CONTINUE
       CALL ERRGRO(.FALSE.,2)
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN         
 
 C.....Process the keyword.
 
