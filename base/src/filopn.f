@@ -22,7 +22,7 @@ C
 C
 COMMONS
 C
-      INTEGER LENKEY,KODE,I,LENNAM,ISTLNB
+      INTEGER LENKEY,KODE,I,LENNAM,ISTLNB,IRTNCD
       CHARACTER*250 KEYFIL
       CHARACTER*250 CNAME
       CHARACTER VVER*7,REV*10
@@ -100,6 +100,8 @@ C
       IF (LENKEY.LE.0) THEN
          WRITE (*,'('' A KEYWORD FILE NAME IS REQUIRED'')') 
          CALL RCDSET (3,.FALSE.)
+         CALL getfvsRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN      
          RETURN
       ENDIF
       CALL MYOPEN (IREAD,KWDFIL,3,150,0,1,1,0,KODE)
@@ -108,6 +110,8 @@ C
      >        KWDFIL(1:LENKEY)
          WRITE (*,'('' A KEYWORD FILE IS REQUIRED'')') 
          CALL RCDSET (3,.FALSE.)
+         CALL getfvsRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN      
          RETURN
       ENDIF
 C----------
