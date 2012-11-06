@@ -141,10 +141,10 @@ C
 C
 C       POPULATE THE KWLIST WITH THE CURRENT COLUMN NAMES
 C
-        iRet = fvsSQLNumResultCols(StmtHndlIn,ColumnCount)
+        iRet = fvsSQLNumResultCols(StmtHndlOut,ColumnCount)
 
         DO ColNumber = 1,ColumnCount
-          iRet = fvsSQLDescribeCol (StmtHndlIn, ColNumber, ColName,
+          iRet = fvsSQLDescribeCol (StmtHndlOut, ColNumber, ColName,
      -         int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DTp,
      -         NColSz, NDecs, Nullable)
           COLNAME(NameLen+1:)=' '
