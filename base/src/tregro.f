@@ -54,6 +54,8 @@ C-----------
 C  CALL GRADD TO COMPUTE BUGS AND ADD THE INCREMENTS.
 C-----------
       CALL GRADD (DEBUG,1,LTMGO,LMPBGO,LDFBGO,LBWEGO,LCVATV,LBGCGO)
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN          
 C----------
 C  END OF CYCLE.
 C----------
