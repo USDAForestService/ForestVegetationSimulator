@@ -37,7 +37,7 @@ C  Author Fred Martin, WA DNR,
       character (len=4), intent(in), dimension(MAXSP,3) :: NSP           !Dimension defined in PLOT.F77
 
       integer :: i, k, l, activityId, errCode, lastSpId, parmsField,
-     &           rateCnt, spId, units
+     &           rateCnt, spId, units, IRTNCD
       integer, intent(in out) :: ICYC, IREAD, IRECNT, JOSTND
 cc      integer, save                         :: specCstCnt, specRvnCnt
       integer, dimension (MAX_RATES)        :: tmpDurations
@@ -62,7 +62,8 @@ cc      integer, save                         :: specCstCnt, specRvnCnt
      &           realFields, IRECNT, errCode, charFields, LFLAG, LKECHO) !KEYRDR fills realField w/ 0.0 unless actual number
          if (errCode == 2) then
            call ERRGRO(.FALSE., 2)                       !.FALSE. causes ERRGRO to flag error condition, 2 = EOF before END keyword
-           return
+           CALL getfvsRtnCode(IRTNCD)
+           IF (IRTNCD.NE.0) RETURN         
          endif
          parmsField = 0
          if (errCode < 0) parmsField = -errCode                          !Negative errCode used to return field containing "PARMS" keyword
@@ -744,6 +745,8 @@ cc            specRvnCnt = specRvnCnt + 1                                  !No k
             write (JOSTND,'(/,1x,8x,"   ERROR READING SUPPLEMENTAL ",
      &                                     "RATES & DURATIONS RECORD")')
             call ERRGRO(.FALSE., 2)                                      !.FALSE. causes ERRGRO not to return, 1 = invalid keyword
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN         
          end if
 
 !       Read value rates and durations allowing for free-field format w/in 5-character fields
@@ -785,6 +788,8 @@ cc            specRvnCnt = specRvnCnt + 1                                  !No k
             call OPNEWC(errCode, JOSTND, IREAD, int(realFields(1)),
      &                  activityCode, KEYWRD, charFields, parmsField,
      &                  IRECNT, ICYC)
+            CALL getfvsRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          end if
          return
       end subroutine loadPArms
