@@ -281,21 +281,27 @@ C
 C     RETURN OR NOT??????
 C
       IF (LRETRN) RETURN
-      CALL setfvsRtnCode (1)
-      RETURN
+      ICCODE = ICCODE * 10
+      CALL setfvsRtnCode (ICCODE)
+      RETURN      
 C
       ENTRY GRSTOP
-C
-      IF (ICCODE .EQ. 0) STOP
-      GO TO (9010,9020,9030,9040,9050), ICCODE
- 9010 CONTINUE
-      STOP 10
- 9020 CONTINUE
-      STOP 20
- 9030 CONTINUE
-      STOP 30
- 9040 CONTINUE
-      STOP 40
- 9050 CONTINUE
-      STOP 50
+
+      ICCODE = ICCODE + 100
+      CALL setfvsRtnCode (ICCODE)
+      RETURN      
+
+!      IF (ICCODE .EQ. 0) STOP
+!      GO TO (9010,9020,9030,9040,9050), ICCODE
+! 9010 CONTINUE
+!      STOP 10
+! 9020 CONTINUE
+!      STOP 20
+! 9030 CONTINUE
+!      STOP 30
+! 9040 CONTINUE
+!      STOP 40
+! 9050 CONTINUE
+!      STOP 50
+
       END
