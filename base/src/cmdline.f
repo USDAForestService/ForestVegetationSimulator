@@ -7,17 +7,23 @@ c     library version of FVS but they are also called from within FVS.
 
 c     Created in 2011 by Nick Crookston, RMRS-Moscow
 
-      subroutine cmdLine(theCmdLine,lenCL)
+      subroutine cmdLine(theCmdLine,lenCL,IRTNCD)
       implicit none
       
       include "GLBLCNTL.F77"
+
+#ifdef _WINDLL
+   	!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS : "CMDLINE" :: CMDLINE
+  	!DEC$ ATTRIBUTES REFERENCE :: theCmdLine,lenCL,IRTNCD
+#endif
       
-      integer :: i,n,irtn,ieq,iend,lenCL
+      integer :: i,n,irtn,ieq,iend,lenCL,IRTNCD
       logical fstat
       character(len=256) arg
-      character(len=*) theCmdLine
+c      character(len=*) theCmdLine
+      character(len=lenCL) theCmdLine
       character(len=1024) cmdLcopy
-      
+
       keywordfile = " "
       maxStoppts = 6
       stopptfile = " "
@@ -146,6 +152,7 @@ c       store the last used restart code that was used to store all the stands.
    10   continue
         print *,"Stop point open error on file=",trim(stopptfile)
         fvsRtnCode = 1
+        IRTNCD = fvsRtnCode
         return
    20   continue
         write (*,21) majorstopptcode,
@@ -159,8 +166,10 @@ c       store the last used restart code that was used to store all the stands.
   100 continue
       
 c     open/reopen the keyword/output file.
-
+      
       call filopn
+      CALL getfvsRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 
       return
       end
