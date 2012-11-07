@@ -1,7 +1,7 @@
       SUBROUTINE BWEIN(LKECHO)
       IMPLICIT NONE
 C----------
-C  **BWEIN                  DATE OF LAST REVISION:  07/14/10
+C  **BWEIN                  DATE OF LAST REVISION:  07/20/11
 C----------
 C
 C     OPTION PROCESSOR FOR BUDWORM MODEL.
@@ -292,9 +292,12 @@ C
       IF (LDEFOL) GOTO 9000          ! exit subroutine  
 C
 C  READ WEATHER DATA NOW IF BUDLITE HAS BEEN SELECTED
+C  IWSRC: 1 = Weather parameters provided with model
+C         2 = Weather parameter file provided by user
+C         3 = RAWS daily weather data to be used
 C
-      IF (IBWCHK.EQ.1) THEN
-         IF (IWSRC.EQ.1) THEN
+      IF (IBWCHK .EQ. 1) THEN
+         IF (IWSRC .EQ. 1) THEN
             CALL MYOPEN (JOWE,TEMPNM,3,133,1,1,1,0,KODE)
             IF (ITEMP(5).NE.1) THEN
                NSKIP=(ITEMP(5)-1)*11
@@ -303,37 +306,48 @@ C
   240          FORMAT (1X)
   250          CONTINUE
             ENDIF
-         ELSE
+         ELSEIF (IWSRC .EQ. 2) THEN
             CALL MYOPEN (JOWE,WFNAME,3,133,1,1,1,0,KODE)
+         ELSE
+            CALL BWERAWS
          ENDIF
-         IF (IWSRC.NE.3) THEN
+         IF (IWSRC .EQ. 1 .OR. IWSRC .EQ. 2) THEN
             READ (JOWE,260) WSTEA
   260       FORMAT (A20)
             DO 270 I=1,10
               READ (JOWE,265) (BWEATH(I,J),J=1,4)
   265         FORMAT (4F8.3)
   270       CONTINUE
-         ELSE
-            READ (JOWE,275) WHOTM,WHOTSD,(RAINM(I),RAINS(I),I=1,3),
-     >          RAINDM,RAINDS
-  275       FORMAT (/10F7.3)
-            READ (JOWE,280) IYEAR
-  280       FORMAT (I4)
-            IF (IYEAR.EQ.IY(1)) THEN
-               REWIND (JOWE)
-            ELSE
-               ICOUNT=0
-  285          READ (JOWE,280,END=295,IOSTAT=IOS) IYEAR
-               ICOUNT=ICOUNT+1
-               IF (IYEAR.NE.IY(ICYC)) GOTO 285
-               REWIND (JOWE)
-               NCOUNT=ICOUNT-1
-               DO 290 I=1,NCOUNT
-                  READ (JOWE,280,IOSTAT=IOS) IYEAR
-  290          CONTINUE
-               ICOUNT=0
-  295          IF (ICOUNT.NE.0) REWIND (JOWE)
-            ENDIF
+C--------------------------------
+C This is an old section of code from before weather source option
+C of using RAWS daily weather was added. At this point in the code,
+C the RAWS data has already been processed. BUT we are still missing
+C means and Std Dev values for hot Fall and precipitation during key
+C periods for small and large larvae, pupae and L2 emergence.
+C Lance David 07/20/2011
+C 
+C         ELSE
+C            READ (JOWE,275) WHOTM,WHOTSD,(RAINM(I),RAINS(I),I=1,3),
+C     >          RAINDM,RAINDS
+C  275       FORMAT (/10F7.3)
+C            READ (JOWE,280) IYEAR
+C  280       FORMAT (I4)
+C            IF (IYEAR.EQ.IY(1)) THEN
+C               REWIND (JOWE)
+C            ELSE
+C               ICOUNT=0
+C  285          READ (JOWE,280,END=295,IOSTAT=IOS) IYEAR
+C               ICOUNT=ICOUNT+1
+C               IF (IYEAR.NE.IY(ICYC)) GOTO 285
+C               REWIND (JOWE)
+C               NCOUNT=ICOUNT-1
+C               DO 290 I=1,NCOUNT
+C                  READ (JOWE,280,IOSTAT=IOS) IYEAR
+C  290          CONTINUE
+C               ICOUNT=0
+C  295          IF (ICOUNT.NE.0) REWIND (JOWE)
+C            ENDIF
+C---------------------------------
          ENDIF
       ENDIF
 C
@@ -650,7 +664,7 @@ C
       IWYR=IY(1)
       IF (DEBUG) WRITE(JOSTND,*) 'IN BWEIN: WSEED=', WSEED
 
-      IF (IWSRC.EQ.1) THEN
+      IF (IWSRC .EQ. 1) THEN
 C
 C        User has chosen weather data source as that provided within
 C        the model; therefor, we need to process the weather stations
@@ -696,7 +710,7 @@ C
          READ(IREAD,1830) 
  1830    FORMAT (1X)
 
-       ELSE
+       ELSEIF (IWSRC .EQ. 2 .OR. IWSRC .EQ. 3) THEN
          READ (IREAD,1850) WFNAME
  1850    FORMAT (A40)
       ENDIF
@@ -716,11 +730,16 @@ C
      >     /12X,'WEATHER DATA FILE IS ',A,
      >     /12X,'RANDOM NUMBER SEED FOR WEATHER= ',F8.1)
 
-      ELSE      
+      ELSEIF (IWSRC .EQ. 2) THEN     
          IF (LKECHO) WRITE(JOSTND,1820) KEYWRD,CWTYP,JOWE,WFNAME,WSEEDR
  1820    FORMAT (/1X,A8,'   WEATHER ',A,';  WEATHER DATA',
      *   ' FILE (NO.) NAME= (',I3') ',A,/12X,'RANDOM NUMBER',
      *   ' SEED FOR WEATHER= ',F8.1)
+
+      ELSEIF (IWSRC .EQ. 3) THEN     
+         IF (LKECHO) WRITE(JOSTND,1822) KEYWRD,JOWE,WFNAME
+ 1822    FORMAT (/1X,A8,'   WEATHER IS ACTUAL RAWS DATA;  WEATHER DATA',
+     *   ' FILE (NO.), NAME= (',I3') ',A)
       ENDIF
       GOTO 10
 C

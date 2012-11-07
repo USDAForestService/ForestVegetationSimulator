@@ -1,7 +1,7 @@
       SUBROUTINE BWEPPGT (WK3, IPNT, ILIMIT, IB)
       IMPLICIT NONE
 C----------
-C  **BWEPPGT                DATE OF LAST REVISION:  07/14/10
+C  **BWEPPGT                DATE OF LAST REVISION:  06/23/11
 C----------
 C  Purpose:
 C     Get (read) the GenDefol/Budworm model data for a given stand
@@ -35,6 +35,8 @@ C    08-SEP-2006 - Lance R. David (FHTET)
 C       This subroutine was written.
 C    14-JUL-2010 Lance R. David (FMSC)
 C       Added IMPLICIT NONE and declared variables as needed.
+C   23-JUN-2011 Lance R. David (FMSC)
+C      Added BWPRMS array for RAWS daily weather processing to BLCOM3.
 C
 C----------
 
@@ -594,6 +596,22 @@ C.... IIX at 288
         SPINST(IIA) = REALS(IIX)
    98 CONTINUE
 C.... IIX ends at 298
+
+C.... Read next real array(s) from buffer.
+
+      CALL BFREAD (WK3, IPNT, ILIMIT, REALS, 500, K)
+
+      IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPGT: 10 - REALS=',
+     >            REALS
+
+      IIX = 0
+
+      DO 100 IIA = 1,10
+        DO 100 IIB = 1,50
+          IIX = IIX + 1
+          BWPRMS(IIA,IIB) = REALS(IIX)
+  100 CONTINUE
+C.... IIX at 500
 
 C
 C.... Read double precision scalars (random number seeds) from buffer.

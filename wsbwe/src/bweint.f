@@ -1,7 +1,7 @@
       SUBROUTINE BWEINT 
       IMPLICIT NONE
 C---------
-C **BWEINT                 DATE OF LAST REVISION:  07/14/10
+C **BWEINT                 DATE OF LAST REVISION:  06/23/11
 C---------
 C
 C INITIALIZE BW DEFOLIATION MODEL VARIABLES
@@ -53,6 +53,8 @@ C       Moved init of variables variable from block data because they
 C       are not static (FOLDVY, FOLWTY, IOUT6A)
 C    14-JUL-2010 Lance R. David (FMSC)
 C       Added IMPLICIT NONE and declared variables as needed.
+C   23-JUN-2011 Lance R. David (FMSC)
+C      Added BWPRMS array for RAWS daily weather processing to BLCOM3.
 C------------------------------------------------------------------------
 COMMONS
 C
@@ -74,7 +76,7 @@ C
       IF (DEBUG) WRITE (JOSTND,*) 'ENTER BWEINT: ICYC = ',ICYC
 C
 C     INITIALIZE RANDOM NUMBER GENERATOR WITH DEFAULT SEEDS
-C     FOR DAMAGE MODEL, WETHER MODEL AND OUTBREAK SCHEDULING.
+C     FOR DAMAGE MODEL, WEATHER MODEL AND OUTBREAK SCHEDULING.
 C
       LTRU = .TRUE.
       DSEEDR = 55329.0
@@ -188,8 +190,6 @@ C     dimensions are: I1 host, I2 size class
         END DO
       END DO
 
-C     Variables moved from block data.  Lance David, May 2000
-C
       IOBACT = 0
       ISTNUM = 7
       ISTN   = 1
@@ -198,12 +198,6 @@ C
       IYRECV = 1
       IYRSRC = 6
       KRECVR = 0
-C....  moved to top 9/22/06 lrd
-C      WSEEDR = 25523
-C      OBSEER = 42917
-C      WSEED  = DBLE(WSEEDR)
-C      OBSEED = DBLE(OBSEER)
-C....
       LDEFOL = .FALSE.
       LREGO  = .FALSE.
       LCALBW = .FALSE.
@@ -368,6 +362,16 @@ C
       STNAME = 'STATIONS.DAT'
       IWSRC  = 1
 
+C     Array loaded from RAWS daily weather data in subroutine BWERAWS.f
+C     10 parameters, 50 years.
+C
+      DO I = 1, 10
+        DO J=1, 50
+          BWPRMS(I,J) = 0.0
+        END DO
+      END DO
+	
+
 C     Some temp variables used in keyword, reporting and weather processing (?)
 C
       ITEMP(1) = 3
@@ -380,11 +384,6 @@ C
       LTEMP1(3) = .TRUE.
       LTEMP1(4) = .TRUE.
 
-C
-C     End of variables move from block data.
-C
-C  FROM SUBR. BWGINT
-C
       IPRBYR=0
       IBWYR2=-1
 C

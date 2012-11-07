@@ -1,7 +1,7 @@
       SUBROUTINE BWECUP
       IMPLICIT NONE
 C----------
-C  **BWECUP             DATE OF LAST REVISION:  07/14/10
+C  **BWECUP             DATE OF LAST REVISION:  02/28/12
 C----------
 C
 C     PROCESSES ALL OF THE STANDS IN A RUN FROM YEAR IBWYR1 TO IBWYR2.
@@ -46,6 +46,8 @@ C      Changed array orientation of IEVENT from (4,250) to (250,4) for
 C      efficiency purposes of the PPE processes in bwepppt and bweppgt.
 C   14-JUL-2010 Lance R. David (FMSC)
 C      Added IMPLICIT NONE and declared variables as needed.
+C   28-FEB-2012 Lance R. David (FMSC)
+C      Added check for presence of host species and exit if none present.
 C-----------------------------------------------------------------------------
 C
 COMMONS
@@ -60,14 +62,26 @@ C
 C
 COMMONS
 C
-      INTEGER IYEAR, NSPYR, LASTYR
-      LOGICAL DEBUG
+      INTEGER IYEAR, NSPYR, LASTYR, I, K
+      LOGICAL DEBUG, LBWHOST
 C
 C.... Check for DEBUG
 C
       CALL DBCHK(DEBUG,'BWECUP',6,ICYC)
 
       IF (DEBUG) WRITE (JOSTND,*) 'ENTER BWECUP: ICYC = ',ICYC
+
+C
+C     Check for presence of host species. If no host, exit.
+C
+      LBWHOST = .FALSE.
+      DO  I=1,MAXSP
+        K=IBWSPM(I)
+        IF (K .LT. 7) THEN
+           IF (ISCT(K,1).GT.0) LBWHOST = .TRUE.
+        ENDIF
+      END DO
+      IF (.NOT. LBWHOST) GOTO 300
 
 C     ************************ EXECUTION BEGINS ************************
 C
@@ -150,7 +164,7 @@ C     USE IT ACCIDENTALLY.
 C
       IBWYR2=-1
 C
-      IF (DEBUG) WRITE (JOSTND,*) 'EXIT BWECUP: ICYC= ',ICYC
+  300 IF (DEBUG) WRITE (JOSTND,*) 'EXIT BWECUP: ICYC= ',ICYC
 
       RETURN
       END

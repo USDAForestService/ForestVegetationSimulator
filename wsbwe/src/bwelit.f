@@ -1,7 +1,7 @@
       SUBROUTINE BWELIT
       IMPLICIT NONE
 C-----------
-C  **BWELIT                  DATE OF LAST REVISION:  07/14/10
+C  **BWELIT                  DATE OF LAST REVISION:  03/26/12
 C-----------
 C
 C THIS SUBROUTINE IS THE HEART OF THE BUDWORM DEFOLIATION
@@ -144,7 +144,11 @@ C   30-AUG-2006 Lance R. David (FHTET)
 C      Changed array orientation of IEVENT from (4,250) to (250,4).
 C   14-JUL-2010 Lance R. David (FMSC)
 C      Added IMPLICIT NONE and declared variables as needed.
-C
+C   27-FEB-2012 Lance R. David (FMSC)
+C      Added test of host TPA (HOSTST) so that BWESLP is not used to
+C      determine dispersal mortality when no host trees are available.
+C   26-MAR-2012 Lance R. David (FMSC)
+C      Local variable IYRW changed to common variable IWYR
 C----------------------------------------------------------------------
 C
 C     COMMONS
@@ -183,6 +187,8 @@ C
 C
 C     Initialize local varables.
 C
+C      IWYR = 0
+
       DO I1 = 1,9
         DO I2 = 1,6
           OLDFOL(I1,I2) = 0.0
@@ -270,13 +276,13 @@ C
       IF (TOTALN.LT.1.0.AND.TOTALO.LT.1.0) THEN
          WRITE (JOWSBW,825) 
   825    FORMAT (' BWElit 825: yikes! both TOTALN & TOTALO < 1!')
-	   GO TO 9000                                                  ! RETURN
+           GO TO 9000                                                  ! RETURN
       ENDIF
       IF (WTNFOL.LT.1.0) THEN
          WRITE (JOWSBW,830) IYRCUR,WTNFOL
   830    FORMAT (/ ' WARNING: WT.D NEW FOLIAGE IN YEAR ',I4,' = ',
      *       F9.2)
-	   GO TO 9000                                                  ! RETURN
+           GO TO 9000                                                  ! RETURN
       ENDIF
 C
 C  IF THIS IS THE FIRST YEAR OF AN OUTBREAK, CALC. NUMBER OF EGGS
@@ -289,9 +295,61 @@ C
       ENDIF
 C
 C  GET WEATHER PARAMETERS FOR THIS YEAR
+C  IF WEATHER SOURCE IS 1 OR 2, CALL BWEWEA SUBROUTINE TO GENERATE THE
+C  PARAMETERS. OTHERWISE THE WEATHER SOURCE IS 3 (RAWS DATA) AND THE
+C  BWPRMS ARRAY HAS BEEN LOADED WITH PARAMETERS GENERATED FROM THE 
+C  DAILY (BWERAWS SUBROUTINE)
 C
       IBUDYR=IBUDYR+1
-      CALL BWEWEA
+
+      IF (IWSRC .EQ. 1 .OR. IWSRC .EQ. 2) THEN
+        CALL BWEWEA
+      ELSE
+C
+C       CYCLE THROUGH THE YEARS LOADED IN BWPRMS ARRAY AND
+C       START OVER AT YEAR 1 IF AT END OF STORED VALUES (IYRCNT)
+C
+C       IF (IBUDYR .GT. IYRCNT .OR. IWYR .EQ. IYRCNT) THEN
+        IF (IWYR .EQ. IYRCNT) THEN
+           IWYR = 1
+        ELSE
+          IWYR = IWYR + 1
+        ENDIF
+C
+C       Precipitation accumulated for predation mortality purposes
+C       during small larvae, large larvae, and pupal periods
+C       BWPRMS(7,x), (8,x) and (9,x), effect of heavy rain during
+C       L2 emergence is not resolved at this time.
+C       See variables WRAINx for descriptions. They are multipliers
+C       and remain at their 1.0 initial values (minimum value is 0.8).
+C       WHOTF is a multiplier for mortality representing effects of
+C       hot fall days determined from degree days above 75 F (23.9 C).
+C       It's value is determined using the same method as the WRAINx
+C       multipliers (see subroutine BWEMUL in file BWEWEATH.f) which
+C       requires a mean (or normal) value and a standard deviation.
+C       With the other weather options, those values were based on the
+C       multiple year weather stream, but did that particular weather
+C       stream represent a period of normal? Can't say.
+C       Since we are using actual and not simulated weather, we need
+C       mean and standard deviation values for these degree days and
+C       precipitation values.
+C       Lance David, 5/18/2011
+C           
+        DAYS(1)= BWPRMS(1,IWYR)
+        DAYS(2)= BWPRMS(2,IWYR)
+        DAYS(3)= BWPRMS(3,IWYR)
+C       WHOTF  = BWPRMS(4,IWYR)
+        DFLUSH = BWPRMS(5,IWYR)
+        TREEDD = BWPRMS(6,IWYR)
+C       WRAINx = BWPRMS(7,IWYR)
+C       WRAINx = BWPRMS(8,IWYR)
+C       WRAINx = BWPRMS(9,IWYR)
+C       WRAIND = BWPRMS(10,IWYR)
+
+        IF (DEBUG) WRITE (JOSTND,*) 'IN BWELIT: IBUDYR=',IBUDYR,
+     &  ' IWYR=',IWYR,' RAWS YR=',BWPRMS(11,IWYR),' IYRCNT=',IYRCNT
+
+      ENDIF
 C
 C CALCULATE BUDWORM SURVIVAL FOR EGGS THROUGH EMERGING L2S
 C IF THERE IS LESS THAN 1.0 BUDWORM IN THE STAND, THEN RETURN
@@ -392,20 +450,22 @@ C  TREEDD = DEGREE-DAYS ABOVE 5.5 C ACCUMULATED AT L4
 C    FOR SMALL TREES (LEVELS 1-3), INCREASE DD EXPERIENCED BY 10%
 C    (SUGGESTION FROM BC FOLKS - TEST FOR SENSITIVITY LATER)
 C
-      IF (DEBUG) WRITE (JOSTND,*) 'IN BWELIT: TREEDD= ',TREEDD
+      IF (DEBUG) WRITE (JOSTND,*) 'IN BWELIT: TREEDD= ',TREEDD,
+     *  ' A1, A2, A3, A4=',A1(IC,IH),A2(IC,IH),A3(IC,IH),A4(IC,IH) 
 
       IF (IC.GE.4) THEN
         SHOOTL=A4(IC,IH)+(A1(IC,IH)/(1.0+EXP(A2(IC,IH)+
      *   (A3(IC,IH)*TREEDD))))
       ELSE
         X=TREEDD*1.1
+        IF (DEBUG) WRITE (JOSTND,*) 'IN BWELIT: X= ',X
         SHOOTL=A4(IC,IH)+(A1(IC,IH)/(1.0+EXP(A2(IC,IH)+
      *   (A3(IC,IH)*X))))
       ENDIF
       IF (DEBUG) WRITE (JOSTND,*) 'IN BWELIT: SHOOTL= ',SHOOTL
       PEXPAN(IC,IH)=((SHOOTL-GMIN(IC,IH))/
      *   (GMAX(IC,IH)-GMIN(IC,IH)))
-	ACTNEW(IC,IH)=POTNEW(IC,IH)*PEXPAN(IC,IH)
+        ACTNEW(IC,IH)=POTNEW(IC,IH)*PEXPAN(IC,IH)
 C
 C  SAVE INITIAL FOLIAGE & BW FOR OUTPUT TABLES (P1)
 C
@@ -503,7 +563,7 @@ C
       OUT1(IC,IH,10)=ACTNEW(IC,IH)
       OUT1(IC,IH,11)=OLDFOL(IC,IH)
       OUT1(IC,IH,1)=BW(IC,IH)
-C	     
+C            
 C SUM THE AMOUNT OF FOLIAGE THAT BW WOULD AFFECT IF ALL ATE NEW FOL.
 C THE NUMBER OF BW THAT DON'T GET TO EAT NEW FOLIAGE IS STORED IN
 C BWDISP. ALSO, CALC. TOTAL NEW FOLIAGE (TOTALN) AND TOTAL
@@ -529,13 +589,20 @@ C
             OUT1(IC,IH,2)=-DISP(IC,IH)
          ENDIF
          IF (DEBUG) WRITE (JOSTND,*) 'IN BWELIT: RATIO= ',RATIO
-      ENDIF	     
+      ENDIF          
 C
   120 CONTINUE
-
-      DISPMR=BWESLP(HOSTST,DISPMX,DISPMY,4)
-
-      IF (DEBUG) WRITE (JOSTND,*) 'IN BWELIT: DISPMR= ',DISPMR
+C
+C     IF THERE ARE NO HOST TREES, DISPERSAL MORTALITY WILL BE 1.0
+C
+      IF (HOSTST .EQ. 0.0) THEN
+      	 DISPMR=1.0
+      ELSE
+         DISPMR=BWESLP(HOSTST,DISPMX,DISPMY,4)
+      ENDIF
+      
+      IF (DEBUG) WRITE (JOSTND,*) 'IN BWELIT: DISPMR= ',DISPMR, 
+     *           ' HOSTST = ',HOSTST
 C
       DO 140 IC=1,9
       DO 140 IH=1,6
@@ -584,7 +651,7 @@ C  CALC. AMOUNT OF FOLIAGE CLIPPED BY LARVAE BEFORE THEY DIED.  DEADL
 C  = NO. OF LARVAE THAT DIED, SPRDIE = PROP. OF THOSE LARVAE THAT
 C  WERE KILLED BY INSECTICIDE, DEVEL= PROP. OF FOLIAGE CONSUMED PER
 C  LARGE LARVA THAT IS EATEN BY LARVAE THAT LATER DIED.
-C  ASSUME THAT ON AVERAGE, LARVAE	DIED AT MIDPOINT
+C  ASSUME THAT ON AVERAGE, LARVAE       DIED AT MIDPOINT
 C   OF LARGE LARVAL PERIOD (441 DD), WHICH IS CLOSE TO 
 C  THEN END OF L5S (437 DD); DEVEL THEREFORE = (.5* L4 AMT CONSUMED +
 C  L5 AMT CONSUMED) / TOTAL AMT CONSUMED PER LARGE LARVA
@@ -647,7 +714,7 @@ C
             IF (X.LT.0.0) X=BW(IC,IH)
             OUT1(IC,IH,4)=OUT1(IC,IH,4)+X
             OUT3(IC,IH,5)=OUT3(IC,IH,5)+X
-            BW(IC,IH)=BW(IC,IH)-X	   
+            BW(IC,IH)=BW(IC,IH)-X          
          ELSE
             DEFOLD=100.0*AMOUNT/OLDFOL(IC,IH)
             OLDFOL(IC,IH)=OLDFOL(IC,IH)-AMOUNT

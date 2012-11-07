@@ -86,6 +86,12 @@ C       Set surrogate species coefficients from existing DF and GF
 C       coefficients.
 C    14-JUL-2010 Lance R. David (FMSC)
 C       Added IMPLICIT NONE and declared variables as needed.
+C
+C    03/27/2012 Lance R. David
+C       Added requirement that missing foliage categories for top and 
+C       middle crown must be GT 0.0 for topkill and mortality values to 
+C       be calculated.
+C       Extremely high mortality is calculated when MFT and/or MFM is 0.0
 C----------
 C
 COMMONS
@@ -291,6 +297,7 @@ C
 C        IF THE TREE IS NON-HOST OR LARCH, THEN: BYPASS THE CALCULATIONS.
 C
          IHOST=IBWSPM(ISPI)
+         IF (DEBUG) WRITE(JOSTND,*) 'IN BWEPDM: IHOST=',IHOST
          IF (IHOST.GE.6) GOTO 60
 
          DO 50 II=ISCT(ISPI,1),ISCT(ISPI,2)
@@ -302,6 +309,7 @@ C
 C           FIND THE HEIGHT AND CROWN CLASS INDICIES FOR THE TREE RECORD.
 C
             CALL BWECRC(H,ISZI,ICRC1,ICRC2)
+            IF (DEBUG) WRITE(JOSTND,*) 'IN BWEPDM: ICRC1=',ICRC1
 C
 C           Calculate variables use in the proportion of topkill and
 C           probability of mortality equations.
@@ -314,6 +322,10 @@ C
      &                 +(PRBIO(IHOST,ICRC1,2) * 0.25)
      &                 +(PRBIO(IHOST,ICRC1,3) * 0.25)
      &                 +(PRBIO(IHOST,ICRC1,4) * 0.25)) * 10.0) + 0.5)
+
+            IF (DEBUG) WRITE(JOSTND,*) 'IN BWEPDM: MFT=',MFT,' PRBIO=',
+     &                 PRBIO(IHOST,ICRC1,1),PRBIO(IHOST,ICRC1,2),
+     &                 PRBIO(IHOST,ICRC1,3),PRBIO(IHOST,ICRC1,4)
 C
 C           Set index for middle crown third for current size class.
 C
@@ -323,6 +335,9 @@ C
      &                 +(PRBIO(IHOST,IC,3) * 0.25)
      &                 +(PRBIO(IHOST,IC,4) * 0.25)) * 10.0) + 0.5)
 
+            IF (DEBUG) WRITE(JOSTND,*) 'IN BWEPDM: MFM=',MFM,' PRBIO=',
+     &                 PRBIO(IHOST,IC,1),PRBIO(IHOST,IC,2),
+     &                 PRBIO(IHOST,IC,3),PRBIO(IHOST,IC,4)
 C
 C           The calculated variable in Michael Marsden's analysis
 C           was percent topkill year prior. This routine does not
@@ -418,12 +433,21 @@ C                 budworm study in the Blue Mountains.
 C                 During the analysis it was necessary for Michael to
 C                 bound the proportion between 0.01 and 0.99. That
 C                 bounding was not carried forward here.
+C
+C           03/27/2012 Lance David
+C           Added requirement that missing foliage categories for top
+C           and middle must be GT 0.0 for topkill value to be calculated.
+C
+                  IF (MFT .GT. 0.0 .AND. MFM .GT. 0.0) THEN
  
-                  PART = 1.0/(1.0 + EXP(TK0(IHOST)
-     &               +(TK1(IHOST)*ELEV)+(TK2(IHOST)*ELEV*ELEV)
-     &               +(TK3(IHOST)*IMIST(I))+(TK4(IHOST)*PCTK)
-     &               +(TK5(IHOST)*MFT)+(TK6(IHOST)*MFM)
-     &               +(TK7(IHOST)*MFM*PCTK)+(TK8(IHOST)*MFT*MFM)))
+                     PART = 1.0/(1.0 + EXP(TK0(IHOST)
+     &                  +(TK1(IHOST)*ELEV)+(TK2(IHOST)*ELEV*ELEV)
+     &                  +(TK3(IHOST)*IMIST(I))+(TK4(IHOST)*PCTK)
+     &                  +(TK5(IHOST)*MFT)+(TK6(IHOST)*MFM)
+     &                  +(TK7(IHOST)*MFM*PCTK)+(TK8(IHOST)*MFT*MFM)))
+                  ELSE
+                     PART = 0.0
+                  ENDIF
 
                   IF (DEBUG) WRITE (JOSTND,*) 'IN BWEPDM: PART=',PART
 
@@ -607,11 +631,20 @@ C
 C
 C           Compute probability of mortality.
 C 
-            PR = 1.0/(1.0 + EXP(
-     &          B0(IHOST)+(B1(IHOST)*ELEV)+
-     &         (B2(IHOST)*ELEV*ELEV)+(B3(IHOST)*PNTBA(ITRE(I)))+
-     &         (B4(IHOST)*PNTHBA(ITRE(I)))+(B5(IHOST)*MFT)+
-     &         (B6(IHOST)*KTK)+(B7(IHOST)*MFT*MFM)) )
+C           03/27/2012 Lance David
+C           Added requirement that missing foliage categories for top
+C           and middle must be GT 0.0 for mortality value to be calculated.
+C           Extremely high mortality is calculated when MFT and/or MFM is 0.0
+C
+            IF (MFT .GT. 0.0 .AND. MFM .GT. 0.0) THEN
+               PR = 1.0/(1.0 + EXP(
+     &             B0(IHOST)+(B1(IHOST)*ELEV)+
+     &            (B2(IHOST)*ELEV*ELEV)+(B3(IHOST)*PNTBA(ITRE(I)))+
+     &            (B4(IHOST)*PNTHBA(ITRE(I)))+(B5(IHOST)*MFT)+
+     &            (B6(IHOST)*KTK)+(B7(IHOST)*MFT*MFM)) )
+            ELSE
+               PR = 0.0
+            ENDIF
 
             IF (DEBUG) WRITE(JOSTND,*) 'IN BWEPDM: KTK=',KTK,
      &      ' ITRUNC=',ITRUNC(I),' NORMHT=',NORMHT(I),' MFT=',MFT,
@@ -661,7 +694,9 @@ C
 C           IF THE NUMBER DIEING IS LESS THAN THE BACK GROUND RATE FOR
 C           THIS TREE RECORD, USE THE BACK GROUND RATE.
 C
-            FA=WK2(I)
+C***        FA=WK2(I)        *** disabled 03/27/12 LRD
+C***                         *** FA is fraction of period, why set to mort prob???
+ 
             IF (BASE.GT.PR) THEN
                PR=BASE
             ELSE

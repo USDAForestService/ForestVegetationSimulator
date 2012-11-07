@@ -90,10 +90,12 @@ C
      *        18X,'between years, parameters are: ',A15/
      *        18X,'random number seed for weather: ',F10.0/)
          ELSE
-            WRITE (JOBWP4,60) WFNAME
+            WRITE (JOBWP4,60)
+     *        WFNAME, IYRCNT, INT(BWPRMS(11,1)), BWPRMS(11,IYRCNT)
    60       FORMAT (' Budworm Defoliation Model Weather Options:',/
-     *        ' annual values stored in file = ',A,/
-     *        17X,' no variation applied!'/) 
+     *        '    RAWS daily data processed from file = ',A,/
+     *        '    with ',I2,' complete years ',I4,' through ',F5.0,/
+     *        '    No variation applied.'/) 
          ENDIF
 C
          VARY='was not'
