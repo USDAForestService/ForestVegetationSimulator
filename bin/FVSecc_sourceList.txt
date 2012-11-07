@@ -536,6 +536,8 @@
 ../strp/src/estime.f
 ../strp/src/estump.f
 ../strp/src/esuckr.f
+../volume/src/blmtap.f
+../volume/src/blmvol.f
 ../volume/src/brk_up.f
 ../volume/src/clkcoef_mod.f
 ../volume/src/debug_mod.f

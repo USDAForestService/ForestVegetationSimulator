@@ -1,6 +1,6 @@
-!== last modified  09-19-2007
+!== last modified  09-27-2012
       SUBROUTINE BLMVOL(VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,FCLASS,
-     >        VOL,LOGDIA,LOGLEN,LOGVOL,TLOGS,NOLOGP,NOLOGS,APC,BFPFLG,
+     >        VOL,LOGDIA,LOGLEN,LOGVOL,TLOGS,NOLOGP,NOLOGS,BFPFLG,
      >        CUPFLG,ERRFLAG)
 
 C   THIS SUBROUTINE DETERMINES THE VOLUME OF A TREE
@@ -21,7 +21,6 @@ C **************************************************************
       USE DEBUG_MOD
 
       CHARACTER*10 VOLEQ
-      CHARACTER*4 APC
       CHARACTER*1 COR, HTTYPE
 
       INTEGER EVOD,NUMSEG,OPT,TAPEQU,FCLASS,ERRFLAG,I,J,lcnt
@@ -67,10 +66,10 @@ C     ALL OTHER SPECIES
 104      FORMAT(A, 1X, F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 5X, A, 
      &          1X, I5)
          
-         WRITE  (LUDBG, 300)'TLOGS NOLOGP NOLOGS APC BFPFLG CUPFLG
+         WRITE  (LUDBG, 300)'TLOGS NOLOGP NOLOGS BFPFLG CUPFLG
      &                        ERRFLAG'
   300    FORMAT (A)
-  		   WRITE  (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,APC,BFPFLG,CUPFLG,
+  		   WRITE  (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,BFPFLG,CUPFLG,
      &                         ERRFLAG
   320    FORMAT(1X, I2, 2X, F5.1, 2X, F5.1, 2X, A, 1X, I5, I5, 1X,I5)
       ENDIF
@@ -138,11 +137,7 @@ C      integer scalar variable <TAPEQU>.
 C      For the BLM, the taper equation number is the two-digit Species Code
 C      plus 700 AND is the same for Scribner and CUBIC volume computations.
 C
-C dho 8-17-95: USE TAPER VALUE WHICH IS PASSED IN THE FIRST TWO CHARS OF APC
-C             TO ASSIGN TAPEQU
-
       IF (BFPFLG.EQ.1 .OR. CUPFLG.EQ.1)then
-c         READ(APC(1:2),'(I2)') ITAPER
          itaper = 0        
          IF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B01'
      >               .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN

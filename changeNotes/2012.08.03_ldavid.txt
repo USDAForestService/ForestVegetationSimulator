@@ -16,5 +16,7 @@ Impact on users: Users should obtain new executables.
 Files:
 
 ./rd/src/rdinsd.f - array dimensions defined by literal values changed to 
-                    parameter
-./rd/src/RDPARM.F77 - parameter IRRTRE changed from 500 to 1500
+                    parameter IRRTRE, max number of RD model tree records.
+./rd/src/RDPARM.F77 - parameter IRRTRE changed from 500 to 1500.
+./rd/src/rdescp.f - changed literal 500 value to parameter IRRTRE. 
+./rd/src/rdshst.f - changed literal 500 value on DO loop to parameter IRRTRE.

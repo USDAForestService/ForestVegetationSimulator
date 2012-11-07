@@ -1,5 +1,5 @@
       SUBROUTINE DBSFMSSNAG(IYEAR,NPLT,HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,
-     -  SCL1,SCL2,SCL3,SCL4,SCL5,SCL6,KODE)
+     -  HCL7,SCL1,SCL2,SCL3,SCL4,SCL5,SCL6,SCL7,HDSF,KODE)
       IMPLICIT NONE
 C
 C $Id$
@@ -22,6 +22,9 @@ C             10: SOFT SNAGS - DBH CLASS 4 (> 24" BY DEFAULT)
 C             11: SOFT SNAGS - DBH CLASS 5 (> 30" BY DEFAULT)
 C             12: SOFT SNAGS - DBH CLASS 6 (> 36" BY DEFAULT)
 C             13: KODE FOR WHETHER THE REPORT ALSO DUMPS TO FILE
+C             14: SOFT SNAGS - TOTAL       (> 0")
+C             15: HARD+SOFT  - TOTAL       (> 0")
+C             16: KODE FOR WHETHER THE REPORT ALSO DUMPS TO FILE
 C
 C     NOTE: THE DBH CLASS BREAKS CAN BE CHANGED BY THE SNAGCLAS KEYWORD
 C
@@ -38,9 +41,10 @@ COMMONS
 
       INTEGER IYEAR,ID,KODE
       INTEGER(SQLSMALLINT_KIND)::ColNumber
-      REAL HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,SCL1,SCL2,SCL3,SCL4,SCL5,SCL6
-      DOUBLE PRECISION HCL1B,HCL2B,HCL3B,HCL4B,HCL5B,HCL6B,SCL1B,SCL2B,
-     -  SCL3B,SCL4B,SCL5B,SCL6B
+      REAL HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,HCL7,SCL1,SCL2,SCL3,SCL4,SCL5,
+     -  SCL6,SCL7,HDSF
+      DOUBLE PRECISION HCL1B,HCL2B,HCL3B,HCL4B,HCL5B,HCL6B,HCL7B,
+     -  SCL1B,SCL2B,SCL3B,SCL4B,SCL5B,SCL6B,SCL7B,HDSFB
       CHARACTER*2000 SQLStmtStr
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
@@ -94,12 +98,15 @@ C---------
      -              'Hard_snags_class4 double null,'//
      -              'Hard_snags_class5 double null,'//
      -              'Hard_snags_class6 double null,'//
+     -              'Hard_snags_total  double null,'//
      -              'Soft_snags_class1 double null,'//
      -              'Soft_snags_class2 double null,'//
      -              'Soft_snags_class3 double null,'//
      -              'Soft_snags_class4 double null,'//
      -              'Soft_snags_class5 double null,'//
-     -              'Soft_snags_class6 double null)'
+     -              'Soft_snags_class6 double null,'//   
+     -              'Soft_snags_total  double null,'//   
+     -              'Hard_soft_snags_total double null)'   
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
@@ -113,12 +120,15 @@ C---------
      -              'Hard_snags_class4 Number,'//
      -              'Hard_snags_class5 Number,'//
      -              'Hard_snags_class6 Number,'//
+     -              'Hard_snags_total  Number,'//
      -              'Soft_snags_class1 Number,'//
      -              'Soft_snags_class2 Number,'//
      -              'Soft_snags_class3 Number,'//
      -              'Soft_snags_class4 Number,'//
      -              'Soft_snags_class5 Number,'//
-     -              'Soft_snags_class6 Number)'
+     -              'Soft_snags_class6 Number,'//
+     -              'Soft_snags_total  Number,'//
+     -              'Hard_soft_snags_total Number)'
 
         ELSE
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
@@ -132,12 +142,15 @@ C---------
      -              'Hard_snags_class4 real null,'//
      -              'Hard_snags_class5 real null,'//
      -              'Hard_snags_class6 real null,'//
+     -              'Hard_snags_total  real null,'//
      -              'Soft_snags_class1 real null,'//
      -              'Soft_snags_class2 real null,'//
      -              'Soft_snags_class3 real null,'//
      -              'Soft_snags_class4 real null,'//
      -              'Soft_snags_class5 real null,'//
-     -              'Soft_snags_class6 real null)'
+     -              'Soft_snags_class6 real null,'//
+     -              'Soft_snags_total  real null,'//
+     -              'Hard_soft_snags_total real null)'
         ENDIF
 
             iRet = fvsSQLCloseCursor(StmtHndlOut)
@@ -170,20 +183,25 @@ C
       HCL4B = HCL4
       HCL5B = HCL5
       HCL6B = HCL6
+      HCL7B = HCL7
       SCL1B = SCL1
       SCL2B = SCL2
       SCL3B = SCL3
       SCL4B = SCL4
       SCL5B = SCL5
       SCL6B = SCL6
+      SCL7B = SCL7
+      HDSFB = HDSF
 
       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
      -  StandID,Year,Hard_snags_class1,Hard_snags_class2,
      -  Hard_snags_class3,Hard_snags_class4,Hard_snags_class5,
-     -  Hard_snags_class6,Soft_snags_class1,Soft_snags_class2,
-     -  Soft_snags_class3,Soft_snags_class4,Soft_snags_class5,
-     -  Soft_snags_class6) VALUES(?,?,',
-     -  CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -  Hard_snags_class6,Hard_snags_total,Soft_snags_class1,
+     -  Soft_snags_class2,Soft_snags_class3,Soft_snags_class4,
+     -  Soft_snags_class5,Soft_snags_class6,Soft_snags_total,
+     -  Hard_soft_snags_total) VALUES(?,?,',
+     -  CHAR(39),TRIM(NPLT),CHAR(39),',
+     -  ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
       !PRINT*, SQLStmtStr
 C
@@ -256,6 +274,12 @@ C
       ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
+     -         INT(5,SQLSMALLINT_KIND),HCL7B,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
+
+      ColNumber=ColNumber+1
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -         INT(5,SQLSMALLINT_KIND),SCL1B,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
@@ -289,6 +313,17 @@ C
      -         INT(5,SQLSMALLINT_KIND),SCL6B,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
+      ColNumber=ColNumber+1
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
+     -         INT(5,SQLSMALLINT_KIND),SCL7B,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
+
+      ColNumber=ColNumber+1
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
+     -         INT(5,SQLSMALLINT_KIND),HDSFB,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
   100 CONTINUE
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)

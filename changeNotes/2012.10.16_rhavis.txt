@@ -1,0 +1,15 @@
+Subject: Potential Numerical Error in Cover Model Avoided
+Name: R. Havis
+Date: October 16, 2012
+Variants affected: All Western Variants
+
+Description: Corrected a numerical error that could occur when there
+             were no trees in the input tree list, the Cover model
+             was being used, and a fire was scheduled in the first cycle.
+
+Impact on users: Cover model users should obtain a new executable.
+
+Files:
+./covr/src/cvcbms.f - added check for ORMSQD, OLDTPA = 0. before setting
+                      RMSD, TPA in conditional statements after
+                      statement label 2.

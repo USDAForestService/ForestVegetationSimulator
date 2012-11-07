@@ -31,9 +31,8 @@ C                          Also added logVol to r9bdft and cType to r9clark.
 C
 C          YW  12/08/2011  Added check number of logs not greater than 20.
 C
-C          RNH 02/08/2012 changed case of include file name r9coeff,inc
-C                         to R9COEFF.INC
-C
+C          YW  02/28/2012  Changed to calc HT for prod 1 when ht1prd = 0
+C          YW  08/21/2012  Added error flag check and reset vol array.
 C  This subroutine is designed for use with the VOLLIB routines in 
 C  the National Volume Estimator Library.  It returns arrays filled 
 C  with different types of volumes (vol), log lengths (logLen), 
@@ -111,8 +110,10 @@ C     Initialize output variables
 130   continue
 C-----Check input values and prepare variables
       if (upsHt1 .gt. 0.0 .and. ht1Prd .le. 0.0) then
-        ht1Prd = upsHt1
-        upsHt1 = 0
+         if (htTot .le. 0 .and. ht2prd .le.0) then
+           ht1Prd = upsHt1
+         endif
+         upsHt1 = 0
       endif
       call r9Prep(volEq,dbhOb,topDib,topHt,ht1Prd,ht2Prd,htTot,
      &            spp,geog,COEFFS,forst,maxLen,
@@ -213,7 +214,7 @@ c       volume for FVS if only total height is provided. 11/15/2011 (yw)
         else
           if(ht1Prd.gt.4.5) then
             sawHt=ht1Prd
-          elseif(ht1prd.gt.0.0) then
+          elseif(ht1prd.le.0.01) then
 c         Saw height calc is requested by having 1 < ht1prd < 4.5'
             call r9ht(sawHt,COEFFS, sawDib,errFlg)
           endif
@@ -246,17 +247,15 @@ C-----Get topwood cubic volumes
       
 !...  get log lengths, dibs
         CALL R9LOGS(SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM,
-     &            LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS,COEFFS) 
+     &       LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS,COEFFS, ERRFLG) 
      
-     
-        NUMSEG = NOLOGP
-        IF(NUMSEG .GT. 20) THEN
-          ERRFLG = 4
+        IF(ERRFLG .NE. 0) THEN
           DO 525, I=1,15
              VOL(I) = 0.0
   525     CONTINUE
           RETURN
         ENDIF
+        NUMSEG = NOLOGP
       
       IF (DEBUG%MODEL) THEN
          DO 550 I=1,TLOGS
@@ -285,9 +284,8 @@ C-----Get board foot volumes
       ELSE  !prod ne 1
       
         CALL R9LOGS(SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM,
-     &            LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS,COEFFS) 
-        IF(NOLOGS .GT. 20) THEN
-          ERRFLG = 4
+     &       LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS,COEFFS, ERRFLG) 
+        IF(ERRFLG .NE. 0) THEN
           DO 575, I=1,15
              VOL(I) = 0.0
   575     CONTINUE
@@ -407,8 +405,8 @@ C-----Check to determine if the heights and diameters are reasonable.
       elseif(htTot.lt.0.0) then
         errFlg=10
 c      elseif(ht2Prd.eq.0.0 .and. htTot.eq.0.0) then
-      elseif(ht1Prd.eq.0.0 .and. ht2Prd.eq.0.0 
-     &  .and. htTot.eq.0.0 .and. upsHt1.eq.0.0) then
+      elseif(ht1Prd.le.0.01 .and. ht2Prd.le.0.01 
+     &  .and. htTot.le.0.01 .and. upsHt1.le.0.01) then
         errFlg=10
       elseif(htTot.gt.0.0.and.htTot.le.17.3) then
         errFlg=10
@@ -531,7 +529,7 @@ C       Get species group index to assign coefficients
       else
         plpDib=4.0
       endif
-      if(stump.eq.0.0) then
+      if(stump.le.0.01) then
         if(iProd.eq.1) then
           stump=1.0
         else
@@ -607,13 +605,14 @@ C     total height, except a17 and b17, which correspond to the top DIB.
       COEFFS%A  = coef0(sppIdx,8)
       COEFFS%B  = coef0(sppIdx,9)
       
-      if(topDib.eq.0) then
+      if(abs(topDib-0) .lt. 0.00001) then
         COEFFS%A17 = coef0(sppIdx,2)
         COEFFS%B17 = coef0(sppIdx,3)
-      elseif(topDib.eq.4)then
+      elseif(abs(topDib-4) .lt. 0.00001) then
         COEFFS%A17 = coef4(sppIdx,2)
         COEFFS%B17 = coef4(sppIdx,3)
-      elseif(topDib.eq.7 .or. topDib.eq.9) then
+      elseif((abs(topDib-7) .lt. 0.00001) 
+     +  .or. (abs(topDib-9) .lt. 0.00001)) then
         COEFFS%A17 = coef79(sppIdx,2)
         COEFFS%B17 = coef79(sppIdx,3)
       else
@@ -708,9 +707,9 @@ C-----Calculate DIB at 4.5' from DBH (eqn 7)
       
 
 C-----Calculate DIB at 17.3' from top height and DBH (eqn 9)
-      if(ht2Prd.eq.17.3) then
+      if(abs(ht2Prd-17.3) .lt. 0.00001) then
         dib17=plpDib
-      elseif(ht1Prd.eq.17.3 .and. upsHt1.eq.0) then
+      elseif(abs(ht1Prd-17.3).lt.0.00001 .and. upsHt1.lt.0.01) then
         dib17=sawDib
       elseif(topHt.gt.17.3) then
         dib17=dbhIb*(a17+b17*(17.3/topHt)**2)
@@ -719,7 +718,7 @@ C-----Calculate DIB at 17.3' from top height and DBH (eqn 9)
         dib17=topDib-0.1
       endif
 c     Make sure DIB  at 17.3 is large enough for product top diameters
-      if(upsHt1.eq.0 .and. ht1prd.gt.17.3 .and. dib17.lt.sawDib) then
+      if(upsHt1.lt.0.01 .and. ht1prd.gt.17.3 .and. dib17.lt.sawDib) then
         dib17=sawDib+(dbhIb-sawDib)*(ht1prd-17.3)/(ht1prd-4.5)
       elseif(upsHt1.gt.17.3 .and. dib17.lt.sawDib) then
         dib17=sawDib+(dbhIb-sawDib)*(upsHt1-17.3)/(upsHt1-4.5)
@@ -937,7 +936,7 @@ C  for inside-bark calculations.
       stmDib=0.0
 
 c--   Fix a potential problem when r coefficient is negative
-      if(r .lt.0.0 .and. stemHt .eq. totHt) 
+      if(r .lt.0.0 .and. abs(stemHt - totHt).lt.0.00001) 
      &  stemHt=stemHt-0.1
 
 c-----Set height indicator variables

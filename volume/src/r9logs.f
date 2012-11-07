@@ -15,10 +15,13 @@ C
 C  Revised YW 12/08/2011
 C  Added check number of logs not greater than 20 in r9logs and write round
 C  DBH to logdia(1,1).
+C
+C  Revised YW 08/21/2012
+C  Added ERRFLG to R9LOGS, R9LOGDIB and R9LOGLEN subroutines.
 C_______________________________________________________________________
 C
       SUBROUTINE R9LOGS(SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM,
-     &                  LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS, COEFFS)      
+     &           LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS, COEFFS, ERRFLG)
 C_______________________________________________________________________
 C
 
@@ -31,12 +34,13 @@ C
 !...  Parameters
       REAL    SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM 
       REAL    LOGLEN(20), LOGDIA(21,3)
-      INTEGER NOLOGP, NOLOGS, TLOGS, NUMSEG
+      INTEGER NOLOGP, NOLOGS, TLOGS, NUMSEG, ERRFLG
       TYPE(CLKCOEF):: COEFFS
       
 !...  Local Variables
       INTEGER ILOG, JLOG, I
       REAL    LMERCH,LEFTOV
+      ERRFLG = 0
       
 !======================================================================
       IF (DEBUG%MODEL) THEN
@@ -57,7 +61,10 @@ C     Check number of logs
         NOLOGS = INT(LMERCH/(MAXLEN+TRIM))
         NUMSEG = NOLOGS
       ENDIF
-      IF (NUMSEG .GT. 20) RETURN
+      IF (NUMSEG .GT. 20) THEN
+        ERRFLG = 12
+        RETURN
+      ENDIF
 !------ Sawtimber segmentation----------------------------------------
       IF (SAWHT .GT. 0) THEN
 
@@ -71,13 +78,13 @@ C     Check number of logs
 
 !check for saw logs
         IF(.NOT.(LMERCH.LT. (MINLEN+TRIM) .OR. NOLOGP.LE.0 
-     &    .OR. (NOLOGP .EQ.0 .AND. LEFTOV.LT.(MINLEN+TRIM)))) THEN         
+     &    .OR. (NOLOGP .EQ.0 .AND. LEFTOV.LT.(MINLEN+TRIM)))) THEN 
           
             ILOG = 1
             JLOG = NOLOGP
             CALL R9LOGLEN(ILOG, JLOG, NOLOGP, MINLEN, MAXLEN, TRIM,
-     &                LOGLEN, LEFTOV)
-     
+     &                LOGLEN, LEFTOV, ERRFLG)
+            IF (ERRFLG .NE. 0) RETURN
             IF (DEBUG%MODEL) THEN
                WRITE  (LUDBG, 200)'LMERCH  NOLOGP LLEN(1) LLEN(TOP)'
      &                             //' LEFTOV'
@@ -103,9 +110,13 @@ C     Check number of logs
           LEFTOV=LMERCH-((MAXLEN+TRIM)*FLOAT(NOLOGS))-TRIM
           ILOG = NOLOGP + 1
           JLOG = ILOG + NOLOGS - 1
+          IF (JLOG .GT. 20) THEN
+            ERRFLG = 12
+            RETURN
+          ENDIF
           CALL R9LOGLEN(ILOG, JLOG, NOLOGS, MINLEN, MAXLEN, TRIM,
-     &                 LOGLEN, LEFTOV)
-     
+     &                 LOGLEN, LEFTOV, ERRFLG)
+          IF(ERRFLG .NE. 0) RETURN
           IF (DEBUG%MODEL) THEN
            WRITE  (LUDBG, 300)'LMERCH  NOLOGS ilog  jlog'
      &                    //' LEFTOV'
@@ -137,8 +148,8 @@ C     Check number of logs
         ILOG = 1
         JLOG = NOLOGS     
         CALL R9LOGLEN (ILOG, JLOG, NOLOGS, MINLEN, MAXLEN, TRIM,
-     &                 LOGLEN, LEFTOV)
-        
+     &                 LOGLEN, LEFTOV, ERRFLG)
+        IF(ERRFLG .NE. 0) RETURN
       ENDIF
       
       TLOGS = INT(NOLOGP + NOLOGS)
@@ -175,7 +186,7 @@ C
 C_______________________________________________________________________
 C
       SUBROUTINE R9LOGLEN(ILOG, JLOG, NUMSEG, MINLEN, MAXLEN, TRIM, 
-     &                     LOGLEN, LEFTOV)      
+     &           LOGLEN, LEFTOV,ERRFLG)
 C_______________________________________________________________________
 C
       USE DEBUG_MOD
@@ -184,7 +195,7 @@ C
 
 !**********************************************************************
 !...  Parameters
-      INTEGER ILOG, JLOG, NUMSEG
+      INTEGER ILOG, JLOG, NUMSEG, ERRFLG
       REAL    MINLEN, MAXLEN, TRIM 
       REAL    LOGLEN(20), LEFTOV
       
@@ -209,6 +220,10 @@ C
    		  END IF
 
       IF(JLOG .GT. 0) THEN
+        IF(JLOG .GT. 20) THEN
+          ERRFLG = 12
+          RETURN
+        ENDIF
         DO 200 I=ILOG,JLOG        
           LOGLEN(I)=MAXLEN
           ht=ht+trim+logLen(i)
@@ -222,6 +237,10 @@ C
       IF(LEFTOV.GE.(MINLEN+TRIM)) THEN
         NUMSEG=NUMSEG+1
         JLOG = JLOG+1    
+        IF(JLOG .GT. 20) THEN
+          ERRFLG = 12
+          RETURN
+        ENDIF
         LOGLEN(JLOG)=LEFTOV !OR IS IT MINLEN????
       ENDIF
 
@@ -254,7 +273,7 @@ C
 C_______________________________________________________________________
 C
       SUBROUTINE R9LOGDIB(NUMSEG, TRIM, STUMP, LOGLEN, LOGDIA, 
-     &                    COEFFS)     
+     &                    COEFFS)
 C_______________________________________________________________________
 C
       USE CLKCOEF_MOD
