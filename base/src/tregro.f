@@ -33,8 +33,8 @@ C-----------
       CALL DBCHK (DEBUG,'TREGRO',6,ICYC)
 C-----------
 C  GET THE RESTART CODE AND BRANCH ACCORDINGLY.
-C-----------      
-      CALL getrestartcode (ISTOPRES)
+C-----------
+      CALL fvsGetRestartCode (ISTOPRES)
       IF (DEBUG) WRITE(JOSTND,2) ICYC,ISTOPRES
     2 FORMAT (' IN TREGRO, ICYC=',I3,' ISTOPRES=',I3)
       IF (ISTOPRES.GE.5) GOTO 10
@@ -47,15 +47,15 @@ C-----------
 
       call fvsStopPoint (5,ISTOPRES)
       IF (ISTOPRES.NE.0) RETURN
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
    10 CONTINUE
 C-----------
 C  CALL GRADD TO COMPUTE BUGS AND ADD THE INCREMENTS.
 C-----------
       CALL GRADD (DEBUG,1,LTMGO,LMPBGO,LDFBGO,LBWEGO,LCVATV,LBGCGO)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN          
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 C----------
 C  END OF CYCLE.
 C----------

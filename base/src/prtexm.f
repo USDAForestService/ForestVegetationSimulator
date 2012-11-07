@@ -46,7 +46,7 @@ C  READ THE FIRST RECORD, THEN WRITE HEADINGS
 C----------
       READ (INPUT,END=130) IRT,NPLT,MGTID
       IF (IRT .NE. 0) CALL ERRGRO(.FALSE.,19)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
       CALL GHEADS (NPLT,MGTID,0,IPRINT,ITITLE)
@@ -54,7 +54,7 @@ C----------
    10 CONTINUE
       READ (INPUT,END=120) IRT,I1,A5
       IF (IRT .NE. 1 .AND. IRT .NE. 2) CALL ERRGRO(.FALSE.,19)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
       WRITE (IPRINT,9008) I1,A5
@@ -62,7 +62,7 @@ C----------
       IF (IRT .EQ. 1) GO TO 30
       READ (INPUT,END=120) IRT,A5
       IF (IRT .NE. 3) CALL ERRGRO(.FALSE.,19)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
       WRITE (IPRINT,9009) A5
@@ -70,9 +70,9 @@ C----------
    30 CONTINUE
       READ (INPUT,END=140) IRT,I2
       IF (IRT .NE. 4) CALL ERRGRO(.FALSE.,19)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-      
+
 C----------
 C  IF DATE IS NEGETIVE, THE SAMPLE TREES WERE RESELECTED.  WRITE
 C  **, SET FLAG FOR MSG, AND SET DATE POSITIVE.
@@ -89,7 +89,7 @@ C----------
    50 CONTINUE
       READ (INPUT,END=120) IRT,IONSP,DBHIO,HTIO,IOICR,DGIO,PCTIO,PRBIO
       IF (IRT .NE. 5) CALL ERRGRO(.FALSE.,19)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
       WRITE (IPRINT,9011) (IFRAC(I),IONSP(I),DBHIO(I),HTIO(I),IOICR(I),
@@ -101,7 +101,7 @@ C----------
 C  END OF DATA TARGETS:
 C----------
   120 CALL ERRGRO(.FALSE.,19)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
   130 CALL ERRGRO (.TRUE.,20)

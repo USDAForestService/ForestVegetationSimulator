@@ -25,8 +25,8 @@ C  Author Fred Martin, WA DNR,
       include 'PRGPRM.F77'
       include 'ECNCOM.F77'
 
-      character (len=5), dimension(2), parameter :: BOOLEAN(0:1) = 
-     &                                              (/'FALSE', 'TRUE '/) 
+      character (len=5), dimension(2), parameter :: BOOLEAN(0:1) =
+     &                                              (/'FALSE', 'TRUE '/)
       character (len=8), dimension(5), parameter :: KEYWORD_TABLE =      !Names of keywords/activities recognized by Event Monitor
      &   (/ 'PRETEND ', 'SEVSTART', 'SPECCST ', 'SPECRVN ', 'STRTECON'/) !Coded in OPLIST as 1601-1605
 
@@ -62,15 +62,15 @@ cc      integer, save                         :: specCstCnt, specRvnCnt
      &           realFields, IRECNT, errCode, charFields, LFLAG, LKECHO) !KEYRDR fills realField w/ 0.0 unless actual number
          if (errCode == 2) then
            call ERRGRO(.FALSE., 2)                       !.FALSE. causes ERRGRO to flag error condition, 2 = EOF before END keyword
-           CALL getfvsRtnCode(IRTNCD)
-           IF (IRTNCD.NE.0) RETURN         
+           CALL fvsGetRtnCode(IRTNCD)
+           IF (IRTNCD.NE.0) RETURN
          endif
          parmsField = 0
          if (errCode < 0) parmsField = -errCode                          !Negative errCode used to return field containing "PARMS" keyword
 
          KEYWRD = adjustl(KEYWRD)
          select case (KEYWRD)
-          
+
 !        ====================== CASE ANNUCST ===========================
          case ('ANNUCST')
             if (annCostCnt == MAX_KEYWORDS) then
@@ -234,7 +234,7 @@ cc      integer, save                         :: specCstCnt, specRvnCnt
      &                                   KEYWRD, realFields, charFields) !4=field containing species, realFields & charFields passed but not altered
             if (spId == -999) cycle readKeyWd                            !-999 = species not found, error handled by SPDECD
 
-            call ratesAndDurations(charFields(5), MAX_RATES, rateCnt, 
+            call ratesAndDurations(charFields(5), MAX_RATES, rateCnt,
      &                            tmpRates, tmpDurations)
 
             units = int(realFields(2))                                   !Revenue units-of-measure
@@ -352,7 +352,7 @@ cc      integer, save                         :: specCstCnt, specRvnCnt
 ***                  write (JOSTND,'(/,1x,a12, a8, " - KEYWORD IGNORED, ",
 ***     &                  "ALL INDIVIDUAL SPECIES PREVIOUSLY SET, RECORD",
 ***     &                  i4)') warn, KEYWRD, IRECNT
-***                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return, 
+***                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return,
                   call errMsg(lbsDupSp)
                   cycle readKeyWd                                        !Go read next keyword
                end if
@@ -386,7 +386,7 @@ cc      integer, save                         :: specCstCnt, specRvnCnt
             end if
 
             mechCostAmt = realFields(1)
-            call ratesAndDurations(charFields(2), MAX_RATES, 
+            call ratesAndDurations(charFields(2), MAX_RATES,
      &                             rateCnt, mechCostRate, mechCostDur)
 
             if (LKECHO) then
@@ -483,7 +483,7 @@ cc      integer, save                         :: specCstCnt, specRvnCnt
 
             varPctDbhLo(varPctCnt) = realFields(3)
             if (realFields(4)>0.0) varPctDbhHi(varPctCnt) =realFields(4) !Else default value, 999.0
-            
+
             call ratesAndDurations(charFields(4), MAX_RATES, rateCnt,
      &                             varPctRate(varPctCnt,1:MAX_RATES),
      &                             varPctDur(varPctCnt,1:MAX_RATES))
@@ -513,7 +513,7 @@ cc      integer, save                         :: specCstCnt, specRvnCnt
                   write (JOSTND,'(1x, a8, "   PLANTING COSTS UNITS ",i2,
      &                      " PREVIOUSLY SET, RECORD # IGNORED: ", i4)')
      &                      KEYWRD, plntCostUnits(1), IRECNT
-                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return, 
+                  call RCDSET(1,.TRUE.)                                  !.TRUE. causes RCDSET to return,
                   cycle readKeyWd                                        !Go read next keyword
                endif
             else if (realFields(1) <= 0.0) then
@@ -637,35 +637,35 @@ cc            specRvnCnt = specRvnCnt + 1                                  !No k
             end if
 
 !          Register STRTECON keyword with the Event Monitor
-            if (realFields(2) <= 0.0 .or. realFields(3) > 0.0) 
+            if (realFields(2) <= 0.0 .or. realFields(3) > 0.0)
      &                                               realFields(4) = 0.0 !Set SEV compute to false if SEV is input or discount rate = 0 (SEV infinite)
             call addEvent(ECON_START_YEAR, 1, 3, 2)                      !Sets value of LMODE & errCode, error handled in addEvent
             if (errCode > 0) cycle readKeyWd                             !Go read next keyword
-            
+
             econStartYear = 9999                                         !Used to indicate valid STRTECON keyword has been submitted
 
             if (realFields(3) <= 0.0) charFields(3) = " "                !Replace potential zero w/ blank
 
             if (LMODE .and. LKECHO) then
-               write (JOSTND, '(/,1x, a8, "   ECON START YEAR DELAYED", 
+               write (JOSTND, '(/,1x, a8, "   ECON START YEAR DELAYED",
      &          i4, " YEARS, DISCOUNT RATE:", f5.1, "%, Known SEV: $ ",
-     &          a, ", SEV will be computed: ", a)') 
-     &         KEYWRD, int(realFields(1)), realFields(2), 
-     &         trim(adjustl(charFields(3))), 
-     &         trim(BOOLEAN(int(realFields(4)))) 
+     &          a, ", SEV will be computed: ", a)')
+     &         KEYWRD, int(realFields(1)), realFields(2),
+     &         trim(adjustl(charFields(3))),
+     &         trim(BOOLEAN(int(realFields(4))))
            else if (LKECHO) then
                write (JOSTND, '(/, 1x, a8, "   ECON START YEAR/CYCLE: ",
-     &         i4, ", DISCOUNT RATE:", f5.1, "%, Known SEV: $ ", a, 
-     &         ", SEV will be computed: ", a)') 
-     &         KEYWRD, int(realFields(1)), realFields(2), 
+     &         i4, ", DISCOUNT RATE:", f5.1, "%, Known SEV: $ ", a,
+     &         ", SEV will be computed: ", a)')
+     &         KEYWRD, int(realFields(1)), realFields(2),
      &         trim(adjustl(charFields(3))),
-     &         trim(BOOLEAN(int(realFields(4)))) 
+     &         trim(BOOLEAN(int(realFields(4))))
             end if
 
 !        ======================= CASE DEFAULT ==========================
          case default !keyword not found
             call ERRGRO(.TRUE.,1)                                        !.TRUE. causes ERRGRO to return, 1=invalid keyword was specified
-            call RCDSET(1,.TRUE.)                                        !.TRUE. causes RCDSET to return, 
+            call RCDSET(1,.TRUE.)                                        !.TRUE. causes RCDSET to return,
          end select
       end do readKeyWd
       return
@@ -723,7 +723,7 @@ cc            specRvnCnt = specRvnCnt + 1                                  !No k
 
 
 !    Reads appreciation/depreciation rates and durations from a supplemental record.
-      subroutine ratesAndDurations(supplemental, numRates, rateCnt, 
+      subroutine ratesAndDurations(supplemental, numRates, rateCnt,
      &                                                 rates, durations)
          implicit none
          character (len=80)                        :: record
@@ -745,8 +745,8 @@ cc            specRvnCnt = specRvnCnt + 1                                  !No k
             write (JOSTND,'(/,1x,8x,"   ERROR READING SUPPLEMENTAL ",
      &                                     "RATES & DURATIONS RECORD")')
             call ERRGRO(.FALSE., 2)                                      !.FALSE. causes ERRGRO not to return, 1 = invalid keyword
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          end if
 
 !       Read value rates and durations allowing for free-field format w/in 5-character fields
@@ -788,7 +788,7 @@ cc            specRvnCnt = specRvnCnt + 1                                  !No k
             call OPNEWC(errCode, JOSTND, IREAD, int(realFields(1)),
      &                  activityCode, KEYWRD, charFields, parmsField,
      &                  IRECNT, ICYC)
-            CALL getfvsRtnCode(IRTNCD)
+            CALL fvsGetRtnCode(IRTNCD)
             IF (IRTNCD.NE.0) RETURN
          end if
          return
@@ -812,10 +812,10 @@ cc            specRvnCnt = specRvnCnt + 1                                  !No k
          end if
 
          if (errCode > 0)  then
-            write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD FAILED TO ", 
-     &             "REGISTER ON EVENT MONITOR, RECORD: ", i4)') 
+            write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD FAILED TO ",
+     &             "REGISTER ON EVENT MONITOR, RECORD: ", i4)')
      &             warn, KEYWRD, IRECNT
-            call RCDSET(1,.TRUE.)                                        !.TRUE. causes RCDSET to return, 
+            call RCDSET(1,.TRUE.)                                        !.TRUE. causes RCDSET to return,
          endif
          return
       end subroutine addEvent
@@ -826,46 +826,46 @@ cc            specRvnCnt = specRvnCnt + 1                                  !No k
          integer, intent(in) :: msg
          select case (msg)
          case (badCycle)
-            write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ", 
-     &             "CYCLE/YEAR NEGATIVE OR MISSING, RECORD: ",I4)') 
+            write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ",
+     &             "CYCLE/YEAR NEGATIVE OR MISSING, RECORD: ",I4)')
      &             warn, KEYWRD, IRECNT
          case (badUoM)
             write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ",
-     &             "UNIT-OF-MEASURE INCORRECTLY SPECIFIED, RECORD: ", 
+     &             "UNIT-OF-MEASURE INCORRECTLY SPECIFIED, RECORD: ",
      &             i4)') warn, KEYWRD, IRECNT
          case (badValue)
             write (JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, NO ",
-     &             "OR NEGATIVE COST/PRICE/VALUE ENTERED, RECORD:", 
+     &             "OR NEGATIVE COST/PRICE/VALUE ENTERED, RECORD:",
      &             i4)') warn, KEYWRD, IRECNT
          case (maxKeyWds)
             write (JOSTND,'(/,1x,a12, "# ", a8, " KEYWORDS ",
      &             "ENTERED EXCEEDS MAXIMUM, RECORD", i4, " IGNORED.")')
      &             warn, KEYWRD, IRECNT
          case (revMaxKeyWds)
-            write(JOSTND,'(/, a12, 1x, 1x, a8,"   KEYWORD IGNORED, ", 
-     &           "MAX # KEYWORDS EXCEEDED FOR THIS SPECIES: ", a, 
+            write(JOSTND,'(/, a12, 1x, 1x, a8,"   KEYWORD IGNORED, ",
+     &           "MAX # KEYWORDS EXCEEDED FOR THIS SPECIES: ", a,
      &           ", UNITS-OF-MEASURE: ", a, ", & DIAMETER CLASS:", f5.1,
 *     &           ", RECORD:", i4)')  warn, KEYWRD, NSP(i,1)(1:2),        !NSP(i,1)(1:2) is character species code not including tree value class
-     &           ", RECORD:", i4)')  warn, KEYWRD, 
+     &           ", RECORD:", i4)')  warn, KEYWRD,
      &            trim(adjustl(charFields(4))),trim(UNITS_LABEL(units)),
      &            realFields(3), IRECNT
          case (revDuplicate)
-            write(JOSTND,'(/, a12, 1x, 1x, a8, "   KEYWORD IGNORED, " 
-     &            "VALUES PREVIOUSLY SET FOR THIS SPECIES: ", a, 
+            write(JOSTND,'(/, a12, 1x, 1x, a8, "   KEYWORD IGNORED, "
+     &            "VALUES PREVIOUSLY SET FOR THIS SPECIES: ", a,
      &            ", UNITS-OF-MEASURE: ", a, ", & DIAMETER CLASS:",
 *     &            f5.1, ", RECORD:", i4)') warn, KEYWRD, NSP(i,1)(1:2),  !NSP(i,1)(1:2) is character species code not including tree value class
-     &            f5.1, ", RECORD:", i4)') warn, KEYWRD, 
-     &            trim(adjustl(charFields(4))),trim(UNITS_LABEL(units)), 
+     &            f5.1, ", RECORD:", i4)') warn, KEYWRD,
+     &            trim(adjustl(charFields(4))),trim(UNITS_LABEL(units)),
      &            realFields(3), IRECNT
          case (lbsDupSp)
-            write(JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ", 
-     &            "VALUES PREVIOUSLY SET FOR THIS SPECIES: ", a, 
-     &            ", RECORD:", I4)') warn, KEYWRD, 
+            write(JOSTND,'(/, a12, 1x, a8, "   KEYWORD IGNORED, ",
+     &            "VALUES PREVIOUSLY SET FOR THIS SPECIES: ", a,
+     &            ", RECORD:", I4)') warn, KEYWRD,
      &            trim(adjustl(charFields(2))), IRECNT
 
 
          end select
-         call RCDSET(1,.TRUE.)                                           !.TRUE. causes RCDSET to return, 
+         call RCDSET(1,.TRUE.)                                           !.TRUE. causes RCDSET to return,
          return
       end subroutine errMsg
 

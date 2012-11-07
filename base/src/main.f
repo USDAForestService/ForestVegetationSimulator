@@ -9,7 +9,7 @@ C     PROCSS THE COMMAND LINE. Passing an empty string signals that the
 C     real command line arguments will be fetched.
 C
       lenCl = 0
-      CALL cmdLine(' ',lenCL,rtnCode)
+      CALL fvsSetCmdLine(' ',lenCL,rtnCode)
       IF (rtnCode.NE.0) GOTO 10
 C
 C     INITIALIZE THE MULTIPLE REPORT ROUTINE (THIS DOES NOT OPEN A FILE)

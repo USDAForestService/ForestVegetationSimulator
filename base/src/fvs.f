@@ -50,7 +50,7 @@ C
 !DEC$ ATTRIBUTES DLLEXPORT, C, DECORATE, ALIAS : "FVS" :: FVS
 !DEC$ ATTRIBUTES REFERENCE :: IRTNCD
 #endif
-      
+
       INTEGER I,IA,N,K,NTODO,ITODO,IACTK,IDAT,NP
       REAL STAGEA,STAGEB
       LOGICAL DEBUG,LCVGO
@@ -62,22 +62,22 @@ C
       INTEGER IRSTRTCD,ISTOPDONE,IRTNCD,lenCl
 C
 C     ******************     EXECUTION BEGINS     ******************
-C 
-      DEBUG=.FALSE.  
-       
+C
+      DEBUG=.FALSE.
+
 C     Check the current return code, if -1 the cmdLine has never been processed.
 
-      call getfvsRtnCode(IRTNCD)
+      call fvsGetRtnCode(IRTNCD)
       if (IRTNCD == -1) then
         lenCl = 0
-        CALL cmdline(' ',lenCl,IRTNCD)
-        IF (IRTNCD.NE.0) RETURN          
+        CALL fvsSetCmdLine(' ',lenCl,IRTNCD)
+        IF (IRTNCD.NE.0) RETURN
       endif
- 
+
 C     FIND THE RESTART, AND BRANCH AS REQUIRED
 
       call fvsRestart (IRSTRTCD)
-      call getfvsRtnCode(IRTNCD)
+      call fvsGetRtnCode(IRTNCD)
       IF (DEBUG) WRITE(JOSTND,*) "In FVS, IRSTRTCD=",IRSTRTCD,
      >                           " IRTNCD=",IRTNCD
       if (IRTNCD.ne.0) return
@@ -92,7 +92,7 @@ C
 C     INITIATE THE PROGNOSIS
 C
       CALL INITRE
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
@@ -264,7 +264,7 @@ C     WRITE INITIAL STAND STATISTICS.  MAKE SURE THAT ICL6 IS POSITIVE
 C
       ICL6=1
       CALL DISPLY
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 C
 C     IF TREE LIST OUTPUT IS REQUESTED...CALL TREE LIST PRINTER.
@@ -313,8 +313,8 @@ C
 C     ADVANCE TIME INCREMENT
 C
       ICYC = ICYC + 1
-         
-   41 CONTINUE  
+
+   41 CONTINUE
 C
 C     SIMULATE HARVEST (THINNINGS), GROWTH, MORTALITY, AND
 C     ESTABLISHMENT.
@@ -322,7 +322,7 @@ C
       IF (DEBUG) WRITE (JOSTND,50) ICYC
    50 FORMAT (/,' CALLING TREGRO, CYCLE = ',I4)
       CALL TREGRO
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
       CALL getAmStopping (ISTOPDONE)
       IF (ISTOPDONE.NE.0) RETURN
@@ -336,7 +336,7 @@ C
       IF (DEBUG) WRITE (JOSTND,70) ICYC
    70 FORMAT (/,' CALLING DISPLY, CYCLE = ',I4)
       CALL DISPLY
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 C
 C     CALL RESAGE TO RESET STAND AGE.
@@ -385,8 +385,8 @@ C
         CALL ClearRestartCode
         GOTO 40
       ENDIF
-      
-C     signal that stopping for this stand can not continue.      
+
+C     signal that stopping for this stand can not continue.
 
       call fvsStopPoint (-1,ISTOPDONE)
 C
@@ -406,7 +406,7 @@ C
       SDIAC2=SDIBC2
 C
       CALL DISPLY
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
       IBA = 1

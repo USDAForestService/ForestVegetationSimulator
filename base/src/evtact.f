@@ -131,7 +131,7 @@ C
                IMPL=IMPL+1
                IF(LKECHO)
      >         WRITE(JOSTND,'(T13,''BRANCH WEIGHT MULTIPLIER = '',
-     >                F12.5)') ARRAY(1)          
+     >                F12.5)') ARRAY(1)
             ELSE
                IEVACT(IEVA,6)=0
                CALL ERRGRO (.TRUE.,10)
@@ -236,9 +236,9 @@ C
       RETURN
   200 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-      
+
       RETURN
 C
 C

@@ -282,14 +282,14 @@ C     RETURN OR NOT??????
 C
       IF (LRETRN) RETURN
       ICCODE = ICCODE * 10
-      CALL setfvsRtnCode (ICCODE)
-      RETURN      
+      CALL fvsSetRtnCode (ICCODE)
+      RETURN
 C
       ENTRY GRSTOP
 
       ICCODE = ICCODE + 100
-      CALL setfvsRtnCode (ICCODE)
-      RETURN      
+      CALL fvsSetRtnCode (ICCODE)
+      RETURN
 
 !      IF (ICCODE .EQ. 0) STOP
 !      GO TO (9010,9020,9030,9040,9050), ICCODE

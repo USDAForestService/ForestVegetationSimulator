@@ -125,13 +125,13 @@ c       then we don't want to do any interpolation.
 
           IF (INB .GE. 2) GOTO 810
           CALL FMGFMV(IYR, 10)
-          CALL getfvsRtnCode(IRTNCD)
-          IF (IRTNCD.NE.0) RETURN          
+          CALL fvsGetRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN
         ELSE
           IF (FMOD(INB).EQ.0 .OR. FWT(INB) .LE. 0.0) GOTO 800
           CALL FMGFMV(IYR, FMOD(INB))
-          CALL getfvsRtnCode(IRTNCD)
-          IF (IRTNCD.NE.0) RETURN          
+          CALL fvsGetRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN
         ENDIF
 
         LARGE1 = ND

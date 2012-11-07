@@ -66,9 +66,9 @@ C
       ENDIF
       IF (KODE .LE. 0) GO TO 30
       IF (KODE .EQ. 2) CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
       CALL ERRGRO (.TRUE.,6)
       GOTO 10
    30 CONTINUE
@@ -88,9 +88,9 @@ C     SPECIAL END-OF-FILE TARGET
 C
    80 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
    90 CONTINUE
 C
 C     PROCESS OPTIONS
@@ -197,8 +197,8 @@ C                        OPTION NUMBER 3 -- SQLOUT
       IF(LKECHO)WRITE(JOSTND,310) KEYWRD,'OUTPUT'
   310 FORMAT(/1X,A8,'   SQL COMMAND FOR ',A,' CONNECTION')
       CALL DBSIN_GETCMD(IREAD,JOSTND,IRECNT,SQLSTR,KODE,LKECHO)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 
       IF (KODE.GT.0) GOTO 10
       IDT=1
@@ -270,9 +270,9 @@ C                        OPTION NUMBER 7 -- STANDIN
   710 FORMAT(/1X,A8,' STANDIN COMMAND FOR INPUT CONNECTION: ',A)
 
       CALL DBSIN_GETCMD(IREAD,JOSTND,IRECNT,STNDKODS,KODE,LKECHO)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
       IF (KODE.EQ.0.AND.LEN(TRIM(STNDKODS)).GT.0) THEN
 
 C       CREATE QUERY STRING
@@ -340,9 +340,9 @@ C                        OPTION NUMBER 11 -- STANDSQL
  1110 FORMAT(/1X,A8,T13'STANDSQL COMMAND FOR INPUT CONNECTION: ',A)
 
       CALL DBSIN_GETCMD(IREAD,JOSTND,IRECNT,STNDSQL,KODE,LKECHO)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
       IF (KODE.EQ.0) THEN
 C       PARSE OUT AND REPLACE WITH USER DEFINED AND EVENT MONITOR VAR VALS
         CALL DBSPRSSQL(STNDSQL,.FALSE.,KODE)
@@ -363,9 +363,9 @@ C                        OPTION NUMBER 12 -- TREESQL
  1210 FORMAT(/1X,A8,T13'TREESQL COMMAND FOR INPUT CONNECTION: ',A)
 
       CALL DBSIN_GETCMD(IREAD,JOSTND,IRECNT,SQLSTR,KODE,LKECHO)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
       IF (KODE.EQ.0) THEN
 C        MAKE SURE WE HAVE AN OPEN CONNECTION
          IF(ConnHndlIn.EQ.-1) CALL DBSOPEN(DSNIN,EnvHndlIn,
@@ -394,8 +394,8 @@ C          EXECUTE QUERY
      -         iRet.EQ. SQL_SUCCESS_WITH_INFO) THEN
              ITREEIN = 1
              CALL INTREE(TMPSTR,2,ISDSP,SDLO,SDHI,LKECHO)
-             CALL getfvsRtnCode(IRTNCD)
-             IF (IRTNCD.NE.0) RETURN         
+             CALL fvsGetRtnCode(IRTNCD)
+             IF (IRTNCD.NE.0) RETURN
              MORDAT = .TRUE.
            ELSE
              CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlTree,
@@ -470,9 +470,9 @@ C--------
 C                        OPTION NUMBER 16 -- SQLIN
       IF(LKECHO)WRITE(JOSTND,310) KEYWRD,'INPUT'
       CALL DBSIN_GETCMD(IREAD,JOSTND,IRECNT,SQLSTR,KODE,LKECHO)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
       IF (KODE.GT.0) GOTO 10
       IDT=1
       IF (LNOTBK(1)) IDT=IFIX(ARRAY(1))
@@ -909,7 +909,7 @@ C     PRIVATE ROUTINE TO DBSIN, USED TO LOAD THE CMDBUF.
       RETURN
   100 CONTINUE
       CALL ERRGRO(.FALSE.,2) ! will not return
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 
       END

@@ -57,7 +57,7 @@ C---------
       ENDDO
 C---------
 C     INITIALIZE DAMAGE/SEVERITY ARRAY.
-C---------      
+C---------
       DO II = 1,MAXTRE
         DO I = 1,6
           DAMSEV(I,II) = 0
@@ -131,8 +131,8 @@ C----------
      >  ' WESTERN ROOT DISEASE MODEL VER 3.0 ****')
 
       CALL ERRGRO(.FALSE.,13)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 C----------
    30 CONTINUE
       I = IREC1 + 1
@@ -153,7 +153,7 @@ C----------
         IF (.NOT.LCONN) INQUIRE(UNIT=ISTDAT,exist=LCONN)
         IF (LCONN) INQUIRE(UNIT=ISTDAT,opened=LCONN)
         IF (.NOT.LCONN) THEN
-          CALL getkeywrd(RECORD,len(RECORD))
+          CALL fvsGetKeywordFileName(RECORD,len(RECORD))
           IF (RECORD.EQ.' ') GOTO 900
           II=index(RECORD,".k")
           IF (II == 0) II=index(RECORD,".K")
@@ -300,8 +300,8 @@ C  A STOCKABLE PLOT (IMC1.GT.800), THEN: CALL THE ESTABLISHMENT
 C  SYSTEM TO STORE THE SITE DATA.
 C---------
       CALL ESPLT1 (ITREI,IMC1,NPNVRS,IPVARS(1))
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 65
    60 CONTINUE
       ITRE(I)=IPP
@@ -314,7 +314,7 @@ C----------
       IESTAT(I)=0
 C----------
 C  INITIALIZE SERIAL CORRELATION.
-C----------      
+C----------
       ZRAND(I)=-999.
 C----------
 C  COUNT THE NUMBER ON NON-STOCKABLE SUB-PLOTS.
@@ -364,12 +364,12 @@ C----------
       ENDDO
       WRITE(JOSTND,75) CSPI,JSP(ISPI)
    75 FORMAT(T13,'NOTE: INPUT SPECIES CODE (',A8,')WAS SET TO ('
-     & ,A4,') FOR THIS PROJECTION.') 
+     & ,A4,') FOR THIS PROJECTION.')
       INOSPC = INOSPC+1
       IF(INOSPC.GT.1000)INOSPC=1000
       ANOSPC(INOSPC) = CSPI
    74 CONTINUE
-C     
+C
    72 CONTINUE
 C----------
 C  SAVE SPECIES POINTERS IN ISP
@@ -402,7 +402,7 @@ C----------
       ENDIF
   710 CONTINUE
 C
-      LDELTR = (DBH(I) .LT. 0.0001) .OR. 
+      LDELTR = (DBH(I) .LT. 0.0001) .OR.
      >         (LINCL .AND. (DBH(I) .LT. SDLO .OR. DBH(I) .GE. SDHI))
 C----------
 C   CALL DAMCDS TO PROCESS DAMAGE CODES AND OTHER TREE ATTRIBUTES FOR
@@ -481,7 +481,7 @@ C----------
       DO I3 = 1,6
         DAMSEV(I3,IREC2) = DAMSEV(I3,I)
       END DO
-      	
+
 C----------
 C RESET ARRAY VALUES TO ZERO IN CASE THIS IS THE LAST RECORD
 C IN THE INPUT DATA --- DON'T WANT THESE VALUES HANGING AROUND
@@ -549,7 +549,7 @@ C
      &        '; PLOTS COUNTED = ',I5,'; DBSKODE=',I4)
         IF(NSITET.GT.0)WRITE(JOSTND,950)((SITETR(I,J),J=1,6),I=1,NSITET)
   950   FORMAT(/' SITE INDEX TREES:',/,7X,'ISPC',7X,'DBH',8X,'HT',
-     &  7X,'AGE',4X,'T OR B',4X,'ON OFF',20(/,1X,F10.0,2F10.1,3F10.0))   
+     &  7X,'AGE',4X,'T OR B',4X,'ON OFF',20(/,1X,F10.0,2F10.1,3F10.0))
       ENDIF
 C
       RETURN

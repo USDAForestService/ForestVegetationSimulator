@@ -1,7 +1,7 @@
       SUBROUTINE STASH (BUFFER,ILIMIT)
       IMPLICIT NONE
 C----------
-C	$Id$	
+C	$Id$
 C----------
 C
 C     STASH A BUFFER FULL OF DATA
@@ -23,7 +23,7 @@ C
       WRITE (JSTASH) BUFFER
       RETURN
       END
-      
+
       SUBROUTINE CHSTSH (CBUFF,LNCBUF)
       IMPLICIT NONE
 C
@@ -46,8 +46,8 @@ C
       WRITE (JSTASH) CBUFF
       RETURN
       END
-      
-      
+
+
       SUBROUTINE DSTASH (BUFFER,IPNT)
       IMPLICIT NONE
 C
@@ -71,14 +71,14 @@ C
         seekReadPos = -1
       ELSE
         READ (JDSTASH,END=10,ERR=10) BUFFER
-      ENDIF  
+      ENDIF
       RETURN
    10 CONTINUE
-      call setfvsRtnCode(2) ! signal end of file
+      call fvsSetRtnCode(2) ! signal end of file
       RETURN
       END
-      
-      
+
+
       SUBROUTINE CHDSTH (CBUFF,IPNT)
       IMPLICIT NONE
 C
@@ -101,9 +101,9 @@ C
       READ (JDSTASH,END=10,ERR=10) CBUFF
       RETURN
    10 CONTINUE
-      call setfvsRtnCode(2) ! signal end of file
+      call fvsSetRtnCode(2) ! signal end of file
       RETURN
       END
 
-      
+
 

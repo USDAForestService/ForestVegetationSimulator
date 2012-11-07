@@ -102,9 +102,9 @@ C
 C
       IF (KODE.LE.0) GO TO 30
       IF (KODE.EQ.2) CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
       CALL ERRGRO (.TRUE.,6)
       GOTO 10
    30 CONTINUE
@@ -122,9 +122,9 @@ C     SPECIAL END-OF-FILE TARGET (USED IF YOU READ PARAMETER CARDS).
 C
    80 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-      
+
    90 CONTINUE
 C
 C     PROCESS OPTIONS
@@ -216,8 +216,8 @@ C
       IF (IPRMPT.GT.0) THEN
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,IACTK,KEYWRD,KARD,IPRMPT,
      >        IRECNT,ICYC)
-         CALL getfvsRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN         
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
          GOTO 10
       ENDIF
 C
@@ -292,8 +292,8 @@ C
       IF (IPRMPT.GT.0) THEN
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,95,KEYWRD,KARD,IPRMPT,
      >        IRECNT,ICYC)
-         CALL getfvsRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN         
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
          GOTO 10
       ENDIF
 C
@@ -405,9 +405,9 @@ C     MSG AND ABORTS THE RUN.
 C
       LSTKNT=N
       CALL ERRGRO(.FALSE.,13)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
  2040 CONTINUE
 C
 C     WRITE KEYWORD AND NUMBER OF PLOTS READ.
@@ -477,8 +477,8 @@ C
       IF (IPRMPT.GT.0) THEN
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,440,KEYWRD,KARD,IPRMPT,
      >        IRECNT,ICYC)
-         CALL getfvsRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN         
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ELSE
          CALL OPNEW (KODE,IDT,440,1,ARRAY(2))
          IF(KODE.GT.0) GOTO 10
@@ -506,8 +506,8 @@ C
       IF (IPRMPT.GT.0) THEN
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,442,KEYWRD,KARD,IPRMPT,
      >        IRECNT,ICYC)
-         CALL getfvsRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN         
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
          GOTO 10
       ENDIF
 C
@@ -568,8 +568,8 @@ C
       IF (IPRMPT.GT.0) THEN
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,443,KEYWRD,KARD,IPRMPT,
      >        IRECNT,ICYC)
-         CALL getfvsRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN         
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ELSE
          CALL OPNEW (KODE,IDT,443,1,ARRAY(2))
          IF((KODE.EQ.0).AND.LKECHO)WRITE(JOSTND,2910) KEYWRD,IDT,
@@ -654,8 +654,8 @@ C
       IF (IPRMPT.GT.0) THEN
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,IACTK,KEYWRD,KARD,IPRMPT,
      >        IRECNT,ICYC)
-         CALL getfvsRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN         
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
          GOTO 10
       ENDIF
 C
@@ -763,8 +763,8 @@ C     METHOD=1; READ EXTERNAL PROGRAM THAT WILL GENERATE PLANT COMMANDS
           ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,IACTK,KEYWRD,KARD,
      >        IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
           ENDIF
         ELSE
           CALL OPNEW (KODE,IDT,IACTK,2,ARRAY(2))

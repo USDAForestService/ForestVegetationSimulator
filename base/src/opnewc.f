@@ -158,8 +158,8 @@ C
       RETURN
   200 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-      
+
       RETURN
       END

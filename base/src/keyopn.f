@@ -89,10 +89,10 @@ C
         WRITE (JOSTND,50)
       ENDIF
    50 FORMAT (/T13,'**********   OPEN FAILED   **********')
-      RETURN 
+      RETURN
    80 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
       RETURN

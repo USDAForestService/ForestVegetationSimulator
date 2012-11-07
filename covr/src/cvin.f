@@ -140,9 +140,9 @@ C  RETURN KODES  0=NO ERROR; 1=COLUMN 1 BLANK; 2=EOF
 C----------
       IF (KODE .EQ. 0) GO TO 30
       IF (KODE .EQ. 2) CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-      
+
       CALL ERRGRO(.TRUE.,6)
       GO TO 10
    30 CONTINUE
@@ -379,13 +379,13 @@ C  SHRUB CALIBRATION DATA.
 C----------
   600 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
  1600 CONTINUE
 C========== OPTION NUMBER  7: DEBUG    ====================
       IF(LKECHO)WRITE(JOSTND,9027)
  9027 FORMAT(/1X,'DEBUG',6X,'IS NO LONGER PROCESSED AS A COVER OPTION;'/
-     &        12X,'USE STANDARD PROGNOSIS DEBUG PROCEDURES.')         
+     &        12X,'USE STANDARD PROGNOSIS DEBUG PROCEDURES.')
       GO TO 10
  1700 CONTINUE
 C========== OPTION NUMBER  8: NOCOVOUT ====================

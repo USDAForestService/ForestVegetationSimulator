@@ -110,7 +110,7 @@ C        that version will also need to only read it once too).
      &   PBURNYR .EQ. IYR-1 .OR. (VVER(1:2) .EQ. 'SN')) THEN
            CALL FMCBA (IYR,0)
          ENDIF
-         
+
 C        This resets the value of cwdcut, which is based on salvage
 C        removal, back to zero in all but the first year of a cycle.
 C        This is necessary since the call to fmsalv was moved to fmsdit,
@@ -145,8 +145,8 @@ C        process any fueltret keywords.
 C        CALL THE ACTUAL FIRE ROUTINES (TO CALCULATE INTENSITY AND EFFECTS)
 
          CALL FMBURN (IYR, FMD, .TRUE.)
-         CALL getfvsRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN          
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
 
 C        Add this year's litterfall, crown breakage, and snag-crown-fall
 C        to the CWD pools.

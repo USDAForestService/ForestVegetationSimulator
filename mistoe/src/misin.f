@@ -70,7 +70,7 @@
 *                FVS keywords ECHO and NOECHO
 *     02/02/06 - Lance David (FHTET)
 *                Removed obsolete message "*** MISTMORT keyword ignored in
-*                CR variant". Modified keyword output for MISTMULT and 
+*                CR variant". Modified keyword output for MISTMULT and
 *                MISTMORT keywords to be more descriptive.
 *     03/22/07 - Lance David (FHTET)
 *                Functionality of MistOff keyword was changed so that it
@@ -142,8 +142,8 @@ C.... Process errors; 0=no error, 1=first column blank, 2=EOF.
       IF(KODE.NE.0) THEN
          IF(KODE.EQ.2) THEN
             CALL ERRGRO(.FALSE.,2)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ELSE
             CALL ERRGRO(.TRUE.,6)
          ENDIF
@@ -164,8 +164,8 @@ C.... Special EOF target.
 
    60 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 
 C.....Process the keyword.
 

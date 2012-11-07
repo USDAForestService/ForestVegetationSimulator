@@ -43,7 +43,7 @@ C
 C     IF THIS RECORD DOES NOT FOLLOW AN &, THEN IT CAN BE A
 C     COMMENT IF THE FIRST CHARACTER IS * or !
 C
-      IF (LENCEX.EQ.0 .AND.(RECORD(1:1).EQ.'*' .OR. 
+      IF (LENCEX.EQ.0 .AND.(RECORD(1:1).EQ.'*' .OR.
      >                      RECORD(1:1).EQ.'!')) THEN
          WRITE (JOSTND,'(T13,A)') RECORD(1:ISTLNB(RECORD))
          GOTO 5
@@ -158,7 +158,7 @@ C
       RETURN
   200 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
+      CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
   300 CONTINUE
       CALL ERRGRO (.TRUE.,5)

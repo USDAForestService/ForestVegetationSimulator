@@ -7,7 +7,7 @@ C
 C     FIRE - FIRE & SNAG MODEL
 C
 C     OPTION PROCESSOR FOR FIRE MODEL
-C 
+C
 C     CALLED FROM: INITRE [SINGLE-STAND VERSION & PPE]
 C                  PPIN   [PPE]
 C
@@ -51,9 +51,9 @@ C
      >     'SNAGSUM', 'MORTCLAS','DROUGHT ','FUELMOVE','POTFWIND',
      >     'POTFTEMP','SNAGPSFT','FUELMODL','DEFULMOD','CANCALC ',
      >     'POTFSEAS','POTFPAB ','SOILHEAT','CARBREPT','CARBCUT ',
-     >     'CARBCALC','CANFPROF','FUELFOTO','FIRECALC','FMODLIST',   
-     >     'DWDVLOUT','DWDCVOUT','FUELSOFT'/     
-      
+     >     'CARBCALC','CANFPROF','FUELFOTO','FIRECALC','FMODLIST',
+     >     'DWDVLOUT','DWDCVOUT','FUELSOFT'/
+
       DATA PHOTOREF / 'Fischer INT-96                      ',
      >                'Fischer INT-97                      ',
      >                'Fischer INT-98                      ',
@@ -86,7 +86,7 @@ C
      >                'Wade and others GTR-SE-82           ',
      >                'Blank GTR-NC-77                     ',
      >                'Popp and Lundquist RMRS-GTR-172     ' /
-     
+
       INTEGER KODE,IPRMPT,NUMBER,NPRMS,MYACT,
      &        II,JSP,IHEAD,ICHNG,ICLS,IDEC,
      &        ID,I,IFIRE,IARRY,KEY
@@ -102,8 +102,8 @@ C
       NVALS = 12
       CALL FMKEYRDR (IREAD,JOSTND,.FALSE.,KEYWRD,LNOTBK,
      >             ARRAY,IRECNT,KODE,KARD,LFLAG,NVALS)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 C
 C  RETURN KODES 0=NO ERROR,1=COLUMN 1 BLANK OR ANOTHER ERROR,2=EOF
 C               LESS THAN ZERO...USE OF PARMS STATEMENT IS PRESENT.
@@ -115,8 +115,8 @@ C
       ENDIF
       IF (KODE .LE. 0) GO TO 30
       IF (KODE .EQ. 2) CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 
       CALL ERRGRO (.TRUE.,6)
       GOTO 10
@@ -136,9 +136,9 @@ C     SPECIAL END-OF-FILE TARGET
 C
    80 CONTINUE
       CALL ERRGRO(.FALSE.,2)
-      CALL getfvsRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN         
-      
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
    90 CONTINUE
 C
 C     SIGNAL THAT THE FIRE MODEL IS NOW ACTIVE.
@@ -179,8 +179,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -276,8 +276,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -334,8 +334,8 @@ C     1 = early spring (compact leaves), 2 = before greenup, 3 = after greenup, 
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -403,8 +403,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -860,10 +860,10 @@ C
          IF (LNOTBK(7)) THEN
             DKR(4,IDEC) = ARRAY(7)
             DKR(5,IDEC) = ARRAY(7)
-            DKR(6,IDEC) = ARRAY(7)   
+            DKR(6,IDEC) = ARRAY(7)
             DKR(7,IDEC) = ARRAY(7)
             DKR(8,IDEC) = ARRAY(7)
-            DKR(9,IDEC) = ARRAY(7)            
+            DKR(9,IDEC) = ARRAY(7)
          ENDIF
 
 C        NOW RE-DETERMINE THE DECAY RATE TO DUFF
@@ -1031,8 +1031,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -1198,8 +1198,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -1305,8 +1305,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -1527,8 +1527,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                 IPRMPT,IRECNT,ICYC)
-          CALL getfvsRtnCode(IRTNCD)
-          IF (IRTNCD.NE.0) RETURN         
+          CALL fvsGetRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN
         ENDIF
         GOTO 10
       ENDIF
@@ -1571,8 +1571,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                 IPRMPT,IRECNT,ICYC)
-          CALL getfvsRtnCode(IRTNCD)
-          IF (IRTNCD.NE.0) RETURN         
+          CALL fvsGetRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN
         ENDIF
         GOTO 10
       ENDIF
@@ -1765,8 +1765,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >           IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -1843,8 +1843,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                 IPRMPT,IRECNT,ICYC)
-          CALL getfvsRtnCode(IRTNCD)
-          IF (IRTNCD.NE.0) RETURN         
+          CALL fvsGetRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN
         ENDIF
         GOTO 10
       ENDIF
@@ -2018,7 +2018,7 @@ C
       IF (LNOTBK(2)) CANMHT = ARRAY(2)
       IF (LNOTBK(3)) ICANSP = IFIX(ARRAY(3))
       IF (LNOTBK(4)) CBHCUT = ARRAY(4)
-      IF (LNOTBK(5)) FOLMC = ARRAY(5)      
+      IF (LNOTBK(5)) FOLMC = ARRAY(5)
 C
       IF(LKECHO)WRITE(JOSTND,4010) KEYWRD, ICBHMT, CANMHT, ICANSP,
      &                             CBHCUT, FOLMC
@@ -2223,11 +2223,11 @@ C
       IDT = 1
       IF (LNOTBK(1)) PRMS(1)= NINT(ARRAY(1))
       IF (LNOTBK(2)) PRMS(2)= NINT(ARRAY(2))
- 
+
 C     THE PHOTO REFERENCE CODE MUST BE BETWEEN 1 AND 32.
-C     4 AND 10 ARE NOT VALID REFERENCE CODES. 
-      
-      IF ((NINT(PRMS(1)) .EQ. 4) .OR. (NINT(PRMS(1)) .EQ. 10) .OR. 
+C     4 AND 10 ARE NOT VALID REFERENCE CODES.
+
+      IF ((NINT(PRMS(1)) .EQ. 4) .OR. (NINT(PRMS(1)) .EQ. 10) .OR.
      >    (NINT(PRMS(1)) .LT. 1) .OR. (NINT(PRMS(1)) .GT. 32)) THEN
         PRMS(1) = -1.0
       ENDIF
@@ -2237,102 +2237,102 @@ C     4 AND 10 ARE NOT VALID REFERENCE CODES.
       SELECT CASE (NINT(PRMS(1)))
       CASE (1)
       IF (NINT(PRMS(2)) .GT. 22) PRMS(2) = -1.0
-            
+
       CASE (2)
       IF (NINT(PRMS(2)) .GT. 59) PRMS(2) = -1.0
-            
+
       CASE (3)
       IF (NINT(PRMS(2)) .GT. 66) PRMS(2) = -1.0
-            
+
       CASE (5)
       IF (NINT(PRMS(2)) .GT. 17) PRMS(2) = -1.0
-                  
+
       CASE (6)
       IF (NINT(PRMS(2)) .GT. 27) PRMS(2) = -1.0
-                  
+
       CASE (7)
       IF (NINT(PRMS(2)) .GT. 56) PRMS(2) = -1.0
-                  
+
       CASE (8)
       IF (NINT(PRMS(2)) .GT. 86) PRMS(2) = -1.0
-     
+
       CASE (9)
       IF (NINT(PRMS(2)) .GT. 26) PRMS(2) = -1.0
-   
+
       CASE (11)
       IF (NINT(PRMS(2)) .GT. 26) PRMS(2) = -1.0
-      
+
       CASE (12)
       IF (NINT(PRMS(2)) .GT. 90) PRMS(2) = -1.0
-        
+
       CASE (13)
       IF (NINT(PRMS(2)) .GT. 42) PRMS(2) = -1.0
-      
+
       CASE (14)
       IF (NINT(PRMS(2)) .GT. 29) PRMS(2) = -1.0
 
       CASE (15)
       IF (NINT(PRMS(2)) .GT. 29) PRMS(2) = -1.0
-                  
+
       CASE (16)
       IF (NINT(PRMS(2)) .GT. 41) PRMS(2) = -1.0
-        
+
       CASE (17)
       IF (NINT(PRMS(2)) .GT. 35) PRMS(2) = -1.0
-                  
+
       CASE (18)
       IF (NINT(PRMS(2)) .GT. 43) PRMS(2) = -1.0
-            
+
       CASE (19)
       IF (NINT(PRMS(2)) .GT. 34) PRMS(2) = -1.0
-          
+
       CASE (20)
       IF (NINT(PRMS(2)) .GT. 26) PRMS(2) = -1.0
-       
+
       CASE (21)
       IF (NINT(PRMS(2)) .GT. 25) PRMS(2) = -1.0
-                  
+
       CASE (22)
       IF (NINT(PRMS(2)) .GT. 36) PRMS(2) = -1.0
-                  
+
       CASE (23)
       IF (NINT(PRMS(2)) .GT. 26) PRMS(2) = -1.0
-                 
+
       CASE (24)
       IF (NINT(PRMS(2)) .GT. 27) PRMS(2) = -1.0
-                 
+
       CASE (25)
       IF (NINT(PRMS(2)) .GT. 14) PRMS(2) = -1.0
-                  
+
       CASE (26)
       IF (NINT(PRMS(2)) .GT. 16) PRMS(2) = -1.0
-                  
+
       CASE (27)
       IF (NINT(PRMS(2)) .GT. 30) PRMS(2) = -1.0
-                  
+
       CASE (28)
       IF (NINT(PRMS(2)) .GT. 30) PRMS(2) = -1.0
-                 
+
       CASE (29)
       IF (NINT(PRMS(2)) .GT. 16) PRMS(2) = -1.0
-                 
+
       CASE (30)
       IF (NINT(PRMS(2)) .GT. 16) PRMS(2) = -1.0
-                 
+
       CASE (31)
       IF (NINT(PRMS(2)) .GT. 10) PRMS(2) = -1.0
-                        
+
       CASE (32)
-      IF (NINT(PRMS(2)) .GT. 39) PRMS(2) = -1.0            
-   
+      IF (NINT(PRMS(2)) .GT. 39) PRMS(2) = -1.0
+
       END SELECT
 
       IF (NINT(PRMS(1)) .EQ. -1) THEN
         REF = 'UNKNOWN'
-      ELSE  
+      ELSE
         REF = PHOTOREF(NINT(PRMS(1)))
       ENDIF
-   
+
       J = NINT(PRMS(1))
       K = NINT(PRMS(2))
 
@@ -2341,8 +2341,8 @@ C     4 AND 10 ARE NOT VALID REFERENCE CODES.
       ELSE
         CHARCODE = 'UNKNOWN'
       ENDIF
-      
-      IF(LKECHO)WRITE(JOSTND,4810) KEYWRD, NINT(PRMS(1)), 
+
+      IF(LKECHO)WRITE(JOSTND,4810) KEYWRD, NINT(PRMS(1)),
      >    REF, NINT(PRMS(2)), CHARCODE
  4810 FORMAT(/1X,A8,'   PHOTO SERIES REFERENCE IS ',
      >    I4,' = ',A/T13,'PHOTO CODE IS ',I4,' = ',A)
@@ -2350,13 +2350,13 @@ C     4 AND 10 ARE NOT VALID REFERENCE CODES.
       MYACT = 2548
       IF ((J .NE. -1) .AND. (K .NE. -1)) THEN
         CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
-      ELSE 
+      ELSE
             WRITE (JOSTND,"(/1X,'*** FFE MODEL WARNING: INCORRECT ',
      &      'PHOTO REFERENCE OR PHOTO CODE ENTERED.  BOTH FIELDS ARE ',
      &      'REQUIRED.  KEYWORD IGNORED.',/1X)")
             CALL RCDSET (2,.TRUE.)
       ENDIF
-      
+
       GOTO 10
  4900 CONTINUE
 C
@@ -2381,8 +2381,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -2417,16 +2417,16 @@ C     PRM 8 IS USED WITH THE MODELLED LOAD OPTION ONLY
       IF (LNOTBK(5)) PRMS(4) = MAX(0.0,ARRAY(5))
       IF (LNOTBK(6)) PRMS(5) = MAX(0.0,ARRAY(6))
       IF (LNOTBK(7)) PRMS(6) = MAX(0.0,ARRAY(7))
-      IF (LNOTBK(8)) PRMS(7) = MAX(0.0,ARRAY(8))      
-      IF (LNOTBK(9)) PRMS(8) = MAX(0.0,ARRAY(9))     
+      IF (LNOTBK(8)) PRMS(7) = MAX(0.0,ARRAY(8))
+      IF (LNOTBK(9)) PRMS(8) = MAX(0.0,ARRAY(9))
 
 C
       IF(LKECHO)WRITE(JOSTND,4910) KEYWRD,IDT,INT(PRMS(1)),INT(PRMS(2)),
-     >       PRMS(3), PRMS(4), PRMS(5), PRMS(6), PRMS(7), PRMS(8) 
+     >       PRMS(3), PRMS(4), PRMS(5), PRMS(6), PRMS(7), PRMS(8)
 
  4910 FORMAT(/1X,A8,T13,'FIRE CALCULATIONS IN DATE/CYCLE ',
      >    I4,' WILL BE:'
-     >    /T13, 'BASED ON METHOD',I2,' ', 
+     >    /T13, 'BASED ON METHOD',I2,' ',
      >'(0=OLD FM LOGIC, 1=NEW FM LOGIC, 2=USE MODELLED LOADS DIRECTLY)',
      >    /T13, 'FUEL MODEL SET (IF USING NEW FM LOGIC) WILL BE',
      >    I2, ' (0=13, 1=40, 2=53)',/T13,
@@ -2435,7 +2435,7 @@ C
      >    'LIVE WOODY SAV (1/FT) WILL BE: ',F6.0,/T13,
      >    'LIVE FUEL BULK DENSITY (LBS/FT3) WILL BE: ',F4.2,/T13,
      >    'DEAD FUEL BULK DENSITY (LBS/FT3) WILL BE: ',F4.2,/T13,
-     >    'HEAT CONTENT (BTU/LB) WILL BE: ',F6.0)               
+     >    'HEAT CONTENT (BTU/LB) WILL BE: ',F6.0)
 
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
 
@@ -2463,25 +2463,25 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,MYACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
-            CALL getfvsRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN         
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
 
 C     PRM1: fuel model
 C     PRM2: -1 = not set/default, 0 = on, 1 = off
-      
+
       PRMS(1) = 1
       PRMS(2) = -1
       NPARMS= 2
       IF (LNOTBK(2)) PRMS(1) = MAX(0,INT(ARRAY(2)))
       IF (LNOTBK(3)) PRMS(2) = MAX(-1,MIN(1,INT(ARRAY(3))))
 C
-      IF(LKECHO)WRITE(JOSTND,5010) KEYWRD,IDT,INT(PRMS(1)),INT(PRMS(2)) 
+      IF(LKECHO)WRITE(JOSTND,5010) KEYWRD,IDT,INT(PRMS(1)),INT(PRMS(2))
 
  5010 FORMAT(/1X,A8,T13,'IN DATE/CYCLE ',I4,' FUEL MODEL ',I3,
-     >                  ' WILL BE:',I2,' (-1=DEFAULT, 0=ON, 1=OFF)')              
+     >                  ' WILL BE:',I2,' (-1=DEFAULT, 0=ON, 1=OFF)')
 
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
 
@@ -2534,7 +2534,7 @@ C
       IF (LNOTBK(3)) PRMS(2) = INT(ARRAY(3))
 C
       IF(LKECHO)WRITE(JOSTND,5215) KEYWRD,IDT,INT(PRMS(1)),INT(PRMS(2))
- 5215 FORMAT(/1X,A8,'   THE DOWN WOOD COVER REPORT WILL BEGIN', 
+ 5215 FORMAT(/1X,A8,'   THE DOWN WOOD COVER REPORT WILL BEGIN',
      &      ' PRINTING IN DATE/CYCLE ',I4,','/T13,'FOR ',I4,
      &      ' YEARS USING ',I2,' YEAR INCREMENTS.')
 C
@@ -2678,8 +2678,8 @@ C
       IF (TMP.EQ.'STOP') THEN
          IF (.NOT.LFLAG) WRITE (IOUT,'(/'' STOP'')')
          CALL GRSTOP
-         CALL getfvsRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN      
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       IF (LFLAG) THEN
          CALL GROHED (IOUT)
