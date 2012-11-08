@@ -12,6 +12,13 @@ c     Created in late 2011 by Nick Crookston, RMRS-Moscow
       include "PRGPRM.F77"
       include "CONTRL.F77"
       include "PLOT.F77"
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSDIMSIZES'::FVSDIMSIZES
+!DEC$ ATTRIBUTES REFERENCE :: NTREES, NCYCLES, NPLOTS, MAXTREES
+!DEC$ ATTRIBUTES REFERENCE :: MAXSPECIES, MAXPLOTS, MAXCYCLES
+#endif
+
       integer :: ntrees,ncycles,nplots,maxtrees,maxspecies,maxplots,
      -           maxcycles
       ntrees    = ITRN
@@ -31,6 +38,12 @@ c     Created in late 2011 by Nick Crookston, RMRS-Moscow
       include "PRGPRM.F77"
       include "CONTRL.F77"
       include "OUTCOM.F77"
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSSUMMARY'::FVSSUMMARY
+!DEC$ ATTRIBUTES REFERENCE :: SUMMARY, ICYCLE, NCYCLES, MAXROW
+!DEC$ ATTRIBUTES REFERENCE :: MAXCOL, RTNCODE
+#endif
       
       integer :: summary(20),icycle,ncycles,maxrow,maxcol,rtnCode
       
@@ -62,6 +75,11 @@ c
       include "PRGPRM.F77"
       include "ARRAYS.F77"
       include "CONTRL.F77"
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSTREEATTR'::FVSTREEATTR
+!DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NTREES, ATTR, RTNCODE
+#endif      
 
       integer :: nch,rtnCode,ntrees
       real(kind=8)      :: attr(ntrees)
@@ -137,6 +155,11 @@ c
       include "PRGPRM.F77"
       include "ARRAYS.F77"
       include "OPCOM.F77"
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSEVMONATTR'::FVSEVMONATTR
+!DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, ATTR, RTNCODE
+#endif      
 
       integer :: nch,rtncode,iv,i
       double precision  :: attr
@@ -454,6 +477,12 @@ c                 or when ntrees is zero
       include "ESTREE.F77"
       include "STDSTK.F77"
 
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSADDTREES'::FVSADDTREES
+!DEC$ ATTRIBUTES REFERENCE :: IN_DBH, IN_SPECIES, IN_HT, IN_CRATIO
+!DEC$ ATTRIBUTES REFERENCE :: IN_PLOT, IN_TPA, NTREES, RTNCODE
+#endif      
+      
       real(kind=8) :: in_dbh(ntrees),in_species(ntrees),
      -    in_ht(ntrees),in_cratio(ntrees),in_plot(ntrees),
      -    in_tpa(ntrees)
@@ -538,6 +567,13 @@ c     indx    = species index
       include "PRGPRM.F77"
       include "PLOT.F77"
 
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,ALIAS:'FVSSPECIESCODE'::FVSSPECIESCODE
+!DEC$ ATTRIBUTES C,DECORATE :: FVSSPECIESCODE
+!DEC$ ATTRIBUTES REFERENCE :: FVS_CODE, FIA_CODE, PLANT_CODE, INDX
+!DEC$ ATTRIBUTES REFERENCE :: NCHFVS, NCHFIA, NCHPLANT, RTNCODE
+#endif         
+
       integer :: indx,nchfvs,nchfia,nchplant,rtnCode
       character(len=4) :: fvs_code
       character(len=4) :: fia_code
@@ -566,7 +602,12 @@ c     indx    = species index
       include "PRGPRM.F77"
       include "ARRAYS.F77"
       include "CONTRL.F77"
-      
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSCUTTREES'::FVSCUTTREES
+!DEC$ ATTRIBUTES REFERENCE :: PTOCUT, NTREES, RTNCODE
+#endif         
+
       integer :: ntrees,rtnCode
       double precision :: pToCut(ntrees)
       pToCut = 0.
@@ -584,7 +625,12 @@ c     indx    = species index
 
       include "PRGPRM.F77"
       include "PLOT.F77"
-      
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSSTANDID'::FVSSTANDID
+!DEC$ ATTRIBUTES REFERENCE :: SID, SCN, MID, NCSID, NCCN, NCMID
+#endif  
+
       integer :: ncsID,ncCN,ncmID
       character(len=26) sID
       character(len=4)  mID
@@ -602,6 +648,11 @@ c     indx    = species index
 
       subroutine fvsCloseFile(filename,nch)
       implicit none
+      
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSCLOSEFILE'::FVSCLOSEFILE
+!DEC$ ATTRIBUTES REFERENCE :: FILENAME, NCH
+#endif
 
 C     this routine closes "filename" if it is opened, it is not called
 C     from within FVS. nch is the length of filename.
@@ -626,10 +677,16 @@ C     add an activity to the schedule.
 
       include "PRGPRM.F77"
       include "CONTRL.F77"
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,ALIAS:'FVSADDACTIVITY'::FVSADDACTIVITY
+!DEC$ ATTRIBUTES C,DECORATE :: FVSADDACTIVITY
+!DEC$ ATTRIBUTES REFERENCE :: IDT, IACTK, INPRMS, NPRMS, RTNCODE
+#endif      
       
       integer :: i,idt,iactk,nprms,rtnCode,kode
       integer, parameter :: mxtopass=20
-      real(kind=8) inprms(*)
+      real(kind=8) inprms(nprms)
       real(kind=4) prms(mxtopass)
 
       if (nprms > 0) then 

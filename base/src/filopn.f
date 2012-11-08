@@ -22,7 +22,7 @@ C
 C
 COMMONS
 C
-      INTEGER LENKEY,KODE,I,LENNAM,ISTLNB
+      INTEGER LENKEY,KODE,I,LENNAM,ISTLNB,IRTNCD
       CHARACTER*250 KEYFIL
       CHARACTER*250 CNAME
       CHARACTER VVER*7,REV*10
@@ -33,13 +33,13 @@ C----------
 C  KEYWORD and OUTPUT FILES.
 C----------
       KWDFIL=' '
-      call getkeywrd(KWDFIL,len(KWDFIL))
+      call fvsGetKeywordFileName(KWDFIL,len(KWDFIL))
       KWDFIL=ADJUSTL(TRIM(KWDFIL))
       if (KWDFIL.ne.' ') then
         inquire(unit=iread,opened=LOPEN)
         if (LOPEN) close(unit=iread)
-        
-        call getrestartcode (i)
+
+        call fvsGetRestartCode (i)
         if (i.eq.0) open(unit=IREAD,file=KWDFIL,status="old",err=101)
         lenkey=index(KWDFIL,".k")
         if (lenkey == 0) lenkey=index(KWDFIL,".K")
@@ -58,21 +58,21 @@ C----------
         endif
         CALL KEYFN(KWDFIL)
         CALL DBSVKFN(KWDFIL)
-        
+
 c       open the scratch file (should be removed sometime)
         open(unit=JOTREE,status="scratch",form="unformatted")
 
         return
   101   continue
         print *,"File open error on: ",trim(KWDFIL)
-        call setfvsRtnCode(1)
+        call fvsSetRtnCode(1)
         return
   102   continue
         print *,"File open error on: ",trim(cname)
-        call setfvsRtnCode(1)
+        call fvsSetRtnCode(1)
         return
       endif
-      
+
       IF (LPT) THEN
 C----------
 C  GET VARIANT NAME AND REVISION DATE.
@@ -88,26 +88,30 @@ C----------
            WRITE(*,2) VVER(:2),REV
  2         FORMAT(/T20,A2,' FVS VARIANT -- RV:',A10/)
         ENDIF
-C     
+C
       WRITE (*,'('' ENTER KEYWORD FILE NAME ('',I2.2,
      >        ''): '')') IREAD
 C
       ENDIF
 C
-           
+
       READ (*,'(A)',END=100) KWDFIL
       CALL UNBLNK(KWDFIL,LENKEY)
       IF (LENKEY.LE.0) THEN
-         WRITE (*,'('' A KEYWORD FILE NAME IS REQUIRED'')') 
+         WRITE (*,'('' A KEYWORD FILE NAME IS REQUIRED'')')
          CALL RCDSET (3,.FALSE.)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
          RETURN
       ENDIF
       CALL MYOPEN (IREAD,KWDFIL,3,150,0,1,1,0,KODE)
       IF (KODE.GT.0) THEN
          WRITE (*,'('' OPEN FAILED FOR '',A)')
      >        KWDFIL(1:LENKEY)
-         WRITE (*,'('' A KEYWORD FILE IS REQUIRED'')') 
+         WRITE (*,'('' A KEYWORD FILE IS REQUIRED'')')
          CALL RCDSET (3,.FALSE.)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
          RETURN
       ENDIF
 C----------
@@ -126,7 +130,7 @@ C----------
       DO I= LENKEY, 1, -1
         IF (KWDFIL(I:I) .EQ. '.') THEN
           KEYFIL=KWDFIL
-          KWDFIL(I:)=' '    
+          KWDFIL(I:)=' '
           GO TO 10
         END IF
       END DO
@@ -160,9 +164,9 @@ C----------
          WRITE (*,'('' ALL OUTPUT IS SENT TO STANDARD OUT'')')
          JOSTND=6
       ENDIF
-C----------     
+C----------
 C  TREELIST OUTPUT.
-C----------     
+C----------
       IF (LPT) THEN
          WRITE (*,'('' ENTER TREELIST OUTPUT FILE NAME ('',
      >        I2.2,''):  '')') JOLIST
@@ -226,31 +230,31 @@ C
       if (LOPEN) close(unit=JOLIST)
       inquire(unit=JOSUME,opened=LOPEN)
       if (LOPEN) close(unit=JOSUME)
-      
+
       return
-      end     
+      end
 
       SUBROUTINE openIfClosed (ifileref,sufx)
       integer ifileref
       character (len=*) sufx
       character (len=256) keywrdfn
       logical lconn
-       
+
       INQUIRE(UNIT=ifileref,opened=lconn)
       IF (.NOT.lconn) THEN
-        CALL getkeywrd(keywrdfn,len(keywrdfn))
+        CALL fvsGetKeywordFileName(keywrdfn,len(keywrdfn))
         IF (keywrdfn.NE.' ') THEN
           I = index(keywrdfn,".k")
           IF (I == 0) I=index(keywrdfn,".K")
           IF (I == 0) I=len_trim(keywrdfn)
           keywrdfn=TRIM(keywrdfn(:I-1))//"."//trim(sufx)
           OPEN(UNIT=ifileref,FILE=TRIM(keywrdfn),STATUS='replace')
-        ENDIF 
-      ENDIF                    
+        ENDIF
+      ENDIF
 
 
       END
-      
+
 
 
 

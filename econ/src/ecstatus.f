@@ -8,6 +8,8 @@ C  Pretend mode is "on" only if active in the first year of a cycle.
 
 C Called after each call to EVMON in GRINC to obtain activities (econStart and pretend) triggered by events during a cycle
 
+C 10/12/2012 Removed saved variables & created new commons
+
 C Variables from FVS
 C   beforeCuts - 0 = ECSTATUS being called before CUTS, 1 = ECSTATUS being called after CUTS
 C   ICYC       - current cycle number.
@@ -19,16 +21,15 @@ C   IY         - array of actual simulation years, 1=inventory year, 2=end 1st c
 
       include 'PRGPRM.F77'
       include 'ECNCOM.F77'
+      include 'ECNCOMSAVES.F77'
 
       integer               :: evntCnt, i, IACTK, IDT, parmsCnt
-      integer, save         :: pretendStartYear, pretendEndYear          !Initialized by this.entry setPretendStatus()
       integer, dimension(1) :: pretend   = (/PRETEND_ACTIVITY/),
      &                         econStart = (/ECON_START_YEAR/)
       integer, intent(in)   :: beforeCuts, ICYC, NCYC
       integer, intent(in), dimension(NCYC) :: IY
 
       logical, intent(out) :: isPretend
-      logical, save        :: isPretendActive                            !Needed because FORTRAN doesn't allow saving a dummy argument or result
 
       real, dimension(1)       :: pretendDuration(1)
       real, dimension(3)       :: strtParms(3)
@@ -59,7 +60,7 @@ C   IY         - array of actual simulation years, 1=inventory year, 2=end 1st c
          if (IACTK == PRETEND_ACTIVITY) then
             if (IDT + beforeCuts > pretendEndYear)
      &                               pretendStartYear = IDT + beforeCuts !Ensure continuation of PRETEND status across multiple keywords
-            pretendEndYear = pretendDuration(1) + IDT + beforeCuts - 1   !Duration uses last activity
+            pretendEndYear = NINT(pretendDuration(1)) + IDT+beforeCuts-1 !Duration uses last activity
             CALL OPDONE (i, IDT + beforeCuts)
          end if
       end do
@@ -82,7 +83,9 @@ C   IY         - array of actual simulation years, 1=inventory year, 2=end 1st c
          isPretend = isPretendActive
       return
 
-!    Set "saved" variables to an intial state before each simulation
+
+!    Set "saved/common" variables to an intial state before each simulation
+!    Called in ecininit.f
       entry setPretendStatus()
          isPretendActive  = .FALSE.
          pretendStartYear = 0

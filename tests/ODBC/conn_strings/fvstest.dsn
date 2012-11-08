@@ -1,0 +1,4 @@
+[ODBC]
+DRIVER=SQL Server Native Client 10.0
+DATABASE=fvstest
+SERVER=.\sqlexpress

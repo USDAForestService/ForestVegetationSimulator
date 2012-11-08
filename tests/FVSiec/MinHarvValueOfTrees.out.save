@@ -1,4 +1,4 @@
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    11-01-2012  15:55:03
 
  ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -190,7 +190,7 @@
  HEIGHT INCREMENT MODEL                          1.00
 
  NUMBER OF RECORDS WITH MISTLETOE                   0
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    11-01-2012  15:55:03
 
  STAND ID: ValueOfTreesMinHarv           MGMT ID: NONE    Value of trees given known SEV constrained by MinHarv keyword.
 
@@ -331,7 +331,7 @@
          TOTAL        19.2   22.7   24.7   26.5   29.5    30.9    8605. CUFT     100.% DF1,   0.% RC1,   0.% RC2,   0.% GF1
          MERCH        19.6   23.2   24.8   26.5   29.5    30.9    7768. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
          MERCH        19.9   23.2   25.3   26.5   29.5    30.9   42763. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    11-01-2012  15:55:04
 
  STAND ID: ValueOfTreesMinHarv           MGMT ID: NONE    Value of trees given known SEV constrained by MinHarv keyword.
 
@@ -455,7 +455,7 @@
                                                                           100      14.7      275.     324.       90.4    253.3
 
  ** NOTE:  DUE TO HARVEST, COMPRESSION, OR REGENERATION ESTABLISHMENT, NEW SAMPLE TREES WERE SELECTED.
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    11-01-2012  15:55:04
 
  STAND ID: ValueOfTreesMinHarv           MGMT ID: NONE    Value of trees given known SEV constrained by MinHarv keyword.
 
@@ -525,7 +525,7 @@
    10   2094
                 BASE     THINDBH   2094  DELETED OR CANCELED         7.00    999.00      0.88      0.00     16.00      0.00
  ----------------------------------------------------------------------------------------------------------------------------------
-1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    08-13-2012  13:35:01
+1        FOREST VEGETATION SIMULATOR     VERSION OFVS-002 -- INLAND EMPIRE EXPANDED             RV:06/28/12    11-01-2012  15:55:04
  
  ----------------------------------------------------------------------------
                  REGENERATION ESTABLISHMENT MODEL VERSION 2.0
@@ -601,13 +601,13 @@
   2004     10  YES         50        0      41        0   -41           0.0                 63    -91      0      0   4.0    154
   2014     20  YES        100        0      68        0   -68           0.0                  2   -152      0      0   4.0    154
   2024     30  YES        150        0      86        0   -86           0.0                -39   -193      0      0   4.0    154
-  2034     40  YES       1141     2237     378      663   285   11.7    1.8   5.5          317    163      0  15537   4.0    154
-  2044     50  YES       1489     3344     355      670   314    9.4    1.9   5.3          336    182      0  20461   4.0    154
-  2054     60  YES       1759     4296     311      581   271    7.7    1.9   5.1          285    131      0  24220   4.0    154
-  2064     70  YES       1991     5113     267      467   200    6.5    1.8   4.8          210     56      0  27295   4.0    154
-  2074     80  YES       2233     6234     233      385   152    5.7    1.7   4.7          159      5      0  30518   4.0    154
-  2084     90  YES       2439     6914     204      288    84    4.9    1.4   4.4           89    -65      0  33086   4.0    154
-  2094    100  YES       2602     7409     182      209    27    4.3    1.1   4.1           30   -124      0  35063   4.0    154
+  2034     40  YES       1143     2237     378      663   285   11.7    1.8   5.5          317    163      0  15537   4.0    154
+  2044     50  YES       1491     3344     356      670   314    9.4    1.9   5.3          335    181      0  20461   4.0    154
+  2054     60  YES       1761     4296     311      581   270    7.7    1.9   5.1          285    131      0  24220   4.0    154
+  2064     70  YES       1993     5113     267      467   200    6.5    1.7   4.8          210     56      0  27295   4.0    154
+  2074     80  YES       2235     6234     233      385   152    5.7    1.7   4.7          159      5      0  30518   4.0    154
+  2084     90  YES       2441     6914     204      288    84    4.9    1.4   4.4           89    -65      0  33086   4.0    154
+  2094    100  YES       2604     7409     182      209    27    4.3    1.1   4.1           30   -124      0  35063   4.0    154
  
  
  HARVEST VOLUME AND GROSS VALUE REPORT

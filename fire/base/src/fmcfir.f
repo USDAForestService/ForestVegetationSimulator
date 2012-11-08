@@ -42,7 +42,7 @@ C     VARIABLE DECLARATIONS.
 
       INTEGER IYR,FMOIS
       INTEGER SWIND
-      INTEGER OLDND, OLDNL
+      INTEGER OLDND, OLDNL, IRTNCD
       REAL    OLDFWG(2,7), OLDMEX(3), OLDMPS(2,3), OLDEPT
       REAL    HPA, HPA2, HPA3, B, DIFF, BOUNDL, BOUNDU
       REAL    INIT1, RACT, RACT1
@@ -72,11 +72,11 @@ C      IF (ACTCBH .NE. -1) INIT1 = (4.078 * ACTCBH)**(3.0/2.0)  ! original line
 C      IF (ACTCBH .NE. -1) INIT1 = (4.065 * ACTCBH)**(3.0/2.0)  ! new coefficient
 C      IF (ACTCBH .NE. -1) THEN
 C        INIT1 = (0.3048*(460+25.9*FOLMC))/100*(0.2891)**(2/3)  ! with FMC
-C        INIT1 = (INIT1 * ACTCBH)**(3.0/2.0)  
+C        INIT1 = (INIT1 * ACTCBH)**(3.0/2.0)
 C      ENDIF
       IF (ACTCBH .NE. -1) THEN
         INIT1 = ((460+25.9*FOLMC))*.001333  ! with FMC simplified
-        INIT1 = (INIT1 * ACTCBH)**(3.0/2.0)  
+        INIT1 = (INIT1 * ACTCBH)**(3.0/2.0)
       ENDIF
 C
 C     GET THE FUEL MODEL 10 INFORMATION (AND BACKUP THE EXISTING INFO)
@@ -119,6 +119,9 @@ C
 C     CALL FMFINT TO GET THE INTERMEDIATE VALUES THAT WE NEED FOR THE CALC.
 C
       CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA2, 1)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
+
       FWIND = SAVWND
 C
 C     DO THE CROWN CALCULATIONS
@@ -170,7 +173,7 @@ C     RESET THESE VALUES BACK SINCE THEY WERE RESET FOR USE OF FM 10.
       ENDDO
 
 C     NEW TORCHING INDEX CALCULATION
-C     CALL FMFINT AND ITERATE WITH DIFFERENT WIND SPEEDS UNTIL THE 
+C     CALL FMFINT AND ITERATE WITH DIFFERENT WIND SPEEDS UNTIL THE
 C     PREDICTED SPREAD RATE VALUE EQUALS THE CRITICAL VALUE FOR INITIATION.
 C     USE THE OLD CALCULATION AS A STARTING POINT.
 C     THIS FIXES THE PROBLEM WHERE THE FIRE TYPE BASED ON TI IS
@@ -179,7 +182,7 @@ C     NONLINEARITY PROBLEM THAT SOMETIMES CROPPED UP WHEN INTERPOLATING
 C     BETWEEN FUEL MODELS.)
 C
       SAVWND = FWIND
-      
+
       IF ((ACTCBH .NE. -1) .AND. (HPA .GT. 0)) THEN
          OINIT1(FMOIS) = ((60.*INIT1*SRHOBQ(FMOIS) / (HPA*SIRXI(FMOIS)))
      &       - SPHIS(FMOIS) - 1.0) / SCBE(FMOIS)
@@ -189,8 +192,11 @@ C
            OINIT1(FMOIS) = 0.0
          ENDIF
 
-         FWIND  = 999 * WMULT    
-         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)   
+         FWIND  = 999 * WMULT
+         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
+
          IF (SFRATE(2) .LT. RINIT1) THEN
            OINIT1(FMOIS) = 999
            GOTO 205
@@ -198,11 +204,14 @@ C
 
          IF (OINIT1(FMOIS) .GE. 999) OINIT1(FMOIS) = 999
 
-         FWIND  = OINIT1(FMOIS) * WMULT    
-         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)   
+         FWIND  = OINIT1(FMOIS) * WMULT
+         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
+
          DIFF = SFRATE(2) - RINIT1
          IF ((DIFF .LE. .001) .AND. (DIFF .GE. -.001)) GOTO 205
-         
+
          DO 200 I=1,1000
            IF (I .EQ. 1) THEN
              IF (DIFF .GT. .001) THEN
@@ -214,27 +223,30 @@ C
              ENDIF
            ENDIF
            OINIT1(FMOIS) = (BOUNDU + BOUNDL)/2
-           FWIND  = OINIT1(FMOIS) * WMULT    
-           CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)      
-           DIFF = SFRATE(2) - RINIT1          
+           FWIND  = OINIT1(FMOIS) * WMULT
+           CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA3, 2)
+           CALL fvsGetRtnCode(IRTNCD)
+           IF (IRTNCD.NE.0) RETURN
+
+           DIFF = SFRATE(2) - RINIT1
            IF (DEBUG) WRITE(JOSTND,*) 'ITER NUMBER = ', I
-           IF (DEBUG) WRITE(JOSTND,*) 'BOUNDL = ', BOUNDL 
-           IF (DEBUG) WRITE(JOSTND,*) 'BOUNDU = ', BOUNDU 
+           IF (DEBUG) WRITE(JOSTND,*) 'BOUNDL = ', BOUNDL
+           IF (DEBUG) WRITE(JOSTND,*) 'BOUNDU = ', BOUNDU
            IF ((DIFF .LE. .001) .AND. (DIFF .GE. -.001)) GOTO 205
            IF (DIFF .GT. .001) BOUNDU = OINIT1(FMOIS)
-           IF (DIFF .LT. -.001) BOUNDL = OINIT1(FMOIS)                       
+           IF (DIFF .LT. -.001) BOUNDL = OINIT1(FMOIS)
            IF (BOUNDU .LE. 0) GOTO 205
            IF ((BOUNDU .GT. 0) .AND. (BOUNDU .LT. .00000000001)) THEN
              OINIT1(FMOIS) = 0.0
              GOTO 205
            ENDIF
   200   CONTINUE
-  205   CONTINUE 
+  205   CONTINUE
          IF (DEBUG) WRITE(JOSTND,*) 'ITER NUMBER = ', I
-         IF (DEBUG) WRITE(JOSTND,*) 'DIFF = ', DIFF      
+         IF (DEBUG) WRITE(JOSTND,*) 'DIFF = ', DIFF
          IF (DEBUG) WRITE(JOSTND,*) 'SFRATE(2) = ',SFRATE(2)
 C        SET 999 AS THE MAX TORCHING INDEX
-         OINIT1(FMOIS) = MIN(OINIT1(FMOIS), 999.)     
+         OINIT1(FMOIS) = MIN(OINIT1(FMOIS), 999.)
       ELSE
 
 C     THE FIRE DOESN'T REALLY BURN OR THERE WAS TOO LITTLE CROWN, SO SET
@@ -254,29 +266,29 @@ C        IF (SFRATE(FMOIS) .GE. RINIT1) THEN
 C          CFTMP = 'ACTIVE'
 C          CRBURN = 1.0
 C          FIRTYPE = 1
-C          RFINAL = RACT         
+C          RFINAL = RACT
 C        ELSE
 C          CFTMP = 'COND_CRN'
 C          CRBURN = 1.0
 C          FIRTYPE = 1
-C          RFINAL = RACT       
+C          RFINAL = RACT
 C        ENDIF
 C      ELSEIF (SFRATE(FMOIS) .GE. RINIT1) THEN
 C        CFTMP = 'PASSIVE'
-C        FIRTYPE = 2      
+C        FIRTYPE = 2
 C      ELSE
 C        CFTMP = 'SURFACE'
 C        CRBURN = 0.0
 C        FIRTYPE = 3
-C        RFINAL = SFRATE(FMOIS)      
-C      ENDIF 
+C        RFINAL = SFRATE(FMOIS)
+C      ENDIF
 
       IF (OINIT1(FMOIS) .GT. SWIND) THEN
         IF (OACT1(FMOIS) .GT. SWIND) THEN
           CFTMP = 'SURFACE'
           CRBURN = 0.0
           FIRTYPE = 3
-          RFINAL = SFRATE(FMOIS)        
+          RFINAL = SFRATE(FMOIS)
         ELSE
           CFTMP = 'COND_CRN'
           CRBURN = 1.0
@@ -296,7 +308,7 @@ C      ENDIF
         CFTMP = 'SURFACE'
         CRBURN = 0.0
         FIRTYPE = 3
-        RFINAL = SFRATE(FMOIS)       
+        RFINAL = SFRATE(FMOIS)
       ENDIF
 
 C      FOR PASSIVE FIRES, CALCULATE THE CROWN FRACTION BURNED USING
@@ -309,11 +321,14 @@ C
         SAVWND = FWIND
         FWIND  = OACT1(FMOIS) * WMULT
         CALL FMFINT(IYR, BYRAM, FLAME, 2, HPA2, 2)
-        FWIND = SAVWND	
+        CALL fvsGetRtnCode(IRTNCD)
+        IF (IRTNCD.NE.0) RETURN
+
+        FWIND = SAVWND
         CFB = (SFRATE(FMOIS) - RINIT1)/(SFRATE(2) - RINIT1)
         RFINAL = SFRATE(FMOIS) + CFB * (RACT - SFRATE(FMOIS))
         CRBURN = CFB
-        IF (CRBURN .GT. 1.0) CRBURN = 1.0        
+        IF (CRBURN .GT. 1.0) CRBURN = 1.0
       ENDIF
 
       IF (DEBUG) WRITE(JOSTND,*) 'SFRATE(FMOIS) = ',SFRATE(FMOIS)
@@ -321,7 +336,7 @@ C
       IF (DEBUG) WRITE(JOSTND,*) 'RACT = ',RACT
       IF (DEBUG) WRITE(JOSTND,*) 'RINIT1 = ',RINIT1
       IF (DEBUG) WRITE(JOSTND,*) 'CRBURN = ',CRBURN
-      
+
       IF (DEBUG) WRITE(JOSTND,8) FMOIS,CFTMP,OINIT1(FMOIS),
      >                           OACT1(FMOIS), RFINAL
     8 FORMAT(' FMCFIR FMOIS=',I2,' CFTMP=',A,' OINIT1=',F13.3,

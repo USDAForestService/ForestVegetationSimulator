@@ -1,15 +1,18 @@
       subroutine ECCALC(IY, ICYC, JSP, MGMID, NPLT, ITITLE)
 C----------
-C **ECCALC--ECON  DATE OF LAST REVISION: 09/20/2011
+C **ECCALC--ECON  DATE OF LAST REVISION: 10/12/2012
 C----------
 C Author Fred Martin, WA DNR,
 C Calculates costs & revenues associated with the FVS/ECON extension.
 C   May throw runtime exceptions if array bounds exceeded for number of harvest costs or
 C      revenues or maximum number of investment years
+C   Routine is complicated because calculating SEV with appreciated costs and revenues requires
+C      that values be kept over time because the aapreciation period can be variable.
 
 C Called by GRADD during cycling, once for each FVS cycle.
 
 C 09/08/2011 Refactored computation of bfTotal and ft3Total in calcEcon() to a single place.
+C 10/12/2012 Removed saved variables & created new commons
 
 C Variables from FVS
 C  JSP    - species codes. Loaded in **BLOCK DATA**.
@@ -30,6 +33,7 @@ C  ITITLE - STDIDENT title
 
       include 'PRGPRM.F77'
       include 'ECNCOM.F77'
+      include 'ECNCOMSAVES.F77'
 
       character (len=4),  intent(in) :: JSP(MAXSP), MGMID
       character (len=26), intent(in) :: NPLT
@@ -44,37 +48,23 @@ C  ITITLE - STDIDENT title
      &                       EV_UNDISRVN=48, EV_ECCUFT  =49,
      &                       EV_ECBDFT  =50
       integer, parameter  :: FIX_PCT=1, FIX_HRV=2, VAR_PCT=3, VAR_HRV=4
-      integer, parameter  :: MAX_YEARS    = MAXCYC * 20                  !Logic - max cycles x 20 yrs/cycle
-      integer, parameter  :: MAX_HARVESTS = (MAXCYC / 2) * 40            !Logic - 40 harvest cycles = 20 x 40 species
-      integer, parameter  :: MAX_COSTS    = (MAXCYC / 2) * 20            !Logic - 40 harvest cycles = 20 x 20 harvest costs
       integer, intent(in) :: IY(MAXCY1), ICYC
       integer             :: beginAnalYear, beginTime, dbOutput,         !Year is  simulation year, time is investment period or number of years
      &                       endAnalYear, endTime, evntCnt, i, IACTK,
-     &                       IDT, ISTAT, KODE, NTIMES, parmsCnt
-      integer, save       :: IOUT, logTableId, startYear, sumTableId,
-     &                       burnCnt, hrvCstCnt, hrvRvnCnt, mechCnt,
-     &                       specCstCnt, specRvnCnt
-      integer, save, dimension(MAX_COSTS)    :: hrvCstKeywd, hrvCstTime,
-     &                                          hrvCstTyp
-      integer, save, dimension(MAX_HARVESTS) :: hrvRvnKeywd, hrvRvnSp,
-     &                                          hrvRvnTime, hrvRvnUnits
+     &                       IDT, IOUT, ISTAT, KODE, NTIMES, parmsCnt
 
-      logical       :: isHarvestPct = .FALSE., isPretendActive = .FALSE.
+      logical       :: isHarvestPct = .FALSE.
 
       real, parameter     :: NEAR_ZERO = 0.01
       real                :: harvCst, harvRvn, irr, pctCst, sevSum
       real, dimension(2)  :: parms                                       !2=maximum number of Event Monitor parms used in ECCALC
-      real, save          :: costDisc, costUndisc, rate, 
-     &                       revDisc, revUndisc, sevAnnCst, sevAnnRvn
-      real, save, dimension(MAX_COSTS)    :: hrvCstAmt
-      real, save, dimension(MAX_YEARS)    :: undiscCost, undiscRev
-      real, save, dimension(MAX_HARVESTS) :: hrvRvnAmt
 
 !    Possible initiation and re-initiation of ECON calculations
 !     1. ECON starts at beginnning of cycle and no re-initialization is requested
 !     2. ECON starts after the beginning of cycle and no re-initialization is requested
 !     3. ECON starts at beginning of cycle and re-initialization is requested in same cycle
 !     4. ECON starts after the beginning of cycle and re-initialization is requested in same cycle
+
 
       if (econStartYear >= IY(ICYC+1)) then                              !IY(ICYC+1) = begining year of next cycle
          return
@@ -99,6 +89,8 @@ C  ITITLE - STDIDENT title
             endAnalYear   = IY(ICYC+1) - 1                               !IY(ICYC+1) = beginning year of next cycle
             rate          = discountRate / 100.0                         !Convert % to decimal
             if (doSEV) call calcAnnCostRevSEV()
+
+
             call processEconStart
          else                                                            !ECON has been previously called, hence now active from beginning of cycle
             beginAnalYear = IY(ICYC)
@@ -109,6 +101,8 @@ C  ITITLE - STDIDENT title
 !       Calculate over entire cycle or remaining portion of a cycle
          beginTime = beginAnalYear - startYear + 1
          endTime   = endAnalYear   - startYear + 1
+
+
          call valueHarvest()
          call calcEcon()
       end if
@@ -122,7 +116,8 @@ C  ITITLE - STDIDENT title
          revUndisc             = revUndisc - harvRvn
          costDisc              = costDisc - computePV(harvCst + pctCst,
      &                                                  beginTime, rate)
-         revDisc         = revDisc - computePV(harvRvn, beginTime, rate)
+         revDisc               = revDisc - computePV(harvRvn,
+     &                                                  beginTime, rate)
       end if
 
       call resetCycleVariables()                                         !Ensure correct initial values at each cycle
@@ -171,26 +166,29 @@ C  ITITLE - STDIDENT title
 
 !    Set/Reset accumulation values for ECON initiation/re-initiation that are saved across cycles
       subroutine initializeVariables()
-         undiscCost  = 0.0; undiscRev  = 0.0                             !Arrays by year
          costDisc    = 0.0; costUndisc = 0.0
-         revDisc     = 0.0; revUndisc  = 0.0
-         hrvCstCnt   = 0; hrvRvnCnt = 0; burnCnt    = 0; mechCnt   = 0
+         hrvCstCnt   = 0; hrvRvnCnt = 0; burnCnt    = 0; mechCnt   =   0
          hrvCstkeywd = 0; hrvCstTyp = 0; hrvCstTime = 0; hrvCstAmt = 0.0 !Arrays by hrvCstCnt
          hrvRvnkeywd = 0; hrvRvnSp  = 0; hrvRvnTime = 0; hrvRvnAmt = 0.0 !Arrays by hrvRvnCnt
-         hrvRvnUnits = 0
+         hrvRvnUnits = 0; specCstCnt= 0; specRvnCnt = 0
+         revDisc     = 0.0; revUndisc  = 0.0
+         undiscCost  = 0.0; undiscRev  = 0.0                             !Arrays by year
          return
       end subroutine initializeVariables
 
 
-!    Reset harvest and control variable values used within a single cycle, initially set in ecinit.f
+!    Reset harvest and control variable values used within a single cycle, used 1st in echarv.f, initially set in ecinit.f
       subroutine resetCycleVariables()
-         isHarvestPct    = .FALSE.
-         harvest   = 0.0                                                 !Array (TPA : FT3_100)
-         revVolume = 0.0                                                 !Array (1:MAXSP, 1:MAX_REV_UNITS, 1:MAX_KEYWORDS)
-         pctBf     = 0.0; pctFt3     = 0.0; pctTpa     = 0.0             !Arrays (1:MAX_KEYWORDS)
-         hrvCostBf = 0;   hrvCostFt3 = 0;   hrvCostTpa = 0               !Arrays (1:MAX_KEYWORDS)
-         dbhSq     = 0.0; harvCst    = 0.0; harvRvn    = 0.0
-         pctCst    = 0.0; sevSum     = 0.0
+!       Duplicate code from ecinit.f to initialize variables used in echarv.f & eccalc.f
+         dbhSq     = 0.0
+         harvest   = 0.0                                                 !Harvest volume array (TPA : FT3_100)
+         hrvCostBf = 0.0; hrvCostFt3 = 0.0; hrvCostTpa = 0.0             !Harvest volume by cost type arrays (1:MAX_KEYWORDS)
+         pctBf     = 0.0; pctFt3     = 0.0; pctTpa     = 0.0             !PCT harvest volume by cost type arrays (1:MAX_KEYWORDS)
+         revVolume = 0.0                                                 !Array(1:MAXSP, 1:MAX_REV_UNITS, 1:MAX_KEYWORDS)
+!       Local variables for use in eccalc.f
+         isHarvestPct = .FALSE.
+         harvCst   = 0.0; harvRvn    = 0.0; pctCst    = 0.0
+         sevSum    = 0.0
          return
       end subroutine resetCycleVariables
 
@@ -299,7 +297,6 @@ C  ITITLE - STDIDENT title
                  end if
                end do
                call EVSET4 (EV_HARVCOST, harvCst)                        !Entry point in EVSET - register harvest cost w/ event monitor
-
                do i = 1, MAXSP                                           !Accumulate harvest revenues
                   do j = 1, MAX_REV_UNITS
                      do k = 1, hrvRevCnt(i,j)                            !Loop is diameter-classes for the given species and units-of-measure
@@ -668,10 +665,8 @@ C  ITITLE - STDIDENT title
          if (irrCalculated) then
             if (irr > 50.0) then
                irrChar = ' >50.0'
-*               irr     = 50.1                                            !Default for extreme positive value
             else if (irr < 0.0) then
                irrChar = '  <0.0'
-*               irr     = -0.1                                            !Default for any negative value
             else
                write (irrChar,'(f6.1)') irr
             end if
@@ -709,6 +704,7 @@ C  ITITLE - STDIDENT title
         call EVSET4(EV_ECBDFT, bfTotal)
 
 !       Write Summary Table for this investment period
+         call GETLUN(IOUT)                                               !Returns logical unit number for writing output
          call getDbsEconStatus(dbOutput)                                 !Returns DB output: 0=no output, 1=summary table, 2=summary & harvest table
          if (dbOutput > 0 .or. (.not. noOutputTables)) then              !Options are no tables or no log/stock table, can't have log/stock table w/o summary table
          call DBSECSUM(beginAnalYear, endTime, pretend, costUndisc,
@@ -758,10 +754,9 @@ C  ITITLE - STDIDENT title
      &              "-------", t98,"--------", t108, "--------", /,
      &              "$#*%")') logTableId, beginAnalYear, pretend
 
-               tpaTotal=-1.0; tpaValueTotal=-1.0                         !-1 is used by the rtoc function to separate 0 from blank
-               tonsTotal=-1.0
-               ft3Total=-1.0; ft3ValueTotal=-1.0
-               bfTotal=-1.0; bfValueTotal=-1.0
+               tpaTotal  = -1.0; tpaValueTotal = -1.0; tonsTotal = -1.0  !-1 is used by the rtoc function to separate 0 from blank
+               ft3Total  = -1.0; ft3ValueTotal = -1.0
+               bfTotal   = -1.0; bfValueTotal  = -1.0
                outChar=BLANK7
 
                do i = 1, MAXSP                                           !Loop over species
@@ -862,7 +857,7 @@ C  ITITLE - STDIDENT title
                outChar(7) = itoc(nint(bfValueTotal))
                write (outChar(8),'(i7)') nint(max(0.0, tpaValueTotal)    !Any of these three "total" variables may equal -1.0 (i.e., "empty")
      &             + max(0.0, ft3ValueTotal) + max(0.0, bfValueTotal))
-   
+
 !             Write totals, add 7 extra columns to tabs or GENRPT throws runtime error
                if (.not. noLogStockTable) then
                 write (IOUT,'(1x, i5, t49, "-------", t58, "--------",
@@ -886,14 +881,14 @@ C  ITITLE - STDIDENT title
         implicit none
         real, intent(inout) :: accumulator
         real, intent(in)    :: increment
-    
+
         if(accumulator < 0.0) then
             accumulator = increment
         else
             accumulator = accumulator + increment
         end if
       end subroutine
-    
+
       pure character(len=5) function rtoc(n)
         implicit none
         real, intent(in) :: n

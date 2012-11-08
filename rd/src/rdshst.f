@@ -1,6 +1,6 @@
       SUBROUTINE RDSHST
 C----------
-C  **RDSHST      LAST REVISION:  11/06/89
+C  **RDSHST      LAST REVISION:  08/14/12
 C----------
 C
 C  SUBROUTINE FOR UPDATING THE STUMP HISTORY ARRAYS
@@ -32,7 +32,7 @@ C
 COMMONS
 C
 
-      DO 501 I = 1,500
+      DO 501 I = 1,IRRTRE
          DO 502 J = 1,4
             K = 4 - J + 1
             KK = K - 1

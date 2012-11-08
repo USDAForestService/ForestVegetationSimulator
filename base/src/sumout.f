@@ -81,7 +81,7 @@ C
       IF(LDSK) THEN
         INQUIRE(UNIT=JOSUM,opened=LCONN)
         IF (.NOT.LCONN) THEN
-          CALL getkeywrd(RECORD,len(RECORD))
+          CALL fvsGetKeywordFileName(RECORD,len(RECORD))
           IF (RECORD.NE.' ') THEN
             II=index(RECORD,".k")
             IF (II == 0) II=index(RECORD,".K")

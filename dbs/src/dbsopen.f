@@ -31,6 +31,7 @@ C
       CHARACTER(LEN=LenConnStr) ConnStr,ConnStrOut
       CHARACTER*256 DSN
       CHARACTER*40 USER,PSSWRD,SUFFIX
+      CHARACTER(LEN=10) ConnPrefix
       LOGICAL LKECHO
 C
 C     CLOSE ANY OPEN CONNECTION
@@ -61,11 +62,21 @@ C
       iRet = fvsSQLSetConnectAttr (ConnHndl, SQL_ACCESS_MODE,
      -  SQL_MODE_READ_WRITE,SQLINTEGER_KIND)
 C
-C     If the first part CONNECT is "DRIVER=", then this is considered
-C     a full connection string.
+C     If the first part CONNECT is "DRIVER=", "DSN=", or "FILEDSN=",
+C     then this is considered a full connection string.
+C     Jump directly to the DB connection.
 C
-      If (CONNECT(1:7).eq."DRIVER=") then
+      ConnPrefix = CONNECT(1:10)
+      do I = 1,len_trim(ConnPrefix)
+        call upcase(ConnPrefix(I:I))
+      enddo
+      if (
+     -   (ConnPrefix(1:7).eq."DRIVER=")
+     -   .or.(ConnPrefix(1:4).eq."DSN=")
+     -   .or.(ConnPrefix(1:8).eq."FILEDSN=")
+     -   ) then
         ConnStr = CONNECT
+        DriverComplete = SQL_DRIVER_NOPROMPT
         goto 10
       endif
 C

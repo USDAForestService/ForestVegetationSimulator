@@ -35,7 +35,6 @@ int  Put_Soil (d_SO *a_SO);
 int  Put_CISI (d_CI *a_CI, d_SI *a_SI);
 void Test_In (float fr_In[]);
 
-
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 *   In: fr_In: input array, each position contains a specified input.
 *              see the fm_fofem.h for #defines on index positions.
@@ -50,10 +49,21 @@ void Test_In (float fr_In[]);
 *       to link their FORTRAN code,  we'll have a way to do some checking
 *
 {*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}*/
+
+#ifdef _WINDLL
+extern __declspec(dllexport) int FM_FOFEM (
+  float *fr_In,
+  float *fr_Out,
+  char *cr_ErrMes);
+#endif
+
 #ifdef CMPgcc
 int fm_fofem_ (float fr_In[], float fr_Out[], char cr_ErrMes[])
 #else
-int fm_fofem  (float fr_In[], float fr_Out[], char cr_ErrMes[])
+int FM_FOFEM (
+  float *fr_In,
+  float *fr_Out,
+  char *cr_ErrMes)
 #endif
 
 {
@@ -93,7 +103,7 @@ d_SO s_SO;
    s_CI.f_Snd_DW9  = fr_In[eX_Snd_DW9 ];
    s_CI.f_Snd_DW20 = fr_In[eX_Snd_DW20];
 
-   s_CI.f_Rot_DW3  = fr_In[eX_Rot_DW3 ];     /* Rottne Large Wood            */
+   s_CI.f_Rot_DW3  = fr_In[eX_Rot_DW3 ];     /* Rotten Large Wood            */
    s_CI.f_Rot_DW6  = fr_In[eX_Rot_DW6 ];
    s_CI.f_Rot_DW9  = fr_In[eX_Rot_DW9 ];
    s_CI.f_Rot_DW20 = fr_In[eX_Rot_DW20];
@@ -369,7 +379,7 @@ char cr[100];
     fr_In[eX_Snd_DW9 ] = 1.0;
     fr_In[eX_Snd_DW20] = 1.0;
 
-    fr_In[eX_Rot_DW3 ] = 1.0;           /* Rottne Large Wood                 */
+    fr_In[eX_Rot_DW3 ] = 1.0;           /* Rotten Large Wood                 */
     fr_In[eX_Rot_DW6 ] = 1.0;
     fr_In[eX_Rot_DW9 ] = 1.0;
     fr_In[eX_Rot_DW20] = 1.0;

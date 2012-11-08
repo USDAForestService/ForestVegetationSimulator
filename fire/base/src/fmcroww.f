@@ -1,7 +1,7 @@
       SUBROUTINE FMCROWW (SPI,D,H,ITRNC,IC,HP,SG,XV)
       IMPLICIT NONE
 C----------
-C  **FMCROWW  FIRE-BASE DATE OF LAST REVISION:  02/11/11
+C  **FMCROWW  FIRE-BASE DATE OF LAST REVISION:  10/15/12
 C----------
 C     CALLED FROM: FMCROW
 
@@ -1056,6 +1056,9 @@ c         partitioning from western hemlock
             LIVEWT = EXP(-3.8169 + 1.9756 * LDM) +  ! foliage
      >               EXP(-5.2581 + 2.6045 * LDM)    ! live branches
             DEADWT = EXP(-9.9449 + 3.2845 * LDM)
+
+            LIVEWT = LIVEWT*2.2046         ! convert kg to lbs
+            DEADWT = DEADWT*2.2046
 
             IF (D .LE. 40.0) THEN
               P1 = 0.5474 * EXP(-0.03697*D)

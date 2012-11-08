@@ -9,8 +9,7 @@ Description: This update contains corrections that have
 Impact on users:
 
 Files:
-./ak/src/dubscr.f - removed numerical error trap that is apparently no
-                    longer needed
+./ak/src/dubscr.f - removed numerical error trap that is no longer needed
 ./bm/src/regent.f - in case statement for WC species (line 573)
-                    changed 19 to 18. There is no affect on processing
+                    changed 19 to 18. There is no effect on processing
 ./fire/sn/src/fmcrow.f - Deleted an old comment that was no longer correct.

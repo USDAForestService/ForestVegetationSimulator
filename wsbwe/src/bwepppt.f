@@ -1,7 +1,7 @@
       SUBROUTINE BWEPPPT (WK3, IPNT, ILIMIT, IB)
       IMPLICIT NONE
 C----------
-C  **BWEPPPT                DATE OF LAST REVISION:  07/14/10
+C  **BWEPPPT                DATE OF LAST REVISION:  06/23/11
 C----------
 C  Purpose:
 C     Put (store) the GenDefol/Budworm model data for a given stand
@@ -35,6 +35,8 @@ C     11-SEP-2006 - Lance R. David (FHTET)
 C       This subroutine was written.
 C    14-JUL-2010 Lance R. David (FMSC)
 C       Added IMPLICIT NONE and declared variables as needed.
+C   23-JUN-2011 Lance R. David (FMSC)
+C      Added BWPRMS array for RAWS daily weather processing to BLCOM3.
 C
 C----------
 
@@ -610,6 +612,24 @@ C.... IIX ends at 298
 C.... Write next real array(s) to buffer.
 
       CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 298, K)
+
+C.... Load next real array(s) into REALS.
+
+      IIX = 0
+
+      DO 100 IIA = 1,10
+        DO 100 IIB = 1,50
+          IIX = IIX + 1
+          REALS(IIX) = BWPRMS(IIA,IIB)
+  100 CONTINUE
+C.... IIX ends at 500
+
+      IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 10 - REALS=',
+     >            REALS
+
+C.... Write next real array(s) to buffer.
+
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 500, K)
 
 C
 C.... Write double precision scalars (random number seeds) to buffer.

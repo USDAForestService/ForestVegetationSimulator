@@ -31,7 +31,7 @@ C.... COMMON INCLUDE FILES.
 
 C     LOCAL VARIABLE DECLARATIONS
 
-      INTEGER  IYR,IFMD,I,J
+      INTEGER  IYR,IFMD,I,J,IRTNCD
       LOGICAL  DEBUG
       REAL     SUMPS
       REAL     X(2), Y(2), ALGSLP, WT
@@ -74,30 +74,30 @@ C
       ND    = 0
       NL    = 0
       SUMPS = 0.0
-      
-C     SET DEAD HERB SAV TO LIVE HERB SAV   
+
+C     SET DEAD HERB SAV TO LIVE HERB SAV
       SURFVL(IFMD,1,4) = SURFVL(IFMD,2,2)
-      
+
       DO I = 1,2
         DO J = 1,4
           MPS(I, J) = SURFVL(IFMD,I,J)
-          FWG(I, J) = FMLOAD(IFMD,I,J)   
+          FWG(I, J) = FMLOAD(IFMD,I,J)
         ENDDO
       ENDDO
 
 C     PUT SOME OF THE LIVE HERBS INTO THE DEAD HERB CATEGORY (BASED ON
-C     MOISTURE) FOR THE DYNAMIC FUEL MODELS (not fm 2) 
-      IF ((FMLOAD(IFMD,2,2) .GT. 0) .AND. (IFMD .NE. 2) .AND. 
-     &     (MOIS(2,2) .LT. 1.2)) THEN	
+C     MOISTURE) FOR THE DYNAMIC FUEL MODELS (not fm 2)
+      IF ((FMLOAD(IFMD,2,2) .GT. 0) .AND. (IFMD .NE. 2) .AND.
+     &     (MOIS(2,2) .LT. 1.2)) THEN
     	  X(1) =  .30
-        X(2) =  1.2 
+        X(2) =  1.2
         WT = ALGSLP(MOIS(2,2),X,Y,2)
         FWG(1,4) = (1 - WT)*FMLOAD(IFMD,2,2)
         FWG(2,2) = WT*FMLOAD(IFMD,2,2)
       ENDIF
-   
+
       DO I = 1,2
-        DO J = 1,4                
+        DO J = 1,4
           IF (I .EQ. 1 .AND. FWG(I,J) .GT. 0.0) ND = ND + 1
           IF (I .EQ. 2 .AND. FWG(I,J) .GT. 0.0) NL = NL + 1
           SUMPS = SUMPS + MPS(I,J)
@@ -114,9 +114,9 @@ C     IF THERE ARE NO LIVE OR DEAD CLASSES, OR IF THE SURFACE TO VOLUME
 C     RATIO IS <=0 FOR ALL CLASSES. OR IF DEPTH IS ZERO, THEN SOMETHING
 C     IS SERIOUSLY WRONG. EXIT WITH AN ERROR CODE.
 C
-      IF (DEBUG) WRITE(JOSTND,9) ND, NL, SUMPS, DEPTH       
+      IF (DEBUG) WRITE(JOSTND,9) ND, NL, SUMPS, DEPTH
     9 FORMAT(' FMGFMV, ND=',I2,' NL=',I2,' SUMPS=',F10.3,'DEPTH=',F7.3)
-    
+
       IF ((ND .LE. 0 .AND. NL .LE. 0) .OR. SUMPS .LE. 0.0 .OR.
      >    DEPTH .LE. 0.0) THEN
         WRITE(JOSTND,'("/ ")')
@@ -128,6 +128,8 @@ C
      >    " ""FUELMODL"" KEYWORD USE")')
         WRITE(JOSTND,'("/ *** FFE: EXITING")')
         CALL ERRGRO(.FALSE.,4)
+        CALL fvsGetRtnCode(IRTNCD)
+        IF (IRTNCD.NE.0) RETURN
       ENDIF
 C
 C     ADD THE DEPTH MODIFIER BASED ON ACTIVITY-RELATED FUEL TREATMENTS
