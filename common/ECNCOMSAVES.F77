@@ -1,13 +1,16 @@
 C COMMON BLOCK FOR FVS/ECON REQUIRED SAVE VARIABLES
 C----------
-C  **ECON   DATE OF LAST REVISION:  10/12/12
+C  **ECON   DATE OF LAST REVISION:  11/07/2012
 C----------
 C Author Fred Martin, WA DNR
 C Created to permit start and re-start of FVS without use of "save" variable functionality
 
-      integer, parameter :: MAX_YEARS    = MAXCYC * 20                   !Logic - max cycles x 20 yrs/cycle, max cycles=40 from PRGPRM.F77
-      integer, parameter :: MAX_HARVESTS = MAXCYC * 0.5 * MAXSP          !Logic - 1/2 # cycles have harvest x # species, max species from PRGPRM.F77
-      integer, parameter :: MAX_COSTS    = MAXCYC * 0.5 * 4*MAX_KEYWORDS !Logic - 1/2 # cycles have harvest x max # keyword for 4 types costs, max KEYWORDS from ECNCOM.F77
+      integer, parameter :: 
+     >    MAX_YEARS    = MAXCYC * 20                   !Logic - max cycles x 20 yrs/cycle, max cycles=40 from PRGPRM.F77
+      integer, parameter :: 
+     >    MAX_HARVESTS = MAXCYC * 0.5 * MAXSP          !Logic - 1/2 # cycles have harvest x # species, max species from PRGPRM.F77
+      integer, parameter :: 
+     >    MAX_COSTS    = MAXCYC * 0.5 * 4*MAX_KEYWORDS !Logic - 1/2 # cycles have harvest x max # keyword for 4 types costs, max KEYWORDS from ECNCOM.F77
 
 ! Save state variables in eccalc.f needed for control and accumulation values needed across cycles for ECON initiation/re-initiation
       integer  burnCnt, hrvCstCnt, hrvRvnCnt, logTableId, mechCnt,
@@ -68,8 +71,8 @@ C Created to permit start and re-start of FVS without use of "save" variable fun
 !    pretendEndYear   - Year that pretend functionality will end
 !    isPretendActive  - Logical identifying that pretend functionality is currently operating
 
-      COMMON /ECONSAVE/
-     & burnCnt, costDisc, costUndisc, hrvCstAmt, hrvCstCnt, hrvCstKeywd, 
+      COMMON /ECONSAVE/ burnCnt, costDisc, costUndisc, 
+     & hrvCstAmt, hrvCstCnt, hrvCstKeywd,
      & hrvCstTime, hrvCstTyp, hrvRvnAmt, hrvRvnCnt, hrvRvnKeywd, 
      & hrvRvnSp, hrvRvnTime, hrvRvnUnits, logTableId, mechCnt,
      & rate, revDisc, revUndisc, sevAnnCst, sevAnnRvn, startYear, 

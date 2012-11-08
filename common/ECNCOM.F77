@@ -1,6 +1,6 @@
 C COMMON BLOCK FOR FVS/ECON
 C----------
-C  **ECON   DATE OF LAST REVISION:  10/01/12
+C  **ECON   DATE OF LAST REVISION: 11/07/2012
 C----------
 C Author Fred Martin, WA DNR
 
@@ -39,19 +39,20 @@ C   MAXTRE - maximum number of tree records that FVS can process, from PRGPRM.F7
       logical, dimension(MAXSP, MAX_REV_UNITS) :: hasRevAmt
 
       real burnCostAmt, dbhSq, discountRate, mechCostAmt, pctMinDbh,
-     &                                            pctMinVolume, sevInput
+     &     pctMinVolume, sevInput
 
       real, dimension (MAXSP)        :: lbsFt3Amt
 
       real, dimension(TPA : FT3_100) :: harvest
 
-      real, dimension (MAX_KEYWORDS) :: annCostAmt, annRevAmt,
-     &                                  fixHrvAmt, fixPctAmt, hrvCostBf, 
-     &                                  hrvCostFt3,hrvCostTpa, 
-     &                                  pctBf, pctFt3, pctTpa, 
-     &                                  varHrvAmt, varHrvDbhLo, 
-     &                                  varHrvDbhHi, varPctAmt, 
-     &                                  varPctDbhLo, varPctDbhHi
+      real, dimension (MAX_KEYWORDS) :: 
+     &        annCostAmt, annRevAmt,
+     &        fixHrvAmt, fixPctAmt, hrvCostBf, 
+     &        hrvCostFt3,hrvCostTpa, 
+     &        pctBf, pctFt3, pctTpa, 
+     &        varHrvAmt, varHrvDbhLo, 
+     &        varHrvDbhHi, varPctAmt, 
+     &        varPctDbhLo, varPctDbhHi
 
       real, dimension (MAX_PLANT_COSTS) :: plntCostAmt
 
@@ -60,23 +61,23 @@ C   MAXTRE - maximum number of tree records that FVS can process, from PRGPRM.F7
       real, dimension (MAX_RATES)       :: burnCostRate, mechCostRate
 
       integer, dimension (MAX_KEYWORDS, MAX_RATES) :: annCostDur,
-     &             annRevDur, fixHrvDur, fixPctDur, varHrvDur, varPctDur
+     &       annRevDur, fixHrvDur, fixPctDur, varHrvDur, varPctDur
 
       integer, dimension (MAX_PLANT_COSTS, MAX_RATES) :: plntCostDur
 
       real, dimension (MAX_KEYWORDS, MAX_RATES) :: annCostRate,
-     &        annRevRate, fixHrvRate, fixPctRate, varHrvRate, varPctRate
+     &      annRevRate, fixHrvRate, fixPctRate, varHrvRate, varPctRate
 
       real, dimension (MAX_PLANT_COSTS, MAX_RATES) :: plntCostRate
 
       real, dimension (MAXSP, MAX_REV_UNITS, MAX_KEYWORDS) ::
-     &                                 hrvRevPrice, hrvRevDia, revVolume
+     &      hrvRevPrice, hrvRevDia, revVolume
 
-      integer, dimension (MAXSP, MAX_REV_UNITS, MAX_KEYWORDS, MAX_RATES)
-     &                                                      :: hrvRevDur
+      integer, dimension (MAXSP,MAX_REV_UNITS,MAX_KEYWORDS,MAX_RATES)
+     &                                             :: hrvRevDur
 
-      real, dimension (MAXSP, MAX_REV_UNITS, MAX_KEYWORDS, MAX_RATES) ::
-     &                                                        hrvRevRate
+      real, dimension (MAXSP,MAX_REV_UNITS,MAX_KEYWORDS,MAX_RATES) 
+     &                                             ::  hrvRevRate
 
       real, dimension (MAXTRE, MAX_LOGS) :: logBfVol,  logDibBf,
      &                                      logFt3Vol, logDibFt3
