@@ -81,7 +81,7 @@ C
       IF(LDSK) THEN
         INQUIRE(UNIT=JOSUM,opened=LCONN)
         IF (.NOT.LCONN) THEN
-          CALL fvsGetKeywordFileName(RECORD,len(RECORD))
+          CALL fvsGetKeywordFileName(RECORD,len(RECORD),II)
           IF (RECORD.NE.' ') THEN
             II=index(RECORD,".k")
             IF (II == 0) II=index(RECORD,".K")
@@ -204,6 +204,7 @@ C
    50 CONTINUE
 C
       IF (.NOT.LDSK) RETURN
+
       WRITE (JOPRT,60) LENG,JOSUM
    60 FORMAT(/' NOTE:',I3,' LINES OF SUMMARY DATA HAVE BEEN WRITTEN',
      >       ' TO THE FILE REFERENCED BY LOGICAL UNIT',I3)

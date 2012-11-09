@@ -311,7 +311,7 @@ cc     -        " restrtcd=",restrtcd
       return
       end
 
-      subroutine fvsGetKeywordFileName (fn,nch)
+      subroutine fvsGetKeywordFileName (fn,mxch,nch)
       implicit none
 
       include "GLBLCNTL.F77"
@@ -319,13 +319,15 @@ cc     -        " restrtcd=",restrtcd
 #ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETKEYWORDFILENAME
 !DEC$ ATTRIBUTES ALIAS:'FVSGETKEYWORDFILENAME' :: FVSGETKEYWORDFILENAME
-!DEC$ ATTRIBUTES REFERENCE :: fn,nch
+!DEC$ ATTRIBUTES REFERENCE :: fn,mxch,nch
 #endif
 
-      integer :: nch
-c      character(len=*) fn
-      character(nch) fn
-      fn = keywordfile(:nch)
+      integer :: mxch,nch
+      character(mxch) fn
+      fn = " "
+      if (mxch < 1) return
+      nch = min(mxch,len_trim(keywordfile))
+      if (nch > 0) fn = keywordfile(:nch)
       return
       end
 

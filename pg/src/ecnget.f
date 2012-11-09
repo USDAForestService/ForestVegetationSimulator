@@ -25,7 +25,7 @@ C
 C
       INTEGER MXL,MXI,MXR
 C      
-      PARAMETER (MXL=5,MXI=9,MXR=7)
+      PARAMETER (MXL=6,MXI=20,MXR=14)
       INTEGER ILIMIT,IPNT,I
       LOGICAL LOGICS(MXL)
       REAL WK3 (MAXTRE)
@@ -35,15 +35,26 @@ C
 C  GET THE INTEGER SCALARS.
 C
       CALL IFREAD (WK3, IPNT, ILIMIT, INTS, MXI, 2)
-      annCostCnt    = INTS(1)  
-      annRevCnt     = INTS(2)  
-      econStartYear = INTS(3)  
-      fixHrvCnt     = INTS(4)  
-      fixPctCnt     = INTS(5)  
-      pctMinUnits   = INTS(6)  
-      plntCostCnt   = INTS(7)  
-      varHrvCnt     = INTS(8)  
-      varPctCnt     = INTS(9)  
+      annCostCnt       = INTS( 1)  
+      annRevCnt        = INTS( 2)  
+      econStartYear    = INTS( 3)  
+      fixHrvCnt        = INTS( 4)  
+      fixPctCnt        = INTS( 5)  
+      pctMinUnits      = INTS( 6)  
+      plntCostCnt      = INTS( 7)  
+      varHrvCnt        = INTS( 8)  
+      varPctCnt        = INTS( 9)  
+      burnCnt          = INTS(10) 
+      hrvCstCnt        = INTS(11) 
+      hrvRvnCnt        = INTS(12) 
+      logTableId       = INTS(13) 
+      mechCnt          = INTS(14) 
+      startYear        = INTS(15) 
+      specCstCnt       = INTS(16) 
+      specRvnCnt       = INTS(17) 
+      sumTableId       = INTS(18) 
+      pretendStartYear = INTS(19) 
+      pretendEndYear   = INTS(20) 
 C
 C  GET THE INTEGER ARRAYS
 C  ONE DIMENSIONAL
@@ -75,7 +86,14 @@ C
      &             MAX_PLANT_COSTS*MAX_RATES,                         2)
       CALL IFREAD (WK3,IPNT,ILIMIT,hrvRevDur,MAXSP*
      &             MAX_REV_UNITS*MAX_KEYWORDS*MAX_RATES,              2)
-C
+      CALL IFREAD (WK3,IPNT,ILIMIT, hrvCstKeywd, MAX_COSTS,           2)
+      CALL IFREAD (WK3,IPNT,ILIMIT, hrvCstTime,  MAX_COSTS,           2)
+      CALL IFREAD (WK3,IPNT,ILIMIT, hrvCstTyp,   MAX_COSTS,           2)
+      CALL IFREAD (WK3,IPNT,ILIMIT, hrvRvnKeywd, MAX_HARVESTS,        2)
+      CALL IFREAD (WK3,IPNT,ILIMIT, hrvRvnSp,    MAX_HARVESTS,        2)
+      CALL IFREAD (WK3,IPNT,ILIMIT, hrvRvnTime,  MAX_HARVESTS,        2)
+      CALL IFREAD (WK3,IPNT,ILIMIT, hrvRvnUnits, MAX_HARVESTS,        2)
+C  
 C  GET THE LOGICAL SCALARS.
 C
       CALL LFREAD (WK3, IPNT, ILIMIT, LOGICS, MXL, 2)
@@ -84,6 +102,7 @@ C
       isFirstEcon     = LOGICS ( 3)
       doSev           = LOGICS ( 4)
       isEconToBe      = LOGICS ( 5)
+      isPretendActive = LOGICS ( 6) 
 C
 C  LOGICAL ARRAYS
 C
@@ -92,13 +111,20 @@ C
 C  GET THE REAL SCALARS.
 C
       CALL BFREAD (WK3, IPNT, ILIMIT, REALS, MXR,                     2)
-      burnCostAmt  = REALS (1)
-      dbhSq        = REALS (2)
-      discountRate = REALS (3)
-      mechCostAmt  = REALS (4)
-      pctMinDbh    = REALS (5)
-      pctMinVolume = REALS (6)
-      sevInput     = REALS (7)
+      burnCostAmt  = REALS ( 1)
+      dbhSq        = REALS ( 2)
+      discountRate = REALS ( 3)
+      mechCostAmt  = REALS ( 4)
+      pctMinDbh    = REALS ( 5)
+      pctMinVolume = REALS ( 6)
+      sevInput     = REALS ( 7)
+      costDisc     = REALS ( 8)
+      costUndisc   = REALS ( 9)
+      rate         = REALS (10)
+      revDisc      = REALS (11)
+      revUndisc    = REALS (12)
+      sevAnnCst    = REALS (13)
+      sevAnnRvn    = REALS (14)
 C
 C  REAL ARRYS
 C
@@ -145,9 +171,13 @@ C
       CALL BFREAD (WK3,IPNT,ILIMIT,hrvRevRate,MAXSP*MAX_REV_UNITS*
      &             MAX_KEYWORDS*MAX_RATES,                            2)
 C
-      CALL BFREAD (WK3,IPNT,ILIMIT,logBfVol,ITRN*MAX_LOGS,          2)
-      CALL BFREAD (WK3,IPNT,ILIMIT,logDibBf, ITRN*MAX_LOGS,           2)
-      CALL BFREAD (WK3,IPNT,ILIMIT,logFt3Vol,ITRN*MAX_LOGS,         2)
-      CALL BFREAD (WK3,IPNT,ILIMIT,logDibFt3,ITRN*MAX_LOGS,           2)
+      CALL BFREAD (WK3,IPNT,ILIMIT,logBfVol,ITRN*MAX_LOGS,         2)
+      CALL BFREAD (WK3,IPNT,ILIMIT,logDibBf, ITRN*MAX_LOGS,        2)
+      CALL BFREAD (WK3,IPNT,ILIMIT,logFt3Vol,ITRN*MAX_LOGS,        2)
+      CALL BFREAD (WK3,IPNT,ILIMIT,logDibFt3,ITRN*MAX_LOGS,        2)
+      CALL BFREAD (WK3,IPNT,ILIMIT,hrvCstAmt,    MAX_COSTS,        2)
+      CALL BFREAD (WK3,IPNT,ILIMIT,hrvRvnAmt,    MAX_HARVESTS,     2)
+      CALL BFREAD (WK3,IPNT,ILIMIT,undiscCost,   MAX_YEARS,        2)
+      CALL BFREAD (WK3,IPNT,ILIMIT,undiscRev,    MAX_YEARS,        2)
       RETURN
       END

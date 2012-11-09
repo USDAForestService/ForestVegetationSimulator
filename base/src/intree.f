@@ -153,7 +153,7 @@ C----------
         IF (.NOT.LCONN) INQUIRE(UNIT=ISTDAT,exist=LCONN)
         IF (LCONN) INQUIRE(UNIT=ISTDAT,opened=LCONN)
         IF (.NOT.LCONN) THEN
-          CALL fvsGetKeywordFileName(RECORD,len(RECORD))
+          CALL fvsGetKeywordFileName(RECORD,len(RECORD),II)
           IF (RECORD.EQ.' ') GOTO 900
           II=index(RECORD,".k")
           IF (II == 0) II=index(RECORD,".K")
