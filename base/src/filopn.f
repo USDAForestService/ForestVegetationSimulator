@@ -33,7 +33,7 @@ C----------
 C  KEYWORD and OUTPUT FILES.
 C----------
       KWDFIL=' '
-      call fvsGetKeywordFileName(KWDFIL,len(KWDFIL))
+      call fvsGetKeywordFileName(KWDFIL,len(KWDFIL),I)
       KWDFIL=ADJUSTL(TRIM(KWDFIL))
       if (KWDFIL.ne.' ') then
         inquire(unit=iread,opened=LOPEN)
@@ -235,14 +235,15 @@ C
       end
 
       SUBROUTINE openIfClosed (ifileref,sufx)
-      integer ifileref
+      IMPLICIT NONE
+      integer ifileref,I
       character (len=*) sufx
       character (len=256) keywrdfn
       logical lconn
 
       INQUIRE(UNIT=ifileref,opened=lconn)
       IF (.NOT.lconn) THEN
-        CALL fvsGetKeywordFileName(keywrdfn,len(keywrdfn))
+        CALL fvsGetKeywordFileName(keywrdfn,len(keywrdfn),I)
         IF (keywrdfn.NE.' ') THEN
           I = index(keywrdfn,".k")
           IF (I == 0) I=index(keywrdfn,".K")
