@@ -132,6 +132,9 @@ c
       case ("plot")
         if (action=="get") attr = itre(:itrn)
         if (action=="set") itre(:itrn) = int(attr,4)
+      case ("id")
+        if (action=="get") attr = idtree(:itrn)
+        if (action=="set") idtree(:itrn) = int(attr,4)
       case default
         rtnCode = 1
         attr = 0

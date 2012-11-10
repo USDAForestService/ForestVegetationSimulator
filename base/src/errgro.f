@@ -21,7 +21,7 @@ C
 COMMONS
 C
       LOGICAL LRETRN
-      INTEGER IERRN,IPTKNT
+      INTEGER IERRN,IPTKNT,I
       CHARACTER*12 PREF
 C
       DATA PREF/' ********   '/
@@ -284,17 +284,11 @@ C                        ERROR NUMBER 36
       IF (ICCODE .LT. 1) ICCODE=1
       GO TO 9000
  9000 CONTINUE
-C
-C     RETURN OR NOT??????
-C
-      IF (LRETRN) RETURN
-      ICCODE = ICCODE * 10
-      CALL fvsSetRtnCode (ICCODE)
+      IF (.NOT. LRETRN) CALL fvsSetRtnCode(1)
       RETURN
 C
-      ENTRY GRSTOP
+      ENTRY getICCODE(I)
 
-      ICCODE = ICCODE + 100
-      CALL fvsSetRtnCode (ICCODE)
+      I = ICCODE 
       RETURN
       END
