@@ -1,5 +1,3 @@
-# $Id$
-
 ## R code to test the FVS api
 
 # find and get the R code
