@@ -1,3 +1,6 @@
+# $Id$
+
+## R code to test the FVS api
 
 # find and get the R code
 cwd = getwd()
@@ -5,53 +8,79 @@ while(TRUE)
 {
   if (length(dir(pattern="rFVS")) > 0) break
   setwd("..")
+  if (nchar(getwd()) < 4) {setwd(cwd);stop("Cannot find R code.")}
 }
 setwd("rFVS/R")
-cat ("fetching R code from",getwd(),"\n")
-for (rf in dir ()) source (rf)
+
+# fetching R code from
+getwd()
+for (rf in dir ()) source (rf)
 setwd(cwd)
-# load the FVS library
+
+# load the FVS library
 fvsLoad("FVSiec","../../bin")
 
-# define a function to get tree some trees in a given cycle.
-fetchTrees <- function (captureYears) 
-{
-  curYear <- fvsGetEventMonitorVariables("year") 
-  if (is.na(match(curYear,captureYears))) NULL else 
-      fvsGetTreeAttrs(c("id","dbh","species","ht","cratio","plot",
-                           "tpa","tcuft","bdft","mgmtcd"))  
-}
-fvsSetCmdLine("--keywordfile=base.key")
-base <- fvsInteractRun(BeforeEstab="fetchTrees(c(2040))",
-                       AfterEM1="fetchTrees(c(2050))")
-baseSum <- fvsGetSummary()
 
-# in this function, the tree records are fetched and then added
-# to the tree list as duplicates. The number of trees is divided
-# in half for all the trees so that the result is the same as
-# not adding the trees. 
-repTrees <- function (captureYears) 
-{
-  curYear <- fvsGetEventMonitorVariables("year") 
-  if (is.na(match(curYear,captureYears))) return (NULL)
-  ctrees=fvsGetTreeAttrs(c("id","dbh","species","ht","cratio","plot",
-                           "tpa","tcuft","bdft","mgmtcd"))  
-  fvsAddTrees(ctrees)
-  ctrees=rbind(ctrees,ctrees)
-  ctrees$tpa=ctrees$tpa*.5
-  fvsSetTreeAttrs(ctrees)
-  fvsGetTreeAttrs(c("id","dbh","species","ht","cratio","plot",
-                     "tpa","tcuft","bdft","mgmtcd"))  
-}
+# define tree attribute list names
+treeAttrs = c("id","species","tpa","dbh","dg","ht",
+      "htg","crwdth","cratio","age","plot",
+      "tcuft","mcuft","bdft","plotsize","mgmtcd")
+      
+# no cycles, plots, or trees yet
+fvsGetDims()
 
-fvsSetCmdLine("--keywordfile=base.key")
-wRep <- fvsInteractRun(BeforeEstab="repTrees(c(2040))",
-                       AfterEM1="fetchTrees(c(2050))")
-wRepSum <- fvsGetSummary()
+# should be return an empty list
+fvsGetTreeAttrs(treeAttrs) 
 
-wRepSum-baseSum
-w=wRep[[1]][[1]]
+# the species codes
+fvsGetSpeciesCodes()
 
-w[1:27,]-w[28:54,]
+## first run
+fvsSetCmdLine("--keywordfile=base.key")
+
+fvsRun(2,2030)
+fvsGetStandIDs()
+
+# get and output some event monitor vars
+fvsGetEventMonitorVariables(c("year","atpa","aba"))
+
+# get and output tree attributes
+fvsGetTreeAttrs(treeAttrs)
+
+# finish the run
+fvsRun()
+
+# get and output summary statistics
+fvsGetSummary()
+
+# list supported activity codes
+fvsGetSummary()
+
+## next run, use the same keywords
+fvsSetCmdLine("--keywordfile=base.key")
+
+fvsRun(2,1993)
+addtrees <- fvsGetTreeAttrs(treeAttrs) 
+addtrees <- subset(addtrees,dbh<2)[,c("dbh","species","ht","cratio","plot","tpa")]
+
+# these trees will be added to the run at 2013
+addtrees
+
+# add a yearloss and thindbh for 1993
+fvsAddActivity(1993,"base_yardloss",c(0.50, 0.70, 0.50))
+fvsAddActivity(1993,"base_thindbh",c(0.00,12.00,1.00,0.00,0.00))
+
+# continue the run
+fvsRun(6,2013)
+
+# add the trees and output the current trees
+fvsAddTrees(addtrees)
+fvsGetTreeAttrs(treeAttrs)
+
+# continue the run
+fvsRun()
+
+#get and output summary statistics
+fvsGetSummary()
 
 
