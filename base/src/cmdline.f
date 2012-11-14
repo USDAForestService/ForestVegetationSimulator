@@ -7,7 +7,7 @@ c     library version of FVS but they are also called from within FVS.
 c
 c     Note that not all of the routines are designed to be part of the API
 
-c     Created in 2011 by Nick Crookston, RMRS-Moscow
+c     Created in 2011 and 2012 by Nick Crookston, RMRS-Moscow
 
       subroutine fvsSetCmdLine(theCmdLine,lenCL,IRTNCD)
       implicit none
@@ -244,11 +244,6 @@ c     open/reopen the keyword/output file.
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
-!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS : 'FVSRESTART' :: FVSRESTART
-!DEC$ ATTRIBUTES REFERENCE :: restrtcd
-#endif
-
       integer :: restrtcd
 
 c     if the current return code is not zero, then no restart is reasonable.
@@ -292,15 +287,9 @@ cc     -        " restrtcd=",restrtcd
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
-!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSRESTARTLASTSTAND
-!DEC$ ATTRIBUTES ALIAS : 'FVSRESTARTLASTSTAND' :: FVSRESTARTLASTSTAND
-!DEC$ ATTRIBUTES REFERENCE :: restrtcd
-#endif
-
       integer :: restrtcd
       if (readFilePos == -1) then
-        fvsRtnCode = 1
+        call fvsSetRtnCode (1)
         restrtcd = fvsRtnCode
       endif
 
