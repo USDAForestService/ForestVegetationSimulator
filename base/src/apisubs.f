@@ -100,7 +100,6 @@ c
         rtnCode = 3
         return
       endif
-
       select case(name)
       case ("tpa")
         if (action=="get") attr = prob(:itrn)
@@ -122,7 +121,7 @@ c
         if (action=="set") htg(:itrn) = real(attr,4)
       case ("crwdth")
         if (action=="get") attr = crwdth(:itrn)
-        if (action=="set") ht(:itrn) = real(attr,4)
+        if (action=="set") crwdth(:itrn) = real(attr,4)
       case ("cratio")
         if (action=="get") attr = icr(:itrn)
         if (action=="set") icr(:itrn) = int(attr,4)

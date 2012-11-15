@@ -10,17 +10,15 @@ while(TRUE)
 }
 setwd("rFVS/R")
 
-# fetching R code from
-getwd()
+# fetching R code
 for (rf in dir ()) source (rf)
 setwd(cwd)
 
 # load the FVS library
 fvsLoad("FVSiec","../../bin")
 
-
 # define tree attribute list names
-treeAttrs = c("id","species","tpa","dbh","dg","ht",
+treeAttrs = c("id","species","mort","tpa","dbh","dg","ht",
       "htg","crwdth","cratio","age","plot",
       "tcuft","mcuft","bdft","plotsize","mgmtcd")
       
@@ -32,6 +30,8 @@ fvsGetTreeAttrs(treeAttrs)
 
 # the species codes
 fvsGetSpeciesCodes()
+# list supported activity codes
+fvsAddActivity()
 
 ## first run
 fvsSetCmdLine("--keywordfile=base.key")
@@ -45,14 +45,20 @@ fvsGetEventMonitorVariables(c("year","atpa","aba"))
 # get and output tree attributes
 fvsGetTreeAttrs(treeAttrs)
 
+# run to 2060 stop prior to adding increments
+fvsRun(5,2060)
+trees=fvsGetTreeAttrs(treeAttrs)
+#set mortality and growth to zero
+trees$mort = 0
+trees$htg  = 0
+trees$dg   = 0
+fvsSetTreeAttrs(trees[,c(3,6,8)])
+
 # finish the run
 fvsRun()
 
 # get and output summary statistics
-fvsGetSummary()
-
-# list supported activity codes
-fvsGetSummary()
+fvsGetSummary() #year 2060 and 2070 should be equal
 
 ## next run, use the same keywords
 fvsSetCmdLine("--keywordfile=base.key")
