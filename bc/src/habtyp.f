@@ -21,7 +21,7 @@ C----------
       LOGICAL      LOK
       CHARACTER*3  RGN(3)
       CHARACTER*4  ZN(7)
-      CHARACTER*2  SZ(11)
+      CHARACTER*2  SZ(19)
 	CHARACTER*20 FULL
 	INTEGER      I,J,J1,J2,K
       TYPE         (BEC_DESCRIPTION) TMP
@@ -39,14 +39,22 @@ C----------
      >          'SBS',
      >          'SBPS'/
 
-      DATA SZ  /'XH',
-     >          'DC',
+      DATA SZ  /'DC',
      >          'DK',
      >          'DM',
      >          'DW',
+     >          'MC',
+     >          'MH',
+     >          'MK',
+     >          'MM',
      >          'MW',
      >          'VK',
-     >          'MK',
+     >          'WC',
+     >          'WK',
+     >          'WM',
+     >          'WW',
+     >          'XC',
+     >          'XH',
      >          'XK',
      >          'XM',
      >          'WM' /
