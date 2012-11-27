@@ -541,7 +541,10 @@ C           COMPUTE MORTALITY RATE
           
           ELSE
           
-            DX = MIN(0.5,D) * INtoCM
+            ! DBH is at least 2.5cm; important for HW mortality
+            DX = MAX(2.5, (D*INtoCM))
+            RELDBH=DX/MAX(2.5,AVED*INtoCM)
+            
             IF (MRTCLS .GT. 0) THEN
 
 C             GET DBH-CLASS FOR TABULAR MODELS
@@ -567,12 +570,13 @@ C             INITIALLY COMPUTES SURVIVAL. AFTER EXPONENTIATION IT IS
 C             CONVERTED TO MORTALITY: (1.0 - SURVIVAL)
 
               BAL = (1.0 - (PCT(I)/100.)) * BAX
-              IF (MORT%FIT(ISPC) .AND. LLTDGOK(ISPC)) THEN
+!             IF (MORT%FIT(ISPC) .AND. LLTDGOK(ISPC)) THEN        
+              IF (MORT%FIT(ISPC)) THEN
                 RIP = MORT%CON(ISPC)
      >            + (MORT%INVDBH(ISPC)  / DX)
      >            + (MORT%DBH(ISPC)     * DX)
      >            + (MORT%DBHSQ(ISPC)   * DX*DX)
-     >            + (MORT%RDBH(ISPC)    * DX/(AVED*INtoCM))
+     >            + (MORT%RDBH(ISPC)    * RELDBH)
      >            + (MORT%BAL(ISPC)     * BAL)
      >            + (MORT%SQRTBA(ISPC)  * SQRT(BAX))
      >            + (MORT%SPH(ISPC)     * SPH)

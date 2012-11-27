@@ -1627,7 +1627,7 @@ C         FIND INDEX TO SITE SERIES COEFFICIENTS -> JPOS()
 
 C       BUILD EQUATION EXPRESSIONS
         DO I = 1,MAXSP
-          LLTDGOK(I) = .FALSE.
+cccc          LLTDGOK(I) = .FALSE.
           DGCON(I)  = 0.0
           IP = IPOS(I)
           JP = JPOS(I)
@@ -1660,7 +1660,7 @@ C         POPULATE ARRAYS FOR OTHER CONSTANTS
           SMCON(I)   = 0.
 C	    SIGMAR(I)  = ZNKONST(IP)%SIGMAR ! SIGMAR - RES.ERR
 C	    SIGMAR(I)  = SIGMAR(I) * 0.5
-          LLTDGOK(I) = .TRUE.
+cccc          LLTDGOK(I) = .TRUE.
    11   ENDDO
       ENDIF
 
