@@ -24,7 +24,7 @@ C     RUN ALL THE CYCLES and STANDS--unless there is a stop point!
 
    10 CONTINUE 
    
-      call getICCODE(i)
+      call fvsGetICCode(i)
 
       IF (i .EQ. 0) STOP	
 
