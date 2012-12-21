@@ -1,4 +1,3 @@
-
 #	$Id$	
 
 # Notes: If OS is defined, then then we are 32 bit windows, otherwise, we are Linix 
@@ -175,8 +174,8 @@ ifeq (${OSARCH},w32)
 	$(LD)         -o $(basename ../$@)$(PRGSUFX)  ../libfvsSQL.dll  $(filter-out fvsSQL.o       ,$(object))
 else
 %.prg : $(object) 
-	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) -l $(ODBC) $(filter-out main.o,$(object))
-	$(LD)         -o $(basename ../$@)$(PRGSUFX)  -l $(ODBC) $(object)
+	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) -l$(ODBC) 
+	$(LD)         -o $(basename ../$@)$(PRGSUFX)  $(object) -l$(ODBC)    
 endif
 
 DBSTYPEDEFS.F77 : mkdbsTypeDefs.c
