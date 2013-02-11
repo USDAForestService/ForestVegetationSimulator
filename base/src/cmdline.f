@@ -26,6 +26,11 @@ c     Created in 2011 and 2012 by Nick Crookston, RMRS-Moscow
       character(len=lenCL) theCmdLine
       character(len=1024) cmdLcopy
 
+c     make sure the files are closed if resetting with the cmdLine.
+c     (this is only done if a none-zero return or restart code is set)
+
+      if (fvsRtnCode /= 0 .or. restartcode /= 0) call FILClose
+      
       keywordfile = " "
       maxStoppts = 6
       stopptfile = " "
@@ -370,7 +375,7 @@ c     note that this routine is called during the simulation
       stopstatcd = 0
 cc      print *,"in fvsStopPoint,LOCODE",LOCODE
       if (LOCODE == -1) then
-        restartcode = 0
+        restartcode = 100
         stopstatcd = 2
         ISTOPDONE = 1
         return

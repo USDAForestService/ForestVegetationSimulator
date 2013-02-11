@@ -55,10 +55,13 @@ trees$dg   = 0
 fvsSetTreeAttrs(trees[,c(3,6,8)])
 
 # finish the run
-fvsRun()
+fvsRun(0,0)
 
 # get and output summary statistics
 fvsGetSummary() #year 2060 and 2070 should be equal
+
+# run the next stand in the set, no stoping. 
+fvsRun()
 
 ## next run, use the same keywords
 fvsSetCmdLine("--keywordfile=base.key")
@@ -82,9 +85,13 @@ fvsAddTrees(addtrees)
 fvsGetTreeAttrs(treeAttrs)
 
 # continue the run
-fvsRun()
+fvsRun(0,0)
 
 #get and output summary statistics
 fvsGetSummary()
+
+# continue the run for the next stand.
+fvsRun()
+
 
 

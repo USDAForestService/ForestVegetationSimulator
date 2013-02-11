@@ -187,7 +187,7 @@ FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT
 > fvsSetTreeAttrs(trees[,c(3,6,8)])
 > 
 > # finish the run
-> fvsRun()
+> fvsRun(0,0)
 > 
 > # get and output summary statistics
 > fvsGetSummary() #year 2060 and 2070 should be equal
@@ -215,6 +215,9 @@ FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT
 9      10 185  109     11    267       1      2
 10     10 183   94     11    267       1      2
 11      0   0    0     11    267       1      2
+> 
+> # run the next stand in the set, no stoping. 
+> fvsRun()
 > 
 > ## next run, use the same keywords
 > fvsSetCmdLine("--keywordfile=base.key")
@@ -258,7 +261,7 @@ FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT
 6  1.187158     65   5   10     0     0    0        0      2
 > 
 > # continue the run
-> fvsRun()
+> fvsRun(0,0)
 > 
 > #get and output summary statistics
 > fvsGetSummary()
@@ -286,6 +289,10 @@ FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT
 9      10 199   48     11    201       1      2
 10     10 197   65     11    201       1      2
 11      0   0    0     11    201       1      2
+> 
+> # continue the run for the next stand.
+> fvsRun()
+> 
 > 
 > 
 > 
@@ -328,6 +335,31 @@ FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT
       TREES         TOP      TOTAL TREES TOTAL MERCH         TOP      PER YR
  YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
  ---- ----- --- --- --- ---- ----- ----- ----- ----- --- --- --- ---- --- ---
+ 1990   536  77 184  63  5.1  1592     0     0     0  77 184  63  5.1 117  13
+ 2000   441 114 242  75  6.9  2639     0     0     0 114 242  75  6.9 147  23
+ 2010   363 150 290  77  8.7  3888     0     0     0 150 290  77  8.7 158  39
+ 2020   306 176 319  84 10.3  5078     0     0     0 176 319  84 10.3 169  56
+ 2030   256 195 334  88 11.8  6202     0     0     0 195 334  88 11.8 175  71
+ 2040   214 208 340  97 13.3  7247     0     0     0 208 340  97 13.3 177  80
+ 2050   180 217 341 105 14.9  8216     0     0     0 217 341 105 14.9 183  86
+ 2060   153 226 340 112 16.5  9183     0     0     0 226 340 112 16.5 182  90
+ 2070   131 233 338 120 18.0 10099     0     0     0 233 338 120 18.0 177  95
+ 2080   114 238 334 126 19.6 10920     0     0     0 238 334 126 19.6 177  97
+ 2090    99 242 330 132 21.1 11718     0     0     0 242 330 132 21.1   0   0
+
+                   IE FVS VARIANT -- RV:10/01/12  
+
+
+         STAND = S248112                     MANAGEMENT CODE = NONE
+
+
+                SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)
+ ----------------------------------------------------------------------------
+       START OF SIMULATION PERIOD    REMOVALS/ACRE    AFTER TREATMENT GROWTH
+      ---------------------------- ----------------- ---------------- CU FT
+      TREES         TOP      TOTAL TREES TOTAL MERCH         TOP      PER YR
+ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
+ ---- ----- --- --- --- ---- ----- ----- ----- ----- --- --- --- ---- --- ---
  1990   536  77 184  63  5.1  1592   532  1502  2392   4   6  67 12.7   4   0
  2000     4   5   7  77 14.6   130     0     0     0   5   7  77 14.6   5   0
  2010     4   6   9  85 16.3   172     0     0     0   6   9  85 16.3   5   1
@@ -339,3 +371,28 @@ FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT
  2070   190 170 282  96 12.8  6395     0     0     0 170 282  96 12.8 199  48
  2080   176 195 310 104 14.3  7904     0     0     0 195 310 104 14.3 197  65
  2090   161 214 329 111 15.6  9230     0     0     0 214 329 111 15.6   0   0
+
+                   IE FVS VARIANT -- RV:10/01/12  
+
+
+         STAND = S248112                     MANAGEMENT CODE = NONE
+
+
+                SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)
+ ----------------------------------------------------------------------------
+       START OF SIMULATION PERIOD    REMOVALS/ACRE    AFTER TREATMENT GROWTH
+      ---------------------------- ----------------- ---------------- CU FT
+      TREES         TOP      TOTAL TREES TOTAL MERCH         TOP      PER YR
+ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
+ ---- ----- --- --- --- ---- ----- ----- ----- ----- --- --- --- ---- --- ---
+ 1990   536  77 184  63  5.1  1592     0     0     0  77 184  63  5.1 117  13
+ 2000   441 114 242  75  6.9  2639     0     0     0 114 242  75  6.9 147  23
+ 2010   363 150 290  77  8.7  3888     0     0     0 150 290  77  8.7 158  39
+ 2020   306 176 319  84 10.3  5078     0     0     0 176 319  84 10.3 169  56
+ 2030   256 195 334  88 11.8  6202     0     0     0 195 334  88 11.8 175  71
+ 2040   214 208 340  97 13.3  7247     0     0     0 208 340  97 13.3 177  80
+ 2050   180 217 341 105 14.9  8216     0     0     0 217 341 105 14.9 183  86
+ 2060   153 226 340 112 16.5  9183     0     0     0 226 340 112 16.5 182  90
+ 2070   131 233 338 120 18.0 10099     0     0     0 233 338 120 18.0 177  95
+ 2080   114 238 334 126 19.6 10920     0     0     0 238 334 126 19.6 177  97
+ 2090    99 242 330 132 21.1 11718     0     0     0 242 330 132 21.1   0   0
