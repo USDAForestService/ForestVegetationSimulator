@@ -7,8 +7,7 @@ cmake_minimum_required (VERSION 2.6)
 # set Visual Studio flags
 set (CMAKE_C_FLAGS "/DWIN32 /D_WINDOWS /W3 /Zm100" CACHE STRING "VS10 mod" FORCE)
 
-file(GLOB tobuild FVSwsc*_sourceList.txt)
-#file(GLOB tobuild FVS*_sourceList.txt)
+file(GLOB tobuild FVSiec_sourceList.txt)
 
 list(SORT tobuild)
 message(STATUS "tobuild = ${tobuild}")
