@@ -112,7 +112,7 @@ elseif (CMAKE_GENERATOR MATCHES "MinGW Makefiles")
   link_libraries(odbc32)
 elseif (CMAKE_GENERATOR MATCHES "Unix Makefiles")
   add_definitions(-DANSI -DCMPgcc)
-  link_libraries(odbc32)
+  link_libraries(odbc)
 else()  
 endif()
   
