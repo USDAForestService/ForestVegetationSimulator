@@ -59,9 +59,6 @@ C
 C  GET THE INTEGER ARRAYS
 C  ONE DIMENSIONAL
 C
-      CALL IFREAD (WK3,IPNT,ILIMIT, hrvCostBf, MAX_KEYWORDS,          2)
-      CALL IFREAD (WK3,IPNT,ILIMIT, hrvCostFt3, MAX_KEYWORDS,         2)
-      CALL IFREAD (WK3,IPNT,ILIMIT, hrvCostTpa, MAX_KEYWORDS,         2)
       CALL IFREAD (WK3,IPNT,ILIMIT, varHrvUnits, MAX_KEYWORDS,        2)
       CALL IFREAD (WK3,IPNT,ILIMIT, varPctUnits, MAX_KEYWORDS,        2)
       CALL IFREAD (WK3,IPNT,ILIMIT, plntCostUnits, MAX_PLANT_COSTS,   2)
@@ -128,6 +125,9 @@ C
 C
 C  REAL ARRYS
 C
+      CALL BFREAD (WK3,IPNT,ILIMIT, hrvCostBf, MAX_KEYWORDS,          2)
+      CALL BFREAD (WK3,IPNT,ILIMIT, hrvCostFt3, MAX_KEYWORDS,         2)
+      CALL BFREAD (WK3,IPNT,ILIMIT, hrvCostTpa, MAX_KEYWORDS,         2)
       CALL BFREAD (WK3,IPNT,ILIMIT,lbsFt3Amt,MAXSP,                   2)
       DO I=TPA,FT3_100
       CALL BFREAD (WK3,IPNT,ILIMIT,harvest(I),1,                      2)

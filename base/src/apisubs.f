@@ -637,7 +637,7 @@ c     indx    = species index
       endif
       
       print *,"Not yet implemented"
-      rntCode = 1
+      rtnCode = 1
       return
       end
       
