@@ -24,8 +24,8 @@ else ()
   return()
 endif()
 
-#file(GLOB tobuild FVS*_sourceList.txt)
-file(GLOB tobuild FVSne_sourceList.txt)
+file(GLOB tobuild FVS*_sourceList.txt)
+#file(GLOB tobuild FVSne_sourceList.txt)
 
 list(SORT tobuild)
 message(STATUS "tobuild = ${tobuild}")
