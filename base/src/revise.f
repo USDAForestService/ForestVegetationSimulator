@@ -100,7 +100,7 @@ C----------
 C NORTHEAST STATES
 C----------
       IF(VAR(:7).EQ.'NE') THEN
-        REV = '10/01/12'
+        REV = '02/27/13'
         GO TO 100
       ENDIF
 C----------

@@ -1,26 +1,33 @@
-!== last modified  11-06-2009
+!== last modified  01-23-2013
 !== tdh added httwo = httot before prod 08
-!== RNH changed name of include file to R8DIB.INC
+C YW added to also check httot > 20 for prod 08 and changed subroutine PROD8 to return zero volume for height < 17.3
+C 01/18/2013 Added stump vol calculation (VOL(14))
       SUBROUTINE R8VOL2(VOLEQ,VOL,DBHOB,HTONE,HTTWO,MTOPP,HTTOT,CTYPE,
      >                  ERRFLAG)
 C      *** SUBROUTINE TO CALCULATE NEW VOLUMES ***
 C      ***          FOR REGION 8               ***
+C      This routine is used for calculating volumes using
+C      Clarks profile models.
+
+C      FVS is allowed to call the 4,7,9 models with total height
+C      only.  The model calculates merch height and returns
+C      appropriate volumes.  FVS calls the pulpwood model to get
+C      ht to the 4" and merch cubic vol.  If it is a saw tree
+C      it calls the 7/9" model and reports total merch as saw
+C      volume plus topwood.
 
 C      *** WRITTEN BY KEN CORMIER AND BRAD JONES ***
 
 C      *** CREATED:  06-18-91 ***
-C      ***  PASSED VARIABLES ***
-
-      
-      
+CREV   Revised TDH 06/01/11 Changed error handling/goto 998.
+    
       IMPLICIT NONE
 
-C      CHARACTER*2 STRC
-      INTEGER ERRFLAG,I,J
+C      ***  PASSED VARIABLES ***
+      INTEGER ERRFLAG!,I,J
       character*10 VOLEQ
 	    CHARACTER*1 CTYPE
       REAL VOL(15),DBHOB,HTONE,HTTWO,DF1,MTOPP,HTTOT,fclss
-
 
 C      *** LOCAL VARIABLES ***
       INTEGER SPEC,GEOA,EQN,SPECPR,GEOAPR,EQNPR,SPGRP
@@ -34,8 +41,7 @@ C      *** LOCAL VARIABLES ***
       REAL DIBMEN(49,3), TOTAL(49,7), NINE(34,6)
       REAL SEVEN(15,6), FOUR(49,6), TOPRAT(3)
       REAL OTOTAL(49,7)
-
-
+      
 C      *** INCLUDE COMMON BLOCKS ***
 
 c       COMMON /AREA3A/ IPOINT,LSTREC,SRTIN,SRTOUT,ERRFLAG,DAX,TMP1,TMP2,
@@ -301,21 +307,33 @@ C      *** ARRAYS FOR HOLDING COEFFICIENTS ***
 
 C     END  ! BLOCK DATA !
 
+C- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
       READ(VOLEQ(8:10),'(I3)')SPEC
 C       READ (SP,'(I3)') SPEC
       READ(VOLEQ(2:2),'(I1)')GEOA
 	
 C       GEOA = INT ((VOLEQ(2) - 800) / 10)
-      IF (GEOA.LT.1 .OR. GEOA.GT.9 .OR. GEOA.EQ.8) GO TO 998
+      IF (GEOA.LT.1 .OR. GEOA.GT.9 .OR. GEOA.EQ.8)THEN
+         ERRFLAG = 1
+         GO TO 999
+      ENDIF
 
       READ(VOLEQ(3:3),'(I1)')EQN
 C       EQN  = VOLEQ(2) - (800 + GEOA * 10)
 
-      IF(EQN.NE.0.AND.EQN.NE.4.AND.EQN.NE.7.AND.EQN.NE.9.AND.EQN.NE.8)
-     *    GO TO 998
-
-      IF (EQN.EQ.0 .AND. HTTWO.LT.20 .AND. HTTOT.LT.20) GO TO 998
-
+      
+      IF(EQN. NE. 0 .AND. EQN .NE. 4 .AND. EQN .NE. 7 .AND. EQN .NE. 9
+     > .AND. EQN .NE. 8) THEN
+        ERRFLAG = 1  
+        GO TO 999
+      ENDIF
+     
+      IF (EQN.EQ.0 .AND. HTTWO.LT.20 .AND. HTTOT.LT.20) THEN
+        ERRFLAG = 10
+        GO TO 999
+      ENDIF
+      
       IF (SPEC.EQ.123 .OR. SPEC.EQ.197) THEN
          SPEC = 100
       ELSEIF  (SPEC.EQ.268) THEN       
@@ -338,37 +356,47 @@ c     *********************************************
 c        check for httwo equal zero and totht > 0
       IF((EQN.EQ.4.OR.EQN.EQ.7.OR.EQN.EQ.9).AND.
      >             (HTTOT.GT.0.AND.HTTWO.LE.0.AND.CTYPE.EQ.'F'))THEN
-	       IF(HTTOT .LT. 20) THEN
-	          ERRFLAG = 4
-	          GOTO 999
-         END IF
-	       THTFLAG = 1
-	    ELSE
-  	     THTFLAG = 0
+	  IF(HTTOT .LT. 20) THEN
+	     ERRFLAG = 4
+	     GOTO 999
+        ENDIF
+	  THTFLAG = 1
+	ELSE
+  	  THTFLAG = 0
       ENDIF
 
       IF (SPEC.EQ.SPECPR .AND. EQN.EQ.EQNPR .AND. GEOA.EQ.GEOAPR) THEN
+         
          IF(EQN.EQ.0) THEN
              CALL TOTHT(VOL,DBHOB,HTTOT,HTTWO,FIXDI,SPEC,SPGRP,
      >              TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
-     >              TPO,TBO,TAO,TAFI,TBFI,THTFLAG)       
-	    ELSEIF(EQN.EQ.8) THEN
-	      IF(HTTWO.LT.20) HTTWO = HTTOT
+     >              TPO,TBO,TAO,TAFI,TBFI,THTFLAG) 
+           
+	   ELSEIF(EQN.EQ.8) THEN
+	      
+	      IF(HTTWO.LT.20.AND.HTTOT.GT.20) HTTWO = HTTOT
 	      CALL PROD8(VOL,DBHOB,HTTWO,FIXDI,SPEC,SPGRP,TR,TC,TE,TP,TB,
      >       TA,AD,BD,TAF,TBF,TRO,TCO,TEO,TPO,TBO,TAO,TAFI,TBFI,MTOPP)
-      ELSE
-        IF(THTFLAG.EQ.1) THEN
+     
+         ELSE
+        
+            IF(THTFLAG.EQ.1) THEN
                CALL TOTHT(VOL,DBHOB,HTTOT,HTTWO,FIXDI,SPEC,SPGRP,
-     >                TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
-     >                TPO,TBO,TAO,TAFI,TBFI,THTFLAG)       
-	         HTONE = HTTWO
-        ENDIF
+     >          TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
+     >          TPO,TBO,TAO,TAFI,TBFI,THTFLAG)       
+	       
+	          HTONE = HTTWO
+	       
+            ENDIF
 
-        CALL HT479(EQN,VOL,DBHOB,HTONE,HTTWO,FIXDI,FCLSS,SPEC,SPGRP,  
-     >               R,C,E,P,Q,AD,BD,AF,BF,TOPRAT)
-C               IF FVS, USE FCLASS TO FIND VOLUME TO 4 INCH TOP
-	    ENDIF
-         GO TO 999
+            CALL HT479(EQN,VOL,DBHOB,HTONE,HTTWO,FIXDI,FCLSS,SPEC,SPGRP,
+     >           R,C,E,P,Q,AD,BD,AF,BF,TOPRAT)
+
+C        IF FVS, USE FCLASS TO FIND VOLUME TO 4 INCH TOP
+         ENDIF
+        
+        GO TO 999
+      
       ENDIF
       SPECPR = SPEC
       EQNPR = EQN
@@ -405,7 +433,8 @@ C     BINARY SEARCH FOR CORRECT COEFFICIENTS
                 SPECPR = 0
                 EQNPR = 0
                 GEOAPR = 0
-                GO TO 998
+                ERRFLAG = 6
+                GO TO 999
 	!SET GEOAPR TO 9 AND RETRY THE SEARCH
 	       ELSE                  
                 GEOA = 9
@@ -420,7 +449,10 @@ C     BINARY SEARCH FOR CORRECT COEFFICIENTS
 C     END BINARY SEARCH
 
       SPGRP = R8CF(PTR,3) + .5                 
-      IF (SPGRP.NE.100 .AND. SPGRP.NE.300 .AND. SPGRP.NE.500) GO TO 998
+      IF (SPGRP.NE.100 .AND. SPGRP.NE.300 .AND. SPGRP.NE.500)THEN
+        ERRFLAG = 6
+        GO TO 999
+      ENDIF
 
       AD = R8CF(PTR,4)
       BD = R8CF(PTR,5)
@@ -449,7 +481,10 @@ C     END BINARY SEARCH
             FIRST = HALF
          ENDIF
 	!DID NOT FIND A MATCH
-            IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) GO TO 998   
+            IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
+               ERRFLAG = 6
+               GO TO 999
+            ENDIF   
    10 CONTINUE
 C     END BINARY SEARCH
 
@@ -481,7 +516,10 @@ C***********************************************************************
                FIRST = HALF 
             ENDIF
 	!DID NOT FIND A MATCH
-            IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) GO TO 998   
+            IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0)THEN
+               ERRFLAG = 6
+               GO TO 999   
+            ENDIF
    20    CONTINUE
 
          TR = TOTAL (TOTCNT,2)
@@ -510,7 +548,7 @@ C***********************************************************************
       ENDIF
 
       IF ((EQN.EQ.0 .OR. EQN.EQ.8)) THEN
-	   IF(HTTWO.LT.20) HTTWO = HTTOT
+	   IF(HTTWO.LT.20.AND.HTTOT.GT.20) HTTWO = HTTOT
 
          IF(EQN.EQ.8) THEN
 	      CALL PROD8(VOL,DBHOB,HTTWO,FIXDI,SPEC,SPGRP,TR,TC,TE,TP,TB,
@@ -544,7 +582,10 @@ C***********************************************************************
                FIRST = HALF
             ENDIF
 	!DID NOT FIND A MATCH
-            IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) GO TO 998
+            IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
+               ERRFLAG = 6
+               GO TO 999
+            ENDIF
    40    CONTINUE
 
          R = FOUR (FOURCNT,2)
@@ -567,7 +608,8 @@ C        IF FVS, USE FCLASS TO FIND VOLUME TO 4 INCH TOP
             I = I + 1
             GO TO 60
          ELSEIF (INT(SEVEN(I,1)+.5).GT.SPEC .OR. I.GT.15) THEN
-            GO TO 998
+            ERRFLAG = 6
+            GO TO 999
          ENDIF
 
          R = SEVEN (I,2)
@@ -605,7 +647,10 @@ C        IF FVS, USE FCLSS TO FIND VOLUME TO 4 INCH TOP
                FIRST = HALF
             ENDIF
 	!DID NOT FIND A MATCH
-            IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) GO TO 998
+            IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
+               ERRFLAG = 6
+               GO TO 999
+            ENDIF
    80    CONTINUE
          R = NINE(NINECNT,2)
          C = NINE(NINECNT,3)
@@ -620,15 +665,13 @@ C        IF FVS, USE FCLSS TO FIND VOLUME TO 4 INCH TOP
 C        IF FVS, USE FCLASS TO FIND VOLUME TO 4 INCH TOP
 
       ELSE
-         GO TO 998
+      !   GO TO 998
 
       ENDIF
-
-      GO TO 999
-
- 998  ERRFLAG = 6
+      
+ 999  CONTINUE
  
- 999  RETURN
+      RETURN
       END
 
 
@@ -652,6 +695,10 @@ C      *** DECLARE LOCAL VARIABLES ***
      >      VO,WO,XO,YO,ZO,DBH2,DBH3,FCDOB,FCDOB2,UPPERD,UPPERD2
       INTEGER IS,IB,IT,IM,I1,I2,I3,I4,I5,I6
       REAL FCMIN, FCDIB, VOLINI,DIB
+      
+C     ***Testing variables
+      REAL FCLSCLC
+      FCLSCLC = 0.0
 
       VOLINI = 0.0
       FCDIB = 0.0
@@ -666,7 +713,8 @@ C      CALCULATE DIAMETER AT 17.3 FEET (FORMCLASS)
 C      THT = TREEHT
 
   2   FCLSS = DBH * (AF + BF * (17.3/THT)**2)
-      IF (FCLSS.LT.0) FCLSS = 0.0
+      FCLSCLC = FCLSS
+      IF (FCLSS.LT.0.0) FCLSS = 0.0
 
       IF (SPEC.EQ.221 .OR. SPEC.EQ.222 .OR. SPEC.EQ.544) GO TO 8
 
@@ -820,6 +868,14 @@ C      CALCULATE CUBIC VOLUME
       IF (VOL(4).LT.0.3) VOL(4) = 0.3
 c      VOL(5) = VOL(4)
 
+c      OPEN (UNIT=FCLSOUT, FILE='fclass.txt', ACCESS = 'APPEND',
+c     &       STATUS='UNKNOWN')
+c	       WRITE (FCLSOUT,100)DBH,',',FCLSS,',',FCLSCLC
+c 100         FORMAT(F4.1,A,F4.1,A,F4.1)
+c      CLOSE(FCLSOUT)
+C      Calculate stump vol
+       VOL(14)=0.005454154*DIB**2*LOWER       
+
   998 RETURN
       END
 
@@ -839,9 +895,17 @@ C      *** DECLARE PASSED VARIABLES ***
        REAL TOPRAT(3)
 
 C      *** DECLARE LOCAL VARIABLES ***
-       REAL VOL4,VOLM,VOL79,NLE,YR,AT,BT,CT,STFAC
-       REAL DIB,FCLSS,HT, HT1, HT2, FCMIN, FCDIB, VOLINI      
-
+       REAL VOL4,VOLM,VOL79,NLE,YR,AT,BT,CT,STFAC,STUMP
+       REAL DIB,FCLSS,HT, HT1, HT2, FCMIN, FCDIB, VOLINI     
+       
+C     ***Testing variables
+      REAL FCLSCLC
+      FCLSCLC = 0.0 
+      IF(EQN.EQ.4)THEN
+        STUMP=0.5
+      ELSE
+        STUMP=1.0
+      ENDIF
        VOLINI = 0.0                                           
        FCDIB = 0.0                                            
        HT1 = THT1
@@ -871,6 +935,7 @@ C      CALCULATE DBH INSIDE BARK
 C      CALCULATE DIAMETER AT 17.3 FEET (FORMCLASS)
 
    2   FCLSS = DBH * (AF + BF * (17.3/HT2)**2)
+       FCLSCLC = FCLSS
        IF (FCLSS.LT.FIXDI) FCLSS = FIXDI
 
        IF (SPEC.EQ.221 .OR. SPEC.EQ.222 .OR. SPEC.EQ.544) GO TO 8
@@ -967,7 +1032,7 @@ c         VOL(5) = VOL(4) - (VOL(4)*DEF1)/100
          VOL4 = YR * VOL79 * STFAC
          VOL(7) = VOL4 - vol(4)
          VOL(8) = VOL(7)
-
+ 
        ELSE
          VOL(5) = VOL(4)
 C--  USE VOL(4) INSTEAD OF VOLM BECAUSE IT HAS BEEN ADJUSTED
@@ -975,6 +1040,13 @@ C--  FOR SHORT PULPWOOD TREES
 C--      VOL(5) = VOLM
 
        ENDIF
+C      Calculate stump vol
+       VOL(14)=0.005454154*DIB**2*STUMP       
+!       OPEN (UNIT=FCLSOUT, FILE='fclass.txt', ACCESS = 'APPEND',
+!     &       STATUS='UNKNOWN')
+!	       WRITE (FCLSOUT,100)DBH,',',FCLSS,',',FCLSCLC
+! 100         FORMAT(F4.1,A,F4.1,A,F4.1)
+!      CLOSE(FCLSOUT)
 
  999   RETURN
        END
@@ -1158,6 +1230,13 @@ C      *** DECLARE LOCAL VARIABLES ***
       INTEGER LAST,TOPLOP,I,FIRST,HALF,ERRFLG
       REAL MHT,TOP1,MINLEN,STUMP,HT2,VOLM,VOL4,Q
 	
+C     return Zero volume for tree height less than 17.3 (YW 10/11/2012)
+	IF (TREEHT.LT.17.3) THEN
+	  VOL(4) = 0.0
+	  VOL(7) = 0.0
+	  RETURN
+	ENDIF
+	
       MINLEN = 12.0
 	STUMP = 0.5
       Q = 0
@@ -1320,10 +1399,13 @@ C     IF HEIGHT MINUS STUMP IS GE 12.0, FIND VOLUME
 C     FIND TOPWOOD VOLUME
          VOL(4) = VOLM
 	   VOL(7) = VOL4 - VOLM
+	   IF(VOL(7).LT.0.0001) VOL(7) = 0.0
 	 ELSE
 	   VOL(4) = 0
          VOL(7) = VOL4
        ENDIF
+C     calculate stump vol
+      VOL(14)=0.005454154*DBHIB**2*STUMP       
 C     RETURN VOLUMES
 
 

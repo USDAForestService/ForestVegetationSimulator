@@ -2,7 +2,7 @@
      >                   ARRAY,IRECNT,KODE,KARD,LFLAG,LKECHO)
       IMPLICIT NONE
 C----------
-C  **KEYRDR DATE OF LAST REVISION:  12/15/2010
+C  **KEYRDR DATE OF LAST REVISION:  12/31/2012
 C----------
 C
 C     KEYWORD CARD READER FOR THE STAND PROGNOSIS SYSTEM
@@ -105,25 +105,30 @@ C     CHECK FOR THE PRESENCE OF A 'P' SO THAT THE PARMS STATEMENT
 C     MAY BE DETECTED.
 C
       NF=7
-      IP=INDEX(RECORD(11:80),'P')
-      IF (IP.EQ.0) IP=INDEX(RECORD(11:80),'p')
-      IF (IP.GT.0) THEN
+      K=11
+      DO WHILE (K <= 73) 
+         IP=INDEX(RECORD(K:73),'P')
+         IF (IP.EQ.0) IP=INDEX(RECORD(K:73),'p')
+         IF (IP.GT.0) THEN
 C
 C        BORROW THE USE OF KEYWRD TO HOLD "PARMS" IN MIXED, THEN UPPER
 C        CASE...
 C
-         KEYWRD(1:5)=RECORD(IP+10:IP+14)
-         DO I=1,5
-            CALL UPCASE (KEYWRD(I:I))
-         ENDDO
-         IF (KEYWRD(1:5).EQ.'PARMS') THEN
-            IF (MOD(IP,10).EQ.0) THEN
-               NF=IP/10-1
-            ELSE
-               NF=IP/10
+            KEYWRD(1:5)=RECORD(IP+K-1:IP+K+4)
+            DO I=1,5
+               CALL UPCASE (KEYWRD(I:I))
+            ENDDO
+            IF (KEYWRD(1:5).EQ.'PARMS') THEN
+               IP=K+IP-11
+               NF=(IP-1)/10   
+               EXIT
             ENDIF
+            K=K+IP
+            CYCLE
+         ELSE
+            EXIT   
          ENDIF
-      ENDIF
+      END DO  
 C
 C     LOAD THE KEYWORD INTO KEYWRD...DECODE THE FIELDS.
 C

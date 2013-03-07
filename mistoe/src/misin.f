@@ -1,6 +1,6 @@
       SUBROUTINE MISIN(PASKEY,ARRAY,LNOTBK,LKECHO)
 ***********************************************************************
-*  **MISIN      Date of last revision:  07/09/07
+*  **MISIN      Date of last revision:  02/08/13
 *               Interim Model
 *----------------------------------------------------------------------
 *  Purpose:

@@ -1,4 +1,6 @@
-c== last modified  02-08-2012
+c== last modified  10-21-2002
+
+      INTEGER I,J
       
       REAL R8CF(182,18)
       

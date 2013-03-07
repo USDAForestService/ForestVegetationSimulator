@@ -1,7 +1,7 @@
       SUBROUTINE FMSSUM (IYR)
       IMPLICIT NONE
 C----------
-C  **FMSSUM  DATE OF LAST REVISION:  09/05/12
+C  **FMSSUM  DATE OF LAST REVISION:  02/08/13
 C----------
 C
 C  Purpose:

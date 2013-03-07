@@ -1,7 +1,7 @@
       SUBROUTINE SVCWD(IYEAR)
       IMPLICIT NONE
 C----------
-C  **SVCWD--BASE  DATE OF LAST REVISION: 12/08/09
+C  **SVCWD--BASE  DATE OF LAST REVISION: 12/11/12
 C----------
 C
 C     STAND VISUALIZATION GENERATION
@@ -64,6 +64,9 @@ C
       INCLUDE 'SVDEAD.F77'
 C
 C
+      INCLUDE 'FMSVCM.F77'
+C
+C  
 COMMONS
 C
       INTEGER CWDDL1, CWDDL2, I, IBP, ICWD, ID, IH, IP, IPC, IPCNT,
@@ -546,6 +549,8 @@ C----------
      &                IS2F(ISVOBJ).EQ.ICWD) THEN
                     IOBJTP(ISVOBJ) = 0
                     IS2F(ISVOBJ) = 0
+                    IOBJTPTMP(ISVOBJ) = 0
+                    IS2FTMP(ISVOBJ) = 0
                     CWDDL2 = CWDDL2 + 1
                     EXIT
                   ENDIF
@@ -575,11 +580,15 @@ C----------
         ELSE
           IF (IPUT.GT.0 .AND. IPUT.LT.ISVOBJ) THEN
             IOBJTP(IPUT)=IOBJTP(ISVOBJ)
+            IOBJTPTMP(IPUT)=IOBJTPTMP(ISVOBJ)
             IS2F(IPUT)=IS2F(ISVOBJ)
+            IS2FTMP(IPUT)=IS2FTMP(ISVOBJ)
             XSLOC(IPUT)=XSLOC(ISVOBJ)
             YSLOC(IPUT)=YSLOC(ISVOBJ)
             IOBJTP(ISVOBJ)=0
             IS2F(ISVOBJ)=0
+            IOBJTPTMP(ISVOBJ)=0
+            IS2FTMP(ISVOBJ)=0
             IPUT=IPUT+1
           ENDIF
         ENDIF
@@ -606,6 +615,7 @@ C----------
               IF (IOBJTP(ISVOBJ).EQ.4 .AND.
      &           IS2F(ISVOBJ).EQ.ICWD) THEN
                  IS2F(ISVOBJ) = IPUT
+                 IS2FTMP(ISVOBJ) = IPUT
                  EXIT
               ENDIF
   260       CONTINUE
@@ -673,7 +683,8 @@ C----------
               NSVOBJ = NSVOBJ + 1
               IS2F(NSVOBJ) = NCWD
               IOBJTP(NSVOBJ) = 4
-
+              IS2FTMP(NSVOBJ) = NCWD
+              IOBJTPTMP(NSVOBJ) = 4
 C----------
 C  Call SVGTPT to get point location for new object.
 C  Set plot geometry code to ignore point identifications, and

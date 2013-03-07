@@ -1,4 +1,5 @@
-!== last modified  09-27-2012
+!== last modified  01-18-2013
+C 01/18/2013 Added calculation for stump VOL(14) and tip VOL(15)
       SUBROUTINE BLMVOL(VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,FCLASS,
      >        VOL,LOGDIA,LOGLEN,LOGVOL,TLOGS,NOLOGP,NOLOGS,BFPFLG,
      >        CUPFLG,ERRFLAG)
@@ -598,7 +599,10 @@ C 630  CONTINUE
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, '(A)')'<--Exit BLMVOL'
       ENDIF
-      
+C     Calculate stump volume as 1 foot cylinder
+      VOL(14)=0.005454154*LOGDIA(1,2)*LOGDIA(1,2)
+      IF(VOL(4).GT.0.0) VOL(15)=VOL(1)-VOL(4)-VOL(14)-VOL(7)
+      IF(VOL(15).LT.0.0) VOL(15)=0.0      
       RETURN
       END
 

@@ -33,6 +33,8 @@ C          YW  12/08/2011  Added check number of logs not greater than 20.
 C
 C          YW  02/28/2012  Changed to calc HT for prod 1 when ht1prd = 0
 C          YW  08/21/2012  Added error flag check and reset vol array.
+C YW 01/18/2013 Added vol calculation for stump (VOL(14)) and tip VOL(15)
+C-------------------------------------------------------------------------
 C  This subroutine is designed for use with the VOLLIB routines in 
 C  the National Volume Estimator Library.  It returns arrays filled 
 C  with different types of volumes (vol), log lengths (logLen), 
@@ -316,7 +318,13 @@ C-----Get board foot volumes
       WRITE  (LUDBG, 695)'total log vol ', tlogvol
   695    FORMAT (A, F7.2)
       END IF
-
+C calculate volume for stump and stem tip
+      VOL(14)=0.005454154*LOGDIA(1,2)*LOGDIA(1,2)*STUMP
+c VOL(1) is the total volume from stump to tip
+      IF(VOL(1).GT.0.0 .AND. VOL(4).GT.0.0) THEN
+        VOl(15)=VOL(1)-VOL(4)-VOL(7);
+        IF(VOL(15).LT.0.01) VOL(15)=0.0
+      ENDIF
 C-----Apply correction factors
       call r9cor(vol,logVol,spp,iProd)
 	

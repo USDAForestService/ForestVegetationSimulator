@@ -2,7 +2,7 @@
      >                   ARRAY,KARD)
       IMPLICIT NONE
 C----------
-C  **KEYOPN--BASE   DATE OF LAST REVISION:  05/01/09
+C  **KEYOPN--BASE   DATE OF LAST REVISION:  02/07/13
 C----------
 C
 C     PROCESSES THE OPEN KEYWORD.

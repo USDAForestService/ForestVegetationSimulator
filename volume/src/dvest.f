@@ -1,4 +1,5 @@
-!== last modified  01-04-2008
+!== last modified  01-18-2013
+C 01/18/2013 Added calculation for cordwood VOL(6) for region 1,2,4,5,10
 C     SUBROUTINE FINDS VOLUMES USING DIRECT VOLUME ESTIMATORS
       SUBROUTINE DVEST(VOLEQ,DBHOB,DRC,HTTOT,MTOPP,FCLASS,HTLOG,HT1PRD,
      >           HT2PRD,FORST,BTR,VOL,CUTFLG,BFPFLG,CUPFLG,CDPFLG,
@@ -56,13 +57,13 @@ c          byrne
            STUMP = 1.0
         
         ENDIF    
-
+        VOL(6)=VOL(4)/90
       ELSEIF(VOLEQ(1:1).EQ.'2') THEN
 C*****************************
 C      REGION 2 D2H ROUTINES *
 C*****************************
          CALL R2OLDV(VOLEQ,HTTOT,DBHOB,DRC,FCLASS,VOL,ERRFLAG)
-          
+         VOL(6)=VOL(4)/90 
       ELSEIF(VOLEQ(1:1).EQ.'3') THEN
 C*****************************
 C      REGION 3 D2H ROUTINES * 
@@ -83,13 +84,13 @@ C*****************************
 C      REGION 4 D2H ROUTINES * 
 C*****************************
          CALL R4D2H (VOLEQ,HTTOT,DBHOB,DRC,FCLASS,VOL,ERRFLAG)
-
+         VOL(6)=VOL(4)/90
       ELSEIF(VOLEQ(1:1).EQ.'5') THEN
 C*****************************
 C      REGION 5 D2H ROUTINES * 
 C*****************************
          CALL R5HARV (VOLEQ,DBHOB,HTTOT,MTOPP,VOL,BFPFLG,CUPFLG,ERRFLAG)
-          
+         VOL(6)=VOL(4)/90 
       ELSEIF(VOLEQ(1:1).EQ.'9') THEN
 C*****************************
 C      REGION 9 D2H ROUTINES * 
@@ -104,7 +105,7 @@ C*****************************
 
           CALL R10D2H(VOLEQ,DBHOB,HTTOT,VOL,CUTFLG,CUPFLG,BFPFLG,
      >                                                         ERRFLAG)
-
+         VOL(6)=VOL(4)/90
       ELSEIF(VOLEQ(1:1).EQ.'M' .or. voleq(1:1).eq.'m') THEN
 C******************************
 C      ARMY BASE D2H ROUTINES * 

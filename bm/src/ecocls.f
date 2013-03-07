@@ -1,7 +1,7 @@
       SUBROUTINE ECOCLS(APASS,ASPEC,RSDI,RSI,ISFLAG,NUM,INDEX,ISEQ)
       IMPLICIT NONE
 C----------
-C  **ECOCLS---BM      DATE OF LAST REVISION:  02/24/10
+C  **ECOCLS---BM      DATE OF LAST REVISION:  01/10/13
 C----------
 C
 C  SETS DEFAULT MAX SDI VALUES, SITE INDICIES, AND SITE SPECIES
@@ -415,7 +415,7 @@ C
      &'CMS131  ','PICO  ', 283,'LP  ',  68,   4,   1,   7,       ! P/P
      &'CMS131  ','PIEN  ', 371,'ES  ',  0.,   4,   0,   8,       ! P/
      &'CMS131  ','ABLA  ', 520,'AF  ',  0.,   4,   0,   9,       ! P/
-     &'CMS131  ','TSME  ', 610,'MH  ',  56,   4,   0,   5,       ! C/P
+     &'CMS131  ','TSME  ', 610,'MH  ',  16,   4,   0,   5,       ! C/P
 C----------------------------------------------------------------------
 C   48 = TSME/VAME-WALLO                                 p. 230         
 C    Mountain hemlock/big huckleberry (Wallowa)          R6 E TP-255-86
@@ -423,7 +423,7 @@ C
      &'CMS231  ','PICO  ', 283,'LP  ',  68,   4,   1,   7,       ! P/P
      &'CMS231  ','PIEN  ', 371,'ES  ',  0.,   4,   0,   8,       ! P/ 
      &'CMS231  ','ABLA  ', 520,'AF  ',  0.,   4,   0,   9,       ! P/ 
-     &'CMS231  ','TSME  ', 745,'MH  ',  58,   4,   0,   5/       ! C/P
+     &'CMS231  ','TSME  ', 745,'MH  ',  15,   4,   0,   5/       ! C/P
 C
       DATA (PA(I),SCIEN(I),SDIMX(I),SPC(I),SITE(I),NUMBR(I),IFLAG(I),
      &     FVSSEQ(I),I=147,164) /

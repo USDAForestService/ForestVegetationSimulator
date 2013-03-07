@@ -230,6 +230,7 @@
 ../common/GGCOM.F77
 ../common/GLBLCNTL.F77
 ../common/HTCAL.F77
+../common/INCLUDESVN.F77
 ../common/KEYCOM.F77
 ../common/KOTCOM.F77
 ../common/METRIC.F77

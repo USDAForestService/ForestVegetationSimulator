@@ -1,4 +1,5 @@
-!== last modified  12-09-2011
+!== last modified  01-18-2013
+C 01/18/2013 Added calculation for stump VOL(14) and tip VOL(15)
       SUBROUTINE  R5HARV (VOLEQ,DBHOB,HTTOT,MTOPP,VOL,BFPFLG,CUPFLG,
      >                    ERRFLAG)
 C FROM THE PNW RESEARCH NOTE PNW-414
@@ -326,7 +327,11 @@ C************************************************
         ENDIF
         VOL(4) = CUFTGROS
         vol(1) = cvt
-                               
+C       calculate stump and tip volume
+        VOL(14)=CVTS-CVT
+        IF(VOL(14).LT.0.01) VOL(14)=0.0
+        VOL(15)=CVT-CUFTGROS
+        IF(VOL(15).LT.0.01) VOL(15)=0.0                               
 C END CUFT CALCULATIONS
 C
 C

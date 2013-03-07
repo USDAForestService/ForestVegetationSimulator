@@ -1,6 +1,6 @@
 Code segment FMCOM.
 C----------
-C  **FMCOM -- FIRE  DATE OF LAST REVISION: 06/29/10
+C  **FMCOM -- FIRE  DATE OF LAST REVISION: 12/17/12
 C----------
 *  PURPOSE:
 *     COMMON BLOCK VARIABLES RELATED TO THE FIRE MODEL ROUTINES.
@@ -208,6 +208,12 @@ C----------
 *     TOTACR:    Total acrage in the landscape.
 *     V2T:       Volume (cuft) to (2) Tons conversion factor.
 *     YRDEAD:    YeaR of Death of the snags in each record.
+*     PREMST:    Live trees remomved set in FMTREM, used in FMEVTBM
+*     PREMCR:    Live crown removed set in FMTREM, used in FMEVTBM
+*     ISPCC:     Species removed set in FMTREM, used in FMEVTBM
+*     DBHC:      Tree DBH set in FMTREM, used in FMEVTBM
+*     HTC:       Tree height set in FMTREM, used in FMEVTBM
+*     CROWNWC:   Crown weight set in FMTREM, used in FMEVTBM
 ***********************************************************************
 
 C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
@@ -300,6 +306,9 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
       REAL     DBHSSALV(MXSNAG), HTIHSALV(MXSNAG)
       REAL     HTISSALV(MXSNAG), HTDEADSALV(MXSNAG)
       LOGICAL  HARDSALV(MXSNAG)
+      REAL     PREMST(MAXTRE),PREMCR(MAXTRE)
+      INTEGER  ISPCC(MAXTRE)
+      REAL     DBHC(MAXTRE),HTC(MAXTRE),CROWNWC(MAXTRE,0:5)
 
 
       COMMON /FMCOM/
@@ -324,7 +333,8 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
      &  SCCF, SNGNEW, SNPRCL, SPS, TCWD, TCWD2, TFALL,
      &  TODUFF, TONRMC, TONRMS, TONRMH,
      &  TOTACR, V2T, YRDEAD, LREMT, NSNAGSALV, HTDEADSALV,
-     &  SPSSALV, DBHSSALV, HTIHSALV, HTISSALV, HARDSALV
+     &  SPSSALV, DBHSSALV, HTIHSALV, HTISSALV, HARDSALV,
+     &  PREMST,PREMCR,ISPCC,DBHC,HTC,CROWNWC
 
 C.... End segment.
 

@@ -1,0 +1,16 @@
+SDICalc Keyword
+
+These are the field definitions.
+
+F1 = Diameter break for the Stage SDI method (tree will be included if D >= F1 value), default=0.
+F2 = Diameter break for the Zeide SDI method (tree will be included if D >= F2 value), default=0.
+F3 = SDI method ( F3>= 1 Zeide, F3 <1 Stage), default=Stage
+
+In the SN variant, the effects of selecting the Zeide method with the SDICalc keyword: 
+
+1) the density-based mortality is calculated based on Zeide SDI rather than Stage SDI. 
+2) Zeide SDI will be used to calculate the number of trees when stand SDIMAX needs to be reset at the beginning of the simulation
+3) Zeide SDI will be used as the SDI target in SDI-based thinnings
+4) Zeide SDI will be reported in the Summary Statistic Table
+
+If a minimum diameter is specified, all SDI calculations are affected.

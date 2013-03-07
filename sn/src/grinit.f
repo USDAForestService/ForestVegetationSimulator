@@ -1,7 +1,7 @@
        SUBROUTINE GRINIT
        IMPLICIT NONE
 C----------
-C  **GRINIT--SN   DATE OF LAST REVISION:  02/09/12
+C  **GRINIT--SN   DATE OF LAST REVISION:  02/08/13
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
@@ -186,7 +186,6 @@ C----------
       CPVREF='          '
       PCOMX='        '
       KODIST = 6
-      ISEFOR = 0
       LDCOR2 = .FALSE.
       LDUBDG = .FALSE.
       LEVUSE = .TRUE.
@@ -246,6 +245,9 @@ C----------
       DLOMSB=0.
       DHIMSB=999.
       MFLMSB=1
+      DBHZEIDE=0.
+      DBHSTAGE=0.
+      DR016=0.
       DBHSDI=0.
 C
       DO 30 J=1,9
