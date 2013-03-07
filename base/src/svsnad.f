@@ -79,8 +79,6 @@ C
 C
 C     TO DETERMINE IF SVCUTS(1) CALLED IT, OR SVMORTS(0)
 C
-
-C
 C     INITIALIZE THE ILYEAR
 C
       IF (ICYC.EQ.0 .AND. ISWTCH.EQ.0) ILYEAR=IYEAR
@@ -612,7 +610,9 @@ C                    0.0174532778 IS APPROXIMATELY PI/180.
                   ENDIF
                   IS2F(ISNADD(NSNAG-ISNAG))=INDEX(IDEAD)
                   IOBJTP(ISNADD(NSNAG-ISNAG))=2
-                  IOBJTP(IBACK(INDEX(IDEAD)))=0
+                  IF (IBACK(INDEX(IDEAD)).GE.1 .AND.
+     >                IBACK(INDEX(IDEAD)).LE.MXSVOB)
+     >                  IOBJTP(IBACK(INDEX(IDEAD)))=0
                   ISNAG=ISNAG+1
                   IYRCOD(INDEX(IDEAD))=IYOFTD
 C
