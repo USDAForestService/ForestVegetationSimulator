@@ -1,7 +1,7 @@
-
       SUBROUTINE BECSET
       IMPLICIT NONE
-
+C----------
+C  $Id$
 C----------
 C  **BECSET -- SEI    DATE OF LAST REVISION:  07/07/08
 C----------

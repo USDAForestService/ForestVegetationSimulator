@@ -1,5 +1,7 @@
       SUBROUTINE DUBSCR(LVER,ISPC,XC,D,H,BAX,BAL,CR)
-	IMPLICIT NONE
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C  **DUBSCR--SEI   DATE OF LAST REVISION:  03/25/92
 C----------

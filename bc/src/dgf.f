@@ -1,5 +1,8 @@
       SUBROUTINE DGF(DIAM)
       IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 
 C  **DGF--SEI    DATE OF LAST REVISION:  06/06/05
 

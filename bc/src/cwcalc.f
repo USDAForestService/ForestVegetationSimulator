@@ -1,6 +1,8 @@
       SUBROUTINE CWCALC(ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND)
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **CWCALC--SEI   DATE OF LAST REVISION:   02/08/12
 C----------
 COMMONS

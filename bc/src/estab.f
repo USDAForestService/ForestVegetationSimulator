@@ -1,5 +1,7 @@
       SUBROUTINE ESTAB (KDT)
-	IMPLICIT NONE
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C   **ESTAB--SEI  DATE OF LAST REVISION:   01/03/11
 C----------

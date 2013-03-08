@@ -1,4 +1,7 @@
       SUBROUTINE FORKOD
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C  **FORKOD--SEI DATE OF LAST REVISION:  06/07/01
 C----------

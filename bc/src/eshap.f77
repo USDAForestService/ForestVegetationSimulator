@@ -1,5 +1,7 @@
 CODE SEGMENT ESHAP
 C----------
+C  $Id$
+C----------
 C  **ESHAP-SEI  DATE OF LAST REVISION:  01/16/02
 C----------
 C

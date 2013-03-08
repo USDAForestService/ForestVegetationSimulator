@@ -1,6 +1,8 @@
       SUBROUTINE HABTYP (KARD2,ARRAY2)
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **HABTYP--SEI   DATE OF LAST REVISION:  06/20/07
 C----------
 C

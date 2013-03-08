@@ -1,6 +1,8 @@
        SUBROUTINE GRINIT
        IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **GRINIT--SEI DATE OF LAST REVISION:  07/21/11
 C----------
 C

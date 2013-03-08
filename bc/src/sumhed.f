@@ -1,4 +1,7 @@
       SUBROUTINE SUMHED
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C  **SUMHED--BASE/M  DATE OF LAST REVISION:  07/23/08
 C----------

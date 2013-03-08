@@ -1,4 +1,7 @@
        SUBROUTINE MIN(ISC,AGE,FIZ,DBH,HT,SH,TD,HTRUNC,GROSIMP,TVOLIMP)
+C----------
+C  $Id$
+C----------
 C
 CC  -by Tim Hammond.
 CC

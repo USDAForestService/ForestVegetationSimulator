@@ -1,5 +1,8 @@
       SUBROUTINE LOG(IO,IZ,IM,DBH,HT,SH,TD,GOL,NL,VLOG,TDL,HLL,DBT,TVOL,
      1               GROS,BAR,HTRUNC)
+C----------
+C  $Id$
+C----------
 C
 CC         ***** V E R S I O N    # 4.1   F E B R U A R Y    1 9 9 4 *****
 CC

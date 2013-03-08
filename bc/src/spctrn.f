@@ -1,6 +1,8 @@
       SUBROUTINE SPCTRN (SPCIN, ISPC1)
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **SPCTRN--SEI DATE OF LAST REVISION: 05/05/08
 C----------
 C     PURPOSE:

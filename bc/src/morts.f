@@ -1,6 +1,8 @@
       SUBROUTINE MORTS
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **MORTS--NI   DATE OF LAST REVISION:  09/17/10
 C           SEI                          20.MAY.11
 C----------

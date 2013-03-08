@@ -1,6 +1,8 @@
       SUBROUTINE ESIN (PASKEY,ARRAY,LNOTBK,KARD,LKECHO)
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C    ESIN--STRP   DATE OF LAST REVISION:   01/12/09
 C----------
 C

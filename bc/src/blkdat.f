@@ -1,6 +1,8 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **BLKDAT--SEI DATE OF LAST REVISION:  04/12/10
 C----------
 C

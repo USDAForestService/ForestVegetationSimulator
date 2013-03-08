@@ -1,5 +1,7 @@
       SUBROUTINE HTGF
-	IMPLICIT NONE
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C  **HTGF--SEI   DATE OF LAST REVISION:  07/08/11
 C   20.MAY.11

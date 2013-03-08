@@ -2,6 +2,8 @@
      >                  LEN,MGMID,NPLT,SAMWT,ITITLE,LCVOLS,IPTINV)
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **SUMOUT--SEI   DATE OF LAST REVISION:   07/23/08
 C----------
 C

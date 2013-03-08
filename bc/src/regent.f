@@ -1,5 +1,8 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 
 C  **REGENT--   NI  DATE OF LAST REVISION:   01/11/12
 C              SEI  DATE OF LAST REVISION:   30.JUL.08

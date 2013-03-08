@@ -1,4 +1,7 @@
       SUBROUTINE DGDRIV
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C  **DGDRIV--SEI-- DATE OF LAST REVISION: 07/22/09
 C----------

@@ -3,6 +3,8 @@
      &                   IDSDAT,KDT,IP)
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **ESETPR DATE OF LAST REVISION:  09/17/08
 C----------
 C

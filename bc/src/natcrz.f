@@ -1,4 +1,7 @@
       SUBROUTINE NATCRZ (IWHO)
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C  **NATCRZ--SEI DATE OF LAST REVISION: 08/24/04
 C----------

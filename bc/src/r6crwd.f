@@ -1,4 +1,7 @@
       SUBROUTINE R6CRWD(ISPC,D,H,CRWDTH)
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C  **R6CRWD--SEI   DATE OF LAST REVISION:  02/24/12
 C----------

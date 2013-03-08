@@ -1,6 +1,8 @@
       SUBROUTINE INITRE
       IMPLICIT NONE
 C----------
+C  $Id$
+C----------
 C  **INITRE--SEI  DATE OF LAST REVISION:  10/13/2011
 C----------
 C
