@@ -1,0 +1,31 @@
+Subject: FVS Fire and Fuels Extension Update
+Name:  Stephanie Rebain
+Date:  01/22/2013
+Variants affected: All
+
+Description:
+
+1) The fuel loading values associated with each fire behavior fuel model were adjusted to be more precise.
+ 
+Impact on users:
+Users do not need to obtain new executables. This code change is minor and non-urgent.
+
+Modified Files:
+
+fire/base/src/fminit.f - edited the values of the FMLOAD array, which holds the fuel loading (lbs/ft2) by size class for
+                         each of the fire behavior fuel models.  Specifically the values were expanded to go 5 places after
+                         the decimal rather than 3.  This was updated so that FVS output would more closely match the output
+                         of other fire models, which may store the fuel loading in tons/acre.
+
+
+
+
+
+
+
+                              
+
+
+
+
+

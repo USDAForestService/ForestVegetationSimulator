@@ -1,0 +1,48 @@
+Subject: Volume Calculation Warnings and Small Tree Height Growth
+Name: R. Havis
+Date: November 13, 2012
+Variants affected: CI, CS, LS and NE
+
+Description: 
+
+       1) A warning message was added to Region 9 variants to notify users when
+          excessively large tree heights cause volume processing errors. When the
+          processing error occurs, the warning message is written to the main output
+          file, tree volume is set to zero, and processing goes on to the next tree.
+          The new warning message is shown below.
+          
+********   FVS36 WARNING:  EXCESSIVE TREE HEIGHT: UNABLE TO CALCULATE VOLUME FOR TREE RECORD, VOLUME SET TO ZERO
+
+       2) Negative small tree height growth calculations were possible in the CI variant, and
+          could cause numerical errors in other parts of the model. This has been corrected.
+
+       3) The REGHMULT keyword may be used to scale small tree height growth.
+          If used in the CI variant, the height growth multiplier and a constant,
+          were being applied twice to western white pine (WP), western larch (WL),
+          Douglas fir (DF), grand fir (GF), western hemlock (WH), western red cedar (RC),
+          lodgepole pine (LP), Engleman spruce (ES), subalpine fir (AF),
+          ponderosa pine (PP), other softwoods (OS) and other hardwoods (OH), and the
+          height growth multiplier was being applied twice to quaking aspen (AS),
+          western juniper (WJ), curlleaf mountain-mahogany (MC), and black cottonwood (BC).
+          This has been corrected.
+
+Impact on users: Users of the CI, CS, LS and NE variants should obtain new executables.
+
+                 
+
+Files:
+./base/src/errgro.f  - added FVS36 WARNING:  EXCESSIVE TREE HEIGHT: UNABLE TO
+                                             CALCULATE VOLUME FOR TREE RECORD, VOLUME SET TO ZERO
+./ci/src/regent.f    - moved check for negative height growth, HTGR, to check HTGR for CI variant
+                       as well as the CR and TT variants, removed duplicated scaling of
+                       HTGR by the XRHGRO (user provided small tree height growth multiplier,
+                       REGHMULT keyword) and COM variables for the CI variant after statement 
+                       No. 920, and removed duplicate scaling of HTGR by XRHGRO after
+                       statement No. 9984.
+./common/includeSVN.f
+./ls/src/htgf.f      - changed debug write statement unit number to the main output
+                       unit number variable JOSTND
+./ls/src/varvol.f    - trapped volume error return code 12 from the R9CLARK routine; this
+                       is triggered when the number of logs in a tree exceeds the
+                       number of elements in the LOGLEN array and the tree volume is set to
+                       zero, edited debug write statements

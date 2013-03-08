@@ -1,0 +1,38 @@
+Subject:Volume Update, Bug Fixes
+Name: R. Havis
+Date: February 8, 2013
+Variants affected: CS, LS, and NE
+
+Description: Height growth in the Region 9 variants is calculated using site
+index curves and when tree height reaches the asmyptotic maxima of the curve
+height growth is recuced to 0.1 foot per cycle. There was a problem where
+the teh height increment calculated for the previous tree in teh tree list
+was beeing added to the hight of trees having heights above the maximum
+calculated by the site curve. This has been corrected.
+
+Impact on users:
+
+Files:
+./bm/obj/makefile
+./common/includeSVN.f
+./cs/src/htgf.f
+./dbs/src/dbssumry.f
+./fire/base/src/fminit.f
+./fire/ppe/src/fmppget.f
+./fire/ppe/src/fmppput.f
+./ls/src/htgf.f
+./ne/src/htgf.f
+./volume/src/blmvol.f
+./volume/src/dvest.f
+./volume/src/profile.f
+./volume/src/r10d2h.f
+./volume/src/r10volo.f
+./volume/src/r12vol.f
+./volume/src/r1kemp.f
+./volume/src/r4vol.f
+./volume/src/r5harv.f
+./volume/src/r6vol.f
+./volume/src/r6vol3.f
+./volume/src/r8vol2.f
+./volume/src/r9clark.f
+./volume/src/voleqdef.f
