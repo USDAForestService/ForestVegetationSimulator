@@ -1,6 +1,8 @@
       SUBROUTINE BNDIST(M, V, err, UBound, PDF, End) 
-      
-C********************************************************************
+      IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 C **BNDIST -- NISI  Date of last revision: April 15 1994 
 C--------------------------------------------------------------------
 C Purpose:

@@ -1,6 +1,8 @@
       SUBROUTINE DMSAMP (TotD, D, CNB, Prop, S)
-
-C********************************************************************
+      IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 C **DMSAMP -- NISI  Date of last revision: April 12 1994 
 C----------------------------------------------------------------------
 C Purpose:

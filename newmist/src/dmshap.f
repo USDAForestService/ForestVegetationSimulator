@@ -1,6 +1,8 @@
       SUBROUTINE DMSHAP(DMTRCW, IDMSHP)
-      
-C**********************************************************************      
+      IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 C **DMSHAP -- NISI Date of last revision: 08/05/94
 C This module was made by modifying the COVER MODEL module CVSHAP
 C Modified for Central Rockies.

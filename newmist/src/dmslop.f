@@ -1,6 +1,8 @@
       SUBROUTINE DMSLOP(Dstnce, Offset)
-      
-C********************************************************************
+      IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 C **DMSLOP -- NISI  Date of last revision: April 14 1994 
 C----------------------------------------------------------------------
 C Purpose:

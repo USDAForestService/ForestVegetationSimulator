@@ -1,4 +1,7 @@
       SUBROUTINE DMFINF (Ptr, Index)
+      IMPLICIT NONE
+C----------
+C  $Id$
 C----------
 C **DMFINF --  DATE OF LAST REVISION: 02/16/96 
 C----------

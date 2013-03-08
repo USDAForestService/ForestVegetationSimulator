@@ -1,6 +1,8 @@
       SUBROUTINE DMTLST (Sp, tDMR, Ptr, Index, P, TLst)
-
-C********************************************************************
+      IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 C  **DMTLST -- NISI  Date of last revision April 16 1994
 C--------------------------------------------------------------------
 C Purpose:

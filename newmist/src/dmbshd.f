@@ -1,6 +1,8 @@
       SUBROUTINE DMBSHD (iCS, iz, ix, ivLen, ivCnt)
-
-C********************************************************************
+      IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 C  **DMBSHD -- NISI  Date of last revision: April 7 1994
 C----------------------------------------------------------------------
 C Purpose:

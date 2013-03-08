@@ -1,6 +1,8 @@
       SUBROUTINE DMMDMR(New, Old)
-                   
-C********************************************************************
+      IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 C **DMMDMR -- NISI  Date of last revision: April 9 1994 
 C----------------------------------------------------------------------
 C Purpose:
