@@ -1,27 +1,29 @@
-Subject:Volume Update, Bug Fixes
+Subject: Volume Update, R9 Large Tree Height Growth
 Name: R. Havis
 Date: February 8, 2013
 Variants affected: CS, LS, and NE
 
-Description: Height growth in the Region 9 variants is calculated using site
-index curves and when tree height reaches the asmyptotic maxima of the curve
-height growth is recuced to 0.1 foot per cycle. There was a problem where
-the teh height increment calculated for the previous tree in teh tree list
-was beeing added to the hight of trees having heights above the maximum
+Description:
+
+1) Height growth in the Region 9 variants is calculated using site
+index curves and when tree height reaches the asymptotic maxima of the curve,
+height growth is reduced to 0.1 foot per cycle. There was a problem where
+the the height increment calculated for the previous tree in the tree list
+was being added to the height of trees having heights above the maximum
 calculated by the site curve. This has been corrected.
+
+2) There were changes to the volume code, but they do not affect FVS simulations.
 
 Impact on users:
 
 Files:
-./bm/obj/makefile
 ./common/includeSVN.f
-./cs/src/htgf.f
-./dbs/src/dbssumry.f
-./fire/base/src/fminit.f
-./fire/ppe/src/fmppget.f
-./fire/ppe/src/fmppput.f
-./ls/src/htgf.f
-./ne/src/htgf.f
+./cs/src/htgf.f      - initialized return variables
+./dbs/src/dbssumry.f - updated comments
+./fire/ppe/src/fmppget.f    - added ISPCC
+./fire/ppe/src/fmppput.f    - added ISPCC
+./ls/src/htgf.f      - initialized return variables
+./ne/src/htgf.f      - initialized return variables
 ./volume/src/blmvol.f
 ./volume/src/dvest.f
 ./volume/src/profile.f
