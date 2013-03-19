@@ -1,6 +1,7 @@
 C----------
-C  **FMPROP  FIRE-BASE-DATE OF LAST REVISION:  08/18/06
+C  $Id$
 C----------
+C  **FMPROP  FIRE
 *-----------------------------------------------------------------------
 *  PURPOSE:
 *     COMMON BLOCK VARIABLES RELATED TO THE FATE OF C IN HARVEST PRODUCTS

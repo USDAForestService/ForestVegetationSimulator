@@ -1,7 +1,6 @@
 Code segment FMCOM.
-C
+C----------
 C  $Id$
-C
 C----------
 *  PURPOSE:
 *     COMMON BLOCK VARIABLES RELATED TO THE FIRE MODEL ROUTINES.

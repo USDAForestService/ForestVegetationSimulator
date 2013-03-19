@@ -1,7 +1,8 @@
 C.... Code segment FMFCOM.
+C----------
 C  $Id$
 C----------
-C  **FMFCOM  FIRE-BASE-DATE OF LAST REVISION:  08/22/11
+C  **FMFCOM  FIRE
 C----------
 *-----------------------------------------------------------------------
 *  PURPOSE:
