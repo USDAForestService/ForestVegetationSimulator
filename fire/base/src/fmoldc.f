@@ -1,7 +1,7 @@
       SUBROUTINE FMOLDC
       IMPLICIT NONE
 C----------
-C  **FMOLDC  FIRE--DATE OF LAST REVISION:  06/21/00
+C  $Id$
 C----------
 C
 C     CALLED FROM: FMMAIN

@@ -1,7 +1,7 @@
       SUBROUTINE FMCWD(IYR)
       IMPLICIT NONE
 C----------
-C  **FMCWD--FIRE BASE  DATE OF LAST REVISION:  11/23/10
+C  $Id$
 C----------
 C     CALLED FROM: FMSNAG
 C                  FMMAIN

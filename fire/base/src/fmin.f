@@ -1,7 +1,7 @@
       SUBROUTINE FMIN (ICALL,NSP,LKECHO)
       IMPLICIT NONE
 C----------
-C  **FMIN  FIRE/M--DATE OF LAST REVISION:  01/04/11
+C  $Id$
 C----------
 C
 C     FIRE - FIRE & SNAG MODEL
