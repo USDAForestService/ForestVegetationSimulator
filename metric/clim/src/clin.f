@@ -4,8 +4,6 @@ C----------
 C  $Id$
 C----------
 C
-C     CLIMATE/M EXTENSION
-C
 COMMONS
 C
       INCLUDE 'PRGPRM.F77'
