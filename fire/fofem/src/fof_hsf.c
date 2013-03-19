@@ -1,4 +1,6 @@
-
+//
+// $Id
+//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_hsf.c
 * Desc: HSF Herb,Shrub,Foliage Consumerd Manager - this is everything

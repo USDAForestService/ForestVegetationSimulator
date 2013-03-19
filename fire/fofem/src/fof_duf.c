@@ -1,3 +1,6 @@
+//
+// $Id
+//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_duff
 * Desc: functions for doing duff calcuations

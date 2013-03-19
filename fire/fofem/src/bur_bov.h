@@ -1,6 +1,6 @@
-
-
-
+//
+// $Id
+//
 #define     e_BOV_Litter     "Litter"
 #define     e_BOV_DW1        "DW1"
 #define     e_BOV_DW10       "DW10"
