@@ -85,7 +85,7 @@ C Subroutine arguments.
 C Local variables.
       
       INTEGER method, jp, j
-      REAL    k, p, t1, t2, t3, sum, plast, pnow, z
+      REAL    k, p, t1, t2, t3, sum, plast, pnow, z, GAMMLN, X
       REAL    tol / 1.0e-6 /
 
 C >>>>>>>>>>>>>>>>>>>>>>>>>>>> READ THIS <<<<<<<<<<<<<<<<<<<<<<<<<<<<
