@@ -3,7 +3,7 @@
      -  PERTRCR,SM25,SM10,KODE)
       IMPLICIT NONE
 C----------
-C $Id: dbsfmdwvol.f 290 2012-05-30 22:19:12Z ncrookston.fs@gmail.com $
+C $Id$
 C----------
 C     PURPOSE: TO POPULATE A DATABASE WITH THE FUELS CONSUMPTION REPORT
 C              INFORMATION
