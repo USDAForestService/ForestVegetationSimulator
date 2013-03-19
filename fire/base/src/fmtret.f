@@ -68,14 +68,14 @@ C
       IF (JTODO .LE. 0) RETURN
       DO JDO = 1,JTODO
         CALL OPGET(JDO,5,JYR,IACTK,NPRM,PRMS)
-        IF (JYR .EQ. IYR) THEN
+CSB        IF (JYR .EQ. IYR) THEN
           AFFECT = PRMS(2) / 100.0
           ATREAT = PRMS(3) / 100.0
           FULCON = PRMS(4) / 100.0
           TRMORT = MIN(MAX(0.,PRMS(5) / 100.0),1.)
           LFLBRN = .TRUE.
-          CALL OPDONE(JDO,JYR)
-        ENDIF
+          CALL OPDONE(JDO,IYR)
+CSB        ENDIF
       ENDDO
 
       IF (.NOT. LFLBRN) RETURN
