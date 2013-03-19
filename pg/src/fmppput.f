@@ -1,7 +1,9 @@
       SUBROUTINE FMPPPUT (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
+C
+C  $Id$
 C----------
-C  **FMPPPUT      DATE OF LAST REVISION: 02/08/13C----------
+C  **FMPPPUTC----------
 C  Purpose:
 C     Put (write) the Fire Model data for a given stand to DA file.
 C
@@ -22,7 +24,7 @@ C**********************************************************************
 C     Parameter statements.
 
       INTEGER MXL,MXR,MXI
-      PARAMETER (MXL=14,MXR=54,MXI=91)
+      PARAMETER (MXL=14,MXR=54,MXI=92)
 
 C     Parameter and other include files that are not stored here
 
@@ -108,34 +110,35 @@ C     Include files that are stored here
       INTS( 64) = ICFPE
       INTS( 65) = ICFPST
       INTS( 66) = NSNAGSALV
+      INTS( 67) = NYRS
 C------- Carbon reporting INTEGER variables --------
-      INTS( 67) = ICHABT
-      INTS( 68) = ICHPAS
-      INTS( 69) = ICHRVB
-      INTS( 70) = ICHRVE
-      INTS( 71) = ICHRVI
-      INTS( 72) = ICMETRC
-      INTS( 73) = ICMETH
-      INTS( 74) = ICRPAS
-      INTS( 75) = ICRPTB
-      INTS( 76) = ICRPTE
-      INTS( 77) = ICRPTI
-      INTS( 78) = IDCHRV
-      INTS( 79) = IDCRPT
+      INTS( 68) = ICHABT
+      INTS( 69) = ICHPAS
+      INTS( 70) = ICHRVB
+      INTS( 71) = ICHRVE
+      INTS( 72) = ICHRVI
+      INTS( 73) = ICMETRC
+      INTS( 74) = ICMETH
+      INTS( 75) = ICRPAS
+      INTS( 76) = ICRPTB
+      INTS( 77) = ICRPTE
+      INTS( 78) = ICRPTI
+      INTS( 79) = IDCHRV
+      INTS( 80) = IDCRPT
 C------- new FFE INTEGER variables --------
-      INTS( 80) = IFLOGIC     
-      INTS( 81) = IFMSET
+      INTS( 81) = IFLOGIC     
+      INTS( 82) = IFMSET
 C------- new FFE INTEGER variables for down wood reports --------      
-      INTS( 82) = IDWPAS
-      INTS( 83) = IDWRPB
-      INTS( 84) = IDWRPE
-      INTS( 85) = IDWRPI
-      INTS( 86) = IDCPAS
-      INTS( 87) = IDWCVB
-      INTS( 88) = IDWCVE
-      INTS( 89) = IDWCVI
-      INTS( 90) = IDDWRP
-      INTS( 91) = IDDWCV      
+      INTS( 83) = IDWPAS
+      INTS( 84) = IDWRPB
+      INTS( 85) = IDWRPE
+      INTS( 86) = IDWRPI
+      INTS( 87) = IDCPAS
+      INTS( 88) = IDWCVB
+      INTS( 89) = IDWCVE
+      INTS( 90) = IDWCVI
+      INTS( 91) = IDDWRP
+      INTS( 92) = IDDWCV      
          
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
 

@@ -1,7 +1,9 @@
       SUBROUTINE FMPPGET (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
+C
+C  $Id$
 C----------
-C  **FMPPGET      DATE OF LAST REVISION: 03/08/13
+C  **FMPPGET
 C----------
 C  Purpose:
 C     Get (read) the Fire Model data for a given stand from DA file.
@@ -23,7 +25,7 @@ C
 C.... Parameter statements.
 
       INTEGER MXL,MXR,MXI
-      PARAMETER (MXL=14,MXR=54,MXI=91)
+      PARAMETER (MXL=14,MXR=54,MXI=92)
 
 C.... Parameter include files.
 
@@ -107,35 +109,35 @@ C.... Parameter include files.
       ICFPE    = INTS( 64) 
       ICFPST   = INTS( 65)
       NSNAGSALV= INTS( 66)
-
+      NYRS     = INTS( 67)
 C------- Carbon reporting INTEGER variables --------
-      ICHABT   = INTS( 67)
-      ICHPAS   = INTS( 68)
-      ICHRVB   = INTS( 69)
-      ICHRVE   = INTS( 70)
-      ICHRVI   = INTS( 71)
-      ICMETRC  = INTS( 72)
-      ICMETH   = INTS( 73)
-      ICRPAS   = INTS( 74)
-      ICRPTB   = INTS( 75)
-      ICRPTE   = INTS( 76)
-      ICRPTI   = INTS( 77)
-      IDCHRV   = INTS( 78)
-      IDCRPT   = INTS( 79)
+      ICHABT   = INTS( 68)
+      ICHPAS   = INTS( 69)
+      ICHRVB   = INTS( 70)
+      ICHRVE   = INTS( 71)
+      ICHRVI   = INTS( 72)
+      ICMETRC  = INTS( 73)
+      ICMETH   = INTS( 74)
+      ICRPAS   = INTS( 75)
+      ICRPTB   = INTS( 76)
+      ICRPTE   = INTS( 77)
+      ICRPTI   = INTS( 78)
+      IDCHRV   = INTS( 79)
+      IDCRPT   = INTS( 80)
 C------- new FFE INTEGER variables --------    
-      IFLOGIC  = INTS( 80)
-      IFMSET   = INTS( 81)      
+      IFLOGIC  = INTS( 81)
+      IFMSET   = INTS( 82)      
 C------- new FFE INTEGER variables for down wood reports --------      
-      IDWPAS   = INTS( 82)
-      IDWRPB   = INTS( 83)
-      IDWRPE   = INTS( 84)
-      IDWRPI   = INTS( 85)
-      IDCPAS   = INTS( 86)
-      IDWCVB   = INTS( 87)
-      IDWCVE   = INTS( 88)
-      IDWCVI   = INTS( 89)
-      IDDWRP   = INTS( 90)
-      IDDWCV   = INTS( 91)  
+      IDWPAS   = INTS( 83)
+      IDWRPB   = INTS( 84)
+      IDWRPE   = INTS( 85)
+      IDWRPI   = INTS( 86)
+      IDCPAS   = INTS( 87)
+      IDWCVB   = INTS( 88)
+      IDWCVE   = INTS( 89)
+      IDWCVI   = INTS( 90)
+      IDDWRP   = INTS( 91)
+      IDDWCV   = INTS( 92)  
 
       NSNAGZ = MAX(NSNAG,1)
       CALL IFREAD (WK3, IPNT, ILIMIT, DKRCLS, MAXSP       , 2)
