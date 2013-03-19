@@ -292,11 +292,19 @@ C                        ERROR NUMBER 36
       IF (ICCODE .LT. 1) ICCODE=1
       GO TO 9000
  9000 CONTINUE
-      IF (.NOT. LRETRN) CALL fvsSetRtnCode(1)
+C
+C     RETURN OR NOT??????
+C
+      IF (LRETRN) RETURN
+      CALL fvsSetRtnCode(ICCODE)
       RETURN
 C
-      ENTRY fvsGetICCode(I)
-
-      I = ICCODE 
+      ENTRY GRSTOP
+      CALL fvsSetRtnCode(ICCODE)
       RETURN
+
+      ENTRY fvsGetICCode(I)
+      I = ICCODE
+      RETURN
+
       END
