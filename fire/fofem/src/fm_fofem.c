@@ -58,13 +58,14 @@ extern __declspec(dllexport) int FM_FOFEM (
 #endif
 
 #ifdef CMPgcc
-int fm_fofem_ (float fr_In[], float fr_Out[], char cr_ErrMes[])
+//int fm_fofem_ (float fr_In[], float fr_Out[], char cr_ErrMes[]) // original line
+int fm_fofem_ (
 #else
 int FM_FOFEM (
+#endif
   float *fr_In,
   float *fr_Out,
   char *cr_ErrMes)
-#endif
 
 {
 int i;
