@@ -1,7 +1,10 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
+C
+C  $Id$
+C
 C----------
-C  **FMVINIT  FIRE-SEI-DATE OF LAST REVISION: 09/21/09
+C  **FMVINIT  FIRE-BC
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -21,7 +24,6 @@ C
       INCLUDE 'CONTRL.F77'
       INCLUDE 'FMCOM.F77'
       INCLUDE 'FMFCOM.F77'
-      INCLUDE 'FMCLCOM.F77'
       INCLUDE 'BCPLOT.F77'
 C
 COMMONS
@@ -99,22 +101,6 @@ C
         DO J = 1,4
           TODUFF(I,J) = DKR(I,J) * PRDUFF(I)
         ENDDO
-      ENDDO
-
-C     Initialize CWD decay rate sensitivy. 
-C     The dimensions of these arrays are MXFLCL from FMPARM.F77  
-C     Set Q10 and reference decay temperature for each of size category.
-C     Ref: Kurz et al. 2009. Ecol. Mod. 220:480-504
-
-      DO I = 1, 9
-        Q10CWD(I) = 2.0  ! Kurz Table 4: snag stems, branches
-      ENDDO
-      Q10CWD(10)  = 2.65 ! litter - Kurz Table 4: AG very fast 
-      Q10CWD(11)  = 1.0  ! duff   - Kurz Table 4: BG slow
-      Q10CWD(12)  = 2.0  ! Kurz Table 4: snag stems, branches      
-
-      DO I = 1,(MXFLCL+1)
-        REFMATCWD(I) = 10.0
       ENDDO
 
 C     SET ALL THE SNAG PARAMETERS HERE (THOSE WHICH ARE UNDER USER CONTROL).
