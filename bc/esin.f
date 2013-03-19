@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C    ESIN--STRP   DATE OF LAST REVISION:   01/12/09
-C----------
 C
 C     OPTION PROCESSOR FOR ESTABLISHMENT MODEL
 C

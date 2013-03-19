@@ -5,8 +5,6 @@
 C----------
 C  $Id$
 C----------
-C  **ESETPR DATE OF LAST REVISION:  09/17/08
-C----------
 C
 C     SET SITE PREPARATION FOR THE REGENERATION MODEL.
 C

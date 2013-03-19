@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C  **ESADDT-SEI DATE OF LAST REVISION:  06/01/04
-C----------
 
 C     ADD NEW TREES FROM A FILE OR EXTERNAL DATA BASE.
 

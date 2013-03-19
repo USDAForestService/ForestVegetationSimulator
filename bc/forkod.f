@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C  **FORKOD--SEI DATE OF LAST REVISION:  06/07/01
-C----------
 C
 C     DUMMY ENTRY POINT; KODFOR NOT USED BY SEI VARIANT
 C

@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C   **ESINIT DATE OF LAST REVISION:   01/06/09
-C----------
 C     CALLED FROM INITRE, ONLY ONCE, TO INITIALIZE REGEN. MODEL.
 C
 COMMONS

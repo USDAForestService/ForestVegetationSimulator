@@ -4,8 +4,6 @@
 C----------
 C  $Id$
 C----------
-C  **KEYOPN--BASE-SEI   DATE OF LAST REVISION:  05/01/09
-C----------
 C
 C     PROCESSES THE OPEN KEYWORD.
 C

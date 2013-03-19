@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C  **INITRE/BC
-C----------
 C
 C  THIS ROUTINE PROCESSES OPTIONS AND INITIATES THE
 C  PROGNOSIS RUN.  CALLED FROM **MAIN**.

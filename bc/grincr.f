@@ -4,8 +4,6 @@
 C----------
 C  $Id$
 C----------
-C  **GRINCR--SEI  DATE OF LAST REVISION: 07/14/11
-C----------
 C
 C     COMPUTES GROWTH AND MORTALITY ON EACH TREE RECORD.
 C
