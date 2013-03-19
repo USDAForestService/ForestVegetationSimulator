@@ -376,6 +376,7 @@ C       CALCULATE AMOUNT IN DIFFERENT SIZE CLASSES
 C       UMBTW = UNMERCHANTABLE BOLE TIP WEIGHT BY SIZE CLASS.
 C       (1 = 0-.25, 2 = 0-1, 3 = 0-3, 4 = 0 - 4)
 
+        DBRK(0) = 0.0
         DBRK(1) = 0.25
         DBRK(2) = 1.0
         DBRK(3) = 3.0
