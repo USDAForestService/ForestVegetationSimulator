@@ -1,7 +1,7 @@
       SUBROUTINE FMCWD(IYR)
       IMPLICIT NONE
 C----------
-C  **FMCWD--FIRE BASE  DATE OF LAST REVISION:  02/08/13
+C  **FMCWD--FIRE BASE  DATE OF LAST REVISION:  11/23/10
 C----------
 C     CALLED FROM: FMSNAG
 C                  FMMAIN
@@ -49,6 +49,9 @@ C.... Variable declarations.
       REAL    VHI(2), VLO(2), RHRAT, DIF, HICUT, LOCUT
       REAL    BP(0:9), BPH(0:9), SCNV(2), TOSOFT
       REAL    FTRG(0:MXFLCL), FSRC(0:MXFLCL), FORG(0:MXFLCL), PRMS(6)
+      REAL    DIF3, SDIF3, BARK, VOL3, VOL4, BEHRE, BRATIO
+      LOGICAL LCONE
+
 
 C     OPTION PROCESSOR CODES FOR
 C     FUELMOVE (2530) - TRANSFER FUEL AMONG CATEGORIES
@@ -80,20 +83,25 @@ C     10% faster than hard. All duff goes into the hard pool
 
 C         First decay duff so can add stuff to it later
 
-          CWD(I,11,1,L) = CWD(I,11,1,L) * (1.0 - (DKR(11,L) * 1.1))
-          CWD(I,11,2,L) = CWD(I,11,2,L) * (1.0 -  DKR(11,L))
+          X = 1.0
+!         X = CLCWD(Q10CWD(11),REFMATCWD(11)) - stub for Climate-decay (in development for BC varians)
+          CWD(I,11,1,L) = CWD(I,11,1,L)*(1.0-DKR(11,L)*1.1*X)**NYRS
+          CWD(I,11,2,L) = CWD(I,11,2,L)*(1.0-DKR(11,L)*X)**NYRS
           IF (CWD(I,11,1,L) .LT. 0.0) CWD(I,11,1,L) = 0.0
           IF (CWD(I,11,2,L) .LT. 0.0) CWD(I,11,2,L) = 0.0
 
           DO 6 J = 1, 10
 C           Turn material into duff
-            CWD(I,11,2,L) = CWD(I,11,2,L) + CWD(I,J,1,L) *
-     &                                            (1.1 * TODUFF(J,L))
-            CWD(I,11,2,L) = CWD(I,11,2,L) + CWD(I,J,2,L) * TODUFF(J,L)
+            CWD(I,11,2,L) = CWD(I,11,2,L) +                             
+     &                      CWD(I,J,1,L) * (1.1 * TODUFF(J,L))**NYRS
+            CWD(I,11,2,L) = CWD(I,11,2,L) + 
+     &                             CWD(I,J,2,L) * TODUFF(J,L)**NYRS
 
+            X = 1.0
+!           X = CLCWD(Q10CWD(J),REFMATCWD(J)) - stub for Climate-decay (in development)
 C           Now decrease the pools
-            CWD(I,J,1,L) = CWD(I,J,1,L) * (1.0 - (DKR(J,L) * 1.1))
-            CWD(I,J,2,L) = CWD(I,J,2,L) * (1.0 -  DKR(J,L))
+            CWD(I,J,1,L) = CWD(I,J,1,L) * (1.0-(DKR(J,L)*1.1*X))**NYRS
+            CWD(I,J,2,L) = CWD(I,J,2,L) * (1.0- DKR(J,L)*X)**NYRS
             IF (CWD(I,J,1,L) .LT. 1.0E-9) CWD(I,J,1,L) = 0.0
             IF (CWD(I,J,2,L) .LT. 1.0E-9) CWD(I,J,2,L) = 0.0
             
@@ -151,7 +159,8 @@ C     FSRC - FUEL TO BE TAKEN FROM SOURCE POOL - VARIABLE
       LALTER = .FALSE.
       DO I = 1,NTODO
         CALL OPGET(I,6,JYR,IACTK,NPRM,PRMS)
-        IF ((IACTK .GE. 0) .AND. (JYR .EQ. IYR)) THEN
+CSB        IF ((IACTK .GE. 0) .AND. (JYR .EQ. IYR)) THEN
+        IF (IACTK .GE. 0) THEN
 
 C         IFROM - SOURCE CATEGORY (0,1-11)
 C         ITO   - TARGET CATEGORY (0,1-11)
@@ -322,8 +331,8 @@ C     DIS   = DENSITY (#/AC) OF INITIALLY-SOFT SNAGS FALLEN
 
       ENTRY CWD1(ISNG, DIH, DISIN)
 
-      DEBUG=.FALSE.
-
+      CALL DBCHK (DEBUG,'FMCWD',5,ICYC)
+      
       IF (DEBUG) WRITE(JOSTND,7) 'FM-CWD1',ICYC
 
       IF (DEBUG) WRITE (JOSTND,*) 'ISNG=',ISNG,' DIH=',DIH,
@@ -355,7 +364,8 @@ C     GET A TOTAL VOLUME FOR THIS SNAG
 
       TVOLI=0.
       CALL FMSVOL(I,HTD,TVOLI,.false.,JOSTND)
-cc      WRITE (JOSTND,*) 'I(CWD1)=',I,' HTD=',HTD,' TVOLI=',TVOLI
+      IF (DEBUG) WRITE (JOSTND,*) 'I(CWD1)=',I,' HTD=',HTD,
+     >                            ' TVOLI=',TVOLI
 
       GOTO 1000
 
@@ -373,8 +383,8 @@ C     OLDHTH  = HEIGHT (FT) BEFORE BREAKAGE OF INITIALLY-HARD SNAGS
 
       ENTRY CWD2(ISNG, DIH, DISIN, OLDHTH, OLDHTS)
 
-      DEBUG=.FALSE.
-
+      CALL DBCHK (DEBUG,'FMCWD',5,ICYC)
+      
       IF (DEBUG) WRITE(JOSTND,7) 'FM-CWD2',ICYC
 
       IF (DEBUG) WRITE (JOSTND,*) 'ISNG=',ISNG,' DIH=',DIH,
@@ -421,9 +431,9 @@ C     HT      = HEIGHT (FT) OF TREE JUST DOWNED
 
       ENTRY CWD3(KSP, D, DIH, HTH)
 
-      IF (DIH .LE. 0.0) RETURN
-      DEBUG=.FALSE.
+      DEBUG = .FALSE.
 
+      IF (DIH .LE. 0.0) RETURN
 C     This snag-material is created by **CUTS**. It is all hard.
 
       DIS  = 0.
@@ -466,7 +476,13 @@ C     RADIUS/HEIGHT RATIO FOR TRIANGLE (CONE MODEL OF TREE)
 ccccccc sdiff and s2 are only for debugging new code
       SDIFF = 0.
       S2 = 0.
-           
+      SDIF3 = 0.
+
+c     Method 3 of allocating volume using BEHRE
+      BARK=BRATIO(SP,DIAM,HTD)
+      CALL BEHPRM (TVOLI,DIAM,HTD,BARK,LCONE)
+      VOL3 = BEHRE(.1, HTD)
+cend of method 3 section
       RHRAT =   ((HTD * 12.) - 54.) / (0.5 * DIAM)
 
       IDCL = DKRCLS(SP)
@@ -484,7 +500,7 @@ cc1       BPH(J) = MAX(1.0, Y)
         BPH(J) = MAX(0.10, Y)
 
    10 CONTINUE
-cc      WRITE (JOSTND,*) 'BPH=',BPH
+      IF (DEBUG) WRITE (JOSTND,*) 'BPH=',BPH
 
 C     WALK THROUGH ALL THE BREAKPOINTS. IF ANY INTERVAL CONTAINS
 C     A PIECE OF THE TREE OF INTEREST, DO SOME CALCS.
@@ -528,20 +544,24 @@ C         category, whichever is greater
 
           LOCUT = LOHT(K)
           IF (LOHT(K) .LE. BPH(J)) LOCUT = BPH(J)
+          
+C         if the low and high points are the same, then we have reached the end and 
+C         do not need to calculate volumes          
+          IF (LOCUT .EQ. HICUT) GOTO 21
 
 C         get the TOTAL volume-per-snag up to HICUT and up to LOCUT.  Set DIF to the
 C         volume between them - i.e., the vol. in the current size category -
 C         and convert it to volume-per-acre.
 
 ccccccccccc This block can be deleted if the new code is used
-c          IF (LCUTS) THEN
-c            LMERCH = .FALSE.
-c            CALL FMSVL2(SP,DIAM,HTD,HICUT,VHI(K),LMERCH,.false.,JOSTND)
-c            CALL FMSVL2(SP,DIAM,HTD,LOCUT,VLO(K),LMERCH,.false.,JOSTND)
-c          ELSE
-c            CALL FMSVOL(I,HICUT,VHI(K),.false.,JOSTND)
-c            CALL FMSVOL(I,LOCUT,VLO(K),.false.,JOSTND)
-c          ENDIF
+C          IF (LCUTS) THEN
+C            LMERCH = .FALSE.
+C            CALL FMSVL2(SP,DIAM,HTD,HICUT,VHI(K),LMERCH,.false.,JOSTND)
+C            CALL FMSVL2(SP,DIAM,HTD,LOCUT,VLO(K),LMERCH,.false.,JOSTND)
+C          ELSE
+C            CALL FMSVOL(I,HICUT,VHI(K),.false.,JOSTND)
+C            CALL FMSVOL(I,LOCUT,VLO(K),.false.,JOSTND)
+C          ENDIF
 ccccccccccc above .........
 
           R2SQ = R1 * (1. - (HICUT/HTD))
@@ -553,11 +573,30 @@ ccccccccccc above .........
           DIF = MAX(0.,(P2-P1)) * TVOLI
           SDIFF = SDIFF+DIF
           S2 = S2 + (VHI(K) - VLO(K))
+          
+c         Method 3 of allocating volume using BEHRE
+c         Figure out the volume in the section of relevance
+          DIF3 = 0.0
+          IF (HICUT .GT. 0.1) THEN     
+              VOL4 = BEHRE(LOCUT,HICUT)
+              DIF3 = TVOLI * (VOL4 / VOL3)
+          ENDIF
+          SDIF3 = SDIF3 + DIF3
+c end of method 3 section                    
+
           IF (DEBUG) WRITE (JOSTND,*) 'R2=',R2SQ**.5,'P1=',
      >        P1,'P2=',P2,' DIF=',DIF,
-     >      ' OLDDIF=',VHI(K) - VLO(K),' SDIFF=',SDIFF,' S2=',S2
+     >      ' OLDDIF=',VHI(K) - VLO(K),' DIF3=',DIF3,
+     >      ' SDIFF=',SDIFF,' S2=',S2, ' S3=',SDIF3
+          
+C          WRITE (JOSTND,*) 'IYR,J,K=',IYR,", ",J,", ",K,' TVOL=',TVOLI,
+C     >      ' OLDDIF=',VHI(K) - VLO(K),' DIF2=',DIF, ' DIF3=',DIF3,
+C     >      ' OLDSUM=',S2, ' SDIFF=',SDIFF,' S3=',SDIF3
                      
 c***uncomment to use old DIF:          DIF = VHI(K) - VLO(K)
+c   method 3 diff
+          DIF = DIF3
+c  end of method 3 section
 
           IF (K .EQ.1) THEN
             DIF = DIF * DIS
