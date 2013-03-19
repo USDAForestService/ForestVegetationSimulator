@@ -1,7 +1,7 @@
       SUBROUTINE FMMAIN
       IMPLICIT NONE
 C----------
-C  **FMMAIN  FIRE--DATE OF LAST REVISION:  02/08/13
+C  **FMMAIN  FIRE--DATE OF LAST REVISION:  10/13/09
 C----------
 C
 C     THIS ROUTINE IS THE 'MAIN' FIRE ROUTINE. IT LOOPS OVER
@@ -53,6 +53,13 @@ C     420 FIRE 0 IF STAND HAS NO FIRE, 1 IF FIRE OCCURS (FM)
 
       CALL EVSET4(20, 0.0)
       LFIRE=.FALSE.
+
+C     Calculate the number of years in this cycle so that the decomposition
+C     rates can be adjusted correctly for variable cycle lengths. 
+C     This is necessary as we move from the FFE working on annual timesteps
+C     to cycle timesteps. (note: this value is the same as IFINT)
+
+      NYRS = IY(ICYC+1) - IY(ICYC)
 C
 C     Loop over the years within the cycle
 C
@@ -61,7 +68,10 @@ C
       IF (DEBUG) WRITE(JOSTND,8) IFMYR1,IFMYR2, BURNYR, ITRN
     8 FORMAT(' IN FMMAIN IFMYR1 IFMYR2 BURNYR ITRN= ',5I5)
 
-      DO IYR = IFMYR1,IFMYR2
+C REMOVE THE LOOP FOR RUNNING THIS JUST ON CYCLE BOUNDARIES
+C     and set IYR to be the cycle year.
+      IYR = IFMYR1
+C      DO IYR = IFMYR1,IFMYR2
 
          IF (DEBUG) WRITE(JOSTND,9) IYR,BURNYR
     9    FORMAT(' IN FMMAIN IYR BURNYR= ',2I5)
@@ -106,10 +116,10 @@ C        that version will also need to only read it once too).
 
          CALL VARVER(VVER)
 
-         IF (IYR .EQ. IFMYR1 .OR. BURNYR .EQ. IYR-1 .OR.
-     &   PBURNYR .EQ. IYR-1 .OR. (VVER(1:2) .EQ. 'SN')) THEN
+C         IF (IYR .EQ. IFMYR1 .OR. BURNYR .EQ. IYR-1 .OR.
+C     &   PBURNYR .EQ. IYR-1 .OR. (VVER(1:2) .EQ. 'SN')) THEN
            CALL FMCBA (IYR,0)
-         ENDIF
+C         ENDIF
 
 C        This resets the value of cwdcut, which is based on salvage
 C        removal, back to zero in all but the first year of a cycle.
@@ -194,9 +204,12 @@ C        before any cuts that may occur next cycle.)
 C        In the last year of each cycle, record some information about
 C        crown size for use in determining litterfall in the next cycle.
 
-         IF (IYR .EQ. IFMYR2) CALL FMOLDC
+C SB: NEED TO CALL THIS EACH CYCLE NOW
+C        IF (IYR .EQ. IFMYR2) CALL FMOLDC
+         CALL FMOLDC
 
-      ENDDO
+C REMOVED YEAR LOOP ENDING
+C     ENDDO
 
       CALL FMSVSYNC
 
