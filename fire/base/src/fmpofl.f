@@ -1,8 +1,8 @@
       SUBROUTINE FMPOFL (IYR, FMD, LNMOUT)
       IMPLICIT NONE
-C---------
-C  **FMPOFL FIRE-BASE-DATE OF LAST REVISION:  02/08/13
-C---------
+
+C  **FMPOFL FIRE-BASE/M DATE OF LAST REVISION:  06/03/10
+
 C  SINGLE-STAND VERSION
 C  CALLED FROM: FMBURN
 C  CALLS (FM):  FMEFF
@@ -15,7 +15,7 @@ C
 C  PURPOSE:  CALCULATES THE POTENTIAL FLAME LENGTH AND FIRE EFFECTS
 C            FOR TWO SETS OF MOISTURE AND WIND CONDITIONS, AND PRINTS
 C            AN OUTPUT FILE WITH THE RESULTS.
-C---------
+
 C  CALL LIST DEFINITIONS:
 C     IYR:  CURRENT YEAR OF SIMULATION
 C     FMD:  FUEL MODEL THAT IS USED IN THE STATIC CASE
@@ -48,6 +48,9 @@ C
       INCLUDE 'FMFCOM.F77'
 C
 C
+      INCLUDE 'METRIC.F77'
+C
+C
 COMMONS
 C
 C  VARIABLE DECLARATIONS.
@@ -56,9 +59,13 @@ C  VARIABLE DECLARATIONS.
       INTEGER FMOIS, FMD
       INTEGER SWIND(4), SW, J, IRTNCD
       LOGICAL DEBUG,LNMOUT
-      REAL CRTCBH, CRRATE, POMORT, HPA
+      REAL CRTCBH, CRRATE, POMORT, HPA, ROS
       REAL FLAME, POKILL(4), POVOLK(2), PSMOKE(2)
-      REAL OINIT1(3), OACT1(3), CRB(4), PTORCH(2)
+      REAL OINIT1(3), OACT1(3), CRB(4), CONV, PTORCH(2)
+      REAL INTSTY, UWIND
+      REAL PBYRAM(3), PINSTY(3), PROS(3)
+      INTEGER CANBURN, PFCLS(3), FCLS, NFMWR
+      REAL    BUI, DMC
       CHARACTER*8 CFTYPE(3)
       CHARACTER*32 SNFMS,SNFMM
       REAL PRMS(2)
@@ -142,7 +149,7 @@ C     1=(WILDFIRE/SEVERE), 3=(PRESCRIBED/MODERATE/2)
 C
         CALL FMMOIS(FMOIS, MOIS)
 
-C       CHANGE THE DEFAULT WIND, MOISTURE, TEMPERATURE AND SEASON CONDITIONS,
+C       CHANGE THE DEFAULT WIND, MOISTURE TEMPERATURE AND SEASON CONDITIONS,
 C       IF NECESSARY. NOTE THAT FMOIS=3 IS THE SAME AS ARRAY ELEMENT 2
 C       FOR THE WIND AND TEMPERATURE VALUES
 
@@ -163,10 +170,10 @@ C       FOR THE WIND AND TEMPERATURE VALUES
         FWIND = SWIND(FMOIS) * WMULT
 
         BURNSEAS = POTSEAS(IDPL)
-C----------
+
 C  CALL FIRE MODEL CALCULATIONS AGAIN FOR UT, CR, LS, CS AND SN VARIANTS
 C  TT ADDED 06/03/10 SINCE THE EXPANDED VERSION NOW MODELS JUNIPER
-C----------
+
         IF (IFLOGIC .EQ. 0) THEN
           IF (VVER(1:2) .EQ. 'UT' .OR.
      &        VVER(1:2) .EQ. 'TT' .OR.
@@ -179,8 +186,8 @@ C----------
      &        VVER(1:2) .EQ. 'CS' .OR.
      &        VVER(1:2) .EQ. 'SN') THEN
             CALL FMCFMD (IYR, FMD)
-          ENDIF
-        ENDIF
+           ENDIF
+        ENDIF        
 C
         IF (DEBUG) WRITE(JOSTND,11) FMOIS
    11   FORMAT(' IN FMPOFL CALLING FMFINT, FMOIS=',I2)
@@ -190,6 +197,20 @@ C       COMPUTE BYRAM'S FIRELINE INTENSITY, GET THE FLAME LENGTH
         CALL FMFINT(IYR, BYRAM, FLAME, FMOIS, HPA, 1)
         CALL fvsGetRtnCode(IRTNCD)
         IF (IRTNCD.NE.0) RETURN
+        
+        IF (CFIM_ON) THEN
+            UWIND = FLOAT(SWIND(FMOIS))
+            IK=1
+            CANBURN = 0
+            IF (FMOIS.EQ.3) IK=2
+            CALL FMCONS(FMOIS,0,0.,IYR,1,PSMOKE(IK),POTPAB(IK))
+            CALL FMCFIM(IYR,FMD,UWIND,BYRAM,FLAME,CANBURN,ROS)
+            PROS(FMOIS) = ROS * FTtoM
+            PBYRAM(FMOIS) = BYRAM / FTtoM
+            POTCONS(FMOIS,1) = POTCONS(2,1)
+            POTCONS(FMOIS,2) = POTCONS(2,2)
+            POTCONS(FMOIS,3) = POTCONS(2,3)
+        ENDIF
 
 C       SAVE THE FLAME LENGTH...IT IMAY BE MODIFIED BELOW TO ACCOUNT
 C       FOR CROWN FIRE BEHAVIOR.
@@ -206,8 +227,8 @@ C       BUT FIRST CONVERT BYRAM TO BTU/FT/SECOND (RATHER THAN MIN)
 
 C       CALL ROUTINE FOR CALCULATING CROWN FIRE INFORMATION IN WESTERN VARIANTS
 
-        IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'CS')) THEN
-          CRBURN = 0
+      IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'CS')) THEN
+            CRBURN = 0
           DO K = 1,3
             OINIT1(K) = -1
             OACT1(K) = -1
@@ -217,7 +238,14 @@ C       CALL ROUTINE FOR CALCULATING CROWN FIRE INFORMATION IN WESTERN VARIANTS
           CALL FMCFIR(IYR,FMOIS,WMULT,SW,CFTYPE(FMOIS),OINIT1,OACT1,HPA)
           CALL fvsGetRtnCode(IRTNCD)
           IF (IRTNCD.NE.0) RETURN
-
+          
+          IF (CFIM_ON) THEN
+            CALL FMCANC(IYR,FMOIS,CFTYPE(FMOIS),CANBURN,ROS,INTSTY,FCLS)
+            PINSTY(FMOIS) = INTSTY
+            PFCLS(FMOIS) = FCLS
+            OINIT1(FMOIS) = -1
+            OACT1(FMOIS) = -1
+          ENDIF
           CRB(FMOIS) = CRBURN
         ENDIF
 
@@ -269,13 +297,13 @@ C       STORE THE POTENTIAL SMOKE PRODUCTION (PM 2.5)
 C       SAVE THE FUEL MODELS USED IN THE SEVERE CASE, SINCE DIFFERENT ONES
 C       MAY BE USED FOR THE MODERATE CASE.  (USED IN SN-FFE ONLY)
 
-        IF (FMOIS .EQ. 1) THEN
-          DO K = 1,NFMODS
-            SFMOD(K) = FMOD(K)
-            SFWT(K) = FWT(K)
-          ENDDO
-          SNFMODS = NFMODS
-        ENDIF
+      IF (FMOIS .EQ. 1) THEN
+        DO K = 1,NFMODS
+          SFMOD(K) = FMOD(K)
+          SFWT(K) = FWT(K)
+        ENDDO
+        SNFMODS = NFMODS
+      ENDIF
   100 CONTINUE
       CALL FMPOFL_FMPTRH(IYR,ITRN,FMPROB,PFLAM(2),PFLAM(4),
      >                   PTORCH(1),PTORCH(2))
@@ -321,15 +349,22 @@ C     RETURN IF ALL OUTPUT IS BEING SUPPRESSED
 
       IF (.NOT.LNMOUT) RETURN
 
+      CONV = TItoTM / ACRtoHA
+
 C     DBS CALL FOR DUMPING DATA TO THE DATABASE
 
       DBSKODE = 1
-      CALL DBSFMPF(IYR, NPLT, PFLAM(2), PFLAM(4), PFLAM(1), PFLAM(3),
-     &     CFTYPE(1), CFTYPE(3),PTORCH(1),PTORCH(2),OINIT1(1),OACT1(1),
-     &     ACTCBH, CBD, INT(POKILL(1)*100.),INT(POKILL(3)*100.),
-     &     INT(POVOLK(1)),INT(POVOLK(2)),PSMOKE(1)*P2T,PSMOKE(2)*P2T,
-     &     SFMOD,SFWT,FMOD,FWT,DBSKODE)
-      IF(DBSKODE.EQ.0) RETURN
+      CALL DBSFMPF(IYR, NPLT, PFLAM(2)*FTtoM, PFLAM(4)*FTtoM,
+     &      PFLAM(1)*FTtoM, PFLAM(3)*FTtoM,
+     &      CFTYPE(1), CFTYPE(3), PTORCH(1), PTORCH(2),
+     &      OINIT1(1)*MItoKM, OACT1(1)*MItoKM,
+     &      INT(ACTCBH*FTtoM), CBD, INT(POKILL(1)*100.),
+     &      INT(POKILL(3)*100.),
+     &      INT(POVOLK(1)*FT3pACRtoM3pHA),
+     &      INT(POVOLK(2)*FT3pACRtoM3pHA),
+     &      PSMOKE(1)*P2T*CONV,PSMOKE(2)*P2T*CONV,
+     &      SFMOD,SFWT,FMOD,FWT,DBSKODE)
+       IF(DBSKODE.EQ.0) RETURN
 
 C     PRINT THE OUTPUT FILE.  NOTE THAT PFLAM IS IN FEET and CBD IS IN KG/M3
 
@@ -340,7 +375,7 @@ C     PRINT THE OUTPUT FILE.  NOTE THAT PFLAM IS IN FEET and CBD IS IN KG/M3
         WRITE (JPOTFL,143) IDPFLM
         WRITE (JPOTFL,131) IDPFLM
         WRITE (JPOTFL,132) IDPFLM
-        WRITE (JPOTFL,44) IDPFLM,NPLT,MGMID
+        WRITE (JPOTFL,44)  IDPFLM,NPLT,MGMID
         WRITE (JPOTFL,143) IDPFLM
 
 C       WRITE NEW HEADER INFORMATION GIVING THE SEVERE AND MODERATE CONDITIONS
@@ -361,25 +396,53 @@ C       WRITE NEW HEADER INFORMATION GIVING THE SEVERE AND MODERATE CONDITIONS
             MOIS(2,2) = PRESVL(IDPL,8)
           ENDIF
 
-          IF (IDPL .EQ. 1) THEN
-            WRITE (JPOTFL,146) IDPFLM,PREWND(IDPL),INT(POTEMP(IDPL)),
-     &                         ((100.0*MOIS(1,I)),I=1,5),
-     &                         (100.0*MOIS(2,1)),(100.0*MOIS(2,2))
+C TODO: SB to add IF/ENDIF to this block so that it prints CFIM only when CFIM is active
+C TODO: could be expanded into a new CFIM table.
+C
+C         THESE ARE THE CFIM CALCULATIONS FROM FMCONS.
+C         THEY ARE REPRODUCED HERE FOR PRINTING PURPOSES
+          IF (MOIS(1,5) .GT. .20) THEN
+            DMC = 244.7 - 43.4*LOG(100*MOIS(1,5)-20)
           ELSE
-            WRITE (JPOTFL,147) IDPFLM,PREWND(IDPL),INT(POTEMP(IDPL)),
+            DMC = 244.7 - 43.4*LOG(.5)
+          ENDIF
+          IF (DMC .LE. 0) DMC = 0
+
+          IF (DMC .LE. 0.4*CFIM_DC) THEN
+            BUI = 0.8*DMC*CFIM_DC / (DMC + 0.4*CFIM_DC)
+          ELSE
+            BUI = DMC - ((1 - (0.8*CFIM_DC) / (DMC + 0.4*CFIM_DC)) * 
+     &              (0.92 + (0.0114*DMC)**1.7))
+          ENDIF 
+
+          IF (IDPL .EQ. 1) THEN
+            WRITE (JPOTFL,146) IDPFLM,PREWND(IDPL)*MItoKM,
+     &                         INT(POTEMP(IDPL)*FtoC1+FtoC2),
      &                         ((100.0*MOIS(1,I)),I=1,5),
-     &                         (100.0*MOIS(2,1)),(100.0*MOIS(2,2))
+     &                         (100.0*MOIS(2,1)),(100.0*MOIS(2,2)),
+     &                          BUI, DMC, CFIM_DC
+          ELSE
+            WRITE (JPOTFL,147) IDPFLM,PREWND(IDPL)*MItoKM,
+     &                         INT(POTEMP(IDPL)*FtoC1+FtoC2),
+     &                         ((100.0*MOIS(1,I)),I=1,5),
+     &                         (100.0*MOIS(2,1)),(100.0*MOIS(2,2)),
+     &                          BUI, DMC, CFIM_DC
           ENDIF
         ENDDO
         WRITE (JPOTFL,143) IDPFLM
 
 C       FORMAT THE HEADERS SLIGHTLY DIFFERENTLY FOR SN-FFE
-
+C           AND PRINT SLIGHT DIFFERENT INFORMATION IF USING THE CFIM FIRE MODEL
         IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'CS')) THEN
           WRITE (JPOTFL,233) IDPFLM
           WRITE (JPOTFL,235) IDPFLM
           WRITE (JPOTFL,237) IDPFLM
           WRITE (JPOTFL,240) IDPFLM
+        ELSE IF (CFIM_ON) THEN
+          WRITE (JPOTFL,333) IDPFLM
+          WRITE (JPOTFL,335) IDPFLM
+          WRITE (JPOTFL,337) IDPFLM
+          WRITE (JPOTFL,340) IDPFLM
         ELSE
           WRITE (JPOTFL,133) IDPFLM
           WRITE (JPOTFL,135) IDPFLM
@@ -391,18 +454,18 @@ C       FORMAT THE HEADERS SLIGHTLY DIFFERENTLY FOR SN-FFE
   131   FORMAT (1X,I5,1X,32X,'******  FIRE MODEL VERSION 1.0 ******')
   132   FORMAT (1X,I5,1X,40X,'POTENTIAL FIRE REPORT')
    44   FORMAT (1X,I5,' STAND ID: ',A26,4X,'MGMT ID: ',A4)
-  133   FORMAT (1X,I5,7X,'FLAME LENGTH (FT)',2X,
-     &         'FIRE PROB OF   TORCH  CROWN ',
+  133   FORMAT (1X,I5,7X,' FLAME LENGTH (M)',2X,
+     &         'FIRE  PROB OF   TORCH  CROWN ',
      &         'CNPY CANPY    POTENTIAL MORTALITY  POTEN. SMOKE')
-  135   FORMAT (1X,I5,7X,' SURFACE    TOTAL  TYPE TORCHING',
+  135   FORMAT (1X,I5,7X,' SURFACE    TOTAL  TYPE TORCHING ',
      &         2('  INDEX'),' BASE BULK   ',22('-'),1X,12('-'),
      &         11X,'FUEL MODELS')
   137   FORMAT (1X,I5,7X,10('-'),1X,7('-'),1X,4('-'),1X,9('-'),
-     &         ' SEVERE SEVERE HT  DENSTY ',
-     &         'SEV. MOD. SEV.  MOD.   SEV.  MOD.   ',31('-'))
-  140   FORMAT (1X,I5,1X,'YEAR  SEV   MOD  SEV MOD S  M SEV   MOD',
-     &         1X,'MI/HR',2X,'MI/HR  FT  ',
-     &         'KG/M3   %BA  %BA (TOT CU VOL)  (T/A <2.5) ',
+     &         ' SEVERE SEVERE   HT DNSTY ',
+     &         ' SEV  MOD   SEV    MOD   SEV  MOD   ',31('-'))
+  140   FORMAT (1X,I5,1X,'YEAR   SEV   MOD SEV MOD S  M  SEV  MOD',
+     &         2X,'KM/HR',2X,'KM/HR   M  ',
+     &         'KG/M3  %BA  %BA (TOT CU VOL)  (T/H <2.5) ',
      &         4(' MOD %WT'))
   143   FORMAT (1X,I5,1X,132('-'))
   233   FORMAT (1X,I5,7X,'FLAME LENGTH',1X,
@@ -413,21 +476,55 @@ C       FORMAT THE HEADERS SLIGHTLY DIFFERENTLY FOR SN-FFE
   237   FORMAT (1X,I5,7X,'SEVERE MODER HT  DENSTY ',2X,
      &          'SEV. MOD. SEV.  ','MOD.   SEV.  MOD.   ',
      &          31('-'),3X,31('-'))
-  240   FORMAT (1X,I5,1X,'YEAR   FT     FT   FT   KG/M3',
-     &         '   %BA  %BA (MER CU VOL)  (T/A <2.5) ',1X,
+  240   FORMAT (1X,I5,1X,'YEAR    M      M    M   KG/M3',
+     &         '   %BA  %BA (MER CU VOL)  (T/H <2.5) ',1X,
      &         4(' MOD %WT'),2X,4(' MOD %WT'))
+
+C       FORMAT STATEMENTS FOR CFIM FIRE MODEL
+C       TEMPORARY DEBUGGING FORMAT STATEMENTS
+  333   FORMAT (1X,I5,6X,'FL(M)',1X,
+     &         'FIRE SURFACE  TOTAL    BYRAM    INTSY ',
+     &         'CNPY CNPY  POTENTIAL MORTALITY POTEN. SMOKE',
+     &          16X,'%CROWN    POT. CONS (SEV)')
+  335   FORMAT (1X,I5,6X,'TOTAL TYPE   ROS (M/MIN)    ',
+     &         'INTENSTY  CLASS BASE BULK  ',19('-'),1X,12('-'),
+     &         3X,'FUEL MODELS',4X,'BURN',6X,'  PROP.')
+  337   FORMAT (1X,I5,6X,5('-'),1X,4('-'),2(1X,7('-')),
+     &         2X,8('-'),2X,5('-'),'  HT DNSTY ',
+     &         ' SEV  MOD   SEV  MOD   SEV  MOD   ',15('-'),
+     &         1X,7('-'),1X,15('-'))
+  340   FORMAT (1X,I5,1X,'YEAR  S  M S  M  S   M   S   M ',
+     &         4X,'S   M   S  M   M  ',
+     &         'KG/M3  %BA  %BA  TOT CU VL  (T/H <2.5) ',
+     &         2(' MOD %WT'),2X,'S   M   SML  LRG  DUF+LIT')
+c: ACTUAL FORMAT STATEMENTS FOR CFIM MODEL
+C  333   FORMAT (1X,I5,7X,' FLAME LENGTH (M)',2X,
+C     &         'FIRE   ROS    FIRE    INTSY ',
+C     &         'CNPY CNPY  POTENTIAL MORTALITY POTEN. SMOKE')
+C  335   FORMAT (1X,I5,7X,' SURFACE    TOTAL  TYPE M/MIN  ',
+C     &         'INTENSTY  CLASS BASE BULK  ',19('-'),1X,12('-'),
+C     &         11X,'FUEL MODELS')
+C  337   FORMAT (1X,I5,7X,10('-'),1X,7('-'),1X,4('-'),1X,6('-'),
+C     &         1X,8('-'),2X,5('-'),'  HT DNSTY ',
+C     &         ' SEV  MOD   SEV  MOD   SEV  MOD   ',31('-'))
+C  340   FORMAT (1X,I5,1X,'YEAR   SEV   MOD SEV MOD S  M  S  M',
+C     &         4X,'S   M   S  M   M  ',
+C     &         'KG/M3  %BA  %BA  TOT CU VL  (T/H <2.5) ',
+C     &         4(' MOD %WT'))
 
 C       FORMAT STATEMENTS FOR THE NEW HEADERS:
 
-  144   FORMAT (1X,I5,1X,'FIRE        WIND   TEMP ------------- FUEL ',
-     &         'MOISTURE CONDITIONS (PERCENT) ---------------')
-  145   FORMAT (1X,I5,1X,'CONDITION   (MPH)   (F) 0-0.25"  0.25-1"  ',
-     &         ' 1-3"     3"+   DUFF    LIVE WOODY   LIVE HERB')
+  144   FORMAT (1X,I5,1X,'FIRE        WIND   TEMP ---- FUEL MOISTURE',
+     &         ' CONDITIONS (PERCENT) ------')
+  145   FORMAT (1X,I5,1X,'CONDITION  (KM/H)   (C)  <0.64   .64-2.5  ',
+     &         '2.5-7.6  >7.6   DUFF    LIVE WOODY   LIVE HERB',
+     &          '  BUI   DMC   DC')
 
   146   FORMAT(1X,I5,1X,'SEVERE  ',3X,F5.1,3X,I3,2X,F5.0,5X,4(F5.0,3X),
-     &         2(4X,F5.0,3X))
+     &         2(4X,F5.0,3X),3(F4.0,2X))
   147   FORMAT(1X,I5,1X,'MODERATE',3X,F5.1,3X,I3,2X,F5.0,5X,4(F5.0,3X),
-     &         2(4X,F5.0,3X))
+     &         2(4X,F5.0,3X),3(F4.0,2X))
+C
 C
         IPFPAS = IPFPAS + 1
 C
@@ -437,27 +534,69 @@ C     WRITE OUT DATA TO FILE.  THE SN VARIANT IS PRINTED DIFFERENTLY,
 C     BECAUSE CROWN FIRE IS NOT MODELLED AND DIFFERENT FUEL MODELS CAN BE
 C     CHOSEN FOR THE SEVERE AND MODERATE SCENARIOS
 
-      IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'CS')) THEN ! write the pot. table differently
+      ! write the pot. table differently
+      IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'CS')) THEN 
          WRITE (SNFMS,'(8I4)')
      &         (SFMOD(I),INT((SFWT(I)*100.)+0.5),I=1,SNFMODS)
          WRITE (SNFMM,'(8I4)')
      &         (FMOD(I),INT((FWT(I)*100.)+0.5),I=1,NFMODS)
-         WRITE (JPOTFL,51) IDPFLM, IYR, PFLAM(2), PFLAM(4),
-     &     ACTCBH, CBD,INT(POKILL(1)*100.),INT(POKILL(3)*100.),
-     &     INT(POVOLK(1)),INT(POVOLK(2)),PSMOKE(1)*P2T,PSMOKE(2)*P2T,
+         WRITE (JPOTFL,51) IDPFLM, IYR, PFLAM(2)*FTtoM, PFLAM(4)*FTtoM,
+     &     INT(ACTCBH*FTtoM), CBD,INT(POKILL(1)*100.),
+     &     INT(POKILL(3)*100.),
+     &     INT(POVOLK(1)*FT3pACRtoM3pHA),INT(POVOLK(2)*FT3pACRtoM3pHA),
+     &     PSMOKE(1)*P2T*CONV,PSMOKE(2)*P2T*CONV,
      &     SNFMS,TRIM(SNFMM)
    51   FORMAT (1X,I5,1X,I4,2(1X,F5.1),2X,I3,1X,F6.3,1X,2(2X,I3),1X,I5,
      &          1X,I6,2X,F4.2,1X,F5.2,2X,A,2X,A)
+
+C     CFIM FIRE MODEL ALSO WRITTEN DIFFERENTLY
+      ELSE IF (CFIM_ON) THEN
+C       TEMPORARY CFIM WRITE STATEMENTS
+        WRITE (JPOTFL,69) IDPFLM, IYR, 
+     &      INT((PFLAM(1)*FTtoM)+.5), INT((PFLAM(3)*FTtoM)+.5),
+     &      CFTYPE(1)(1:1),CFTYPE(3)(1:1),
+     &      PROS(1), PROS(3), POTFSR(3)*FTtoM, POTFSR(4)*FTtoM,
+     &      INT(PBYRAM(1)), INT(PBYRAM(3)), 
+     &      PFCLS(1), PFCLS(3),
+     &      INT(ACTCBH*FTtoM), CBD,
+     &      INT(POKILL(1)*100.),INT(POKILL(3)*100.),
+     &      INT(POVOLK(1)*FT3pACRtoM3pHA),INT(POVOLK(2)*FT3pACRtoM3pHA),
+     &      PSMOKE(1)*P2T*CONV,PSMOKE(2)*P2T*CONV,
+     &      (FMOD(I),INT((FWT(I)*100.)+0.5),I=1,2),INT(CRB(1)*100.),
+     &      INT(CRB(3)*100.),POTCONS(1,1), POTCONS(1,2), POTCONS(1,3)
+C     &      POTCONS(3,1), POTCONS(3,2), POTCONS(3,3)
+   69   FORMAT (1X,I5,1X,I4,2(1X,I2),1X,A1,2X,A1,2(1X,F3.1),
+     &       2(1X,F3.0),2(1X,I4),2(2X,I1),1X,I3,2X,F5.3,
+     &       2(2X,I3),2X,I4,1X,I4,2X,F4.2,1X,F4.2,2X,4(1X,I3),2(1X,I3),
+     &       3(1X,F5.3))
+C ACTUAL CFIM WRITE STATEMENTS
+C        WRITE (JPOTFL,69) IDPFLM, IYR, PFLAM(2)*FTtoM, PFLAM(4)*FTtoM,
+C     &      INT((PFLAM(1)*FTtoM)+.5), INT((PFLAM(3)*FTtoM)+.5),
+C     &      CFTYPE(1)(1:1),CFTYPE(3)(1:1),
+C     &      PROS(1), PROS(3), INT(PBYRAM(1)), INT(PBYRAM(3)), 
+C     &      PFCLS(1), PFCLS(3),
+C     &      INT(ACTCBH*FTtoM), CBD,
+C     &      INT(POKILL(1)*100.),INT(POKILL(3)*100.),
+C     &      INT(POVOLK(1)*FT3pACRtoM3pHA),INT(POVOLK(2)*FT3pACRtoM3pHA),
+C     &      PSMOKE(1)*P2T*CONV,PSMOKE(2)*P2T*CONV,
+C     &      (FMOD(I),INT((FWT(I)*100.)+0.5),I=1,NFMODS)
+C   69   FORMAT (1X,I5,1X,I4,2(1X,F5.1),2(1X,I3),
+C     &       1X,A1,2X,A1,2(1X,F3.1),2(1X,I4),2(1X,I1),1X,I3,2X,F5.3,
+C     &       2(2X,I3),2X,I4,1X,I4,2X,F4.2,1X,F4.2,2X,8(1X,I3))
+
       ELSE ! write like usual
-        WRITE (JPOTFL,49) IDPFLM, IYR, PFLAM(2), PFLAM(4),
-     &      INT(PFLAM(1)+.5), INT(PFLAM(3)+.5), CFTYPE(1)(1:1),
+        WRITE (JPOTFL,49) IDPFLM, IYR, PFLAM(2)*FTtoM, PFLAM(4)*FTtoM,
+     &      INT((PFLAM(1)*FTtoM)+.5), INT((PFLAM(3)*FTtoM)+.5),
+     &      CFTYPE(1)(1:1),
      &      CFTYPE(3)(1:1),PTORCH(1), PTORCH(2), OINIT1(1), OACT1(1),
-     &      ACTCBH, CBD, INT(POKILL(1)*100.),INT(POKILL(3)*100.),
-     &      INT(POVOLK(1)),INT(POVOLK(2)),PSMOKE(1)*P2T,PSMOKE(2)*P2T,
+     &      INT(ACTCBH*FTtoM), CBD,
+     &      INT(POKILL(1)*100.),INT(POKILL(3)*100.),
+     &      INT(POVOLK(1)*FT3pACRtoM3pHA),INT(POVOLK(2)*FT3pACRtoM3pHA),
+     &      PSMOKE(1)*P2T*CONV,PSMOKE(2)*P2T*CONV,
      &      (FMOD(I),INT((FWT(I)*100.)+0.5),I=1,NFMODS)
    49   FORMAT (1X,I5,1X,I4,2(1X,F5.1),2(1X,I3),
-     &       1X,A1,2X,A1,2(1X,F4.2),2(1X,F6.1),1X,I3,1X,F6.3,
-     &       2(2X,I3),1X,I5,1X,I6,1X,F4.2,1X,F5.2,2X,8(1X,I3))
+     &       1X,A1,2X,A1,2(1X,F4.2),2(1X,F6.1),1X,I4,1X,F5.3,
+     &       2(2X,I3),1X,I5,1X,I6,2X,F4.2,1X,F4.2,2X,8(1X,I3))
       ENDIF
 C
       IF (DEBUG) WRITE(JOSTND,50) IYR,FMKOD,LARGE,SMALL,PERCOV,PFLAM(1),
@@ -471,9 +610,9 @@ C
 
       SUBROUTINE FMPOFL_FMPTRH(IYR,MXI,PRB,FLM1,FLM2,PTR1,PTR2)
       IMPLICIT NONE
-C----------
+
 C  **FMPTRH FIRE-BASE-DATE OF LAST REVISION:  05/18/2004
-C----------
+
 C     SERVICE ROUTINE TO FMPOFL TO COMPUTE PTORCH FOR EACH OF TWO
 C     FLAME LENGTHS.  NOT DESIGNED TO BE CALLED FROM OTHER PARTS
 C     OF THE PROGRAM.
@@ -581,11 +720,11 @@ C        TO TORCH.
          IF (ITOP.EQ.1) THEN
             DO II=NYES,1,-1
                I=YES(II)
-               IF (HT(I).GE.CRIT) THEN ! LADDER REACHED WITH THIS TREE
+               IF (HT(I).GE.CRIT) THEN ! LADDER REACHED WITH THIS TREE.
                   MINCB(IREP)=CBH(I)
                   MXHT=HT(I)
                   EXIT
-               ELSE  ! SEE IF TREE J CAN CAUSE LADDER TO BURN TO CRIT
+               ELSE ! SEE IF TREE J CAN CAUSE LADDER TO BURN TO CRIT
                   IF (II.GT.1) THEN
                      JC=I
                      MXHT=HT(JC)
@@ -638,7 +777,7 @@ C     FIND THE PROBABILITY OF TORCHING FOR BOTH IGNITION HEIGHTS.
          MXNT1=LOG(((FLM1/.0775)**1.45)/30.5)
          DO I=1,II
             J=INDX(I)
-            Z=(MINCB(J)-MXNT1)/.25 ! STD DEV IS SET TO .25 (LOG SCALE)
+            Z=(MINCB(J)-MXNT1)/.25 ! STD DEV IS SET TO .25 (LOG SCALE).
             CALL FMPOFL_NPROB(Z,Q,PT1,PDF)
             IF (PT1.LT.1D-7) PT1=0D0
             PTR1=PTR1+(PT1*P)
@@ -726,5 +865,3 @@ C
         Q = 1.D0-P
         RETURN
         END
-
-
