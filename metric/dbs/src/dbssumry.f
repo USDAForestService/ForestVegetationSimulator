@@ -2,10 +2,10 @@
      -  TOPHT,FQMD,ITCUFT,IMCUFT,IBDFT,IRTPA,IRTCUFT,IRMCUFT,IRBDFT,
      -  IATBA,IATSDI,IATCCF,ATTOPHT,FATQMD,IPRDLEN,IACC,IMORT,YMAI,
      -  IFORTP,ISZCL,ISTCL)
+      IMPLICIT NONE      
 C----------
-C  **DBSUMSTAT--DBS/M  DATE OF LAST REVISION:  10/07/03
+C  $Id$
 C----------
-C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE PROGNOSIS MODEL
 C              OUTPUT.
 C     AUTH: D. GAMMEL -- SEM -- JUNE 2002
@@ -37,10 +37,7 @@ C             17: SAMPLE WEIGHT
 C
 C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
 COMMONS
-      use f90SQLConstants
-      use f90SQLStructures
-      use f90SQL
-      IMPLICIT NONE
+
 C
       INCLUDE 'DBSCOM.F77'
 C
@@ -50,14 +47,13 @@ C
      -        ITCUFT,IMCUFT,IBDFT,IRTPA,IRTCUFT,IRMCUFT,IRBDFT,
      -        IATBA,IATSDI,IATCCF,ID,IFORTP,ISZCL,ISTCL
       INTEGER(SQLSMALLINT_KIND)::ColNumber
+      REAL FQMD,FATQMD,YMAI,TOPHT,ATTOPHT
       DOUBLE PRECISION FQMDB,FATQMDB,YMAIB,TOPHTB,ATTOPHTB
 
-      REAL FQMD,FATQMD,YMAI,TOPHT,ATTOPHT
       CHARACTER*2000 SQLStmtStr
       CHARACTER*7   VVER
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=*) NPLT
-C
 C
 COMMONS END
 C---
@@ -75,8 +71,7 @@ C---------
 C---------
 C     ALLOCATE A STATEMENT HANDLE
 C---------
-      CALL f90SQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut,
-     -                        iRet)
+      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut,StmtHndlOut)
       IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
         ISUMARY = 0
         PRINT *,'Error connecting to data source'
@@ -110,8 +105,8 @@ C---------
       ENDIF
       SQLStmtStr= 'SELECT * FROM ' // TABLENAME
 
-      !PRINT*, SQLStmtStr
-      CALL f90SQLExecDirect(StmtHndlOut,trim(SQLStmtStr),iRet)
+      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
 C
       IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
@@ -323,12 +318,9 @@ C----------
      -                 'StkCls int null)'
           ENDIF
         ENDIF
-        !PRINT*, SQLStmtStr
-
-            !Close Cursor
-            CALL f90SQLFreeStmt(StmtHndlOut,SQL_CLOSE, iRet)
-
-            CALL f90SQLExecDirect(StmtHndlOut,trim(SQLStmtStr),iRet)
+        iRet = fvsSQLCloseCursor(StmtHndlOut)
+        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -                     'DBSSumry:Creating Table')
         SUMRYID = 0
@@ -378,171 +370,199 @@ C
 C
 C     CLOSE CURSOR
 C
-      CALL f90SQLFreeStmt(StmtHndlOut,SQL_CLOSE, iRet)
+      iRet = fvsSQLCloseCursor(StmtHndlOut)
 C
 C     PREPARE THE SQL QUERY
 C
-      CALL f90SQLPrepare(StmtHndlOut, SQLStmtStr, iRet)
+      iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
+     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
 C
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
       ColNumber=1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),SUMRYID,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),SUMRYID,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IYEAR,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IAGE,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IAGE,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ITPA,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),ITPA,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IBA,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IBA,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ISDI,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),ISDI,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICCF,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),ICCF,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),TOPHTB,f90SQL_NULL_PTR,iRet)
+     -           INT(5,SQLSMALLINT_KIND),TOPHTB,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+       ColNumber=ColNumber+1
+       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),FQMDB,f90SQL_NULL_PTR,iRet)
+     -           INT(5,SQLSMALLINT_KIND),FQMDB,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ITCUFT,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),ITCUFT,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IMCUFT,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IMCUFT,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IBDFT,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IBDFT,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IRTPA,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IRTPA,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IRTCUFT,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IRTCUFT,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IRMCUFT,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IRMCUFT,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IRBDFT,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IRBDFT,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IATBA,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IATBA,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IATSDI,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IATSDI,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IATCCF,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IATCCF,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),ATTOPHTB,f90SQL_NULL_PTR,iRet)
-
-      ColNumber=ColNumber+1
-       CALL f90SQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+     -           INT(5,SQLSMALLINT_KIND),ATTOPHTB,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
+      
+       ColNumber=ColNumber+1
+       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),FATQMDB,f90SQL_NULL_PTR,iRet)
+     -           INT(5,SQLSMALLINT_KIND),FATQMDB,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IPRDLEN,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IPRDLEN,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IACC,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IACC,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IMORT,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IMORT,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
+       ColNumber=ColNumber+1
+       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),YMAIB,f90SQL_NULL_PTR,iRet)
+     -           INT(5,SQLSMALLINT_KIND),YMAIB,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IFORTP,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),IFORTP,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ISZCL,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),ISZCL,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
       ColNumber=ColNumber+1
-      CALL f90SQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
+      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ISTCL,f90SQL_NULL_PTR,iRet)
+     -           INT(0,SQLSMALLINT_KIND),ISTCL,int(4,SQLLEN_KIND),
+     -           SQL_NULL_PTR)
 
-      !PRINT*, SQLStmtStr
+
   100 CONTINUE
-      !Close Cursor
-      CALL f90SQLFreeStmt(StmtHndlOut,SQL_CLOSE, iRet)
-
-      CALL f90SQLExecute(StmtHndlOut,iRet)
+      iRet = fvsSQLCloseCursor(StmtHndlOut)
+      iRet = fvsSQLExecute(StmtHndlOut)
       CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -              'DBSSumry:Inserting Row')
 
   200 CONTINUE
       !Release statement handle
-      CALL f90SQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut, iRet)
+      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
 
       END
 
