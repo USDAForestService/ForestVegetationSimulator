@@ -49,7 +49,7 @@ C.... Common include files.
 C.... Variable declarations.
 
       LOGICAL DEBUG
-      INTEGER I, J, KCOUNT
+      INTEGER I, J, K, KCOUNT, ITREE, IDMR
 
 C.... Data statements.
 

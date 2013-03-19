@@ -61,6 +61,8 @@ C Argument list variables
 C Local variables.
       
       LOGICAL   DEBUG
+      INTEGER   I, ISPI
+      REAL      D, H, CL, BAREA
 C
 C  CHECK FOR DEBUG.
 C

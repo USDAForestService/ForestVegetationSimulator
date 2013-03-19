@@ -83,15 +83,15 @@ C Argument list variables.
 
 C Local variables.
 
-      LOGICAL DEBUG
-      DIMENSION CONST(5,11),BCR(5,11),BHT(5,11),BRAD(5,11),
-     &          BDBH(5,11),BCL(5,11),BTPA(5,11),SCORE(5)
+      LOGICAL DEBUG, LTHIN
+      REAL    CONST(5,11),BCR(5,11),BHT(5,11),BRAD(5,11),
+     &        BDBH(5,11),BCL(5,11),BTPA(5,11),SCORE(5)
       INTEGER MAPISP(49),MAPAK(49),MAPCA(49),MAPBM(49),MAPCR(49),
-     &                   MAPEM(49),MAPIE(49),MAPNI(49),MAPSO(49),
-     &                   MAPTT(49),MAPUT(49),MAPWC(49),MAPBC(49)
+     &        MAPEM(49),MAPIE(49),MAPNI(49),MAPSO(49),
+     &        MAPTT(49),MAPUT(49),MAPWC(49),MAPBC(49)
       CHARACTER VVER*7
       INTEGER I,ISPI,J
-      REAL TPA,RAD,CR,CL,SCORM1
+      REAL    TPA,RAD,CR,CL,SCORM1
 
 C Data assigments for coefficients of discriminant function.      
 C      SHAPE      1       2       3       4      5

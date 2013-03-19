@@ -67,7 +67,7 @@ C**********************************************************************
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'DMCOM.F77'
 
-      INTEGER   i, j, k, u, v
+      INTEGER   i, j, k, L,u, v
       REAL      x, Wt, Mult
       REAL      OldVal(CRTHRD,DEAD_BC)
       REAL      NewVal(CRTHRD,DEAD_BC)
