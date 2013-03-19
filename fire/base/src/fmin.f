@@ -1,7 +1,7 @@
       SUBROUTINE FMIN (ICALL,NSP,LKECHO)
       IMPLICIT NONE
 C----------
-C  **FMIN  FIRE--DATE OF LAST REVISION:  01/04/11
+C  **FMIN  FIRE/M--DATE OF LAST REVISION:  01/04/11
 C----------
 C
 C     FIRE - FIRE & SNAG MODEL
@@ -22,11 +22,12 @@ C
       INCLUDE 'FMCOM.F77'
       INCLUDE 'FMFCOM.F77'
       INCLUDE 'CONTRL.F77'
+      INCLUDE 'METRIC.F77'
 C
 COMMONS
 C
       INTEGER    KWCNT
-      PARAMETER (KWCNT = 53)
+      PARAMETER (KWCNT = 55)
 
       CHARACTER*4  NSP(MAXSP,3)
       CHARACTER*8  TABLE(KWCNT), KEYWRD, PASKEY
@@ -34,7 +35,7 @@ C
       CHARACTER*10 APRMS(13)
       CHARACTER*40 PHOTOREF(32), REF
       CHARACTER*13 CHARCODE
-      LOGICAL      LNOTBK(12),LOK,LKECHO
+      LOGICAL      LNOTBK(12), LOK, LKECHO
       INTEGER      NPARMS, IDT, ICALL, IFMD, NVALS, ILEN, ICANPR, J, K
       INTEGER      IRTNCD
       REAL         YRS50(2), YRS30(2)
@@ -52,8 +53,7 @@ C
      >     'POTFTEMP','SNAGPSFT','FUELMODL','DEFULMOD','CANCALC ',
      >     'POTFSEAS','POTFPAB ','SOILHEAT','CARBREPT','CARBCUT ',
      >     'CARBCALC','CANFPROF','FUELFOTO','FIRECALC','FMODLIST',
-     >     'DWDVLOUT','DWDCVOUT','FUELSOFT'/
-
+     >     'DWDVLOUT','DWDCVOUT','FUELSOFT','USECFIM ','CFIMCALC'/    
       DATA PHOTOREF / 'Fischer INT-96                      ',
      >                'Fischer INT-97                      ',
      >                'Fischer INT-98                      ',
@@ -86,7 +86,6 @@ C
      >                'Wade and others GTR-SE-82           ',
      >                'Blank GTR-NC-77                     ',
      >                'Popp and Lundquist RMRS-GTR-172     ' /
-
       INTEGER KODE,IPRMPT,NUMBER,NPRMS,MYACT,
      &        II,JSP,IHEAD,ICHNG,ICLS,IDEC,
      &        ID,I,IFIRE,IARRY,KEY
@@ -95,9 +94,9 @@ C
 C     **********          EXECUTION BEGINS          **********
 C
    10 CONTINUE
-C
+
 C     THIS WAS INCREASED TO 9, AND THEN 12, BECAUSE WE NEEDED TO ADD FIELDS TO
-C     THE POTFMOIS, MOISTURE, AND FUELINIT KEYWORDS
+C     THE POTFMOIS, MOISTURE, AND FUELINIT KEYWORDS 
 C
       NVALS = 12
       CALL FMKEYRDR (IREAD,JOSTND,.FALSE.,KEYWRD,LNOTBK,
@@ -108,6 +107,7 @@ C
 C  RETURN KODES 0=NO ERROR,1=COLUMN 1 BLANK OR ANOTHER ERROR,2=EOF
 C               LESS THAN ZERO...USE OF PARMS STATEMENT IS PRESENT.
 C
+
       IF (KODE.LT.0) THEN
          IPRMPT=-KODE
       ELSE
@@ -117,7 +117,6 @@ C
       IF (KODE .EQ. 2) CALL ERRGRO(.FALSE.,2)
       CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
-
       CALL ERRGRO (.TRUE.,6)
       GOTO 10
    30 CONTINUE
@@ -135,7 +134,7 @@ C
 C     SPECIAL END-OF-FILE TARGET
 C
    80 CONTINUE
-      CALL ERRGRO(.FALSE.,2)
+      CALL ERRGRO (.FALSE.,2)
       CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
@@ -152,7 +151,7 @@ C
      &      2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,
      &      3100,3200,3300,3400,3500,3600,3700,3800,3900,4000,
      &      4100,4200,4300,4400,4500,4600,4700,4800,4900,5000,
-     &      5100,5200,5300), NUMBER
+     &      5100,5200,5300,5400,5500), NUMBER
 
   100 CONTINUE
 C                        OPTION NUMBER 1 -- SALVSP
@@ -163,6 +162,8 @@ C
 
       IF (ICALL .EQ. 2) THEN
          WRITE(JOSTND,2504) KEYWRD
+  104    FORMAT(/1X,A8,'   ***KEYWORD IS A STAND-LEVEL KEYWORD ONLY',
+     >      ' AND CANNOT BE INCLUDED WITH THE LANDSCAPE-LEVEL KEYWORDS')
          GOTO 10
       ENDIF
 
@@ -206,7 +207,7 @@ C
      &   I3,') IS MARKED FOR CUTTING IN SUBSEQUENT SALVAGE',
      &       ' OPERATIONS. ')
       ELSE
-        IF(LKECHO)WRITE(JOSTND,111) KEYWRD,IDT,KARD(2)(1:ILEN),JSP
+        IF(LKECHO)WRITE(JOSTND,111)KEYWRD,IDT,KARD(2)(1:ILEN),JSP
   111   FORMAT(/1X,A8,'   DATE/CYCLE ',I4,' SPECIES=',A,' (CODE=',
      &   I3,') IS MARKED TO BE LEFT IN SUBSEQUENT SALVAGE',
      &       ' OPERATIONS. ')
@@ -346,9 +347,9 @@ C
       PRMS(5) = 100.0
       PRMS(6) = 1
 C
-      IF (LNOTBK(2)) PRMS(1) = ARRAY(2)
+      IF (LNOTBK(2)) PRMS(1) = ARRAY(2) * KMtoMI
       IF (LNOTBK(3)) PRMS(2) = ARRAY(3)
-      IF (LNOTBK(4)) PRMS(3) = ARRAY(4)
+      IF (LNOTBK(4)) PRMS(3) = ARRAY(4) * CtoF1 + CtoF2
       IF (LNOTBK(5)) PRMS(4) = ARRAY(5)
       IF (LNOTBK(6)) PRMS(5) = ARRAY(6)
       IF (LNOTBK(7)) PRMS(6) = ARRAY(7)
@@ -359,20 +360,19 @@ C
       IF (PRMS(6) .LT. 1) PRMS(6) = 1
       IF (PRMS(6) .GT. 4) PRMS(6) = 4
 C
-      IF(LKECHO)WRITE(JOSTND,610) KEYWRD, IDT, PRMS(1), PRMS(2),
-     >       PRMS(3), PRMS(4), PRMS(5), PRMS(6)
-
+      IF(LKECHO)WRITE(JOSTND,610) KEYWRD, IDT, PRMS(1) * MItoKM, 
+     >  PRMS(2),PRMS(3)*FtoC1+FtoC2,PRMS(4),PRMS(5),PRMS(6)
   610 FORMAT(/1X,A8,T13,'FIRE CONDITIONS IN DATE/CYCLE ',
-     >        I4,' WILL BE: WIND: ',F5.1,' MPH.'
-     >      /T13,'FUEL MOISTURE VALUES WILL USE THE ',
-     >      'PRESET MOISTURE CONDITION ',F3.0
-     >      /T13,'TEMPERATURE: ',F5.0,' DEGREES F.'
-     >     /T13,'MORTALITY CODE: ',F2.0,' (0 = TURN OFF FFE MORTALITY',
-     >       ', 1 = FFE ESTIMATES MORTALITY)'
-     >     /T13,'PERCENTAGE OF THE STAND BURNED: ',F6.1
-     >     /T13,'SEASON OF THE BURN: ',F2.0,' (1 = EARLY SPRING ',
-     >       '(COMPACT LEAVES), 2 = BEFORE GREENUP, 3 = AFTER GREENUP,',
-     >       ' 4 = FALL)')
+     >  I4,' WILL BE: WIND: ',F5.1,' KM/H.'
+     >  /T13,'FUEL MOISTURE VALUES WILL USE THE ',
+     >  'PRESET MOISTURE CONDITION ',F3.0
+     >  /T13,'TEMPERATURE: ',F5.0,' DEGREES C.'
+     >  /T13,'MORTALITY CODE: ',F2.0,' (0 = TURN OFF FFE MORTALITY',
+     >  ', 1 = FFE ESTIMATES MORTALITY)'
+     >  /T13,'PERCENTAGE OF THE STAND BURNED: ',F6.1
+     >  /T13,'SEASON OF THE BURN: ',F2.0,' (1 = EARLY SPRING ',
+     >  '(COMPACT LEAVES), 2 = BEFORE GREENUP, 3 = AFTER GREENUP,',
+     >  ' 4 = FALL)')
 
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
       GOTO 10
@@ -414,10 +414,10 @@ C
       PRMS(4) = -1.0
 
       IF (LNOTBK(2)) PRMS(1)= ARRAY(2)
-      IF (LNOTBK(3)) PRMS(2)= ARRAY(3)
+      IF (LNOTBK(3)) PRMS(2)= ARRAY(3) * MtoFT
       IF (LNOTBK(4)) PRMS(3)= ARRAY(4)
       IF (LNOTBK(5)) THEN
-         PRMS(4)= ARRAY(5)
+         PRMS(4)= ARRAY(5) * MtoFT
          NPARMS= 4
       ENDIF
 
@@ -430,9 +430,9 @@ C
       IF (PRMS(3) .GT. 100.0) PRMS(3) = 100.
 
       IF (PRMS(2) .GT. 0.0) THEN
-         IF(LKECHO)WRITE(JOSTND,717) KEYWRD, IDT, PRMS(2)
+         IF(LKECHO)WRITE(JOSTND,717) KEYWRD, IDT, PRMS(2) * FTtoM
   717    FORMAT (/1X,A8,T13,'IN DATE/CYCLE ', I4,
-     >           ' FLAME LENGTH WILL BE: ',F6.1,' FT.')
+     >           ' FLAME LENGTH WILL BE: ',F6.1,' M.')
       ELSE
          IF(LKECHO)WRITE(JOSTND,719) KEYWRD, IDT, PRMS(1)
   719    FORMAT (/1X,A8,T13,'IN DATE/CYCLE ', I4,
@@ -447,8 +447,8 @@ C
   722   FORMAT (T13,F5.1,' % OF THE CROWN WILL UNDERGO CROWNING.')
       ENDIF
       IF (NPARMS.GE.4) THEN
-        IF(LKECHO)WRITE(JOSTND,723) PRMS(4)
-  723   FORMAT (T13,'SCORCH HEIGHT =',F10.2)
+        IF(LKECHO)WRITE(JOSTND,723) PRMS(4) * FTtoM
+  723   FORMAT (T13,'SCORCH HEIGHT =',F10.2,' M.')
       ENDIF
 
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
@@ -477,7 +477,7 @@ C
       IF (LNOTBK(3)) PRMS(2) = INT(ARRAY(3))
 
       IF(LKECHO)WRITE(JOSTND,810) KEYWRD, IDT, INT(PRMS(1)),
-     &                            INT(PRMS(2))
+     >                             INT(PRMS(2))
   810 FORMAT(/1X,A8,'   THE POTENTIAL FIRE REPORT WILL BE PRINTED ',
      &      'STARTING IN DATE/CYCLE ',I4,','/T13,'FOR ',I4,
      &      ' YEARS USING ',I2,' YEAR INCREMENTS.')
@@ -520,7 +520,7 @@ C
       ENDIF
 
       IF(LKECHO)WRITE(JOSTND,915) KEYWRD, KARD(1)(1:3), FALLX(JSP),
-     &                             ALLDWN(JSP)
+     >                            ALLDWN(JSP)
   915 FORMAT(/1X,A8,'   FOR SPECIES ',A,
      &     ', THE RATE-OF-FALL CORRECTION MULTIPLIER IS: ',F6.3,
      &     /T13,'THE SNAG AGE BY WHICH THE LAST 5% FALL: ',
@@ -647,12 +647,12 @@ C           AND INITIALLY SOFT SNAGS
       ENDIF
 
       IF(LKECHO)WRITE(JOSTND,1005) KEYWRD, KARD(1)(1:3), INT(YRS50(1)),
-     >                    INT(YRS50(2)),INT(YRS30(1)), INT(YRS30(2))
+     >  INT(YRS50(2)),INT(YRS30(1)), INT(YRS30(2))
  1005 FORMAT(/1X,A8,'   FOR SPECIES ',A,
-     >     ', THE YEARS TO 50% HT LOSS FOR INITIALLY HARD SNAGS IS: ',
-     >      I4,/T13,' AND FOR INITIALLY SOFT SNAGS IS: ',I4,/T13,
-     >      'YEARS TO THE NEXT 30% HT LOSS FOR INITIALLY HARD SNAGS: ',
-     >      I4,/T13,' AND FOR INITIALLY SOFT SNAGS IS: ',I4)
+     >  ', THE YEARS TO 50% HT LOSS FOR INITIALLY HARD SNAGS IS: ',
+     >  I4,/T13,' AND FOR INITIALLY SOFT SNAGS IS: ',I4,/T13,
+     >  'YEARS TO THE NEXT 30% HT LOSS FOR INITIALLY HARD SNAGS: ',
+     >  I4,/T13,' AND FOR INITIALLY SOFT SNAGS IS: ',I4)
 
       GOTO 10
 
@@ -710,17 +710,17 @@ C
       IF (LNOTBK(5)) PRMS(4) = INT(ARRAY(5))
 
       IF(LKECHO)WRITE(JOSTND,1215) KEYWRD, IDT, INT(PRMS(1)),
-     >                             INT(PRMS(2)),INT(PRMS(3))
+     >  INT(PRMS(2)), INT(PRMS(3))
  1215 FORMAT(/1X,A8,'   THE SNAG LIST WILL BE OUTPUT',
-     &      ' STARTING IN DATE/CYCLE ',I4,','/T13,'FOR ',I4,
-     &      ' YEARS USING ',I2,' YEAR INCREMENTS.'/
-     &      T13,'OUTPUT WILL BE PRINTED TO UNIT ',I3)
+     &  ' STARTING IN DATE/CYCLE ',I4,','/T13,'FOR ',I4,
+     &  ' YEARS USING ',I2,' YEAR INCREMENTS.'/
+     &  T13,'OUTPUT WILL BE PRINTED TO UNIT ',I3)
 
       IF (PRMS(4).GT.0) THEN
-         IF(LKECHO)WRITE(JOSTND,1216) ' NOT '
+        IF(LKECHO)WRITE(JOSTND,1216) ' NOT '
       ELSE
-         IF(LKECHO)WRITE(JOSTND,1216) ' '
- 1216    FORMAT(T13,'HEADINGS WILL',A,'BE PRINTED.')
+        IF(LKECHO)WRITE(JOSTND,1216) ' '
+ 1216   FORMAT(T13,'HEADINGS WILL',A,'BE PRINTED.')
       ENDIF
 
       MYACT = 2512
@@ -736,7 +736,7 @@ C
       ICHNG = 0
       DO 1320 ICLS=1,6
          IF (LNOTBK(ICLS)) THEN
-            SNPRCL(ICLS)= ARRAY(ICLS)
+            SNPRCL(ICLS)= ARRAY(ICLS) * CMtoIN
             ICHNG = ICLS
             IF (SNPRCL(ICLS) .GT. 36.0 .AND. SNPRCL(ICLS) .NE. 999.0)
      &               SNPRCL(ICLS) = 36.0
@@ -748,10 +748,11 @@ C
  1330    CONTINUE
       ENDIF
 
-      IF(LKECHO)WRITE(JOSTND,1350) KEYWRD,(ICLS,SNPRCL(ICLS),ICLS=1,6)
+      IF(LKECHO)WRITE(JOSTND,1350) KEYWRD,
+     >  (ICLS,SNPRCL(ICLS)*INtoCM,ICLS=1,6)
  1350 FORMAT (/1X,A8,'   THE LOWER BOUNDARY FOR EACH DBH CLASS FOR ',
-     &        'PRINTING THE SNAG OUTPUT (IN INCHES): ',
-     &        /T13,6('CLASS',I2,'=',F4.1:'; '))
+     &  'PRINTING THE SNAG OUTPUT (IN CM): ',
+     &  /T13,6('CLASS',I2,'=',F4.1:'; '))
       GOTO 10
  1400 CONTINUE
 C                        OPTION NUMBER 14 -- LANDOUT
@@ -763,7 +764,7 @@ C     USING THE KEYWORD MEANS THAT THE OUTPUT FILES WILL BE PRINTED (EVEN IF
 C     NONE OF THE FIELDS ARE ENTERED) UNLESS THE USER ENTERS A VALUE <= 0.
 C
       IF (ICALL .EQ. 1) THEN
-         WRITE(JOSTND,1404) KEYWRD
+         IF(LKECHO)WRITE(JOSTND,1404) KEYWRD
  1404    FORMAT(/1X,A8,'   ***KEYWORD IS A LANDSCAPE-LEVEL KEYWORD',
      >         ' ONLY')
          GOTO 10
@@ -778,8 +779,8 @@ C
       IF (LNOTBK(1)) JLOUT(1)= IFIX(ARRAY(1))
       IF (LNOTBK(2)) JLOUT(2)= IFIX(ARRAY(2))
       IF (LNOTBK(3)) JLOUT(3)= IFIX(ARRAY(3))
-      IF (LNOTBK(4)) PLSIZ(1)= IFIX(ARRAY(4))
-      IF (LNOTBK(5)) PLSIZ(2)= IFIX(ARRAY(5))
+      IF (LNOTBK(4)) PLSIZ(1)= IFIX(ARRAY(4) * MtoFT)
+      IF (LNOTBK(5)) PLSIZ(2)= IFIX(ARRAY(5) * MtoFT)
       IF (LNOTBK(6)) IHEAD = IFIX(ARRAY(6))
       IF (IHEAD .NE. 0) LANHED = .FALSE.
 
@@ -788,24 +789,24 @@ C
  1410    FORMAT(/1X,A8,'   THE FOLLOWING LANDSCAPE-LEVEL REPORTS WILL',
      &          ' BE PRINTED EACH YEAR: ')
 
-         IF ((JLOUT(1).GT.0).AND.LKECHO)WRITE(JOSTND,1420) JLOUT(1)
-         IF ((JLOUT(2).GT.0).AND.LKECHO)WRITE(JOSTND,1430) JLOUT(2)
-         IF ((JLOUT(3).GT.0).AND.LKECHO)WRITE(JOSTND,1440) JLOUT(3),
-     &                                            PLSIZ(1), PLSIZ(2)
+         IF((JLOUT(1) .GT. 0).AND.LKECHO)WRITE(JOSTND,1420) JLOUT(1)
+         IF((JLOUT(2) .GT. 0).AND.LKECHO)WRITE(JOSTND,1430) JLOUT(2)
+         IF((JLOUT(3) .GT. 0).AND.LKECHO)WRITE(JOSTND,1440) JLOUT(3),
+     >    IFIX(PLSIZ(1)*MtoFT), IFIX(PLSIZ(2)*MtoFT)
 
  1420    FORMAT(T18,'LOADING CATEGORIES FOR FUEL AND SNAGS, UNIT: ',I3)
  1430    FORMAT(T18,'PERCENT OF LANDSCAPE USING EACH FUEL MODEL, ',
      &              'UNIT: ',I3)
  1440    FORMAT(T18,'FIRE EFFECTS & POTENTIAL FLAME LENGTH INFO, ',
      &              'UNIT: ',I3,/T18,'THE AREA WILL BE GROUPED INTO ',
-     &              'FLAME LENGTHS THAT ARE ABOVE OR BELOW ',I3,' FEET',
-     &              ' AND ABOVE ',I3,' FEET.')
+     &              'FLAME LENGTHS THAT ARE ABOVE OR BELOW ',I3,' M',
+     &              ' AND ABOVE ',I3,' M.')
 
-         IF ((.NOT.LANHED).AND.LKECHO)WRITE(JOSTND,1450)
+         IF((.NOT. LANHED).AND.LKECHO)WRITE(JOSTND,1450)
  1450    FORMAT(T13,'TABLE HEADINGS WILL NOT BE PRINTED.')
 
       ELSE
-         IF(LKECHO)WRITE(JOSTND,1490) KEYWRD
+        IF(LKECHO)WRITE(JOSTND,1490) KEYWRD
  1490   FORMAT(/1X,A8,'     NO LANDSCAPE-LEVEL REPORTS WILL BE PRINTED')
       ENDIF
 
@@ -945,8 +946,8 @@ C        NOW RE-DETERMINE THE DECAY RATES TO DUFF AND TO AIR
      &         PRDUFF(10), (PRDUFF(I),I=1,4)
  1750       FORMAT (/1X,A8,'   THE PROPORTION OF THE DECOMPOSING ',
      &      ' MATERIAL WHICH GOES TO DUFF IN DECAY POOL ',I2,' IS:',
-     &       /T13,'LITTER: ',F4.2,
-     &      ' 0-.25: ',F4.2,' .25-1: ',F4.2,' 1-3: ',F4.2,' >3: ',F4.2)
+     &       /T13,'LITTER: ',F4.2,' 0-.64: ',F4.2,
+     &      ' .64-2.5: ',F4.2,' 2.5-7.6: ',F4.2,' >7.6: ',F4.2)
          ELSE
             DO 1735 I=1,10
                IF (PRDUFF(I) .GT. 1.0) PRDUFF(I) = 1.0
@@ -957,10 +958,11 @@ C        NOW RE-DETERMINE THE DECAY RATES TO DUFF AND TO AIR
  1735       CONTINUE
 
             IF(LKECHO)WRITE(JOSTND,1755) KEYWRD, PRDUFF(10),
-     &                                   (PRDUFF(I),I=1,4)
+     >                                   (PRDUFF(I),I=1,4)
  1755       FORMAT (/1X,A8,'   THE PROPORTION OF THE DECOMPOSING ',
      &      ' MATERIAL WHICH GOES TO DUFF IS',/T13,'LITTER: ',F4.2,
-     &      ' 0-.25: ',F4.2,' .25-1: ',F4.2,' 1-3: ',F4.2,' >3: ',F4.2)
+     &      ' 0-.64: ',F4.2,
+     &      ' .64-2.5: ',F4.2,' 2.5-7.6: ',F4.2,' >7.6: ',F4.2)
          ENDIF
       ELSE
          WRITE(JOSTND,1760) KEYWRD
@@ -1043,8 +1045,8 @@ C
       PRMS(5) = 0.9
       PRMS(6) = 0.0
 
-      IF (LNOTBK(2)) PRMS(1)= ARRAY(2)
-      IF (LNOTBK(3)) PRMS(2)= ARRAY(3)
+      IF (LNOTBK(2)) PRMS(1)= ARRAY(2) * CMtoIN
+      IF (LNOTBK(3)) PRMS(2)= ARRAY(3) * CMtoIN
       IF (LNOTBK(4)) PRMS(3)= ARRAY(4)
       IF (LNOTBK(5)) PRMS(4)= ARRAY(5)
       IF (LNOTBK(6)) PRMS(5)= ARRAY(6)
@@ -1060,7 +1062,7 @@ C
       IF(LKECHO)WRITE(JOSTND,2010) KEYWRD, IDT,(PRMS(I),I=1,3)
  2010 FORMAT(/1X,A8,'   IN DATE/CYCLE ', I4,' THE PROPORTION OF SNAGS ',
      >      'THAT ARE BETWEEN ',F4.0,' AND ',F4.0,/T13,
-     >      'INCHES DBH AND HAVE BEEN DEAD LESS THAN ',F4.0,' YEARS ',
+     >      'CM DBH AND HAVE BEEN DEAD LESS THAN ',F4.0,' YEARS ',
      >      'AND ARE ')
 
       IF (PRMS(4) .EQ. 1.0) THEN
@@ -1092,42 +1094,25 @@ C
          GOTO 10
       ENDIF
 
-      NPARMS= 12
-      PRMS(1) = -1.0
-      PRMS(2) = -1.0
-      PRMS(3) = -1.0
-      PRMS(4) = -1.0
-      PRMS(5) = -1.0
-      PRMS(6) = -1.0
-      PRMS(7) = -1.0
-      PRMS(8) = -1.0
-      PRMS(9) = -1.0
-      PRMS(10) = -1.0
-      PRMS(11) = -1.0
-      PRMS(12) = -1.0
-
+      NPARMS = 12
+      DO I = 1,NPARMS
+        PRMS(I) = -1.0
+        IF (LNOTBK(I)) PRMS(I)= ARRAY(I)
+      ENDDO
+      
       IDT = 1
-      IF (LNOTBK(1)) PRMS(1)= ARRAY(1)
-      IF (LNOTBK(2)) PRMS(2)= ARRAY(2)
-      IF (LNOTBK(3)) PRMS(3)= ARRAY(3)
-      IF (LNOTBK(4)) PRMS(4)= ARRAY(4)
-      IF (LNOTBK(5)) PRMS(5)= ARRAY(5)
-      IF (LNOTBK(6)) PRMS(6)= ARRAY(6)
-      IF (LNOTBK(7)) PRMS(7)= ARRAY(7)
-      IF (LNOTBK(8)) PRMS(8)= ARRAY(8)
-      IF (LNOTBK(9)) PRMS(9)= ARRAY(9)
-      IF (LNOTBK(10)) PRMS(10)= ARRAY(10)
-      IF (LNOTBK(11)) PRMS(11)= ARRAY(11)
-      IF (LNOTBK(12)) PRMS(12)= ARRAY(12)
-
       IF(LKECHO)WRITE(JOSTND,2110) KEYWRD,(PRMS(I),I=1,12)
- 2110 FORMAT(/1X,A8,'   INITIAL HARD FUEL VALUES (TONS/ACRE) ARE',
-     >     ' (-1.0=NO VALUE SPECIFIED): FUELS <1"=',F5.1,
-     >    '; FUELS 1-3"=',F5.1/T13,'FUELS 3-6"=',F5.1,
-     >    '; FUELS 6-12"=',F5.1,'; FUELS 12-20"=',F5.1,'; LITTER=',
-     >    F5.1,'; DUFF=',F5.1/T13,'FUELS <.25"=',F5.1,
-     >    '; FUELS .25-1"=',F5.1/T13,'FUELS 20-35"=',F5.1,
-     >    '; FUELS 35-50"=',F5.1,'; FUELS >50"=',F5.1)
+ 2110 FORMAT(/1X,A8,'   INITIAL HARD FUEL VALUES (TONNES/HA) ARE',
+     >' (-1.0=NO VALUE SPECIFIED): FUELS <2.5cm=',F5.1,
+     >'; FUELS 2.5-7.6cm=',F5.1/T13,'FUELS 7.6-15.2cm=',F5.1,
+     >'; FUELS 15.2-30.5cm=',F5.1,'; FUELS 30.5-50.8cm=',F5.1,'; LITT=',
+     >F5.1,'; DUFF=',F5.1/T13,'FUELS <.6cm=',F5.1,
+     >'; FUELS .6-2.5cm=',F5.1/T13,'FUELS 50.8-89.0cm=',F5.1,
+     >'; FUELS 89.0-127.1cm=',F5.1,'; FUELS >127.1cm=',F5.1)
+
+      DO 2115 I= 1,NPARMS
+	   IF (PRMS(I) .GT. 0.0) PRMS(I) = PRMS(I) * TMtoTI / HAtoACR
+ 2115 CONTINUE
 
       MYACT = 2521
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
@@ -1167,9 +1152,14 @@ C
       IF(LKECHO)WRITE(JOSTND,2210) KEYWRD,KARD(1)(1:3),(PRMS(I),I=2,6)
  2210 FORMAT(/1X,A8,'   INITIAL SNAG CHARACTERISTICS ',
      >      '(-1.0=NO VALUE SPECIFIED): SPECIES: ',A,
-     &       '; DBH AT DEATH (IN): ',F5.1,
-     &       /T13,'HEIGHT AT DEATH (FT): ',F5.1,'; CURRENT HEIGHT: ',
-     &       F5.1,'; AGE: ',F4.0,'; DENSITY (STEMS/ACRE): ',F6.1)
+     &       '; DBH AT DEATH (CM): ',F5.1,
+     &       /T13,'HEIGHT AT DEATH (M): ',F5.1,'; CURRENT HEIGHT: ',
+     &       F5.1,'; AGE: ',F4.0,'; DENSITY (STEMS/HA): ',F6.1)
+
+      IF (PRMS(2) .GT. 0.0) PRMS(2) = PRMS(2) * CMtoIN
+      IF (PRMS(3) .GT. 0.0) PRMS(3) = PRMS(3) * MtoFT
+      IF (PRMS(4) .GT. 0.0) PRMS(4) = PRMS(4) * MtoFT
+      IF (PRMS(6) .GT. 0.0) PRMS(6) = PRMS(6) / HAtoACR
 
       MYACT = 2522
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
@@ -1256,8 +1246,8 @@ C
       IF (LNOTBK(1)) PBSOFT = ARRAY(1)
       IF (LNOTBK(2)) PBSMAL = ARRAY(2)
       IF (LNOTBK(3)) PBTIME = ARRAY(3)
-      IF (LNOTBK(4)) PBSIZE = ARRAY(4)
-      IF (LNOTBK(5)) PBSCOR = ARRAY(5)
+      IF (LNOTBK(4)) PBSIZE = ARRAY(4) * CMtoIN
+      IF (LNOTBK(5)) PBSCOR = ARRAY(5) * MtoFT
 
       IF (PBSOFT .LT. 0.0) PBSOFT = 0.0
       IF (PBSOFT .GT. 1.0) PBSOFT = 1.0
@@ -1267,14 +1257,14 @@ C
       IF (PBSIZE .LT. 0.0) PBSIZE = 0.0
       IF (PBSCOR .LT. 0.0) PBSCOR = 0.0
 
-      IF(LKECHO)WRITE(JOSTND,2420) KEYWRD,PBSOFT,PBSMAL,PBTIME,PBSIZE,
-     >                             PBSCOR
+      IF(LKECHO)WRITE(JOSTND,2420) KEYWRD,PBSOFT,PBSMAL,PBTIME,
+     >                    PBSIZE*INtoCM,PBSCOR*FTtoM
  2420 FORMAT(/1X,A8,'   THE PROPORTIONS OF SOFT OR SMALL SNAGS TO ',
      >       'FALL AFTER A BURN ARE (RESPECTIVELY): ',F4.2,F5.2,
      >       /T13,'THE NUMBER OF YEARS IN WHICH THEY FALL IS: ',F4.0,
-     >       ' SMALL SNAGS ARE THOSE LESS THAN: ',F4.0,' INCHES DBH.',
+     >       ' SMALL SNAGS ARE THOSE LESS THAN: ',F4.0,' CM DBH.',
      >       /T13,'THE THRESHOLD SCORCH HEIGHT FOR THE POST-BURN ',
-     >       'FALLING IS: ',F5.1)
+     >       'FALLING IS: ',F5.1,' M.')
 
       GOTO 10
  2500 CONTINUE
@@ -1324,12 +1314,12 @@ C
       IF (PRMS(2) .GT. 3.0) PRMS(2) = 3.0
 
       IF(LKECHO)WRITE(JOSTND,2510) KEYWRD,IDT, INT(PRMS(1)),
-     &                             INT(PRMS(2))
+     >   INT(PRMS(2))
  2510 FORMAT(/1X,A8,'   IN DATE/CYCLE ',I4,' FUEL TREATMENT TYPE IS ',
-     &       I2,' AND HARVEST TYPE ',I2,' WAS USED FOR THE STAND',
-     &       ' ENTRY.')
+     &  I2,' AND HARVEST TYPE ',I2,' WAS USED FOR THE STAND',
+     &  ' ENTRY.')
 
-      IF ((PRMS(3).GE.0.0).AND.LKECHO)WRITE(JOSTND,2511) PRMS(3)
+      IF((PRMS(3) .GE. 0.0).AND.LKECHO)WRITE(JOSTND,2511) PRMS(3)
  2511 FORMAT(T13,'MULTIPLIER FOR FUEL DEPTH WILL BE ',F5.1)
 
       MYACT = 2525
@@ -1436,7 +1426,7 @@ C     GET THE DEFAULTS.
       CALL FMMOIS(I,MOIS)
 
 C     LOAD THE VALUES CHANGED BY THE USER
-C     IF THE LIVE HERB MOISTURE IS LEFT BLANK, USE THE LIVE WOODY
+C     IF THE LIVE HERB MOISTURE IS LEFT BLANK, USE THE LIVE WOODY 
 C     MOISTURE.  THIS WAS ASSUMED SO THAT NO ONES RESULTS WOULD CHANGE
 C     (THEY WOULDN'T HAVE TO REDO KEYWORD FILES) WHEN THE NEW MOISTURE
 C     CATEGORY WAS ADDED. SAR
@@ -1450,7 +1440,7 @@ C     CATEGORY WAS ADDED. SAR
             ELSEIF (IARRY .EQ. 7) THEN
                PRESVL(IFIRE,IARRY) = MOIS(2,1)
             ELSEIF (IARRY .EQ. 8) THEN
-               PRESVL(IFIRE,IARRY) = PRESVL(IFIRE,7)
+            	 PRESVL(IFIRE,IARRY) = PRESVL(IFIRE,7)
             ENDIF
          ENDIF
       ENDDO
@@ -1460,10 +1450,10 @@ C     CATEGORY WAS ADDED. SAR
      &        (PRESVL(IFIRE,IARRY)*100.0,IARRY=2,8)
  3050    FORMAT (/1X,A8,'   FIRE MOISTURE CONDITIONS FOR CALCULATING ',
      &        A,' POTENTIAL FLAME LENGTHS ARE: '
-     &        /T13,'% MOISTURE FOR 0-.25"= ',F4.0,'; 0.25-1"= ',F4.0,
-     &        '; 1-3"= ',F4.0,'; 3+"= ',F4.0,'; DUFF=',F4.0,
+     &       /T13,'% MOISTURE FOR 0-.64cm= ',F4.0,'; 0.64-2.5cm= ',F4.0,
+     &        '; 2.5-7.6cm= ',F4.0,'; 7.6+cm= ',F4.0,'; DUFF=',F4.0,
      &        '; LIVE WOODY =',F4.0,'; LIVE HERB =',F4.0)
-      ELSE
+       ELSE
          IF(LKECHO)WRITE(JOSTND,3050) KEYWRD, 'MODERATE',
      &        (PRESVL(IFIRE,IARRY)*100.0,IARRY=2,8)
       ENDIF
@@ -1491,14 +1481,14 @@ C
 C     SET-UP THE SIZE CLASSES FOR REPORTING FIRE-BASED MORTALITY
 C
       DO 3210 IARRY=1,7
-         IF (LNOTBK(IARRY)) LOWDBH(IARRY)=ARRAY(IARRY)
+         IF (LNOTBK(IARRY)) LOWDBH(IARRY)=ARRAY(IARRY) * CMtoIN
  3210 CONTINUE
 
       IF(LKECHO)WRITE(JOSTND,3250) KEYWRD,
-     &                             (IARRY, LOWDBH(IARRY),IARRY=1,7)
+     >  (IARRY, LOWDBH(IARRY)*INtoCM,IARRY=1,7)
  3250 FORMAT (/1X,A8,'   THE LOWER BOUND OF EACH SIZE CLASS USED ',
-     &       'IN THE MORTALITY REPORT IS:',
-     &        /T13,7('CLASS',I2,'=',F4.1:'; '))
+     &  'IN THE MORTALITY REPORT IS:',
+     &  /T13,7('CLASS',I2,'=',F4.1:'; '))
 
       GOTO 10
  3300 CONTINUE
@@ -1581,11 +1571,11 @@ C
 C     *SOURCE* CWD POOL - MUST HAVE A VALID ENTRY (0,1-11)
 C     DEFAULT 6 (>12")
 C       0 = IMPORTED (EXPORTED IN *TARGET* CONTEXT)
-C       1 = <0.25"
-C       2 =  0.25 TO   1"
-C       3 =  1    TO   3"
-C       4 =  3    TO   6"
-C       5 =  6    TO  12"
+C       1 = <0.25" (<0.64 CM)
+C       2 =  0.25 TO   1"  ( 0.64 TO  2.5 CM)
+C       3 =  1    TO   3"  ( 2.5  TO  7.6 CM)
+C       4 =  3    TO   6"  ( 7.6  TO 15.2 CM)
+C       5 =  6    TO  12"  (15.2  TO 30.5 CM)
 C       6 =  12   TO  20"
 C       7 =  20   TO  35"
 C       8 =  35   TO  50"
@@ -1618,12 +1608,12 @@ C     INVALID TO HAVE SAME SOURCE AND TARGET POOL
 C
       IF (INT(PRMS(1)) .EQ. INT(PRMS(2))) II = II + 1
 C
-C     AMOUNT TO MOVE (TONS/ACRE) - MUST BE >=0
+C     AMOUNT TO MOVE (TONNES/HA) - MUST BE >=0
 C
       PRMS(3) = 0.0
       IF (LNOTBK(4)) THEN
         IF(ARRAY(4) .GE. 0.0) THEN
-          PRMS(3) = ARRAY(4)
+          PRMS(3) = ARRAY(4) * TMtoTI / HAtoACR
         ELSE
           II = II + 1
         ENDIF
@@ -1640,23 +1630,23 @@ C
         ENDIF
       ENDIF
 C
-C     RESIDUAL AMOUNT (TONS/ACRE) - MUST BE >=0
+C     RESIDUAL AMOUNT (TONNES/HA) - MUST BE >=0
 C
       PRMS(5) = 9999.0
       IF (LNOTBK(6)) THEN
         IF (ARRAY(6) .GE. 0.0) THEN
-          PRMS(5) = ARRAY(6)
+          PRMS(5) = ARRAY(6) * TMtoTI / HAtoACR
         ELSE
           II = II + 1
         ENDIF
       ENDIF
 C
-C     TARGET AMOUNT (TONS/ACRE): UNSET= 0.0; ELSE >=0
+C     TARGET AMOUNT (TONNES/HA): UNSET= 0.0; ELSE >=0
 C
       PRMS(6) = 0.0
       IF (LNOTBK(7)) THEN
         IF (ARRAY(7) .GE. 0.0) THEN
-          PRMS(6) = ARRAY(7)
+          PRMS(6) = ARRAY(7) * TMtoTI / HAtoACR
         ELSE
           II = II + 1
         ENDIF
@@ -1664,19 +1654,19 @@ C
 
       IF (II .EQ. 0) THEN
         IF(LKECHO)WRITE(JOSTND,3405) KEYWRD,IDT,INT(PRMS(1)),
-     &                               INT(PRMS(2))
+     >    INT(PRMS(2))
  3405   FORMAT(/1X,A8,'   IN DATE/CYCLE ',I4,' FUEL IN SIZE ',
-     &      'CATEGORY',I3,' WILL BE MOVED TO',/1X,T13,'SIZE CATEGORY ',
-     &      I2,'. WHICHEVER OF THE FOLLOWING 4 CRITERIA',/1X,T13,
-     &      'MOVES THE MOST FUEL, WILL BE USED:')
-        IF(LKECHO)WRITE(JOSTND, 3406) PRMS(3)
+     &    'CATEGORY',I3,' WILL BE MOVED TO',/1X,T13,'SIZE CATEGORY ',
+     &    I2,'. WHICHEVER OF THE FOLLOWING 4 CRITERIA',/1X,T13,
+     &    'MOVES THE MOST FUEL, WILL BE USED:')
+        IF(LKECHO)WRITE(JOSTND, 3406) PRMS(3) * TItoTM / ACRtoHA
         IF(LKECHO)WRITE(JOSTND, 3407) PRMS(4)
-        IF(LKECHO)WRITE(JOSTND, 3408) PRMS(5)
-        IF(LKECHO)WRITE(JOSTND, 3409) PRMS(6)
- 3406   FORMAT(T13,'TONS/ACRE MOVED FROM SOURCE CATEGORY:    ',F12.3)
+        IF(LKECHO)WRITE(JOSTND, 3408) PRMS(5) * TItoTM / ACRtoHA
+        IF(LKECHO)WRITE(JOSTND, 3409) PRMS(6) * TItoTM / ACRtoHA
+ 3406   FORMAT(T13,'TONNES/HA MOVED FROM SOURCE CATEGORY:    ',F12.3)
  3407   FORMAT(T13,'PROPORTION MOVED FROM SOURCE CATEGORY:   ',F12.3)
- 3408   FORMAT(T13,'TONS/ACRE REMAINING IN SOURCE CATEGORY:  ',F12.3)
- 3409   FORMAT(T13,'FINAL TONS/ACRE IN TARGET CATEGORY:      ',F12.3)
+ 3408   FORMAT(T13,'TONNES/HA REMAINING IN SOURCE CATEGORY:  ',F12.3)
+ 3409   FORMAT(T13,'FINAL TONNES/HA IN TARGET CATEGORY:      ',F12.3)
         CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
       ELSE
         CALL FMKEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD,NVALS)
@@ -1688,26 +1678,26 @@ C
 C
 C                        OPTION NUMBER 35 -- POTFWIND
 C
-      IF (LNOTBK(1)) PREWND(1)=ARRAY(1)
-      IF (LNOTBK(2)) PREWND(2)=ARRAY(2)
+      IF (LNOTBK(1)) PREWND(1)=ARRAY(1) * KMtoMI
+      IF (LNOTBK(2)) PREWND(2)=ARRAY(2) * KMtoMI
 
-      IF(LKECHO)WRITE(JOSTND,3550) KEYWRD, PREWND
+      IF(LKECHO)WRITE(JOSTND,3550) KEYWRD, PREWND * MItoKM
  3550 FORMAT (/1X,A8,'   FIRE WIND SPEEDS USED FOR CALCULATING ',
      &'POTENTIAL FLAME LENGTHS ARE',/T12,' FOR SEVERE FIRE: ',F5.0,
-     &     ' AND FOR MODERATE FIRE: ',F5.0,' MPH')
+     &     ' AND FOR MODERATE FIRE: ',F5.0,' KM/H')
 
       GOTO 10
  3600 CONTINUE
 C
 C                        OPTION NUMBER 36 -- POTFTEMP
 C
-      IF (LNOTBK(1)) POTEMP(1)=ARRAY(1)
-      IF (LNOTBK(2)) POTEMP(2)=ARRAY(2)
+      IF (LNOTBK(1)) POTEMP(1)=ARRAY(1) * CtoF1 + CtoF2
+      IF (LNOTBK(2)) POTEMP(2)=ARRAY(2) * CtoF1 + CtoF2
 
-      IF(LKECHO)WRITE(JOSTND,3650) KEYWRD, POTEMP
+      IF(LKECHO)WRITE(JOSTND,3650) KEYWRD, POTEMP * FtoC1 + FtoC2
  3650 FORMAT (/1X,A8,'   FIRE TEMPERATURES USED FOR CALCULATING ',
      &'POTENTIAL FLAME LENGTHS ARE',/T12,' FOR SEVERE FIRE: ',F5.0,
-     &     ' AND FOR MODERATE FIRE: ',F5.0,' DEGREES F')
+     &     ' AND FOR MODERATE FIRE: ',F5.0,' DEGREES C')
 
       GOTO 10
  3700 CONTINUE
@@ -1887,7 +1877,7 @@ C
 
         DO I = 2,4
           IF (LNOTBK(I+1)) THEN
-            PRMS(I) = ARRAY(I+1)
+            PRMS(I) = ARRAY(I+1) / MtoFT
           ELSE
             PRMS(I) = SURFVL(IFMD,1,I-1)
           ENDIF
@@ -1895,14 +1885,14 @@ C
 
         I = 5
         IF (LNOTBK(I+1)) THEN
-          PRMS(I) = ARRAY(I+1)
+          PRMS(I) = ARRAY(I+1) / MtoFT
         ELSE
           PRMS(I) = SURFVL(IFMD,2,1)
         ENDIF
 
         I = 6
         IF (LNOTBK(I+1)) THEN
-          PRMS(I) = ARRAY(I+1)
+          PRMS(I) = ARRAY(I+1) * KGtoLB/M2toFT2
         ELSE
           PRMS(I) = FMLOAD(IFMD,1,1)
         ENDIF
@@ -1910,17 +1900,23 @@ C
         DO I = 7,8
           IF (PRMS(I) .LT. 0.0) THEN
             PRMS(I) = FMLOAD(IFMD,1,I-5)
+          ELSE
+            PRMS(I) = PRMS(I) * KGtoLB/M2toFT2
           ENDIF
         ENDDO
 
         I = 9
         IF (PRMS(I) .LT. 0.0) THEN
           PRMS(I) = FMLOAD(IFMD,2,1)
+        ELSE
+          PRMS(I) = PRMS(I) * KGtoLB/M2toFT2
         ENDIF
 
         I = 10
         IF (PRMS(I) .LT. 0.0) THEN
           PRMS(I) = FMDEP(IFMD)
+        ELSE
+          PRMS(I) = PRMS(I) * MtoFT
         ENDIF
 
         I = 11
@@ -1931,12 +1927,16 @@ C
         I = 12
         IF (PRMS(I) .LT. 0.0) THEN
           PRMS(I) = SURFVL(IFMD,2,2)
+        ELSE
+          PRMS(I) = PRMS(I) / MtoFT
         ENDIF
 
         I = 13
         IF (PRMS(I) .LT. 0.0) THEN
-          PRMS(I) = FMLOAD(IFMD,2,2)
-        ENDIF
+        	PRMS(I) = FMLOAD(IFMD,2,2)
+        ELSE
+        	PRMS(I) = PRMS(I) * KGtoLB/M2toFT2
+        ENDIF 
 
       ENDIF
 C
@@ -1971,23 +1971,25 @@ C
 
       IF (LOK) THEN
         IF(LKECHO)WRITE(JOSTND,3910) KEYWRD,IDT,INT(PRMS(1)),
-     &    (PRMS(I),I=2,5),PRMS(12),(PRMS(I),I=6,9),PRMS(13),
-     &    PRMS(10),PRMS(11)
+     &    (PRMS(I) / FTtoM, I=2,5),PRMS(12)/FTtoM,
+     &    (PRMS(I) * LBtoKG/FT2toM2, I=6,9),
+     &    PRMS(13) * LBtoKG/FT2toM2,
+     &    PRMS(10) * FTtoM, PRMS(11)  
  3910   FORMAT(/1X,A8,'   IN DATE/CYCLE ',I4,' THE VALUES FOR FUEL',
      &    ' MODEL', I3,' WILL BE: ',
-     &    /T13, 'SURFACE TO VOL RATIO:',
-     &    /T15, '    (<0.25") = ', F6.0,
-     &    /T15, '   (0.25-1") = ', F6.0,
-     &    /T15, '      (1-3") = ', F6.0,
+     &    /T13, 'SURFACE TO VOL RATIO (/M):',
+     &    /T15, '   (<0.64cm) = ', F6.0,
+     &    /T15, '(0.64-2.5cm) = ', F6.0,
+     &    /T15, ' (2.5-7.6cm) = ', F6.0,
      &    /T15, '(LIVE WOODY) = ', F6.0,
-     &    /T15, ' (LIVE HERB) = ', F6.0,
-     &    /T13,'FUEL LOADING:',
-     &    /T15, '    (<0.25") = ', F7.4,
-     &    /T15, '   (0.25-1") = ', F7.4,
-     &    /T15, '      (1-3") = ', F7.4,
-     &    /T15, '(LIVE WOODY) = ', F7.4,
-     &    /T15, ' (LIVE HERB) = ', F7.4,
-     &    /T13,'DEPTH = ', F6.3,
+     &    /T15, ' (LIVE HERB) = ', F6.0, 
+     &    /T13, 'FUEL LOADING (KG/SQ M):',
+     &    /T15, '   (<0.64cm) = ', F6.0,
+     &    /T15, '(0.64-2.5cm) = ', F6.0,
+     &    /T15, ' (2.5-7.6cm) = ', F6.0,
+     &    /T15, '(LIVE WOODY) = ', F6.0,
+     &    /T15, ' (LIVE HERB) = ', F6.0, 
+     &    /T15, '   DEPTH (M) = ', F6.3,
      &    /T13,'MOISTURE OF EXTINCTION =', F7.4)
         CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
       ELSE
@@ -2003,52 +2005,48 @@ C
 C                        OPTION NUMBER 40 -- CANCALC
 C
 C     SET OPTIONS FOR CALCULATION OF CANOPY BASE HEIGHT AND CANOPY BULK
-C     DENSITY.
+C     DENSITY (note: already kg/m3).
 C
       IF (ICALL .EQ. 2) THEN
-         WRITE(JOSTND,4004) KEYWRD
+         IF(LKECHO)WRITE(JOSTND,4004) KEYWRD
  4004    FORMAT(/1X,A8,'   ***KEYWORD IS A STAND-LEVEL KEYWORD ONLY',
      &     ' AND CANNOT BE INCLUDED WITH THE LANDSCAPE-LEVEL KEYWORDS')
          GOTO 10
       ENDIF
 C
       IF (LNOTBK(1)) ICBHMT = IFIX(ARRAY(1))
-      IF (LNOTBK(2)) CANMHT = ARRAY(2)
+      IF (LNOTBK(2)) CANMHT = ARRAY(2) * MtoFT
       IF (LNOTBK(3)) ICANSP = IFIX(ARRAY(3))
       IF (LNOTBK(4)) CBHCUT = ARRAY(4)
       IF (LNOTBK(5)) FOLMC = ARRAY(5)
 C
-      IF(LKECHO)WRITE(JOSTND,4010) KEYWRD, ICBHMT, CANMHT, ICANSP,
-     &                             CBHCUT, FOLMC
+      IF(LKECHO)WRITE(JOSTND,4010) KEYWRD, ICBHMT, CANMHT * FTtoM,
+     >                             ICANSP, CBHCUT, FOLMC
  4010 FORMAT(/1X,A8,T13,'CALCULATION OF CANOPY BASE HEIGHT AND CANOPY ',
-     &       'BULK DENSITY WILL USE METHOD ',I1,',',/T13,'TREES ',
-     &       'ATLEAST ',F5.1,' FT TALL, SPECIES CATEGORY ',I1,
-     &       ', A CUTOFF VALUE OF ',F5.1,',',/T13,'AND A FMC OF ',F5.1)
+     &  'BULK DENSITY WILL USE METHOD ',I1,',',/T13,'TREES ',
+     &  'AT LEAST ',F5.1,' M TALL, SPECIES CATEGORY ',I1,
+     &  ', A CUTOFF VALUE OF ',F5.1,',',/T13,'AND A FMC OF ',F5.1)
+     
 C
-      GOTO 10
  4100 CONTINUE
-C
-C                        OPTION NUMBER 41 -- POTFSEAS
-C
+C                        OPTION NUMBER 41 -- POTFSEAS 
       IF (LNOTBK(1)) POTSEAS(1)=ARRAY(1)
       IF (LNOTBK(2)) POTSEAS(2)=ARRAY(2)
-
+      
       IF(LKECHO)WRITE(JOSTND,4150) KEYWRD, POTSEAS
  4150 FORMAT (/1X,A8,'   SEASONS USED FOR CALCULATING POTENTIAL FIRE ',
-     &     'BEHAVIOR ARE ',/T12,' FOR SEVERE FIRE: ',I2,
-     &     ' AND FOR MODERATE FIRE: ',I2)
+     &  'BEHAVIOR ARE ',/T12,' FOR SEVERE FIRE: ',I2,
+     &  ' AND FOR MODERATE FIRE: ',I2)
       GOTO 10
  4200 CONTINUE
-C
 C                        OPTION NUMBER 42 -- POTFPAB
-C
       IF (LNOTBK(1)) POTPAB(1)=ARRAY(1)
       IF (LNOTBK(2)) POTPAB(2)=ARRAY(2)
-
+      
       IF(LKECHO)WRITE(JOSTND,4250) KEYWRD, POTPAB
  4250 FORMAT (/1X,A8,'   % AREA BURNED VALUES USED FOR CALCULATING ',
-     &     'POTENTIAL FIRE EFFECTS ARE',/T12,' FOR SEVERE FIRE: ',F5.1,
-     &     ' AND FOR MODERATE FIRE: ',F5.1)
+     &  'POTENTIAL FIRE EFFECTS ARE',/T12,' FOR SEVERE FIRE: ',F5.1,
+     &  ' AND FOR MODERATE FIRE: ',F5.1) 
       GOTO 10
  4300 CONTINUE
 C
@@ -2078,6 +2076,7 @@ C
       CALL OPNEW(KODE,IDT,MYACT,NPRMS,PRMS)
       GOTO 10
  4400 CONTINUE
+C
 C                        OPTION NUMBER 44 -- CARBREPT
 C
       IF (ICALL .EQ. 2) THEN
@@ -2157,15 +2156,15 @@ C     FLD5: HARDWOOD DIAMETER BREAKPOINT = 11.0 IN (*)
       IF (LNOTBK(1)) ICMETH    = MAX(0,MIN(1,INT(ARRAY(1))))
       IF (LNOTBK(2)) ICMETRC   = MAX(0,MIN(2,INT(ARRAY(2))))
       IF (LNOTBK(3)) CRDCAY    = MAX(0.0,MIN(1.0,ARRAY(3)))
-      IF (LNOTBK(4)) CDBRK(1)  = MAX(0.0,MIN(999.0,ARRAY(4)))
-      IF (LNOTBK(5)) CDBRK(2)  = MAX(0.0,MIN(999.0,ARRAY(5)))
+      IF (LNOTBK(4)) CDBRK(1)  = MAX(0.0,MIN(999.0,ARRAY(4)))*CMtoIN
+      IF (LNOTBK(5)) CDBRK(2)  = MAX(0.0,MIN(999.0,ARRAY(5)))*CMtoIN
 C
       IF(LKECHO)WRITE(JOSTND,4610) KEYWRD,ICMETH,ICMETRC,
-     >  CRDCAY,CDBRK(1),CDBRK(2)
+     >  CRDCAY,CDBRK(1)*INtoCM,CDBRK(2)*INtoCM
 
  4610 FORMAT(/1X,A8,T13,'CARBON REPORTS WILL BE BASED ON METHOD',
-     >      I2, ' (0=FFE, 1=JENKINS)',/T13, 'REPORT UNITS WILL BE',
-     >      I2, ' (0=IMPERIAL, 1= METRIC, 2 = METRIC TONS/ACRE)',/T13,
+     >      I2, ' (0=JENKINS, 1=FFE)',/T13, 'REPORT UNITS WILL BE',
+     >      I2, ' (0=IMPERIAL, 1=METRIC, 2 = METRIC TONS/ACRE)',/T13,
      >      'PROPORTION OF DEAD ROOTS DECAYING ANNUALLY WILL BE: ',
      >      F7.4,' (<0 = NO DEAD ROOTS)',/T13,
      >      'SOFTWOOD DIAMETER BREAKPOINT: ', F5.1,/T13,
@@ -2354,7 +2353,6 @@ C     4 AND 10 ARE NOT VALID REFERENCE CODES.
      &      'REQUIRED.  KEYWORD IGNORED.',/1X)")
             CALL RCDSET (2,.TRUE.)
       ENDIF
-
       GOTO 10
  4900 CONTINUE
 C
@@ -2388,12 +2386,15 @@ C
 C     DEFAULTS (*) SET IN FMINIT:
 C     PRM1: FIRE CALCULATION METHOD: 0 = OLD FM LOGIC (*), 1 = NEW FM LOGIC, 2 = USE MODELLED LOADS
 C     PRM2: FUEL MODEL SET: 0 = 13, 1 = 40, 2 = 53 (*)
-C     PRM3: ONE-HR SAV (1/FT) = 2000 (*)
-C     PRM4: HERB SAV (1/FT) = 1800 (*)
-C     PRM5: LIVE WOODY SAV (1/FT) = 1500 (*)
-C     PRM6: BULK DENSITY - LIVE (LBS/FT3) = 0.10 (*)
-C     PRM7: BULK DENSITY - DEAD (LBS/FT3) = 0.75 (*)
-C     PRM8: DEAD AND LIVE HEAT CONTENT (BTU/LB) = 8000 (*)
+C     ===========================================================================
+C           INTERNAL UNITS                                     METRIC INPUT UNITS
+C     ===========================================================================
+C     PRM3: ONE-HR SAV (1/FT) = 2000 (*)                   <- /m (m**2/m**3)
+C     PRM4: HERB SAV (1/FT) = 1800 (*)                     <- /m
+C     PRM5: LIVE WOODY SAV (1/FT) = 1500 (*)               <- /m
+C     PRM6: BULK DENSITY - LIVE (LBS/FT3) = 0.10 (*)       <- kg/m**3
+C     PRM7: BULK DENSITY - DEAD (LBS/FT3) = 0.75 (*)       <- kg/m**3
+C     PRM8: DEAD AND LIVE HEAT CONTENT (BTU/LB) = 8000 (*) <- kilojoules/kilogram
 
 C     PRM 2 IS USED WITH THE NEW FM LOGIC OPTION
 C     PRMS 3 - 7 ARE USED WITH THE NEW FM LOGIC AND MODELLED LOADS OPTIONS
@@ -2411,29 +2412,30 @@ C     PRM 8 IS USED WITH THE MODELLED LOAD OPTION ONLY
 
       IF (LNOTBK(2)) PRMS(1) = MAX(0,MIN(2,INT(ARRAY(2))))
       IF (LNOTBK(3)) PRMS(2) = MAX(0,MIN(2,INT(ARRAY(3))))
-      IF (LNOTBK(4)) PRMS(3) = MAX(0.0,ARRAY(4))
-      IF (LNOTBK(5)) PRMS(4) = MAX(0.0,ARRAY(5))
-      IF (LNOTBK(6)) PRMS(5) = MAX(0.0,ARRAY(6))
-      IF (LNOTBK(7)) PRMS(6) = MAX(0.0,ARRAY(7))
-      IF (LNOTBK(8)) PRMS(7) = MAX(0.0,ARRAY(8))
-      IF (LNOTBK(9)) PRMS(8) = MAX(0.0,ARRAY(9))
-
+      IF (LNOTBK(4)) PRMS(3) = MAX(0.0,ARRAY(4)) / FTtoM
+      IF (LNOTBK(5)) PRMS(4) = MAX(0.0,ARRAY(5)) / FTtoM
+      IF (LNOTBK(6)) PRMS(5) = MAX(0.0,ARRAY(6)) / FTtoM
+      IF (LNOTBK(7)) PRMS(6) = MAX(0.0,ARRAY(7)) * FT3toM3/LBtoKG
+      IF (LNOTBK(8)) PRMS(7) = MAX(0.0,ARRAY(8)) * FT3toM3/LBtoKG
+      IF (LNOTBK(9)) PRMS(8) = MAX(0.0,ARRAY(9)) * LBtoKG/BTUtoKJ
 C
       IF(LKECHO)WRITE(JOSTND,4910) KEYWRD,IDT,INT(PRMS(1)),INT(PRMS(2)),
-     >       PRMS(3), PRMS(4), PRMS(5), PRMS(6), PRMS(7), PRMS(8)
+     >  PRMS(3)*FTtoM, PRMS(4)*FTtoM, PRMS(5)*FTtoM,
+     >  PRMS(6)/(FT3toM3/LBtoKG), PRMS(7)/(FT3toM3/LBtoKG),
+     >  PRMS(8)/(LBtoKG/BTUtoKJ)
 
  4910 FORMAT(/1X,A8,T13,'FIRE CALCULATIONS IN DATE/CYCLE ',
      >    I4,' WILL BE:'
-     >    /T13, 'BASED ON METHOD',I2,' ',
+     >    /T13, 'BASED ON METHOD',I2,' ', 
      >'(0=OLD FM LOGIC, 1=NEW FM LOGIC, 2=USE MODELLED LOADS DIRECTLY)',
      >    /T13, 'FUEL MODEL SET (IF USING NEW FM LOGIC) WILL BE',
      >    I2, ' (0=13, 1=40, 2=53)',/T13,
-     >    'ONE-HOUR SAV (1/FT) WILL BE: ',F6.0,/T13,
-     >    'HERB SAV (1/FT) WILL BE: ',F6.0,/T13,
-     >    'LIVE WOODY SAV (1/FT) WILL BE: ',F6.0,/T13,
-     >    'LIVE FUEL BULK DENSITY (LBS/FT3) WILL BE: ',F4.2,/T13,
-     >    'DEAD FUEL BULK DENSITY (LBS/FT3) WILL BE: ',F4.2,/T13,
-     >    'HEAT CONTENT (BTU/LB) WILL BE: ',F6.0)
+     >    'ONE-HOUR SAV (1/M) WILL BE: ',F6.0,/T13,
+     >    'HERB SAV (1/M) WILL BE: ',F6.0,/T13,
+     >    'LIVE WOODY SAV (1/M) WILL BE: ',F6.0,/T13,
+     >    'LIVE FUEL BULK DENSITY (KG/M3) WILL BE: ',F6.3,/T13,
+     >    'DEAD FUEL BULK DENSITY (KG/M3) WILL BE: ',F6.3,/T13,
+     >    'HEAT CONTENT (KJ/KG) WILL BE: ',F6.0)
 
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
 
@@ -2540,7 +2542,6 @@ C
       MYACT = 2552
       CALL OPNEW(KODE,IDT,MYACT,NPRMS,PRMS)
       GOTO 10
-
  5300 CONTINUE
 C                        OPTION NUMBER 53 -- FUELSOFT
 C
@@ -2577,24 +2578,146 @@ C
       IF (LNOTBK(9)) PRMS(9)= ARRAY(9)
 
       IF(LKECHO)WRITE(JOSTND,5310) KEYWRD,(PRMS(I),I=1,9)
- 5310 FORMAT(/1X,A8,'   INITIAL SOFT FUEL VALUES (TONS/ACRE) ARE',
-     >     ' (-1.0=NO VALUE SPECIFIED): FUELS <.25"=',F5.1/T13,
-     >    'FUELS .25-1"=',F5.1,'; FUELS 1-3"=',F5.1,
-     >    '; FUELS 3-6"=',F5.1,'; FUELS 6-12"=',F5.1,
-     >    '; FUELS 12-20"=',F5.1/T13,'FUELS 20-35"=',F5.1,
-     >    '; FUELS 35-50"=',F5.1,'; FUELS >50"=',F5.1)
+ 5310 FORMAT(/1X,A8,'   INITIAL SOFT FUEL VALUES (TONNES/HA) ARE',
+     >     ' (-1.0=NO VALUE SPECIFIED): FUELS <.6cm=',F5.1/T13,
+     >    'FUELS .6-2.5cm=',F5.1,'; FUELS 2.5-7.6cm=',F5.1,
+     >    '; FUELS 7.6-15.2cm=',F5.1,'; FUELS 15.2-30.5cm=',F5.1,
+     >    '; FUELS 30.5-50.8cm=',F5.1/T13,'FUELS 50.8-89.0cm=',F5.1,
+     >    '; FUELS 89.0-127.1cm=',F5.1,'; FUELS >127.1cm=',F5.1)
+
+      DO 5315 I= 1,NPARMS
+        IF (PRMS(I) .GT. 0.0) PRMS(I) = PRMS(I) * TMtoTI / HAtoACR
+ 5315 CONTINUE
 
       MYACT = 2553
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
       GOTO 10
+ 5400 CONTINUE
+C                        OPTION NUMBER 54 -- USECFIM
+C
+C     THIS KEYWORD TELLS THE MODEL TO USE THE CFIM FIRE CALCULATIONS INSTEAD
+C     OF THE DEFAULT FFE FIRE CALCULATIONS
+C
+      IF (ICALL .EQ. 2) THEN
+         WRITE(JOSTND,5404) KEYWRD
+ 5404    FORMAT(/1X,A8,'   KEYWORD IS A STAND-LEVEL KEYWORD ONLY',
+     >      ' AND CANNOT BE INCLUDED WITH THE LANDSCAPE-LEVEL KEYWORDS')
+         GOTO 10
+      ENDIF
 
+      NPARMS= 7
+C     BULK DENSITY
+      PRMS(1) = 80.0
+C     DROUGHT CODE
+      PRMS(2) = 300
+C     fuel_density(kg/m^3)---rho_surf   				398.0
+      PRMS(3) = 398.0
+C     surface_area_to_volume_ratio(1/m)---sigma_surf			3092.0
+      PRMS(4) = 3092
+C     surface_area_to_volume_ratio(1/m)---sigma_can				5401.0
+      PRMS(5) = 5401.0
+C     canopy_fuel_particle_diameter(m)---diameter				0.00074
+      PRMS(6) = 0.00074
+C     canopy_fuel_particle_length(m)---length				0.10
+      PRMS(7) = 0.10
+
+      IDT = 1
+      IF (LNOTBK(1)) PRMS(1)= ARRAY(1)
+      IF (LNOTBK(2)) PRMS(2)= ARRAY(2)
+      IF (LNOTBK(3)) PRMS(3)= ARRAY(3)
+      IF (LNOTBK(4)) PRMS(4)= ARRAY(4)
+      IF (LNOTBK(5)) PRMS(5)= ARRAY(5)
+      IF (LNOTBK(6)) PRMS(6)= ARRAY(6)
+      IF (LNOTBK(7)) PRMS(7)= ARRAY(7)
+
+      DO 5409 I=1,NPARMS
+        IF (PRMS(I) .LT. 0) PRMS(I) = 0
+5409  CONTINUE
+
+      CFIM_ON = .TRUE.
+
+C           BULK DENSITY
+        CFIM_BD = PRMS(1)
+
+C           DROUGHT CODE
+        CFIM_DC = PRMS(2)
+
+C           fuel_density(kg/m^3)---rho_surf   				398.0
+        CFIM_INPUT(17) = PRMS(3)
+
+C           surface_area_to_volume_ratio(1/m)---sigma_surf			3092.0
+        CFIM_INPUT(16) = PRMS(4)
+
+C           surface_area_to_volume_ratio(1/m)---sigma_can				5401.0
+        CFIM_INPUT(19) = PRMS(5)
+
+C           canopy_fuel_particle_diameter(m)---diameter				0.00074
+        CFIM_INPUT(21) = PRMS(6)
+
+C           canopy_fuel_particle_length(m)---length				0.10
+        CFIM_INPUT(23) = PRMS(7)
+
+
+      IF(LKECHO)WRITE(JOSTND,5410) KEYWRD,(PRMS(I),I=1,7)
+ 5410 FORMAT(/1X,A8,'   THE CFIM MODEL WILL BE USED FOR FIRE ',
+     >    'CALCULATIONS.', /T13, 
+     >    'BULK DENSITY=',F4.0, '; DROUGHT CODE=',I3/T13,
+     >    'FUEL DENS(KG/M3)=',F5.1,
+     >    '; SAV SURF=',F5.0,'; SAV CANOPY=',F5.0/T13,
+     >    'CAN. PARTICLE DIAM (M)=',F7.5,
+     >    '; CAN. PARTICLE LENGTH(M)=',F7.3)
+
+      GOTO 10
+ 5500 CONTINUE
+C                        OPTION NUMBER 55 -- CFIMCALC
+C
+C     THIS KEYWORD SETS SOME PARAMETERS THAT CONTROL THE MINI-SIMULATION
+C     INSIDE THE CFIM MODEL. 
+C
+      IF (ICALL .EQ. 2) THEN
+         WRITE(JOSTND,5505) KEYWRD
+ 5505    FORMAT(/1X,A8,'   KEYWORD IS A STAND-LEVEL KEYWORD ONLY',
+     >      ' AND CANNOT BE INCLUDED WITH THE LANDSCAPE-LEVEL KEYWORDS')
+         GOTO 10
+      ENDIF
+
+      NPARMS= 3
+C     time_step(s)---tstep						1
+      PRMS(1) = 1.0
+C     iterations---iters						150
+      PRMS(2) = 150.0
+C     x_starting_position(m)---xstart					8.0
+      PRMS(3) = 8.0
+
+      IDT = 1
+      IF (LNOTBK(1)) PRMS(1)= ARRAY(1)
+      IF (LNOTBK(2)) PRMS(2)= ARRAY(2)
+      IF (LNOTBK(3)) PRMS(3)= ARRAY(3)
+
+C           time_step(s)---tstep						1
+            IF (PRMS(1) .LT. 1) PRMS(1) = 1
+            CFIM_INPUT(7) = PRMS(1)
+
+C           iterations---iters						150
+            IF (PRMS(2) .LT. 1) PRMS(2) = 1            
+            CFIM_INPUT(8) = PRMS(2)
+
+C           x_starting_position(m)---xstart					8.0
+            IF (PRMS(3) .LT. 1) PRMS(3) = 1
+            CFIM_INPUT(9) = PRMS(3)
+
+      IF(LKECHO)WRITE(JOSTND,5510) KEYWRD,(PRMS(I),I=1,3)
+ 5510 FORMAT(/1X,A8,'   THE INTERNAL CFIM FIRE CALCULATION WILL USE THE'
+     >    ' FOLLOWING PARAMETERS:', /T13,
+     >    'TIME STEP=',F3.0,' ITERATIONS=',F5.0,' START POS=',F5.0)
+
+      GOTO 10
 C
 C.... Special entry to retrieve keywords.
 
       ENTRY FMKEY (KEY,PASKEY)
       PASKEY= TABLE(KEY)
       RETURN
-
       END
 
       SUBROUTINE FMKEYDMP (IOUT,IRECNT,KEYWRD,ARRAY,KARD,NVALS)
@@ -2649,12 +2772,13 @@ C     NVALS = THE NUMBER OF KEYWORD FIELDS, OFTEN 7, CAN BE DIFFERENT.
 C----------
 C  DECLARATIONS AND DATA STATEMENTS:
 C----------
-      INTEGER NVALS
+      INTEGER  NVALS
       CHARACTER*130 RECORD
       CHARACTER*10 KARD(NVALS)
       CHARACTER*8 KEYWRD,TMP
       LOGICAL LDEBUG,LNOTBK(NVALS),LCOM,LFLAG,L
       INTEGER IOUT,IRECNT,INUNIT,KODE,NF,IP,I,J,K,ISTLNB
+      INTEGER IRTNCD
       REAL ARRAY(NVALS)
 C----------
 C  READ KEYWORD AND LOCATE BLANK PARAMETER FIELDS.
@@ -2673,6 +2797,12 @@ C
       DO I=1,8
          CALL UPCASE (TMP(I:I))
       ENDDO
+      IF (TMP.EQ.'STOP') THEN
+         IF (.NOT.LFLAG) WRITE (IOUT,'(/'' STOP'')')
+         CALL GRSTOP
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
+      ENDIF
       IF (LFLAG) THEN
          CALL GROHED (IOUT)
          CALL PPEATV (L)
