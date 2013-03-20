@@ -506,7 +506,6 @@
 ../mistoe/src/misinf.f
 ../mistoe/src/misintbc.f
 ../mistoe/src/mismrt.f
-../mistoe/src/misprm.F77
 ../mistoe/src/misran.f
 ../mistoe/src/msppgt.f
 ../mistoe/src/mspppt.f
@@ -586,7 +585,6 @@
 ../rd/src/rdcntl.f
 ../rd/src/rdcom.F77
 ../rd/src/rdcry.F77
-../rd/src/rdcryl.F77
 ../rd/src/rdcsd.f
 ../rd/src/rddam.f
 ../rd/src/rddbug.f
