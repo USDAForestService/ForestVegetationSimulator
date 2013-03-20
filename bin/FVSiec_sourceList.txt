@@ -347,6 +347,7 @@
 ../fire/base/common/FMPARM.F77
 ../fire/base/common/FMPROP.F77
 ../fire/base/common/FMSVCM.F77
+../fire/base/src/excfim.f
 ../fire/base/src/fmburn.f
 ../fire/base/src/fmcadd.f
 ../fire/base/src/fmcbio.f
