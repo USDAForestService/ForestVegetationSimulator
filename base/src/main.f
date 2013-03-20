@@ -1,7 +1,7 @@
       PROGRAM MAIN
       IMPLICIT NONE
 C----------
-C  **MAIN--BASE DATE OF LAST REVISION:  10/13/2012
+C  $Id$
 C----------
       INTEGER rtnCode,lenCL,i
 C

@@ -2,7 +2,7 @@
      >                   XK1,YK1,XK2,YK2,XS,YS,KODE)
       IMPLICIT NONE
 C----------
-C  **SVLNOL--BASE  DATE OF LAST REVISION: 07/05/00
+C  $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

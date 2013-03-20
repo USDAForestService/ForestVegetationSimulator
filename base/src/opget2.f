@@ -2,7 +2,7 @@
      >                   PRMS,KODE)
       IMPLICIT NONE
 C----------
-C  **OPGET2 DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 C     OPTION PROCESSING ROUTINE - NL CROOKSTON - JUNE 1981 - MOSCOW

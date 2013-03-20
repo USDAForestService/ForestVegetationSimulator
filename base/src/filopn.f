@@ -1,7 +1,7 @@
       SUBROUTINE FILOPN
       IMPLICIT NONE
-C--------
-C  **FILOPN--BASE   DATE OF LAST REVISION:  01/22/2012
+C----------
+C  $Id$
 C----------
 C
 C  THIS ROUTINE OPENS THE FILES FOR THE PROGNOSIS MODEL.
@@ -236,6 +236,8 @@ C
 
       SUBROUTINE openIfClosed (ifileref,sufx)
       IMPLICIT NONE
+C----------
+C  $Id$
       integer ifileref,I
       character (len=*) sufx
       character (len=256) keywrdfn

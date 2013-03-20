@@ -1,7 +1,7 @@
       SUBROUTINE DBADD (SUBIN,NC,ICYC,IRC)
       IMPLICIT NONE
 C----------
-C  **DBADD--BS   DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 C

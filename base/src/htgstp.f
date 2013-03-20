@@ -1,7 +1,7 @@
       SUBROUTINE HTGSTP
       IMPLICIT NONE
 C----------
-C  **HTGSTP--BS   DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 COMMONS

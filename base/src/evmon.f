@@ -1,7 +1,7 @@
       SUBROUTINE EVMON (IPH,IPPCL)
       IMPLICIT NONE
 C----------
-C  **EVMON  DATE OF LAST REVISION:  09/28/09
+C  $Id$
 C----------
 C
 C     CALLED FROM TREGRO.

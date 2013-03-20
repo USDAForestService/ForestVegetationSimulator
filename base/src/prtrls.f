@@ -1,7 +1,7 @@
       SUBROUTINE PRTRLS (IWHO)
       IMPLICIT NONE
 C----------
-C  **PRTRLS--BASE   DATE OF LAST REVISION: 01/22/2012
+C  $Id$
 C----------
 C
 C     PRINT THE TREE LIST.

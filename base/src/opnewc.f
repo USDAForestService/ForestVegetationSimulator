@@ -2,7 +2,7 @@
      >                   IPRMPT,IRECNT,ICYC)
       IMPLICIT NONE
 C----------
-C  **OPNEWC--BS DATE OF LAST REVISION:  02/07/13
+C  $Id$
 C----------
 C
 C     OPTION PROCESSING ROUTINE - NL CROOKSTON - JULY 1988 - MOSCOW
