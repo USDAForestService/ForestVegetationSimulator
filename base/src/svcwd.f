@@ -678,6 +678,7 @@ C----------
               CWDPIL(NCWD) = IPS - 1
               CWDDIA(NCWD) = AVGDIA
               CWDLEN(NCWD) = AVGLEN / 12.0
+              CWDWT (NCWD) = PCSIZE(IPS,ISZCLS) * AVGV2T
               CALL RANN(XX)
               CWDDIR(NCWD) = IFIX(360. *XX +.5)
               NSVOBJ = NSVOBJ + 1
