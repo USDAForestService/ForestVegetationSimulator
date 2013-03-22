@@ -15,13 +15,13 @@ iet01 :
 	
  
 iet02 : 
-	@echo Test iet02, test use of command line options 
-	-../../bin/FVSiec --keywordfile=iet02.key --stoppoint=2,2040,iet02.stop
+	@echo Test iet02, test use of stop/restart, same as iet01. 
+	-../../bin/FVSiec --keywordfile=iet01.key --stoppoint=2,2040,iet02.stop
 	-../../bin/FVSiec --restart=iet02.stop
-	grep -v "\-999" iet02.sum      > iet02.tmp
-	grep -v "\-999" iet02.sum.save > iet02.tmp.save
-	-diff -w iet02.tmp iet02.tmp.save
-	rm iet02.tmp iet02.tmp.save
+	grep -v "\-999" iet01.sum      > iet01.tmp
+	grep -v "\-999" iet01.sum.save > iet01.tmp.save
+	-diff -w iet01.tmp iet01.tmp.save
+	rm iet01.tmp iet01.tmp.save
 	@echo Test iet02 ended
 	
 iet03 : 
