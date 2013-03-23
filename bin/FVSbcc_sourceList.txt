@@ -239,7 +239,7 @@
 ../common/ESTREE.F77
 ../common/ESWSBW.F77
 ../common/FVSSTDCM.F77
-../common/GTGCOM.F77
+../common/GGCOM.F77
 ../common/GLBLCNTL.F77
 ../common/HTCAL.F77
 ../common/HVDNCM.F77
