@@ -404,7 +404,7 @@ C     soft and hard
 C     GET A TOTAL VOLUME FOR THIS SNAG
 
       TVOLI=0.
-      CALL FMSVOL(I,HTD,TVOLI,.false.,JOSTND)
+      CALL FMSVOL(I,HTD,TVOLI,.FALSE.,JOSTND)
 
       GOTO 1000
 
@@ -445,7 +445,7 @@ C     soft are ignored and set to zero
 C     GET A TOTAL VOLUME FOR THIS TREE (created by cuts)
 
       TVOLI=-1      
-      CALL FMSVL2(SP,DIAM,HTD,TVOLI,TVOLI,.false.,.false.,JOSTND)
+      CALL FMSVL2(SP,DIAM,HTD,TVOLI,TVOLI,.FALSE.,.FALSE.,JOSTND)
 
       GOTO 1000
 
@@ -462,9 +462,18 @@ C     that value to find the size class.
 C      X = (HIHTH - LOHTH) * 12. * DBHS(I) / ((LOHTH * 12.) - 54.)
 
 C     RADIUS/HEIGHT RATIO FOR TRIANGLE (CONE MODEL OF TREE)
-
+    
+C     FOR SMALL VOLUME BYPASS BEHRE
+      IF (TVOLI .LE. 1.) THEN
+         IDCL = DKRCLS(SP)
+         J=2 ! 0.25-1" class
+         K=2 ! Hard
+         ADD = TVOLI * V2T(SP) * SCNV(K)
+         CWD(1,J,K,IDCL) = CWD(1,J,K,IDCL) + ADD
+         CWDNEW(2,J) = CWDNEW(2,J) + ADD
+         RETURN 
+      ENDIF
       IF(DIAM .LE. 0.1) DIAM=0.1
-      IF (TVOLI .LE. 1.0E-3) RETURN !BEHRE NEEDS SOME SMALL VOL
 
 C     SDIFF AND S2 ARE ONLY FOR DEBUGGING NEW CODE
       SDIFF = 0.
@@ -597,7 +606,6 @@ C         allocate the volume DIF of material to the various CWD categories.
           IF (DIF .GT. 1.E-6) THEN
             ADD = DIF * V2T(SP) * SCNV(K)
             CWD(1,J,K,IDCL) = CWD(1,J,K,IDCL) + ADD
-
             CWDNEW(2,J) = CWDNEW(2,J) + ADD
           ENDIF
 
