@@ -1,7 +1,7 @@
       SUBROUTINE FMTRET (IYR)
       IMPLICIT NONE
 C----------
-C  $Id$
+C  **FMTRET FIRE--DATE OF LAST REVISION:  10/13/09
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -68,14 +68,14 @@ C
       IF (JTODO .LE. 0) RETURN
       DO JDO = 1,JTODO
         CALL OPGET(JDO,5,JYR,IACTK,NPRM,PRMS)
-CSB        IF (JYR .EQ. IYR) THEN
+        IF (JYR .EQ. IYR) THEN
           AFFECT = PRMS(2) / 100.0
           ATREAT = PRMS(3) / 100.0
           FULCON = PRMS(4) / 100.0
           TRMORT = MIN(MAX(0.,PRMS(5) / 100.0),1.)
           LFLBRN = .TRUE.
-          CALL OPDONE(JDO,IYR)
-CSB        ENDIF
+          CALL OPDONE(JDO,JYR)
+        ENDIF
       ENDDO
 
       IF (.NOT. LFLBRN) RETURN
