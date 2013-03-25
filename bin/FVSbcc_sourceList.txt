@@ -357,7 +357,6 @@
 ../fire/base/src/fmfint.f
 ../fire/base/src/fmgfmv.f
 ../fire/base/src/fmhide.f
-../fire/base/src/fmin.f
 ../fire/base/src/fminit.f
 ../fire/base/src/fmkill.f
 ../fire/base/src/fmmain.f
@@ -365,7 +364,6 @@
 ../fire/base/src/fmphotocode.f
 ../fire/base/src/fmphotoval.f
 ../fire/base/src/fmpocr.f
-../fire/base/src/fmpofl.f
 ../fire/base/src/fmprun.f
 ../fire/base/src/fmr6fall.f
 ../fire/base/src/fmr6htls.f
@@ -492,6 +490,8 @@
 ../metric/dfb/src/dfbin.f
 ../metric/fire/base/src/fmdout.f
 ../metric/fire/base/src/fmfout.f
+../metric/fire/base/src/fmin.f
+../metric/fire/base/src/fmpofl.f
 ../metric/fire/base/src/fmsout.f
 ../metric/fire/base/src/fmssum.f
 ../metric/newmist/src/misin.f
