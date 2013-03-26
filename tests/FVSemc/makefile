@@ -6,7 +6,7 @@ emt01 :
 	-../../bin/FVSemc --keywordfile=emt01.key
 	grep -v "\-999" emt01.sum      > emt01.tmp
 	grep -v "\-999" emt01.sum.save > emt01.tmp.save
-	diff -w emt01.tmp emt01.tmp.save
+	-diff -w emt01.tmp emt01.tmp.save
 	rm emt01.tmp emt01.tmp.save
 	@echo Test emt01 ended
 
@@ -16,7 +16,7 @@ emt02 :
 	-../../bin/FVSemc --restart=emt.stop
 	grep -v "\-999" emt01.sum      > emt01.tmp
 	grep -v "\-999" emt01.sum.save > emt01.tmp.save
-	diff -w emt01.tmp emt01.tmp.save
+	-diff -w emt01.tmp emt01.tmp.save
 	rm emt01.tmp emt01.tmp.save
 	@echo Test emt02 ended
 		

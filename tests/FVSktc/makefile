@@ -6,7 +6,7 @@ ktt01 :
 	-../../bin/FVSktc --keywordfile=ktt01.key
 	grep -v "\-999" ktt01.sum      > ktt01.tmp
 	grep -v "\-999" ktt01.sum.save > ktt01.tmp.save
-	diff -w ktt01.tmp ktt01.tmp.save
+	-diff -w ktt01.tmp ktt01.tmp.save
 	rm ktt01.tmp ktt01.tmp.save
 	@echo Test ktt01 ended
 
@@ -16,7 +16,7 @@ ktt02 :
 	-../../bin/FVSktc --restart=ktt.stop
 	grep -v "\-999" ktt01.sum      > ktt01.tmp
 	grep -v "\-999" ktt01.sum.save > ktt01.tmp.save
-	diff -w ktt01.tmp ktt01.tmp.save
+	-diff -w ktt01.tmp ktt01.tmp.save
 	rm ktt01.tmp ktt01.tmp.save
 	@echo Test ktt02 ended
 			

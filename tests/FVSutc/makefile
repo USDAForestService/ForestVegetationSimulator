@@ -6,7 +6,7 @@ utt01 :
 	-../../bin/FVSutc --keywordfile=utt01.key
 	grep -v "\-999" utt01.sum      > utt01.tmp
 	grep -v "\-999" utt01.sum.save > utt01.tmp.save
-	diff -w utt01.tmp utt01.tmp.save
+	-diff -w utt01.tmp utt01.tmp.save
 	rm utt01.tmp utt01.tmp.save
 	@echo Test utt01 ended
 
@@ -16,7 +16,7 @@ utt02 :
 	-../../bin/FVSutc --restart=utt.stop
 	grep -v "\-999" utt01.sum      > utt01.tmp
 	grep -v "\-999" utt01.sum.save > utt01.tmp.save
-	diff -w utt01.tmp utt01.tmp.save
+	-diff -w utt01.tmp utt01.tmp.save
 	rm utt01.tmp utt01.tmp.save
 	@echo Test utt02 ended
 			

@@ -6,7 +6,7 @@ snt01 :
 	-../../bin/FVSsn < snt01.rsp
 	grep -v "\-999" snt01.sum      > snt01.tmp
 	grep -v "\-999" snt01.sum.save > snt01.tmp.save
-	diff -w snt01.tmp snt01.tmp.save
+	-diff -w snt01.tmp snt01.tmp.save
 	rm snt01.tmp snt01.tmp.save
 	@echo Test snt01 ended
 	
@@ -16,7 +16,7 @@ snt02 :
 	-../../bin/FVSsn --restart=snt.stop
 	grep -v "\-999" snt01.sum      > snt01.tmp
 	grep -v "\-999" snt01.sum.save > snt01.tmp.save
-	diff -w snt01.tmp snt01.tmp.save
+	-diff -w snt01.tmp snt01.tmp.save
 	rm snt01.tmp snt01.tmp.save
 	@echo Test snt02 ended
 		 
