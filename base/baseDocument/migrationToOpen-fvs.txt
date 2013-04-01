@@ -11,7 +11,7 @@ a few CF, except for the PN and TT variants which showed differences on the orde
 ROUTINE              FORT COLLINS                     OPEN-FVS                                    STATUS
 
 Ak/CRATET                                   removed duplicate declaration of H                    OpenFVS
-  /ESTAB                             added ZRAND(ITRN)=-999. (1163,1233,1304)                      OpenFVS
+  /ESTAB                             added ZRAND(ITRN)=-999. (1163,1233,1304)                     OpenFVS
   /GROHED                                   changed data statement SVN and entry                  OpenFVS
   /REGENT                                   initialized ZRAND(1:MAXTRE)=-999.0                    OpenFVS
 

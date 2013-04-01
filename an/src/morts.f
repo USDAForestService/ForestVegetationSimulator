@@ -189,7 +189,8 @@ C----------
       IS=ISP(I)
       WK2(I) = 0.0
       D=DBH(I)
-      IF(D.LT.DBHSDI)GO TO 12             ! BRANCH IF D IS LT USER'S DBHSDI
+      IF(LZEIDE.AND.(D.LT.DBHZEIDE))GO TO 12    ! BRANCH IF D IS LT MIN DBH
+      IF(.NOT.LZEIDE.AND.(D.LT.DBHSTAGE))GO TO 12
       BARK=BRATIO(IS,D,HT(I))
       G = (DG(I)/BARK) * (FINT/10.0)
       CIOBDS=(2.0*D*G+G*G)
@@ -546,7 +547,8 @@ C----------
       P=PROB(I)-WK2(I)
       IS=ISP(I)
       D=DBH(I)
-      IF(D.LT.DBHSDI)GO TO 30             ! BRANCH IF D IS LT USER'S DBHSDI
+      IF(LZEIDE.AND.(D.LT.DBHZEIDE))GO TO 30    ! BRANCH IF D IS LT MIN DBH
+      IF(.NOT.LZEIDE.AND.(D.LT.DBHSTAGE))GO TO 30
       BARK=BRATIO(IS,D,HT(I))
       G = (DG(I)/BARK) * (FINT/10.0)
       CIOBDS=(2.0*D*G+G*G)

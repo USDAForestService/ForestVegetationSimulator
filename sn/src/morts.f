@@ -618,7 +618,9 @@ C----------
       G = (DG(I)/BARK) * (FINT/5.0)
       CIOBDS=(2.0*D*G+G*G)
       SD2SQN=SD2SQN+P*(D*D+CIOBDS)
+      IF(LZEIDE)THEN
       SUMDR10N=SUMDR10N+P*(D+G)**(1.605)
+      ENDIF
       TN=TN+P
    30 CONTINUE
       IF(TN .EQ. 0.0)GO TO 35
