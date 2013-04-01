@@ -1,4 +1,4 @@
-Subject: Voleqnum keyword, SDICALC keyword, SORNEC Climate, TRESZCP keyword
+Subject: Voleqnum keyword, SDICALC keyword, SORNEC Climate, TREESZCP keyword
 Name: R. Havis
 Date: March, 20, 2013
 Variants affected: CA, EM, IE, NI, SO, WS, TT, AK, AN, BM,
@@ -20,7 +20,7 @@ Description:
          3) The climate extension mortality function was not being accessed
             in the SO variant. This has been corrected.
 
-         4) The TRESZCP keyword was being applied twice to ponderosa
+         4) The TREESZCP keyword was being applied twice to ponderosa
             pine in the TT variant. This has been corrected.
 
 Impact on users:
