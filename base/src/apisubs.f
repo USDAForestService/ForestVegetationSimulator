@@ -760,8 +760,8 @@ C     add an activity to the schedule.
       return 
       end
       
-      subroutine fvsSVSDimSizes(nliveobjs,ndeadobjs,ncwdobjs,
-     -                          mxliveobjs,mxdeadobjs,mxcwdobjs)
+      subroutine fvsSVSDimSizes(nsvsobjs,ndeadobjs,ncwdobjs,
+     -                          mxsvsobjs,mxdeadobjs,mxcwdobjs)
       implicit none
       include "PRGPRM.F77"
       include "SVDATA.F77"
@@ -770,17 +770,17 @@ C     add an activity to the schedule.
 #ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSVSDIMSIZES
 !DEC$ ATTRIBUTES ALIAS:'FVSSVSDIMSIZES':: FVSSVSDIMSIZES
-!DEC$ ATTRIBUTES REFERENCE :: NLIVEOBJS,NDEADOBJS,NCWDOBJS
-!DEC$ ATTRIBUTES REFERENCE :: MXLIVEOBJS,MXDEADOBJS,MXCWDOBJS
+!DEC$ ATTRIBUTES REFERENCE :: NSVSOBJS,NDEADOBJS,NCWDOBJS
+!DEC$ ATTRIBUTES REFERENCE :: MXSVSOBJS,MXDEADOBJS,MXCWDOBJS
 #endif
 
-      integer :: nliveobjs,  ndeadobjs,  ncwdobjs,  
-     -           mxliveobjs, mxdeadobjs, mxcwdobjs 
+      integer :: nsvsobjs,  ndeadobjs,  ncwdobjs,  
+     -           mxsvsobjs, mxdeadobjs, mxcwdobjs 
       
-      nliveobjs  =  NSVOBJ
+      nsvsobjs   =  NSVOBJ
       ndeadobjs  =  NDEAD
       ncwdobjs   =  NCWD
-      mxliveobjs =  MXSVOB
+      mxsvsobjs  =  MXSVOB
       mxdeadobjs =  MXDEAD
       mxcwdobjs  =  MXCWD
       return
@@ -906,7 +906,6 @@ C     SNAG section:
           return
         endif
         if (action=="get") attr = ISTATUS(:ndead)
-
         if (action=="set") ISTATUS(:ndead) = int(attr,4) 
 
       case ("snagwt0","snagwt1")
@@ -1016,8 +1015,8 @@ C     ALL object section (the locations, etc):
           rtnCode = 3
           return
         endif
-        if (action=="get") attr = IOBJTP(:ncwd)
-        if (action=="set") IOBJTP(:ncwd) = int(attr,4) 
+        if (action=="get") attr = IOBJTP(:nsvobj)
+        if (action=="set") IOBJTP(:nsvobj) = int(attr,4) 
 
       case ("objindex")  
         if (nobjs > MXSVOB) then
@@ -1030,10 +1029,10 @@ C     ALL object section (the locations, etc):
           rtnCode = 3
           return
         endif
-        if (action=="get") attr = IS2F(:ncwd)
-        if (action=="set") IS2F(:ncwd) = int(attr,4) 
+        if (action=="get") attr = IS2F(:nsvobj)
+        if (action=="set") IS2F(:nsvobj) = int(attr,4) 
 
-      case ("objxloc")  
+      case ("xloc")  
         if (nobjs > MXSVOB) then
           attr = 0
           rtnCode = 2
@@ -1044,10 +1043,10 @@ C     ALL object section (the locations, etc):
           rtnCode = 3
           return
         endif
-        if (action=="get") attr = XSLOC(:ncwd)
-        if (action=="set") XSLOC(:ncwd) = real(attr,4) 
+        if (action=="get") attr = XSLOC(:nsvobj)
+        if (action=="set") XSLOC(:nsvobj) = real(attr,4) 
 
-      case ("objyloc")  
+      case ("yloc")  
         if (nobjs > MXSVOB) then
           attr = 0
           rtnCode = 2
@@ -1058,8 +1057,8 @@ C     ALL object section (the locations, etc):
           rtnCode = 3
           return
         endif
-        if (action=="get") attr = YSLOC(:ncwd)
-        if (action=="set") YSLOC(:ncwd) = real(attr,4) 
+        if (action=="get") attr = YSLOC(:nsvobj)
+        if (action=="set") YSLOC(:nsvobj) = real(attr,4) 
         
       case default
         rtnCode = 1
