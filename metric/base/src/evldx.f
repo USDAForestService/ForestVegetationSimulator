@@ -438,7 +438,13 @@ C
           GOTO 1000
   921     CONTINUE
           XLDREG(1) = XLDREG(1) / ACRtoHA
-          GOTO 1000
+          GOTO 1000          
+  922     CONTINUE
+          XLDREG(1) = XLDREG(1) / ACRtoHA
+          GOTO 1000            
+  923     CONTINUE
+          XLDREG(1) = XLDREG(1) / ACRtoHA
+          GOTO 1000            
   922     CONTINUE
           XLDREG(1) = XLDREG(1) / ACRtoHA
           GOTO 1000            

@@ -236,8 +236,6 @@ C
 
       SUBROUTINE openIfClosed (ifileref,sufx)
       IMPLICIT NONE
-C----------
-C  $Id$
       integer ifileref,I
       character (len=*) sufx
       character (len=256) keywrdfn
