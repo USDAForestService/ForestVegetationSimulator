@@ -1,7 +1,7 @@
       SUBROUTINE FMPPGET (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
 C----------
-C  **FMPPGET      DATE OF LAST REVISION: 06/29/10
+C  **FMPPGET      DATE OF LAST REVISION: 02/08/13
 C----------
 C  Purpose:
 C     Get (read) the Fire Model data for a given stand from DA file.
@@ -168,6 +168,7 @@ C------- new FFE INTEGER variables for down wood reports --------
       CALL IFREAD (WK3, IPNT, ILIMIT, YRDEAD, NSNAGZ      , 2)
       CALL IFREAD (WK3, IPNT, ILIMIT, FMICR, MAXTRE       , 2)
       CALL IFREAD (WK3, IPNT, ILIMIT, IFUELMON, MXDFMD    , 2)
+      CALL IFREAD (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)
       
       CALL LFREAD (WK3, IPNT, ILIMIT, LOGICS,   MXL, 2)
       LANHED = LOGICS ( 1)
@@ -347,6 +348,11 @@ C------- new FFE REAL variables --------
       CALL BFREAD (WK3, IPNT, ILIMIT, UBD,      2          , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, CWDVOL,  3*10*2*5    , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, CWDCOV,  3*10*2*5    , 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, PREMST,  MAXTRE      , 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, PREMCR,  MAXTRE      , 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, DBHC,  MAXTRE        , 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, HTC,  MAXTRE         , 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, CROWNWC,  MAXSP*6    , 2)
                   
       RETURN
       END

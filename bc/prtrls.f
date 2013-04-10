@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C  **PRTRLS--BASE   DATE OF LAST REVISION: 01/19/10
-C----------
 C
 C     PRINT THE TREE LIST.
 C

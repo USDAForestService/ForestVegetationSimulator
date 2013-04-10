@@ -1,4 +1,5 @@
-!== last modified  03-29-2004
+!== last modified  01-18-2013
+C 01/18/2013 added calculation for stump vol(14 and tip VOL(15)
       SUBROUTINE R6VOL(VOLEQ,FORST,DBHOB,BTR,FCLASS,MTOPP,HT1,HTTYPE,
      >           VOL,LOGVOL,NOLOGP,LOGDIA,SCALEN,DBTBH,HT1PRD,CTYPE,
      >           ERRFLAG)
@@ -184,9 +185,14 @@ c        logvol(5,i)=LOGVOL(4,I)
           TDI2 = LOGDIA(I,2)
           LOGDIA(I+1,2) = TDI2
   600 CONTINUE
+C     calculate stump vol as 1 foot cylindar
+      IF(VOL(14).LT.0.01) VOL(14)=0.005454154*LOGDIA(1,2)**2
+      
       LOGDIA(1,1) = 0
       LOGDIA(1,2) = 0
-
+c     calculate stem tip volume
+      IF(VOL(4).GT.0.0) VOL(15)=VOL(1)-VOL(4)-VOL(14)
+      IF(VOL(15).LT.0.0) VOL(15)=0.0
  1000 RETURN
       END
 

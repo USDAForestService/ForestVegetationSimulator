@@ -1,4 +1,5 @@
-!== last modified  10-12-2012
+!== last modified  01-18-2013
+C 01/18/2013 added FIAVOLEQDEF, R5_PNWEQN and R6_PNWEQN for PNE FIA equations.
       SUBROUTINE VOLEQDEF (VAR,REGN,FORST,DIST,SPEC,PROD,VOLEQ,ERRFLAG)
 
 C    SUBROUTINE WILL RETURN THE DEFAULT VOLUME EQUATION NUMBER
@@ -2042,3 +2043,367 @@ C           If not found, use Other Hardwood
        RETURN
       END
 
+C =======================================================================
+      SUBROUTINE FIAVOLEQDEF(VAR,REGN,FORST,DIST,SPEC,VOLEQ,ERRFLAG)
+
+C    SUBROUTINE WILL RETURN THE DEFAULT FIA VOLUME EQUATION NUMBER
+C        SPEC = 3 DIGIT FIA SPECIES CODE
+c ----------------------------------------------------------------------
+c FIA species default equation
+c species     common name           WOR     WWA    EOR    EWA     CA
+c ----------  -------------------   ---     ---    ---    ---     --
+c 11          Pacific silver fir     11     11     10     10     --
+c 14          Bristlecone fir        --     --     --     --     18
+c 15          White fir              23     --     10     --     23
+c 17          Grand fir              11     11     10     10     23
+c 19          Subalpine fir          11     11     10     10     18
+c 20          California red fir     --     --     --     --     18
+c 21          Shasta red fir         18     18     18     18     18
+c 22          Noble fir              11     11     10     10     18
+c 41          Port-Orford-cedar      19     19     19     19      8
+c 42          Alaska-cedar            9      9      8      8      8
+c 50          Cypress                --     --     --     --     19
+c 51          Arizona cypress        --     --     --     --     19
+c 56          McNabb cypress         --     --     --     --     19
+c 62          California juniper     --     --     --     --     21
+c 64          Western juniper        21     21     21     21     21
+c 65          Utah juniper           --     --     --     --     21
+c 72          Subalpine larch        --     22     --     22     --
+c 73          Western larch          --     22     22     22     --
+c 81          Incense cedar          19     19     19     19     19
+c 92          Brewer spruce          13     --     13     --     12
+c 93          Engelmann spruce       13     13     12     12     12
+c 98          Sitka spruce           13     13     --     --     12
+c 101          Whitebark pine        15     15     15     15     20
+c 102          Bristlecone pine      --     --     --     --     16
+c 103          Knobcone pine         15     --     15     --     16
+c 104          Foxtail pine          --     --     --     --     16
+c 108          Lodgepole pine        15     15     15     15     16
+c 109          Coulter pine          --     --     --     --     5
+c 113          Limber pine           15     --     15     --     16
+c 116          Jeffrey pine           5     --      4     --     5
+c 117          Sugar pine            20     20     20     20     20
+c 119          Western white pine    15     15     15     15     20
+c 120          Bishop pine           --     --     --     --     16
+c 122          Ponderosa pine(>=5dbh) 5      4      4      4      5
+c 122          Ponderosa pine(<5”dbh) 5      5      5      5      5
+c 124          Monterey pine         --     --     --     --     16
+c 127          Gray pine             --     --     --     --     5
+c 130          Scotch pine           17     17     17     17     17
+c 133          Singleleaf pinyon     --     --     --     --     21
+c 137          Washoe pine           --     --     --     --     5
+c 201          Bigcone Douglas-fir   --     --     --     --     3
+c 202          Douglas-fir            1      1      2      2     3
+c 211          Redwood               24     --     --     --     24
+c 212          Giant Sequoia         24     --     --     --     24
+c 231          Pacific yew            9      9      8      8     8
+c 242          Western redcedar       9      9      8      8     8
+c 251          California nutmeg     --     --     --     --     8
+c 263          Western hemlock        6      6      6      6     6
+c 264          Mountain hemlock      17     17     17     17     17
+c 298          Unknown Conifer       17     17     17     17     17
+c 312          Bigleaf maple         37     26     37     26     37
+c 313          Boxelder              --     --     --     --     38
+c 321          Rocky Mountain maple  --     --     --     --     --
+c 322          Bigtooth maple        --     --     --     --     --
+c 330          California buckeye    --     --     --     --     43
+c 341          Tree of heaven        --     --     --     --     26
+c 351          Red alder             26     25     26     25     26
+c 352          White alder           26     --     26     --     26
+c 361          Pacific madrone       40     26     40     26     40
+c 374          Water birch           --     --     --     --     26
+c 375          Paper birch           --     --     --     --     --
+c 376          Western paper birch   --     26     --     26     --
+c 431          Golden chinkapin      32     26     --     26     32
+c 475 Curlleaf mountain-mahogany     --     --     45     --     45
+c 492          Pacific dogwood       --     26     --     26     26
+c 500          Hawthorn              --     --     --     --     --
+c 510          Eucalyptus            26     --     --     --     31
+c 542          Oregon ash            38     26     38     26     38
+c 590          Holly                 26     26     26     26     26
+c 600          Walnut                26     26     26     --     38
+c 631          Tanoak                34     --     --     --     34
+c 660          Apple                 26     26     26     26     42
+c 730          California sycamore   26     26     26     26     42
+c 740          Cottonwood and poplar --     --     --     --     --
+c 741          Balsam poplar         --     --     --     --     --
+c 742          Eastern cottonwood    --     --     --     --     --
+c 745          Plains cottonwood     --     --     --     --     --
+c 746          Quaking aspen         26     26     26     26     28
+c 747          Black cottonwood      26     26     26     26     27
+c 748          Fremont poplar        --     --     --     --     27
+c 755          Mesquite              --     --     --     --     --
+c 760          Cherry                26     26     26     26     26
+c 800          Oak-deciduous         --     --     --     --     43
+c 801          California live oak   --     --     --     --     43
+c 805          Canyon live oak       42     --     --     --     42
+c 807          Blue oak              --     --     --     --     39
+c 810          Emory oak             --     --     --     --     --
+c 811          Englemann oak         --     --     --     --     36
+c 815          Oregon white oak      41     26     41     26     41
+c 818          California black oak  38     --     38     26     38
+c 821          California white oak  --     --     --     --     35
+c 839          Interior live oak     --     --     --     --     44
+c 901          Black locust          --     --     --     --     41
+c 920          Willow                26     26     26     26     40
+c 981          California-laurel     33     --     --     --     33
+c 998          Unknown hardwood      26     26     26     26     41
+c 999          Unknown Tree          26     26     26     26     41
+c ------------------------------------------------------------------------
+      CHARACTER*2 FORST,DIST,VAR
+      CHARACTER*10 VOLEQ
+      INTEGER ERRFLAG,REGN,SPEC
+
+      IF(VAR .EQ. '  ') THEN
+         CALL GETVARIANT(REGN,FORST,DIST,VAR)
+      ENDIF
+      IF(REGN .EQ. 5) THEN
+         CALL R5_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
+      ELSE IF(REGN.EQ.6)THEN
+         CALL R6_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
+      ELSE
+         ERRFLAG=1
+      ENDIF
+
+      RETURN      
+      END
+
+C FIA DEFAULT VOLUME EQUATION FOR CA
+      SUBROUTINE R5_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
+      CHARACTER*2 FORST,DIST,VAR
+      CHARACTER*10 VOLEQ, EQNUM(91)
+      INTEGER ERRFLAG,SPEC,FIA(91)
+      INTEGER DONE,HALF,FIRST,LAST
+
+      DATA (FIA(I),I=1,91)/  
+     &  11, 14, 15, 17, 19, 20, 21, 22, 41, 42,
+     &  50, 51, 56, 62, 64, 65, 72, 73, 81, 92, 
+     &  93, 98,101,102,103,104,108,109,113,116,
+     & 117,119,120,122,124,127,130,133,137,142,
+     & 201,202,211,212,231,242,251,263,264,298,
+     & 301,312,313,330,333,341,351,352,361,374,
+     & 431,475,478,492,510,542,590,600,631,660,
+     & 671,730,746,747,748,760,768,800,801,805,
+     & 807,811,815,818,821,839,901,920,981,998,
+     & 999/
+      DATA (EQNUM(I),I=1,91)/
+c        11,14, 15, 17, 19,
+     & '616TRFW264','516TRFW021','516TRFW015','516TRFW015','516TRFW021',
+c        20,21, 22, 41, 42,
+     & '516TRFW021','516TRFW021','516TRFW021','616TRFW242','616TRFW242',
+c        50,51, 56, 62, 64,
+     & '516TRFW081','516TRFW081','516TRFW081','516TRFW060','516TRFW060',
+c        65,72, 73,81, 92,
+     & '516TRFW060','616TRFW073','616TRFW073','516TRFW081','616TRFW094',
+c        93,98,101,102,103,
+     & '616TRFW094','616TRFW094','516TRFW117','516TRFW108','516TRFW108',
+c       104,108,109,113,116,
+     & '516TRFW108','516TRFW108','516TRFW122','516TRFW108','516TRFW122',
+c       117,119,120,122,124,
+     & '516TRFW117','516TRFW117','516TRFW108','516TRFW122','516TRFW108',
+c       127,130,133,137,142,
+     & '516TRFW122','616TRFW264','516TRFW060','516TRFW122','616TRFW264',
+c       201,202,211,212,231,
+     & '516TRFW202','516TRFW202','616TRFW211','616TRFW211','616TRFW242',
+c       242,251,263,264,298,
+     & '616TRFW242','616TRFW242','616TRFW263','616TRFW264','616TRFW264',
+c       301,312,313,330,333,
+     & '500DVEW815','500DVEW312','500DVEW818','500DVEW801','500DVEW815',
+c       341,351,352,361,374,
+     & '500DVEW351','500DVEW351','500DVEW351','500DVEW361','500DVEW351',
+c       431,475,478,492,510,
+     & '500DVEW431','400DVEW475','500DVEW815','500DVEW351','616TRFW998',
+c       542,590,600,631,660,
+     & '500DVEW818','500DVEW351','500DVEW818','500DVEW631','500DVEW805',
+c       671,730,746,747,748,
+     & '500DVEW815','500DVEW805','616TRFW746','616TRFW747','616TRFW747',
+c       760,768,800,801,805,
+     & '500DVEW351','500DVEW815','500DVEW801','500DVEW801','500DVEW805',
+c       807,811,815,818,821,
+     & '500DVEW807','500DVEW811','500DVEW815','500DVEW818','500DVEW821',
+c       839,901,920,981,998,
+     & '500DVEW839','500DVEW815','500DVEW361','500DVEW981','500DVEW815',
+c       999
+     & '500DVEW815'/
+
+C     GET EQUATION FROM EQNUME ARRAY
+          DONE=0
+          LAST = 91
+          FIRST = 1
+          DO 55, WHILE (DONE.EQ.0)
+              HALF = (LAST - FIRST +1)/2 + FIRST
+              IF(FIA(HALF) .EQ. SPEC)THEN
+                  DONE = HALF
+              ELSEIF(FIRST .EQ. LAST) THEN
+                  ERRFLAG = 1
+                  DONE = -1
+              ELSE IF (FIA(HALF) .LT. SPEC) THEN
+                  FIRST = HALF
+              ELSE
+                  LAST = HALF - 1
+              ENDIF
+  55       CONTINUE 
+      
+          IF(DONE .LT. 0) THEN
+              VOLEQ = EQNUM(LAST)
+          ELSE
+              VOLEQ = EQNUM(DONE)   
+          ENDIF
+
+      RETURN
+      END SUBROUTINE R5_PNWEQN
+      
+C FIA DEFAULT VOLUME EQUATION FOR WA AND OR
+      SUBROUTINE R6_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
+      CHARACTER*2 FORST,DIST,VAR
+      CHARACTER*10 VOLEQ, EQNUMW(66), EQNUME(66)
+      INTEGER ERRFLAG,SPEC,FIA(66)
+      INTEGER DONE,HALF,FIRST,LAST
+      DATA (FIA(I),I=1,66)/  
+     &	  11, 15, 17, 19, 20, 21, 22, 41, 42, 64,
+     &	  66, 72, 73, 81, 92, 93, 98,101,103,106,
+     &	 108,113,116,117,119,122,130,202,211,212,
+     &	 231,242,263,264,298,312,321,351,352,361,
+     &	 375,376,431,475,478,492,500,510,542,590,
+     &	 600,631,660,730,740,746,747,760,768,805,
+     &	 815,818,920,981,998,999/     
+      DATA (EQNUMW(I),I=1,66)/  
+c      	  11, 15, 17, 19, 20, 
+     & '632TRFW011','532TRFW015','632TRFW011','632TRFW011','532TRFW021',
+c         21, 22, 41, 42, 64,
+     & '532TRFW021','632TRFW011','532TRFW081','632TRFW242','532TRFW060',
+c         66, 72, 73, 81, 92,
+     & '532TRFW060','632TRFW073','632TRFW073','532TRFW081','632TRFW098',
+c         93, 98,101,103,106,
+     & '632TRFW098','632TRFW098','632TRFW108','632TRFW108','632TRFW264',
+c        108,113,116,117,119,
+     & '632TRFW108','632TRFW108','532TRFW122','532TRFW117','632TRFW108',
+c        122,130,202,211,212,
+     & '532TRFW122','632TRFW264','632TRFW202','632TRFW211','632TRFW211',
+c        231,242,263,264,298,
+     & '632TRFW242','632TRFW242','632TRFW263','632TRFW264','632TRFW264',
+c        312,321,351,352,361,
+     & '500DVEW312','500DVEW351','500DVEW351','500DVEW351','500DVEW361',
+c        375,376,431,475,478,
+     & '500DVEW351','500DVEW351','500DVEW431','400DVEW475','400DVEW475',
+c        492,500,510,542,590,
+     & '500DVEW351','500DVEW351','500DVEW351','500DVEW818','500DVEW351',
+c        600,631,660,730,740,
+     & '500DVEW351','500DVEW631','500DVEW351','500DVEW351','500DVEW351',
+c        746,747,760,768,805,
+     & '500DVEW351','500DVEW351','500DVEW351','500DVEW351','500DVEW805',
+c        815,818,920,981,998,
+     & '500DVEW815','500DVEW818','500DVEW351','500DVEW981','500DVEW351',
+c       999
+     & '500DVEW351'/
+      DATA (EQNUME(I),I=1,66)/  
+c      	  11, 15, 17, 19, 20,21,      
+     & '616TRFW019','616TRFW019','616TRFW019','616TRFW019','516TRFW021',
+c         21, 22, 41, 42, 64,
+     & '516TRFW021','616TRFW019','516TRFW081','616TRFW242','516TRFW060',
+c         66, 72, 73, 81, 92,
+     & '516TRFW060','616TRFW073','616TRFW073','516TRFW081','616TRFW098',
+c         93, 98,101,103,106,
+     & '616TRFW094','616TRFW094','616TRFW108','616TRFW108','616TRFW264',
+c        108,113,116,117,119,
+     & '616TRFW108','616TRFW108','616TRFW122','516TRFW117','616TRFW108',
+c        122,130,202,211,212,
+     & '616TRFW122','616TRFW264','616TRFW202','616TRFW211','616TRFW211',
+c        231,242,263,264,298,
+     & '616TRFW242','616TRFW242','616TRFW263','616TRFW264','616TRFW264',
+c        312,321,351,352,361,
+     & '500DVEW312','500DVEW351','500DVEW351','500DVEW351','500DVEW361',
+c        375,376,431,475,478,
+     & '500DVEW351','500DVEW351','500DVEW351','400DVEW475','400DVEW475',
+c        492,500,510,542,590,
+     & '500DVEW351','500DVEW351','500DVEW351','500DVEW818','500DVEW351',
+c        600,631,660,730,740,
+     & '500DVEW351','500DVEW631','500DVEW351','500DVEW351','500DVEW351',
+c        746,747,760,768,805,
+     & '500DVEW351','500DVEW351','500DVEW351','500DVEW351','500DVEW805',
+c        815,818,920,981,998,
+     & '500DVEW815','500DVEW818','500DVEW351','500DVEW981','500DVEW351',
+c       999
+     & '500DVEW351'/
+
+      DONE=0
+      LAST = 66
+      FIRST = 1
+c     Westside Variants
+      IF(VAR.EQ.'PN' .OR. VAR.EQ.'WC' .OR. VAR.EQ.'NC' .OR.
+     >   VAR.EQ.'CA')THEN
+C     GET EQUATION FROM EQNUMW ARRAY
+          DO 65, WHILE (DONE.EQ.0)
+              HALF = (LAST - FIRST +1)/2 + FIRST
+              IF(FIA(HALF) .EQ. SPEC)THEN
+                  DONE = HALF
+              ELSEIF(FIRST .EQ. LAST) THEN
+                  ERRFLAG = 1
+                  DONE = -1
+              ELSE IF (FIA(HALF) .LT. SPEC) THEN
+                  FIRST = HALF
+              ELSE
+                  LAST = HALF - 1
+              ENDIF
+  65       CONTINUE 
+      
+          IF(DONE .LT. 0) THEN
+              VOLEQ = EQNUMW(LAST)
+          ELSE
+              VOLEQ = EQNUMW(DONE)   
+          ENDIF
+
+C     FORESTS IN WA
+C     NEED TO FIND FOREST NUMBER FOR WA!!!
+        IF(FORST.EQ.'03' .OR. FORST.EQ.'05' .OR. FORST.EQ.'09'
+     >    .OR. FORST.EQ.'13' .OR. FORST.EQ.'17' .OR. FORST.EQ.'21')THEN
+          IF(SPEC.EQ.72 .OR. SPEC.EQ.73)THEN
+            VOLEQ='632TRFW073'
+          ELSEIF(SPEC.EQ.122)THEN
+            VOLEQ='632TRFW122'
+          ELSEIF(SPEC.EQ.312 .OR. SPEC.EQ.361 .OR. SPEC.EQ.376
+     >           .OR. SPEC.EQ.431 .OR. SPEC.EQ.492
+     >           .OR. SPEC.EQ.542 .OR. SPEC.EQ.815)THEN
+            VOLEQ='500DVEW351'
+          ELSEIF(SPEC.EQ.351)THEN
+            VOLEQ='616TRFW351'
+          ENDIF
+        ENDIF
+C     EAST VARIANTS
+      ELSE
+C     GET EQUATION FROM EQNUME ARRAY
+          DO 75, WHILE (DONE.EQ.0)
+              HALF = (LAST - FIRST +1)/2 + FIRST
+              IF(FIA(HALF) .EQ. SPEC)THEN
+                  DONE = HALF
+              ELSEIF(FIRST .EQ. LAST) THEN
+                  ERRFLAG = 1
+                  DONE = -1
+              ELSE IF (FIA(HALF) .LT. SPEC) THEN
+                  FIRST = HALF
+              ELSE
+                  LAST = HALF - 1
+              ENDIF
+  75       CONTINUE 
+      
+          IF(DONE .LT. 0) THEN
+              VOLEQ = EQNUME(LAST)
+          ELSE
+              VOLEQ = EQNUME(DONE)   
+          ENDIF
+
+C     FORESTS IN WA      
+        IF(FORST.EQ.'03' .OR. FORST.EQ.'05' .OR. FORST.EQ.'09'
+     >    .OR. FORST.EQ.'13' .OR. FORST.EQ.'17' .OR. FORST.EQ.'21')THEN
+          IF(SPEC.EQ.351)THEN
+            VOLEQ='616TRFW351'
+          ELSEIF(SPEC.EQ.312 .OR. SPEC.EQ.361 .OR. SPEC.EQ.542
+     &            .OR. SPEC.EQ.815 .OR. SPEC.EQ.818)THEN
+            VOLEQ='500DVEW351'
+          ENDIF
+        ENDIF
+      ENDIF
+            
+      RETURN
+      END SUBROUTINE R6_PNWEQN
+      

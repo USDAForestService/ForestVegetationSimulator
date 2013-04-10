@@ -1,7 +1,10 @@
       SUBROUTINE FMSVOL (II, XHT, VOL2HT, DEBUG, IOUT)
       IMPLICIT NONE
+C
+C  $Id$
+C
 C----------
-C  **FMSVOL FM/SEI--DATE OF LAST REVISION:  11/08/07
+C  **FMSVOL FIRE-BC
 C----------
 *     CALLED FROM: FMSOUT
 *                  FMDOUT

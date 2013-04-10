@@ -4,8 +4,6 @@
 C----------
 C  $Id$
 C----------
-C  **SUMOUT--SEI   DATE OF LAST REVISION:   07/23/08
-C----------
 C
 C     WRITES SUMMARY OUTPUT.
 C

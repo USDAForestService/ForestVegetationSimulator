@@ -2,7 +2,7 @@
      >                 KARD,JOSTND,LDEBUG,LKECHO)
       IMPLICIT NONE
 C----------
-C  **EVIF--BASE   DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 C     COMPILES AND STORES THE IF EXPRESSION.

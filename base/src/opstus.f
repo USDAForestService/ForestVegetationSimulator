@@ -2,7 +2,7 @@
      >                  NTIMES,IDT,NPRMS,ISTAT,KODE)
       IMPLICIT NONE
 C----------
-C  **OPSTUS DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 C     OPSTUS IS USED TO CHECK THE STATUS OF AN ACTIVITY.  THE

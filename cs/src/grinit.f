@@ -1,7 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-C  **GRINIT--CS   DATE OF LAST REVISION:  07/21/11
+C  **GRINIT--CS   DATE OF LAST REVISION:  02/08/13
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
@@ -241,6 +241,9 @@ C----------
       DLOMSB=0.
       DHIMSB=999.
       MFLMSB=1
+      DBHZEIDE=0.
+      DBHSTAGE=0.
+      DR016=0.
       DBHSDI=0.
 C
       DO 30 J=1,9

@@ -1,7 +1,8 @@
+//
+// $Id$
+//
 
 /* #define e_mplus1 14     */
-
-
 
 void soiltemp_initconsts (REAL r_bdi, REAL r_pdi, REAL r_lsi, REAL r_gai,
                      REAL r_xwoi, REAL r_copi, REAL r_xoi,

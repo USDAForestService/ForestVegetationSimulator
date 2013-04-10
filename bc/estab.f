@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C   **ESTAB--SEI  DATE OF LAST REVISION:   01/03/11
-C----------
 COMMONS
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'ARRAYS.F77'

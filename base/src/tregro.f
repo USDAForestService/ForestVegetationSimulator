@@ -1,7 +1,7 @@
       SUBROUTINE TREGRO
       IMPLICIT NONE
 C----------
-C  **TREGRO--BS  DATE OF LAST REVISION:  12/20/2011
+C  $Id$
 C----------
 C    CALLED FROM **MAIN** AND PPMAIN EACH CYCLE.
 C----------

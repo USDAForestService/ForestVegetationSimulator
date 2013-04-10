@@ -1,4 +1,5 @@
-!== last modified  3-29-2004
+!== last modified  1-18-2013
+C 01/18/2013 Added calculation for tip volume VOL(15)
       SUBROUTINE R12VOL(EQNUM,MTOPP,HT1PRD,DBHOB,VOL,NOLOGP,
      >                  NOLOGS,FCLASS,CUTFLG,BFPFLG,CUPFLG,ERRFLAG)
 
@@ -129,7 +130,9 @@ C***************************************************************
           IF (VOL(7) .LT. 0.0) THEN
              VOL(7) = 0.0
           ENDIF
-
+C     Calculate stem tip volume
+      IF(VOL(4).GT.0.0 .AND. VOL(1).GT.0.0) VOL(15)=VOL(1)-VOL(4)
+      IF(VOL(15).LT.0.01) VOL(15)=0.0
  1000 CONTINUE
 
       RETURN

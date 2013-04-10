@@ -48,7 +48,7 @@ C**********************************************************************
 C     LOCAL VARIABLES.
 
       INTEGER   I, J      
-      REAL      X, TMP(MXTHRX)
+      REAL      X, A, B, TMP(MXTHRX)
 
       DO J = 1, MXTHRX
         TMP(J) = EXP(DSTNCE(J) * B)

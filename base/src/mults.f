@@ -1,7 +1,7 @@
       SUBROUTINE MULTS (KIND,IDT,XMULT)
       IMPLICIT NONE
 C----------
-C  **MULTS--BASE   DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 COMMONS

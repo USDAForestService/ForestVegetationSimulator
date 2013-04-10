@@ -1,7 +1,7 @@
       SUBROUTINE EVLDX (XLDREG,NXLDX,INSTR,IRC)
       IMPLICIT NONE
 C----------
-C  **EVLDX--BASE/M   DATE OF LAST REVISION:  03/15/2012
+C  $Id$
 C----------
 C
 C     CALLED FROM ALGEVL
@@ -439,6 +439,12 @@ C
   921     CONTINUE
           XLDREG(1) = XLDREG(1) / ACRtoHA
           GOTO 1000          
+  922     CONTINUE
+          XLDREG(1) = XLDREG(1) / ACRtoHA
+          GOTO 1000            
+  923     CONTINUE
+          XLDREG(1) = XLDREG(1) / ACRtoHA
+          GOTO 1000            
   922     CONTINUE
           XLDREG(1) = XLDREG(1) / ACRtoHA
           GOTO 1000            

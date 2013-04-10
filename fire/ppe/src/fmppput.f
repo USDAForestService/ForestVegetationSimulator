@@ -1,7 +1,7 @@
       SUBROUTINE FMPPPUT (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
 C----------
-C  **FMPPPUT      DATE OF LAST REVISION: 06/29/10
+C  **FMPPPUT      DATE OF LAST REVISION: 02/08/13
 C----------
 C  Purpose:
 C     Put (write) the Fire Model data for a given stand to DA file.
@@ -169,6 +169,7 @@ C------- new FFE INTEGER variables for down wood reports --------
       CALL IFWRIT (WK3, IPNT, ILIMIT, YRDEAD, NSNAGZ      , 2)
       CALL IFWRIT (WK3, IPNT, ILIMIT, FMICR, MAXTRE       , 2)
       CALL IFWRIT (WK3, IPNT, ILIMIT, IFUELMON, MXDFMD    , 2)
+      CALL IFWRIT (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)
       
       LOGICS ( 1) = LANHED
       LOGICS ( 2) = LATFUEL
@@ -349,6 +350,11 @@ C------- new FFE REAL variables --------
       CALL BFWRIT (WK3, IPNT, ILIMIT, UBD,     2           , 2)            
       CALL BFWRIT (WK3, IPNT, ILIMIT, CWDVOL, 3*10*2*5     , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, CWDCOV, 3*10*2*5     , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, PREMST,  MAXTRE      , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, PREMCR,  MAXTRE      , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, DBHC,  MAXTRE        , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, HTC,  MAXTRE         , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, CROWNWC,  MAXTRE*6   , 2)
             
       RETURN
       END

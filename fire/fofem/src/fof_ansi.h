@@ -1,3 +1,6 @@
+//
+// $Id$
+//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_ansi.h
 * Desc: These are the functions that are not standard library functions

@@ -1,7 +1,10 @@
       SUBROUTINE FMCFIM (IYR, FMD, UWIND, IBYRAM, FLAMEHT, CANBURN, ROS)
       IMPLICIT NONE
+C
+C  $Id$
+C
 C----------
-C  **FMCFIM  FIRE--DATE OF LAST REVISION:  3/27/11
+C  **FMCFIM  FIRE-BC
 C----------
 C
 C     CALLED FROM: FMBURN
@@ -30,8 +33,9 @@ C
 C
 COMMONS
 C
-      integer iyr
+      integer iyr, RC
       integer FMD
+      integer CFIM_DRIVER
       character VVER*7
       real CFIM_OUTPUT(10)
       REAL FMINFO(13), LHV
@@ -44,17 +48,11 @@ C
       INTEGER CANBURN, INB
       REAL ACTWFC, ACTFFC, FFC, WFC, SURFUEL
 
-      interface
-	  subroutine CFIM_DRIVER(CFIM_INPUT,CFIM_OUTPUT,FMINFO)
-        !dec$ attributes alias:'_CFIM_DRIVER'::CFIM_DRIVER
-        real      CFIM_INPUT(*)
-	  real      CFIM_OUTPUT(*)
-        real      FMINFO(*)
-	  end subroutine
-      end interface
-!      external CFIM_driver
-!      integer  CFIM_driver
-
+#ifdef _WINDLL
+      !DEC$ ATTRIBUTES DLLIMPORT :: CFIM_DRIVER
+#endif
+      !DEC$ ATTRIBUTES ALIAS : '_CFIM_DRIVER' :: CFIM_DRIVER
+      
 C     check for debug
 
       call dbchk (debug,'FMCFIM',6,icyc)
@@ -169,7 +167,8 @@ C       DEPTH AND MOIS OF EXTINCTION
           FMINFO(12) = DEPTH
           FMINFO(13) = MEXT(1)
 
-        CALL CFIM_DRIVER(CFIM_INPUT,CFIM_OUTPUT,FMINFO)
+        RC = 0
+        RC = CFIM_DRIVER(CFIM_INPUT,CFIM_OUTPUT,FMINFO)
 
 C	    CFIM_output[0] = maxparttemp;
 C	    CFIM_output[1] = flag;0.

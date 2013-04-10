@@ -1,7 +1,7 @@
       SUBROUTINE INITRE
       IMPLICIT NONE
 C----------
-C  **INITRE--BASE/M  DATE OF LAST REVISION:  08/10/10
+C  $Id$
 C----------
 C
 C  THIS ROUTINE PROCESSES OPTIONS AND INITIATES THE
@@ -33,22 +33,23 @@ COMMONS
 C
       INTEGER IDUM1,IDUM2,IDUM3,IHAB,NEWYR,ISPEC,IFOREST,INTDIST,IFORST
       INTEGER IREGN,IRDUM,INUM,IDFLG,IDTYPE,IXF,IXTMP,ITB,ITC,JJTAB
-      INTEGER IFSP,ITOPD9,ISTLNB
+      INTEGER IFSP,ISTLNB
       REAL    CAPHT,CAPFLG,CAPPRP,CAPDBH,DUM1,XTMP,X,TB,XXG
-      REAL    TC,SDHI,SDLO,ARRAY(7),PRMS(10),XBAF
+      REAL TC,SDHI,SDLO,ARRAY(7),PRMS(10)
       INTEGER ITOPD8,IACT,IRC,IDBCYC,NP,K,I1,IGSP,IG,IULIM,IGRP
       INTEGER ISPC,ILEN,IS,IDT,JRECNT,ISDSP,IGNDEF,IPSI,KODE,IPRMPT
       INTEGER NUMBER,IPTKNT,I,IISP,J,I2
-      INTEGER ERRFLAG
+      INTEGER ERRFLAG,IRTNCD
       LOGICAL LTRERD,LFIRST,LNOTBK(7),LNOTRE,LACTV
       LOGICAL DEBUG,LOPEVN,LKECHO
       LOGICAL RRGO,RRT
-      CHARACTER*150 RECORD
+      CHARACTER*250 RECORD
       CHARACTER*10 KARD(7),PVRDUM
       CHARACTER*2 FORST,FORDUM,DIST,PROD
       CHARACTER*8 KEYWRD,IAGERF,IPLTRF,TPCOM
-      CHARACTER VVER*7
+      CHARACTER VVER*7,VOLEQ*10
       CHARACTER CALCSDI*7      
+      DATA IEND/'END '/
 C
 C  KEYWRD= THE KEYWORD OF INTEREST
 C  NUMBER= OPTION NUMBER AS DETERMINED BY ORDER IN 'TABLE' VECTOR.
@@ -90,6 +91,9 @@ C----------
       LFIRST = .TRUE.
       IPSI=0
    10 CONTINUE
+      call fvsGetRtnCode(IRTNCD)
+      if (IRTNCD.ne.0) return
+C
       CALL KEYRDR (IREAD,JOSTND,DEBUG,KEYWRD,LNOTBK,
      >             ARRAY,IRECNT,KODE,KARD,LFLAG,LKECHO)
 C----------
@@ -101,9 +105,18 @@ C----------
       ELSE
          IPRMPT=0
       ENDIF
+      IF (KODE.EQ.3) THEN
+        CALL fvsSetRtnCode (2)
+        RETURN
+      ENDIF
       IF (KODE.LE.0) GO TO 30
       IF (KODE.NE.2) GOTO 20
-      IF (ICL1.EQ.0) CALL ERRGRO(.FALSE.,2)
+C     NO STOP KEYWORD, BUT EOF WAS REACHED.
+      IF (ICL1.EQ.0) THEN
+        CALL ERRGRO(.FALSE.,2)
+        CALL fvsGetRtnCode(IRTNCD)
+        IF (IRTNCD.NE.0) RETURN
+      ENDIF
       IREAD=ICL1
       ICL1=0
       GOTO 10
@@ -169,6 +182,8 @@ C  SPECIAL END-OF-FILE TARGET
 C----------
    80 CONTINUE
       CALL ERRGRO (.FALSE.,2)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
    90 CONTINUE
 C----------
 C  PROCESS OPTIONS
@@ -223,6 +238,8 @@ C  ENSURE INTREE WAS CALLED AT LEAST ONCE
 C----------
       IF (.NOT.MORDAT) THEN
          CALL INTREE (RECORD,0,ISDSP,SDLO,SDHI,LKECHO)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
          MORDAT = .TRUE.
       ENDIF
 C----------
@@ -278,6 +295,10 @@ C----------
       IF (GROSPC.LT.0.0) THEN
         GROSPC=(PI-FLOAT(NONSTK))/PI
         IF (GROSPC.GT.1.0) GROSPC = 1.0
+         IF((PI-FLOAT(NONSTK)).LE.0.)THEN
+            GROSPC=1.
+            CALL ERRGRO (.TRUE.,35)
+         ENDIF
       ENDIF
 C
 C     WRITE THE END DELIMITER TO THE INPUT OPTIONS TABLE
@@ -493,6 +514,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,90,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
       ELSE
 C
@@ -559,6 +582,8 @@ C
       IF((I.EQ.1).AND.LKECHO)WRITE(JOSTND,1420)
  1420 FORMAT (T13,'PLOT SPECIFIC SITE DATA READ FROM TREE RECORDS.')
       CALL INTREE (RECORD,I,ISDSP,SDLO,SDHI,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       MORDAT = .TRUE.
       GO TO 10
 C
@@ -993,6 +1018,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,222,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -1072,6 +1099,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -1114,6 +1143,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -1186,6 +1217,8 @@ C
  4030 CONTINUE
       CALL EVUSRV (RECORD,KEYWRD,ARRAY,LNOTBK,IREAD,JOSTND,
      >             DEBUG,IRECNT)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
 C  ==========  OPTION NUMBER 34:  FERTILIZE  ========================FERTILIZE
@@ -1248,6 +1281,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,IACT,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
       ELSE
 C
@@ -1301,7 +1336,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
-
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
  4091 CONTINUE
@@ -1517,6 +1553,8 @@ C SCHEDULE THE ACTIVITY
 C----------
  4350 CONTINUE
       CALL SDEFET (LNOTBK,ARRAY,KEYWRD,LOPEVN,215,KARD,IPRMPT)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GO TO 10
 C
 C  ==========  OPTION NUMBER 42:  BFDEFECT  =========================BFDEFECT
@@ -1645,6 +1683,8 @@ C  SCHEDULE THE ACTIVITY
 C----------
  4450 CONTINUE
       CALL SDEFET (LNOTBK,ARRAY,KEYWRD,LOPEVN,216,KARD,IPRMPT)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GO TO 10
 C
 C  ==========  OPTION NUMBER 43:  VOLUME  ===========================VOLUME
@@ -2232,6 +2272,8 @@ C  ==========  OPTION NUMBER 46:  COVER =============================COVER
 C
  4800 CONTINUE
       CALL CVIN  (KEYWRD,ARRAY,LNOTBK,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GO TO 10
 C
 C  ==========  OPTION NUMBER 47:  ESTAB  ============================ESTAB
@@ -2240,6 +2282,8 @@ C
       IF(LKECHO)WRITE(JOSTND,4910) KEYWRD
  4910 FORMAT (/1X,A8,'   REGENERATION ESTABLISHMENT OPTIONS:')
       CALL ESIN (KEYWRD,ARRAY,LNOTBK,KARD,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GO TO 10
 C
 C  ==========  OPTION NUMBER 48:   MINHARV  =========================MINHARV
@@ -2262,6 +2306,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,200,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -2308,6 +2354,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,201,KEYWRD,KARD,
      >                      IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -2503,6 +2551,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,I,KEYWRD,KARD,
      >                IPRMPT,IRECNT,ICYC)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
  6010 CONTINUE
@@ -2542,6 +2592,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,94,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
+           CALL fvsGetRtnCode(IRTNCD)
+           IF (IRTNCD.NE.0) RETURN
         ENDIF
       GOTO 10
       ENDIF
@@ -2767,6 +2819,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,202,KEYWRD,KARD,
      >      IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
         ENDIF
         GOTO 10
       ENDIF
@@ -2834,6 +2888,8 @@ C
  7800 CONTINUE
       CALL EVIF (KEYWRD,ARRAY,LNOTBK,IRECNT,IREAD,RECORD,KARD,
      >           JOSTND,DEBUG,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GO TO 10
 C
 C  ==========  OPTION NUMBER 77: SCREEN    ==========================SCREEN
@@ -2869,6 +2925,8 @@ C
  8100 CONTINUE
       CALL EVTHEN (DEBUG,JOSTND,IREAD,IRECNT,KEYWRD,ARRAY,LNOTBK,
      >  KARD,IPRMPT,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
 C  ==========  OPTION NUMBER 80:  ALSOTRY  ==========================ALSOTRY
@@ -2921,6 +2979,8 @@ C  ==========  OPTION NUMBER 84: OPEN      ==========================OPEN
 C
  8600 CONTINUE
       CALL KEYOPN (IREAD,RECORD,JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
 C  ==========  OPTION NUMBER 85: CLOSE     ==========================CLOSE
@@ -2968,6 +3028,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,97,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
       ELSE
 C
@@ -3219,6 +3281,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,443,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -3332,6 +3396,8 @@ C
       IF(LKECHO)WRITE(JOSTND,9710) KEYWRD
  9710 FORMAT(/,1X,A8,'   MISTLETOE KEYWORDS:')
       CALL MISIN (KEYWRD,ARRAY,LNOTBK,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
 C  ==========  OPTION NUMBER 96:  CRNMULT ===========================CRNMULT
@@ -3348,6 +3414,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,81,KEYWRD,KARD,
      >                 IPRMPT,IRECNT,ICYC)
+          CALL fvsGetRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN
         ENDIF
         GO TO 10
       ENDIF
@@ -3591,6 +3659,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,203,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -3639,6 +3709,8 @@ C
       IF(LKECHO)WRITE(JOSTND,10210) KEYWRD
 10210 FORMAT (/1X,A8,'   FIRE MODEL KEYWORDS:')
       CALL FMIN (1,NSP,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
 C  ==========  OPTION NUMBER 105: STRCLASS  =========================STRCLASS
@@ -3757,6 +3829,8 @@ C
         ELSE
           CALL OPNEWC (KODE,JOSTND,IREAD,IDT,249,KEYWRD,KARD,
      >                 IPRMPT,IRECNT,ICYC)
+          CALL fvsGetRtnCode(IRTNCD)
+          IF (IRTNCD.NE.0) RETURN
         ENDIF
       GO TO 10
       ENDIF
@@ -3798,6 +3872,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,98,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
       ELSE
 C
@@ -3840,6 +3916,8 @@ C
          ELSE
             CALL OPNEWC (KODE,JOSTND,IREAD,IDT,99,KEYWRD,KARD,
      >                   IPRMPT,IRECNT,ICYC)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ENDIF
       ELSE
 C
@@ -3884,6 +3962,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
 11210 CONTINUE
@@ -4005,6 +4085,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
 11510 CONTINUE
@@ -4091,6 +4173,8 @@ C
       IF(LKECHO)WRITE(JOSTND,11610) KEYWRD
 11610 FORMAT (/,1X,A8,'   ECONOMIC EXTENSION KEYWORDS:')
       CALL ECIN(IRECNT,IREAD,JOSTND,NSP,ICYC,LKECHO,ISPGRP)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
 C  ==========  OPTION NUMBER 117: DATABASE ============================DATABASE
@@ -4099,6 +4183,8 @@ C
       IF(LKECHO)WRITE(JOSTND,11710) KEYWRD
 11710 FORMAT (/,1X,A8,'   DATABASE KEYWORDS:')
       CALL DBSIN (KEYWRD,ARRAY,ISDSP,SDLO,SDHI,LNOTBK,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
 C  ==========  OPTION NUMBER 118: SYSTEM  ============================SYSTEM
@@ -4128,6 +4214,8 @@ C
             ELSE
                CALL OPNEWC (KODE,JOSTND,IREAD,IDT,100,KEYWRD,KARD,
      >                      IPRMPT,IRECNT,ICYC)
+              CALL fvsGetRtnCode(IRTNCD)
+              IF (IRTNCD.NE.0) RETURN
             ENDIF
          ELSE
             CALL OPNEW (KODE,IDT,100,0,ARRAY)
@@ -4432,6 +4520,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
 C      
@@ -4566,6 +4656,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
 12410 CONTINUE
@@ -4812,6 +4904,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
 12810 CONTINUE
@@ -4886,6 +4980,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
 12910 CONTINUE
@@ -5521,6 +5617,8 @@ C
       ELSE
          CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,IPRMPT,
      >                IRECNT,ICYC)
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
 13610 CONTINUE
@@ -5685,6 +5783,8 @@ C
          ELSE
            CALL OPNEWC (KODE,JOSTND,IREAD,IDT,120,KEYWRD,KARD,
      >                  IPRMPT,IRECNT,ICYC)
+           CALL fvsGetRtnCode(IRTNCD)
+           IF (IRTNCD.NE.0) RETURN
          ENDIF
          GOTO 10
       ENDIF
@@ -5774,6 +5874,8 @@ C
       IF(LKECHO)WRITE(JOSTND,13910) KEYWRD
 13910 FORMAT (/1X,A8,'   CLIMATE EXTENSION KEYWORDS:')
       CALL CLIN (DEBUG,LKECHO)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
 C
@@ -5781,29 +5883,21 @@ C  ==========  OPTION NUMBER 1400 SDICALC ===========================SDICALC
 C
 14000 CONTINUE
       SELECT CASE(VVER(:2))
-        CASE('AK','AN','BM','CA','BP','LP','SF','SM','SP',
-     &       'EC','EM','NC','SN','SO','TT','UT','WS','ON')
-        IF(LNOTBK(1))LZEIDE=.TRUE.
-        IF(LNOTBK(2))DBHSDI=ARRAY(2)*CMtoIN
+        CASE('AK','AN','BM','CA','CS','BP','LP','LS','SF','SM','SP',
+     &       'EC','EM','NC','NE','SN','SO','TT','UT','WS','ON')
+        DBHSTAGE=0.
+        IF(LNOTBK(1))DBHSTAGE=ARRAY(1)*CMtoIN
+        DBHZEIDE=1.
+        IF(LNOTBK(2))DBHZEIDE=ARRAY(2)*CMtoIN
+        IF(ARRAY(3).GE.1)LZEIDE=.TRUE.
         CALCSDI="STAGE'S"
         IF(LZEIDE)CALCSDI="ZEIDE'S"
-        IF(LKECHO)WRITE(JOSTND,14010) KEYWRD,CALCSDI,DBHSDI*INtoCM
+        IF(LKECHO)WRITE(JOSTND,14010) KEYWRD,CALCSDI,DBHSTAGE,DBHZEIDE
 14010   FORMAT (/1X,A8,'   ',A7,' SUMMATION METHOD WILL BE ',
      &              'USED TO CALCULATE SDI-BASED MORTALITY.'/
-     &  9X,'   THE MINIMUM DIAMETER USED IN CALCULATIONS = ',
-     &  F6.2,' CM')
-        GO TO 10
-      END SELECT
-      SELECT CASE(VVER(:6))
-        CASE('CS_NEW','LS_NEW','NE_NEW')
-        IF(LNOTBK(1))LZEIDE=.TRUE.
-        IF(LNOTBK(2))DBHSDI=ARRAY(2)*CMtoIN
-        CALCSDI="STAGE'S"
-        IF(LZEIDE)CALCSDI="ZEIDE'S"
-        IF(LKECHO)WRITE(JOSTND,14020) KEYWRD,CALCSDI,DBHSDI*INtoCM
-14020   FORMAT (/1X,A8,'   ',A7,' SUMMATION METHOD WILL BE ',
-     &              'USED TO CALCULATE SDI-BASED MORTALITY.'/
-     &  9X,'   THE MINIMUM DIAMETER USED IN CALCULATIONS = ',
+     &  9X,'   THE MINIMUM DIAMETER USED IN STAGE SDI CALCULATIONS = ',
+     &  F6.2,' CM'/
+     &  9X,'   THE MINIMUM DIAMETER USED IN ZEIDE SDI CALCULATIONS = ',
      &  F6.2,' CM')
         GO TO 10
       END SELECT

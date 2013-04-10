@@ -1,6 +1,8 @@
 C.... Code segment FMFCOM.
 C----------
-C  **FMFCOM  FIRE-BASE-DATE OF LAST REVISION:  08/22/11
+C  $Id$
+C----------
+C  **FMFCOM  FIRE
 C----------
 *-----------------------------------------------------------------------
 *  PURPOSE:
@@ -363,11 +365,13 @@ C     CFIM_ON:  Logical: TRUE = YES, DEFAULT = FALSE (CFIM MODEL)
 C     CFIM_BD: Bulk Density (CFIM MODEL)
 C     CFIM_DC: Drought Condidtion Code (CFIM MODEL)
 C     CFIM_INPUT: INPUT INFORMATION FOR THE CFIM MODEL CALCULATIONS
+C	  POTCONS:	POTENTIAL FUEL CONSUMPTION
 
       LOGICAL CFIM_ON
       REAL    CFIM_BD, CFIM_DC, CFIM_INPUT(26)
+	  REAL	  POTCONS(3,3)
 	 
       COMMON /CFIMCOM/
-     &  CFIM_ON, CFIM_BD, CFIM_DC, CFIM_INPUT
+     &  CFIM_ON, CFIM_BD, CFIM_DC, CFIM_INPUT, POTCONS
 
 C.... End segment.

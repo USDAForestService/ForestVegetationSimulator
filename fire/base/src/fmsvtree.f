@@ -1,7 +1,7 @@
       SUBROUTINE FMSVTREE (NOUT,ISVOBJ)
       IMPLICIT NONE
 C----------
-C     **FMSVTREE--FIRE  DATE OF LAST REVISION: 06/22/06
+C  $Id$
 C----------
 C
 C     FIRE MODEL STAND VISUALIZATION GENERATION
@@ -52,6 +52,8 @@ C       PRELIMINARY CALCS
      >    OLEN(IS2F(ISVOBJ))) / 2.
 
         MIDCRWN =  BASECRWN + HALFCRWN
+        FLMCRAWL = 0.0
+        CALC = 0.0
 
         IF (IFMTYP .EQ. 1) THEN
 
@@ -133,6 +135,7 @@ C       DETERMINE X,Y,Z FOR FLAME
 C       CREATE THE FLAMES
 
         IMAXFLAMES = 0
+        NFLMS = 0
         DO WHILE(IMAXFLAMES .EQ. 0)
           NFLMS = NFLMS + 1
 

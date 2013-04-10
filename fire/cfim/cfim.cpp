@@ -43,7 +43,6 @@
 
 #include "rkdumb.h"
 
-
 typedef struct input {
     double u10;double slope;double Ta;double sh;double alpha;double igtemp;double tstep;long iters;double xstart;
     long FuelModelNumber;double FuelMoisture[5];double rho_surf;double sigma_surf;double hc;
@@ -52,9 +51,6 @@ typedef struct input {
 }Input;
 Input in;
 
-extern "C" { void CFIM_DRIVER(float CFIM_Input[], float CFIM_output[], float fminfo[]); }
-//extern "C" { void CFIM_DRIVER(float CFIM_In, float CFIM_out); }
-//void CFIM_DRIVER(float CFIM_In, float CFIM_out);
 double windprofile(Input IN,double Z);
 double maxflametemp(double Us,Input IN);
 double reaction_time(double R,double Ua,double beta,double gamma,Input IN);
@@ -143,25 +139,31 @@ static int convectflag=0;   //if 0, gaussian profile of plume follows the "c" li
 //double Dx=1.0;      //distance from flm leading edge to particle center
 //TEMPORARY!!!TEMPORARY!!!TEMPORARY!!!TEMPORARY!!!TEMPORARY!!!TEMPORARY!!!
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	int retcode;
-	float cfim_in[24];
-	float cfim_out[10];
-	float fminfo[13];
-	CFIM_DRIVER(cfim_in, cfim_out, fminfo);
-    return(0);
-}
-void CFIM_DRIVER(float CFIM_Input[], float CFIM_output[], float fminfo[])
+#ifdef _WINDLL
+extern "C" __declspec(dllexport) int CFIM_DRIVER (
+  float *CFMIN_Input,
+  float *CFIM_output,
+  float *fminfo);
+#endif
+
+#ifdef CMPgcc
+int cfim_driver_ (
+#else
+int CFIM_DRIVER (
+#endif
+  float *CFIM_Input,
+  float *CFIM_output,
+  float *fminfo)
+
 {
 	long i;
-    long printed_iters=5;
-    int flag=0;
+   long printed_iters=5;
+   int flag=0;
 	float ukm, ROSmin;
 	double surfuel;
 
 	//INSTEAD OF READING INPUT FROM A FILE, IT HAS BEEN PASSED IN AS AN ARRAY
-    in.u10 = CFIM_Input[0];
+   in.u10 = CFIM_Input[0];
 	in.slope = CFIM_Input[1];
 	in.Ta = CFIM_Input[2];
 	in.sh = CFIM_Input[3];
@@ -170,7 +172,7 @@ void CFIM_DRIVER(float CFIM_Input[], float CFIM_output[], float fminfo[])
 	in.tstep = CFIM_Input[6];
 	in.iters = CFIM_Input[7];
 	in.xstart = CFIM_Input[8];
-    in.FuelModelNumber = CFIM_Input[9];
+   in.FuelModelNumber = CFIM_Input[9];
 	in.FuelMoisture[0] = CFIM_Input[10];
 	in.FuelMoisture[1] = CFIM_Input[11];
 	in.FuelMoisture[2] = CFIM_Input[12];
@@ -179,7 +181,7 @@ void CFIM_DRIVER(float CFIM_Input[], float CFIM_output[], float fminfo[])
 	in.sigma_surf = CFIM_Input[15];
 	in.rho_surf = CFIM_Input[16];
 	in.hc = CFIM_Input[17];
-    in.sigma_can = CFIM_Input[18];
+   in.sigma_can = CFIM_Input[18];
 	in.canbaseht = CFIM_Input[19];
 	in.diameter = CFIM_Input[20];
 	in.FMC = CFIM_Input[21];
@@ -321,7 +323,7 @@ void CFIM_DRIVER(float CFIM_Input[], float CFIM_output[], float fminfo[])
     free_matrix(rawplume,1,6,1,NSTEP+1);
     free_vector(xx,1,NSTEP+1);
 
-	return;
+	return (0);
 }
 
 double windprofile(Input IN,double Z)
@@ -491,11 +493,11 @@ double CalcSpreadRate(double *Fuel, double *Moisture, double WindSpeed,
 	double rm, sigma=0, rhob=0, sum3=0, betaop=0, rat, aa, gammax=0, gamma=0, wind=0;
 	double xir, rbqig=0, xi=0, b, c, e, part1=0, slopex=0;
 	double ewind, wlim, sum1=0, sum2=0, phis, phiw, phiew;
-     double rateo, SpreadRate;
+   double rateo, SpreadRate;
 
 
 
-    double mois[3][2]=		               // fraction of oven-dry weight
+   double mois[3][2]=		               // fraction of oven-dry weight
 	{	{Moisture[0], Moisture[3]},
 		{Moisture[1], Moisture[4]},
 		{Moisture[2], 0.0},
@@ -514,7 +516,7 @@ double CalcSpreadRate(double *Fuel, double *Moisture, double WindSpeed,
 
 	double nclas[2]={ndead,nlive};  // # of dead & live fuel classes
 
-    	double load[3][2]=			// tons per acre, later converted to lb/ft2
+   double load[3][2]=			// tons per acre, later converted to lb/ft2
 	{	{Fuel[0], Fuel[3]},
 		{Fuel[1], Fuel[4]},
 		{Fuel[2], 0.0},

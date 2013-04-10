@@ -1,7 +1,7 @@
       SUBROUTINE CH2NUM (C2,ICYC)
       IMPLICIT NONE
 C----------
-C  **CH2NUM DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
       INTEGER ICYC

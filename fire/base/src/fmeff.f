@@ -2,7 +2,7 @@
      >                  PSBURN)
       IMPLICIT NONE
 C----------
-C  **FMEFF--FIRE   DATE OF LAST REVISION: 12/09/10
+C  $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMBURN

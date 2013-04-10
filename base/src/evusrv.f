@@ -2,7 +2,7 @@
      >                   LDEBUG,IRECNT)
       IMPLICIT NONE
 C----------
-C  **EVUSRV-BASE   DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 C     CALLED FROM INITRE.  READS, COMPILES, AND STORES USER

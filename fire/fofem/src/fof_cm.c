@@ -1,4 +1,6 @@
-
+//
+// $Id$
+//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_cm      Fofem Consumed Manager
 * Desc: Makes calls to Burnup and HSF Fuels (Shr,Hrb,Fol,Mineral )

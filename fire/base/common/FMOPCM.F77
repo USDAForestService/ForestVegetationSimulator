@@ -1,6 +1,8 @@
 C.... Code segment FMOPCM.
 C----------
-C  **FMOPCM  FIRE--DATE OF LAST REVISION:  12/11/95
+C  $Id$
+C----------
+C  **FMOPCM  FIRE-
 C----------
 C-----------------------------------------------------------------------
 C  PURPOSE:

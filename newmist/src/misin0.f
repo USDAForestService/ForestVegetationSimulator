@@ -56,7 +56,6 @@ C----------
 *     04/01/11 - Lance R. David (FMSC)
 *                Added dimension of MISCYC array.
 ***********************************************************************
-      IMPLICIT NONE
       
 C.... Parameter statements.
 

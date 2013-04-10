@@ -1,3 +1,6 @@
+//
+// $Id$
+//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: ansi_mai.c
 * Desc: Example front end code to be compiled and linked with the FOFEM ANSI

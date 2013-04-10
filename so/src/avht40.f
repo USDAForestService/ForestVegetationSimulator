@@ -1,4 +1,5 @@
       SUBROUTINE AVHT40
+      IMPLICIT NONE
 C----------
 C  **AVHT40--SO   DATE OF LAST REVISION:  03/02/92
 C----------
@@ -22,6 +23,9 @@ C
 C
 COMMONS
 C
+      INTEGER  I,II
+      REAL     SSUMN,P
+      
       AVH=0.
       IF (ITRN.LE.0) GOTO 70
       SSUMN=0.

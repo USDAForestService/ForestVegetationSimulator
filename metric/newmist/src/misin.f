@@ -1,8 +1,8 @@
-        SUBROUTINE MISIN(PASKEY,ARRAY,LNOTBK,LKECHO)
-***********************************************************************
-*  **MISIN/M    Date of last revision:  07/09/07
-*               Spatial Model
-*----------------------------------------------------------------------
+      SUBROUTINE MISIN(PASKEY,ARRAY,LNOTBK,LKECHO)
+      IMPLICIT NONE
+C----------
+C  $Id$
+C----------
 *  Purpose:
 *     Reads in mistletoe keywords and processes the ones that aren't
 *  cycle dependent.
@@ -97,7 +97,6 @@
 *                array added for previous update is no longer needed and
 *                was removed along with inclusion of common ARRAYS.F77.
 ***********************************************************************
-      IMPLICIT NONE
       
 C.... Parameter statements.
 
@@ -120,7 +119,7 @@ C.... Variable declarations.
 
       LOGICAL      LNOTBK(7),DEBUG,LCHK(2),LOK,LKECHO
       INTEGER      I,IDT,ISPL,KEY,KODE,NUMBER,IKD,IPRMPT
-      INTEGER      LTNP(2), ERRT(2),J,K,M,N,P
+      INTEGER      LTNP(2), ERRT(2),J,K,M,N,P,IRTNCD
       INTEGER      DMT(5,3)
       REAL         DMLRX(2,2,4),X
       REAL         ARRAY(7)
@@ -172,6 +171,8 @@ C.... Process errors; 0=no error, 1=first column blank, 2=EOF.
       IF(KODE.NE.0) THEN
          IF(KODE.EQ.2) THEN
             CALL ERRGRO(.FALSE.,2)
+            CALL fvsGetRtnCode(IRTNCD)
+            IF (IRTNCD.NE.0) RETURN
          ELSE
             CALL ERRGRO(.TRUE.,6)
          ENDIF
@@ -192,6 +193,8 @@ C     Special EOF target.
 
    60 CONTINUE
       CALL ERRGRO(.FALSE.,2)
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN
 
 C.....Process the keyword.
 

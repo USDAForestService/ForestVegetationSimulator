@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C  **BLKDAT--SEI DATE OF LAST REVISION:  04/12/10
-C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
 C

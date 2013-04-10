@@ -2,7 +2,7 @@
      >                   LDB,JOUT,IRC)
       IMPLICIT NONE
 C----------
-C  **ALGEVL DATE OF LAST REVISION:  03/01/2012
+C  $Id$
 C----------
 C
 C     CALLED FROM EVMON, OPEVAL, EVTSTV, EVAGRP, HVTHN1, HVHRV1,

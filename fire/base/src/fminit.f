@@ -1,7 +1,7 @@
       SUBROUTINE FMINIT
       IMPLICIT NONE
 C----------
-C  **FMINIT  FIRE--DATE OF LAST REVISION: 07/12/10
+C  $Id$
 C----------
 C  PURPOSE:
 C      INITIALIZE VARIABLES FOR THE FIRE MODEL
@@ -801,7 +801,6 @@ C----------
       FMLOAD(I,1, 3) =    0.241
       FMDEP(I)       =    2.7
       MOISEX(I)      =    0.25
-
 C----------
 C  INITIALIZE VARIABLES FOR NEW FIRE CALCULATION OPTIONS 
 C  (NEW FUEL MODEL LOGIC AND USING MODELLED LOADS)
@@ -828,6 +827,10 @@ C----------
         ENDDO
       ENDDO
 C----------
+C  DEFAULT CYCLE LENGTH FOR DECAY CALCULATIONS
+C----------
+      NYRS = 1
+C----------      
 C  SET VARIABLES FOR BURN, FUEL EFFECTS, ALL FUELS, DOWN WOOD, AND
 C  MORTALITY REPORTS.
 C----------
@@ -887,14 +890,14 @@ C
         CARBVAL(I) = 0.0
       ENDDO
             
-      ICMETH   = 0      ! CARBON METHOD 0 = FFE, 1 = JENKINS
-      ICMETRC  = 0      ! UNITS TYPE 0 = IMPERIAL, 1 = METRIC
-      ICHABT   = 1      ! DEFAULT C-REPORTING HABITAT GROUP
-                        ! (FMCBA MAY ALTER: NI/IE/SO/SN)
+      ICMETH   = 0       ! CARBON METHOD 0 = FFE, 1 = JENKINS
+      ICMETRC  = 0       ! UNITS TYPE 0 = IMPERIAL, 1 = METRIC
+      ICHABT   = 1       ! DEFAULT C-REPORTING HABITAT GROUP
+                         ! (FMCBA MAY ALTER: NI/IE/SO/SN)
       CRDCAY   = 0.0425  ! ROOT DECAY RATE (<0 = "NOT USED")
-      CDBRK(1) =  9.0   ! DEFAULT SOFTWOOD DIAMETER BREAKPOINT (IN)
-      CDBRK(2) = 11.0   ! DEFAULT HARDWOOD DIAMETER BREAKPOINT (IN)
-      BIOLIVE  =  0.0   ! BIOxxx C-REPORTING GROUPS
+      CDBRK(1) =  9.0    ! DEFAULT SOFTWOOD DIAMETER BREAKPOINT (IN)
+      CDBRK(2) = 11.0    ! DEFAULT HARDWOOD DIAMETER BREAKPOINT (IN)
+      BIOLIVE  =  0.0    ! BIOxxx C-REPORTING GROUPS
       BIOREM(1)=  0.0
       BIOREM(2)=  0.0
       BIOSNAG  =  0.0
@@ -955,6 +958,27 @@ C
 C
       FLIVE(1) = 0.0
       FLIVE(2) = 0.0
+
+C----------
+C     *** CL-FFE *** stub
+C     Initialize CWD decay rate sensitivy. No keyword control yet.
+C     Array dimensions are MXFLCL+1 from FMPARM.F77
+C     Array storage in FMCOM.F77
+C     Decay rates are modified by calls to CLCWD in FMCWD and FMCRBOUT
+C     Set Q10 and reference decay temperature for each of size category.
+C     Ref: Kurz et al. 2009. Ecol. Mod. 220:480-504
+C----------
+      !DO I = 1, 9
+      !  Q10CWD(I) = 2.0  ! snag stems, branches
+      !ENDDO
+      !Q10CWD(10)  = 2.65 ! litter - Kurz Table 4: AG very fast 
+      !Q10CWD(11)  = 1.0  ! duff
+      !Q10CWD(12)  = 2.0  ! roots
+      !
+      !DO I = 1,(MXFLCL+1)
+      !  REFMATCWD(I) = 10.0
+      !ENDDO
+      
 C----------
 C  INITIALIZE FLAG IDICATING REMOVAL OF STAND BIOMASS 
 C  EVENT MONITOR FUNCTION TREEBIO IN **FMEVMON**

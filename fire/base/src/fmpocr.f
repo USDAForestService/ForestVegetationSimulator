@@ -1,7 +1,7 @@
       SUBROUTINE FMPOCR(IYR)
       IMPLICIT NONE
 C----------
-C  **FMPOCR  FIRE-DATE OF LAST REVISION:  10/14/10
+C  $Id$
 C----------
 C     CALLED FROM: FMBURN
 C

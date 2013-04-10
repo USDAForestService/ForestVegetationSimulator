@@ -1,8 +1,8 @@
       SUBROUTINE FMCADD
       IMPLICIT NONE
 C----------
-C  **FMCADD  FIRE--DATE OF LAST REVISION:  09/29/09
-C----------      
+C  $Id$
+C----------
 C     CALLED FROM: FMMAIN
 C     CALLS        
 *  Purpose:

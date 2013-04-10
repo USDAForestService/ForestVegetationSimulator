@@ -90,7 +90,7 @@ C**********************************************************************
 C Subroutine argument list.
 
       INTEGER  RQ
-      REAL     D
+      REAL     D, x
       REAL     CNB
 
       DIMENSION CNB(0:DSTLEN)

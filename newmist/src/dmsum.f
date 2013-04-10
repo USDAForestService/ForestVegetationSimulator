@@ -82,8 +82,10 @@ C Argument list variables.
 C Local variables.
 
       LOGICAL DEBUG
-      INTEGER DMSHAP, I
-      REAL    LOWLIM, MSCL
+      INTEGER DMSHAP, I, J, IBOT, ITOP, IICR, J1, K
+      REAL    LOWLIM, MSCL, BOT, HC, BASE, H1, H2, R1, R2
+      REAL    RAD, CNOP, Y1, Y2, B1, Z1, Z2, CONST, FRUST, PAREA
+      REAL    UPLIM, RAD1, RAD2
 
       DIMENSION CNOP(2)
 

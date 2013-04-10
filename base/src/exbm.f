@@ -1,7 +1,7 @@
       SUBROUTINE EXBM
       IMPLICIT NONE
 C----------
-C  **EXBM--BASE   DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 C     EXTERNAL REFERENCES FOR THE Westwide Pine Beetle model

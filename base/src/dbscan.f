@@ -1,7 +1,7 @@
       SUBROUTINE DBSCAN (LDEBG,SUBIN,NC,ICYC)
       IMPLICIT NONE
 C----------
-C  **DBSCAN--BS   DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 C

@@ -140,8 +140,6 @@ C----------
 *        Removed local declaration of DMFLAG, variable is now in common.
 *        Also removed it as argument in call to MISINF.
 ***********************************************************************
-      IMPLICIT NONE
-
 C.... Parameter statements.
 
 C.... Parameter include files.

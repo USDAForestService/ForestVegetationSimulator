@@ -2,7 +2,7 @@
      >                   LOPEVN,IACTK,KARD,IPRMPT)
       IMPLICIT NONE
 C----------
-C  **SDEFET--BASE   DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 COMMONS

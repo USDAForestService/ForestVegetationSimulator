@@ -1,7 +1,7 @@
       SUBROUTINE FMSCRO (I,SP,DEADYR,DSNAGS,ICALL)
       IMPLICIT NONE
 C----------
-C  **FMSCRO  FIRE-DATE OF LAST REVISION:  02/04/08
+C  $Id$
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMSADD
@@ -144,11 +144,21 @@ C        and rounds it up to the next highest integer if so.
          RLIFE = REAL(ILIFE)
          
 C        don't forget to consider the OLDCRW material as well as CROWNW.
+C        but only do this if it's not mortality reconciliation time (icall =4)
+C        since then oldcrw is no longer holding the dead part of the crown
+C        that is to fall each year, but is carrying the crown weight instead.
+C        SAR 11/20/12
 
          ANNUAL = CROWNW(I,SIZE)
+         IF (ICALL .NE. 4) THEN
          IF (SIZE .GT. 0) ANNUAL = ANNUAL + YRSCYC*OLDCRW(I,SIZE)*X
+         ENDIF
          ANNUAL = ANNUAL * DSNAGS / RLIFE
          
+         IF (DEBUG) WRITE(JOSTND,*) 'annual=',annual,' yrscyc=',yrscyc,
+     &   ' oldcrw=',OLDCRW(I,SIZE),' x=',x,' i=',i,' size=',size,
+     &   ' CROWNW=', CROWNW(I,SIZE),' dsnags =',dsnags,' rlife=',rlife
+
          DO IYR=YNEXTY,ILIFE
             FALLYR = IYR + 1 - YNEXTY
             

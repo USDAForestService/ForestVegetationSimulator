@@ -6,7 +6,7 @@ nct01 :
 	-../../bin/FVSncc --keywordfile=nct01.key
 	grep -v "\-999" nct01.sum      > nct01.tmp
 	grep -v "\-999" nct01.sum.save > nct01.tmp.save
-	diff -w nct01.tmp nct01.tmp.save
+	-diff -w nct01.tmp nct01.tmp.save
 	rm nct01.tmp nct01.tmp.save
 	@echo Test nct01 ended
 	
@@ -16,7 +16,7 @@ nct02 :
 	-../../bin/FVSncc --restart=nct.stop
 	grep -v "\-999" nct01.sum      > nct01.tmp
 	grep -v "\-999" nct01.sum.save > nct01.tmp.save
-	diff -w nct01.tmp nct01.tmp.save
+	-diff -w nct01.tmp nct01.tmp.save
 	rm nct01.tmp nct01.tmp.save
 	@echo Test nct02 ended
 		 

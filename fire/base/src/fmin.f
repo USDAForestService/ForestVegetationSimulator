@@ -163,8 +163,6 @@ C
 
       IF (ICALL .EQ. 2) THEN
          WRITE(JOSTND,2504) KEYWRD
-  104    FORMAT(/1X,A8,'   ***KEYWORD IS A STAND-LEVEL KEYWORD ONLY',
-     >      ' AND CANNOT BE INCLUDED WITH THE LANDSCAPE-LEVEL KEYWORDS')
          GOTO 10
       ENDIF
 
@@ -2675,12 +2673,6 @@ C
       DO I=1,8
          CALL UPCASE (TMP(I:I))
       ENDDO
-      IF (TMP.EQ.'STOP') THEN
-         IF (.NOT.LFLAG) WRITE (IOUT,'(/'' STOP'')')
-         CALL GRSTOP
-         CALL fvsGetRtnCode(IRTNCD)
-         IF (IRTNCD.NE.0) RETURN
-      ENDIF
       IF (LFLAG) THEN
          CALL GROHED (IOUT)
          CALL PPEATV (L)

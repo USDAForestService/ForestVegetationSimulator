@@ -1,7 +1,7 @@
       SUBROUTINE DBINIT
       IMPLICIT NONE
 C----------
-C  **DBINIT--BASE DATE OF LAST REVISION:  07/23/08
+C  $Id$
 C----------
 C
 C

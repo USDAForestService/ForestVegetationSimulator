@@ -1,4 +1,6 @@
-!== last modified  12-09-2011
+!== last modified  01-11-2013
+C 01/11/2013 added volume calculation for stump vol(14) and tip vol(15)
+C 11/06/2012 Changed errflag to 12 when NUMLOGS > 20
       SUBROUTINE R4VOL(REGN,VOLEQ,MTOPP,HTTOT,DBHOB,HT1PRD,VOL,NOLOGP,
      >           NOLOGS,CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG,ERRFLAG)
       IMPLICIT NONE
@@ -294,7 +296,9 @@ C  NOTE THAT CORDWOOD (M=2) ADDS TRIM INTO VOLR4
               IF(NUMLGS.GT.2)THEN
 C  FOR LOGS 2 TO TOTLGS - 1
                  IF (NUMLGS .GT. 20) THEN
-                   ERRFLAG = 4
+C                   ERRFLAG = 4
+C Changed errflag to 12 (YW 11/06/2012)
+                   ERRFLAG = 12
                    DO 666, J = 1,15
                      VOL(J) = 0.0
 666                CONTINUE
@@ -395,11 +399,22 @@ C  CONVERT & STORE VOLUMES IN DESCRIPTIVE VARIABLES
 C  CONVERT TO NAT CRUISE VOL STANDARDS
       IF(CUTFLG .EQ. 1) VOL(1) = CF0
       IF(BFPFLG .EQ. 1) VOL(2) = BFGRS
-      IF(CUPFLG .EQ. 1) VOL(4) = CFGRS
+      IF(CUPFLG .EQ. 1)THEN
+        VOL(4) = CFGRS
+C       added calc tip volume. YW 20130111        
+        VOL(15) = CF0-CFGRS
+      ENDIF
       IF(CDPFLG .EQ. 1) VOL(6)=CORDS
-      IF(SPFLG.EQ.1 .AND. CUPFLG.EQ.1) VOL(7)=CF0-CFGRS
+      IF(SPFLG.EQ.1 .AND. CUPFLG.EQ.1)THEN
+        VOL(7)=CF0-CFGRS
+C       the tip volume included in secondary prod volume (vol(7))
+C       so set tip vol to 0. YW 20130111
+        VOL(15)=0.0
+      ENDIF
       IF(SPFLG.EQ.1 .AND. CDPFLG.EQ.1) VOL(9)=CF0/90-CORDS
 
+c calculate stump volume as 1 foot cylinder of STUMPD. YW 20130111
+      VOL(14)=STUMPD**2*0.005454154
 C     IF(CUPFLG.EQ.1.OR.BFPFLG.EQ.1.OR.CDPFLG.EQ.1)NOLOGP = MERLEN/16.5
       IF(CUPFLG.EQ.1.OR.BFPFLG.EQ.1.OR.CDPFLG.EQ.1)NOLOGP = TOTLGS
       IF(SPFLG.EQ.1) NOLOGS = (THT-MERLEN)/16.5

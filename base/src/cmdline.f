@@ -7,7 +7,7 @@ c     library version of FVS but they are also called from within FVS.
 c
 c     Note that not all of the routines are designed to be part of the API
 
-c     Created in 2011 by Nick Crookston, RMRS-Moscow
+c     Created in 2011 and 2012 by Nick Crookston, RMRS-Moscow
 
       subroutine fvsSetCmdLine(theCmdLine,lenCL,IRTNCD)
       implicit none
@@ -26,6 +26,11 @@ c     Created in 2011 by Nick Crookston, RMRS-Moscow
       character(len=lenCL) theCmdLine
       character(len=1024) cmdLcopy
 
+c     make sure the files are closed if resetting with the cmdLine.
+c     (this is only done if a none-zero return or restart code is set)
+
+      if (fvsRtnCode /= 0 .or. restartcode /= 0) call FILClose
+      
       keywordfile = " "
       maxStoppts = 6
       stopptfile = " "
@@ -244,11 +249,6 @@ c     open/reopen the keyword/output file.
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
-!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS : 'FVSRESTART' :: FVSRESTART
-!DEC$ ATTRIBUTES REFERENCE :: restrtcd
-#endif
-
       integer :: restrtcd
 
 c     if the current return code is not zero, then no restart is reasonable.
@@ -292,15 +292,9 @@ cc     -        " restrtcd=",restrtcd
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
-!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSRESTARTLASTSTAND
-!DEC$ ATTRIBUTES ALIAS : 'FVSRESTARTLASTSTAND' :: FVSRESTARTLASTSTAND
-!DEC$ ATTRIBUTES REFERENCE :: restrtcd
-#endif
-
       integer :: restrtcd
       if (readFilePos == -1) then
-        fvsRtnCode = 1
+        call fvsSetRtnCode (1)
         restrtcd = fvsRtnCode
       endif
 
@@ -381,7 +375,7 @@ c     note that this routine is called during the simulation
       stopstatcd = 0
 cc      print *,"in fvsStopPoint,LOCODE",LOCODE
       if (LOCODE == -1) then
-        restartcode = 0
+        restartcode = 100
         stopstatcd = 2
         ISTOPDONE = 1
         return

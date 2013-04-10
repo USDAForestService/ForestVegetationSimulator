@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C  **CWCALC--SEI   DATE OF LAST REVISION:   02/08/12
-C----------
 COMMONS
 C
       INCLUDE 'PRGPRM.F77'

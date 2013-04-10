@@ -3,8 +3,6 @@
 C----------
 C  $Id$
 C----------
-C  **SUMHED--BASE/M  DATE OF LAST REVISION:  07/23/08
-C----------
 C  THIS SUBROUTINE WRITES A HEADER FOR THE SUMMARY OUTPUT ON THE
 C  SCREEN.
 C----------

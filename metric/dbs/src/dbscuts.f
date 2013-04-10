@@ -1,6 +1,7 @@
       SUBROUTINE DBSCUTS(IWHO,KODE)
+      IMPLICIT NONE
 C----------
-C  **DBSCUTS--DBS/M  DATE OF LAST REVISION:  05/05/08
+C  $Id$
 C----------
 C     PURPOSE: TO OUTPUT THE CUTS LIST DATA TO THE DATABASE
 C 
@@ -13,11 +14,6 @@ C                     REDIRECT OF THE FLAT FILE REPORT OR IN
 C                     ADDITION TO
 C
 C---
-      use f90SQLConstants
-      use f90SQLStructures
-      use f90SQL
-      IMPLICIT NONE
-
 COMMONS
 
       INCLUDE 'PRGPRM.F77'
@@ -40,7 +36,6 @@ C
       INTEGER*4 IDCMP1,IDCMP2
       DATA IDCMP1,IDCMP2/10000000,20000000/
       REAL CW,P,CCFT,DGI,DP,Ht2TDCF,Ht2TDBF
-
 C---------
 C     IF CUTSOUT IS NOT TURNED ON OR THE IWHO VARIABLE IS NOT 2
 C     THEN JUST RETURN
@@ -50,7 +45,6 @@ C---------
 C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
 C---------
       IF(ICUTLIST.EQ.2) KODE = 0
-
 C---------
 C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 C---------
@@ -66,12 +60,10 @@ C---------
         TABLENAME = 'FVS_CutList'
         DTYPE = 'real'
       ENDIF
-
 C---------
 C     ALLOCATE A STATEMENT HANDLE
 C---------
-      CALL f90SQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut,
-     -                        iRet)
+      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut)
       IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
         ICUTLIST = 0
         PRINT *,'Error connecting to data source'
@@ -86,7 +78,8 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
 C---------
       SQLStmtStr= 'SELECT * FROM '//TABLENAME
 
-      CALL f90SQLExecDirect(StmtHndlOut,trim(SQLStmtStr),iRet)
+      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
 
       IF(iRet.NE.SQL_SUCCESS.AND.
      -    iRet.NE.SQL_SUCCESS_WITH_INFO) THEN
@@ -188,11 +181,9 @@ C---------
      -             'Ht2TDCF real null,'//
      -             'Ht2TDBF real null)'
         ENDIF
-        !PRINT*,SQLStmtStr
-        !Close Cursor
-        CALL f90SQLFreeStmt(StmtHndlOut,SQL_CLOSE, iRet)
-
-        CALL f90SQLExecDirect(StmtHndlOut,trim(SQLStmtStr),iRet)
+        iRet = fvsSQLCloseCursor(StmtHndlOut)
+        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -       'DBSCUTS:Creating Table: '//trim(SQLStmtStr))
         CUTSID = 0
@@ -300,12 +291,9 @@ C----------
      -           NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM),
      -           ',',HT2TD(I,1)*FTtoM,',',HT2TD(I,2)*FTtoM*0.0,')'
 
-            !PRINT*, SQLStmtStr
-
-            !Close Cursor
-            CALL f90SQLFreeStmt(StmtHndlOut,SQL_CLOSE, iRet)
-
-            CALL f90SQLExecDirect(StmtHndlOut,trim(SQLStmtStr),iRet)
+            iRet = fvsSQLCloseCursor(StmtHndlOut)
+            iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -                  'DBSCUTS:Inserting Row')
   50        CONTINUE
@@ -322,6 +310,6 @@ C      ICUTLIST = 0     !This is incorrect since you can have
 C                       !thinning in many different cycles - SAR 01/05
 
       !Release statement handle
-      CALL f90SQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut, iRet)
+      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
 
       END
