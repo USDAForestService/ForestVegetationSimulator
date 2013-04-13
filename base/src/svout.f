@@ -82,7 +82,7 @@ COMMONS
       CHARACTER*23 PLTGEO
       LOGICAL DEBUG
       CALL DBCHK (DEBUG,'SVOUT',5,ICYC)
-
+      
       IF (DEBUG) WRITE (JOSTND,5) IYEAR, AMSG, JSVOUT, NSVOBJ,
      >  JSVPIC, NIMAGE, IFMCLFG
     5 FORMAT (/' IN SVOUT: IYEAR=',I5,' AMSG=',A,' JSVOUT=',I3,
@@ -120,7 +120,8 @@ C                       XXXXXX. XXXX. XXXX.
       ENDIF
 
       IF (JSVOUT.EQ.0) RETURN
-
+      IF (JSVOUT.LT.0) GOTO 26 ! PROCESSING IMAGE, BUT NOT OUTPUTING
+      
       IF (IMETRIC.EQ.0) THEN
         IF (IPLGEM.LT.2) THEN
            PLTGEO='#PLOTSIZE 208.71 208.71'
@@ -349,6 +350,8 @@ C         ROUND PLOTS
         ENDIF
       ENDIF
 
+   26 CONTINUE ! BRANCH HERE WHEN SKIPPING OUTPUT.
+   
 C     IF THE FFE IS ACTIVE, CALL SVCWD TO GENERATE CWD OBJECTS
 
       IF ( LFMON ) CALL SVCWD(IYEAR)
@@ -392,6 +395,7 @@ C           FIRE OR BUG MODEL CALL.
 
             XICR = ABS(ICR(I))*.01
 
+            IF (JSVOUT.LT.0) GOTO 31 ! PROCESSING IMAGE, BUT NOT OUTPUTING
             IF (IMETRIC.EQ.0) THEN
               WRITE (NOUT,30) SPCD,I,ITC,0,IPS,DBH(I),HT(I),0,IDIR,
      >          0,CRAD,XICR,CRAD,XICR,CRAD,XICR,CRAD,XICR,
@@ -405,6 +409,7 @@ C           FIRE OR BUG MODEL CALL.
             ENDIF
    30       FORMAT (A,T16,I5,I3,2I2,F6.1,F6.0,I2,I4,I2,
      >        4(F6.1,1X,F4.2),2I2,2F8.2,I2)
+   31       CONTINUE
 C
           ELSEIF (IOBJTP(ISVOBJ).EQ.2 .OR. IOBJTP(ISVOBJ).EQ.5) THEN
 
@@ -446,7 +451,7 @@ C              3) Snag will be removed at the bottom of SVOUT.
 
             CALL SVSNAGE(IYEAR,IS2F(ISVOBJ),SNCRDI,SNCRTO,
      >        SNHT,SNDI)
-
+              
 C           Keep snags with diameter less than 1", for better
 C           agreement with FFE logic.
 
@@ -519,41 +524,43 @@ C             have had their status code multiplied by -1.
               IF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 1) THEN
                 ITC = 0
                 IPS = 0
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ELSEIF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 2) THEN
                 ITC = 98
                 IPS = 0
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ELSEIF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 3) THEN
                 ITC = 94
                 IPS = 0
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ELSEIF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 4) THEN
                 ITC = 94
                 IPS = 3
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ELSEIF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 5) THEN
                 ITC = 97
                 IPS = 0
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ELSEIF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 6) THEN
                 ITC = 96
                 IPS = 0
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ELSEIF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 90) THEN
                 ITC = 90
                 IPS = 0
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ELSEIF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 91) THEN
                 ITC = 91
                 IPS = 0
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ELSEIF (ABS(ISTATUS(IS2F(ISVOBJ))) .EQ. 92) THEN
                 ITC = 92
                 IPS = 0
-                IDIR = FALLDIR(IS2F(ISVOBJ))
+                IDIR = IFIX(FALLDIR(IS2F(ISVOBJ)))
               ENDIF
             ENDIF
+            
+            IF( JSVOUT.LT.0) GOTO 32 ! PROCESSING IMAGE, BUT NOT OUTPUTING
 
             IF(IMETRIC.EQ.0) THEN
               WRITE (NOUT,30) SPCD,I,ITC,0,IPS,SNDI,SNHT,0,IDIR,
@@ -575,6 +582,8 @@ C              DRAW FLAME OBJECTS FOR THIS TREE
 C              TO HANDLE IOBJTP=3 OBJECTS, OR OBJECTS WHICH WILL B
 C              REMOVED AT THE END OF THIS CYCLE
 
+  32        CONTINUE ! BRANCH HERE IF NOT OUTPUTTING
+
 C
           ELSEIF (IOBJTP(ISVOBJ) .EQ. 4) THEN
 
@@ -594,7 +603,7 @@ C----------
             IPS = 3
             SNDI = CWDDIA(IS2F(ISVOBJ))
             SNHT = CWDLEN(IS2F(ISVOBJ))
-            IDIR = CWDDIR(IS2F(ISVOBJ))
+            IDIR = IFIX(CWDDIR(IS2F(ISVOBJ)))
             CRAD = 0
             XICR = 0
 
@@ -633,6 +642,7 @@ C     XSLOC(ISVOBJ): x location
 C     YSLOC(ISVOBJ): y location
 C     0: elevation
 C----------
+            IF( JSVOUT.LT.0) GOTO 33 ! PROCESSING IMAGE, BUT NOT OUTPUTING
 
             IF(IMETRIC.EQ.0) THEN
               WRITE (NOUT,1060) I, ITC, 0, IPS, SNDI, SNHT,
@@ -654,6 +664,7 @@ C----------
      &              4(F6.1,1X,F4.2),
      &              2I2,2F8.2,I2)
             ENDIF
+   33       CONTINUE
           ENDIF
         ENDIF
    40   CONTINUE
@@ -713,6 +724,7 @@ C----------
             SPROBS(IPUT,3) = SPROBS(ISNAG,3)
             SNGDIA(IPUT) = SNGDIA(ISNAG)
             SNGLEN(IPUT) = SNGLEN(ISNAG)
+            SNGCNWT(IPUT,0:3) = SNGCNWT(ISNAG,0:3)
             ISTATUS(ISNAG) = 0
             SPROBS(ISNAG,1) = 0
             SPROBS(ISNAG,2) = 0

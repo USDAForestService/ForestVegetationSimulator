@@ -774,6 +774,9 @@ C
         DO I=1,3
           CALL BFWRIT (WK3,IPNT,ILIMIT,SPROBS(1,I),NDEAD, 2)
         ENDDO
+        DO I=0,3
+          CALL BFWRIT (WK3,IPNT,ILIMIT,SNGCNWT(1,I),NDEAD, 2)
+        ENDDO
       ENDIF
       IF (NCWD .GT. 0) THEN
         CALL BFWRIT (WK3,IPNT,ILIMIT,CWDDIA, NCWD,      2)
