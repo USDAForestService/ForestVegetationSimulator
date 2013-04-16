@@ -24,6 +24,7 @@ treeAttrs = c("id","species","mort","tpa","dbh","dg","ht",
       
 # no cycles, plots, or trees yet
 fvsGetDims()
+fvsGetSVSDims()
 
 # should be return an empty list
 fvsGetTreeAttrs(treeAttrs) 
@@ -39,12 +40,14 @@ fvsSetCmdLine("--keywordfile=base.key")
 fvsRun(2,2030)
 fvsGetStandIDs()
 
+# get the SVS object set, not running fire model so weights will be zero
+fvsGetSVSObjectSet()
+
 # get and output some event monitor vars
 fvsGetEventMonitorVariables(c("year","atpa","aba"))
 
 # get and output tree attributes
 fvsGetTreeAttrs(treeAttrs)
-
 # run to 2060 stop prior to adding increments
 fvsRun(5,2060)
 trees=fvsGetTreeAttrs(treeAttrs)
