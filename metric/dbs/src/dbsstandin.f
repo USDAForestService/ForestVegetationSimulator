@@ -472,7 +472,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
 
 C     Fetch the Row Data
 
-      iRet = fvsSQLFetch(StmtHndlIn)      
+      iRet = fvsSQLFetch(StmtHndlIn)
       IF (iRet.NE.SQL_SUCCESS.AND.
      -    iRet.NE.SQL_SUCCESS_WITH_INFO) THEN
         IF (iRet.EQ.SQL_NO_DATA) THEN
@@ -484,7 +484,7 @@ C     Fetch the Row Data
         ENDIF
       ENDIF
 
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlIn)     
+      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlIn)
 
 C     DEFINE VVER IN CASE IT IS NEEDED.
 
@@ -608,7 +608,7 @@ C
    45    CONTINUE
          KARD12  = ADJUSTL(CHAB(1:20))
          ARRAY2 = ISTANDDATA(5)
-         IF(VVER(:2).EQ.'SE' .OR. (VVER(:2).EQ.'SN' .AND. 
+         IF(VVER(:2).EQ.'SE' .OR. (VVER(:2).EQ.'SN' .AND.
      >   Ecoregion_LI.NE.SQL_NULL_DATA)) THEN
            KODTYP=0
            ICL5=0
@@ -660,7 +660,7 @@ C
           ENDIF
    51      FORMAT (T13,'ECOLOGICAL UNIT:',T30,A:
      >              ' CONVERTED TO CODE: ',I4)
-        ENDIF 
+        ENDIF
       ENDIF
 
       IF(Age_LI.NE.SQL_NULL_DATA) THEN
@@ -690,10 +690,11 @@ C
             IF(LKECHO)WRITE(JOSTND,10) RSTANDDATA(33),ELEV*100./MtoFt
          ENDIF
       ENDIF
+   10 FORMAT (T13,'ELEVFT: ',T35,F6.1,' CONVERTED TO: ',F6.1)
       IF(Basal_LI.NE.SQL_NULL_DATA) THEN
          BAF = RSTANDDATA(10)
          IF(LKECHO)WRITE(JOSTND,'(T13,''BASAL_AREA_FACTOR: '',
-     >   T35,F6.1)') BAF 
+     >   T35,F6.1)') BAF
          IF (BAF .LT. 0.0) THEN
             BAF = BAF / HAtoACR
          ELSE
@@ -703,7 +704,7 @@ C
       IF(PlotArea_LI.NE.SQL_NULL_DATA) THEN
          FPA = RSTANDDATA(11)
          IF(LKECHO)WRITE(JOSTND,'(T13,''INV_PLOT_SIZE: '',T35,F6.0)')FPA
-         FPA = FPA * ACRtoHA        
+         FPA = FPA * ACRtoHA
       ENDIF
       IF(BPDBH_LI.NE.SQL_NULL_DATA) THEN
          BRK = RSTANDDATA(12)
@@ -1010,7 +1011,7 @@ C     FUEL LOAD PARAMETERS
      >   RSTANDDATA(60)
       ELSE
          RSTANDDATA(60) = -1.
-      ENDIF 
+      ENDIF
       IF(FuelS20_LI.NE.SQL_NULL_DATA) THEN
          LFMYES2 = .TRUE.
          IF(LKECHO)WRITE(JOSTND,'(T13,''FUEL_20_35_S: '',T33,F8.3)')
@@ -1049,19 +1050,19 @@ C     FUEL PHOTO REFERENCE
       LFOTO = .FALSE.
       IF(FOTOREF_LI.NE.SQL_NULL_DATA) THEN
          LFOTO = .TRUE.
-         
+
          IF ((ISTANDDATA(52) .NE. 4) .AND. (ISTANDDATA(52) .NE. 10)
      >   .AND. (ISTANDDATA(52) .GE. 1) .AND. (ISTANDDATA(52) .LE. 32))
      >   THEN
            REF = PHOTOREF(ISTANDDATA(52))
          ELSE
            REF = 'UNKNOWN'
-           LFOTO = .FALSE.  
+           LFOTO = .FALSE.
          ENDIF
          IF(LKECHO)WRITE (JOSTND,55) ISTANDDATA(52), REF
- 
+
    55    FORMAT (T13,'PHOTO_REF: ',T35,I6, ' = ',A)
- 
+
       ELSE
          ISTANDDATA(52) = -1.
       ENDIF
@@ -1089,22 +1090,22 @@ C     FUEL PHOTO CODE
       FOTODATA(2) = FKOD
 
 C     Schedule an activity that changes the initial fuel values. This mimics
-C     the method used in the fire model.  First the fuels photo series photo 
+C     the method used in the fire model.  First the fuels photo series photo
 C     selected is set, followed by tons/acre entered directly.
 
       CALL  FMLNKD(LFMLK)
-      
+
       IF (LFMLK.AND.LFOTO.AND.LFOTO2) THEN
          CALL OPNEW(I,1,2548,2,FOTODATA(1))
-      ELSEIF (LFOTO.AND.LFOTO2.AND. .NOT. LFMLK) THEN 
+      ELSEIF (LFOTO.AND.LFOTO2.AND. .NOT. LFMLK) THEN
         WRITE(JOSTND,
      >  '(T13,''FIRE MODEL NOT LINKED, FUELS PHOTO DATA IGNORED.'')')
-      ELSEIF ((FOTOREF_LI.NE.SQL_NULL_DATA) .OR. 
+      ELSEIF ((FOTOREF_LI.NE.SQL_NULL_DATA) .OR.
      >        (FotoCode_LI.NE.SQL_NULL_DATA)) THEN
         WRITE(JOSTND,'(T13,''MISSING PHOTO ''
      >  ''REFERENCE OR PHOTO CODE, FUELS PHOTO DATA IGNORED.'')')
       ENDIF
-     
+
       IF (LFMLK.AND.LFMYES) THEN
         DO I=39,50
             RSTANDDATA(I) = RSTANDDATA(I) * TMtoTI / HAtoACR
@@ -1116,7 +1117,7 @@ C     selected is set, followed by tons/acre entered directly.
 
       IF (LFMLK.AND.LFMYES2) THEN
         DO I = 55,63
-            RSTANDDATA(I) = RSTANDDATA(I) * TMtoTI / HAtoACR        
+            RSTANDDATA(I) = RSTANDDATA(I) * TMtoTI / HAtoACR
         ENDDO
         CALL OPNEW(I,1,2553,9,RSTANDDATA(55))
       ENDIF
