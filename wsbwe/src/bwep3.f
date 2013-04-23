@@ -182,8 +182,8 @@ C
          IYEAR=IYEAR+1
          IYR=IYR+1
          IF (IYR.LT.IYRCUR) THEN
-            DIFF=IYRCUR-IYR
-            DO 85 I=1,DIFF
+            IDIFF=IYRCUR-IYR
+            DO 85 I=1,IDIFF
             WRITE (JOBWP2,75) NPLT,IYR,IYR,IYR,IYR,IYR,IYR
             IYEAR=IYEAR+1
             IYR=IYR+1
