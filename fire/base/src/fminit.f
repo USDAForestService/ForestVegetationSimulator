@@ -170,7 +170,7 @@ C  SHORT GRASS - FMD 1
 C----------
       I = 1
       SURFVL(I,1, 1) = 3500
-      FMLOAD(I,1, 1) =    0.034
+      FMLOAD(I,1, 1) =    0.03398
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.12
 C----------
@@ -178,10 +178,10 @@ C  TIMBER (GRASS & UNDERSTORY) - FMD 2
 C----------
       I = 2
       SURFVL(I,1, 1) = 3000
-      FMLOAD(I,1, 1) =    0.092
-      FMLOAD(I,1, 2) =    0.046
-      FMLOAD(I,1, 3) =    0.023
-      FMLOAD(I,2, 2) =    0.023
+      FMLOAD(I,1, 1) =    0.09183
+      FMLOAD(I,1, 2) =    0.04591
+      FMLOAD(I,1, 3) =    0.02296
+      FMLOAD(I,2, 2) =    0.02296
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.15
 C----------
@@ -189,7 +189,7 @@ C  TALL GRASS (2.5 FT) - FMD 3
 C----------
       I = 3
       SURFVL(I,1, 1) = 1500
-      FMLOAD(I,1, 1) =    0.138
+      FMLOAD(I,1, 1) =    0.13820
       FMDEP(I)       =    2.5
       MOISEX(I)      =    0.25
 C----------
@@ -197,10 +197,10 @@ C  CHAPARRAL (6 FT) - FMD 4
 C----------
       I = 4
       SURFVL(I,1, 1) = 2000
-      FMLOAD(I,1, 1) =    0.230
-      FMLOAD(I,1, 2) =    0.184
-      FMLOAD(I,1, 3) =    0.092
-      FMLOAD(I,2, 1) =    0.230
+      FMLOAD(I,1, 1) =    0.23003
+      FMLOAD(I,1, 2) =    0.18411
+      FMLOAD(I,1, 3) =    0.09183
+      FMLOAD(I,2, 1) =    0.23003
       FMDEP(I)       =    6.0
       MOISEX(I)      =    0.20
 C----------
@@ -208,9 +208,9 @@ C  BRUSH (2 FT) - FMD 5
 C----------
       I = 5
       SURFVL(I,1, 1) = 2000
-      FMLOAD(I,1, 1) =    0.046
-      FMLOAD(I,1, 2) =    0.023
-      FMLOAD(I,2, 1) =    0.092
+      FMLOAD(I,1, 1) =    0.04591
+      FMLOAD(I,1, 2) =    0.02296
+      FMLOAD(I,2, 1) =    0.09183
       FMDEP(I)       =    2.0
       MOISEX(I)      =    0.20
 C----------
@@ -218,9 +218,9 @@ C  DORMANT BRUSH, HARDWOOD SLASH - FMD 6
 C----------
       I = 6
       SURFVL(I,1, 1) = 1750
-      FMLOAD(I,1, 1) =    0.069
-      FMLOAD(I,1, 2) =    0.115
-      FMLOAD(I,1, 3) =    0.092
+      FMLOAD(I,1, 1) =    0.06887
+      FMLOAD(I,1, 2) =    0.11478
+      FMLOAD(I,1, 3) =    0.09183
       FMDEP(I)       =    2.5
       MOISEX(I)      =    0.25
 C----------
@@ -229,10 +229,10 @@ C----------
       I = 7
       SURFVL(I,1, 1) = 1750
       SURFVL(I,2, 1) = 1550
-      FMLOAD(I,1, 1) =    0.052
-      FMLOAD(I,1, 2) =    0.086
-      FMLOAD(I,1, 3) =    0.069
-      FMLOAD(I,2, 1) =    0.017
+      FMLOAD(I,1, 1) =    0.05188
+      FMLOAD(I,1, 2) =    0.08586
+      FMLOAD(I,1, 3) =    0.06887
+      FMLOAD(I,2, 1) =    0.01699
       FMDEP(I)       =    2.5
       MOISEX(I)      =    0.40
 C----------
@@ -240,9 +240,9 @@ C  CLOSED TIMBER LITTER - FMD 8
 C----------
       I = 8
       SURFVL(I,1, 1) = 2000
-      FMLOAD(I,1, 1) =    0.069
-      FMLOAD(I,1, 2) =    0.046
-      FMLOAD(I,1, 3) =    0.115
+      FMLOAD(I,1, 1) =    0.06887
+      FMLOAD(I,1, 2) =    0.04591
+      FMLOAD(I,1, 3) =    0.11478
       FMDEP(I)       =    0.2
       MOISEX(I)      =    0.3
 C----------
@@ -250,9 +250,9 @@ C  HARDWOOD LITTER - FMD 9
 C----------
       I = 9
       SURFVL(I,1, 1) = 2500
-      FMLOAD(I,1, 1) =    0.134
-      FMLOAD(I,1, 2) =    0.019
-      FMLOAD(I,1, 3) =    0.007
+      FMLOAD(I,1, 1) =    0.13407
+      FMLOAD(I,1, 2) =    0.01882
+      FMLOAD(I,1, 3) =    0.00689
       FMDEP(I)       =    0.2
       MOISEX(I)      =    0.25
 C----------
@@ -260,10 +260,10 @@ C  TIMBER (LITTER & UNDERSTORY) - FMD 10
 C----------
       I = 10
       SURFVL(I,1, 1) = 2000
-      FMLOAD(I,1, 1) =    0.138
-      FMLOAD(I,1, 2) =    0.092
-      FMLOAD(I,1, 3) =    0.23
-      FMLOAD(I,2, 1) =    0.092
+      FMLOAD(I,1, 1) =    0.13820
+      FMLOAD(I,1, 2) =    0.09183
+      FMLOAD(I,1, 3) =    0.23003
+      FMLOAD(I,2, 1) =    0.09183
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.25
 C----------
@@ -271,9 +271,9 @@ C  LIGHT LOGGING SLASH (AN ACTIVITIES FUEL MODEL) - FMD 11
 C----------
       I = 11
       SURFVL(I,1, 1) = 1500
-      FMLOAD(I,1, 1) =    0.069
-      FMLOAD(I,1, 2) =    0.207
-      FMLOAD(I,1, 3) =    0.253
+      FMLOAD(I,1, 1) =    0.06887
+      FMLOAD(I,1, 2) =    0.20707
+      FMLOAD(I,1, 3) =    0.25298
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.15
 C----------
@@ -281,9 +281,9 @@ C  MEDIUM LOGGING SLASH - FMD 12
 C----------
       I = 12
       SURFVL(I,1, 1) = 1500
-      FMLOAD(I,1, 1) =    0.184
-      FMLOAD(I,1, 2) =    0.644
-      FMLOAD(I,1, 3) =    0.759
+      FMLOAD(I,1, 1) =    0.18411
+      FMLOAD(I,1, 2) =    0.64417
+      FMLOAD(I,1, 3) =    0.75895
       FMDEP(I)       =    2.3
       MOISEX(I)      =    0.2
 C----------
@@ -291,9 +291,9 @@ C  HEAVY LOGGING SLASH - FMD 13
 C----------
       I = 13
       SURFVL(I,1, 1) = 1500
-      FMLOAD(I,1, 1) =    0.322
-      FMLOAD(I,1, 2) =    1.058
-      FMLOAD(I,1, 3) =    1.288
+      FMLOAD(I,1, 1) =    0.32185
+      FMLOAD(I,1, 2) =    1.05785
+      FMLOAD(I,1, 3) =    1.28788
       FMDEP(I)       =    3.0
       MOISEX(I)      =    0.25
 C----------
@@ -337,8 +337,8 @@ C----------
       I = 101
       SURFVL(I,1,1) = 2200
       SURFVL(I,2,2) = 2000
-      FMLOAD(I,1, 1) =    0.005
-      FMLOAD(I,2, 2) =    0.014
+      FMLOAD(I,1, 1) =    0.00459
+      FMLOAD(I,2, 2) =    0.01377
       FMDEP(I)       =    0.4
       MOISEX(I)      =    0.15
 C----------
@@ -347,8 +347,8 @@ C----------
       I = 102
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.005
-      FMLOAD(I,2, 2) =    0.046
+      FMLOAD(I,1, 1) =    0.00459
+      FMLOAD(I,2, 2) =    0.04591
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.15
 C----------
@@ -357,9 +357,9 @@ C----------
       I = 103
       SURFVL(I,1,1) = 1500
       SURFVL(I,2,2) = 1300
-      FMLOAD(I,1, 1) =    0.005
-      FMLOAD(I,1, 2) =    0.018
-      FMLOAD(I,2, 2) =    0.069
+      FMLOAD(I,1, 1) =    0.00459
+      FMLOAD(I,1, 2) =    0.01837
+      FMLOAD(I,2, 2) =    0.06887
       FMDEP(I)       =    2.0
       MOISEX(I)      =    0.30
 
@@ -369,8 +369,8 @@ C----------
       I = 104
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.011
-      FMLOAD(I,2, 2) =    0.087
+      FMLOAD(I,1, 1) =    0.01148
+      FMLOAD(I,2, 2) =    0.08724
       FMDEP(I)       =    2.0
       MOISEX(I)      =    0.15
 
@@ -380,8 +380,8 @@ C----------
       I = 105
       SURFVL(I,1,1) = 1800
       SURFVL(I,2,2) = 1600
-      FMLOAD(I,1, 1) =    0.018
-      FMLOAD(I,2, 2) =    0.115
+      FMLOAD(I,1, 1) =    0.01837
+      FMLOAD(I,2, 2) =    0.11478
       FMDEP(I)       =    1.5
       MOISEX(I)      =    0.40
 
@@ -391,8 +391,8 @@ C----------
       I = 106
       SURFVL(I,1,1) = 2200
       SURFVL(I,2,2) = 2000
-      FMLOAD(I,1, 1) =    0.005
-      FMLOAD(I,2, 2) =    0.156
+      FMLOAD(I,1, 1) =    0.00459
+      FMLOAD(I,2, 2) =    0.15611
       FMDEP(I)       =    1.5
       MOISEX(I)      =    0.40
 
@@ -403,8 +403,8 @@ C----------
       I = 107
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.046
-      FMLOAD(I,2, 2) =    0.248
+      FMLOAD(I,1, 1) =    0.04591
+      FMLOAD(I,2, 2) =    0.24793
       FMDEP(I)       =    3.0
       MOISEX(I)      =    0.15
 
@@ -414,9 +414,9 @@ C----------
       I = 108
       SURFVL(I,1,1) = 1500
       SURFVL(I,2,2) = 1300
-      FMLOAD(I,1, 1) =    0.023
-      FMLOAD(I,1, 2) =    0.046
-      FMLOAD(I,2, 2) =    0.335
+      FMLOAD(I,1, 1) =    0.02296
+      FMLOAD(I,1, 2) =    0.04591
+      FMLOAD(I,2, 2) =    0.33517
       FMDEP(I)       =    4.0
       MOISEX(I)      =    0.30
 C----------
@@ -425,9 +425,9 @@ C----------
       I = 109
       SURFVL(I,1,1) = 1800
       SURFVL(I,2,2) = 1600
-      FMLOAD(I,1, 1) =    0.046
-      FMLOAD(I,1, 2) =    0.046
-      FMLOAD(I,2, 2) =    0.413
+      FMLOAD(I,1, 1) =    0.04591
+      FMLOAD(I,1, 2) =    0.04591
+      FMLOAD(I,2, 2) =    0.41322
       FMDEP(I)       =    5.0
       MOISEX(I)      =    0.40
 
@@ -438,9 +438,9 @@ C----------
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,1) = 1800
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.009
-      FMLOAD(I,2, 1) =    0.03
-      FMLOAD(I,2, 2) =    0.023
+      FMLOAD(I,1, 1) =    0.00918
+      FMLOAD(I,2, 1) =    0.02984
+      FMLOAD(I,2, 2) =    0.02296
       FMDEP(I)       =    0.9
       MOISEX(I)      =    0.15
 C----------
@@ -450,10 +450,10 @@ C----------
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,1) = 1800
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.023
-      FMLOAD(I,1, 2) =    0.023
-      FMLOAD(I,2, 1) =    0.046
-      FMLOAD(I,2, 2) =    0.028
+      FMLOAD(I,1, 1) =    0.02296
+      FMLOAD(I,1, 2) =    0.02296
+      FMLOAD(I,2, 1) =    0.04591
+      FMLOAD(I,2, 2) =    0.02755
       FMDEP(I)       =    1.5
       MOISEX(I)      =    0.15
 
@@ -464,10 +464,10 @@ C----------
       SURFVL(I,1,1) = 1800
       SURFVL(I,2,1) = 1600
       SURFVL(I,2,2) = 1600
-      FMLOAD(I,1, 1) =    0.014
-      FMLOAD(I,1, 2) =    0.011
-      FMLOAD(I,2, 1) =    0.057
-      FMLOAD(I,2, 2) =    0.067
+      FMLOAD(I,1, 1) =    0.01377
+      FMLOAD(I,1, 2) =    0.01148
+      FMLOAD(I,2, 1) =    0.05739
+      FMLOAD(I,2, 2) =    0.06657
       FMDEP(I)       =    1.8
       MOISEX(I)      =    0.40
 
@@ -478,11 +478,11 @@ C----------
       SURFVL(I,1,1) = 1800
       SURFVL(I,2,1) = 1600
       SURFVL(I,2,2) = 1600
-      FMLOAD(I,1, 1) =    0.087
-      FMLOAD(I,1, 2) =    0.014
-      FMLOAD(I,1, 3) =    0.005
-      FMLOAD(I,2, 1) =    0.326
-      FMLOAD(I,2, 2) =    0.156
+      FMLOAD(I,1, 1) =    0.08724
+      FMLOAD(I,1, 2) =    0.01377
+      FMLOAD(I,1, 3) =    0.00459
+      FMLOAD(I,2, 1) =    0.32599
+      FMLOAD(I,2, 2) =    0.15611
       FMDEP(I)       =    2.1
       MOISEX(I)      =    0.40
 C----------
@@ -492,10 +492,10 @@ C----------
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,1) = 1600
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.011
-      FMLOAD(I,1, 2) =    0.011
-      FMLOAD(I,2, 1) =    0.060
-      FMLOAD(I,2, 2) =    0.007
+      FMLOAD(I,1, 1) =    0.01148
+      FMLOAD(I,1, 2) =    0.01148
+      FMLOAD(I,2, 1) =    0.05969
+      FMLOAD(I,2, 2) =    0.00689
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.15
 C----------
@@ -504,10 +504,10 @@ C----------
       I = 142
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,1) = 1600
-      FMLOAD(I,1, 1) =    0.062
-      FMLOAD(I,1, 2) =    0.110
-      FMLOAD(I,1, 3) =    0.034
-      FMLOAD(I,2, 1) =    0.177
+      FMLOAD(I,1, 1) =    0.06189
+      FMLOAD(I,1, 2) =    0.11019
+      FMLOAD(I,1, 3) =    0.03444
+      FMLOAD(I,2, 1) =    0.17677
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.15
 
@@ -517,9 +517,9 @@ C----------
       I = 143
       SURFVL(I,1,1) = 1600
       SURFVL(I,2,1) = 1400
-      FMLOAD(I,1, 1) =    0.021
-      FMLOAD(I,1, 2) =    0.138
-      FMLOAD(I,2, 1) =    0.285
+      FMLOAD(I,1, 1) =    0.02066
+      FMLOAD(I,1, 2) =    0.13774
+      FMLOAD(I,2, 1) =    0.28466
       FMDEP(I)       =    2.4
       MOISEX(I)      =    0.40
 C----------
@@ -529,10 +529,10 @@ C----------
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,1) = 1600
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.039
-      FMLOAD(I,1, 2) =    0.053
-      FMLOAD(I,1, 3) =    0.009
-      FMLOAD(I,2, 1) =    0.117
+      FMLOAD(I,1, 1) =    0.03903
+      FMLOAD(I,1, 2) =    0.05280
+      FMLOAD(I,1, 3) =    0.00918
+      FMLOAD(I,2, 1) =    0.11708
       FMDEP(I)       =    3.0
       MOISEX(I)      =    0.30
 C----------
@@ -541,9 +541,9 @@ C----------
       I = 145
       SURFVL(I,1,1) = 750
       SURFVL(I,2,1) = 1600
-      FMLOAD(I,1, 1) =    0.165
-      FMLOAD(I,1, 2) =    0.096
-      FMLOAD(I,2, 1) =    0.133
+      FMLOAD(I,1, 1) =    0.16529
+      FMLOAD(I,1, 2) =    0.09642
+      FMLOAD(I,2, 1) =    0.13315
       FMDEP(I)       =    6.0
       MOISEX(I)      =    0.15
 C----------
@@ -552,9 +552,9 @@ C----------
       I = 146
       SURFVL(I,1,1) = 750
       SURFVL(I,2,1) = 1600
-      FMLOAD(I,1, 1) =    0.133
-      FMLOAD(I,1, 2) =    0.067
-      FMLOAD(I,2, 1) =    0.064
+      FMLOAD(I,1, 1) =    0.13315
+      FMLOAD(I,1, 2) =    0.06657
+      FMLOAD(I,2, 1) =    0.06428
       FMDEP(I)       =    2.0
       MOISEX(I)      =    0.30
 C----------
@@ -563,10 +563,10 @@ C----------
       I = 147
       SURFVL(I,1,1) = 750
       SURFVL(I,2,1) = 1600
-      FMLOAD(I,1, 1) =    0.161
-      FMLOAD(I,1, 2) =    0.243
-      FMLOAD(I,1, 3) =    0.101
-      FMLOAD(I,2, 1) =    0.156
+      FMLOAD(I,1, 1) =    0.16070
+      FMLOAD(I,1, 2) =    0.24334
+      FMLOAD(I,1, 3) =    0.10101
+      FMLOAD(I,2, 1) =    0.15611
       FMDEP(I)       =    6.0
       MOISEX(I)      =    0.15
 
@@ -576,10 +576,10 @@ C----------
       I = 148
       SURFVL(I,1,1) = 750
       SURFVL(I,2,1) = 1600
-      FMLOAD(I,1, 1) =    0.094
-      FMLOAD(I,1, 2) =    0.156
-      FMLOAD(I,1, 3) =    0.039
-      FMLOAD(I,2, 1) =    0.200
+      FMLOAD(I,1, 1) =    0.09412
+      FMLOAD(I,1, 2) =    0.15611
+      FMLOAD(I,1, 3) =    0.03903
+      FMLOAD(I,2, 1) =    0.19972
       FMDEP(I)       =    3.0
       MOISEX(I)      =    0.40
 
@@ -590,10 +590,10 @@ C----------
       SURFVL(I,1,1) = 750
       SURFVL(I,2,1) = 1500
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.207
-      FMLOAD(I,1, 2) =    0.112
-      FMLOAD(I,2, 1) =    0.321
-      FMLOAD(I,2, 2) =    0.071
+      FMLOAD(I,1, 1) =    0.20661
+      FMLOAD(I,1, 2) =    0.11249
+      FMLOAD(I,2, 1) =    0.32140
+      FMLOAD(I,2, 2) =    0.07117
       FMDEP(I)       =    4.4
       MOISEX(I)      =    0.40
 C----------
@@ -603,11 +603,11 @@ C----------
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,1) = 1600
       SURFVL(I,2,2) = 1800
-      FMLOAD(I,1, 1) =    0.009
-      FMLOAD(I,1, 2) =    0.041
-      FMLOAD(I,1, 3) =    0.069
-      FMLOAD(I,2, 1) =    0.041
-      FMLOAD(I,2, 2) =    0.009
+      FMLOAD(I,1, 1) =    0.00918
+      FMLOAD(I,1, 2) =    0.04132
+      FMLOAD(I,1, 3) =    0.06887
+      FMLOAD(I,2, 1) =    0.04132
+      FMLOAD(I,2, 2) =    0.00918
       FMDEP(I)       =    0.6
       MOISEX(I)      =    0.20
 
@@ -618,10 +618,10 @@ C----------
       I = 162
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,1) = 1600
-      FMLOAD(I,1, 1) =    0.044
-      FMLOAD(I,1, 2) =    0.083
-      FMLOAD(I,1, 3) =    0.057
-      FMLOAD(I,2, 1) =    0.009
+      FMLOAD(I,1, 1) =    0.04362
+      FMLOAD(I,1, 2) =    0.08264
+      FMLOAD(I,1, 3) =    0.05739
+      FMLOAD(I,2, 1) =    0.00918
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.30
 
@@ -632,11 +632,11 @@ C----------
       SURFVL(I,1,1) = 1800
       SURFVL(I,2,1) = 1400
       SURFVL(I,2,2) = 1600
-      FMLOAD(I,1, 1) =    0.051
-      FMLOAD(I,1, 2) =    0.007
-      FMLOAD(I,1, 3) =    0.011
-      FMLOAD(I,2, 1) =    0.051
-      FMLOAD(I,2, 2) =    0.030
+      FMLOAD(I,1, 1) =    0.05051
+      FMLOAD(I,1, 2) =    0.00689
+      FMLOAD(I,1, 3) =    0.01148
+      FMLOAD(I,2, 1) =    0.05051
+      FMLOAD(I,2, 2) =    0.02984
       FMDEP(I)       =    1.3
       MOISEX(I)      =    0.30
 C----------
@@ -645,8 +645,8 @@ C----------
       I = 164
       SURFVL(I,1,1) = 2300
       SURFVL(I,2,1) = 2000
-      FMLOAD(I,1, 1) =    0.207
-      FMLOAD(I,2, 1) =    0.092
+      FMLOAD(I,1, 1) =    0.20661
+      FMLOAD(I,2, 1) =    0.09183
       FMDEP(I)       =    0.5
       MOISEX(I)      =    0.12
 C----------
@@ -655,10 +655,10 @@ C----------
       I = 165
       SURFVL(I,1,1) = 1500
       SURFVL(I,2,1) = 750
-      FMLOAD(I,1, 1) =    0.184
-      FMLOAD(I,1, 2) =    0.184
-      FMLOAD(I,1, 3) =    0.138
-      FMLOAD(I,2, 1) =    0.138
+      FMLOAD(I,1, 1) =    0.18365
+      FMLOAD(I,1, 2) =    0.18365
+      FMLOAD(I,1, 3) =    0.13774
+      FMLOAD(I,2, 1) =    0.13774
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.25
 C----------
@@ -666,9 +666,9 @@ C  TL1 (181) LOW LOAD COMPACT CONIFER LITTER
 C----------
       I = 181
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.046
-      FMLOAD(I,1, 2) =    0.101
-      FMLOAD(I,1, 3) =    0.165
+      FMLOAD(I,1, 1) =    0.04591
+      FMLOAD(I,1, 2) =    0.10101
+      FMLOAD(I,1, 3) =    0.16529
       FMDEP(I)       =    0.2
       MOISEX(I)      =    0.30
 
@@ -677,9 +677,9 @@ C  TL2 (182) LOW LOAD BROADLEAF LITTER
 C----------
       I = 182
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.064
-      FMLOAD(I,1, 2) =    0.106
-      FMLOAD(I,1, 3) =    0.101
+      FMLOAD(I,1, 1) =    0.06428
+      FMLOAD(I,1, 2) =    0.10560
+      FMLOAD(I,1, 3) =    0.10101
       FMDEP(I)       =    0.2
       MOISEX(I)      =    0.25
 
@@ -688,9 +688,9 @@ C  TL3 (183) MODERATE LOAD CONIFER LITTER
 C----------
       I = 183
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.023
-      FMLOAD(I,1, 2) =    0.101
-      FMLOAD(I,1, 3) =    0.129
+      FMLOAD(I,1, 1) =    0.02296
+      FMLOAD(I,1, 2) =    0.10101
+      FMLOAD(I,1, 3) =    0.12856
       FMDEP(I)       =    0.3
       MOISEX(I)      =    0.20
 C----------
@@ -698,9 +698,9 @@ C  TL4 (184) SMALL DOWNED LOGS
 C----------
       I = 184
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.023
-      FMLOAD(I,1, 2) =    0.069
-      FMLOAD(I,1, 3) =    0.193
+      FMLOAD(I,1, 1) =    0.02296
+      FMLOAD(I,1, 2) =    0.06887
+      FMLOAD(I,1, 3) =    0.19284
       FMDEP(I)       =    0.4
       MOISEX(I)      =    0.25
 C----------
@@ -709,9 +709,9 @@ C----------
       I = 185
       SURFVL(I,1,1) = 2000
       SURFVL(I,2,1) = 1600
-      FMLOAD(I,1, 1) =    0.053
-      FMLOAD(I,1, 2) =    0.115
-      FMLOAD(I,1, 3) =    0.202
+      FMLOAD(I,1, 1) =    0.05280
+      FMLOAD(I,1, 2) =    0.11478
+      FMLOAD(I,1, 3) =    0.20202
       FMDEP(I)       =    0.6
       MOISEX(I)      =    0.25
 
@@ -720,9 +720,9 @@ C  TL6 (186) MODERATE LOAD BROADLEAF LITTER
 C----------
       I = 186
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.110
-      FMLOAD(I,1, 2) =    0.055
-      FMLOAD(I,1, 3) =    0.055
+      FMLOAD(I,1, 1) =    0.11019
+      FMLOAD(I,1, 2) =    0.05510
+      FMLOAD(I,1, 3) =    0.05510
       FMDEP(I)       =    0.3
       MOISEX(I)      =    0.25
 
@@ -731,9 +731,9 @@ C  TL7 (187) LARGE DOWNED LOGS
 C----------
       I = 187
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.014
-      FMLOAD(I,1, 2) =    0.064
-      FMLOAD(I,1, 3) =    0.372
+      FMLOAD(I,1, 1) =    0.01377
+      FMLOAD(I,1, 2) =    0.06428
+      FMLOAD(I,1, 3) =    0.37190
       FMDEP(I)       =    0.4
       MOISEX(I)      =    0.25
 
@@ -742,9 +742,9 @@ C  TL8 (188) LONG-NEEDLE LITTER
 C----------
       I = 188
       SURFVL(I,1,1) = 1800
-      FMLOAD(I,1, 1) =    0.266
-      FMLOAD(I,1, 2) =    0.064
-      FMLOAD(I,1, 3) =    0.051
+      FMLOAD(I,1, 1) =    0.26630
+      FMLOAD(I,1, 2) =    0.06428
+      FMLOAD(I,1, 3) =    0.05051
       FMDEP(I)       =    0.3
       MOISEX(I)      =    0.35
 
@@ -754,9 +754,9 @@ C----------
       I = 189
       SURFVL(I,1,1) = 1800
       SURFVL(I,2,1) = 1600
-      FMLOAD(I,1, 1) =    0.305
-      FMLOAD(I,1, 2) =    0.152
-      FMLOAD(I,1, 3) =    0.191
+      FMLOAD(I,1, 1) =    0.30533
+      FMLOAD(I,1, 2) =    0.15152
+      FMLOAD(I,1, 3) =    0.19054
       FMDEP(I)       =    0.6
       MOISEX(I)      =    0.35
 C----------
@@ -764,9 +764,9 @@ C  SB1 (201) LOW LOAD ACTIVITY FUEL
 C----------
       I = 201
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.069
-      FMLOAD(I,1, 2) =    0.138
-      FMLOAD(I,1, 3) =    0.505
+      FMLOAD(I,1, 1) =    0.06887
+      FMLOAD(I,1, 2) =    0.13774
+      FMLOAD(I,1, 3) =    0.50505
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.25
 
@@ -775,9 +775,9 @@ C  SB2 (202) MODERATE LOAD ACTIVITY FUEL OR LOW LOAD BLOWDOWN
 C----------
       I = 202
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.207
-      FMLOAD(I,1, 2) =    0.195
-      FMLOAD(I,1, 3) =    0.184
+      FMLOAD(I,1, 1) =    0.20661
+      FMLOAD(I,1, 2) =    0.19513
+      FMLOAD(I,1, 3) =    0.18365
       FMDEP(I)       =    1.0
       MOISEX(I)      =    0.25
 
@@ -786,9 +786,9 @@ C  SB3 (203) HIGH LOAD ACTIVITY FUEL OR MODERATE LOAD BLOWDOWN
 C----------
       I = 203
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.253
-      FMLOAD(I,1, 2) =    0.126
-      FMLOAD(I,1, 3) =    0.138
+      FMLOAD(I,1, 1) =    0.25253
+      FMLOAD(I,1, 2) =    0.12626
+      FMLOAD(I,1, 3) =    0.13774
       FMDEP(I)       =    1.2
       MOISEX(I)      =    0.25
 C----------
@@ -796,11 +796,12 @@ C  SB4 (204) HIGH LOAD BLOWDOWN
 C----------
       I = 204
       SURFVL(I,1,1) = 2000
-      FMLOAD(I,1, 1) =    0.241
-      FMLOAD(I,1, 2) =    0.161
-      FMLOAD(I,1, 3) =    0.241
+      FMLOAD(I,1, 1) =    0.24105
+      FMLOAD(I,1, 2) =    0.16070
+      FMLOAD(I,1, 3) =    0.24105
       FMDEP(I)       =    2.7
       MOISEX(I)      =    0.25
+
 C----------
 C  INITIALIZE VARIABLES FOR NEW FIRE CALCULATION OPTIONS 
 C  (NEW FUEL MODEL LOGIC AND USING MODELLED LOADS)
@@ -890,14 +891,14 @@ C
         CARBVAL(I) = 0.0
       ENDDO
             
-      ICMETH   = 0       ! CARBON METHOD 0 = FFE, 1 = JENKINS
-      ICMETRC  = 0       ! UNITS TYPE 0 = IMPERIAL, 1 = METRIC
-      ICHABT   = 1       ! DEFAULT C-REPORTING HABITAT GROUP
-                         ! (FMCBA MAY ALTER: NI/IE/SO/SN)
+      ICMETH   = 0      ! CARBON METHOD 0 = FFE, 1 = JENKINS
+      ICMETRC  = 0      ! UNITS TYPE 0 = IMPERIAL, 1 = METRIC
+      ICHABT   = 1      ! DEFAULT C-REPORTING HABITAT GROUP
+                        ! (FMCBA MAY ALTER: NI/IE/SO/SN)
       CRDCAY   = 0.0425  ! ROOT DECAY RATE (<0 = "NOT USED")
-      CDBRK(1) =  9.0    ! DEFAULT SOFTWOOD DIAMETER BREAKPOINT (IN)
-      CDBRK(2) = 11.0    ! DEFAULT HARDWOOD DIAMETER BREAKPOINT (IN)
-      BIOLIVE  =  0.0    ! BIOxxx C-REPORTING GROUPS
+      CDBRK(1) =  9.0   ! DEFAULT SOFTWOOD DIAMETER BREAKPOINT (IN)
+      CDBRK(2) = 11.0   ! DEFAULT HARDWOOD DIAMETER BREAKPOINT (IN)
+      BIOLIVE  =  0.0   ! BIOxxx C-REPORTING GROUPS
       BIOREM(1)=  0.0
       BIOREM(2)=  0.0
       BIOSNAG  =  0.0
@@ -958,7 +959,6 @@ C
 C
       FLIVE(1) = 0.0
       FLIVE(2) = 0.0
-
 C----------
 C     *** CL-FFE *** stub
 C     Initialize CWD decay rate sensitivy. No keyword control yet.
@@ -978,7 +978,6 @@ C----------
       !DO I = 1,(MXFLCL+1)
       !  REFMATCWD(I) = 10.0
       !ENDDO
-      
 C----------
 C  INITIALIZE FLAG IDICATING REMOVAL OF STAND BIOMASS 
 C  EVENT MONITOR FUNCTION TREEBIO IN **FMEVMON**
