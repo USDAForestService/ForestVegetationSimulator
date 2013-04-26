@@ -5625,12 +5625,9 @@ C
 C  ==========  OPTION NUMBER 1400 SDICALC ===========================SDICALC
 C
 14000 CONTINUE
-      SELECT CASE(VVER(:2))
-        CASE('AK','AN','BM','CA','CS','BP','LP','LS','SF','SM','SP',
-     &       'EC','EM','NC','NE','SN','SO','TT','UT','WS')
         DBHSTAGE=0.
         IF(LNOTBK(1))DBHSTAGE=ARRAY(1)
-        DBHZEIDE=1.
+        DBHZEIDE=0.
         IF(LNOTBK(2))DBHZEIDE=ARRAY(2)
         IF(ARRAY(3).GE.1)LZEIDE=.TRUE.
         CALCSDI="STAGE'S"
@@ -5643,7 +5640,6 @@ C
      &  9X,'   THE MINIMUM DIAMETER USED IN ZEIDE SDI CALCULATIONS = ',
      &  F6.2,' IN')
         GO TO 10
-      END SELECT
       CALL ERRGRO (.TRUE.,16)
       GO TO 10
 C
