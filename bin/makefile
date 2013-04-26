@@ -30,6 +30,11 @@ else
     OSARCH = l64
     PIC = -fPIC  # always use PIC on this OSARCH type
   endif
+ else
+  ifeq ($(shell uname),Linux)
+    OSARCH = l64
+    PIC = -fPIC
+  endif
  endif
  ifndef OSARCH
    OSARCH = osx
@@ -37,6 +42,17 @@ else
  endif
  ODBC = odbc 
 endif
+
+#.PHONY: printvars
+
+#printvars: 
+#	@echo OS: $(OS)
+#	@echo OSTYPE: $(OSTYPE)
+#	@echo WIN: $(WIN)
+#	@echo ODBC: $(ODBC)
+#	@echo SLIBSUFX: $(SLIBSUFX)
+#	@echo OSARCH: $(OSARCH)
+#	@echo PIC: $(PIC)
 
 # FC is the fortran compiler
 # FFLAGS are pasted to fortran

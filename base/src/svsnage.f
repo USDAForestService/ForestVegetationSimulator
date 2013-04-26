@@ -52,11 +52,11 @@ C
 COMMONS
 
       CHARACTER VVER*7
-      INTEGER HRATE2, IDEAD, ISTMLT, ISVOBJ, ITIDIF, ITSTYR, ICURYR,
-     &        IYEAR, J, K, KSP, NFALLD
-      REAL    DFALLN, DKTIME, EXPFALL, FACTOR, FALLNUM, FALRATE,
+      INTEGER IDEAD, ISTMLT, ITIDIF, ITSTYR, ICURYR,
+     &        IYEAR, J, KSP, NFALLD
+      REAL    DFALLN, DKTIME, EXPFALL, FALLNUM, FALRATE,
      &        HTSNEW, PFALL, RSMAL, RSOFT, SNCRDI, SNCRTO, SNDI,
-     &        SNHT, X, X1, XHMOD, XPROB, Y
+     &        SNHT, X, X1, XHMOD, XPROB
       DOUBLE PRECISION SAVESO
       LOGICAL DEBUG, LDOWN
       DATA ITSTYR / -999 /
@@ -144,9 +144,9 @@ C  the sign on the status code--it'll be set back at the end of this
 C  routine.
 C----------
       IF ( ISTATUS(IDEAD) .LT. 0 ) THEN
-         ISTMLT = (-1.0)
+         ISTMLT = -1
       ELSE
-         ISTMLT = 1.0
+         ISTMLT = 1
       ENDIF
       ISTATUS(IDEAD) = ISTATUS(IDEAD) * ISTMLT
 
