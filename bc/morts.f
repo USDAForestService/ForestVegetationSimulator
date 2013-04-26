@@ -60,16 +60,16 @@ C
       PARAMETER (P_SS  = 30)
 
       LOGICAL DEBUG,LINCL
-      
+
       CHARACTER*15 PAT
       INTEGER MYACTS,NTODO,I,IDATE,IACTK,NP,ISPCC,IS,ISPC
-      INTEGER I1,I2,IP,ITODO,KPOINT,J,K,M
+      INTEGER I1,I2,I3,IP,ITODO,KPOINT,J,K,M
       INTEGER IPOS(MAXSP),IPAS,KBIG,IG,IX
-	INTEGER MRTCLS,DBHCLS,BACLS,BECCLS,IDMFLG
-	INTEGER IGRP,IULIM
+      INTEGER MRTCLS,DBHCLS,BACLS,BECCLS,IDMFLG
+      INTEGER IGRP,IULIM
       REAL    PRM,T,SD2SQ,P,D,G,CIOBDS,DQ10,DELTBA,BA10,TB
       REAL    TTB,RZ,BARK,XMORT,DX,BAX
-      REAL    D1,D2,I3,WKI,RIP,RIPP
+      REAL    D1,D2,WKI,RIP,RIPP
       REAL    X,XCHECK,PRES,VLOS,XMORE,TEMP,CREDIT
       REAL    BAL,SPH
       REAL    BRATIO
@@ -77,12 +77,12 @@ C
       REAL    DBHBRK(MRT_DBH_UB-1), BABRK(MRT_BA_UB-1)
 
       DIMENSION PRM(6),MYACTS(2)
-      
+
 C     V2
       REAL      PMSC(MAXSP),POT(54),REIN_C(2,MAXSP),GMULT_C(2,MAXSP)
       REAL      DSUM,WPROB,AVED,B5,RELDBH,DGT,POTENT
       INTEGER   IPDG(30,MAXSP),IPDG2(30,MAXSP),IPT,IPT2
-      
+
 
 C     LOCAL MORTALITY DATA STRUCTURE FOR EACH SITE SERIES.
 
@@ -132,7 +132,7 @@ C     V2
      &     15,11,5,10,15,
      &  4*15, 14,14,12,14,13,14,14,15,15,17,15,15,16,15,15,11,10,11,9,
      &     12,12,15,12,7,10,15/
-    
+
       DATA ((IPDG2(I,J),I=1,30),J=1,2)/
      &  30, 3*29, 28,28,27,31,27,27,28,31,32,32,31,31,32,31,31,25,23,24,
      &     23,24,24,27,26,18,16,27,
@@ -178,11 +178,11 @@ C     V2
 
 C     V3
 C     THESE ARE THE COEFFICIENTS OF THE TABULAR MORTALITY MODEL USED
-C     FOR FD AND PL; GROUPED BY ICH AND IDF ONLY. THE VALUES ARE 
+C     FOR FD AND PL; GROUPED BY ICH AND IDF ONLY. THE VALUES ARE
 C     ANNUAL PERCENT MORALITY: 0.153%/YR = 0.00153/YR
 C
-	DATA DBHBRK / 10.0, 25.0, 40.0 /
-	DATA BABRK  / 20.0, 30.0, 40.0, 50.0 / 
+      DATA DBHBRK / 10.0, 25.0, 40.0 /
+      DATA BABRK  / 20.0, 30.0, 40.0, 50.0 /
 
 C     EACH ROW IS A BA CLASS; COLUMNS ARE DBH CLASS
 
@@ -210,7 +210,7 @@ C     ICH, LW  (2)
      > 0.456, 0.334, 0.263, 0.115,
      > 0.456, 0.334, 0.263, 0.115 /
 
-C     IDF, LW - use ICH 
+C     IDF, LW - use ICH
       DATA ((FMRT(MRT_IDF,MRT_LW,I,J),J=1,MRT_DBH_UB),I=1,MRT_BA_UB)/
      > 0.196, 0.185, 0.131, 0.058,
      > 0.393, 0.370, 0.263, 0.115,
@@ -226,7 +226,7 @@ C     ICH, FD (3)
      > 0.400, 0.326, 0.181, 0.326,
      > 0.159, 0.385, 0.233, 0.252 /
 
-C     IDF, FD 
+C     IDF, FD
       DATA ((FMRT(MRT_IDF,MRT_FD,I,J),J=1,MRT_DBH_UB),I=1,MRT_BA_UB)/
      > 0.265, 0.259, 0.305, 0.213,
      > 0.529, 0.518, 0.609, 0.427,
@@ -234,7 +234,7 @@ C     IDF, FD
      > 0.409, 0.647, 0.689, 0.163,
      > 0.409, 0.510, 0.247, 0.163 /
 
-C     ICH, BG (BL) (4,9) 
+C     ICH, BG (BL) (4,9)
       DATA ((FMRT(MRT_ICH,MRT_BG,I,J),J=1,MRT_DBH_UB),I=1,MRT_BA_UB)/
      > 0.103, 0.108, 0.064, 0.020,
      > 0.205, 0.216, 0.127, 0.039,
@@ -242,7 +242,7 @@ C     ICH, BG (BL) (4,9)
      > 0.510, 0.223, 0.187, 0.079,
      > 0.202, 0.092, 0.070, 0.070 /
 
-C     IDF, BG (BL) - use ICH(4,9) 
+C     IDF, BG (BL) - use ICH(4,9)
       DATA ((FMRT(MRT_IDF,MRT_BG,I,J),J=1,MRT_DBH_UB),I=1,MRT_BA_UB)/
      > 0.103, 0.108, 0.064, 0.020,
      > 0.205, 0.216, 0.127, 0.039,
@@ -290,7 +290,7 @@ C     ICH, PL (7)
      > 0.391, 0.468, 0.405, 0.232,
      > 0.256, 0.388, 0.128, 0.232 /
 
-C     IDF, PL 
+C     IDF, PL
       DATA ((FMRT(MRT_IDF,MRT_PL,I,J),J=1,MRT_DBH_UB),I=1,MRT_BA_UB)/
      > 0.282, 0.226, 0.130, 0.130,
      > 0.563, 0.452, 0.260, 0.260,
@@ -322,7 +322,7 @@ C     ICH, PY (same as IDF) (10)
      > 0.662, 0.434, 0.206, 0.220,
      > 0.662, 0.434, 0.206, 0.220 /
 
-C     IDF, PY 
+C     IDF, PY
       DATA ((FMRT(MRT_IDF,MRT_PY,I,J),J=1,MRT_DBH_UB),I=1,MRT_BA_UB)/
      > 0.168, 0.116, 0.089, 0.063,
      > 0.335, 0.231, 0.179, 0.127,
@@ -340,12 +340,27 @@ C     SITE SERIES COEFFICIENTS: NOTE THAT THERE IS A SPECIAL
 C     BEC STRING WITH 'all' AS THE SUBZONE. THIS IS USED
 C     WHEN THERE IS NOT A PERFECT MATCH TO THE SITE SERIES.
 
-      DATA (LMRT(I), I=1,P_MD) / 
+      DATA LMRT(1) /
      >  LMRT_STR (
-     >    (/11,12,13,15, (0, I=1,11)/),            ! EP,AT,CT,OH
-     >    (/'ICH/all', 'IDF/all', 'SBPS/all', 'SBS/all',('', I=1,26) /),
+     >    (/11,12,13,15, 0,0,0,0,0,0,0,0,0,0,0/),     ! EP,AT,CT,OH
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      'SBPS/all       ', 'SBS/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    (/-2.774444,  0.684626, -0.180211,  0.004550, -0.634960,
-     >       0.063153, -0.276905,  0.000100 /)) /
+     >       0.063153, -0.276905,  0.000100 /))
+     >  /
 
 C  CHECK FOR DEBUG.
 
@@ -372,7 +387,7 @@ C  MULTIPLIERS, SEE SUBROUTINE MULTS).
           XMMULT(ISPCC) = PRM(2)
           XMDIA1(ISPCC) = PRM(3)
           XMDIA2(ISPCC) = PRM(4)
-    5   CONTINUE 
+    5   CONTINUE
     9 CONTINUE
    12 CONTINUE
 
@@ -391,7 +406,7 @@ C FOR MODELING CLIMATE CHANGE.
 
       CALL SDICAL(SDIMAX)
       IF(DEBUG)WRITE(JOSTND,*)' IN MORTS CYCLE= ',ICYC,'  BAMAX= ',
-     &BAMAX,'  SDIMAX= ',SDIMAX 
+     &BAMAX,'  SDIMAX= ',SDIMAX
 
 C     ESTIMATE QUADRATIC MEAN DIAMETER 10 YEARS HENCE.
 
@@ -430,7 +445,7 @@ C     CALCULATE AVERAGE DBH
       DO I = 1,ITRN
         WPROB=WPROB+PROB(I)
         DSUM=DSUM+DBH(I)*PROB(I)
-      ENDDO  
+      ENDDO
       AVED=DSUM/WPROB
 
 C     METRIC BA & SPH
@@ -447,11 +462,11 @@ C       5 = >50+
 
       BACLS = MRT_BA_UB
       DO I = 1, (MRT_BA_UB - 1)
-	  IF (BAX .LE. BABRK(I)) THEN
-	    BACLS = I
-	    EXIT
-	  ENDIF
-	ENDDO
+        IF (BAX .LE. BABRK(I)) THEN
+          BACLS = I
+          EXIT
+        ENDIF
+      ENDDO
 
 C  START LOOP TO ESTIMATE MORTALITY RATE.  TREES ARE PROCESSED
 C  ONE AT A TIME WITHIN A SPECIES.
@@ -470,26 +485,26 @@ C  ONE AT A TIME WITHIN A SPECIES.
           B5       = PMSC(ISPC)
         ELSE
 C         FIND AND SET INDEX FOR TABULAR MORTALITY MODELS
-	    MRTCLS = 0
-	    IF (ISPC .EQ. 1) THEN
-	      MRTCLS = MRT_PW
-	    ELSEIF (ISPC .EQ. 2) THEN
-	      MRTCLS = MRT_LW
-	    ELSEIF (ISPC .EQ. 3 .OR. ISPC .EQ. 14) THEN
-	      MRTCLS = MRT_FD
-	    ELSEIF (ISPC .EQ. 4 .OR. ISPC .EQ. 9) THEN
-	      MRTCLS = MRT_BG
-	    ELSEIF (ISPC .EQ. 5) THEN
-	      MRTCLS = MRT_HW
-	    ELSEIF (ISPC .EQ. 6) THEN
-	      MRTCLS = MRT_CW
-	    ELSEIF (ISPC .EQ. 7) THEN
-	      MRTCLS = MRT_PL
-	    ELSEIF (ISPC .EQ. 8) THEN
-	      MRTCLS = MRT_SE
-	    ELSEIF (ISPC .EQ. 10) THEN
-	      MRTCLS = MRT_PY
-	    ENDIF
+          MRTCLS = 0
+          IF (ISPC .EQ. 1) THEN
+            MRTCLS = MRT_PW
+          ELSEIF (ISPC .EQ. 2) THEN
+            MRTCLS = MRT_LW
+          ELSEIF (ISPC .EQ. 3 .OR. ISPC .EQ. 14) THEN
+            MRTCLS = MRT_FD
+          ELSEIF (ISPC .EQ. 4 .OR. ISPC .EQ. 9) THEN
+            MRTCLS = MRT_BG
+          ELSEIF (ISPC .EQ. 5) THEN
+            MRTCLS = MRT_HW
+          ELSEIF (ISPC .EQ. 6) THEN
+            MRTCLS = MRT_CW
+          ELSEIF (ISPC .EQ. 7) THEN
+            MRTCLS = MRT_PL
+          ELSEIF (ISPC .EQ. 8) THEN
+            MRTCLS = MRT_SE
+          ELSEIF (ISPC .EQ. 10) THEN
+            MRTCLS = MRT_PY
+          ENDIF
         ENDIF
 
         XMORT = XMMULT(ISPC)
@@ -504,8 +519,8 @@ C       START TREE LOOP WITHIN SPECIES.
 C         INITIALIZE FOR NEXT TREE.
 
           I      = IND1(I3)
-          P      = PROB(I)          
-          WK2(I) = 0.0          
+          P      = PROB(I)
+          WK2(I) = 0.0
           IF (P.LE.0.0) GO TO 40
 
           D    = DBH(I)
@@ -513,7 +528,7 @@ C         INITIALIZE FOR NEXT TREE.
           WKI  = 0.0
 
           IF (LV2ATV) THEN
-          
+
             RELDBH=D/AVED
             IF(D.LE.0.5)D=0.5
             DGT=WK1(I)/OLDFNT
@@ -537,29 +552,29 @@ C           COMPUTE MORTALITY RATE
             RIP=(1.0/(1.0+EXP(RIP)))
             POTENT=REIN(IP)
             RIP=RIP*POTENT
-          
+
           ELSE
-          
+
             ! DBH is at least 2.5cm; important for HW mortality
             DX = MAX(2.5, (D*INtoCM))
             RELDBH=DX/MAX(2.5,AVED*INtoCM)
-            
+
             IF (MRTCLS .GT. 0) THEN
 
 C             GET DBH-CLASS FOR TABULAR MODELS
 C               1 =   0 - 10
 C               2 = >10 - 25
 C               3 = >25 - 40
-C               4 = >40 
+C               4 = >40
 
               DBHCLS = MRT_DBH_UB
               DO J = 1,(MRT_DBH_UB - 1)
-	          IF (DX .LE. DBHBRK(J)) THEN
-	            DBHCLS = J
-	            EXIT
-	          ENDIF
-	        ENDDO
-	        RIP = TMRT(MRTCLS,BACLS,DBHCLS)
+                IF (DX .LE. DBHBRK(J)) THEN
+                  DBHCLS = J
+                  EXIT
+                ENDIF
+              ENDDO
+              RIP = TMRT(MRTCLS,BACLS,DBHCLS)
 
             ELSE
 
@@ -569,7 +584,7 @@ C             INITIALLY COMPUTES SURVIVAL. AFTER EXPONENTIATION IT IS
 C             CONVERTED TO MORTALITY: (1.0 - SURVIVAL)
 
               BAL = (1.0 - (PCT(I)/100.)) * BAX
-!             IF (MORT%FIT(ISPC) .AND. LLTDGOK(ISPC)) THEN        
+!             IF (MORT%FIT(ISPC) .AND. LLTDGOK(ISPC)) THEN
               IF (MORT%FIT(ISPC)) THEN
                 RIP = MORT%CON(ISPC)
      >            + (MORT%INVDBH(ISPC)  / DX)
@@ -584,9 +599,9 @@ C             CONVERTED TO MORTALITY: (1.0 - SURVIVAL)
               ENDIF
               RIP = MAX(-70.0, MIN(70.0, RIP))
               RIP = 1.0 - (1.0 / (1.0 + EXP(RIP)))
-	      ENDIF
-	    
-	    ENDIF
+            ENDIF
+
+          ENDIF
 
 C         MAKE ADJUSTMENT FOR APPROACH TO MAXIMUM BASAL AREA.
 
@@ -648,9 +663,9 @@ C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
      &      ',  VOL LOST=',F9.3)
    40   CONTINUE
    50 CONTINUE
-   
+
   100 CONTINUE
-  
+
 C----------
 C  COMPUTE THE CLIMATE-PREDICTED MORTALITY RATES BY SPECIES
 C---------
@@ -847,7 +862,7 @@ C  CONCENTRATION ON POINTS ONLY
                     GO TO 295
                   ENDIF
                 ENDIF
-  204         CONTINUE            
+  204         CONTINUE
   205       CONTINUE
             GO TO 295
 
@@ -886,14 +901,14 @@ C  POINT TO START WITH THE BIGGEST/SMALLEST TREES ON THAT POINT.
                   GO TO 295
                 ENDIF
               ENDIF
-  311         CONTINUE            
+  311         CONTINUE
   312         CONTINUE
               GO TO 295
               ENDIF
-  
+
           ENDIF
 
-C  NORMAL FIXMORT PROCESSING WHEN POINT OR SIZE CONCENTRATION 
+C  NORMAL FIXMORT PROCESSING WHEN POINT OR SIZE CONCENTRATION
 C  IS NOT IN EFFECT.
 
           DO 290 I=1,ITRN
@@ -934,7 +949,7 @@ C  IS NOT IN EFFECT.
         ENDIF
   300   CONTINUE
       ENDIF
-  
+
       RETURN
 
       ENTRY MORCON
@@ -948,7 +963,7 @@ C       ITYPE IS A HABITAT INDEX THAT IS COMPUTED IN *HABTYP*
         IPT=IPDG(ITYPE,IFOR)
         POTEN=POT(IPT)
         DO ISPC=1,MAXSP
-          IF (LLTDGOK(ISPC)) THEN 
+          IF (LLTDGOK(ISPC)) THEN
             GMULT_C(1,ISPC)=.90/(POTEN*V2SEICOR(ISPC))
             REIN_C(1,ISPC)=
      >        (1-(POTEN*V2SEICOR(ISPC)/20.+1.)**(-1.605))/.06821
@@ -961,7 +976,7 @@ C       ITYPE IS A HABITAT INDEX THAT IS COMPUTED IN *HABTYP*
         IPT2=IPDG2(ITYPE,IFOR)
         POTEN=POT(IPT2)
         DO ISPC=1,MAXSP
-          IF (LLTDGOK(ISPC)) THEN 
+          IF (LLTDGOK(ISPC)) THEN
             GMULT_C(2,ISPC)=2.50/(POTEN*V2SEICOR(ISPC))
             REIN_C(2,ISPC)=
      >        (1-(POTEN*V2SEICOR(ISPC)+1.)**(-1.605))/.86610
@@ -971,7 +986,7 @@ C       ITYPE IS A HABITAT INDEX THAT IS COMPUTED IN *HABTYP*
           ENDIF
         ENDDO
 
-      ELSE  
+      ELSE
 
 C       REPLACE NULLS IN COMPILED DATA STRINGS WITH SPACES, SO THAT
 C       STRING LENGTHS WILL BE FIGURED CORRECTLY
@@ -996,7 +1011,7 @@ C       GIVING UP ON A MATCH.
           PAT  = BEC%PrettyName
     7     DO J = 1, P_MD
             DO K = 1,MAXSP
-	        IF (LMRT(J)%SPP(K) .EQ. 0) EXIT
+              IF (LMRT(J)%SPP(K) .EQ. 0) EXIT
               IF (LMRT(J)%SPP(K) .EQ. I) THEN
                 DO M = 1, P_SS
                   IF (LEN_TRIM(LMRT(J)%PrettyName(M)) .EQ. 0) EXIT
@@ -1038,23 +1053,23 @@ C       CONVERSION: FMRT(...)/100 CONVERTS ANNUAL % MORTALITY (FROM TEMESGEN'S
 C       TABLE) TO ANNUAL PROPORTION MORTALITY.
 
         BECCLS = 1
-	  IF (INDEX(BEC%Zone,'ICH') .GT. 0) BECCLS = 1
-	  IF (INDEX(BEC%Zone,'IDF') .GT. 0) BECCLS = 2
-C           MAP SBPS TO IDF 
-	  IF (INDEX(BEC%Zone,'SBPS') .GT. 0) BECCLS = 2 
+        IF (INDEX(BEC%Zone,'ICH') .GT. 0) BECCLS = 1
+        IF (INDEX(BEC%Zone,'IDF') .GT. 0) BECCLS = 2
+C           MAP SBPS TO IDF
+        IF (INDEX(BEC%Zone,'SBPS') .GT. 0) BECCLS = 2
 C           MAP SBS TO ICH, but ONE subzone will be mapped differently
-	  IF (INDEX(BEC%Zone,'SBS') .GT. 0) BECCLS = 1 
-	  IF (INDEX(BEC%PrettyName,'SBSdw2') .GT. 0) BECCLS = 2 
+        IF (INDEX(BEC%Zone,'SBS') .GT. 0) BECCLS = 1
+        IF (INDEX(BEC%PrettyName,'SBSdw2') .GT. 0) BECCLS = 2
 
         DO I = 1,MRT_PY
-	    DO J = 1,MRT_BA_UB
-	      DO K = 1,MRT_DBH_UB
-!!	        TMRT(I,J,K) =
+          DO J = 1,MRT_BA_UB
+            DO K = 1,MRT_DBH_UB
+!!              TMRT(I,J,K) =
 !!     >          EXP(LOG(1.0 - (FMRT(BECCLS,I,J,K) * 0.1)) / 10.0)
-	        TMRT(I,J,K) = FMRT(BECCLS,I,J,K)/100.0
+              TMRT(I,J,K) = FMRT(BECCLS,I,J,K)/100.0
             ENDDO
           ENDDO
-	  ENDDO
+        ENDDO
 
       ENDIF
 

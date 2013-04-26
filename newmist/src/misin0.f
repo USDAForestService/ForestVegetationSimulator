@@ -66,7 +66,7 @@ C.... Parameter include files.
 C.... Common include files.
 
       INCLUDE 'CONTRL.F77'
-	INCLUDE 'DMCOM.F77'
+      INCLUDE 'DMCOM.F77'
       INCLUDE 'MISCOM.F77'
 
 C.... Variable declarations.
@@ -117,12 +117,12 @@ C.... Mistletoe model initializations.
 C     INITIALIZE THE BIOLOGICAL CONTROL AGENTS
 
       DO I = 1,MAXBC
-	  BC(I).Spp = 0
+	  BC(I)%Spp = 0
         DO J = 1,ACTIVE
-          BC(I).Mort(J)  = 0.0
-          BC(I).Suprs(J) = 0.0
-          BC(I).Yr(J)    = 0.0
-          BC(I).HfLf(J)  = 0.0
+          BC(I)%Mort(J)  = 0.0
+          BC(I)%Suprs(J) = 0.0
+          BC(I)%Yr(J)    = 0.0
+          BC(I)%HfLf(J)  = 0.0
         ENDDO
 	ENDDO
 
