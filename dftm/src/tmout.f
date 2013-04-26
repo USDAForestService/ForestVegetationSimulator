@@ -1,7 +1,7 @@
       SUBROUTINE TMOUT  
       IMPLICIT NONE
 C----------
-C  **TMOUT  DATE OF LAST REVISION:  06/30/10
+C  **TMOUT  DATE OF LAST REVISION:  04/01/13
 C----------
 C
 C     PRINT FINAL TUSSOCK MOTH ACTIVITY SUMMARY
@@ -9,12 +9,14 @@ C
 C     PART OF THE DFTM EXTENSION OF THE PROGNOSIS SYSTEM.
 C
 C Revision History:
-C     23-DEC-99; Lance R. David (FHTET-FC)
-C        Updated for expansion of FVS stand id (variable NPLT)
-C        from 8 to 26 characters.
+C   23-DEC-99; Lance R. David (FHTET-FC)
+C      Updated for expansion of FVS stand id (variable NPLT)
+C      from 8 to 26 characters.
+C   01-APR-2013 Lance R. David (FMSC)
+C      A few variables defined locally were already defined
+C      in a common block. Local declaration removed.
 C
-C**********************************************************************
-
+C----------
 C
 COMMONS
 C
@@ -32,14 +34,7 @@ C
 
       CHARACTER*132 PRNT
 
-      INTEGER I, IBMTYP, IDFCOD, IEGTYP, IGFCOD, IPBMT, IPRBMT,
-     &        ITMETH, ITMREP, ITMSCH, ITMSLV, JODFEC, JODFTM,
-     &        JOTMDK, NACLAS, NCLAS
-
-      REAL B0, B1, CNTDF, CNTGF, DFEGG, DFFBIO, DFPNEW, DFREGG,
-     &     F1, G1, GFEGG, GFFBIO, GFPNEW, GFREGG, PRBSCL, R0, R1,
-     &     TMASHD, TMB0, TMB1, TMDEFL, TMPN1, TMPRB, TMR0,
-     &     TOPO, WEIGHT, X0, X1, Y1, Z1
+      INTEGER I
 
       DATA YES /'YES'/,  NO /'NO'/
       LOGICAL LOPEN

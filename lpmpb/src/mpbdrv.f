@@ -1,7 +1,7 @@
       SUBROUTINE MPBDRV
       IMPLICIT NONE
 C----------
-C  **MPBDRV        DATE OF LAST REVISION:  07/02/10
+C  **MPBDRV        DATE OF LAST REVISION:  03/29/13
 C----------
 C
 C     INTERFACING PROGRAM TO CALL MPBMOD
@@ -15,6 +15,8 @@ C   12/01/98 RNH
 C     Adapated to 24 species (CR variant)
 C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
+C   03/29/13 Lance R. David (FMSC)
+C     Some variables defined locally were already defined in a common.
 C----------
 COMMONS
 C
@@ -38,11 +40,10 @@ COMMONS
 
       CHARACTER*4 IF60
 
-      INTEGER ITWO, MAXCLS, KODE, II, ILP, IBOUSE, JOMPB,
-     &        I1, I2, I, J
+      INTEGER ITWO, MAXCLS, KODE, II, I1, I2, I, J
 
       REAL A3(1),A4(1),A5(1),A6(1),A7(1),A8(1),
-     &     DGI,DDS5,BAI5,X,DEAD,XPT,SUMDED
+     &     DGI,DDS5,BAI5,X,DEAD,SUMDED
 
       DATA MAXCLS/ 30 /,ITWO/ 2 /, IF60/'F6.0'/
 C
