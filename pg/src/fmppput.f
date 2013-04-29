@@ -162,7 +162,8 @@ C------- new FFE INTEGER variables for down wood reports --------
       CALL IFWRIT (WK3, IPNT, ILIMIT, YRDEAD, NSNAGZ      , 2)
       CALL IFWRIT (WK3, IPNT, ILIMIT, FMICR, MAXTRE       , 2)
       CALL IFWRIT (WK3, IPNT, ILIMIT, IFUELMON, MXDFMD    , 2)
-      CALL IFWRIT (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)      
+      CALL IFWRIT (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)
+      
       LOGICS ( 1) = LANHED
       LOGICS ( 2) = LATFUEL
       LOGICS ( 3) = LDHEAD
@@ -305,7 +306,7 @@ C-------new FFE REAL variables --------
       CALL BFWRIT (WK3, IPNT, ILIMIT, POTPAB, 2            , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, POTRINT, 2           , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, POTVOL, 2            , 2)
-      CALL BFWRIT (WK3, IPNT, ILIMIT, PRDUFF, MXFLCL       , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, PRDUFF, MXFLCL*4     , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, PRESVL, 2*8          , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, PREWND, 2            , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, PRPILE, MXFLCL       , 2)
@@ -347,5 +348,7 @@ C------- new FFE REAL variables --------
       CALL BFWRIT (WK3, IPNT, ILIMIT, DBHC,  MAXTRE        , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, HTC,  MAXTRE         , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, CROWNWC,  MAXTRE*6   , 2)            
+      CALL BFWRIT (WK3, IPNT, ILIMIT, SETDECAY, MXFLCL*4   , 2)
+
       RETURN
       END

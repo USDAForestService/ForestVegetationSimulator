@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-NC-DATE OF LAST REVISION:  03/15/11
+C  **FMCBA   FIRE-CA-DATE OF LAST REVISION:  04/25/13
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -555,7 +555,10 @@ C       ONLY DO THIS IF DURING THE NORMAL CALL, NOT FROM SVSTART
           
           DO I = 1,MXFLCL
             DO J = 1,4
-              DKR(I,J) = DKR(I,J) * DCYMLT
+              IF (SETDECAY(I,J) .LT. 0) THEN
+                DKR(I,J) = DKR(I,J) * DCYMLT
+                IF (I .LE. 10) TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J) 
+              ENDIF
             ENDDO
           ENDDO
         ENDIF

@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-SO-DATE OF LAST REVISION: 01/06/11
+C  **FMCBA   FIRE-SO-DATE OF LAST REVISION: 04/25/13
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -83,7 +83,45 @@ C VARIABLE DECLARATIONS.
 
       INTEGER IYR,KSP,I,ISZ,J,NPRM,IACTK,ISWTCH,JYR,IDC,IMODX,IPOSN,K
       REAL    TOTBA,PRCL,ADD,BA1,X3, FOTOVALS(9)
-      REAL    DKRT(MXFLCL,4), PRDUFFT(MXFLCL), FOTOVAL(MXFLCL)
+      REAL    DKRT(MXFLCL,4), PRDUFFT(MXFLCL,4), FOTOVAL(MXFLCL)
+      INTEGER SOHMC(92),SOWMD(92), TEMP, MOIST
+      REAL DKRADJ(3,3,3)
+
+C     EACH SO HABITAT CODE (in R6) MAPS TO EITHER HOT (1), MODERATE (2)
+C     OR COLD (3).  (FROM FMR6SDCY)
+
+      DATA (SOHMC(I), I=   1,  50) /
+     & 2, 2, 2, 3, 3, 3, 3, 3, 3, 3,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 3,
+     & 3, 1, 2, 2, 2, 2, 2, 2, 2, 3,
+     & 3, 3, 1, 3, 1, 2, 2, 2, 1, 1/
+      DATA (SOHMC(I), I=  51,  92) /
+     & 1, 1, 1, 1, 2, 2, 1, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 1, 3, 2, 2, 2, 1,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2/
+
+C     EACH SO HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).  (FROM FMR6SDCY)
+
+      DATA (SOWMD(I), I=   1,  50) /
+     & 2, 2, 2, 1, 1, 2, 1, 1, 3, 3,
+     & 3, 3, 3, 3, 3, 3, 3, 3, 3, 2,
+     & 1, 2, 1, 1, 2, 1, 1, 2, 1, 3,
+     & 1, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+     & 3, 3, 3, 3, 3, 3, 3, 2, 3, 3/
+      DATA (SOWMD(I), I=  51,  92) /
+     & 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+     & 3, 3, 2, 3, 3, 3, 2, 3, 2, 2,
+     & 2, 2, 3, 2, 3, 1, 2, 2, 2, 3,
+     & 1, 3, 3, 3, 3, 2, 3, 2, 2, 2,
+     & 1, 2/
+
+      DATA (((DKRADJ(I,J,K), K=1,3), J=1,3), I=1,3) /           
+     &  1.7,    2,  1.7, 1.49, 1.91, 1.49,  0.75, 0.85,  0.75,
+     & 1.35, 1.85, 1.35,    1,  1.7,    1, 0.875,  1.2, 0.875,
+     & 1.21, 1.79, 1.21, 1.14, 1.76, 1.14,  0.75, 0.85,  0.75/
 
       DATA IDUM / 0 /           ! FOR CALL TO COVOLP
 
@@ -695,7 +733,7 @@ C----------
 C----------
 C     INITIALIZE THE DEAD FUELS ONLY FOR THE FIRST YEAR OF THE SIMULATION
 C----------
-      IF (IYR .EQ. IY(1)) THEN
+      IF (IYR .NE. IY(1)) RETURN
 
 C       *** SPECIAL CODE FOR SO-FFE DECAY RATES ***
 C       *** NORMALLY IN *FMVINIT*               ***
@@ -715,54 +753,128 @@ C       RATE WILL BE USED
           DKRT(7,1) = 0.0125  ! 20 - 35"
           DKRT(8,1) = 0.0125  ! 35 - 50"
           DKRT(9,1) = 0.0125  ! > 50"
-          DKRT(10,1) = 0.5    ! litter loss/yr
-        ELSE
-          DKRT(1,1) = 0.12    ! Oregon
-          DKRT(2,1) = 0.12
-          DKRT(3,1) = 0.09
-          DKRT(4,1) = 0.015
-          DKRT(5,1) = 0.015
-          DKRT(6,1) = 0.015
-          DKRT(7,1) = 0.015
-          DKRT(8,1) = 0.015
-          DKRT(9,1) = 0.015
-          DKRT(10,1) = 0.5
-        ENDIF
-        DO I = 1,10
-          DO J = 2,4
-            DKRT(I,J) = DKRT(I,1)  ! map to all 4 classes
+
+          DO I = 1,9
+            DO J = 2,4
+              DKRT(I,J) = DKRT(I,1)  ! map to all 4 classes
+            ENDDO
           ENDDO
-        ENDDO
+
+        ELSE ! Oregon 
+        
+C     DECAY RATES BASED ON WORKSHOP RESULTS FOR KIM MELLEN-MCLEAN'S CWD MODEL
+C     FIRST BASE RATES ARE SET (BY DECAY RATE CLASS) AND THEN THEY ARE ADJUSTED
+C     BASED ON HABITAT TYPE (TEMPERATURE AND MOISTURE CATEGORY)
+
+          DKRT(1,1) = 0.076 ! < 0.25"
+          DKRT(2,1) = 0.076 ! 0.25 - 1"
+          DKRT(3,1) = 0.076 ! 1 - 3"
+          DKRT(4,1) = 0.019 ! 3 - 6"
+          DKRT(5,1) = 0.019 ! 6 - 12"
+          DKRT(6,1) = 0.019  ! 12 - 20"
+          DKRT(7,1) = 0.019  ! 20 - 35"
+          DKRT(8,1) = 0.019  ! 35 - 50"
+          DKRT(9,1) = 0.019  !  > 50"
+          
+          DKRT(1,2) = 0.081 ! < 0.25"
+          DKRT(2,2) = 0.081 ! 0.25 - 1"
+          DKRT(3,2) = 0.081 ! 1 - 3"
+          DKRT(4,2) = 0.025 ! 3 - 6"
+          DKRT(5,2) = 0.025 ! 6 - 12"
+          DKRT(6,2) = 0.025  ! 12 - 20"
+          DKRT(7,2) = 0.025  ! 20 - 35"
+          DKRT(8,2) = 0.025  ! 35 - 50"
+          DKRT(9,2) = 0.025  !  > 50"
+          
+          DKRT(1,3) = 0.090 ! < 0.25"
+          DKRT(2,3) = 0.090 ! 0.25 - 1"
+          DKRT(3,3) = 0.090 ! 1 - 3"
+          DKRT(4,3) = 0.033 ! 3 - 6"
+          DKRT(5,3) = 0.033 ! 6 - 12"
+          DKRT(6,3) = 0.033  ! 12 - 20"
+          DKRT(7,3) = 0.033  ! 20 - 35"
+          DKRT(8,3) = 0.033  ! 35 - 50"
+          DKRT(9,3) = 0.033  !  > 50"      
+          
+          DKRT(1,4) = 0.113 ! < 0.25"
+          DKRT(2,4) = 0.113 ! 0.25 - 1"
+          DKRT(3,4) = 0.113 ! 1 - 3"
+          DKRT(4,4) = 0.058 ! 3 - 6"
+          DKRT(5,4) = 0.058 ! 6 - 12"
+          DKRT(6,4) = 0.058  ! 12 - 20"
+          DKRT(7,4) = 0.058  ! 20 - 35"
+          DKRT(8,4) = 0.058  ! 35 - 50"
+          DKRT(9,4) = 0.058  !  > 50"
+          
+          TEMP = SOHMC(ITYPE)
+          MOIST = SOWMD(ITYPE)
+          
+          DO I = 1,9
+            DO J = 1,4
+              IF (I .LE. 3) THEN
+                K = 1
+              ELSEIF (I .LE. 5) THEN 
+                K = 2
+              ELSE 
+                K = 3
+              ENDIF
+              DKRT(I,J) = DKRT(I,J)*DKRADJ(TEMP,MOIST,K)
+              IF (DKRT(I,J) .GT. 1.0) DKRT(I,J) = 1.0
+            ENDDO
+          ENDDO
+
+C       adjust the decay rates if smaller wood is decaying more slowly than larger wood.
+C       in this case, bump up the decay rate of the smaller wood to that of the larger wood.
+
+          DO I = 9,2,-1
+            DO J = 1,4
+              IF ((DKRT(I,J)-DKRT(I-1,J)) .GT. 0) THEN 
+                  DKRT(I-1,J) = DKRT(I,J)                         
+              ENDIF
+            ENDDO
+          ENDDO
+
+        ENDIF
+
 
 C     THESE RATES ARE THE SAME FOR CA AND OR
 
         DO J = 1,4
-          DKRT(11,J) = 0.002        !   duff loss/yr
-        ENDDO
-        DO I = 1,10
-          PRDUFFT(I) = 0.02
+          DKRT(10,J) = 0.5    ! litter loss/yr
+          DKRT(11,J) = 0.002  !   duff loss/yr
+          DO I = 1,10
+            PRDUFFT(I,J) = 0.02
+          ENDDO
         ENDDO
 
 C     COPY TEMPORARY VALUES INTO WORKING ARRAYS THAT
 C     HAVEN'T BEEN MODIFIED BY KEYWORDS
 C     ONLY DO THIS IF DURING THE NORMAL CALL, NOT FROM SVSTART
+C     ALSO CHECK THE VALUE OF DKR.  IF THE DECAY RATES HAVE NOT BEEN
+C     SET BY THE USER WITH FUELDCAY, THEY SHOULD BE SET TO -1.  UNLESS THE
+C     FUELMULT KEYWORD WAS USED - IN THIS CASE DKR IS -1*THE MULTIPLIER ENTERED.
+C     IF FUELMULT WAS USED, USE THE MULTIPLIER WITH THE DEFAULT RATES.
 
         IF ( ISWTCH .NE. 1 ) THEN
           DO I = 1,MXFLCL
             DO J = 1,4
-              IF (DKR(I,J) .LT. 0.0) DKR(I,J) = DKRT(I,J)
+              IF (DKR(I,J) .LT. 0.0) THEN
+                IF ((DKR(I,J).GT.-1.01) .AND. (DKR(I,J).LT.-0.99)) THEN
+                  DKR(I,J) = DKRT(I,J)
+                ELSE
+                  DKR(I,J) = -1*DKR(I,J)*DKRT(I,J)
+                ENDIF  
+              ENDIF
             ENDDO
           ENDDO
           DO I = 1,10
-            IF (PRDUFF(I) .LT. 0.0) PRDUFF(I) = PRDUFFT(I)
             DO J = 1,4
-              TODUFF(I,J) = DKR(I,J) * PRDUFF(I)
+              IF (PRDUFF(I,J) .LT. 0.0) PRDUFF(I,J) = PRDUFFT(I,J) 
+              TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)
             ENDDO
           ENDDO
         ENDIF
-      ENDIF
 
-      IF (IYR .NE. IY(1)) RETURN
         ENTRY SNGCOE
 
 C       ENTRY POINT FOR SETTING SNAGFALL/DECAY PARAMETERS WHEN FFE

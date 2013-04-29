@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C  **FMVINIT  FIRE-EC-DATE OF LAST REVISION: 02/24/12
+C  **FMVINIT  FIRE-EC-DATE OF LAST REVISION: 04/25/13
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -71,24 +71,51 @@ C----------
       PREWND(2)=6.
       POTEMP(1)=70.
       POTEMP(2)=70.
-C----------
-C  EC DECAY RATES BASED ON NI
-C----------
-      DKR(1,1)  =  0.12
-      DKR(2,1)  =  0.12
-      DKR(3,1)  =  0.09
-      DKR(4,1)  =  0.015
-      DKR(5,1)  =  0.015
-      DKR(6,1)  =  0.015
-      DKR(7,1)  =  0.015
-      DKR(8,1)  =  0.015
-      DKR(9,1)  =  0.015
 C
-      DO I = 1,9
-        DO J = 2,4
-          DKR(I,J) = DKR(I,1)
-        ENDDO
-      ENDDO
+C     DECAY RATES BASED ON WORKSHOP RESULTS FOR KIM MELLEN-MCLEAN'S CWD MODEL
+C     FIRST BASE RATES ARE SET (BY DECAY RATE CLASS) AND THEN THEY ARE ADJUSTED
+C     BASED ON HABITAT TYPE (TEMPERATURE AND MOISTURE CATEGORY)
+
+      DKR(1,1) = 0.076 ! < 0.25"
+      DKR(2,1) = 0.076 ! 0.25 - 1"
+      DKR(3,1) = 0.076 ! 1 - 3"
+      DKR(4,1) = 0.019 ! 3 - 6"
+      DKR(5,1) = 0.019 ! 6 - 12"
+      DKR(6,1) = 0.019  ! 12 - 20"
+      DKR(7,1) = 0.019  ! 20 - 35"
+      DKR(8,1) = 0.019  ! 35 - 50"
+      DKR(9,1) = 0.019  !  > 50"
+
+      DKR(1,2) = 0.081 ! < 0.25"
+      DKR(2,2) = 0.081 ! 0.25 - 1"
+      DKR(3,2) = 0.081 ! 1 - 3"
+      DKR(4,2) = 0.025 ! 3 - 6"
+      DKR(5,2) = 0.025 ! 6 - 12"
+      DKR(6,2) = 0.025  ! 12 - 20"
+      DKR(7,2) = 0.025  ! 20 - 35"
+      DKR(8,2) = 0.025  ! 35 - 50"
+      DKR(9,2) = 0.025  !  > 50"
+      
+      DKR(1,3) = 0.090 ! < 0.25"
+      DKR(2,3) = 0.090 ! 0.25 - 1"
+      DKR(3,3) = 0.090 ! 1 - 3"
+      DKR(4,3) = 0.033 ! 3 - 6"
+      DKR(5,3) = 0.033 ! 6 - 12"
+      DKR(6,3) = 0.033  ! 12 - 20"
+      DKR(7,3) = 0.033  ! 20 - 35"
+      DKR(8,3) = 0.033  ! 35 - 50"
+      DKR(9,3) = 0.033  !  > 50"      
+
+      DKR(1,4) = 0.113 ! < 0.25"
+      DKR(2,4) = 0.113 ! 0.25 - 1"
+      DKR(3,4) = 0.113 ! 1 - 3"
+      DKR(4,4) = 0.058 ! 3 - 6"
+      DKR(5,4) = 0.058 ! 6 - 12"
+      DKR(6,4) = 0.058  ! 12 - 20"
+      DKR(7,4) = 0.058  ! 20 - 35"
+      DKR(8,4) = 0.058  ! 35 - 50"
+      DKR(9,4) = 0.058  !  > 50"
+
 C----------
 C  LITTER LOSS/YR (10) AND DUFF LOSS/YR (11)
 C----------
@@ -101,9 +128,9 @@ C  DUFF PRODUCTION RATES 'PRDUFF' ARE A PROPORTION OF THE OVERALL
 C  DECAY RATE: 'DKR'.
 C----------
       DO I = 1,10
-        PRDUFF(I) = 0.02
         DO J = 1,4
-          TODUFF(I,J) = DKR(I,J) * PRDUFF(I)
+          PRDUFF(I,J) = 0.02
+          TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)
         ENDDO
       ENDDO
 C----------
@@ -163,7 +190,7 @@ C  CLASSES, AND THE FUELPOOL KEYWORD TO REASSIGN CLASS
 C----------
       DO I= 1,MAXSP
 
-         SELECT CASE (I)
+        SELECT CASE (I)
 C----------
 C  white pine (NI)
 C----------
@@ -180,7 +207,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  western larch (NI)
@@ -198,7 +224,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   3
             LSW(I)     = .TRUE.
 C----------
 C  Douglas-fir (NI)
@@ -216,7 +241,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   3
             LSW(I)     = .TRUE.
 C----------
 C  Pacific silver fir (based in part on GF-NI)
@@ -234,7 +258,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  western redcedar (NI)
@@ -252,7 +275,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   2
             LSW(I)     = .TRUE.
 C----------
 C  grand fir (NI)
@@ -270,7 +292,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  lodgepole pine (NI)
@@ -288,7 +309,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  Engelmann spruce (NI)
@@ -306,7 +326,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  subalpine fir (NI)
@@ -324,7 +343,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  ponderosa pine (NI)
@@ -342,7 +360,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  western hemlock; from WC
@@ -360,7 +377,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  mountain hemlock; from SO via WC
@@ -378,7 +394,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  Pacific yew; from CA via WC
@@ -396,7 +411,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   1
             LSW(I)     = .TRUE.
 C----------
 C  whitebark pine; from CA via WC
@@ -414,7 +428,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  noble fir; DF from SO, via WC
@@ -432,7 +445,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  white fir; use WC grand fir
@@ -450,7 +462,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  subalpine larch; WL from EC, via WC
@@ -468,7 +479,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   3
             LSW(I)     = .TRUE.
 C----------
 C  Alaska cedar; RC from EC, via WC
@@ -486,7 +496,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   2
             LSW(I)     = .TRUE.
 C----------
 C  western juniper; from SO via WC
@@ -504,7 +513,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   2
             LSW(I)     = .TRUE.
 C----------
 C  bigleaf maple; from CA via WC
@@ -522,7 +530,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  vine maple; use bigleaf maple
@@ -540,7 +547,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  red alder; from CA via WC
@@ -558,7 +564,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  paper birch; from WC
@@ -576,7 +581,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  golden chinkapin; from CA via WC
@@ -594,7 +598,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  Pacific dogwood; from CA via WC
@@ -612,7 +615,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  quaking aspen; from CA via WC
@@ -630,7 +632,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  black cottonwood; from CA via WC
@@ -648,7 +649,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  Oregon white oak; from CA via WC
@@ -666,7 +666,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   2
             LSW(I)     = .FALSE.
 C----------
 C  cherry and plum species; BC from WC
@@ -684,7 +683,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   2
             LSW(I)     = .FALSE.
 C----------
 C  willow species; from CA via WC
@@ -702,7 +700,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C----------
 C  other softwoods (HM - based in part on PP-NI)
@@ -720,7 +717,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 C----------
 C  other hardwoods; use aspen
@@ -738,7 +734,6 @@ C----------
             DO J= 1,4
               HTX(I,J) =   1.0
             ENDDO
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 C
         END SELECT
@@ -762,6 +757,28 @@ C  CONVERT LB/FT**3 TO TONS/FT**3
 C----------
         V2T(I) = V2T(I) / 2000.0
 C
+C       SET THE DECAY RATE CLASS (DKRCLS)
+C
+        SELECT CASE (I)
+
+C         some pines, doug-fir, cedars 
+          CASE (1:3,5,13,14,17:19)
+            DKRCLS(I)  =   1
+
+C         lodgepole, spruce, hemlock
+          CASE (7,8,11,12,31)
+            DKRCLS(I)  =   2
+
+C         firs, some pines, oak
+          CASE (4,6,9,10,15,16,24,28)
+            DKRCLS(I)  =   3
+
+C         aspen, cottonwood, other hardwoods
+          CASE (20:23,25:27,29,30,32)
+            DKRCLS(I)  =   4
+            
+        END SELECT
+
       ENDDO
 C----------
 C  parameters for post-burn snag fall rates:
