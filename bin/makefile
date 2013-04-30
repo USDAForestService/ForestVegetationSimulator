@@ -44,7 +44,6 @@ else
 endif
 
 #.PHONY: printvars
-
 #printvars: 
 #	@echo OS: $(OS)
 #	@echo OSTYPE: $(OSTYPE)
@@ -53,7 +52,6 @@ endif
 #	@echo SLIBSUFX: $(SLIBSUFX)
 #	@echo OSARCH: $(OSARCH)
 #	@echo PIC: $(PIC)
-
 # FC is the fortran compiler
 # FFLAGS are pasted to fortran
 # CC is the c compiler
@@ -156,48 +154,6 @@ FVSwsc$(SLIBSUFX) FVSwsc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwsc) $(shel
 
 #FVSbcc$(SLIBSUFX) FVSbcc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSbcc) $(shell cat $(addsuffix _sourceList.txt,FVSbcc))
 #	$(MAKE) --file=makefile FVSbcc.setup
-
-FVSbm$(SLIBSUFX) FVSbm$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSbm) $(shell cat $(addsuffix _sourceList.txt,FVSbm))
-	$(MAKE) --file=makefile FVSbm.setup
-
-FVSci$(SLIBSUFX) FVSci$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSci) $(shell cat $(addsuffix _sourceList.txt,FVSci))
-	$(MAKE) --file=makefile FVSci.setup
-
-FVScr$(SLIBSUFX) FVScr$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVScr) $(shell cat $(addsuffix _sourceList.txt,FVScr))
-	$(MAKE) --file=makefile FVScr.setup
-
-FVSec$(SLIBSUFX) FVSec$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSec) $(shell cat $(addsuffix _sourceList.txt,FVSec))
-	$(MAKE) --file=makefile FVSec.setup
-
-FVSem$(SLIBSUFX) FVSem$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSem) $(shell cat $(addsuffix _sourceList.txt,FVSem))
-	$(MAKE) --file=makefile FVSem.setup
-
-FVSie$(SLIBSUFX) FVSie$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSie) $(shell cat $(addsuffix _sourceList.txt,FVSie))
-	$(MAKE) --file=makefile FVSie.setup
-
-FVSkt$(SLIBSUFX) FVSkt$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSkt) $(shell cat $(addsuffix _sourceList.txt,FVSkt))
-	$(MAKE) --file=makefile FVSkt.setup
-
-FVSnc$(SLIBSUFX) FVSnc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSnc) $(shell cat $(addsuffix _sourceList.txt,FVSnc))
-	$(MAKE) --file=makefile FVSnc.setup
-
-FVSpn$(SLIBSUFX) FVSpn$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSpn) $(shell cat $(addsuffix _sourceList.txt,FVSpn))
-	$(MAKE) --file=makefile FVSpn.setup
-
-FVSso$(SLIBSUFX) FVSso$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSso) $(shell cat $(addsuffix _sourceList.txt,FVSso))
-	$(MAKE) --file=makefile FVSso.setup
-
-FVStt$(SLIBSUFX) FVStt$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVStt) $(shell cat $(addsuffix _sourceList.txt,FVStt))
-	$(MAKE) --file=makefile FVStt.setup
-
-FVSut$(SLIBSUFX) FVSut$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSut) $(shell cat $(addsuffix _sourceList.txt,FVSut))
-	$(MAKE) --file=makefile FVSut.setup
-
-FVSwc$(SLIBSUFX) FVSwc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwc) $(shell cat $(addsuffix _sourceList.txt,FVSwc))
-	$(MAKE) --file=makefile FVSwc.setup
-
-FVSws$(SLIBSUFX) FVSws$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSws) $(shell cat $(addsuffix _sourceList.txt,FVSws))
-	$(MAKE) --file=makefile FVSws.setup
 
 # TODO: These rules work in place of those listed above (they are generated), but only on Linux. 
 # when we adopt a newer make on windows builds
