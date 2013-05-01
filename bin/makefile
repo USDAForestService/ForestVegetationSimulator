@@ -122,7 +122,7 @@ FVSie$(SLIBSUFX) FVSie$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSie) $(shell c
 	$(MAKE) --file=makefile FVSie.setup
 
 FVSkt$(SLIBSUFX) FVSkt$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSkt) $(shell cat $(addsuffix _sourceList.txt,FVSkt))
-       $(MAKE) --file=makefile FVSkt.setup
+	$(MAKE) --file=makefile FVSkt.setup
 
 FVSls$(SLIBSUFX) FVSls$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSls) $(shell cat $(addsuffix _sourceList.txt,FVSls))
 	$(MAKE) --file=makefile FVSls.setup
