@@ -100,6 +100,9 @@ FVSak$(SLIBSUFX) FVSak$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSak) $(shell c
 FVSbm$(SLIBSUFX) FVSbm$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSbm) $(shell cat $(addsuffix _sourceList.txt,FVSbm))
 	$(MAKE) --file=makefile FVSbm.setup
 
+FVSca$(SLIBSUFX) FVSca$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSca) $(shell cat $(addsuffix _sourceList.txt,FVSca))
+	$(MAKE) --file=makefile FVSca.setup
+
 FVSci$(SLIBSUFX) FVSci$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSci) $(shell cat $(addsuffix _sourceList.txt,FVSci))
 	$(MAKE) --file=makefile FVSci.setup
 

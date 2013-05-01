@@ -4979,20 +4979,20 @@ C
               IF((VVER(:2).EQ.'NI').OR.(VVER(:2).EQ.'IE'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IGSP),ERRFLAG)
+     &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             CASE(2)
               IF(VVER(:2).EQ.'CR')THEN
                 IRDUM=3
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IGSP),ERRFLAG)
+     &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
      &           (VVER(:2).EQ.'SO'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IGSP),ERRFLAG)
+     &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             END SELECT
           ENDIF
@@ -5093,20 +5093,20 @@ C
               IF((VVER(:2).EQ.'NI').OR.(VVER(:2).EQ.'IE'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(1),ERRFLAG)
+     &                VEQNNB(1),ERRFLAG)
               ENDIF
             CASE(2)
               IF(VVER(:2).EQ.'CR')THEN
                 IRDUM=3
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(1),ERRFLAG)
+     &                VEQNNB(1),ERRFLAG)
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
      &           (VVER(:2).EQ.'SO'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(1),ERRFLAG)
+     &                VEQNNB(1),ERRFLAG)
               ENDIF
             END SELECT
           ENDIF
@@ -5201,20 +5201,20 @@ C
               IF((VVER(:2).EQ.'NI').OR.(VVER(:2).EQ.'IE'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IS),ERRFLAG)
+     &                VEQNNB(IS),ERRFLAG)
               ENDIF
             CASE(2)
               IF(VVER(:2).EQ.'CR')THEN
                 IRDUM=3
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IS),ERRFLAG)
+     &                VEQNNB(IS),ERRFLAG)
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
      &           (VVER(:2).EQ.'SO'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IS),ERRFLAG)
+     &                VEQNNB(IS),ERRFLAG)
               ENDIF
             END SELECT
           ENDIF
