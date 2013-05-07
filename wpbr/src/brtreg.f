@@ -1,6 +1,6 @@
       SUBROUTINE BRTREG
 C**********************************************************************
-C  **BRTREG       DATE OF LAST REVISION:  11/06/2002
+C  **BRTREG       DATE OF LAST REVISION:  05/07/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRTREG drives the Blister Rust Model in the cycling process.
@@ -65,6 +65,9 @@ C  15-MAY-2001 Lance R. David (FHTET)
 C     Added last year of cycle mortality accounting at stmt lable 36
 C  06-NOV-2002 Lance R. David
 C     Added call to BRICAL, new routine for calculating Rust Index.
+C  07-MAY-2013 Lance R. David (FMSC)
+C     Added statement label 410 for exit from routine when model
+C     is inactive.
 C**********************************************************************
 
 C.... Common include files
@@ -94,7 +97,7 @@ C.... See if Blister Rust Model is being used in this sumulation.
 C.... If not or there are no trees, return.
 
       CALL BRATV(BRGO)
-      IF(.NOT. BRGO .OR. ITRN .EQ. 0) GO TO 300
+      IF(.NOT. BRGO .OR. ITRN .EQ. 0) GO TO 410
 
 C.... Is debug requested?
 
@@ -540,5 +543,5 @@ C.... Common return.
   300 CONTINUE
       IF(DEBUG) WRITE(JOSTND,400) ICYC
   400 FORMAT (' Leaving subroutine BRTREG: cycle = ',I2)
-      RETURN
+  410 RETURN
       END
