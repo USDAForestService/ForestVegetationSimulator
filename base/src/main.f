@@ -11,12 +11,9 @@ C
       lenCl = 0
       CALL fvsSetCmdLine(' ',lenCL,rtnCode)
       IF (rtnCode.NE.0) GOTO 10
-C
-C     INITIALIZE THE MULTIPLE REPORT ROUTINE (THIS DOES NOT OPEN A FILE)
-C
-      CALL GENRPT
 
 C     RUN ALL THE CYCLES and STANDS--unless there is a stop point!
+
       DO
         CALL FVS(rtnCode)
         IF (rtnCode .NE. 0) exit
