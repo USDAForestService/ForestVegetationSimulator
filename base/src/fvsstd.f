@@ -105,7 +105,7 @@ C----------
 C  IF THE OUTPUT FILE IS NOT OPEN, OPEN IT.
 C----------
       IF(.NOT.FSTOPEN) THEN
-        CALL MYOPEN(KOLIST,KWDFIL(1:ISTLNB(KWDFIL))//'.fst',
+        CALL MYOPEN(KOLIST,KWDFIL(:(ISTLNB(KWDFIL)-4))//'.fst',
      >              5,170,0,1,1,0,KODE)
         IF(KODE .GT. 0) THEN
           WRITE(JOSTND,*) ' FVSSTAND FILE DID NOT OPEN'

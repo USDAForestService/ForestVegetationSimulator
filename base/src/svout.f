@@ -69,7 +69,7 @@ COMMONS
 
 COMMONS
 
-      INTEGER IFMCLFG,IYEAR,KYLAST,ISTLNB,I,J,K,KYFRST,ISLEN,KODE,
+      INTEGER IFMCLFG,IYEAR,KYLAST,ISTLNB,I,J,K,KYFRST,
      >        NOUT,ISVOBJ,IPS,IDIR,ITC,IPUT,IX,ISNAG
       REAL    X,CW,CRAD,XICR,SNDI,SNHT,SNCRTO,SNCRDI,RAD,
      >        X1,Y1,X2,Y2,XM1,XM2,XM3
@@ -144,13 +144,12 @@ C     THIS IS DONE TO INSURE THAT MULTIPLE RUNS ARE PROCESSED.
 
 C       FIND THE FIRST AND LAST CHAR OF THE KEYWORD NAME
 C       WATCH FOR DIRECTORY LEVELS...WE DON'T WANT THEM.
-
-        KYLAST=ISTLNB(KWDFIL)
+ 
+        KYLAST=ISTLNB(KWDFIL)-4
         DO I=KYLAST,1,-1
-          IF (KWDFIL(I:I).EQ.'/' .OR. KWDFIL(I:I).EQ.'\') GOTO 6
+          IF (KWDFIL(I:I).EQ.'/' .OR. KWDFIL(I:I).EQ.'\') EXIT
           KYFRST=I
         ENDDO
-    6   CONTINUE
         IF (DEBUG) WRITE (JOSTND,*) 'KYFRST=',KYFRST,
      >    ' KYLAST=',KYLAST,' KWDFIL=',KWDFIL(KYFRST:KYLAST)
         IF (NIMAGE.LT.1000) THEN
@@ -160,46 +159,45 @@ C       WATCH FOR DIRECTORY LEVELS...WE DON'T WANT THEM.
           WRITE (SUFFIX,'(A,''_'',I6.6,''.svs'')')
      >      KWDFIL(KYFRST:KYLAST),NIMAGE
         ENDIF
-        ISLEN=ISTLNB(SUFFIX)
         IF (DEBUG) WRITE (JOSTND,*) 'FILE OPEN=',
      >    TRIM(KWDFIL(:KYLAST)//'/'//SUFFIX)
 
-C        TRY TO OPEN A FILE WITH THE DIRECTORY NAME INCLUDED.
+C       TRY TO OPEN A FILE WITH THE DIRECTORY NAME INCLUDED.
 
-        CALL MYOPEN(JSVPIC,TRIM(KWDFIL(:KYLAST)//'/'//SUFFIX),
-     >    5,120,0,1,1,0,KODE)
-        IF (DEBUG) WRITE (JOSTND,*) 'KODE(FIRST)=',KODE
-
+        OPEN (UNIT=JSVPIC,FILE=TRIM(KWDFIL(:KYLAST)//'/'//SUFFIX),
+     >        STATUS="REPLACE",ERR=2)
+        WRITE (JSVOUT,1) NPLT(1:MAX(1,ISTLNB(NPLT))),IYEAR,
+     >      AMSG,KWDFIL(:KYLAST)//'/'//TRIM(SUFFIX)
+    1   FORMAT ('"Stand=',A,' Year=',I4.4,' ',A,'" "',A,'"')
+        GOTO 20 
+  
 C       IF THE OPEN FAILS, THEN OPEN ONE WITHOUT THE DIR NAME INCLUDED.
 
-        IF (KODE.GT.0) THEN
-          CALL MYOPEN(JSVPIC,SUFFIX(:ISLEN),5,120,0,1,1,0,KODE)
-          IF (KODE.GT.0) THEN
+    2   CONTINUE
+        OPEN (UNIT=JSVPIC,FILE=TRIM(SUFFIX),STATUS="REPLACE",ERR=4)
+        WRITE (JSVOUT,1) NPLT(1:MAX(1,ISTLNB(NPLT))),IYEAR,
+     >        AMSG,TRIM(SUFFIX)
+        GOTO 20
+    4   CONTINUE
 
-C           IF THIS OPEN FAILS, THEN BAG SVS OUTPUT.
+C       IF THIS OPEN FAILS, THEN BAG SVS OUTPUT.
 
-            WRITE (JOSTND,8) SUFFIX
-    8       FORMAT (/T13,'**** FILE OPEN ERROR FOR FILE: ',A)
-            CALL RCDSET (2,.TRUE.)
+        WRITE (JOSTND,8) SUFFIX
+    8   FORMAT (/T13,'**** FILE OPEN ERROR FOR FILE: ',A)
+        CALL RCDSET (2,.TRUE.)
 
-C           SETTING JSVOUT TO ZERO TURNS OFF SVS...WE'RE DONE.
+C       SETTING JSVOUT TO ZERO TURNS OFF SVS...WE'RE DONE.
 
-            JSVOUT=0
-            RETURN
-          ENDIF
-          CALL VARVER (VVER)
-          WRITE (JSVOUT,10) NPLT(1:MAX(1,ISTLNB(NPLT))),IYEAR,
-     >      AMSG,SUFFIX(:ISLEN)
-        ELSE
-          WRITE (JSVOUT,10) NPLT(1:MAX(1,ISTLNB(NPLT))),IYEAR,
-     >      AMSG,KWDFIL(:KYLAST)//'/'//SUFFIX(:ISLEN)
-   10     FORMAT ('"Stand=',A,' Year=',I4.4,' ',A,'" "',A,'"')
-        ENDIF
+        JSVOUT=0
+        RETURN
+        
+   20   CONTINUE
         NOUT=JSVPIC
       ELSE
         NOUT=JSVOUT
       ENDIF
-
+      
+  
       CALL VARVER (VVER)
       SELECT CASE (VVER(:2))
         CASE ('CS','LS','NE','SN')
@@ -455,7 +453,6 @@ C              3) Snag will be removed at the bottom of SVOUT.
 C           Keep snags with diameter less than 1", for better
 C           agreement with FFE logic.
 
-C>>>        IF (SNDI .LT. 1 .OR. SNHT .LE. 0.) THEN
             IF ( SNHT .LE. 0.) THEN
               IF (ISTATUS(IS2F(ISVOBJ)).GT.0) NDEAD=NDEAD-1
               IF (DEBUG) THEN
