@@ -7,7 +7,7 @@ Description: Added API calls to support interaction with the SVS objects.
 
 Impact on users: None unless someone is using the features.
 
-SVS keyword impact: Added a flag on field 3 that suppresses the actual
+SVS keyword impact: Added a flag on field 7 that suppresses the actual
 writting of the image files yet turns on the SVS calculations.
 
 Files:
