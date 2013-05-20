@@ -11,6 +11,7 @@ C     IRLEN IS RETURNED AS THE LENGTH OF THE NONBLANK PORTION.
 C
       INTEGER IRLEN,LENREC,I
       CHARACTER*(*) RECORD
+      CHARACTER(LEN=7) VVER
       IRLEN=0
 
       ! if ON or BC then allow embedded spaces with path/file names
