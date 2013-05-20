@@ -1,0 +1,671 @@
+1        FOREST VEGETATION SIMULATOR     VERSION 4.2  (----) -- BC PROGNOSIS                    RV:10/01/12    04-15-2013  12:53:58
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+                                                 OPTIONS SELECTED BY INPUT
+
+ KEYWORD FILE NAME: WSBW-A.key
+ ----------------------------------------------------------------------------------------------------------------------------------
+ KEYWORD    PARAMETERS:
+ --------   -----------------------------------------------------------------------------------------------------------------------
+
+ ECHOSUM    SUMMARY OUTPUT WILL BE WRITTEN TO FILE REFERENCED BY NUMBER  4
+
+ STDIDENT
+            STAND ID= WSBW-A                                      Severe Outbreak, Untreated                                    
+
+ SCREEN     SUMMARY TABLE WILL BE PRINTED TO DATA SET REFERENCE NUMBER     6 AS RUN PROGRESSES.
+
+ TREELIST   DATE/CYCLE=    0; DATA SET REFERENCE NUMBER =  3.; HEADING SUPPRESSION CODE = 1.
+            (0=WITH HEADING, OTHER VALUES=SUPPRESS HEADING).
+
+ NOTRIPLE
+
+ TIMEINT    ALL CYCLES;  PERIOD LENGTH=  5
+
+ TIMEINT    CYCLE=  1; PERIOD LENGTH=  5
+
+ NUMCYCLE   NUMBER OF CYCLES=  4
+
+ STDINFO    BEC=IDFdk1/01      ; AGE=  100; ASPECT AZIMUTH IN DEGREES= 180.; SLOPE=   5.%
+            ELEVATION (M)= 1150.0; REFERENCE CODE= 53  
+
+ DESIGN     BASAL AREA FACTOR=   -1.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=    0.0
+            NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
+            PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+            SEE "OPTIONS SELECTED BY DEFAULT" FOR FINAL DESIGN VALUES.
+
+ INVYEAR    INVENTORY YEAR= 2005
+
+ ESTAB      REGENERATION ESTABLISHMENT OPTIONS:
+            DATE OF DISTURBANCE= 2005
+
+ STOCKADJ  PREDICTION OF NATURAL REGENERATION DISABLED.
+
+ END        REGENERATION TALLY SEQUENCE SCHEDULED TO START IN 2005 
+            END OF ESTABLISHMENT KEYWORDS
+
+ TREEFMT 
+            (I13,I4,F8.0,I1,A2,F5.0,F4.0,F4.0,F4.0,F6.0,I1,I2,I2,I2,I2,I2,I2,I1,I1,I3,I3,I3,
+            I1,I1,F3.0)                                                                     
+
+ COMMENT 
+            Test Data from Jennifer Burleigh; IDFdk1/01; avg of 19 plots, 5cm DBH classes
+
+ END 
+
+ THINDBH    DATE/CYCLE=    2; MINIMUM DBH=     0.0; MAXIMUM DBH=  2537.5; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            SPECIES= PW  (CODE=   1) IS TARGETED FOR THIS CUT.
+            RESIDUAL CLASS TPH =    50.0 RESIDUAL CLASS BA =     0.0
+
+ RANNSEED   RANDOM SEED IS:           1.0
+
+ WSBW       WESTERN SPRUCE BUDWORM OPTIONS:
+
+
+            *        1         2         3         4         5         6         7
+            *2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+ DAMAGE     PRINT BUDWORM-CAUSED DAMAGE OUTPUT.
+
+ PERDAM     PRINT BUDWORM-CAUSED PERIODIC DAMAGE OUTPUT.
+
+ DEFOL      DATE/CYCLE= 2005; SPECIES=  0.; CROWN CODE= 4.; NEW=  15.00; 1-YR=  15.00; 2-YR=  15.00; REMAINING=  15.00
+
+ DEFOL      DATE/CYCLE= 2005; SPECIES=  0.; CROWN CODE= 7.; NEW=  20.00; 1-YR=  20.00; 2-YR=  20.00; REMAINING=  20.00
+
+ DEFOL      DATE/CYCLE= 2005; SPECIES=  0.; CROWN CODE= 8.; NEW=  15.00; 1-YR=  15.00; 2-YR=  15.00; REMAINING=  15.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 1.; NEW=  70.00; 1-YR=  70.00; 2-YR=  70.00; REMAINING=  70.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 2.; NEW=  70.00; 1-YR=  70.00; 2-YR=  70.00; REMAINING=  70.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 3.; NEW=  70.00; 1-YR=  70.00; 2-YR=  70.00; REMAINING=  70.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 4.; NEW=  60.00; 1-YR=  60.00; 2-YR=  60.00; REMAINING=  60.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 5.; NEW=  40.00; 1-YR=  40.00; 2-YR=  40.00; REMAINING=  40.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 6.; NEW=  40.00; 1-YR=  40.00; 2-YR=  40.00; REMAINING=  40.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 7.; NEW=  75.00; 1-YR=  75.00; 2-YR=  75.00; REMAINING=  75.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 8.; NEW=  60.00; 1-YR=  60.00; 2-YR=  60.00; REMAINING=  60.00
+
+ DEFOL      DATE/CYCLE= 2006; SPECIES=  0.; CROWN CODE= 9.; NEW=  30.00; 1-YR=  30.00; 2-YR=  30.00; REMAINING=  30.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 1.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 2.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 3.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 4.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 5.; NEW=  90.00; 1-YR=  90.00; 2-YR=  90.00; REMAINING=  90.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 6.; NEW=  90.00; 1-YR=  90.00; 2-YR=  90.00; REMAINING=  90.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 7.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 8.; NEW=  80.00; 1-YR=  80.00; 2-YR=  80.00; REMAINING=  80.00
+
+ DEFOL      DATE/CYCLE= 2007; SPECIES=  0.; CROWN CODE= 9.; NEW=  50.00; 1-YR=  50.00; 2-YR=  50.00; REMAINING=  50.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 1.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 2.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 3.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 4.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 5.; NEW=  90.00; 1-YR=  90.00; 2-YR=  90.00; REMAINING=  90.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 6.; NEW=  90.00; 1-YR=  90.00; 2-YR=  90.00; REMAINING=  90.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 7.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 8.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2008; SPECIES=  0.; CROWN CODE= 9.; NEW=  90.00; 1-YR=  90.00; 2-YR=  90.00; REMAINING=  90.00
+
+ DEFOL      DATE/CYCLE= 2009; SPECIES=  0.; CROWN CODE= 1.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2009; SPECIES=  0.; CROWN CODE= 2.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2009; SPECIES=  0.; CROWN CODE= 3.; NEW=  99.00; 1-YR=  99.00; 2-YR=  99.00; REMAINING=  99.00
+
+ DEFOL      DATE/CYCLE= 2009; SPECIES=  0.; CROWN CODE= 5.; NEW=  30.00; 1-YR=  30.00; 2-YR=  30.00; REMAINING=  30.00
+
+ DEFOL      DATE/CYCLE= 2009; SPECIES=  0.; CROWN CODE= 6.; NEW=  30.00; 1-YR=  30.00; 2-YR=  30.00; REMAINING=  30.00
+
+ DEFOL      DATE/CYCLE= 2009; SPECIES=  0.; CROWN CODE= 8.; NEW=   5.00; 1-YR=   5.00; 2-YR=   5.00; REMAINING=   5.00
+
+ DEFOL      DATE/CYCLE= 2009; SPECIES=  0.; CROWN CODE= 9.; NEW=  60.00; 1-YR=  60.00; 2-YR=  60.00; REMAINING=  60.00
+
+ DEFOL      DATE/CYCLE= 2010; SPECIES=  0.; CROWN CODE= 5.; NEW=   5.00; 1-YR=   5.00; 2-YR=   5.00; REMAINING=   5.00
+
+ DEFOL      DATE/CYCLE= 2010; SPECIES=  0.; CROWN CODE= 6.; NEW=   5.00; 1-YR=   5.00; 2-YR=   5.00; REMAINING=   5.00
+
+ DEFOL      DATE/CYCLE= 2010; SPECIES=  0.; CROWN CODE= 8.; NEW=   5.00; 1-YR=   5.00; 2-YR=   5.00; REMAINING=   5.00
+
+ DEFOL      DATE/CYCLE= 2010; SPECIES=  0.; CROWN CODE= 9.; NEW=   5.00; 1-YR=   5.00; 2-YR=   5.00; REMAINING=   5.00
+
+ END        END OF BUDWORM OPTIONS.
+
+ TREEDATA   DATA SET REFERENCE NUMBER= 15
+
+ PROCESS    PROCESS THE STAND.
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+                                                 OPTIONS SELECTED BY DEFAULT
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ DESIGN     BASAL AREA FACTOR=   -1.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=    0.0
+            NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
+            PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+
+ STDINFO    BEC=IDFdk1/01      ; AGE=  100; ASPECT AZIMUTH IN DEGREES= 180.; SLOPE=   5.%
+            ELEVATION (M)= 1150.0; REFERENCE CODE= 53  
+
+ MAXIMUM BASAL AREA FOR IDFdk1/01      IS SET BY DEFAULT TO:  60.0 SQ M/HA.
+
+ SPECIES      PW      LW      FD      BG      HW      CW      PL      SE      BL      PY
+ SDI MAX    1393.   1393.   1393.   1393.   1393.   1393.   1393.   1393.   1393.   1393.
+
+ SPECIES      EP      AT      AC      OC      OH
+ SDI MAX    1393.   1393.   1393.   1393.   1393.
+
+                                   NATIONAL VOLUME ESTIMATOR LIBRARY EQUATION NUMBERS
+ SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT 
+ ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- 
+   PW    ---        ---          LW    ---        ---          FD    ---        ---          BG    ---        ---       
+   HW    ---        ---          CW    ---        ---          PL    ---        ---          SE    ---        ---       
+   BL    ---        ---          PY    ---        ---          EP    ---        ---          AT    ---        ---       
+   AC    ---        ---          OC    ---        ---          OH    ---        ---       
+
+ INVENTORY POINT CROSS REFERENCE (FVS SEQUENTIAL POINT NUMBER = POINT NUMBER AS ENTERED IN THE INPUT DATA):
+   1=       1
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+
+                                                      ACTIVITY SCHEDULE
+
+ STAND ID= WSBW-A                        MGMT ID= NONE              Severe Outbreak, Untreated                                    
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ CYCLE  DATE  EXTENSION  KEYWORD   DATE  PARAMETERS:
+ -----  ----  ---------  --------  ----  ------------------------------------------------------------------------------------------
+
+    1   2005
+                ESTB     TALLY     2005     2005.00
+                WSBE     DEFOL     2005        0.00      4.00     15.00     15.00     15.00     15.00
+                WSBE     DEFOL     2005        0.00      7.00     20.00     20.00     20.00     20.00
+                WSBE     DEFOL     2005        0.00      8.00     15.00     15.00     15.00     15.00
+                BASE     TREELIST  2005        3.00      1.00
+                WSBE     DEFOL     2006        0.00      1.00     70.00     70.00     70.00     70.00
+                WSBE     DEFOL     2006        0.00      2.00     70.00     70.00     70.00     70.00
+                WSBE     DEFOL     2006        0.00      3.00     70.00     70.00     70.00     70.00
+                WSBE     DEFOL     2006        0.00      4.00     60.00     60.00     60.00     60.00
+                WSBE     DEFOL     2006        0.00      5.00     40.00     40.00     40.00     40.00
+                WSBE     DEFOL     2006        0.00      6.00     40.00     40.00     40.00     40.00
+                WSBE     DEFOL     2006        0.00      7.00     75.00     75.00     75.00     75.00
+                WSBE     DEFOL     2006        0.00      8.00     60.00     60.00     60.00     60.00
+                WSBE     DEFOL     2006        0.00      9.00     30.00     30.00     30.00     30.00
+                WSBE     DEFOL     2007        0.00      1.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007        0.00      2.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007        0.00      3.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007        0.00      4.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007        0.00      5.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2007        0.00      6.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2007        0.00      7.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007        0.00      8.00     80.00     80.00     80.00     80.00
+                WSBE     DEFOL     2007        0.00      9.00     50.00     50.00     50.00     50.00
+                WSBE     DEFOL     2008        0.00      1.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008        0.00      2.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008        0.00      3.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008        0.00      4.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008        0.00      5.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2008        0.00      6.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2008        0.00      7.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008        0.00      8.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008        0.00      9.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2009        0.00      1.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2009        0.00      2.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2009        0.00      3.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2009        0.00      5.00     30.00     30.00     30.00     30.00
+                WSBE     DEFOL     2009        0.00      6.00     30.00     30.00     30.00     30.00
+                WSBE     DEFOL     2009        0.00      8.00      5.00      5.00      5.00      5.00
+                WSBE     DEFOL     2009        0.00      9.00     60.00     60.00     60.00     60.00
+
+    2   2010
+                BASE     THINDBH   2010        0.00   2537.46      1.00      1.00     50.00      0.00
+                WSBE     DEFOL     2010        0.00      5.00      5.00      5.00      5.00      5.00
+                WSBE     DEFOL     2010        0.00      6.00      5.00      5.00      5.00      5.00
+                WSBE     DEFOL     2010        0.00      8.00      5.00      5.00      5.00      5.00
+                WSBE     DEFOL     2010        0.00      9.00      5.00      5.00      5.00      5.00
+                BASE     TREELIST  2010        3.00      1.00
+
+    3   2015
+                BASE     TREELIST  2015        3.00      1.00
+
+    4   2020
+                BASE     TREELIST  2020        3.00      1.00
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+
+ CALIBRATION STATISTICS:
+
+
+                                                  FD    PL    SE
+                                                 ----  ----  ----
+
+ NUMBER OF RECORDS PER SPECIES                     19     4     2
+
+ NUMBER OF RECORDS WITH MISSING HEIGHTS            19     4     2
+
+ NUMBER OF RECORDS WITH BROKEN OR DEAD TOPS         0     0     0
+
+ NUMBER OF RECORDS WITH MISSING CROWN RATIOS       19     4     2
+
+ NUMBER OF RECORDS AVAILABLE FOR SCALING
+ THE DIAMETER INCREMENT MODEL                       0     0     0
+
+ RATIO OF STANDARD ERRORS
+ (INPUT DBH GROWTH DATA : MODEL)                 1.00  1.00  1.00
+
+ WEIGHT GIVEN TO THE INPUT GROWTH DATA WHEN
+ DBH GROWTH MODEL SCALE FACTORS WERE COMPUTED    0.00  0.00  0.00
+
+ INITIAL SCALE FACTORS FOR THE
+ DBH INCREMENT MODEL                              1.00  1.00  1.00
+
+ NUMBER OF RECORDS AVAILABLE FOR SCALING
+ THE SMALL TREE HEIGHT INCREMENT MODEL             0     0     0
+
+ INITIAL SCALE FACTORS FOR THE SMALL TREE
+ HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
+
+ NUMBER OF RECORDS WITH MISTLETOE                   0     0     0
+
+ ***************
+ ***************
+ WARNING: INITIAL STAND STOCKING OF   3022.1 TREES/HA IS MORE THAN 5% ABOVE THE UPPER LIMIT OF   2321.3 TREES/HA.
+          UPPER LIMIT IS BASED ON A SDI MAXIMUM OF     1393.1 AND AN UPPER BOUND OF  85.0 PERCENT OF MAXIMUM.
+          MAXIMUM SDI BEING RESET TO    1815.1 FOR FURTHER PROCESSING.
+ ***************
+ ***************
+
+
+1        FOREST VEGETATION SIMULATOR     VERSION 4.2  (----) -- BC PROGNOSIS                    RV:10/01/12    04-15-2013  12:53:58
+
+ STAND ID: WSBW-A                        MGMT ID: NONE              Severe Outbreak, Untreated
+
+
+                                         STAND COMPOSITION (BASED ON STOCKABLE AREA)
+ --------------------------------------------------------------------------------------------------------------------------
+                             PERCENTILE POINTS IN THE
+                      DISTRIBUTION OF STAND ATTRIBUTES BY DBH       TOTAL/HA
+         STAND       -----------------------------------------      OF STAND         DISTRIBUTION OF STAND ATTRIBUTES BY
+ YEAR  ATTRIBUTES      10     30     50     70     90    100       ATTRIBUTES       SPECIES AND 3 USER-DEFINED SUBCLASSES
+ ----  -----------   ------ ------ ------ ------ ------ ------   --------------  ------------------------------------------
+                                  (DBH IN CMS)
+
+
+
+ 2005  TREES           5.0    5.0    5.0    5.0   30.0   125.0    3022. TREES     97.% FD3,   2.% PL3,   0.% SE3,   0.% ---
+       VOLUME:  
+         TOTAL        20.0   30.0   35.0   50.0   65.0   125.0     480. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+         MERCH        25.0   30.0   40.0   50.0   65.0   125.0     441. CU M      95.% FD3,   3.% PL3,   1.% SE3,   0.% ---
+
+
+       ACCRETION      20.0   30.0   35.0   45.0   55.0   125.0      2.0 CU M/YR   87.% FD3,  13.% PL3,   0.% SE3,   0.% ---
+       MORTALITY      10.0   25.0   35.0   45.0   65.0   125.0      3.9 CU M/YR   97.% FD3,   2.% PL3,   1.% SE3,   0.% ---
+
+
+
+ 2010  TREES           5.0    5.0    5.0   20.1   35.3   125.0    1889. TREES     96.% FD3,   4.% PL3,   0.% SE3,   0.% ---
+       VOLUME:  
+         TOTAL        20.4   30.2   35.3   50.3   65.4   125.0     470. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+         MERCH        25.3   30.2   40.3   50.3   65.4   125.0     434. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+
+
+       ACCRETION      20.1   25.3   30.4   40.3   50.3   125.0      2.7 CU M/YR   89.% FD3,  10.% PL3,   0.% SE3,   0.% ---
+       MORTALITY      20.1   30.2   35.3   50.3   65.4   125.0      2.0 CU M/YR   95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+
+
+
+ 2015  TREES           5.0    5.0    5.0   20.4   35.7   125.1    1847. TREES     96.% FD3,   4.% PL3,   0.% SE3,   0.% ---
+       VOLUME:  
+         TOTAL        20.4   30.7   35.7   50.7   65.8   125.1     474. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+         MERCH        20.9   30.7   40.6   50.7   65.8   125.1     438. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+
+
+       ACCRETION      20.4   25.6   30.8   40.6   55.9   125.1      4.7 CU M/YR   94.% FD3,   5.% PL3,   0.% SE3,   0.% ---
+       MORTALITY      20.4   30.7   35.7   45.8   65.8   125.1      2.0 CU M/YR   95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+
+
+
+ 2020  TREES           5.2    5.2    5.2   20.7   36.3   125.2    1806. TREES     96.% FD3,   4.% PL3,   0.% SE3,   0.% ---
+       VOLUME:  
+         TOTAL        20.7   31.2   36.3   51.4   66.3   125.2     487. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+         MERCH        21.3   31.2   41.2   51.4   66.3   125.2     451. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+
+
+       ACCRETION      20.7   26.1   31.2   41.2   56.5   125.2      4.6 CU M/YR   94.% FD3,   6.% PL3,   0.% SE3,   0.% ---
+       MORTALITY      20.7   31.2   36.3   46.4   66.3   125.2      2.0 CU M/YR   95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+
+
+
+ 2025  TREES           5.4    5.4    5.4   21.1   36.7   125.2    1766. TREES     96.% FD3,   4.% PL3,   0.% SE3,   0.% ---
+       VOLUME:  
+         TOTAL        21.1   31.7   36.7   47.0   66.9   125.2     500. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+         MERCH        21.7   31.7   41.8   52.0   66.9   125.2     463. CU M      95.% FD3,   4.% PL3,   1.% SE3,   0.% ---
+1        FOREST VEGETATION SIMULATOR     VERSION 4.2  (----) -- BC PROGNOSIS                    RV:10/01/12    04-15-2013  12:53:59
+
+ STAND ID: WSBW-A                        MGMT ID: NONE              Severe Outbreak, Untreated
+
+
+ ------------------------------------------------------------------------------------------------------------------------------
+                      ATTRIBUTES OF SELECTED SAMPLE TREES                 ADDITIONAL STAND ATTRIBUTES (BASED ON STOCKABLE AREA)
+       -----------------------------------------------------------------  -----------------------------------------------------
+       INITIAL                           LIVE   PAST DBH   BASAL  TREES          QUADRATIC   TREES    BASAL   TOPHT (M)  CROWN
+      TREES/HA            DBH    HEIGHT  CROWN   GROWTH    AREA    PER    STAND   MEAN DBH    PER      AREA    LARGEST   COMP
+ YEAR   %TILE  SPECIES   (CMS)  (METRES) RATIO    (CMS)    %TILE    HA     AGE     (CMS)      HA    (SQ M/HA)   40/HA   FACTOR
+ ----  ------- ------- -------- -------- ------ --------- ------- ------  -----  ---------   ------ --------- --------- -------
+
+ 2005                                          ( 10 YRS)
+
+         10     FD3       5.00     2.18    70     0.51      6.3     2134
+         30     FD3       5.00     2.18    70     0.51      6.3     2134
+         50     FD3       5.00     2.18    70     0.51      6.3     2134
+         70     FD3       5.00     2.18    70     0.51      6.3     2134
+         90     FD3      30.00    20.67    45     0.81     46.5      114
+        100     FD3     125.00    35.17    79     0.11    100.0        0
+                                                                          100      16.7       3022.       66.      27.5    315.
+
+ 2010 **                                       (  5 YRS)
+
+         10     FD3       5.01     2.18    70     0.01      3.3     1045
+         30     FD3       5.01     2.18    70     0.01      3.3     1045
+         50     FD3       5.01     2.18    70     0.01      3.3     1045
+         70     FD3      20.13    14.91    48     0.11     16.6      210
+         90     FD3      35.33    22.77    44     0.29     58.2       81
+        100     FD3     125.04    35.24    79     0.03    100.0        0
+                                                                          105      20.6       1889.       63.      27.5    286.
+
+ 2015 **                                       (  5 YRS)
+
+         10     FD3       5.05     2.18    70     0.03      3.3     1021
+         30     FD3       5.05     2.18    70     0.03      3.3     1021
+         50     FD3       5.05     2.18    70     0.03      3.3     1021
+         70     FD3      20.38    15.49    47     0.22     16.6      205
+         90     FD3      35.74    23.22    43     0.36     58.5       79
+        100     FD3     125.09    35.24    79     0.05    100.0        0
+                                                                          110      20.8       1847.       63.      27.6    289.
+
+ 2020 **                                       (  5 YRS)
+
+         10     FD3       5.18     2.30    70     0.11      3.3      998
+         30     FD3       5.18     2.30    70     0.11      3.3      998
+         50     FD3       5.18     2.30    70     0.11      3.3      998
+         70     FD3      20.71    16.16    46     0.29     16.7      199
+         90     FD3      36.27    23.74    43     0.45     58.6       77
+        100     FD3     125.16    35.33    79     0.06    100.0        0
+                                                                          115      21.1       1806.       63.      27.9    290.
+
+ 2025 **                                       (  5 YRS)
+
+         10     FD3       5.36     2.46    70     0.16      3.5      976
+         30     FD3       5.36     2.46    70     0.16      3.5      976
+         50     FD3       5.36     2.46    70     0.16      3.5      976
+         70     FD3      21.05    16.82    45     0.29     16.8      194
+         90     FD3      36.73    24.23    42     0.40     58.8       76
+        100     FD3     125.21    35.42    79     0.04    100.0        0
+                                                                          120      21.4       1766.       64.      28.3    290.
+
+ ** NOTE:  DUE TO HARVEST, COMPRESSION, OR REGENERATION ESTABLISHMENT, NEW SAMPLE TREES WERE SELECTED.
+1        FOREST VEGETATION SIMULATOR     VERSION 4.2  (----) -- BC PROGNOSIS                    RV:10/01/12    04-15-2013  12:53:59
+
+ STAND ID: WSBW-A                        MGMT ID: NONE              Severe Outbreak, Untreated
+
+
+
+                               SUMMARY STATISTICS (PER HA OR STAND BASED ON TOTAL STAND AREA)
+ --------------------------------------------------------------------------------------------------------------------------------------
+                 START OF SIMULATION PERIOD                 REMOVALS           AFTER TREATMENT        GROWTH THIS PERIOD
+          -------------------------------------------- ----------------- --------------------------  --------------------   MAI  ------
+          NO OF                 TOP        TOTAL MERCH NO OF TOTAL MERCH                 TOP   RES    PERIOD  ACCRE  MORT  MERCH FOR SS
+ YEAR AGE TREES  BA   SDI   CCF  HT   QMD  CU  M CU  M TREES CU  M CU  M  BA   SDI  CCF   HT   QMD    YEARS    PER   YEAR  CU  M TYP ZT
+ ---- --- ----- ---- ----- ---- ---- ----- ----- ----- ----- ----- ----- ---- ----- ---- ---- -----   ------  ----- -----  ----- ------
+ 2005 100  3022   66  1542  315 27.4  16.7 479.7 440.8     0   0.0   0.0   66  1542  315 27.4  16.7      5      2.0   3.8    4.4 201 11
+ 2010 105  1890   63  1347  286 27.4  20.6 470.2 434.4     0   0.0   0.0   63  1347  286 27.4  20.6      5      2.7   2.0    4.1 201 11
+ 2015 110  1846   63  1339  289 27.7  20.8 473.7 437.8     0   0.0   0.0   63  1339  289 27.7  20.8      5      4.7   2.0    4.0 201 11
+ 2020 115  1806   63  1342  290 28.0  21.1 487.4 450.8     0   0.0   0.0   63  1342  290 28.0  21.1      5      4.6   2.0    3.9 201 11
+ 2025 120  1767   64  1344  290 28.3  21.4 500.4 463.2     0   0.0   0.0   64  1344  290 28.3  21.4      0      0.0   0.0    3.9 201 11
+
+ NOTE: TOTAL VOLUME DEFINED AS ALL LIVE STEMS, FROM GROUND TO TIP.
+       DEFAULT MERCHANTABLE VOLUME ASSUMPTIONS WERE USED:
+         MINIMUM DBH:  PL 12.5 CM, ALL OTHERS 17.5 CM 
+         STUMP HEIGHT: 30 CM 
+         TOP DIAMETER: 10 CM 
+
+ NOTE:  5 LINES OF SUMMARY DATA HAVE BEEN WRITTEN TO THE FILE REFERENCED BY LOGICAL UNIT  4
+ 
+ 
+
+
+                                                      ACTIVITY SUMMARY 
+
+ STAND ID= WSBW-A                        MGMT ID= NONE              Severe Outbreak, Untreated                                    
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ CYCLE  DATE  EXTENSION  KEYWORD   DATE  ACTIVITY DISPOSITION  PARAMETERS:
+ -----  ----  ---------  --------  ----  --------------------  --------------------------------------------------------------------
+
+    1   2005
+                WSBE     DEFOL     2005  DONE IN 2005                0.00      4.00     15.00     15.00     15.00     15.00
+                WSBE     DEFOL     2005  DONE IN 2005                0.00      7.00     20.00     20.00     20.00     20.00
+                WSBE     DEFOL     2005  DONE IN 2005                0.00      8.00     15.00     15.00     15.00     15.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      1.00     70.00     70.00     70.00     70.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      2.00     70.00     70.00     70.00     70.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      3.00     70.00     70.00     70.00     70.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      4.00     60.00     60.00     60.00     60.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      5.00     40.00     40.00     40.00     40.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      6.00     40.00     40.00     40.00     40.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      7.00     75.00     75.00     75.00     75.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      8.00     60.00     60.00     60.00     60.00
+                WSBE     DEFOL     2006  DONE IN 2006                0.00      9.00     30.00     30.00     30.00     30.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      1.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      2.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      3.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      4.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      5.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      6.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      7.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      8.00     80.00     80.00     80.00     80.00
+                WSBE     DEFOL     2007  DONE IN 2007                0.00      9.00     50.00     50.00     50.00     50.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      1.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      2.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      3.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      4.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      5.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      6.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      7.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      8.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2008  DONE IN 2008                0.00      9.00     90.00     90.00     90.00     90.00
+                WSBE     DEFOL     2009  DONE IN 2009                0.00      1.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2009  DONE IN 2009                0.00      2.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2009  DONE IN 2009                0.00      3.00     99.00     99.00     99.00     99.00
+                WSBE     DEFOL     2009  DONE IN 2009                0.00      5.00     30.00     30.00     30.00     30.00
+                WSBE     DEFOL     2009  DONE IN 2009                0.00      6.00     30.00     30.00     30.00     30.00
+                WSBE     DEFOL     2009  DONE IN 2009                0.00      8.00      5.00      5.00      5.00      5.00
+                WSBE     DEFOL     2009  DONE IN 2009                0.00      9.00     60.00     60.00     60.00     60.00
+                ESTB     TALLY     2005  DONE IN 2009             2005.00
+                BASE     TREELIST  2005  DONE IN 2009                3.00      1.00
+
+    2   2010
+                BASE     THINDBH   2010  DELETED OR CANCELED         0.00   2537.46      1.00      1.00     50.00      0.00
+                WSBE     DEFOL     2010  DONE IN 2010                0.00      5.00      5.00      5.00      5.00      5.00
+                WSBE     DEFOL     2010  DONE IN 2010                0.00      6.00      5.00      5.00      5.00      5.00
+                WSBE     DEFOL     2010  DONE IN 2010                0.00      8.00      5.00      5.00      5.00      5.00
+                WSBE     DEFOL     2010  DONE IN 2010                0.00      9.00      5.00      5.00      5.00      5.00
+                ESTB     TALLY     2014  DONE IN 2014             2005.00      2.00
+                BASE     TREELIST  2010  DONE IN 2014                3.00      1.00
+
+    3   2015
+                ESTB     TALLY     2019  DONE IN 2019             2005.00      3.00
+                BASE     TREELIST  2015  DONE IN 2019                3.00      1.00
+
+    4   2020
+                ESTB     TALLY     2024  DONE IN 2024             2005.00      4.00
+                BASE     TREELIST  2020  DONE IN 2024                3.00      1.00
+ ----------------------------------------------------------------------------------------------------------------------------------
+1        FOREST VEGETATION SIMULATOR     VERSION 4.2  (----) -- BC PROGNOSIS                    RV:10/01/12    04-15-2013  12:53:58
+ 
+ ----------------------------------------------------------------------------
+                 REGENERATION ESTABLISHMENT MODEL VERSION 2.0
+         STAND ID: WSBW-A                         MANAGEMENT CODE: NONE
+ ----------------------------------------------------------------------------
+ 
+   SITE PREP SUMMARY
+ -------------------
+ PREP:NONE MECH BURN
+ YEAR:2005 2005 2005
+  PCT:  74   20    6
+ 
+ TALLY 1 AT  5 YEARS.  REGENERATION SUMMARY IN THE FALL OF 2009.
+ 
+      SUMMARY OF ALL          SUMMARY OF BEST         TREES < 3.0 CMS DBH
+      TREES REGENERATING      TREES REGENERATING      BEING PROJECTED BY
+      DURING THIS TALLY.      DURING THIS TALLY.      THE PROGNOSIS MODEL
+      -------------------     -------------------     -------------------
+              TREES % OF      TREES % OF  AVERAGE     TREES % OF
+      SPECIES /HA   TOTAL     /HA   TOTAL HEIGHT      /HA   TOTAL SPECIES
+      ------- ----- -----     ----- ----- -------     ----- ----- -------
+         FD      0.    0.        0.    0.   0.0       1045.  100.   FD
+              -----           -----                   -----
+                 0.              0.                   1045.
+ 
+ 
+ TALLY 2 AT 10 YEARS.  REGENERATION SUMMARY IN THE FALL OF 2014.
+ 
+      SUMMARY OF ALL          SUMMARY OF BEST         TREES < 3.0 CMS DBH
+      TREES REGENERATING      TREES REGENERATING      BEING PROJECTED BY
+      DURING THIS TALLY.      DURING THIS TALLY.      THE PROGNOSIS MODEL
+      -------------------     -------------------     -------------------
+              TREES % OF      TREES % OF  AVERAGE     TREES % OF
+      SPECIES /HA   TOTAL     /HA   TOTAL HEIGHT      /HA   TOTAL SPECIES
+      ------- ----- -----     ----- ----- -------     ----- ----- -------
+         FD      0.    0.        0.    0.   0.0       1021.  100.   FD
+              -----           -----                   -----
+                 0.              0.                   1021.
+ 
+ 
+ TALLY 3 AT 15 YEARS.  REGENERATION SUMMARY IN THE FALL OF 2019.
+ 
+      SUMMARY OF ALL          SUMMARY OF BEST         TREES < 3.0 CMS DBH
+      TREES REGENERATING      TREES REGENERATING      BEING PROJECTED BY
+      DURING THIS TALLY.      DURING THIS TALLY.      THE PROGNOSIS MODEL
+      -------------------     -------------------     -------------------
+              TREES % OF      TREES % OF  AVERAGE     TREES % OF
+      SPECIES /HA   TOTAL     /HA   TOTAL HEIGHT      /HA   TOTAL SPECIES
+      ------- ----- -----     ----- ----- -------     ----- ----- -------
+         FD      0.    0.        0.    0.   0.0        998.  100.   FD
+              -----           -----                   -----
+                 0.              0.                    998.
+ 
+ 
+ TALLY 4 AT 20 YEARS.  REGENERATION SUMMARY IN THE FALL OF 2024.
+ 
+      SUMMARY OF ALL          SUMMARY OF BEST         TREES < 3.0 CMS DBH
+      TREES REGENERATING      TREES REGENERATING      BEING PROJECTED BY
+      DURING THIS TALLY.      DURING THIS TALLY.      THE PROGNOSIS MODEL
+      -------------------     -------------------     -------------------
+              TREES % OF      TREES % OF  AVERAGE     TREES % OF
+      SPECIES /HA   TOTAL     /HA   TOTAL HEIGHT      /HA   TOTAL SPECIES
+      ------- ----- -----     ----- ----- -------     ----- ----- -------
+         FD      0.    0.        0.    0.   0.0        976.  100.   FD
+              -----           -----                   -----
+                 0.              0.                    976.
+ 
+ 
+ DAMAGE: 2009; WSBW-A                    ; PERIOD LENGTH TO DATE:  5-YEARS
+ -----------------------------------------------  NEW-FOLIAGE DEFOLIATION
+             PROPORTION OF EXPECTED               PERIOD AVERAGE  5-YR MAX
+             PERIODIC GROWTH         MAXIMUM      --------------  AVERAGE
+       TREE  ----------------------  CUMULATIVE   TOP      WHOLE  TOP
+ HOST  SIZE  DIAMETER        HEIGHT  DEFOLIATION  THIRD    TREE   THIRD
+ ----  ----  --------        ------  -----------  -------  -----  --------
+  DF   SMAL    0.627          0.162     369.6     0.734    0.734   0.734
+  DF   MED     0.698          0.721     331.8     0.546    0.515   0.683
+  DF   LARG    0.667          0.670     329.9     0.586    0.521   0.733
+  ES   LARG    0.667          0.670     329.9     0.586    0.521   0.733
+ 
+ PERDAM: 2009; WSBW-A                    ; NONE MORDBH GROWTH    HT GROWTH     PROB   TOP
+ TREE         DBH  ORG HT  TREES   BASE     USED   BASE   USED   BASE   USED  OF TOP  KILL
+ NO.   SP.   (IN)   (FT)   /ACRE  (/ACRE) (/ACRE)  (IN)   (IN)   (FT)   (FT)   KILL   (FT)
+ ----  ---  ------ ------ ------- ------- ------- ------ ------ ------ ------ ------ ------
+    1  FD3    1.97   7.16 863.618   0.000 440.880  0.006  0.003  0.000  0.000  0.289    0.0
+    2  FD3    3.94  20.78  10.117   0.000   5.165  0.094  0.091  2.927  2.701  0.237    0.0
+    3  FD3    5.91  35.98  26.103   0.000   0.963  0.078  0.068  2.487  0.000  0.896    0.0
+    4  FD3    7.87  48.91  88.183   0.000   3.254  0.092  0.043  2.189  0.000  0.769    0.0
+    5  FD3    9.84  59.37  66.087   0.000   2.438  0.132  0.109  2.024  0.000  0.893    0.0
+    6  FD3   11.81  67.81  46.216   0.000   1.705  0.120  0.085  1.785  1.265  0.775    0.0
+    7  FD3   13.78  74.70  33.873   0.000   1.250  0.141  0.113  1.651  0.000  0.897    0.0
+    8  FD3   15.75  80.40  15.945   0.000   0.588  0.175  0.115  1.562  0.000  0.788    0.0
+    9  FD3   17.72  85.19  14.367   0.000   0.530  0.188  0.148  1.445  1.140  0.635    0.0
+   10  FD3   19.68  89.25  12.222   0.000   0.451  0.182  0.111  1.310  0.000  0.891    0.0
+   11  FD3   21.65  92.74   5.099   0.000   0.188  0.196  0.170  1.222  0.000  0.809    0.0
+   12  FD3   23.62  95.76   2.428   0.000   0.090  0.233  0.182  1.177  0.000  0.471    0.0
+   13  FD3   25.59  98.41   3.764   0.000   0.139  0.179  0.121  1.004  0.000  0.612    0.0
+   14  FD3   27.56 100.75   0.283   0.000   0.010  0.205  0.184  0.958  0.861  0.855    0.0
+   15  FD3   29.53 102.82   0.567   0.000   0.021  0.190  0.108  0.864  0.000  0.716    0.0
+   16  FD3   31.50 104.68   0.202   0.000   0.007  0.114  0.072  0.716  0.000  0.897    0.0
+   17  FD3   33.46 106.35   0.364   0.000   0.013  0.127  0.078  0.672  0.000  0.892    0.0
+   18  FD3   35.43 107.86   0.405   0.000   0.015  0.096  0.078  0.594  0.000  0.884    0.0
+   19  FD3   49.21 115.39   0.081   0.000   0.003  0.019  0.013  0.307  0.215  0.801    0.0
+   24  SE3   11.81  75.29   1.619   0.000   0.060  0.020  0.015  0.686  0.000  0.899    0.0
+   25  SE3   13.78  81.21   1.052   0.000   0.039  0.015  0.007  0.569  0.000  0.890    0.0
+ 
+ DAMAGE: 2014; WSBW-A                    ; PERIOD LENGTH TO DATE:  5-YEARS
+ -----------------------------------------------  NEW-FOLIAGE DEFOLIATION
+             PROPORTION OF EXPECTED               PERIOD AVERAGE  5-YR MAX
+             PERIODIC GROWTH         MAXIMUM      --------------  AVERAGE
+       TREE  ----------------------  CUMULATIVE   TOP      WHOLE  TOP
+ HOST  SIZE  DIAMETER        HEIGHT  DEFOLIATION  THIRD    TREE   THIRD
+ ----  ----  --------        ------  -----------  -------  -----  --------
+  DF   SMAL    0.492          1.000     281.4     0.000    0.000   0.734
+  DF   MED     0.641          0.776     192.2     0.000    0.007   0.516
+  DF   LARG    0.643          0.759     173.2     0.000    0.007   0.546
+  ES   LARG    0.643          0.759     173.2     0.000    0.007   0.546
+ 
+ PERDAM: 2014; WSBW-A                    ; NONE MORDBH GROWTH    HT GROWTH     PROB   TOP
+ TREE         DBH  ORG HT  TREES   BASE     USED   BASE   USED   BASE   USED  OF TOP  KILL
+ NO.   SP.   (IN)   (FT)   /ACRE  (/ACRE) (/ACRE)  (IN)   (IN)   (FT)   (FT)   KILL   (FT)
+ ----  ---  ------ ------ ------- ------- ------- ------ ------ ------ ------ ------ ------
+    1  FD3    1.97   7.16 422.737   0.000   9.627  0.036  0.014  0.292  0.000  0.155    0.0
+    2  FD3    4.04  23.48   4.952   0.000   0.125  0.096  0.089  2.923  2.794  0.062    0.0
+    3  FD3    5.98  35.98  25.140   0.000   0.635  0.097  0.068  2.529  2.045  0.362    0.0
+    4  FD3    7.92  48.91  84.929   0.000   2.144  0.111  0.087  2.230  1.902  0.539    0.0
+    5  FD3    9.97  59.37  63.648   0.000   1.350  0.157  0.108  2.077  0.000  0.896    0.0
+    6  FD3   11.91  69.08  44.511   0.000   0.944  0.194  0.142  1.932  0.000  0.884    0.0
+    7  FD3   13.91  74.70  32.623   0.000   0.692  0.177  0.140  1.720  1.474  0.352    0.0
+    8  FD3   15.88  80.40  15.357   0.000   0.313  0.216  0.090  1.639  0.000  0.358    0.0
+    9  FD3   17.89  86.33  13.837   0.000   0.282  0.217  0.126  1.481  1.060  0.249    0.0
+   10  FD3   19.81  89.25  11.771   0.000   0.240  0.230  0.111  1.390  0.902  0.755    0.0
+   11  FD3   21.85  92.74   4.911   0.000   0.100  0.225  0.146  1.261  0.000  0.312    0.0
+   12  FD3   23.83  95.76   2.339   0.000   0.048  0.208  0.147  1.130  0.000  0.892    0.0
+   13  FD3   25.73  98.41   3.625   0.000   0.074  0.176  0.166  0.996  0.000  0.897    0.0
+   14  FD3   27.77 101.61   0.273   0.000   0.006  0.164  0.070  0.893  0.000  0.830    0.0
+   15  FD3   29.65 102.82   0.546   0.000   0.011  0.163  0.131  0.828  0.719  0.291    0.0
+   16  FD3   31.58 104.68   0.195   0.000   0.004  0.118  0.072  0.718  0.000  0.836    0.0
+   17  FD3   33.55 106.35   0.351   0.000   0.007  0.110  0.092  0.655  0.000  0.856    0.0
+   18  FD3   35.52 107.86   0.390   0.000   0.008  0.096  0.074  0.592  0.500  0.671    0.0
+   19  FD3   49.23 115.60   0.078   0.000   0.002  0.024  0.018  0.309  0.000  0.686    0.0
+   24  SE3   11.83  75.29   1.559   0.000   0.032  0.013  0.009  0.654  0.531  0.169    0.0
+   25  SE3   13.79  81.21   1.013   0.000   0.021  0.015  0.012  0.569  0.000  0.791    0.0

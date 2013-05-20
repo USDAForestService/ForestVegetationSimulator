@@ -134,18 +134,17 @@ C       SCALE THE TOP NESPECIES POTESTAB SCORES
 C     CURRENT STOCKING MUST BE BELOW THE THRESHOLD, IF NOT RETURN.
       
       IF (DEBUG) WRITE (JOSTND,42) TPROB,TMAXTRS,AESTOCK,
-     >         TPROB .GT. TMAXTRS*AESTOCK*.01
+     >         TPROB .GT. TMAXTRS*AESTOCK*.01,JCLREF
    42 FORMAT (' IN CLAUESTB: TPROB,TMAXTRS,AESTOCK=',3F12.5,
-     >        ' WILL RETURN=',L2)
+     >        ' WILL RETURN=',L2,' JCLREF=',I3)
      
 C     WRITE THE REPORT, SKIP IF JCLREF IS -1 (A FLAG SUPPRESSING THE OUTPUT).
 
-      I=1 
+      JOUT=0
       IF (JCLREF.GE.0) THEN
+        CALL GETLUN(JOUT)
         IF (JCLREF.EQ.0) THEN
-          I=0
           CALL GETID (JCLREF)
-          CALL GETLUN(JOUT)
           WRITE (JOUT,'(1X,I5," $#*%")') JCLREF
           WRITE (JOUT,43) 
    43     FORMAT(/T8,'CLIMATE-FVS VERSION 2.0 VIABILITY',
@@ -155,14 +154,9 @@ C     WRITE THE REPORT, SKIP IF JCLREF IS -1 (A FLAG SUPPRESSING THE OUTPUT).
      >          ' MORT MULT   MULT  MULT   TPA'/
      >          '---- ---- ------ ------ ------ ----- ',
      >          '----- ----- ----- ----- --------'/'$#*%')
-         
-        ENDIF
-        IF (I.EQ.1) THEN
-          CALL GETLUN(JOUT)
+        ELSE
           WRITE (JOUT,44) JCLREF
    44     FORMAT (1X,I5,' ')
-        ELSE
-          JOUT=0
         ENDIF
       ENDIF
 
@@ -182,7 +176,7 @@ C     WRITE THE REPORT, SKIP IF JCLREF IS -1 (A FLAG SUPPRESSING THE OUTPUT).
       IF (XX.GT.0) SPIMP=SPIMP/XX
       I2 = 0
       DO I=1,MAXSP
-        IF ((SPIMP(I).GT. 0.1 .OR. SPVIAB(I).GT. .4) .AND. 
+        IF ((SPIMP(I).GT. 0.05 .OR. SPVIAB(I).GT. .4) .AND. 
      >      INDXSPECIES(I).GT.0) THEN
           I2 = 1
           IF (JOUT.GT.0) THEN

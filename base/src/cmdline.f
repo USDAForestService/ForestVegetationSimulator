@@ -30,6 +30,10 @@ c     make sure the files are closed if resetting with the cmdLine.
 c     (this is only done if a none-zero return or restart code is set)
 
       if (fvsRtnCode /= 0 .or. restartcode /= 0) call FILClose
+
+c     initialize the multiple report routine (this does not open a file)
+
+      call genrpt
       
       keywordfile = " "
       maxStoppts = 6
