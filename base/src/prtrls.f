@@ -210,7 +210,7 @@ C
          IF (LFORMT) THEN
             WRITE (KOLIST,2) IP,ICYC,JYR,NPLT,MGMID,VVER,DAT,TIM,
      &                 CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
-    2       FORMAT (' -999',3I5,6(1X,A),I3,E14.7,2(1X,A))
+    2       FORMAT ('-999',3I5,6(1X,A),I3,E14.7,2(1X,A))
          ELSE
             WRITE (KOLIST) IP,ICYC,JYR,NPLT,MGMID,VVER,DAT,TIM,
      &                 CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
@@ -235,16 +235,16 @@ C
       IF(LFORMT) THEN
           WRITE (KOLIST,11) CLAB1(ITPLAB),NPLT,MGMID,
      >                      CLAB2(IWHO),ICYC,IFINT,JYR,IP
-   11     FORMAT(/' COMPLETE ',A4,' LIST -- STAND: ',A26,T59,'MGMTID: ',
+   11     FORMAT(/'COMPLETE ',A4,' LIST -- STAND: ',A26,T59,'MGMTID: ',
      >     A4,T73,A3,' CYCLE: ',I2,T88,'CYCLE LENGTH: ',I2,' YRS',
      >     T110,'YEAR: ',I4,T122,'PAGE: ',I2/
-     >     1X,'  TREE   TREE SP SP TR SS PNT  ',
+     >     '  TREE   TREE SP SP TR SS PNT  ',
      >     'TREES    MORTAL   CURR  DIAM  CURR  HT',5X,'MAX',7X,'BA   ',
      >     'POINT TOT CU MCH CU  MCH BD MC BF TRC',/,
-     >     '  NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  ',
+     >     ' NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  ',
      >     'DIAM  INCR   HT  INCR CR  CW  MS ',
      >     '%-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT',/,
-     >     1X,'-------- ---- -- -- -- -- --- -------- -------- ----- ',
+     >     '-------- ---- -- -- -- -- --- -------- -------- ----- ',
      >     '----- ----- ---- -- ---- -- ------ ----- ------ ',
      >     '------ ------- -- -- ---')
       ENDIF
@@ -328,7 +328,7 @@ C
      >    ISPECL(I),ITRE(I),P,DP,DBH(I),DGI  ,HT(I),HTG(I),ICR(I),CW,
      >    IDMR,PCT(I),IPTBAL,CFV(I),WK1(I),BFV(I),ICDF,IBDF,
      >    ((ITRUNC(I)+5)/100)
-   21     FORMAT(1X,A8,1X,I4,1X,A2,3(1X,I2),1X,I3,1X,F8.3,1X,F8.3,1X,
+   21     FORMAT(A8,1X,I4,1X,A2,3(1X,I2),1X,I3,1X,F8.3,1X,F8.3,1X,
      >       F5.1,1X,F5.2,1X,F5.1,1X,F4.1,1X,I2,1X,F4.1,1X,I2,
      >       1X,F6.2,1X,I5,1X,F6.1,1X,F6.1,1X,F7.1,1X,I2,1X,I2,
      >       1X,I3)
@@ -337,7 +337,7 @@ C
      >    ISPECL(I),ITRE(I),P,DP,DBH(I),DGI  ,HT(I),HTG(I),ICR(I),CW,
      >    IDMR,PCT(I),IPTBAL,CFV(I),WK1(I),BFV(I),ICDF,IBDF,
      >    ((ITRUNC(I)+5)/100)
-   20     FORMAT(1X,A8,1X,I4,1X,A2,3(1X,I2),1X,I3,1X,F8.2,1X,F8.2,1X,
+   20     FORMAT(A8,1X,I4,1X,A2,3(1X,I2),1X,I3,1X,F8.2,1X,F8.2,1X,
      >       F5.1,1X,F5.2,1X,F5.1,1X,F4.1,1X,I2,1X,F4.1,1X,I2,
      >       1X,F6.2,1X,I5,1X,F6.1,1X,F6.1,1X,F7.1,1X,I2,1X,I2,
      >       1X,I3)

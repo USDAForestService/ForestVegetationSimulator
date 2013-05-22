@@ -43,9 +43,9 @@ C
      >                   KODE)
             IF (KODE.GT.0) THEN
                WRITE (JOSTND,10) AGLSET(I)(1:LENAGL(I))
-   10          FORMAT (/' ********   ERROR:  DEFAULT STAND LABEL ',
+   10          FORMAT (/'********   ERROR:  DEFAULT STAND LABEL ',
      >               'SET IS TOO LONG.  THE FOLLOWING ACTIVITY GROUP ',
-     >               'IS NOT INCLUDED.'/' ACTIVITY LABEL:  ',A)
+     >               'IS NOT INCLUDED.'/'ACTIVITY LABEL:  ',A)
                CALL RCDSET (2,.TRUE.)
             ENDIF
             SLSET=WKSTR1
@@ -65,12 +65,12 @@ C
 C        WRITE THE DEFAULT STAND LABEL SET.
 C
          IF(LKECHO)WRITE(JOSTND,30) 
- 30      FORMAT (/' SPLABEL',T13,'STAND POLICY LABEL SET: ')
+ 30      FORMAT (/'SPLABEL',T12,'STAND POLICY LABEL SET: ')
          I1=1
          I2=100
  40      CONTINUE
          IF (I2.GT.LENSLS) I2=LENSLS
-         IF(LKECHO)WRITE(JOSTND,'(T13,A)') SLSET(I1:I2)
+         IF(LKECHO)WRITE(JOSTND,'(T12,A)') SLSET(I1:I2)
          IF (I2.LT.LENSLS) THEN
             I1=I2+1
             I2=I2+100
@@ -90,7 +90,7 @@ C
       ENDIF
    50 CONTINUE
       IF (J.GT.0) WRITE (JOSTND,60) J
-   60 FORMAT (/' ********   WARNING: ',I2,' ACTIVITY GROUP(S) HAD ',
+   60 FORMAT (/'********   WARNING: ',I2,' ACTIVITY GROUP(S) HAD ',
      >        'NO LABEL AND WERE ASSIGNED THE STAND POLICY ',
      >        'LABEL SET.')
    80 CONTINUE

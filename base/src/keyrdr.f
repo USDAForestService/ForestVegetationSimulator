@@ -65,11 +65,11 @@ C
          CALL GROHED (IOUT)
          CALL PPEATV (L)
          IF (L) WRITE (IOUT,11)
-   11    FORMAT (/T40,'PARALLEL PROCESSING EXTENSION -- VERSION 1.0')
+   11    FORMAT (/T39,'PARALLEL PROCESSING EXTENSION -- VERSION 1.0')
          WRITE (IOUT,12)TRIM(CKEYFN)
-   12    FORMAT (/' ',130('-')//T50,'OPTIONS SELECTED BY INPUT'//
-     >           1X,'KEYWORD FILE NAME: ',A/   
-     >            ' ',130('-')/' KEYWORD    PARAMETERS:'/
+   12    FORMAT (/130('-')//T49,'OPTIONS SELECTED BY INPUT'//
+     >           'KEYWORD FILE NAME: ',A/   
+     >            130('-')/'KEYWORD    PARAMETERS:'/
      >                         ' --------   ',119('-'))
          LFLAG=.FALSE.
       ENDIF
@@ -78,13 +78,13 @@ C
             WRITE (IOUT,'(/)')
             LCOM=.TRUE.
          ENDIF
-         WRITE (IOUT,'(T13,A)') RECORD(1:MAX(1,ISTLNB(RECORD)))
+         WRITE (IOUT,'(T12,A)') RECORD(1:MAX(1,ISTLNB(RECORD)))
          GOTO 5
       ELSE
          LCOM=.FALSE.
       ENDIF
       IF (TMP.EQ.'COMMENT') THEN
-         IF(LKECHO)WRITE (IOUT,'(/1X,A)') TMP
+         IF(LKECHO)WRITE (IOUT,'(/A)') TMP
    14    CONTINUE
          READ (INUNIT,'(A)',END=30) RECORD
          IRECNT=IRECNT+1
@@ -93,10 +93,10 @@ C
             CALL UPCASE (TMP(I:I))
          ENDDO
          IF (TMP(1:4).EQ.'END ') THEN
-            IF(LKECHO)WRITE (IOUT,'(/1X,A4)') TMP(1:4)
+            IF(LKECHO)WRITE (IOUT,'(/A4)') TMP(1:4)
             GOTO 5
          ELSE
-            IF(LKECHO)WRITE (IOUT,'(T13,A)') RECORD(1:ISTLNB(RECORD))
+            IF(LKECHO)WRITE (IOUT,'(T12,A)') RECORD(1:ISTLNB(RECORD))
             GOTO 14
          ENDIF
       ENDIF
