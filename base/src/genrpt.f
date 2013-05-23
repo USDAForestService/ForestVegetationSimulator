@@ -87,7 +87,7 @@ C     USE ALTERNATIVE PROCESSING IF THERE ARE MANY REPORTS
                READ (JOSCRT,'(A)',END=100) RECORD
                IF (RECORD(1:4).EQ.'$#*%'.AND.RECORD(5:).EQ.' ')GOTO 10
                IF (IR.EQ.ID) WRITE (JOSTND,25) TRIM(RECORD)
-   25          FORMAT (1X,A)
+   25          FORMAT (A)
                GOTO 20
             ELSE
                IF (IR.EQ.ID) WRITE (JOSTND,25) TRIM(RECORD)
