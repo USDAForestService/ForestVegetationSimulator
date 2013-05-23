@@ -1,6 +1,6 @@
       SUBROUTINE MISIN(PASKEY,ARRAY,LNOTBK,LKECHO)
 ***********************************************************************
-*  **MISIN      Date of last revision:  02/08/13
+*  **MISIN      Date of last revision:  05/23/13
 *               Interim Model
 *----------------------------------------------------------------------
 *  Purpose:
@@ -215,7 +215,7 @@ C....    Insert activity into schedule.
          IF(KODE.GT.0) GO TO 50
          IF(LKECHO)WRITE(JOSTND,120) KEYWRD,IDT,KARD(2),ISPL,ARRAY(3),
      &                               ARRAY(4)
-  120    FORMAT(/1X,A8,'   Date/Cycle=',I5,'; Species= ',A3,' (',
+  120    FORMAT(/A8,'   Date/Cycle=',I5,'; Species= ',A3,' (',
      &      I3,'); DMR Increase Multiplier=',F6.2,
      &      '; DMR Decrease Multiplier=',F6.2)
       ELSE
@@ -263,11 +263,11 @@ C....    Insert activity into schedule.
          CALL OPNEW(KODE,IDT,2004,7,ARRAY(1))
          IF(KODE.GT.0) GO TO 50
          IF(LKECHO)WRITE(JOSTND,250)KEYWRD,IDT,KARD(2),ISPL
-  250    FORMAT(/1X,A8,'   Date/Cycle=',I5,'; Species= ',A3,
+  250    FORMAT(/A8,'   Date/Cycle=',I5,'; Species= ',A3,
      &      ' (',I3,'):')
          DO 290 I=1,6
             IF(LKECHO)WRITE(JOSTND,280) I,ARRAY(I+1)
-  280       FORMAT(11X,' DMR=',I1,
+  280       FORMAT(10X,' DMR=',I1,
      &      ';  height growth modification proportion=',
      &      F10.2)
   290    CONTINUE
@@ -281,7 +281,7 @@ C.... Option number 3: END.
 C.... End mistletoe keyword processing.
 
       IF(LKECHO)WRITE(JOSTND,310) KEYWRD
-  310 FORMAT(/1X,A8,'   End of mistletoe keywords.')
+  310 FORMAT(/A8,'   End of mistletoe keywords.')
       GO TO 9000
 
 C.... Option number 4: MISTPREF.
@@ -321,11 +321,11 @@ C....    Insert activity into schedule.
          CALL OPNEW(KODE,IDT,2002,7,ARRAY(1))
          IF(KODE.GT.0) GO TO 50
          IF(LKECHO)WRITE(JOSTND,450)KEYWRD,IDT,KARD(2),ISPL
-  450    FORMAT(/1X,A8,'   Date/Cycle=',I5,'; Species= ',A3,
+  450    FORMAT(/A8,'   Date/Cycle=',I5,'; Species= ',A3,
      &      ' (',I3,'):')
          DO 490 I=1,6
             IF(LKECHO)WRITE(JOSTND,480) I,ARRAY(I+1)
-  480       FORMAT(1X,' DMR=',I1,';  cutting preference=',F10.2)
+  480       FORMAT(' DMR=',I1,';  cutting preference=',F10.2)
   490    CONTINUE
       ENDIF
       GO TO 50
@@ -367,7 +367,7 @@ C....    Insert activity into schedule.
          CALL OPNEW(KODE,IDT,2003,2,ARRAY(2))
          IF(KODE.GT.0) GO TO 50
          IF(LKECHO)WRITE(JOSTND,520) KEYWRD,IDT,KARD(2),ISPL,ARRAY(3)
-  520    FORMAT(/1X,A8,'   Date/Cycle=',I5,'; Species= ',A3,' (',
+  520    FORMAT(/A8,'   Date/Cycle=',I5,'; Species= ',A3,' (',
      &      I3,'); Mortality Multiplier=',F6.2)
       ELSE
          CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
@@ -389,7 +389,7 @@ C.... and above will be counted in DMR/DMI statistics.
 
       IF(LNOTBK(1).AND.ARRAY(1).GE.0.0) DMRMIN=ARRAY(1)
       IF(LKECHO)WRITE(JOSTND,620) KEYWRD,DMRMIN
-  620 FORMAT(/1X,A8,'   Print mistletoe summary output; ',
+  620 FORMAT(/A8,'   Print mistletoe summary output; ',
      &   'DMRs and DMIs calculated for trees with DBH >=',F4.1)
       GO TO 50
 
@@ -431,11 +431,11 @@ C....    Insert activity into schedule.
          CALL OPNEW(KODE,IDT,2005,7,ARRAY(1))
          IF(KODE.GT.0) GO TO 50
          IF(LKECHO)WRITE(JOSTND,750)KEYWRD,IDT,KARD(2),ISPL
-  750    FORMAT(/1X,A8,'   Date/Cycle=',I5,'; Species= ',A3,
+  750    FORMAT(/A8,'   Date/Cycle=',I5,'; Species= ',A3,
      &      ' (',I3,'):')
          DO 790 I=1,6
             IF(LKECHO)WRITE(JOSTND,780) I,ARRAY(I+1)
-  780       FORMAT(1X,' DMR=',I1,
+  780       FORMAT(' DMR=',I1,
      &      ';  diameter growth modification proportion=',
      &      F10.2)
   790    CONTINUE
@@ -453,7 +453,7 @@ C.... is to run with mistletoe if any exists.
       MISFLG=.FALSE.
 
       IF(LKECHO)WRITE(JOSTND,820) KEYWRD
-  820 FORMAT(/1X,A8,'   Mistletoe stand infection ignored.')
+  820 FORMAT(/A8,'   Mistletoe stand infection ignored.')
 
       GO TO 50
 
@@ -521,10 +521,10 @@ C....    Insert activity into schedule.
          CALL OPNEW(KODE,IDT,2006,4,ARRAY(2))
          IF(KODE.GT.0) GO TO 50
          IF(LKECHO)WRITE(JOSTND,1020) KEYWRD,IDT,KARD(2),ISPL,ARRAY(3)
- 1020    FORMAT(/1X,A8,'   Date/Cycle=',I5,'; Species= ',A3,' (',
+ 1020    FORMAT(/A8,'   Date/Cycle=',I5,'; Species= ',A3,' (',
      &      I3,'); Proportion to Infect=',F10.2,';')
          IF(LKECHO)WRITE(JOSTND,1021) ARRAY(4),ARRAY(5)
- 1021    FORMAT(1X,8X,'   Infection Level=',F10.2,'; Infection Method=',
+ 1021    FORMAT(8X,'   Infection Level=',F10.2,'; Infection Method=',
      &      F10.2)
       ENDIF
       GO TO 50
@@ -556,7 +556,7 @@ C....    Insert activity into schedule.
          CALL OPNEW(KODE,IDT,2007,1,ARRAY(2))
          IF(KODE.GT.0) GO TO 50
          IF(LKECHO)WRITE(JOSTND,1120) KEYWRD,IDT,KARD(2),ISPL
- 1120    FORMAT(/1X,A8,'   Date/Cycle=',I5,'; Species= ',A3,' (',
+ 1120    FORMAT(/A8,'   Date/Cycle=',I5,'; Species= ',A3,' (',
      &      I3,')')
       ELSE
          CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
@@ -567,17 +567,17 @@ C....    Insert activity into schedule.
 
 C.... Error messages.
 
- 8000 FORMAT(/1X,' *** Species specified,',I3,', outside range of',
+ 8000 FORMAT(/' *** Species specified,',I3,', outside range of',
      &       ' valid species ( 0 -',I3,' )')
- 8100 FORMAT(/1X,' *** Value specified,',F10.4,', negative; set to',
+ 8100 FORMAT(/' *** Value specified,',F10.4,', negative; set to',
      &       ' 1.0.')
- 8200 FORMAT(/1X,' *** Floor DMR specified,',I3,', outside range of',
+ 8200 FORMAT(/' *** Floor DMR specified,',I3,', outside range of',
      &       ' valid values ( 0 - 6 )')
- 8300 FORMAT(/1X,' *** Proportion to be infected, ',F10.4,', outside',
+ 8300 FORMAT(/' *** Proportion to be infected, ',F10.4,', outside',
      &       ' range of valid values ( 0.0 - 1.0 )')
- 8400 FORMAT(/1X,' *** DMR infection specified,',I3,', outside range',
+ 8400 FORMAT(/' *** DMR infection specified,',I3,', outside range',
      &       ' of valid values ( 1 - 6 )')
- 8500 FORMAT(/1X,' *** Method of infection specified,',I3,', outside',
+ 8500 FORMAT(/' *** Method of infection specified,',I3,', outside',
      &       ' range of valid values ( 0 - 2 )')
 
 C.... Common return.
@@ -585,7 +585,7 @@ C.... Common return.
  9000 CONTINUE
 
       IF(DEBUG)WRITE(JOSTND,9010)ICYC
- 9010 FORMAT(' End MISIN: Cycle = ',I5)
+ 9010 FORMAT('End MISIN: Cycle = ',I5)
       GO TO 9020
 
 C.... Special entry to retrieve keywords.
