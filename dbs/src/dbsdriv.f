@@ -47,14 +47,14 @@ C
        print *
        print *, "name:",driver(:driverStrLen)
        WRITE (JOSTND,20) driverCount,driver(:driverStrLen)
-   20  FORMAT(/T13,'DRIVER ',I2,'; NAME: ',A,'; ATTRIBUTES:')
+   20  FORMAT(/T12,'DRIVER ',I2,'; NAME: ',A,'; ATTRIBUTES:')
        IF (attrStrLen.GT.0) THEN
          i1=1
          do i=1,attrStrLen
            IF (iachar(attr(i:i)).EQ.0) then
              print *, "attr:",attr(i1:(i-1))
              WRITE (JOSTND,30) attr(i1:(i-1))
-   30        FORMAT (T13,A)
+   30        FORMAT (T12,A)
              i1=i+1
            endif
          enddo
@@ -68,7 +68,7 @@ C
       iRet = fvsSQLFreeHandle(SQL_HANDLE_ENV, EnvHndl)
   100 CONTINUE
       IF (driverCount.EQ.0) WRITE (JOSTND,110) 
-  110 FORMAT (/T13,I3,'NO DRIVERS FOUND')
+  110 FORMAT (/T12,I3,'NO DRIVERS FOUND')
       RETURN
       END
      
