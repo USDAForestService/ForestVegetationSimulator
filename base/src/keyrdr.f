@@ -70,7 +70,7 @@ C
    12    FORMAT (/130('-')//T49,'OPTIONS SELECTED BY INPUT'//
      >           'KEYWORD FILE NAME: ',A/   
      >            130('-')/'KEYWORD    PARAMETERS:'/
-     >                         ' --------   ',119('-'))
+     >                         '--------   ',119('-'))
          LFLAG=.FALSE.
       ENDIF
       IF (RECORD(1:1).EQ.'*'.OR. RECORD.EQ.' ') THEN
