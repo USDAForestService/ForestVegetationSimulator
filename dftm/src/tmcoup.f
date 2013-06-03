@@ -197,22 +197,22 @@ C
 C     WRITE A HEADER    
 C     
       WRITE(JODFTM,10) NPLT, MGMID
-   10 FORMAT ('1',19('-'),'  DFTM DEFOLIATION STATISTICS FOR STAND ',
+   10 FORMAT (19('-'),'  DFTM DEFOLIATION STATISTICS FOR STAND ',
      >       A26,'; MANAGEMENT ID= ',A4,2X,23('-')/)
 
 C
 C     WRITE A WARNING IF IFINT IS NE TO 5
 C
       IF (IFINT .NE. 5) WRITE (JODFTM,20) IFINT
-   20 FORMAT (/,' ***** WARNING:  THE CALCULATIONS OF TUSSOCK',
+   20 FORMAT (/,'***** WARNING:  THE CALCULATIONS OF TUSSOCK',
      >        ' MOTH IMPACT ON TREE GROWTH ASSUME THAT A 5 YEAR',
      >        ' PROJECTION CYCLE IS BEING USED.',/,
-     >        T18,'YOU ARE USING A ',I2,' YEAR CYCLE.')
+     >        T17,'YOU ARE USING A ',I2,' YEAR CYCLE.')
 
       WRITE (JODFTM,30) TMYRS(ICYC), ICYC, IY(ICYC), IY(ICYC+1)
-   30 FORMAT (' THE FIRST YEAR OF THIS SIMULATED TUSSOCK MOTH ',
+   30 FORMAT ('THE FIRST YEAR OF THIS SIMULATED TUSSOCK MOTH ',
      >        'OUTBREAK IS YEAR ',I5,'.  IT IS BEING SIMULATED',/,
-     >        ' AS PART OF CYCLE',I3,' WHICH REPRESENTS YEARS',
+     >        'AS PART OF CYCLE',I3,' WHICH REPRESENTS YEARS',
      >        I5,' TO',I5,' IN THIS STANDS DEVELOPMENT.')
 
 C
@@ -223,11 +223,11 @@ C
 
       IF (TMDEBU) THEN
          WRITE (JODFTM,40) CNTDF, CNTGF
-   40    FORMAT (//, 10('*'),'  TMCOUP . . .',/,
-     >          ' CNTDF = ',F10.4,' CNTGF = ',F10.4)
+   40    FORMAT (//, 9('*'),'  TMCOUP . . .',/,
+     >          'CNTDF = ',F10.4,' CNTGF = ',F10.4)
 
          WRITE (JODFTM,50)
-   50    FORMAT (' PROB . . .'//)
+   50    FORMAT ('PROB . . .'//)
 
          WRITE (JODFTM,60) (PROB(I),I=1,ITRN)
    60    FORMAT (10F13.3)
@@ -249,7 +249,7 @@ C
 C        ** LOAD DOUGLAS FIR
 C
          IF (TMDEBU) WRITE (JODFTM,80)
-   80    FORMAT (' CALLING GARBEL (DF)')
+   80    FORMAT ('CALLING GARBEL (DF)')
 C
 C        CALL DATA COMPRESSION ROUTINE
 C
@@ -261,7 +261,7 @@ C
      >     FBIOMS, A3, A4, A5, A6, A7, A8, PROB, KODE, MAXCLS, ITWO)
 
          IF (KODE .NE. 0) WRITE (JODFTM,90)
-   90    FORMAT (' COMPRESSION ROUTINE FAILED FOR DOUGLAS FIR')
+   90    FORMAT ('COMPRESSION ROUTINE FAILED FOR DOUGLAS FIR')
 
 C
 C        ADD THE PROPER OFFSET TO SECTOR POINTERS
@@ -282,7 +282,7 @@ C
 C        ** LOAD GRAND FIR
 C
          IF (TMDEBU) WRITE (JODFTM,110)
-  110    FORMAT (' CALLING GARBEL (GF)')
+  110    FORMAT ('CALLING GARBEL (GF)')
 
 C
 C        CALL DATA COMPRESSION ROUTINE
@@ -295,7 +295,7 @@ C
      >        FBIOMS, A3, A4, A5, A6, A7, A8, PROB, KODE, MAXCLS, ITWO)
 
          IF (KODE .NE. 0) WRITE (JODFTM,120)
-  120    FORMAT (' COMPRESSION ROUTINE FAILED FOR GRAND FIR')
+  120    FORMAT ('COMPRESSION ROUTINE FAILED FOR GRAND FIR')
 
 C
 C        ADD THE PROPER OFFSET TO SECTOR POINTERS
@@ -411,17 +411,17 @@ C
 C        WRITE DEBUG OUTPUT
 C     
          WRITE (JODFTM,180) (IPT(I),I=1,ITRN)
-  180    FORMAT (//,' IPT . . .',//,135(10I13,/))
+  180    FORMAT (//,'IPT . . .',//,135(10I13,/))
 
          WRITE (JODFTM,190) ((ISC(I1,I2),I2=1,2),I1=1,IFIN)
-  190    FORMAT (//,' CLASS SECTOR POINTERS (ISC) . . .',//,10(10I13,/))
+  190    FORMAT (//,'CLASS SECTOR POINTERS (ISC) . . .',//,10(10I13,/))
 
          WRITE (JODFTM,200) IFIN,NACLAS
-  200    FORMAT (//,' IFIN= ',I6,'  NUMBER ACTUAL CLASSES (NACLAS)=',
-     >          2I9,/,' DUMP OF COMMON AREA ''ICON''. . . ',//,
-     >          T10,'IZ6',10X,'Z4',11X,'Z5',11X,'Z2',11X,'Z3',    
+  200    FORMAT (//,'IFIN= ',I6,'  NUMBER ACTUAL CLASSES (NACLAS)=',
+     >          2I9,/,'DUMP OF COMMON AREA ''ICON''. . . ',//,
+     >          T9,'IZ6',10X,'Z4',11X,'Z5',11X,'Z2',11X,'Z3',    
      >          11X,'X5',11X,'X6',11X,'X7',6X,'JCLASS',/,   
-     >          6X,'SPECIES       PROB  BIOMAS/TREE       PCNEWF',
+     >          5X,'SPECIES       PROB  BIOMAS/TREE       PCNEWF',
      >          7X,'FBIOMS     NEW BMAS     OLD BMAS',9X,'EGGS',/)
 
          DO 210 I=1,IFIN
@@ -436,7 +436,7 @@ C
 C        WRITE DFTMOD INPUT TO DISK FOR LATER RETRIEVAL
 C
          WRITE (JOTMDK,230)
-  230    FORMAT (' LIST OF INPUT TO DFTMOD:')
+  230    FORMAT ('LIST OF INPUT TO DFTMOD:')
 
          DO 240 I=1,IFIN
             WRITE (JOTMDK,250) IZ6(I), Z4(I), Z5(I), Z2(I), Z3(I),
@@ -446,7 +446,7 @@ C
       ENDIF
 
       IF (TMDEBU) WRITE (JODFTM,260)
-  260 FORMAT (//,10('*'),' CALLING DFTMOD')
+  260 FORMAT (//,9('*'),' CALLING DFTMOD')
 
 C
 C     ** CALCULATE % BRANCH DEFOLIATION
@@ -455,7 +455,7 @@ C
       CALL DFTMOD (1,IFIN)
 
       IF (TMDEBU) WRITE (JODFTM,270)
-  270 FORMAT (//,10('*'),' RETURN FROM DFTMOD')
+  270 FORMAT (//,9('*'),' RETURN FROM DFTMOD')
 
 C
 C     IF ( LPUNCH ) WRITE (JOTMDK,280)
@@ -568,19 +568,19 @@ C
       ENDIF
 
       IF (ITMREP .GT. 1) WRITE (JODFTM,340)
-  340 FORMAT(//1X,44('-'),'  SUMMARY OF TREE CLASS CHARACTERISTICS  ',
-     >      46('-')//1X,23('-'),' BEFORE OUTBREAK ',30('-'),2X,21('-'), 
-     >      ' AFTER OUTBREAK ',22('-')/T49,'MIDCROWN SAMPLE BRANCH',    
-     >      T75,'PRECENTAGE',T96,'--- 5 YEAR CHANGE IN: ---'/T15, 
-     >      'RECORDS',T49,23('-'),3X,'DEFOLIATION    FIVE   DIAMETER',  
-     >      7X,'HEIGHT',6X,'AMOUNT OF'/' TREE',T15,'PER',4X,'TREES',    
-     >    T42,'LIVE   PERCENT  FOLIAGE FIRST',T74,13('-'),'   YEAR  ',  
-     >      10('-'),3X,12('-'),'   TOP-KILL'/' CLASS  HOST  TREE   ',   
+  340 FORMAT(//44('-'),'  SUMMARY OF TREE CLASS CHARACTERISTICS  ',
+     >      46('-')//23('-'),' BEFORE OUTBREAK ',30('-'),2X,22('-'), 
+     >      ' AFTER OUTBREAK ',21('-')/T48,'MIDCROWN SAMPLE BRANCH',    
+     >      T74,'PRECENTAGE',T95,'--- 5 YEAR CHANGE IN: ---'/T14, 
+     >      'RECORDS',T48,23('-'),3X,'DEFOLIATION    FIVE   DIAMETER',  
+     >      7X,'HEIGHT',6X,'AMOUNT OF'/'TREE',T14,'PER',4X,'TREES',    
+     >    T42,'LIVE   PERCENT  FOLIAGE FIRST',T73,13('-'),'   YEAR  ',  
+     >      10('-'),3X,12('-'),'   TOP-KILL'/'CLASS  HOST  TREE   ',   
      >   'PER    DBH  HEIGHT  CROWN    NEW    BIOMASS INSTAR  BRANCH ', 
      >     '  TREE   MORT  NET   LOSS    NET    LOSS  ',10('-')/  
-     >     ' NO.    SPP.  CLASS  ACRE   (IN)   (FT)  RATIO  FOLIAGE',   
+     >     'NO.    SPP.  CLASS  ACRE   (IN)   (FT)  RATIO  FOLIAGE',   
      >     '  (GRAMS) LARVAE    (%)    (%)    RATE  (IN)  (IN)    ',    
-     >     '(FT)   (FT)  (FT)   (%)'/1X,70('-'),2X,59('-')) 
+     >     '(FT)   (FT)  (FT)   (%)'/70('-'),2X,59('-')) 
 
 C     
 C     CALCULATE GROWTH LOSSES AND TOP-KILL DAMAGES DUE TO DFTM    
@@ -903,7 +903,7 @@ C
            IF (JODFEC .GT. 0) WRITE (JODFEC,420) I,KSPP(IZ6(I)),NRECS,
      >        Z4(I),ADBH,AHT,ACR,Z2(I),Z3(I),EGGS(I),DPMAX,T,PRMORT,
      >        ADG,ADGLOS,AHTG,AHTLOS,ATKILL,APCTKL
-  420      FORMAT(1X,I4,4X,A2,I7,F7.1,2F7.1,F7.2,F9.1,F8.1,F7.1,F9.2,
+  420      FORMAT(I4,4X,A2,I7,F7.1,2F7.1,F7.2,F9.1,F8.1,F7.1,F9.2,
      >            F7.2,F7.3,2F6.2,F8.2,F7.2,2F6.1)
         ENDIF
 
@@ -947,7 +947,7 @@ C
      &         WZ4(K), WDBH(K), WHT(K), WCR(K), WZ2(K), WZ3(K),
      &         WEGGS(K), WBDEF(K), WTDEF(K), WPMORT(K), WDG(K),
      &         WDGLOS(K), WHTG(K), WHTLOS(K), WTKILL(K), WPCTKL(K)
-  440       FORMAT(' AVERAGE ',A4,F5.1,F7.1,2F7.1,F7.2,F9.1,F8.1,
+  440       FORMAT('AVERAGE ',A4,F5.1,F7.1,2F7.1,F7.2,F9.1,F8.1,
      >            F7.1,F9.2,F7.2,F7.3,2F6.2,F8.2,F7.2,2F6.1)
 
   450    CONTINUE
@@ -957,11 +957,11 @@ C
 C     WRITE OUTPUT
 C
       IF (LPUNCH) WRITE (JOTMDK,460)
-  460 FORMAT (' END OF PUNCH OUTPUT')
+  460 FORMAT ('END OF PUNCH OUTPUT')
 
       IF (TMDTRE) THEN
          WRITE (JODFTM,470)
-  470    FORMAT ('0DUMP OF INDIVIDUAL TREE RECORDS:'//,'   IPT IMC '
+  470    FORMAT ('DUMP OF INDIVIDUAL TREE RECORDS:'//,'  IPT IMC '
      >      ,'SPECIES',5X,'WK2',8X,'PROB',11X,'HT',10X,'HTG',10X,'DBH',
      >       11X,'DG',4X,'ICR',4X,'NORMHT',4X,'ITRUNC KUTKOD',//)
 
@@ -969,7 +969,7 @@ C
             I = IPT(II)
             WRITE (JODFTM,480) I,IMC(I),ISP(I),WK2(I),PROB(I),HT(I),
      >          HTG(I),DBH(I),DG(I),ICR(I),NORMHT(I),ITRUNC(I),KUTKOD(I)
-  480       FORMAT (1X,I5,2I4,6F13.3,I4,2I10,I3)
+  480       FORMAT (I5,2I4,6F13.3,I4,2I10,I3)
   490    CONTINUE
       ENDIF
 
