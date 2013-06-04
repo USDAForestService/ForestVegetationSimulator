@@ -129,7 +129,7 @@ C     restart is being done.
       
       inquire(unit=JSVOUT,opened=LOPEN)
       if (.not.LOPEN) then
-        open(unit=JSVOUT,file=KWDFIL(:len_trim(KWDFIL)-4)//SUFFIX,
+        open(unit=JSVOUT,file=KWDFIL(:len_trim(KWDFIL))//SUFFIX,
      >         status="old",err=7)
 
 c       find out the last used value of NIMAGE. 
@@ -141,11 +141,11 @@ c       find out the last used value of NIMAGE.
     2   continue
         close(unit=JSVOUT)
         
-        open(unit=JSVOUT,file=KWDFIL(:len_trim(KWDFIL)-4)//SUFFIX,
+        open(unit=JSVOUT,file=KWDFIL(:len_trim(KWDFIL))//SUFFIX,
      >         position="append",err=7)
         goto 9
     7   continue
-        write (JOSTND,8) KWDFIL(:len_trim(KWDFIL)-4)//SUFFIX
+        write (JOSTND,8) KWDFIL(:len_trim(KWDFIL))//SUFFIX
     8   format (/'**** FILE OPEN ERROR FOR FILE: ',A)
         CALL RCDSET (2,.TRUE.)
         JSVOUT=0
@@ -176,7 +176,7 @@ C     THIS IS DONE TO INSURE THAT MULTIPLE RUNS ARE PROCESSED.
 C       FIND THE FIRST AND LAST CHAR OF THE KEYWORD NAME
 C       WATCH FOR DIRECTORY LEVELS...WE DON'T WANT THEM.
  
-        KYLAST=ISTLNB(KWDFIL)-4
+        KYLAST=ISTLNB(KWDFIL)
         DO I=KYLAST,1,-1
           IF (KWDFIL(I:I).EQ.'/' .OR. KWDFIL(I:I).EQ.'\') EXIT
           KYFRST=I
