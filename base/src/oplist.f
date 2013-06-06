@@ -179,7 +179,7 @@ C
       I1=IMGPTS(ICY,1)
       IF (I1.GT.0) GOTO 30
       IF (LINE) WRITE (JOSTND,15)
-   15 FORMAT (' ')
+   15 FORMAT ()
       LINE=.FALSE.
       WRITE (JOSTND,20) ICY,IY(ICY)
    20 FORMAT (I4,I7)

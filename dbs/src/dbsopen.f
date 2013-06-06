@@ -170,7 +170,7 @@ C
         ELSE
           IF (LKECHO) THEN
             WRITE(JOSTND,20) ConnStr(:ConnStrLength)
-   20       FORMAT(T13,'ODBC CONNECT STRING: ',A)
+   20       FORMAT(T12,'ODBC CONNECT STRING: ',A)
           ENDIF
         ENDIF
 

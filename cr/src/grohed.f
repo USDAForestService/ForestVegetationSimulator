@@ -37,9 +37,9 @@ C GENERIC TITLE SINCE IMODTY HASN'T BEEN SET YET.
 C----------
       IF(IMODTY .EQ. 0) THEN
         WRITE (IUNIT,50) SVN,REV,DAT,TIM
-   50   FORMAT (//T9,'FOREST VEGETATION SIMULATOR',
+   50   FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
      >  5X,'VERSION ',A,'                                            ',
-     >  T97,'RV:',A,T112,A,2X,A)
+     >  T98,'RV:',A,T113,A,2X,A)
         GO TO 1000
       ENDIF
 C----------

@@ -236,9 +236,9 @@ C
       IF(LFORMT) THEN
           WRITE (KOLIST,11) CLAB1(ITPLAB),NPLT,MGMID,
      >                      CLAB2(IWHO),ICYC,IFINT,JYR,IP
-   11     FORMAT(/'COMPLETE ',A4,' LIST -- STAND: ',A26,T59,'MGMTID: ',
-     >     A4,T73,A3,' CYCLE: ',I2,T88,'CYCLE LENGTH: ',I2,' YRS',
-     >     T110,'YEAR: ',I4,T122,'PAGE: ',I2/
+   11     FORMAT(/'COMPLETE ',A4,' LIST -- STAND: ',A26,T58,'MGMTID: ',
+     >     A4,T72,A3,' CYCLE: ',I2,T87,'CYCLE LENGTH: ',I2,' YRS',
+     >     T109,'YEAR: ',I4,T121,'PAGE: ',I2/
      >     '  TREE   TREE SP SP TR SS PNT  ',
      >     'TREES    MORTAL   CURR  DIB   CURR  HT',5X,'MAX',7X,'BA   ',
      >     'POINT TOT MCH SAW CU SAW BD PW SL TRC',/,

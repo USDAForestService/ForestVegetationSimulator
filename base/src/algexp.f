@@ -45,7 +45,7 @@ C     COMMENT IF THE FIRST CHARACTER IS * or !
 C
       IF (LENCEX.EQ.0 .AND.(RECORD(1:1).EQ.'*' .OR.
      >                      RECORD(1:1).EQ.'!')) THEN
-         WRITE (JOSTND,'(T13,A)') RECORD(1:ISTLNB(RECORD))
+         WRITE (JOSTND,'(T12,A)') RECORD(1:ISTLNB(RECORD))
          GOTO 5
       ENDIF
 C
@@ -70,10 +70,10 @@ C
          CALL UPCASE(END(I:I))
       ENDDO
       IF (END.EQ.'END  ') THEN
-         WRITE (JOSTND,'(/'' END'')')
+         WRITE (JOSTND,'(/''END'')')
          GOTO 100
       ENDIF
-      WRITE (JOSTND,'(T13,A)') RECORD(1:ISTLNB(RECORD))
+      WRITE (JOSTND,'(T12,A)') RECORD(1:ISTLNB(RECORD))
 C
 C     IF AN EQUAL SIGN WAS FOUND, OR IF CLEFT IS BLANK AND AN
 C     AMPERSAND WAS FOUND, THEN LOAD CLEFT.
@@ -97,7 +97,7 @@ C
             LCLFT=8
             CLEFT(9:)=' '
             WRITE (JOSTND,25) RECORD(1:IEQU-1),CLEFT(1:8)
-   25       FORMAT (/T13,'"',A,'" WILL BE SHORTENED TO "',A,'"')
+   25       FORMAT (/T12,'"',A,'" WILL BE SHORTENED TO "',A,'"')
          ENDIF
          IF (IEQU.EQ.0 .AND. IAMP.GT.0) GOTO 5
       ENDIF
