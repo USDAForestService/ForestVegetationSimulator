@@ -34,8 +34,6 @@ C.... PARAMETER STATEMENTS.
 C.... PARAMETER INCLUDE FILES.
 
       INCLUDE 'PRGPRM.F77'
-Cppe      INCLUDE 'PPEPRM.F77'
-Cppe      INCLUDE 'PPCNTL.F77'
       INCLUDE 'FMPARM.F77'
 
 C.... COMMON INCLUDE FILES.
@@ -56,7 +54,7 @@ C.... VARIABLE DECLARATIONS.
       REAL     TOTDBH(MAXSP,100,6)
       REAL     TOTN
       REAL     PRMS(4)
-      LOGICAL  DEBUG
+      LOGICAL  DEBUG,LOK
       INTEGER MYACT(1)
       DATA MYACT/2512/
       INTEGER  IYR,NTODO,JDO,NPRM,IACTK,IDC,JCL,DBSKODE
@@ -215,7 +213,8 @@ C
 
 C     Make sure JSNOUT is openned.
 
-      CALL openIfClosed (JSNOUT,"sng")
+      CALL openIfClosed (JSNOUT,"sng",LOK)
+      IF (.NOT.LOK) RETURN
 
 C     Print the snag output headings.
 
@@ -242,6 +241,7 @@ C     Print the snag output headings.
 
 C     Print information on each snag printing-class, first dividing the
 C     the total heights and dbhs to get the class-averages.
+
 
       DO 430 JYR= 1,YRLAST
          DO 420 IDC= 1,MAXSP
