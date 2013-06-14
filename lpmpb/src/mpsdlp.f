@@ -75,20 +75,17 @@ C
 
       IF (LINVMR) THEN
          IF (.NOT. LPRT .AND. LDAM) THEN
-            WRITE(JOMPB,300)
-            WRITE(JOMPB,*)
             WRITE(JOMPB,310)
             WRITE(JOMPB,*)
             WRITE(JOMPB,320)
             WRITE(JOMPB,330)
             WRITE(JOMPB,340)
             LPRT = .TRUE.
-  300       FORMAT('1')
-  310       FORMAT (1X,'MOUNTAIN PINE BEETLE DAMAGE CODE ',
+  310       FORMAT (//,'MOUNTAIN PINE BEETLE DAMAGE CODE ',
      &              'OUTPUT TABLE')
-  320       FORMAT (22X,'DBH',16X,'INF')
-  330       FORMAT (1X,' TREE ID     DBH    CLASS   TR/ACRE    STATUS ')
-  340       FORMAT (1X,'----------------------------------------------')
+  320       FORMAT (21X,'DBH',16X,'INF')
+  330       FORMAT (' TREE ID     DBH    CLASS   TR/ACRE    STATUS ')
+  340       FORMAT ('----------------------------------------------')
          ENDIF
 
          IF (NDAMS .GT. 0) THEN
@@ -120,7 +117,7 @@ C
   500       CONTINUE
             IF (LDAM) WRITE (JOMPB,*)
          ENDIF
-  600    FORMAT(1X,I8,3X,F6.1,3X,A5,4X,F6.2,4X,A6)
+  600    FORMAT(I8,3X,F6.1,3X,A5,4X,F6.2,4X,A6)
       ENDIF
 
       RETURN

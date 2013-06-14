@@ -1,6 +1,6 @@
       SUBROUTINE RDBOUT
 C----------
-C  **RDBOUT                       LAST REVISION:  08/16/06
+C  **RDBOUT                       LAST REVISION:  06/12/13
 C----------
 C
 C  Purpose :
@@ -224,38 +224,38 @@ C....    First change everything into per acre.
  
  1000 RETURN
 
- 1100 FORMAT (' ',63('* '))
- 1105 FORMAT (' ',50X,'WESTERN ROOT DISEASE MODEL')
- 1110 FORMAT (' ',33X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
+ 1100 FORMAT (63('* '))
+ 1105 FORMAT (50X,'WESTERN ROOT DISEASE MODEL')
+ 1110 FORMAT (33X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
  1111 FORMAT (' ')
- 1115 FORMAT (' ',35X,
+ 1115 FORMAT (35X,
      &   'TREES PER ACRE KILLED BY BARK BEETLES IN EACH TIME PERIOD')
- 1120 FORMAT (' ',126('-'))
- 1125 FORMAT (' ','Period   Tree    General ',23X,
+ 1120 FORMAT (126('-'))
+ 1125 FORMAT ('Period   Tree    General ',23X,
      &        'DBH Class (in inches)',27X,
      &        '     Row     Species   Total')
- 1130 FORMAT (' ','Start   Species  Status   ',69('-'),
+ 1130 FORMAT ('Start   Species  Status   ',69('-'),
      &        '     Total     Total    Before')
- 1135 FORMAT (' ','(year)',20X,'     0-<5     5-<10 ',
+ 1135 FORMAT ('(year)',20X,'     0-<5     5-<10 ',
      &        '   10-<15    15-<20    20-<25    25-<30       30+',
      &        '                        Attack') 
      
- 2000 FORMAT (' ',1X,I4,21X,'no beetle kill')
- 2001 FORMAT (' ',1X,I4,5X,A3,'    in-inf   ',7(F9.2,1X),1X,F9.2,10X,
+ 2000 FORMAT (1X,I4,21X,'no beetle kill')
+ 2001 FORMAT (1X,I4,5X,A3,'    in-inf   ',7(F9.2,1X),1X,F9.2,10X,
      &            1X,F9.2)
- 2011 FORMAT (' ',10X,A3,'    in-inf   ',7(F9.2,1X),1X,F9.2,10X,1X,
+ 2011 FORMAT (10X,A3,'    in-inf   ',7(F9.2,1X),1X,F9.2,10X,1X,
      &            F9.2)
- 2002 FORMAT (' ',17X,'in-uninf ',7(F9.2,1X),1X,F9.2,10X,1X,F9.2)
- 2004 FORMAT (' ',17X,'outside  ',7(F9.2,1X),3(1X,F9.2))
+ 2002 FORMAT (17X,'in-uninf ',7(F9.2,1X),1X,F9.2,10X,1X,F9.2)
+ 2004 FORMAT (17X,'outside  ',7(F9.2,1X),3(1X,F9.2))
 
 C.... Headers used when running the metric version.
 
- 1215 FORMAT (' ',36X,
+ 1215 FORMAT (36X,
      &   'TREES PER HA KILLED BY BARK BEETLES IN EACH TIME PERIOD')
- 1225 FORMAT (' ','Period   Tree    General ',25X,
+ 1225 FORMAT ('Period   Tree    General ',25X,
      &        'DBH Class (in cm)  ',27X,
      &        '     Row     Species   Total')
- 1235 FORMAT (' ','(year)',20X,'    0-<13    13-<25 ',
+ 1235 FORMAT ('(year)',20X,'    0-<13    13-<25 ',
      &        '   25-<38    38-<51    51-<64    64-<76       76+',
      &        '                        Attack') 
 

@@ -1,7 +1,7 @@
       SUBROUTINE MPBHED
       IMPLICIT NONE
 C----------
-C  **MPBHED        DATE OF LAST REVISION:  07/02/10
+C  **MPBHED        DATE OF LAST REVISION:  06/14/13
 C----------
 C
 C     WRITES HEADING FOR MPB MODEL OUTPUT
@@ -38,25 +38,25 @@ C
       LXNOTE = .FALSE.
       ENDIF
 
-   10 FORMAT (/,'1',T35,'MOUNTAIN PINE BEETLE IN LODGE',
-     >        'POLE PINE          VERSION 2.0'//
-     >        ' STAND ID: ',A26,'; MANAGEMENT ID: ',A4/)
+   10 FORMAT (/,T34,'MOUNTAIN PINE BEETLE IN LODGE',
+     >        'POLE PINE          VERSION 2.0',//,
+     >        'STAND ID: ',A26,'; MANAGEMENT ID: ',A4,/)
 
- 9991 FORMAT ('  *=================================================',
+ 9991 FORMAT (' *=================================================',
      > '===========================*',/,
-     > '  *---> Note:  The combined insect and pathogen models (in ',
+     > ' *---> Note:  The combined insect and pathogen models (in ',
      > 'one executable) <---*',/,
-     > '  *---> should NOT be used without close consultation with ',
+     > ' *---> should NOT be used without close consultation with ',
      > 'the forest''s    <---*',/,
-     > '  *---> pathologist and entomologist.  Because of the ',
+     > ' *---> pathologist and entomologist.  Because of the ',
      > 'potential for more   <---*',/,
-     > '  *---> than one insect and/or pathogen acting on the same ',
+     > ' *---> than one insect and/or pathogen acting on the same ',
      > 'tree species,   <---*',/,
-     > '  *---> the interpretation of the results of the combined ',
+     > ' *---> the interpretation of the results of the combined ',
      > 'model can be     <---*',/,
-     > '  *---> inaccurate without appropriate model knowledge ',
+     > ' *---> inaccurate without appropriate model knowledge ',
      > 'and/or experience.  <---*',/,
-     > '  *==========================================================',
+     > ' *==========================================================',
      > '==================*',/)
 
       RETURN

@@ -90,7 +90,7 @@ C
       AVRAT=AVRAT+(FDG/ODG*PRB)
 C
       IF (DEBUIN) WRITE (JOMPB,15) J,I,D1,D2,FDG,ODG,PRB
-   15 FORMAT (' J=',I4,' I=',I4,' D1=',F5.2,' D2=',F5.2,' FDG=',
+   15 FORMAT ('J=',I4,' I=',I4,' D1=',F5.2,' D2=',F5.2,' FDG=',
      >        F4.2,' ODG=',F4.2,' PRB=',F6.3)
    20 CONTINUE
 C
@@ -101,7 +101,7 @@ C
 C     WRITE DEBUG, IF REQUESTED.
 C
       IF(DEBUIN) WRITE(JOMPB,50) ICYC,PGR,SUMP
-   50 FORMAT (/' IN MPGR - ICYC=',I3,'; PGR=',F8.3,'; SUMP=',F8.3)
+   50 FORMAT (/,'IN MPGR - ICYC=',I3,'; PGR=',F8.3,'; SUMP=',F8.3)
       RETURN
 C
 C
@@ -139,7 +139,7 @@ C
       IF (ICYC .GT. 1) NPYR=IY(ICYC)-IY(ICYC-1)
 C
       IF (DEBUIN) WRITE (JOMPB,150) NPGR,PCTCO,NPYR
-  150 FORMAT (/' IN PGR - ',I4,' TREE RECS SELECTED; PCTCO=',F8.3,
+  150 FORMAT (/,'IN PGR - ',I4,' TREE RECS SELECTED; PCTCO=',F8.3,
      >        ' NPYR=',I3)
       RETURN
       END
