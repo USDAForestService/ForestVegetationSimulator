@@ -49,7 +49,7 @@ C  ITITLE - STDIDENT title
      &                       EV_ECBDFT  =50
       integer, parameter  :: FIX_PCT=1, FIX_HRV=2, VAR_PCT=3, VAR_HRV=4
       integer, intent(in) :: IY(MAXCY1), ICYC
-      integer             :: beginAnalYear, beginTime, dbOutput,         !Year is  simulation year, time is investment period or number of years
+      integer             :: beginAnalYear, beginTime, dbOutput,         !Year is simulation year, time is investment period or number of years
      &                       endAnalYear, endTime, evntCnt, i, IACTK,
      &                       IDT, IOUT, ISTAT, KODE, NTIMES, parmsCnt
 
@@ -69,6 +69,7 @@ C  ITITLE - STDIDENT title
       if (econStartYear >= IY(ICYC+1)) then                              !IY(ICYC+1) = begining year of next cycle
          return
       else
+         call resetLocalCycleVariables()
 !       Reset ECON Event Monitor variables prior to each call of ECON, table 4 values (4)30-(4)39, (4)46-(4)50
          do i = 30,39
            call EVUST4(i)
@@ -82,15 +83,13 @@ C  ITITLE - STDIDENT title
          if (isFirstEcon) then                                           !Very first time ECON is called for a FVS simulation
             isFirstEcon = .FALSE.
             call EVSET4(EV_DISCRATE, discountRate)                       !Entry point in EVSET, register discount rate w/ Event Monitor
-            call initializeVariables()
+            call initializeSavedVariables()
             if (.not. noOutputTables) call writeTableHeaders()           !Options are no tables or no log/stock table, can't have log/stock table w/o summary table
             startYear     = econStartYear                                !Permits re-initiating investment period
             beginAnalYear = econStartYear
             endAnalYear   = IY(ICYC+1) - 1                               !IY(ICYC+1) = beginning year of next cycle
             rate          = discountRate / 100.0                         !Convert % to decimal
-            if (doSEV) call calcAnnCostRevSEV()
-
-
+            if (doSEV) call calcAnnCostRevSEV()                          !Annual costs & revenues can be done once for an infinite time horizon 
             call processEconStart
          else                                                            !ECON has been previously called, hence now active from beginning of cycle
             beginAnalYear = IY(ICYC)
@@ -101,8 +100,6 @@ C  ITITLE - STDIDENT title
 !       Calculate over entire cycle or remaining portion of a cycle
          beginTime = beginAnalYear - startYear + 1
          endTime   = endAnalYear   - startYear + 1
-
-
          call valueHarvest()
          call calcEcon()
       end if
@@ -110,17 +107,17 @@ C  ITITLE - STDIDENT title
 !    Subtract "pretend" harvests from accumulators, harvest always occur 1st year of a cycle
       if (isPretendActive .and. harvest(TPA) > 0.0) then
          undiscCost(beginTime) = undiscCost(beginTime) -
-     &                                                (harvCst + pctCst)
-         undiscRev(beginTime)  = undiscRev(beginTime) - harvRvn
-         costUndisc            = costUndisc - (harvCst + pctCst)
-         revUndisc             = revUndisc - harvRvn
-         costDisc              = costDisc - computePV(harvCst + pctCst,
-     &                                                  beginTime, rate)
-         revDisc               = revDisc - computePV(harvRvn,
-     &                                                  beginTime, rate)
+     &                                     (harvCst + pctCst)
+         undiscRev(beginTime) = undiscRev(beginTime) - harvRvn
+         costUndisc           = costUndisc - (harvCst + pctCst)
+         revUndisc            = revUndisc - harvRvn
+         costDisc             = costDisc - computePV(harvCst + pctCst,
+     &                                               beginTime-1, rate) !Costs accrue at beginning of year
+         revDisc              = revDisc - computePV(harvRvn,
+     &                                              beginTime, rate)    !Revenues accrue at end of year
       end if
 
-      call resetCycleVariables()                                         !Ensure correct initial values at each cycle
+      call resetSavedCycleVariables()                                         !Ensure correct initial values at each cycle
       return                                                             !End main ECCALC subroutine
 
 
@@ -146,10 +143,11 @@ C  ITITLE - STDIDENT title
             endAnalYear = evntYear - 1
             call valueHarvest()
             call calcEcon()
-            call resetCycleVariables()                                   !Since 1st year of cycle processed, reset harvest variables
+            call resetSavedCycleVariables()                                   !Since 1st year of cycle processed, reset harvest variables
+            call resetLocalCycleVariables()
          end if
-!       Re-initiallize variables & time to begin ECON calculation
-         call initializeVariables()
+!       Re-initiallize variables & time to begin a new period of ECON calculations
+         call initializeSavedVariables()
          discountRate  = strtParms(1)
          call EVSET4(EV_DISCRATE, discountRate)                          !Entry point in EVSET, register discount rate w/ Event Monitor
          rate          = discountRate / 100.0                            !Convert % to decimal
@@ -159,38 +157,43 @@ C  ITITLE - STDIDENT title
          startYear     = evntYear
          beginAnalYear = evntYear
          endAnalYear   = IY(ICYC+1) - 1                                  !IY(ICYC+1)= beginning year of next cycle
-         if (doSEV) call calcAnnCostRevSEV()
+         if (doSEV) call calcAnnCostRevSEV()                             !Annual costs & revenues can be done once for an infinite time horizon 
          return
       end subroutine processEconStart
 
 
 !    Set/Reset accumulation values for ECON initiation/re-initiation that are saved across cycles
-      subroutine initializeVariables()
+      subroutine initializeSavedVariables()
          costDisc    = 0.0; costUndisc = 0.0
          hrvCstCnt   = 0; hrvRvnCnt = 0; burnCnt    = 0; mechCnt   =   0
          hrvCstkeywd = 0; hrvCstTyp = 0; hrvCstTime = 0; hrvCstAmt = 0.0 !Arrays by hrvCstCnt
          hrvRvnkeywd = 0; hrvRvnSp  = 0; hrvRvnTime = 0; hrvRvnAmt = 0.0 !Arrays by hrvRvnCnt
          hrvRvnUnits = 0; specCstCnt= 0; specRvnCnt = 0
          revDisc     = 0.0; revUndisc  = 0.0
-         undiscCost  = 0.0; undiscRev  = 0.0                             !Arrays by year
+         undiscCost  = 0.0; undiscRev  = 0.0                            !Arrays by year
          return
-      end subroutine initializeVariables
+      end subroutine initializeSavedVariables
 
 
-!    Reset harvest and control variable values used within a single cycle, used 1st in echarv.f, initially set in ecinit.f
-      subroutine resetCycleVariables()
+!    Reset harvest & control variable values used within a single cycle but needed externally for next cycle, used 1st in echarv.f, initially set in ecinit.f
+      subroutine resetSavedCycleVariables()
 !       Duplicate code from ecinit.f to initialize variables used in echarv.f & eccalc.f
          dbhSq     = 0.0
          harvest   = 0.0                                                 !Harvest volume array (TPA : FT3_100)
          hrvCostBf = 0.0; hrvCostFt3 = 0.0; hrvCostTpa = 0.0             !Harvest volume by cost type arrays (1:MAX_KEYWORDS)
          pctBf     = 0.0; pctFt3     = 0.0; pctTpa     = 0.0             !PCT harvest volume by cost type arrays (1:MAX_KEYWORDS)
          revVolume = 0.0                                                 !Array(1:MAXSP, 1:MAX_REV_UNITS, 1:MAX_KEYWORDS)
-!       Local variables for use in eccalc.f
+         return
+      end subroutine resetSavedCycleVariables
+
+
+!    Reset local harvest and control variable values used within a single cycle
+      subroutine resetLocalCycleVariables()
          isHarvestPct = .FALSE.
          harvCst   = 0.0; harvRvn    = 0.0; pctCst    = 0.0
          sevSum    = 0.0
          return
-      end subroutine resetCycleVariables
+      end subroutine resetLocalCycleVariables
 
 
 !    Value the harvests by accumulating harvest/thinning costs and revenues, must run before calcEcon
@@ -209,7 +212,7 @@ C  ITITLE - STDIDENT title
                isHarvestPct = .TRUE.
                do i = 1, fixPctCnt
                   cost   = calcAppreAmt(fixPctAmt(i), fixPctRate(i,:),
-     &                                       fixPctDur(i,:), time, done)
+     &                                  fixPctDur(i,:), time, done)
                   pctCst = pctCst + cost
                   if (doSev) then
                      hrvCstCnt              = hrvCstCnt + 1
@@ -276,13 +279,13 @@ C  ITITLE - STDIDENT title
                         cost = calcAppreAmt(varHrvAmt(i),
      &                                      varHrvRate(i,:),
      &                                      varHrvDur(i,:), time, done)
-     &                                                          / 1000.0
+     &                                                / 1000.0
                      case (FT3_100)
                         amt = hrvCostFt3(i)
                         cost = calcAppreAmt(varHrvAmt(i),
      &                                      varHrvRate(i,:),
      &                                      varHrvDur(i,:), time, done)
-     &                                                           / 100.0
+     &                                                / 100.0
                   end select
                   if (amt > 0) then
                      harvCst = harvCst + amt * cost
@@ -346,7 +349,7 @@ C  ITITLE - STDIDENT title
      &                        maxDbhChar
          character (len=6) :: bcRatioChar, forestValueChar, irrChar,
      &                        reprodValueChar, rrrChar, sevChar,
-     &                        sevKnownChar
+     &                        sevGivenChar
          character (len=7) :: tpaCutChar, tpaValueChar,
      &                        tonsPerAcreChar, t3VolumeChar,
      &                        ft3ValueChar, bfVolumeChar, bfValueChar,
@@ -373,9 +376,9 @@ C  ITITLE - STDIDENT title
 !       Compute appreciated/depreciated annual costs from each ANNUCST keyword for each year of cycle
          do i = 1, annCostCnt
             do j = beginTime, endTime, 1
-               time = j - econStartYear                                  !Appreciation time is from start of ECON
+               time = beginAnalYear - econStartYear + j - 1             !Appreciation time from start of ECON, cost from beginning of year
                cost = calcAppreAmt(annCostAmt(i), annCostRate(i,:),
-     &                                      annCostDur(i,:), time, done)
+     &                             annCostDur(i,:), time, done)
                undiscCost(j) = undiscCost(j) + cost
             end do
          end do
@@ -383,9 +386,9 @@ C  ITITLE - STDIDENT title
 !       Compute appreciated/depreciated annual revenues from each ANNURVN keyword for each year of cycle
          do i = 1, annRevCnt
             do j = beginTime, endTime, 1
-               time  = j - econStartYear + 1                             !Appreciation time is from start of ECON
+               time = beginAnalYear - econStartYear + j                 !Appreciation time from start of ECON, revenue at end of year
                price = calcAppreAmt(annRevAmt(i), annRevRate(i,:),
-     &                                       annRevDur(i,:), time, done)
+     &                              annRevDur(i,:), time, done)
                undiscRev(j) = undiscRev(j) + price
             end do
          end do
@@ -393,12 +396,12 @@ C  ITITLE - STDIDENT title
 !       Query for and accumulate any SPECCST keywords - need OPGET2 for w/in cycle accumulation
          do
             call OPGET2(SPEC_COST_ACTIVITY, IDT, beginAnalYear,
-     &                         endAnalYear, 1, 1, parmsCnt, parms, KODE) !1=1st activity, 1=parms dimension, returns IDT, parmsCnt, parms, and KODE=0 if ok, else=1
+     &                  endAnalYear, 1, 1, parmsCnt, parms, KODE)       !1=1st activity, 1=parms dimension, returns IDT, parmsCnt, parms, and KODE=0 if ok, else=1
             if (KODE > 0) exit                                           !Exit this do loop - no more special costs
             evntTime             = IDT - startYear + 1
             undiscCost(evntTime) = undiscCost(evntTime) + parms(1)       !parms(1)=special cost amount
             call OPDON2(SPEC_COST_ACTIVITY, IDT, beginAnalYear,
-     &                                             endAnalYear, 1, KODE) !IDT=year to mark activity as done, 1=1st activity, returns KODE=1 if not marked as done
+     &                  endAnalYear, 1, KODE)                           !IDT=year to mark activity as done, 1=1st activity, returns KODE=1 if not marked as done
             if (doSev) specCstCnt = specCstCnt + 1
          end do
 !       Accumulate SEV of all previous special costs
@@ -407,16 +410,16 @@ C  ITITLE - STDIDENT title
             do
                ISQNUM = ISQNUM + 1
                call OPSTUS(SPEC_COST_ACTIVITY, startYear, endAnalYear,
-     &                       ISQNUM, NTIMES, IDT, parmsCnt, ISTAT, KODE) !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
-               if (KODE  > 0) exit                                       !Exit do loop - no more special costs
-               if (ISTAT > 0) then                                       !Activity accomplished
-                  call OPGET3(SPEC_COST_ACTIVITY, IDT, startYear,
-     &                    endAnalYear, ISQNUM, 1, parmsCnt, parms, KODE) !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
-                  if (KODE > 0) cycle                                    !Activity not found, Check for another special revenue
+     &                     ISQNUM, NTIMES, IDT, parmsCnt, ISTAT, KODE)  !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
+               if (KODE  > 0) exit                                      !Exit do loop - no more special costs
+               if (ISTAT > 0) then                                      !Activity accomplished
+                  call OPGET3(SPEC_COST_ACTIVITY, IDT, startYear, 
+     &                    endAnalYear, ISQNUM, 1, parmsCnt, parms, KODE)!1=parms dimension, returns IDT, parmsCnt, parms, and KODE
+                  if (KODE > 0) cycle                                   !Activity not found, Check for another special revenue
                   evntTime = ISTAT - startYear + 1
                   factor  = (1.0 + rate)**endTime
-                  sevSum = sevSum - ((parms(1)*factor) / (factor-1.0)) /  !parms(1)=special cost amount
-     &                                            (1.0 + rate)**evntTime
+                  sevSum = sevSum - ((parms(1)*factor) / (factor-1.0))  !parms(1)=special cost amount
+     &                               / (1.0 + rate)**evntTime
                endif
             end do
          end if
@@ -424,12 +427,12 @@ C  ITITLE - STDIDENT title
 !       Query for and accumulate any SPECRVN keywords - need OPGET2 for w/in cycle accumulation
          do
             call OPGET2(SPEC_REV_ACTIVITY, IDT, beginAnalYear,
-     &                   endAnalYear, 1, 1, parmsCnt, parms, KODE)       !1=1st activity, 1=parms dimension, returns IDT, parmsCnt, parms, and KODE
-            if (KODE > 0) exit                                           !Exit this do loop - no more special revenues
+     &                  endAnalYear, 1, 1, parmsCnt, parms, KODE)       !1=1st activity, 1=parms dimension, returns IDT, parmsCnt, parms, and KODE
+            if (KODE > 0) exit                                          !Exit this do loop - no more special revenues
             evntTime            = IDT - startYear + 1
-            undiscRev(evntTime) = undiscRev(evntTime) + parms(1)         !parms(1)=special revenue amount
+            undiscRev(evntTime) = undiscRev(evntTime) + parms(1)        !parms(1)=special revenue amount
             call OPDON2(SPEC_REV_ACTIVITY, IDT, beginAnalYear,
-     &                   endAnalYear, 1, KODE)                           !IDT=year to mark activity as done, 1=1st activity, returns KODE=1 if not marked as done
+     &                  endAnalYear, 1, KODE)                           !IDT=year to mark activity as done, 1=1st activity, returns KODE=1 if not marked as done
             if (doSev) specRvnCnt = specRvnCnt + 1
          end do
 !       Accumulate SEV of all previous special revenues
@@ -438,16 +441,16 @@ C  ITITLE - STDIDENT title
             do
                ISQNUM = ISQNUM + 1
                call OPSTUS(SPEC_REV_ACTIVITY, startYear, endAnalYear,
-     &                       ISQNUM, NTIMES, IDT, parmsCnt, ISTAT, KODE) !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
-               if (KODE  > 0) exit                                       !Exit this do loop - no more special costs
-               if (ISTAT > 0) then                                       !Activity accomplished
+     &                     ISQNUM, NTIMES, IDT, parmsCnt, ISTAT, KODE)  !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
+               if (KODE  > 0) exit                                      !Exit this do loop - no more special costs
+               if (ISTAT > 0) then                                      !Activity accomplished
                   call OPGET3(SPEC_REV_ACTIVITY, IDT, startYear,
-     &                    endAnalYear, ISQNUM, 1, parmsCnt, parms, KODE) !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
-                  if (KODE > 0) cycle                                    !Activity not found, Check for another special revenuee
+     &                    endAnalYear, ISQNUM, 1, parmsCnt, parms, KODE)!1=parms dimension, returns IDT, parmsCnt, parms, and KODE
+                  if (KODE > 0) cycle                                   !Activity not found, Check for another special revenuee
                   evntTime = ISTAT - startYear + 1
                   factor  = (1.0 + rate)**endTime
-                  sevSum = sevSum + ((parms(1)*factor) / (factor-1.0)) / !parms(1)=special revenue amount
-     &                                            (1.0 + rate)**evntTime
+                  sevSum = sevSum + ((parms(1)*factor) / (factor-1.0))  !parms(1)=special revenue amount
+     &                               / (1.0 + rate)**evntTime
                endif
             end do
          end if
@@ -461,61 +464,61 @@ C  ITITLE - STDIDENT title
             do
                ISQNUM = ISQNUM + 1
                call OPSTUS(PLANT, beginAnalYear, endAnalYear, ISQNUM,
-     &                               NTIMES, IDT, parmsCnt, ISTAT, KODE) !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
-               if (KODE  > 0) exit                                       !No activity found
-               if (ISTAT > 0) then                                       !Activity accomplished
+     &                     NTIMES, IDT, parmsCnt, ISTAT, KODE)          !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
+               if (KODE  > 0) exit                                      !No activity found
+               if (ISTAT > 0) then                                      !Activity accomplished
                   call OPGET3(PLANT, IDT, beginAnalYear, endAnalYear,
-     &                                 ISQNUM, 2, parmsCnt, parms, KODE) !2=parms dimension, returns IDT, parmsCnt, parms, and KODE
-                  if (KODE > 0) cycle                                    !Activity could not be found
-                  time     = ISTAT - econStartYear + 1                   !Appreciation time from start of ECON
+     &                        ISQNUM, 2, parmsCnt, parms, KODE)         !2=parms dimension, returns IDT, parmsCnt, parms, and KODE
+                  if (KODE > 0) cycle                                   !Activity could not be found
+                  time     = ISTAT - econStartYear + 1                  !Appreciation time from start of ECON
                   evntTime = ISTAT - startYear + 1
                   do j = 1, plntCostCnt
                      amt = 0.0
                      select case (plntCostUnits(j))
                         case (PER_ACRE)
-                           if (prevTime /= ISTAT) then                   !Only accumulate per acre cost once per year, not per planting keyword
+                           if (prevTime /= ISTAT) then                  !Only accumulate per acre cost once per year, not per planting keyword
                               prevTime = ISTAT
                               amt      = 1.0
                            end if
                         case (TPA_1000)
-                           amt  = parms(2) / 1000.0                      !parms(2)=# trees planted, convert to 1000's of trees
+                           amt  = parms(2) / 1000.0                     !parms(2)=# trees planted, convert to 1000's of trees
                      end select
                      if (amt > 0.0) then
                         cost = calcAppreAmt(plntCostAmt(j),
-     &                                                plntCostRate(j,:),
-     &                                                plntCostDur(j,:),
-     &                                                time, done)
+     &                                      plntCostRate(j,:),
+     &                                      plntCostDur(j,:),
+     &                                      time, done)
                         undiscCost(evntTime) = undiscCost(evntTime) +
-     &                                                        amt * cost
+     &                                                    amt * cost
                      end if
                   end do
                end if
             end do
-         end if                                                          !End planting cost accumulation
+         end if                                                         !End planting cost accumulation
 !       Accumulate SEV of all previous planting actions
          if (plntCostCnt > 0 .and. doSev) then
-            prevTime = -1                                                !Initialize to a nonsensical value
+            prevTime = -1                                               !Initialize to a nonsensical value
             ISQNUM = 0
             do
                ISQNUM = ISQNUM + 1
                call OPSTUS(PLANT, startYear, endAnalYear, ISQNUM,
-     &                               NTIMES, IDT, parmsCnt, ISTAT, KODE) !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
-               if (KODE  > 0) exit                                       !Exit this do loop - no more special costs
-               if (ISTAT > 0) then                                       !Activity accomplished
+     &                     NTIMES, IDT, parmsCnt, ISTAT, KODE)          !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
+               if (KODE  > 0) exit                                      !Exit this do loop - no more special costs
+               if (ISTAT > 0) then                                      !Activity accomplished
                   call OPGET3(PLANT, IDT, startYear, endAnalYear,
-     &                                 ISQNUM, 2, parmsCnt, parms, KODE) !2=parms dimension, returns IDT, parmsCnt, parms, and KODE
-                  if (KODE > 0) cycle                                    !Check status for another special revenue
+     &                        ISQNUM, 2, parmsCnt, parms, KODE)         !2=parms dimension, returns IDT, parmsCnt, parms, and KODE
+                  if (KODE > 0) cycle                                   !Check status for another special revenue
                   evntTime = ISTAT - startYear + 1
                   do j = 1, plntCostCnt
                      amt = 0.0
                      select case (plntCostUnits(j))
                         case (PER_ACRE)
-                           if (prevTime /= ISTAT) then                   !Only accumulate per acre cost once per year, not per planting keyword
-                              prevTime = ISTAT
-                              amt      = 1.0
+                           if (prevTime /= ISTAT) then                  !Only accumulate per acre cost once per year, not per planting keyword
+                              prevTime   = ISTAT
+                              amt        = 1.0
                            end if
                         case (TPA_1000)
-                           amt  = parms(2) / 1000.0                      !parms(2)=# trees planted, convert to 1000's of trees
+                           amt  = parms(2) / 1000.0                     !parms(2)=# trees planted, convert to 1000's of trees
                      end select
                      if (amt > 0.0) sevSum = sevSum - calcAppreSev(amt,
      &                                                plntCostAmt(j),
@@ -534,17 +537,17 @@ C  ITITLE - STDIDENT title
             do
                ISQNUM = ISQNUM + 1
                call OPSTUS(MECH, beginAnalYear, endAnalYear, ISQNUM,
-     &                               NTIMES, IDT, parmsCnt, ISTAT, KODE) !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
-               if (KODE  > 0) exit                                       !KODE > 0 no activity found
-               if (ISTAT > 0) then                                       !Activity accomplished
+     &                     NTIMES, IDT, parmsCnt, ISTAT, KODE)          !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
+               if (KODE  > 0) exit                                      !KODE > 0 no activity found
+               if (ISTAT > 0) then                                      !Activity accomplished
                   call OPGET3(MECH, IDT, beginAnalYear, endAnalYear,
-     &                                 ISQNUM, 1, parmsCnt, parms, KODE) !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
-                  if (KODE > 0) cycle                                    !>0 is activity not found, chk for next sequenced event
-                  time     = ISTAT - econStartYear + 1                   !Appreciation time from start of ECON
+     &                        ISQNUM, 1, parmsCnt, parms, KODE)         !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
+                  if (KODE > 0) cycle                                   !>0 is activity not found, chk for next sequenced event
+                  time     = ISTAT - econStartYear + 1                  !Appreciation time from start of ECON
                   evntTime = ISTAT - startYear + 1
-                  amt      = parms(1) / 100.0                            !parms(1)=% acres treated
+                  amt      = parms(1) / 100.0                           !parms(1)=% acres treated
                   cost     = calcAppreAmt(mechCostAmt, mechCostRate,
-     &                                          mechCostDur, time, done)
+     &                                    mechCostDur, time, done)
                   undiscCost(evntTime) = undiscCost(evntTime) + amt*cost
                   if (doSev) mechCnt = mechCnt + 1
                endif
@@ -557,12 +560,12 @@ C  ITITLE - STDIDENT title
             do
                ISQNUM = ISQNUM + 1
                call OPSTUS(MECH, startYear, endAnalYear, ISQNUM,
-     &                               NTIMES, IDT, parmsCnt, ISTAT, KODE) !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
-               if (KODE  > 0) exit                                       !Exit this do loop - no more special costs
-               if (ISTAT > 0) then                                       !Activity accomplished
+     &                     NTIMES, IDT, parmsCnt, ISTAT, KODE)          !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
+               if (KODE  > 0) exit                                      !Exit this do loop - no more special costs
+               if (ISTAT > 0) then                                      !Activity accomplished
                   call OPGET3(MECH, IDT, startYear, endAnalYear,
-     &                                 ISQNUM, 1, parmsCnt, parms, KODE) !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
-                  if (KODE > 0) cycle                                    !Check status for another special revenue
+     &                        ISQNUM, 1, parmsCnt, parms, KODE)         !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
+                  if (KODE > 0) cycle                                   !Check status for another special revenue
                   evntTime = ISTAT - startYear + 1
                   sevSum = sevSum - calcAppreSev(parms(1)/100.0,
      &                                        mechCostAmt, mechCostRate,
@@ -578,17 +581,17 @@ C  ITITLE - STDIDENT title
             do
                ISQNUM = ISQNUM + 1
                call OPSTUS(BURN, beginAnalYear, endAnalYear, ISQNUM,
-     &                               NTIMES, IDT, parmsCnt, ISTAT, KODE) !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
+     &                     NTIMES, IDT, parmsCnt, ISTAT, KODE)           !Returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
                if (KODE  > 0) exit                                       !KODE > 0 no activity found
                if (ISTAT > 0) then                                       !Activity accomplished
                   call OPGET3(BURN, IDT, beginAnalYear, endAnalYear,
-     &                                 ISQNUM, 1, parmsCnt, parms, KODE) !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
+     &                        ISQNUM, 1, parmsCnt, parms, KODE)          !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
                   if (KODE > 0) cycle                                    !>0=activity not found, chk for next sequenced event
                   time     = ISTAT - econStartYear + 1                   !Appreciation time from start of ECON
                   evntTime = ISTAT - startYear + 1
                   amt      = parms(1) / 100.0                            !parms(1)=% acre burned
                   cost     = calcAppreAmt(burnCostAmt, burnCostRate,
-     &                                          burnCostDur, time, done)
+     &                                    burnCostDur, time, done)
                   undiscCost(evntTime) = undiscCost(evntTime) + amt*cost
                   if (doSev) burnCnt = burnCnt + 1
                endif
@@ -596,17 +599,17 @@ C  ITITLE - STDIDENT title
          end if
 !       Accumulate SEV of all previous burning site prep actions
          if (burnCnt > 0 .and. doSev) then
-            prevTime = -1                                                !Initialize to a nonsensical value
+            prevTime = -1                                               !Initialize to a nonsensical value
             ISQNUM = 0
             do
                ISQNUM = ISQNUM + 1
                call OPSTUS(BURN, startYear, endAnalYear, ISQNUM,
-     &                               NTIMES, IDT, parmsCnt, ISTAT, KODE) !returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
-               if (KODE  > 0) exit                                       !Exit this do loop - no more special costs
-               if (ISTAT > 0) then                                       !Activity accomplished
+     &                     NTIMES, IDT, parmsCnt, ISTAT, KODE)          !returns NTIMES=#events, IDT=yr scheduled, ISTAT=yr done, 0=not yet done, -1=deleted
+               if (KODE  > 0) exit                                      !Exit this do loop - no more special costs
+               if (ISTAT > 0) then                                      !Activity accomplished
                   call OPGET3(BURN, IDT, startYear, endAnalYear,
-     &                                 ISQNUM, 1, parmsCnt, parms, KODE) !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
-                  if (KODE > 0) cycle                                    !Check status for another special revenue
+     &                        ISQNUM, 1, parmsCnt, parms, KODE)         !1=parms dimension, returns IDT, parmsCnt, parms, and KODE
+                  if (KODE > 0) cycle                                   !Check status for another special revenue
                   evntTime = ISTAT - startYear + 1
                   sevSum   = sevSum - calcAppreSev(parms(1)/100.0,
      &                                        burnCostAmt, burnCostRate,
@@ -619,9 +622,9 @@ C  ITITLE - STDIDENT title
          do i = beginTime, endTime
             costUndisc = costUndisc + undiscCost(i)
             revUndisc  = revUndisc  + undiscRev(i)
-            costDisc   = costDisc   + computePV(undiscCost(i) ,i, rate)
-            revDisc    = revDisc    + computePV(undiscRev(i), i, rate)
-            call EVSET4 (EV_DISCCOST, costDisc)                          !Entry point in EVSET - register variables w/ event monitor
+            costDisc   = costDisc  + computePV(undiscCost(i), i-1, rate)!Costs accrue at beginning of year
+            revDisc    = revDisc   + computePV(undiscRev(i),  i,   rate)!Revenues accrue at end of year
+            call EVSET4 (EV_DISCCOST, costDisc)                         !Entry point in EVSET - register variables w/ event monitor
             call EVSET4 (EV_DISCREVN, revDisc)
             call EVSET4 (EV_UNDISCST, costUndisc)
             call EVSET4 (EV_UNDISRVN, revUndisc)
@@ -635,33 +638,33 @@ C  ITITLE - STDIDENT title
          end if
          forestValueChar = BLANK6;  reprodValueChar = BLANK6
          sevCalculated   = .FALSE.; sevChar         = BLANK6
-         sevInputUsed    = .FALSE.; sevKnownChar    = BLANK6
-         forestValueCalculated=.FALSE.; reprodValueCalculated=.FALSE.
+         sevInputUsed    = .FALSE.; sevGivenChar    = BLANK6
+         forestValueCalculated =.FALSE.; reprodValueCalculated =.FALSE.
          pnv = revDisc - costDisc
-         call EVSET4 (EV_PNV, pnv)                                       !Entry point in EVSET - register variables w/ event monitor
+         call EVSET4 (EV_PNV, pnv)                                      !Entry point in EVSET - register variables w/ event monitor
          if (sevInput > 0.0) then
-            discSev               = computePV(sevInput, endTime, rate)
+            discSev               = computePV(sevInput, endTime, rate)  !SEV assumed discounted at end of year
             forestValueCalculated = .TRUE.
             reprodValueCalculated = .TRUE.
             forestValue           = pnv + discSev
             reprodValue           = pnv + discSev - sevInput
             write (forestValueChar,'(i6)') nint(forestValue)
             write (reprodValueChar,'(i6)') nint(reprodValue)
-            call EVSET4 (EV_FORSTVAL, forestValue)                       !Entry point in EVSET - register variables w/ event monitor
+            call EVSET4 (EV_FORSTVAL, forestValue)                      !Entry point in EVSET - register variables w/ event monitor
             call EVSET4 (EC_RPRODVAL, reprodValue)
             sevInputUsed = .TRUE.
-            write (sevKnownChar,'(i6)') nint(sevInput)
+            write (sevGivenChar,'(i6)') nint(sevInput)
          else if (doSev) then
             sevCalculated = .TRUE.
             write (sevChar,'(i6)') nint(sevSum)
-            call EVSET4 (EV_SEV, sevSum)                                 !Entry point in EVSET - register variables w/ event monitor
+            call EVSET4 (EV_SEV, sevSum)                                !Entry point in EVSET - register variables w/ event monitor
          end if
 
 !       Compute internal rate of return, B/C ratio, and realizable rate of return
          bcRatioChar = BLANK6; irrChar = BLANK6; rrrChar = BLANK6
          bcRatioCalculated = .FALSE.; irrCalculated = .FALSE.
          rrrCalculated     = .FALSE.
-         irr = computeIRR(rate, irrCalculated, pnv) * 100.0              !Sets irrCalculated, computes irr if possible & converts to %
+         irr = computeIRR(rate, irrCalculated, pnv) * 100.0             !Sets irrCalculated, computes irr if possible & converts to %
          if (irrCalculated) then
             if (irr > 50.0) then
                irrChar = ' >50.0'
@@ -670,15 +673,15 @@ C  ITITLE - STDIDENT title
             else
                write (irrChar,'(f6.1)') irr
             end if
-            call EVSET4 (EV_IRR, irr)                                    !Entry point in EVSET - register variables w/ event monitor
+            call EVSET4 (EV_IRR, irr)                                   !Entry point in EVSET - register variables w/ event monitor
          end if
          if (costDisc > NEAR_ZERO) then
             bcRatioCalculated = .TRUE.
             bcRatio           = revDisc / costDisc
             write(bcRatioChar,'(f6.1)') bcRatio
             if (revDisc > NEAR_ZERO) then
-              rrr = 100.0 * (((revDisc/costDisc) ** (1.0/endTime))
-     &                                             * (1.0 + rate) - 1.0)
+              rrr = 100.0 * (((revDisc/costDisc) ** (1.0/endTime)) *
+     &                       (1.0 + rate) - 1.0)
               rrrCalculated = .TRUE.
               write(rrrChar,'(f6.1)') rrr
             end if
@@ -686,10 +689,10 @@ C  ITITLE - STDIDENT title
 
 !Compute harvested cubic and board foot volumes that were valued, & then output to Event Monitor
         ft3Total = 0.0; bfTotal = 0.0
-        if (harvest(TPA) > 0.0 .and. (.not. isHarvestPct)) then          !Only get volumes that were actually valued
-           do i = 1, MAXSP                                               !Loop over species
-              do j = 1, MAX_REV_UNITS                                    !Loop over revenue quantity-units
-                 do k = 1, hrvRevCnt(i,j)                                !Loop is diameter-classes for the given species and units-of-measure
+        if (harvest(TPA) > 0.0 .and. (.not. isHarvestPct)) then         !Only get volumes that were actually valued
+           do i = 1, MAXSP                                              !Loop over species
+              do j = 1, MAX_REV_UNITS                                   !Loop over revenue quantity-units
+                 do k = 1, hrvRevCnt(i,j)                               !Loop is diameter-classes for the given species and units-of-measure
                     select case (j)
                     case (FT3_100, FT3_100_LOG)
                        ft3Total = ft3Total + revVolume(i,j,k)
@@ -714,29 +717,29 @@ C  ITITLE - STDIDENT title
      &              forestValue, forestValueCalculated, reprodValue,
      &              reprodValueCalculated, nint(ft3Total),
      &              nint(bfTotal), discountRate, sevInput, sevInputUsed)
-         if (.not. noOutputTables)                                       !Options are no tables or no log/stock table, can't have log/stock table w/o summary table
-     &         write (IOUT,'(1x, i5, t8, i5, t16, i4, t22, a3,           !Add 7 extra columns to tabs to account for TableId
-     &            t29, i7, t38, i7, t46, i7,
-     &            t56, i6, t62, i6, t69, a6, t76, a6,
-     &            t82, a6, t88, a6, t95, a6, t102, a6,
-     &            t109, i6, t116, i6, t124, f4.1, t129, a6)')
-     &            sumTableId, beginAnalYear, endTime, pretend,
-     &            nint(costUndisc), nint(revUndisc), nint(costDisc),
-     &            nint(revDisc), nint(pnv), irrChar, bcRatioChar,
-     &            rrrChar, sevChar, forestValueChar, reprodValueChar,
-     &            nint(ft3Total), nint(bfTotal), discountRate,
-     &            sevKnownChar
+         if (.not. noOutputTables)                                      !Options are no tables or no log/stock table, can't have log/stock table w/o summary table
+     &         write (IOUT,'(1x, i5, t8, i5, t16, i4, t22, a3,          !Add 7 extra columns to tabs to account for TableId
+     &                t29, i7, t38, i7, t46, i7,
+     &                t56, i6, t62, i6, t69, a6, t76, a6,
+     &                t82, a6, t88, a6, t95, a6, t102, a6,
+     &                t109, i6, t116, i6, t124, f4.1, t129, a6)')
+     &               sumTableId, beginAnalYear, endTime, pretend,
+     &               nint(costUndisc), nint(revUndisc), nint(costDisc),
+     &               nint(revDisc), nint(pnv), irrChar, bcRatioChar,
+     &               rrrChar, sevChar, forestValueChar, reprodValueChar,
+     &               nint(ft3Total), nint(bfTotal), discountRate,
+     &               sevGivenChar
          endif
 
 !       Write Log Stock Volume/Value Table, only trees described by HRVRVN keywords are included
-         if (.not.(noLogStockTable) .or. dbOutput == 2) then             !Output table or database output requested
-            if (harvest(TPA) > 0.0 .and. isHarvestPct) then              !Only a PCT was done - costs only, no harvested tree data
+         if (.not.(noLogStockTable) .or. dbOutput == 2) then            !Output table or database output requested
+            if (harvest(TPA) > 0.0 .and. isHarvestPct) then             !Only a PCT was done - costs only, no harvested tree data
                if (.not. noLogStockTable)
 *TODO: Thought Nick fixed so " $#*%" not needed, but doesn't work without it
      &              write (IOUT,'(1x, i5, " $#*%", /, t2, "YEAR = ",i4,
      &                   ", PCT or Non-Commerial Harvest", //, "$#*%")')
      &                   logTableId, beginAnalYear
-            else if (harvest(TPA) > 0.0) then                            !Write Harvest Volume/Value Report
+            else if (harvest(TPA) > 0.0) then                           !Write Harvest Volume/Value Report
                call DBSECHARV_open()
                if (.not. noLogStockTable)
      &              write (IOUT,'(1x, i5, " $#*%", /, t2, "YEAR = ",i4,
@@ -754,24 +757,24 @@ C  ITITLE - STDIDENT title
      &              "-------", t98,"--------", t108, "--------", /,
      &              "$#*%")') logTableId, beginAnalYear, pretend
 
-               tpaTotal  = -1.0; tpaValueTotal = -1.0; tonsTotal = -1.0  !-1 is used by the rtoc function to separate 0 from blank
+               tpaTotal  = -1.0; tpaValueTotal = -1.0; tonsTotal = -1.0 !-1 is used by the rtoc function to separate 0 from blank
                ft3Total  = -1.0; ft3ValueTotal = -1.0
                bfTotal   = -1.0; bfValueTotal  = -1.0
                outChar=BLANK7
 
-               do i = 1, MAXSP                                           !Loop over species
-                  do j = 1, MAX_REV_UNITS                                !Loop over revenue quantity-units
-                     do k  = hrvRevCnt(i,j), 1, -1                       !Loop over diameters
-                        kk = hrvRevDiaIndx(i,j,k)                        !Order output by ascending diameters
+               do i = 1, MAXSP                                          !Loop over species
+                  do j = 1, MAX_REV_UNITS                               !Loop over revenue quantity-units
+                     do k  = hrvRevCnt(i,j), 1, -1                      !Loop over diameters
+                        kk = hrvRevDiaIndx(i,j,k)                       !Order output by ascending diameters
                         if (revVolume(i,j,kk) <= 0.0) then
-                           cycle                                         !No volume so no values, try next
+                           cycle                                        !No volume so no values, try next
                         end if
-                        if (k == 1) then                                 !Set last diameter class maximum
-                           diaMax = 999.9
-                        else                                             !Set max diameter for this class to min dia of next larger class
+                        if (k == 1) then                                
+                           diaMax = 999.9                               !Set last diameter class maximum
+                        else                                            !Set max diameter for this class to min dia of next larger class
                           diaMax = hrvRevDia(i,j,hrvRevDiaIndx(i,j,k-1))
                         end if
-                        if (j < BF_1000_LOG) then                        !Diameters are for tree dbh
+                        if (j < BF_1000_LOG) then                       !Diameters are for tree dbh
                            maxDbh = diaMax
                            minDbh = hrvRevDia(i,j,kk)
                            maxDia = -1.0; minDia=-1.0
@@ -780,10 +783,10 @@ C  ITITLE - STDIDENT title
                            minDia = hrvRevDia(i,j,kk)
                            maxDbh = -1.0; minDbh=-1.0
                         end if
-                        bfValue     = -1; bfVolume = -1; ft3Value = -1   !-1 used in itoc & rtoc functions to separate 0 from blank
+                        bfValue     = -1; bfVolume = -1; ft3Value = -1  !-1 used in itoc & rtoc functions to separate 0 from blank
                         ft3Volume   = -1; tpaCut   = -1; tpaValue = -1
                         tonsPerAcre = -1
-                        time        = beginAnalYear - econStartYear + 1  !Appreciation time from start of ECON, harvests @ end of first year of a cycle
+                        time        = beginAnalYear - econStartYear + 1 !Appreciation time from start of ECON, harvests @ end of first year of a cycle
                         price       = calcAppreAmt(hrvRevPrice(i,j,kk),
      &                                             hrvRevRate(i,j,kk,:),
      &                                             hrvRevDur(i,j,kk,:),
@@ -794,25 +797,25 @@ C  ITITLE - STDIDENT title
                            call accumulate(tpaTotal, revVolume(i,j,kk))
                            amt           = revVolume(i,j,kk) * price
                            tpaValue      = nint(amt)
-               call accumulate(tpaValueTotal, amt)
+                           call accumulate(tpaValueTotal, amt)
                         case (FT3_100, FT3_100_LOG)
                            if (lbsFt3Amt(i) > 0.0) then
                               amt = revVolume(i,j,kk) * (lbsFt3Amt(i)/
      &                                                           2000.0)
                               tonsPerAcre = nint(amt)
-                call accumulate(tonsTotal, amt)
+                              call accumulate(tonsTotal, amt)
                            end if
                            ft3Volume     = nint(revVolume(i,j,kk))
                            call accumulate(ft3Total, revVolume(i,j,kk))
                            amt           = revVolume(i,j,kk) * price
                            ft3Value      = nint(amt)
-               call accumulate(ft3ValueTotal, amt)
+                           call accumulate(ft3ValueTotal, amt)
                         case default
                            bfVolume     = nint(revVolume(i,j,kk))
                            call accumulate(bfTotal, revVolume(i,j,kk))
                            amt          = revVolume(i,j,kk) * price
                            bfValue      = nint(amt)
-               call accumulate(bfValueTotal, amt)
+                           call accumulate(bfValueTotal, amt)
                         end select
 !                      Write rows of values by species and diameter
                         call DBSECHARV_insert(beginAnalYear, i, minDia, ! i = speciesId
@@ -986,26 +989,31 @@ C  ITITLE - STDIDENT title
          integer, intent(in) :: time
          real,    intent(in) :: amt, rate
 
-         computePV = amt / (1.0 + rate)**time
+
+         if (amt <= 0.0) then
+            computePV = 0.0
+         else
+            computePV = amt / (1.0 + rate)**time
+         end if
          return
       end function computePV
 
 
-!    Computes net present value for a given rate
+!    Computes net present value for a given rate, for all costs & revenues since ECON start
       pure real function computePNV(rate)
         implicit none
         integer          :: i
         real, intent(in) :: rate
-        real             :: discountCost, discountRevs
+        real             :: discCst, discRev
 
-        discountCost=0.0; discountRevs=0.0
+        discCst = 0.0; discRev = 0.0
 
         do i = 1, endTime
-           discountCost = discountCost+computePV(undiscCost(i), i, rate)
-           discountRevs = discountRevs+computePV(undiscRev(i), i, rate)
+           discCst = discCst + computePV(undiscCost(i), i-1, rate)      !Costs accrue at beginning of year
+           discRev = discRev + computePV(undiscRev(i),  i,   rate)      !Revenues accrue at end of year
         end do
 
-        computePNV = discountRevs - discountCost
+        computePNV = discRev - discCst
         return
       end function computePNV
 
@@ -1020,7 +1028,7 @@ C  ITITLE - STDIDENT title
          implicit none
          integer, intent(in)  :: apprecTime, valueDuration(*)
          integer              :: durationTime, i
-         logical, intent(out) :: done
+         logical, intent(out) :: done                                   !Only used in calculating SEV w/ appreciated rate changes
          real, intent(in)     :: amt, valueRate(*)
 
          calcAppreAmt = amt
@@ -1164,7 +1172,7 @@ C  ITITLE - STDIDENT title
       end function sevHrvRevenues
 
 
-!    !Computes appreciation for annual costs and revenues computing sev
+!    !Computes appreciation of annual costs and revenues for computing sev over an infinite time horizon 
       subroutine calcAnnCostRevSEV()
          endTime = 1; sevAnnCst = 0.0; sevAnnRvn = 0.0                   !endTime required by calcAppreSev
          do i = 1, annCostCnt
@@ -1200,15 +1208,15 @@ C  ITITLE - STDIDENT title
          write (IOUT,'(1x, i5, " $#*%", /, 132("-"), /,
      &     t7, "INVEST", t14, "PRETEND", T22, "UNDISCNTED VALUE",
      &        t39, "  PRESENT VALUE", t89, "VALUE", t96, "VALUE",
-     &        t103, "MRCH", t110,  "MRCH", /,
+     &        t103, "MRCH", t110,  "MRCH", t117, "DISC"/,
      &     t7, "-MENT", t14, "MODE IS", t22, 16("-"), t39,16("-"),
      &        t70, " B/C", t89, "OF",  t96, "OF", t103, "CU FT",
-     &        t110,  "BD FT", t117, "DISC", t123, "KNOWN"/,
+     &        t110,  "BD FT", t117, "RATE", t124, " SEV"/,
      &     t1, " YEAR", t7, "PERIOD", T14, "ACTIVE", t22, "   COST",
      &       t31, "REVENUE", t39, "   COST", t48, "REVENUE",
      &       t56, "  PNV", t63, "  IRR",  t70, "RATIO", t76, "  RRR",
      &       t82, "  SEV", t89, "FORST", t96, "TREES",
-     &       t103, "HARV", t110,  "HARV", t117, "RATE", t123, " SEV"/,
+     &       t103, "HARV", t110,  "HARV", t117, "GIVEN", t124, "GIVEN"/,
      &     132("-"), /, "$#*%" )') sumTableId
 
 !       Write Log Stock Volume/Value table header

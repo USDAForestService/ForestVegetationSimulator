@@ -50,7 +50,8 @@ C
 C
 C     REWIND THE TEMPORARY OUTPUT FILE.
 C
-      REWIND JOWSBW
+      !REWIND JOWSBW
+      REWIND (JOWSBW, ERR=1000) ! temporary patch to allow stop/start
 C
 C     COPY THE FILE TO THE PRINTER.
 C
