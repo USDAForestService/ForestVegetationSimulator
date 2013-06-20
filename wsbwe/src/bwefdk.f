@@ -1,7 +1,7 @@
       SUBROUTINE BWEFDK (NUMBER,KEYWRD,TABLE,ISIZE,KODE,IOUT)
       IMPLICIT NONE
 C----------
-C  **BWEFDK                 DATE OF LAST REVISION:  07/14/10
+C  **BWEFDK                 DATE OF LAST REVISION:  06/17/13
 C----------
 C
 C     FUNCTION TO FIND A KEYWORD IN A TABLE.
@@ -41,7 +41,7 @@ C----------
       IF (NUMBER.EQ.0) THEN
         KODE=1
         WRITE (IOUT,85) KEYWRD
-   85   FORMAT (/1X,'''',A8,''' :KEYWORD SPECIFIED')
+   85   FORMAT (/,'''',A8,''' :KEYWORD SPECIFIED')
       ELSE
         KODE=0
       ENDIF

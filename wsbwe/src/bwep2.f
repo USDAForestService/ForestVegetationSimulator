@@ -2,7 +2,7 @@
       SUBROUTINE BWEP2(IYRCUR)
       IMPLICIT NONE
 C-----------
-C **BWEP2      LAST REVISED: 2/25/97
+C **BWEP2                   DATE OF LAST REVISION:  06/18/13
 C-----------
 C
 C  PRINT ANNUAL OUTPUT RE: BUDWORM MORTALITY & FEEDING
@@ -45,7 +45,7 @@ C
 
       DATA HEADER/.TRUE./
       DATA TRESP/' WF',' DF',' GF','SAF',' ES',' WL'/,
-     *     TRESIZ/'SMALL','MED. ','LARGE'/
+     &     TRESIZ/'SMALL','MED. ','LARGE'/
 C
       DO 10 I=1,7
    10 SAVOUT(I)=0.0
@@ -54,13 +54,13 @@ C IF THIS IS THE FIRST CALL, PRINT THE HEADER
 C
       IF (HEADER) THEN
         WRITE (JOBWP2,15) MGMIDB,ITITLB
-   15   FORMAT (2X,A4,' -- ',A72/)
+   15   FORMAT (A4,' -- ',A72/)
         WRITE (JOBWP2,20) 
-   20 FORMAT (49X,'INITIAL     FINAL       %         % DEFOL.',/
-     *   'STAND ID,',18X,'YEAR, SPECIES, SIZE,  # EGGS,   # EGGS,',
-     *   '    MORT.,    NEW,     TOTAL,',/
-     *   26(','),', ----, -------, ----,  ------,   ------,',
-     *   '   ------,   -----,    -----,') 
+   20 FORMAT (49X,'INITIAL     FINAL       %         % DEFOL.',/,
+     &   'STAND ID,',18X,'YEAR, SPECIES, SIZE,  # EGGS,   # EGGS,',
+     &   '    MORT.,    NEW,     TOTAL,',/,
+     &   26(','),', ----, -------, ----,  ------,   ------,',
+     &   '   ------,   -----,    -----,') 
          HEADER=.FALSE.
       ELSE
          WRITE (JOBWP2,80)
@@ -84,17 +84,17 @@ C  CALC. % BW MORTALITY AND % DEFOLIATION
 C
       PMORT=-1.0
       IF (OUT2(IH,IS,1).GT.0.0) PMORT=100.0*(1.0-(OUT2(IH,IS,8)/
-     *   OUT2(IH,IS,1)))
+     &   OUT2(IH,IS,1)))
       DEFNEW=-1.0
       IF (OUT2(IH,IS,6).GT.0.0) DEFNEW=100.0*(1.0-(OUT2(IH,IS,4)/
-     *   OUT2(IH,IS,6)))
+     &   OUT2(IH,IS,6)))
       DEFTOT=-1.0
       IF (OUT2(IH,IS,7).GT.0.0) DEFTOT=100.0*(1.0-(OUT2(IH,IS,5)/
-     *   OUT2(IH,IS,7)))
+     &   OUT2(IH,IS,7)))
       WRITE (JOBWP2,100) NPLT,IYRCUR,TRESP(IH),TRESIZ(IS),
-     *    OUT2(IH,IS,1),OUT2(IH,IS,2),PMORT,DEFNEW,DEFTOT
+     &    OUT2(IH,IS,1),OUT2(IH,IS,2),PMORT,DEFNEW,DEFTOT
   100 FORMAT (A26,', 'I4,',  ',A3,',  ',A5,', ',F8.0,', ',F8.0,
-     *        ', ',F8.1,',  ',F7.0,', ',F7.0)
+     &        ', ',F8.1,',  ',F7.0,', ',F7.0)
 C
       SAVOUT(1)=SAVOUT(1)+OUT2(IH,IS,1)
       SAVOUT(2)=SAVOUT(2)+OUT2(IH,IS,2)
@@ -122,9 +122,9 @@ C
       DEFTOT=-1.0
       IF (SAVTRE(7).GT.0.0) DEFTOT=100.0*(1.0-(SAVTRE(5)/SAVTRE(7)))
       WRITE (JOBWP2,150) NPLT,IYRCUR,TRESP(IH),SAVTRE(1),SAVTRE(2),
-     *   PMORT,DEFNEW,DEFTOT
+     &   PMORT,DEFNEW,DEFTOT
   150 FORMAT (A26,', ',I4,',  ',A3,',  ','ALL  , ',2(F8.0,', '),
-     *        F8.1,',  ',F7.0,', ',F7.0)
+     &        F8.1,',  ',F7.0,', ',F7.0)
 C
 C  RESET THE ARRAY TO ZERO
 C
@@ -141,13 +141,13 @@ C
       IF (SAVOUT(1).GT.0.0) PMORT=100.0*(1.0-(SAVOUT(3)/SAVOUT(1)))
       DEFNEW=-1.0
       IF (SAVOUT(6).GT.0.0) DEFNEW=100.0*(1.0-(SAVOUT(4)/
-     *   SAVOUT(6)))
+     &   SAVOUT(6)))
       DEFTOT=-1.0
       IF (SAVOUT(7).GT.0.0) DEFTOT=100.0*(1.0-(SAVOUT(5)/SAVOUT(7)))
       WRITE (JOBWP2,300) NPLT,IYRCUR,
-     *    SAVOUT(1),SAVOUT(2),PMORT,DEFNEW,DEFTOT
-  300 FORMAT(/A26,', ',I4,',  ','ALL  ,  ','ALL  ,  ',F8.0,', ',
-     *       F8.0,', ',F8.1,',  ',F7.0,', ',F7.0,', ')
+     &    SAVOUT(1),SAVOUT(2),PMORT,DEFNEW,DEFTOT
+  300 FORMAT(/,A26,', ',I4,',  ','ALL  ,  ','ALL  ,  ',F8.0,', ',
+     &       F8.0,', ',F8.1,',  ',F7.0,', ',F7.0,', ')
       
 C
       RETURN
