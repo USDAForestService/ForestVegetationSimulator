@@ -1,6 +1,6 @@
       SUBROUTINE BRCANK
 C**********************************************************************
-C  **BRCANK       DATE OF LAST REVISION:  04/03/2001
+C  **BRCANK       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C   BRCANK reads the canker data provided in the keyword list or
@@ -41,7 +41,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRCANK',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,10) ICYC,ICIN,ICFMT
-  10  FORMAT(' Entering subroutine BRCANK: cycle = ',I2,/,
+  10  FORMAT('Entering subroutine BRCANK: cycle = ',I2,/,
      &       ' ICIN=',I3,' ICFMT=',A)
 
 C.... Read canker records. Note that all canker records will be read but
@@ -67,7 +67,7 @@ C.... standard output file. Records with "!" are not, just skipped.
    91 FORMAT (A)
       IF (CREC(1:1).EQ.'!') GOTO 90
       IF (CREC(1:1).EQ.'*') THEN
-         WRITE (JOSTND,'(/,T13,A)') CREC
+         WRITE (JOSTND,'(/,T12,A)') CREC
          GOTO 90
       ENDIF
 
@@ -183,6 +183,6 @@ C.... Common return.
 
   400 CONTINUE
       IF(DEBUG) WRITE(JOSTND,300) ICYC
-  300 FORMAT(' Leaving subroutine BRCANK: cycle = ',I2)
+  300 FORMAT('Leaving subroutine BRCANK: cycle = ',I2)
       RETURN
       END

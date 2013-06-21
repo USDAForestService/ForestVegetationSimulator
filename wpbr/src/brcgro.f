@@ -1,6 +1,6 @@
       SUBROUTINE BRCGRO(K,PROP,BRHT,BRHTG,BRDG,NLCAN,HNEW,DNEW)
 C**********************************************************************
-C  **BRCGRO       DATE OF LAST REVISION:  11/07/2002
+C  **BRCGRO       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRCGRO grows cankers for one year and determines if any active
@@ -139,7 +139,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRCGRO',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,10) ICYC
-   10 FORMAT (' Entering subroutine BRCGRO: cycle = ',I2)
+   10 FORMAT ('Entering subroutine BRCGRO: cycle = ',I2)
       IF(DEBUG) WRITE(JOSTND,*) ' PARAMETERS=',
      &          K,PROP,BRHT,BRHTG,BRDG,NLCAN,HNEW,DNEW
 
@@ -551,6 +551,6 @@ C.... Common return.
 
   500 CONTINUE
       IF(DEBUG) WRITE(JOSTND,501) ICYC
-  501 FORMAT (' Leaving subroutine BRCGRO: cycle = ', I2)
+  501 FORMAT ('Leaving subroutine BRCGRO: cycle = ', I2)
       RETURN
       END

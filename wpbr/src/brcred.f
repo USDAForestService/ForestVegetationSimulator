@@ -1,6 +1,6 @@
       SUBROUTINE BRCRED
 C**********************************************************************
-C  **BRCRED       DATE OF LAST REVISION:  05/09/2001
+C  **BRCRED       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRCRED reduces the crowns of white pines that have been girdled
@@ -45,7 +45,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRCRED',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,111) ICYC
-  111 FORMAT(' Entering subroutine BRCRED: cycle = ',I2)
+  111 FORMAT('Entering subroutine BRCRED: cycle = ',I2)
 
 C.... If the Blister Rust model is not active, then return.
 
@@ -96,7 +96,7 @@ C....    Write debug information.
          IF(DEBUG) THEN
             WRITE (JOSTND,85) I,IDTREE(I),NORMHT(I),ITRUNC(I),CL,
      &                        ICCR,ICR(I)
-   85       FORMAT (' I=',I4,' IDTREE=',I5,' NORMHT=',I5,' ITRUNC=',I5,
+   85       FORMAT ('I=',I4,' IDTREE=',I5,' NORMHT=',I5,' ITRUNC=',I5,
      &              ' CL=',F5.1,' OLDCR=',I3,' NEWCR=',I3)
          ENDIF
    90 CONTINUE
@@ -108,6 +108,6 @@ C.... Common return.
 
   100 CONTINUE
       IF(DEBUG) WRITE(JOSTND,114) ICYC
-  114 FORMAT(' Leaving subroutine BRCRED: cycle = ',I2)
+  114 FORMAT('Leaving subroutine BRCRED: cycle = ',I2)
       RETURN
       END
