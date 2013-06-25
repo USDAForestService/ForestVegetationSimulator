@@ -4979,20 +4979,20 @@ C
               IF((VVER(:2).EQ.'NI').OR.(VVER(:2).EQ.'IE'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IGSP),ERRFLAG)
+     &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             CASE(2)
               IF(VVER(:2).EQ.'CR')THEN
                 IRDUM=3
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IGSP),ERRFLAG)
+     &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
      &           (VVER(:2).EQ.'SO'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IGSP),ERRFLAG)
+     &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             END SELECT
           ENDIF
@@ -5093,20 +5093,20 @@ C
               IF((VVER(:2).EQ.'NI').OR.(VVER(:2).EQ.'IE'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(1),ERRFLAG)
+     &                VEQNNB(1),ERRFLAG)
               ENDIF
             CASE(2)
               IF(VVER(:2).EQ.'CR')THEN
                 IRDUM=3
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(1),ERRFLAG)
+     &                VEQNNB(1),ERRFLAG)
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
      &           (VVER(:2).EQ.'SO'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(1),ERRFLAG)
+     &                VEQNNB(1),ERRFLAG)
               ENDIF
             END SELECT
           ENDIF
@@ -5201,20 +5201,20 @@ C
               IF((VVER(:2).EQ.'NI').OR.(VVER(:2).EQ.'IE'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IS),ERRFLAG)
+     &                VEQNNB(IS),ERRFLAG)
               ENDIF
             CASE(2)
               IF(VVER(:2).EQ.'CR')THEN
                 IRDUM=3
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IS),ERRFLAG)
+     &                VEQNNB(IS),ERRFLAG)
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
      &           (VVER(:2).EQ.'SO'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
-     &                VEQNNC(IS),ERRFLAG)
+     &                VEQNNB(IS),ERRFLAG)
               ENDIF
             END SELECT
           ENDIF
@@ -5625,25 +5625,21 @@ C
 C  ==========  OPTION NUMBER 1400 SDICALC ===========================SDICALC
 C
 14000 CONTINUE
-      SELECT CASE(VVER(:2))
-        CASE('AK','AN','BM','CA','CS','BP','LP','LS','SF','SM','SP',
-     &       'EC','EM','NC','NE','SN','SO','TT','UT','WS')
         DBHSTAGE=0.
         IF(LNOTBK(1))DBHSTAGE=ARRAY(1)
-        DBHZEIDE=1.
+        DBHZEIDE=0.
         IF(LNOTBK(2))DBHZEIDE=ARRAY(2)
         IF(ARRAY(3).GE.1)LZEIDE=.TRUE.
-        CALCSDI="STAGE'S"
-        IF(LZEIDE)CALCSDI="ZEIDE'S"
+        CALCSDI="REINEKE"
+        IF(LZEIDE)CALCSDI="ZEIDE"
         IF(LKECHO)WRITE(JOSTND,14010) KEYWRD,CALCSDI,DBHSTAGE,DBHZEIDE
-14010   FORMAT (/1X,A8,'   ',A7,' SUMMATION METHOD WILL BE ',
-     &              'USED TO CALCULATE SDI-BASED MORTALITY.'/
-     &  9X,'   THE MINIMUM DIAMETER USED IN STAGE SDI CALCULATIONS = ',
+14010   FORMAT (/1X,A8,'   THE ',A7,' METHOD WILL BE ',
+     &              'USED TO CALCULATE SDI.'/
+     &  9X,'   THE MINIMUM DIAMETER USED IN REINEKE SDI CALCULATIONS = ',
      &  F6.2,' IN'/
      &  9X,'   THE MINIMUM DIAMETER USED IN ZEIDE SDI CALCULATIONS = ',
      &  F6.2,' IN')
         GO TO 10
-      END SELECT
       CALL ERRGRO (.TRUE.,16)
       GO TO 10
 C

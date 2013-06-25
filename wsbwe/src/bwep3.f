@@ -1,7 +1,7 @@
       SUBROUTINE BWEP3
       IMPLICIT NONE
 C----------
-C  **BWEP3                  DATE OF LAST REVISION:  07/14/10
+C  **BWEP3                  DATE OF LAST REVISION:  04/11/13
 C----------
 C
 C  PRINT ANNUAL OUTPUT RE: BUDWORM MORTALITY & FEEDING
@@ -39,7 +39,9 @@ C      Added Stand ID and comma delimiter to output tables, some header
 C      and column labels modified.
 C   14-JUL-2010 Lance R. David (FMSC)
 C      Added IMPLICIT NONE and declared variables as needed.
-C
+C   11-APR-2013 Lance R. David (FMSC)
+C      REAL variable DIFF was used in loop control at label 85 in error.
+C      Changed to variable IDIFF and removed REAL declaration of DIFF.
 C---------------------------------------------------------------------
 C
 COMMONS
@@ -59,7 +61,7 @@ C
      &        KCROWN(18), LH, LSIZE, NEWDEF
       INTEGER I, IYEAR, IYR, LASTYR 
       REAL APPB, APPC, APPD, APPE, APPF, APPG, APPH, APPI, APPJ,
-     &     DEAD, DEFNEW, DEFOLD, DIFF, EGGD, FECUND, GENMOR, OVWINT,
+     &     DEAD, DEFNEW, DEFOLD, EGGD, FECUND, GENMOR, OVWINT,
      &     RINC, RINC10, SPRING, SUMALE, SURV,
      &     TEMPH(20), TEMPO(20), TEMPS(20), X 
       REAL EGMASS, SNEWEG, SUMACT, SUMADT, SUMEGG, SUMEL2, SUMFEM,
@@ -182,8 +184,8 @@ C
          IYEAR=IYEAR+1
          IYR=IYR+1
          IF (IYR.LT.IYRCUR) THEN
-            DIFF=IYRCUR-IYR
-            DO 85 I=1,DIFF
+            IDIFF=IYRCUR-IYR
+            DO 85 I=1,IDIFF
             WRITE (JOBWP2,75) NPLT,IYR,IYR,IYR,IYR,IYR,IYR
             IYEAR=IYEAR+1
             IYR=IYR+1

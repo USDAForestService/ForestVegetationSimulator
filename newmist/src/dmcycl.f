@@ -291,7 +291,7 @@ C       THESE ARE CONVERTED TO THEIR COMPLEMENTS LATER ON.
                 LOK = .FALSE.
                 GOTO 11
               ENDIF
-              ISPP = BC(BCT).Spp
+              ISPP = BC(BCT)%Spp
               IF (ISPP .LT. 1 .OR. ISPP .GT. MAXSP) LOK = .FALSE.
    11         IF (LOK) THEN
                 PRM(2) = MAX(0.0, PRM(2))
@@ -308,10 +308,10 @@ C       THESE ARE CONVERTED TO THEIR COMPLEMENTS LATER ON.
                   DO N = 1,ACTIVE
                     BCMORT(ISPP,N,L) = BCMORT(ISPP,N,L) +
      >                    ATTEN(L) * PRM(2) * LOG(MAX(DMTINY,
-     >                    1.0 - (BC(BCT).Mort(N)/100.0)))
+     >                    1.0 - (BC(BCT)%Mort(N)/100.0)))
                     BCSUPP(ISPP,N,L,BCT) = BCSUPP(ISPP,N,L,BCT) +
      >                    ATTEN(L) * PRM(2) * LOG(MAX(DMTINY,
-     >                    1.0 - (BC(BCT).Suprs(N)/100.0)))
+     >                    1.0 - (BC(BCT)%Suprs(N)/100.0)))
                   ENDDO
                 ENDDO
                 CALL OPDONE(I,IYR)
@@ -370,7 +370,7 @@ C
 C   DM' = DM + [3 - DM] * [1 - EXP(-r * New)]
 C
 C CARRYING CAPACITY IS SET TO 3 DM UNITS !!  New IS RESCALED SO THAT THE
-C TOTAL LIVE POOL SIZE IS CONSTRAINED TO 3. LUCKILY ALL THE RESCALING 
+C TOTAL LIVE POOL SIZE IS CONSTRAINED TO 3. LUCKILY ALL THE RESCALING
 C HAPPENS IN ONE POOL ONLY, SO THERE IS NO NEED TO PARTITION IT.
 
               x = 0.0
@@ -426,10 +426,10 @@ C             COMPUTE TRANSITIONS: ALL CATEGORIES
               SprAct = xSpr * FProp(i,j)
               ActSpr = xAct * BProp(i,j)
               DO L = 1,MAXBC
-                ImmBCImm(L) = xImmBC(L) * (1.0 - BC(L).HfLf(IMMAT))
-                LatBCLat(L) = xLatBC(L) * (1.0 - BC(L).HfLf(LATENT))
-                SprBCSpr(L) = xSprBC(L) * (1.0 - BC(L).HfLf(SUPRSD))
-                ActBCAct(L) = xActBC(L) * (1.0 - BC(L).HfLf(ACTIVE))
+                ImmBCImm(L) = xImmBC(L) * (1.0 - BC(L)%HfLf(IMMAT))
+                LatBCLat(L) = xLatBC(L) * (1.0 - BC(L)%HfLf(LATENT))
+                SprBCSpr(L) = xSprBC(L) * (1.0 - BC(L)%HfLf(SUPRSD))
+                ActBCAct(L) = xActBC(L) * (1.0 - BC(L)%HfLf(ACTIVE))
               ENDDO
 
 C             REMOVE TRANSITIONS: ALL CATEGORIES

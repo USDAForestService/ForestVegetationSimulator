@@ -327,6 +327,7 @@ C----------
             XLDREG(1)=XLDREG(1)+(TPA*DG(I))
             GO TO 190
   121       CONTINUE
+            IF(DBH(I).LT.DBHSTAGE)GO TO 190   ! BRANCH IF D IS LT MIN DBH            
             XLDREG(1)=XLDREG(1)+(STAGEA + STAGEB*(DBH(I)**2.0))*TPA
             GO TO 190
   122       CONTINUE
@@ -334,6 +335,7 @@ C----------
             XLDREG(1)=XLDREG(1)+(TPA*TREERD)/GROSPC
             GO TO 190
   123       CONTINUE
+            IF(DBH(I).LT.DBHZEIDE)GO TO 190   ! BRANCH IF D IS LT MIN DBH 
             XLDREG(1)=XLDREG(1)+((DBH(I)/10)**1.605)*TPA
 C
           ENDIF

@@ -1,7 +1,7 @@
       SUBROUTINE TMCOUP
       IMPLICIT NONE
 C---------- 
-C  **TMCOUP DATE OF LAST REVISION:  06/30/10
+C  **TMCOUP DATE OF LAST REVISION:  04/01/13
 C---------- 
 C     
 C     THIS SUBROUTINE CALCULATES THE EFFECTS OF A DFTM OUTBREAK   
@@ -23,6 +23,9 @@ C         Updated for expansion of FVS stand id (variable NPLT)
 C         from 8 to 26 characters.
 C   07-AUG-01 Lance R. David (FHTET)
 C         Initialization of arrays ISC and ITABSV.
+C   01-APR-2013 Lance R. David (FMSC)
+C      A few variables defined locally were already defined
+C      in a common block. Local declaration removed.
 C
 C**********************************************************************
 
@@ -118,27 +121,26 @@ C            calculations of top-kill classes 1-5.
 C
       CHARACTER*4 KSPP(3)
 
-      INTEGER I, I1, I2, I7, IBMTYP, ICRI, IDFCOD, IEGTYP, IFIN,
-     &        IGFCOD, II, IJUMP, IP, IPRBMT, IPT(MAXTRE), ISC(100,2), 
-     &        ISPLIT, ITAB, ITABSV(100), ITMETH, ITMREP, ITMSCH,
-     &        ITMSLV, ITWO, IZ6, J, JCLAS2(100), JCLASS, JODFEC,
-     &        JODFTM, JOTMDK, JTRUNK, K, KEY(9), KODE, LEFT,
-     &        MAXCLS, NACL, NACLAS, NCLAS, NRECS, NUM, NUMCLS(3)
+      INTEGER I, I1, I2, I7, ICRI, IFIN,
+     &        II, IJUMP, IP, IPT(MAXTRE), ISC(100,2), 
+     &        ISPLIT, ITAB, ITABSV(100), ITWO, J, JCLAS2(100),
+     &        JTRUNK, K, KEY(9), KODE, LEFT,
+     &        MAXCLS, NACL, NRECS, NUM, NUMCLS(3)
 
       REAL A3(1), A4(1), A5(1), A6(1), A7(1), A8(1), ACBASE, ACR, ADBH,
      &     ADG, ADGLOS, AHT, AHTG, AHTLOS, AMORT(14,9), APCTKL, ATKILL,
-     &     B0, B1, CBASE, CLAS(100,7), CNTDF, CNTGF, CR, CROWN, DELTA,
-     &     DFEGG, DFFBIO, DFMEAN, DFPNEW, DFREGG, DGLOSS, DPCENT, DPMAX,
-     &     EGGS(100), F1, FBIOMS, G1, G19, G19MAX, G19OUT, GFEGG,
-     &     GFFBIO, GFMEAN, GFPNEW, GFREGG, HTGLOS, HTRUNC
-      REAL P1, P2, P3, PCKILL, PCNEWF, PRBSCL, PRMORT, PRMS(2), PRNORM,
-     &     PRSUM, PRTOPK, R0, R1, RANDOM, RGLOSS(14), SALKOD, SPROB,
-     &     T, TKBOT(5), TKILL, TKTOP(5), TMASHD, TMBCHL, TMDEFL,
-     &     TMPN1, TMPRB, TOPO, TSAVE(100), WBDEF(3), WCBASE(3), WCR(3),
-     &     WDBH(3), WDG(3), WDGLOS(3), WEGGS(3), WEIGHT, WHT(3),
+     &     CBASE, CLAS(100,7), CR, CROWN, DELTA,
+     &     DFMEAN, DGLOSS, DPMAX,
+     &     EGGS(100), G19MAX, 
+     &     GFMEAN, HTGLOS, HTRUNC
+      REAL P1, P2, P3, PCKILL, PRMORT, PRMS(2), PRNORM,
+     &     PRSUM, PRTOPK, RANDOM, RGLOSS(14), SALKOD, SPROB,
+     &     T, TKBOT(5), TKILL, TKTOP(5), TMBCHL,
+     &     TSAVE(100), WBDEF(3), WCBASE(3), WCR(3),
+     &     WDBH(3), WDG(3), WDGLOS(3), WEGGS(3),  WHT(3),
      &     WHTG(3), WHTLOS(3), WPCTKL(3), WPMORT(3), WRECS(3), WTDEF(3),
-     &     WTKILL(3), WZ2(3), WZ3(3), WZ4(3), X0, X1, X5, X6, X7, Y1,
-     &     Z1, Z2, Z3, Z4, Z5, ZZ1, ZZ2
+     &     WTKILL(3), WZ2(3), WZ3(3), WZ4(3), 
+     &     ZZ1, ZZ2
 
       EQUIVALENCE (CLAS(1,1), Z4(1)), (JCLASS(1), JCLAS2(1))
       EQUIVALENCE (IPT(1), WK6(1))  
