@@ -56,7 +56,7 @@ C.... VARIABLE DECLARATIONS.
       REAL     TOTDBH(MAXSP,100,6)
       REAL     TOTN
       REAL     PRMS(4)
-      LOGICAL  DEBUG
+      LOGICAL  DEBUG, LOK
       INTEGER MYACT(1)
       DATA MYACT/2512/
       INTEGER  IYR,NTODO,JDO,NPRM,IACTK,IDC,JCL,DBSKODE
@@ -213,9 +213,9 @@ C
      &  TOTDS/ACRtoHA,YRLAST,DBSKODE)
       IF (DBSKODE.EQ.0) GOTO 500
 
-C     Make sure JSNOUT is openned.
-
-      CALL openIfClosed (JSNOUT,"sng")
+C     MAKE SURE JSNOUT IS OPEN
+      CALL openIfClosed (JSNOUT,"sng",lok)
+      if (.not.lok) goto 500
 
 C     Print the snag output headings.
 
@@ -238,7 +238,6 @@ C     Print the snag output headings.
   222    FORMAT(1X,76('-'))
          LSHEAD = .FALSE.
       ENDIF
-
 
 C     Print information on each snag printing-class, first dividing the
 C     the total heights and dbhs to get the class-averages.

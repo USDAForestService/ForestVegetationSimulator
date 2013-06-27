@@ -1,10 +1,17 @@
       SUBROUTINE GFCOMP 
       IMPLICIT NONE
 C---------- 
-C  **GFCOMP DATE OF LAST REVISION:  06/30/10
+C  **GFCOMP DATE OF LAST REVISION:  04/01/13
 C---------- 
 C     
 C     DFTM MODEL SUBROUTINE - JIM COLBERT - JAN 1978. 
+C     
+C  REVISION HISTORY:
+C    01-APR-2013 Lance R. David (FMSC)
+C      A few variables defined locally were already defined
+C      in a common block. Local declaration removed.
+C----------
+C
 C     
 COMMONS     
 C     
@@ -14,9 +21,8 @@ C
 C     
 COMMONS     
 C     
-      INTEGER I,N,NN,ICOUNT,IC,KP,K
+      INTEGER I,N,NN
       REAL ALPHA,UV1,ETA,ETAPLS,UV2,G19TOT,G17TOT,PHI
-      REAL Y1,F1,G1,R1,B1,Z1,X1     
 
       G1(6) = 0.0 
       IF (KP .GT. 0 .AND. KP .LE. 6) G1(6) = (1.0 - R1(KP)) *     

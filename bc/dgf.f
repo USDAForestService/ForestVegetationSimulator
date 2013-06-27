@@ -65,7 +65,7 @@ C
       PARAMETER (P_ST = 30)
       PARAMETER (P_SS = 25)
 C
-C     STRUCTURE FOR THE FITTED MODELS. COEFFICIENTS FOR EACH FITTED MODEL 
+C     STRUCTURE FOR THE FITTED MODELS. COEFFICIENTS FOR EACH FITTED MODEL
 C     ARE FOUND HERE. ONLY ONE OF DBAL1 OR DBAL2 TERMS CAN HAVE A NON-ZERO
 C     VALUE. THE BIOLOGICAL SCOPE OF THE MD_STR OBJECT IS SOMETIMES THE BEC
 C     ZONE, SOMETIMES ALL BEC ZONES COMBINED, AND SOMETIMES THE SITE SERIES.
@@ -121,7 +121,7 @@ c     v2
      &    OBSERV(6,MAXSP)
       INTEGER MAPHAB(30,MAXSP),MAPDSQ(11,MAXSP),MAPLOC(11,MAXSP),
      &    MAPCCF(30,MAXSP)
-      
+
       DATA DGLD/
      &   0.56445, 0.54140, 0.56888, 0.68810, 0.68712, 0.58705,
      &   0.89503, 0.73045, 0.86240, 0.66101,
@@ -194,7 +194,7 @@ C  TYPES ONTO HABITAT CLASSES.
      &-1.68033,-1.52111,     0.0,     0.0,     0.0,     0.0,
      &-1.68033,-1.52111,     0.0,     0.0,     0.0,     0.0,
      &-1.68033,-1.52111,     0.0,     0.0,     0.0,     0.0,
-     & 0.47780, 0.15228, 0.29764,     0.0,     0.0,     0.0,     
+     & 0.47780, 0.15228, 0.29764,     0.0,     0.0,     0.0,
      &-1.68033,-1.52111,     0.0,     0.0,     0.0,     0.0/
 
 C  DGCCFA CONTAINS COEFFICIENTS FOR THE CCF TERM BY SPECIES BY
@@ -217,7 +217,7 @@ C  ONTO HABITAT CLASSES.
      &  30*1,
      &  6*4, 1,2, 3*4, 2,1, 3*4, 3, 3*4, 1,3,2, 4*4, 2,4,4,
      &  30*1/
-     
+
       DATA DGCCFA/
      & -0.02430,-0.24886,-0.01079,     0.0,     0.0,
      & -0.10144,-0.14793,-0.05438,     0.0,     0.0,
@@ -254,7 +254,7 @@ C  MAPLOC IS AN ARRAY WHICH MAPS FOREST ONTO A LOCATION CLASS.
      & 3,2,1,1,3,3,3,3,1,3,2,
      & 5,4,1,2,3,3,2,3,5,1,4,
      & 3,2,1,1,3,3,3,3,1,3,2/
- 
+
       DATA DGFOR/
      & 0.16920,     0.0,     0.0,     0.0,     0.0,     0.0,
      & 0.20004, 0.07656, 0.08188, 0.30379,     0.0,     0.0,
@@ -329,7 +329,7 @@ C  ALL OF THESE ARRAYS ARE SUBSCRIPTED BY SPECIES.
       DATA DGSASP/
      &   0.03876, 0.03430, 0.06287,-0.04595, 0.10987, 0.05534,
      &   0.12993,-0.06038,-0.06862, 0.01192,
-     &   0.13363, 0.13363, 0.13363, 0.06287, 0.13363/      
+     &   0.13363, 0.13363, 0.13363, 0.06287, 0.13363/
       DATA DGSLOP/
      &  -0.17888, 0.33523, 0.78176, 1.17025, 0.04966, 0.11931,
      &   0.46546, 0.65622, 0.30070,-0.06637,
@@ -351,13 +351,24 @@ C  ALL OF THESE ARRAYS ARE SUBSCRIPTED BY SPECIES.
       TYPE (MD_STR) ZNKONST(P_ZN)
       TYPE (SS_STR) SSKONST(P_SS)
 
-      DATA (ZNKONST(I), I=1,24) / 
-
+      DATA ZNKONST(1) /
      >  MD_STR (             ! PW - ICH+IDF
-     >    (/1, (0, J=1,14) /),  ! spp
-     >    (/ 'ICH/all', 'IDF/all',  ('', J=1,28) /),
-c     >    (/1, 14*0 /),  ! spp
-c     >    (/ 'ICH/all', 'IDF/all', 28*"xxxxxxxxxxxxxx" /),
+     >    (/1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    200,               ! observations
      >    4.9231877,         ! constant
      >    0.928152,          ! cos-asp
@@ -372,11 +383,26 @@ c     >    (/ 'ICH/all', 'IDF/all', 28*"xxxxxxxxxxxxxx" /),
      >    0.0,               ! NO CROWN
      >    0.0,               ! NO BAL
      >    0.89852            ! sigmar
-     >  ), 
+     >  ) /
 
+      DATA ZNKONST(2) /
      >  MD_STR (             ! LW - ICH+IDF
-     >    (/ 2, 14*0 /),  ! spp
-     >    (/ 'ICH/all', 'IDF/all', 28*'' /),
+     >    (/ 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    739,               ! observations
      >   -0.1021,            ! constant
      >    0.0,               ! cos-asp
@@ -391,20 +417,26 @@ c     >    (/ 'ICH/all', 'IDF/all', 28*"xxxxxxxxxxxxxx" /),
      >    1.3530,            ! crown
      >    0.0,               ! bal
      >    0.55480            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(3) /
      >  MD_STR (             ! FD,OC - ICH 18+21m 1-30
-     >    (/ 3,14, 13*0 /),  ! spp
-     >    (/        'ICHdk/02',        'ICHdk/04',       'ICHmk3/02',
-     >             'ICHmk3/03',       'ICHmk3/06',       'ICHwk2/02',
-     >             'ICHwk2/03',       'ICHwk2/04',       'ICHwk4/02',
-     >             'ICHwk4/03',       'ICHwk4/04',       'ICHwk4/05',
-     >             'ICHmk1/01',    'ICHmk1/01-ys',       'ICHmk1/02',
-     >             'ICHmk1/03',       'ICHmk1/04',       'ICHmk1/05',
-     >             'ICHmk2/01',       'ICHmk2/02',       'ICHmk2/03',
-     >             'ICHmk2/04',       'ICHmk2/05',       'ICHmw2/02',
-     >             'ICHmw2/03',       'ICHmw3/01',    'ICHmw3/01-yc',
-     >             'ICHmw3/02',       'ICHmw3/03',       'ICHmw3/04'/),
+     >    (/ 3,14,0,0,0,0,0,0,0,0,0,0,0,0,0 /),  ! spp
+     >    (/'ICHdk/02       ', 'ICHdk/04       ',
+     >      'ICHmk3/02      ', 'ICHmk3/03      ',
+     >      'ICHmk3/06      ', 'ICHwk2/02      ',
+     >      'ICHwk2/03      ', 'ICHwk2/04      ',
+     >      'ICHwk4/02      ', 'ICHwk4/03      ',
+     >      'ICHwk4/04      ', 'ICHwk4/05      ',
+     >      'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/02      ', 'ICHmk1/03      ',
+     >      'ICHmk1/04      ', 'ICHmk1/05      ',
+     >      'ICHmk2/01      ', 'ICHmk2/02      ',
+     >      'ICHmk2/03      ', 'ICHmk2/04      ',
+     >      'ICHmk2/05      ', 'ICHmw2/02      ',
+     >      'ICHmw2/03      ', 'ICHmw3/01      ',
+     >      'ICHmw3/01-y    ', 'ICHmw3/02      ',
+     >      'ICHmw3/03      ', 'ICHmw3/04      '/),
      >    1683,              ! observations
      >   -0.9496,            ! constant
      >    0.0,               ! cos-asp
@@ -419,50 +451,67 @@ c     >    (/ 'ICH/all', 'IDF/all', 28*"xxxxxxxxxxxxxx" /),
      >    1.5869,            ! crown
      >   -0.0206,            ! bal
      >    0.77801            ! sigmar
-     >  ),
-     >
-     >  MD_STR (             ! FD,OC - ICH 18+21m 31-40
-     >    (/ 3,14, 13*0 /),  ! spp  !!! syntax tweak
-     >    (/       'ICHmw3/05',       'ICHwk1/03',       'ICHdw/01a',
-     >              'ICHdw/02',       'ICHmw1/02',       'ICHmw1/03',
-     >             'ICHmw1/04',       'ICHmw2/03',       'ICHmw2/04',
-     >              'ICHxw/01',         'ICH/all', 
-     >              19*''/), !!! syntax tweak
-     >    1683,              ! observations
-     >   -0.9496,            ! constant
-     >    0.0,               ! cos-asp
-     >    0.0,               ! sin-asp
-     >    0.0,               ! elev
-     >    0.0,               ! elev^2
-     >    0.0,               ! ccf
-     >    0.0674,            ! diam
-     >   -0.00095,           ! diam^2
-     >    0.0,               ! bal/dbh
-     >    0.0,               ! NO bal/log(dbh+1)
-     >    1.5869,            ! crown
-     >   -0.0206,            ! bal
-     >    0.77801            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(4) /
+     >  MD_STR (             ! FD,OC - ICH 18+21m 31-40
+     >    (/ 3,14,0,0,0,0,0,0,0,0,0,0,0,0,0 /),  ! spp
+     >    (/'ICHmw3/05      ', 'ICHwk1/03      ',
+     >      'ICHdw/01a      ', 'ICHdw/02       ',
+     >      'ICHmw1/02      ', 'ICHmw1/03      ',
+     >      'ICHmw1/04      ', 'ICHmw2/03      ',
+     >      'ICHmw2/04      ', 'ICHxw/01       ',
+     >      'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
+     >    1683,              ! observations
+     >   -0.9496,            ! constant
+     >    0.0,               ! cos-asp
+     >    0.0,               ! sin-asp
+     >    0.0,               ! elev
+     >    0.0,               ! elev^2
+     >    0.0,               ! ccf
+     >    0.0674,            ! diam
+     >   -0.00095,           ! diam^2
+     >    0.0,               ! bal/dbh
+     >    0.0,               ! NO bal/log(dbh+1)
+     >    1.5869,            ! crown
+     >   -0.0206,            ! bal
+     >    0.77801            ! sigmar
+     >  ) /
+
+      DATA ZNKONST(5) /
      >  MD_STR (             ! FD,OC - ICH 24m 1-29
-     >    (/ 3,14, 13*0  /),  ! spp
-     >    (/        'ICHdk/01',        'ICHdk/05',       'ICHmk3/01',
-     >             'ICHmk3/04',       'ICHwk2/01',       'ICHwk2/07',
-     >             'ICHwk4/01',       'ICHwk4/07',       'ICHmk1/06',
-     >             'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/04',
-     >             'ICHmw2/05',       'ICHmw3/06',       'ICHmw3/07',
-     >             'ICHvk1/01',       'ICHvk1/02',       'ICHvk1/03',
-     >             'ICHvk1/04',       'ICHwk1/01',       'ICHwk1/04',
-     >             'ICHwk1/05',       'ICHdw/01b',        'ICHdw/03',
-     >              'ICHdw/04',       'ICHmw1/01',       'ICHmw1/05',
-     >             'ICHmw1/06',       'ICHmw2/06',     ('',I=1,1) /),
+     >    (/ 3,14,0,0,0,0,0,0,0,0,0,0,0,0,0 /),  ! spp
+     >    (/'ICHdk/01       ', 'ICHdk/05       ',
+     >      'ICHmk3/01      ', 'ICHmk3/04      ',
+     >      'ICHwk2/01      ', 'ICHwk2/07      ',
+     >      'ICHwk4/01      ', 'ICHwk4/07      ',
+     >      'ICHmk1/06      ', 'ICHmw2/01      ',
+     >      'ICHmw2/01-ys   ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw3/06      ',
+     >      'ICHmw3/07      ', 'ICHvk1/01      ',
+     >      'ICHvk1/02      ', 'ICHvk1/03      ',
+     >      'ICHvk1/04      ', 'ICHwk1/01      ',
+     >      'ICHwk1/04      ', 'ICHwk1/05      ',
+     >      'ICHdw/01b      ', 'ICHdw/03       ',
+     >      'ICHdw/04       ', 'ICHmw1/01      ',
+     >      'ICHmw1/05      ', 'ICHmw1/06      ',
+     >      'ICHmw2/06      ', '               '/),
      >    1367,              ! observations
      >   -1.4219,            ! constant
-     >    0.0   ,            ! cos-asp
+     >    0.0,               ! cos-asp
      >    0.0,               ! sin-asp
      >    0.0,               ! elev
      >    0.0,               ! elev^2
-     >    0.0   ,            ! ccf
+     >    0.0,               ! ccf
      >    0.0802,            ! diam
      >   -0.00104,           ! diam^2
      >    0.0,               ! bal/dbh
@@ -470,21 +519,27 @@ c     >    (/ 'ICH/all', 'IDF/all', 28*"xxxxxxxxxxxxxx" /),
      >    2.1392,            ! crown
      >   -0.0216,            ! bal
      >    0.69721            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(6) /
      >  MD_STR (             ! FD,OC - IDF 9m+12m SI 1-23 (+4)
-     >    (/ 3, 14, 13*0  /), ! spp
-     >    (/       'IDFdk3/02',       'IDFdk3/03',       'IDFdk3/04',
-     >             'IDFdk4/01',       'IDFdk4/02',       'IDFdk4/03',
-     >             'IDFdk4/04',       'IDFdk4/05',       'IDFdk4/07',
-     >              'IDFxm/02',        'IDFxm/03',        'IDFxm/04',
-     >              'IDFxw/02',        'IDFxw/03',        'IDFxw/04',
-     >             'IDFdk1/02',       'IDFdk2/02',       'IDFdm1/03',
-     >              'IDFww/02',       'IDFxh1/02',       'IDFxh1/03',
-     >             'IDFxh2/02',       'IDFxh2/03',
-     >             'IDFdk2/01',       'IDFdk2/03',    ! +2 from SI 15m
-     >             'IDFxh2/01',       'IDFxh2/04',    ! +2 from SI 15m
-     >               'IDF/all',     ('', I=1,2) /),
+     >    (/ 3, 14,0,0,0,0,0,0,0,0,0,0,0,0,0  /), ! spp
+     >    (/'IDFdk3/02      ', 'IDFdk3/03      ',
+     >      'IDFdk3/04      ', 'IDFdk4/01      ',
+     >      'IDFdk4/02      ', 'IDFdk4/03      ',
+     >      'IDFdk4/04      ', 'IDFdk4/05      ',
+     >      'IDFdk4/07      ', 'IDFxm/02       ',
+     >      'IDFxm/03       ', 'IDFxm/04       ',
+     >      'IDFxw/02       ', 'IDFxw/03       ',
+     >      'IDFxw/04       ', 'IDFdk1/02      ',
+     >      'IDFdk2/02      ', 'IDFdm1/03      ',
+     >      'IDFww/02       ', 'IDFxh1/02      ',
+     >      'IDFxh1/03      ', 'IDFxh2/02      ',
+     >      'IDFxh2/03      ',
+     >      'IDFdk2/01      ', 'IDFdk2/03      ',    ! +2 from SI 15m
+     >      'IDFxh2/01      ', 'IDFxh2/04      ',    ! +2 from SI 15m
+     >      'IDF/all        ',
+     >      '               ', '               '/),
      >    1217,              ! observations
      >    0.5596,            ! constant
      >    0.0,               ! cos-asp
@@ -499,50 +554,27 @@ c     >    (/ 'ICH/all', 'IDF/all', 28*"xxxxxxxxxxxxxx" /),
      >    1.3653,            ! crown
      >    0.0,               ! bal
      >    0.7339             ! sigmar
-     >  ),
+     >  ) /
 
-! OLD FORM !
-c     >  MD_STR (             ! FD,OC - IDF 12m SI 1-23 (+4)
-c     >    (/ 3, 14, 12*0 /), ! spp
-c     >    (/       'IDFdk3/02',       'IDFdk3/03',       'IDFdk3/04',
-c     >             'IDFdk4/01',       'IDFdk4/02',       'IDFdk4/03',
-c     >             'IDFdk4/04',       'IDFdk4/05',       'IDFdk4/07',
-c     >              'IDFxm/02',        'IDFxm/03',        'IDFxm/04',
-c     >              'IDFxw/02',        'IDFxw/03',        'IDFxw/04',
-c     >             'IDFdk1/02',       'IDFdk2/02',       'IDFdm1/03',
-c     >              'IDFww/02',       'IDFxh1/02',       'IDFxh1/03',
-c     >             'IDFxh2/02',       'IDFxh2/03',
-c     >             'IDFdk2/01',       'IDFdk2/03',    ! +2 from SI 15m
-c     >             'IDFxh2/01',       'IDFxh2/04',    ! +2 from SI 15m
-c     >               'IDF/all'/),
-c     >    889,               ! observations
-c     >    0.0383,            ! constant
-c     >    0.0,               ! cos-asp
-c     >    0.0,               ! sin-asp
-c     >    0.0,               ! elev
-c     >    0.0,               ! elev^2
-c     >   -0.1348,            ! ccf
-c     >    0.0254,            ! diam
-c     >   -0.00056,           ! diam^2
-c     >    0.0,               ! NO bal/dbh
-c     >    0.0,               ! bal/log(dbh+1)
-c     >    1.0452,            ! crown
-c     >   -0.0329,            ! bal
-c     >    0.63577            ! sigmar
-c     >  ),
-
+      DATA ZNKONST(7) /
      >  MD_STR (             ! FD,OC - IDF 15m SI 1-28 (-4)
-     >    (/ 3, 14, 13*0  /), ! spp
-     >    (/       'IDFdk3/01',       'IDFdk3/05',       'IDFdk4/09',
-     >              'IDFdw/01',        'IDFxm/01',        'IDFxm/05',
-     >              'IDFxm/06',        'IDFxm/07',        'IDFxw/01',
-     >              'IDFxw/05',       'IDFdk1/01',       'IDFdk1/03',
-     >             'IDFdk1/04',       ! -2 moved to 12 (AAZ)
-     >             'IDFdk3/06',       'IDFdm1/04',       'IDFmw1/02',
-     >             'IDFmw2/02',       'IDFxh1/01',       'IDFxh1/04',
-     >             'IDFxh1/05',       ! -2 moved to 12 (AAZ)
-     >             'IDFxh2/05',       'IDFxh2/06',       'IDFdm2/01',
-     >             'IDFdm2/03',    6*'' /),
+     >    (/ 3, 14,0,0,0,0,0,0,0,0,0,0,0,0,0  /), ! spp
+     >    (/'IDFdk3/01      ', 'IDFdk3/05      ',
+     >      'IDFdk4/09      ', 'IDFdw/01       ',
+     >      'IDFxm/01       ', 'IDFxm/05       ',
+     >      'IDFxm/06       ', 'IDFxm/07       ',
+     >      'IDFxw/01       ', 'IDFxw/05       ',
+     >      'IDFdk1/01      ', 'IDFdk1/03      ',
+     >      'IDFdk1/04      ',       ! -2 moved to 12 (AAZ)
+     >      'IDFdk3/06      ', 'IDFdm1/04      ',
+     >      'IDFmw1/02      ', 'IDFmw2/02      ',
+     >      'IDFxh1/01      ', 'IDFxh1/04      ',
+     >      'IDFxh1/05      ',       ! -2 moved to 12 (AAZ)
+     >      'IDFxh2/05      ', 'IDFxh2/06      ',
+     >      'IDFdm2/01      ', 'IDFdm2/03      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    1432,              ! observations
      >    0.2361,            ! constant
      >    0.0,               ! cos-asp
@@ -557,20 +589,26 @@ c     >  ),
      >    1.5811,            ! crown
      >   -0.0191,            ! bal
      >    0.88944            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(8) /
      >  MD_STR (             ! FD,OC - IDF 18+21+24m SI 1-30
-     >    (/ 3, 14, 13*0  /), ! spp
-     >    (/       'IDFdk3/06',       'IDFdk3/07',       'IDFdk3/08',
-     >              'IDFxm/08',        'IDFxw/06',        'IDFxw/07',
-     >             'IDFdk1/05',       'IDFdk1/06',       'IDFdk2/04',
-     >             'IDFdk2/05',       'IDFdk2/06',       'IDFdm1/01',
-     >             'IDFdm1/05',       'IDFdm1/06',       'IDFdm1/07',
-     >             'IDFmw1/01',    'IDFmw1/01-yc',       'IDFmw1/03',
-     >             'IDFmw1/04',       'IDFmw1/05',       'IDFmw1/06',
-     >             'IDFmw2/01',       'IDFmw2/03',       'IDFmw2/04',
-     >              'IDFww/01',        'IDFww/03',        'IDFww/04',
-     >              'IDFww/05',        'IDFww/06',       'IDFxh1/06'/),
+     >    (/ 3, 14,0,0,0,0,0,0,0,0,0,0,0,0,0  /), ! spp
+     >    (/'IDFdk3/06      ', 'IDFdk3/07      ',
+     >      'IDFdk3/08      ', 'IDFxm/08       ',
+     >      'IDFxw/06       ', 'IDFxw/07       ',
+     >      'IDFdk1/05      ', 'IDFdk1/06      ',
+     >      'IDFdk2/04      ', 'IDFdk2/05      ',
+     >      'IDFdk2/06      ', 'IDFdm1/01      ',
+     >      'IDFdm1/05      ', 'IDFdm1/06      ',
+     >      'IDFdm1/07      ', 'IDFmw1/01      ',
+     >      'IDFmw1/01-yc   ', 'IDFmw1/03      ',
+     >      'IDFmw1/04      ', 'IDFmw1/05      ',
+     >      'IDFmw1/06      ', 'IDFmw2/01      ',
+     >      'IDFmw2/03      ', 'IDFmw2/04      ',
+     >      'IDFww/01       ', 'IDFww/03       ',
+     >      'IDFww/04       ', 'IDFww/05       ',
+     >      'IDFww/06       ', 'IDFxh1/06      '/),
      >    2767,              ! observations
      >   -0.9981,            ! constant
      >    0.0,               ! cos-asp
@@ -585,13 +623,26 @@ c     >  ),
      >    2.2233,            ! crown
      >   -0.0206,            ! bal
      >    0.74424            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(9) /
      >  MD_STR (             ! FD,OC - IDF 18+21m+24m SI 31-37
-     >    (/ 3, 14, 13*0 /), ! spp
-     >    (/       'IDFxh1/07',       'IDFxh1/08',       'IDFxh2/07',
-     >             'IDFxh2/08',       'IDFdm2/04',       'IDFdm2/05',
-     >             'IDFdm2/07',   23*'' /),
+     >    (/ 3, 14,0,0,0,0,0,0,0,0,0,0,0,0,0/), ! spp
+     >    (/'IDFxh1/07      ', 'IDFxh1/08      ',
+     >      'IDFxh2/07      ', 'IDFxh2/08      ',
+     >      'IDFdm2/04      ', 'IDFdm2/05      ',
+     >      'IDFdm2/07      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    2767,              ! observations
      >   -0.9981,            ! constant
      >    0.0,               ! cos-asp
@@ -606,11 +657,26 @@ c     >  ),
      >    2.2233,            ! crown
      >   -0.0206,            ! bal
      >    0.74424            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(10) /
      >  MD_STR (             ! HW - ICH+IDF
-     >    (/ 5, 14*0  /),     ! spp
-     >    (/ 'ICH/all', 'IDF/all', 28*''  /),
+     >    (/ 5, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),     ! spp
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    959,               ! observations
      >   -0.3410,            ! constant
      >    0.0,               ! cos-asp
@@ -625,11 +691,26 @@ c     >  ),
      >    1.5816,            ! crown
      >   -0.0119,            ! bal
      >    0.88775            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(11) /
      >  MD_STR (             ! CW - ICH
-     >    (/ 6, 14*0 /),     ! spp
-     >    (/ 'ICH/all', 29*'' /),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),     ! spp
+     >    (/'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    2756,              ! observations
      >   -0.1650,            ! constant
      >    0.2763,            ! cos-asp
@@ -644,11 +725,26 @@ c     >  ),
      >    1.4487,            ! crown
      >    0.0,               ! bal
      >    0.86261            ! sigmar
-     >  ), 
+     >  ) /
 
+      DATA ZNKONST(12) /
      >  MD_STR (             ! CW - IDF
-     >    (/ 6, 14*0  /),     ! spp
-     >    (/ 'IDF/all', 29*''  /),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),     ! spp
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    357,               ! observations
      >    0.656272,          ! constant
      >   -1.027327,          ! cos-asp
@@ -663,11 +759,26 @@ c     >  ),
      >    0.0,               ! crown
      >    0.0,               ! NO BAL
      >    0.88265            ! sigmar
-     >    ),
+     >    ) /
 
+      DATA ZNKONST(13) /
      >  MD_STR (             ! PL - ICH
-     >    (/ 7, 14*0  /),     ! spp
-     >    (/ 'ICH/all', 29*'' /),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),     ! spp
+     >    (/'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    1313,              ! observations
      >    0.0,               ! constant
      >    0.0,               ! cos-asp
@@ -682,30 +793,26 @@ c     >  ),
      >    1.8153,            ! crown
      >    0.0,               ! bal
      >    0.72326            ! sigmar
-     >  ),
+     >  ) /
 
-c     >  MD_STR (             ! PL - IDF
-c     >    (/ 7, 14*0 /),     ! spp
-c     >    (/ 'IDF/all' /),
-c     >    1933,              ! observations
-c     >    0.0,               ! constant
-c     >    0.0,               ! cos-asp
-c     >    0.0,               ! sin-asp
-c     >    0.0,               ! elev
-c     >    0.0,               ! elev^2
-c     >   -0.3642,            ! ccf
-c     >    0.0,               ! diam
-c     >   -0.00032,           ! diam^2
-c     >    0.0,               ! NO bal/dbh
-c     >   -0.0610,            ! bal/log(dbh+1)
-c     >    1.6986,            ! crown
-c     >    0.0,               ! NO BAL
-c     >    0.62040            ! sigmar
-c     >  ),
-
+      DATA ZNKONST(14) /
      >  MD_STR (             ! PL - IDF
-     >    (/ 7, 14*0  /),     ! spp
-     >    (/ 'IDF/all', 29*''  /),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),     ! spp
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    2009,              ! observations
      >   -0.2238,            ! constant
      >    0.0,               ! cos-asp
@@ -720,11 +827,26 @@ c     >  ),
      >    1.5667,            ! crown
      >    0.0,               ! NO BAL
      >    0.6249             ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(15) /
      >  MD_STR (             ! SE - ICH
-     >    (/ 8, 14*0  /),     ! spp
-     >    (/ 'ICH/all', 29*''  /),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),     ! spp
+     >    (/'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    424,               ! observations
      >   -0.5766,            ! constant
      >    0.0,               ! cos-asp
@@ -739,11 +861,26 @@ c     >  ),
      >    1.9456,            ! crown
      >   -0.00866,           ! bal
      >    0.87288            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(16) /
      >  MD_STR (             ! SE - IDF
-     >    (/ 8, 14*0  /),     ! spp
-     >    (/ 'IDF/all', 29*''  /),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),     ! spp
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    102,               ! observations
      >   -0.8694668,         ! constant
      >    0.0,               ! cos-asp
@@ -758,11 +895,26 @@ c     >  ),
      >    3.3882046,         ! crown
      >    0.0,               ! NO BAL
      >    0.84611            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(17) /
      >  MD_STR (             ! BL,BG - ICH+IDF
-     >    (/ 9, 4, 13*0  /),  ! spp
-     >    (/ 'ICH/all', 'IDF/all', 28*''  /),
+     >    (/ 9, 4, 0,0,0,0,0,0,0,0,0,0,0,0,0  /),  ! spp
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    350,               ! observations
      >    0.6265,            ! constant
      >    0.0,               ! cos-asp
@@ -777,11 +929,26 @@ c     >  ),
      >    1.5198,            ! crown
      >    0.0,               ! bal
      >    0.92423            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(18) /
      >  MD_STR (             ! PY - IDF+ICH
-     >    (/ 10, 14*0  /),    ! spp
-     >    (/ 'ICH/all', 'IDF/all', 28*''  /),
+     >    (/ 10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    450,               ! observations
      >   -0.50298,           ! constant
      >   -0.613773,          ! cos-asp
@@ -796,11 +963,26 @@ c     >  ),
      >    0.0,               ! NO CROWN
      >    0.0,               ! NO BAL
      >    0.86319            ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(19) /
      >  MD_STR (             ! EP,OH - ICH
-     >    (/11,15, 13*0 /),  ! spp
-     >    (/ 'ICH/all', 29*''  /),
+     >    (/11,15, 0,0,0,0,0,0,0,0,0,0,0,0,0 /),  ! spp
+     >    (/'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    835,               ! observations
      >   -3.6197,            ! constant
      >    0.0,               ! cos-asp
@@ -815,11 +997,26 @@ c     >  ),
      >    1.1239,            ! crown
      >   -0.0198,            ! bal
      >    0.68942            ! sigmar
-     >  ), 
+     >  ) /
 
+      DATA ZNKONST(20) /
      >  MD_STR (             ! EP,OH - IDF
-     >    (/11,15, 13*0  /),  ! spp
-     >    (/ 'IDF/all', 29*''  /),
+     >    (/11,15, 0,0,0,0,0,0,0,0,0,0,0,0,0  /),  ! spp
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    418,               ! observations
      >    0.0,               ! constant
      >    0.0,               ! cos-asp
@@ -834,13 +1031,28 @@ c     >  ),
      >    0.0,               ! crown
      >    0.0,               ! NO BAL
      >    0.78715            ! sigmar
-     >  ),
+     >  ) /
 C
 C       ASPEN MODEL HAS DIFFERENT STRUCTURE...
 C
+      DATA ZNKONST(21) /
      >  MD_STR (             ! AT,CT - IDF+ICH
-     >    (/ 12,13, 13*0  /), ! spp
-     >    (/ 'ICH/all', 'IDF/all', 28*''  /),
+     >    (/ 12,13, 0,0,0,0,0,0,0,0,0,0,0,0,0 /), ! spp
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    727,               ! observations
      >    0.0,               ! constant
      >    0.0,               ! cos-asp
@@ -855,17 +1067,28 @@ C
      >    0.0,               ! NO CROWN
      >    0.0,               ! NO BAL
      >    0.78243            ! sigmar
-     >  ),
-
-C     
+     >  ) /
+C
 C       SBS and SBPS zones...
 C
-
+      DATA ZNKONST(22) /
      >  MD_STR (             ! Pl SBS
-     >    (/7, 14*0 /),  ! spp
-     >    (/ 'SBSdw1/01', 'SBSdw2/01', 'SBSmc1/01',
-     >       'SBSmc2/01',  'SBSmh/01',  'SBSmm/01',
-     >        'SBSmw/01', 'SBSwk1/01', 22*''  /),
+     >    (/7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    404,               ! observations
      >   -1.2421,            ! constant
      >    0.0,               ! cos-asp
@@ -880,11 +1103,26 @@ C
      >    1.6043,            ! crown
      >   -0.0202,            ! bal
      >    0.419              ! sigmar
-     >  ), 
+     >  ) /
 
-     >  MD_STR (             ! Pl SBPSdc 
-     >    (/7, 14*0 /),  ! spp
-     >    (/ 'SBPSdc/01', 'SBPSxc/01', 28*''  /),
+      DATA ZNKONST(23) /
+     >  MD_STR (             ! Pl SBPSdc
+     >    (/7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    38,                ! observations
      >   -4.1693,            ! constant
      >    0.0,               ! cos-asp
@@ -899,11 +1137,26 @@ C
      >    1.3229,            ! crown
      >    0.0,               ! bal
      >    0.893              ! sigmar
-     >  ), 
+     >  ) /
 
+      DATA ZNKONST(24) /
      >  MD_STR (             ! Pl SBPSmk
-     >    (/7, 14*0 /),  ! spp
-     >    (/ 'SBPSmc/01', 'SBPSmk/01', 28*''  /), 
+     >    (/7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    28,                ! observations
      >   -0.9005,            ! constant
      >    0.0,               ! cos-asp
@@ -920,15 +1173,24 @@ C
      >    0.314              ! sigmar
      >  ) /
 
-       DATA (ZNKONST(I), I=25,P_ZN) /
-
+      DATA ZNKONST(25) /
      >  MD_STR (             ! AT - SBPSmk, SBPSdc
-     >    (/12, 15, 13*0  /),  ! spp                KB?
-     >    (/ 'SBPSmc/01',   'SBPSmk/01',    'SBPSdc/01',
-     >       'SBPSxc/01',   'SBSdw1/01',    'SBSdw2/01',
-     >       'SBSmc1/01',   'SBSmc2/01',     'SBSmh/01',
-     >        'SBSmm/01',   'SBSmw/01',     'SBSwk1/01',
-     >         'SBS/all',   'SBPS/all', 16*'' /), ! KB?
+     >    (/12, 15, 0,0,0,0,0,0,0,0,0,0,0,0,0 /), ! spp
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      'SBS/all        ', 'SBPS/all       ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    27,                ! observations
      >    1.1487,            ! constant
      >    0.0,               ! cos-asp
@@ -943,16 +1205,27 @@ C
      >    0.0,               ! crown
      >    0.0,               ! bal
      >    0.311              ! sigmar
-     >  ),
+     >  ) /
 
+      DATA ZNKONST(26) /
      >  MD_STR (             ! Bl SBS
-     >    (/9, 14*0 /),  ! spp
-     >    (/ 'SBPSmc/01',  'SBPSmk/01',  'SBPSdc/01',
-     >       'SBPSxc/01',  'SBSdw1/01',  'SBSdw2/01',
-     >       'SBSmc1/01',  'SBSmc2/01',   'SBSmh/01',
-     >        'SBSmm/01',  'SBSmw/01',   'SBSwk1/01',
-     >    18*''/),
-     >    0,                 ! observations            KB?
+     >    (/9, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
+     >    456,               ! observations            KB?
      >    0.0,               ! constant
      >    0.0,               ! cos-asp
      >    0.0,               ! sin-asp
@@ -965,16 +1238,27 @@ C
      >    0.0,               ! NO bal/log(dbh+1)
      >    3.1925,            ! crown
      >    0.0,               ! bal
-     >    0                  ! sigmar                  KB?
-     >  ), 
+     >    0.0                ! sigmar                  KB?
+     >  ) /
 
+      DATA ZNKONST(27) /
      >  MD_STR (             ! Sx SBSdw1, SBSdw2, SBSmh
-     >    (/8, 14*0 /),  ! spp
-     >    (/ 'SBPSmc/01',   'SBPSmk/01',    'SBPSdc/01',
-     >       'SBPSxc/01',   'SBSdw1/01',    'SBSdw2/01',
-     >       'SBSmc1/01',   'SBSmc2/01',     'SBSmh/01',
-     >        'SBSmm/01',    'SBSmw/01',    'SBSwk1/01',
-     >    18*''/),
+     >    (/8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    501,               ! observations
      >    0.9159,            ! constant
      >    0.0,               ! cos-asp
@@ -989,15 +1273,26 @@ C
      >    0.5586,            ! crown
      >    0.0,               ! bal
      >    0.786              ! sigmar
-     >  ), 
+     >  ) /
 
+      DATA ZNKONST(28) /
      >  MD_STR (             ! Fd SBSdw1, SBSdw2, SBSmh
-     >    (/3, 14, 13*0 /),  ! spp		          KB?
-     >    (/ 'SBPSmc/01',   'SBPSmk/01',    'SBPSdc/01',
-     >       'SBPSxc/01',   'SBSdw1/01',    'SBSdw2/01',
-     >       'SBSmc1/01',   'SBSmc2/01',     'SBSmh/01',
-     >        'SBSmm/01',    'SBSmw/01',    'SBSwk1/01',
-     >         'SBS/all',    'SBPS/all', 16*''/), !KB?
+     >    (/3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0 /), ! spp
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      'SBS/all        ', 'SBPS/all       ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    568,               ! observations
      >    1.0901,            ! constant
      >    0.0,               ! cos-asp
@@ -1016,277 +1311,535 @@ C
 
 C     SITE SERIES COEFFICIENTS
 
-      DATA (SSKONST(I), I=1,P_SS) / 
-
+      DATA SSKONST(1) /
      >  SS_STR (  ! ICH+IDF PW (zonal model: no site index)
-     >    (/ 1, 14*0  /),
-     >    (/         'ICH/all',         'IDF/all', 28*'' /),
+     >    (/ 1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >  ) /
 
+      DATA SSKONST(2) /
      >  SS_STR (  ! ICH+IDF LW (zonal model; rare in IDF: no site index)
-     >    (/ 2, 14*0  /),
-     >    (/         'ICH/all',         'IDF/all', 28*'' /),
+     >    (/ 2, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >  ) /
 
+      DATA SSKONST(3) /
      >  SS_STR (  ! ICH+IDF FD,OC (model coeffs incorporate SIBEC)
-     >    (/ 3,14, 13*0 /),
-     >    (/         'ICH/all',         'IDF/all', 28*'' /),
+     >    (/ 3,14,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >  ) /
 
+      DATA SSKONST(4) /
      >  SS_STR (  ! ICH HW 15m 1-18 (should be absent in IDF)
-     >    (/ 5, 14*0  /),
-     >    (/       'ICHmw2/02',       'ICHmw2/06',       'ICHmw2/07',
-     >             'ICHmw3/08',       'ICHvk1/05',       'ICHvk1/06',
-     >             'ICHwk1/02',       'ICHwk1/03',       'ICHwk1/06',
-     >             'ICHwk1/07',       'ICHmw1/02',       'ICHmw1/03',
-     >             'ICHmw1/04',       'ICHmw1/07',       'ICHmw2/03',
-     >             'ICHmw2/08',       'ICHmw3/04',       'ICHwk1/08',
-     >               'ICH/all',          'IDF/all',  10*'' /),
+     >    (/ 5, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmw2/02      ', 'ICHmw2/06      ',
+     >      'ICHmw2/07      ', 'ICHmw3/08      ',
+     >      'ICHvk1/05      ', 'ICHvk1/06      ',
+     >      'ICHwk1/02      ', 'ICHwk1/03      ',
+     >      'ICHwk1/06      ', 'ICHwk1/07      ',
+     >      'ICHmw1/02      ', 'ICHmw1/03      ',
+     >      'ICHmw1/04      ', 'ICHmw1/07      ',
+     >      'ICHmw2/03      ', 'ICHmw2/08      ',
+     >      'ICHmw3/04      ', 'ICHwk1/08      ',
+     >      'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >  ) /
 
+      DATA SSKONST(5) /
      >  SS_STR (  ! ICH HW 18m 1-28
-     >    (/ 5, 14*0  /),
-     >    (/       'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/03',
-     >             'ICHmw2/04',       'ICHmw2/05',       'ICHmw3/01',
-     >          'ICHmw3/01-yc',       'ICHmw3/05',       'ICHmw3/06',
-     >             'ICHmw3/07',       'ICHvk1/01',       'ICHvk1/02',
-     >             'ICHvk1/03',       'ICHvk1/04',       'ICHwk1/01',
-     >             'ICHwk1/04',       'ICHwk1/05',       'ICHdw/01a',
-     >             'ICHdw/01b',        'ICHdw/02',        'ICHdw/03',
-     >              'ICHdw/04',       'ICHmw1/01',       'ICHmw1/05',
-     >             'ICHmw1/06',       'ICHmw2/05',       'ICHmw2/06',
-     >              'ICHxw/01',     ('', I=1,2)/),
-     >   -0.0800
-     >    ),
+     >    (/ 5, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmw2/01      ', 'ICHmw2/01-ys   ',
+     >      'ICHmw2/03      ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw3/01      ',
+     >      'ICHmw3/01-yc   ', 'ICHmw3/05      ',
+     >      'ICHmw3/06      ', 'ICHmw3/07      ',
+     >      'ICHvk1/01      ', 'ICHvk1/02      ',
+     >      'ICHvk1/03      ', 'ICHvk1/04      ',
+     >      'ICHwk1/01      ', 'ICHwk1/04      ',
+     >      'ICHwk1/05      ', 'ICHdw/01a      ',
+     >      'ICHdw/01b      ', 'ICHdw/02       ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw1/01      ', 'ICHmw1/05      ',
+     >      'ICHmw1/06      ', 'ICHmw2/05      ',
+     >      'ICHmw2/06      ', 'ICHxw/01       ',
+     >      '               ', '               '/),
+     >    0.0
+     >  ) /
 
+      DATA SSKONST(6) /
      >  SS_STR (  ! ICH CW 15m 1-28
-     >    (/ 6, 14*0  /),
-     >    (/       'ICHmk1/01',    'ICHmk1/01-ys',       'ICHmk1/04',
-     >             'ICHmk1/07',       'ICHmk2/01',       'ICHmk2/04',
-     >             'ICHmk2/06',       'ICHmw2/02',       'ICHmw3/01',
-     >          'ICHmw3/01-yc',       'ICHmw3/03',       'ICHmw3/04',
-     >             'ICHmw3/05',       'ICHmw3/08',       'ICHvk1/05',
-     >             'ICHvk1/06',       'ICHwk1/02',       'ICHwk1/03',
-     >             'ICHwk1/06',       'ICHwk1/07',       'ICHdw/01a',
-     >             'ICHmw1/02',       'ICHmw1/03',       'ICHmw1/04',
-     >             'ICHmw1/07',       'ICHmw2/03',       'ICHwk1/08',
-     >              'ICHxw/01',         'ICH/all',     ('', I=1,1)/),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/04      ', 'ICHmk1/07      ',
+     >      'ICHmk2/01      ', 'ICHmk2/04      ',
+     >      'ICHmk2/06      ', 'ICHmw2/02      ',
+     >      'ICHmw3/01      ', 'ICHmw3/01-yc   ',
+     >      'ICHmw3/03      ', 'ICHmw3/04      ',
+     >      'ICHmw3/05      ', 'ICHmw3/08      ',
+     >      'ICHvk1/05      ', 'ICHvk1/06      ',
+     >      'ICHwk1/02      ', 'ICHwk1/03      ',
+     >      'ICHwk1/06      ', 'ICHwk1/07      ',
+     >      'ICHdw/01a      ', 'ICHmw1/02      ',
+     >      'ICHmw1/03      ', 'ICHmw1/04      ',
+     >      'ICHmw1/07      ', 'ICHmw2/03      ',
+     >      'ICHwk1/08      ', 'ICHxw/01       ',
+     >      'ICH/all        ', '               '/),
      >    0.0
-     >    ),
+     >  ) /
 
+      DATA SSKONST(7) /
      >  SS_STR (  ! ICH CW 18m 1-25
-     >    (/ 6, 14*0 /),
-     >    (/       'ICHmk1/05',       'ICHmk1/06',       'ICHmk2/05',
-     >             'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/03',
-     >             'ICHmw2/04',       'ICHmw2/05',       'ICHmw3/06',
-     >             'ICHmw3/07',       'ICHvk1/01',       'ICHvk1/03',
-     >             'ICHvk1/04',       'ICHwk1/01',       'ICHwk1/04',
-     >             'ICHwk1/05',       'ICHdw/01b',        'ICHdw/02',
-     >              'ICHdw/03',        'ICHdw/04',       'ICHmw1/01',
-     >             'ICHmw1/05',       'ICHmw1/06',       'ICHmw2/04',
-     >             'ICHmw2/06',     5*''/),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmk1/05      ', 'ICHmk1/06      ',
+     >      'ICHmk2/05      ', 'ICHmw2/01      ',
+     >      'ICHmw2/01-ys   ', 'ICHmw2/03      ',
+     >      'ICHmw2/04      ', 'ICHmw2/05      ',
+     >      'ICHmw3/06      ', 'ICHmw3/07      ',
+     >      'ICHvk1/01      ', 'ICHvk1/03      ',
+     >      'ICHvk1/04      ', 'ICHwk1/01      ',
+     >      'ICHwk1/04      ', 'ICHwk1/05      ',
+     >      'ICHdw/01b      ', 'ICHdw/02       ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw1/01      ', 'ICHmw1/05      ',
+     >      'ICHmw1/06      ', 'ICHmw2/04      ',
+     >      'ICHmw2/06      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0466
-     >    ),
+     >  ) /
 
+      DATA SSKONST(8) /
      >  SS_STR (  ! IDF CW (zonal model: no site index)
-     >    (/ 6, 14*0  /),
-     >    (/       'IDF/all', 29*''/),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >  ) /
 
+      DATA SSKONST(9) /
      >  SS_STR (  ! ICH PL 21m 1-30
-     >    (/ 7, 14*0  /),
-     >    (/        'ICHdk/02',        'ICHdk/03',        'ICHdk/04',
-     >             'ICHmk3/02',       'ICHmk3/03',       'ICHmk3/05',
-     >             'ICHmk3/06',       'ICHmk3/07',       'ICHwk2/02',
-     >             'ICHwk2/03',       'ICHwk2/04',       'ICHwk2/05',
-     >             'ICHwk2/06',       'ICHwk2/07',       'ICHwk4/02',
-     >             'ICHwk4/03',       'ICHwk4/04',       'ICHwk4/05',
-     >             'ICHwk4/06',       'ICHwk4/07',       'ICHmk1/01',
-     >          'ICHmk1/01-ys',       'ICHmk1/02',       'ICHmk1/03',
-     >             'ICHmk1/04',       'ICHmk1/05',       'ICHmk1/07',
-     >             'ICHmk2/01',       'ICHmk2/02',       'ICHmk2/03'/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHdk/02       ', 'ICHdk/03       ',
+     >      'ICHdk/04       ', 'ICHmk3/02      ',
+     >      'ICHmk3/03      ', 'ICHmk3/05      ',
+     >      'ICHmk3/06      ', 'ICHmk3/07      ',
+     >      'ICHwk2/02      ', 'ICHwk2/03      ',
+     >      'ICHwk2/04      ', 'ICHwk2/05      ',
+     >      'ICHwk2/06      ', 'ICHwk2/07      ',
+     >      'ICHwk4/02      ', 'ICHwk4/03      ',
+     >      'ICHwk4/04      ', 'ICHwk4/05      ',
+     >      'ICHwk4/06      ', 'ICHwk4/07      ',
+     >      'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/02      ', 'ICHmk1/03      ',
+     >      'ICHmk1/04      ', 'ICHmk1/05      ',
+     >      'ICHmk1/07      ', 'ICHmk2/01      ',
+     >      'ICHmk2/02      ', 'ICHmk2/03      '/),
      >    0.0
-     >    ),
+     >  ) /
 
+      DATA SSKONST(10) /
      >  SS_STR (  ! ICH PL 21m 31-50
-     >    (/ 7, 14*0  /),
-     >    (/       'ICHmk2/04',       'ICHmk2/06',       'ICHmw2/02',
-     >             'ICHmw3/01',    'ICHmw3/01-yc',       'ICHmw3/02',
-     >             'ICHmw3/03',       'ICHmw3/04',       'ICHmw3/05',
-     >             'ICHwk1/02',       'ICHwk1/03',       'ICHwk1/04',
-     >             'ICHdw/01a',        'ICHdw/02',       'ICHmw1/02',
-     >             'ICHmw1/03',       'ICHmw1/04',       'ICHmw1/07',
-     >             'ICHmw2/03',        'ICHxw/01',         'ICH/all',
-     >           9*''/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmk2/04      ', 'ICHmk2/06      ',
+     >      'ICHmw2/02      ', 'ICHmw3/01      ',
+     >      'ICHmw3/01-yc   ', 'ICHmw3/02      ',
+     >      'ICHmw3/03      ', 'ICHmw3/04      ',
+     >      'ICHmw3/05      ', 'ICHwk1/02      ',
+     >      'ICHwk1/03      ', 'ICHwk1/04      ',
+     >      'ICHdw/01a      ', 'ICHdw/02       ',
+     >      'ICHmw1/02      ', 'ICHmw1/03      ',
+     >      'ICHmw1/04      ', 'ICHmw1/07      ',
+     >      'ICHmw2/03      ', 'ICHxw/01       ',
+     >      'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >  ) /
 
+      DATA SSKONST(11) /
      >  SS_STR (  ! ICH PL 24m 1-22
-     >    (/ 7, 14*0  /),
-     >    (/        'ICHdk/01',        'ICHdk/05',       'ICHmk3/01',
-     >             'ICHmk3/04',       'ICHwk2/01',       'ICHwk4/01',
-     >             'ICHmk1/06',       'ICHmk2/05',       'ICHmw2/01',
-     >          'ICHmw2/01-ys',       'ICHmw2/03',       'ICHmw2/04',
-     >             'ICHmw2/05',       'ICHmw3/06',       'ICHwk1/01',
-     >             'ICHdw/01b',        'ICHdw/03',        'ICHdw/04',
-     >             'ICHmw1/01',       'ICHmw1/05',       'ICHmw1/06',
-     >             'ICHmw2/06',     8*''/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHdk/01       ', 'ICHdk/05       ',
+     >      'ICHmk3/01      ', 'ICHmk3/04      ',
+     >      'ICHwk2/01      ', 'ICHwk4/01      ',
+     >      'ICHmk1/06      ', 'ICHmk2/05      ',
+     >      'ICHmw2/01      ', 'ICHmw2/01-ys   ',
+     >      'ICHmw2/03      ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw3/06      ',
+     >      'ICHwk1/01      ', 'ICHdw/01b      ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw1/01      ', 'ICHmw1/05      ',
+     >      'ICHmw1/06      ', 'ICHmw2/06      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.2625
-     >    ),
+     >  ) /
 
+      DATA SSKONST(12) /
      >  SS_STR (  ! IDF PL 15m 1-20
-     >    (/ 7, 14*0  /),
-     >    (/       'IDFdk3/02',       'IDFdk3/03',       'IDFdk3/05',
-     >             'IDFdk4/01',       'IDFdk4/02',       'IDFdk4/05',
-     >             'IDFdk4/06',       'IDFdk4/07',       'IDFdk4/08',
-     >             'IDFdk4/09',        'IDFxm/03',       'IDFdk1/02',
-     >             'IDFdk1/03',       'IDFdk1/04',       'IDFdk3/06',
-     >             'IDFdm1/03',       'IDFdm1/04',       'IDFmw1/03',
-     >              'IDFww/02',       'IDFdm2/03',         'IDF/all',
-     >           9*''/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'IDFdk3/02      ', 'IDFdk3/03      ',
+     >      'IDFdk3/05      ', 'IDFdk4/01      ',
+     >      'IDFdk4/02      ', 'IDFdk4/05      ',
+     >      'IDFdk4/06      ', 'IDFdk4/07      ',
+     >      'IDFdk4/08      ', 'IDFdk4/09      ',
+     >      'IDFxm/03       ', 'IDFdk1/02      ',
+     >      'IDFdk1/03      ', 'IDFdk1/04      ',
+     >      'IDFdk3/06      ', 'IDFdm1/03      ',
+     >      'IDFdm1/04      ', 'IDFmw1/03      ',
+     >      'IDFww/02       ', 'IDFdm2/03      ',
+     >      'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >    ) /
 
+      DATA SSKONST(13) /
      >  SS_STR (  ! IDF PL 18m 1-18
-     >    (/ 7, 14*0 /),
-     >    (/       'IDFdk3/01',       'IDFdk3/06',       'IDFdk3/07',
-     >             'IDFdk3/08',       'IDFdk3/09',        'IDFdw/01',
-     >             'IDFdk1/01',       'IDFdk2/01',       'IDFdk2/03',
-     >             'IDFdk2/04',       'IDFdm1/01',       'IDFmw1/04',
-     >             'IDFmw2/02',       'IDFmw2/05',        'IDFww/03',
-     >             'IDFdm2/01',       'IDFdm2/04',       'IDFdm2/07',
-     >          12*''/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'IDFdk3/01      ', 'IDFdk3/06      ',
+     >      'IDFdk3/07      ', 'IDFdk3/08      ',
+     >      'IDFdk3/09      ', 'IDFdw/01       ',
+     >      'IDFdk1/01      ', 'IDFdk2/01      ',
+     >      'IDFdk2/03      ', 'IDFdk2/04      ',
+     >      'IDFdm1/01      ', 'IDFmw1/04      ',
+     >      'IDFmw2/02      ', 'IDFmw2/05      ',
+     >      'IDFww/03       ', 'IDFdm2/01      ',
+     >      'IDFdm2/04      ', 'IDFdm2/07      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >    ) /
 
+      DATA SSKONST(14) /
      >  SS_STR (  ! IDF PL 21m 1-17
-     >    (/ 7, 14*0  /),
-     >    (/       'IDFdk1/05',       'IDFdk1/06',       'IDFdk2/05',
-     >             'IDFdk2/06',       'IDFdk2/07',       'IDFdm1/05',
-     >             'IDFdm1/06',       'IDFdm1/07',       'IDFmw1/01',
-     >          'IDFmw1/01-yc',       'IDFmw1/05',       'IDFmw1/06',
-     >             'IDFmw2/01',       'IDFmw2/03',       'IDFmw2/04',
-     >              'IDFww/01',       'IDFdm2/05',   13*'' /),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'IDFdk1/05      ', 'IDFdk1/06      ',
+     >      'IDFdk2/05      ', 'IDFdk2/06      ',
+     >      'IDFdk2/07      ', 'IDFdm1/05      ',
+     >      'IDFdm1/06      ', 'IDFdm1/07      ',
+     >      'IDFmw1/01      ', 'IDFmw1/01-yc   ',
+     >      'IDFmw1/05      ', 'IDFmw1/06      ',
+     >      'IDFmw2/01      ', 'IDFmw2/03      ',
+     >      'IDFmw2/04      ', 'IDFww/01       ',
+     >      'IDFdm2/05      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.3479
-     >    ),
+     >    ) /
 
+      DATA SSKONST(15) /
      >  SS_STR (  ! ICH SE 18m 1-30
-     >    (/ 8, 14*0  /),
-     >    (/       'ICHwk2/04',       'ICHwk4/04',       'ICHwk4/05',
-     >             'ICHwk4/08',       'ICHmk1/01',    'ICHmk1/01-ys',
-     >             'ICHmk1/03',       'ICHmk1/04',       'ICHmk1/07',
-     >             'ICHmk2/01',       'ICHmk2/03',       'ICHmk2/04',
-     >             'ICHmk2/06',       'ICHmw2/01',    'ICHmw2/01-ys',
-     >             'ICHmw2/02',       'ICHmw2/03',       'ICHmw2/07',
-     >             'ICHmw3/01',    'ICHmw3/01-yc',       'ICHmw3/03',
-     >             'ICHmw3/04',       'ICHmw3/05',       'ICHmw3/08',
-     >             'ICHvk1/06',       'ICHwk1/03',       'ICHwk1/07',
-     >             'ICHmw1/02',       'ICHmw1/03',       'ICHmw1/04'/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHwk2/04      ', 'ICHwk4/04      ',
+     >      'ICHwk4/05      ', 'ICHwk4/08      ',
+     >      'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/03      ', 'ICHmk1/04      ',
+     >      'ICHmk1/07      ', 'ICHmk2/01      ',
+     >      'ICHmk2/03      ', 'ICHmk2/04      ',
+     >      'ICHmk2/06      ', 'ICHmw2/01      ',
+     >      'ICHmw2/01-ys   ', 'ICHmw2/02      ',
+     >      'ICHmw2/03      ', 'ICHmw2/07      ',
+     >      'ICHmw3/01      ', 'ICHmw3/01-yc   ',
+     >      'ICHmw3/03      ', 'ICHmw3/04      ',
+     >      'ICHmw3/05      ', 'ICHmw3/08      ',
+     >      'ICHvk1/06      ', 'ICHwk1/03      ',
+     >      'ICHwk1/07      ', 'ICHmw1/02      ',
+     >      'ICHmw1/03      ', 'ICHmw1/04      '/),
      >    0.0
-     >    ),
+     >    ) /
 
+      DATA SSKONST(16) /
      >  SS_STR (  ! ICH SE 18m 31-35
-     >    (/ 8, 14*0  /),
-     >    (/       'ICHmw1/07',       'ICHmw2/03',       'ICHmw2/04',
-     >             'ICHmw2/08',       'ICHwk1/08',         'ICH/all',
-     >          24*''/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmw1/07      ', 'ICHmw2/03      ',
+     >      'ICHmw2/04      ', 'ICHmw2/08      ',
+     >      'ICHwk1/08      ', 'ICH/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >    ) /
 
+      DATA SSKONST(17) /
      >  SS_STR (  ! ICH SE 21m 1-30
-     >    (/ 8, 14*0  /),
-     >    (/        'ICHdk/01',        'ICHdk/04',        'ICHdk/05',
-     >             'ICHmk3/01',       'ICHmk3/04',       'ICHmk3/05',
-     >             'ICHmk3/06',       'ICHmk3/07',       'ICHwk2/01',
-     >             'ICHwk2/05',       'ICHwk2/06',       'ICHwk2/07',
-     >             'ICHwk2/08',       'ICHwk4/01',       'ICHwk4/06',
-     >             'ICHwk4/07',       'ICHmk1/05',       'ICHmk1/06',
-     >             'ICHmk2/05',       'ICHmw2/04',       'ICHmw2/05',
-     >             'ICHmw2/06',       'ICHmw3/06',       'ICHmw3/07',
-     >             'ICHvk1/01',       'ICHvk1/02',       'ICHvk1/03',
-     >             'ICHvk1/04',       'ICHvk1/05',       'ICHwk1/01'/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHdk/01       ', 'ICHdk/04       ',
+     >      'ICHdk/05       ', 'ICHmk3/01      ',
+     >      'ICHmk3/04      ', 'ICHmk3/05      ',
+     >      'ICHmk3/06      ', 'ICHmk3/07      ',
+     >      'ICHwk2/01      ', 'ICHwk2/05      ',
+     >      'ICHwk2/06      ', 'ICHwk2/07      ',
+     >      'ICHwk2/08      ', 'ICHwk4/01      ',
+     >      'ICHwk4/06      ', 'ICHwk4/07      ',
+     >      'ICHmk1/05      ', 'ICHmk1/06      ',
+     >      'ICHmk2/05      ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw2/06      ',
+     >      'ICHmw3/06      ', 'ICHmw3/07      ',
+     >      'ICHvk1/01      ', 'ICHvk1/02      ',
+     >      'ICHvk1/03      ', 'ICHvk1/04      ',
+     >      'ICHvk1/05      ', 'ICHwk1/01      '/),
      >    0.1750
-     >    ),
+     >    ) /
 
+      DATA SSKONST(18) /
      >  SS_STR (  ! ICH SE 21m 31-41
-     >    (/ 8, 14*0  /),
-     >    (/       'ICHwk1/04',       'ICHwk1/05',       'ICHwk1/06',
-     >             'ICHdw/01b',        'ICHdw/03',        'ICHdw/04',
-     >             'ICHmw1/01',       'ICHmw1/05',       'ICHmw1/06',
-     >             'ICHmw2/07',       'ICHwk1/07',    19*''/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHwk1/04      ', 'ICHwk1/05      ',
+     >      'ICHwk1/06      ', 'ICHdw/01b      ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw1/01      ', 'ICHmw1/05      ',
+     >      'ICHmw1/06      ', 'ICHmw2/07      ',
+     >      'ICHwk1/07      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.1750
-     >    ),
+     >    ) /
 
+      DATA SSKONST(19) /
      >  SS_STR (  ! IDF SE (zonal model: no site index)
-     >    (/ 8, 14*0 /),
-     >    (/       'IDF/all', 29*''/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >    ) /
 
+      DATA SSKONST(20) /
      >  SS_STR (  ! ICH BL,BG 15m 1-9
-     >    (/ 9, 4, 13*0  /),
-     >    (/       'ICHmk1/03',       'ICHmk2/03',       'ICHmw2/02',
-     >             'ICHmw3/03',       'ICHmw3/08',       'ICHvk1/06',
-     >             'ICHwk1/02',       'ICHmw1/02',       'ICHmw2/03',
-     >               'ICH/all',    20*''/),
+     >    (/ 9, 4 ,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmk1/03      ', 'ICHmk2/03      ',
+     >      'ICHmw2/02      ', 'ICHmw3/03      ',
+     >      'ICHmw3/08      ', 'ICHvk1/06      ',
+     >      'ICHwk1/02      ', 'ICHmw1/02      ',
+     >      'ICHmw2/03      ', 'ICH/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >    ) /
 
+      DATA SSKONST(21) /
      >  SS_STR (  ! ICH BL,BG 18m 1-29
-     >    (/ 9, 4, 13*0 /),
-     >    (/       'ICHmk1/01',    'ICHmk1/01-ys',       'ICHmk1/04',
-     >             'ICHmk1/07',       'ICHmk2/01',       'ICHmk2/06',
-     >             'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/03',
-     >             'ICHmw2/06',       'ICHmw2/07',       'ICHmw3/01',
-     >          'ICHmw3/01-yc',       'ICHmw3/05',       'ICHvk1/02',
-     >             'ICHvk1/03',       'ICHvk1/05',       'ICHwk1/03',
-     >             'ICHwk1/04',       'ICHwk1/06',       'ICHwk1/07',
-     >             'ICHdw/01a',       'ICHmw1/01',       'ICHmw1/03',
-     >             'ICHmw1/04',       'ICHmw1/07',       'ICHmw2/04',
-     >             'ICHmw2/08',       'ICHwk1/08',     ('', I=1,1)/),
+     >    (/ 9, 4, 0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/04      ', 'ICHmk1/07      ',
+     >      'ICHmk2/01      ', 'ICHmk2/06      ',
+     >      'ICHmw2/01      ', 'ICHmw2/01-ys   ',
+     >      'ICHmw2/03      ', 'ICHmw2/06      ',
+     >      'ICHmw2/07      ', 'ICHmw3/01      ',
+     >      'ICHmw3/01-yc   ', 'ICHmw3/05      ',
+     >      'ICHvk1/02      ', 'ICHvk1/03      ',
+     >      'ICHvk1/05      ', 'ICHwk1/03      ',
+     >      'ICHwk1/04      ', 'ICHwk1/06      ',
+     >      'ICHwk1/07      ', 'ICHdw/01a      ',
+     >      'ICHmw1/01      ', 'ICHmw1/03      ',
+     >      'ICHmw1/04      ', 'ICHmw1/07      ',
+     >      'ICHmw2/04      ', 'ICHmw2/08      ',
+     >      'ICHwk1/08      ', '               '/),
      >    0.0807
-     >    ),
+     >    ) /
 
+      DATA SSKONST(22) /
      >  SS_STR (  ! ICH BL,BG 21m 1-18
-     >    (/ 9, 4, 13*0 /),
-     >    (/       'ICHmk1/05',       'ICHmk1/06',       'ICHmk2/05',
-     >             'ICHmw2/04',       'ICHmw2/05',       'ICHmw3/06',
-     >             'ICHmw3/07',       'ICHvk1/01',       'ICHvk1/04',
-     >             'ICHwk1/01',       'ICHwk1/05',       'ICHdw/01b',
-     >              'ICHdw/03',        'ICHdw/04',       'ICHmw1/05',
-     >             'ICHmw1/06',       'ICHmw2/05',       'ICHmw2/06',
-     >          12*''/),
+     >    (/ 9, 4, 0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'ICHmk1/05      ', 'ICHmk1/06      ',
+     >      'ICHmk2/05      ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw3/06      ',
+     >      'ICHmw3/07      ', 'ICHvk1/01      ',
+     >      'ICHvk1/04      ', 'ICHwk1/01      ',
+     >      'ICHwk1/05      ', 'ICHdw/01b      ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw1/05      ', 'ICHmw1/06      ',
+     >      'ICHmw2/05      ', 'ICHmw2/06      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.2422
-     >    ),
+     >    ) /
 
+      DATA SSKONST(23) /
      >  SS_STR (  ! IDF BL,BG 1-5 (zonal model: use ICH SI 15)
-     >    (/ 9, 4, 13*0 /),
-     >    (/       'IDF/all', 29*''/),
+     >    (/ 9, 4, 0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >    ) /
 
+      DATA SSKONST(24) /
      >  SS_STR (  ! ICH+IDF PY 1-30 (zonal model: no site index)
-     >    (/10, 14*0 /),
-     >    (/       'IDF/all',         'ICH/all', 28*''/),
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'IDF/all        ', 'ICH/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    ),
+     >    ) /
 
+      DATA SSKONST(25) /
      >  SS_STR (  ! ICH+IDF EP,OH,AT,AC (zonal model for all hardwoords)
-     >    (/11, 12, 13, 15, 11*0  /),
-     >    (/       'IDF/all',         'ICH/all', 28*'' /),
+     >    (/11, 12, 13, 15, 0,0,0,0,0,0,0,0,0,0,0  /),    ! spp
+     >    (/'IDF/all        ', 'ICH/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    0.0
-     >    )
+     >    ) /
 
-     >      /
       CALL DBCHK (DEBUG,'DGF',3,ICYC)
 
 C     V2: SCALE BASAL AREA; FIND SEICCF TERMS
-      IF (LV2ATV) THEN      
+      IF (LV2ATV) THEN
         BA100 = BA/100.
         CALL SEILTDG (BECADJ,SEICN2,
      &    SEISLP,SEISAS,SEICAS,SEIELV,SEIEL2,SEICCF,LSPPOK)
@@ -1299,20 +1852,20 @@ C     BEGIN SPECIES LOOP. ASSIGN VARIABLES WHICH ARE SPECIES DEPENDENT
         I1=ISCT(ISPC,1)
         IF(I1.EQ.0) GO TO 20
         I2=ISCT(ISPC,2)
-        
+
         IF (LV2ATV) THEN
-        
-          IF (.NOT.LSPPOK(ISPC)) SEICCF(ISPC) = 0.0 
+
+          IF (.NOT.LSPPOK(ISPC)) SEICCF(ISPC) = 0.0
           CONSPP = DGCON(ISPC) + COR(ISPC) +
      &        0.01 * (DGCCF(ISPC) + SEICCF(ISPC)) * RELDEN
-     
+
           DGLDS  = DGLD(ISPC)
           DGBALS = DGBAL(ISPC)
           DGCRS  = DGCR(ISPC)
           DGCRS2 = DGCRSQ(ISPC)
           DGDSQS = DGDSQ(ISPC)
           DGDBLS = DGDBAL(ISPC)
-          
+
         ELSE
 
 C         HW MODEL IN ICH MUST HAVE AT CCF>=100
@@ -1344,13 +1897,13 @@ C         PL MODEL IN IDF MUST HAVE AT CCF>=100
 C       BEGIN TREE LOOP WITHIN SPECIES ISPC.
         DO 10 I3 = I1,I2
           I = IND1(I3)
-          IF (DIAM(I).LE.0.0) GOTO 10        
-          
+          IF (DIAM(I).LE.0.0) GOTO 10
+
           CR  = ICR(I) * 0.01
           IF (LV2ATV) THEN
-            D   = DIAM(I)   
+            D   = DIAM(I)
             ALD = ALOG(D)
-            BAL = (1.0 - (PCT(I)/100.)) * BA100            
+            BAL = (1.0 - (PCT(I)/100.)) * BA100
           ELSE
             D = DIAM(I) * INtoCM
             BAL = (1.0 - (PCT(I)/100.)) * BA * FT2pACRtoM2pHA
@@ -1369,14 +1922,14 @@ C           EP/OH MODEL MUST HAVE CROWN<=0.80
      >            CR = MIN(0.8, CR)
             END SELECT
           ENDIF
-            
+
           IF (LV2ATV) THEN
 
             DDS = CONSPP + DGLDS*ALD + DGBALS*BAL + CR*(DGCRS+CR*DGCRS2)
      &           +DGDSQS*D*D  + DGDBLS*BAL/(ALOG(D+1.0))
 
           ELSE
-          
+
             SELECT CASE (ISPC)
 
               ! new birch IDF model form in IDF; old form in ICH
@@ -1385,7 +1938,7 @@ C           EP/OH MODEL MUST HAVE CROWN<=0.80
 	            D2    = MAX(D,1.0)  ! CONSTRAIN TO 1 CM
                   BALD1 = BAL/D2
                   DDS   = DGLD1(ISPC) * (D2 **
-     >              (DGDBAL1(ISPC) + DGDBAL2(ISPC) * BALD1)) * 
+     >              (DGDBAL1(ISPC) + DGDBAL2(ISPC) * BALD1)) *
      >              EXP(DGDSQ1(ISPC) * D2 * D2)
 	          ELSEIF (INDEX(BEC%Zone,'ICH') .GT. 0) THEN
                   DDS = CONSPP
@@ -1403,7 +1956,7 @@ C           EP/OH MODEL MUST HAVE CROWN<=0.80
                 D2    = MAX(D,1.0)  ! CONSTRAIN TO 1 CM
                 BALD1 = BAL/D2
                 DDS   = DGLD1(ISPC) * (D2 **
-     >            (DGDBAL1(ISPC) + DGDBAL2(ISPC) * BALD1)) * 
+     >            (DGDBAL1(ISPC) + DGDBAL2(ISPC) * BALD1)) *
      >            EXP(DGDSQ1(ISPC) * D2 * D2)
 
 	        CASE DEFAULT
@@ -1421,10 +1974,10 @@ C           EP/OH MODEL MUST HAVE CROWN<=0.80
 C           CONVERT DG [CM] PREDICTION TO LN(DDS) [IN]
             DDS = (DDS*DDS + 2.0 * DDS * D * BRATIO(ISPC,D,0.0)) *
      >             CMtoIN * CMtoIN
-	        
+
 	    ENDIF
-     
-          DDS = MAX(0.001,DDS)  ! temporary: during SBS fit 
+
+          DDS = MAX(0.001,DDS)  ! temporary: during SBS fit
           DDS = LOG(DDS)
 
 C         CALL PPDGF TO GET A MODIFICATION VALUE FOR DDS THAT ACCOUNTS
@@ -1493,7 +2046,7 @@ C           ADD NI-AVERAGE SLOPE/ASPECT/ELEVATION USED DURING FITTING
      &        +  DGSLSQ(I)  * BECADJ(1) * BECADJ(1)
 
 C           USE SEI-DERIVED TERMS
-            DGCON2(I) = SEICN2(I)	
+            DGCON2(I) = SEICN2(I)
      &        +  SEIELV(I)  * ELEV
      &        +  SEIEL2(I)  * ELEV * ELEV
      &        + (SEISAS(I)  * SIN(ASPECT)
@@ -1521,9 +2074,9 @@ C           USE SEI-DERIVED TERMS
           SMCON(I)=0.      ! error here...
 
         ENDDO
-      
+
       ELSE
-      
+
         DO J = 1,P_ZN
           DO K = 1,P_ST
             DO M = 1,P_ZL
@@ -1544,14 +2097,14 @@ C           USE SEI-DERIVED TERMS
 
 C       MAKE TEMPORARY ZONE/SS MAPPING FOR SS IN THE KAMLOOPS ICHmw2.
 C       THESE SS DO NOT NATURALLY CORRESPOND TO THOSE OF THE NELSON REGION,
-C       AND ARE "INCREMENTED" BY ONE SS. 
+C       AND ARE "INCREMENTED" BY ONE
 
         BEC2 = BEC
         IF (INDEX(BEC2%Region,'KAM') .GT. 0 .AND.
      >      INDEX(BEC2%FullName,'ICHmw2') .GT. 0 .AND.
      >      INDEX(BEC2%Series,'-') .EQ. 0) THEN
-     
-          READ (BEC2%Series,'(I4)') iSeries          
+
+          READ (BEC2%Series,'(I4)') iSeries
           SELECT CASE (iSeries)
             CASE (2)
               BEC2%PrettyName = "ICHmw2/03"
@@ -1567,7 +2120,7 @@ C       AND ARE "INCREMENTED" BY ONE SS.
               BEC2%PrettyName = "ICHmw2/08"
           END SELECT
         ENDIF
-        PAT2 = BEC2%PrettyName        
+        PAT2 = BEC2%PrettyName
 
 C       LOCATE ZONE USING "/all" PATTERN MATCH
 
@@ -1662,7 +2215,7 @@ C         POPULATE ARRAYS FOR OTHER CONSTANTS
           SMCON(I)   = 0.
 C	    SIGMAR(I)  = ZNKONST(IP)%SIGMAR ! SIGMAR - RES.ERR
 C	    SIGMAR(I)  = SIGMAR(I) * 0.5
-cccc          LLTDGOK(I) = .TRUE.
+c          LLTDGOK(I) = .TRUE.
    11   ENDDO
       ENDIF
 
@@ -1674,6 +2227,6 @@ C  INITIALIZED TO 1.0 IN BLKDATA.
         IF (LDCOR2.AND.COR2(I).GT.0.0) DGCON(I)=DGCON(I)
      &    + ALOG(COR2(I))
       ENDDO
-       
+
       RETURN
       END

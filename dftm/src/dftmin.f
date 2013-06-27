@@ -1,7 +1,7 @@
       SUBROUTINE DFTMIN(LKECHO)
       IMPLICIT NONE
 C---------- 
-C  **DFTMIN            DATE OF LAST REVISION:  06/30/10
+C  **DFTMIN            DATE OF LAST REVISION:  04/01/13
 C---------- 
 C     
 C     OPTION PROCESSOR FOR DOUGLAS FIR TUSSOCK MOTH MODEL   
@@ -15,6 +15,10 @@ C     AND INITIALIZE IN TMINIT.
 C     (PREVIOUSE REVISION DATE WAS 01/06/89)
 C   10-NOV-2003 - Lance R. David (FHTET)
 C     Added LFLAG to KEYRDR call statement argument list.
+C   01-APR-2013 Lance R. David (FMSC)
+C     A few variables defined locally were already defined
+C     in a common block. Local declaration removed. Other declarations
+C     corrected.
 C-----------------------------------------------------------------------------
 COMMONS     
 C
@@ -33,23 +37,15 @@ C
 COMMONS     
 C     
       CHARACTER*4 SPEC(2), PRMTYP(3)
-      CHARACTER*8 TABLE, KEYWRD, PASKEY   
-      CHARACTER*10 KARD 
+      CHARACTER*8 TABLE(50), KEYWRD, PASKEY   
+      CHARACTER*10 KARD(7) 
       CHARACTER*80 PNAME
-      INTEGER ITMETH,IPRBMT,ITMSCH,ITMSLV,JODFTM,JOTMDK,ITMREP
-      INTEGER IDFCOD,IGFCOD,JODFEC,NCLAS,IEGTYP,NACLAS
-      INTEGER IBMTYP,IDT,I,I1,I2,ISP,J,IPH,K1,INSTAR
+      INTEGER IDT,I,I1,I2,ISP,J,IPH,K1,INSTAR
       INTEGER K2,K3,KEY,ISIZE,KODE,NUMBER
-      REAL G1,R1,B1,Z1,X1,R0,B0,X0,TMPN1,TMASHD,TMPRB,TMDEFL
-      REAL TOPO,CNTGF,CNTDF,PRBSCL,GFFBIO,DFFBIO,GFPNEW
-      REAL DFPNEW,WEIGHT,GFREGG,DFREGG,GFEGG,DFEGG
-      REAL REGG,DEGG,PRMS,ARRAY,EFFIC,Y1,F1
-      REAL         RSEED
-      LOGICAL LNOTBK,LFIRST,LKECHO
+      REAL    REGG(6),DEGG(6),PRMS(1),ARRAY(7),EFFIC
+      REAL    RSEED
+      LOGICAL LNOTBK(7),LFIRST,LKECHO
       LOGICAL DEBUG     
-
-      DIMENSION DEGG(6), REGG(6), KARD(7)    
-      DIMENSION ARRAY(7), TABLE(50), LNOTBK(7), PRMS(1)  
 
 C     This equivalence enables arrays DFEGG and GFEGG to be referenced
 C     by DEGG, and arrays DFREGG and GFREGG to be referenced by REGG.

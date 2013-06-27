@@ -1,7 +1,7 @@
       SUBROUTINE G0COMP 
       IMPLICIT NONE
 C---------- 
-C  **G0COMP DATE OF LAST REVISION:  06/30/10
+C  **G0COMP DATE OF LAST REVISION:  04/01/13
 C---------- 
 C     
 C     DFTM MODEL SUBROUTINE - JIM COLBERT - JAN 1978. 
@@ -16,10 +16,15 @@ C
 C     
       INCLUDE 'LIMITS.F77'
 C     
+C  REVISION HISTORY:
+C    01-APR-2013 Lance R. David (FMSC)
+C      A few variables defined locally were already defined
+C      in a common block. Local declaration removed.
+C----------
+C
 COMMONS     
 C     
-      INTEGER INUM,IP,J,I,KPP,ICOUNT,IC,KP,K,JCLASS,IZ6
-      REAL R0,B0,X0,G2,G3,G19,X7,X6,X5,Z3,Z2,Z4,Z5     
+      INTEGER INUM,IP,J,I,KPP
 
       IF (K(3) .EQ. K(1)) RETURN    
       INUM = IC(2) - IC(1) + 1

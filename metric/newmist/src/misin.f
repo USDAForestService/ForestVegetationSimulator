@@ -83,7 +83,7 @@ C----------
 *                FVS keywords ECHO and NOECHO
 *     02/02/06 - Lance David (FHTET)
 *                Removed obsolete message "*** MISTMORT keyword ignored in
-*                CR variant". Modified keyword output for MISTMULT and 
+*                CR variant". Modified keyword output for MISTMULT and
 *                MISTMORT keywords to be more descriptive.
 *     03/22/07 - Lance David (FHTET)
 *                Functionality of MistOff keyword was changed so that it
@@ -97,7 +97,7 @@ C----------
 *                array added for previous update is no longer needed and
 *                was removed along with inclusion of common ARRAYS.F77.
 ***********************************************************************
-      
+
 C.... Parameter statements.
 
 C.... Parameter include files.
@@ -1296,30 +1296,29 @@ C     Option 29: DMBCI:	Biological control initiation
       IF (ISPL.EQ.-1) LOK = .FALSE.
 
 	IF (LOK) THEN
-	  READ(IREAD,2901,END=60) (BC(I).Mort(K),  K=1,ACTIVE)
+        READ(IREAD,2901,END=60) (BC(I)%Mort(K),  K=1,ACTIVE)
         IRECNT=IRECNT+1
-        READ(IREAD,2901,END=60) (BC(I).Suprs(K), K=1,ACTIVE)
+        READ(IREAD,2901,END=60) (BC(I)%Suprs(K), K=1,ACTIVE)
         IRECNT=IRECNT+1
-        READ(IREAD,2901,END=60) (BC(I).Yr(K),    K=1,ACTIVE)
+        READ(IREAD,2901,END=60) (BC(I)%Yr(K),    K=1,ACTIVE)
         IRECNT=IRECNT+1
         DO K = 1,ACTIVE ! bound the values
-	    BC(I).Mort(K)  = MIN(100.0, MAX(0.0, BC(I).Mort(K)))  ! 0,   100%
-	    BC(I).Suprs(K) = MIN(100.0, MAX(0.0, BC(I).Suprs(K))) ! 0,   100%
-	    BC(I).Yr(K)    = MIN(999.0, MAX(0.04, BC(I).Yr(K)))   ! 0.04,999yr
-          IF (BC(I).Yr(K) .GE. 0.04) THEN
-	      BC(I).HfLf(K) = EXP(LOG(0.5)/BC(I).Yr(K))
+          BC(I)%Mort(K)  = MIN(100.0, MAX(0.0, BC(I)%Mort(K)))  ! 0,   100%
+          BC(I)%Suprs(K) = MIN(100.0, MAX(0.0, BC(I)%Suprs(K))) ! 0,   100%
+          BC(I)%Yr(K)    = MIN(999.0, MAX(0.04, BC(I)%Yr(K)))   ! 0.04,999yr
+          IF (BC(I)%Yr(K) .GE. 0.04) THEN
+            BC(I)%HfLf(K) = EXP(LOG(0.5)/BC(I)%Yr(K))
 	    ENDIF
 	  ENDDO
 	ENDIF
  2901 FORMAT(4F10.0)
 
  	IF (LOK) THEN
-	  BC(I).Spp = ISPL
+        BC(I)%Spp = ISPL
         WRITE(JOSTND,2902) KEYWRD,I,KARD(2)(1:3),
-     >  BC(I).Spp,
-     >  (BC(I).Mort(K),  K=1,ACTIVE),
-     >  (BC(I).Suprs(K), K=1,ACTIVE),
-     >  (BC(I).Yr(K),    K=1,ACTIVE)
+     >  (BC(I)%Mort(K),  K=1,ACTIVE),
+     >  (BC(I)%Suprs(K), K=1,ACTIVE),
+     >  (BC(I)%Yr(K),    K=1,ACTIVE)
  2902   FORMAT(/1X,A8,
      >  /T8,'Definition of Biocontrol Agent: ',I2,
      >  /T8,'Host species: ',A,' (CODE= ',I2,')',
@@ -1351,7 +1350,7 @@ C     Option 30: DMBCA:	Biological control application
         IF(.NOT.LNOTBK(2)) ARRAY(2) = 1.0
         IF(.NOT.LNOTBK(3)) ARRAY(3) = 1.0
         IF(.NOT.LNOTBK(4)) ARRAY(4) = FLOAT(MXHT*MESH)
-	
+
 	  ARRAY(2) = FLOAT(IFIX(MIN(FLOAT(MAXBC), MAX(1.0, ARRAY(2)))))
 	  ARRAY(3) = MIN(20.0,             MAX(0.0, ARRAY(3)))
 	  ARRAY(4) = MIN(FLOAT(MXHT*MESH), MAX(0.0, ARRAY(4)))

@@ -1,7 +1,7 @@
       SUBROUTINE TMINIT 
       IMPLICIT NONE
 C---------- 
-C  **TMINIT--EC DATE OF LAST REVISION:  06/30/10
+C  **TMINIT--EC DATE OF LAST REVISION:  04/01/13
 C---------- 
 C     
 C     INITIALIZES THE TUSSOCK MOTH SWITCHES AND VARIABLES   
@@ -12,6 +12,9 @@ C  REVISION HISTORY:
 C    15-APR-2002 Lance R. David (FHTET)
 C      Random number generator initialization with default seed value.
 C      Added local variables LSET and TMSEED.
+C    01-APR-2013 Lance R. David (FMSC)
+C      A few variables defined locally were already defined
+C      in a common block. Local declaration removed.
 C----------
 COMMONS     
 C     
@@ -25,14 +28,8 @@ C
 C     
 COMMONS     
 C     
-      INTEGER IGFCOD,IDFCOD,ITMREP,JOTMDK,JODFTM,ITMSLV
-      INTEGER ITMSCH,IPBMT,ITMETH,IBMTYP,NCLAS,NACLAS
-      INTEGER I,IEGTYP,JODFEC,IPRBMT
-      REAL B0,CNTGF,CNTDF,DFFBIO,DFPNEW,DFREGG,DFEGG,GFFBIO,GFEGG,
-     &     GFPNEW,GFREGG
-      REAL PRBSCL,Y1,F1,G1,R0,R1,B1,Z1,X1,X0
-      REAL TMB0(66),TMB1(36),TMR0(18),TMSEED,TMPN1,TMASHD,
-     &     TMPRB,TMDEFL,TOPO,WEIGHT
+      INTEGER I
+      REAL TMB0(66),TMB1(36),TMR0(18),TMSEED
       LOGICAL LSET
 
       DATA TMB0 / 

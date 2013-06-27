@@ -1,25 +1,45 @@
       BLOCK DATA BRBLKD
 C**********************************************************************
-C  **BRBLKD--SO   DATE OF LAST REVISION:  06/12/2006
+C  **BRBLKD--SO   DATE OF LAST REVISION:  04/02/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  Block data for the Blister Rust model.
 C----------
 C     SPECIES LIST FOR Southern Oregon/Northeast California (SO) VARIANT.
 C
-C     1 = WESTERN WHITE PINE (WP)        PINUS MONTICOLA
-C     2 = SUGAR PINE (SP)                PINUS LAMBERTIANA
-C     3 = DOUGLAS-FIR (DF)               PSEUDOTSUGA MENZIESII
-C     4 = WHITE FIR (WF)/                ABIES CONCOLOR
-C         GRAND FIR                      ABIES GRANDIS
-C     5 = MOUNTAIN HEMLOCK (MH)          TSUGA MERTENSIANA
-C     6 = INCENSE CEDAR (IC)             LIBOCEDRUS DECURRENS
-C     7 = LODGEPOLE PINE (LP)            PINUS CONTORTA
-C     8 = ENGLEMAN SPRUCE (ES)           PICEA ENGELMANNII
-C     9 = RED FIR (RF)/                  ABIES MAGNIFICA
-C         SUBALPINE FIR                  ABIES LASIOCARPA
-C    10 = PONDEROSA PINE (PP)            PINUS PONDEROSA
-C    11 = OTHER (OT)
+C     1 = WESTERN WHITE PINE (WP)            PINUS MONTICOLA
+C     2 = SUGAR PINE (SP)                    PINUS LAMBERTIANA
+C     3 = DOUGLAS-FIR (DF)                   PSEUDOTSUGA MENZIESII
+C     4 = WHITE FIR (WF)                     ABIES CONCOLOR (SO - WF/GF)
+C     5 = MOUNTAIN HEMLOCK (MH)              TSUGA MERTENSIANA
+C     6 = INCENSE CEDAR (IC)                 LIBOCEDRUS DECURRENS
+C     7 = LODGEPOLE PINE (LP)                PINUS CONTORTA
+C     8 = ENGELMANN SPRUCE (ES)              PICEA ENGELMANNII
+C     9 = SHASTA RED FIR (SH)                ABIES MAGNIFICA (SHASTENSIS)(FROM CA)
+C    10 = PONDEROSA PINE (PP)                PINUS PONDEROSA
+C    11 = WESTERN JUNIPER (WJ)               JUNIPERUS OCCIDENTALIS
+C    12 = GRAND FIR (GF)                     ABIES GRANDIS (SO - WF/GF)
+C    13 = SUBALPINE FIR (AF)                 ABIES LASIOCARPA
+C    14 = PACIFIC SILVER FIR (SF)            ABIES AMABILIS (FROM EC)
+C    15 = NOBLE FIR (NF)                     ABIES PROCERA (FROM WC)
+C    16 = WHITEBARK PINE (WB)                PINUS ALBICAULIS (FROM TT)
+C    17 = WESTERN LARCH (WL)                 LARIX OCCIDENTALIS (FROM EC)
+C    18 = WESTERN REDCEDAR (RC)              THUJA PLICATA (FROM EC)
+C    19 = WESTERN HEMLOCK (WH)               TSUGA HETEROPHYLLA (FROM WC)
+C    20 = PACIFIC YEW (PY)                   TAXUS BREVIFOLIA (FROM WC)
+C    21 = WHITE ALDER (WA)                   ALNUS RHOMBIFOLIA (FROM WC)
+C    22 = RED ALDER (RA)                     ALNUS RUBRA (FROM WC)
+C    23 = BIGLEAF MAPLE (BM)                 ACER MACROPHYLLUM (FROM WC)
+C    24 = QUAKING ASPEN (AS)                 POPULUS TREMULOIDES (FROM UT)
+C    25 = BLACK COTTONWOOD (CW)              POPULUS TRICHOCARPA (FROM WC)
+C    26 = BITTER CHERRY (CH)                 PRUNUS EMARGINATA (FROM WC)
+C    27 = OREGON WHITE OAK (WO)              QUERCUS GARRYANA (FROM CA)
+C    28 = WILLOW (WI)                        SALIX sp. (FROM WC)
+C    29 = GIANT CHINQUAPIN (GC)              CHRYSOLEPIS CHRYSOPHYLLA (FROM WC)
+C    30 = CURL-LEAF MOUNTAIN MAHOGANY (MC)   CERCOCARPUS LEDIFOLIUS (FROM WC)
+C    31 = BIRCHLEAF MOUNTAIN MAHOGANY (MB)   CERCOCARPUS ALNIFOLIUS (FROM WC)
+C    32 = OTHER SOFTWOODS (OS)               DOUGLAS-FIR (DF) (FROM SO)
+C    33 = OTHER HARDWOODS (OH)               MISCELLANEOUS HARDWOOD (FROM WC)
 C
 C----------------------------------------------------------------------
 C  Revision History:
@@ -42,6 +62,9 @@ C  02-JUN-2006 Lance R. David (FHTET)
 C     Changed I/O units from 25, 26, 27 to units 55, 56, 57
 C  12-JUN-2006 Lance R. David (FHTET)
 C     Moved RIBUS initilization to brinit.
+C  02-APR-2013 Lance R. David (FMSC)
+C     Updated the species mapping. May have removed the wrong version
+C     of this file when the 11 species SO was taken out of service.
 C**********************************************************************
 
 C.... Common include files.
@@ -66,7 +89,9 @@ C.... Blister Rust Species Map.
 C.... WPBR Model species/indices are: WP/1, SP/2
 C.... Western White Pine and Sugar Pine set as host to Blister Rust
 
-      DATA BRSPM/1,2,0,0,0,0,0,0,0,0,0/
+      DATA BRSPM/1,2,0,0,0,0,0,0,0,0,0,
+     &           0,0,0,0,0,0,0,0,0,0,0,
+     &           0,0,0,0,0,0,0,0,0,0,0/
 
 C.... Blister Rust model alpha species codes.
       DATA BRSPC/'WP  ','SP  '/

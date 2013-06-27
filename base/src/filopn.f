@@ -10,16 +10,12 @@ C  IF PROMPTS ARE NOT WANTED, SET LPT FALSE.
 C
 COMMONS
 C
-C
       INCLUDE 'PRGPRM.F77'
-C
-C
       INCLUDE 'CONTRL.F77'
-C
-C
       INCLUDE 'ECON.F77'
-C
-C
+      INCLUDE 'SVDATA.F77'
+      INCLUDE 'FVSSTDCM.F77'
+
 COMMONS
 C
       INTEGER LENKEY,KODE,I,LENNAM,ISTLNB,IRTNCD
@@ -56,6 +52,36 @@ C----------
           open(unit=JOSTND,file=trim(cname),status="unknown",
      -         position="append",err=102)
         endif
+
+        ! Clear pre-existing TRL/FST files if NOT a restart, These
+        ! files will be opened as required in PRTRLS/FVSSTD/FMSOUT 
+        ! via OpenIfClosed().TRL uses default JOLIST; FST uses default KOLIST;
+        ! SNG uses JOLIST (but only for a moment).
+        ! These outputs will NOT be identical to output files created
+        ! with nonstop runs: they are blocked into multi-stand sets 
+        ! based on the stop point(s).
+
+        if (i.eq.0) then
+          cname = KWDFIL(1:lenkey-1)//".trl"
+          inquire(unit=JOLIST,opened=LOPEN)
+          if (.not.LOPEN) then
+            open(unit=JOLIST,file=trim(cname),err=102)
+            close(unit=JOLIST, STATUS = 'delete')
+          endif
+          cname = KWDFIL(1:lenkey-1)//".fst"
+          inquire(unit=KOLIST,opened=LOPEN)
+          if (.not.LOPEN) then
+            open(unit=KOLIST,file=trim(cname),err=102)
+            close(unit=KOLIST, STATUS = 'delete')
+          endif
+          cname = KWDFIL(1:lenkey-1)//".sng"
+          inquire(unit=JOLIST,opened=LOPEN)
+          if (.not.LOPEN) then
+            open(unit=JOLIST,file=trim(cname),err=102)
+            close(unit=JOLIST, STATUS = 'delete')
+          endif
+        endif
+        
         CALL KEYFN(KWDFIL)
         CALL DBSVKFN(KWDFIL)
 
@@ -230,17 +256,23 @@ C
       if (LOPEN) close(unit=JOLIST)
       inquire(unit=JOSUME,opened=LOPEN)
       if (LOPEN) close(unit=JOSUME)
+      if (JSVOUT.gt.0) then
+        inquire(unit=JSVOUT,opened=LOPEN)
+        if (LOPEN) close(unit=JSVOUT)
+      endif
 
       return
       end
 
-      SUBROUTINE openIfClosed (ifileref,sufx)
+      SUBROUTINE openIfClosed (ifileref,sufx,lok)
       IMPLICIT NONE
       integer ifileref,I
       character (len=*) sufx
+      logical lok
       character (len=256) keywrdfn
       logical lconn
 
+      lok = .true.
       INQUIRE(UNIT=ifileref,opened=lconn)
       IF (.NOT.lconn) THEN
         CALL fvsGetKeywordFileName(keywrdfn,len(keywrdfn),I)
@@ -249,11 +281,13 @@ C
           IF (I == 0) I=index(keywrdfn,".K")
           IF (I == 0) I=len_trim(keywrdfn)
           keywrdfn=TRIM(keywrdfn(:I-1))//"."//trim(sufx)
-          OPEN(UNIT=ifileref,FILE=TRIM(keywrdfn),STATUS='replace')
+          OPEN(UNIT=ifileref,FILE=TRIM(keywrdfn),
+     *      POSITION = 'append', STATUS='unknown',err=10)
         ENDIF
       ENDIF
-
-
+      return
+   10 lok = .false.
+      return
       END
 
 

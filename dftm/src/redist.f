@@ -1,11 +1,17 @@
       SUBROUTINE REDIST(KP, INUM)   
       IMPLICIT NONE
 C---------- 
-C  **REDIST DATE OF LAST REVISION:  06/30/10
+C  **REDIST DATE OF LAST REVISION:  04/01/13
 C---------- 
 C     
 C     DFTM MODEL SUBROUTINE - JIM COLBERT - JAN 1978. 
 C     
+C  REVISION HISTORY:
+C    01-APR-2013 Lance R. David (FMSC)
+C      A few variables defined locally were already defined
+C      in a common block. Local declaration removed.
+C----------
+C
 COMMONS     
 C     
       INCLUDE 'ICOND.F77'
@@ -16,8 +22,8 @@ C
 C
 COMMONS     
 
-       INTEGER INUM,KP,J,JCLASS,IZ6
-       REAL SUMEGG,TSTEM,R0,B0,X0,G2,G3,G19,X7,X6,X5,Z3,Z2,Z5,Z4
+       INTEGER INUM,KP,J
+       REAL SUMEGG,TSTEM
 
 C     
 C ***              REDISTRIBUTION OF EGGS        ***  

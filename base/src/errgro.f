@@ -245,6 +245,10 @@ C                        ERROR NUMBER 29
       GO TO 9000
  4000 CONTINUE
 C                        ERROR NUMBER 30
+      WRITE (JOSTND,4010) PREF
+ 4010 FORMAT (/,A12,'FVS30 ERROR:  KEYWORD WAS USED OUT OF REQUIRED'
+     >        ' SEQUENCE AND IS IGNORED.')
+      IF (ICCODE .LT. 2) ICCODE=2
       GOTO 9000
 C                        ERROR NUMBER 31
  4100 CONTINUE
@@ -292,8 +296,6 @@ C                        ERROR NUMBER 36
       IF (ICCODE .LT. 1) ICCODE=1
       GO TO 9000
  9000 CONTINUE
-C
-C     RETURN OR NOT??????
 C
       IF (LRETRN) RETURN
       CALL fvsSetRtnCode(ICCODE)

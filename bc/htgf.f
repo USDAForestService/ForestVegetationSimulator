@@ -41,7 +41,7 @@ C   SCALE -- TIME FACTOR DERIVED BY DIVIDING FIXED POINT CYCLE
 C            LENGTH BY GROWTH PERIOD LENGTH FOR DATA FROM
 C            WHICH MODELS WERE DEVELOPED.
 C
-C     P_MD  - NUMBER OF MODEL TYPES 
+C     P_MD  - NUMBER OF MODEL TYPES
 C
       INTEGER    P_MD, P_SS
       PARAMETER (P_MD  = 57)
@@ -53,7 +53,7 @@ C
 	REAL         XHT1(MAXSP),XHT2(MAXSP)
 	REAL         V3HTG
 	CHARACTER*15 PAT
-	
+
       LOGICAL DEBUG
 c     v2
       INTEGER       MAPHAB
@@ -105,395 +105,702 @@ C
      >  0.0   ,   0.0,      0.0,      ! AT - 12 - new model
      >  0.0   ,   0.0,      0.0,      ! CT - 13 - new model
      >  2.6937,  -0.2034,  -0.00387,  ! OC - 14 [FD]
-     >  0.0   ,   0.0,      0.0       ! OH - 15 [EP] - new 
+     >  0.0   ,   0.0,      0.0       ! OH - 15 [EP] - new
      >  /
 C
 C     SITE SERIES COEFFICIENTS: THESE ARE IN SPECIES ORDER.
-C     NOTE THAT THERE IS A SPECIAL BEC STRING WITH 'all' AS THE 
+C     NOTE THAT THERE IS A SPECIAL BEC STRING WITH 'all' AS THE
 C     SUBZONE. THIS IS USED (FOR SOME SPECIES) WHEN THERE IS NOT
 C     A PERFECT MATCH TO THE SITE SERIES
 C
-      DATA (LTHG(I), I=1,34) / 
-     >    
+      DATA LTHG(1) /
      >  LTHG_STR(  ! ICH+IDF PW 21m 1-8
-     >    (/ 1, (0,I=1,14) /),
-     >    (/       'ICHmw3/04',       'ICHmw3/05',       'ICHdw/01a',
-     >             'ICHmw1/02',       'ICHmw1/03',       'ICHmw1/04',
-     >             'ICHmw1/06',        'ICHxw/01',         'ICH/all',
-     >               'IDF/all',        'SBPS/all',         'SBS/all',
-     >           ('',I=1,18)/),
+     >    (/ 1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw3/04      ', 'ICHmw3/05      ',
+     >      'ICHdw/01a      ', 'ICHmw1/02      ',
+     >      'ICHmw1/03      ', 'ICHmw1/04      ',
+     >      'ICHmw1/06      ', 'ICHxw/01       ',
+     >      'ICH/all        ', 'IDF/all        ',
+     >      'SBPS/all       ', 'SBS/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,      ! SI
      >     0.0429,   ! B3
      >    -0.00142,  ! C
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(2) /
      >  LTHG_STR(  ! ICH+IDF PW 24m 1-28
-     >    (/ 1, (0,I=1,14) /),
-     >    (/       'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/02',
-     >             'ICHmw2/03',       'ICHmw2/04',       'ICHmw2/05',
-     >             'ICHmw3/01',    'ICHmw3/01-yc',       'ICHmw3/06',
-     >             'ICHmw3/07',       'ICHvk1/01',       'ICHvk1/02',
-     >             'ICHvk1/03',       'ICHvk1/04',       'ICHvk1/05',
-     >             'ICHwk1/01',       'ICHwk1/03',       'ICHwk1/04',
-     >             'ICHwk1/05',       'ICHdw/01b',        'ICHdw/03',
-     >              'ICHdw/04',       'ICHmw1/01',       'ICHmw1/05',
-     >             'ICHmw2/03',       'ICHmw2/04',       'ICHmw2/06',
-     >             'ICHwk1/07', ('',I=1,2)/),
+     >    (/ 1, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw2/01      ', 'ICHmw2/01-ys   ',
+     >      'ICHmw2/02      ', 'ICHmw2/03      ',
+     >      'ICHmw2/04      ', 'ICHmw2/05      ',
+     >      'ICHmw3/01      ', 'ICHmw3/01-yc   ',
+     >      'ICHmw3/06      ', 'ICHmw3/07      ',
+     >      'ICHvk1/01      ', 'ICHvk1/02      ',
+     >      'ICHvk1/03      ', 'ICHvk1/04      ',
+     >      'ICHvk1/05      ', 'ICHwk1/01      ',
+     >      'ICHwk1/03      ', 'ICHwk1/04      ',
+     >      'ICHwk1/05      ', 'ICHdw/01b      ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw1/01      ', 'ICHmw1/05      ',
+     >      'ICHmw2/03      ', 'ICHmw2/04      ',
+     >      'ICHmw2/06      ', 'ICHwk1/07      ',
+     >      '               ', '               '/),
      >    -2.5072,   ! SI
      >     0.0944,   ! B3
      >    -0.00086,  ! C
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(3) /
      >  LTHG_STR(  ! ICH+IDF LW 15m 1-2
-     >    (/ 2, (0,I=1,14) /),
-     >    (/       'IDFdm1/04',       'IDFdm2/03',         'ICH/all',
-     >               'IDF/all',        'SBPS/all',         'SBS/all',
-     >           ('',I=1,24)/),
+     >    (/ 2, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdm1/04      ', 'IDFdm2/03      ',
+     >      'ICH/all        ', 'IDF/all        ',
+     >      'SBPS/all       ', 'SBS/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,       ! SI
      >     0.0808,    ! B3
      >    -0.00115,   ! C
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(4) /
      >  LTHG_STR(  ! ICH+IDF LW 18m 1-3
-     >    (/ 2, (0,I=1,14)/),
-     >    (/       'IDFdm1/01',       'IDFdm2/01',       'IDFdm2/04',
-     >           ('',I=1,27)/),
+     >    (/ 2, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDFdm1/01      ', 'IDFdm2/01      ',
+     >      'IDFdm2/04      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,       ! SI
      >     0.1058,    ! B3
      >    -0.00123,   ! C
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF LW 21m 1-12         (5)
-     >    (/ 2, (0,I=1,14) /),
-     >    (/       'ICHmk1/01',    'ICHmk1/01-ys',       'ICHmk1/03',
-     >             'ICHmk1/04',       'ICHmw3/04',       'IDFdm1/05',
-     >             'IDFdm1/07',       'IDFmw1/04',       'ICHdw/01a',
-     >              'ICHdw/02',        'ICHxw/01',       'IDFdm2/05',
-     >           ('',I=1,18)/),
+      DATA LTHG(5) /
+     >  LTHG_STR(  ! ICH+IDF LW 21m 1-12
+     >    (/ 2, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/03      ', 'ICHmk1/04      ',
+     >      'ICHmw3/04      ', 'IDFdm1/05      ',
+     >      'IDFdm1/07      ', 'IDFmw1/04      ',
+     >      'ICHdw/01a      ', 'ICHdw/02       ',
+     >      'ICHxw/01       ', 'IDFdm2/05      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,       ! SI
      >     0.0802,    ! B3
      >    -0.00026,   ! C
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF LW 24m 1-19 
-     >    (/ 2, (0,I=1,14) /),
-     >    (/       'ICHmk1/05',       'ICHmk1/06',       'ICHmw2/01',
-     >          'ICHmw2/01-ys',       'ICHmw2/02',       'ICHmw2/03',
-     >             'ICHmw2/04',       'ICHmw2/05',       'IDFdm1/06',
-     >             'IDFmw1/01',    'IDFmw1/01-yc',       'IDFmw1/05',
-     >             'IDFmw1/06',       'ICHdw/01b',        'ICHdw/03',
-     >              'ICHdw/04',       'ICHmw2/03',       'ICHmw2/04',
-     >             'ICHmw2/06',      ('',I=1,11)/),
+      DATA LTHG(6) /
+     >  LTHG_STR(  ! ICH+IDF LW 24m 1-19
+     >    (/ 2, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk1/05      ', 'ICHmk1/06      ',
+     >      'ICHmw2/01      ', 'ICHmw2/01-ys   ',
+     >      'ICHmw2/02      ', 'ICHmw2/03      ',
+     >      'ICHmw2/04      ', 'ICHmw2/05      ',
+     >      'IDFdm1/06      ', 'IDFmw1/01      ',
+     >      'IDFmw1/01-yc   ', 'IDFmw1/05      ',
+     >      'IDFmw1/06      ', 'ICHdw/01b      ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw2/03      ', 'ICHmw2/04      ',
+     >      'ICHmw2/06      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0802,
      >    -0.00026,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(7) /
      >  LTHG_STR(  ! ICH+IDF LW Class 66 (Not in SIBEC table)
-     >    (/ 2, (0,I=1,14) /),
-     >    (/       'ICHmw3/01', ('',I=1,29) /),
+     >    (/ 2, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw3/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,     ! SI
      >     0.0602,  ! B3
      >    -0.00026, ! C
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(8) /
      >  LTHG_STR(  ! ICH+IDF LW Class 77 (Not in SIBEC table)
-     >    (/ 2, (0,I=1,14) /),
-     >    (/       'IDFmw2/01', ('',I=1,29) /),
+     >    (/ 2, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFmw2/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0,
      >    -0.00026,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(9) /
      >  LTHG_STR(  ! ICH+IDF FD,OC 12m 1-23
-     >    (/ 3, 14, (0,I=1,13)/),
-     >    (/       'IDFdk3/02',       'IDFdk3/03',       'IDFdk3/04',
-     >             'IDFdk4/01',       'IDFdk4/02',       'IDFdk4/03',
-     >             'IDFdk4/04',       'IDFdk4/05',       'IDFdk4/07',
-     >              'IDFxm/02',        'IDFxm/03',        'IDFxm/04',
-     >              'IDFxw/02',        'IDFxw/03',        'IDFxw/04',
-     >             'IDFdk1/02',       'IDFdk2/02',       'IDFdm1/03',
-     >              'IDFww/02',       'IDFxh1/02',       'IDFxh1/03',
-     >             'IDFxh2/02',       'IDFxh2/03',         'ICH/all',
-     >               'IDF/all',        'SBPS/all',         'SBS/all',
-     >            ('',I=1,3)/),
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDFdk3/02      ', 'IDFdk3/03      ',
+     >      'IDFdk3/04      ', 'IDFdk4/01      ',
+     >      'IDFdk4/02      ', 'IDFdk4/03      ',
+     >      'IDFdk4/04      ', 'IDFdk4/05      ',
+     >      'IDFdk4/07      ', 'IDFxm/02       ',
+     >      'IDFxm/03       ', 'IDFxm/04       ',
+     >      'IDFxw/02       ', 'IDFxw/03       ',
+     >      'IDFxw/04       ', 'IDFdk1/02      ',
+     >      'IDFdk2/02      ', 'IDFdm1/03      ',
+     >      'IDFww/02       ', 'IDFxh1/02      ',
+     >      'IDFxh1/03      ', 'IDFxh2/02      ',
+     >      'IDFxh2/03      ', 'ICH/all        ',
+     >      'IDF/all        ', 'SBPS/all       ',
+     >      'SBS/all        ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0673,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF FD 15m 1-30 (IDFdk3/01 -> Class 88)  (10)
-     >    (/ 3, 14, (0,I=1,13)/),
-     >    (/        'ICHdk/02',       'ICHmk3/02',       'ICHwk2/02',
-     >             'ICHwk2/03',       'ICHwk4/02',       'ICHwk4/03',
-     >                                'IDFdk3/05',       'IDFdk4/09',
-     >              'IDFdw/01',        'IDFxm/01',        'IDFxm/05',
-     >              'IDFxm/06',        'IDFxm/07',        'IDFxw/01',
-     >              'IDFxw/05',       'ICHmk1/02',       'ICHmk2/02',
-     >             'ICHmw3/02',       'IDFdk1/01',       'IDFdk1/03',
-     >             'IDFdk1/04',       'IDFdk2/01',       'IDFdk2/03',
-     >             'IDFdk3/06',       'IDFdm1/04',       'IDFmw1/02',
-     >             'IDFmw2/02',       'IDFxh1/01',       'IDFxh1/04',
-     >            ('',I=1,1)/),
-     >     0.0,
-     >     0.0799, 
-     >    -0.00020,
-     >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
-
-     >  LTHG_STR(  ! ICH+IDF FD 15m 31-38 (IDFxh2/04 & /06 -> Class 77)
-     >    (/ 3, 14, (0,I=1,13)/),
-     >    (/       'IDFxh1/05',       'IDFxh2/01',
-     >             'IDFxh2/05',                           'ICHdw/02',
-     >             'IDFdm2/01',       'IDFdm2/03',     ('',I=1,24)/),
+      DATA LTHG(10) /
+     >  LTHG_STR(  ! ICH+IDF FD 15m 1-30 (IDFdk3/01 -> Class 88)
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICHdk/02       ', 'ICHmk3/02      ',
+     >      'ICHwk2/02      ', 'ICHwk2/03      ',
+     >      'ICHwk4/02      ', 'ICHwk4/03      ',
+     >      'IDFdk3/05      ', 'IDFdk4/09      ',
+     >      'IDFdw/01       ', 'IDFxm/01       ',
+     >      'IDFxm/05       ', 'IDFxm/06       ',
+     >      'IDFxm/07       ', 'IDFxw/01       ',
+     >      'IDFxw/05       ', 'ICHmk1/02      ',
+     >      'ICHmk2/02      ', 'ICHmw3/02      ',
+     >      'IDFdk1/01      ', 'IDFdk1/03      ',
+     >      'IDFdk1/04      ', 'IDFdk2/01      ',
+     >      'IDFdk2/03      ', 'IDFdk3/06      ',
+     >      'IDFdm1/04      ', 'IDFmw1/02      ',
+     >      'IDFmw2/02      ', 'IDFxh1/01      ',
+     >      'IDFxh1/04      ', '               '/),
      >     0.0,
      >     0.0799,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
+      DATA LTHG(11) /
+     >  LTHG_STR(  ! ICH+IDF FD 15m 31-38 (IDFxh2/04 & /06 -> Class 77)
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDFxh1/05      ', 'IDFxh2/01      ',
+     >      'IDFxh2/05      ', 'ICHdw/02       ',
+     >      'IDFdm2/01      ', 'IDFdm2/03      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
+     >     0.0,
+     >     0.0799,
+     >    -0.00020,
+     >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+     >    ) /
 
+      DATA LTHG(12) /
      >  LTHG_STR(  ! ICH+IDF FD 18m 1-24
-     >    (/ 3, 14, (0,I=1,13)/),
-     >    (/       'ICHmk3/03',       'ICHwk4/04',       'IDFdk3/06',
-     >             'IDFdk3/07',       'IDFdk3/08',        'IDFxm/08',
-     >             'ICHmk1/03',       'ICHmk1/04',       'ICHmk2/01',
-     >             'ICHmk2/03',       'ICHmk2/04',       'ICHmw3/03',
-     >             'IDFdk1/05',       'IDFdk2/04',       'IDFdm1/01',
-     >             'IDFmw1/03',       'IDFmw1/04',       'IDFmw2/03',
-     >              'IDFww/03',       'IDFxh1/06',       'IDFxh1/07',
-     >             'ICHmw1/02',       'IDFdm2/04',       'IDFdm2/07',
-     >             'SBPSmk/01',       'SBSdw2/01',      ('',I=1,4)/),
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICHmk3/03      ', 'ICHwk4/04      ',
+     >      'IDFdk3/06      ', 'IDFdk3/07      ',
+     >      'IDFdk3/08      ', 'IDFxm/08       ',
+     >      'ICHmk1/03      ', 'ICHmk1/04      ',
+     >      'ICHmk2/01      ', 'ICHmk2/03      ',
+     >      'ICHmk2/04      ', 'ICHmw3/03      ',
+     >      'IDFdk1/05      ', 'IDFdk2/04      ',
+     >      'IDFdm1/01      ', 'IDFmw1/03      ',
+     >      'IDFmw1/04      ', 'IDFmw2/03      ',
+     >      'IDFww/03       ', 'IDFxh1/06      ',
+     >      'IDFxh1/07      ', 'ICHmw1/02      ',
+     >      'IDFdm2/04      ', 'IDFdm2/07      ',
+     >      'SBPSmk/01      ', 'SBSdw2/01      ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.6750,
      >     0.0647,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(13) /
      >  LTHG_STR(  ! ICH+IDF FD 21m 1-30 (ICHmw3/04 -> Class 66)
-     >    (/ 3, 14, (0,I=1,13)/),
-     >    (/        'ICHdk/04',       'ICHmk3/06',       'ICHwk2/04',
-     >             'ICHwk4/05',        'IDFxw/06',        'IDFxw/07',
-     >             'ICHmk1/01',    'ICHmk1/01-ys',       'ICHmk1/05',
-     >             'ICHmk2/05',       'ICHmw2/02',       'ICHmw2/03',
-     >             'ICHmw3/01',    'ICHmw3/01-yc',
-     >             'ICHmw3/05',       'ICHwk1/03',       'IDFdk1/06',
-     >             'IDFdk2/05',       'IDFdk2/06',       'IDFdm1/05',
-     >             'IDFdm1/07',       'IDFmw1/01',    'IDFmw1/01-yc',
-     >             'IDFmw1/05',       'IDFmw2/01',       'IDFmw2/04',
-     >             'IDFxh1/08',       'IDFxh2/07',       'IDFxh2/08',
-     >            ('',I=1,1)/),
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICHdk/04       ', 'ICHmk3/06      ',
+     >      'ICHwk2/04      ', 'ICHwk4/05      ',
+     >      'IDFxw/06       ', 'IDFxw/07       ',
+     >      'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/05      ', 'ICHmk2/05      ',
+     >      'ICHmw2/02      ', 'ICHmw2/03      ',
+     >      'ICHmw3/01      ', 'ICHmw3/01-yc   ',
+     >      'ICHmw3/05      ', 'ICHwk1/03      ',
+     >      'IDFdk1/06      ', 'IDFdk2/05      ',
+     >      'IDFdk2/06      ', 'IDFdm1/05      ',
+     >      'IDFdm1/07      ', 'IDFmw1/01      ',
+     >      'IDFmw1/01-yc   ', 'IDFmw1/05      ',
+     >      'IDFmw2/01      ', 'IDFmw2/04      ',
+     >      'IDFxh1/08      ', 'IDFxh2/07      ',
+     >      'IDFxh2/08      ', '               '/),
      >     0.0,
      >     0.0853,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(14) /
      >  LTHG_STR(  ! ICH+IDF FD 21m 31-39
-     >    (/ 3, 14, (0,I=1,13)/),
-     >    (/       'ICHdw/01a',       'ICHmw1/03',       'ICHmw1/04',
-     >             'ICHmw2/03',       'ICHmw2/04',        'ICHxw/01',
-     >             'IDFdm2/05',       'SBSdw1/01',        'SBSmh/01',
-     >           ('',I=1,21)/),
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICHdw/01a      ', 'ICHmw1/03      ',
+     >      'ICHmw1/04      ', 'ICHmw2/03      ',
+     >      'ICHmw2/04      ', 'ICHxw/01       ',
+     >      'IDFdm2/05      ', 'SBSdw1/01      ',
+     >      'SBSmh/01       ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0853,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF FD 24m 1-30         (15)
-     >    (/ 3, 14, (0,I=1,13) /),
-     >    (/        'ICHdk/01',        'ICHdk/05',       'ICHmk3/01',
-     >             'ICHmk3/04',       'ICHwk2/01',       'ICHwk2/07',
-     >             'ICHwk4/01',       'ICHwk4/07',       'ICHmk1/06',
-     >             'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/04',
-     >             'ICHmw2/05',       'ICHmw3/06',       'ICHmw3/07',
-     >             'ICHvk1/01',       'ICHvk1/02',       'ICHvk1/03',
-     >             'ICHvk1/04',       'ICHwk1/01',       'ICHwk1/04',
-     >             'ICHwk1/05',       'IDFdm1/06',       'IDFmw1/06',
-     >              'IDFww/01',        'IDFww/04',        'IDFww/05',
-     >              'IDFww/06',       'ICHdw/01b',        'ICHdw/03'/),
+      DATA LTHG(15) /
+     >  LTHG_STR(  ! ICH+IDF FD 24m 1-30
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHdk/01       ', 'ICHdk/05       ',
+     >      'ICHmk3/01      ', 'ICHmk3/04      ',
+     >      'ICHwk2/01      ', 'ICHwk2/07      ',
+     >      'ICHwk4/01      ', 'ICHwk4/07      ',
+     >      'ICHmk1/06      ', 'ICHmw2/01      ',
+     >      'ICHmw2/01-ys   ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw3/06      ',
+     >      'ICHmw3/07      ', 'ICHvk1/01      ',
+     >      'ICHvk1/02      ', 'ICHvk1/03      ',
+     >      'ICHvk1/04      ', 'ICHwk1/01      ',
+     >      'ICHwk1/04      ', 'ICHwk1/05      ',
+     >      'IDFdm1/06      ', 'IDFmw1/06      ',
+     >      'IDFww/01       ', 'IDFww/04       ',
+     >      'IDFww/05       ', 'IDFww/06       ',
+     >      'ICHdw/01b      ', 'ICHdw/03       '/),
      >     0.6854,
      >     0.0750,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(16) /
      >  LTHG_STR(  ! ICH+IDF FD 24m 31-35
-     >    (/ 3, 14, (0,I=1,13)/),
-     >    (/        'ICHdw/04',       'ICHmw1/01',       'ICHmw1/05',
-     >             'ICHmw1/06',       'ICHmw2/06',     ('',I=1,25)/),
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICHdw/04       ', 'ICHmw1/01      ',
+     >      'ICHmw1/05      ', 'ICHmw1/06      ',
+     >      'ICHmw2/06      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.6854,
      >     0.0750,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(17) /
      >  LTHG_STR(  ! ICH+IDF FD Class 66
-     >    (/ 3, 14, (0,I=1,13) /),
-     >    (/       'ICHmw3/04', ('',I=1,29) /),
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw3/04      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     1.8869,
      >     0.0519,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(18) /
      >  LTHG_STR(  ! ICH+IDF FD Class 77
-     >    (/ 3, 14, (0,I=1,13)/),
-     >    (/       'IDFxh2/04',       'IDFxh2/06', ('',I=1,28) /),
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDFxh2/04      ', 'IDFxh2/06      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -1.4087,
      >     0.0699,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(19) /
      >  LTHG_STR(  ! ICH+IDF FD Class 88
-     >    (/ 3, 14, (0,I=1,13) /),
-     >    (/       'IDFdk3/01', ('',I=1,29) /),
+     >    (/ 3, 14, 0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdk3/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -1.2464,
      >     0.1298,
      >    -0.00020,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF BG (use BL 15m 1-9) (20)
-     >    (/ 4, (0,I=1,14) /),
-     >    (/         'ICH/all',         'IDF/all', ('',I=1,28)/),
+      DATA LTHG(20) /
+     >  LTHG_STR(  ! ICH+IDF BG (use BL 15m 1-9)
+     >    (/ 4, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,     ! SI
      >     0.0545,  ! B3
      >    -0.00071, ! C
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
-
+     >    ) /
+      DATA LTHG(21) /
      >  LTHG_STR(  ! ICH+IDF HW 15m 1-18
-     >    (/ 5, (0,I=1,14) /),
-     >    (/       'ICHmw2/02',       'ICHmw2/06',       'ICHmw2/07',
-     >             'ICHmw3/08',       'ICHvk1/05',       'ICHvk1/06',
-     >             'ICHwk1/02',       'ICHwk1/03',       'ICHwk1/06',
-     >             'ICHwk1/07',       'ICHmw1/02',       'ICHmw1/03',
-     >             'ICHmw1/04',       'ICHmw1/07',       'ICHmw2/03',
-     >             'ICHmw2/08',       'ICHmw3/04',       'ICHwk1/08',
-     >               'ICH/all',         'IDF/all',        'SBPS/all',
-     >               'SBS/all',     ('',I=1,8)/),
+     >    (/ 5, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw2/02      ', 'ICHmw2/06      ',
+     >      'ICHmw2/07      ', 'ICHmw3/08      ',
+     >      'ICHvk1/05      ', 'ICHvk1/06      ',
+     >      'ICHwk1/02      ', 'ICHwk1/03      ',
+     >      'ICHwk1/06      ', 'ICHwk1/07      ',
+     >      'ICHmw1/02      ', 'ICHmw1/03      ',
+     >      'ICHmw1/04      ', 'ICHmw1/07      ',
+     >      'ICHmw2/03      ', 'ICHmw2/08      ',
+     >      'ICHmw3/04      ', 'ICHwk1/08      ',
+     >      'ICH/all        ', 'IDF/all        ',
+     >      'SBPS/all       ', 'SBS/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -0.6909,
      >     0.0451,
      >    -0.00022,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(22) /
      >  LTHG_STR(  ! ICH+IDF HW 18m 1-28
-     >    (/ 5, (0,I=1,14) /),
-     >    (/       'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/03',
-     >             'ICHmw2/04',       'ICHmw2/05',       'ICHmw3/01',
-     >          'ICHmw3/01-yc',       'ICHmw3/05',       'ICHmw3/06',
-     >             'ICHmw3/07',       'ICHvk1/01',       'ICHvk1/02',
-     >             'ICHvk1/03',       'ICHvk1/04',       'ICHwk1/01',
-     >             'ICHwk1/04',       'ICHwk1/05',       'ICHdw/01a',
-     >             'ICHdw/01b',        'ICHdw/02',        'ICHdw/03',
-     >              'ICHdw/04',       'ICHmw1/01',       'ICHmw1/05',
-     >             'ICHmw1/06',       'ICHmw2/05',       'ICHmw2/06',
-     >              'ICHxw/01',      ('',I=1,2)/),
+     >    (/ 5, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw2/01      ', 'ICHmw2/01-ys   ',
+     >      'ICHmw2/03      ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw3/01      ',
+     >      'ICHmw3/01-yc   ', 'ICHmw3/05      ',
+     >      'ICHmw3/06      ', 'ICHmw3/07      ',
+     >      'ICHvk1/01      ', 'ICHvk1/02      ',
+     >      'ICHvk1/03      ', 'ICHvk1/04      ',
+     >      'ICHwk1/01      ', 'ICHwk1/04      ',
+     >      'ICHwk1/05      ', 'ICHdw/01a      ',
+     >      'ICHdw/01b      ', 'ICHdw/02       ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw1/01      ', 'ICHmw1/05      ',
+     >      'ICHmw1/06      ', 'ICHmw2/05      ',
+     >      'ICHmw2/06      ', 'ICHxw/01       ',
+     >      '               ', '               '/),
      >    -0.8108,
      >     0.0692,
      >    -0.00022,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(23) /
      >  LTHG_STR(  ! ICH+IDF HW Class 66 (not in SIBEC table)
-     >    (/ 5, (0,I=1,14)/),
-     >    (/       'ICHmw3/03', ('',I=1,29)/),
+     >    (/ 5, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICHmw3/03      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -0.6909,  !! use 15m CW
      >     0.0451,
      >    -0.00022,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(24) /
      >  LTHG_STR(  ! ICH+IDF CW 12m 1-3
-     >    (/ 6, (0,I=1,14)/),
-     >    (/       'ICHmk1/04',       'ICHmk2/04',       'ICHmw1/02',
-     >               'ICH/all',         'IDF/all',        'SBPS/all',
-     >               'SBS/all',     ('',I=1,23)/),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICHmk1/04      ', 'ICHmk2/04      ',
+     >      'ICHmw1/02      ', 'ICH/all        ',
+     >      'IDF/all        ', 'SBPS/all       ',
+     >      'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0,
      >    -0.00022,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF CW 15m 1-30 (25)
-     >    (/ 6, (0,I=1,14) /),
-     >    (/       'ICHmk1/01',    'ICHmk1/01-ys',       'ICHmk1/07',
-     >             'ICHmk2/01',       'ICHmk2/06',       'ICHmw2/02',
-     >             'ICHmw3/01',    'ICHmw3/01-yc',       'ICHmw3/03',
-     >             'ICHmw3/04',       'ICHmw3/05',       'ICHmw3/08',
-     >             'ICHvk1/05',       'ICHvk1/06',       'ICHwk1/02',
-     >             'ICHwk1/03',       'ICHwk1/06',       'ICHwk1/07',
-     >             'IDFdk2/07',       'IDFmw1/01',    'IDFmw1/01-yc',
-     >             'IDFmw1/04',       'IDFmw2/01',       'IDFmw2/05',
-     >              'IDFww/01',        'IDFww/04',        'IDFww/07',
-     >             'ICHdw/01a',       'ICHmw1/03',       'ICHmw1/04'/),
+      DATA LTHG(25) /
+     >  LTHG_STR(  ! ICH+IDF CW 15m 1-30
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/07      ', 'ICHmk2/01      ',
+     >      'ICHmk2/06      ', 'ICHmw2/02      ',
+     >      'ICHmw3/01      ', 'ICHmw3/01-yc   ',
+     >      'ICHmw3/03      ', 'ICHmw3/04      ',
+     >      'ICHmw3/05      ', 'ICHmw3/08      ',
+     >      'ICHvk1/05      ', 'ICHvk1/06      ',
+     >      'ICHwk1/02      ', 'ICHwk1/03      ',
+     >      'ICHwk1/06      ', 'ICHwk1/07      ',
+     >      'IDFdk2/07      ', 'IDFmw1/01      ',
+     >      'IDFmw1/01-yc   ', 'IDFmw1/04      ',
+     >      'IDFmw2/01      ', 'IDFmw2/05      ',
+     >      'IDFww/01       ', 'IDFww/04       ',
+     >      'IDFww/07       ', 'ICHdw/01a      ',
+     >      'ICHmw1/03      ', 'ICHmw1/04      '/),
      >    -0.6909,
      >     0.0451,
      >    -0.00022,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(26) /
      >  LTHG_STR(  ! ICH+IDF CW 15m 31-34
-     >    (/ 6, (0,I=1,14) /),
-     >    (/       'ICHmw1/07',       'ICHmw2/03',       'ICHwk1/08',
-     >              'ICHxw/01',     ('',I=1,26)/),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw1/07      ', 'ICHmw2/03      ',
+     >      'ICHwk1/08      ', 'ICHxw/01       ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -0.6909,
      >     0.0451,
      >    -0.00022,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(27) /
      >  LTHG_STR(  ! ICH+IDF CW 18m 1-30
-     >    (/ 6, (0,I=1,14) /),
-     >    (/       'ICHmk1/05',       'ICHmk1/06',       'ICHmk2/05',
-     >             'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/03',
-     >             'ICHmw2/04',       'ICHmw2/05',       'ICHmw3/06',
-     >             'ICHmw3/07',       'ICHvk1/01',       'ICHvk1/03',
-     >             'ICHvk1/04',       'ICHwk1/01',       'ICHwk1/04',
-     >             'ICHwk1/05',       'IDFmw1/05',       'IDFmw1/06',
-     >             'IDFmw2/04',        'IDFww/05',        'IDFww/06',
-     >             'ICHdw/01b',        'ICHdw/02',        'ICHdw/03',
-     >              'ICHdw/04',       'ICHmw1/01',       'ICHmw1/05',
-     >             'ICHmw1/06',       'ICHmw2/04',       'ICHmw2/06'/),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk1/05      ', 'ICHmk1/06      ',
+     >      'ICHmk2/05      ', 'ICHmw2/01      ',
+     >      'ICHmw2/01-ys   ', 'ICHmw2/03      ',
+     >      'ICHmw2/04      ', 'ICHmw2/05      ',
+     >      'ICHmw3/06      ', 'ICHmw3/07      ',
+     >      'ICHvk1/01      ', 'ICHvk1/03      ',
+     >      'ICHvk1/04      ', 'ICHwk1/01      ',
+     >      'ICHwk1/04      ', 'ICHwk1/05      ',
+     >      'IDFmw1/05      ', 'IDFmw1/06      ',
+     >      'IDFmw2/04      ', 'IDFww/05       ',
+     >      'IDFww/06       ', 'ICHdw/01b      ',
+     >      'ICHdw/02       ', 'ICHdw/03       ',
+     >      'ICHdw/04       ', 'ICHmw1/01      ',
+     >      'ICHmw1/05      ', 'ICHmw1/06      ',
+     >      'ICHmw2/04      ', 'ICHmw2/06      '/),
      >    -0.8108,
      >     0.0692,
      >    -0.00022,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(28) /
      >  LTHG_STR(  ! ICH+IDF CW Class 66  (Not in SIBEC table)
-     >    (/ 6, (0,I=1,14) /),
-     >    (/       'ICHmk1/03', ('',I=1,29)/),
+     >    (/ 6, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk1/03      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0,
      >    -0.00022,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(29) /
      >  LTHG_STR(  ! ICH+IDF PL 15m 1-25
-     >    (/ 7, (0,I=1,14) /),
-     >    (/        'ICHdk/02',       'ICHwk2/02',       'ICHwk2/03',
-     >             'ICHwk4/02',       'ICHwk4/03',       'IDFdk3/02',
-     >             'IDFdk3/03',       'IDFdk3/05',       'IDFdk4/01',
-     >             'IDFdk4/02',       'IDFdk4/05',       'IDFdk4/06',
-     >             'IDFdk4/07',       'IDFdk4/08',       'IDFdk4/09',
-     >              'IDFxm/03',       'IDFdk1/02',       'IDFdk1/03',
-     >             'IDFdk1/04',       'IDFdk3/06',       'IDFdm1/03',
-     >             'IDFdm1/04',       'IDFmw1/03',        'IDFww/02',
-     >             'IDFdm2/03',         'ICH/all',         'IDF/all',
-     >              'SBPS/all',         'SBS/all',      ('',I=1,1)/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHdk/02       ', 'ICHwk2/02      ',
+     >      'ICHwk2/03      ', 'ICHwk4/02      ',
+     >      'ICHwk4/03      ', 'IDFdk3/02      ',
+     >      'IDFdk3/03      ', 'IDFdk3/05      ',
+     >      'IDFdk4/01      ', 'IDFdk4/02      ',
+     >      'IDFdk4/05      ', 'IDFdk4/06      ',
+     >      'IDFdk4/07      ', 'IDFdk4/08      ',
+     >      'IDFdk4/09      ', 'IDFxm/03       ',
+     >      'IDFdk1/02      ', 'IDFdk1/03      ',
+     >      'IDFdk1/04      ', 'IDFdk3/06      ',
+     >      'IDFdm1/03      ', 'IDFdm1/04      ',
+     >      'IDFmw1/03      ', 'IDFww/02       ',
+     >      'IDFdm2/03      ', 'ICH/all        ',
+     >      'IDF/all        ', 'SBPS/all       ',
+     >      'SBS/all        ', '               '/),
      >     0.0, 0.0, 0.0,
      >     1.7767,       !cn
      >    -0.1115,       !cnsi
@@ -502,21 +809,27 @@ C
      >    -0.2837,       !dbh additive
      >     0.00172,      !dbh multiplicative
      >    -0.00063       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(30) /
      >  LTHG_STR(  ! ICH+IDF PL 18m 1-25 (IDFdk2/01 & /04 -> Class 88)
                    !                     (IDFdk3/01 & /06 -> Class 99)
-     >    (/ 7, (0,I=1,14) /),                                   ! (30)
-     >    (/        'ICHdk/03',       'ICHmk3/02',       
-     >                                'IDFdk3/07',       'IDFdk3/08',
-     >             'IDFdk3/09',        'IDFdw/01',       'ICHmk1/02',
-     >             'ICHmk2/02',       'ICHmw3/02',       'ICHwk1/02',
-     >             'IDFdk1/01',                          'IDFdk2/03',
-     >                                'IDFdm1/01',       'IDFmw1/04',
-     >             'IDFmw2/02',       'IDFmw2/05',        'IDFww/03',
-     >             'ICHmw1/02',       'IDFdm2/01',       'IDFdm2/04',
-     >             'IDFdm2/07',       'SBPSdc/01',       'SBPSmk/01', 
-     >            ('',I=1,7)/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHdk/03       ', 'ICHmk3/02      ',
+     >      'IDFdk3/07      ', 'IDFdk3/08      ',
+     >      'IDFdk3/09      ', 'IDFdw/01       ',
+     >      'ICHmk1/02      ', 'ICHmk2/02      ',
+     >      'ICHmw3/02      ', 'ICHwk1/02      ',
+     >      'IDFdk1/01      ', 'IDFdk2/03      ',
+     >      'IDFdm1/01      ', 'IDFmw1/04      ',
+     >      'IDFmw2/02      ', 'IDFmw2/05      ',
+     >      'IDFww/03       ', 'ICHmw1/02      ',
+     >      'IDFdm2/01      ', 'IDFdm2/04      ',
+     >      'IDFdm2/07      ', 'SBPSdc/01      ',
+     >      'SBPSmk/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     1.7767,       !cn
      >    -0.1115,       !cnsi
@@ -525,21 +838,26 @@ C
      >    -0.2837,       !dbh additive
      >     0.00172,      !dbh multiplicative
      >    -0.00063       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(31) /
      >  LTHG_STR(  ! ICH+IDF PL 21m 1-30 (ICHmk2/03 -> Class 99)
-     >    (/ 7, (0,I=1,14) /),
-     >    (/        'ICHdk/04',       'ICHmk3/03',       'ICHmk3/05',
-     >             'ICHmk3/06',       'ICHmk3/07',       'ICHwk2/04',
-     >             'ICHwk2/05',       'ICHwk2/06',       'ICHwk2/07',
-     >             'ICHwk4/04',       'ICHwk4/05',       'ICHwk4/06',
-     >             'ICHwk4/07',       'ICHmk1/01',    'ICHmk1/01-ys',
-     >             'ICHmk1/03',       'ICHmk1/04',       'ICHmk1/05',
-     >             'ICHmk1/07',       'ICHmk2/01',
-     >             'ICHmk2/04',       'ICHmk2/06',       'ICHmw2/02',
-     >             'ICHmw3/01',    'ICHmw3/01-yc',       'ICHmw3/03',
-     >             'ICHmw3/04',       'ICHmw3/05',       'ICHwk1/03',
-     >            ('',I=1,1)/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHdk/04       ', 'ICHmk3/03      ',
+     >      'ICHmk3/05      ', 'ICHmk3/06      ',
+     >      'ICHmk3/07      ', 'ICHwk2/04      ',
+     >      'ICHwk2/05      ', 'ICHwk2/06      ',
+     >      'ICHwk2/07      ', 'ICHwk4/04      ',
+     >      'ICHwk4/05      ', 'ICHwk4/06      ',
+     >      'ICHwk4/07      ', 'ICHmk1/01      ',
+     >      'ICHmk1/01-ys   ', 'ICHmk1/03      ',
+     >      'ICHmk1/04      ', 'ICHmk1/05      ',
+     >      'ICHmk1/07      ', 'ICHmk2/01      ',
+     >      'ICHmk2/04      ', 'ICHmk2/06      ',
+     >      'ICHmw2/02      ', 'ICHmw3/01      ',
+     >      'ICHmw3/01-yc   ', 'ICHmw3/03      ',
+     >      'ICHmw3/04      ', 'ICHmw3/05      ',
+     >      'ICHwk1/03      ', '               '/),
      >     0.0, 0.0, 0.0,
      >     1.7767,       !cn
      >     0.8675,       !cnsi
@@ -548,19 +866,26 @@ C
      >    -0.2837,       !dbh additive
      >     0.00172,      !dbh multiplicative
      >    -0.00063       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(32) /
      >  LTHG_STR(  ! ICH+IDF PL 21m 31-55
-     >    (/ 7, (0,I=1,14) /),
-     >    (/       'ICHwk1/04',       'IDFdk1/05',       'IDFdk1/06',
-     >             'IDFdk2/05',       'IDFdk2/06',       'IDFdk2/07',
-     >             'IDFdm1/05',       'IDFdm1/07',       'IDFmw1/01',
-     >          'IDFmw1/01-yc',       'IDFmw1/05',       'IDFmw1/06',
-     >             'IDFmw2/01',       'IDFmw2/03',       'ICHdw/01a',
-     >              'ICHdw/02',       'ICHmw1/03',       'ICHmw1/04',
-     >             'ICHmw1/07',       'ICHmw2/03',        'ICHxw/01',
-     >             'IDFdm2/05',       'SBSdw1/01',        'SBSmh/01',
-     >             'SBPSmk/01',      ('',I=1,5)/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHwk1/04      ', 'IDFdk1/05      ',
+     >      'IDFdk1/06      ', 'IDFdk2/05      ',
+     >      'IDFdk2/06      ', 'IDFdk2/07      ',
+     >      'IDFdm1/05      ', 'IDFdm1/07      ',
+     >      'IDFmw1/01      ', 'IDFmw1/01-yc   ',
+     >      'IDFmw1/05      ', 'IDFmw1/06      ',
+     >      'IDFmw2/01      ', 'IDFmw2/03      ',
+     >      'ICHdw/01a      ', 'ICHdw/02       ',
+     >      'ICHmw1/03      ', 'ICHmw1/04      ',
+     >      'ICHmw1/07      ', 'ICHmw2/03      ',
+     >      'ICHxw/01       ', 'IDFdm2/05      ',
+     >      'SBSdw1/01      ', 'SBSmh/01       ',
+     >      'SBPSmk/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     1.7767,       !cn
      >     0.8675,       !cnsi
@@ -569,19 +894,26 @@ C
      >    -0.2837,       !dbh additive
      >     0.00172,      !dbh multiplicative
      >    -0.00063       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(33) /
      >  LTHG_STR(  ! ICH+IDF PL 24m 1-25
-     >    (/ 7, (0,I=1,14) /),
-     >    (/        'ICHdk/01',        'ICHdk/05',       'ICHmk3/01',
-     >             'ICHmk3/04',       'ICHwk2/01',       'ICHwk4/01',
-     >             'ICHmk1/06',       'ICHmk2/05',       'ICHmw2/01',
-     >          'ICHmw2/01-ys',       'ICHmw2/03',       'ICHmw2/04',
-     >             'ICHmw2/05',       'ICHmw3/06',       'ICHwk1/01',
-     >             'IDFdm1/06',       'IDFmw2/04',        'IDFww/01',
-     >             'ICHdw/01b',        'ICHdw/03',        'ICHdw/04',
-     >             'ICHmw1/01',       'ICHmw1/05',       'ICHmw1/06',
-     >             'ICHmw2/06',      ('',I=1,5)/),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHdk/01       ', 'ICHdk/05       ',
+     >      'ICHmk3/01      ', 'ICHmk3/04      ',
+     >      'ICHwk2/01      ', 'ICHwk4/01      ',
+     >      'ICHmk1/06      ', 'ICHmk2/05      ',
+     >      'ICHmw2/01      ', 'ICHmw2/01-ys   ',
+     >      'ICHmw2/03      ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw3/06      ',
+     >      'ICHwk1/01      ', 'IDFdm1/06      ',
+     >      'IDFmw2/04      ', 'IDFww/01       ',
+     >      'ICHdw/01b      ', 'ICHdw/03       ',
+     >      'ICHdw/04       ', 'ICHmw1/01      ',
+     >      'ICHmw1/05      ', 'ICHmw1/06      ',
+     >      'ICHmw2/06      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     1.7767,       !cn
      >     1.1317,       !cnsi
@@ -590,11 +922,26 @@ C
      >    -0.2837,       !dbh additive
      >     0.00172,      !dbh multiplicative
      >    -0.00063       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(34) /
      >  LTHG_STR(  ! ICH+IDF PL Class 88
-     >    (/ 7, (0,I=1,14) /),
-     >    (/        'IDFdk2/01',      'IDFdk2/04', ('',I=1,28) /),
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdk2/01      ', 'IDFdk2/04      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     1.7767,       !cn
      >     0.5698,       !cnsi
@@ -605,12 +952,24 @@ C
      >    -0.00063       !ht**2
      >    ) /
 
-      DATA (LTHG(I), I=35,P_MD) /           
-
-     >  LTHG_STR(  ! ICH+IDF PL Class 99        (35)
-     >    (/ 7, (0,I=1,14) /),
-     >    (/        'ICHmk2/03',      'IDFdk3/01',      'IDFdk3/06',
-     >            ('',I=1,27)/),
+      DATA LTHG(35) /
+     >  LTHG_STR(  ! ICH+IDF PL Class 99
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk2/03      ', 'IDFdk3/01      ',
+     >      'IDFdk3/06      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     1.7767,       !cn
      >    -1.4182,       !cnsi
@@ -619,18 +978,26 @@ C
      >    -0.2837,       !dbh additive
      >     0.00172,      !dbh multiplicative
      >    -0.00063       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(36) /
      >  LTHG_STR(  ! ICH+IDF SE 15m 1-15
-     >    (/ 8, (0,I=1,14) /),
-     >    (/       'ICHwk2/04',       'IDFdk3/09',       'IDFdk4/08',
-     >             'IDFdk4/09',       'IDFdk4/10',        'IDFdw/01',
-     >             'ICHmw2/02',       'ICHmw3/03',       'IDFdk1/01',
-     >             'IDFdk2/01',       'IDFdk2/04',       'IDFdm1/01',
-     >             'ICHmw1/02',       'ICHmw2/03',       'IDFdm2/07',
-     >             'ICHmw2/03',         'ICH/all',         'IDF/all',
-     >             'SBPSdc/01',        'SBPS/all',         'SBS/all',
-     >            ('',I=1,9)/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHwk2/04      ', 'IDFdk3/09      ',
+     >      'IDFdk4/08      ', 'IDFdk4/09      ',
+     >      'IDFdk4/10      ', 'IDFdw/01       ',
+     >      'ICHmw2/02      ', 'ICHmw3/03      ',
+     >      'IDFdk1/01      ', 'IDFdk2/01      ',
+     >      'IDFdk2/04      ', 'IDFdm1/01      ',
+     >      'ICHmw1/02      ', 'ICHmw2/03      ',
+     >      'IDFdm2/07      ', 'ICHmw2/03      ',
+     >      'ICH/all        ', 'IDF/all        ',
+     >      'SBPSdc/01      ', 'SBPS/all       ',
+     >      'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     0.1717,       !cn
      >     0.1475,       !cnsi (use 18m)
@@ -639,21 +1006,26 @@ C
      >     0.3659,       !dbh additive
      >    -0.0060,       !dbh multiplicative
      >    -0.00085       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(37) /
      >  LTHG_STR(  ! ICH+IDF SE 18m 1-30 (ICHmw2/03 -> 15m: AAZ)
-     >    (/ 8, (0,I=1,14) /),
-     >    (/       'ICHwk4/04',       'ICHwk4/05',       'ICHwk4/08',
-     >             'IDFdk3/07',       'IDFdk3/08',        'IDFxm/08',
-     >              'IDFxm/09',        'IDFxw/06',       'ICHmk1/01',
-     >          'ICHmk1/01-ys',       'ICHmk1/03',       'ICHmk1/04',
-     >             'ICHmk1/07',       'ICHmk2/01',       'ICHmk2/03',
-     >             'ICHmk2/04',       'ICHmk2/06',       'ICHmw2/01',
-     >          'ICHmw2/01-ys',                          'ICHmw2/07',
-     >             'ICHmw3/01',    'ICHmw3/01-yc',       'ICHmw3/04',
-     >             'ICHmw3/05',       'ICHmw3/08',       'ICHvk1/06',
-     >             'ICHwk1/03',       'ICHwk1/07',       'IDFdk1/05',
-     >              ('',I=1,1)/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHwk4/04      ', 'ICHwk4/05      ',
+     >      'ICHwk4/08      ', 'IDFdk3/07      ',
+     >      'IDFdk3/08      ', 'IDFxm/08       ',
+     >      'IDFxm/09       ', 'IDFxw/06       ',
+     >      'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/03      ', 'ICHmk1/04      ',
+     >      'ICHmk1/07      ', 'ICHmk2/01      ',
+     >      'ICHmk2/03      ', 'ICHmk2/04      ',
+     >      'ICHmk2/06      ', 'ICHmw2/01      ',
+     >      'ICHmw2/01-ys   ', 'ICHmw2/07      ',
+     >      'ICHmw3/01      ', 'ICHmw3/01-yc   ',
+     >      'ICHmw3/04      ', 'ICHmw3/05      ',
+     >      'ICHmw3/08      ', 'ICHvk1/06      ',
+     >      'ICHwk1/03      ', 'ICHwk1/07      ',
+     >      'IDFdk1/05      ', '               '/),
      >     0.0, 0.0, 0.0,
      >     0.1717,       !cn
      >     0.1475,       !cnsi
@@ -662,16 +1034,26 @@ C
      >     0.3659,       !dbh additive
      >    -0.0060,       !dbh multiplicative
      >    -0.00085       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(38) /
      >  LTHG_STR(  ! ICH+IDF SE 18m 31-47
-     >    (/ 8, (0,I=1,14)/),
-     >    (/       'IDFdk2/05',       'IDFdk2/07',       'IDFdm1/05',
-     >             'IDFmw1/01',    'IDFmw1/01-yc',       'IDFmw2/01',
-     >             'IDFmw2/05',       'IDFxh1/08',       'IDFxh2/07',
-     >             'ICHmw1/03',       'ICHmw1/04',       'ICHmw1/07',
-     >             'ICHmw2/04',       'ICHmw2/08',       'ICHwk1/08',
-     >             'IDFdm2/04',       'SBSdw2/01',     ('',I=1,13)/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDFdk2/05      ', 'IDFdk2/07      ',
+     >      'IDFdm1/05      ', 'IDFmw1/01      ',
+     >      'IDFmw1/01-yc   ', 'IDFmw2/01      ',
+     >      'IDFmw2/05      ', 'IDFxh1/08      ',
+     >      'IDFxh2/07      ', 'ICHmw1/03      ',
+     >      'ICHmw1/04      ', 'ICHmw1/07      ',
+     >      'ICHmw2/04      ', 'ICHmw2/08      ',
+     >      'ICHwk1/08      ', 'IDFdm2/04      ',
+     >      'SBSdw2/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     0.1717,       !cn
      >     0.1475,       !cnsi
@@ -680,20 +1062,26 @@ C
      >     0.3659,       !dbh additive
      >    -0.0060,       !dbh multiplicative
      >    -0.00085       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(39) /
      >  LTHG_STR(  ! ICH+IDF SE 21m 1-30
-     >    (/ 8, (0,I=1,14) /),
-     >    (/        'ICHdk/01',        'ICHdk/04',        'ICHdk/05',
-     >             'ICHmk3/01',       'ICHmk3/05',       'ICHmk3/07',
-     >             'ICHwk2/01',       'ICHwk2/05',       'ICHwk2/06',
-     >             'ICHwk2/08',       'ICHwk4/01',       'ICHwk4/06',
-     >              'IDFxw/07',       'ICHmk1/05',       'ICHmk1/06',
-     >             'ICHmk2/05',       'ICHmw2/06',       'ICHmw3/06',
-     >             'ICHvk1/02',       'ICHvk1/03',       'ICHvk1/05',
-     >             'ICHwk1/04',       'ICHwk1/06',       'IDFdk1/06',
-     >             'IDFdk2/06',       'IDFdm1/07',       'IDFmw1/05',
-     >             'IDFmw2/04',       'IDFxh2/08',       'ICHdw/01b'/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHdk/01       ', 'ICHdk/04       ',
+     >      'ICHdk/05       ', 'ICHmk3/01      ',
+     >      'ICHmk3/05      ', 'ICHmk3/07      ',
+     >      'ICHwk2/01      ', 'ICHwk2/05      ',
+     >      'ICHwk2/06      ', 'ICHwk2/08      ',
+     >      'ICHwk4/01      ', 'ICHwk4/06      ',
+     >      'IDFxw/07       ', 'ICHmk1/05      ',
+     >      'ICHmk1/06      ', 'ICHmk2/05      ',
+     >      'ICHmw2/06      ', 'ICHmw3/06      ',
+     >      'ICHvk1/02      ', 'ICHvk1/03      ',
+     >      'ICHvk1/05      ', 'ICHwk1/04      ',
+     >      'ICHwk1/06      ', 'IDFdk1/06      ',
+     >      'IDFdk2/06      ', 'IDFdm1/07      ',
+     >      'IDFmw1/05      ', 'IDFmw2/04      ',
+     >      'IDFxh2/08      ', 'ICHdw/01b      '/),
      >     0.0, 0.0, 0.0,
      >     0.1717,       !cn
      >     0.2268,       !cnsi
@@ -702,14 +1090,26 @@ C
      >     0.3659,       !dbh additive
      >    -0.0060,       !dbh multiplicative
      >    -0.00085       !ht**2
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF SE 21m 31-39       (40)
-     >    (/ 8, (0,I=1,14) /),
-     >    (/       'ICHmw1/01',       'ICHmw1/05',       'ICHmw1/06',
-     >             'ICHmw2/07',       'ICHwk1/07',       'IDFdm2/05',
-     >             'SBSdw1/01',        'SBSmh/01',        'SBSmk/01',
-     >           ('',I=1,21)/),
+      DATA LTHG(40) /
+     >  LTHG_STR(  ! ICH+IDF SE 21m 31-39
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw1/01      ', 'ICHmw1/05      ',
+     >      'ICHmw1/06      ', 'ICHmw2/07      ',
+     >      'ICHwk1/07      ', 'IDFdm2/05      ',
+     >      'SBSdw1/01      ', 'SBSmh/01       ',
+     >      'SBSmk/01       ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     0.1717,       !cn
      >     0.2268,       !cnsi
@@ -718,16 +1118,26 @@ C
      >     0.3659,       !dbh additive
      >    -0.0060,       !dbh multiplicative
      >    -0.00085       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(41) /
      >  LTHG_STR(  ! ICH+IDF SE 24m 1-16
-     >    (/ 8, (0,I=1,14) /),
-     >    (/       'ICHmk3/04',       'ICHmk3/06',       'ICHwk2/07',
-     >             'ICHwk4/07',       'ICHmw2/04',       'ICHmw2/05',
-     >             'ICHmw3/07',       'ICHvk1/01',       'ICHvk1/04',
-     >             'ICHwk1/01',       'ICHwk1/05',       'IDFdm1/06',
-     >             'IDFmw1/06',        'ICHdw/03',        'ICHdw/04',
-     >             'ICHmw2/06',     ('',I=1,14)/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk3/04      ', 'ICHmk3/06      ',
+     >      'ICHwk2/07      ', 'ICHwk4/07      ',
+     >      'ICHmw2/04      ', 'ICHmw2/05      ',
+     >      'ICHmw3/07      ', 'ICHvk1/01      ',
+     >      'ICHvk1/04      ', 'ICHwk1/01      ',
+     >      'ICHwk1/05      ', 'IDFdm1/06      ',
+     >      'IDFmw1/06      ', 'ICHdw/03       ',
+     >      'ICHdw/04       ', 'ICHmw2/06      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     0.1717,       !cn
      >     0.5203,       !cnsi
@@ -736,12 +1146,27 @@ C
      >     0.3659,       !dbh additive
      >    -0.0060,       !dbh multiplicative
      >    -0.00085       !ht**2
-     >    ), 
+     >    ) /
 
+      DATA LTHG(42) /
      >  LTHG_STR(  ! ICH+IDF SE Class 66+99 (Not in SIBEC table)
                    !         IDFdk3/01 added manually: AAZ
-     >    (/ 8, (0,I=1,14) /),
-     >    (/       'IDFdk3/04',       'IDFdk3/01', ('',I=1,28)/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdk3/04      ', 'IDFdk3/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     0.1717,       !cn
      >     0.0511,       !cnsi
@@ -750,11 +1175,26 @@ C
      >     0.3659,       !dbh additive
      >    -0.0060,       !dbh multiplicative
      >    -0.00085       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(43) /
      >  LTHG_STR(  ! ICH+IDF SE Class 77 & 88 (Not in SIBEC table)
-     >    (/ 8, (0,I=1,14) /),
-     >    (/       'IDFdm2/01',       'IDFdm1/04', ('',I=1,28)/),
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdm2/01      ', 'IDFdm1/04      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     0.1717,       !cn
      >     0.0,          !cnsi
@@ -763,168 +1203,340 @@ C
      >     0.3659,       !dbh additive
      >    -0.0060,       !dbh multiplicative
      >    -0.00085       !ht**2
-     >    ),
+     >    ) /
 
+      DATA LTHG(44) /
      >  LTHG_STR(  ! ICH+IDF BL 15m 1-9
-     >    (/ 9, (0,I=1,14) /),
-     >    (/       'ICHmk1/03',       'ICHmk2/03',       'ICHmw2/02',
-     >             'ICHmw3/03',       'ICHmw3/08',       'ICHvk1/06',
-     >             'ICHwk1/02',       'ICHmw1/02',       'ICHmw2/03',
-     >               'ICH/all',         'IDF/all',        'SBPS/all',
-     >               'SBS/all',     ('',I=1,17)/),
+     >    (/ 9, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk1/03      ', 'ICHmk2/03      ',
+     >      'ICHmw2/02      ', 'ICHmw3/03      ',
+     >      'ICHmw3/08      ', 'ICHvk1/06      ',
+     >      'ICHwk1/02      ', 'ICHmw1/02      ',
+     >      'ICHmw2/03      ', 'ICH/all        ',
+     >      'IDF/all        ', 'SBPS/all       ',
+     >      'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0545,
      >    -0.00071,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF BL 18m 1-30          (45)
-     >    (/ 9, (0,I=1,14) /),
-     >    (/       'ICHmk1/01',    'ICHmk1/01-ys',       'ICHmk1/04',
-     >             'ICHmk1/07',       'ICHmk2/01',       'ICHmk2/06',
-     >             'ICHmw2/01',    'ICHmw2/01-ys',       'ICHmw2/03',
-     >             'ICHmw2/06',       'ICHmw2/07',       'ICHmw3/01',
-     >          'ICHmw3/01-yc',       'ICHmw3/05',       'ICHvk1/02',
-     >             'ICHvk1/03',       'ICHvk1/05',       'ICHwk1/03',
-     >             'ICHwk1/04',       'ICHwk1/06',       'ICHwk1/07',
-     >             'IDFdk1/05',       'IDFdk1/06',       'IDFdm1/05',
-     >             'IDFdm1/07',       'ICHdw/01a',       'ICHmw1/01',
-     >             'ICHmw1/03',       'ICHmw1/04',       'ICHmw1/07'/),
-     >     0.0,
-     >     0.0617, 
-     >    -0.00071,
-     >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
-
-     >  LTHG_STR(  ! ICH+IDF BL 18m 31-35
-     >    (/ 9, (0,I=1,14) /),
-     >    (/       'ICHmw2/04',       'ICHmw2/08',       'ICHwk1/08',
-     >             'SBSdw2/01',       'SBSdw1/01',     ('',I=1,25)/),
+      DATA LTHG(45) /
+     >  LTHG_STR(  ! ICH+IDF BL 18m 1-30
+     >    (/ 9, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk1/01      ', 'ICHmk1/01-ys   ',
+     >      'ICHmk1/04      ', 'ICHmk1/07      ',
+     >      'ICHmk2/01      ', 'ICHmk2/06      ',
+     >      'ICHmw2/01      ', 'ICHmw2/01-ys   ',
+     >      'ICHmw2/03      ', 'ICHmw2/06      ',
+     >      'ICHmw2/07      ', 'ICHmw3/01      ',
+     >      'ICHmw3/01-yc   ', 'ICHmw3/05      ',
+     >      'ICHvk1/02      ', 'ICHvk1/03      ',
+     >      'ICHvk1/05      ', 'ICHwk1/03      ',
+     >      'ICHwk1/04      ', 'ICHwk1/06      ',
+     >      'ICHwk1/07      ', 'IDFdk1/05      ',
+     >      'IDFdk1/06      ', 'IDFdm1/05      ',
+     >      'IDFdm1/07      ', 'ICHdw/01a      ',
+     >      'ICHmw1/01      ', 'ICHmw1/03      ',
+     >      'ICHmw1/04      ', 'ICHmw1/07      '/),
      >     0.0,
      >     0.0617,
      >    -0.00071,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(46) /
+     >  LTHG_STR(  ! ICH+IDF BL 18m 31-35
+     >    (/ 9, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmw2/04      ', 'ICHmw2/08      ',
+     >      'ICHwk1/08      ', 'SBSdw2/01      ',
+     >      'SBSdw1/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
+     >     0.0,
+     >     0.0617,
+     >    -0.00071,
+     >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+     >    ) /
+
+      DATA LTHG(47) /
      >  LTHG_STR(  ! ICH+IDF BL 21m 1-19
-     >    (/ 9, (0,I=1,14) /),
-     >    (/       'ICHmk1/05',       'ICHmk1/06',       'ICHmk2/05',
-     >             'ICHmw2/04',       'ICHmw2/05',       'ICHmw3/06',
-     >             'ICHmw3/07',       'ICHvk1/01',       'ICHvk1/04',
-     >             'ICHwk1/01',       'ICHwk1/05',       'IDFdm1/06',
-     >              'ICHdw/03',        'ICHdw/04',       'ICHmw1/05',
-     >             'ICHmw1/06',       'ICHmw2/05',       'ICHmw2/06',
-     >              'SBSmh/01',     ('',I=1,11)/),
+     >    (/ 9, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICHmk1/05      ', 'ICHmk1/06      ',
+     >      'ICHmk2/05      ', 'ICHmw2/04      ',
+     >      'ICHmw2/05      ', 'ICHmw3/06      ',
+     >      'ICHmw3/07      ', 'ICHvk1/01      ',
+     >      'ICHvk1/04      ', 'ICHwk1/01      ',
+     >      'ICHwk1/05      ', 'IDFdm1/06      ',
+     >      'ICHdw/03       ', 'ICHdw/04       ',
+     >      'ICHmw1/05      ', 'ICHmw1/06      ',
+     >      'ICHmw2/05      ', 'ICHmw2/06      ',
+     >      'SBSmh/01       ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -0.6005,
      >     0.0857,
      >    -0.00071,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(48) /
      >  LTHG_STR(  ! ICH+IDF BL 24m 1-1
-     >    (/ 9, (0,I=1,14)/),
-     >    (/       'ICHdw/01b', ('',I=1,29)/),
+     >    (/ 9, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICHdw/01b      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -1.0159,
      >     0.1335,
      >    -0.00071,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(49) /
      >  LTHG_STR(  ! ICH+IDF PY 12m 1-11
-     >    (/10, (0,I=1,14) /),
-     >    (/        'IDFxw/01',        'IDFxw/02',        'IDFxw/03',
-     >              'IDFxw/04',       'IDFdk1/02',       'IDFdk1/03',
-     >             'IDFdk2/02',       'IDFdk2/03',       'IDFxh1/02',
-     >             'IDFxh2/02',       'IDFxh2/03',         'ICH/all',
-     >               'IDF/all',        'SBPS/all',         'SBS/all',
-     >           ('',I=1,15)/),
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFxw/01       ', 'IDFxw/02       ',
+     >      'IDFxw/03       ', 'IDFxw/04       ',
+     >      'IDFdk1/02      ', 'IDFdk1/03      ',
+     >      'IDFdk2/02      ', 'IDFdk2/03      ',
+     >      'IDFxh1/02      ', 'IDFxh2/02      ',
+     >      'IDFxh2/03      ', 'ICH/all        ',
+     >      'IDF/all        ', 'SBPS/all       ',
+     >      'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0,
      >    -0.00030,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF PY 15m 1-15         (50)
-     >    (/10, (0,I=1,14) /),
-     >    (/       'IDFdk1/04',       'IDFdk2/04',       'IDFdm1/03',
-     >             'IDFmw1/02',       'IDFmw2/02',       'IDFmw2/03',
-     >             'IDFxh1/03',       'IDFxh1/04',       'IDFxh1/05',
-     >             'IDFxh2/01',       'IDFxh2/04',       'IDFxh2/05',
-     >             'IDFxh2/06',       'ICHmk1/02',       'IDFdm2/03',
-     >           ('',I=1,15)/),
+      DATA LTHG(50) /
+     >  LTHG_STR(  ! ICH+IDF PY 15m 1-15
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdk1/04      ', 'IDFdk2/04      ',
+     >      'IDFdm1/03      ', 'IDFmw1/02      ',
+     >      'IDFmw2/02      ', 'IDFmw2/03      ',
+     >      'IDFxh1/03      ', 'IDFxh1/04      ',
+     >      'IDFxh1/05      ', 'IDFxh2/01      ',
+     >      'IDFxh2/04      ', 'IDFxh2/05      ',
+     >      'IDFxh2/06      ', 'ICHmk1/02      ',
+     >      'IDFdm2/03      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -1.6556,
      >     0.0616,
      >    -0.00030,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(51) /
      >  LTHG_STR(  ! ICH+IDF PY 18m 1-12
-     >    (/10, (0,I=1,14)/),
-     >    (/       'IDFdm1/01',       'IDFdm1/04',       'IDFmw1/03',
-     >             'IDFmw1/04',       'IDFmw2/01',        'IDFww/03',
-     >             'IDFxh1/01',       'IDFxh1/06',       'IDFxh1/07',
-     >             'ICHmk1/03',       'IDFdm2/01',       'IDFdm2/04', 
-     >             ('',I=1,18)/),
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDFdm1/01      ', 'IDFdm1/04      ',
+     >      'IDFmw1/03      ', 'IDFmw1/04      ',
+     >      'IDFmw2/01      ', 'IDFww/03       ',
+     >      'IDFxh1/01      ', 'IDFxh1/06      ',
+     >      'IDFxh1/07      ', 'ICHmk1/03      ',
+     >      'IDFdm2/01      ', 'IDFdm2/04      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -1.7829,
      >     0.0748,
      >    -0.00030,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 C
 C     SIBEC 21 absent from AAZs table
-C     
+C
+      DATA LTHG(52) /
      >  LTHG_STR(  ! ICH+IDF PY 21m 1-8 -> all use 18m coefficients
-     >    (/10, (0,I=1,14) /),
-     >    (/       'IDFdm1/05',       'IDFmw1/01',    'IDFmw1/01-yc',
-     >             'IDFxh1/08',       'IDFxh2/07',       'ICHdw/01a',
-     >              'ICHdw/02',        'ICHxw/01',     ('',I=1,22)/),
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdm1/05      ', 'IDFmw1/01      ',
+     >      'IDFmw1/01-yc   ', 'IDFxh1/08      ',
+     >      'IDFxh2/07      ', 'ICHdw/01a      ',
+     >      'ICHdw/02       ', 'ICHxw/01       ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >    -1.7829,
      >     0.0748,
      >    -0.00030,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(53) /
      >  LTHG_STR(  ! ICH+IDF PY 24m 1-3
-     >    (/10, (0,I=1,14) /),
-     >    (/ 'IDFww/01', 'IDFww/04', 'ICHdw/01b', ('',I=1,27) /),
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFww/01       ', 'IDFww/04       ',
+     >      'ICHdw/01b      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0550,
      >    -0.00030,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF PY Class 66 (Not in SIBEC table) 
-     >    (/10, (0,I=1,14)/),
-     >    (/       'IDFdk1/01', ('',I=1,29)/),
+      DATA LTHG(54) /
+     >  LTHG_STR(  ! ICH+IDF PY Class 66 (Not in SIBEC table)
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDFdk1/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0382,
      >    -0.00030,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
-     >  LTHG_STR(  ! ICH+IDF PY Class 77 (Not in SIBEC table)    (55)
-     >    (/10, (0,I=1,14) /),
-     >    (/       'IDFdk1/05', ('',I=1,29)/),
+      DATA LTHG(55) /
+     >  LTHG_STR(  ! ICH+IDF PY Class 77 (Not in SIBEC table)
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdk1/05      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0335,
      >    -0.00030,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(56) /
      >  LTHG_STR(  ! ICH+IDF PY Class 88 (Not in SIBEC table)
-     >    (/10, (0,I=1,14) /),
-     >    (/       'IDFdk2/01', ('',I=1,29)/),
+     >    (/10, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'IDFdk2/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0,
      >     0.0,
      >    -0.00030,
      >     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-     >    ),
+     >    ) /
 
+      DATA LTHG(57) /
      >  LTHG_STR ( ! ICH+IDF EP,AT,AC,OH all sites - AT model
-     >    (/11,12,13,15, (0,I=1,11) /),
-     >    (/       'ICH/all',       'IDF/all',  'SBPSmk/01',
-     >           'SBSdw2/01',      'SBPS/all',    'SBS/all', 
-     >         ('',I=1,24)/),
+     >    (/11,12,13,15, 0,0,0,0,0,0,0,0,0,0,0 /),
+     >    (/'ICH/all        ', 'IDF/all        ',
+     >      'SBPSmk/01      ', 'SBSdw2/01      ',
+     >      'SBPS/all       ', 'SBS/all        ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     0.0, 0.0, 0.0,
      >     0.0,          !cn
      >     0.0,          !cnsi
@@ -934,6 +1546,8 @@ C
      >    -0.00098,      !dbh multiplicative
      >    -0.00085       !ht**2
      >    ) /
+
+
 
 C-----------
 C  CHECK FOR DEBUG.
@@ -964,9 +1578,9 @@ C-----------
         I   = IND1(I3)
         HTI = HT(I)
         D   = DBH(I)
-        
+
         HTG(I)=0.
-        IF (PROB(I).LE.0.0)THEN 
+        IF (PROB(I).LE.0.0)THEN
           IF(LTRIP)THEN
             ITFN=ITRN+2*I-1
             HTG(ITFN)=0.
@@ -987,7 +1601,7 @@ C    INSTEAD OF AT EACH FUNCTION IF SPECIAL CASES EXIST.
 C----------
         Y = Y * MISHGF(I,ISPC)
         IF (LV2ATV) THEN
-        
+
           CON=HTCON(ISPC)+H2COF*HTI*HTI+HGLD(ISPC)*ALOG(D)+
      &      HGLH*ALOG(HTI)
           HTG(I)=(EXP(CON+HDGCOF*ALOG(DG(I)))+BIAS) * Y
@@ -1038,7 +1652,7 @@ C     END OF SPECIES LOOP
 
    40 CONTINUE
       RETURN
- 
+
 
 C  ENTRY POINT FOR LOADING HEIGHT INCREMENT MODEL COEFFICIENTS THAT ARE
 C  SITE DEPENDENT AND REQUIRE ONE-TIME RESOLUTION.  HGHC CONTAINS
@@ -1079,7 +1693,7 @@ C     V2 - ASSIGN HABITAT DEPENDENT COEFFICIENTS.
         SEISHT = 1.0 ! V2 SMALL TREE MODEL
 
       ELSE
-      
+
 C       REPLACE NULLS IN COMPILED DATA STRINGS WITH SPACES, SO THAT
 C       STRING LENGTHS WILL BE FIGURED CORRECTLY
         DO J = 1,P_MD
@@ -1165,7 +1779,7 @@ C  LOAD OVERALL INTERCEPT MULTIPLIER FOR EACH SPECIES.
           IF(LHCOR2 .AND. HCOR2(ISPC).GT.0.0)
      >      HTCON(ISPC) = HTCON(ISPC) + ALOG(HCOR2(ISPC))
         ENDDO
-     
+
       ELSE
 
         DO ISPC = 1,MAXSP
@@ -1175,18 +1789,18 @@ C  LOAD OVERALL INTERCEPT MULTIPLIER FOR EACH SPECIES.
      >        LTH%MLT(ISPC) = HCOR2(ISPC)
           ENDIF
         ENDDO
-        
+
       ENDIF
 
 C     STEP 2:
 C     ENTRY POINT FOR REFIT OF HEIGHT DUBBING MODEL FOR VERSION 3
 C     THIS ENTRY POINT IS FOR ICH/IDF ONLY; OTHERS ARE DONE IN BECSET
 C
-C     FIND AND REPLACE HEIGHT COEFFICIENTS HELD IN 
+C     FIND AND REPLACE HEIGHT COEFFICIENTS HELD IN
 C     ARRAYS HT1() AND HT2() (C_0 AND C_1 OF HT/DIAM EQN)
 C
 C     IF NOT YET DONE, PUT COMPILE-TIME HT1,HT2 INTO ARCHIVE VARIABLES
-C     THIS USES A V2 FLAG BECAUSE HEIGHT DUBBING IS A HOLD-OVER FROM V2 
+C     THIS USES A V2 FLAG BECAUSE HEIGHT DUBBING IS A HOLD-OVER FROM V2
 C     THAT IS BASICALLY UNALTERED IN V3
 
       IF (LV2HTCP) THEN
@@ -1210,10 +1824,10 @@ C
 
         IF (I.EQ.1) THEN   ! western white pine - PW
           IF (INDEX(BEC%Zone,'ICH') .GT. 0) THEN
-            IF (INDEX(BEC%SubZone,'mw') .GT. 0) THEN          
+            IF (INDEX(BEC%SubZone,'mw') .GT. 0) THEN
               XHT1(I) =   3.9738
               XHT2(I) = -20.8459
-            ELSEIF (INDEX(BEC%SubZone,'wk') .GT. 0) THEN          
+            ELSEIF (INDEX(BEC%SubZone,'wk') .GT. 0) THEN
               XHT1(I) =   3.7771
               XHT2(I) = -15.8162
             ENDIF
@@ -1347,7 +1961,7 @@ C
      >         INDEX(BEC%SubZone,'dm') .GT. 0) THEN
               XHT1(I) =   3.5683
               XHT2(I) = -13.0736
-            ELSEIF (INDEX(BEC%SubZone,'dk') .GT. 0 .OR.  
+            ELSEIF (INDEX(BEC%SubZone,'dk') .GT. 0 .OR.
      >              INDEX(BEC%Zone,'SBPS') .GT. 0 .OR.
      >              INDEX(BEC%PrettyName,'SBSdw2') .GT. 0) THEN
               XHT1(I) =   3.1192
@@ -1368,13 +1982,13 @@ C
             ELSEIF (INDEX(BEC%SubZone,'dm') .GT. 0 .OR.
      >              INDEX(BEC%SubZone,'mk') .GT. 0 .OR.
      >              INDEX(BEC%SubZone,'mc') .GT. 0 .OR.
-     >              INDEX(BEC%Zone,'SBS') .GT. 0) THEN          
+     >              INDEX(BEC%Zone,'SBS') .GT. 0) THEN
               XHT1(I) =   4.0115
               XHT2(I) = -25.0730
             ELSEIF (INDEX(BEC%SubZone,'mw') .GT. 0) THEN
               XHT1(I) =   3.9729
               XHT2(I) = -22.6984
-            ELSEIF (INDEX(BEC%SubZone,'wk') .GT. 0) THEN            
+            ELSEIF (INDEX(BEC%SubZone,'wk') .GT. 0) THEN
               XHT1(I) =   4.1277
               XHT2(I) = -29.2780
             ENDIF
@@ -1407,7 +2021,7 @@ C
               XHT1(I) =   3.7798
               XHT2(I) = -29.9875
             ENDIF
-          ELSEIF (INDEX(BEC%Zone,'IDF') .GT. 0) THEN            
+          ELSEIF (INDEX(BEC%Zone,'IDF') .GT. 0) THEN
             IF (INDEX(BEC%SubZone,'xh') .GT. 0 .OR.
      >          INDEX(BEC%SubZone,'dm') .GT. 0) THEN
               XHT1(I) =   3.7948
@@ -1441,7 +2055,7 @@ C     SET FLAG FOR WHETHER METRIC DUB IS USED, OR NOT
       RETURN
       END
 
-C     V3HTG--SEI   
+C     V3HTG--SEI
 C     THIS PRIVATE FUNCTION LOCALIZES THE V3 CALCULATIONS FOR HEIGHT GROWTH;
 C     OTHERWISE THEY WOULD BE REPEATED SEVERAL TIMES
 
@@ -1458,14 +2072,14 @@ C     OTHERWISE THEY WOULD BE REPEATED SEVERAL TIMES
 
 	V3HTG = 0.0
       IF (.NOT. LTH%FIT(ISPC)) RETURN
-	
+
       HTM = HT  * FTtoM
       D   = DBH * INtoCM
 	DGM = DG  * INtoCM
 
 	SELECT CASE (ISPC)
 	  CASE (7,8,11,12,13,15)  ! NEW v3 MODEL
-          HTGM = (LTH%CN(ISPC) + LTH%CNSI(ISPC) + 
+          HTGM = (LTH%CN(ISPC) + LTH%CNSI(ISPC) +
      >      (LTH%DG(ISPC) * DGM + LTH%DG2(ISPC) * DGM * DGM)) *
      >      (HTM ** (LTH%DBH1(ISPC) + LTH%DBH2(ISPC) * D)) *
      >      EXP(LTH%HT2(ISPC) * HTM * HTM)

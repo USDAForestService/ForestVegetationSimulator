@@ -1,7 +1,7 @@
       SUBROUTINE TMOTPR (PROTBK)    
       IMPLICIT NONE
 C---------- 
-C  **TMOTPR DATE OF LAST REVISION:  06/30/10 
+C  **TMOTPR DATE OF LAST REVISION:  04/01/13 
 C---------- 
 C     
 C     PROTBK= THE CONDITIONAL PROBABILITY THAT THIS STAND WILL    
@@ -9,6 +9,14 @@ C             SUSTAIN A TUSSOCK MOTH OUTBREAK GIVEN THAT AN OUTBREAK
 C             IS OCCURING IN THE GENERAL VICINITY.    
 C     N. L. CROOKSTON, PROGRAMMER. 5/1978 MODIFIED 3/79 INT -- MOSCOW   
 C     
+C
+C Revision History:
+C   01-APR-2013 Lance R. David (FMSC)
+C      A few variables defined locally were already defined
+C      in a common block. Local declaration removed.
+C
+C----------
+C
 COMMONS     
 C     
       INCLUDE 'PRGPRM.F77'
@@ -23,14 +31,11 @@ C
 C     
 COMMONS     
 C     
-      INTEGER I, I1, I2, IBMTYP, IDFCOD, IEGTYP, IGFCOD, II, IPBMT,
-     &        IPRBMT, ITMETH, ITMREP, ITMSCH, ITMSLV, JODFEC, JODFTM,
-     &        JOTMDK, NACLAS, NCLAS
-      REAL AVCRDI, CNTDF, CNTGF, DFFBIO, DFEGG, DFPNEW, F1, G1, GFEGG,
-     &     GFFBIO, GFPNEW, GFREGG, HOST,
-     &     PGFBA, PRBSCL, PROTBK, R0, R1, STDCLO, TMASHD, TMB0, TMB1,
-     &     TMDEFL, TMPN1, TMPRB, TMR0, TOPO, WEIGHT,
-     &     X0, X1, Y1, Z1
+      INTEGER I, I1, I2, II
+     &        
+      REAL AVCRDI, HOST,
+     &     PGFBA,  PROTBK, STDCLO, TMB0, TMB1,
+     &     TMR0
 
       IF (IPRBMT .GT. 1) GOTO 50    
 C     

@@ -94,12 +94,12 @@ C
       LOGICAL  DEBUG,LESTB,LSKIPH
 	INTEGER  I,KPER,IYR,ITOT,NPER,N,J1,IS,ITRNIN,K,NYR,IPCCF,KY
 	INTEGER  ISPC,I1,I2,L,ICRK,NUMCAL,KOUT,ISPEC,KK,M,IREFI,J
-      INTEGER  IPOS(MAXSP),INDX(MAXTRE),NTYR,IPAS
+      INTEGER  IPOS(MAXSP),INDX(MAXTRE),NTYR,IPAS,I3
       REAL     BRATIO,BACHLO
 	REAL     DIAM,HHT1,HHT2,XMAXv3,XMINv3,REGYR
 	REAL     BACON,RDNEXT,BANEXT,SCALE,D1,P,D2,B1,B2,C1,C2,CW
 	REAL     BI,CI,PN,BAYR,CCFYR,CR,RAN,R,AH,DELMAX,BAJ,RDJ,XRHGRO
-	REAL     XRDGRO,CON,BCCF,BBAL,XMX,XMN,AA,BB,I3,H1,BAL,D,DADJ
+      REAL     XRDGRO,CON,BCCF,BBAL,XMX,XMN,AA,BB,H1,BAL,D,DADJ
 	REAL     XPPMLT,H2,HTGRL,RELH,DGJ,H,HK,HTGR1,HTGR
 	REAL     XWT,ZZRAN,DK,DGK,BARK,DDS,SCALE2,DDS2,DG2,DNEW,XCRCON
 	REAL     CORTEM,SCALE3,CORNEW,SNP,SNX,SNY,EDH,TERM
@@ -113,7 +113,7 @@ C     v2
 	REAL     RSAB0,RSAB1,RSAB2
 	REAL     XCRIT,BLH,BHAB,BH,HSIGMA
 	REAL     STHG_CON,B1X,B2X,B3X,B4X,B5X,B6X
-      
+
       DIMENSION CORTEM(MAXSP),NUMCAL(MAXSP),XMAXv3(MAXSP),XMINv3(MAXSP),
      &  HHT1(MAXSP),HHT2(MAXSP),RHBAL(MAXSP),RHLH(MAXSP),RHCCF(MAXSP),
      &  RHHAB(6,MAXSP),MAPHAB(30,MAXSP),RHGL(3),RHSC(MAXSP),DIAM(MAXSP),
@@ -147,7 +147,7 @@ C  DATA STATEMENTS.
      &   0.4, 3*0.3, 2*0.2, 0.4, 2*0.3, 0.5, 3*0.2, 0.3, 0.2 /
       DATA HHT1/
      &   0.0781, 0.0751, 0.0828, 0.1155, 0.0729, 0.0730,
-     &   0.0988, 0.0658, 0.0658, 0.2160, 
+     &   0.0988, 0.0658, 0.0658, 0.2160,
      &   0.0729, 0.0729, 0.0729, 0.0828, 0.0729 /
       DATA HHT2/
      &   1.1645, 1.1176, 1.1713, 1.0688, 1.1988, 1.2343,
@@ -165,7 +165,7 @@ C     v2
      &  -.00591,-.00654,-.00591,-.00391,-.00391,-.00391,-.00654,
      &  -.00391,-.00391,-.00654,-.00391,-.00391,-.00391,-.00591,
      &  -.00391/
-      DATA HSIGMA/0.59/     
+      DATA HSIGMA/0.59/
       DATA XMAXv2/6*10.0,5.0,8*10.0/
       DATA XMINv2/6*2.0,1.0,8*2.0/
       DATA XMAXv3/MAXSP*4.0/
@@ -177,17 +177,29 @@ C     DATA FOR THE GENERAL FITTED MODELS (TEMESGEN, ABDEL-AZIM)
 C
 C     NOTE ON THE ERROR TERMS: THE IDF MODELS USE SEE, WHICH IS EQUIVALENT
 C     TO SD IN THIS CONTEXT (I THINK); FROM MY READING OF TEMESGEN'S REPORT
-C     THE ERROR TERM IS APPLIED BEFORE EXPONENTIATION. ZUMRAWI'S SBS MODELS 
+C     THE ERROR TERM IS APPLIED BEFORE EXPONENTIATION. ZUMRAWI'S SBS MODELS
 C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
 
       TYPE (ST_STR) ST_COEF(P_ZN)
 
-      DATA (ST_COEF(I), I = 1,P_ZN) / 
-     >
+      DATA ST_COEF(1) /
      >  ST_STR (
-     >    (/3,14,(0, I=1,13)/),           ! FD, OC
-     >    (/'IDFdk3/01', 'IDFdk3/03', 'IDFdk3/05', 'IDFdk3/06',
-     >      'IDFdk3/07', 'IDFdk3/08', ('', I=1,24) /), 
+     >    (/3,14, 0,0,0,0,0,0,0,0,0,0,0,0,0/), ! FD, OC
+     >    (/'IDFdk3/01      ', 'IDFdk3/03      ',
+     >      'IDFdk3/05      ', 'IDFdk3/06      ',
+     >      'IDFdk3/07      ', 'IDFdk3/08      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -1.205542,             ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -199,11 +211,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.34),                ! SE=0.34, n=375
-     >
+     >       0.34                  ! SE=0.34, n=375
+     >    ) /
+
+      DATA ST_COEF(2) /
      >  ST_STR (
-     >    (/7,(0, I=1,14)/),              ! PL
-     >    (/'IDFdk3/01', 'IDFdk3/05', ('', I=1,28) /),! BEC list
+     >    (/7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),  ! PL
+     >    (/'IDFdk3/01      ', 'IDFdk3/05      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       0.229415,             ! constant
      >       0.0,                  ! cos-aspect*slope
      >      -0.083809,             ! sin-aspect*slope
@@ -215,12 +243,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.40),                ! SE=0.40, n=35
-     >
+     >       0.40                  ! SE=0.40, n=35
+     >  ) /
+
+      DATA ST_COEF(3) /
      >  ST_STR (
-     >    (/8,(0, I=1,14)/),              ! SE
-     >    (/'IDFdk3/01', 'IDFdk3/05', 'IDFdk3/07', 'IDFdk3/08',
-     >      'IDFdk3/09', ('', I=1,25) /),
+     >    (/8,0,0,0,0,0,0,0,0,0,0,0,0,0,0/),   ! SE
+     >    (/'IDFdk3/01      ', 'IDFdk3/05      ',
+     >      'IDFdk3/07      ', 'IDFdk3/08      ',
+     >      'IDFdk3/09      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.607370,             ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -232,11 +275,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.36),                ! SE=.36, n=66
-     >
+     >       0.36                  ! SE=.36, n=66
+     >   ) /
+
+      DATA ST_COEF(4) /
      >  ST_STR (
-     >    (/12,13,(0,I=1,13)/),          ! AT,AC
-     >    (/'IDFdk4/01', ('', I=1,29) /),         ! BEC list
+     >    (/12,13, 0,0,0,0,0,0,0,0,0,0,0,0,0/), ! AT,AC
+     >    (/'IDFdk4/01      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.144493,             ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -248,11 +307,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.07),                ! SE=0.07, n=36
-     >
+     >       0.07                  ! SE=0.07, n=36
+     >  ) /
+
+      DATA ST_COEF(5) /
      >  ST_STR (
-     >    (/3,14,(0,I=1,13)/),           ! FD,OC
-     >    (/'IDFdk4/01', 'IDFdk4/02', 'IDFdk4/05', ('', I=1,27) /),
+     >    (/3,14, 0,0,0,0,0,0,0,0,0,0,0,0,0/), ! FD,OC
+     >    (/'IDFdk4/01      ', 'IDFdk4/02      ',
+     >      'IDFdk4/05      ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.988801,             ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -264,11 +339,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.06),                ! SE=0.06, n=686
-     >
+     >       0.06                  ! SE=0.06, n=686
+     >  ) /
+
+      DATA ST_COEF(6) /
      >  ST_STR (
-     >    (/7,(0,I=1,14) /),              ! PL
-     >    (/'IDFdk4/01', 'IDFdk4/05', 'SBS/all', ('', I=1,27)/),
+     >    (/7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /), ! PL
+     >    (/'IDFdk4/01      ', 'IDFdk4/05      ',
+     >      'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -1.242998,             ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -280,11 +371,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.09),                ! SE=0.09, n=291
-     >
+     >       0.09                  ! SE=0.09, n=291
+     >  ) /
+
+      DATA ST_COEF(7) /
      >  ST_STR (
-     >    (/3,14,(0, I=1,13) /),           ! FD
-     >    (/'IDFxm/01', 'IDFxm/04', 'IDFxm/05', ('',I=1,27)/),
+     >    (/3,14, 0,0,0,0,0,0,0,0,0,0,0,0,0 /), ! FD
+     >    (/'IDFxm/01       ', 'IDFxm/04       ',
+     >      'IDFxm/05       ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.814652,             ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -296,11 +403,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.01),                ! SE=0.01, n=203
-     >
-     >  ST_STR (
-     >    (/11,12,13,15,(0,I=1,11)/),    ! IDF - HARDWOODS (EP,AT,CT,OH)
-     >    (/'IDF/all', ('', I=1,29) /),           ! BEC list
+     >       0.01                  ! SE=0.01, n=203
+     >  ) /
+
+      DATA ST_COEF(8) /
+     >  ST_STR (                   ! IDF - HARDWOODS (EP,AT,CT,OH)
+     >    (/11,12,13,15,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.2041308,            ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -312,11 +435,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.48),                ! SE=0.48, n=112
-     >
-     >  ST_STR (
-     >    (/ 3, 1,14,(0,I=1,12)/),       ! IDF - INTERMEDIATE (FD,PW,OC)
-     >    (/'IDF/all', ('',I=1,29)/),           ! BEC list
+     >       0.48                  ! SE=0.48, n=112
+     >  ) /
+
+      DATA ST_COEF(9) /
+     >  ST_STR (                   ! IDF - INTERMEDIATE (FD,PW,OC)
+     >    (/ 3,1,14, 0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.5738321,            ! constant
      >       0.004423421,          ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -328,11 +467,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.47),                ! SE=0.47, n=1285
-     >
-     >  ST_STR (
-     >    (/ 2, 7,10,(0,I=1,12)/),       ! IDF - INTOLERANT (LW,PL,PY)
-     >    (/'IDF/all',('',I=1,29) /),           ! BEC list
+     >       0.47                  ! SE=0.47, n=1285
+     >  ) /
+
+      DATA ST_COEF(10) /
+     >  ST_STR (                   ! IDF - INTOLERANT (LW,PL,PY)
+     >    (/ 2,7,10, 0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.0998574,            ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -344,12 +499,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.52),                ! SE=0.52, n=480
-     >
-     >  ST_STR (
-     >    (/ 4, 9, 5, 8, 6,
-     >        (0,I=1,10)/), ! IDF - TOLERANT (BG,BL,HW,SE,CW)
-     >    (/'IDF/all', ('',I=1,29)/),           ! BEC list
+     >       0.52                  ! SE=0.52, n=480
+     >  ) /
+
+      DATA ST_COEF(11) /
+     >  ST_STR (                   ! IDF - TOLERANT (BG,BL,HW,SE,CW)
+     >    (/ 4,9,5,8,6, 0,0,0,0,0,0,0,0,0,0/),
+     >    (/'IDF/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.9885648,            ! constant
      >      -0.011543749,          ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -361,11 +531,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.49),                ! SE=0.49, n=271
+     >       0.49                  ! SE=0.49, n=271
+     >  ) /
 
-     >  ST_STR (
-     >    (/11,12,13,15,(0,I=1,11)/),    ! ICH - HARDWOODS (EP,AT,CT,OH)
-     >    (/'ICH/all',('',I=1,29)/),           ! BEC list
+      DATA ST_COEF(12) /
+     >  ST_STR (                   ! ICH - HARDWOODS (EP,AT,CT,OH)
+     >    (/11,12,13,15, 0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       0.25147917,           ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -377,11 +563,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.71),                ! SE=0.71, n=139
-     >
-     >  ST_STR (
-     >    (/ 3, 1,14,(0,I=1,12)/),       ! ICH - INTERMEDIATE (FD,PW,OC)
-     >    (/'ICH/all', ('',I=1,29)/),           ! BEC list
+     >       0.71                  ! SE=0.71, n=139
+     >  ) /
+
+      DATA ST_COEF(13) /
+     >  ST_STR (                   ! ICH - INTERMEDIATE (FD,PW,OC)
+     >    (/ 3, 1,14, 0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.6368518,            ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -393,11 +595,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.51),                ! SE=0.51, n=124
-     >
-     >  ST_STR (
-     >    (/ 2, 7,10, (0,I=1,12)/),      ! ICH - INTOLERANT (LW,PL,PY)
-     >    (/'ICH/all', ('',I=1,29)/),           ! BEC list
+     >       0.51                  ! SE=0.51, n=124
+     >  ) /
+
+      DATA ST_COEF(14) /
+     >  ST_STR (           ! ICH - INTOLERANT (LW,PL,PY)
+     >    (/ 2, 7,10, 0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.3236232,            ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -409,12 +627,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.51),                ! SE=0.51, n=142
-     >
-     >  ST_STR (
-     >    (/ 4, 9, 5, 8, 6,
-     >       (0,I=1,10) /),! ICH - TOLERANT (BG,BL,HW,SE,CW)
-     >    (/'ICH/all', ('',I=1,29)/),           ! BEC list
+     >       0.51                  ! SE=0.51, n=142
+     >  ) /
+
+      DATA ST_COEF(15) /
+     >  ST_STR (                   ! ICH - TOLERANT (BG,BL,HW,SE,CW)
+     >    (/ 4,9,5,8,6, 0,0,0,0,0,0,0,0,0,0/),
+     >    (/'ICH/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.0878875,            ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -426,59 +659,123 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.43),                ! SE=0.43, n=342
-     >
+     >       0.43                  ! SE=0.43, n=342
+     >  ) /
+
+      DATA ST_COEF(16) /
      >  ST_STR (
-     >    (/ 3, 14, (0,I=1,13) /),       ! SBS (FD,OC)
-     >    (/'SBS/all', ('',I=1,29)/),           ! BEC list
+     >    (/ 3,14, 0,0,0,0,0,0,0,0,0,0,0,0,0 /), ! SBS (FD,OC)
+     >    (/'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     172.1,                  ! constant
      >       0.0,                  ! cos-aspect*slope  !IDF,ICH only
      >       0.0,                  ! sin-aspect*slope  !IDF,ICH only
      >       0.0,                  ! slope             !IDF,ICH only
      >      -0.3657,               ! ht
-     >       0.0,                  ! ln(ht)            !IDF,ICH only 
+     >       0.0,                  ! ln(ht)            !IDF,ICH only
      >       0.0,                  ! ccf               !IDF,ICH only
-     >       0.0,                  ! bal/100           !IDF,ICH only  
+     >       0.0,                  ! bal/100           !IDF,ICH only
      >      11.8295,               ! ExpMlt
      >    -102.4,                  ! HT/CCFL
      >       0.5829,               ! CCFS/CCFL
-     >       0.536),               ! SD (MSE=266.7cm**2, n=55)
-     >
+     >       0.536                 ! SD (MSE=266.7cm**2, n=55)
+     >  ) /
+
+      DATA ST_COEF(17) /
      >  ST_STR (
-     >    (/ 9, (0,I=1,14) /),           ! SBS (BL)
-     >    (/'SBS/all', ('',I=1,29)/),           ! BEC list
+     >    (/ 9, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /), ! SBS (BL)
+     >    (/'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     272.8,                  ! constant
      >       0.0,                  ! cos-aspect*slope  !IDF,ICH only
      >       0.0,                  ! sin-aspect*slope  !IDF,ICH only
      >       0.0,                  ! slope             !IDF,ICH only
      >      -0.8451,               ! ht
-     >       0.0,                  ! ln(ht)            !IDF,ICH only 
+     >       0.0,                  ! ln(ht)            !IDF,ICH only
      >       0.0,                  ! ccf               !IDF,ICH only
-     >       0.0,                  ! bal/100           !IDF,ICH only  
+     >       0.0,                  ! bal/100           !IDF,ICH only
      >      22.5817,               ! ExpMlt
      >     -88.5901,               ! HT/CCFL
      >      -0.7802,               ! CCFS/CCFL
-     >       0.643),               ! SD (MSE=384.5cm**2, n=64)
-     >
+     >       0.643                 ! SD (MSE=384.5cm**2, n=64)
+     >  ) /
+
+      DATA ST_COEF(18) /
      >  ST_STR (
-     >    (/ 8, (0,I=1,14) /),           ! SBS (SE)
-     >    (/'SBS/all', ('', I=1,29)/),           ! BEC list
+     >    (/ 8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0 /), ! SBS (SE)
+     >    (/'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >     157.0,                  ! constant
      >       0.0,                  ! cos-aspect*slope  !IDF,ICH only
      >       0.0,                  ! sin-aspect*slope  !IDF,ICH only
      >       0.0,                  ! slope             !IDF,ICH only
      >      -0.1435,               ! ht
-     >       0.0,                  ! ln(ht)            !IDF,ICH only 
+     >       0.0,                  ! ln(ht)            !IDF,ICH only
      >       0.0,                  ! ccf               !IDF,ICH only
-     >       0.0,                  ! bal/100           !IDF,ICH only  
+     >       0.0,                  ! bal/100           !IDF,ICH only
      >       8.8508,               ! ExpMlt
      >     -68.3412,               ! HT/CCFL
      >      -4.0851,               ! CCFS/CCFL
-     >       0.840),               ! SD (MSE=655.1cm**2, n=77)
-     >
-     >  ST_STR (
-     >    (/ 7,(0,I=1,14)/),       ! SBS - borrowed from IDF (PL Intol)
-     >    (/'SBS/all', ('',I=1,29)/),           ! BEC list
+     >       0.840                 ! SD (MSE=655.1cm**2, n=77)
+     >  ) /
+
+      DATA ST_COEF(19) /
+     >  ST_STR (                   ! SBS - borrowed from IDF (PL Intol)
+     >    (/ 7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.0998574,            ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -490,11 +787,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.52),                ! SE=0.52, n=480
-     >
-     >  ST_STR (
-     >    (/12,13,15,(0,I=1,12)/), ! SBS - HARDWOODS (AT,CT,OH) also IDF
-     >    (/'SBS/all',('',I=1,29)/),           ! BEC list
+     >       0.52                  ! SE=0.52, n=480
+     >  ) /
+
+      DATA ST_COEF(20) /
+     >  ST_STR (                   ! SBS - HARDWOODS (AT,CT,OH) also IDF
+     >    (/12,13,15, 0,0,0,0,0,0,0,0,0,0,0,0/),
+     >    (/'SBS/all        ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >      -0.2041308,            ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -506,15 +819,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       0.0,                  ! Multiplier !SBS only
      >       0.0,                  ! HT/CCF     !SBS only
      >       0.0,                  ! CCFS/CCFL  !SBS only
-     >       0.48),                ! SE=0.48, n=112
+     >       0.48                  ! SE=0.48, n=112
+     >  ) /
 
-     >  ST_STR (
-     >    (/3,(0,I=1,14)/), ! Fd - SBS              DR TODO: Model Set 1
-     >    (/'SBPSmc/01', 'SBPSmk/01',  'SBPSdc/01',
-     >      'SBPSxc/01', 'SBSdw1/01',  'SBSdw2/01',
-     >      'SBSmc1/01', 'SBSmc2/01',   'SBSmh/01', 
-     >       'SBSmm/01',  'SBSmw/01',  'SBSwk1/01',
-     >       ('',I=1,18)/),         ! BEC list
+      DATA ST_COEF(21) /
+     >  ST_STR (                   ! DR TODO: Model Set 1
+     >    (/3, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/), ! Fd - SBS
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       172.1,                 ! constant
      >       0.0,                   ! cos-aspect*slope
      >       0.0,                   ! sin-aspect*slope
@@ -526,15 +851,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       11.8295,               ! Multiplier !SBS only
      >       102.4,                 ! HT/CCF     !SBS only
      >       0.5829,                ! CCFS/CCFL  !SBS only
-     >       16.33),                ! SE=16.33, n=55
+     >       16.33                  ! SE=16.33, n=55
+     >  ) /
 
-     >  ST_STR (
-     >    (/3,(0,I=1,14)/), ! Fd - SBS              DR TODO: Model Set 2
-     >    (/'SBPSmc/01', 'SBPSmk/01',  'SBPSdc/01',
-     >      'SBPSxc/01', 'SBSdw1/01',  'SBSdw2/01',
-     >      'SBSmc1/01', 'SBSmc2/01',   'SBSmh/01', 
-     >       'SBSmm/01',  'SBSmw/01',  'SBSwk1/01',
-     >       ('',I=1,18)/),         ! BEC list
+      DATA ST_COEF(22) /
+     >  ST_STR (                    ! DR TODO: Model Set 2
+     >    (/3, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/), ! Fd - SBS
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       154.5,                 ! constant
      >       0.0,                   ! cos-aspect*slope
      >       0.0,                   ! sin-aspect*slope
@@ -546,15 +883,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       3.4734,                ! Multiplier !SBS only
      >      -80.3308,               ! HT/CCF     !SBS only
      >       1.1924,                ! CCFS/CCFL  !SBS only
-     >       38.93),                ! SE=38.93, n=168
+     >       38.93                  ! SE=38.93, n=168
+     >  ) /
 
-     >  ST_STR (
-     >    (/8,(0,I=1,14)/), ! Sx - SBS              DR TODO: Model Set 1
-     >    (/'SBPSmc/01', 'SBPSmk/01',  'SBPSdc/01',
-     >      'SBPSxc/01', 'SBSdw1/01',  'SBSdw2/01',
-     >      'SBSmc1/01', 'SBSmc2/01',   'SBSmh/01', 
-     >       'SBSmm/01',  'SBSmw/01',  'SBSwk1/01',
-     >       ('',I=1,18)/),         ! BEC list
+      DATA ST_COEF(23) /
+     >  ST_STR (                    ! DR TODO: Model Set 1
+     >    (/8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/), ! Sx - SBS
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       157.0,                 ! constant
      >       0.0,                   ! cos-aspect*slope
      >       0.0,                   ! sin-aspect*slope
@@ -566,15 +915,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       8.8508,                ! Multiplier !SBS only
      >       68.3412,               ! HT/CCF     !SBS only
      >      -4.0851,                ! CCFS/CCFL  !SBS only
-     >       25.59),                ! SE=25.59, n=77
+     >       25.59                  ! SE=25.59, n=77
+     >  ) /
 
-     >  ST_STR (
-     >    (/8,(0,I=1,14)/), ! Sx - SBS              DR TODO: Model Set 2
-     >    (/'SBPSmc/01', 'SBPSmk/01',  'SBPSdc/01',
-     >      'SBPSxc/01', 'SBSdw1/01',  'SBSdw2/01',
-     >      'SBSmc1/01', 'SBSmc2/01',   'SBSmh/01', 
-     >       'SBSmm/01',  'SBSmw/01',  'SBSwk1/01',
-     >       ('',I=1,18)/),         ! BEC list
+      DATA ST_COEF(24) /
+     >  ST_STR (                    ! DR TODO: Model Set 2
+     >    (/8, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/), ! Sx - SBS
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       142.3,                 ! constant
      >       0.0,                   ! cos-aspect*slope
      >       0.0,                   ! sin-aspect*slope
@@ -586,15 +947,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       6.3043,                ! Multiplier !SBS only
      >      -112.6,                 ! HT/CCF     !SBS only
      >      -9.4900,                ! CCFS/CCFL  !SBS only
-     >       36.81),                ! SE=36.81, n=168
+     >       36.81                  ! SE=36.81, n=168
+     >  ) /
 
+      DATA ST_COEF(25) /
      >  ST_STR (
-     >    (/7,(0,I=1,14)/), ! Pl - SBS & SBPS
-     >    (/'SBPSmc/01', 'SBPSmk/01',  'SBPSdc/01',
-     >      'SBPSxc/01', 'SBSdw1/01',  'SBSdw2/01',
-     >      'SBSmc1/01', 'SBSmc2/01',   'SBSmh/01', 
-     >       'SBSmm/01',  'SBSmw/01',  'SBSwk1/01',
-     >       ('',I=1,18)/),         ! BEC list
+     >    (/7, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/), ! Pl - SBS & SBPS
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       301.2,                 ! constant
      >       0.0,                   ! cos-aspect*slope
      >       0.0,                   ! sin-aspect*slope
@@ -606,15 +979,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       1.00,                  ! Multiplier !SBS only
      >       4.3821,                ! HT/CCF     !SBS only
      >       0.0,                   ! CCFS/CCFL  !SBS only
-     >       69.87),                ! SE=69.87, n=69
+     >       69.87                  ! SE=69.87, n=69
+     >  ) /
 
+      DATA ST_COEF(26) /
      >  ST_STR (
-     >    (/9,(0,I=1,14)/), ! Bl - SBS
-     >    (/'SBPSmc/01', 'SBPSmk/01',  'SBPSdc/01',
-     >      'SBPSxc/01', 'SBSdw1/01',  'SBSdw2/01', 
-     >      'SBSmc1/01', 'SBSmc2/01',   'SBSmh/01',
-     >       'SBSmm/01',  'SBSmw/01',  'SBSwk1/01',
-     >       ('',I=1,18)/),        ! BEC list
+     >    (/9, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/), ! Bl - SBS
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ', 'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       76.4,                 ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -626,15 +1011,27 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       6.1621,               ! Multiplier !SBS only
      >      -238.8,                ! HT/CCF     !SBS only
      >      -2.9184,               ! CCFS/CCFL  !SBS only
-     >       29.41),               ! SE=29.41, n=89
+     >       29.41                 ! SE=29.41, n=89
+     >  ) /
 
+      DATA ST_COEF(27) /
      >  ST_STR (
-     >    (/12,(0,I=1,14)/),       ! SBS - At
-     >    (/'SBPSmc/01', 'SBPSmk/01',  'SBPSdc/01',
-     >      'SBPSxc/01', 'SBSdw1/01',  'SBSdw2/01',
-     >      'SBSmc1/01', 'SBSmc2/01',   'SBSmh/01', 
-     >       'SBSmm/01',  'SBSmw/01',  'SBSwk1/01',
-     >       ('',I=1,18)/),        ! BEC list
+     >    (/12, 0,0,0,0,0,0,0,0,0,0,0,0,0,0/),       ! SBS - At
+     >    (/'SBPSmc/01      ', 'SBPSmk/01      ',
+     >      'SBPSdc/01      ', 'SBPSxc/01      ',
+     >      'SBSdw1/01      ', 'SBSdw2/01      ',
+     >      'SBSmc1/01      ', 'SBSmc2/01      ',
+     >      'SBSmh/01       ', 'SBSmm/01       ',
+     >      'SBSmw/01       ',  'SBSwk1/01      ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               ',
+     >      '               ', '               '/),
      >       178.2,                ! constant
      >       0.0,                  ! cos-aspect*slope
      >       0.0,                  ! sin-aspect*slope
@@ -646,7 +1043,8 @@ C     ARE MSE AND ADDITIVE TO THE PREDICTED HEIGHT GROWTH.
      >       1.00,                 ! Multiplier !SBS only
      >       273.3,                ! HT/CCF     !SBS only
      >      -2034.2,               ! CCFS/CCFL  !SBS only
-     >       78.89)/               ! SE=78.89, n=21
+     >       78.89                 ! SE=78.89, n=21
+     >  ) /
 
 C  CHECK FOR DEBUG.
 
@@ -763,7 +1161,7 @@ C  THE START OF THE CYCLE.
    10 CONTINUE
    11 CONTINUE
 
-C  STORE INITIAL HEIGHTS IN WK3; DUB CROWN RATIO FOR NEWLY ESTABLISHED 
+C  STORE INITIAL HEIGHTS IN WK3; DUB CROWN RATIO FOR NEWLY ESTABLISHED
 C  SEEDLINGS.
 
       DO 13 I=1,ITRN
@@ -803,7 +1201,7 @@ C     SBSCC1 CONTAINS CCF FOR EACH RECORD, SBSCC2 CONTAINS CCF IN TREES UP TO
 C     BUT NOT INCLUDING THE CURRENT RECORD. SORTING IS BY DBH.
 
       IF (.NOT. LV2ATV .AND. INDEX(BEC%Zone,'SBS') .GT. 0) THEN
-        SBSCCF = 0.0 
+        SBSCCF = 0.0
         DO I = 1,ITRN
           CALL CCFCAL(ISP(I),DBH(I),HT(I),ICR(I),PROB(I),
      >      .FALSE.,C1,CW,1)
@@ -880,8 +1278,8 @@ C           from the modelling dataset
 	          CCFL = (SBSCCF - SBSCC1(I)) * RDJ/SBSCCF
 	        ENDIF
 	      ENDIF
-	      
-            BAL = (1.0 - (PCT(I)/100.)) * BAJ     
+
+            BAL = (1.0 - (PCT(I)/100.)) * BAJ
             B1=BACON*D*D
 
 C  COMPUTE ADJUSTMENT FOR BIAS, DENSITY, AND RELATIVE SIZE.
@@ -897,7 +1295,7 @@ C  COMPUTE ADJUSTMENT FOR BIAS, DENSITY, AND RELATIVE SIZE.
             DADJ=DELMAX*RELH*RELH - 2.0*DELMAX*RELH + 0.65
 
 C           COMPUTE HEIGHT INCREMENT.  STORE UPDATED HEIGHT IN WK3.
-C           NOTE: SEISTHG/LSPPOK (IDF ONLY) IS ALL DEPRECATED IN 
+C           NOTE: SEISTHG/LSPPOK (IDF ONLY) IS ALL DEPRECATED IN
 C           FAVOUR OF V3 SMALL TREE HEIGHT GROWTH MODEL. CODE LEFT HERE
 C           FOR "HISTORICAL PURPOSES" ONLY.
 
@@ -916,7 +1314,7 @@ C           FOR "HISTORICAL PURPOSES" ONLY.
             ELSE
               IF (INDEX(BEC%Zone,'SBS') .GT. 0) THEN
                 HTGRL =
-     >            (STG%CON(ISPC) + 
+     >            (STG%CON(ISPC) +
      >            (STG%HT(ISPC) * (H1 * FTtoM))) /
      >            (1.0 + (STG%EXPMLT(ISPC) *
      >            EXP((STG%HCCFL(ISPC) * H1 * FTtoM / MAX(CCFL,36.)) +
@@ -926,7 +1324,7 @@ C           FOR "HISTORICAL PURPOSES" ONLY.
                 HTGRL = STG%CON(ISPC) + RHCON(ISPC) +
      >            (STG%LNHT(ISPC) * ALOG(MAX(2.0,H1 * FTtoM))) +
      >            (STG%HT(ISPC)   * MAX(2.0,H1 * FTtoM)) +
-     >            (STG%BAL(ISPC)  * BAL * FT2pACRtoM2pHA * 0.01) + 
+     >            (STG%BAL(ISPC)  * BAL * FT2pACRtoM2pHA * 0.01) +
      >            (STG%CCF(ISPC)  * RDJ)
                 HTGRL = EXP(MAX(-88.0,HTGRL)) * MtoFT
 	        ENDIF
@@ -953,7 +1351,7 @@ C           THE DENSITY EFFECTS OF NEIGHBORING TREES.
 C  UPDATE DENSITY FOR NEXT SUBCYCLE.  IF ONLY ONE SUBCYCLE OR
 C  IF INITIAL DBH IS GREATER THAN 3 INCHES, BYPASS DENSITY UPDATE.
 C  DIAMETER IS ADJUSTED FOR DENSITY AND USER-SUPPLIED MULTIPLIER.
-C  INCREMENT IS DETERMINED FROM THE DIFFERENCE BETWEEN COMPUTED 
+C  INCREMENT IS DETERMINED FROM THE DIFFERENCE BETWEEN COMPUTED
 C  DIAMETERS AND IS BOUNDED TO BE GREATER THAN OR EQUAL TO ZERO.
 
             D2=D
@@ -1016,7 +1414,7 @@ C  SUBTRACTION.
         ELSE
           XMX=XMAXV3(ISPC)
           XMN=XMINV3(ISPC)
-       ENDIF          
+       ENDIF
         AA=HHT1(ISPC)
         BB=HHT2(ISPC)
         DO 25 I3=I1,I2
@@ -1054,9 +1452,9 @@ C  USED IN NI; HTGR CANNOT BE NEGATIVE!
    18     ZZRAN=0.0
           IF (DGSD.GE.1.0) ZZRAN = BACHLO(0.0,1.0,RANN)
           IF((ZZRAN .GT. 1.0) .OR. (ZZRAN .LT. -1.5)) GO TO 18
-          
+
           IF (LV2ATV) THEN
-            HTGR = HTGR1*EXP(ZZRAN*HSIGMA)          
+            HTGR = HTGR1*EXP(ZZRAN*HSIGMA)
           ELSE
             HTGR = MAX(0.0, HTGR1 + ZZRAN*STG%SD(ISPC))
           ENDIF
@@ -1109,10 +1507,10 @@ C  COMPUTE ADJUSTMENT FOR BIAS, DENSITY, AND RELATIVE SIZE.
             DK=AA*(HK-4.5)**BB+DADJ
             IF(DEBUG)WRITE(JOSTND,*)' I,ISPC,AA,BB,DADJ,HK,DK= ',
      &      I,ISPC,AA,BB,DADJ,HK,DK
-            IF(DK.LT.DIAM(ISPC)) DK=DIAM(ISPC)    
+            IF(DK.LT.DIAM(ISPC)) DK=DIAM(ISPC)
             DK=DK+HK*0.001
 
-C       IF CALLING FROM **ESTAB** ASSIGN DIAMETER AND DIAMETER 
+C       IF CALLING FROM **ESTAB** ASSIGN DIAMETER AND DIAMETER
 C       INCREMENT.
 
             IF(LESTB) THEN
@@ -1120,15 +1518,15 @@ C       INCREMENT.
               DG(K)=DK
             ELSE
 
-C         DIAMETER INCREMENT IS THE DIFFERENCE BETWEEN COMPUTED 
-C         DIAMETERS.  MULTIPLIER IS APPLIED TO DIAMETER INCREMENT 
+C         DIAMETER INCREMENT IS THE DIFFERENCE BETWEEN COMPUTED
+C         DIAMETERS.  MULTIPLIER IS APPLIED TO DIAMETER INCREMENT
 C         AT THIS POINT.
 
               DGK=(DK-D1)*XRDGRO
               IF(DGK.LT.0.0) DGK=0.0
 
-C         SCALE DIAMETER INCREMENT FOR BARK AND PERIOD LENGTH. 
-C         IN ORDER TO MAINTAIN CONSISTENCY WITH **GRADD**, 
+C         SCALE DIAMETER INCREMENT FOR BARK AND PERIOD LENGTH.
+C         IN ORDER TO MAINTAIN CONSISTENCY WITH **GRADD**,
 C         ADJUSTMENTS ARE MADE ON THE DDS SCALE.
 
               BARK=BRATIO(ISPC,DBH(K),HT(K))
@@ -1139,7 +1537,7 @@ C         ADJUSTMENTS ARE MADE ON THE DDS SCALE.
             IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
               DG(K)=DIAM(ISPC)-DBH(K)
             ENDIF
-          ENDIF 
+          ENDIF
 C  CHECK FOR TREE SIZE CAP COMPLIANCE
 
           CALL DGBND(ISPC,DBH(K),DG(K))
@@ -1157,7 +1555,7 @@ C  MAKE SURE NEW CROWN DOES NOT EXCEED MAX POSSIBLE GIVEN HTG.
             DG2=SQRT((D*BARK)**2+DDS2)-BARK*D
             IF (DG2.LT.0.0) DG2=0.0
             DNEW=D+DG(K)
-            
+
             IF (LV2ATV) THEN
               XCRIT  = 3.0
               XCRCON = -1.0
@@ -1168,17 +1566,17 @@ C  MAKE SURE NEW CROWN DOES NOT EXCEED MAX POSSIBLE GIVEN HTG.
      >          CRLNCCF(ISPC) * LOG(MAX(0.01,RELDEN))
               BAL    = (1.0 - (PCT(K)/100.)) * BA
             ENDIF
-            
+
             IF(DNEW.GE.XCRIT) THEN
               IF(ICRK .EQ. 0)THEN
                 CALL DUBSCR(LV2ATV,ISPC,XCRCON,DNEW,HK,BA,BAL,CR)
-                ICRK=IFIX(CR*100. + 0.5)                  
+                ICRK=IFIX(CR*100. + 0.5)
               ENDIF
               ICR(K)=ICRK
               IF(DEBUG)WRITE(JOSTND,*)' AFTER DUBSCR K,ISPC,DNEW,',
      &          'HK,BA,ICR= ',K,ISPC,DNEW,HK,BA,ICR(K)
             ENDIF
-          ENDIF      
+          ENDIF
    23     CONTINUE
 
 C  PRINT DEBUG AND RETURN TO PROCESS NEXT TRIPLE OR NEXT TREE.
@@ -1253,7 +1651,7 @@ C     SBSCC1 CONTAINS CCF FOR EACH RECORD, SBSCC2 CONTAINS CCF IN TREES UP TO
 C     BUT NOT INCLUDING THE CURRENT RECORD. SORTING IS BY DBH.
 
       IF (.NOT. LV2ATV .AND. INDEX(BEC%Zone,'SBS') .GT. 0) THEN
-        SBSCCF = 0.0 
+        SBSCCF = 0.0
         DO I = 1,ITRN
           CALL CCFCAL(ISP(I),DBH(I),HT(I),ICR(I),PROB(I),
      >      .FALSE.,C1,CW,1)
@@ -1329,14 +1727,14 @@ C  WILL BE EXCLUDED FROM THE CALIBRATION.
                 EDH = STG%CON(ISPC) + RHCON(ISPC) +
      >            (STG%LNHT(ISPC) * ALOG(MAX(2.0,H1 * FTtoM))) +
      >            (STG%HT(ISPC)   * MAX(2.0,H1 * FTtoM)) +
-     >            (STG%BAL(ISPC)  * BAL * FT2pACRtoM2pHA * 0.01) + 
+     >            (STG%BAL(ISPC)  * BAL * FT2pACRtoM2pHA * 0.01) +
      >            (STG%CCF(ISPC)  * RDJ)
                 EDH = EXP(MAX(-88.0,EDH)) * MtoFT
 	        ENDIF
 	      ENDIF
             HK = HK + EDH
    55     CONTINUE
-          
+
           EDH=HK-H
           P=PROB(I)
           TERM=HTG(I)*SCALE3
@@ -1380,9 +1778,9 @@ C  ESTIMATE USED FOR DIAMETER INCREMENT CALIBRATION).
         IF(CORNEW.LE.0.0) CORNEW=1.0E-4
         HCOR(ISPC)=ALOG(CORNEW)
 
-C  TRAP CALIBRATION VALUES OUTSIDE 2.5 STANDARD DEVIATIONS FROM THE 
+C  TRAP CALIBRATION VALUES OUTSIDE 2.5 STANDARD DEVIATIONS FROM THE
 C  MEAN. IF C IS THE CALIBRATION TERM, WITH A DEFAULT OF 1.0, THEN
-C  LN(C) HAS A MEAN OF 0.  -2.5 < LN(C) < 2.5 IMPLIES 
+C  LN(C) HAS A MEAN OF 0.  -2.5 < LN(C) < 2.5 IMPLIES
 C  0.0821 < C < 12.1825
 
         IF(CORNEW.LT.0.0821 .OR. CORNEW.GT.12.1825) THEN
@@ -1477,7 +1875,7 @@ C  THE SLOPE AND ASPECT TRANSFORMATION.
      &  12*3, 1,2, 4*4, 1,3,3,2, 8*3,
      &  12*3, 1,2, 4*4, 1,3,3,2, 8*3,
      &  7*4, 1, 3*4, 1,1,2, 4*5, 1,4,3, 6*4, 3,4,4, ! OC=FD
-     &  12*3, 1,2, 4*4, 1,3,3,2, 8*3/                    
+     &  12*3, 1,2, 4*4, 1,3,3,2, 8*3/
       DATA  RHSC/
      &  1.4700,1.6204,1.4932,.9981,1.0202,.8953,1.2336,1.0964,1.0667,
      &  1.7311,.8953,.8953,.8953,1.4932,.8953/
@@ -1492,8 +1890,8 @@ C  THE SLOPE AND ASPECT TRANSFORMATION.
           IRHHAB=MAPHAB(ITYPE,ISPC)
           RHCON(ISPC) = REGCH + RHSC(ISPC) + RHHAB(IRHHAB,ISPC)
           IF(LRCOR2.AND.RCOR2(ISPC).GT.0.0) RHCON(ISPC)=RHCON(ISPC) +
-     &      ALOG(RCOR2(ISPC)) 
-     
+     &      ALOG(RCOR2(ISPC))
+
 C         SEI RECALIBRATION: IF THERE IS A SPECIES RE-FIT:
 C         v2SEICOR COMES FROM LARGE DIAM MODEL **DGF** (SPECIES SPECIFIC)
 C         SEISHT COMES FROM LARGE TREE HT MODEL **HTGF** (HABITAT SPECIFIC)
@@ -1562,7 +1960,7 @@ C
             STG%FIT(I)    = .TRUE.
             STG%CON(I)    = ST_COEF(J1)%CON + (ST_COEF(J1)%SLP +
      >                      ST_COEF(J1)%CASP * COS(ASPECT) +
-     >                      ST_COEF(J1)%SASP * SIN(ASPECT)) * SLOPE 
+     >                      ST_COEF(J1)%SASP * SIN(ASPECT)) * SLOPE
             STG%LNHT(I)   = ST_COEF(J1)%LNHT
             STG%HT(I)     = ST_COEF(J1)%HT
             STG%CCF(I)    = ST_COEF(J1)%CCF
@@ -1575,14 +1973,14 @@ C
 	  ENDDO
 
 C       IF SCALE FACTORS HAVE BEEN INPUT WITH THE READCORR KEYWORD,
-C       INCORPORATE THEM INTO THE OVERALL CONSTANTS. 
-	  
+C       INCORPORATE THEM INTO THE OVERALL CONSTANTS.
+
         DO ISPC = 1,MAXSP
           RHCON(ISPC)= 0.0
           IF(LRCOR2 .AND. RCOR2(ISPC) .GT. 0.0)
      >      RHCON(ISPC) = ALOG(RCOR2(ISPC))
 	  ENDDO
-	  
+
 	ENDIF
 
       DO I=1,MAXTRE
