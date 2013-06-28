@@ -1,7 +1,7 @@
       SUBROUTINE CVSHAP (LTHIN)
       IMPLICIT NONE
 C----------
-C  **CVSHAP--COVR DATE OF LAST REVISION:  02/24/12
+C  **CVSHAP--COVR DATE OF LAST REVISION:  06/28/13
 C----------
 C  SUBROUTINE CVSHAP ASSIGNS EACH TREE CROWN TO ONE OF FIVE SHAPES.
 C  SHAPES ARE:
@@ -323,8 +323,8 @@ C  CHECK FOR DEBUG.
 C----------
       CALL DBCHK(DEBUG,'CVSHAP',6,ICYC)
       IF (DEBUG) WRITE (JOSTND,7001) ICYC
- 7001 FORMAT (/' **CALLING CVSHAP, CYCLE = ',I2/
-     &'    I  ISPI  DBH        HT        CR        CL       RAD',
+ 7001 FORMAT (/'**CALLING CVSHAP, CYCLE = ',I2,/,
+     &'   I  ISPI  DBH        HT        CR        CL       RAD',
      &'       TPA                          SCORE(J)              ',
      &'            ISHAPE')
 C----------
@@ -332,7 +332,7 @@ C  RETURN IF NOTREES OPTION IN EFFECT.
 C----------
       IF (ITRN .GT. 0) GO TO 5
       IF (DEBUG) WRITE (JOSTND,9001) ITRN
- 9001 FORMAT (' ITRN =', I5,' : NOTREES : RETURN TO **CVCNOP**')
+ 9001 FORMAT ('ITRN =', I5,' : NOTREES : RETURN TO **CVCNOP**')
       RETURN
     5 CONTINUE
 C----------
