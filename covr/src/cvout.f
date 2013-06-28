@@ -60,7 +60,7 @@ C WRITE DEFINITIONS OF ATTRIBUTES.
 C----------
       WRITE (JOSHRB,9017)
  9017 FORMAT (//,51('-'), '  CANOPY COVER STATISTICS  ',52('-')
-     &       / 53X,'(BASED ON STOCKABLE AREA)' // T49,31('-') /
+     &       / 52X,'(BASED ON STOCKABLE AREA)' // T49,31('-') /
      &       T50,'ATTRIBUTE BY 10'' HEIGHT CLASS' / T49,31('-') //
      &       T26,'  TREES -- TREES PER ACRE' /
      &       T26,'  COVER -- PERCENTAGE OF CANOPY CLOSURE CONTRIBUTED',
@@ -216,7 +216,7 @@ C----------
       CALL PPLABS (JOSHRB)
       WRITE (JOSHRB,9023)
  9023 FORMAT (//,54('-'),'  SHRUB STATISTICS  ',55('-') /
-     &       53X,'(BASED ON STOCKABLE AREA)' /)
+     &       52X,'(BASED ON STOCKABLE AREA)' /)
 C----------
 C WRITE DEFINITIONS OF SHRUB SPECIES ABBREVIATIONS.
 C----------
@@ -376,22 +376,22 @@ C WRITE COLUMN HEADINGS.
 C----------
       WRITE (JOSHRB,9044)
  9044 FORMAT(
-     &10X,'------------------- UNDERSTORY ATTRIBUTES -----',
+     &9X,'------------------- UNDERSTORY ATTRIBUTES -----',
      &'--------------         ------------ OVERSTORY A',
      &'TTRIBUTES -------------'/
-     &10X,'TIME     PROB.   -----SHRUB COVER----  AVG.    ',
+     &9X,'TIME     PROB.   -----SHRUB COVER----  AVG.    ',
      &'DORMANT                                        ',
      &'         SUM OF        '/
-     &10X,'SINCE    (SHRUB                        SHRUB   ',
+     &9X,'SINCE    (SHRUB                        SHRUB   ',
      &'SHRUB    TWIGS  SUCC.  STAND  TOP     CANOPY   ',
      &'FOLIAGE  STEM    NUMBER'/
-     &10X,'DISTURB. COV>0)  LOW  MED TALL TOTAL   HEIGHT  ',
+     &9X,'DISTURB. COV>0)  LOW  MED TALL TOTAL   HEIGHT  ',
      &'BIOMASS  (NO./  STAGE  AGE    HEIGHT  CLOSURE  ',
      &'BIOMASS  DIAMS.   OF   '/
-     &' DATE',5X,'(YEARS)   (%)    (%)  (%)  (%)  (%)    (FEET)  ',
+     &'DATE',5X,'(YEARS)   (%)    (%)  (%)  (%)  (%)    (FEET)  ',
      &'(LB/AC)  SQFT)  CODE   (YRS)  (FEET)    (%)    ',
      &'(LB/AC)  (FEET)  STEMS '/
-     &       ' ',126('-'))
+     &126('-'))
       DO 340 I=1,NCYCP1
       IF (I .LT. ICVBGN) GO TO 340
       ITHN = 1
