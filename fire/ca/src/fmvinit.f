@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C  **FMVINIT  FIRE-CA-DATE OF LAST REVISION: 04/23/13
+C  **FMVINIT  FIRE-CA-DATE OF LAST REVISION: 06/25/13
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -60,44 +60,21 @@ C----------
       PREWND(2)=6.
       POTEMP(1)=70.
       POTEMP(2)=70.
-
-C     CA DECAY RATES BASED ON CA DESIGN WORKSHOP (NOTES FROM
-C     STEPHANIE REBAIN, 2003) EACH VARIANT MAY USE DIFFERENT
-C     RATES AND CITE DIFFERENT DATA SOURCES
-
-C     DECAY RATES IN THE NC ARE SUBSEQUENTLY MODIFIED BY A
-C     MULTIPLIER BASED ON DUNNING-CODE (SEE CA **FMCBA**)
-
-      DKR(1,1) =  0.025   ! < 0.25"
-      DKR(2,1) =  0.025   ! 0.25 - 1"
-      DKR(3,1) =  0.025   ! 1 - 3"
-      DKR(4,1) =  0.0125  ! 3 - 6"
-      DKR(5,1) =  0.0125  ! 6 - 12"
-      DKR(6,1) =  0.0125  ! 12 - 20"
-      DKR(7,1) =  0.0125  ! 20 - 35"
-      DKR(8,1) =  0.0125  ! 35 - 50"
-      DKR(9,1) =  0.0125  !  > 50"
-
-      DO I = 1,9
-        DO J = 2,4
-          DKR(I,J) = DKR(I,1)
+C
+C     SET DECAY VARIABLES TO AN UNSET STATE
+C
+C     IN CA-FFE VARIANT DECAY RATE DEFAULTS ARE ASSIGNED IN CYCLE 1
+C     IN **FMCBA**
+C
+      DO I = 1,MXFLCL
+        DO J = 1,4
+          DKR(I,J)    = -1.
         ENDDO
       ENDDO
-
-C  LITTER LOSS/YR (10) AND DUFF LOSS/YR (11)
-
-      DO J = 1,4
-        DKR(10,J) = 0.5
-        DKR(11,J) = 0.002
-      ENDDO
-
-C     Duff production rates 'PRDUFF' are a proportion of the overall
-C     decay rate: 'DKR'.
-
       DO I = 1,10
         DO J = 1,4
-          PRDUFF(I,J) = 0.02
-          TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)
+          PRDUFF(I,J) = -1.
+          TODUFF(I,J) = -1.
         ENDDO
       ENDDO
 
@@ -156,10 +133,6 @@ C     HTX()    - HEIGHT-LOSS RATE MULTIPLIER (PP = 1.0 in NI var)
 
 C     ** NOTE THAT SNAG RATE PARAMETERS ARE ALL RELATIVE TO PP **
 
-C     DKRCLS() - DECAY RATE CLASS 1 (V.SLOW) TO 4 (FAST). MODEL USERS
-C     CAN USE THE FUELDCAY KEYWORD TO REASSIGN RATES WITHIN THE 4
-C     CLASSES, AND THE FUELPOOL KEYWORD TO REASSIGN CLASS
-
 C     DECAYX() MULTIPLIER = 999.0; INITIALLY HARD SNAGS NEVER BECOME SOFT
 
       DO I = 1,MAXSP
@@ -174,7 +147,6 @@ C         Port Orford cedar (borrows from western redcedar)
             TFALL(I,3) =  20.0
             ALLDWN(I)  = 150.0
             FALLX(I)   =   1.235 ! 20", 95% down @ 25 yrs
-            DKRCLS(I)  =   2
             LSW(I)     = .TRUE.
 
 C         incense-cedar
@@ -185,7 +157,6 @@ C         incense-cedar
             TFALL(I,3) =  20.0
             ALLDWN(I)  = 100.0
             FALLX(I)   =   0.687
-            DKRCLS(I)  =   2
             LSW(I)     = .TRUE.
 
 C         western redcedar (uses DF for some RC attributes)
@@ -196,7 +167,6 @@ C         western redcedar (uses DF for some RC attributes)
             TFALL(I,3) =  20.0
             ALLDWN(I)  = 150.0
             FALLX(I)   =   1.235
-            DKRCLS(I)  =   2
             LSW(I)     = .TRUE.
 
 C         white fir
@@ -207,7 +177,6 @@ C         white fir
             TFALL(I,3) =  15.0
             ALLDWN(I)  = 100.0
             FALLX(I)   =   0.882
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 
 C         California red fir, Shasta red fir
@@ -218,7 +187,6 @@ C         California red fir, Shasta red fir
             TFALL(I,3) =  15.0
             ALLDWN(I)  = 100.0
             FALLX(I)   =   0.882
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 
 C         Douglas-fir
@@ -229,7 +197,6 @@ C         Douglas-fir
             TFALL(I,3) =  15.0
             ALLDWN(I)  = 100.0
             FALLX(I)   =   0.882
-            DKRCLS(I)  =   3
             LSW(I)     = .TRUE.
 
 C         western hemlock
@@ -240,7 +207,6 @@ C         western hemlock
             TFALL(I,3) =  15.0
             ALLDWN(I)  = 100.0
             FALLX(I)   =   1.235
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 
 C         mountain hemlock
@@ -251,7 +217,6 @@ C         mountain hemlock
             TFALL(I,3) =  15.0
             ALLDWN(I)  = 100.0
             FALLX(I)   =   1.235
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 
 C         pines: whitebark (10), knobcone (11), lodgepole (12),
@@ -282,7 +247,6 @@ C         gray (20), other softwoods (25)
             END SELECT
             ALLDWN(I)  = 100.0
             FALLX(I)   =   1.235
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 
 c         western juniper
@@ -293,7 +257,6 @@ c         western juniper
             TFALL(I,3) =  20.0
             ALLDWN(I)  = 150.0
             FALLX(I)   =   0.687
-            DKRCLS(I)  =   2
             LSW(I)     = .TRUE.
 
 c         Brewer spruce
@@ -304,7 +267,6 @@ c         Brewer spruce
             TFALL(I,3) =  15.0
             ALLDWN(I)  = 100.0
             FALLX(I)   =   0.687
-            DKRCLS(I)  =   4
             LSW(I)     = .TRUE.
 
 C         giant sequoia
@@ -315,7 +277,6 @@ C         giant sequoia
             TFALL(I,3) =  20.0
             ALLDWN(I)  = 150.0
             FALLX(I)   =   0.687
-            DKRCLS(I)  =   2
             LSW(I)     = .TRUE.
 
 C         Pacific yew
@@ -326,7 +287,6 @@ C         Pacific yew
             TFALL(I,3) =  15.0
             ALLDWN(I)  = 100.0
             FALLX(I)   =   0.687
-            DKRCLS(I)  =   1
             LSW(I)     = .TRUE.
 
 C         oaks: coast live oak (26), canyon live oak (27),
@@ -348,7 +308,6 @@ C         oak (32), interior live oak (33), other hardwoods (49)
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   2
             LSW(I)     = .FALSE.
 
 C         bigleaf maple
@@ -359,7 +318,6 @@ C         bigleaf maple
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         California buckeye
@@ -370,7 +328,6 @@ C         California buckeye
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         red alder
@@ -381,7 +338,6 @@ C         red alder
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         Pacific madrone (37)
@@ -392,7 +348,6 @@ C         Pacific madrone (37)
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   3
             LSW(I)     = .FALSE.
 
 C         Golden chinkapin (38), tanoak (42)
@@ -403,7 +358,6 @@ C         Golden chinkapin (38), tanoak (42)
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         Pacific dogwood
@@ -414,7 +368,6 @@ C         Pacific dogwood
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         Oregon ash
@@ -425,7 +378,6 @@ C         Oregon ash
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         walnut
@@ -436,7 +388,6 @@ C         walnut
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   2
             LSW(I)     = .FALSE.
 
 C         California sycamore
@@ -447,7 +398,6 @@ C         California sycamore
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         quaking aspen
@@ -458,7 +408,6 @@ C         quaking aspen
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         black cottonwood
@@ -469,7 +418,6 @@ C         black cottonwood
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         willow
@@ -480,7 +428,6 @@ C         willow
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         California nutmeg
@@ -491,7 +438,6 @@ C         California nutmeg
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   4
             LSW(I)     = .FALSE.
 
 C         California laurel
@@ -502,9 +448,33 @@ C         California laurel
             TFALL(I,3) =  15.0
             ALLDWN(I)  =  50.0
             FALLX(I)   =   1.545
-            DKRCLS(I)  =   2
             LSW(I)     = .FALSE.
 
+        END SELECT
+C
+C       SET THE DECAY RATE CLASS (DKRCLS)
+C       DKRCLS() - DECAY RATE CLASS 1 (V.SLOW) TO 4 (FAST). MODEL USERS
+C       CAN USE THE FUELDCAY KEYWORD TO REASSIGN RATES WITHIN THE 4
+C       CLASSES, AND THE FUELPOOL KEYWORD TO REASSIGN CLASS
+
+        SELECT CASE (I)
+
+C         some pines, doug-fir, cedars 
+          CASE (1:3,7,10,14,16,17,21,23,24)
+            DKRCLS(I)  =   1
+
+C         lodgepole, spruce, hemlock
+          CASE (8,9,11,12,19,22)
+            DKRCLS(I)  =   2
+
+C         firs, some pines, oak
+          CASE (4:6,13,15,18,20,25:33,37,38,42,49)
+            DKRCLS(I)  =   3
+
+C         aspen, cottonwood, other hardwoods
+          CASE (34:36,39:41,43:48)
+            DKRCLS(I)  =   4
+            
         END SELECT
 
 C       HARD SNAGS NEVER BECOME SOFT
