@@ -189,6 +189,10 @@ C----------
 *                SALVSPA(I,2) = salvaged initially soft snags per acre in
 *                snag record i
 *     SCCF:      STAND-LEVEL CROWN COMPETITION FACTOR (PERCENTAGE)
+*     SETDECAY:  array (1:mxflcl, 1:4 for the decay rate class) that shows whether the 
+*                user had reset the surface fuel decay rate with the FuelDcay keyword.
+*                 -1 means the decay rate has not been set, a value greater than 0 is 
+*                the actual rate set for that class.
 *     SNGNEW:    New snags to add to list
 *     SNPRCL:    THE UPPER DBH FOR A GROUP OF SNAGS (FOR PRINTING ONLY)
 *                SNag PRint CLass
@@ -286,12 +290,13 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
       REAL     PBSOFT, PBSIZE, PBSMAL, PBTIME
       INTEGER  PBURNYR
       REAL     PERCOV
-      REAL     PRDUFF(MXFLCL)
+      REAL     PRDUFF(MXFLCL,4)      
       REAL     PRPILE(MXFLCL)
       REAL     PRSNAG
       REAL     PSOFT(MAXSP)
       REAL     SALVSPA(MXSNAG, 2)
       REAL     SCCF
+      REAL     SETDECAY(MXFLCL,4)      
       REAL     SNGNEW(MAXTRE)
       REAL     SNPRCL(6)
       INTEGER  SPS(MXSNAG)
@@ -330,7 +335,7 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
      &  PBFRIH, PBFRIS, PBSCOR, PBSOFT, PBSIZE,
      &  PBSMAL, PBTIME, PBURNYR, PERCOV,
      &  PRDUFF, PRSNAG, PSOFT, PRPILE, SALVSPA,
-     &  SCCF, SNGNEW, SNPRCL, SPS, TCWD, TCWD2, TFALL,
+     &  SCCF, SETDECAY, SNGNEW, SNPRCL, SPS, TCWD, TCWD2, TFALL,
      &  TODUFF, TONRMC, TONRMS, TONRMH,
      &  TOTACR, V2T, YRDEAD, LREMT, NSNAGSALV, HTDEADSALV,
      &  SPSSALV, DBHSSALV, HTIHSALV, HTISSALV, HARDSALV,

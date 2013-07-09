@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C  **FMVINIT  FIRE-TT-DATE OF LAST REVISION: 03/10/10
+C  **FMVINIT  FIRE-TT-DATE OF LAST REVISION: 04/23/13
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -96,9 +96,9 @@ C     DUFF PRODUCTION RATES 'PRDUFF' ARE A PROPORTION OF THE OVERALL
 C     DECAY RATE: 'DKR'.
 C----------
       DO I = 1,10
-        PRDUFF(I) = 0.02
         DO J = 1,4
-          TODUFF(I,J) = DKR(I,J) * PRDUFF(I)
+          PRDUFF(I,J) = 0.02
+          TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)
         ENDDO
       ENDDO
 C----------
