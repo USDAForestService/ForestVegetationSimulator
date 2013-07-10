@@ -151,6 +151,9 @@ c
       case ("bdft")
         if (action=="get") attr = bfv(:itrn)
         if (action=="set") bfv(:itrn) = real(attr,4)
+      case ("defect")
+        if (action=="get") attr = defect(:itrn)
+        if (action=="set") defect(:itrn) = real(attr,4)
       case ("mgmtcd")
         if (action=="get") attr = imc(:itrn)
         if (action=="set") imc(:itrn) = int(attr,4)
@@ -178,6 +181,59 @@ c
       case ("id")
         if (action=="get") attr = idtree(:itrn)
         if (action=="set") idtree(:itrn) = int(attr,4)
+      case default
+        rtnCode = 1
+        attr = 0
+      end select
+
+      return
+      end
+
+
+      subroutine fvsSpeciesAttr(name,nch,action,attr,rtnCode)
+      implicit none
+
+c     set and/or gets the named species attributes
+c     name    = char string of the variable name,
+c     nch     = the number of characters in "name" (case sensitive)
+c     action  = char string that is one of "set" or "get" (case sensitive)
+c     attr    = a vector of length data, always "double"
+c     rtnCode = 0 is OK, 1= "name" not found,
+c               4= the length of the "name" string was too big or small
+c
+      include "PRGPRM.F77"
+      include "PLOT.F77"
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSSPECIESATTR'::FVSSPECIESATTR
+!DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, ATTR, RTNCODE
+#endif      
+
+      integer :: nch,rtnCode
+      real(kind=8)      :: attr(MAXSP)
+      character(len=10) :: name
+      character(len=4)  :: action
+
+      if (nch == 0 .or. nch > 10) then
+        rtnCode = 4
+        return
+      endif
+
+      name=name(1:nch)
+      action=action(1:3)
+
+      rtnCode = 0
+
+      select case(name)
+      case ("spccf")
+        if (action=="get") attr = reldsp
+        if (action=="set") reldsp = real(attr,4)
+      case ("spsiteindx")
+        if (action=="get") attr = sitear
+        if (action=="set") sitear = real(attr,4)
+      case ("spsdi")
+        if (action=="get") attr = sdidef
+        if (action=="set") sdidef = real(attr,4)
       case default
         rtnCode = 1
         attr = 0
