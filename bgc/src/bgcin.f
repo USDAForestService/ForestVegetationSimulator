@@ -1,6 +1,6 @@
       SUBROUTINE BGCIN (KEYWRD,ARRAY,LNOTBK,LKECHO)
 C----------
-C  **BGCIN  BGC--DATE OF LAST REVISION: 01/25/06 AJM. ADDED 10TH ARG TO KEYRDR CALL
+C  **BGCIN  BGC--DATE OF LAST REVISION: 05/21/13 AJM. ADDED 10TH ARG TO KEYRDR CALL
 C                10/15/99
 C                Revised 11/12/02.  Removing index ISTND, and removing PPE
 C                                   common "includes" (PPEPRM, PPCNTL, &
@@ -94,13 +94,13 @@ C
       PRINT *,'in bgcin, option=1, keyword= ', keywrd
 C========== OPTION NUMBER 1: END ==========================
       IF(LKECHO)WRITE(JOSTND,110) KEYWRD
-  110 FORMAT (/1X,A8,'   END OF BGC OPTIONS.')
+  110 FORMAT (/A8,'   END OF BGC OPTIONS.')
       RETURN
   200 CONTINUE
       PRINT *,'in bgcin, option=2, keyword= ', keywrd
 C========== OPTION NUMBER 2: UNDERVEG =====================
       IF(LKECHO)WRITE(JOSTND,205) KEYWRD
-  205 FORMAT (/1X,A8,'   STAND-BGC UNDERSTORY VEGETATION INPUT')
+  205 FORMAT (/A8,'   STAND-BGC UNDERSTORY VEGETATION INPUT')
   206 READ(IREAD,*)ENDFLAG
       DO 210 I=1,7
          CALL UPCASE(ENDFLAG(I:I))
@@ -124,7 +124,7 @@ C=================OPTION NUMBER 3: VEGOPT =============
       ISOURCE=IFIX(ARRAY(1))
       PRINT *,'in bgcin, option=3, isource= ', ISOURCE 
       IF(LKECHO)WRITE(JOSTND,305) KEYWRD,ISOURCE
-  305 FORMAT (/1X,A8,'   SOURCE OF VEG DATA= ', I1)
+  305 FORMAT (/A8,'   SOURCE OF VEG DATA= ', I1)
       GOTO 10
   400 CONTINUE
 C=================OPTION NUMBER 4: BGCGROW ============ 
@@ -132,7 +132,7 @@ C      IBGC(ISTND)=1  ! removed 11/02 ajm
       IBGC=1
       PRINT *,'in bgcin, option=4'
       IF(LKECHO)WRITE(JOSTND,405) KEYWRD
-  405 FORMAT (/1X,A8,'   INCREMENTS WILL BE FROM STAND-BGC')
+  405 FORMAT (/A8,'   INCREMENTS WILL BE FROM STAND-BGC')
       GOTO 10
   500 CONTINUE
 C=================OPTION NUMBER 5: BGCIN ==============

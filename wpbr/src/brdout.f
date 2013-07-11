@@ -1,6 +1,6 @@
       SUBROUTINE BRDOUT
 C**********************************************************************
-C  **BRDOUT       DATE OF LAST REVISION:  05/21/2001
+C  **BRDOUT       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  Writes a Blister Rust Model All-Host DBH Class Statistics table at the
@@ -51,35 +51,35 @@ C.... Write heading information.
       WRITE(JOSTND,102) BRVER
       WRITE(JOSTND,103)
       WRITE (JOSTND,15) NPLT,MGMID,ITITLE(1:ISTLNB(ITITLE))
-   15 FORMAT(' STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A)
+   15 FORMAT('STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A)
       WRITE(JOSTND,104)
 
-  100 FORMAT('1',/)
-  101 FORMAT(1X,' ')
-  102 FORMAT(T37,'*  *  *  WHITE PINE BLISTER RUST MODEL:'
+  100 FORMAT(//)
+  101 FORMAT(' ')
+  102 FORMAT(T36,'*  *  *  WHITE PINE BLISTER RUST MODEL:'
      &   ' Version ',A3,'  *  *  *')
-  103 FORMAT(T43,'Stand DBH Class Statistics for Blister Rust Hosts')
-  104 FORMAT(132('-'))
+  103 FORMAT(T42,'Stand DBH Class Statistics for Blister Rust Hosts')
+  104 FORMAT(131('-'))
 
-  105 FORMAT(1X,'YEAR',60X,'2-INCH DBH CLASS')
-  106 FORMAT(1X,5('-'),8X,118('-'))
-  107 FORMAT(1X,F5.0,9X,'0 - 2.9"',4X,'3 - 4.9"',4X,'5 - 6.9"',4X,
+  105 FORMAT('YEAR',60X,'2-INCH DBH CLASS')
+  106 FORMAT(5('-'),8X,118('-'))
+  107 FORMAT(F5.0,9X,'0 - 2.9"',4X,'3 - 4.9"',4X,'5 - 6.9"',4X,
      &   '7 - 8.9"',4X,'9 - 10.9"',2X,'11 - 12.9"',2X,'13 - 14.9"',2X,
      &   '15 - 16.9"',2X,'17 - 18.9"',4X,'19"  +')
-  108 FORMAT(12X,10(2X,10('-')))
-  110 FORMAT(1X,'A.C/T All',2X,10(6X,F6.1))
-  111 FORMAT(1X,'A.C/T Leth',1X,10(6X,F6.1))
-  112 FORMAT(1X,'A.C/T Exp',2X,10(6X,F6.1))
-  114 FORMAT(1X,'P.Inf All',2X,10(8X,F4.2))
-  115 FORMAT(1X,'P.Inf Leth',1X,10(8X,F4.2))
-  117 FORMAT(1X,'T/A Clean',2X,10(6X,F6.1))
-  118 FORMAT(1X,'T/A NonLeth',10(6X,F6.1))
-  119 FORMAT(1X,'T/A Prune',2X,10(6X,F6.1))
-  120 FORMAT(1X,'T/A Excise',1X,10(6X,F6.1))
-  121 FORMAT(1X,'T/A NonSalv',10(6X,F6.1))
-  122 FORMAT(1X,'T/A TopKill',10(6X,F6.1))
-  123 FORMAT(1X,'T/A Dead',3X,10(6X,F6.1))
-  124 FORMAT(1X,'T/A Total',2X,10(6X,F6.1))
+  108 FORMAT(11X,10(2X,10('-')))
+  110 FORMAT('A.C/T All',2X,10(6X,F6.1))
+  111 FORMAT('A.C/T Leth',1X,10(6X,F6.1))
+  112 FORMAT('A.C/T Exp',2X,10(6X,F6.1))
+  114 FORMAT('P.Inf All',2X,10(8X,F4.2))
+  115 FORMAT('P.Inf Leth',1X,10(8X,F4.2))
+  117 FORMAT('T/A Clean',2X,10(6X,F6.1))
+  118 FORMAT('T/A NonLeth',10(6X,F6.1))
+  119 FORMAT('T/A Prune',2X,10(6X,F6.1))
+  120 FORMAT('T/A Excise',1X,10(6X,F6.1))
+  121 FORMAT('T/A NonSalv',10(6X,F6.1))
+  122 FORMAT('T/A TopKill',10(6X,F6.1))
+  123 FORMAT('T/A Dead',3X,10(6X,F6.1))
+  124 FORMAT('T/A Total',2X,10(6X,F6.1))
 
 C.... Write 2" DBH class summary data; repeat DBH class headings for
 C.... each year because it contains the year in the heading.

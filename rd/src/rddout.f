@@ -1,6 +1,6 @@
       SUBROUTINE RDDOUT
 C----------
-C  **RDDOUT                       LAST REVISION:  08/16/06
+C  **RDDOUT                       LAST REVISION:  06/12/13
 C----------
 C
 C  Purpose :
@@ -217,7 +217,7 @@ C.... Find tree species in root disease patches.
 
       IF (ITRN .GT. 0) GOTO 804
       WRITE (IOUNIT,4100)
- 4100 FORMAT (' ***** NO TREES IN STAND')
+ 4100 FORMAT ('***** NO TREES IN STAND')
       GOTO 4000
 
  804  CONTINUE             
@@ -326,42 +326,42 @@ C.... No entries in tree list.
 
 C.... Format statements for header.
 
- 1100 FORMAT ('1',65('* '))
- 1105 FORMAT (' ',50X,'WESTERN ROOT DISEASE MODEL')
- 1107 FORMAT (' ',65('* '))
- 1110 FORMAT (' ',33X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
- 1115 FORMAT (' ',32X,'DETAILED OUTPUT OF STAND ATTRIBUTES INSIDE ',
+ 1100 FORMAT (//,65('* '))
+ 1105 FORMAT (50X,'WESTERN ROOT DISEASE MODEL')
+ 1107 FORMAT (65('* '))
+ 1110 FORMAT (33X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
+ 1115 FORMAT (32X,'DETAILED OUTPUT OF STAND ATTRIBUTES INSIDE ',
      &                'ROOT DISEASE PATCHES')
- 1120 FORMAT (' ',130('-'))
- 1125 FORMAT (8X,'ROOT',18X,'KILLED TREES',33X,'ALIVE TREES')
- 1130 FORMAT (7X,'DISEASE',3X,
+ 1120 FORMAT (130('-'))
+ 1125 FORMAT (7X,'ROOT',18X,'KILLED TREES',33X,'ALIVE TREES')
+ 1130 FORMAT (6X,'DISEASE',3X,
      >        2(6X,'%TILE POINTS BY DBH (INCHES)    TOTAL'),
      >'       TOTAL')
- 1135 FORMAT (1X,5X,9('-'),8X,28('-'),'    KILLED',
+ 1135 FORMAT (5X,9('-'),8X,28('-'),'    KILLED',
      >5X,28('-'),'   UNINFECTED  INFECTED',4X,'% ROOTS')
- 1140 FORMAT (' YEAR TYPE AREA  SP',2(5X,'10   30   50   70   90',
+ 1140 FORMAT ('YEAR TYPE AREA  SP',2(5X,'10   30   50   70   90',
      >'  100  TREES/ACRE'),' TREES/ACRE',2X,'INFECTED')
- 1145 FORMAT (1X,'---- ---------  --',2(3X,6(' ----'),' ----------'),
+ 1145 FORMAT ('---- ---------  --',2(3X,6(' ----'),' ----------'),
      >2(' ----------'))   
      
 C.... Format statements for headers specific to metric.
 
- 1230 FORMAT (7X,'DISEASE',3X,
+ 1230 FORMAT (6X,'DISEASE',3X,
      >        2(6X,' %TILE POINTS BY DBH (CMS)      TOTAL'),
      >'       TOTAL')
- 1240 FORMAT (' YEAR TYPE AREA  SP',2(5X,'10   30   50   70   90',
+ 1240 FORMAT ('YEAR TYPE AREA  SP',2(5X,'10   30   50   70   90',
      >'  100   TREES/HA '),'  TREES/HA  ',2X,'INFECTED')
 
 C.... Format statements for data values.
 
- 2105 FORMAT(1X,I4,2X,A1,F7.1)
- 2106 FORMAT(1X,4X,2X,A1,F7.1)
- 2110 FORMAT(1X,16X,A2,2(3X,6F5.1,2X,F6.1,3X),2X,F6.1,F10.2)
- 2120 FORMAT(1X,130('-'))
- 2121 FORMAT(1X,130(' '))
+ 2105 FORMAT(I4,2X,A1,F7.1)
+ 2106 FORMAT(4X,2X,A1,F7.1)
+ 2110 FORMAT(16X,A2,2(3X,6F5.1,2X,F6.1,3X),2X,F6.1,F10.2)
+ 2120 FORMAT(130('-'))
+ 2121 FORMAT(130(' '))
 
 C.... Format statements for no root disease area.
 
- 3100 FORMAT(' ',I4,46X,'*** NO AREA WITH ROOT DISEASE ***')
+ 3100 FORMAT(I4,46X,'*** NO AREA WITH ROOT DISEASE ***')
 
       END

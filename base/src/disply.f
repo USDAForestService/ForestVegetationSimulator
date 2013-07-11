@@ -122,7 +122,7 @@ C----------
       WRITE(JOSTND,9003)
  9003 FORMAT(/)
       WRITE(JOSTND,9004) AT1,ONTREM,(OSPTT(I),IOSPTT(I),I=1,4)
- 9004 FORMAT(7X,A9,3X,5F7.1,F8.1,F9.0,' TREES   ',
+ 9004 FORMAT(6X,A9,3X,5F7.1,F8.1,F9.0,' TREES   ',
      >       3(F5.0,'% ',A3,','),F5.0,'% ',A3)
 C
 C
@@ -130,11 +130,11 @@ C
      &                       STD(2),OMCREM,(OSPMR(I),IOSPMR(I),I=1,4),
      &                       STD(3),OBFREM,(OSPBR(I),IOSPBR(I),I=1,4)
 C
- 9005 FORMAT(7X,A9/9X,A10,5F7.1,F8.1,F9.0,' CUFT    ',
+ 9005 FORMAT(6X,A9/8X,A10,5F7.1,F8.1,F9.0,' CUFT    ',
      >       3(F5.0,'% ',A3,','),F5.0,'% ',A3/
-     &      9X,A10,5F7.1,F8.1,F9.0,' CUFT    ',
+     &      8X,A10,5F7.1,F8.1,F9.0,' CUFT    ',
      >       3(F5.0,'% ',A3,','),F5.0,'% ',A3/
-     &      9X,A10,5F7.1,F8.1,F9.0,' BDFT    ',
+     &      8X,A10,5F7.1,F8.1,F9.0,' BDFT    ',
      >       3(F5.0,'% ',A3,','),F5.0,'% ',A3)
       WRITE(JOSTND,9003)
       WRITE(JOSTND,9004) AT3,ONTRES,(OSPRT(I),IOSPRT(I),I=1,4)
@@ -151,7 +151,7 @@ C----------
       ELSE
          WRITE(JOSTND,9006) 'MORTALITY',OMORT,(OSPMO(I),IOSPMO(I),I=1,4)
       ENDIF
- 9006 FORMAT(7X,A9,3X,5F7.1,F8.1,F9.0,' CUFT/YR ',
+ 9006 FORMAT(6X,A9,3X,5F7.1,F8.1,F9.0,' CUFT/YR ',
      >       3(F5.0,'% ',A3,','),F5.0,'% ',A3)
 C----------
 C  WRITE CURRENT STAND STATISTICS.
@@ -159,7 +159,7 @@ C----------
    30 CONTINUE
       WRITE(JOSTND,9003)
       WRITE(JOSTND,9007) JYR,ONTCUR,(OSPCT(I),IOSPCT(I),I=1,4)
- 9007 FORMAT(/,1X,I4,'  TREES',T20,5F7.1,F8.1,F9.0,' TREES   ',
+ 9007 FORMAT(/I4,'  TREES',T19,5F7.1,F8.1,F9.0,' TREES   ',
      >       3(F5.0,'% ',A3,','),F5.0,'% ',A3)
       WRITE(JOSTND,9005) AT2,STD(1),OCVCUR,(OSPCV(I),IOSPCV(I),I=1,4),
      &                       STD(2),OMCCUR,(OSPMC(I),IOSPMC(I),I=1,4),
@@ -455,6 +455,6 @@ C----------
      >    IOSUM(7,IKNT),IOSUM(8,IKNT),IOSUM(10,IKNT),IOSUM(11,IKNT),
      >    ISDIAT(IKNT),IOSUM(13,IKNT),QDBHAT(IKNT),
      >    IOSUM(15,IKNT),IOSUM(16,IKNT)
-  170 FORMAT (1X,I4,I6,3I4,F5.1,4I6,3I4,F5.1,I4,I4)
+  170 FORMAT (I4,I6,3I4,F5.1,4I6,3I4,F5.1,I4,I4)
       RETURN
       END

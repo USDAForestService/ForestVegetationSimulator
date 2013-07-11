@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C  **FMVINIT  FIRE-AK-DATE OF LAST REVISION: 09/21/09
+C  **FMVINIT  FIRE-AK-DATE OF LAST REVISION: 04/23/13
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -63,7 +63,6 @@ C----------
 
 C     DECAY RATES BASED ON PN DECAY INFO SENT BY KIM MELLEN IN R6,
 C     ASSUMING COLD/WET PN HABITAT TYPE.
-C     (THIS DOES NOT CURRENTLY MATCH PN-FFE - 03/06/08 SAR)
 
       DKR(1,1) = 0.052 ! < 0.25"
       DKR(2,1) = 0.052 ! 0.25 - 1"
@@ -117,9 +116,9 @@ C     Duff production rates 'PRDUFF' are a proportion of the overall
 C     decay rate: 'DKR'.
 
       DO I = 1,10
-        PRDUFF(I) = 0.02
         DO J = 1,4
-          TODUFF(I,J) = DKR(I,J) * PRDUFF(I)
+          PRDUFF(I,J) = 0.02
+          TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)
         ENDDO
       ENDDO
 

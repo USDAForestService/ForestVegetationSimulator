@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-TT-DATE OF LAST REVISION:  01/03/11
+C  **FMCBA   FIRE-TT-DATE OF LAST REVISION:  04/25/13
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -71,7 +71,7 @@ C----------
       INTEGER MXVCODE
       PARAMETER (MXVCODE = 363)
 C
-      INTEGER*1 COVINI(MXVCODE), MAPDRY(MXVCODE)
+      INTEGER*1 COVINI(MXVCODE)
       REAL BAMOST, TOTCRA, CWIDTH
       REAL FULIVE(2,MAXSP), FULIVI(2,MAXSP)
       REAL FUINIE(MXFLCL,MAXSP), FUINII(MXFLCL,MAXSP)
@@ -249,31 +249,6 @@ C----------
      &  9,  9,  9,  9,  9,  9,  0,  0,  0,  7,
      &  7,  7,  7/
 C
-C     HABITAT MOISTURE CODES PROVIDED BY
-C     KATHY GEIER-HAYES. 0 = DRY; 1 = MESIC
-C     2 = MOIST
-C
-c     need to update this for R4
-c
-      DATA MAPDRY / MXVCODE * 1 /
-
-c      DATA (MAPDRY(I), I=   1,  50) /
-c     & 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-c     & 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-c     & 1, 1, 0, 0, 1, 1, 0, 0, 0, 0,
-c     & 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-c     & 0, 0, 0, 0, 0, 0, 0, 0, 1, 0/
-c      DATA (MAPDRY(I), I=  51, 100) /
-c     & 1, 0, 0, 0, 0, 1, 2, 1, 2, 0,
-c     & 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
-c     & 0, 1, 1, 1, 1, 1, 2, 1, 1, 1,
-c     & 2, 2, 2, 1, 0, 1, 2, 2, 2, 1,
-c     & 2, 1, 1, 1, 1, 1, 1, 1, 1, 1/
-c      DATA (MAPDRY(I), I= 101, 130) /
-c     & 1, 1, 1, 0, 1, 1, 1, 1, 0, 1,
-c     & 1, 1, 0, 0, 0, 0, 0, 0, 1, 1,
-c     & 1, 1, 1, 1, 1, 0, 0, 1, 0, 1/
-
 C
       DATA MYACT / 2521, 2548, 2553 /
 C-----------
@@ -392,32 +367,6 @@ C     Initialize the dead fuels only for the first year of the simulation
 C----------
       IF (IYR .EQ. IY(1)) THEN
 C----------
-C       MODIFY CWD DECAY RATE BASED ON HABITAT MOISTURE GROUP
-C       0 = DRIER - LOWER RATE
-C       1 = MESIC - UNCHANGED
-C       2 = WETTER - HIGHER RATE
-C
-C       ONLY DO THIS IF DURING THE NORMAL CALL, NOT FROM SVSTART
-C----------
-        IF ( ISWTCH .NE. 1 ) THEN
-          DCYMLT = 1.0
-          IF (ITYPE .GT. 0 .AND. ITYPE .LE. MXVCODE) THEN
-            SELECT CASE (MAPDRY(ITYPE))
-              CASE (0)
-                DCYMLT = 0.66
-              CASE (1)
-                DCYMLT = 1.0
-              CASE (2)
-                DCYMLT = 1.33
-            END SELECT
-          ENDIF
-C          
-          DO I = 1,MXFLCL
-            DO J = 1,4
-              DKR(I,J) = DKR(I,J) * DCYMLT
-            ENDDO
-          ENDDO
-        ENDIF
 C
 Csng      IF (IYR .EQ. IY(1)) THEN
 Cppe      IF (IYR .EQ. MIY(1)) THEN

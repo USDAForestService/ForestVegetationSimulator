@@ -1,6 +1,6 @@
       SUBROUTINE BRECAN(IBRN,HITE,RINDX,SSTAR,SSTHT,PROP,PIMX,EXPC)
 C**********************************************************************
-C  **BRECAN       DATE OF LAST REVISION:  05/10/2006
+C  **BRECAN       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRECAN calculates the number of new cankers expected for a
@@ -64,7 +64,7 @@ C.... See if we need to do some debug.
       IF(DEBUG) WRITE(JOSTND,22) ICYC,
      & IBRN,ISP(IBRN),HITE,RINDX,SSTAR,SSTHT,PROP,
      & PIMX,IBRSTAT(IBRN),ILCAN(IBRN),ITCAN(IBRN)
-  22  FORMAT(' Entering subroutine BRECAN: cycle = ',I2,/,
+  22  FORMAT('Entering subroutine BRECAN: cycle = ',I2,/,
      & 'IBRN=',I4,' ISP=',I2,' HITE=',F10.7,' RINDX=',F10.7,
      & ' SSTAR=',F10.4,' SSTHT=',F10.7,' PROP=',F10.7,
      & ' PIMX=',F10.7,' IBRSTAT=',I2,' ILCAN=',I2,' ITCAN=',I3)
@@ -201,6 +201,6 @@ C.... Common return.
       ENDIF
 
       IF(DEBUG) WRITE(JOSTND,40) ICYC
-   40 FORMAT(' Leaving subroutine BRECAN: cycle = ',I2)
+   40 FORMAT('Leaving subroutine BRECAN: cycle = ',I2)
       RETURN
       END

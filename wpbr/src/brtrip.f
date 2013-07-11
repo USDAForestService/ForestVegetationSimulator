@@ -1,6 +1,6 @@
       SUBROUTINE BRTRIP(INUT,I,WT)
 C**********************************************************************
-C  **BRTRIP       DATE OF LAST REVISION:  05/20/1999
+C  **BRTRIP       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  Triples the Blister Rust records.
@@ -41,7 +41,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRTRIP',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,112) ICYC
-  112 FORMAT (' Entering subroutine BRTRIP: cycle = ',I2)
+  112 FORMAT ('Entering subroutine BRTRIP: cycle = ',I2)
 
 C.... The WT value of 0.6 the weight at which the original record is set
 C.... when tripling occurs. This line should not be necessary. 20-APR-1999
@@ -75,6 +75,6 @@ C.... Load cankers for new tree.
    77 CONTINUE
 
       IF(DEBUG) WRITE(JOSTND,114) ICYC
-  114 FORMAT (' Leaving subroutine BRTRIP: cycle = ',I2)
+  114 FORMAT ('Leaving subroutine BRTRIP: cycle = ',I2)
       RETURN
       END

@@ -1,7 +1,7 @@
       SUBROUTINE MPOTPR (PROTBK)
       IMPLICIT NONE
 C----------
-C  **MPOTPR         DATE OF LAST REVISION:  07/02/10
+C  **MPOTPR         DATE OF LAST REVISION:  06/14/13
 C----------
 C
 C     PROTBK = THE PROBABILITY OF A MPB OUTBREAK.
@@ -92,9 +92,9 @@ C
       IF ( .NOT. DEBUIN ) GO TO 50
       WRITE (JOMPB,40) CNTLP,TLP45,A45DBH,BA,BALPP,PBALPP,
      >                  RELDSP(IDXLP),RELDEN,PROTBK
-   40 FORMAT (/' ALL LPP/ACRE= ',E13.3,'; >4.5 LPP/ACRE= ',E13.3,
+   40 FORMAT (/,'ALL LPP/ACRE= ',E13.3,'; >4.5 LPP/ACRE= ',E13.3,
      >        '; AVE >4.5 DBH= ',E13.3,'; TOT BA= ',E13.3,//,
-     >        ' BALPP= ',E13.3,'; PBALPP= ',E13.3,'; LPP-CCF= ',E13.3,
+     >        'BALPP= ',E13.3,'; PBALPP= ',E13.3,'; LPP-CCF= ',E13.3,
      >        '; TOT CCF= ',E13.3,'; PROB OUTBREAK= ',E13.3)
    50 CONTINUE
       RETURN

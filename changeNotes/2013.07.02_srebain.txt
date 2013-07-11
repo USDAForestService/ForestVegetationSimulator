@@ -1,0 +1,91 @@
+Subject: Fire and Fuels Extension Update
+Name:  Stephanie Rebain
+Date:  07/02/2013
+Variants affected: All
+
+Description:
+
+1)  The down wood decay rates in some variants (PN, WC, BM, EC, SO, CA) were updated based on 
+data from Kim Mellen-McLean, region 6 wildlife ecologist.  For the SO and CA variants, the decay rates
+were updated for region 6, but not for the region 5 portion of the variant.
+
+2)  A correction was made to the processing of the DuffProd keyword.
+
+3) Corrections were made to the decay rates in the NC, CA, WS, and CI variants.  In these variants,
+if users reset the decay rates with the FuelDcay keyword, the standard decay rate adjustments based on
+habitat type (CI) or the site code (NC, CA, WS) were still being applied.  This was fixed.  Also, a 
+correction was made to the amount of decayed material going to duff in these variants. 
+
+4) The FuelMult keyword was not being processed properly in the SO variant.  This was corrected.
+
+
+Impact on users:
+Users of these variants may want to download new executables.
+
+Modified Files:
+
+fire/so/src/fmvinit.f - edited the decay rate class (DKRCLS) of each species to match Kim's recommendation
+                      - edited statements with prduff
+fire/ca/src/fmvinit.f - edited the decay rate class (DKRCLS) of each species to match Kim's recommendation
+                      - edited statements with prduff
+                      - removed old decay rates, which are now set in fmcba so that different rates can be set for r5 vs r6
+fire/ec/src/fmvinit.f - edited the decay rate class (DKRCLS) of each species to match Kim's recommendation
+                      - edited the base decay rates, edited statements with prduff
+fire/bm/src/fmvinit.f - edited the decay rate class (DKRCLS) of each species to match Kim's recommendation
+                      - edited the base decay rates, edited statements with prduff 
+fire/pn/src/fmvinit.f - edited the decay rate class (DKRCLS) of each species to match Kim's recommendation
+                      - edited the base decay rates, edited statements with prduff 
+fire/wc/src/fmvinit.f - edited the decay rate class (DKRCLS) of each species to match Kim's recommendation
+                      - edited the base decay rates, edited statements with prduff 
+fire/ec/src/fmcba.f - removed old adjustment to decay rates based on plant association
+                    - added arrays that map plant association to a temperature and moisture class
+                    - applied a new decay adjustment factor based on temperature and moisture
+fire/bm/src/fmcba.f - removed old adjustment to decay rates based on plant association
+                    - added arrays that map plant association to a temperature and moisture class
+                    - deleted old array (mapdry) that mapped plant association to a moisture class
+                    - applied a new decay adjustment factor based on temperature and moisture
+fire/pn/src/fmcba.f - removed old adjustment to decay rates based on plant association
+                    - added arrays that map plant association to a temperature and moisture class
+                    - applied a new decay adjustment factor based on temperature and moisture
+fire/wc/src/fmcba.f - removed old adjustment to decay rates based on plant association
+                    - added arrays that map plant association to a temperature and moisture class
+                    - applied a new decay adjustment factor based on temperature and moisture
+fire/so/src/fmcba.f - added arrays that map plant association to a temperature and moisture class for R6.
+                    - edited the decay rates and applied an adjustment factor based on temperature and moisture for R6.
+                    - edited the statements with prduff and prdufft
+                    - fixed the setting of DKR so that if the fuelmult keyword was selected, the correct decay rates are used.
+fire/ca/src/fmcba.f - used new setdecay array so that the decay rates are adjusted based on the dunning site code
+                      only if the user hasn't reset them with FuelDcay.  Also updated the toduff array in this case.
+                    - added arrays that map plant association to a temperature and moisture class for R6.
+                    - edited the decay rates and applied an adjustment factor based on temperature and moisture for R6.                                          
+fire/nc/src/fmcba.f - used new setdecay array so that the decay rates are adjusted based on the dunning site code
+                      only if the user hasn't reset them with FuelDcay.  Also updated the toduff array in this case.
+fire/ws/src/fmcba.f - used new setdecay array so that the decay rates are adjusted based on the dunning site code
+                      only if the user hasn't reset them with FuelDcay.  Also updated the toduff array in this case.
+fire/tt/src/fmcba.f - removed the decay rates adjustments based on habitat type given this functionality wasn't being used.
+fire/ci/src/fmcba.f - used new setdecay array so that the decay rates are adjusted based on the habitat type
+                      only if the user hasn't reset them with FuelDcay.  Also updated the toduff array in this case.               
+fire/base/common/fmcom.f77 - added a new array called setdecay, added a dimension to prduff
+fire/base/src/fmin.f - set the array setdecay when the fueldcay keyword is used, edited statements with prduff
+metric/fire/base/src/fmin.f - set the array setdecay when the fueldcay keyword is used, edited statements with prduff;
+                            - fixed typo in echo back of CarbCalc keyword.
+fire/base/src/fminit.f - initialized setdecay to -1
+pg/src/fmppget.f - added the new common array setdecay, added new dimension of prduff
+pg/src/fmppput.f - added the new common array setdecay, added new dimension of prduff
+fire/base/src/fmcwd.f - added a new debug statement
+
+fire/ak/src/fmvinit.f - edited statements with prduff; removed comment
+fire/ci/src/fmvinit.f - edited statements with prduff
+fire/cr/src/fmvinit.f - edited statements with prduff
+fire/cs/src/fmvinit.f - edited statements with prduff
+fire/em/src/fmvinit.f - edited statements with prduff
+fire/ie/src/fmvinit.f - edited statements with prduff
+fire/ls/src/fmvinit.f - edited statements with prduff
+fire/nc/src/fmvinit.f - edited statements with prduff
+fire/ne/src/fmvinit.f - edited statements with prduff
+fire/ni/src/fmvinit.f - edited statements with prduff
+fire/sn/src/fmvinit.f - edited statements with prduff
+fire/tt/src/fmvinit.f - edited statements with prduff
+fire/ut/src/fmvinit.f - edited statements with prduff
+fire/ws/src/fmvinit.f - edited statements with prduff
+fire/bc/src/fmvinit.f - edited statements with prduff

@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C  **FMVINIT  FIRE-SO-DATE OF LAST REVISION: 09/21/09
+C  **FMVINIT  FIRE-SO-DATE OF LAST REVISION: 04/25/13
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -111,38 +111,38 @@ C     DKRCLS() - DECAY RATE CLASS 1 (V.SLOW) TO 4 (FAST). MODEL USERS
 C     CAN USE THE FUELDCAY KEYWORD TO REASSIGN RATES WITHIN THE 4
 C     CLASSES, AND THE FUELPOOL KEYWORD TO REASSIGN CLASS
 C
-      DKRCLS(1)=4  ! White pine
-      DKRCLS(2)=4  ! Sugar pine
-      DKRCLS(3)=3  ! Douglas-fir
-      DKRCLS(4)=4  ! White fir
-      DKRCLS(5)=4  ! Mountain hemlock
-      DKRCLS(6)=2  ! Incense cedar
-      DKRCLS(7)=4  ! Lodgepole pine
-      DKRCLS(8)=4  ! Englemann spruce
-      DKRCLS(9)=4  ! Red fir
-      DKRCLS(10)=4 ! Ponderosa pine
-      DKRCLS(11)=2 ! Western juniper
-      DKRCLS(12)=4 ! Grand fir
-      DKRCLS(13)=4 ! Subalpine fir
-      DKRCLS(14)=4 ! Pacific silver fir
-      DKRCLS(15)=4 ! Noble fir
-      DKRCLS(16)=4 ! Whitebark pine
-      DKRCLS(17)=3 ! Western larch
-      DKRCLS(18)=2 ! Western redcedar
-      DKRCLS(19)=4 ! Western hemlock
+      DKRCLS(1)=1  ! White pine
+      DKRCLS(2)=1  ! Sugar pine
+      DKRCLS(3)=1  ! Douglas-fir
+      DKRCLS(4)=3  ! White fir
+      DKRCLS(5)=2  ! Mountain hemlock
+      DKRCLS(6)=1  ! Incense cedar
+      DKRCLS(7)=2  ! Lodgepole pine
+      DKRCLS(8)=2  ! Englemann spruce
+      DKRCLS(9)=3  ! Red fir
+      DKRCLS(10)=3 ! Ponderosa pine
+      DKRCLS(11)=1 ! Western juniper
+      DKRCLS(12)=3 ! Grand fir
+      DKRCLS(13)=3 ! Subalpine fir
+      DKRCLS(14)=3 ! Pacific silver fir
+      DKRCLS(15)=3 ! Noble fir
+      DKRCLS(16)=1 ! Whitebark pine
+      DKRCLS(17)=1 ! Western larch
+      DKRCLS(18)=1 ! Western redcedar
+      DKRCLS(19)=2 ! Western hemlock
       DKRCLS(20)=1 ! Pacific yew
       DKRCLS(21)=4 ! White alder
       DKRCLS(22)=4 ! Red alder
       DKRCLS(23)=4 ! Bigleaf maple
       DKRCLS(24)=4 ! Quaking aspen
       DKRCLS(25)=4 ! Black cottonwood
-      DKRCLS(26)=2 ! Bitter cherry
-      DKRCLS(27)=2 ! Oregon white oak
+      DKRCLS(26)=4 ! Bitter cherry
+      DKRCLS(27)=3 ! Oregon white oak
       DKRCLS(28)=4 ! Willow
-      DKRCLS(29)=4 ! Giant chinkapin
+      DKRCLS(29)=3 ! Giant chinkapin
       DKRCLS(30)=4 ! Curl-leaf mt. mahogany
       DKRCLS(31)=4 ! Birch-leaf mt. mahogany
-      DKRCLS(32)=3 ! Other softwoods
+      DKRCLS(32)=1 ! Other softwoods
       DKRCLS(33)=4 ! Other hardwoods
 C
 C     SET DECAY VARIABLES TO AN UNSET STATE
@@ -156,8 +156,8 @@ C
         ENDDO
       ENDDO
       DO I = 1,10
-        PRDUFF(I)     = -1.
         DO J = 1,4
+          PRDUFF(I,J) = -1.
           TODUFF(I,J) = -1.
         ENDDO
       ENDDO

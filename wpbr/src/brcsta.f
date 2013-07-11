@@ -1,6 +1,6 @@
       SUBROUTINE BRCSTA
 C**********************************************************************
-C  **BRCSTA       DATE OF LAST REVISION:  05/09/2001
+C  **BRCSTA       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRCSTA determines the status of cankers on each tree during the
@@ -93,7 +93,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRCSTA',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,10) ICYC
-  10  FORMAT(' Entering subroutine BRCSTA: cycle = ',I2)
+  10  FORMAT('Entering subroutine BRCSTA: cycle = ',I2)
 
 C.... Set prune and excise maximum height guidelines.  Heights are in
 C.... centimeters.
@@ -308,6 +308,6 @@ C.... Common return.
 
   500 CONTINUE
       IF(DEBUG) WRITE(JOSTND, 501) ICYC
-  501 FORMAT(' Leaving subroutine BRCSTA: cycle = ',I2)
+  501 FORMAT('Leaving subroutine BRCSTA: cycle = ',I2)
       RETURN
       END

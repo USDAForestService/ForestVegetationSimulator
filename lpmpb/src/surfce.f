@@ -1,7 +1,7 @@
       SUBROUTINE SURFCE
       IMPLICIT NONE
 C----------
-C  **SURFCE        DATE OF LAST REVISION:  07/02/10
+C  **SURFCE        DATE OF LAST REVISION:  06/14/13
 C----------
 C
 C     SURFACE AREA CALCUTLATION ROUTINE
@@ -113,10 +113,10 @@ C
 
       IF (DEBUIN) THEN
         WRITE (JOMPB,400) SNOHST,(SURF(I),I=1,NACLAS)
-  400   FORMAT (/' SNOHST (TOTAL NON-LPP SURFACE AREA TO',
+  400   FORMAT (/,'SNOHST (TOTAL NON-LPP SURFACE AREA TO',
      >          ' 5 INCH TOPS) ',E14.7,//,
-     >          ' LPP SURFACE AREA BY CLASS . . .',//,
-     >          3(' ',10E13.3,/))
+     >          'LPP SURFACE AREA BY CLASS . . .',//,
+     >          3(10E13.3,/))
       END IF
 
       RETURN

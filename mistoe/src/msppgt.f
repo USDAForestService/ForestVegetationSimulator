@@ -1,6 +1,6 @@
       SUBROUTINE MSPPGT (WK3, IPNT, ILIMIT)
 ***********************************************************************
-*  **MSPPGT--MS  DATE OF LAST REVISION:  07/07/11
+*  **MSPPGT--MS  DATE OF LAST REVISION:  06/25/13
 *----------------------------------------------------------------------
 *  Purpose:
 *     Get the mistletoe model data for a given stand.
@@ -62,6 +62,8 @@
 *     Added varaibles IMOUT_ to integer scalars section.
 *  07-JUL-11  Lance R. David (FMSC)
 *     Added HGPDMR to arrays section.
+*  06-JUN-13  Lance R. David (FMSC)
+*     Corrected read of MISCYC array, only 1 dimension being processed.
 *
 ***********************************************************************
       IMPLICIT NONE
@@ -112,7 +114,7 @@ C.... Get the integer scalars.
       IMOUT4 = INTS (5)
 
 C.... Get the arrays.
-C.... Note that PRFMST, PMCSP, and DGPDMR are 2-d arrays.
+C.... Note that MISCYC, PRFMST, PMCSP, and DGPDMR are 2-d arrays.
 
       CALL IFREAD (WK3, IPNT, ILIMIT, MISFIT, MAXSP, 2)
       CALL IFREAD (WK3, IPNT, ILIMIT, IMIST,   ITRN,  2)
@@ -120,7 +122,7 @@ C.... Note that PRFMST, PMCSP, and DGPDMR are 2-d arrays.
       CALL IFREAD (WK3, IPNT, ILIMIT, ISVSP4,  4, 2)
       CALL IFREAD (WK3, IPNT, ILIMIT, DMPLT,  MAXPLT, 2)
 
-      CALL LFREAD (WK3, IPNT, ILIMIT, MISCYC, MAXCYC, 2)
+      CALL LFREAD (WK3, IPNT, ILIMIT, MISCYC, MAXCYC*2, 2)
       CALL LFREAD (WK3, IPNT, ILIMIT, MISTBL, MAXSP, 2)
 
       CALL BFREAD (WK3, IPNT, ILIMIT, YPLMLT, MAXSP, 2)

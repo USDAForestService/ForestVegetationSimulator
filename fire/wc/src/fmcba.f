@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 
-C  **FMCBA   FIRE-WC-DATE OF LAST REVISION:  03/22/11
+C  **FMCBA   FIRE-WC-DATE OF LAST REVISION:  04/25/13
 
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -67,6 +67,54 @@ C     DIMENSION OF THE VEGETATION CODE ARRAY IN WC **HABTYP**
       INTEGER IYR,KSP,I,ISZ,J,NPRM,IACTK,ISWTCH,JYR,IDC
       INTEGER ICT(MAXSP),IFGS,IWET
       REAL    BIGDBH,TOTBA,XX,CAREA,ALGSLP,PRCL,ADD
+      INTEGER WCWMC(139),WCWMD(139), TEMP, MOIST, K
+      REAL DKRADJ(3,3,3)
+
+C     EACH WC HABITAT CODE MAPS TO EITHER WARM (1), MODERATE (2)
+C     OR COLD (3).  (FROM FMR6SDCY)
+
+      DATA (WCWMC(I), I=   1,  50) /
+     & 3, 3, 3, 3, 3, 3, 3, 1, 2, 1,
+     & 1, 1, 1, 1, 1, 1, 2, 2, 3, 3,
+     & 2, 3, 3, 3, 3, 2, 2, 3, 3, 3,
+     & 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+     & 2, 2, 2, 2, 2, 3, 3, 3, 2, 3/
+      DATA (WCWMC(I), I=  51, 100) /
+     & 3, 3, 3, 3, 3, 2, 3, 3, 3, 1,
+     & 1, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 1, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 3, 2, 2, 2, 1, 2, 3, 2, 2/
+      DATA (WCWMC(I), I= 101, 139) /
+     & 2, 2, 2, 2, 2, 2, 3, 2, 2, 2,
+     & 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
+     & 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+     & 3, 3, 3, 3, 3, 3, 1, 1, 1/
+
+C     EACH WC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).  (FROM FMR6SDCY)
+
+      DATA (WCWMD(I), I=   1,  50) /
+     & 3, 2, 2, 2, 2, 2, 3, 3, 2, 3,
+     & 3, 3, 3, 3, 3, 3, 1, 1, 2, 2,
+     & 2, 2, 2, 1, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 3, 2,
+     & 1, 2, 2, 2, 2, 2, 2, 2, 1, 1/
+      DATA (WCWMD(I), I=  51, 100) /
+     & 1, 1, 1, 3, 2, 1, 2, 3, 2, 3,
+     & 3, 1, 1, 1, 1, 2, 2, 1, 1, 3,
+     & 1, 2, 2, 1, 1, 3, 1, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 3, 2, 3, 3,
+     & 2, 3, 2, 3, 3, 3, 3, 3, 1, 2/
+      DATA (WCWMD(I), I= 101, 139) /
+     & 1, 1, 1, 1, 1, 1, 3, 1, 2, 2,
+     & 2, 2, 2, 1, 3, 2, 3, 2, 1, 1,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 1, 2, 3, 3, 3/
+
+      DATA (((DKRADJ(I,J,K), K=1,3), J=1,3), I=1,3) /
+     &  1.35,   2,  1.35,  1.49,   2,  1.49,   1.7,   2, 1.7,
+     & 0.875, 1.5, 0.875,     1,   2,     1,  1.21,   2, 1.21,
+     &  0.75,   1,  0.75, 0.825, 1.3, 0.825, 0.875, 1.5, 0.875/
 
 C     BREAKPOINTS (% CC) OF INTERPOLATION FUNCTION TO PROVIDE WEIGHTED
 C     ESTIMATE OF LIVE (EVERY TIMESTEP) AND DEAD (INITIAL) FUEL
@@ -439,31 +487,40 @@ C     INITIALIZE THE DEAD FUELS ONLY FOR THE FIRST YEAR OF THE SIMULATION
 
       IF (IYR .EQ. IY(1)) THEN
 
-C       MODIFY CWD DECAY RATE BASED ON HABITAT MOISTURE GROUP
-C       0 = DRIER  - LOWER RATE
-C       1 = MESIC  - UNCHANGED
-C       2 = WETTER - HIGHER RATE
-
-C       ONLY DO THIS IF DURING THE NORMAL CALL, NOT FROM SVSTART
-
-        IF ( ISWTCH .NE. 1 ) THEN
-          DCYMLT = 1.0
-          SELECT CASE (MAPDRY(ITYPE))
-            CASE (0)
-              DCYMLT = 0.66
-            CASE (1)
-              DCYMLT = 1.0
-            CASE (2)
-              DCYMLT = 1.33
-          END SELECT
-          
-          DO I = 1,MXFLCL
-            DO J = 1,4
-              DKR(I,J) = DKR(I,J) * DCYMLT
-            ENDDO
-          ENDDO
-        ENDIF
+        TEMP = WCWMC(ITYPE)
+        MOIST = WCWMD(ITYPE)
         
+        DO I = 1,9
+          DO J = 1,4
+            IF (I .LE. 3) THEN
+              K = 1
+            ELSEIF (I .LE. 5) THEN 
+              K = 2
+            ELSE 
+              K = 3
+            ENDIF
+C       adjust the decay rates only if the user hasn't reset them with FuelDcay
+C       also, adjust the decay rates if smaller wood is decaying more slowly than larger wood.
+C       in this case, bump up the decay rate of the smaller wood to that of the larger wood.
+            IF ((SETDECAY(I,J) .LT. 0) .AND. (ISWTCH .NE. 1)) THEN
+              DKR(I,J) = DKR(I,J)*DKRADJ(TEMP,MOIST,K)
+              IF (DKR(I,J) .GT. 1.0) DKR(I,J) = 1.0
+              TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)             
+            ENDIF
+          ENDDO
+        ENDDO
+
+        DO I = 9,2,-1
+          DO J = 1,4
+            IF (((DKR(I,J)-DKR(I-1,J)) .GT. 0).AND.(ISWTCH.NE.1)) THEN 
+              IF (SETDECAY(I-1,J) .LT. 0) THEN
+                DKR(I-1,J) = DKR(I,J)
+                TODUFF(I-1,J) = DKR(I-1,J) * PRDUFF(I-1,J)                
+              ENDIF             
+            ENDIF
+          ENDDO
+        ENDDO
+       
 C       LOAD DEAD FUELS AS A FUNCTION OF PERCOV...ASSUME THAT THE INITIATING
 C       STANDS CORRESPOND TO ABOUT 10% COVER AND ESTABLISHED ARE 60% OR MORE.
 C       IN WS,NC,CA VARIANTS, THE TOP 2 SPECIES ARE USED TO INTIALIZE THE POOLS

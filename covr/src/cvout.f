@@ -1,7 +1,7 @@
       SUBROUTINE CVOUT
       IMPLICIT NONE
 C----------
-C  **CVOUT--COVR   DATE OF LAST REVISION:  07/11/08
+C  **CVOUT--COVR   DATE OF LAST REVISION:  06/28/13
 C----------
 C  PRINTS (PRE- AND POST-THIN) **COVER** STATISTICS BY CYCLE.
 C  CALLED FROM **MAIN** ONCE PER STAND, AT THE END OF PROJECTION.
@@ -53,33 +53,33 @@ C HEADINGS
 C----------
       CALL GROHED (JOSHRB)
       WRITE (JOSHRB,9016) NPLT,MGMID,ITITLE
- 9016 FORMAT (/' STAND ID: ',A26,4X,'MGMT CODE: ',A4,2X,A72/)
+ 9016 FORMAT (/'STAND ID: ',A26,4X,'MGMT CODE: ',A4,2X,A72/)
       CALL PPLABS (JOSHRB)
 C----------
 C WRITE DEFINITIONS OF ATTRIBUTES.
 C----------
       WRITE (JOSHRB,9017)
- 9017 FORMAT (//' ',51('-'), '  CANOPY COVER STATISTICS  ',52('-')
-     &       / 53X,'(BASED ON STOCKABLE AREA)' // T50,31('-') /
-     &       T51,'ATTRIBUTE BY 10'' HEIGHT CLASS' / T50,31('-') //
-     &       T27,'  TREES -- TREES PER ACRE' /
-     &       T27,'  COVER -- PERCENTAGE OF CANOPY CLOSURE CONTRIBUTED',
+ 9017 FORMAT (//,51('-'), '  CANOPY COVER STATISTICS  ',52('-')
+     &       / 52X,'(BASED ON STOCKABLE AREA)' // T49,31('-') /
+     &       T50,'ATTRIBUTE BY 10'' HEIGHT CLASS' / T49,31('-') //
+     &       T26,'  TREES -- TREES PER ACRE' /
+     &       T26,'  COVER -- PERCENTAGE OF CANOPY CLOSURE CONTRIBUTED',
      &           ' BY TREES IN HEIGHT CLASS' /
-     &       T27,'   AREA -- CROWN PROFILE AREA (SQ.FT. PER ACRE)'/
-     &       T27,' VOLUME -- CROWN VOLUME (CU.FT. PER ACRE X 100)'/
-     &       T27,'BIOMASS -- FOLIAGE BIOMASS (LBS. PER ACRE)' ///)
+     &       T26,'   AREA -- CROWN PROFILE AREA (SQ.FT. PER ACRE)'/
+     &       T26,' VOLUME -- CROWN VOLUME (CU.FT. PER ACRE X 100)'/
+     &       T26,'BIOMASS -- FOLIAGE BIOMASS (LBS. PER ACRE)' ///)
 C----------
 C WRITE COLUMN HEADINGS.
 C----------
       WRITE (JOSHRB,9019)
- 9019 FORMAT(' ',130('-')/T55,'STAND HEIGHT CLASS'/
-     &  '             0.0-  10.1-  20.1-  30.1-  40.1-  50.1-  60.1-  ',
+ 9019 FORMAT(130('-')/T54,'STAND HEIGHT CLASS'/
+     &  '            0.0-  10.1-  20.1-  30.1-  40.1-  50.1-  60.1-  ',
      &  '70.1-  80.1-  90.1- 100.1- 110.1- 120.1- 130.1- ',
      &  '140.1- 150.1+' /
-     &  ' YEAR       10.0''  20.0''  30.0''  40.0''  50.0''  ',
+     &  'YEAR       10.0''  20.0''  30.0''  40.0''  50.0''  ',
      &              '60.0''  70.0''  80.0''  90.0'' 100.0'' ',
      &             '110.0'' 120.0'' 130.0'' 140.0'' 150.0'' ',
-     &       T126,'TOTAL'/' ',130('-'))
+     &       T125,'TOTAL'/,130('-'))
 C----------
 C OUTPUT STATISTICS, CONVERTING TO FIXED VALUES.
 C----------
@@ -88,8 +88,8 @@ C----------
       ITHN = 1
   130 IF (ITHN .EQ. 1) WRITE (JOSHRB,9071) IOSUM(1,I)
       IF (ITHN .EQ. 2) WRITE (JOSHRB,9070) IOSUM(1,I)
- 9071 FORMAT (' ',I4)
- 9070 FORMAT (' ',I4, ':POST-THIN')
+ 9071 FORMAT (I4)
+ 9070 FORMAT (I4, ':POST-THIN')
       DO 142 J = 1,16
       IO1(J) = IFIX(.5+TXHT(I,ITHN,J))
       IO2(J) = IFIX(.5+PCXHT(I,ITHN,J))
@@ -108,11 +108,11 @@ C----------
      & (IO3(J),J=1,16),IT3,
      & (IO5(J),J=1,16),IT5,
      & (IO4(J),J=1,16),IT4
- 9018 FORMAT ( '     TREES',16I7,I8 /
-     &         '     COVER',16I7,I8 /
-     &         '      AREA',16I7,I8 /
-     &         '    VOLUME',16I7,I8 /
-     &         '   BIOMASS',16I7,I8/)
+ 9018 FORMAT ( '    TREES',16I7,I8 /
+     &         '    COVER',16I7,I8 /
+     &         '     AREA',16I7,I8 /
+     &         '   VOLUME',16I7,I8 /
+     &         '  BIOMASS',16I7,I8/)
 C----------
 C  GO TO NEXT CYCLE IF POST-THIN STATS WERE JUST WRITTEN.
 C----------
@@ -134,35 +134,35 @@ C==================== SHRUB LAYER CALIBRATION TABLE ====================
       WRITE (JOSHRB,9016) NPLT,MGMID,ITITLE
       CALL PPLABS (JOSHRB)
       WRITE(JOSHRB,1000)
- 1000 FORMAT(//' ',46('-'),
+ 1000 FORMAT(//46('-'),
      &       '  SHRUB MODEL CALIBRATION STATISTICS  ',47('-'), / )
       WRITE(JOSHRB,1010)
- 1010 FORMAT( // ' ','CALIBRATION BY SHRUB LAYER (SHRBLAYR KEYWORD',
+ 1010 FORMAT( // ,'CALIBRATION BY SHRUB LAYER (SHRBLAYR KEYWORD',
      &       ' CARD):' //
-     & T6,'      AVERAGE HEIGHT (FEET)        ',
-     &T46,'       AVERAGE PERCENT COVER       '/
-     & T6,'-----------------------------------',
-     &T46,'-----------------------------------'/
-     & T6,'SHRUB  OBSERVED  PREDICTED  SCALING',
-     &T46,'SHRUB  OBSERVED  PREDICTED  SCALING'/
-     & T6,'LAYER  VALUES    VALUES     FACTORS',
-     &T46,'LAYER  VALUES    VALUES     FACTORS'/
-     & T6,'-----  --------  ---------  -------',
-     &T46,'-----  --------  ---------  -------'/)
+     & T5,'      AVERAGE HEIGHT (FEET)        ',
+     &T45,'       AVERAGE PERCENT COVER       '/
+     & T5,'-----------------------------------',
+     &T45,'-----------------------------------'/
+     & T5,'SHRUB  OBSERVED  PREDICTED  SCALING',
+     &T45,'SHRUB  OBSERVED  PREDICTED  SCALING'/
+     & T5,'LAYER  VALUES    VALUES     FACTORS',
+     &T45,'LAYER  VALUES    VALUES     FACTORS'/
+     & T5,'-----  --------  ---------  -------',
+     &T45,'-----  --------  ---------  -------'/)
       DO 5 I=1,NKLASS
       WRITE(JOSHRB,1020) I,AVGBHT(I),HTAVG(I),HTFRAC(I),
      &                   I,AVGBPC(I),CVAVG(I),CVFRAC(I)
- 1020 FORMAT(T6,I4,F10.1,F11.1,F9.2,T46,I4,F10.1,F11.1,F9.2)
+ 1020 FORMAT(T5,I4,F10.1,F11.1,F9.2,T46,I4,F10.1,F11.1,F9.2)
     5 CONTINUE
       WRITE(JOSHRB,1030)
- 1030 FORMAT( //, ' ',T32,'HEIGHT',T47,'% COVER', / ,
-     &       ' ',T7,'SHRUB',5X,'ASSIGNED',7X,'SCALING',8X,
-     &       'SCALING', / ,' ',T6,'SPECIES',5X,'LAYER',9X,
-     &       'FACTOR',9X,'FACTOR', / ,' ',T6,'-------',4X,
+ 1030 FORMAT( //,T32,'HEIGHT',T47,'% COVER', / ,
+     &       T7,'SHRUB',5X,'ASSIGNED',7X,'SCALING',8X,
+     &       'SCALING', / ,T6,'SPECIES',5X,'LAYER',9X,
+     &       'FACTOR',9X,'FACTOR', / ,T6,'-------',4X,
      &       '--------',6X,'---------',6X,'---------', / )
       DO 10 I=1,31
          WRITE(JOSHRB,1040) SNAME(I),ILAYR(I),BHTCF(I),BPCCF(I)
- 1040    FORMAT(' ',T8,A4,T20,I1,T33,F5.2,T48,F5.2)
+ 1040    FORMAT(T8,A4,T20,I1,T33,F5.2,T48,F5.2)
    10 CONTINUE
       GO TO 19
    15 CONTINUE
@@ -173,15 +173,15 @@ C============== SHRUB HEIGHT/PERCENT COVER CALIBRATION TABLE ===========
       CALL PPLABS (JOSHRB)
       WRITE(JOSHRB,1000)
       WRITE(JOSHRB,1050)
- 1050 FORMAT( //,' CALIBRATION BY INDIVIDUAL SPECIES (SHRUBHT ',
+ 1050 FORMAT( //,'CALIBRATION BY INDIVIDUAL SPECIES (SHRUBHT ',
      &       'AND/OR SHRUBPC KEYWORD CARDS):', // ,
-     &       T26,'SHRUB HEIGHT (FEET)  ',T69,'PERCENT COVER' /
-     &       T20,34('-'),5X,34('-') /
-     &       ' ',T7,'SHRUB',T20,' OBSERVED     PREDICTED',4X,'SCALING',
+     &       T25,'SHRUB HEIGHT (FEET)  ',T68,'PERCENT COVER' /
+     &       T19,34('-'),5X,34('-') /
+     &       ' ',T6,'SHRUB',T19,' OBSERVED     PREDICTED',4X,'SCALING',
      &       5X, ' OBSERVED     PREDICTED',4X,'SCALING' /
-     &       ' ',T6,'SPECIES',T23,'VALUE ',7X,'VALUE',6X,'FACTOR',
+     &       ' ',T5,'SPECIES',T22,'VALUE ',7X,'VALUE',6X,'FACTOR',
      &       9X, 'VALUE ',7X,'VALUE',6X,'FACTOR' /
-     &       ' ',T6,7('-'),T20,11('-'),3X,9('-'),3X,8('-'),5X,
+     &       ' ',T5,7('-'),T19,11('-'),3X,9('-'),3X,8('-'),5X,
      &          11('-'),3X,9('-'),3X,8('-') )
 C----------
 C  OUTPUT THE ACTUAL FIGURES. IF NO DATA WAS INPUT FOR A SHRUB SPECIES
@@ -192,20 +192,20 @@ C----------
          IF ((SHRBHT(I) .EQ. -99999.0) .AND. (SHRBPC(I) .NE. -99999.0))
      &        WRITE(JOSHRB,1060) SNAME(I),XSH(I),BHTCF(I),
      &                           SHRBPC(I),XCV(I),BPCCF(I)
- 1060    FORMAT(' ',T8,A4,T34,F7.1,T46,F7.2,T60,F7.1,T73,F7.1,T85,F7.2)
+ 1060    FORMAT(T7,A4,T33,F7.1,T45,F7.2,T59,F7.1,T72,F7.1,T84,F7.2)
          IF ((SHRBHT(I) .NE. -99999.0) .AND. (SHRBPC(I) .EQ. -99999.0))
      &        WRITE(JOSHRB,1061) SNAME(I),SHRBHT(I),XSH(I),
      &                           BHTCF(I),XCV(I),BPCCF(I)
- 1061    FORMAT(' ',T8,A4,T21,F7.1,T34,F7.1,T46,F7.2,T73,F7.1,T85,F7.2)
+ 1061    FORMAT(T7,A4,T20,F7.1,T33,F7.1,T45,F7.2,T72,F7.1,T84,F7.2)
          IF ((SHRBHT(I) .EQ. -99999.0) .AND. (SHRBPC(I) .EQ. -99999.0))
      &        WRITE(JOSHRB,1062) SNAME(I),XSH(I),BHTCF(I),
      &                           XCV(I),BPCCF(I)
- 1062    FORMAT(' ',T8,A4,T34,F7.1,T46,F7.2,T73,F7.1,T85,F7.2)
+ 1062    FORMAT(T7,A4,T33,F7.1,T45,F7.2,T72,F7.1,T84,F7.2)
          IF ((SHRBHT(I) .NE. -99999.0) .AND. (SHRBPC(I) .NE. -99999.0))
      &        WRITE(JOSHRB,1063) SNAME(I),SHRBHT(I),XSH(I),
      &                           BHTCF(I),SHRBPC(I),XCV(I),BPCCF(I)
- 1063    FORMAT(' ',T8,A4,T21,F7.1,T34,F7.1,T46,F7.2,T60,F7.1,
-     &          T73,F7.1,T85,F7.2)
+ 1063    FORMAT(T7,A4,T20,F7.1,T33,F7.1,T45,F7.2,T59,F7.1,
+     &          T72,F7.1,T84,F7.2)
    17 CONTINUE
    19 CONTINUE
 C======================== SHRUB STATISTICS TABLE =======================
@@ -215,63 +215,63 @@ C----------
       WRITE (JOSHRB,9016) NPLT,MGMID,ITITLE
       CALL PPLABS (JOSHRB)
       WRITE (JOSHRB,9023)
- 9023 FORMAT (//' ',54('-'),'  SHRUB STATISTICS  ',55('-') /
-     &       53X,'(BASED ON STOCKABLE AREA)' /)
+ 9023 FORMAT (//,54('-'),'  SHRUB STATISTICS  ',55('-') /
+     &       52X,'(BASED ON STOCKABLE AREA)' /)
 C----------
 C WRITE DEFINITIONS OF SHRUB SPECIES ABBREVIATIONS.
 C----------
       WRITE (JOSHRB,9026)
  9026 FORMAT(
-     &T18,'   LOW SPECIES (0-1.7 FT)',
-     &T50,' MEDIUM SPECIES (1.7-7 FT)',
-     &T82,'   TALL SPECIES (7+ FT)' /
-     &T18,'-----------------------------',
-     &T50,'---------------------------',
-     &T82,'--------------------------' /
-     &T18,'ARUV:ARCTOSTAPHYLOS UVA-URSI',T50,'LONI:LONICERA SPP.     ',
-     &'    ',T82,'ACGL:ACER GLABRUM         '/
-     &T18,'BERB:BERBERIS SPP.          ',T50,'MEFE:MENZIESIA FERRUGIN',
-     &'EA  ',T82,'ALSI:ALNUS SINUATA        '/
-     &T18,'LIBO:LINNAEA BOREALIS       ',T50,'PHMA:PHYSOCARPUS MALVAC',
-     &'EUS ',T82,'AMAL:AMELANCHIER ALNIFOLIA'/
-     &T18,'PAMY:PACHISTIMA MYRSINITES  ',T50,'RIBE:RIBES SPP.        ',
-     &'    ',T82,'CESA:CEANOTHUS SANGUINEUS '/
-     &T18,'SPBE:SPIRAEA BETULIFOLIA    ',T50,'ROSA:ROSA SPP.         ',
-     &'    ',T82,'CEVE:CEANOTHUS VELUTINUS  ')
+     &T17,'   LOW SPECIES (0-1.7 FT)',
+     &T49,' MEDIUM SPECIES (1.7-7 FT)',
+     &T81,'   TALL SPECIES (7+ FT)' /
+     &T17,'-----------------------------',
+     &T49,'---------------------------',
+     &T81,'--------------------------' /
+     &T17,'ARUV:ARCTOSTAPHYLOS UVA-URSI',T49,'LONI:LONICERA SPP.     ',
+     &'    ',T81,'ACGL:ACER GLABRUM         '/
+     &T17,'BERB:BERBERIS SPP.          ',T49,'MEFE:MENZIESIA FERRUGIN',
+     &'EA  ',T81,'ALSI:ALNUS SINUATA        '/
+     &T17,'LIBO:LINNAEA BOREALIS       ',T49,'PHMA:PHYSOCARPUS MALVAC',
+     &'EUS ',T81,'AMAL:AMELANCHIER ALNIFOLIA'/
+     &T17,'PAMY:PACHISTIMA MYRSINITES  ',T49,'RIBE:RIBES SPP.        ',
+     &'    ',T81,'CESA:CEANOTHUS SANGUINEUS '/
+     &T17,'SPBE:SPIRAEA BETULIFOLIA    ',T49,'ROSA:ROSA SPP.         ',
+     &'    ',T81,'CEVE:CEANOTHUS VELUTINUS  ')
       WRITE (JOSHRB,9027)
  9027 FORMAT (
-     &T18,'VASC:VACCINIUM SCOPARIUM    ',T50,'RUPA:RUBUS PARVIFLORUS ',
-     &'    ',T82,'COST:CORNUS STOLONIFERA   '/
-     &T18,'CARX:CAREX SPP.             ',T50,'SHCA:SHEPHERDIA CANADEN',
-     &'SIS ',T82,'HODI:HOLODISCUS DISCOLOR  '/
-     &                                   T50,'SYMP:SYMPHORICARPOS SPP',
-     &'.   ',T82,'PREM:PRUNUS EMARGINATA    '/
-     &                                   T50,'VAME:VACCINIUM MEMBRANA',
-     &'CEUM',T82,'PRVI:PRUNUS VIRGINIANA    '/
-     &                                   T50,'XETE:XEROPHYLLUM TENAX ',
-     &'    ',T82,'SALX:SALIX SPP.           '/
-     &                                   T50,'FERN:FERNS             ',
-     &'    ',T82,'SAMB:SAMBUCUS SPP.        '/
-     &                                   T50,'COMB:OTHER SHRUBS COMBI',
-     &'NED ',T82,'SORB:SORBUS SPP.          '/)
+     &T17,'VASC:VACCINIUM SCOPARIUM    ',T49,'RUPA:RUBUS PARVIFLORUS ',
+     &'    ',T81,'COST:CORNUS STOLONIFERA   '/
+     &T17,'CARX:CAREX SPP.             ',T49,'SHCA:SHEPHERDIA CANADEN',
+     &'SIS ',T81,'HODI:HOLODISCUS DISCOLOR  '/
+     &                                   T49,'SYMP:SYMPHORICARPOS SPP',
+     &'.   ',T81,'PREM:PRUNUS EMARGINATA    '/
+     &                                   T49,'VAME:VACCINIUM MEMBRANA',
+     &'CEUM',T81,'PRVI:PRUNUS VIRGINIANA    '/
+     &                                   T49,'XETE:XEROPHYLLUM TENAX ',
+     &'    ',T81,'SALX:SALIX SPP.           '/
+     &                                   T49,'FERN:FERNS             ',
+     &'    ',T81,'SAMB:SAMBUCUS SPP.        '/
+     &                                   T49,'COMB:OTHER SHRUBS COMBI',
+     &'NED ',T81,'SORB:SORBUS SPP.          '/)
 C----------
 C WRITE DEFINITIONS OF ATTRIBUTES.
 C----------
       WRITE (JOSHRB,9028)
- 9028 FORMAT(T26,80('-')/T26,' ATTRIBUTES OF THE FIRST THREE SPECIES ',
-     &'WITH GREATEST COVER IN EACH HEIGHT GROUP'/T37,' (ALL OTHERS ',
-     &'WITHIN GROUP COMBINED INTO CATEGORY "OTHR")' /T26,80('-')/
-     &       T33,'  COVER -- SPECIES COVER '/
-     &       T33,' HEIGHT -- AVERAGE SPECIES HEIGHT (FEET)  ' /
-     &       T33,'   PROB -- SPECIES PROBABILITY OF OCCURRENCE '//
-     &' YEAR           ',T21,'      LOW SPECIES    ',
-     &T47,'    MEDIUM SPECIES   ',
-     &T73,'     TALL SPECIES    ',
-     &T97,'    USER-SELECTED INDICATOR SPECIES'/
-     &' ----           ',T21,'----------------------',
-     &T47,'----------------------',
-     &T73,'----------------------',
-     &T97,'  ----------------------------------'/)
+ 9028 FORMAT(T25,80('-')/T25,' ATTRIBUTES OF THE FIRST THREE SPECIES ',
+     &'WITH GREATEST COVER IN EACH HEIGHT GROUP'/T36,' (ALL OTHERS ',
+     &'WITHIN GROUP COMBINED INTO CATEGORY "OTHR")' /T25,80('-')/
+     &       T32,'  COVER -- SPECIES COVER '/
+     &       T32,' HEIGHT -- AVERAGE SPECIES HEIGHT (FEET)  ' /
+     &       T32,'   PROB -- SPECIES PROBABILITY OF OCCURRENCE '//
+     &'YEAR           ',T20,'      LOW SPECIES    ',
+     &T46,'    MEDIUM SPECIES   ',
+     &T72,'     TALL SPECIES    ',
+     &T96,'    USER-SELECTED INDICATOR SPECIES'/
+     &'----           ',T20,'----------------------',
+     &T46,'----------------------',
+     &T72,'----------------------',
+     &T96,'  ----------------------------------'/)
 C----------
 C WRITE SHRUB PROBABILITY, HEIGHT, AND PERCENT COVER STATISTICS.
 C----------
@@ -286,10 +286,10 @@ C SINCE DISTURBANCE EXCEEDS RANGE OF DATA (40 YEARS).
 C----------
       IF ( TIMESD(I,ITHN) .LE. 40. ) GO TO 159
       IF (ITHN .EQ. 1) WRITE (JOSHRB,9024) IOSUM(1,I),TIMESD(I,ITHN)
- 9024 FORMAT (' ',I4,'           : TIME SINCE DISTURBANCE=',F5.0,
+ 9024 FORMAT (I4,'           : TIME SINCE DISTURBANCE=',F5.0,
      & ' EXCEEDS 40 YEARS.  SHRUB STATISTICS NOT COMPUTED.'/)
       IF (ITHN .EQ. 2) WRITE (JOSHRB,9025) IOSUM(1,I),TIMESD(I,ITHN)
- 9025 FORMAT (' ',I4,' POST-THIN : TIME SINCE DISTURBANCE=',F5.0,
+ 9025 FORMAT (I4,' POST-THIN : TIME SINCE DISTURBANCE=',F5.0,
      & ' EXCEEDS 40 YEARS.  SHRUB STATISTICS NOT COMPUTED.'/)
       GO TO 160
   159 CONTINUE
@@ -301,11 +301,10 @@ C----------
      &          (SCV(I,ITHN,K),K=1,12),
      &          (SHT(I,ITHN,K),K=1,12),
      &          (SPB(I,ITHN,K),K=1,12)
- 9032 FORMAT(
-     &        ' SPECIES',10X,3(4(2X,A4),2X)  /
-     &        '   COVER',10X,3(4F6.1,2X)       /
-     &        '  HEIGHT',10X,3(4F6.1,2X)      /
-     &        '    PROB',10X,3(4F6.1,2X)      /)
+ 9032 FORMAT('SPECIES',10X,3(4(2X,A4),2X) /
+     &        '  COVER',10X,3(4F6.1,2X)   /
+     &        ' HEIGHT',10X,3(4F6.1,2X)   /
+     &        '   PROB',10X,3(4F6.1,2X)   /)
       GO TO 160
   158 CONTINUE
       WRITE (JOSHRB,9151) (SNAME(ISSP(I,ITHN,K)),K=1,12),
@@ -316,10 +315,10 @@ C----------
      &      (HIND(I,ITHN,K),K=1,NSHOW)
       WRITE (JOSHRB,9154) (SPB(I,ITHN,K),K=1,12),
      &      (PIND(I,ITHN,K),K=1,NSHOW)
- 9151 FORMAT( ' SPECIES',10X,3(4(2X,A4),2X),T97,6(2X,A4)  )
- 9152 FORMAT( '   COVER',10X,3(4F6.1,2X)     ,T97,6F6.1    )
- 9153 FORMAT( '  HEIGHT',10X,3(4F6.1,2X)    ,T97,6F6.1     )
- 9154 FORMAT( '    PROB',10X,3(4F6.1,2X)    ,T97,6F6.1      /)
+ 9151 FORMAT( 'SPECIES',10X,3(4(2X,A4),2X),T96,6(2X,A4) )
+ 9152 FORMAT( '  COVER',10X,3(4F6.1,2X)   ,T96,6F6.1    )
+ 9153 FORMAT( ' HEIGHT',10X,3(4F6.1,2X)   ,T96,6F6.1    )
+ 9154 FORMAT( '   PROB',10X,3(4F6.1,2X)   ,T96,6F6.1   /)
   160 CONTINUE
 C----------
 C  GO TO NEXT CYCLE IF POST-THIN STATS WERE JUST WRITTEN.
@@ -341,8 +340,8 @@ C----------
       WRITE (JOSHRB,9016) NPLT,MGMID,ITITLE
       CALL PPLABS (JOSHRB)
       WRITE (JOSHRB,9033)
- 9033 FORMAT (//' ',48('-'),'  CANOPY AND SHRUBS SUMMARY  ',49('-') /
-     &       51X,'(BASED ON STOCKABLE AREA)' /)
+ 9033 FORMAT (//48('-'),'  CANOPY AND SHRUBS SUMMARY  ',49('-') /
+     &       50X,'(BASED ON STOCKABLE AREA)' /)
 C----------
 C  COMPUTE SUMMARY TABLE OUTPUT CODE.
 C----------
@@ -362,37 +361,37 @@ C WRITE DEFINITIONS OF SUCCESSIONAL STAGE CODES USED IN
 C SUMMARY OUTPUT TABLE.
 C----------
       IF (LSHRUB) WRITE (JOSHRB,9050)
- 9050 FORMAT( // T27,'-------- DEFINITIONS OF SUCCESSIONAL ',
-     &       'STAGE CODES USED IN OUTPUT --------' / T26,
-     &       ' 1: RECENT DISTURBANCE',T64,
-     &       ' 6: TALL SHRUB WITH MOSTLY CONIFERS' / T26,
-     &       ' 2: LOW SHRUB',T64,' 7: SAPLING TIMBER' / T26,
-     &       ' 3: MEDIUM SHRUB',T64,' 8: POLE TIMBER' / T26,
-     &       ' 4: TALL SHRUB WITH NO CONIFERS',T64,
-     &       ' 9: MATURE TIMBER' / T26,
-     &       ' 5: TALL SHRUB WITH FEW CONIFERS',T64,
+ 9050 FORMAT( // T26,'-------- DEFINITIONS OF SUCCESSIONAL ',
+     &       'STAGE CODES USED IN OUTPUT --------' / T25,
+     &       ' 1: RECENT DISTURBANCE',T63,
+     &       ' 6: TALL SHRUB WITH MOSTLY CONIFERS' / T25,
+     &       ' 2: LOW SHRUB',T63,' 7: SAPLING TIMBER' / T25,
+     &       ' 3: MEDIUM SHRUB',T63,' 8: POLE TIMBER' / T25,
+     &       ' 4: TALL SHRUB WITH NO CONIFERS',T63,
+     &       ' 9: MATURE TIMBER' / T25,
+     &       ' 5: TALL SHRUB WITH FEW CONIFERS',T63,
      &       '10: OLD-GROWTH TIMBER' //)
 C----------
 C WRITE COLUMN HEADINGS.
 C----------
       WRITE (JOSHRB,9044)
  9044 FORMAT(
-     &10X,'------------------- UNDERSTORY ATTRIBUTES -----',
+     &9X,'------------------- UNDERSTORY ATTRIBUTES -----',
      &'--------------         ------------ OVERSTORY A',
      &'TTRIBUTES -------------'/
-     &10X,'TIME     PROB.   -----SHRUB COVER----  AVG.    ',
+     &9X,'TIME     PROB.   -----SHRUB COVER----  AVG.    ',
      &'DORMANT                                        ',
      &'         SUM OF        '/
-     &10X,'SINCE    (SHRUB                        SHRUB   ',
+     &9X,'SINCE    (SHRUB                        SHRUB   ',
      &'SHRUB    TWIGS  SUCC.  STAND  TOP     CANOPY   ',
      &'FOLIAGE  STEM    NUMBER'/
-     &10X,'DISTURB. COV>0)  LOW  MED TALL TOTAL   HEIGHT  ',
+     &9X,'DISTURB. COV>0)  LOW  MED TALL TOTAL   HEIGHT  ',
      &'BIOMASS  (NO./  STAGE  AGE    HEIGHT  CLOSURE  ',
      &'BIOMASS  DIAMS.   OF   '/
-     &' DATE',5X,'(YEARS)   (%)    (%)  (%)  (%)  (%)    (FEET)  ',
+     &'DATE',5X,'(YEARS)   (%)    (%)  (%)  (%)  (%)    (FEET)  ',
      &'(LB/AC)  SQFT)  CODE   (YRS)  (FEET)    (%)    ',
      &'(LB/AC)  (FEET)  STEMS '/
-     &       ' ',126('-'))
+     &126('-'))
       DO 340 I=1,NCYCP1
       IF (I .LT. ICVBGN) GO TO 340
       ITHN = 1
@@ -420,26 +419,26 @@ C----------
      &  ISUM2,ISUM31,ISUM32,ISUM33,ISUM3,
      &  ASHT(I,ITHN),ISUM4,TWIGS(I,ITHN),ISTAGE(I,ITHN),
      &  ISUM7,ISUM8,ISUM9,ISUM10,ISUM11,ISUM12
- 9046 FORMAT(' ',I4,T11,I6,
-     &           T17,I7,2X,4I5,2X,F7.1,I9,F8.1,I6,
-     &           T79,I6,I7,I8,I11,2I8)
+ 9046 FORMAT(I4,T10,I6,
+     &      T16,I7,2X,4I5,2X,F7.1,I9,F8.1,I6,
+     &      T78,I6,I7,I8,I11,2I8)
       IF (ITHN .EQ. 2) WRITE (JOSHRB,9047) ISUM1,
      &  ISUM2,ISUM31,ISUM32,ISUM33,ISUM3,
      &  ASHT(I,ITHN),ISUM4,TWIGS(I,ITHN),ISTAGE(I,ITHN),
      &  ISUM7,ISUM8,ISUM9,ISUM10,ISUM11,ISUM12
- 9047 FORMAT(' POST-THIN',T11,I6,
-     &           T17,I7,2X,4I5,2X,F7.1,I9,F8.1,I6,
-     &           T79,I6,I7,I8,I11,2I8)
+ 9047 FORMAT('POST-THIN',T10,I6,
+     &           T16,I7,2X,4I5,2X,F7.1,I9,F8.1,I6,
+     &           T78,I6,I7,I8,I11,2I8)
       GO TO 222
   215 CONTINUE
       IF (ITHN .EQ. 1) WRITE (JOSHRB,9048) IOSUM(1,I),ISUM1,
      &  ISUM7,ISUM8,ISUM9,ISUM10,ISUM11,ISUM12
- 9048 FORMAT(' ',I4,T11,I6,
-     &           T79,I6,I7,I8,I11,2I8)
+ 9048 FORMAT(I4,T10,I6,
+     &           T78,I6,I7,I8,I11,2I8)
       IF (ITHN .EQ. 2) WRITE (JOSHRB,9049) ISUM1,
      &  ISUM7,ISUM8,ISUM9,ISUM10,ISUM11,ISUM12
- 9049 FORMAT(' POST-THIN',T11,I6,
-     &           T79,I6,I7,I8,I11,2I8)
+ 9049 FORMAT('POST-THIN',T10,I6,
+     &           T78,I6,I7,I8,I11,2I8)
   222 CONTINUE
 C----------
 C WRITE POST-THIN STATISTICS IF APPLICABLE.
@@ -456,19 +455,19 @@ C----------
       IF (ITHN .EQ. 1) WRITE (JOSHRB,9056) IOSUM(1,I),ISUM1,
      &  ISUM2,ISUM31,ISUM32,ISUM33,ISUM3,
      &  ASHT(I,ITHN),ISUM4,TWIGS(I,ITHN),ISTAGE(I,ITHN)
- 9056 FORMAT(' ',I4,T11,I6,
-     &           T17,I7,2X,4I5,2X,F7.1,I9,F8.1,I6)
+ 9056 FORMAT(I4,T10,I6,
+     &           T16,I7,2X,4I5,2X,F7.1,I9,F8.1,I6)
       IF (ITHN .EQ. 2) WRITE (JOSHRB,9057) ISUM1,
      &  ISUM2,ISUM31,ISUM32,ISUM33,ISUM3,
      &  ASHT(I,ITHN),ISUM4,TWIGS(I,ITHN),ISTAGE(I,ITHN)
- 9057 FORMAT(' POST-THIN',T11,I6,
-     &           T17,I7,2X,4I5,2X,F7.1,I9,F8.1,I6)
+ 9057 FORMAT('POST-THIN',T10,I6,
+     &           T16,I7,2X,4I5,2X,F7.1,I9,F8.1,I6)
       GO TO 270
   265 CONTINUE
       IF (ITHN .EQ. 1) WRITE (JOSHRB,9058) IOSUM(1,I),ISUM1
- 9058 FORMAT(' ',I4,T11,I6)
+ 9058 FORMAT(I4,T10,I6)
       IF (ITHN .EQ. 2) WRITE (JOSHRB,9059) ISUM1
- 9059 FORMAT(' POST-THIN',T11,I6)
+ 9059 FORMAT('POST-THIN',T10,I6)
   270 CONTINUE
 C----------
 C WRITE POST-THIN STATISTICS IF APPLICABLE.
@@ -483,12 +482,12 @@ C----------
   300 CONTINUE
       IF (ITHN .EQ. 1) WRITE (JOSHRB,9066) IOSUM(1,I),
      &  ISUM7,ISUM8,ISUM9,ISUM10,ISUM11,ISUM12
- 9066 FORMAT(' ',I4,
-     &           T79,I6,I7,I8,I11,2I8)
+ 9066 FORMAT(I4,
+     &           T78,I6,I7,I8,I11,2I8)
       IF (ITHN .EQ. 2) WRITE (JOSHRB,9067)
      &  ISUM7,ISUM8,ISUM9,ISUM10,ISUM11,ISUM12
- 9067 FORMAT(' POST-THIN',
-     &           T79,I6,I7,I8,I11,2I8)
+ 9067 FORMAT('POST-THIN',
+     &           T78,I6,I7,I8,I11,2I8)
 C----------
 C WRITE POST-THIN STATISTICS IF APPLICABLE.
 C----------
@@ -503,14 +502,14 @@ C  WRITE SHRUB-SMALL CONIFER COMPETITION DISPLAY.
 C----------
       IF (KODE .EQ. 3) GO TO 400
       WRITE (JOSHRB,9090)
- 9090 FORMAT (//' ',45('-'),'  SHRUB-SMALL CONIFER COMPETITION  ',
-     & 46('-') // T32,'SHRUB COVER -- TOTAL COVER OF SHRUBS GREATER ',
-     & 'THAN HEIGHT' / T32,'TREES/ACRE  -- TOTAL NUMBER OF TREES ',
+ 9090 FORMAT (//,45('-'),'  SHRUB-SMALL CONIFER COMPETITION  ',
+     & 46('-') // T31,'SHRUB COVER -- TOTAL COVER OF SHRUBS GREATER ',
+     & 'THAN HEIGHT' / T31,'TREES/ACRE  -- TOTAL NUMBER OF TREES ',
      & 'PER ACRE GREATER THAN HEIGHT'/)
       WRITE (JOSHRB,9092)
- 9092 FORMAT(' ',126('-') / T58,'  HEIGHT (FEET)' /
-     &' YEAR',24X,'0.0    0.5    1.0    2.0    3.0    4.0    5.0    ',
-     &'7.5   10.0   15.0   20.0' / ' ',126('-'))
+ 9092 FORMAT(126('-') / T57,'  HEIGHT (FEET)' /
+     &'YEAR',24X,'0.0    0.5    1.0    2.0    3.0    4.0    5.0    ',
+     &'7.5   10.0   15.0   20.0' / 126('-'))
 C----------
 C OUTPUT STATISTICS, CONVERTING TO FIXED VALUES.
 C----------
@@ -525,13 +524,13 @@ C----------
       IF ((TIMESD(I,ITHN).LE. 40.).AND.(ITHN .EQ. 1))
      &   WRITE (JOSHRB,9094) IOSUM(1,I),
      & (IO1(J),J=1,11),(IO2(J),J=1,11)
- 9094 FORMAT (' ',I4,'        SHRUB COVER ',11I7/
-     &            '             TREES/ACRE  ',11I7 /)
+ 9094 FORMAT (I4,'        SHRUB COVER ',11I7/
+     &            '            TREES/ACRE  ',11I7 /)
       IF ((TIMESD(I,ITHN).LE. 40.).AND.(ITHN .EQ. 2))
      &   WRITE (JOSHRB,9096)
      & (IO1(J),J=1,11),(IO2(J),J=1,11)
- 9096 FORMAT (' POST-THIN : SHRUB COVER ',11I7/
-     &          '             TREES/ACRE  ',11I7 /)
+ 9096 FORMAT ('POST-THIN : SHRUB COVER ',11I7/
+     &          '            TREES/ACRE  ',11I7 /)
 C----------
 C  GO TO NEXT CYCLE IF POST-THIN STATS WERE JUST WRITTEN.
 C----------
@@ -543,7 +542,7 @@ C----------
       IF (ITHN .EQ. 2) GO TO 380
   390 CONTINUE
       WRITE (JOSHRB,9099)
- 9099 FORMAT(' ',126('-'))
+ 9099 FORMAT(126('-'))
   400 CONTINUE
       RETURN
       END

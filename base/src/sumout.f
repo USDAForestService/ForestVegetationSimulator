@@ -100,7 +100,7 @@ C            SKIP A FEW LINES, DO NOT START A NEW PAGE.
 C
       IF (LPRT) THEN
       WRITE (JOSTND,5) NPLT,MGMID,ITITLE(1:ISTLNB(ITITLE))
-    5 FORMAT(/' STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A/)
+    5 FORMAT(/'STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A/)
 C
       IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
      1    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
@@ -109,18 +109,18 @@ C----------
 C  WRITE HEADER FOR CS, LS, NE, OZ, SE, SN
 C----------
       WRITE (JOSTND,12)
-  12  FORMAT(//33X,'SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL
-     & STAND AREA)',/,1X,
-     &  134(1H-),/16X,'START OF SIMULATION PERIOD',21X,'REMOVALS',13X,
-     &  'AFTER TREATMENT',4X,'GROWTH THIS PERIOD',/10X,45(1H-),1X,
-     &  23(1H-),1X,21(1H-),2X,18(1H-),3X,'MAI  ------',/10X,
+  12  FORMAT(//32X,'SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL
+     & STAND AREA)',/,
+     &  134(1H-),/15X,'START OF SIMULATION PERIOD',21X,'REMOVALS',13X,
+     &  'AFTER TREATMENT',4X,'GROWTH THIS PERIOD',/9X,45(1H-),1X,
+     &  23(1H-),1X,21(1H-),2X,18(1H-),3X,'MAI  ------',/9X,
      &  'NO OF',14X,'TOP',
      &  6X,'MERCH SAWLG SAWLG NO OF MERCH SAWLG SAWLG',14X,'TOP  RES  ',
-     &  'PERIOD ACCRE MORT   MERCH FOR SS',/1X,
+     &  'PERIOD ACCRE MORT   MERCH FOR SS',/,
      &  'YEAR AGE TREES  BA  SDI CCF ',
      &  'HT  QMD  CU FT CU FT BD FT TREES CU FT CU FT BD FT  BA  SDI ',
      &  'CCF HT   QMD  YEARS   PER  YEAR   CU FT TYP ZT',
-     &  /1X,'---- --- ----- ',
+     &  /'---- --- ----- ',
      &  '--- ---- --- --- ---- ',7('----- '),'--- ---- --- --- ----  ',
      &  '------ ---- -----   ----- ------')
 C
@@ -129,18 +129,18 @@ C----------
 C  WRITE HEADER FOR ALL OTHER VARIANTS
 C----------
       WRITE (JOSTND,14)
-   14 FORMAT(//33X,'SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL
-     & STAND AREA)',/,1X,
-     &  134(1H-),/16X,'START OF SIMULATION PERIOD',21X,'REMOVALS',13X,
-     &  'AFTER TREATMENT',4X,'GROWTH THIS PERIOD',/10X,45(1H-),1X,
-     &  23(1H-),1X,21(1H-),2X,18(1H-),3X,'MAI  ------',/10X,
+   14 FORMAT(//32X,'SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL
+     & STAND AREA)',/,
+     &  134(1H-),/15X,'START OF SIMULATION PERIOD',21X,'REMOVALS',13X,
+     &  'AFTER TREATMENT',4X,'GROWTH THIS PERIOD',/9X,45(1H-),1X,
+     &  23(1H-),1X,21(1H-),2X,18(1H-),3X,'MAI  ------',/9X,
      &  'NO OF',14X,'TOP',
      &  6X,'TOTAL MERCH MERCH NO OF TOTAL MERCH MERCH',14X,'TOP  RES  ',
-     &  'PERIOD ACCRE MORT   MERCH FOR SS',/1X,
+     &  'PERIOD ACCRE MORT   MERCH FOR SS',/,
      &  'YEAR AGE TREES  BA  SDI CCF ',
      &  'HT  QMD  CU FT CU FT BD FT TREES CU FT CU FT BD FT  BA  SDI ',
      &  'CCF HT   QMD  YEARS   PER  YEAR   CU FT TYP ZT',
-     &  /1X,'---- --- ----- ',
+     &  /'---- --- ----- ',
      &  '--- ---- --- --- ---- ',7('----- '),'--- ---- --- --- ----  ',
      &  '------ ---- -----   ----- ------')
       ENDIF
@@ -196,7 +196,7 @@ C
      &     IOSUM(14,I),IOSUM(15,I),IOSUM(16,I),BCYMAI(I),IOSUM(18,I),
      &     IOSUM(19,I),IOSUM(20,I))
 C
-   20     FORMAT(1X,2I4,I6,I4,I5,2I4,F5.1,7I6,I4,I5,2I4,F5.1,2X,I6,
+   20     FORMAT(2I4,I6,I4,I5,2I4,F5.1,7I6,I4,I5,2I4,F5.1,2X,I6,
      &           I5,I6,2X,F6.1,1X,I3,1X,2I1)
 C
  9014     FORMAT(2I4,I6,I4,I5,2I4,F5.1,7I6,I4,I5,2I4,F5.1,2X,I6,
@@ -206,7 +206,7 @@ C
       IF (.NOT.LDSK) RETURN
 
       WRITE (JOPRT,60) LENG,JOSUM
-   60 FORMAT(/' NOTE:',I3,' LINES OF SUMMARY DATA HAVE BEEN WRITTEN',
+   60 FORMAT(/'NOTE:',I3,' LINES OF SUMMARY DATA HAVE BEEN WRITTEN',
      >       ' TO THE FILE REFERENCED BY LOGICAL UNIT',I3)
       RETURN
       END

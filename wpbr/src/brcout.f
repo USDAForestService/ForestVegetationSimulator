@@ -1,6 +1,6 @@
       SUBROUTINE BRCOUT
 C**********************************************************************
-C  **BRCOUT       DATE OF LAST REVISION:  05/21/2000
+C  **BRCOUT       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRCOUT write a detailed summary of cankers to output file.
@@ -86,28 +86,28 @@ C....    Write canker status key first time only.
          BRCHDR = .FALSE.
 
          WRITE(IDCOUT,20)
-   20    FORMAT(' Pine Blister Rust Detailed Canker Summary',
-     &   //,' Key to canker status codes: ',
+   20    FORMAT('Pine Blister Rust Detailed Canker Summary',
+     &   //,'Key to canker status codes: ',
      &         ' NL = non-lethal,   PR = prunable,  EX = excisable,',
-     &   /,T30,' NS = non-salvable, TK = top kill,  DD = tree died,',
-     &   /,T30,' IN = canker inactivated',
-     &      //,' Note: Crown Ratio is from FVS and may not correlate',
+     &   /,T29,' NS = non-salvable, TK = top kill,  DD = tree died,',
+     &   /,T29,' IN = canker inactivated',
+     &      //,'Note: Crown Ratio is from FVS and may not correlate',
      &      ' with Crown Base height',/,
-     &         '       if pruning has occurred.',/)
+     &         '      if pruning has occurred.',/)
          WRITE (IDCOUT,25) NPLT,MGMID,ITITLE(1:ISTLNB(ITITLE))
-   25    FORMAT(' STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A,/)
+   25    FORMAT('STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A,/)
       ENDIF
 
       WRITE(IDCOUT,30) ICYC,IY(ICYC+1)
-   30 FORMAT(1X,'Cycle: ',I2,4X,'Year: ',I4 /)
+   30 FORMAT('Cycle: ',I2,4X,'Year: ',I4 /)
 
       WRITE(IDCOUT,100)
-  100 FORMAT(20X,'CANK   CANK',19X,'TREE',13X,'CROWN',/,
-     &       '   TREE   TREE CANK DIST.  DIST.   PCNT  CANKER   HGT ',
+  100 FORMAT(19X,'CANK   CANK',19X,'TREE',13X,'CROWN',/,
+     &       '  TREE   TREE CANK DIST.  DIST.   PCNT  CANKER   HGT ',
      &       '  DBH  CROWN  BASE',/,
-     &       '  NUMBER  INDX INDX UP(FT) OUT(IN) GIRD  STATUS   (FT)',
+     &       ' NUMBER  INDX INDX UP(FT) OUT(IN) GIRD  STATUS   (FT)',
      &       '  (IN) RATIO  (FT)',/,
-     &       ' -------- ---- ---- ------ ------- ---- -------- -----',
+     &       '-------- ---- ---- ------ ------- ---- -------- -----',
      &       ' ----- ----- -----')
 
 C.... Start species loop
@@ -169,13 +169,13 @@ C....             four columns are printed for the first canker only.
                   HTBCR=BRHTBC(K)/30.48
                   WRITE(IDCOUT,200) IDTREE(K),K,NCAN,CANUP,CANOUT,
      &               GIRD,CHSTAT,HT(K),DBH(K),ICR(K),HTBCR
-  200             FORMAT(1X,I8,1X,I4,3X,I2,2X,F5.1,3X,F5.1,1X,
+  200             FORMAT(I8,1X,I4,3X,I2,2X,F5.1,3X,F5.1,1X,
      &               F4.0,1X,A8,1X,F5.1,1X,F5.1,3X,I3,1X,F5.1)
                ELSE
 
                   WRITE(IDCOUT,210) IDTREE(K),K,NCAN,CANUP,CANOUT,
      &               GIRD,CHSTAT
-  210             FORMAT(1X,I8,1X,I4,3X,I2,2X,F5.1,3X,F5.1,1X,F4.0,
+  210             FORMAT(I8,1X,I4,3X,I2,2X,F5.1,3X,F5.1,1X,F4.0,
      &               1X,A8)
                ENDIF
   300       CONTINUE
