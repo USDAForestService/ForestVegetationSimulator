@@ -299,7 +299,7 @@ C-------new FFE REAL variables --------
       CALL BFREAD (WK3, IPNT, ILIMIT, POTPAB, 2            , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, POTRINT, 2           , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, POTVOL, 2            , 2)
-      CALL BFREAD (WK3, IPNT, ILIMIT, PRDUFF, MXFLCL       , 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, PRDUFF, MXFLCL*4     , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, PRESVL, 2*8          , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, PREWND, 2            , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, PRPILE, MXFLCL       , 2)
@@ -341,5 +341,7 @@ C------- new FFE REAL variables --------
       CALL BFREAD (WK3, IPNT, ILIMIT, DBHC,  MAXTRE        , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, HTC,  MAXTRE         , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, CROWNWC, MAXTRE*6    , 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, SETDECAY, MXFLCL*4   , 2)      
+      
       RETURN
       END
