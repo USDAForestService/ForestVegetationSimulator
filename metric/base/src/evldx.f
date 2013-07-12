@@ -243,12 +243,12 @@ C----------
         CUT=0.
         DEAD=0.
         RES=0.
-	  IDMI=0.
+        IDMI=0.
         XLDBH=0.0
         XHDBH=1E30
         XLHT=0.0
         XHHT=1E30
-	  JPNUM=0
+        JPNUM=0
         IF (JARGS.GE.4) XLDBH = XLDREG(4) * CMtoIN
         IF (JARGS.GE.5) XHDBH = XLDREG(5) * CMtoIN
         IF (JARGS.GE.6) XLHT  = XLDREG(6) * MtoFT
@@ -312,34 +312,34 @@ C
      >       (HT(I).GE.XLHT)            .AND.
      >       (HT(I).LT.XHHT))           THEN
 C
-			TPA=PROB(I)
-			IF(DEAD.NE.0.)THEN
-			  IF(ICYC.LE.1)THEN
-              TPA=0.
-            ELSE
-              TPA=WK2(I)
-            ENDIF
-			ELSEIF (CUT.NE.0.)THEN
-            TPA=WK4(I)
+               TPA=PROB(I)
+               IF(DEAD.NE.0.)THEN
+             IF(ICYC.LE.1)THEN
+               TPA=0.
+             ELSE
+               TPA=WK2(I)
+             ENDIF
+          ELSEIF (CUT.NE.0.)THEN
+             TPA=WK4(I)
           ELSEIF (IDMI.NE.0.)THEN
             CALL MISGET(I,IDMR)
             IF(IDMR .EQ. 0)TPA=0.
           ENDIF
           IF(JPNUM.GT.0)TPA=TPA*(PI-FLOAT(NONSTK))
 C
-			SUMP=SUMP+TPA
-			GOTO (111,112,113,114,115,116,117,118,119,120,121,122,123),L
-  111		    CONTINUE
+          SUMP=SUMP+TPA
+          GOTO (111,112,113,114,115,116,117,118,119,120,121,122,123),L
+  111       CONTINUE
               XLDREG(1)=XLDREG(1)+TPA
               GOTO 190
-  112         CONTINUE
+  112       CONTINUE
               XLDREG(1)=XLDREG(1)+(TPA*DBH(I)*DBH(I)*.005454154)
               GOTO 190
-  113         CONTINUE
+  113       CONTINUE
               IF(DEAD.NE.0.) THEN
-	          XLDREG(1)=XLDREG(1)+(TPA*PTOCFV(I))
+                XLDREG(1)=XLDREG(1)+(TPA*PTOCFV(I))
               ELSE
-	          XLDREG(1)=XLDREG(1)+(TPA*CFV(I))
+                XLDREG(1)=XLDREG(1)+(TPA*CFV(I))
               ENDIF
               GOTO 190
   114         CONTINUE
@@ -347,7 +347,7 @@ C
                  XLDREG(1)=XLDREG(1)+(TPA*PMRBFV(I))
                ELSE
                  XLDREG(1)=XLDREG(1)+(TPA*BFV(I))
-	        ENDIF
+              ENDIF
               GOTO 190
   115         CONTINUE
               XLDREG(1)=XLDREG(1)+(TPA*DBH(I)*DBH(I))
@@ -366,17 +366,17 @@ C----------
   118         CONTINUE
               CALL MISGET(I,IDMR)
               XLDREG(1)=XLDREG(1)+(FLOAT(IDMR)*TPA)
-	        GOTO 190
+              GOTO 190
   119         CONTINUE
               IF(DEAD.NE.0.) THEN
                 XLDREG(1)=XLDREG(1)+(TPA*PMRCFV(I))
               ELSE
                 XLDREG(1)=XLDREG(1)+(TPA*WK1(I))
-	        ENDIF
-	        GOTO 190
+              ENDIF
+              GOTO 190
   120         CONTINUE
               XLDREG(1)=XLDREG(1)+(TPA*DG(I))
-	        GOTO 190
+              GOTO 190
   121         CONTINUE
               XLDREG(1)=XLDREG(1)+(STAGEA + STAGEB*(DBH(I)**2.0))*TPA
               GO TO 190
@@ -445,7 +445,7 @@ C
   923     CONTINUE
           XLDREG(1) = XLDREG(1) / ACRtoHA
           GOTO 1000
-	  ENDIF
+        ENDIF
       ENDIF
 C----------
 C     DECODE INSTRUCTION AND EXECUTE.    ACCFSP & BCCFSP:
@@ -645,7 +645,7 @@ C----------
         XHDBH=1E30
         XLHT=0.0
         XHHT=1E30
-	  M=0
+        M=0
         IF (JARGS.GE.4) XLDBH = XLDREG(4)
         IF (JARGS.GE.5) XHDBH = XLDREG(5)
         IF (JARGS.GE.6) XLHT  = XLDREG(6)
@@ -718,9 +718,9 @@ C
 
         IF (J.LE.2) THEN
           XLDREG(1) = RVAL
-	  ELSE
+        ELSE
           XLDREG(1) = RVAL * FT3pACRtoM3pHA
-	  ENDIF
+        ENDIF
 C
         GOTO 1000
       ENDIF
@@ -814,12 +814,12 @@ C----------
 
         X = 1.0
         SELECT CASE (L)
-	    CASE (1,11,21)
-	      X = INtoCM
-	    CASE (2:5,12:15,22:25)
-	      X = FTtoM
-	    CASE (10,20,30)
-	      X = HAtoACR
+          CASE (1,11,21)
+            X = INtoCM
+          CASE (2:5,12:15,22:25)
+            X = FTtoM
+          CASE (10,20,30)
+            X = HAtoACR
         END SELECT
         XLDREG(1)=OSTRST(L,J+1) * X
         GOTO 1000
@@ -1191,7 +1191,7 @@ C----------
                 ADIV = 100.
               CASE("837")
                 ADIV = 160.
-            END SELECT
+              END SELECT
             END SELECT
             SELECT CASE (FIAJSP(ISP(I)))
               CASE("802")

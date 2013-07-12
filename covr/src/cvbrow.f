@@ -1,7 +1,7 @@
       SUBROUTINE CVBROW (LTHIN)
       IMPLICIT NONE
 C----------
-C  **CVBROW DATE OF LAST REVISION:  07/10/09
+C  **CVBROW DATE OF LAST REVISION:  06/28/13
 C----------
 C   COMPUTES TOTAL SHRUB COVER, AND PROBABILITY OF OCCURRENCE, HEIGHT,
 C   AND PERCENT COVER FOR 31 SHRUB, FORB, GRASS, AND FERN SPECIES
@@ -450,7 +450,7 @@ C------------------
     5 CONTINUE
       LBROW = .FALSE.
       WRITE (JOSTND,9007) IHTYPE
- 9007 FORMAT (/' ********  WARNING: ',I5,' IS AN INVALID HABITAT TYPE',
+ 9007 FORMAT (/'********  WARNING: ',I5,' IS AN INVALID HABITAT TYPE',
      >        ' CODE FOR PROCESSING SHRUBS OPTIONS.')
       CALL RCDSET (10,.TRUE.)
       RETURN
@@ -540,12 +540,12 @@ C----------
    40 CONTINUE
       IF (DEBUG) WRITE (JOSTND,9001) ICYC,SAGE,IP1,ITHN,IY(IP1),
      &      PCTEST,VTEST
- 9001 FORMAT (/' **CALLING CVBROW, ICYC =',I2 /
-     & ' SAGE=',F5.1,'  IP1=',I2,'  ITHN=',I2,'  IY(IP1)=',I4,
+ 9001 FORMAT (/'**CALLING CVBROW, ICYC =',I2 /
+     & 'SAGE=',F5.1,'  IP1=',I2,'  ITHN=',I2,'  IY(IP1)=',I4,
      & '  PCTEST=',F5.2,'  VTEST=',F5.2)
       IF (DEBUG) WRITE (JOSTND,7001) IHTYPE,IOV,IUN,ITUN,IPHYS,INF,
      &    IDIST
- 7001 FORMAT (' IHTYPE=',I5,'  IOV=',I5,'  IUN=',I5,'  ITUN=',I5,
+ 7001 FORMAT ('IHTYPE=',I5,'  IOV=',I5,'  IUN=',I5,'  ITUN=',I5,
      &   '  IPHYS=',I5,'  INF=',I5,'  IDIST=',I5)
 C----------
 C SAVE TIME SINCE DISTURBANCE FOR OUTPUT.
@@ -574,8 +574,8 @@ C----------
      &       SAGE*TDTSD(IDIST) + .3238953)
       IF (DEBUG) WRITE (JOSTND,9553) TCON(1),SAGE,BA,
      &                PGT0(IP1,ITHN),TCON(2),TDTSD(IDIST),TCOV
- 9553 FORMAT (/' TCON(1)=',F15.10,'  SAGE=',F5.1,'  BA=',F10.4,
-     &     '  PGT0=',F15.10/' TCON(2)=', F15.10,
+ 9553 FORMAT (/'TCON(1)=',F15.10,'  SAGE=',F5.1,'  BA=',F10.4,
+     &     '  PGT0=',F15.10/'TCON(2)=', F15.10,
      &     '  TDTSD(IDIST)=',F15.10,'  TCOV=',F15.10)
 C----------------------------------------------------------------------
 C  SHRUB SPECIES PROBABILITY OF OCCURRENCE.  (SCHAROSCH 1984)
@@ -816,8 +816,8 @@ C----------------------------------------------------------------------
 C
       IF (DEBUG) WRITE (JOSTND,9005) SAGE,RELDEN,IGFHAB,ICEHAB,
      &  SBMASS(IP1,ITHN),TWIGS(IP1,ITHN)
- 9005 FORMAT (/' SAGE=',F5.1,'   RELDEN=',F5.2,'  IGFHAB=',I5,
-     &  '  ICEHAB=',I5/' SBMASS(IP1,ITHN)=',F10.5,
+ 9005 FORMAT (/'SAGE=',F5.1,'   RELDEN=',F5.2,'  IGFHAB=',I5,
+     &  '  ICEHAB=',I5/'SBMASS(IP1,ITHN)=',F10.5,
      &  '  TWIGS(IP1,ITHN)=',F10.5)
 C
    62 CONTINUE
@@ -826,8 +826,8 @@ C  WRITE DEBUG OUTPUT.
 C----------
       IF (.NOT.DEBUG) GO TO 61
       WRITE (JOSTND,9555)
- 9555 FORMAT (/' BEFORE CALIBRATION'/
-     &'        J       ISPI     SNAME   SH(I)    ',
+ 9555 FORMAT (/'BEFORE CALIBRATION'/
+     &'       J       ISPI     SNAME   SH(I)    ',
      &         '   CV(I)     PB(I)    CABHT(I)   PBCV(I)'/)
       DO 60 J=1,31
       K = HTINDX(J)
@@ -873,8 +873,8 @@ C
 C
       IF (.NOT.DEBUG) GO TO 71
       WRITE (JOSTND,9755)
- 9755 FORMAT (/' AFTER CALIBRATION'/
-     &'        J       ISPI     SNAME   SH(I)    ',
+ 9755 FORMAT (/'AFTER CALIBRATION'/
+     &'       J       ISPI     SNAME   SH(I)    ',
      &         '   CV(I)     PB(I)    CABHT(I)   PBCV(I)'/)
       DO 70 J=1,31
       K = HTINDX(J)
@@ -888,11 +888,11 @@ C  *** END CALIBRATION PROCEDURE ***
 C======================================================================
       IF (DEBUG) WRITE (JOSTND,9543) PGT0(IP1,ITHN),TCOV,
      & CLOW(IP1,ITHN),CMED(IP1,ITHN),CTALL(IP1,ITHN),TOTLCV(IP1,ITHN)
- 9543 FORMAT (/' LAURSEN P(COV>0) :     PGT0(IP1,ITHN) = ',F10.6
-     &        /' LAURSEN TOTAL SHRUB COVER :      TCOV = ',F10.6
-     &        /' SUM OF CV(I)*PB(I) : LOW = ',F10.6,'  MED = ',F10.6,
+ 9543 FORMAT (/'LAURSEN P(COV>0) :     PGT0(IP1,ITHN) = ',F10.6
+     &        /'LAURSEN TOTAL SHRUB COVER :      TCOV = ',F10.6
+     &        /'SUM OF CV(I)*PB(I) : LOW = ',F10.6,'  MED = ',F10.6,
      &         '  TALL = ',F10.6/
-     &         ' SUM OF CV(I)*PB(I) : TOTLCV(IP1,ITHN) = ',F10.6)
+     &         'SUM OF CV(I)*PB(I) : TOTLCV(IP1,ITHN) = ',F10.6)
 C----------
 C  IF SAGE HAS BEEN SET TO 3.0 IN CYCLE 0, OR AFTER A THIN,
 C  SUBTRACT 3.0 HERE, TO CORRESPOND TO NEXT CYCLE BOUNDARY.

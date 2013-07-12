@@ -44,8 +44,8 @@ C----
          EXIT
          ENDIF
          WRITE(JOSTND,100)TRIM(CallFrom),NativeError,Msg(1:MsgLen)
-  100    FORMAT(/' DBS Error: ',A/' Native error number= ',I16/
-     >           ' Message text: ',A)
+  100    FORMAT(/'DBS Error: ',A/'Native error number= ',I16/
+     >           'Message text: ',A)
 
          CALL RCDSET (2,.TRUE.)
 

@@ -205,7 +205,7 @@ C  Author Fred Martin, WA DNR,
      &                             fixHrvDur(fixHrvCnt, 1:MAX_RATES))
 
             if (LKECHO) then
-               write (JOSTND,'(/1x, a8, "   HARVEST COST: $", f5.0,
+               write (JOSTND,'(/a8, "   HARVEST COST: $", f5.0,
      &             " PER ", a, ", FOR TREES >= ", f5.1, " AND < ", f5.1,
      &             " INCHES DBH.")') KEYWRD, varHrvAmt(varHrvCnt),
      &                    trim(UNITS_LABEL(varHrvUnits(varHrvCnt))),

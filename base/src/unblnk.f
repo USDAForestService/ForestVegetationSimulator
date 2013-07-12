@@ -22,14 +22,14 @@ C
          RECORD = ADJUSTL(RECORD)
          IRLEN = LEN_TRIM(RECORD)
       ELSE
-      LENREC=LEN(RECORD)
-      DO I=1,LENREC
-         IF (RECORD(I:I).NE.' ') THEN
-            IRLEN=IRLEN+1
-            IF (IRLEN.LT.I) RECORD(IRLEN:IRLEN)=RECORD(I:I)
-         ENDIF
-      ENDDO
-      IF (IRLEN.LT.LENREC) RECORD(IRLEN+1:LENREC)=' '
+         LENREC=LEN(RECORD)
+         DO I=1,LENREC
+            IF (RECORD(I:I).NE.' ') THEN
+               IRLEN=IRLEN+1
+               IF (IRLEN.LT.I) RECORD(IRLEN:IRLEN)=RECORD(I:I)
+            ENDIF
+         ENDDO
+         IF (IRLEN.LT.LENREC) RECORD(IRLEN+1:LENREC)=' '
       ENDIF
       RETURN
       END

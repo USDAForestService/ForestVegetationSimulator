@@ -1,7 +1,7 @@
       SUBROUTINE TMOUT  
       IMPLICIT NONE
 C----------
-C  **TMOUT  DATE OF LAST REVISION:  04/01/13
+C  **TMOUT  DATE OF LAST REVISION:  05/31/13
 C----------
 C
 C     PRINT FINAL TUSSOCK MOTH ACTIVITY SUMMARY
@@ -76,23 +76,16 @@ C
 C     READY THE OUTPUT FILE FOR ANOTHER STAND.  
 C     
       REWIND JODFTM     
-      GOTO 60     
-
+C
    50 CONTINUE    
-      I = 0 
-      GOTO 70     
-
-   60 CONTINUE    
-      I = 1 
-
-   70 CONTINUE    
-      WRITE (JOSTND,9016) I, NPLT   
- 9016 FORMAT (I1,22('-'),'  DFTM OUTBREAK SUMMARY TABLE  ',26('-'),/,
-     >      ' STAND ID = ',A26,//,    
-     >      ' ------ CYCLE ------',8X,'YEAR OF',T47,'CONDITIONAL',T68,  
-     >      'WAS THERE AN'/' NUMBER',T16,'YEARS',5X,'REGIONAL DFTM',    
-     >      T47,'PROBABILITY',10X,'OUTBREAK IN'/T29,'OUTBREAK',7X,
-     >      'OF STAND OUTBREAK         STAND?'/1X,79('-')/)   
+C
+      WRITE (JOSTND,9016)NPLT   
+ 9016 FORMAT (/22('-'),' DFTM OUTBREAK SUMMARY TABLE  ',25('-'),/,
+     >      'STAND ID = ',A26,//,    
+     >      '------ CYCLE ------',8X,'YEAR OF',T46,'CONDITIONAL',T67,  
+     >      'WAS THERE AN'/'NUMBER',T15,'YEARS',5X,'REGIONAL DFTM',    
+     >      T46,'PROBABILITY',10X,'OUTBREAK IN'/T28,'OUTBREAK',7X,
+     >      'OF STAND OUTBREAK         STAND?'/79('-')/)   
 
       DO 140 I=1,NCYC   
         WASTHR = NO     
@@ -101,8 +94,8 @@ C
      >                       TMPRB(I), WASTHR   
         IF (TMYRS(I) .NE. 0) WRITE (JOSTND,9018) I, IY(I), IY(I+1),     
      >                       TMYRS(I), TMPRB(I), WASTHR     
- 9017   FORMAT(1X,I3,I9,' -',I5,T45,F10.3,T71,A3)     
- 9018   FORMAT(1X,I3,I9,' -',I5,I14,T45,F10.3,T71,A3) 
+ 9017   FORMAT(I3,I9,' -',I5,T45,F10.3,T71,A3)     
+ 9018   FORMAT(I3,I9,' -',I5,I14,T45,F10.3,T71,A3) 
   140 CONTINUE    
 
   200 CONTINUE

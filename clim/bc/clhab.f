@@ -36,7 +36,7 @@ C     if the input strings aren't correctly sized
 
       DATA CLIM_DEFAULT /
      >  CLIM_DEFAULT_STR('BAFAun ',  -2.597669568),
-     >  CLIM_DEFAULT_STR('BAFAunp',	 -2.578354883),
+     >  CLIM_DEFAULT_STR('BAFAunp',  -2.578354883),
      >  CLIM_DEFAULT_STR('BGxh1  ',   7.837055838),
      >  CLIM_DEFAULT_STR('BGxh2  ',   6.727184466),
      >  CLIM_DEFAULT_STR('BGxh3  ',   5.754347826),

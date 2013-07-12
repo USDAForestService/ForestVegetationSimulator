@@ -1,7 +1,7 @@
       SUBROUTINE MPBOUT
       IMPLICIT NONE
 C----------
-C  **MPBOUT        DATE OF LAST REVISION:  07/02/10
+C  **MPBOUT        DATE OF LAST REVISION:  06/14/13
 C----------
 C
 C     PART OF THE MOUNTAIN PINE BEETLE EXTENSION OF PROGNOSIS SYSTEM.
@@ -42,16 +42,16 @@ C
       IF (.NOT.LMPB1) RETURN
       CALL MPBHED
       WRITE (JOMPB,9015)
- 9015 FORMAT ( 1X,8('-'),' MOUNTAIN PINE BEETLE ACTIVITY SUMMARY ',
-     >         8('-'),//,' ----- CYCLE -----    ',
+ 9015 FORMAT (8('-'),' MOUNTAIN PINE BEETLE ACTIVITY SUMMARY ',
+     >         8('-'),//,'----- CYCLE -----    ',
      >        'PROBABILITY  WAS THERE AN OUTBREAK',/,
-     >        ' NUMBER      YEARS    OF OUTBREAK',
-     >        '      IN THIS STAND',/,' ',55('-'),/)
+     >        'NUMBER      YEARS    OF OUTBREAK',
+     >        '      IN THIS STAND',/,55('-'),/)
  
       DO 120 I = 1,NCYC
       IF(WORKIN(I))WRITE (JOMPB,9016) I,IY(I),IY(I+1),PRBMPB(I),YES
       IF(.NOT.WORKIN(I))WRITE(JOMPB,9016)I,IY(I),IY(I+1),PRBMPB(I),NO
- 9016 FORMAT (1X,I3,I7,' -',I5,F15.5,13X,A3)
+ 9016 FORMAT (I3,I7,' -',I5,F15.5,13X,A3)
   120 CONTINUE
       WRITE(JOMPB,*)
 

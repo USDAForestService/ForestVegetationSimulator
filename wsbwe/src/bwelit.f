@@ -1,7 +1,7 @@
       SUBROUTINE BWELIT
       IMPLICIT NONE
 C-----------
-C  **BWELIT                  DATE OF LAST REVISION:  03/26/12
+C  **BWELIT                  DATE OF LAST REVISION:  06/17/13
 C-----------
 C
 C THIS SUBROUTINE IS THE HEART OF THE BUDWORM DEFOLIATION
@@ -275,13 +275,14 @@ C
 
       IF (TOTALN.LT.1.0.AND.TOTALO.LT.1.0) THEN
          WRITE (JOWSBW,825) 
-  825    FORMAT (' BWElit 825: yikes! both TOTALN & TOTALO < 1!')
+  825    FORMAT ('********   ERROR BWElit 825: yikes! both TOTALN & ',
+     &           'TOTALO < 1!')
            GO TO 9000                                                  ! RETURN
       ENDIF
       IF (WTNFOL.LT.1.0) THEN
          WRITE (JOWSBW,830) IYRCUR,WTNFOL
-  830    FORMAT (/ ' WARNING: WT.D NEW FOLIAGE IN YEAR ',I4,' = ',
-     *       F9.2)
+  830    FORMAT (/,'********   WARNING: WT.D NEW FOLIAGE IN YEAR ',
+     &       I4,' = ',F9.2)
            GO TO 9000                                                  ! RETURN
       ENDIF
 C
@@ -509,7 +510,7 @@ C
            NEVENT=NEVENT+1
            IF (NEVENT.GT.250) THEN
              WRITE (JOBWP4,8250)
- 8250        FORMAT ('   AAAIIEEEE!  MORE THAN 250 ENTRIES!  ')
+ 8250        FORMAT ('********   ERROR - WSBW: MORE THAN 250 ENTRIES!')
              LP4=.FALSE.
            ELSE
              IEVENT(NEVENT,1)=IYRCUR
@@ -621,7 +622,7 @@ C
      *            DISPDR(IC)/TOTFOL
          ELSE
             WRITE (JOWSBW,125)
-  125       FORMAT (' YIKE! RAN OUT OF ALL FOLIAGE!!! DO SOMETHING!')
+  125       FORMAT ('YIKE! RAN OUT OF ALL FOLIAGE!!! DO SOMETHING!')
          ENDIF
          BW(IC,IH)=BW(IC,IH)+(DISPIN*(1.0-DISPMR))
          OUT1(IC,IH,2)=OUT1(IC,IH,2)+(DISPIN*(1.0-DISPMR))

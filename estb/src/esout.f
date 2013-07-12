@@ -55,14 +55,18 @@ C
       IF (.NOT.LFG) THEN
          LFG=.TRUE.
          WRITE (JOSTND,30)
-   30    FORMAT (1X,132('-'))
+   30    FORMAT (132('-'))
       ENDIF
 C
       IF (LL) THEN
          LL=.FALSE.
          IF (RECORD.EQ.' ') CALL GROHED (JOSTND)
       ENDIF
-      WRITE (JOSTND,20) RECORD(1:MAX0(1,ISTLNB(RECORD)))
+      IF (RECORD.NE.' ') THEN
+         WRITE (JOSTND,20) RECORD(1:MAX0(1,ISTLNB(RECORD)))
+      ELSE
+         WRITE (JOSTND,20)
+      ENDIF
       GOTO 10
    40 CONTINUE
 C

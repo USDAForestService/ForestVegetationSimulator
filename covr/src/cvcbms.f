@@ -1,7 +1,7 @@
       SUBROUTINE CVCBMS (LTHIN)
       IMPLICIT NONE
 C----------
-C  **CVCBMS DATE OF LAST REVISION:  10/16/12
+C  **CVCBMS DATE OF LAST REVISION:  06/28/13
 C----------
 C  **CVCBMS** COMPUTES FOLIAGE BIOMASS FOR INDIVIDUAL TREES.
 C
@@ -257,7 +257,7 @@ C  CHECK FOR DEBUG.
 C----------
       CALL DBCHK(DEBUG,'CVCBMS',6,ICYC)
       IF (DEBUG) WRITE (JOSTND,9000) ICYC
- 9000 FORMAT (/' **IN CVCBMS - CYCLE = ',I2/'         I      ISPI',
+ 9000 FORMAT (/'**IN CVCBMS - CYCLE = ',I2/'        I      ISPI',
      &'         D         H        CL       AGE       TPA',
      & '        RD       DDS    TRFBMS')
 C----------
@@ -265,7 +265,7 @@ C  RETURN IF NOTREES OPTION IN EFFECT.
 C----------
       IF (ITRN .GT. 0) GO TO 2
       IF (DEBUG) WRITE (JOSTND,9001) ITRN
- 9001 FORMAT (' ITRN =', I5,' : NOTREES : RETURN TO **CVCNOP**')
+ 9001 FORMAT ('ITRN =', I5,' : NOTREES : RETURN TO **CVCNOP**')
       RETURN
     2 CONTINUE
 C----------

@@ -34,7 +34,7 @@ else
   ifeq ($(shell uname),Linux)
     OSARCH = l64
     PIC = -fPIC
- endif
+  endif
  endif
  ifndef OSARCH
    OSARCH = osx

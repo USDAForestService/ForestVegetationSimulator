@@ -1,6 +1,6 @@
       SUBROUTINE BRSOR
 C**********************************************************************
-C  **BRSOR        DATE OF LAST REVISION:  05/09/2006
+C  **BRSOR        DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C   This subroutine is called to sort and match tree IDs to insure
@@ -37,7 +37,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRSOR',5,ICYC)
       IF(DEBUG) WRITE(JOSTND,11) ICYC
-   11 FORMAT(' Entering subroutine BRSOR: cycle = ',I2)
+   11 FORMAT('Entering subroutine BRSOR: cycle = ',I2)
 
 C.... Sort the FVS list of tree IDs.
 
@@ -154,12 +154,12 @@ C.... Common return.
 C.... If there are IDs that have no match then print error message.
 
       IF(IERR.GT.0) WRITE (JOSTND,250) IERR
-  250 FORMAT(/,' **** WARNING ****', I5,' Canker IDs have been found',
+  250 FORMAT(/,'**** WARNING ****', I5,' Canker IDs have been found',
      >      ' that have no match in the tree ID list.  These cankers'
      >      ' will be ignored.')
 
       IF(DEBUG) WRITE(JOSTND,255) ICYC
-  255 FORMAT(' Leaving subroutine BRSOR: cycle = ',I2)
+  255 FORMAT('Leaving subroutine BRSOR: cycle = ',I2)
   300 CONTINUE
       RETURN
       END

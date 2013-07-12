@@ -1,6 +1,6 @@
       SUBROUTINE BRROUT
 C**********************************************************************
-C  **BRROUT       DATE OF LAST REVISION:  05/15/2006
+C  **BRROUT       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRROUT writes a Blister Rust Model Stand Summary Statistics
@@ -58,7 +58,7 @@ C.... Write heading information.
       WRITE(JOSTND,102) BRVER
       WRITE(JOSTND,103)
       WRITE (JOSTND,15) NPLT,MGMID,ITITLE(1:ISTLNB(ITITLE))
-   15 FORMAT(' STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A)
+   15 FORMAT('STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A)
 
 C.... Begin species loop....................
 
@@ -79,20 +79,20 @@ C.... Do not print table that is all zeros.
       WRITE(JOSTND,110)
       WRITE(JOSTND,104)
 
-  100 FORMAT('1',/)
-  102 FORMAT(T37,'*  *  *  WHITE PINE BLISTER RUST MODEL:'
+  100 FORMAT(//)
+  102 FORMAT(T36,'*  *  *  WHITE PINE BLISTER RUST MODEL:'
      &   ' Version ',A3,'  *  *  *')
-  103 FORMAT(T43,'Stand Summary Statistics for Blister Rust Hosts')
-  104 FORMAT(132('-'))
-C 105 FORMAT(T65,'PROPORTION')
-  105 FORMAT(1X,'WPBR HOST: ',A4,T65,'PROPORTION')
-  106 FORMAT(T49,'AVERAGE',9X,'TREES/ACRE')
-  107 FORMAT(T17,'AVERAGE',22X,'CANKERS/TREE',7X,'INF W/CANKS',
+  103 FORMAT(T42,'Stand Summary Statistics for Blister Rust Hosts')
+  104 FORMAT(131('-'))
+C 105 FORMAT(T64,'PROPORTION')
+  105 FORMAT('WPBR HOST: ',A4,T64,'PROPORTION')
+  106 FORMAT(T48,'AVERAGE',9X,'TREES/ACRE')
+  107 FORMAT(T16,'AVERAGE',22X,'CANKERS/TREE',7X,'INF W/CANKS',
      &   13X,'NUMBER OF TREES/ACRE (HOST PINE ONLY)')
-  108 FORMAT(8X,24('-'),2X,'STAND',2X,20('-'),3X,11('-'),2X,55('-'))
-  109 FORMAT(8X,'GROWTH',4X,'RUST',6X,'SUM',4X,'DEV',47X,'NON',19X,
+  108 FORMAT(7X,24('-'),2X,'STAND',2X,20('-'),3X,11('-'),2X,55('-'))
+  109 FORMAT(7X,'GROWTH',4X,'RUST',6X,'SUM',4X,'DEV',47X,'NON',19X,
      &   'NON')
-  110 FORMAT(1X,'YEAR',4X,'INDEX',3X,'INDEX',4X,'TARGET',2X,'FACTOR',
+  110 FORMAT('YEAR',4X,'INDEX',3X,'INDEX',4X,'TARGET',2X,'FACTOR',
      &   4X,'ALL',3X,'LETH',4X,'EXP',4X,'ALL',2X,'LETH',3X,'CLEAN',
      &   2X,'LETH',2X,'PRUNE',2X,'EXCISE',3X,'SALV',2X,'TOPKILL',
      &   2X,'DEAD',2X,'TOTAL')
@@ -101,7 +101,7 @@ C.... Write summary data.
 
       DO 800 K=1,NCYC+1
          WRITE(JOSTND,777) INT(BROUT(I4,1,K)),(BROUT(I4,J,K),J=2,18)
-  777    FORMAT(1X,I4,1X,F8.4,F9.6,F9.2,F8.4,F7.2,2F7.2,F7.2,
+  777    FORMAT(I4,1X,F8.4,F9.6,F9.2,F8.4,F7.2,2F7.2,F7.2,
      &      F6.2,F8.0,F6.0,F7.0,F8.0,F7.0,F9.0,F6.0,F7.0)
 
 C        format replaced 03/01/01

@@ -1,6 +1,6 @@
       SUBROUTINE BRCMPR (NCLAS,PROB2,INDX,INDX1)
 C**********************************************************************
-C  **BRCMPR       DATE OF LAST REVISION:  05/01/1994
+C  **BRCMPR       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  This Blister Rust Model subroutine is called from the FVS routine
@@ -33,7 +33,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRCMPR',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,10) ICYC
-   10 FORMAT(' Entering subroutine BRCMPR: cycle = ', I2)
+   10 FORMAT('Entering subroutine BRCMPR: cycle = ', I2)
 
 C.... If Blister Rust not active, exit subroutine.
 
@@ -225,6 +225,6 @@ C.... Common return.
 
   550 CONTINUE
       IF(DEBUG) WRITE(JOSTND, 600) ICYC
-  600 FORMAT(' Leaving subroutine BRCMPR: cycle = ', I2)
+  600 FORMAT('Leaving subroutine BRCMPR: cycle = ', I2)
       RETURN
       END

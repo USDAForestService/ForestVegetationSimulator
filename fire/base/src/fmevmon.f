@@ -425,13 +425,11 @@ C  CALCULATES THE TREE BIOMASS EVENT MONITOR VARIABLE
 C
       ENTRY FMEVTBM(RVAL,ISTAND,ITYP,IPART,JX,XLDBH,XHDBH,XLHT,XHHT,IRC)
 C
-      IF (.NOT. LFMON) RETURN
-      RVAL = 0.0
       IF (IFMYR1.EQ.-1) THEN
-        IRC=1
+         IRC=1
       ELSE
         IRC=0
-        ITRNC=ITRN
+        RVAL = 0.0
 C
 C  IF THIS IS NOT A THINING CYCLE, SET LREMT TO FALSE SO REMOVALS ARE
 C  NOT ACCOUNTED FOR UNTIL NEXT THINING, AND ZERO OUT PREMSTAND
@@ -513,7 +511,7 @@ C
                   SNVIH = SNVIH*DENIH(I)
                 ENDIF
               ENDIF
-C
+C      
               IF((HTIS(I).GE.XLHT).AND.(HTIS(I).LT.XHHT))THEN
                 IF (DENIS(I) .GT. 0.0) THEN
                   SNBAIS= SNBAIS+0.005454154*D*D*DENIS(I)
@@ -521,7 +519,7 @@ C
                   SNVIS = SNVIS*DENIS(I)
                 ENDIF
               ENDIF
-C
+C 
              SNGVOL1= SNGVOL1+SNVIS+SNVIH
 C
 C  SUM SNAG STEM VOLUME AND CONVERT TO TONS 
@@ -721,12 +719,12 @@ C
         IF((ISTAND.NE.0).AND.(ITYP.GE.0))THEN
 
           DO I = 1,ITRN
-C
+C    
           ISPC = ISP(I)
           D = DBH(I)
           H = HT(I)
           XM1=-1.
-C
+C    
           LINCL = .FALSE.
           IF(JX.EQ.0 .OR. JX.EQ.ISPC)THEN
             LINCL = .TRUE.
@@ -760,7 +758,7 @@ C
      >                                      ISP(I),D,H,VT
  61             FORMAT(' FMEVMON(LIVE): I=',I5,' FMPROB=',F10.3,
      >                 ' PROB=',F10.3,' ISP=',I3,' D,H,VT=',3F10.3)
-C
+C          
 C  LIVE STEM
 C
                 LIVSLV = LIVSLV+FMPROB(I) * VT * V2T(ISPC)
@@ -874,7 +872,6 @@ C********************************************************************
       ENTRY FMEVSRT(RVAL, II, IRC)
       IF (IFMYR1.EQ.-1) THEN
          IRC=1
-         RVAL = 0.
       ELSE
          IRC=0
          RVAL = POTFSR(II) ! potential spread rate
@@ -889,7 +886,6 @@ C********************************************************************
       ENTRY FMEVRIN(RVAL, II, IRC)
       IF (IFMYR1.EQ.-1) THEN
          IRC=1
-         RVAL = 0.
       ELSE
          IRC=0
          RVAL = POTRINT(II) ! potential fire reaction intensity
@@ -904,7 +900,6 @@ C********************************************************************
       ENTRY FMEVCARB(RVAL, II, IRC)
       IF (IFMYR1.EQ.-1) THEN
          IRC=1
-         RVAL = 0
       ELSE
          IRC=0
          RVAL = 0
@@ -926,11 +921,10 @@ C
 C********************************************************************
 
       ENTRY FMDWD(RVAL, IX, JX, ILO, IHI, IRC)
-
-      RVAL = 0.
       IF (IFMYR1.EQ.-1) THEN
          IRC=1
       ELSE
+         RVAL = 0 
          IRC=0
 
 C     ADJUST THE VALUES BECAUSE THE INDEX IS 1 - 7, BUT THE ARRAY SPOTS 
@@ -992,7 +986,6 @@ C
 C********************************************************************
 
       ENTRY FMEVLSF(RVAL, II, IRC)
-      RVAL = 0.
       IF (IFMYR1.EQ.-1) THEN
          IRC=1
       ELSE
@@ -1009,3 +1002,5 @@ C********************************************************************
       RETURN
       
       END
+
+

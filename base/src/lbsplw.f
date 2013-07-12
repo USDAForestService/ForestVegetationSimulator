@@ -40,9 +40,9 @@ C
    20 CONTINUE
       IF (I2.GT.LENSLS) I2=LENSLS
       IF (I1.EQ.1) THEN
-         WRITE (JOSTND,'(/'' STAND POLICIES:'',T20,A)') SLSET(I1:I2)
+         WRITE (JOSTND,'(/''STAND POLICIES:'',T19,A)') SLSET(I1:I2)
       ELSE
-         WRITE (JOSTND,'(T20,A)') SLSET(I1:I2)
+         WRITE (JOSTND,'(T19,A)') SLSET(I1:I2)
       ENDIF
       IF (I2.LT.LENSLS) THEN
          I1=I2+1

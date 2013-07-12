@@ -48,11 +48,11 @@ C
       PARAMETER (P_SS  = 30)
 
       INTEGER      I,ISPC,I1,I2,I3,ITFN,J,K,M,IHT
-	INTEGER      IPOS(MAXSP),IPAS
-	REAL         SCALE,XHT,HTI,D,HTNEW,LTSP(MAXSP,3),CON,Y
-	REAL         XHT1(MAXSP),XHT2(MAXSP)
-	REAL         V3HTG
-	CHARACTER*15 PAT
+      INTEGER      IPOS(MAXSP),IPAS
+      REAL         SCALE,XHT,HTI,D,HTNEW,LTSP(MAXSP,3),CON,Y
+      REAL         XHT1(MAXSP),XHT2(MAXSP)
+      REAL         V3HTG
+      CHARACTER*15 PAT
 
       LOGICAL DEBUG
 c     v2
@@ -1623,7 +1623,7 @@ C         POINT.
             HTG(ITFN+1) = V3HTG(ISPC,HTI,D,DG(ITFN+1)) * Y
           ENDIF
 
-	  ENDIF
+        ENDIF
 
 C       END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 
@@ -1697,13 +1697,13 @@ C     V2 - ASSIGN HABITAT DEPENDENT COEFFICIENTS.
 C       REPLACE NULLS IN COMPILED DATA STRINGS WITH SPACES, SO THAT
 C       STRING LENGTHS WILL BE FIGURED CORRECTLY
         DO J = 1,P_MD
-	    DO K = 1,P_SS
-	      DO M = 1,15
-	        IF (ICHAR(LTHG(J)%PrettyName(K)(M:M)) .EQ. 0)
+          DO K = 1,P_SS
+            DO M = 1,15
+              IF (ICHAR(LTHG(J)%PrettyName(K)(M:M)) .EQ. 0)
      >          LTHG(J)%PrettyName(K)(M:M) = ' '
-	      ENDDO
-	    ENDDO
-	  ENDDO
+            ENDDO
+          ENDDO
+        ENDDO
 
 C     LOCATE ZONE AND SITE SERIES; IF NO PERFECT MATCH TO SUBZONE
 C     CAN BE FOUND, TRY ".../all" AND LOOP ONE MORE TIME BEFORE
@@ -1711,7 +1711,7 @@ C     GIVING UP ON A MATCH.
 
         LTH%PrettyName = BEC%PrettyName
         DO I = 1,MAXSP
-	    IPOS(I) = 0
+          IPOS(I) = 0
         ENDDO
 
         DO I = 1,MAXSP
@@ -1724,21 +1724,21 @@ C     GIVING UP ON A MATCH.
               IF (LTHG(J)%SPP(K) .EQ. 0) EXIT
               IF (LTHG(J)%SPP(K) .EQ. I) THEN
                 DO M = 1,P_SS
- 	            IF (LEN_TRIM(LTHG(J)%PrettyName(M))  .EQ. 0) EXIT
+                   IF (LEN_TRIM(LTHG(J)%PrettyName(M))  .EQ. 0) EXIT
                   IF (INDEX(LTHG(J)%PrettyName(M),PAT) .GT. 0) THEN
-	              IPOS(I) = J
-	              GOTO 8
+                    IPOS(I) = J
+                    GOTO 8
                   ENDIF
-	          ENDDO
-	        ENDIF
+                ENDDO
+              ENDIF
             ENDDO
           ENDDO
 
           IF (J .GT. P_MD .AND. IPAS .EQ. 0) THEN
-	      IPAS = 1
+            IPAS = 1
             PAT = BEC%Zone(1:LEN_TRIM(BEC%Zone))//'/all'
-	      GOTO 7
-	    ENDIF
+            GOTO 7
+          ENDIF
 
     8   ENDDO
 
@@ -1747,13 +1747,13 @@ C     COPY COEFFICIENTS INTO LTHG STRUCTURE
         DO I = 1,MAXSP
 
           LTH%FIT(I) = .FALSE.
-	    J           = IPOS(I)
-	    IF (J .GT. 0) THEN
+          J           = IPOS(I)
+          IF (J .GT. 0) THEN
             LTH%FIT(I)  = .TRUE.
 
-	      LTH%A1(I)   = LTSP(I,1)     ! old v3 model spp constants
-	      LTH%B1(I)   = LTSP(I,2)
-	      LTH%B2(I)   = LTSP(I,3)
+            LTH%A1(I)   = LTSP(I,1)     ! old v3 model spp constants
+            LTH%B1(I)   = LTSP(I,2)
+            LTH%B2(I)   = LTSP(I,3)
 
             LTH%SI(I)   = LTHG(J)%SI    ! old v3 model site terms
             LTH%B3(I)   = LTHG(J)%B3
@@ -1783,8 +1783,8 @@ C  LOAD OVERALL INTERCEPT MULTIPLIER FOR EACH SPECIES.
       ELSE
 
         DO ISPC = 1,MAXSP
-	    LTH%MLT(ISPC) = 1.0
-	    IF (LTH%FIT(ISPC)) THEN
+          LTH%MLT(ISPC) = 1.0
+          IF (LTH%FIT(ISPC)) THEN
             IF (LHCOR2 .AND. HCOR2(ISPC).GT. 0.0)
      >        LTH%MLT(ISPC) = HCOR2(ISPC)
           ENDIF
@@ -2044,12 +2044,12 @@ C     COPY TEMPORARY TO PERMANENT ARRAYS
 C     SET FLAG FOR WHETHER METRIC DUB IS USED, OR NOT
 
       DO I = 1,MAXSP
-	  IF ((HT1(I) .NE. XHT1B(I)) .OR.
+        IF ((HT1(I) .NE. XHT1B(I)) .OR.
      >      (HT2(I) .NE. XHT2B(I))) THEN
-	    LMHTDUB(I) = .TRUE.
-	  ELSE
-	    LMHTDUB(I) = .FALSE.
-	  ENDIF
+          LMHTDUB(I) = .TRUE.
+        ELSE
+          LMHTDUB(I) = .FALSE.
+        ENDIF
       ENDDO
 
       RETURN
@@ -2060,35 +2060,35 @@ C     THIS PRIVATE FUNCTION LOCALIZES THE V3 CALCULATIONS FOR HEIGHT GROWTH;
 C     OTHERWISE THEY WOULD BE REPEATED SEVERAL TIMES
 
       REAL FUNCTION V3HTG(ISPC,HT,DBH,DG)
-	IMPLICIT NONE
+      IMPLICIT NONE
 
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'BCPLOT.F77'
       INCLUDE 'METRIC.F77'
 
-	INTEGER ISPC
-	REAL    HT,DBH,DG
+      INTEGER ISPC
+      REAL    HT,DBH,DG
       REAL    HTGM,HTM,D,DGM
 
-	V3HTG = 0.0
+      V3HTG = 0.0
       IF (.NOT. LTH%FIT(ISPC)) RETURN
 
       HTM = HT  * FTtoM
       D   = DBH * INtoCM
-	DGM = DG  * INtoCM
+      DGM = DG  * INtoCM
 
-	SELECT CASE (ISPC)
-	  CASE (7,8,11,12,13,15)  ! NEW v3 MODEL
+      SELECT CASE (ISPC)
+        CASE (7,8,11,12,13,15)  ! NEW v3 MODEL
           HTGM = (LTH%CN(ISPC) + LTH%CNSI(ISPC) +
      >      (LTH%DG(ISPC) * DGM + LTH%DG2(ISPC) * DGM * DGM)) *
      >      (HTM ** (LTH%DBH1(ISPC) + LTH%DBH2(ISPC) * D)) *
      >      EXP(LTH%HT2(ISPC) * HTM * HTM)
-	  CASE DEFAULT          ! OLD V3 MODEL
+        CASE DEFAULT          ! OLD V3 MODEL
           HTGM = (LTH%A1(ISPC) + LTH%SI(ISPC)) *
      >      HTM ** (LTH%B1(ISPC) +
      >      (LTH%B2(ISPC) * D) + (LTH%B3(ISPC) * DGM)) *
      >      EXP(LTH%C(ISPC) * HTM * HTM)
-	  END SELECT
+        END SELECT
         V3HTG = HTGM * MtoFT * LTH%MLT(ISPC)
 
       RETURN

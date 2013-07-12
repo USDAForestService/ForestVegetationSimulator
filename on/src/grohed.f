@@ -25,7 +25,7 @@ C
       WRITE (IUNIT,40) DVVER(4:7),SVN,REV,DAT,TIM
    40 FORMAT ('1',T10,'FOREST VEGETATION SIMULATOR',
      >  5X,'VERSION ',A,' (',A,') -- FVS-ONTARIO',
-     >  T97,'RV:',A,T112,A,2X,A)
+     >  T98,'RV:',A,T113,A,2X,A)
       RETURN
 C
 C

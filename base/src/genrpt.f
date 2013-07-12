@@ -40,8 +40,8 @@ C     OPENS IT.
       IF (IFOPN.EQ.0) THEN
          open (unit=JOSCRT,file=TRIM(KWDFIL)//'_genrpt.txt',
      -        position="append",err=1)
-            IFOPN = 1
-         ENDIF
+         IFOPN = 1
+      ENDIF
       NRPTS=NRPTS+1
       IFID=NRPTS
       RETURN
@@ -56,8 +56,8 @@ C     OPENS IT.
       IF (IFOPN.EQ.0) THEN
          open (unit=JOSCRT,file=TRIM(KWDFIL)//'_genrpt.txt',
      -        position="append",err=2)
-            IFOPN = 1
-         ENDIF
+         IFOPN = 1
+      ENDIF
       JROUT=JOSCRT
       RETURN
 

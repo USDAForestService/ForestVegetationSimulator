@@ -1,6 +1,6 @@
       SUBROUTINE RDPR
 C----------
-C  **RDPR                         LAST REVISION:  08/16/06
+C  **RDPR                         LAST REVISION:  06/12/13
 C----------
 C
 C  PRODUCES SUMMARY OUTPUT IN TABLE FORM FROM THE ROOT
@@ -93,7 +93,7 @@ C
          IF (IRDOUT .NE. 0) CALL RDDOUT
 
          IF (DEBUG) WRITE(JOSTND,101) ISTEP
- 101     FORMAT (' IN RDPR ISTEP=',I5)
+ 101     FORMAT ('IN RDPR ISTEP=',I5)
 
          IF (ISTEP .EQ. 1 .AND. IRRSP .EQ. MINRR) THEN
             JYR = IY(1)
@@ -133,7 +133,7 @@ C
             JYR = IY(ISTEP)
             IOAGE = IAGE + IY(ISTEP) - IY(1)
             IF (DEBUG) WRITE (JOSTND,102) ISTEP, ICYC, JYR
- 102        FORMAT (' RDPR:ISTEP ICYC JYR=',3I5)
+ 102        FORMAT ('IN RDPR:ISTEP ICYC JYR=',3I5)
          ENDIF
 
          IF (PAREA(IRRSP) .LE. 0.0 .AND. LYAREA(IRRSP) .LE. 0.0) 
@@ -175,7 +175,7 @@ C              ACCUMULATE INDICATORS
 C
                IF (DEBUG) WRITE (JOSTND,749) I, PAREA(IRRSP), PROBIU(I),
      &                           PROBIT(I)
-  749          FORMAT (' IN RDPR :  I PAREA PROBIU PROBIT',I4,3F9.2)
+  749          FORMAT ('IN RDPR :  I PAREA PROBIU PROBIT',I4,3F9.2)
 
                TCLAS = PROBIU(I) + PROBIT(I)
                TUN   = TUN + PROBIU(I) / (PAREA(IRRSP) + 1.0E-9)
@@ -280,73 +280,73 @@ C       NOW THAT WE'VE USED THE VARIABLES, ZERO THEM FOR FUTURE USE
       IF (.NOT. FIRSTL .AND. MINRR .NE. MAXRR) WRITE(IRUNIT,1121)
       RETURN
 
- 1100 FORMAT ('1',65('* '))
- 1107 FORMAT (' ',65('* '))
- 1105 FORMAT (' ',50X,'WESTERN ROOT DISEASE MODEL')
- 1110 FORMAT (' ',33X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
+ 1100 FORMAT (//,65('* '))
+ 1107 FORMAT (65('* '))
+ 1105 FORMAT (50X,'WESTERN ROOT DISEASE MODEL')
+ 1110 FORMAT (33X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
 C
 C     Warning message RE. multi-pest models (RNH June 1998)
 C
- 1106 FORMAT (/T2, 78H*=================================================
-     1===========================*/ 
-     2T2, 78H*---> Note:  The combined insect and pathogen models (in on
-     3e executable) <---*/
-     4T2, 78H*---> should NOT be used without close consultation with th
-     5e forest's    <---*/ 
-     6T2, 78H*---> pathologist and entomologist.  Because of the potenti
-     7al for more   <---*/
-     8T2, 78H*---> than one insect and/or pathogen acting on the same tr
-     9ee species,   <---*/   
-     AT2, 78H*---> the interpretation of the results of the combined mod
-     Bel can be     <---*/
-     CT2, 78H*---> inaccurate without appropriate model knowledge and/or
-     D experience.  <---*/
-     ET2, 78H*==========================================================
-     F==================*/)
+ 1106 FORMAT (/,'*=================================================',
+     &'===========================*',/ 
+     &'*---> Note:  The combined insect and pathogen models (in ',
+     &'one executable) <---*',/
+     &'*---> should NOT be used without close consultation with ',
+     &'the forest''s    <---*',/ 
+     &'*---> pathologist and entomologist.  Because of the ',
+     &'potential for more   <---*',/
+     &'*---> than one insect and/or pathogen acting on the same ',
+     &'tree species,   <---*',/   
+     &'*---> the interpretation of the results of the combined ',
+     &'model can be     <---*',/
+     &'*---> inaccurate without appropriate model knowledge and/or',
+     &' experience.  <---*',/
+     &'*==========================================================',
+     &'==================*',/)
  
- 1115 FORMAT (' ',25X,'SUMMARY STATISTICS FOR ROOT DISEASE AREAS',
+ 1115 FORMAT (25X,'SUMMARY STATISTICS FOR ROOT DISEASE AREAS',
      &        ' (PER ACRE BASED ON DISEASED AREA ONLY)')
- 1120 FORMAT (' ',130('-'))
- 1121 FORMAT (' ',130(' '))
- 1125 FORMAT (' ',16X,'DISEASE STATISTICS',
+ 1120 FORMAT (130('-'))
+ 1121 FORMAT (130(' '))
+ 1125 FORMAT (16X,'DISEASE STATISTICS',
      &       9X,'DEAD TREE CHARACTERISTICS',
      &       8X,'LIVE TREE CHARACTERISTICS')
- 1130 FORMAT (' ',42X,'STUMPS',6X,'LOSSES FROM DISEASE')
+ 1130 FORMAT (42X,'STUMPS',6X,'LOSSES FROM DISEASE')
 
- 1135 FORMAT (1X,11X,26('-'),3X,12('-'),2X,19('-'),1X,35('-'))
- 1140 FORMAT (' ',40X,'   ',31X,'UNINF',4X,'INFECTED',9X,'OVERALL')
- 1143 FORMAT (' ',55X,'NO OF',3X,'VOLUME')
- 1160 FORMAT (1X,130('-'))
- 2098 FORMAT (1X,I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
+ 1135 FORMAT (11X,26('-'),3X,12('-'),2X,19('-'),1X,35('-'))
+ 1140 FORMAT (40X,'   ',31X,'UNINF',4X,'INFECTED',9X,'OVERALL')
+ 1143 FORMAT (55X,'NO OF',3X,'VOLUME')
+ 1160 FORMAT (130('-'))
+ 2098 FORMAT (I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
      &       F8.1,F8.0,F7.0,1X,F5.3,3X,F5.3,3X,F5.3)
- 4099 FORMAT (1X,I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
+ 4099 FORMAT (I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
      &       F8.1,F8.2,1X,F5.3,3X,F5.3,3X,F5.3)
- 1145 FORMAT (1X,'    ',13X,'NO',3X,'DISEASE',2X,'SPREAD',10X,'BA/',
+ 1145 FORMAT ('    ',13X,'NO',3X,'DISEASE',2X,'SPREAD',10X,'BA/',
      &       4X,'TREES',3X,'LOSSES',5X,'NO OF',3X,'NO OF',
      &       4X,'AVE',3X,'MERCH',4X,'BA/',3X,'NEWLY INFECTED')
 
- 1150 FORMAT (1X,'    ',13X,'OF',4X,'AREA',5X,'RATE',3X,'TOTAL',
+ 1150 FORMAT (17X,'OF',4X,'AREA',5X,'RATE',3X,'TOTAL',
      &       3X,'ACRE',4X,'KILLED',2X,'CU FT',6X,'TREES',3X,'TREES',2X,
      &       '%ROOTS',2X,'CU FT',2X,'ACRE',5X,'PROPORTION')
 
- 1155 FORMAT (1X,'YEAR',3X,'AGE',1X,'TYPE',1X,'CENTS',2X,'ACRES',3X,
+ 1155 FORMAT ('YEAR',3X,'AGE',1X,'TYPE',1X,'CENTS',2X,'ACRES',3X,
      &       'FT/YR',
      &       3X,'/ACRE',2X,'SQFT',4X,'/ACRE',3X,'/ACRE',3X,
      &       2(3X,'/ACRE'),1X,'INFECTED',1X,'/ACRE',3X,'SQFT',1X,
      &       'INSIDE',2X,'EXPAND',2X,'TOTAL')
- 2099 FORMAT (1X,I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
+ 2099 FORMAT (I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
      &       F8.1,F8.0,F8.0,1X,A8,1X,A4)
- 2100 FORMAT (1X,4X,6X,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
+ 2100 FORMAT (4X,6X,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
      &       F8.1,F8.0,F8.0,1X,A8,1X,A4)
- 2199 FORMAT (1X,I4,I6,4X,A1,I4,F8.2,F8.2)
+ 2199 FORMAT (I4,I6,4X,A1,I4,F8.2,F8.2)
 C
 C     SPECIFIC METRIC HEADERS
 C
- 1250 FORMAT (1X,'    ',13X,'OF',4X,'AREA',5X,'RATE',3X,'TOTAL',
+ 1250 FORMAT (17X,'OF',4X,'AREA',5X,'RATE',3X,'TOTAL',
      &       3X,'HA  ',4X,'KILLED',2X,'CU M ',6X,'TREES',3X,'TREES',2X,
      &       '%ROOTS',2X,'CU M ',2X,' HA ',5X,'PROPORTION')
 
- 1255 FORMAT (1X,'YEAR',3X,'AGE',1X,'TYPE',1X,'CENTS',2X,' HA  ',3X,
+ 1255 FORMAT ('YEAR',3X,'AGE',1X,'TYPE',1X,'CENTS',2X,' HA  ',3X,
      &       ' M/YR',
      &       3X,' /HA ',2X,'SQ M',4X,' /HA ',3X,' /HA ',3X,
      &       2(3X,' /HA '),1X,'INFECTED',1X,' /HA ',3X,'SQ M',1X,

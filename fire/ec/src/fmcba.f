@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-EC-DATE OF LAST REVISION: 05/12/12
+C  **FMCBA   FIRE-EC-DATE OF LAST REVISION: 04/25/13
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -18,8 +18,7 @@ C
 *     CAREA:   The area covered by the crown at its widest point (sqft)
 *     COVINI:  The seral cover type to be used for initiating fuels in
 *              bare stands
-*     MAPDRY:  The moist/dry habitat type, used for altering decay rate
-*              and selecting fuel model
+*     MAPDRY:  The moist/dry habitat type, used for selecting fuel model
 *     CRL:     Crown length
 *     CWIDTH:  The maximum width of the crowns (ft)
 *     FUINIE:  The initial fuel loadings for established stands (from JBrown)
@@ -79,8 +78,63 @@ C----------
       REAL FUINIE(MXFLCL,MAXSP), FUINII(MXFLCL,MAXSP)
       REAL STFUEL(MXFLCL,2),XCOV(2),YLOAD(2), FOTOVAL(MXFLCL)
       REAL PRMS(12), FOTOVALS(9)
-      REAL    BIGDBH,TOTBA,XX,CAREA,ALGSLP,PRCL,ADD
-      REAL    DCYMLT
+      REAL BIGDBH,TOTBA,XX,CAREA,ALGSLP,PRCL,ADD
+      REAL DCYMLT
+      INTEGER ECHMC(155),ECWMD(155), TEMP, MOIST, K
+      REAL DKRADJ(3,3,3)
+
+C     EACH EC HABITAT CODE MAPS TO EITHER HOT (1), MODERATE (2)
+C     OR COLD (3).  (FROM FMR6SDCY)
+
+      DATA (ECHMC(I), I=   1,  50) /
+     & 3, 3, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 1, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 3, 3, 3, 3/
+      DATA (ECHMC(I), I=  51, 100) /
+     & 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+     & 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+     & 3, 3, 2, 2, 2, 3, 3, 2, 2, 3,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 3, 3/
+      DATA (ECHMC(I), I= 101, 150) /
+     & 3, 3, 3, 3, 3, 3, 3, 3, 3, 1,
+     & 1, 1, 2, 1, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 2, 2/
+      DATA (ECHMC(I), I= 151, 155) /
+     & 2, 2, 2, 2, 2/
+
+C     EACH EC HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3). (FROM FMR6SDCY)
+
+      DATA (ECWMD(I), I=   1,  50) /
+     & 3, 3, 2, 2, 2, 2, 1, 2, 2, 2,
+     & 3, 3, 3, 3, 3, 2, 3, 3, 3, 3,
+     & 2, 2, 3, 3, 2, 2, 3, 2, 2, 2,
+     & 2, 3, 2, 2, 2, 3, 3, 3, 3, 3,
+     & 2, 2, 2, 2, 2, 2, 3, 2, 2, 2/
+      DATA (ECWMD(I), I=  51, 100) /
+     & 1, 2, 2, 2, 3, 3, 1, 2, 2, 3,
+     & 1, 2, 2, 2, 2, 3, 3, 2, 2, 3,
+     & 3, 3, 2, 2, 2, 2, 2, 1, 1, 1,
+     & 2, 2, 2, 2, 2, 2, 2, 2, 3, 2,
+     & 2, 2, 2, 2, 2, 2, 1, 2, 3, 2/
+      DATA (ECWMD(I), I= 101, 150) /
+     & 3, 2, 1, 1, 2, 2, 2, 1, 2, 3,
+     & 3, 3, 3, 3, 2, 2, 2, 2, 2, 2,
+     & 2, 3, 3, 3, 3, 3, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 3, 2, 3,
+     & 2, 3, 2, 3, 3, 2, 2, 2, 2, 2/
+      DATA (ECWMD(I), I= 151, 155) /
+     & 2, 3, 2, 3, 2/
+
+      DATA (((DKRADJ(I,J,K), K=1,3), J=1,3), I=1,3) /
+     &  1.7,    2,  1.7, 1.49, 1.91, 1.49,  0.75, 0.85,  0.75,
+     & 1.35, 1.85, 1.35,    1,  1.7,    1, 0.875,  1.2, 0.875,
+     & 1.21, 1.79, 1.21, 1.14, 1.76, 1.14,  0.75, 0.85,  0.75/
+
 C
 C----------
 C     INITIAL LIVE FUEL LOADING FOR 'ESTABLISHED' STANDS WITH 60% COVER
@@ -408,31 +462,41 @@ C----------
 C     Initialize the dead fuels only for the first year of the simulation
 C----------
       IF (IYR .EQ. IY(1)) THEN
-C----------
-C       MODIFY CWD DECAY RATE BASED ON HABITAT MOISTURE GROUP
-C       0 = DRIER - LOWER RATE
-C       1 = MESIC - UNCHANGED
-C       2 = WETTER - HIGHER RATE
-C
-C       ONLY DO THIS IF DURING THE NORMAL CALL, NOT FROM SVSTART
-C----------
-        IF ( ISWTCH .NE. 1 ) THEN
-          DCYMLT = 1.0
-          SELECT CASE (MAPDRY(ITYPE))
-            CASE (0)
-              DCYMLT = 0.66
-            CASE (1)
-              DCYMLT = 1.0
-            CASE (2)
-              DCYMLT = 1.33
-          END SELECT
-C          
-          DO I = 1,MXFLCL
-            DO J = 1,4
-              DKR(I,J) = DKR(I,J) * DCYMLT
-            ENDDO
+
+        TEMP = ECHMC(ITYPE) 
+        MOIST = ECWMD(ITYPE) 
+        
+        DO I = 1,9
+          DO J = 1,4
+            IF (I .LE. 3) THEN
+              K = 1
+            ELSEIF (I .LE. 5) THEN 
+              K = 2
+            ELSE 
+              K = 3
+            ENDIF
+C       adjust the decay rates only if the user hasn't reset them with FuelDcay
+C       also, adjust the decay rates if smaller wood is decaying more slowly than larger wood.
+C       in this case, bump up the decay rate of the smaller wood to that of the larger wood.
+            IF ((SETDECAY(I,J) .LT. 0) .AND. (ISWTCH .NE. 1)) THEN
+              DKR(I,J) = DKR(I,J)*DKRADJ(TEMP,MOIST,K)
+              IF (DKR(I,J) .GT. 1.0) DKR(I,J) = 1.0
+              TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)
+            ENDIF
           ENDDO
-        ENDIF
+        ENDDO
+
+        DO I = 9,2,-1
+          DO J = 1,4
+            IF (((DKR(I,J)-DKR(I-1,J)) .GT. 0).AND.(ISWTCH.NE.1)) THEN 
+              IF (SETDECAY(I-1,J) .LT. 0) THEN
+                DKR(I-1,J) = DKR(I,J)
+                TODUFF(I-1,J) = DKR(I-1,J) * PRDUFF(I-1,J)                
+              ENDIF             
+            ENDIF
+          ENDDO
+        ENDDO
+
 C----------
 C       Load dead fuels as a function of PERCOV...assume that the initiating
 C       stands correspond to about 10% cover and established are 60% or more.

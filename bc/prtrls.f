@@ -212,7 +212,7 @@ C
          CALL GRDTIM (DAT,TIM)
          IF(LFORMT) THEN
             WRITE (KOLIST,2) IP,ICYC,JYR,NPLT,MGMID,VVER,DAT,TIM,
-     &                 CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
+     &                   CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
     2       FORMAT (' -999',3I5,6(1X,A),I3,E14.7,2(1X,A))
          ELSE
             WRITE (KOLIST) IP,ICYC,JYR,NPLT,MGMID,VVER,DAT,TIM,

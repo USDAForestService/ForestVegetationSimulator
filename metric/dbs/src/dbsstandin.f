@@ -660,7 +660,7 @@ C
           ENDIF
    51      FORMAT (T13,'ECOLOGICAL UNIT:',T30,A:
      >              ' CONVERTED TO CODE: ',I4)
-      ENDIF
+        ENDIF
       ENDIF
 
       IF(Age_LI.NE.SQL_NULL_DATA) THEN

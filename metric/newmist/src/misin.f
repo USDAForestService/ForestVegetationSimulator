@@ -649,11 +649,11 @@ C....    Check for valid opacity.
      >    'foliage of species: ', A3, ' (', I2,') changed to: ', F4.2)
         IF (ISPL .GT. 0) THEN
           DMOPAQ(ISPL) = ARRAY(2)
-	  ELSE
-	    DO 1502 J = 1, MAXSP
+        ELSE
+          DO 1502 J = 1, MAXSP
             DMOPAQ(J) = ARRAY(2)
  1502     CONTINUE
-	  ENDIF
+        ENDIF
       ELSE
         CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
         WRITE (JOSTND,8000) ISPL,MAXSP
@@ -694,13 +694,13 @@ C....    Check for valid threshold DMR.
         WRITE(JOSTND,1601) KEYWRD,KARD(1),ISPL,NINT(ARRAY(2))
  1601   FORMAT(/1X, A8, 'Critical DMR for spreading DM from a ',
      >    'tree of species: ', A3, ' (', I2, ') changed to ', I1)
-	  IF (ISPL .GT. 0) THEN
+        IF (ISPL .GT. 0) THEN
           DMKTUN(ISPL) = ARRAY(2)
-	  ELSE
-	    DO 1602 J = 1, MAXSP
-	      DMKTUN(J) = ARRAY(2)
+        ELSE
+          DO 1602 J = 1, MAXSP
+            DMKTUN(J) = ARRAY(2)
  1602     CONTINUE
-	  ENDIF
+        ENDIF
       ELSE
         CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
         WRITE (JOSTND,8000) ISPL,MAXSP
@@ -740,13 +740,13 @@ C....    Check for valid multiplier.
         WRITE(JOSTND,1701) KEYWRD,KARD(1),ISPL,ARRAY(2)
  1701   FORMAT(/1X, A8, 'Spread scaling factor for DM on ',
      >    'species: ', A3, ' (', I2, ') changed to ', F6.2)
-	  IF (ISPL .GT. 0) THEN
+        IF (ISPL .GT. 0) THEN
           DMSTUN(ISPL) = ARRAY(2)
-	  ELSE
-	    DO 1702 J = 1, MAXSP
-	      DMSTUN(J) = ARRAY(2)
+        ELSE
+          DO 1702 J = 1, MAXSP
+            DMSTUN(J) = ARRAY(2)
  1702     CONTINUE
-	  ENDIF
+        ENDIF
       ELSE
         CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
         WRITE (JOSTND,8000) ISPL,MAXSP
@@ -786,13 +786,13 @@ C....    Check for valid multiplier.
         WRITE(JOSTND,1801) KEYWRD,KARD(1),ISPL,ARRAY(2)
  1801   FORMAT(/1X, A8, 'Intensification scaling factor for DM ',
      >    'on species: ', A3, ' (', I2, ') changed to ', F6.2)
-	  IF (ISPL .GT. 0) THEN
+        IF (ISPL .GT. 0) THEN
           DMITUN(ISPL) = ARRAY(2)
-	  ELSE
-	    DO 1802 J = 1, MAXSP
-	      DMITUN(J) = ARRAY(2)
+        ELSE
+          DO 1802 J = 1, MAXSP
+            DMITUN(J) = ARRAY(2)
  1802     CONTINUE
-	  ENDIF
+        ENDIF
       ELSE
         CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
         WRITE (JOSTND,8000) ISPL,MAXSP
@@ -832,13 +832,13 @@ C....    Check for valid multiplier.
         WRITE(JOSTND,1901) KEYWRD,KARD(1),ISPL,ARRAY(2)
  1901   FORMAT(/1X, A8, 'Total establishment scaling factor for DM ',
      >    'on species: ', A3, ' (', I2, ') changed to ', F6.2)
-	  IF (ISPL .GT. 0) THEN
+        IF (ISPL .GT. 0) THEN
           DMETUN(ISPL) = ARRAY(2)
-	  ELSE
-	    DO 1902 J = 1, MAXSP
-	      DMETUN(J) = ARRAY(2)
+        ELSE
+          DO 1902 J = 1, MAXSP
+            DMETUN(J) = ARRAY(2)
  1902     CONTINUE
-	  ENDIF
+        ENDIF
       ELSE
         CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
         WRITE (JOSTND,8000) ISPL,MAXSP
@@ -1063,13 +1063,13 @@ C....    Check for valid death rate.
         WRITE(JOSTND,2101) KEYWRD,KARD(1),ISPL,ARRAY(2)
  2101   FORMAT(/1X, A8, 'Annual mortality for DM on',
      >    'species: ', A3, ' (', I2, ') changed to ', F5.3)
-	  IF (ISPL .GT. 0) THEN
+        IF (ISPL .GT. 0) THEN
           DMDETH(ISPL) = ARRAY(2)
-	  ELSE
-	    DO 2102 J = 1, MAXSP
-	      DMDETH(J) = ARRAY(2)
+        ELSE
+          DO 2102 J = 1, MAXSP
+            DMDETH(J) = ARRAY(2)
  2102     CONTINUE
-	  ENDIF
+        ENDIF
       ELSE
         CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
         WRITE (JOSTND,8000) ISPL,MAXSP
@@ -1267,13 +1267,13 @@ C....    Check for valid delay.
         WRITE(JOSTND,2801) KEYWRD,KARD(1),ISPL,NINT(ARRAY(2))
  2801   FORMAT(/1X, A8, ' Years to flowering for species: ',
      >          A3, ' (', I2, ') changed to ', I3, ' years.')
-	  IF (ISPL .GT. 0) THEN
+        IF (ISPL .GT. 0) THEN
           DMFLWR(ISPL) = NINT(ARRAY(2))
-	  ELSE
-	    DO J = 1,MAXSP
-	      DMFLWR(J) = NINT(ARRAY(2))
+        ELSE
+          DO J = 1,MAXSP
+            DMFLWR(J) = NINT(ARRAY(2))
           ENDDO
-	  ENDIF
+        ENDIF
       ELSE
         CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
         WRITE (JOSTND,8000) ISPL,MAXSP
@@ -1282,20 +1282,20 @@ C....    Check for valid delay.
 
       GO TO 50
 
-C     Option 29: DMBCI:	Biological control initiation
+C     Option 29: DMBCI: Biological control initiation
 
  2900 CONTINUE
 
-	LOK = .TRUE.
+      LOK = .TRUE.
       IF (.NOT.LNOTBK(1)) LOK = .FALSE.
-	I = IFIX(ARRAY(1))
-	IF (I .LT. 1 .OR. I .GT. MAXBC) LOK = .FALSE.
+      I = IFIX(ARRAY(1))
+      IF (I .LT. 1 .OR. I .GT. MAXBC) LOK = .FALSE.
 
       CALL SPDECD(2,ISPL,NSP(1,1),JOSTND,IRECNT,KEYWRD,
      &            ARRAY,KARD)
       IF (ISPL.EQ.-1) LOK = .FALSE.
 
-	IF (LOK) THEN
+      IF (LOK) THEN
         READ(IREAD,2901,END=60) (BC(I)%Mort(K),  K=1,ACTIVE)
         IRECNT=IRECNT+1
         READ(IREAD,2901,END=60) (BC(I)%Suprs(K), K=1,ACTIVE)
@@ -1308,12 +1308,12 @@ C     Option 29: DMBCI:	Biological control initiation
           BC(I)%Yr(K)    = MIN(999.0, MAX(0.04, BC(I)%Yr(K)))   ! 0.04,999yr
           IF (BC(I)%Yr(K) .GE. 0.04) THEN
             BC(I)%HfLf(K) = EXP(LOG(0.5)/BC(I)%Yr(K))
-	    ENDIF
-	  ENDDO
-	ENDIF
+          ENDIF
+        ENDDO
+      ENDIF
  2901 FORMAT(4F10.0)
 
- 	IF (LOK) THEN
+       IF (LOK) THEN
         BC(I)%Spp = ISPL
         WRITE(JOSTND,2902) KEYWRD,I,KARD(2)(1:3),
      >  (BC(I)%Mort(K),  K=1,ACTIVE),
@@ -1331,11 +1331,11 @@ C     Option 29: DMBCI:	Biological control initiation
       END IF
       GO TO 50
 
-C     Option 30: DMBCA:	Biological control application
+C     Option 30: DMBCA:      Biological control application
 
  3000 CONTINUE
       IDT = 1
-	IKD = 2004
+      IKD = 2004
       IF (LNOTBK(1)) IDT=IFIX(ARRAY(1))
 
       IF (IPRMPT.GT.0) THEN
@@ -1351,9 +1351,9 @@ C     Option 30: DMBCA:	Biological control application
         IF(.NOT.LNOTBK(3)) ARRAY(3) = 1.0
         IF(.NOT.LNOTBK(4)) ARRAY(4) = FLOAT(MXHT*MESH)
 
-	  ARRAY(2) = FLOAT(IFIX(MIN(FLOAT(MAXBC), MAX(1.0, ARRAY(2)))))
-	  ARRAY(3) = MIN(20.0,             MAX(0.0, ARRAY(3)))
-	  ARRAY(4) = MIN(FLOAT(MXHT*MESH), MAX(0.0, ARRAY(4)))
+        ARRAY(2) = FLOAT(IFIX(MIN(FLOAT(MAXBC), MAX(1.0, ARRAY(2)))))
+        ARRAY(3) = MIN(20.0,             MAX(0.0, ARRAY(3)))
+        ARRAY(4) = MIN(FLOAT(MXHT*MESH), MAX(0.0, ARRAY(4)))
 
         WRITE (JOSTND,3010) KEYWRD,IDT,IFIX(ARRAY(2)),
      >                      ARRAY(3),ARRAY(4)
@@ -1365,7 +1365,7 @@ C     Option 30: DMBCA:	Biological control application
           CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
           CALL ERRGRO(.TRUE.,4)
         ENDIF
-	ENDIF
+      ENDIF
       GO TO 50
 
 C====================

@@ -1,7 +1,7 @@
       SUBROUTINE FMCWD(IYR)
       IMPLICIT NONE
 C----------
-C  **FMCWD--FIRE BASE  DATE OF LAST REVISION:  11/23/10
+C  **FMCWD--FIRE BASE  DATE OF LAST REVISION:  04/23/13
 C----------
 C     CALLED FROM: FMSNAG
 C                  FMMAIN
@@ -86,6 +86,13 @@ C         First decay duff so can add stuff to it later
           IF (CWD(I,11,2,L) .LT. 0.0) CWD(I,11,2,L) = 0.0
 
           DO 6 J = 1, 10
+          
+            IF (DEBUG) WRITE(JOSTND,9) J, L, DKR(J,L)
+    9       FORMAT(' J = ',I2,' L = ',I2,' DKR = ',F10.6)
+
+            IF (DEBUG) WRITE(JOSTND,11) J, L, TODUFF(J,L)
+   11       FORMAT(' J = ',I2,' L = ',I2,' TODUFF = ',F10.6)          
+          
 C           Turn material into duff
             CWD(I,11,2,L) = CWD(I,11,2,L) + CWD(I,J,1,L) *
      &                                            (1.1 * TODUFF(J,L))

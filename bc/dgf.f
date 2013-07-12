@@ -108,7 +108,7 @@ C
       REAL    BRATIO
 
       LOGICAL DEBUG
-	LOGICAL LSPPOK(MAXSP)
+      LOGICAL LSPPOK(MAXSP)
       REAL BECADJ(3),SEICN2(MAXSP),SEISLP(MAXSP),SEISAS(MAXSP),
      &     SEICAS(MAXSP),SEIELV(MAXSP),SEIEL2(MAXSP),SEICCF(MAXSP),
      &     DGCON1(MAXSP),DGCON2(MAXSP)
@@ -1932,15 +1932,15 @@ C           EP/OH MODEL MUST HAVE CROWN<=0.80
 
             SELECT CASE (ISPC)
 
-              ! new birch IDF model form in IDF; old form in ICH
-	        CASE (11,15)
-	          IF (INDEX(BEC%Zone,'IDF') .GT. 0) THEN
-	            D2    = MAX(D,1.0)  ! CONSTRAIN TO 1 CM
+            ! new birch IDF model form in IDF; old form in ICH
+            CASE (11,15)
+              IF (INDEX(BEC%Zone,'IDF') .GT. 0) THEN
+                D2    = MAX(D,1.0)  ! CONSTRAIN TO 1 CM
                   BALD1 = BAL/D2
                   DDS   = DGLD1(ISPC) * (D2 **
      >              (DGDBAL1(ISPC) + DGDBAL2(ISPC) * BALD1)) *
      >              EXP(DGDSQ1(ISPC) * D2 * D2)
-	          ELSEIF (INDEX(BEC%Zone,'ICH') .GT. 0) THEN
+              ELSEIF (INDEX(BEC%Zone,'ICH') .GT. 0) THEN
                   DDS = CONSPP
      >              + DGLD1(ISPC)   * D
      >              + DGDSQ1(ISPC)  * D*D
@@ -1949,17 +1949,17 @@ C           EP/OH MODEL MUST HAVE CROWN<=0.80
      >              + DGDBAL2(ISPC) * BALD2
      >              + DGCR1(ISPC)   * CR
                   DDS = EXP(MAX(-9.21,DDS))
-	          ENDIF
+              ENDIF
 
-	        ! new aspen model form
-	        CASE (12,13)
+            ! new aspen model form
+            CASE (12,13)
                 D2    = MAX(D,1.0)  ! CONSTRAIN TO 1 CM
                 BALD1 = BAL/D2
                 DDS   = DGLD1(ISPC) * (D2 **
      >            (DGDBAL1(ISPC) + DGDBAL2(ISPC) * BALD1)) *
      >            EXP(DGDSQ1(ISPC) * D2 * D2)
 
-	        CASE DEFAULT
+            CASE DEFAULT
                 DDS = CONSPP
      >            + DGLD1(ISPC)    * D
      >            + DGDSQ1(ISPC)   * D*D
@@ -1969,13 +1969,13 @@ C           EP/OH MODEL MUST HAVE CROWN<=0.80
      >            + DGCR1(ISPC)    * CR
                 DDS = EXP(MAX(-9.21,DDS))
 
-	      END SELECT
+          END SELECT
 
 C           CONVERT DG [CM] PREDICTION TO LN(DDS) [IN]
             DDS = (DDS*DDS + 2.0 * DDS * D * BRATIO(ISPC,D,0.0)) *
      >             CMtoIN * CMtoIN
 
-	    ENDIF
+        ENDIF
 
           DDS = MAX(0.001,DDS)  ! temporary: during SBS fit
           DDS = LOG(DDS)
@@ -2053,7 +2053,7 @@ C           USE SEI-DERIVED TERMS
      &        +  SEICAS(I)  * COS(ASPECT)
      &        +  SEISLP(I)) * SLOPE
 
-	      DGCON(I) = DGCON1(I) + DGCON2(I)
+          DGCON(I) = DGCON1(I) + DGCON2(I)
             V2SEICOR(I)= EXP(DGCON2(I))
 
           ELSE  ! OTHERWISE USE THE ORIGINAL NI MODEL
@@ -2065,7 +2065,7 @@ C           USE SEI-DERIVED TERMS
      &      +  DGCASP(I)  * COS(ASPECT)
      &      +  DGSLOP(I)) * SLOPE
      &      +  DGSLSQ(I)  * SLOPE * SLOPE
-	      V2SEICOR(I) = 1.0
+          V2SEICOR(I) = 1.0
           ENDIF
 
           DGDSQ(I)=DGDS(ISPDSQ,I)
@@ -2213,8 +2213,8 @@ C         POPULATE ARRAYS FOR OTHER CONSTANTS
           DGDBAL2(I) = ZNKONST(IP)%DBAL2  ! BAL/LOG(DBH+1)
           ATTEN(I)   = ZNKONST(IP)%OBSERV ! OBSERV **coeffs.f77**
           SMCON(I)   = 0.
-C	    SIGMAR(I)  = ZNKONST(IP)%SIGMAR ! SIGMAR - RES.ERR
-C	    SIGMAR(I)  = SIGMAR(I) * 0.5
+C        SIGMAR(I)  = ZNKONST(IP)%SIGMAR ! SIGMAR - RES.ERR
+C        SIGMAR(I)  = SIGMAR(I) * 0.5
 c          LLTDGOK(I) = .TRUE.
    11   ENDDO
       ENDIF

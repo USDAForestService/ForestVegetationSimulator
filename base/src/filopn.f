@@ -109,10 +109,10 @@ C----------
       CALL REVISE (VVER,REV)
         IF(VVER(:2).EQ.'SM') THEN
            WRITE(*,1) REV
- 1         FORMAT(/T20,'CR FVS VARIANT -- RV:',A10/)
+    1      FORMAT(/T20,'CR FVS VARIANT -- RV:',A10/)
         ELSE
            WRITE(*,2) VVER(:2),REV
- 2         FORMAT(/T20,A2,' FVS VARIANT -- RV:',A10/)
+    2      FORMAT(/T20,A2,' FVS VARIANT -- RV:',A10/)
         ENDIF
 C
       WRITE (*,'('' ENTER KEYWORD FILE NAME ('',I2.2,

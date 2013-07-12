@@ -1,7 +1,7 @@
       SUBROUTINE BWEPDM
       IMPLICIT NONE
 C----------
-C  **BWEPDM                 DATE OF LAST REVISION:  07/14/10
+C **BWEPDM                  DATE OF LAST REVISION:  06/18/13
 C----------
 C
 C     PERIODIC DAMAGE.  TRANSLATES ANNUAL DAMAGE ACCUMULATORS INTO
@@ -248,15 +248,15 @@ C
 C     write header for periodic damage table output if requested.
 C
       IF (LBWPDM) WRITE (JOWSBW,30) IY(ICYC+1)-1,NPLT,MGMID
-   30 FORMAT (/' PERDAM: ',I4,'; ',A26,'; ',A4,' MORTALITY',T52,
-     >        'DBH GROWTH',T66,'HT GROWTH',T80,'PROB',T87,'TOP'/
-     >        ' TREE',T15,'DBH  ORG HT',T28,'TREES',T36,'BASE',
-     >        T45,'USED',T52,'BASE',T59,'USED',T66,'BASE',T73,'USED',
-     >        T79,'OF TOP',T87,'KILL'/    ' NO.',T8,'SP.',
-     >        T14,'(IN)',T21,'(FT)',T28,'/ACRE',T35,'(/ACRE)',
-     >        T43,'(/ACRE)',T52,'(IN)',T59,'(IN)',T66,'(FT)',T73,'(FT)',
-     >        T80,'KILL',T87,'(FT)'/
-     >        1X,'----  --- ',2(' ------'),3(' -------'),6(' ------'))
+   30 FORMAT (/'PERDAM: ',I4,'; ',A26,'; ',A4,' MORTALITY',T51,
+     >        'DBH GROWTH',T65,'HT GROWTH',T79,'PROB',T86,'TOP'/
+     >        'TREE',T14,'DBH  ORG HT',T27,'TREES',T35,'BASE',
+     >        T44,'USED',T51,'BASE',T58,'USED',T65,'BASE',T72,'USED',
+     >        T78,'OF TOP',T86,'KILL'/ ' NO.',T7,'SP.',
+     >        T13,'(IN)',T20,'(FT)',T27,'/ACRE',T34,'(/ACRE)',
+     >        T42,'(/ACRE)',T51,'(IN)',T58,'(IN)',T65,'(FT)',T72,'(FT)',
+     >        T79,'KILL',T86,'(FT)'/
+     >        '----  --- ',2(' ------'),3(' -------'),6(' ------'))
 C
 C     Run through tree list to sum basal area for all trees and 
 C     and basal area for host trees 3+ inch DBH on each sample point.
@@ -710,7 +710,7 @@ C
             IF (LBWPDM) WRITE (JOWSBW,46) I,NSP(ISPI,IMC(I)),DBH(I),
      >      ORGHT,PROB(I),FA,WK2(I),DGI,DG(I),HTGI,HTG(I),PRTOPK,
      >      FTKILL
-   46       FORMAT (1X,I4,2X,A3,1X,2F7.2,3F8.3,5F7.3,F7.1)
+   46       FORMAT (I4,2X,A3,1X,2F7.2,3F8.3,5F7.3,F7.1)
    50    CONTINUE
    60 CONTINUE
    70 CONTINUE

@@ -65,8 +65,8 @@ C
       INTEGER MYACTS,NTODO,I,IDATE,IACTK,NP,ISPCC,IS,ISPC
       INTEGER I1,I2,I3,IP,ITODO,KPOINT,J,K,M
       INTEGER IPOS(MAXSP),IPAS,KBIG,IG,IX
-	INTEGER MRTCLS,DBHCLS,BACLS,BECCLS,IDMFLG
-	INTEGER IGRP,IULIM
+      INTEGER MRTCLS,DBHCLS,BACLS,BECCLS,IDMFLG
+      INTEGER IGRP,IULIM
       REAL    PRM,T,SD2SQ,P,D,G,CIOBDS,DQ10,DELTBA,BA10,TB
       REAL    TTB,RZ,BARK,XMORT,DX,BAX
       REAL    D1,D2,WKI,RIP,RIPP
@@ -181,7 +181,7 @@ C     THESE ARE THE COEFFICIENTS OF THE TABULAR MORTALITY MODEL USED
 C     FOR FD AND PL; GROUPED BY ICH AND IDF ONLY. THE VALUES ARE
 C     ANNUAL PERCENT MORALITY: 0.153%/YR = 0.00153/YR
 C
-	DATA DBHBRK / 10.0, 25.0, 40.0 /
+      DATA DBHBRK / 10.0, 25.0, 40.0 /
       DATA BABRK  / 20.0, 30.0, 40.0, 50.0 /
 
 C     EACH ROW IS A BA CLASS; COLUMNS ARE DBH CLASS
@@ -462,11 +462,11 @@ C       5 = >50+
 
       BACLS = MRT_BA_UB
       DO I = 1, (MRT_BA_UB - 1)
-	  IF (BAX .LE. BABRK(I)) THEN
-	    BACLS = I
-	    EXIT
-	  ENDIF
-	ENDDO
+        IF (BAX .LE. BABRK(I)) THEN
+          BACLS = I
+          EXIT
+        ENDIF
+      ENDDO
 
 C  START LOOP TO ESTIMATE MORTALITY RATE.  TREES ARE PROCESSED
 C  ONE AT A TIME WITHIN A SPECIES.
@@ -485,26 +485,26 @@ C  ONE AT A TIME WITHIN A SPECIES.
           B5       = PMSC(ISPC)
         ELSE
 C         FIND AND SET INDEX FOR TABULAR MORTALITY MODELS
-	    MRTCLS = 0
-	    IF (ISPC .EQ. 1) THEN
-	      MRTCLS = MRT_PW
-	    ELSEIF (ISPC .EQ. 2) THEN
-	      MRTCLS = MRT_LW
-	    ELSEIF (ISPC .EQ. 3 .OR. ISPC .EQ. 14) THEN
-	      MRTCLS = MRT_FD
-	    ELSEIF (ISPC .EQ. 4 .OR. ISPC .EQ. 9) THEN
-	      MRTCLS = MRT_BG
-	    ELSEIF (ISPC .EQ. 5) THEN
-	      MRTCLS = MRT_HW
-	    ELSEIF (ISPC .EQ. 6) THEN
-	      MRTCLS = MRT_CW
-	    ELSEIF (ISPC .EQ. 7) THEN
-	      MRTCLS = MRT_PL
-	    ELSEIF (ISPC .EQ. 8) THEN
-	      MRTCLS = MRT_SE
-	    ELSEIF (ISPC .EQ. 10) THEN
-	      MRTCLS = MRT_PY
-	    ENDIF
+          MRTCLS = 0
+          IF (ISPC .EQ. 1) THEN
+            MRTCLS = MRT_PW
+          ELSEIF (ISPC .EQ. 2) THEN
+            MRTCLS = MRT_LW
+          ELSEIF (ISPC .EQ. 3 .OR. ISPC .EQ. 14) THEN
+            MRTCLS = MRT_FD
+          ELSEIF (ISPC .EQ. 4 .OR. ISPC .EQ. 9) THEN
+            MRTCLS = MRT_BG
+          ELSEIF (ISPC .EQ. 5) THEN
+            MRTCLS = MRT_HW
+          ELSEIF (ISPC .EQ. 6) THEN
+            MRTCLS = MRT_CW
+          ELSEIF (ISPC .EQ. 7) THEN
+            MRTCLS = MRT_PL
+          ELSEIF (ISPC .EQ. 8) THEN
+            MRTCLS = MRT_SE
+          ELSEIF (ISPC .EQ. 10) THEN
+            MRTCLS = MRT_PY
+          ENDIF
         ENDIF
 
         XMORT = XMMULT(ISPC)
@@ -569,12 +569,12 @@ C               4 = >40
 
               DBHCLS = MRT_DBH_UB
               DO J = 1,(MRT_DBH_UB - 1)
-	          IF (DX .LE. DBHBRK(J)) THEN
-	            DBHCLS = J
-	            EXIT
-	          ENDIF
-	        ENDDO
-	        RIP = TMRT(MRTCLS,BACLS,DBHCLS)
+                IF (DX .LE. DBHBRK(J)) THEN
+                  DBHCLS = J
+                  EXIT
+                ENDIF
+              ENDDO
+              RIP = TMRT(MRTCLS,BACLS,DBHCLS)
 
             ELSE
 
@@ -599,9 +599,9 @@ C             CONVERTED TO MORTALITY: (1.0 - SURVIVAL)
               ENDIF
               RIP = MAX(-70.0, MIN(70.0, RIP))
               RIP = 1.0 - (1.0 / (1.0 + EXP(RIP)))
-	      ENDIF
+            ENDIF
 
-	    ENDIF
+          ENDIF
 
 C         MAKE ADJUSTMENT FOR APPROACH TO MAXIMUM BASAL AREA.
 
@@ -1011,7 +1011,7 @@ C       GIVING UP ON A MATCH.
           PAT  = BEC%PrettyName
     7     DO J = 1, P_MD
             DO K = 1,MAXSP
-	        IF (LMRT(J)%SPP(K) .EQ. 0) EXIT
+              IF (LMRT(J)%SPP(K) .EQ. 0) EXIT
               IF (LMRT(J)%SPP(K) .EQ. I) THEN
                 DO M = 1, P_SS
                   IF (LEN_TRIM(LMRT(J)%PrettyName(M)) .EQ. 0) EXIT
@@ -1053,8 +1053,8 @@ C       CONVERSION: FMRT(...)/100 CONVERTS ANNUAL % MORTALITY (FROM TEMESGEN'S
 C       TABLE) TO ANNUAL PROPORTION MORTALITY.
 
         BECCLS = 1
-	  IF (INDEX(BEC%Zone,'ICH') .GT. 0) BECCLS = 1
-	  IF (INDEX(BEC%Zone,'IDF') .GT. 0) BECCLS = 2
+        IF (INDEX(BEC%Zone,'ICH') .GT. 0) BECCLS = 1
+        IF (INDEX(BEC%Zone,'IDF') .GT. 0) BECCLS = 2
 C           MAP SBPS TO IDF
         IF (INDEX(BEC%Zone,'SBPS') .GT. 0) BECCLS = 2
 C           MAP SBS TO ICH, but ONE subzone will be mapped differently
@@ -1062,14 +1062,14 @@ C           MAP SBS TO ICH, but ONE subzone will be mapped differently
         IF (INDEX(BEC%PrettyName,'SBSdw2') .GT. 0) BECCLS = 2
 
         DO I = 1,MRT_PY
-	    DO J = 1,MRT_BA_UB
-	      DO K = 1,MRT_DBH_UB
-!!	        TMRT(I,J,K) =
+          DO J = 1,MRT_BA_UB
+            DO K = 1,MRT_DBH_UB
+!!              TMRT(I,J,K) =
 !!     >          EXP(LOG(1.0 - (FMRT(BECCLS,I,J,K) * 0.1)) / 10.0)
-	        TMRT(I,J,K) = FMRT(BECCLS,I,J,K)/100.0
+              TMRT(I,J,K) = FMRT(BECCLS,I,J,K)/100.0
             ENDDO
           ENDDO
-	  ENDDO
+        ENDDO
 
       ENDIF
 
