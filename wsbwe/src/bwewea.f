@@ -1,7 +1,7 @@
       SUBROUTINE BWEWEA
       IMPLICIT NONE
 C-----------
-C **BWEWEA                   DATE OF LAST REVISION:  07/14/10
+C **BWEWEA                  DATE OF LAST REVISION:  06/18/13
 C-----------
 C
 C GET WEATHER PARAMETERS FOR THE CURRENT YEAR
@@ -116,7 +116,7 @@ C               WRITE (16,*) 'IN BWEWEA: DUMMY READ JOWE'         ! TEMP DEBUG
 C               WRITE (16,*) 'IN BWEWEA: REWIND JOWE'             ! TEMP DEBUG
              ENDIF
              IF (IDEFPR.NE.0) WRITE (JOBWP3,40) IWYR,(IDEF(IBUDYR,N),
-     *          N=1,NUMCOL)
+     &          N=1,NUMCOL)
    40        FORMAT (I4,4X,5(I4,6X))
              IBUDYR=IBUDYR+1
 C            WRITE (16,*) 'IN BWEWEA: IBUDYR=',IBUDYR              ! TEMP DEBUG
@@ -129,7 +129,7 @@ C   OF THIS SECTION
 C
          IF (IWSRC.EQ.3) THEN
    44       READ (JOWE,45,IOSTAT=IOS) DAYS(1),DAYS(2),DAYS(3),WHOTF,
-     *        DFLUSH,TREEDD,RAIN(1),RAIN(2),RAIN(3),WRAIND
+     &        DFLUSH,TREEDD,RAIN(1),RAIN(2),RAIN(3),WRAIND
    45       FORMAT(5X,10F7.1)
             IF (IOS.EQ.-1) THEN 
                REWIND (JOWE)
@@ -138,16 +138,16 @@ C
             AMIN=0.8
             AMULT=1.0
             IF (WHOTF.GT.WHOTM) CALL BWEMUL(WHOTM,WHOTSD,WHOTF,AMIN,
-     *         AMULT)
+     &         AMULT)
             WHOTF=AMULT
             AMULT=1.0
             IF (WRAIND.GT.RAINDM) CALL BWEMUL(RAINDM,RAINDS,WRAIND,AMIN,
-     *         AMULT)
+     &         AMULT)
             WRAIND=AMULT
             DO 46 I=1,3
                AMULT=1.0
                IF (RAIN(I).GT.RAINM(I)) CALL BWEMUL(RAINM(I),RAINS(I),
-     *             RAIN(I),AMIN,AMULT)
+     &             RAIN(I),AMIN,AMULT)
                WRAINA(I)=AMULT
                WRAINB(I)=AMULT
                WRAIN1(I)=AMULT
@@ -166,7 +166,7 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
 
          IF (PICK.GT.BWEATH(4,1)) THEN
             CALL BWEMUL(BWEATH(4,1),BWEATH(4,2),PICK,
-     *                   AMIN,AMULT)
+     &                   AMIN,AMULT)
          ELSE
             AMULT=1.0
          ENDIF
@@ -188,7 +188,7 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
          PICK=BWENOR(BWEATH(10,1),BWEATH(10,2))
          IF (PICK.GT.BWEATH(10,1)) THEN
             CALL BWEMUL(BWEATH(10,1),BWEATH(10,2),PICK,
-     *                   AMIN,AMULT)
+     &                   AMIN,AMULT)
          ELSE
             AMULT=1.0
          ENDIF
@@ -216,7 +216,7 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
          PICK=BWENOR(BWEATH(INDEX,1),BWEATH(INDEX,2))
          IF (PICK.GT.BWEATH(INDEX,1)) THEN
             CALL BWEMUL(BWEATH(INDEX,1),BWEATH(INDEX,2),PICK,
-     *                   AMIN,AMULT)
+     &                   AMIN,AMULT)
          ELSE
             AMULT=1.0
          ENDIF
@@ -229,7 +229,7 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
             NEVENT=NEVENT+1
             IF (NEVENT.GT.250) THEN
               WRITE (JOBWP4,8250) 
- 8250         FORMAT ('   AAAIIEEEEEE!!  MORE THAN 250 ENTRIES!!!')
+ 8250         FORMAT ('********   ERROR - WSBW: MORE THAN 250 ENTRIES!')
               LP4 = .FALSE.
             ELSE
               IEVENT(NEVENT,1)=IYRCUR
@@ -367,7 +367,7 @@ C
       AMULT=1.0-((1.0-AMIN)*PROP)
       IF (AMULT.LT.0.0.OR.AMULT.GT.1.0) THEN
         WRITE (*,100) AVE,SD,PICK,AMIN,AMULT
-  100   FORMAT (' WARNING (BWEMUL): BAD AMULT VALUE!',5F9.2)
+  100   FORMAT ('********   WARNING (BWEMUL): BAD AMULT VALUE!',5F9.2)
         AMULT=1.0
       ENDIF
 

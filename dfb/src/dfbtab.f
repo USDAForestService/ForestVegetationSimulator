@@ -1,7 +1,7 @@
       SUBROUTINE DFBTAB(CFTVOL)
       IMPLICIT NONE
 C----------
-C  **DFBTAB  DATE OF LAST REVISION  06/30/10
+C  **DFBTAB  DATE OF LAST REVISION  05/30/13
 C----------
 C
 C  PRINTS OUT THE DOUGLAS-FIR BEETLE SUMMARY TABLE.
@@ -109,20 +109,20 @@ C
       WRITE (JODFB,*)
       WRITE (JODFB,530)
 
-  500 FORMAT ('1',1X,'            DOUGLAS-FIR BEETLE MORTALITY')
-  510 FORMAT (2X,'---------------------------------------------------',
+  500 FORMAT (//,'             DOUGLAS-FIR BEETLE MORTALITY')
+  510 FORMAT (1X,'---------------------------------------------------',
      &        '-------')
-  515 FORMAT (2X,I4,' TREES WERE READ IN AS DEAD AFTER ',I1,' YEAR(S) ',
+  515 FORMAT (1X,I4,' TREES WERE READ IN AS DEAD AFTER ',I1,' YEAR(S) ',
      &       'OF DFB MORTALITY.')
-  520 FORMAT (2X,'YEAR OF THE OUTBREAK             : ',I5)
-  525 FORMAT (2X,'PROJECTED MORTALITY (TREES/ACRE) : ',F5.1)
-  530 FORMAT (2X,'             TOTAL         DF          DF     ',
+  520 FORMAT (1X,'YEAR OF THE OUTBREAK             : ',I5)
+  525 FORMAT (1X,'PROJECTED MORTALITY (TREES/ACRE) : ',F5.1)
+  530 FORMAT (1X,'             TOTAL         DF          DF     ',
      &        '     DF    ',/,
-     &        2X,'           TREES/ACRE  TREES/ACRE  TREES/ACRE ',
+     &        1X,'           TREES/ACRE  TREES/ACRE  TREES/ACRE ',
      &        ' CU/FT VOL ',/,
-     &        2X,'DBH CLASS    ALIVE       ALIVE       KILLED   ',
+     &        1X,'DBH CLASS    ALIVE       ALIVE       KILLED   ',
      &        '    LOST   ',/,
-     &        2X,'---------  ----------  ----------  ---------- ',
+     &        1X,'---------  ----------  ----------  ---------- ',
      &        ' ----------')
 
 C

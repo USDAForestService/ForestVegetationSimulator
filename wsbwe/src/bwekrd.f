@@ -2,7 +2,7 @@
      >                   ARRAY,IRECNT,KODE,KARD)
       IMPLICIT NONE
 C----------
-C  **BWEKRD                 DATE OF LAST REVISION:  07/14/10
+C  **BWEKRD                 DATE OF LAST REVISION:  06/17/13
 C----------
 c
 c  Also revised by K.Sheehan 7/1/96 to run on PowerStation
@@ -86,18 +86,18 @@ c substituted by KAS
 c
 c      READ (RECORD(J:J+9),20,ERR=26) ARRAY(I),KARD(I)
 c   20 FORMAT (F10.0,T1,A10)
-      read (record(j:j+9),20) kard(i)
-   20 format (a10)
+      READ (RECORD(J:J+9),20) KARD(I)
+   20 FORMAT (A10)
    25 CONTINUE
 c
 c added by KAS 7/1/96
 c
-      j=1
-	do 125 i=1,nf
-	j=j+10
-	read (record(j:j+9),120,err=26) array(i)
-  120 format (f10.0)
-  125 continue
+      J=1
+	do 125 I=1,NF
+	J=J+10
+	READ (RECORD(J:J+9),120,ERR=26) ARRAY(I)
+  120 FORMAT (F10.0)
+  125 CONTINUE
 c
 c end of kas addition 7/1/96
 c

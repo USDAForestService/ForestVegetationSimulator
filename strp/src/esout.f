@@ -52,7 +52,7 @@ C
       IF (.NOT.LFG) THEN
          LFG=.TRUE.
          WRITE (JOSTND,30)
-   30    FORMAT (1X,132('-'))
+   30    FORMAT (132('-'))
       ENDIF
 C
       IF (LL) THEN

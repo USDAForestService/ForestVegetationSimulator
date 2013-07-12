@@ -1,7 +1,7 @@
       SUBROUTINE BWEP1(ISTAGE,IYRCUR)
       IMPLICIT NONE
 C----------
-C **BWEP1                   DATE OF LAST REVISION:  07/14/10
+C **BWEP1                   DATE OF LAST REVISION:  06/18/13
 C----------
 C
 C  PRINT DETAILED OUTPUT RE: BUDWORM MORTALITY & FEEDING
@@ -42,27 +42,27 @@ C----------
 
       DATA HEADER/.TRUE./
       DATA TRESP/' WF',' DF',' GF','SAF',' ES',' WL'/,
-     *     TRESIZ/'SMALL','MED. ','LARGE'/,
-     *     CROWN/'TOP','MID','BOT'/,
-     *     STAGE/'L2-L4','L4-L6','PUPAE'/
+     &     TRESIZ/'SMALL','MED. ','LARGE'/,
+     &     CROWN/'TOP','MID','BOT'/,
+     &     STAGE/'L2-L4','L4-L6','PUPAE'/
 C
 C IF THIS IS THE FIRST CALL, PRINT THE HEADER
 C
       IF (HEADER) THEN
       WRITE (JOBWP1,15) MGMIDB,ITITLB
-   15 FORMAT (2X,A4,' -- ',A72/)
+   15 FORMAT (A4,' -- ',A72/)
       WRITE (JOBWP1,20)  
    20 FORMAT (45X,'PERCENT MORTALITY CAUSED BY:',17X,'FOLIAGE',
-     *  ' (G)',11X,'  OLDER LARV FEED.'/
-     *  45X,5('-----'),'---  TOTAL',2X,6('-----'),2X,
-     *  3('-----'),/,5X,'TREE  TREE CROWN  BW   ',
-     *  'INITIAL    NET ',34X,'%      AMT.   AMT.      % DEFOL.',6X,
-     *  '%    %    %',/'YEAR SPEC. SIZE THIRD STAGE  NUMBER ',
-     *  '  DISP.  DISP STAR ANTS BIRD PARA OTH. MORT.    NEW', 
-     *  '    OLD    NEW  OLD TOTAL',
-     *  '  NEW  OLD EARLY'/'---- ----- ---- ----- -----  ------',
-     *  ' -------  ---- ---- ---- ---- ---- ---- -----  ------',
-     *  ' ------  ---- ---- ----- ---- ---- ----')
+     &  ' (G)',11X,'  OLDER LARV FEED.'/
+     &  45X,5('-----'),'---  TOTAL',2X,6('-----'),2X,
+     &  3('-----'),/,5X,'TREE  TREE CROWN  BW   ',
+     &  'INITIAL    NET ',34X,'%      AMT.   AMT.      % DEFOL.',6X,
+     &  '%    %    %',/'YEAR SPEC. SIZE THIRD STAGE  NUMBER ',
+     &  '  DISP.  DISP STAR ANTS BIRD PARA OTH. MORT.    NEW', 
+     &  '    OLD    NEW  OLD TOTAL',
+     &  '  NEW  OLD EARLY'/'---- ----- ---- ----- -----  ------',
+     &  ' -------  ---- ---- ---- ---- ---- ---- -----  ------',
+     &  ' ------  ---- ---- ----- ---- ---- ----')
       LYRCUR=IYRCUR
       LSIZE=0
       LSPEC=0
@@ -99,7 +99,7 @@ C CALC % DEFOL FOR TOTAL FOLIAGE
 C
       IF (ISTAGE.NE.3) THEN
          DEFTOT=((OUT1(IC,IH,10)*OUT1(IC,IH,12))+(OUT1(IC,IH,11)*
-     *   OUT1(IC,IH,13)))/(OUT1(IC,IH,10)+OUT1(IC,IH,11))
+     &   OUT1(IC,IH,13)))/(OUT1(IC,IH,10)+OUT1(IC,IH,11))
       ENDIF
 C
 C  PRINT OUT THE WHOLE SHEBANG!
@@ -137,23 +137,23 @@ C
       ENDIF
       IF (ISTAGE.EQ.1) THEN
         WRITE (JOBWP1,100) IYRCUR,TRESP(IH),TRESIZ(ISIZE),
-     *     CROWN(ICROWN),STAGE(ISTAGE),OUT1(IC,IH,1),OUT1(IC,IH,2),
-     *     (TEMP(I),I=1,7),(OUT1(IC,IH,J),J=10,13),DEFTOT
+     &     CROWN(ICROWN),STAGE(ISTAGE),OUT1(IC,IH,1),OUT1(IC,IH,2),
+     &     (TEMP(I),I=1,7),(OUT1(IC,IH,J),J=10,13),DEFTOT
   100   FORMAT (I4,2X,A3,2X,A5,1X,A3,2X,A5,1X,F8.0,F8.0,7F5.0,
-     *     2F8.0,1X,F6.0,2F5.0,2X,' ---  ---  ---')
+     &     2F8.0,1X,F6.0,2F5.0,2X,' ---  ---  ---')
       ELSEIF (ISTAGE.EQ.2) THEN
         WRITE (JOBWP1,120) IYRCUR,TRESP(IH),TRESIZ(ISIZE),
-     *     CROWN(ICROWN),STAGE(ISTAGE),OUT1(IC,IH,1),OUT1(IC,IH,2),
-     *     (TEMP(I),I=1,7),(OUT1(IC,IH,J),J=10,13),DEFTOT,
-     *     (OUT1(IC,IH,K),K=15,17)
+     &     CROWN(ICROWN),STAGE(ISTAGE),OUT1(IC,IH,1),OUT1(IC,IH,2),
+     &     (TEMP(I),I=1,7),(OUT1(IC,IH,J),J=10,13),DEFTOT,
+     &     (OUT1(IC,IH,K),K=15,17)
   120   FORMAT (I4,2X,A3,2X,A5,1X,A3,2X,A5,1X,F8.0,F8.0,7F5.0,
-     *     2F8.0,1X,F6.0,2F5.0,1X,3F5.0)
+     &     2F8.0,1X,F6.0,2F5.0,1X,3F5.0)
       ELSE
         WRITE (JOBWP1,140) IYRCUR,TRESP(IH),TRESIZ(ISIZE),
-     *     CROWN(ICROWN),STAGE(ISTAGE),OUT1(IC,IH,1),OUT1(IC,IH,2),
-     *     (TEMP(I),I=1,7)
+     &     CROWN(ICROWN),STAGE(ISTAGE),OUT1(IC,IH,1),OUT1(IC,IH,2),
+     &     (TEMP(I),I=1,7)
   140   FORMAT (I4,2X,A3,2X,A5,1X,A3,2X,A5,1X,F8.0,F8.0,7F5.0,
-     *     2X,'  ---     ---',3X,3('  ---'),3X,'---  ---  ---')
+     &     2X,'  ---     ---',3X,3('  ---'),3X,'---  ---  ---')
       ENDIF
 C
 C  RESET THE ARRAY TO ZERO

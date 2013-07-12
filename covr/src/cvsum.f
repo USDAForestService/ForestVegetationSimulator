@@ -1,7 +1,7 @@
       SUBROUTINE CVSUM (LTHIN)
       IMPLICIT NONE
 C----------
-C  **CVSUM  DATE OF LAST REVISION:  07/11/08
+C  **CVSUM  DATE OF LAST REVISION:  06/28/13
 C----------
 C  COMPUTES CROWN PROJECTION AREA, NUMBER OF TREES, AND SUMS OF
 C  SQUARED DIAMETERS BY HEIGHT CLASS FOR SUBROUTINE **CVCLAS**.
@@ -144,7 +144,7 @@ C----------
       IF (LTHIN) ITHN = 2
       IF (LTHIN) IP1 = ICYC
       IF (DEBUG) WRITE (JOSTND,9000) ICYC
- 9000 FORMAT (/' **CALLING CVSUM, CYCLE = ',I2)
+ 9000 FORMAT (/'**CALLING CVSUM, CYCLE = ',I2)
 C======================================================================
 C  ** COMPUTE SHRUB SUMMARY VALUES **
 C======================================================================
@@ -308,14 +308,14 @@ C----------
       IF (ITRN .GT. 0) GO TO 60
       HTMIN = 0.0
       IF (DEBUG) WRITE (JOSTND,9001) ITRN
- 9001 FORMAT (' ITRN =', I5,' : NOTREES : RETURN TO **CVCNOP**')
+ 9001 FORMAT ('ITRN =', I5,' : NOTREES : RETURN TO **CVCNOP**')
       RETURN
    60 CONTINUE
 C----------------------------------------------------------------------
 C  ENTER TREE LOOP.
 C----------------------------------------------------------------------
       IF ((LCNOP).AND.(DEBUG)) WRITE (JOSTND,9010)
- 9010 FORMAT ('      I  J     FRUST    ',
+ 9010 FORMAT ('     I  J     FRUST    ',
      &'TREVOL   CVOLUM    PAREA    TREAR    CAREA    BASE   UPLIM',
      &'  LOWLIM      H1      H2      Y1      Y1  TRFBMS')
       DO 300 I = 1,ITRN

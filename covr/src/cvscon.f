@@ -1,7 +1,7 @@
       SUBROUTINE CVSCON
       IMPLICIT NONE
 C----------
-C  **CVSCON DATE OF LAST REVISION:  07/11/08
+C  **CVSCON DATE OF LAST REVISION:  06/28/13
 C----------
 C  CONTAINS COEFFICIENT VALUES FOR COMPUTING TOTAL SHRUB COVER,
 C  PROBABILITY OF OCCURRENCE, PERCENT COVER, AND HEIGHT
@@ -481,7 +481,7 @@ C----------
       ALNEL = ALOG(ELEV)
 C
       IF (DEBUG) WRITE (JOSTND,8000) ICYC
- 8000 FORMAT (/' **CALLING CVSCON, CYCLE =', I3)
+ 8000 FORMAT (/'**CALLING CVSCON, CYCLE =', I3)
 C======================================================================
 C  ** CONSTANTS FOR INDIVIDUAL SHRUB PROBABILITY OF OCCURRENCE **
 C======================================================================
@@ -498,11 +498,11 @@ C
      &   (POTHER(I,1),I=1,6),PHABOV(IOV,1),PHABUN(IUN,1),PPHYS(IPHYS,1),
      &     PFLOC(INF,1),PDIST(IDIST,1),PSCAL(1)
  9000 FORMAT (/
-     &' SLOPE=',F10.2,'  ELEV=',F10.2,'  SXCOS=',F10.2,'  SXSIN=',F10.2
-     & / ' IOV=',I5,'  IUN=',I5,'  IPHYS=',I5,'  INF=',I5,'  IDIST=',I5/
-     &' POTHER(I,1)=',6F10.6 / ' PHABOV(IOV,1)=',F10.6,
+     &'SLOPE=',F10.2,'  ELEV=',F10.2,'  SXCOS=',F10.2,'  SXSIN=',F10.2
+     & / 'IOV=',I5,'  IUN=',I5,'  IPHYS=',I5,'  INF=',I5,'  IDIST=',I5/
+     &' POTHER(I,1)=',6F10.6 / 'PHABOV(IOV,1)=',F10.6,
      &'  PHABUN(IUN,1)=',F10.6,'  PPHYS(IPHYS,1)=',F10.6,
-     &'  PFLOC(INF,1)=',F10.6 /'  PDIST(IDIST,1)=',F10.6,
+     &'  PFLOC(INF,1)=',F10.6 /' PDIST(IDIST,1)=',F10.6,
      &'  PSCAL(1)=',F10.6)
 C======================================================================
 C  ** CONSTANTS FOR P(SHRUB COVER >0) **
@@ -517,10 +517,10 @@ C======================================================================
 C
       IF (DEBUG) WRITE (JOSTND,9001) SLOPE,SLOPEC,ELEV,ITUN,IDIST,
      &  THABU1(ITUN),TDIST(IDIST),THABU2(ITUN),TCON(1),TCON(2)
- 9001 FORMAT (/' SLOPE=',F10.5,'  SLOPEC=',F10.5,'  ELEV=',F10.5,
+ 9001 FORMAT (/'SLOPE=',F10.5,'  SLOPEC=',F10.5,'  ELEV=',F10.5,
      &'  ITUN=',I5,'  IDIST=',I5 /
-     &' THABU1(ITUN)=',F10.5,'  TDIST(IDIST)=',F10.5,
-     &'  THABU2(ITUN)=',F10.5 / ' TCON(1)=',F10.5,'  TCON(2)=',F10.5)
+     &'THABU1(ITUN)=',F10.5,'  TDIST(IDIST)=',F10.5,
+     &'  THABU2(ITUN)=',F10.5 / 'TCON(1)=',F10.5,'  TCON(2)=',F10.5)
 C======================================================================
 C  ** CONSTANTS FOR INDIVIDUAL SHRUB HEIGHT **
 C======================================================================
@@ -605,7 +605,7 @@ C
       HCON(31) = HSORB(1)+HSORB(IL(31))
 C
       IF (DEBUG) WRITE (JOSTND,9002) (HCON(I),I=1,31)
- 9002 FORMAT (/' (HCON(I),I=1,31)'/ 10F10.5/10F10.5/11F10.5)
+ 9002 FORMAT (/'(HCON(I),I=1,31)'/ 10F10.5/10F10.5/11F10.5)
 C======================================================================
 C  ** CONSTANTS FOR INDIVIDUAL SHRUB PERCENT COVER **
 C======================================================================
@@ -668,6 +668,6 @@ C
       CCON(31) = CSORB(1)+CSORB(2)*SLOPE
 C
       IF (DEBUG) WRITE (JOSTND,9003) (CCON(I),I=1,31)
- 9003 FORMAT (/ ' (CCON(I),I=1,31)' /  10F10.5/10F10.5/11F10.5)
+ 9003 FORMAT (/ '(CCON(I),I=1,31)' /  10F10.5/10F10.5/11F10.5)
       RETURN
       END

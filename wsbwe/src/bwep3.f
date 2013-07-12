@@ -1,7 +1,7 @@
       SUBROUTINE BWEP3
       IMPLICIT NONE
 C----------
-C  **BWEP3                  DATE OF LAST REVISION:  04/11/13
+C  **BWEP3                   DATE OF LAST REVISION:  06/18/13
 C----------
 C
 C  PRINT ANNUAL OUTPUT RE: BUDWORM MORTALITY & FEEDING
@@ -107,20 +107,20 @@ C    TABLE 5, THEN FOR G_CROWN (LP2)
 C
       IF (HEADER .AND. LP5) THEN
          WRITE (JOBWP5,15) MGMIDB,ITITLB
-   15    FORMAT (2X,A4,' -- ',A72/)
+   15    FORMAT (A4,' -- ',A72/)
          WRITE (JOBWP5,40)
    40    FORMAT (51X,'% of total mortality',
-     *   /40X,41('-'),'  total'/
-     *   40X,'eggs   L2 to L4      L4 to L6',7X,'pupae  gener. ',
-     *   ' init     % defol.   rate    no.of '/40X,
-     *   ' to   ----------  ----------------  -----    %  ',
-     *   '   egg     ----------   of     init'/,'STAND ID,',
-     *   19X,'year, tree, ',
-     *   ' L2,  strv,  NE,  strv,  NE,  spry,  NE,    mort, ',
-     *   ' dens.,  new,  totl, incr.,   eggs,'/
-     *   '--------------------------, ----, ----, ',
-     *   '----, ----, ----, ----, ----, ----, -----, -----, ------,',
-     *   '  ----, ----, -----, --------,')
+     &   /,40X,41('-'),'  total'/,
+     &   40X,'eggs   L2 to L4      L4 to L6',7X,'pupae  gener. ',
+     &   ' init     % defol.   rate    no.of ',/,40X,
+     &   ' to   ----------  ----------------  -----    %  ',
+     &   '   egg     ----------   of     init',/,'STAND ID,',
+     &   19X,'year, tree, ',
+     &   ' L2,  strv,  NE,  strv,  NE,  spry,  NE,    mort, ',
+     &   ' dens.,  new,  totl, incr.,   eggs,',/,
+     &   '--------------------------, ----, ----, ',
+     &   '----, ----, ----, ----, ----, ----, -----, -----, ------,',
+     &   '  ----, ----, -----, --------,')
       ELSEIF (LP5) THEN
          WRITE (JOBWP5,45)
    45    FORMAT (1X)
@@ -130,25 +130,20 @@ C
          IYR=IYRCUR-1
          WRITE (JOBWP6,50) NPLT,IYR,IYR
    50    FORMAT ('STAND ID,',19X,
-     *      ' YEAR,  %_DEFO,  EGG_DN,  V_POOR,  V_GOOD, ',
-     *      ' OTHER,   YEAR,   EM_L2,   STARV,   PREDS,   PARAS,',
-     *      '   SPRAY,   TOTAL,'/
-     *      A26,', ',I5,',',7X,'0,',7X,'0,',3(5X,'   ,'),1X,I5,',',
-     *      6(7X,'0,'))
-c         WRITE (JOBWP6,50) IYR,IYR,IYR
-c   50    FORMAT (' YEAR    %_DEFO  EGG_DN  V_POOR    V_GOOD ',
-c     *      ' OTHER  YEAR    EM_L2   STARV   PREDS    PARAS',
-c     *      '  SPRAY  TOTAL'/
-c     *      I5,7X,'0',9X,'0',3(5X,'   '),2X,I5,6(7X,'0'),i5)
+     &      ' YEAR,  %_DEFO,  EGG_DN,  V_POOR,  V_GOOD, ',
+     &      ' OTHER,   YEAR,   EM_L2,   STARV,   PREDS,   PARAS,',
+     &      '   SPRAY,   TOTAL,',/,
+     &      A26,', ',I5,',',7X,'0,',7X,'0,',3(5X,'   ,'),1X,I5,',',
+     &      6(7X,'0,'))
       ENDIF
       IF (HEADER .AND. LP7) THEN
          IYR=IYRCUR-1
          WRITE (JOBWP7,55) NPLT,IYR
    55    FORMAT ('STAND ID,',18X,
-     *   ' YEAR,   A_MALE,   P_PARA,   P_PRED,   L_PARA,',
-     *   '   L_PRED,   L_STRV,   L_SPRA,   S_PRED,   S_STRV,   SPRING,',
-     *   '   OVWINT, INIT_EGG,   R_INCR,   EGGS/F,'/
-     *   A26,',',I5,',',14('          '))
+     &   ' YEAR,   A_MALE,   P_PARA,   P_PRED,   L_PARA,',
+     &   '   L_PRED,   L_STRV,   L_SPRA,   S_PRED,   S_STRV,   SPRING,',
+     &   '   OVWINT, INIT_EGG,   R_INCR,   EGGS/F,',/,
+     &   A26,',',I5,',',14('          '))
          LASTYR=IYR
       ENDIF
 C
@@ -157,10 +152,9 @@ C
          SUMT2=' GF'
          WRITE (JOBWP2,60) SUMT1,SUMT2
 
-C   60    FORMAT (27X,A3,69X,A3/
    60    FORMAT (26X,',',2(A3,',  SMALL,',3(5X,','),
-     *   'MEDIUM,    ,',2(5X,','),'LARGE,',2(5X,',')),/,
-     *   'Stand ID,',18X,6(' Year,  Top,  Mid,  Bot,'))
+     &   'MEDIUM,    ,',2(5X,','),'LARGE,',2(5X,',')),/,
+     &   'Stand ID,',18X,6(' Year,  Top,  Mid,  Bot,'))
          IYEAR=0
          IF (IYRCUR.GT.IY(1)) THEN
            IDIFF=IYRCUR-IY(1)
@@ -251,7 +245,7 @@ C
          INDEX=((ISPNUM-1)*9)+IC
          DEFNEW=0.0
          IF (OUT3(IC,IH,10).GT.0.0) DEFNEW=100.0*(1.0-(OUT3(IC,IH,8)
-     *      /OUT3(IC,IH,10)))
+     &      /OUT3(IC,IH,10)))
          IF (DEFNEW.GT.0.0) KCROWN(INDEX)=NINT(DEFNEW)              
       ENDIF
 C
@@ -317,18 +311,18 @@ C
               ENDIF
               DEFNEW=-1.0
               IF (TEMPH(10).GT.0.0) DEFNEW=100.0*(1.0-(TEMPH(8)
-     *            /TEMPH(10)))
+     &            /TEMPH(10)))
               DEFOLD=-1.0
               IF (TEMPH(11).GT.0.0) DEFOLD=100.0*(1.0-(TEMPH(9)
-     *            /TEMPH(11)))    
+     &            /TEMPH(11)))    
               RINC=TEMPH(12)/TEMPH(1)
               EGGD=(TEMPH(1)*GPERM2)/(EGMASS*TEMPH(11))
               WRITE (JOBWP5,380) NPLT,IYRCUR,TRESP(IH),(TEMPH(K),K=2,6),
-     *           TEMPH(17),TEMPH(7),GENMOR,EGGD,DEFNEW,DEFOLD,RINC,
-     *           TEMPH(1)
+     &           TEMPH(17),TEMPH(7),GENMOR,EGGD,DEFNEW,DEFOLD,RINC,
+     &           TEMPH(1)
   380 FORMAT    (A26,',',1X,I4,',',1X,A3,',',1X,3(F5.1,','),
-     *           3(F5.1,','),F5.1,',',2X,F5.1,',',2X,
-     *           F5.1,',',1X,F5.0,',',F5.0,',',F6.2,',',F9.0,',')
+     &           3(F5.1,','),F5.1,',',2X,F5.1,',',2X,
+     &           F5.1,',',1X,F5.0,',',F5.0,',',F6.2,',',F9.0,',')
            ENDIF
            DO 390 I=1,20
   390      TEMPH(I)=0.0
@@ -340,7 +334,9 @@ C
 C  PRINT STRIPPED OUTPUT TABLE FOR GRAPHICS DISPLAY
 C
       IF (LP6) THEN
-C                                     APPARENT SURV. CALCS
+C
+C        APPARENT SURV. CALCS
+C
          SURV=SUMEGG
          IF (SURV.GT.0.0) THEN
             APPB=100.0-(SUMEL2*100.0/SURV)
@@ -391,7 +387,9 @@ C                                     APPARENT SURV. CALCS
             IAPPI=0
             IAPPJ=0
          ENDIF
-C									 actual mortality calc.s
+C
+C        actual mortality calculations
+C
          IEGGS=NINT(SUMEGG)
          IF (SUMPOT.GT.0.0) THEN
             X=100*(1.0-(SUMACT/SUMPOT))
@@ -427,15 +425,9 @@ C									 actual mortality calc.s
          ISSPR=NINT(SUMSPR)
 
          WRITE (JOBWP6,600) NPLT,IYRCUR,NEWDEF,EGGD,(IOUT6A(I),I=1,3),
-     *     IYRCUR,ISEL2,ISSTV,ISPRE,ISPAR,ISSPR,RINC10
+     &     IYRCUR,ISEL2,ISSTV,ISPRE,ISPAR,ISSPR,RINC10
   600    FORMAT (A26,', 'I5,',',2X,I6,',',2X,F6.1,',',3(5X,A3,','),
-     *           1X,I5,',',5(5X,I3,','),2X,F6.2,',')
-c         WRITE (JOBWP6,600) IYRCUR,NEWDEF,EGGD,(IOUT6A(I),I=1,3),
-c     *     IYRCUR,ISEL2,ISSTV,ISPRE,ISPAR,ISSPR,RINC10,
-c     *     IYRCUR,IAPPB,IAPPC,IAPPD,IAPPE,IAPPF,IAPPG,IAPPH,
-c     *     IAPPI,IAPPJ,RINC,FECUND
-c  600    FORMAT (I5,2X,I6,5X,F5.1,3(5X,A3),2X,I5,5(5X,I3),3X,F5.2,
-c     *      I5,9I4,F6.2,F7.0)
+     &           1X,I5,',',5(5X,I3,','),2X,F6.2,',')
       ENDIF
 C
 C  PRINT MORTALITY/SURVIVAL SUMMARY FILE (FOR EXPORT)
@@ -461,19 +453,18 @@ C
          FECUND=0.0
          IF (SUMFEM.GT.0.0) FECUND=SNEWEG/SUMFEM
          WRITE (JOBWP7,640) NPLT,IYRCUR,SUMALE,SUMPAP,SUMPRP,SUMPAL,
-     *     SUMPRL,SUMSTL,SUMSPR,SUMPRS,SUMSTS,SPRING,OVWINT,SUMEGG,
-     *     RINC,FECUND
+     &     SUMPRL,SUMSTL,SUMSPR,SUMPRS,SUMSTS,SPRING,OVWINT,SUMEGG,
+     &     RINC,FECUND
   640    FORMAT (A26,',',I5,',',14(F9.1,','))
       ENDIF
 C
 C  PRINT NEW TABLE 2 (G_CROWN) FOR THIS YEAR
 C
       IF (LP2) WRITE (JOBWP2,650) NPLT,IYRCUR,(KCROWN(K),K=1,3),
-     *  IYRCUR,(KCROWN(K),K=4,6),IYRCUR,(KCROWN(K),K=7,9),IYRCUR,
-     *  (KCROWN(K),K=10,12),IYRCUR,(KCROWN(K),K=13,15),IYRCUR,
-     *  (KCROWN(K),K=16,18)
+     &  IYRCUR,(KCROWN(K),K=4,6),IYRCUR,(KCROWN(K),K=7,9),IYRCUR,
+     &  (KCROWN(K),K=10,12),IYRCUR,(KCROWN(K),K=13,15),IYRCUR,
+     &  (KCROWN(K),K=16,18)
   650 FORMAT (A26,',',6(1X,I4,',',3(2X,I3,',')))
 C
       RETURN
       END
-

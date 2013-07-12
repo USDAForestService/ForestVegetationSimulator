@@ -131,15 +131,15 @@ C
       TITL=SUMMR
       IF (LFIRST) TITL=SCHED
       WRITE (JOSTND,10) TITL,NPLT,MGMID,ITITLE
-   10 FORMAT (//T55,'ACTIVITY ',A8//' STAND ID= ',A26,
-     >        '    MGMT ID= ',A4,4X,A72//1X,130('-'))
+   10 FORMAT (//T54,'ACTIVITY ',A8//'STAND ID= ',A26,
+     >        '    MGMT ID= ',A4,4X,A72//130('-'))
       IF (LFIRST) WRITE (JOSTND,11)
-   11 FORMAT(/' CYCLE  DATE  EXTENSION  KEYWORD   DATE  PARAMETERS:'/
-     >        ' -----  ----  ---------  --------  ----  ',90('-'))
+   11 FORMAT(/'CYCLE  DATE  EXTENSION  KEYWORD   DATE  PARAMETERS:'/
+     >        '-----  ----  ---------  --------  ----  ',90('-'))
       IF (.NOT.LFIRST) WRITE (JOSTND,12)
-   12 FORMAT(/' CYCLE  DATE  EXTENSION  KEYWORD   DATE  ',
+   12 FORMAT(/'CYCLE  DATE  EXTENSION  KEYWORD   DATE  ',
      >        'ACTIVITY DISPOSITION  PARAMETERS:'/
-     >        ' -----  ----  ---------  --------  ----  ',20('-'),
+     >        '-----  ----  ---------  --------  ----  ',20('-'),
      >      2X,68('-'))
 C
 C     IF THIS THE SECOND CALL (LFIRST=FALSE) MAKE SURE THAT THE DATE
@@ -179,15 +179,15 @@ C
       I1=IMGPTS(ICY,1)
       IF (I1.GT.0) GOTO 30
       IF (LINE) WRITE (JOSTND,15)
-   15 FORMAT (' ')
+   15 FORMAT ()
       LINE=.FALSE.
       WRITE (JOSTND,20) ICY,IY(ICY)
-   20 FORMAT (1X,I4,I7)
+   20 FORMAT (I4,I7)
       GOTO 160
    30 CONTINUE
       LINE=.TRUE.
       WRITE (JOSTND,35) ICY,IY(ICY)
-   35 FORMAT (/1X,I4,I7)
+   35 FORMAT (/I4,I7)
 C
 C     IF THERE ARE NO ACTIVITIES DURING THE CYCLE;
 C     THEN: BRANCH TO END CYCLE.
@@ -308,7 +308,7 @@ C     IF WRITTING THE COMPUTE'S, THEN ONLY WRITE 1 PARM.
 C
       IF (LOC.EQ.1) J2=J1
       WRITE (JOSTND,60) TAB2(LOC),KEYWRD,IDT,(PARMS(J),J=J1,J2)
-   60 FORMAT (T17,A4,T26,A8,I6,((T42,8F10.2)))
+   60 FORMAT (T16,A4,T25,A8,I6,((T41,8F10.2)))
       GOTO 150
    90 CONTINUE
 C
@@ -328,10 +328,10 @@ C
       IF (LOC.EQ.1) J2=J1
       IF(K.EQ.0) WRITE(JOSTND,91) TAB2(LOC),KEYWRD,IDT,ID,
      >           (PARMS(J),J=J1,J2)
-   91 FORMAT (T17,A4,T26,A8,I6,'  DONE IN',I5,((T64,6F10.2)))
+   91 FORMAT (T16,A4,T25,A8,I6,'  DONE IN',I5,((T63,6F10.2)))
       IF(K.GT.0) WRITE(JOSTND,92) TAB2(LOC),KEYWRD,IDT,
      >           IDISPO(K),(PARMS(J),J=J1,J2)
-   92 FORMAT (T17,A4,T26,A8,I6,2X,A20,((T64,6F10.2)))
+   92 FORMAT (T16,A4,T25,A8,I6,2X,A20,((T63,6F10.2)))
       GOTO 140
    95 CONTINUE
       IF(K.EQ.0) WRITE(JOSTND,91) TAB2(LOC),KEYWRD,IDT,ID
@@ -348,7 +348,7 @@ C
 C     WRITE END-OF-TABLE
 C
       WRITE (JOSTND,180)
-  180 FORMAT (1X,130('-'))
+  180 FORMAT (130('-'))
       RETURN
 C
 C
