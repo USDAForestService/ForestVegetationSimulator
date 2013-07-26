@@ -317,9 +317,6 @@ C----------
      -           ',',HT2TD(I,2),',',HT2TD(I,1),')'
 
 
-C     -           ((ITRUNC(I)+5)/100),',',HT2TD(I,1),',',
-C     -           HT2TD(I,2),')'
-
             iRet = fvsSQLCloseCursor(StmtHndlOut)
 
             iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
