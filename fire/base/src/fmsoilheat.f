@@ -51,9 +51,8 @@ C
       real smcat(4), duffcat(4), algslp
       real MOIS1(2,5), MOIS2(2,5), MOIS3(2,5), MOIS4(2,5), soilmois
 
-#ifdef _WINDLL
       !DEC$ ATTRIBUTES DLLIMPORT :: FM_FOFEM
-#endif
+
       !DEC$ ATTRIBUTES ALIAS:'_FM_FOFEM' :: FM_FOFEM
 
       integer fm_fofem

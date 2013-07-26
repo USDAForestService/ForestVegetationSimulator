@@ -17,8 +17,9 @@ else ()
   return()
 endif()
 
-#file(GLOB tobuild FVS*_sourceList.txt)
-file(GLOB tobuild FVSbcc_sourceList.txt)
+## example of single-variant GLOB: file(GLOB tobuild FVSiec_sourceList.txt)
+
+file(GLOB tobuild FVS*_sourceList.txt)
 
 list(SORT tobuild)
 message(STATUS "tobuild = ${tobuild}")
