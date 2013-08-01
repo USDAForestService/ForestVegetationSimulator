@@ -83,8 +83,7 @@ COMMONS
       CHARACTER*60 CBUFF
       CHARACTER*23 PLTGEO
       LOGICAL DEBUG,LOPEN
-      CALL DBCHK (DEBUG,'SVOUT',5,ICYC)
-      
+      CALL DBCHK (DEBUG,'SVOUT',5,ICYC)     
       IF (DEBUG) WRITE (JOSTND,5) IYEAR, AMSG, JSVOUT, NSVOBJ,
      >  JSVPIC, NIMAGE, IFMCLFG
     5 FORMAT (/' IN SVOUT: IYEAR=',I5,' AMSG=',A,' JSVOUT=',I3,
@@ -126,10 +125,11 @@ C                       XXXXXX. XXXX. XXXX.
       
 C     Make sure that the index file is opened (could be closed if a 
 C     restart is being done.
-      
+
       inquire(unit=JSVOUT,opened=LOPEN)
+
       if (.not.LOPEN) then
-        open(unit=JSVOUT,file=KWDFIL(:len_trim(KWDFIL))//SUFFIX,
+        open(unit=JSVOUT,file=trim(KWDFIL)//SUFFIX,
      >         status="old",err=7)
 
 c       find out the last used value of NIMAGE. 
@@ -141,11 +141,11 @@ c       find out the last used value of NIMAGE.
     2   continue
         close(unit=JSVOUT)
         
-        open(unit=JSVOUT,file=KWDFIL(:len_trim(KWDFIL))//SUFFIX,
+        open(unit=JSVOUT,file=trim(KWDFIL)//SUFFIX,
      >         position="append",err=7)
         goto 9
     7   continue
-        write (JOSTND,8) KWDFIL(:len_trim(KWDFIL))//SUFFIX
+        write (JOSTND,8) trim(KWDFIL)//SUFFIX
     8   format (/'**** FILE OPEN ERROR FOR FILE: ',A)
         CALL RCDSET (2,.TRUE.)
         JSVOUT=0
@@ -176,7 +176,7 @@ C     THIS IS DONE TO INSURE THAT MULTIPLE RUNS ARE PROCESSED.
 C       FIND THE FIRST AND LAST CHAR OF THE KEYWORD NAME
 C       WATCH FOR DIRECTORY LEVELS...WE DON'T WANT THEM.
  
-        KYLAST=ISTLNB(KWDFIL)
+        KYLAST=len_trim(KWDFIL)
         DO I=KYLAST,1,-1
           IF (KWDFIL(I:I).EQ.'/' .OR. KWDFIL(I:I).EQ.'\') EXIT
           KYFRST=I
@@ -206,6 +206,7 @@ C       TRY TO OPEN A FILE WITH THE DIRECTORY NAME INCLUDED.
 C       IF THE OPEN FAILS, THEN OPEN ONE WITHOUT THE DIR NAME INCLUDED.
 
    12   CONTINUE
+
         OPEN (UNIT=JSVPIC,FILE=TRIM(CBUFF),STATUS="REPLACE",ERR=14)
         WRITE (JSVOUT,10) STDTAG,NPLT(1:MAX(1,ISTLNB(NPLT))),IYEAR,
      >        AMSG,TRIM(CBUFF)

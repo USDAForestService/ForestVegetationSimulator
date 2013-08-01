@@ -39,8 +39,9 @@ C----------
         if (i.eq.0) open(unit=IREAD,file=KWDFIL,status="old",err=101)
         lenkey=index(KWDFIL,".k")
         if (lenkey == 0) lenkey=index(KWDFIL,".K")
-        if (lenkey == 0) lenkey=len_trim(KWDFIL)
-        cname = KWDFIL(1:lenkey-1)//".out"
+        if (lenkey > 0) KWDFIL = KWDFIL(:lenkey-1)
+        lenkey=len_trim(KWDFIL)
+        cname = KWDFIL(:lenkey)//".out"
 
         inquire(unit=JOSTND,opened=LOPEN)
         if (LOPEN) close(unit=JOSTND)
@@ -62,19 +63,19 @@ C----------
         ! based on the stop point(s).
 
         if (i.eq.0) then
-          cname = KWDFIL(1:lenkey-1)//".trl"
+          cname = KWDFIL(:lenkey)//".trl"
           inquire(unit=JOLIST,opened=LOPEN)
           if (.not.LOPEN) then
             open(unit=JOLIST,file=trim(cname),err=102)
             close(unit=JOLIST, STATUS = 'delete')
           endif
-          cname = KWDFIL(1:lenkey-1)//".fst"
+          cname = KWDFIL(:lenkey)//".fst"
           inquire(unit=KOLIST,opened=LOPEN)
           if (.not.LOPEN) then
             open(unit=KOLIST,file=trim(cname),err=102)
             close(unit=KOLIST, STATUS = 'delete')
           endif
-          cname = KWDFIL(1:lenkey-1)//".sng"
+          cname = KWDFIL(:lenkey)//".sng"
           inquire(unit=JOLIST,opened=LOPEN)
           if (.not.LOPEN) then
             open(unit=JOLIST,file=trim(cname),err=102)

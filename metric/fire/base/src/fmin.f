@@ -1395,7 +1395,8 @@ C
             DO 2920 I=1,11
                DKR(I,IDEC) = DKR(I,IDEC) * DKMULT
                IF (DKR(I,IDEC) .GT. 1.0) DKR(I,IDEC) = 1.0
-               IF (I .LE. 10) TODUFF(I,IDEC) = DKR(I,IDEC) * PRDUFF(I,IDEC)
+               IF (I .LE. 10) TODUFF(I,IDEC) = DKR(I,IDEC) 
+     !                         * PRDUFF(I,IDEC)
  2920       CONTINUE
          ELSE
             ARRAY(IDEC) = 1.0
