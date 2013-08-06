@@ -1,6 +1,6 @@
       SUBROUTINE BRSETP
 C**********************************************************************
-C  **BRSETP       DATE OF LAST REVISION:  05/09/2001
+C  **BRSETP       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRSETP initializes the Blister Rust Model tree-specific variables
@@ -46,7 +46,7 @@ C.... See if we need to do some debug
 
       CALL DBCHK (DEBUG,'BRSETP',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,111) ICYC
-  111 FORMAT(' Entering subroutine BRSETP: cycle = ',I2)
+  111 FORMAT('Entering subroutine BRSETP: cycle = ',I2)
 
 C.... Call BRATV to see if the Blister Rust model is being used in this
 C.... simulation. Return if not active or there are no trees.
@@ -133,6 +133,6 @@ C.... Common return.
 
   115 CONTINUE
       IF(DEBUG) WRITE(JOSTND,120) ICYC
-  120 FORMAT(' Leaving subroutine BRSETP: cycle = ',I2)
+  120 FORMAT('Leaving subroutine BRSETP: cycle = ',I2)
       RETURN
       END

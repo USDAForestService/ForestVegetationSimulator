@@ -1,6 +1,6 @@
       SUBROUTINE BRGI(IIAG,HHT,GIBR,TBSUM)
 C**********************************************************************
-C  **BRGI         DATE OF LAST REVISION:  11/07/2002
+C  **BRGI         DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRGI calculates the growth index and sum target for individual white
@@ -55,7 +55,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRGI',4,ICYC)
       IF(DEBUG) WRITE(JOSTND,111) ICYC,IIAG,HHT
-  111 FORMAT(' Entering subroutine BRGI: cycle = ',I2,/,
+  111 FORMAT('Entering subroutine BRGI: cycle = ',I2,/,
      &       27X,'IIAG=',I3,' HHT=',F6.2)
 
       TBSUM=0.0
@@ -96,6 +96,6 @@ C****    STSUM=STSUM+SVAL        !!! already occuring in BRTREG and BRTARG
 C.... Common return.
 
       IF(DEBUG) WRITE(JOSTND,113) ICYC
-  113 FORMAT(' Leaving subroutine BRGI: cycle = ',I2)
+  113 FORMAT('Leaving subroutine BRGI: cycle = ',I2)
       RETURN
       END

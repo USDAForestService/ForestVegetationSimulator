@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-NC-DATE OF LAST REVISION:  03/15/11
+C  **FMCBA   FIRE-CA-DATE OF LAST REVISION:  07/02/13
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -61,11 +61,48 @@ C     DIMENSION OF THE VEGETATION CODE ARRAY IN WS **HABTYP**
 
       INTEGER MYACT(3)
 
-      INTEGER IYR,KSP,I,ISZ,J,NPRM,IACTK,ISWTCH,JYR,IDC
+      INTEGER IYR,KSP,I,ISZ,J,K,NPRM,IACTK,ISWTCH,JYR,IDC
       INTEGER IXS(8),COVCA(2),ICT(MAXSP)
       REAL    BIGDBH,TOTBA,XX,CAREA,ALGSLP,PRCL,ADD
       REAL    XD(8),YD(8),XS(8),YS(8),XSR(8),YSR(8),DCYMLT
       REAL    COVCAWT(2)
+      REAL    DKRT(MXFLCL,4), PRDUFFT(MXFLCL,4)
+      INTEGER CAHMC(90),CAWMD(90), TEMP, MOIST
+      REAL DKRADJ(3,3,3)
+
+C     EACH CA HABITAT CODE (in R6) MAPS TO EITHER HOT (1), MODERATE (2)
+C     OR COLD (3).  (MAPPING PROVIDED BY KIM MELLEN-MCLEAN.)
+
+      DATA (CAHMC(I), I=   1,  90) /
+     & 2, 2, 2, 2, 2, 1, 2, 1, 2, 2,
+     & 2, 2, 2, 1, 2, 1, 1, 2, 2, 2,
+     & 2, 2, 2, 2, 2, 2, 2, 3, 2, 2,
+     & 2, 2, 2, 2, 3, 3, 2, 2, 2, 3,
+     & 2, 2, 2, 2, 2, 2, 2, 1, 1, 1,
+     & 3, 2, 2, 2, 2, 3, 3, 3, 2, 3,
+     & 2, 2, 3, 3, 2, 2, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 1, 1, 2, 2, 2, 2,
+     & 2, 2, 2, 2, 1, 2, 2, 2, 1, 2/
+
+C     EACH CA HABITAT CODE (in R6) MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).  
+C    (MAPPING PROVIDED BY KIM MELLEN-MCLEAN.)
+
+      DATA (CAWMD(I), I=   1,  90) /
+     & 2, 3, 3, 2, 2, 3, 3, 3, 2, 2,
+     & 2, 2, 2, 3, 2, 3, 3, 2, 3, 1,
+     & 1, 2, 2, 1, 2, 2, 2, 2, 3, 2,
+     & 3, 3, 3, 3, 2, 1, 2, 2, 2, 2,
+     & 1, 2, 2, 2, 2, 2, 3, 3, 3, 3,
+     & 1, 1, 2, 2, 2, 2, 2, 2, 2, 1,
+     & 2, 2, 2, 1, 2, 2, 3, 2, 2, 2,
+     & 2, 2, 2, 2, 3, 3, 1, 2, 2, 2,
+     & 2, 2, 2, 2, 3, 2, 2, 2, 3, 2/
+
+      DATA (((DKRADJ(I,J,K), K=1,3), J=1,3), I=1,3) /           
+     &  1.7,    2,  1.7, 1.49, 1.91, 1.49,  0.75, 0.85,  0.75,
+     & 1.35, 1.85, 1.35,    1,  1.7,    1, 0.875,  1.2, 0.875,
+     & 1.21, 1.79, 1.21, 1.14, 1.76, 1.14,  0.75, 0.85,  0.75/
+
 
 C     XD, YD: BREAKPOINTS FOR DUNNING VALUES (XD) AND DECAY RATE MULTIPLIER (Y)
 C     YS    : BREAKPOINTS FOR SITE INDEX VALUES FOR DUNNING VALUES (YS);
@@ -533,14 +570,162 @@ C     INITIALIZE THE DEAD FUELS ONLY FOR THE FIRST YEAR OF THE SIMULATION
 
       IF (IYR .EQ. IY(1)) THEN
 
-C     ADJUST DECAY RATES (FIRST YEAR ONLY) USING  DUNNING CODE/SITE
+C       *** SPECIAL CODE FOR CA-FFE DECAY RATES ***
+C       *** NORMALLY IN *FMVINIT*               ***
+
+C       SET DECAY RATES DIFFERENTLY BASED ON THE FOREST CODE,
+C       WHETHER THE STAND IS IN R5(CALIFORNIA) OR R6(OREGON).
+C
+C       CA R5 DECAY RATES BASED ON CA DESIGN WORKSHOP (NOTES FROM
+C       STEPHANIE REBAIN, 2003).
+C       DECAY RATES IN R5 ARE SUBSEQUENTLY MODIFIED BY A
+C       MULTIPLIER BASED ON R5 SITE CODE .
+C
+C       CA R6 DECAY RATES BASED ON KIM MELLEN-MCLEAN'S CWD MODEL.  
+C       (RATES FOR SO WERE USED HERE.)
+C       DECAY RATES IN R6 ARE SUBSEQUENTLY MODIFIED BY A MULTIPLIER 
+C       BASED ON HABITAT TYPE.
+
+        IF (KODFOR .GE. 500 .AND. KODFOR .LT. 600) THEN
+          DKRT(1,1) = 0.025   ! < 0.25" - California
+          DKRT(2,1) = 0.025   ! 0.25 - 1"
+          DKRT(3,1) = 0.025   ! 1 - 3"
+          DKRT(4,1) = 0.0125  ! 3 - 6"
+          DKRT(5,1) = 0.0125  ! 6 - 12"
+          DKRT(6,1) = 0.0125  ! 12 - 20"
+          DKRT(7,1) = 0.0125  ! 20 - 35"
+          DKRT(8,1) = 0.0125  ! 35 - 50"
+          DKRT(9,1) = 0.0125  ! > 50"
+
+          DO I = 1,9
+            DO J = 2,4
+              DKRT(I,J) = DKRT(I,1)  ! map to all 4 classes
+            ENDDO
+          ENDDO
+
+        ELSE ! Oregon 
+        
+C       DECAY RATES BASED ON WORKSHOP RESULTS FOR KIM MELLEN-MCLEAN'S CWD MODEL
+C       FIRST BASE RATES ARE SET (BY DECAY RATE CLASS) AND THEN THEY ARE ADJUSTED
+C       BASED ON HABITAT TYPE (TEMPERATURE AND MOISTURE CATEGORY)
+
+          DKRT(1,1) = 0.076 ! < 0.25"
+          DKRT(2,1) = 0.076 ! 0.25 - 1"
+          DKRT(3,1) = 0.076 ! 1 - 3"
+          DKRT(4,1) = 0.019 ! 3 - 6"
+          DKRT(5,1) = 0.019 ! 6 - 12"
+          DKRT(6,1) = 0.019  ! 12 - 20"
+          DKRT(7,1) = 0.019  ! 20 - 35"
+          DKRT(8,1) = 0.019  ! 35 - 50"
+          DKRT(9,1) = 0.019  !  > 50"
+          
+          DKRT(1,2) = 0.081 ! < 0.25"
+          DKRT(2,2) = 0.081 ! 0.25 - 1"
+          DKRT(3,2) = 0.081 ! 1 - 3"
+          DKRT(4,2) = 0.025 ! 3 - 6"
+          DKRT(5,2) = 0.025 ! 6 - 12"
+          DKRT(6,2) = 0.025  ! 12 - 20"
+          DKRT(7,2) = 0.025  ! 20 - 35"
+          DKRT(8,2) = 0.025  ! 35 - 50"
+          DKRT(9,2) = 0.025  !  > 50"
+          
+          DKRT(1,3) = 0.090 ! < 0.25"
+          DKRT(2,3) = 0.090 ! 0.25 - 1"
+          DKRT(3,3) = 0.090 ! 1 - 3"
+          DKRT(4,3) = 0.033 ! 3 - 6"
+          DKRT(5,3) = 0.033 ! 6 - 12"
+          DKRT(6,3) = 0.033  ! 12 - 20"
+          DKRT(7,3) = 0.033  ! 20 - 35"
+          DKRT(8,3) = 0.033  ! 35 - 50"
+          DKRT(9,3) = 0.033  !  > 50"      
+          
+          DKRT(1,4) = 0.113 ! < 0.25"
+          DKRT(2,4) = 0.113 ! 0.25 - 1"
+          DKRT(3,4) = 0.113 ! 1 - 3"
+          DKRT(4,4) = 0.058 ! 3 - 6"
+          DKRT(5,4) = 0.058 ! 6 - 12"
+          DKRT(6,4) = 0.058  ! 12 - 20"
+          DKRT(7,4) = 0.058  ! 20 - 35"
+          DKRT(8,4) = 0.058  ! 35 - 50"
+          DKRT(9,4) = 0.058  !  > 50"
+          
+          TEMP = CAHMC(ITYPE)
+          MOIST = CAWMD(ITYPE)
+          
+          DO I = 1,9
+            DO J = 1,4
+              IF (I .LE. 3) THEN
+                K = 1
+              ELSEIF (I .LE. 5) THEN 
+                K = 2
+              ELSE 
+                K = 3
+              ENDIF
+              DKRT(I,J) = DKRT(I,J)*DKRADJ(TEMP,MOIST,K)
+              IF (DKRT(I,J) .GT. 1.0) DKRT(I,J) = 1.0
+            ENDDO
+          ENDDO
+
+C       adjust the decay rates if smaller wood is decaying more slowly than larger wood.
+C       in this case, bump up the decay rate of the smaller wood to that of the larger wood.
+
+          DO I = 9,2,-1
+            DO J = 1,4
+              IF ((DKRT(I,J)-DKRT(I-1,J)) .GT. 0) THEN 
+                  DKRT(I-1,J) = DKRT(I,J)                         
+              ENDIF
+            ENDDO
+          ENDDO
+
+        ENDIF
+
+
+C     THESE RATES ARE THE SAME FOR CA AND OR
+
+        DO J = 1,4
+          DKRT(10,J) = 0.5    ! litter loss/yr
+          DKRT(11,J) = 0.002  !   duff loss/yr
+          DO I = 1,10
+            PRDUFFT(I,J) = 0.02
+          ENDDO
+        ENDDO
+
+C     COPY TEMPORARY VALUES INTO WORKING ARRAYS THAT
+C     HAVEN'T BEEN MODIFIED BY KEYWORDS
+C     ONLY DO THIS IF DURING THE NORMAL CALL, NOT FROM SVSTART
+C     ALSO CHECK THE VALUE OF DKR.  IF THE DECAY RATES HAVE NOT BEEN
+C     SET BY THE USER WITH FUELDCAY, THEY SHOULD BE SET TO -1.  UNLESS THE
+C     FUELMULT KEYWORD WAS USED - IN THIS CASE DKR IS -1*THE MULTIPLIER ENTERED.
+C     IF FUELMULT WAS USED, USE THE MULTIPLIER WITH THE DEFAULT RATES.
+
+        IF ( ISWTCH .NE. 1 ) THEN
+          DO I = 1,MXFLCL
+            DO J = 1,4
+              IF (DKR(I,J) .LT. 0.0) THEN
+                IF ((DKR(I,J).GT.-1.01) .AND. (DKR(I,J).LT.-0.99)) THEN
+                  DKR(I,J) = DKRT(I,J)
+                ELSE
+                  DKR(I,J) = -1*DKR(I,J)*DKRT(I,J)
+                ENDIF  
+              ENDIF
+            ENDDO
+          ENDDO
+          DO I = 1,10
+            DO J = 1,4
+              IF (PRDUFF(I,J) .LT. 0.0) PRDUFF(I,J) = PRDUFFT(I,J) 
+              TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)
+            ENDDO
+          ENDDO
+        ENDIF
+
+C     FOR R5, ADJUST DECAY RATES (FIRST YEAR ONLY) USING  DUNNING CODE/SITE
 C     INDEX CORRESPONDENCE. DUNNING-BASED SI VECTOR IS RE-SORTED SO
 C     THAT XSR IS INCREASING (REQ'D BY ALGSLP); ASSUMES DUNNING
 C     CODES 0-7 ONLY. DEPENDS ON **DUNN**
 
 C       ONLY DO THIS IF DURING THE NORMAL CALL, NOT FROM SVSTART
 
-        IF ( ISWTCH .NE. 1 ) THEN
+        IF (( ISWTCH .NE. 1 ) .AND. (KODFOR .LT. 600)) THEN
 
           CALL GETDUNN(XS)
           CALL RDPSRT(8,XS,IXS,.TRUE.)
@@ -555,7 +740,10 @@ C       ONLY DO THIS IF DURING THE NORMAL CALL, NOT FROM SVSTART
           
           DO I = 1,MXFLCL
             DO J = 1,4
-              DKR(I,J) = DKR(I,J) * DCYMLT
+              IF (SETDECAY(I,J) .LT. 0) THEN
+                DKR(I,J) = DKR(I,J) * DCYMLT
+                IF (I .LE. 10) TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J) 
+              ENDIF
             ENDDO
           ENDDO
         ENDIF

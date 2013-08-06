@@ -1,7 +1,7 @@
       SUBROUTINE BWERAWS
       IMPLICIT NONE
 C-----------
-C **BWERAWS                  DATE OF LAST REVISION:  01/10/12
+C **BWERAWS                 DATE OF LAST REVISION:  06/18/13
 C-----------
 C Part of the General Defoliator (GenDefol) model
 C
@@ -151,7 +151,7 @@ C
 C Check if Open was successful
 C
       IF (KODE.EQ.1) WRITE(JOSTND,11)
-   11 FORMAT (/T13,'**********   OPEN FAILED   **********')
+   11 FORMAT (/T12,'**********   OPEN FAILED   **********')
 
 C Read weather file
 C First read the header record and store info. Note that when FPA RAWS
@@ -192,7 +192,7 @@ C     Translate station name to upper case
 C       Header record WRCC ID does not match station ID for daily data.
 C       Write error message and exit
         WRITE (*,*)
-     &  "Weather data header record WRCC ID does not match data."
+     &  'Weather data header record WRCC ID does not match data.'
 C       Need to set error flag
         GOTO 450
       ENDIF
@@ -337,8 +337,8 @@ C
 
       WRITE (JOSTND, 310) WYR, DAYL2, DAYL4, DAYL7, DAYL8, 
      &       DAYF, DDAYSF, DDAYSL
-  310 FORMAT (/,6X,"WYR=",I4," DAYL2=",I3," DAYL4=",I3, " DAYL7=",I3, 
-     &     " DAYL8=",I3, " DAYF=",I3," DDAYSF=",F6.1," DDAYSL=",F6.1)
+  310 FORMAT (/,6X,'WYR=',I4,' DAYL2=',I3,' DAYL4=',I3, ' DAYL7=',I3, 
+     &     ' DAYL8=',I3, ' DAYF=',I3,' DDAYSF=',F6.1,' DDAYSL=',F6.1)
 
       BWPRMS(1,IYRCNT) = PRDL24
       BWPRMS(2,IYRCNT) = PRDL46
@@ -363,17 +363,17 @@ C     (Maybe add some corective measure, if possible, so that the
 C     run does not terminate. To be determined with Kathy Sheehan)
 C
   400 IF (IYRCNT .EQ. 0) THEN
-        Write (*,*) "No complete years of weather data present."
+        Write (*,*) 'No complete years of weather data present.'
       ELSE
         Write (*,410) IYRCNT, WFNAME
-  410   FORMAT (/," ",I2," years of weather data processed from file: ",
+  410   FORMAT (/,I2,' years of weather data processed from file: ',
      &          A)
 
-        WRITE (JOSTND,*) "       PRDL24  PRDL46   PRDL7  DDFALL  ",
-     &      "PRDE2B  TREEDD  PPTL24  PPTL46   PPTL7  PPTL2E     WYR"
+        WRITE (JOSTND,*) '       PRDL24  PRDL46   PRDL7  DDFALL  ',
+     &      'PRDE2B  TREEDD  PPTL24  PPTL46   PPTL7  PPTL2E     WYR'
         DO I2 = 1, IYRCNT
            WRITE (JOSTND,420) (BWPRMS(I,I2), I=1,11)
-  420      FORMAT (/,6X,11(2X,F6.1))
+  420      FORMAT (/,5X,11(2X,F6.1))
         END DO
       ENDIF
 

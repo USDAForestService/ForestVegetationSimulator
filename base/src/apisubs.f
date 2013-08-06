@@ -1,3 +1,4 @@
+
 c $Id$
 
 c     This is a collection of routines that provide an interface to 
@@ -13,11 +14,9 @@ c     Created in late 2011 by Nick Crookston, RMRS-Moscow
       include "CONTRL.F77"
       include "PLOT.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSDIMSIZES'::FVSDIMSIZES
 !DEC$ ATTRIBUTES REFERENCE :: NTREES, NCYCLES, NPLOTS, MAXTREES
 !DEC$ ATTRIBUTES REFERENCE :: MAXSPECIES, MAXPLOTS, MAXCYCLES
-#endif
 
       integer :: ntrees,ncycles,nplots,maxtrees,maxspecies,maxplots,
      -           maxcycles
@@ -39,11 +38,9 @@ c     Created in late 2011 by Nick Crookston, RMRS-Moscow
       include "CONTRL.F77"
       include "OUTCOM.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSSUMMARY'::FVSSUMMARY
 !DEC$ ATTRIBUTES REFERENCE :: SUMMARY, ICYCLE, NCYCLES, MAXROW
 !DEC$ ATTRIBUTES REFERENCE :: MAXCOL, RTNCODE
-#endif
       
       integer :: summary(20),icycle,ncycles,maxrow,maxcol,rtnCode
       
@@ -79,10 +76,8 @@ c
       include "ARRAYS.F77"
       include "CONTRL.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSTREEATTR'::FVSTREEATTR
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NTREES, ATTR, RTNCODE
-#endif      
 
       integer :: nch,rtnCode,ntrees
       real(kind=8)      :: attr(ntrees)
@@ -151,6 +146,9 @@ c
       case ("bdft")
         if (action=="get") attr = bfv(:itrn)
         if (action=="set") bfv(:itrn) = real(attr,4)
+      case ("defect")
+        if (action=="get") attr = defect(:itrn)
+        if (action=="set") defect(:itrn) = real(attr,4)
       case ("mgmtcd")
         if (action=="get") attr = imc(:itrn)
         if (action=="set") imc(:itrn) = int(attr,4)
@@ -187,6 +185,58 @@ c
       end
 
 
+      subroutine fvsSpeciesAttr(name,nch,action,attr,rtnCode)
+      implicit none
+
+c     set and/or gets the named species attributes
+c     name    = char string of the variable name,
+c     nch     = the number of characters in "name" (case sensitive)
+c     action  = char string that is one of "set" or "get" (case sensitive)
+c     attr    = a vector of length data, always "double"
+c     rtnCode = 0 is OK, 1= "name" not found,
+c               4= the length of the "name" string was too big or small
+c
+      include "PRGPRM.F77"
+      include "PLOT.F77"
+
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE:: FVSSPECIESATTR
+!DEC$ ATTRIBUTES ALIAS:'FVSSPECIESATTR'::FVSSPECIESATTR
+!DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, ATTR, RTNCODE
+
+      integer :: nch,rtnCode
+      real(kind=8)      :: attr(MAXSP)
+      character(len=10) :: name
+      character(len=4)  :: action
+
+      if (nch == 0 .or. nch > 10) then
+        rtnCode = 4
+        return
+      endif
+
+      name=name(1:nch)
+      action=action(1:3)
+
+      rtnCode = 0
+
+      select case(name)
+      case ("spccf")
+        if (action=="get") attr = reldsp
+        if (action=="set") reldsp = real(attr,4)
+      case ("spsiteindx")
+        if (action=="get") attr = sitear
+        if (action=="set") sitear = real(attr,4)
+      case ("spsdi")
+        if (action=="get") attr = sdidef
+        if (action=="set") sdidef = real(attr,4)
+      case default
+        rtnCode = 1
+        attr = 0
+      end select
+
+      return
+      end
+
+
       subroutine fvsEvmonAttr(name,nch,action,attr,rtnCode)
       implicit none
 
@@ -204,10 +254,8 @@ c
       include "ARRAYS.F77"
       include "OPCOM.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSEVMONATTR'::FVSEVMONATTR
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, ATTR, RTNCODE
-#endif      
 
       integer :: nch,rtncode,iv,i
       double precision  :: attr
@@ -533,11 +581,9 @@ c                 or when ntrees is zero
       include "ESTREE.F77"
       include "STDSTK.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSADDTREES'::FVSADDTREES
 !DEC$ ATTRIBUTES REFERENCE :: IN_DBH, IN_SPECIES, IN_HT, IN_CRATIO
 !DEC$ ATTRIBUTES REFERENCE :: IN_PLOT, IN_TPA, NTREES, RTNCODE
-#endif      
       
       real(kind=8) :: in_dbh(ntrees),in_species(ntrees),
      -    in_ht(ntrees),in_cratio(ntrees),in_plot(ntrees),
@@ -623,12 +669,10 @@ c     indx    = species index
       include "PRGPRM.F77"
       include "PLOT.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,ALIAS:'FVSSPECIESCODE'::FVSSPECIESCODE
 !DEC$ ATTRIBUTES C,DECORATE :: FVSSPECIESCODE
 !DEC$ ATTRIBUTES REFERENCE :: FVS_CODE, FIA_CODE, PLANT_CODE, INDX
 !DEC$ ATTRIBUTES REFERENCE :: NCHFVS, NCHFIA, NCHPLANT, RTNCODE
-#endif         
 
       integer :: indx,nchfvs,nchfia,nchplant,rtnCode
       character(len=4) :: fvs_code
@@ -659,10 +703,8 @@ c     indx    = species index
       include "ARRAYS.F77"
       include "CONTRL.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSCUTTREES'::FVSCUTTREES
 !DEC$ ATTRIBUTES REFERENCE :: PTOCUT, NTREES, RTNCODE
-#endif         
 
       integer :: ntrees,rtnCode
       double precision :: pToCut(ntrees)
@@ -682,10 +724,8 @@ c     indx    = species index
       include "PRGPRM.F77"
       include "PLOT.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSSTANDID'::FVSSTANDID
 !DEC$ ATTRIBUTES REFERENCE :: SID, SCN, MID, NCSID, NCCN, NCMID
-#endif  
 
       integer :: ncsID,ncCN,ncmID
       character(len=26) sID
@@ -705,10 +745,8 @@ c     indx    = species index
       subroutine fvsCloseFile(filename,nch)
       implicit none
       
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSCLOSEFILE'::FVSCLOSEFILE
 !DEC$ ATTRIBUTES REFERENCE :: FILENAME, NCH
-#endif
 
 C     this routine closes "filename" if it is opened, it is not called
 C     from within FVS. nch is the length of filename.
@@ -734,11 +772,9 @@ C     add an activity to the schedule.
       include "PRGPRM.F77"
       include "CONTRL.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,ALIAS:'FVSADDACTIVITY'::FVSADDACTIVITY
 !DEC$ ATTRIBUTES C,DECORATE :: FVSADDACTIVITY
 !DEC$ ATTRIBUTES REFERENCE :: IDT, IACTK, INPRMS, NPRMS, RTNCODE
-#endif      
       
       integer :: i,idt,iactk,nprms,rtnCode,kode
       integer, parameter :: mxtopass=20
@@ -767,12 +803,10 @@ C     add an activity to the schedule.
       include "SVDATA.F77"
       include "SVDEAD.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSVSDIMSIZES
 !DEC$ ATTRIBUTES ALIAS:'FVSSVSDIMSIZES':: FVSSVSDIMSIZES
 !DEC$ ATTRIBUTES REFERENCE :: NSVSOBJS,NDEADOBJS,NCWDOBJS
 !DEC$ ATTRIBUTES REFERENCE :: MXSVSOBJS,MXDEADOBJS,MXCWDOBJS
-#endif
 
       integer :: nsvsobjs,  ndeadobjs,  ncwdobjs,  
      -           mxsvsobjs, mxdeadobjs, mxcwdobjs 
@@ -807,12 +841,9 @@ c               4= the length of the "name" string was too big or small
       include "SVDATA.F77"
       include "SVDEAD.F77"
       
-
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSVSOBJDATA
 !DEC$ ATTRIBUTES ALIAS:'FVSSVSOBJDATA':: FVSSVSOBJDATA
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NOBJS, ATTR, RTNCODE
-#endif      
 
       integer :: nch,rtnCode,nobjs
       real(kind=8)      :: attr(nobjs)
@@ -1131,11 +1162,9 @@ c               4= the length of the "name" string was too big or small
       include 'FMPARM.F77'
       include 'FMCOM.F77'
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSFFEATTRS
 !DEC$ ATTRIBUTES ALIAS:'FVSFFEATTRS':: FVSFFEATTRS
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NOBJS, ATTR, RTNCODE
-#endif      
 
       integer :: nch,rtnCode,nobjs
       real(kind=8)      :: attr(nobjs)
@@ -1215,5 +1244,3 @@ c               4= the length of the "name" string was too big or small
       
       return
       end
-
-

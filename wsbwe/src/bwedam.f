@@ -1,7 +1,7 @@
       SUBROUTINE BWEDAM (TOTP,TOTR,AVPRBO)
       IMPLICIT NONE
 C----------
-C  **BWEDAM             DATE OF LAST REVISION:  07/14/10
+C  **BWEDAM             DATE OF LAST REVISION:  06/17/13
 C----------
 C
 C     ANNUAL FOLIAGE DAMAGE MODEL.
@@ -225,15 +225,15 @@ C
       IF (.NOT.LBWDAM) GOTO 350
       IF (IFIFTH.NE.0 .AND. IYRCUR.NE.IBWYR2) GOTO 350
       IF (LBWDAM)  WRITE (JOWSBW,250) IYRCUR,NPLT,INRUN
-  250 FORMAT (/' DAMAGE: ',I4,'; ',A26,'; PERIOD LENGTH TO DATE: ',
-     >        I2,'-YEARS'/1X,47('-'),'  NEW-FOLIAGE DEFOLIATION'
-     >        /T14,'PROPORTION OF EXPECTED',T51,
-     >        'PERIOD AVERAGE  5-YR MAX'/T14,'PERIODIC GROWTH',T38,
-     >        'MAXIMUM',T51,14('-'),'  AVERAGE'/T8,'TREE  ',22('-'),
-     >        T38,'CUMULATIVE',T51,'TOP',T60,'WHOLE',T67,'TOP'/
-     >        ' HOST  SIZE  DIAMETER',T30,'HEIGHT  DEFOLIATION',T51,
-     >        'THIRD',T60,'TREE   THIRD'/' ----  ----  --------',
-     >        T30,'------  -----------  -------  -----  --------')
+  250 FORMAT (/'DAMAGE: ',I4,'; ',A26,'; PERIOD LENGTH TO DATE: ',
+     >        I2,'-YEARS'/,47('-'),'  NEW-FOLIAGE DEFOLIATION'
+     >        /T13,'PROPORTION OF EXPECTED',T50,
+     >        'PERIOD AVERAGE  5-YR MAX'/T13,'PERIODIC GROWTH',T37,
+     >        'MAXIMUM',T50,14('-'),'  AVERAGE'/T7,'TREE  ',22('-'),
+     >        T37,'CUMULATIVE',T50,'TOP',T59,'WHOLE',T66,'TOP'/
+     >        ' HOST  SIZE  DIAMETER',T29,'HEIGHT  DEFOLIATION',T50,
+     >        'THIRD',T59,'TREE   THIRD'/'----  ----  --------',
+     >        T29,'------  -----------  -------  -----  --------')
 C
 C     COMPUTE A SCALING VALUE (XMULT) APPROPREATE TO SCALE THE RATES
 C     STORED IN PEDDS, PEHTG, AND BWMXCD TO END-OF-PERIOD VALUES.
@@ -252,8 +252,8 @@ C
       IF (LBWDAM) WRITE (JOWSBW,290) ISPC(IHOST),ISZC(ISZI),RDDS,
      >       RHTG,BWMXCD(IHOST,ISZI),(1.-AVPRBO(IHOST,ISZI,I),I=1,2),
      >       AVYRMX(IHOST,ISZI)
-  290 FORMAT (2X,A2,3X,A4,T15,F6.3,T30,F6.3,T39,F7.1,T50,F6.3,T59,
-     >        F6.3,T67,F6.3)
+  290 FORMAT (1X,A2,3X,A4,T14,F6.3,T29,F6.3,T38,F7.1,T49,F6.3,T58,
+     >        F6.3,T66,F6.3)
   300 CONTINUE
   310 CONTINUE
   350 CONTINUE

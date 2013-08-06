@@ -26,9 +26,8 @@ C
       LOGICAL DEBUG
 
       CALL DBCHK (DEBUG,'CLGMULT',7,ICYC) 
-
       IF (DEBUG) WRITE (JOSTND,1) LCLIMATE
-    1 FORMAT (' IN CLGMULT, LCLIMATE=',L2)
+    1 FORMAT ('IN CLGMULT, LCLIMATE=',L2)
 
 C     INSURE THE MULTIPLIER, AND THE REPORTED SPECIES AVERAGE ARE 
 C     INITIALLY 1.0 (NO CLIMATE EFFECT).
@@ -42,7 +41,7 @@ C     INITIALLY 1.0 (NO CLIMATE EFFECT).
 
       IF (DEBUG) WRITE (JOSTND,2) ICYC,IY(ICYC),IXMTCM,IXMAT,
      >           IXDD5,IXGSP,IXD100,IXMMIN,IXDD0,IXPSITE
-    2 FORMAT (' IN CLGMULT, ICYC,IY(ICYC)=',2I5,' IXMTCM,' 
+    2 FORMAT ('IN CLGMULT, ICYC,IY(ICYC)=',2I5,' IXMTCM,' 
      >  'IXDD5,IXMAT=',3I4,' IXGSP,IXD100,IXMMIN,IXDD0,IXPSITE=',5I4)
 
       IF (IXMTCM*IXDD5*IXMAT*IXGSP*IXD100*IXMMIN*IXDD0.EQ.0) 
@@ -87,8 +86,8 @@ C     LOAD THE CLIMATE DATA FOR THIS YEAR.
       ENDIF
       IF (DEBUG) WRITE (JOSTND,5) MTCM_INVYR,D100_INVYR,MMIN_INVYR,
      >   SMI_INVYR,PSITE_INVYR,PSITE_NOW,XGSITE
-    5 FORMAT (' IN CLGMULT,MTCM_INVYR,D100_INVYR,MMIN_INVYR,',
-     >        ' SMI_INVYR=',4F10.4,' PSITE_INVYR,NOW,XGSITE=',3F10.4)
+    5 FORMAT ('IN CLGMULT,MTCM_INVYR,D100_INVYR,MMIN_INVYR,',
+     >        ' SMI_INVYR=',4F10.4,'PSITE_INVYR,NOW,XGSITE=',3F10.4)
 
       VSCORE=1.0    
       DO I=1,MAXSP
@@ -103,7 +102,7 @@ C     LOAD THE CLIMATE DATA FOR THIS YEAR.
           ENDIF
           IF (VSCORE(I).LT. 0.2) VSCORE(I) = 0.2
           IF (DEBUG) WRITE (JOSTND,7) JSP(I),VSCORE(I)
-    7     FORMAT (' IN CLGMULT, SP=',A2,' VSCORE= ',F13.5)
+    7     FORMAT ('IN CLGMULT, SP=',A2,' VSCORE= ',F13.5)
         ENDIF  
       ENDDO
 
@@ -196,22 +195,23 @@ C       smi.trds:d100    0.15582
         ENDIF
         
         IF (ABS(XRELGR-1.0).LT. .005) XRELGR=1.0
-        IF (XRELGR .GT. 4.) XRELGR = 4. 
         
         ! If the growth effects are above 1, then apply the one
         ! that results in the most growth. Otherwise apply the one
         ! that results in the least growth.
         PS = MIN(XGSITE,XRELGR,VSCORE(ISP(I)))
         IF (PS.GT. 0.99) PS=MAX(XGSITE,XRELGR,VSCORE(ISP(I)))
-        TREEMULT(I)=1.- ( (1.-PS)*CLGROWMULT(ISP(I)) )
+        IF (PS .GT. 3.) PS = 3. 
+        TREEMULT(I)=1.+((PS-1.)*CLGROWMULT(ISP(I)))
+        IF (TREEMULT(I) .LT. 0) TREEMULT(I) = 0.
         IF (DEBUG) WRITE (JOSTND,10) I,JSP(ISP(I)),BIRTHYR,
      >             XDF,XPP,XWL,PS,XRELGR,TREEMULT(I)
-   10   FORMAT (' IN CLGMULT, I=',I5,' SP=',A2,' BIRTHYR=',F7.1,
+   10   FORMAT ('IN CLGMULT, I=',I5,' SP=',A2,' BIRTHYR=',F7.1,
      >          ' XDF=',F8.3,' XPP=',F8.3,' XWL=',F8.3,
      >          ' PS=',F8.3,' XRELGR=',F8.3,' TREEMULT=',F8.3)
       ENDDO
       ! Compute SPSITGM for reporting only (this is a vector operation).
-      SPSITGM = 1.- ( (1.-XGSITE)*CLGROWMULT )
+      SPSITGM = XGSITE**CLGROWMULT
       
 C     CREATE THE REPORTED AVERAGE SCORE. 
 
@@ -234,7 +234,7 @@ C     CREATE THE REPORTED AVERAGE SCORE.
         DO I=1,MAXSP
           WRITE (JOSTND,20) I,JSP(I),SPVIAB(I),
      >            SPSITGM(I),SPGMULT(I),SPWTS(I)
-   20     FORMAT (' IN CLGMULT, I=',I5,' SP=',A2,' SPVIAB=',F7.3,
+   20     FORMAT ('IN CLGMULT, I=',I5,' SP=',A2,' SPVIAB=',F7.3,
      >            ' SPSITGM=',F9.3,' SPGMULT=',F9.3,' SPWTS=',F13.2)
         ENDDO
       ENDIF

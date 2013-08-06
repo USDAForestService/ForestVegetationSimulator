@@ -45,6 +45,12 @@ fvsGetEventMonitorVariables(c("year","atpa","aba"))
 # get and output tree attributes
 fvsGetTreeAttrs(treeAttrs)
 
+# get and set some species attributes
+spAttrs = fvsGetSpeciesAttrs(c("spsdi","spccf","spsiteindx"))
+spAttrs
+rtn = fvsSetSpeciesAttrs(spAttrs)
+cat ("rtn = ",rtn,"\n")
+
 # run to 2060 stop prior to adding increments
 fvsRun(5,2060)
 trees=fvsGetTreeAttrs(treeAttrs)

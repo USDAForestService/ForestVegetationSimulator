@@ -305,7 +305,7 @@ C-------new FFE REAL variables --------
       CALL BFWRIT (WK3, IPNT, ILIMIT, POTPAB, 2            , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, POTRINT, 2           , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, POTVOL, 2            , 2)
-      CALL BFWRIT (WK3, IPNT, ILIMIT, PRDUFF, MXFLCL       , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, PRDUFF, MXFLCL*4     , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, PRESVL, 2*8          , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, PREWND, 2            , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, PRPILE, MXFLCL       , 2)
@@ -339,13 +339,15 @@ C------- Carbon reporting REAL variables --------
       CALL BFWRIT (WK3, IPNT, ILIMIT, CARBVAL, 17          , 2)
 C------- new FFE REAL variables --------
       CALL BFWRIT (WK3, IPNT, ILIMIT, USAV,    3           , 2)
-      CALL BFWRIT (WK3, IPNT, ILIMIT, UBD,     2           , 2)            
+      CALL BFWRIT (WK3, IPNT, ILIMIT, UBD,     2           , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, CWDVOL, 3*10*2*5     , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, CWDCOV, 3*10*2*5     , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, PREMST,  MAXTRE      , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, PREMCR,  MAXTRE      , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, DBHC,  MAXTRE        , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, HTC,  MAXTRE         , 2)
-      CALL BFWRIT (WK3, IPNT, ILIMIT, CROWNWC,  MAXTRE*6   , 2)            
+      CALL BFWRIT (WK3, IPNT, ILIMIT, CROWNWC,  MAXTRE*6   , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, SETDECAY, MXFLCL*4   , 2)
+
       RETURN
       END

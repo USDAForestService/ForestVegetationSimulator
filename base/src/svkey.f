@@ -23,7 +23,7 @@ COMMONS
 
 COMMONS
 
-      LOGICAL LNOTBK(7)
+      LOGICAL LNOTBK(7),LOPEN
       REAL ARRAY(7)
       CHARACTER*8 KEYWRD
       CHARACTER*10 SUFFIX
@@ -36,7 +36,7 @@ COMMONS
       IF (IGRID.GT.256) IGRID=256
       IF (IGRID.LT.0) IGRID=0
 
-      IF (LNOTBK(3)) JSVOUT = -1
+      IF (LNOTBK(7)) JSVOUT = -1
 
       IF (LNOTBK(5)) ICOLIDX = INT(ARRAY(5))
       IF (ICOLIDX.GT.20) ICOLIDX=20
@@ -48,10 +48,10 @@ C     a uniform ground surface of the indicated color.
 C>>>      IF (ICOLIDX.LT.0) ICOLIDX=2
 
       WRITE (JOSTND,10) KEYWRD,IPLGEM,IGRID
-   10 FORMAT (/1X,A8,'   PRODUCE SVS-READY DATA'/T13,
+   10 FORMAT (/A8,'   PRODUCE SVS-READY DATA'/T12,
      >  'PLOT GEOMETRY CODE = ',I2,
      >  ' (0=SQUARE, IGNORE POINTS; 1=SUBDIVIDED SQUARE; ',
-     >    '2=ROUND, IGNORE POINTS; 3=SUBDIVIDED CIRCLE)'/T13,
+     >    '2=ROUND, IGNORE POINTS; 3=SUBDIVIDED CIRCLE)'/T12,
      >  'GROUND FILE GRID RESOLUTION (ZERO IMPLIES NO GROUND FILE)= ',
      >  I3)
       IRPOLES=IFIX(ARRAY(3))
@@ -80,30 +80,31 @@ C>>>      IF (ICOLIDX.LT.0) ICOLIDX=2
         WRITE (JOSTND,15) 'OUTPUT DATA ARE METRIC.'
       ENDIF
       WRITE (JOSTND,16) ICOLIDX
+      IF (LNOTBK(7)) JSVOUT = -1
       IF (JSVOUT .LT. 0) WRITE (JOSTND,15) 
      >   'SVS RUNS BUT NO OUTPUT FILES ARE PRODUCED.' 
    
 
-   15 FORMAT (T13,A)
-   16 FORMAT (T13,'COLOR INDEX= ',I4)
+   15 FORMAT (T12,A)
+   16 FORMAT (T12,'COLOR INDEX= ',I4)
 
       IF (JSVOUT.LT.0) RETURN
       
       JSVOUT=90
-
-      IF (NIMAGE.EQ.0) THEN
+      inquire(unit=JSVOUT,opened=LOPEN)
+      if (.not.LOPEN) then
         SUFFIX='_index.svs'
-        CALL MYOPEN(JSVOUT,KWDFIL(1:ISTLNB(KWDFIL))//SUFFIX,
-     >       5,120,0,1,1,0,KODE)
-
-        IF (KODE.GT.0) THEN
-          WRITE (JOSTND,20) KWDFIL(1:ISTLNB(KWDFIL))//SUFFIX
-   20     FORMAT (/T13,'**** FILE OPEN ERROR FOR FILE: ',A)
-          CALL RCDSET (2,.TRUE.)
-          JSVOUT=0
-        ELSE
-          IF (JSVPIC.GT.0) WRITE (JSVOUT,'(''#TREELISTINDEX'')')
-        ENDIF
+        open(unit=JSVOUT,file=trim(KWDFIL)//SUFFIX,
+     >       status="replace",err=19)
+        GOTO 21
+   19   CONTINUE
+        WRITE (JOSTND,20) trim(KWDFIL)//SUFFIX
+   20   FORMAT (/T12,'**** FILE OPEN ERROR FOR FILE: ',A)
+        CALL RCDSET (2,.TRUE.)
+        JSVOUT=0
+        RETURN
+   21   CONTINUE
+        WRITE (JSVOUT,'(''#TREELISTINDEX'')')
       ENDIF
       RETURN
       END

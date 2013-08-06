@@ -1,6 +1,6 @@
       SUBROUTINE BRCREM
 C**********************************************************************
-C  **BRCREM       DATE OF LAST REVISION:  05/09/2006
+C  **BRCREM       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRCREM removes cankers that have been classified as inactive
@@ -48,7 +48,7 @@ C.... Is debug requested?
 
       CALL DBCHK(DEBUG,'BRCREM',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,111) ICYC
-  111 FORMAT(' Entering subroutine BRCREM: cycle = ',I2)
+  111 FORMAT('Entering subroutine BRCREM: cycle = ',I2)
 
 C.... If there are no trees, exit subroutine.
 
@@ -205,6 +205,6 @@ C.... Common return.
 
   300 CONTINUE
       IF(DEBUG) WRITE (JOSTND,333) ICYC
-  333 FORMAT(' Leaving subroutine BRCREM: cycle = ',I2)
+  333 FORMAT('Leaving subroutine BRCREM: cycle = ',I2)
       RETURN
       END

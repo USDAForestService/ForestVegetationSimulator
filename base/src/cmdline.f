@@ -14,11 +14,9 @@ c     Created in 2011 and 2012 by Nick Crookston, RMRS-Moscow
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSETCMDLINE
 !DEC$ ATTRIBUTES ALIAS : 'FVSSETCMDLINE' :: FVSSETCMDLINE
 !DEC$ ATTRIBUTES REFERENCE :: theCmdLine,lenCL,IRTNCD
-#endif
 
       integer :: i,n,irtn,ieq,iend,lenCL,IRTNCD
       logical fstat
@@ -195,11 +193,9 @@ c     open/reopen the keyword/output file.
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETSTOPPOINTCODES
 !DEC$ ATTRIBUTES ALIAS : 'FVSGETSTOPPOINTCODES' :: FVSGETSTOPPOINTCODES
 !DEC$ ATTRIBUTES REFERENCE :: spptcd,spptyr
-#endif
 
       integer :: spptcd,spptyr
       spptcd = minorstopptcode
@@ -212,11 +208,9 @@ c     open/reopen the keyword/output file.
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSETSTOPPOINTCODES
 !DEC$ ATTRIBUTES ALIAS : 'FVSSETSTOPPOINTCODES' :: FVSSETSTOPPOINTCODES
 !DEC$ ATTRIBUTES REFERENCE :: spptcd,spptyr
-#endif
 
       integer :: spptcd,spptyr
       minorstopptcode = spptcd
@@ -230,11 +224,9 @@ c     open/reopen the keyword/output file.
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETRESTARTCODE
 !DEC$ ATTRIBUTES ALIAS : 'FVSGETRESTARTCODE' :: FVSGETRESTARTCODE
 !DEC$ ATTRIBUTES REFERENCE :: restrtcd
-#endif
 
       integer :: restrtcd
       if (fvsRtnCode == 0) then
@@ -314,11 +306,9 @@ cc     -        " restrtcd=",restrtcd
 
       include "GLBLCNTL.F77"
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETKEYWORDFILENAME
 !DEC$ ATTRIBUTES ALIAS:'FVSGETKEYWORDFILENAME' :: FVSGETKEYWORDFILENAME
 !DEC$ ATTRIBUTES REFERENCE :: fn,mxch,nch
-#endif
 
       integer :: mxch,nch
       character(mxch) fn
@@ -334,11 +324,9 @@ cc     -        " restrtcd=",restrtcd
       include "GLBLCNTL.F77"
       integer :: rtnCode
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSETRTNCODE
 !DEC$ ATTRIBUTES ALIAS : 'FVSSETRTNCODE' :: FVSSETRTNCODE
 !DEC$ ATTRIBUTES REFERENCE :: rtnCode
-#endif
 
       fvsRtnCode = rtnCode
 
@@ -353,11 +341,9 @@ C     if in an error state, close the files.
       include "GLBLCNTL.F77"
       integer :: rtnCode
 
-#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETRTNCODE
 !DEC$ ATTRIBUTES ALIAS : 'FVSGETRTNCODE' :: FVSGETRTNCODE
 !DEC$ ATTRIBUTES REFERENCE :: rtnCode
-#endif
 
       rtnCode = fvsRtnCode
       return

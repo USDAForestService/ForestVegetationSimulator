@@ -108,7 +108,7 @@ C----------
         CALL MYOPEN(KOLIST,KWDFIL(1:ISTLNB(KWDFIL))//'.fst',
      >              5,170,0,1,1,0,KODE)
         IF(KODE .GT. 0) THEN
-          WRITE(JOSTND,*) ' FVSSTAND FILE DID NOT OPEN'
+          WRITE(JOSTND,*)'FVSSTAND FILE DID NOT OPEN'
           CALL RCDSET (2,.TRUE.)
           GO TO 200
         ENDIF

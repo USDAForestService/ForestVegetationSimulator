@@ -26,7 +26,7 @@ C
       CALL DBCHK (DEBUG,'CLMORTS',7,ICYC)   
 
       IF (DEBUG) WRITE (JOSTND,1) LCLIMATE
-    1 FORMAT (' IN CLMORTS, LCLIMATE=',L2,' ICYC=',I3)
+    1 FORMAT ('IN CLMORTS, LCLIMATE=',L2,' ICYC=',I3)
                                                                
       IF (.NOT.LCLIMATE) RETURN
 
@@ -45,7 +45,7 @@ C     IF THIS IS THE FIRST CYCLE, THEN SET THE SPECIES PRESENCE CALIBRATION.
           ENDIF          
           IF (DEBUG) WRITE (JOSTND,5) I,JSP(I)(1:2),
      >               SPCALIB(I)
-    5     FORMAT (' IN MORTS, I=',I3,' SP=',A2,' SPCALIB=',F10.4)
+    5     FORMAT ('IN MORTS, I=',I3,' SP=',A2,' SPCALIB=',F10.4)
         ENDDO
       ENDIF
 
@@ -97,7 +97,7 @@ C       CONVERT TO A MORTALITY RATE AND APPLY MULTIPLIER.
 
         IF (DEBUG) WRITE (JOSTND,10) IFIX(THISYR),I,JSP(I)(1:2),XV,X,
      >             CLMRTMLT1(I),CLMRTMLT2(I),SPMORT1(I),FYRMORT(I)
-   10   FORMAT (' IN CLMORTS, THISYR=',I5,' I=',I3,1X,A3,' XVia=',
+   10   FORMAT ('IN CLMORTS, THISYR=',I5,' I=',I3,1X,A3,' XVia=',
      >          2F10.4,' CLMRTMLT1&2=',2F10.4,' MORT=',2F10.4)
       ENDDO
       
@@ -116,7 +116,7 @@ C     TREE LOOP.
       IF (DEBUG) WRITE (JOSTND,11) LDMORT,IDEmtwm,IDEmtcm,
      >         IDEdd5,IDEsdi,IDEdd0,IDEmapdd5,
      >         IXMTWM,IXMTCM,IXDD5,IXDD0,IXMAP,IXGSP,IXGSDD5
-   11 FORMAT (' IN CLMORTS, LDMORT=',L2,13I3)
+   11 FORMAT ('IN CLMORTS, LDMORT=',L2,13I3)
 
       IF (LDMORT) THEN
         CTHISYR(1) = ALGSLP(THISYR,FLOAT(YEARS),ATTRS(1,IXMTWM),
@@ -136,7 +136,7 @@ C       Definition: mapdd5 = map*dd5/1000
         CTHISYR(6) = ALGSLP(THISYR,FLOAT(YEARS),ATTRS(1,IXMAP),
      >                      NYEARS)*CTHISYR(3)/1000    
         IF (DEBUG) WRITE (JOSTND,12) CTHISYR
-   12   FORMAT (' IN CLMORTS, CTHISYR=',6F13.5)
+   12   FORMAT ('IN CLMORTS, CTHISYR=',6F13.5)
       ENDIF
       SPMORT2=0.
       SPWTS  =0.
@@ -198,13 +198,13 @@ C         Definition: mapdd5 = map*dd5/1000
         ENDIF
         IF (DEBUG) WRITE (JOSTND,15) I,JSP(ISP(I))(1:2),BIRTHYR,X,
      >             FYRMORT(ISP(I)),DMORT,LDMORT,WK2(I),PROB(I)
-   15   FORMAT (' IN CLMORTS, I=',I4,' SP=',A3,' BIRTHYR=',F6.0,
+   15   FORMAT ('IN CLMORTS, I=',I4,' SP=',A3,' BIRTHYR=',F6.0,
      >        ' FVSmort=',F10.4,' FYRMORT=',F10.4,' DMORT=',F10.4,
      >        ' LDMORT=',L2,' WK2=',F10.5,' PROB=',F10.5)    
         IF (LDMORT.AND.DEBUG) WRITE (JOSTND,16) CBIRTH,CTHISYR,DTV
-   16   FORMAT (' IN CLMORTS, CBIRTH =',6F13.5/
-     >          ' IN CLMORTS, CTHISYR=',6F13.5/
-     >          ' IN CLMORTS, DTV    =',6F13.5)
+   16   FORMAT ('IN CLMORTS, CBIRTH =',6F13.5/
+     >          'IN CLMORTS, CTHISYR=',6F13.5/
+     >          'IN CLMORTS, DTV    =',6F13.5)
         ! USE THE MAX OF THE TWO RATES.
         IF (FYRMORT(ISP(I)).GT.DMORT) DMORT=FYRMORT(ISP(I))
         IF (DMORT.GT.X) WK2(I)=PROB(I)*DMORT

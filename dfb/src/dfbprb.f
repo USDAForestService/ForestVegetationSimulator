@@ -1,7 +1,7 @@
       SUBROUTINE DFBPRB (PROTBK)
       IMPLICIT NONE
 C----------
-C  **DFBPRB  DATE OF LAST REVISION:  06/30/10
+C  **DFBPRB  DATE OF LAST REVISION:  05/30/13
 C----------
 C
 C  THIS ROUTINE IS USED TO CALCULATE THE PROBABILITY OF A STAND
@@ -60,13 +60,13 @@ C
 C     PRINT VARIABLES IF DEBUG IS USED.
 C
       IF (DEBUIN) THEN
-         WRITE (JOSTND,*) ' IN DFBPRB   *******************'
-         WRITE (JOSTND,*) ' A45DBH = ', A45DBH
-         WRITE (JOSTND,*) ' PBADF4 = ', PBADF4
-         WRITE (JOSTND,*) ' BADF9  = ', BADF9
-         WRITE (JOSTND,*) ' BA9    = ', BA9
-         WRITE (JOSTND,*) ' PROTBK = ', PROTBK
-         WRITE (JOSTND,*) ' LEAVING DFBPRB   **************'
+         WRITE (JOSTND,*) 'IN DFBPRB   *******************'
+         WRITE (JOSTND,*) 'A45DBH = ', A45DBH
+         WRITE (JOSTND,*) 'PBADF4 = ', PBADF4
+         WRITE (JOSTND,*) 'BADF9  = ', BADF9
+         WRITE (JOSTND,*) 'BA9    = ', BA9
+         WRITE (JOSTND,*) 'PROTBK = ', PROTBK
+         WRITE (JOSTND,*) 'LEAVING DFBPRB   **************'
       ENDIF
 
       RETURN

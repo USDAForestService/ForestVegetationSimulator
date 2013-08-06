@@ -1,7 +1,7 @@
       SUBROUTINE FMIN (ICALL,NSP,LKECHO)
       IMPLICIT NONE
 C----------
-C  **FMIN  FIRE/M--DATE OF LAST REVISION:  01/11/11
+C  **FMIN  FIRE/M--DATE OF LAST REVISION:  04/25/13
 C----------
 C
 C     FIRE - FIRE & SNAG MODEL
@@ -849,11 +849,27 @@ C
             DKR(9,IDEC) = ARRAY(7)
          ENDIF
 
+C        set array SETDECAY so we know if the decay rates have been set by the user
+
+         IF (LNOTBK(2)) SETDECAY(10,IDEC) = ARRAY(2)
+         IF (LNOTBK(3)) SETDECAY(11,IDEC) = ARRAY(3)
+         IF (LNOTBK(4)) SETDECAY(1,IDEC) = ARRAY(4)
+         IF (LNOTBK(5)) SETDECAY(2,IDEC) = ARRAY(5)
+         IF (LNOTBK(6)) SETDECAY(3,IDEC) = ARRAY(6)
+         IF (LNOTBK(7)) THEN
+            SETDECAY(4,IDEC) = ARRAY(7)
+            SETDECAY(5,IDEC) = ARRAY(7)
+            SETDECAY(6,IDEC) = ARRAY(7)   
+            SETDECAY(7,IDEC) = ARRAY(7)
+            SETDECAY(8,IDEC) = ARRAY(7)
+            SETDECAY(9,IDEC) = ARRAY(7)            
+         ENDIF
+         
 C        NOW RE-DETERMINE THE DECAY RATE TO DUFF
          IF (ID .LT. 5) THEN
             DO 1620 I=1,10
                IF (DKR(I,IDEC) .GT. 1.0) DKR(I,IDEC) = 1.0
-               TODUFF(I,IDEC) = DKR(I,IDEC) * PRDUFF(I)
+               TODUFF(I,IDEC) = DKR(I,IDEC) * PRDUFF(I,IDEC)
  1620       CONTINUE
             IF(LKECHO)WRITE(JOSTND,1650) KEYWRD,IDEC,DKR(10,IDEC),
      &         DKR(11,IDEC),(DKR(I,IDEC),I=1,4)
@@ -861,10 +877,11 @@ C        NOW RE-DETERMINE THE DECAY RATE TO DUFF
             DO 1635 IDEC=1,4
               DO J=1,11
                 DKR(J,IDEC) = DKR(J,4)
+                SETDECAY(J,IDEC) = MIN(SETDECAY(J,4),1.0)
               ENDDO
               DO 1630 I=1,10
                 IF (DKR(I,IDEC) .GT. 1.0) DKR(I,IDEC) = 1.0
-                TODUFF(I,IDEC) = DKR(I,IDEC) * PRDUFF(I)
+                TODUFF(I,IDEC) = DKR(I,IDEC) * PRDUFF(I,IDEC)
  1630         CONTINUE
  1635       CONTINUE
 
@@ -896,53 +913,57 @@ C     CHANGE THE PROPORTION OF THE DECAY RATE THAT GOES TO DUFF (AS OPPOSED
 C     TO GOING TO THE AIR).  THIS CAN BE DONE FOR THE 3 SMALLEST FUEL
 C     CATEGORIES, EVERYTHING LARGER THAN 3" AND LITTER.
 C
+      IDEC = 0
       IF (LNOTBK(1)) THEN
-         IDEC = IFIX(ARRAY(1))
-         IF (IDEC .LE. 0) IDEC = 1
+         ID = IFIX(ARRAY(1))
+         IDEC = ID
+         IF (ID .GT. 4) IDEC = 4
+         IF (ID .LE. 0) IDEC = 1
 
          IF (LNOTBK(7)) THEN
             DO 1710 I=1,10
-               PRDUFF(I) = ARRAY(7)
+               PRDUFF(I,IDEC) = ARRAY(7)
  1710       CONTINUE
          ENDIF
-         IF (LNOTBK(2)) PRDUFF(10) = ARRAY(2)
-         IF (LNOTBK(3)) PRDUFF(1) = ARRAY(3)
-         IF (LNOTBK(4)) PRDUFF(2) = ARRAY(4)
-         IF (LNOTBK(5)) PRDUFF(3) = ARRAY(5)
+         IF (LNOTBK(2)) PRDUFF(10,IDEC) = ARRAY(2)
+         IF (LNOTBK(3)) PRDUFF(1,IDEC) = ARRAY(3)
+         IF (LNOTBK(4)) PRDUFF(2,IDEC) = ARRAY(4)
+         IF (LNOTBK(5)) PRDUFF(3,IDEC) = ARRAY(5)
          IF (LNOTBK(6)) THEN
-            PRDUFF(4) = ARRAY(6)
-            PRDUFF(5) = ARRAY(6)
-            PRDUFF(6) = ARRAY(6)
-            PRDUFF(7) = ARRAY(6)
-            PRDUFF(8) = ARRAY(6)
-            PRDUFF(9) = ARRAY(6)
+            PRDUFF(4,IDEC) = ARRAY(6)
+            PRDUFF(5,IDEC) = ARRAY(6)
+            PRDUFF(6,IDEC) = ARRAY(6)
+            PRDUFF(7,IDEC) = ARRAY(6)
+            PRDUFF(8,IDEC) = ARRAY(6)
+            PRDUFF(9,IDEC) = ARRAY(6)
          ENDIF
 
 C        NOW RE-DETERMINE THE DECAY RATES TO DUFF AND TO AIR
-         IF (IDEC .LE. 4) THEN
+         IF (ID .LE. 4) THEN
             DO 1720 I=1,10
-               IF (PRDUFF(I) .GT. 1.0) PRDUFF(I) = 1.0
-               IF (PRDUFF(I) .LT. 0.0) PRDUFF(I) = 0.0
-               TODUFF(I,IDEC) = PRDUFF(I) * DKR(I,IDEC)
+               IF (PRDUFF(I,IDEC) .GT. 1.0) PRDUFF(I,IDEC) = 1.0
+               IF (PRDUFF(I,IDEC) .LT. 0.0) PRDUFF(I,IDEC) = 0.0
+               TODUFF(I,IDEC) = PRDUFF(I,IDEC) * DKR(I,IDEC)
  1720       CONTINUE
 
             IF(LKECHO)WRITE(JOSTND,1750) KEYWRD,IDEC,
-     &         PRDUFF(10), (PRDUFF(I),I=1,4)
+     &         PRDUFF(10,IDEC), (PRDUFF(I,IDEC),I=1,4)
  1750       FORMAT (/1X,A8,'   THE PROPORTION OF THE DECOMPOSING ',
      &      ' MATERIAL WHICH GOES TO DUFF IN DECAY POOL ',I2,' IS:',
      &       /T13,'LITTER: ',F4.2,' 0-.64: ',F4.2,
      &      ' .64-2.5: ',F4.2,' 2.5-7.6: ',F4.2,' >7.6: ',F4.2)
          ELSE
             DO 1735 I=1,10
-               IF (PRDUFF(I) .GT. 1.0) PRDUFF(I) = 1.0
-               IF (PRDUFF(I) .LT. 0.0) PRDUFF(I) = 0.0
                DO 1730 IDEC=1,4
-                  TODUFF(I,IDEC) = PRDUFF(I) * DKR(I,IDEC)
+                  PRDUFF(I,IDEC) = PRDUFF(I,4)
+                  IF (PRDUFF(I,IDEC) .GT. 1.0) PRDUFF(I,IDEC) = 1.0
+                  IF (PRDUFF(I,IDEC) .LT. 0.0) PRDUFF(I,IDEC) = 0.0
+                  TODUFF(I,IDEC) = PRDUFF(I,IDEC) * DKR(I,IDEC)
  1730          CONTINUE
  1735       CONTINUE
 
-            IF(LKECHO)WRITE(JOSTND,1755) KEYWRD, PRDUFF(10),
-     >        (PRDUFF(I),I=1,4)
+            IF(LKECHO)WRITE(JOSTND,1755) KEYWRD, PRDUFF(10,4),
+     &                                   (PRDUFF(I,4),I=1,4)
  1755       FORMAT (/1X,A8,'   THE PROPORTION OF THE DECOMPOSING ',
      &      ' MATERIAL WHICH GOES TO DUFF IS',/T13,'LITTER: ',F4.2,
      &      ' 0-.64: ',F4.2,  
@@ -1374,7 +1395,8 @@ C
             DO 2920 I=1,11
                DKR(I,IDEC) = DKR(I,IDEC) * DKMULT
                IF (DKR(I,IDEC) .GT. 1.0) DKR(I,IDEC) = 1.0
-               IF (I .LE. 10) TODUFF(I,IDEC) = DKR(I,IDEC) * PRDUFF(I)
+               IF (I .LE. 10) TODUFF(I,IDEC) = DKR(I,IDEC) 
+     !                         * PRDUFF(I,IDEC)
  2920       CONTINUE
          ELSE
             ARRAY(IDEC) = 1.0
@@ -2133,7 +2155,7 @@ C
      >  CRDCAY,CDBRK(1)*INtoCM,CDBRK(2)*INtoCM
 
  4610 FORMAT(/1X,A8,T13,'CARBON REPORTS WILL BE BASED ON METHOD',
-     >      I2, ' (0=JENKINS, 1=FFE)',/T13, 'REPORT UNITS WILL BE',
+     >      I2, ' (0=FFE, 1=JENKINS)',/T13, 'REPORT UNITS WILL BE',
      >      I2, ' (0=IMPERIAL, 1=METRIC, 2 = METRIC TONS/ACRE)',/T13,
      >      'PROPORTION OF DEAD ROOTS DECAYING ANNUALLY WILL BE: ',
      >      F7.4,' (<0 = NO DEAD ROOTS)',/T13,

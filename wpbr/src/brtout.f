@@ -1,6 +1,6 @@
       SUBROUTINE BRTOUT
 C**********************************************************************
-C  **BRTOUT       DATE OF LAST REVISION:  05/21/2001
+C  **BRTOUT       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRTOUT writes the treelist summary to output file.
@@ -80,17 +80,17 @@ C....    Write tree status key first time only.
          BRTHDR = .FALSE.
 
          WRITE(IDTOUT,20)
-   20    FORMAT(' Pine Blister Rust Treelist Summary',
-     &      //,' Key to tree status codes: ',
+   20    FORMAT('Pine Blister Rust Treelist Summary',
+     &      //,'Key to tree status codes: ',
      &      ' NL = non-lethal,   PR = prunable,  EX = excisable,',
-     &      /,27X,' NS = non-salvable, TK = top kill,  DD = tree died,',
-     &      /,27X,' NO = no cankers',
-     &      //,' Key to stock type codes:   ',
+     &      /,26X,' NS = non-salvable, TK = top kill,  DD = tree died,',
+     &      /,26X,' NO = no cankers',
+     &      //,'Key to stock type codes:   ',
      &      '1 = wild stock,   2 = F1 stock,   3 = F3 stock,   4 ='
      &      ' GCOP stock',
-     &      //,' Notes: (N/T/A*1000) = Thousands of needles per tree',
+     &      //,'Notes: (N/T/A*1000) = Thousands of needles per tree',
      &      ' per acre.',/,
-     &         '        Crown Ratio is from FVS and may not correlate',
+     &      '       Crown Ratio is from FVS and may not correlate',
      &      ' with Crown Base height if pruning has occurred.',/)
          WRITE (IDTOUT,25) NPLT,MGMID,ITITLE(1:ISTLNB(ITITLE))
    25    FORMAT(' STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A,/)
@@ -99,23 +99,23 @@ C....    Write tree status key first time only.
 C.... Write heading information.
 
       WRITE(IDTOUT,30) ICYC,IY(ICYC+1)
-   30 FORMAT(1X,'Cycle: ',I3,4X,'Year: ',I4 /)
+   30 FORMAT('Cycle: ',I3,4X,'Year: ',I4 /)
 
       WRITE(IDTOUT,40)
-   40 FORMAT(1X,38X,'DIAM',3X,'TREE',2X,'TRUNC',2X,'CROWN',1X,'CROWN',
+   40 FORMAT(38X,'DIAM',3X,'TREE',2X,'TRUNC',2X,'CROWN',1X,'CROWN',
      &   5X,'SUM OF',13X,'GROWTH',2X,'EXPECTED',2X,'TOTAL',/,
-     & 3X,'TREE',7X,'STK',2X,
+     & 2X,'TREE',7X,'STK',2X,
      &   'AGE',3X,'DBH',3X,'TREES/',1X,'GROWTH',1X,'HEIGHT',1X,
      &   'HEIGHT',1X,'RATIO',2X,
      &   'BASE',2X,'TARGET AREA',4X,'RUST',4X,'INDEX',3X,'NO. OF',
      &   3X,'NO. OF',3X,'TREE',/,
-     & 2X,'NUMBER',2X,'SPC TYP',1X,'(YRS)',
+     & 1X,'NUMBER',2X,'SPC TYP',1X,'(YRS)',
      &   1X,'(INCH)',2X,'ACRE',2X,'(INCH)',1X,'(FEET)',1X,'(FEET)',2X,
      &   '(%)',2X,'(FEET)',1X,'(N/T/A*1000)',2X,'INDEX',3X,'(FEET)',2X,
      &   'CANKERS',2X,'CANKERS',2X,'STATUS')
 
       WRITE(IDTOUT,45)
-   45 FORMAT(1X,8('-'),1X,'---',1X,'---',1X,5('-'),1X,6('-'),1X,6('-'),
+   45 FORMAT(8('-'),1X,'---',1X,'---',1X,5('-'),1X,6('-'),1X,6('-'),
      &   1X,6('-'),1X,6('-'),1X,6('-'),1X,5('-'),1X,6('-'),1X,12('-'),
      &   1X,7('-'),1X,8('-'),1X,8('-'),1X,7('-'),1X,8('-'))
 
@@ -171,7 +171,7 @@ C     &   ' HT=',HT(K),' GGI=',GGI
          WRITE(IDTOUT,50) IDTREE(K),BRSPC(I4),ISTOTY(K),BRAGE(K),
      &      DBH(K),PROB(K),DG(K),HT(K),TRUNC,ICR(K),HTBCR,
      &      TSTARG(K),RI(K),GGI,ESTCAN(K),ITCAN(K),CHSTAT
-   50    FORMAT(1X,I8,1X,A3,2X,I1,3X,F4.0,2X,F5.1,1X,F6.1,1X,F6.2,
+   50    FORMAT(I8,1X,A3,2X,I1,3X,F4.0,2X,F5.1,1X,F6.1,1X,F6.2,
      &      1X,F6.1,1X,F6.1,4X,I2,1X,F6.1,4X,F9.1,1X,F7.5,1X,F8.2,
      &      3X,F6.1,4X,I4,1X,A8)
    60 CONTINUE

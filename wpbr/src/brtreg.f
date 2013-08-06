@@ -1,6 +1,6 @@
       SUBROUTINE BRTREG
 C**********************************************************************
-C  **BRTREG       DATE OF LAST REVISION:  05/07/2013
+C  **BRTREG       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRTREG drives the Blister Rust Model in the cycling process.
@@ -103,7 +103,7 @@ C.... Is debug requested?
 
       CALL DBCHK(DEBUG,'BRTREG',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,10) ICYC
-   10 FORMAT(' Entering subroutine BRTREG: cycle = ',I2)
+   10 FORMAT('Entering subroutine BRTREG: cycle = ',I2)
 
 C.... Initialize variables which control execution of activities.
 C.... Find out if any of the following activities have been scheduled
@@ -542,6 +542,6 @@ C.... Common return.
 
   300 CONTINUE
       IF(DEBUG) WRITE(JOSTND,400) ICYC
-  400 FORMAT (' Leaving subroutine BRTREG: cycle = ',I2)
+  400 FORMAT ('Leaving subroutine BRTREG: cycle = ',I2)
   410 RETURN
       END

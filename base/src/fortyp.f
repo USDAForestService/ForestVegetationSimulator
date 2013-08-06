@@ -126,6 +126,9 @@ C-----------
      &ICYC,IXF,IFORTP
 C
 C----------
+      P1=0.
+      P2=0.
+      P3=0.
       IFT=0
       JFT=0
       SOUTH=0.

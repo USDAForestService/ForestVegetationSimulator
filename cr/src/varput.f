@@ -1,7 +1,7 @@
       SUBROUTINE VARPUT (WK3,IPNT,ILIMIT,REALS,LOGICS,INTS)
       IMPLICIT NONE
 C----------
-C  **VARPUT--CR   DATE OF LAST REVISION:  09/18/08
+C CR $Id$
 C----------
 C
 C     WRITE THE VARIANT SPECIFIC VARIABLES.
@@ -64,5 +64,21 @@ C
       CALL BFWRIT (WK3, IPNT, ILIMIT, SITELO, MAXSP,    2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, SITEHI, MAXSP,    2)
 C
+      RETURN
+      END
+
+      SUBROUTINE VARCHPUT (CBUFF, IPNT, LNCBUF)
+      IMPLICIT NONE
+C----------
+C     Put variant-specific character data
+C----------
+
+      INCLUDE 'PRGPRM.F77'
+
+      INTEGER LNCBUF
+      CHARACTER CBUFF(LNCBUF)
+      INTEGER IPNT
+      ! Stub for variants which need to get/put character data
+      ! See /bc/varget.f and /bc/varput.f for examples of VARCHGET and VARCHPUT
       RETURN
       END

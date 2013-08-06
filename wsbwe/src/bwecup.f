@@ -1,7 +1,7 @@
       SUBROUTINE BWECUP
       IMPLICIT NONE
 C----------
-C  **BWECUP             DATE OF LAST REVISION:  02/28/12
+C  **BWECUP             DATE OF LAST REVISION:  06/17/13
 C----------
 C
 C     PROCESSES ALL OF THE STANDS IN A RUN FROM YEAR IBWYR1 TO IBWYR2.
@@ -126,7 +126,7 @@ C
            NEVENT=NEVENT+1
            IF (NEVENT.GT.250) THEN
              WRITE (JOBWP4,8250)
- 8250        FORMAT ('   AAAIIEEEE!  MORE THAN 250 ENTRIES!  ')
+ 8250        FORMAT ('********   ERROR - WSBW: MORE THAN 250 ENTRIES!')
              LP4 = .FALSE.
            ELSE
              IEVENT(NEVENT,1)=IYRCUR

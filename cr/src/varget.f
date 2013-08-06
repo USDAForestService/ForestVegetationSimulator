@@ -1,7 +1,7 @@
       SUBROUTINE VARGET (WK3,IPNT,ILIMIT,REALS,LOGICS,INTS)
       IMPLICIT NONE
 C----------
-C  **VARGET--CR  DATE OF LAST REVISION:  09/18/08
+C CR $Id$
 C----------
 C
 C     READ THE VARIANT SPECIFIC VARIABLES.
@@ -64,5 +64,23 @@ C
       CALL BFREAD (WK3, IPNT, ILIMIT, SITELO, MAXSP,    2)
       CALL BFREAD (WK3, IPNT, ILIMIT, SITEHI, MAXSP,    2)
 C
+      RETURN
+      END
+
+      SUBROUTINE VARCHGET (CBUFF, IPNT, LNCBUF)
+      IMPLICIT NONE
+C----------
+C     Get variant-specific character data
+C----------
+C
+COMMONS
+C
+      INCLUDE 'PRGPRM.F77'
+C
+      INTEGER LNCBUF
+      CHARACTER CBUFF(LNCBUF)
+      INTEGER IPNT
+      ! Stub for variants which need to get/put character data
+      ! See /bc/varget.f and /bc/varput.f for examples of VARCHGET and VARCHPUT
       RETURN
       END

@@ -1,6 +1,6 @@
       SUBROUTINE BRIBES(REDFAC,LREDF)
 C**********************************************************************
-C  **BRIBES       DATE OF LAST REVISION:  12/14/2000
+C  **BRIBES       DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRIBES calculates the reduction factor to be applied to the each
@@ -36,7 +36,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRIBES',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,10) ICYC
-   10 FORMAT(' Entering subroutine BRIBES: cycle = ',I2)
+   10 FORMAT('Entering subroutine BRIBES: cycle = ',I2)
 
 C.... Initializations
 
@@ -80,6 +80,6 @@ C.... Calculate reduction factor or set new stand rust index.
 C.... Common return.
 
       IF(DEBUG) WRITE(JOSTND,201) ICYC
-  201 FORMAT (' Leaving subroutine BRIBES: cycle = ',I2)
+  201 FORMAT ('Leaving subroutine BRIBES: cycle = ',I2)
       RETURN
       END

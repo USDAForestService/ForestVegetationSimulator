@@ -44,3 +44,22 @@ C
 C**   CALL BFREAD (WK3, IPNT, ILIMIT, REALS, MXR, 2)
       RETURN
       END
+
+      SUBROUTINE VARCHGET (CBUFF, IPNT, LNCBUF)
+      IMPLICIT NONE
+C----------
+C     Get variant-specific character data
+C----------
+C
+COMMONS
+C
+      INCLUDE 'PRGPRM.F77'
+C
+      INTEGER LNCBUF
+      CHARACTER CBUFF(LNCBUF)
+      INTEGER IPNT
+      ! Stub for variants which need to get/put character data
+      ! See /bc/varget.f and /bc/varput.f for examples of VARCHGET and VARCHPUT
+      RETURN
+      END
+      

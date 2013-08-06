@@ -35,14 +35,14 @@ C----------
       IF(VVER(:2).EQ.'SM' .OR. VVER(:2).EQ.'SP' .OR. VVER(:2).EQ.'BP'
      & .OR. VVER(:2).EQ.'SF' .OR. VVER(:2).EQ.'LP')THEN
         WRITE(JOSCRN,1) VVER(:2),REV
-    1   FORMAT(/T20,'CR-',A2,' FVS VARIANT -- RV:',A10/)
+    1   FORMAT(/T19,'CR-',A2,' FVS VARIANT -- RV:',A10/)
       ELSE
         WRITE(JOSCRN,2) VVER(:2),REV
-    2   FORMAT(/T20,A2,' FVS VARIANT -- RV:',A10/)
+    2   FORMAT(/T19,A2,' FVS VARIANT -- RV:',A10/)
       ENDIF
 C
       WRITE(JOSCRN,5) NPLT,MGMID
-    5 FORMAT(/T10,'STAND = ',A26,'  MANAGEMENT CODE = ',A4/)
+    5 FORMAT(/T9,'STAND = ',A26,'  MANAGEMENT CODE = ',A4/)
       I1=ISTFNB(ITITLE)
       IF (I1.GT.0) THEN
          I2=ISTLNB(ITITLE)
@@ -50,13 +50,13 @@ C
          WRITE (JOSCRN,FMT) ITITLE(I1:I2)
       ENDIF
       WRITE (JOSCRN,10)
-   10 FORMAT (/T17,'SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)'
-     >  /1X,76('-')/
+   10 FORMAT (/T16,'SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)'
+     >  /,76('-')/
      >  T8,'START OF SIMULATION PERIOD    REMOVALS/ACRE',4X,
-     >  'AFTER TREATMENT GROWTH',/,T7,28('-'),1X,17('-'),1X,16('-'),
-     >  ' CU FT',/, T7,'TREES',9X,'TOP',6X,'TOTAL TREES TOTAL MERCH',
-     >  9X,'TOP',6X,'PER YR',/,1X,'YEAR /ACRE  BA SDI  HT  QMD ',
-     >  'CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR',/,1X,
+     >  'AFTER TREATMENT GROWTH',/,T6,28('-'),1X,17('-'),1X,16('-'),
+     >  ' CU FT',/, T6,'TREES',9X,'TOP',6X,'TOTAL TREES TOTAL MERCH',
+     >  9X,'TOP',6X,'PER YR',/,'YEAR /ACRE  BA SDI  HT  QMD ',
+     >  'CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR',/,
      >  '---- ----- --- --- --- ---- ----- ----- ----- ----- ',
      >  '--- --- --- ---- --- ---')
  1000 CONTINUE

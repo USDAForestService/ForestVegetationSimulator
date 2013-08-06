@@ -1,6 +1,6 @@
       SUBROUTINE BRIBA
 C**********************************************************************
-C  **BRIBA        DATE OF LAST REVISION:  05/01/1994
+C  **BRIBA        DATE OF LAST REVISION:  06/21/2013
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRIBA calculates the Rust Index based on Basal Area.
@@ -50,7 +50,7 @@ C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRIBA',5,ICYC)
       IF(DEBUG) WRITE(JOSTND,10) ICYC
-   10 FORMAT(' Entering subroutine BRIBA: cycle = ',I2)
+   10 FORMAT('Entering subroutine BRIBA: cycle = ',I2)
 
 C.... Calculate Proportion Full Sunlight using the FVS current
 C.... basal area (BA from common block PLOT);
