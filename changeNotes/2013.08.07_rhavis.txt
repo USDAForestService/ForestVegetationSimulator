@@ -1,0 +1,12 @@
+Subject: Bug Fixes
+Name: R. Havis
+Date:7 August 2013
+Variants affected: SN
+
+Description: The BFVOLUME keyword echo did not report that the top diameter
+             may not be modified in the Southern variant. This has been corrected.
+
+Impact on users:
+
+Files:
+fvs/base/initre.f
