@@ -2062,7 +2062,9 @@ C----------
 C     SPECIES CODE IS SPECIFIED (IS>0).
 C----------
         IF (.NOT.LNOTBK(3)) ARRAY(3)=BFMIND(IS)
-        IF (.NOT.LNOTBK(4)) ARRAY(4)=BFTOPD(IS)
+        IF(LNOTBK(4).AND.(ITOPD8.LE.0.))THEN
+           BFTOPD(IS)=ARRAY(4)
+        ENDIF
         IF (.NOT.LNOTBK(5)) ARRAY(5)=BFSTMP(IS)
         IF (.NOT.LNOTBK(6)) ARRAY(6)=FRMCLS(IS)
         IF (.NOT.LNOTBK(7)) ARRAY(7)=METHB (IS)
@@ -2077,6 +2079,9 @@ C----------
      >       '); MINIMUM DBH=',F6.2,'; TOP DIAMETER=',F6.2,
      >       '; STUMP HEIGHT=',F6.2,/T12,'LOG LENGTH=',F6.2,
      >       '; METH OF VOL CALC=',F6.0)
+        ELSEIF(LNOTBK(4).AND.(ITOPD8.GT.0))THEN
+          IF(LKECHO)WRITE(JOSTND,4537) KEYWRD,KARD(2)(1:ILEN),
+     &      IS,BFMIND(IS),STMP(IS),FRMCLS(IS)
         ELSE
           IF(LKECHO)WRITE(JOSTND,4646) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >                    (ARRAY(I),I=3,7)
