@@ -3,10 +3,11 @@ Name: R. Havis
 Date:7 August 2013
 Variants affected: SN
 
-Description: The BFVOLUME keyword echo did not report that the top diameter
-             may not be modified in the Southern variant. This has been corrected.
+Description: SN variant: Modified the VOLUME and BFVOLUME keyword  
+             echo to state "CAN NOT MODFIY TOP DIAMETER, IT WILL BE SET TO DEFAULT VALUE"
+             regardless of the value for top diameter in the keyword field.
 
-Impact on users:
+Impact on users: None
 
 Files:
 fvs/base/initre.f
