@@ -3,11 +3,26 @@ Name: R. Havis
 Date:7 August 2013
 Variants affected: SN
 
-Description: SN variant: Modified the VOLUME and BFVOLUME keyword  
-             echo to state "CAN NOT MODFIY TOP DIAMETER, IT WILL BE SET TO DEFAULT VALUE"
-             regardless of the value for top diameter in the keyword field.
+Description: 
 
-Impact on users: None
+
+1) SN variant: Modified the VOLUME and BFVOLUME keyword echo to state "CAN NOT
+               MODIFY TOP DIAMETER, IT WILL BE SET TO DEFAULT VALUE" regardless
+               of the value for top diameter in the keyword field.
+   
+2) ALL variants: The before-thin basal-area-weighted average stand diameter Event
+                 Monitor variable (BDBHwtBA) and its after-thin equivalent (ADBHwtBA)
+                 aid accuracy assessments of the Forest Service's Integrated Forest
+                 Resource Management System (INFORMS) application. It is designed
+                 to estimate the average DBH of the overstory trees before thinning.
+                 The proportion of the stand considered stockable was being applied
+                 twice in the calculation of these variables. To correct the calculation,
+                 division by the proportion of the stand considered stockable was removed.
+
+3) ALL variants: Slight variances in Forest type calculations were possible because of
+                 varible initialization problems. This has been corrected.
+
+Impact on users: The BDBHwtBA and ADBHwtBA EM variables were corrected.
 
 Files:
 fvs/base/initre.f
