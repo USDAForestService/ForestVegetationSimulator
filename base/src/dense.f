@@ -42,6 +42,7 @@ C----------
       INTEGER I,IS,IP,ISPC,I1,I2,I3,II
       REAL SSUMN,TEMP1,TEMP2,RAT,TOTAL,CCFT,CW,BATREE,DP,P,BAT,RELDT
       REAL TSUMD2,R,BRATIO,D,G,SN,BAGR
+      REAL SUMDR0
       LOGICAL LREDO
       LOGICAL DEBUG
 C-----------
@@ -156,6 +157,8 @@ C----------
 C----------
 C   BEGIN SPECIES LOOP.   ACCUMULATE STAND SUMS.  LOAD WK5.
 C----------
+      SUMDR0=0.
+      DR016=0.
       DO  50  ISPC= 1, MAXSP
       I2 = ISCT(ISPC,2)
       IF( I2 .LE. 0 ) GO TO  50
@@ -173,6 +176,7 @@ C----------
       TPROB=TPROB+P
       D=DBH(I)
       IF(LBKDEN.AND.LREDO)  D =WK3(I)
+      IF((D.GE.DBHSDI).AND.LZEIDE)SUMDR0=SUMDR0+P*(D)**1.605    ! ADD ZEIDE SUMS IF DIA. >=DBHSDI
       DP=D*P
       WK5(I)=D*DP
       TSUMD2=TSUMD2+WK5(I)
@@ -232,7 +236,10 @@ C----------
    53 CONTINUE
       RELDEN=RELDT
       RMSQD=0.
-      IF (ITRN.GT.0.AND.TPROB.GT.0.0) RMSQD = SQRT (TSUMD2 / TPROB)
+      IF (ITRN.GT.0.AND.TPROB.GT.0.0)THEN
+        RMSQD = SQRT (TSUMD2 / TPROB)
+        IF(LZEIDE)DR016=(SUMDR0/TPROB)**(1./1.605)
+      ENDIF
       BA = BAT
 C----------
 C  IF PREPARING DENSITY ESTIMATES FOR CALIBRATION, FINISH THE JOB.
@@ -280,9 +287,10 @@ C----------
       IF (SSUMN .GT. 0.) AVH = AVH/SSUMN
    70 CONTINUE
       IF(DEBUG) WRITE(JOSTND,9002) GROSPC,TPROB,TSUMD2,RELDEN,BA,
-     &          RMSQD,AVH
+     &          RMSQD,AVH,DR016
  9002 FORMAT(' IN DENSE, GROSPC = ',F10.4,', TPROB = ',F10.4,
      &      ', TSUMD2 = ',F10.2,', RELDEN = ',F10.4,', BA = ',
-     &      F10.4/'     RMSQD = ',F10.4,', AVH = ',F10.4)
+     &      F10.4/'     RMSQD = ',F10.4,', AVH = ',F10.4,
+     &      ' DR016= ',F10.4)
       RETURN
       END
