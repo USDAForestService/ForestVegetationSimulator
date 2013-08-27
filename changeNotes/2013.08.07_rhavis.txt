@@ -20,9 +20,14 @@ Description:
                  division by the proportion of the stand considered stockable was removed.
 
 3) ALL variants: Slight variances in Forest type calculations were possible because of
-                 varible initialization problems. This has been corrected.
+                 variable initialization problems. This has been corrected.
 
-Impact on users: The BDBHwtBA and ADBHwtBA EM variables were corrected.
+4) ALL variants: When the stand density is more than 5% of the maximum Stand Density Index (SDImax)
+                 for the stand, FVS resets SDImax. This was not working when users of the SDICALC
+                 keyword set the SDI method to the Zed method. This has been corrected.
+
+
+Impact on users: The BDBHwtBA and ADBHwtBA EM variables were corrected. SDICALC keyword users should
+                 obtain a new executable.
 
 Files:
-fvs/base/initre.f
