@@ -2857,6 +2857,8 @@ C
          IF(.NOT.LNOTBK(3))ARRAY(3)=0.
          IF(.NOT.LNOTBK(4))ARRAY(4)=0.
          IF(.NOT.LNOTBK(5))ARRAY(5)=999.
+         IF ((ARRAY(3) .GT. 1) .AND. (ARRAY(6) .LT. 3)) ARRAY(3) = 1.0
+         IF ((ARRAY(3) .LT. 0) .AND. (ARRAY(6) .LT. 3)) ARRAY(3) = 0.0              
          ILEN=3
          IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
          IF(LKECHO)WRITE(JOSTND,9030) KEYWRD,IDT,KARD(2)(1:ILEN),
