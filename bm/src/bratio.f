@@ -1,7 +1,7 @@
       FUNCTION BRATIO(IS,D,H)
       IMPLICIT NONE
 C----------
-C  **BRATIO--BM   DATE OF LAST REVISION:  04/16/09
+C  **BRATIO--BM   DATE OF LAST REVISION:  09/09/13
 C----------
 C FUNCTION TO COMPUTE BARK RATIOS AS A FUNCTION OF DIAMETER AND SPECIES.
 C REPLACES ARRAY BKRAT IN BLKDAT. 
@@ -51,10 +51,15 @@ C     202,15,122,116,81 FROM WALTERS ET.AL. RES BULL 50
 C     242,93,108   FROM WYKOFF ET.AL. RES PAPER INT 133
 C----------
       CASE(1:5,7:10,17)
-        DIB=BARK1(IS)*D**BARK2(IS)
-        BRATIO=DIB/D
-        IF(BRATIO .GT. 1.0 .OR. BRATIO .LE. 0.0) THEN
-          BRATIO=.999
+        IF (D .GT. 0) THEN 
+          DIB=BARK1(IS)*D**BARK2(IS)
+          BRATIO=DIB/D
+          IF(BRATIO .GT. 1.0 .OR. BRATIO .LE. 0.0) THEN
+            BRATIO=.999
+            GO TO 10
+          ENDIF
+        ELSE
+          BRATIO = 0.999
           GO TO 10
         ENDIF
 C----------
@@ -63,8 +68,12 @@ C  ALASKA CEDAR (14=YC)
 C  OTHER HARDWOODS (18=OH)
 C----------
       CASE(13,14,18)
-        DIB=BARK1(IS)*D**BARK2(IS)
-        BRATIO=DIB/D
+        IF (D .GT. 0) THEN 
+          DIB=BARK1(IS)*D**BARK2(IS)
+          BRATIO=DIB/D
+        ELSE
+          BRATIO = 0.99
+        ENDIF
 C----------
 C  WESTERN JUNIPER (6 = WJ)
 C----------
@@ -90,8 +99,12 @@ C----------
 C  BLACK COTTONWOOD (16 = CW)
 C----------
       CASE(16)
-        DIB=BARK1(IS) + BARK2(IS)*D
-        BRATIO=DIB/D
+        IF (D .GT. 0) THEN 
+          DIB=BARK1(IS) + BARK2(IS)*D
+          BRATIO=DIB/D
+        ELSE
+          BRATIO = 0.99
+        ENDIF
       END SELECT
 C
       IF(BRATIO .GT. 0.99) BRATIO=0.99
