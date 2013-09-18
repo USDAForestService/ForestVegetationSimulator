@@ -1,6 +1,7 @@
-      SUBROUTINE FMCADD
-      IMPLICIT NONE
+        SUBROUTINE FMCADD
+        IMPLICIT NONE
 C----------
+C  $Id$
 C  $Id$
 C----------
 C     CALLED FROM: FMMAIN
@@ -33,75 +34,80 @@ C     CALLS
 *  Common block variables and parameters:
 *
 ***********************************************************************
-      
+          
 C.... Parameter statements.
-
+    
 C.... Parameter include files. 
-  
-      INCLUDE 'PRGPRM.F77'
+      
+        INCLUDE 'PRGPRM.F77'
 C      INCLUDE 'PPEPRM.F77'
-      INCLUDE 'FMPARM.F77'
-
+        INCLUDE 'FMPARM.F77'
+    
 C.... Common include files.
-
-      INCLUDE 'FMCOM.F77'
-      INCLUDE 'CONTRL.F77'
-      INCLUDE 'ARRAYS.F77'
-
+    
+        INCLUDE 'FMCOM.F77'
+        INCLUDE 'CONTRL.F77'
+        INCLUDE 'ARRAYS.F77'
+    
 C.... Variable declarations. 
-
-      INTEGER I, SIZE, SP, DKCL, IYR, MAXYR
-      REAL    DOWN, PDOWN    
-      LOGICAL DEBUG	
+    
+        INTEGER I, SIZE, SP, DKCL, IYR, MAXYR
+        REAL    DOWN, PDOWN, FALLPR    
+        LOGICAL DEBUG	
+        INTEGER IDC, ICL, JYR
+        REAL    FALLRT(4,10), AMT, DWNAMT(4,10)
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
-      CALL DBCHK (DEBUG,'FMCADD',6,ICYC)
-      IF (DEBUG) WRITE(JOSTND,7) ICYC
-  7   FORMAT(' ENTERING FMCADD CYCLE = ',I2)	
-
+        CALL DBCHK (DEBUG,'FMCADD',6,ICYC)
+        IF (DEBUG) WRITE(JOSTND,7) ICYC
+    7   FORMAT(' ENTERING FMCADD CYCLE = ',I2)	
+    
 C.... Begin routine.
 
 C     Go through the tree list, calculating debris inputs from each tree.
-
-      DO I=1,ITRN
-
-         IF (FMPROB(I).GT.0.) THEN
-
+    
+        DO I=1,ITRN
+    
+          IF (FMPROB(I).GT.0.) THEN
+    
             SP = ISP(I)
             DKCL = DKRCLS(SP)
-         
-C           Litterfall from foliage:              .0005 = 1/2000.
-
+             
+C           Original (annual) FFE used .0005 fall prop in each year. (.0005 = 1/2000.)
+C           Cycle boundary FFE needs to multiply this value by cycle length.
+C            FALLPR = 0.0005 * NYRS
+C            IF (FALLPR .GT. 1.0) FALLPR = 1.0
+            FALLPR = 0.0005 
+          
+C           Litterfall from foliage:
             CWD(1,10,2,DKCL) = CWD(1,10,2,DKCL)
-     +        + (CROWNW(I,0) * FMPROB(I)/LEAFLF(SP)) * .0005 
+     +        + (CROWNW(I,0) * FMPROB(I)/LEAFLF(SP)) * FALLPR
             CWDNEW(1,10) = CWDNEW(1,10) 
-     +        + (CROWNW(I,0) * FMPROB(I)/LEAFLF(SP)) * .0005   
-
+     +        + (CROWNW(I,0) * FMPROB(I)/LEAFLF(SP)) * FALLPR   
+      
             DO SIZE=1,5 
-        
-C           Random breakage of each woody crown component:
-        
-               CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) 
-     &           + (LIMBRK * FMPROB(I) * CROWNW(I,SIZE)) * .0005 
-               CWDNEW(1,SIZE) = CWDNEW(1,SIZE) 
-     &           + (LIMBRK * FMPROB(I) * CROWNW(I,SIZE)) * .0005 
             
+C           Random breakage of each woody crown component:
+                AMT = (LIMBRK * FMPROB(I) * CROWNW(I,SIZE)) 
+     &                                    * FALLPR
+                CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + AMT
+                CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + AMT
+                
 C           Dead material from crown lifting (NOTE:  foliage isn't being
 C           included here because it's assumed that the leaf-lifespan
 C           data used above already incorporates the death of some foliage 
 C           due to crown lifting):
-
-               CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) 
-     &           + (FMPROB(I) * OLDCRW(I,SIZE)) * .0005 
-               CWDNEW(1,SIZE) = CWDNEW(1,SIZE) 
-     &           + (FMPROB(I) * OLDCRW(I,SIZE)) * .0005 
-
+    
+                AMT = (FMPROB(I) * OLDCRW(I,SIZE)) * FALLPR
+                CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + AMT
+                CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + AMT
+    
             ENDDO
-         ENDIF
-      ENDDO
-  
-  
+          ENDIF
+        ENDDO
+      
+      
 C     Add in the debris-in-waiting from snags.  In the absence of a 
 C     salvage operation this year (CWDCUT=0), it is enough to take 
 C     all the material in the year-1 pool of CWD2B.  If there has been
@@ -109,69 +115,75 @@ C     a salvage, then also remove a proportion of material from every
 C     other year pool.  NOTE:  this is a slight mis-usage of CWDCUT,
 C     because CWD2B also contains dead crown material from live-but-
 C     burned trees (not much per tree, or the tree would have died).
-
-      IF (CWDCUT .LE. 0.0) THEN
-         MAXYR = 1
-      ELSE
-         MAXYR = TFMAX
-      ENDIF
-      
-      DO IYR=1,MAXYR
-         
-        IF (IYR .EQ. 1) THEN
-          PDOWN = 1.0
+C     NOTES for cycle boundaries version: 
+C     1) The IYR field in the CWD2B field now actually holds material
+C        by CYCLE, not year (see FMSCRO)
+C     2) The loops by TFMAX could be made shorter because if the model is 
+C        using cycle lengths > 1 year, not all TFMAX fields will be used.
+C     3) (Aug/13) now dividing the CWD2B field by the number of years in the
+C         cycle so that we add an even amount each year.
+    
+        IF (CWDCUT .LE. 0.0) THEN
+            MAXYR = 1
         ELSE
-          PDOWN = CWDCUT
-        END IF
-        
-C       Repeat for each decay class:        
-      
-        DO DKCL=1,4 
-      
+            MAXYR = TFMAX
+        ENDIF
+          
+        DO IYR=1,MAXYR
+             
+          IF (IYR .EQ. 1) THEN
+            PDOWN = 1.0
+          ELSE
+            PDOWN = CWDCUT
+          END IF
+            
+C         Repeat for each decay class:        
+          
+          DO DKCL=1,4 
+          
 C          First add the litterfall to down debris.
-           
-           DOWN = PDOWN * CWD2B(DKCL,0,IYR)
-           CWD(1,10,2,DKCL) = CWD(1,10,2,DKCL) + DOWN / 2000.0 
-           CWDNEW(1,10) = CWDNEW(1,10) + DOWN / 2000.0
-           CWD2B(DKCL,0,IYR) = CWD2B(DKCL,0,IYR) - DOWN
-           
+            
+            DOWN = PDOWN * CWD2B(DKCL,0,IYR) / NYRS
+            CWD(1,10,2,DKCL) = CWD(1,10,2,DKCL) + DOWN / 2000.0 
+            CWDNEW(1,10) = CWDNEW(1,10) + DOWN / 2000.0
+            CWD2B(DKCL,0,IYR) = CWD2B(DKCL,0,IYR) - DOWN
+               
 C          Then all the sizes of woody material.
-        
-           DO SIZE=1,5
-              DOWN = PDOWN * CWD2B(DKCL,SIZE,IYR)
-              CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + DOWN / 2000.0
-              CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + DOWN / 2000.0
-              CWD2B(DKCL,SIZE,IYR) = CWD2B(DKCL,SIZE,IYR) - DOWN
-              
-           ENDDO
+            
+            DO SIZE=1,5
+                DOWN = PDOWN * CWD2B(DKCL,SIZE,IYR) / NYRS
+                CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + DOWN / 2000.0
+                CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + DOWN / 2000.0
+                CWD2B(DKCL,SIZE,IYR) = CWD2B(DKCL,SIZE,IYR) - DOWN
+                  
+            ENDDO
+          ENDDO
         ENDDO
-      ENDDO
-        
+            
 C     Move all the debris-in-waiting pools of each decay class forward
 C     one year, to be ready for next year:
-
-      DO DKCL=1,4 
-         DO SIZE=0,5
+    
+        DO DKCL=1,4 
+          DO SIZE=0,5
             DO IYR=1,(TFMAX-1)
-               CWD2B(DKCL,SIZE,IYR) = CWD2B(DKCL,SIZE,IYR+1)
+                CWD2B(DKCL,SIZE,IYR) = CWD2B(DKCL,SIZE,IYR+1)
             ENDDO
             CWD2B(DKCL,SIZE,TFMAX) = 0.0
-         ENDDO
-      ENDDO
-
-      IF (DEBUG) THEN
-         DO DKCL=1,4 
+          ENDDO
+        ENDDO
+    
+        IF (DEBUG) THEN
+          DO DKCL=1,4 
             DO SIZE=0,5
-               DO IYR=1,(TFMAX-1)
-                  WRITE (JOSTND,10)DKCL,SIZE,IYR,
-     >                 CWD2B(DKCL,SIZE,IYR),CWD2B2(DKCL,SIZE,IYR)
- 10               FORMAT(' FMCADD: DKCL,SIZE,IYR=',3I3,' CWD2B=',F12.2,
-     >                 ' CWD2B2=',F12.2)
-               ENDDO
+                DO IYR=1,(TFMAX-1)
+                   WRITE (JOSTND,10)DKCL,SIZE,IYR,
+     >                    CWD2B(DKCL,SIZE,IYR),CWD2B2(DKCL,SIZE,IYR)
+   10              FORMAT(' FMCADD: DKCL,SIZE,IYR=',3I3,' CWD2B=',F12.2,
+     >                    ' CWD2B2=',F12.2)
+                ENDDO
             ENDDO
-         ENDDO
-      ENDIF
-     
-      RETURN
-      END
-
+          ENDDO
+        ENDIF
+         
+        RETURN
+        END   

@@ -1,7 +1,7 @@
       SUBROUTINE FMCWD(IYR)
       IMPLICIT NONE
 C----------
-C  **FMCWD--FIRE BASE  DATE OF LAST REVISION:  04/23/13
+C  $Id$
 C----------
 C     CALLED FROM: FMSNAG
 C                  FMMAIN
@@ -37,23 +37,19 @@ C.... Common include files.
 
 C.... Variable declarations.
 
-      LOGICAL LCUTS, DEBUG, LALTER, LMERCH
+      LOGICAL LCUTS, DEBUG, LMERCH
       INTEGER I, J, K, L
       INTEGER SP, IDCL, IYR
-      INTEGER J1, J2, ISNG, KSP
-      INTEGER MYACT(1), NTODO, JYR, IACTK, NPRM, IFROM, ITO
-      REAL    D, DIAM, HTD, XGET
+      INTEGER ISNG, KSP
+      REAL    D, DIAM, HTD, XGET, AMT
       REAL    DISIN, HTH, X, Y, Z, Q, ADD
       REAL    TVOLI, R1, R1SQ, R2SQ, P1, P2, SDIFF, S2
       REAL    HIHT(2), LOHT(2), DIS, DIH, OLDHTH, OLDHTS
       REAL    VHI(2), VLO(2), RHRAT, DIF, HICUT, LOCUT
       REAL    BP(0:9), BPH(0:9), SCNV(2), TOSOFT
-      REAL    FTRG(0:MXFLCL), FSRC(0:MXFLCL), FORG(0:MXFLCL), PRMS(6)
+      REAL    DIF3, SDIF3, BARK, VOL3, VOL4, BEHRE, BRATIO
+      LOGICAL LCONE
 
-C     OPTION PROCESSOR CODES FOR
-C     FUELMOVE (2530) - TRANSFER FUEL AMONG CATEGORIES
-
-      DATA     MYACT/2530/
 
 C     Conventional breakpoints for fuel size categories.
 
@@ -69,7 +65,7 @@ C-----------
       CALL DBCHK (DEBUG,'FMCWD',5,ICYC)
       IF (DEBUG) WRITE(JOSTND,7) 'FMCWD',ICYC
     7 FORMAT(' ENTERING ',A,' CYCLE = ',I2)
-
+      
 C     Apply respiration decay losses and duff-conversion transfer
 C     to the CWD array. These losses are not tracked anywhere yet;
 C     they simply disappear. SOFT material is assumed to disappear
@@ -80,27 +76,35 @@ C     10% faster than hard. All duff goes into the hard pool
 
 C         First decay duff so can add stuff to it later
 
-          CWD(I,11,1,L) = CWD(I,11,1,L) * (1.0 - (DKR(11,L) * 1.1))
-          CWD(I,11,2,L) = CWD(I,11,2,L) * (1.0 -  DKR(11,L))
+          CWD(I,11,1,L) = CWD(I,11,1,L) * (1.0 - (DKR(11,L)*1.1))**NYRS
+          CWD(I,11,2,L) = CWD(I,11,2,L) * (1.0 - DKR(11,L))**NYRS
           IF (CWD(I,11,1,L) .LT. 0.0) CWD(I,11,1,L) = 0.0
           IF (CWD(I,11,2,L) .LT. 0.0) CWD(I,11,2,L) = 0.0
 
           DO 6 J = 1, 10
-          
-            IF (DEBUG) WRITE(JOSTND,9) J, L, DKR(J,L)
-    9       FORMAT(' J = ',I2,' L = ',I2,' DKR = ',F10.6)
+C           To work on cycle boundaries, we need to figure out how much
+C           material gets decayed, and then take a proportion of that and
+C           move it to duff (i.e., use PRDUFF directly, instead of TODUFF
+C           which combines PRDUFF and DKR together). (April 2013)
 
-            IF (DEBUG) WRITE(JOSTND,11) J, L, TODUFF(J,L)
-   11       FORMAT(' J = ',I2,' L = ',I2,' TODUFF = ',F10.6)          
-          
-C           Turn material into duff
-            CWD(I,11,2,L) = CWD(I,11,2,L) + CWD(I,J,1,L) *
-     &                                            (1.1 * TODUFF(J,L))
-            CWD(I,11,2,L) = CWD(I,11,2,L) + CWD(I,J,2,L) * TODUFF(J,L)
+C           Determine amount by the pools are reduced, and take a proportion
+C           to turn material into duff
+            AMT = CWD(I,J,1,L) - 
+     &                 CWD(I,J,1,L) * (1.0-(DKR(J,L)*1.1))**NYRS
+            IF (AMT .LT. 1.0E-9) AMT = 0.0
+            CWD(I,11,2,L) = CWD(I,11,2,L) + AMT * PRDUFF(J,L)
+            AMT = CWD(I,J,1,L) - CWD(I,J,2,L) * (1.0-(DKR(J,L)))**NYRS
+            IF (AMT .LT. 1.0E-9) AMT = 0.0
+            CWD(I,11,2,L) = CWD(I,11,2,L) + AMT * PRDUFF(J,L)
+            
+c            CWD(I,11,2,L) = CWD(I,11,2,L) +                             
+c     &                      CWD(I,J,1,L) * (1.1 * TODUFF(J,L))
+c            CWD(I,11,2,L) = CWD(I,11,2,L) + 
+c     &                             CWD(I,J,2,L) * TODUFF(J,L)
 
-C           Now decrease the pools
-            CWD(I,J,1,L) = CWD(I,J,1,L) * (1.0 - (DKR(J,L) * 1.1))
-            CWD(I,J,2,L) = CWD(I,J,2,L) * (1.0 -  DKR(J,L))
+C           Now actually decrease the pools
+            CWD(I,J,1,L) = CWD(I,J,1,L) * (1.0 - (DKR(J,L) * 1.1))**NYRS
+            CWD(I,J,2,L) = CWD(I,J,2,L) * (1.0 -  DKR(J,L))**NYRS
             IF (CWD(I,J,1,L) .LT. 1.0E-9) CWD(I,J,1,L) = 0.0
             IF (CWD(I,J,2,L) .LT. 1.0E-9) CWD(I,J,2,L) = 0.0
             
@@ -111,7 +115,7 @@ C           years until soft and then take the inverse to determine what
 C           proportion of the hard pool moves to the soft pool.
 
             IF (J .LT. 10) THEN
-              TOSOFT = (LOG(1-DKR(J,L)))/(LOG(0.64))
+              TOSOFT = NYRS*(LOG(1-DKR(J,L)))/(LOG(0.64))
               IF (TOSOFT .LT. 0) TOSOFT = 0
               IF (TOSOFT .GT. 1) TOSOFT = 1              
               TOSOFT = TOSOFT * CWD(I,J,2,L)
@@ -125,193 +129,7 @@ C           proportion of the hard pool moves to the soft pool.
     8   CONTINUE
     5 CONTINUE
 
-C     SEE IF FUELMOVE KEYWORD IS SCHEDULED; TRANSFER AMONG
-C     FUEL POOLS AS REQUIRED
-
-      TONRMC = 0.0
-      CALL OPFIND(1,MYACT,NTODO)
-      IF (NTODO.EQ.0) GOTO 506
-
-C     FORG - ORIGINAL VALUE OF SOURCE FUEL POOL - UNALTERED
-C     FTRG - FUEL TO BE PUT IN TARGET POOL - VARIABLE
-C     FSRC - FUEL TO BE TAKEN FROM SOURCE POOL - VARIABLE
-
-      DO I = 0,MXFLCL
-        FORG(I) = 0.0
-        FTRG(I) = 0.0
-      ENDDO
-
-      DO I = 1,2
-        DO K = 1,2
-          DO L = 1,4
-            DO J1 = 1,MXFLCL
-              FORG(J1) = FORG(J1) + CWD(I,J1,K,L)
-            ENDDO
-          ENDDO
-        ENDDO
-      ENDDO
-
-      DO I = 0,MXFLCL
-        FSRC(I) = FORG(I)
-      ENDDO
-
-      LALTER = .FALSE.
-      DO I = 1,NTODO
-        CALL OPGET(I,6,JYR,IACTK,NPRM,PRMS)
-        IF ((IACTK .GE. 0) .AND. (JYR .EQ. IYR)) THEN
-
-C         IFROM - SOURCE CATEGORY (0,1-11)
-C         ITO   - TARGET CATEGORY (0,1-11)
-C         X     - AMOUNT TO TAKE FROM SOURCE (T/AC)
-C         Y     - PROPORTION TO TAKE FROM SOURCE (0-1 PROPORTION)
-C         Z     - AMOUNT TO LEAVE IN SOURCE (T/AC)
-C         Q     - AMOUNT TO END WITH IN TARGET (T/AC)
-
-          IFROM = INT(PRMS(1))
-          ITO = INT(PRMS(2))
-          X = PRMS(3)
-          Y = PRMS(4)
-          Z = PRMS(5)
-          Q = PRMS(6)
-
-C         MIMIC TESTS OF FUELMOVE KEYWORD IN **FMIN**
-
-          IF ((IFROM .GE. 0) .AND. (IFROM .LE. MXFLCL) .AND.
-     &        (ITO   .GE. 0) .AND. (ITO   .LE. MXFLCL) .AND.
-     &        (IFROM .NE. ITO) .AND.
-     &        (X .GE. 0.0) .AND.
-     &        (Y .GE. 0.0) .AND. (Y .LE. 1.0) .AND.
-     &        (Z .GE. 0.0)) THEN
-
-C           CHOOSE THE GREATER OF THE 3 REMOVALS (IGNORE IF IMPORTING: IFROM=0)
-C           CONSTRAIN XGET TO TAKE ONLY FUEL THAT IS PRESENT.
-
-            XGET = 0.0
-            IF (IFROM .GT. 0) THEN
-
-              IF ((FSRC(IFROM) .LE. 0.0)) THEN
-                CALL OPDEL1(I)
-                GOTO 550
-              ENDIF
-
-C             CHOOSE MAXIMUM OF THESE 3, CONVERTING TO T/A:
-
-C               X             - AMOUNT TO TAKE FROM SOURCE (T/AC)
-C               Y*FSCR(IFROM) - PROPORTION TO TAKE FROM SOURCE (0-1 PROPORTION)
-C               FSCR(IFROM)-Z - RESIDUAL AMOUNT TO LEAVE IN SOURCE (T/AC)
-C               Q-FSRC(ITO)   - FINAL AMOUNT TO HAVE IN TARGET (T/AC)
-
-C             NOTE THAT THE AMOUNT IS BASED ON THE CURRENT AMOUNT (DECLINING
-C             BALANCE) AND NOT ON THE AMOUNT PRESENT AT THE BEGINNING OF THE
-C             KEYWORD PROCESSING FOR THIS YEAR. 'Q' IS NOT IN USE IF IT IS LESS
-C             THAN ZERO.
-
-              IF (Q .GE. 0.0) THEN
-                XGET = MAX(X, Y*FSRC(IFROM), FSRC(IFROM)-Z, Q-FSRC(ITO))
-              ELSE
-                XGET = MAX(X, Y*FSRC(IFROM), FSRC(IFROM)-Z)
-              ENDIF
-
-              IF (XGET .GT. FSRC(IFROM)) XGET = FSRC(IFROM)
-              PRMS(3) = XGET
-              PRMS(4) = XGET/(FSRC(IFROM))
-              PRMS(5) = FSRC(IFROM) - XGET
-              PRMS(6) = FSRC(ITO) + XGET
-              FSRC(IFROM) = FSRC(IFROM) - XGET
-              IF (ITO .EQ. 0) TONRMC  =  TONRMC + XGET
-            ELSE
-              IF (Q .GE. 0.0) THEN
-                XGET = MAX(X,Q-FSRC(ITO))
-              ELSE
-                XGET = X
-              ENDIF
-
-              PRMS(3) =  XGET
-              PRMS(4) =  0.0
-              PRMS(5) =  0.0
-              PRMS(6) =  FTRG(ITO) + XGET
-              TONRMC  = TONRMC - XGET
-            ENDIF
-            FTRG(ITO) = FTRG(ITO) + XGET
-
-C           RECORD ACTIVITIES OR CANCEL THOSE THAT MOVE NOTHING
-
-            IF (XGET .GT. 0.0) THEN
-              CALL OPCHPR(I,6,PRMS)
-              CALL OPDONE(I,IYR)
-              LALTER = .TRUE.
-            ELSE
-              CALL OPDEL1(I)
-            ENDIF
-          ELSE
-            CALL OPDEL1(I)
-          ENDIF
-  550     CONTINUE
-        ENDIF
-      ENDDO
-
-C     ALTER ORIGINAL FUELS IF ANY OPTIONS WERE PROCESSED
-C     STORE NEW POOL VALUES IN IN FTRG.
-C     - SKIP ASSIGNMENT TO SUBPOOLS IF THERE HAS BEEN NO CHANGE
-C     - IN THE CASE WHERE FUEL IS ADDED TO A PREVIOUSLY EMPTY CATEGORY
-C       ADD ALL THE FUEL TO UNPILED(I=1), HARD(K=2), FAST(L=3);
-C      -OTHERWISE ADD IN PROPORTION TO THE EXISTING FUEL, BY CREATING
-C       A SCALAR 'X' TO MODIFY THE EXISTING FUEL.
-
-      IF (LALTER) THEN
-        DO I = 0,MXFLCL
-          FTRG(I) = FSRC(I) + FTRG(I)
-        ENDDO
-        DO J1 = 1,MXFLCL
-          IF (ABS(FORG(J1) - FTRG(J1)) .GE. 1.0E-6) THEN
-            IF (FORG(J1) .LE. 1.0E-6) THEN
-              CWD(1,J1,2,3) = FTRG(J1)
-            ELSE
-              X = FTRG(J1)/FORG(J1)
-              DO K = 1,2
-                DO L = 1,4
-                  DO I = 1,2
-                    CWD(I,J1,K,L) = CWD(I,J1,K,L) * X
-                  ENDDO
-                ENDDO
-              ENDDO
-            ENDIF
-          ENDIF
-        ENDDO
-      ENDIF
-
-C     CALCULATE LARGE AND SMALL FUEL; PILED AND UNPILED.
-
-  506 OLARGE = LARGE
-      OSMALL = SMALL
-
-      LARGE  = 0.0
-      SMALL  = 0.0
-
-      DO I = 1,2
-        DO K = 1,2
-          DO L = 1,4
-            DO J1 = 1,3
-              SMALL = SMALL + CWD(I,J1,K,L)
-            ENDDO
-            SMALL = SMALL   + CWD(I, 10,K,L) ! LITTER IS SMALL
-            DO J2 = 4,9
-              LARGE = LARGE + CWD(I,J2,K,L)
-            ENDDO
-          ENDDO
-        ENDDO
-      ENDDO
-
-C     COMPUTE PERCENT CHANGE IN FUELS; TRIGGERS
-C     ACTIVITY FUELS LOGIC IN **FMCFMD**
-
-      X = OLARGE + OSMALL
-      IF (X .GT. 1.0E-6) THEN
-        SLCHNG = 100.0 * (LARGE + SMALL - X) / X
-      ELSE
-        SLCHNG = 0.0
-      ENDIF
-
+C     NOTE: FuelMove logic was moved to new routine: FMFMOV
       RETURN
 C *******************************************************************
 
@@ -329,8 +147,8 @@ C     DIS   = DENSITY (#/AC) OF INITIALLY-SOFT SNAGS FALLEN
 
       ENTRY CWD1(ISNG, DIH, DISIN)
 
-      DEBUG=.FALSE.
-
+      CALL DBCHK (DEBUG,'FMCWD',5,ICYC)
+      
       IF (DEBUG) WRITE(JOSTND,7) 'FM-CWD1',ICYC
 
       IF (DEBUG) WRITE (JOSTND,*) 'ISNG=',ISNG,' DIH=',DIH,
@@ -362,7 +180,8 @@ C     GET A TOTAL VOLUME FOR THIS SNAG
 
       TVOLI=0.
       CALL FMSVOL(I,HTD,TVOLI,.false.,JOSTND)
-cc      WRITE (JOSTND,*) 'I(CWD1)=',I,' HTD=',HTD,' TVOLI=',TVOLI
+      IF (DEBUG) WRITE (JOSTND,*) 'I(CWD1)=',I,' HTD=',HTD,
+     >                            ' TVOLI=',TVOLI
 
       GOTO 1000
 
@@ -380,8 +199,8 @@ C     OLDHTH  = HEIGHT (FT) BEFORE BREAKAGE OF INITIALLY-HARD SNAGS
 
       ENTRY CWD2(ISNG, DIH, DISIN, OLDHTH, OLDHTS)
 
-      DEBUG=.FALSE.
-
+      CALL DBCHK (DEBUG,'FMCWD',5,ICYC)
+      
       IF (DEBUG) WRITE(JOSTND,7) 'FM-CWD2',ICYC
 
       IF (DEBUG) WRITE (JOSTND,*) 'ISNG=',ISNG,' DIH=',DIH,
@@ -428,9 +247,9 @@ C     HT      = HEIGHT (FT) OF TREE JUST DOWNED
 
       ENTRY CWD3(KSP, D, DIH, HTH)
 
-      IF (DIH .LE. 0.0) RETURN
-      DEBUG=.FALSE.
+      DEBUG = .FALSE.
 
+      IF (DIH .LE. 0.0) RETURN
 C     This snag-material is created by **CUTS**. It is all hard.
 
       DIS  = 0.
@@ -454,6 +273,7 @@ C     GET A TOTAL VOLUME FOR THIS TREE (created by cuts)
 
       TVOLI=-1      
       CALL FMSVL2(SP,DIAM,HTD,TVOLI,TVOLI,.false.,.false.,JOSTND)
+
 
 C *******************************************************************
 
@@ -536,6 +356,10 @@ C         category, whichever is greater
           LOCUT = LOHT(K)
           IF (LOHT(K) .LE. BPH(J)) LOCUT = BPH(J)
 
+C         if the low and high points are the same, then we have reached the end and 
+C         do not need to calculate volumes          
+          IF (LOCUT .EQ. HICUT) GOTO 21
+         
 C         get the TOTAL volume-per-snag up to HICUT and up to LOCUT.  Set DIF to the
 C         volume between them - i.e., the vol. in the current size category -
 C         and convert it to volume-per-acre.

@@ -2,6 +2,7 @@
       IMPLICIT NONE
 C----------
 C  $Id$
+C  $Id$
 C----------
 C     CALLED FROM: FMBURN
 C
@@ -234,12 +235,12 @@ C     PASS CANOPY PROFILE INFORMATION TO DATABASE TABLE, IF REQUESTED.
       CALL OPFIND(1,MYACT,NTODO)
       DO 12 JDO = 1,NTODO
          CALL OPGET(JDO,2,JYR,IACTK,NPRM,PRMS)
-         IF (JYR .NE. IYR) GOTO 12
-         ICFPB = JYR
-         ICFPE = JYR + PRMS(1)
+C         IF (JYR .NE. IYR) GOTO 12
+         ICFPB = IYR
+         ICFPE = IYR + PRMS(1)
          ICFPST = PRMS(2)
          IF (ICFPST.EQ.0) ICFPST=1
-         CALL OPDONE(JDO,JYR)
+         CALL OPDONE(JDO,IYR)
          GOTO 13
    12 CONTINUE
    13 CONTINUE

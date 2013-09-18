@@ -2,6 +2,7 @@
       IMPLICIT NONE
 C----------
 C  $Id$
+C  $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMMAIN
@@ -54,7 +55,7 @@ C.... VARIABLE DECLARATIONS.
       REAL     TOTDBH(MAXSP,100,6)
       REAL     TOTN
       REAL     PRMS(4)
-      LOGICAL  DEBUG,LOK
+      LOGICAL  DEBUG, LOK
       INTEGER MYACT(1)
       DATA MYACT/2512/
       INTEGER  IYR,NTODO,JDO,NPRM,IACTK,IDC,JCL,DBSKODE
@@ -72,14 +73,14 @@ C     FIRST CHECK TO SEE IF THE SNAG LIST IS TO BE PRINTED.
 
       DO 5 JDO = 1,NTODO
          CALL OPGET(JDO,4,JYR,IACTK,NPRM,PRMS)
-         IF (JYR .NE. IYR) GOTO 5
-            ISNAGB = JYR
-            ISNAGE = JYR + PRMS(1)
+C         IF (JYR .NE. IYR) GOTO 5
+            ISNAGB = IYR
+            ISNAGE = IYR + PRMS(1)
             ISNSTP = PRMS(2)
             IF (ISNSTP.EQ.0) ISNSTP=1
             JSNOUT = INT(PRMS(3))
             LSHEAD = PRMS(4).EQ.0
-            CALL OPDONE(JDO,JYR)
+            CALL OPDONE(JDO,IYR)
             GOTO 6
     5 CONTINUE
     6 CONTINUE
@@ -241,7 +242,6 @@ C     Print the snag output headings.
 
 C     Print information on each snag printing-class, first dividing the
 C     the total heights and dbhs to get the class-averages.
-
 
       DO 430 JYR= 1,YRLAST
          DO 420 IDC= 1,MAXSP

@@ -2,6 +2,7 @@
       IMPLICIT NONE
 C----------
 C  $Id$
+C  $Id$
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMSADD
@@ -67,8 +68,8 @@ Cppe  INCLUDE 'PPCNTL.F77'
 C.... Variable declarations.
       INTEGER I, SP, DEADYR, SIZE, DKCL, IYR, ILIFE, YNEXTY,FALLYR
       REAL    DSNAGS, TSOFT, RLIFE, ANNUAL, NEWBOT, OLDBOT, X
-      INTEGER ICALL, JYRSOFT, JADJ, JSML
-      REAL    YRSCYC
+      INTEGER ICALL, JYRSOFT, JADJ, JSML, JCYC, IYRS
+      REAL    YRSCYC, AMT
       CHARACTER VVER*7
       LOGICAL  DEBUG
 C
@@ -142,6 +143,14 @@ C        and rounds it up to the next highest integer if so.
 
          IF (REAL(ILIFE) .LT. RLIFE .OR. ILIFE .LE.0) ILIFE =ILIFE+1
          RLIFE = REAL(ILIFE)
+
+c        figure out how many of the next cycles we need to distribute things over
+C        because we are no longer distributing by year. (sb 5/13)
+         DO JCYC=ICYC+1,MAXCYC
+             IF (RLIFE + DEADYR .LT. IY(JCYC)) GOTO 200
+         ENDDO
+200      CONTINUE
+         JCYC = JCYC - 1
          
 C        don't forget to consider the OLDCRW material as well as CROWNW.
 C        but only do this if it's not mortality reconciliation time (icall =4)
@@ -154,28 +163,39 @@ C        SAR 11/20/12
          IF (SIZE .GT. 0) ANNUAL = ANNUAL + YRSCYC*OLDCRW(I,SIZE)*X
          ENDIF
          ANNUAL = ANNUAL * DSNAGS / RLIFE
-         
+
          IF (DEBUG) WRITE(JOSTND,*) 'annual=',annual,' yrscyc=',yrscyc,
      &   ' oldcrw=',OLDCRW(I,SIZE),' x=',x,' i=',i,' size=',size,
      &   ' CROWNW=', CROWNW(I,SIZE),' dsnags =',dsnags,' rlife=',rlife
 
-         DO IYR=YNEXTY,ILIFE
-            FALLYR = IYR + 1 - YNEXTY
+         IF (ANNUAL .GT. 0.0) THEN
+           FALLYR = 0
+c           DO IYR=YNEXTY,ILIFE
+           DO IYR=ICYC+1,JCYC
+c              FALLYR = IYR + 1 - YNEXTY
+              FALLYR = IYR - ICYC
+              IYRS = IY(IYR) - IY(IYR-1)
+              IF (RLIFE .LE. IYRS) THEN
+                  AMT = ANNUAL * RLIFE
+              ELSE
+                  AMT = ANNUAL * RLIFE
+                  RLIFE = RLIFE - IYRS
+              ENDIF        
             
 C           Normally, we want to put the stuff into CWD2B2, but if this is 
 C           called during mortality reconciliation, CWD2B2 has already been 
 C           copied to CWD2B in preparation for the next cycle, so that is
 C           where we need to put the stuff.
 
-            IF (ICALL .NE. 4) THEN
+             IF (ICALL .NE. 4) THEN
                CWD2B2(DKCL,SIZE,FALLYR) = CWD2B2(DKCL,SIZE,FALLYR) 
-     >                                   + ANNUAL
-	    ELSE
+     >                                   + AMT
+	       ELSE
                CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
-     >                                   + ANNUAL
-            ENDIF
-         ENDDO
-
+     >                                   + AMT
+             ENDIF
+           ENDDO
+        ENDIF
       ENDDO
 
   101 CONTINUE

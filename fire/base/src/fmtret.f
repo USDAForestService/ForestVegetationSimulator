@@ -1,7 +1,7 @@
       SUBROUTINE FMTRET (IYR)
       IMPLICIT NONE
 C----------
-C  **FMTRET FIRE--DATE OF LAST REVISION:  10/13/09
+C  $Id$
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -51,6 +51,7 @@ C.... Variable declarations.
       DATA      MYACTS /2523/
       INTEGER   IYR,JTODO,JDO,NPRM,IACTK,JYR,K,ISPD,ISZ,I
       REAL      PSMOKE,TRKIL
+     
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
@@ -68,14 +69,14 @@ C
       IF (JTODO .LE. 0) RETURN
       DO JDO = 1,JTODO
         CALL OPGET(JDO,5,JYR,IACTK,NPRM,PRMS)
-        IF (JYR .EQ. IYR) THEN
+C        IF (JYR .EQ. IYR) THEN
           AFFECT = PRMS(2) / 100.0
           ATREAT = PRMS(3) / 100.0
           FULCON = PRMS(4) / 100.0
           TRMORT = MIN(MAX(0.,PRMS(5) / 100.0),1.)
           LFLBRN = .TRUE.
-          CALL OPDONE(JDO,JYR)
-        ENDIF
+          CALL OPDONE(JDO,IYR)
+C        ENDIF
       ENDDO
 
       IF (.NOT. LFLBRN) RETURN
@@ -161,4 +162,236 @@ C        Store the fire-caused mortality in the snag pools. R&C 07/11/96
       ENDIF
 C
       RETURN
+      END
+      
+***********************************************************************
+***********************************************************************
+      SUBROUTINE FMFMOV(IYR)
+
+C     CALLED FROM: FMMAIN
+C     This routine has been extracted from FMCWD.
+C     If desired, it could be made into a seperate file/routine.
+C     Comments below will help in that process.
+
+*  Purpose:
+*     This subroutine implements the FUELMOVE keyword
+***********************************************************************
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'FMPARM.F77'
+      INCLUDE 'FMCOM.F77'
+      INCLUDE 'FMFCOM.F77'
+      INCLUDE 'CONTRL.F77'
+
+C.... Variable declarations.
+C         These are declared above
+      LOGICAL DEBUG, LALTER
+      INTEGER I, J, K, L
+      INTEGER IDCL, IYR
+      INTEGER J1, J2
+      INTEGER MYACT(1), NTODO, JYR, IACTK, NPRM, IFROM, ITO
+      REAL    D, DIAM, HTD, XGET
+      REAL    FTRG(0:MXFLCL), FSRC(0:MXFLCL), FORG(0:MXFLCL), PRMS(6)
+      REAL    X, Y, Z, Q
+
+C     OPTION PROCESSOR CODES FOR
+C     FUELMOVE (2530) - TRANSFER FUEL AMONG CATEGORIES
+
+      DATA     MYACT/2530/
+
+C-----------
+C  CHECK FOR DEBUG.
+C-----------
+      CALL DBCHK (DEBUG,'FMFMOV',5,ICYC)
+      IF (DEBUG) WRITE(JOSTND,107) 'FMFMOV',ICYC
+  107 FORMAT(' ENTERING ',A,' CYCLE = ',I2)
+      
+C     SEE IF FUELMOVE KEYWORD IS SCHEDULED; TRANSFER AMONG
+C     FUEL POOLS AS REQUIRED
+
+      TONRMC = 0.0
+      CALL OPFIND(1,MYACT,NTODO)
+      IF (NTODO.EQ.0) GOTO 506
+
+C     FORG - ORIGINAL VALUE OF SOURCE FUEL POOL - UNALTERED
+C     FTRG - FUEL TO BE PUT IN TARGET POOL - VARIABLE
+C     FSRC - FUEL TO BE TAKEN FROM SOURCE POOL - VARIABLE
+
+      DO I = 0,MXFLCL
+        FORG(I) = 0.0
+        FTRG(I) = 0.0
+      ENDDO
+
+      DO I = 1,2
+        DO K = 1,2
+          DO L = 1,4
+            DO J1 = 1,MXFLCL
+              FORG(J1) = FORG(J1) + CWD(I,J1,K,L)
+            ENDDO
+          ENDDO
+        ENDDO
+      ENDDO
+
+      DO I = 0,MXFLCL
+        FSRC(I) = FORG(I)
+      ENDDO
+
+      LALTER = .FALSE.
+      DO I = 1,NTODO
+        CALL OPGET(I,6,JYR,IACTK,NPRM,PRMS)
+CSB        IF ((IACTK .GE. 0) .AND. (JYR .EQ. IYR)) THEN
+        IF (IACTK .GE. 0) THEN
+
+C         IFROM - SOURCE CATEGORY (0,1-11)
+C         ITO   - TARGET CATEGORY (0,1-11)
+C         X     - AMOUNT TO TAKE FROM SOURCE (T/AC)
+C         Y     - PROPORTION TO TAKE FROM SOURCE (0-1 PROPORTION)
+C         Z     - AMOUNT TO LEAVE IN SOURCE (T/AC)
+C         Q     - AMOUNT TO END WITH IN TARGET (T/AC)
+
+          IFROM = INT(PRMS(1))
+          ITO = INT(PRMS(2))
+          X = PRMS(3)
+          Y = PRMS(4)
+          Z = PRMS(5)
+          Q = PRMS(6)
+
+C         MIMIC TESTS OF FUELMOVE KEYWORD IN **FMIN**
+
+          IF ((IFROM .GE. 0) .AND. (IFROM .LE. MXFLCL) .AND.
+     &        (ITO   .GE. 0) .AND. (ITO   .LE. MXFLCL) .AND.
+     &        (IFROM .NE. ITO) .AND.
+     &        (X .GE. 0.0) .AND.
+     &        (Y .GE. 0.0) .AND. (Y .LE. 1.0) .AND.
+     &        (Z .GE. 0.0)) THEN
+
+C           CHOOSE THE GREATER OF THE 3 REMOVALS (IGNORE IF IMPORTING: IFROM=0)
+C           CONSTRAIN XGET TO TAKE ONLY FUEL THAT IS PRESENT.
+
+            XGET = 0.0
+            IF (IFROM .GT. 0) THEN
+
+              IF ((FSRC(IFROM) .LE. 0.0)) THEN
+                CALL OPDEL1(I)
+                GOTO 550
+              ENDIF
+
+C             CHOOSE MAXIMUM OF THESE 3, CONVERTING TO T/A:
+
+C               X             - AMOUNT TO TAKE FROM SOURCE (T/AC)
+C               Y*FSCR(IFROM) - PROPORTION TO TAKE FROM SOURCE (0-1 PROPORTION)
+C               FSCR(IFROM)-Z - RESIDUAL AMOUNT TO LEAVE IN SOURCE (T/AC)
+C               Q-FSRC(ITO)   - FINAL AMOUNT TO HAVE IN TARGET (T/AC)
+
+C             NOTE THAT THE AMOUNT IS BASED ON THE CURRENT AMOUNT (DECLINING
+C             BALANCE) AND NOT ON THE AMOUNT PRESENT AT THE BEGINNING OF THE
+C             KEYWORD PROCESSING FOR THIS YEAR. 'Q' IS NOT IN USE IF IT IS LESS
+C             THAN ZERO.
+
+              IF (Q .GE. 0.0) THEN
+                XGET = MAX(X, Y*FSRC(IFROM), FSRC(IFROM)-Z, Q-FSRC(ITO))
+              ELSE
+                XGET = MAX(X, Y*FSRC(IFROM), FSRC(IFROM)-Z)
+              ENDIF
+
+              IF (XGET .GT. FSRC(IFROM)) XGET = FSRC(IFROM)
+              PRMS(3) = XGET
+              PRMS(4) = XGET/(FSRC(IFROM))
+              PRMS(5) = FSRC(IFROM) - XGET
+              PRMS(6) = FSRC(ITO) + XGET
+              FSRC(IFROM) = FSRC(IFROM) - XGET
+              IF (ITO .EQ. 0) TONRMC  =  TONRMC + XGET
+            ELSE
+              IF (Q .GE. 0.0) THEN
+                XGET = MAX(X,Q-FSRC(ITO))
+              ELSE
+                XGET = X
+              ENDIF
+
+              PRMS(3) =  XGET
+              PRMS(4) =  0.0
+              PRMS(5) =  0.0
+              PRMS(6) =  FTRG(ITO) + XGET
+              TONRMC  = TONRMC - XGET
+            ENDIF
+            FTRG(ITO) = FTRG(ITO) + XGET
+
+C           RECORD ACTIVITIES OR CANCEL THOSE THAT MOVE NOTHING
+
+            IF (XGET .GT. 0.0) THEN
+              CALL OPCHPR(I,6,PRMS)
+              CALL OPDONE(I,IYR)
+              LALTER = .TRUE.
+            ELSE
+              CALL OPDEL1(I)
+            ENDIF
+          ELSE
+            CALL OPDEL1(I)
+          ENDIF
+  550     CONTINUE
+        ENDIF
+      ENDDO
+
+C     ALTER ORIGINAL FUELS IF ANY OPTIONS WERE PROCESSED
+C     STORE NEW POOL VALUES IN IN FTRG.
+C     - SKIP ASSIGNMENT TO SUBPOOLS IF THERE HAS BEEN NO CHANGE
+C     - IN THE CASE WHERE FUEL IS ADDED TO A PREVIOUSLY EMPTY CATEGORY
+C       ADD ALL THE FUEL TO UNPILED(I=1), HARD(K=2), FAST(L=3);
+C      -OTHERWISE ADD IN PROPORTION TO THE EXISTING FUEL, BY CREATING
+C       A SCALAR 'X' TO MODIFY THE EXISTING FUEL.
+
+      IF (LALTER) THEN
+        DO I = 0,MXFLCL
+          FTRG(I) = FSRC(I) + FTRG(I)
+        ENDDO
+        DO J1 = 1,MXFLCL
+          IF (ABS(FORG(J1) - FTRG(J1)) .GE. 1.0E-6) THEN
+            IF (FORG(J1) .LE. 1.0E-6) THEN
+              CWD(1,J1,2,3) = FTRG(J1)
+            ELSE
+              X = FTRG(J1)/FORG(J1)
+              DO K = 1,2
+                DO L = 1,4
+                  DO I = 1,2
+                    CWD(I,J1,K,L) = CWD(I,J1,K,L) * X
+                  ENDDO
+                ENDDO
+              ENDDO
+            ENDIF
+          ENDIF
+        ENDDO
+      ENDIF
+
+C     CALCULATE LARGE AND SMALL FUEL; PILED AND UNPILED.
+
+  506 OLARGE = LARGE
+      OSMALL = SMALL
+
+      LARGE  = 0.0
+      SMALL  = 0.0
+
+      DO I = 1,2
+        DO K = 1,2
+          DO L = 1,4
+            DO J1 = 1,3
+              SMALL = SMALL + CWD(I,J1,K,L)
+            ENDDO
+            SMALL = SMALL   + CWD(I, 10,K,L) ! LITTER IS SMALL
+            DO J2 = 4,9
+              LARGE = LARGE + CWD(I,J2,K,L)
+            ENDDO
+          ENDDO
+        ENDDO
+      ENDDO
+
+C     COMPUTE PERCENT CHANGE IN FUELS; TRIGGERS
+C     ACTIVITY FUELS LOGIC IN **FMCFMD**
+
+      X = OLARGE + OSMALL
+      IF (X .GT. 1.0E-6) THEN
+        SLCHNG = 100.0 * (LARGE + SMALL - X) / X
+      ELSE
+        SLCHNG = 0.0
+      ENDIF
+
+      RETURN      
       END
