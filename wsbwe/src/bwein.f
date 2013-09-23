@@ -1,7 +1,7 @@
       SUBROUTINE BWEIN(LKECHO)
       IMPLICIT NONE
 C----------
-C  **BWEIN                  DATE OF LAST REVISION:  06/17/13
+C  **BWEIN                  DATE OF LAST REVISION:  09/04/13
 C----------
 C
 C     OPTION PROCESSOR FOR BUDWORM MODEL.
@@ -131,6 +131,9 @@ C       Added character variable TMPNAM. Prepended keyword file name
 C       to output file names at BWOUTPUT keyword processing.
 C    14-JUL-2010 Lance R. David (FMSC)
 C       Added IMPLICIT NONE and declared variables as needed.
+C    04-SEP-2013 Lance R. David (FMSC)
+C       Added RAWS weather year range as supplemental record on 
+C       WEATHER keyword.
 C----------
 C
 COMMONS
@@ -715,6 +718,13 @@ C
  1850    FORMAT (A40)
       ENDIF
 
+C     If using RAWS data, a year range may be specified on the
+C     following record. Four-digit starting and ending years
+C
+      IF (IWSRC .EQ. 3) THEN
+         READ (IREAD,*) IYRNG(1), IYRNG(2)
+      ENDIF
+      
       IF (IWOPT .EQ. 1) THEN
          CWTYP = 'INCLUDES RANDOM VARIATION'
       ELSE
@@ -740,6 +750,14 @@ C
          IF (LKECHO) WRITE(JOSTND,1822) KEYWRD,JOWE,WFNAME
  1822    FORMAT (/,A8,'   WEATHER IS ACTUAL RAWS DATA;  WEATHER DATA',
      *   ' FILE (NO.), NAME= (',I3') ',A)
+         IF (IYRNG(1) .GE. 1900 .AND. IYRNG(2) .GE. 1900) THEN
+           IF (LKECHO) WRITE(JOSTND,1823) IYRNG(1), IYRNG(2)
+ 1823      FORMAT (/,11X,'RANGE OF WEATHER YEARS SPECIFIED: ',
+     *             I4,' TO ',I4)
+         ELSE
+           IF (LKECHO) WRITE(JOSTND,1824)
+ 1824      FORMAT (/,11X,'ALL WEATHER YEARS WILL BE USED.')
+         ENDIF
       ENDIF
       GOTO 10
 C

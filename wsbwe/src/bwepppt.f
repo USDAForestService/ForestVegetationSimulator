@@ -1,7 +1,7 @@
       SUBROUTINE BWEPPPT (WK3, IPNT, ILIMIT, IB)
       IMPLICIT NONE
 C----------
-C  **BWEPPPT                DATE OF LAST REVISION:  06/23/11
+C  **BWEPPPT                DATE OF LAST REVISION:  09/20/13
 C----------
 C  Purpose:
 C     Put (store) the GenDefol/Budworm model data for a given stand
@@ -31,13 +31,14 @@ C  Common block variables and parameters:
 C     See comments in common block files.
 C
 C  Revision History :
-C     11-SEP-2006 - Lance R. David (FHTET)
-C       This subroutine was written.
-C    14-JUL-2010 Lance R. David (FMSC)
-C       Added IMPLICIT NONE and declared variables as needed.
+C   11-SEP-2006 - Lance R. David (FHTET)
+C     This subroutine was written.
+C   14-JUL-2010 Lance R. David (FMSC)
+C     Added IMPLICIT NONE and declared variables as needed.
 C   23-JUN-2011 Lance R. David (FMSC)
-C      Added BWPRMS array for RAWS daily weather processing to BLCOM3.
-C
+C     Added BWPRMS array for RAWS daily weather processing to BLCOM3.
+C   20-SEP-2013 Lance R. David (FMSC)
+C     Added RAWS weather year range (IYRNG array), expanded IEVENT array.
 C----------
 
 
@@ -68,7 +69,7 @@ C.... Variable declarations.
 C.... Parameter statements.
       INTEGER LNCBUF, MXI, MXL, MXR
       
-      PARAMETER (MXL=21,MXI=74,MXR=918)
+      PARAMETER (MXL=21,MXI=83,MXR=918)
       PARAMETER (LNCBUF=IRECLN*4)
 
       CHARACTER CBUFF(LNCBUF)
@@ -168,49 +169,58 @@ C---- from common BWEBOX ------------
       INTS(32) = NUMCOL     
 C---- from common BWECM2 ------------
       INTS(33) = ILOBYR     
-      INTS(34) = IOBDUR     
-      INTS(35) = IOBLOC     
-      INTS(36) = IOBOPT     
-      INTS(37) = ISPRAY     
-      INTS(38) = ISPVAR     
-      INTS(39) = IWOPT      
-      INTS(40) = IWYR       
-      INTS(41) = IYRECV     
-      INTS(42) = IYREND     
-      INTS(43) = IYROBL     
-      INTS(44) = IYRSRC     
-      INTS(45) = IYRST      
-      INTS(46) = JOBWP1     
-      INTS(47) = JOBWP2     
-      INTS(48) = JOBWP3     
-      INTS(49) = JOBWP4     
-      INTS(50) = JOBWP5     
-      INTS(51) = JOBWP6     
-      INTS(52) = JOBWP7     
-      INTS(53) = JOBWP8     
-      INTS(54) = KRECVR     
-      INTS(55) = LIMITS     
-      INTS(56) = LOWYRS     
-      INTS(57) = NSPRAY     
-      INTS(58) = NUMAPP     
+      INTS(34) = INSTSP
+      INTS(35) = IOBDUR     
+      INTS(36) = IOBLOC     
+      INTS(37) = IOBOPT     
+      INTS(38) = ISPRAY     
+      INTS(39) = ISPVAR     
+      INTS(40) = ISPYR(1)
+      INTS(41) = ISPYR(2)
+      INTS(42) = ISPYR(3)
+      INTS(43) = ISPYR(4)
+      INTS(44) = ISPYR(5)
+      INTS(45) = IWOPT      
+      INTS(46) = IWYR       
+      INTS(47) = IYRCNT
+      INTS(48) = IYRECV     
+      INTS(49) = IYREND     
+      INTS(50) = IYRNG(1)
+      INTS(51) = IYRNG(2)
+      INTS(52) = IYROBL     
+      INTS(53) = IYRSRC     
+      INTS(54) = IYRST      
+      INTS(55) = JOBWP1     
+      INTS(56) = JOBWP2     
+      INTS(57) = JOBWP3     
+      INTS(58) = JOBWP4     
+      INTS(59) = JOBWP5     
+      INTS(60) = JOBWP6     
+      INTS(61) = JOBWP7     
+      INTS(62) = JOBWP8     
+      INTS(63) = KRECVR     
+      INTS(64) = LIMITS     
+      INTS(65) = LOWYRS     
+      INTS(66) = NSPRAY     
+      INTS(67) = NUMAPP     
 C---- from common BWECOM ------------
-      INTS(59) = IBWYR1     
-      INTS(60) = IBWYR2     
-      INTS(61) = ICUMYR     
-      INTS(62) = IPRBYR     
-      INTS(63) = ITODO      
-      INTS(64) = IYRCUR     
-      INTS(65) = JOWSBW     
-      INTS(66) = NCUMYR     
-      INTS(67) = NTODO      
+      INTS(68) = IBWYR1     
+      INTS(69) = IBWYR2     
+      INTS(70) = ICUMYR     
+      INTS(71) = IPRBYR     
+      INTS(72) = ITODO      
+      INTS(73) = IYRCUR     
+      INTS(74) = JOWSBW     
+      INTS(75) = NCUMYR     
+      INTS(76) = NTODO      
 C---- from common BWESTD ------------
-      INTS(68) = IFHOST(1)  
-      INTS(69) = IFHOST(2)  
-      INTS(70) = IFHOST(3)  
-      INTS(71) = IFHOST(4)  
-      INTS(72) = IFHOST(5)  
-      INTS(73) = IFHOST(6)  
-      INTS(74) = IFHOST(7)  
+      INTS(77) = IFHOST(1)  
+      INTS(78) = IFHOST(2)  
+      INTS(79) = IFHOST(3)  
+      INTS(80) = IFHOST(4)  
+      INTS(81) = IFHOST(5)  
+      INTS(82) = IFHOST(6)  
+      INTS(83) = IFHOST(7)  
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: INTS=',
      >            INTS
@@ -234,8 +244,8 @@ C     .....................................................................
       CALL IFWRIT (WK3, IPNT, ILIMIT, IDEF(1,I),        100, K) !(100,5)
    20 CONTINUE
 
-      DO 22 I = 1, 4
-      CALL IFWRIT (WK3, IPNT, ILIMIT, IEVENT(1,I),      250, K) !(4,250)
+      DO 22 I = 1, 5
+      CALL IFWRIT (WK3, IPNT, ILIMIT, IEVENT(1,I),      250, K) !(250,5)
    22 CONTINUE
 
 C.... Load real scalars then arrays into the REALS array.
@@ -313,10 +323,12 @@ C.... Load next real array(s) into REALS.
 
       IIX = 0
       DO 36 IIA = 1,9
-        DO 36 IIB = 1,6
-          DO 36 IIC = 1,17
+        DO IIB = 1,6
+          DO IIC = 1,17
             IIX = IIX + 1
             REALS(IIX) = OUT1(IIA,IIB,IIC)
+          END DO
+        END DO
    36 CONTINUE
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 2 - REALS=',
@@ -330,10 +342,12 @@ C.... Load next real array(s) into REALS.
 
       IIX = 0
       DO 38 IIA = 1,6
-        DO 38 IIB = 1,3
-          DO 38 IIC = 1,8
-          IIX = IIX + 1
-          REALS(IIX) = OUT2(IIA,IIB,IIC)
+        DO IIB = 1,3
+          DO IIC = 1,8
+            IIX = IIX + 1
+            REALS(IIX) = OUT2(IIA,IIB,IIC)
+          END DO
+        END DO
    38 CONTINUE
 
 C.... Write next real array(s) to buffer.
@@ -348,10 +362,12 @@ C.... Due to the size of this array, it is done in 2 parts,
 C.... Third dimension (IIC) 1-10, part 1.
       IIX = 0
       DO 40 IIA = 1,9
-        DO 40 IIB = 1,6
-          DO 40 IIC = 1,10
+        DO IIB = 1,6
+          DO IIC = 1,10
             IIX = IIX + 1
             REALS(IIX) = OUT3(IIA,IIB,IIC)
+          END DO
+        END DO
    40 CONTINUE
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 4A - REALS=',
@@ -367,10 +383,12 @@ C.... Due to the size of this array, it is done in 2 parts,
 C.... Third dimension (IIC) 11-20, part 2.
       IIX = 0
       DO 41 IIA = 1,9
-        DO 41 IIB = 1,6
-          DO 41 IIC = 11,20
+        DO IIB = 1,6
+          DO IIC = 11,20
             IIX = IIX + 1
             REALS(IIX) = OUT3(IIA,IIB,IIC)
+          END DO
+        END DO
    41 CONTINUE
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 4B - REALS=',
@@ -617,19 +635,19 @@ C.... Load next real array(s) into REALS.
 
       IIX = 0
 
-      DO 100 IIA = 1,10
+      DO 100 IIA = 1,11
         DO 100 IIB = 1,50
           IIX = IIX + 1
           REALS(IIX) = BWPRMS(IIA,IIB)
   100 CONTINUE
-C.... IIX ends at 500
+C.... IIX ends at 550
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 10 - REALS=',
      >            REALS
 
 C.... Write next real array(s) to buffer.
 
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 500, K)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 550, K)
 
 C
 C.... Write double precision scalars (random number seeds) to buffer.
@@ -643,23 +661,25 @@ C     SEEDA is DSEEDD, SEEDB is OBSEED, SEEDC is WSEED
       CALL BFWRIT (WK3, IPNT, ILIMIT, SEEDC, 2, K)
 
       GOTO 210
+C     These exist for control of numeric or character processing
+C     specified by subroutine parameter IB.
   150 CONTINUE
 
 C
-C.... Read character variables from buffer.
+C.... Write character variables to buffer.
 C
 C     Static data items are not stored and retrieved between stands.
 C
 C     --- from BWEBOX ---
 C     CHARACTER*4 MGMIDB
 C     CHARACTER*8 DEFLAB,DLABS(5)
-C     CHARACTER*12 STATES(10,2)  -- Static 
+C     CHARACTER*12 STATES(10,2)    -- Static 
 C     CHARACTER*16 WSLOOK(100,10)  -- Static
-C     CHARACTER*20 TEMPS2(3)  -- Static
-C     CHARACTER*40 OUTNAM(8),  -- Static
-C                  STNAME,   -- Static
-C                  WFNAME    -- Static
-C     CHARACTER*50 EVENT(20) -- Static
+C     CHARACTER*20 TEMPS2(3)       -- Static
+C     CHARACTER*40 OUTNAM(8)       -- Static
+C                  STNAME          -- Static
+C                  WFNAME          -- Static
+C     CHARACTER*50 EVENT(20)       -- Static
 C     CHARACTER*72 ITITLB
 C     --- from BWECM2 ---
 C     CHARACTER*3 IOUT6A(3)

@@ -1,12 +1,14 @@
       SUBROUTINE BWERAWS
       IMPLICIT NONE
 C-----------
-C **BWERAWS                 DATE OF LAST REVISION:  06/18/13
+C **BWERAWS                 DATE OF LAST REVISION:  09/05/13
 C-----------
 C Part of the General Defoliator (GenDefol) model
 C
 C Processes RAWS daily climate data and loads the necessary
 C weather parameters for the General Defoliator model.
+C If a range of weather years has been specified, only those
+C years are processed.
 C
 C   PARAMETERS:
 C
@@ -112,10 +114,10 @@ C
 C  WEATH - Holds one year of weather data (3,365) (TMAX, TMIN, PRECIP)
 C          
 C  OBYRC - Outbreak year current, year of weather data to be processed.
-C   JDAY - Julian day used to cycle through 1 year of weather data.
 C DDAYSF - Degree days for foliage
 C DDAYSL - Degree days for larvae (budworm)
-C
+C   JDAY - Julian day used to cycle through 1 year of weather data.
+C  LYRNG - Logical. True if range of RAWS weather years is to be processed.
 C
 C Common files
       INCLUDE 'PRGPRM.F77'
@@ -135,14 +137,22 @@ C Define variables
      &     WLAT, WLONG, PRECIP, WEATH(3,365),
      &     PPTL2E, PRDL24, PPTL24, PRDL46, PPTL46, PRDL7, PPTL7,
      &     DDFALL, PRDE2B
+      LOGICAL LYRNG
      
 C Load static variables
-
-
 
 C initialize variables
       JDAY   = 0
       IYRCNT = 0
+      LYRNG  = .FALSE.
+C
+C Determine if range of weather years has been specified.
+C
+C FOR TESTING ONLY, LOAD STATIC YEAR RANGE. ******************
+C      IYRNG(1) = 1999
+C      IYRNG(2) = 2001
+C      WRITE(*,*) 'WEATHER YEAR RANGE: ',IYRNG(1),' TO ',IYRNG(2)
+      IF (IYRNG(1) .NE. 0 .AND. IYRNG(2) .NE. 0) LYRNG = .TRUE.
 C
 C Open weather file.  
 C
@@ -197,11 +207,28 @@ C       Need to set error flag
         GOTO 450
       ENDIF
 
-C     IF (WYR .EQ. OBYRC .AND. WMON .EQ. 1 .AND. WDAY .EQ. 1) THEN
-C       at jan 1 of current outbreak year, start processing year
       IF (WMON .EQ. 1 .AND. WDAY .EQ. 1) THEN
 C
-C       At jan 1, start processing year
+C       At jan 1, start processing year.
+C       If a range of weather years is in play, check to see if this 
+C       year is in it. If not in range, move on to next Jan 1.
+C
+        IF (LYRNG) THEN
+C         Translate weather year from 2-digit to 4-digit.
+          IF (WYR .LE. 29) THEN
+            WYR = 2000 + WYR
+          ELSE
+            WYR = 1900 + WYR
+          ENDIF
+
+          IF (WYR .GE. IYRNG(1) .AND. WYR .LE. IYRNG(2)) THEN
+            CONTINUE
+          ELSE
+            GOTO 25
+          ENDIF
+        ENDIF
+C
+C       Process this year of data.
 C       Set record counter (JDAY) to 1 and initialize variables used
 C       in the annual weather processing.
 C
@@ -377,9 +404,10 @@ C
         END DO
       ENDIF
 
-C     Close weather data file and load final variables.
+C     Close weather data file and set final variables.
 C
   450 CLOSE (JOWE)
-
+      IWYR = 0
+      
       RETURN
       END
