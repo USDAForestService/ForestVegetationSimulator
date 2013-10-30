@@ -1,5 +1,7 @@
       SUBROUTINE FVS(IRTNCD)
       IMPLICIT NONE
+
+
 C----------
 C  $Id$
 C----------
@@ -47,8 +49,13 @@ C
 COMMONS
 C
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: irtncd
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT, C, DECORATE, ALIAS : "FVS" :: FVS
 !DEC$ ATTRIBUTES REFERENCE :: IRTNCD
+#endif
 
       INTEGER I,IA,N,K,NTODO,ITODO,IACTK,IDAT,NP
       REAL STAGEA,STAGEB

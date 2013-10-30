@@ -1,0 +1,168 @@
+"""
+SCons build control script.  Options are provided to control variants and 
+resulting binary file properties.
+
+Author: Tod Haren, tod.haren@gmail.com
+Date: 10/2013
+"""
+
+import os
+import glob
+import re
+
+EnsurePythonVersion(2, 7)
+
+source_lists = './'
+
+#Command line build arguments
+AddOption('--mode', dest='build_mode', default='debug'
+        , choices=('debug', 'profile', 'release')
+        , help='Compiler build mode (debug,profile,release)')
+AddOption('--install-dir', dest='install_dir'
+        , default=os.path.join(Dir('#').abspath, './bin')
+        , help='Installation destination path (./bin).')
+AddOption('--no-shared-fire', dest='shared_fire', action='store_false', default=True
+        , help='Do not build the fire module as a shared library.')
+AddOption('--no-shared-sql', dest='shared_sql', action='store_false', default=True
+        , help='Do not build the SQL module as a shared library.')
+AddOption('--no-exe', dest='with_exe', action='store_false', default=True
+        , help='Do not build the FVS executable binary.')
+AddOption('--static-exe', dest='static_exe', action='store_true', default=False
+        , help='Statically link the FVS executable.')
+AddOption('--no-pyext', dest='with_pyext', action='store_false', default=True
+        , help='Do not build the Python wrapper library.')
+AddOption('--static-pyext', dest='static_pyext', action='store_true', default=False
+        , help='Statically link the python wrapper library.')
+AddOption('--verbose', dest='verbose', action='store_true', default=False
+        , help='Print detailed compiler calls.')
+AddOption('--source-root', dest='source_root', default='..'
+        , help='Root folder of the source code tree.')
+
+#ensure numpy is available if the Python extension is requested
+if GetOption('with_pyext'):
+    try:
+        import numpy
+
+    except ImportError:
+        print('*** Numpy is required to build the Python extension, skipping')
+        with_pyext = False
+
+#build mode compiler and linker flags
+if GetOption('build_mode') == 'debug':
+    MODE_CCFLAGS = ['-g']
+    MODE_FORTRANFLAGS = ['-g']
+    MODE_LINKFLAGS = []
+
+elif GetOption('build_mode') == 'profile':
+    MODE_CCFLAGS = ['-g', '-pg']
+    MODE_FORTRANFLAGS = ['-g', '-pg']
+    MODE_LINKFLAGS = ['-pg']
+
+elif GetOption('build_mode') == 'release':
+    MODE_CCFLAGS = ['-O1']
+    MODE_FORTRANFLAGS = ['-O1']
+    MODE_LINKFLAGS = []
+
+else:
+    ##TODO: Scons will not let this through in the first place
+    print "Error: Build mode not implemented: " + GetOption('build_mode')
+    Exit(1)
+
+if os.name in ('win32', 'nt'):
+    CCFLAGS = ['-DANSI', '-DWINDOWS', '-DCMPgcc', '-Wall'] + MODE_CCFLAGS
+    FORTRANFLAGS = ['-cpp', '-Wall'] + MODE_FORTRANFLAGS
+    LINKFLAGS = ['-static-libgfortran', '-static-libgcc'] + MODE_LINKFLAGS
+    OS_TOOLS = ['mingw', 'f2py']
+    platform = 'win32'
+
+elif os.name == 'posix':
+    CCFLAGS = ['-Wall', '-fPIC'] + MODE_CCFLAGS
+    FORTRANFLAGS = ['-Wall', '-fPIC'] + MODE_FORTRANFLAGS
+    LINKFLAGS = ['-static-libgcc'] + MODE_LINKFLAGS
+    OS_TOOLS = ['default', 'f2py']
+    platform = 'posix'
+
+else:
+    raise ValueError('Unknown OS name: %s' % os.name)
+
+print 'Build mode: %s' % GetOption('build_mode')
+
+##TODO: clone debug and release environments so that build_mode can control the build_dir
+env = Environment(
+        platform=platform
+        , env=dict(os.environ)
+        , tools=OS_TOOLS
+        , no_import_lib=True
+        , CCFLAGS=CCFLAGS
+        , FORTRANFLAGS=FORTRANFLAGS
+        , LINK='gfortran'
+        , LINKFLAGS=LINKFLAGS
+        , SHLIBPREFIX='lib'
+
+        , INSTALL_DIR=GetOption('install_dir')
+        , SHARED_FIRE=GetOption('shared_fire')
+        , SHARED_SQL=GetOption('shared_sql')
+        , WITH_EXE=GetOption('with_exe')
+        , STATIC_EXE=GetOption('static_exe')
+        , WITH_PYEXT=GetOption('with_pyext')
+        , STATIC_PYEXT=GetOption('static_pyext')
+        , VERBOSE=GetOption('verbose')
+        , SOURCE_ROOT=GetOption('source_root')
+        )
+
+#Enumerate the variants and source lists by parsing the variant abbreviation
+#  from the source list file names
+pat = re.compile('fvs(\w{2,3})_sourcelist\.txt', re.IGNORECASE)
+source_variants = {}
+for sl in glob.glob('%s/*' % source_lists):
+    v = re.findall(pat, sl)
+    if v:
+        source_variants[v[0].lower()] = os.path.join(os.getcwd(), sl)
+
+#compress the build messages
+if not env['VERBOSE']:
+    env['SHLINKCOMSTR'] = "Link Shared Library: $TARGET"
+    env['LINKCOMSTR'] = "Linking: $TARGET"
+    env['CCCOMSTR'] = 'Compiling C: $SOURCE -> $TARGET.file'
+    env['FORTRANCOMSTR'] = "Compile Fortran: $SOURCE -> $TARGET.file"
+    env['F95COMSTR'] = "Compile Fortran: $SOURCE -> $TARGET.file"
+    env['F90COMSTR'] = "Compile Fortran: $SOURCE -> $TARGET.file"
+    env['F77COMSTR'] = "Compile Fortran: $SOURCE -> $TARGET.file"
+    env['SHCCCOMSTR'] = 'Compiling C: $SOURCE -> $TARGET.file'
+    env['SHFORTRANCOMSTR'] = "Compile Fortran: $SOURCE -> $TARGET.file"
+    env['SHF95COMSTR'] = "Compile Fortran: $SOURCE -> $TARGET.file"
+    env['SHF90COMSTR'] = "Compile Fortran: $SOURCE -> $TARGET.file"
+    env['SHF77COMSTR'] = "Compile Fortran: $SOURCE -> $TARGET.file"
+
+#variables to pass to the Sconscript files
+export_vars = ['env', 'variant', 'source_variants']
+
+def execute_build(variant):
+    """
+    Pass control to the SConscript to build a variant
+    """
+    print('Build the FVS %s variant.' % (variant.upper(),))
+
+    env['ROOT_DIR'] = Dir('.').abspath
+
+    SConscript('SConscript'
+            , variant_dir=os.path.join(variant, GetOption('build_mode'))
+            , src_dir='..'
+            , duplicate=1
+            , exports=export_vars
+            )
+    Clean('.', os.path.join(variant, GetOption('build_mode')))
+
+if 'all' in COMMAND_LINE_TARGETS:
+    raise Exception('Build target "all" is not implemented.')
+#    for variant in source_variants:
+#        execute_build(variant)
+
+else:
+    ##FIXME: multiple build targets creates an SCons conflict
+    ##TODO: this could be implemented with proper hierarchical build when shared libs are enabled
+    for variant in COMMAND_LINE_TARGETS:
+        if not variant in source_variants:
+            continue
+
+        execute_build(variant)

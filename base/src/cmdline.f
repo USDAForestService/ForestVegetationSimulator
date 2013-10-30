@@ -14,9 +14,16 @@ c     Created in 2011 and 2012 by Nick Crookston, RMRS-Moscow
 
       include "GLBLCNTL.F77"
 
+!Python F2PY Interface Directives
+!f2py character(len=*) intent(in) :: theCmdLine
+!f2py integer intent(hide),depend(theCmdLine) :: lenCL=slen(theCmdLine)
+!f2py integer intent(out) :: IRTNCD
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSETCMDLINE
 !DEC$ ATTRIBUTES ALIAS : 'FVSSETCMDLINE' :: FVSSETCMDLINE
 !DEC$ ATTRIBUTES REFERENCE :: theCmdLine,lenCL,IRTNCD
+#endif
 
       integer :: i,n,irtn,ieq,iend,lenCL,IRTNCD
       logical fstat
@@ -193,9 +200,15 @@ c     open/reopen the keyword/output file.
 
       include "GLBLCNTL.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: spptcd
+!f2py intent(out) :: spptyr
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETSTOPPOINTCODES
 !DEC$ ATTRIBUTES ALIAS : 'FVSGETSTOPPOINTCODES' :: FVSGETSTOPPOINTCODES
 !DEC$ ATTRIBUTES REFERENCE :: spptcd,spptyr
+#endif
 
       integer :: spptcd,spptyr
       spptcd = minorstopptcode
@@ -208,9 +221,15 @@ c     open/reopen the keyword/output file.
 
       include "GLBLCNTL.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(in) :: spptcd
+!f2py intent(in) :: spptyr
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSETSTOPPOINTCODES
 !DEC$ ATTRIBUTES ALIAS : 'FVSSETSTOPPOINTCODES' :: FVSSETSTOPPOINTCODES
 !DEC$ ATTRIBUTES REFERENCE :: spptcd,spptyr
+#endif
 
       integer :: spptcd,spptyr
       minorstopptcode = spptcd
@@ -224,9 +243,14 @@ c     open/reopen the keyword/output file.
 
       include "GLBLCNTL.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: restrtcd
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETRESTARTCODE
 !DEC$ ATTRIBUTES ALIAS : 'FVSGETRESTARTCODE' :: FVSGETRESTARTCODE
 !DEC$ ATTRIBUTES REFERENCE :: restrtcd
+#endif
 
       integer :: restrtcd
       if (fvsRtnCode == 0) then
@@ -244,6 +268,14 @@ c     open/reopen the keyword/output file.
       implicit none
 
       include "GLBLCNTL.F77"
+
+!Python F2PY Interface Directives
+!f2py intent(out) :: restrtcd
+      
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS : 'FVSRESTART' :: FVSRESTART
+!DEC$ ATTRIBUTES REFERENCE :: restrtcd
+#endif
 
       integer :: restrtcd
 
@@ -288,6 +320,15 @@ cc     -        " restrtcd=",restrtcd
 
       include "GLBLCNTL.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: restrtcd
+      
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSRESTARTLASTSTAND
+!DEC$ ATTRIBUTES ALIAS : 'FVSRESTARTLASTSTAND' :: FVSRESTARTLASTSTAND
+!DEC$ ATTRIBUTES REFERENCE :: restrtcd
+#endif
+
       integer :: restrtcd
       if (readFilePos == -1) then
         call fvsSetRtnCode (1)
@@ -306,9 +347,16 @@ cc     -        " restrtcd=",restrtcd
 
       include "GLBLCNTL.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: fn
+!f2py intent(hide) :: mxch
+!f2py intent(hide) :: nch
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETKEYWORDFILENAME
 !DEC$ ATTRIBUTES ALIAS:'FVSGETKEYWORDFILENAME' :: FVSGETKEYWORDFILENAME
 !DEC$ ATTRIBUTES REFERENCE :: fn,mxch,nch
+#endif
 
       integer :: mxch,nch
       character(mxch) fn
@@ -321,12 +369,18 @@ cc     -        " restrtcd=",restrtcd
 
       subroutine fvsSetRtnCode (rtnCode)
       implicit none
+      
       include "GLBLCNTL.F77"
       integer :: rtnCode
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSETRTNCODE
 !DEC$ ATTRIBUTES ALIAS : 'FVSSETRTNCODE' :: FVSSETRTNCODE
 !DEC$ ATTRIBUTES REFERENCE :: rtnCode
+#endif
 
       fvsRtnCode = rtnCode
 
@@ -341,9 +395,14 @@ C     if in an error state, close the files.
       include "GLBLCNTL.F77"
       integer :: rtnCode
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSGETRTNCODE
 !DEC$ ATTRIBUTES ALIAS : 'FVSGETRTNCODE' :: FVSGETRTNCODE
 !DEC$ ATTRIBUTES REFERENCE :: rtnCode
+#endif
 
       rtnCode = fvsRtnCode
       return
@@ -354,6 +413,16 @@ C     if in an error state, close the files.
       implicit none
 
 c     note that this routine is called during the simulation
+
+!Python F2PY Interface Directives
+!f2py intent(in) :: LOCODE
+!f2py intent(out) :: ISTOPDONE
+
+#ifdef _WINDLL
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSTOPPOINT
+!DEC$ ATTRIBUTES ALIAS : 'FVSSTOPPOINT' :: FVSSTOPPOINT
+!DEC$ ATTRIBUTES REFERENCE :: LOCODE,ISTOPDONE
+#endif
 
       include "PRGPRM.F77"
       include "GLBLCNTL.F77"

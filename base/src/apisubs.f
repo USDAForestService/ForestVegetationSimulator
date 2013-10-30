@@ -14,9 +14,15 @@ c     Created in late 2011 by Nick Crookston, RMRS-Moscow
       include "CONTRL.F77"
       include "PLOT.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: ntrees,ncycles,nplots
+!f2py intent(out) :: maxtrees,maxspecies,maxplots,maxcycles
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSDIMSIZES'::FVSDIMSIZES
 !DEC$ ATTRIBUTES REFERENCE :: NTREES, NCYCLES, NPLOTS, MAXTREES
 !DEC$ ATTRIBUTES REFERENCE :: MAXSPECIES, MAXPLOTS, MAXCYCLES
+#endif
 
       integer :: ntrees,ncycles,nplots,maxtrees,maxspecies,maxplots,
      -           maxcycles
@@ -38,9 +44,19 @@ c     Created in late 2011 by Nick Crookston, RMRS-Moscow
       include "CONTRL.F77"
       include "OUTCOM.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(inout) :: summary
+!f2py intent(in) :: icycle
+!f2py intent(hide) :: ncycles
+!f2py intent(hide) :: maxrow
+!f2py intent(hide) :: maxcol
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSSUMMARY'::FVSSUMMARY
 !DEC$ ATTRIBUTES REFERENCE :: SUMMARY, ICYCLE, NCYCLES, MAXROW
 !DEC$ ATTRIBUTES REFERENCE :: MAXCOL, RTNCODE
+#endif
       
       integer :: summary(20),icycle,ncycles,maxrow,maxcol,rtnCode
       
@@ -76,8 +92,18 @@ c
       include "ARRAYS.F77"
       include "CONTRL.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(in) :: name
+!f2py intent(in) :: nch
+!f2py intent(in) :: action
+!f2py intent(in) :: ntrees
+!f2py intent(inout) :: attr
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSTREEATTR'::FVSTREEATTR
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NTREES, ATTR, RTNCODE
+#endif
 
       integer :: nch,rtnCode,ntrees
       real(kind=8)      :: attr(ntrees)
@@ -199,9 +225,18 @@ c
       include "PRGPRM.F77"
       include "PLOT.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(in) :: name
+!f2py intent(in) :: nch
+!f2py intent(in) :: action
+!f2py intent(inout) :: attr
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE:: FVSSPECIESATTR
 !DEC$ ATTRIBUTES ALIAS:'FVSSPECIESATTR'::FVSSPECIESATTR
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, ATTR, RTNCODE
+#endif
 
       integer :: nch,rtnCode
       real(kind=8)      :: attr(MAXSP)
@@ -254,8 +289,17 @@ c
       include "ARRAYS.F77"
       include "OPCOM.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(in) :: name
+!f2py intent(in) :: nch
+!f2py intent(in) :: action
+!f2py intent(inout) :: attr
+!f2py intent(out) :: rtncode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSEVMONATTR'::FVSEVMONATTR
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, ATTR, RTNCODE
+#endif
 
       integer :: nch,rtncode,iv,i
       double precision  :: attr
@@ -581,9 +625,16 @@ c                 or when ntrees is zero
       include "ESTREE.F77"
       include "STDSTK.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(in) :: in_dbh, in_species, in_ht, in_cratio, in_plot
+!f2py intent(in) :: in_tpa,ntrees
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSADDTREES'::FVSADDTREES
 !DEC$ ATTRIBUTES REFERENCE :: IN_DBH, IN_SPECIES, IN_HT, IN_CRATIO
 !DEC$ ATTRIBUTES REFERENCE :: IN_PLOT, IN_TPA, NTREES, RTNCODE
+#endif
       
       real(kind=8) :: in_dbh(ntrees),in_species(ntrees),
      -    in_ht(ntrees),in_cratio(ntrees),in_plot(ntrees),
@@ -669,10 +720,22 @@ c     indx    = species index
       include "PRGPRM.F77"
       include "PLOT.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: fvs_code
+!f2py intent(out) :: fia_code
+!f2py intent(out) :: plant_code
+!f2py intent(in) :: indx
+!f2py intent(out) :: nchfvs
+!f2py intent(out) :: nchfia
+!f2py intent(out) :: nchplant
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,ALIAS:'FVSSPECIESCODE'::FVSSPECIESCODE
 !DEC$ ATTRIBUTES C,DECORATE :: FVSSPECIESCODE
 !DEC$ ATTRIBUTES REFERENCE :: FVS_CODE, FIA_CODE, PLANT_CODE, INDX
 !DEC$ ATTRIBUTES REFERENCE :: NCHFVS, NCHFIA, NCHPLANT, RTNCODE
+#endif
 
       integer :: indx,nchfvs,nchfia,nchplant,rtnCode
       character(len=4) :: fvs_code
@@ -703,8 +766,15 @@ c     indx    = species index
       include "ARRAYS.F77"
       include "CONTRL.F77"
 
+!Python F2PY Interface Directives
+!f2py double intent(in) :: pToCut
+!f2py integer intent(hide),depend(pToCut) :: ntrees=len(pToCut)
+!f2py integer intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSCUTTREES'::FVSCUTTREES
 !DEC$ ATTRIBUTES REFERENCE :: PTOCUT, NTREES, RTNCODE
+#endif
 
       integer :: ntrees,rtnCode
       double precision :: pToCut(ntrees)
@@ -724,8 +794,18 @@ c     indx    = species index
       include "PRGPRM.F77"
       include "PLOT.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: sID
+!f2py intent(out) :: sCN
+!f2py intent(out) :: mID
+!f2py intent(out) :: ncsID
+!f2py intent(out) :: ncCN
+!f2py intent(out) :: ncmID
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSSTANDID'::FVSSTANDID
 !DEC$ ATTRIBUTES REFERENCE :: SID, SCN, MID, NCSID, NCCN, NCMID
+#endif
 
       integer :: ncsID,ncCN,ncmID
       character(len=26) sID
@@ -745,8 +825,14 @@ c     indx    = species index
       subroutine fvsCloseFile(filename,nch)
       implicit none
       
+!Python F2PY Interface Directives
+!f2py intent(in) :: filename
+!f2py intent(in) :: nch
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSCLOSEFILE'::FVSCLOSEFILE
 !DEC$ ATTRIBUTES REFERENCE :: FILENAME, NCH
+#endif
 
 C     this routine closes "filename" if it is opened, it is not called
 C     from within FVS. nch is the length of filename.
@@ -772,9 +858,18 @@ C     add an activity to the schedule.
       include "PRGPRM.F77"
       include "CONTRL.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(in) :: idt
+!f2py intent(in) :: iactk
+!f2py intent(in) :: inprms
+!f2py intent(in) :: inprms
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,ALIAS:'FVSADDACTIVITY'::FVSADDACTIVITY
 !DEC$ ATTRIBUTES C,DECORATE :: FVSADDACTIVITY
 !DEC$ ATTRIBUTES REFERENCE :: IDT, IACTK, INPRMS, NPRMS, RTNCODE
+#endif
       
       integer :: i,idt,iactk,nprms,rtnCode,kode
       integer, parameter :: mxtopass=20
@@ -803,10 +898,16 @@ C     add an activity to the schedule.
       include "SVDATA.F77"
       include "SVDEAD.F77"
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: nsvsobjs,ndeadobjs,ncwdobjs
+!f2py intent(out) :: mxsvsobjs,mxdeadobjs,mxcwdobjs
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSVSDIMSIZES
 !DEC$ ATTRIBUTES ALIAS:'FVSSVSDIMSIZES':: FVSSVSDIMSIZES
 !DEC$ ATTRIBUTES REFERENCE :: NSVSOBJS,NDEADOBJS,NCWDOBJS
 !DEC$ ATTRIBUTES REFERENCE :: MXSVSOBJS,MXDEADOBJS,MXCWDOBJS
+#endif
 
       integer :: nsvsobjs,  ndeadobjs,  ncwdobjs,  
      -           mxsvsobjs, mxdeadobjs, mxcwdobjs 
@@ -841,9 +942,19 @@ c               4= the length of the "name" string was too big or small
       include "SVDATA.F77"
       include "SVDEAD.F77"
       
+!Python F2PY Interface Directives
+!f2py intent(in) :: name
+!f2py intent(in) :: nch
+!f2py intent(in) :: action
+!f2py intent(in) :: nobjs
+!f2py intent(inout) :: attr
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSSVSOBJDATA
 !DEC$ ATTRIBUTES ALIAS:'FVSSVSOBJDATA':: FVSSVSOBJDATA
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NOBJS, ATTR, RTNCODE
+#endif
 
       integer :: nch,rtnCode,nobjs
       real(kind=8)      :: attr(nobjs)
@@ -1162,9 +1273,19 @@ c               4= the length of the "name" string was too big or small
       include 'FMPARM.F77'
       include 'FMCOM.F77'
 
+!Python F2PY Interface Directives
+!f2py intent(in) :: name
+!f2py intent(in) :: nch
+!f2py intent(in) :: action
+!f2py intent(in) :: nobjs
+!f2py intent(inout) :: attr
+!f2py intent(out) :: rtnCode
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSFFEATTRS
 !DEC$ ATTRIBUTES ALIAS:'FVSFFEATTRS':: FVSFFEATTRS
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NOBJS, ATTR, RTNCODE
+#endif
 
       integer :: nch,rtnCode,nobjs
       real(kind=8)      :: attr(nobjs)
