@@ -159,7 +159,7 @@ C----------
           GO TO 102
 C
 C
-        ELSEIF(VEQNNC(ISPC)(8:10).EQ.'746')THEN
+        ELSEIF(VEQNNC(ISPC)(4:6).EQ.'DVE')THEN
           DO 105 IZERO=1,15
           TVOL(IZERO)=0.
   105     CONTINUE
