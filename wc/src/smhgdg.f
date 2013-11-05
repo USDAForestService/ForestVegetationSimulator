@@ -182,17 +182,22 @@ C
 C----------
 C  CALCULATE 5 YEAR HEIGHT AND DIAMETER GROWTH
 C----------
+
       IF(DEBUG)THEN
         WRITE(JOSTND,*)' ENTERING SMHGDG-IT,H,D,',
      &  'AVH,FINT= ',IT,H,D,AVH,FINT
         IF(IT.GT.0)WRITE(JOSTND,*)' ICR(IT),PCT(IT),PTBAA(ITRE(IT))= ',
      &   ICR(IT),PCT(IT),PTBAA(ITRE(IT))
+        WRITE(JOSTND,*)' ITRE= ',ITRE
+        WRITE(JOSTND,*)' PTBAA= ',PTBAA     
       ENDIF
 C
       IF((MODE.EQ.0).OR.(IT.LE.0))THEN
         CR=0.5
         BAS=0.
         PTBAL=0.
+        PTBA=0.
+        RELHT=0.
         AVHT=(5.0/FINT)*AVH +((FINT-5.0)/FINT)*ATAVH
         IF(AVHT .GT. 0.0) RELHT=H/AVHT
         IF(RELHT .GT. 1.5)RELHT=1.5
@@ -204,8 +209,8 @@ C
         RELHT = 0.0
         AVHT=AVH
         IF(MODE.EQ.1)AVHT=(5.0/FINT)*AVH +((FINT-5.0)/FINT)*ATAVH
-        IF(AVHT .GT. 0.0) RELHT=H/AVHT
-        IF(RELHT .GT. 1.5)RELHT=1.5
+        IF(AVHT.GT.0.0) RELHT=H/AVHT
+        IF(RELHT.GT.1.5)RELHT=1.5
       ENDIF
 C----------
 C  INITIALIZE TRANSFORMED VARIABLES
