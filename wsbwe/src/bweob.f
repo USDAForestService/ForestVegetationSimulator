@@ -1,7 +1,7 @@
       SUBROUTINE BWEOB 
       IMPLICIT NONE
 C ------------
-C     **BWEOB                  DATE OF LAST REVISION:  06/18/13
+C     **BWEOB                  DATE OF LAST REVISION:  08/28/13
 C ------------
 C
 C  CALCULATE THE YEAR THE NEXT REGIONAL OUTBREAK STARTS & ENDS
@@ -30,7 +30,7 @@ C          3=INT.LOW RANGE, 4=INT.HIGH RANGE, 5=MEAN
 C          OUTBREAK DURATION, 6=DUR. DEVIATION, 7=DUR.
 C          LOW RANGE, 8=DUR.HIGH RANGE
 C   NEVENT - NO. OF BW SPECIAL EVENTS TO DATE                                   [BWEBOX]
-C   IEVENT(250,4) - BW SPECIAL EVENTS SUMMARY TABLE [BWEBOX]
+C   IEVENT(250,5) - BW SPECIAL EVENTS SUMMARY TABLE [BWEBOX]
 C   IOBOPT - 1 = ONLY OB STARTS SCHEDULED, 2=STARTS & ENDS SCHEDULED
 C            3=USER SPECIFIES OB STARTS AND ENDS
 C
@@ -45,6 +45,8 @@ C      Added Stand ID and comma delimiter to output tables, some header
 C      and column labels modified.
 C   14-JUL-2010 Lance R. David (FMSC)
 C      Added IMPLICIT NONE and declared variables as needed.
+C   28-AUG-2013 Lance R. David (FMSC)
+C      Added weather year (if using RAWS) to special events table.
 C
 C----------------------------------------------------------------------
 C
@@ -153,6 +155,13 @@ C        GET SEED VALUE FOR OUTBREAK RANDOM NUMBER SERIES.
          IEVENT(NEVENT,2)=7
          IEVENT(NEVENT,3)=0
          IEVENT(NEVENT,4)=1
+C        weather year is reported only if RAWS data is in use.
+C        If cycle is zero, weather data year is unknown.
+         IF (IWSRC .EQ. 3 .AND. ICYC .NE. 0) THEN
+           IEVENT(NEVENT,5)=BWPRMS(11,IWYR)
+         ELSE
+           IEVENT(NEVENT,5)=0
+         ENDIF
          I=IYRST-1
          IF (LP6 .AND. NEVENT.GT.2) WRITE (JOBWP6,8600) NPLT,I,I
  8600    FORMAT (A26,', ',I5,',',7X,'0,',7X,'0,',3(5X,'   ,'),

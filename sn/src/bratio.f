@@ -1,7 +1,7 @@
       FUNCTION BRATIO(IS,D,H)
       IMPLICIT NONE
 C----------
-C  **BRATIO--SN    DATE OF LAST REVISION:  06/05/08
+C  **BRATIO--SN    DATE OF LAST REVISION:  09/09/13
 C----------
 C  FUNCTION TO COMPUTE BARK RATIOS.  THIS ROUTINE IS VARIANT SPECIFIC
 C  AND EACH VARIANT USES ONE OR MORE OF THE ARGUMENTS PASSED TO IT.
@@ -141,24 +141,28 @@ C
 C----------
 C MODEL TYPE FROM CLARK
 C----------
-      IF(IFOR .EQ. 20)THEN
-        IF(IS .EQ. 5)THEN
-          DIB= 0.1713 + 0.87459*D
-        ELSEIF(IS .EQ. 6)THEN
-          DIB= -0.26207 + 0.87347 * D
-        ELSEIF(IS .EQ. 8)THEN
-          DIB= -0.43439 + 0.91382 * D
-        ELSEIF(IS .EQ. 11)THEN
-          DIB= -0.62033 + 0.91645 * D
-        ELSEIF(IS .EQ. 13)THEN
-          DIB= -0.4671 + 0.90198 * D
+      IF (D .GT. 0) THEN 
+        IF(IFOR .EQ. 20)THEN
+          IF(IS .EQ. 5)THEN
+            DIB= 0.1713 + 0.87459*D
+          ELSEIF(IS .EQ. 6)THEN
+            DIB= -0.26207 + 0.87347 * D
+          ELSEIF(IS .EQ. 8)THEN
+            DIB= -0.43439 + 0.91382 * D
+          ELSEIF(IS .EQ. 11)THEN
+            DIB= -0.62033 + 0.91645 * D
+          ELSEIF(IS .EQ. 13)THEN
+            DIB= -0.4671 + 0.90198 * D
+          ELSE
+            DIB=BARKC(1,IS) + BARKC(2,IS)*D
+          ENDIF
         ELSE
           DIB=BARKC(1,IS) + BARKC(2,IS)*D
         ENDIF
+        BRATIO=DIB/D
       ELSE
-        DIB=BARKC(1,IS) + BARKC(2,IS)*D
+        BRATIO = 0.99
       ENDIF
-      BRATIO=DIB/D
 C
       IF(BRATIO .GT. 0.99) BRATIO= 0.99
       IF(BRATIO .LT. 0.80) BRATIO= 0.80

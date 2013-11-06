@@ -1,7 +1,7 @@
       SUBROUTINE BWEINT 
       IMPLICIT NONE
 C---------
-C **BWEINT                 DATE OF LAST REVISION:  06/23/11
+C **BWEINT                 DATE OF LAST REVISION:  08/28/13
 C---------
 C
 C INITIALIZE BW DEFOLIATION MODEL VARIABLES
@@ -20,7 +20,7 @@ C   JOWE - FILE NUMBER ASSIGNED TO STNAME
 C   NUMSTN(10) - NUMBER OF WEATHER STATIONS BY STATE
 C   WSLOOK(100,10) - STORES WEATHER STATION NAMES BY STATE
 C   NEVENT - NUMBER OF BW SPECIAL EVENTS TO DATE
-C   IEVENT(250,4) - BW SPECIAL EVENTS SUMMARY ARRAY
+C   IEVENT(250,5) - BW SPECIAL EVENTS SUMMARY ARRAY
 C
 C Revision History:
 C   05-MAY-00 Lance David (FHTET)
@@ -53,8 +53,10 @@ C       Moved init of variables variable from block data because they
 C       are not static (FOLDVY, FOLWTY, IOUT6A)
 C    14-JUL-2010 Lance R. David (FMSC)
 C       Added IMPLICIT NONE and declared variables as needed.
-C   23-JUN-2011 Lance R. David (FMSC)
-C      Added BWPRMS array for RAWS daily weather processing to BLCOM3.
+C    23-JUN-2011 Lance R. David (FMSC)
+C       Added BWPRMS array for RAWS daily weather processing to BLCOM3.
+C   28-AUG-2013 Lance R. David (FMSC)
+C      Modified initialization of IEVENT array.
 C------------------------------------------------------------------------
 COMMONS
 C
@@ -363,9 +365,9 @@ C
       IWSRC  = 1
 
 C     Array loaded from RAWS daily weather data in subroutine BWERAWS.f
-C     10 parameters, 50 years.
+C     11 parameters, 50 years.
 C
-      DO I = 1, 10
+      DO I = 1, 11
         DO J=1, 50
           BWPRMS(I,J) = 0.0
         END DO
@@ -391,7 +393,7 @@ C SET THE SPECIAL EVENTS TABLE TO ZERO
 C
       NEVENT=0
       DO 70 I=1,250
-      DO 70 J=1,4
+      DO 70 J=1,5
       IEVENT(I,J)=0
    70 CONTINUE
 C

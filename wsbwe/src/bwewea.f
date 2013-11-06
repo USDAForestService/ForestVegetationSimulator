@@ -1,7 +1,7 @@
       SUBROUTINE BWEWEA
       IMPLICIT NONE
 C-----------
-C **BWEWEA                  DATE OF LAST REVISION:  06/18/13
+C **BWEWEA                  DATE OF LAST REVISION:  08/28/13
 C-----------
 C
 C GET WEATHER PARAMETERS FOR THE CURRENT YEAR
@@ -31,7 +31,7 @@ C            9=MEAN PPT. FOR PUPAE
 C            10=MEAN PPT. DURING L2 EMERGENCE
 C   AMIN   - MINIMUM VALUE FOR WEATHER PARAMETER MULTIPLIERS (NOW = 0.8)
 C   AMULT  - CURRENT VALUE FOR MULTIPLIERS
-C   IEVENT(250,4) - BW SPECIAL EVENTS SUMMARY ARRAY
+C   IEVENT(250,5) - BW SPECIAL EVENTS SUMMARY ARRAY
 C   IWYR   - WEATHER YEAR COUNTER
 C   LP4    - TABLE 4 OUTPUT FLAGS (TRUE=PRINT, FALSE=NO PRINT) [BWEBOX]
 C   NEVENT - NUMBER OF BW SPECIAL EVENTS TO DATE
@@ -52,18 +52,30 @@ C   17-MAY-2005 Lance R. David (FHTET)
 C      Added FVS parameter file PRGPRM.F77.
 C   30-AUG-2006 Lance R. David (FHTET)
 C      Changed array orientation of IEVENT from (4,250) to (250,4).
-C    14-JUL-2010 Lance R. David (FMSC)
-C       Added IMPLICIT NONE and declared variables as needed.
+C   14-JUL-2010 Lance R. David (FMSC)
+C      Added IMPLICIT NONE and declared variables as needed.
+C   28-AUG-2013 Lance R. David (FMSC)
+C      Added weather year (if using RAWS) to special events table.
 C
 C----------
 C
       INCLUDE 'PRGPRM.F77'
+      INCLUDE 'CONTRL.F77'
       INCLUDE 'BWECM2.F77'
       INCLUDE 'BWEBOX.F77'
       INCLUDE 'BWECOM.F77'
 
       INTEGER I, INDEX, IOS, N
       REAL AMIN, AMULT, BWENOR, PICK, RAIN(3)
+      LOGICAL DBUG
+
+C
+C.... Check for DEBUG
+C
+      CALL DBCHK(DBUG,'BWEWEA',6,ICYC)
+
+      IF (DBUG) WRITE (JOSTND,*) 'ENTER BWEWEA: ICYC = ',ICYC
+
 C
 C  SET THE ARRAY THAT STORES EVENT SUMMARIES (FOR TABLE 6) TO ZERO
 C
@@ -71,7 +83,7 @@ C
       IOUT6A(I)='   '
    10 CONTINUE
 
-c     WRITE (16,*) 'IN BWEWEA: BWEATH=',BWEATH                    ! TEMP DEBUG
+      IF (DBUG) WRITE (JOSTND,*) 'IN BWEWEA: BWEATH=',BWEATH
 C
 C  IF IWOPT=1, GENERATE WEATHER VALUES FROM THE MEANS AND STANDARD
 C    DEVIATIONS FROM THE WEATHER STATION SELECTED BY THE USER
@@ -82,22 +94,24 @@ C    CALLS TO THE RN GENERATOR SO THAT THE SAME SEED WILL BE USED IN
 C    A GIVEN YEAR (TO COMPARE ACROSS YEARS). EACH YEAR WHEN BUDLITE
 C    IS CALLED, THERE ARE 20 CALLS TO THE WEATHER SEED (10 CALLS TO
 C    BWERAN, 2 USES OF THE SEED PER CALL).
-C IF IWSRC=3, USER HAS SUPPLIED ACTUAL DATA (1 LINE PER YEAR). READ
+C IF IWSRC=2, USER HAS SUPPLIED ACTUAL DATA (1 LINE PER YEAR). READ
 C CURRENT YEAR & STORE IN BWEATH(X,1); IWOPT IS SET TO 2 TEMPORARILY.
 C
 C
-C     WRITE (16,*) 'IN BWEWEA: IWOPT, IWSRC=',IWOPT,IWSRC         ! TEMP DEBUG
 C     RESTORE SEED VALUE FOR WEATHER RANDOM NUMBER SERIES USED IN FUNCTION BWENOR
       CALL BWERPT(WSEED)
-C     WRITE (16,*) 'IN BWEWEA: WSEED: ', WSEED                    ! TEMP DEBUG
 
-      IF (IWOPT.EQ.1.OR.IWSRC.EQ.3) THEN
+      IF (DBUG) WRITE (JOSTND,*)
+     &  'IN BWEWEA: IWOPT, IWSRC, WSEED=',IWOPT,IWSRC,WSEED
+
+      IF (IWOPT .EQ. 1 .OR. IWSRC .EQ. 2) THEN
  
          AMIN=0.8
-         IF (IYRCUR.GT.IWYR+1.AND.IWYR.LT.3000) THEN
+         IF (IYRCUR .GT. IWYR+1 .AND. IWYR .LT. 3000) THEN
    20        IWYR=IWYR+1
-C            WRITE (16,*) 'IN BWEWEA: IYRCUR, IWYR=',IYRCUR,IWYR   ! TEMP DEBUG
-             IF (IWSRC.NE.3) THEN
+             IF (DBUG) WRITE (JOSTND,*)
+     &       'IN BWEWEA: IYRCUR, IWYR=',IYRCUR,IWYR
+             IF (IWSRC .NE. 2) THEN
                 TREEDD=BWENOR(BWEATH(6,1),BWEATH(6,2))
                 PICK=BWENOR(BWEATH(4,1),BWEATH(4,2))
                 PICK=BWENOR(BWEATH(10,1),BWEATH(10,2))
@@ -112,42 +126,42 @@ C            WRITE (16,*) 'IN BWEWEA: IYRCUR, IWYR=',IYRCUR,IWYR   ! TEMP DEBUG
 C               WRITE (16,*) 'IN BWEWEA: DUMMY READ JOWE'         ! TEMP DEBUG
                 READ (JOWE,30,IOSTAT=IOS)
    30           FORMAT (1X)
-                IF (IOS.EQ.-1) REWIND (JOWE)
+                IF (IOS .EQ. -1) REWIND (JOWE)
 C               WRITE (16,*) 'IN BWEWEA: REWIND JOWE'             ! TEMP DEBUG
              ENDIF
-             IF (IDEFPR.NE.0) WRITE (JOBWP3,40) IWYR,(IDEF(IBUDYR,N),
+             IF (IDEFPR .NE. 0) WRITE (JOBWP3,40) IWYR,(IDEF(IBUDYR,N),
      &          N=1,NUMCOL)
    40        FORMAT (I4,4X,5(I4,6X))
              IBUDYR=IBUDYR+1
-C            WRITE (16,*) 'IN BWEWEA: IBUDYR=',IBUDYR              ! TEMP DEBUG
-             IF (IWYR.LT.IYRCUR-1) GOTO 20
+             IF (DBUG) WRITE (JOSTND,*)'IN BWEWEA: IBUDYR=',IBUDYR
+             IF (IWYR .LT. IYRCUR-1) GOTO 20
          ENDIF
          IWYR=IWYR+1    
 C
-C IF IWSRC=3, READ IN DATA FROM FILE SUPPLIED BY USER, THEN SKIP REST
+C IF IWSRC=2, READ IN DATA FROM FILE SUPPLIED BY USER, THEN SKIP REST
 C   OF THIS SECTION
 C
-         IF (IWSRC.EQ.3) THEN
+         IF (IWSRC .EQ. 2) THEN
    44       READ (JOWE,45,IOSTAT=IOS) DAYS(1),DAYS(2),DAYS(3),WHOTF,
      &        DFLUSH,TREEDD,RAIN(1),RAIN(2),RAIN(3),WRAIND
    45       FORMAT(5X,10F7.1)
-            IF (IOS.EQ.-1) THEN 
+            IF (IOS .EQ. -1) THEN 
                REWIND (JOWE)
                GOTO 44
             ENDIF
             AMIN=0.8
             AMULT=1.0
-            IF (WHOTF.GT.WHOTM) CALL BWEMUL(WHOTM,WHOTSD,WHOTF,AMIN,
-     &         AMULT)
+            IF (WHOTF .GT. WHOTM) 
+     &        CALL BWEMUL(WHOTM,WHOTSD,WHOTF,AMIN,AMULT)
             WHOTF=AMULT
             AMULT=1.0
-            IF (WRAIND.GT.RAINDM) CALL BWEMUL(RAINDM,RAINDS,WRAIND,AMIN,
-     &         AMULT)
+            IF (WRAIND .GT. RAINDM) 
+     &        CALL BWEMUL(RAINDM,RAINDS,WRAIND,AMIN,AMULT)
             WRAIND=AMULT
             DO 46 I=1,3
                AMULT=1.0
-               IF (RAIN(I).GT.RAINM(I)) CALL BWEMUL(RAINM(I),RAINS(I),
-     &             RAIN(I),AMIN,AMULT)
+               IF (RAIN(I) .GT. RAINM(I)) 
+     &           CALL BWEMUL(RAINM(I),RAINS(I),RAIN(I),AMIN,AMULT)
                WRAINA(I)=AMULT
                WRAINB(I)=AMULT
                WRAIN1(I)=AMULT
@@ -156,7 +170,7 @@ C
    46       CONTINUE
             WCOLDW=1.0
          ENDIF
-         IF (IWSRC.EQ.3) GO TO 300                             ! RETURN
+         IF (IWSRC .EQ. 2) GO TO 300                             ! RETURN
  
          TREEDD=BWENOR(BWEATH(6,1),BWEATH(6,2))
          PICK=BWENOR(BWEATH(4,1),BWEATH(4,2))
@@ -164,9 +178,8 @@ C
 C        TEMP DEBUG
 C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
 
-         IF (PICK.GT.BWEATH(4,1)) THEN
-            CALL BWEMUL(BWEATH(4,1),BWEATH(4,2),PICK,
-     &                   AMIN,AMULT)
+         IF (PICK .GT. BWEATH(4,1)) THEN
+            CALL BWEMUL(BWEATH(4,1),BWEATH(4,2),PICK,AMIN,AMULT)
          ELSE
             AMULT=1.0
          ENDIF
@@ -181,12 +194,15 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
               IEVENT(NEVENT,2)=7
               IEVENT(NEVENT,3)=0
               IEVENT(NEVENT,4)=8
+C             weather year is reported only if RAWS data is in use
+C             so IEVENT(x,5) is set to 0 here.
+              IEVENT(NEVENT,5)=0
             ENDIF
          ENDIF
          IF (AMULT-AMIN.LE.0.02) IOUT6A(3)=' 95'
 
          PICK=BWENOR(BWEATH(10,1),BWEATH(10,2))
-         IF (PICK.GT.BWEATH(10,1)) THEN
+         IF (PICK .GT. BWEATH(10,1)) THEN
             CALL BWEMUL(BWEATH(10,1),BWEATH(10,2),PICK,
      &                   AMIN,AMULT)
          ELSE
@@ -203,9 +219,12 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
               IEVENT(NEVENT,2)=7
               IEVENT(NEVENT,3)=0
               IEVENT(NEVENT,4)=4
+C             weather year is reported only if RAWS data is in use
+C             so IEVENT(x,5) is set to 0 here.
+              IEVENT(NEVENT,5)=0
             ENDIF
          ENDIF
-         IF (AMULT-AMIN.LE.0.02) IOUT6A(3)=' 95'
+         IF (AMULT-AMIN .LE. 0.02) IOUT6A(3)=' 95'
 
          DFLUSH=BWENOR(BWEATH(5,1),BWEATH(5,2))
          DAYS(1)=BWENOR(BWEATH(1,1),BWEATH(1,2))
@@ -214,7 +233,7 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
          DO 50 I=1,3
          INDEX=I+6
          PICK=BWENOR(BWEATH(INDEX,1),BWEATH(INDEX,2))
-         IF (PICK.GT.BWEATH(INDEX,1)) THEN
+         IF (PICK .GT. BWEATH(INDEX,1)) THEN
             CALL BWEMUL(BWEATH(INDEX,1),BWEATH(INDEX,2),PICK,
      &                   AMIN,AMULT)
          ELSE
@@ -236,6 +255,9 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
               IEVENT(NEVENT,2)=7
               IEVENT(NEVENT,3)=0
               IEVENT(NEVENT,4)=I+4
+C             weather year is reported only if RAWS data is in use
+C             so IEVENT(x,5) is set to 0 here.
+              IEVENT(NEVENT,5)=0
             ENDIF
          ENDIF
    50    CONTINUE
@@ -272,7 +294,7 @@ C
 C     RETRIEVE SEED VALUE FOR WEATHER RANDOM NUMBER SERIES.
       CALL BWERGT(WSEED)
 
-C     WRITE (16,*) 'EXIT BWEWEA: NEVENT=',NEVENT                   ! TEMP DEBUG
+      IF (DBUG) WRITE (JOSTND,*) 'EXIT BWEWEA: NEVENT=',NEVENT
 
       RETURN
       END

@@ -1,7 +1,7 @@
       SUBROUTINE BWEGO(LBWEGO)
       IMPLICIT NONE
 C----------
-C  **BWEGO                  DATE OF LAST REVISION:  06/17/13
+C  **BWEGO                  DATE OF LAST REVISION:  08/28/13
 C----------
 C
 C     DETERMINE IF BUDWORM MODEL IS TO BE CALLED THIS CYCLE.
@@ -59,6 +59,8 @@ C      Added Stand ID and comma delimiter to output tables, some header
 C      and column labels modified.
 C   14-JUL-2010 Lance R. David (FMSC)
 C      Added IMPLICIT NONE and declared variables as needed.
+C   28-AUG-2013 Lance R. David (FMSC)
+C      Added loading of weather year into IEVENT array.
 C
 C----------------------------------------------------------------------
 C
@@ -138,6 +140,12 @@ C       SIMULATING BW POPULATIONS UNTIL THE END OF THE SIMULATION.
                  IEVENT(NEVENT,2)=7
                  IEVENT(NEVENT,3)=0
                  IEVENT(NEVENT,4)=2
+C                weather year is reported only if RAWS data is in use
+                 IF (IWSRC .EQ. 3) THEN
+                   IEVENT(NEVENT,5)=BWPRMS(11,IWYR)
+                 ELSE
+                   IEVENT(NEVENT,5)=0
+                 ENDIF
                  IF (LP6) WRITE (JOBWP6,8600) NPLT,IY(ICYC),IY(ICYC)
  8600            FORMAT (A26,', ',I5,',',7X,'0,',7X,'0,',3(5X,'   ,'),
      &                   1X,I5,',',6(7X,'0,'))

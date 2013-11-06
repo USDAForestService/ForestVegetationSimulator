@@ -1,7 +1,7 @@
       FUNCTION BRATIO(IS,D,H)
       IMPLICIT NONE
 C----------
-C  **BRATIO--SO  DATE OF LAST REVISION:  05/06/09
+C  **BRATIO--SO  DATE OF LAST REVISION:  09/09/13
 C----------
 C
 C  FUNCTION TO COMPUTE BARK RATIOS, OR CONSTANTS.  THIS ROUTINE IS
@@ -82,12 +82,16 @@ C  SPECIES FROM WC,CA VARIANT
 C----------
       CASE(9,15,19:23,25,26,27,28:31,33)
 C
-        IF(BARKB(3,IS) .EQ. 1.)THEN
-          DIB=BARKB(1,IS)*D**BARKB(2,IS)
-          BRATIO=DIB/D
-        ELSEIF (BARKB(3,IS) .EQ. 2.)THEN
-          DIB=BARKB(1,IS) + BARKB(2,IS)*D
-          BRATIO=DIB/D
+        IF (D .GT. 0) THEN 
+          IF(BARKB(3,IS) .EQ. 1.)THEN
+            DIB=BARKB(1,IS)*D**BARKB(2,IS)
+            BRATIO=DIB/D
+          ELSEIF (BARKB(3,IS) .EQ. 2.)THEN
+            DIB=BARKB(1,IS) + BARKB(2,IS)*D
+            BRATIO=DIB/D
+          ENDIF
+        ELSE
+          BRATIO = 0.99
         ENDIF
 C----------
 C  FROM UT(12) JU

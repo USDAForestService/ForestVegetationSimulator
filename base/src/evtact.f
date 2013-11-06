@@ -114,7 +114,7 @@ C
 C     WRITE INITIAL KEYWORD MESSAGE.
 C
       IF(LKECHO)WRITE(JOSTND,6) KEYWRD
-    6 FORMAT (/1X,A8,'   ACTIVITIES WHICH FOLLOW WILL NOT BE ',
+    6 FORMAT (/A8,'   ACTIVITIES WHICH FOLLOW WILL NOT BE ',
      >        'SCHEDULED UNTIL THE EVENT HAPPENS (WHEN THE ',
      >        'LOGICAL EXPRESSION IS TRUE).')
 C
@@ -130,12 +130,12 @@ C
                IEVACT(IEVA,6)=IMPL
                IMPL=IMPL+1
                IF(LKECHO)
-     >         WRITE(JOSTND,'(T13,''BRANCH WEIGHT MULTIPLIER = '',
+     >         WRITE(JOSTND,'(T12,''BRANCH WEIGHT MULTIPLIER = '',
      >                F12.5)') ARRAY(1)
             ELSE
                IEVACT(IEVA,6)=0
                CALL ERRGRO (.TRUE.,10)
-               WRITE (JOSTND,'(T13,''MULTIPLIER IGNORED.'')')
+               WRITE (JOSTND,'(T12,''MULTIPLIER IGNORED.'')')
             ENDIF
          ENDIF
       ELSE
@@ -153,7 +153,7 @@ C
 C        WRITE THE FIRST LINE.
 C
          WRITE (JOSTND,20) (CEXPRS(I),I=1,ICEX)
-   20    FORMAT (T13,'MULTIPLIER= ',70A1)
+   20    FORMAT (T12,'MULTIPLIER= ',70A1)
 C
 C        LOOK FOR AN AMPERSAND
 C
@@ -189,7 +189,7 @@ C
             ENDIF
             ICEX=ICEX+1
             IF (ICEX.GT.MXEXPR) THEN
-               WRITE (JOSTND,'(T13,A)') RECORD
+               WRITE (JOSTND,'(T12,A)') RECORD
                CALL ERRGRO (.TRUE.,4)
                IEVACT(IEVA,6)=-I
                RETURN
@@ -197,7 +197,7 @@ C
    50       CONTINUE
             ICEX=ICEX-1
    55       CONTINUE
-            WRITE (JOSTND,'(T13,A)') RECORD
+            WRITE (JOSTND,'(T12,A)') RECORD
             GOTO 35
          ENDIF
 C

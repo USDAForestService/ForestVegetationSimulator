@@ -1,7 +1,7 @@
       SUBROUTINE MORTS
       IMPLICIT NONE
 C----------
-C  **MORTS--WS   DATE OF LAST REVISION:  03/22/13
+C  **MORTS--WS   DATE OF LAST REVISION:  09/09/13
 C----------
 C  THIS SUBROUTINE COMPUTES PERIODIC MORTALITY RATES FOR
 C  EACH TREE RECORD AND THEN REDUCES THE NUMBER OF TREES/ACRE
@@ -854,6 +854,10 @@ C----------
          IF(PRM(4).LE. 0.0)PRM(4)=999.
          IP=1
          IF (NP.GT.4) THEN
+            IF(PRM(5).LT.3.)THEN
+               IF(PRM(2).GT. 1.0)PRM(2)=1.0
+               IF(PRM(2).LT. 0.0)PRM(2)=0.0
+            ENDIF 
             IF (PRM(5).EQ.1.0) THEN
                IP=2
             ELSEIF (PRM(5).EQ.2.0) THEN

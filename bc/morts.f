@@ -689,6 +689,10 @@ C  LINCL IS USED TO INDICATE WHETHER A TREE GETS AFFECTED OR NOT
         IF(PRM(4).LE. 0.0)PRM(4)=999.*INtoCM
         IP=1
         IF (NP.GT.4) THEN
+          IF(PRM(5).LT.3.)THEN
+            IF(PRM(2).GT. 1.0)PRM(2)=1.0
+            IF(PRM(2).LT. 0.0)PRM(2)=0.0
+          ENDIF 
           IF (PRM(5).EQ.1.0) THEN
             IP=2
           ELSEIF (PRM(5).EQ.2.0) THEN
