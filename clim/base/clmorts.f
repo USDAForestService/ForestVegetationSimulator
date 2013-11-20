@@ -22,13 +22,37 @@ C
      >     VS(2),SR(2)
       LOGICAL DEBUG,LDMORT
       DATA VS/.2,.5/,SR/0.,1./
-
+      INTEGER MYACT(1),IDT,IACT,NP,ITODO,NTODO
+      REAL PRMS(3)
+      DATA MYACT/2801/
+      
       CALL DBCHK (DEBUG,'CLMORTS',7,ICYC)   
 
       IF (DEBUG) WRITE (JOSTND,1) LCLIMATE
     1 FORMAT ('IN CLMORTS, LCLIMATE=',L2,' ICYC=',I3)
                                                                
       IF (.NOT.LCLIMATE) RETURN
+
+      CALL OPFIND(1,MYACT,NTODO)
+      IF (NTODO.GT.0) THEN
+        DO ITODO=1,NTODO
+          CALL OPGET(ITODO,3,IDT,IACT,NP,PRMS)
+          IF (IACT.LT.0 .OR. NP.NE.3) CYCLE
+          CALL OPDONE (ITODO,IY(ICYC))
+          I = IFIX(PRMS(1))
+          IF (I .EQ. 0) THEN
+            CLMRTMLT1=PRMS(2)
+            CLMRTMLT2=PRMS(3)
+          ELSE IF (I.GT.0 .AND. I.LE.MAXSP) THEN
+            CLMRTMLT1(I)=PRMS(2)
+            CLMRTMLT2(I)=PRMS(3)
+          ENDIF
+        ENDDO
+      ENDIF
+
+
+
+
 
 C     IF THIS IS THE FIRST CYCLE, THEN SET THE SPECIES PRESENCE CALIBRATION. 
       

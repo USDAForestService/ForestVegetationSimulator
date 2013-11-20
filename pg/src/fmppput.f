@@ -23,7 +23,7 @@ C**********************************************************************
 C     Parameter statements.
 
       INTEGER MXL,MXR,MXI
-      PARAMETER (MXL=14,MXR=54,MXI=92)
+      PARAMETER (MXL=15,MXR=56,MXI=92)
 
 C     Parameter and other include files that are not stored here
 
@@ -177,6 +177,7 @@ C------- new FFE INTEGER variables for down wood reports --------
       LOGICS (12) = LATSHRB
       LOGICS (13) = LVWEST
       LOGICS (14) = LPRV89
+      LOGICS (15) = CFIM_ON
       CALL LFWRIT (WK3, IPNT, ILIMIT, LOGICS,   MXL, 2)
 
       CALL LFWRIT (WK3, IPNT, ILIMIT, HARD, NSNAGZ,     2)
@@ -240,7 +241,10 @@ C------- Carbon reporting REAL variables --------
 C-------new FFE REAL variables --------
       REALS ( 53) = ULHV
       REALS ( 54) = FOLMC
-
+C-------new CFIM variables --------
+      REALS ( 55) = CFIM_BD
+      REALS ( 56) = CFIM_DC
+      
       CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, MXR, 2)
 
       CALL BFWRIT (WK3, IPNT, ILIMIT, ALLDWN,       MAXSP  , 2)
@@ -348,6 +352,9 @@ C------- new FFE REAL variables --------
       CALL BFWRIT (WK3, IPNT, ILIMIT, HTC,  MAXTRE         , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, CROWNWC,  MAXTRE*6   , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, SETDECAY, MXFLCL*4   , 2)
+C------- new CFIM variables --------
+      CALL BFWRIT (WK3, IPNT, ILIMIT, CFIM_INPUT, 26       , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, POTCONS, 3*3         , 2)
 
       RETURN
       END

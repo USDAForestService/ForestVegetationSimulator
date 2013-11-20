@@ -53,15 +53,28 @@ void Test_In (float fr_In[]);
 *
 {*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}*/
 
-#ifdef _WINDLL
-extern __declspec(dllexport) int FM_FOFEM (
-  float *fr_In,
-  float *fr_Out,
-  char *cr_ErrMes);
-#endif
 
 #ifdef CMPgcc
-//int fm_fofem_ (float fr_In[], float fr_Out[], char cr_ErrMes[]) // original line
+  #ifdef unix
+    extern int fm_fofem_ (                       // GCC compiler, Unix OS
+      float *fr_In,
+      float *fr_Out,
+      char  *cr_ErrMes);
+  #else
+    extern __declspec(dllexport) int fm_fofem_ ( // GCC compiler, Windows OS
+      float *fr_In,
+      float *fr_Out,
+      char  *cr_ErrMes);
+  #endif
+#else
+  extern __declspec(dllexport) int FM_FOFEM (    // VS2010 compiler, Windows OS
+    float *fr_In,
+    float *fr_Out,
+    char  *cr_ErrMes);
+#endif
+
+
+#ifdef CMPgcc
 int fm_fofem_ (
 #else
 int FM_FOFEM (
