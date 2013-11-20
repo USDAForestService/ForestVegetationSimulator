@@ -1,0 +1,18 @@
+Subject: Database Tree List Species Codes
+Name: R. Havis
+Date: November 18, 2013
+Variants affected: ALL
+
+Description: The objective of the this enhancement is to give a uniform
+             appearance to the format of the species codes in the database
+             Tree List table. When species were added to the tree list
+             through the regeneration establishment extension, the species
+             code appearing in the database tree list was the default
+             species code format, the plants code format. This has
+             been changed so that new species assume the database
+             species code format of the first tree record read in
+             the tree list.
+
+Impact on users: Users should obtain new executables.
+
+Files:

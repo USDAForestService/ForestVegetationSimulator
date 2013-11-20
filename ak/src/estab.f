@@ -1,7 +1,7 @@
       SUBROUTINE ESTAB (KDT)
       IMPLICIT NONE
 C----------
-C   **ESTAB--AK     DATE OF LAST REVISION:  01/03/11
+C AK $Id$
 C----------
 COMMONS
 C
@@ -1137,6 +1137,7 @@ C
       IF(ITPP.LT.1) GO TO 200
       DO 33 N=1,ITPP
       I=ICODE(N)
+      IF((ISCT(I,1).EQ.0).AND.(ISCT(I,2).EQ.0))JSPIN(I)=JSPINDEF
       HHT=HEIGHT(N)
       IF(ESPROB(N).LT.0.00011) GO TO 199
       IF(NOTE(N).NE.1) GO TO 199
