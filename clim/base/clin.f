@@ -346,10 +346,9 @@ C
           CALL OPNEW (KODE,IDT,2801,3,PRMS)
           IF (KODE .GT. 0) GOTO 10
           IF(LKECHO)WRITE(JOSTND,325) KEYWRD,IDT,IFIX(PRMS(1)),
-     >           PRMS(2),PRMS(3)
+     >    KARD(2)(1:3),PRMS(2),PRMS(3)
   325     FORMAT (/A8,'   DATE/CYCLE=',I5,' CLIMATE-CAUSED MORTALITY ',
-     >         ' MULTIPLIER FOR SPECIES ',I4,' ARE ',2F12.4,
-     >         ' (SPECIES 0 INDICATES ALL)')
+     >         ' MULTIPLIERS FOR SPECIES ',I4,'=',A,'    ARE ',2F12.4)
         ENDIF
       ENDIF
       GOTO 10
@@ -442,10 +441,10 @@ C
           PRMS(2) = ARRAY(3)
           CALL OPNEW (KODE,IDT,2803,2,PRMS)
           IF (KODE .GT. 0) GOTO 10
-          IF(LKECHO)WRITE(JOSTND,525) KEYWRD,IDT,IFIX(PRMS(1)),PRMS(2)
+          IF(LKECHO)WRITE(JOSTND,525) KEYWRD,IDT,IFIX(PRMS(1)),
+     >    KARD(2)(1:3),PRMS(2)
   525     FORMAT (/A8,'   DATE/CYCLE=',I5,' CLIMATE-CAUSED GROWTH ',
-     >         ' MULTIPLIER FOR SPECIES ',I4,' IS ',F10.4,
-     >         ' (SPECIES 0 INDICATES ALL)')
+     >         ' MULTIPLIER FOR SPECIES ',I4,'=',A,'    IS ',F10.4)
         ENDIF
       ENDIF
       GOTO 10      
