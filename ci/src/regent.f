@@ -1,7 +1,7 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
 C----------
-C  **REGENT--CI   DATE OF LAST REVISION:   10/30/12
+C CI $ID$
 C----------
 C  **REGENT** COMPUTES HEIGHT AND DIAMETER INCREMENTS FOR SMALL TREES.
 C
@@ -1034,7 +1034,7 @@ C----------
       ELSE
         IF(CIVAR)THEN
           DK =EXP(  SDHCN + SDHHT*ALOG(HK) + SDHCR*ALOG(RCR) )
-          IF(H .LE. 4.5) THEN
+          IF(H .LT. 4.5) THEN
             DKK=D
           ELSE
             DKK =EXP( SDHCN + SDHHT*ALOG(H) + SDHCR*ALOG(RCR) )
@@ -1273,6 +1273,7 @@ C----------
           BARK=BRATIO(ISPC,DBH(K),HT(K))
           IF(CIVAR)THEN
             DG(K)=(DK-DKK)*BARK*XRDGRO
+            IF(DG(K).LT.0.)DG(K)=0.
           ELSEIF(UTVAR)THEN
             IF (DG(K) .GT. DGMX) DG(K)=DGMX
           ENDIF
