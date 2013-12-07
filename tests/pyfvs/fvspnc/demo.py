@@ -18,10 +18,6 @@ except:
     print 'Plotting requires the matplotlib Python package'
     plot = False
 
-##FIXME:
-bin = r'C:\workspace\projects\open-fvs\local.dev\fvs\bin'
-sys.path.insert(0, bin)
-    
 import pyfvspnc as fvs
 
 #ensure runs will bomb if the previous call failed, ensure all files are closed
@@ -35,7 +31,7 @@ reps = 10
 #what keyword file are we using
 ##NOTE: Currently the FVS API expects a treelist file with the same basename
 #           if the dbs extension is not being used.
-kwd = r'C:\workspace\projects\open-fvs\local.dev\fvs\test\pyfvs\fvspnc\pnt01.key'  #implies a matching 'pnt01.tre' treelist
+kwd = 'pnt01.key'  #implies a matching 'pnt01.tre' treelist
 
 num_cycles = 10  ##TODO: add this to a keyword template
 year_zero = 1990  ##TODO: get this from FVS

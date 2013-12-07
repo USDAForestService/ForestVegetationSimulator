@@ -96,8 +96,13 @@ set(fvs_source)
 set(main_source)
 set(pyext_source)
 
-add_definitions(-DANSI -DWINDOWS -D_WINDLL -DCMPgcc)
-link_libraries(odbc32)
+if (WIN32)
+    add_definitions(-DANSI -DWINDOWS -D_WINDLL -DCMPgcc)
+    link_libraries(odbc32)
+else ()
+    add_definitions(-DANSI -DCMPgcc)
+    link_libraries(odbc)
+endif()
 
 ##FIXME: need to use static gfortran and qmath libraries
 set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -static")  
@@ -194,12 +199,9 @@ if(PYEXT)
     
     ##TODO: Autodiscover the platform specific Python library extension 
     if(WIN32)
-        set(pymod_lib "pyfvspnc.pyd")
-    elseif(APPLE)
-        ##FIXME: I'm not sure if this is the extension used on OSX
-        set(pymod_lib "pyfvspnc.dylib")
+        set(pymod_lib "pyfvs${variant}.pyd")
     else()
-        set(pymod_lib "pyfvspnc.so")
+        set(pymod_lib "pyfvs${variant}.so")
     endif()
     
     if (PYTHON_EXECUTABLE)
@@ -210,7 +212,7 @@ if(PYEXT)
 
     ##FIXME: f2py.py is only relative to python_home on windows with a default install
     get_filename_component(python_home ${PYTHON_EXECUTABLE} PATH)
-    find_file(F2PY "f2py.py" ${python_home})
+    find_file(F2PY "f2py" PATHS "$ENV{PATH}")
     if (F2PY)
         message(STATUS "Found F2PY: ${F2PY}")
     else()
@@ -230,12 +232,22 @@ if(PYEXT)
     else()
         message(SEND_ERROR "F2PY compilers are not specified for this generator.")
     endif()
-
+    
+    if(WIN32)
+        #on windows F2PY expects a semicolon separated list, which is the CMake default
+        set(f2py_includes "${include_dirs}")
+    else()
+        set(f2py_includes "")
+        foreach (inc ${include_dirs})
+            set(f2py_includes "${f2py_includes}:${inc}")
+        endforeach(inc)
+    endif()
+    
     #use a custom command to keep track of the output files
     add_custom_command(
             OUTPUT ${pymod_sig} ${pymod_lib}
-            COMMAND ${python} ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${include_dirs}" ${pyext_source}
-            COMMAND ${python} ${F2PY} -c ${pymod_sig} -L${CMAKE_CURRENT_BINARY_DIR} -l${variant_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
+            COMMAND ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${f2py_includes}" ${pyext_source}
+            COMMAND ${F2PY} -c ${pymod_sig} -L${CMAKE_CURRENT_BINARY_DIR} -l${variant_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
             )
     add_custom_target(f2py_out ALL DEPENDS ${pymod_sig} ${pymod_lib})
     add_dependencies(f2py_out ${variant_lib} ${pyext_source})
