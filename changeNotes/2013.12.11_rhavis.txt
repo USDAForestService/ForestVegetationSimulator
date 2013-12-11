@@ -1,0 +1,13 @@
+Subject: R9 BF Volume
+Name: R. Havis
+Date: December 11, 2013
+Variants affected: R9
+
+Description: Board foot volumes were not correct when the volume equation
+             number was different than the cubic foot volume equation number,
+             using the National Volume Estimator Library (Method 6).
+             This has been corrected
+
+Impact on users:
+
+Files:
