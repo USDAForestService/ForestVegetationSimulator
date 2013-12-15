@@ -96,6 +96,7 @@ set(fvs_source)
 set(main_source)
 set(pyext_source)
 
+#FIXME: The definitions should be compiler specific.  Visual C does not need CMPgcc
 if (WIN32)
     add_definitions(-DANSI -DWINDOWS -D_WINDLL -DCMPgcc)
     link_libraries(odbc32)
@@ -197,28 +198,12 @@ if(PYEXT)
     set(pymod "pyfvs${variant}")
     set(pymod_sig "pyfvs${variant}.pyf")
     
-    ##TODO: Autodiscover the platform specific Python library extension 
-    if(WIN32)
-        set(pymod_lib "pyfvs${variant}.pyd")
-    else()
-        set(pymod_lib "pyfvs${variant}.so")
-    endif()
-    
     if (PYTHON_EXECUTABLE)
         message(STATUS "Found Python: ${PYTHON_EXECUTABLE}")
     else()
         message(SEND_ERROR "Python could not be located. Make sure it is in the system PATH variable.")
     endif()
 
-    ##FIXME: f2py.py is only relative to python_home on windows with a default install
-    get_filename_component(python_home ${PYTHON_EXECUTABLE} PATH)
-    find_file(F2PY "f2py" PATHS "$ENV{PATH}")
-    if (F2PY)
-        message(STATUS "Found F2PY: ${F2PY}")
-    else()
-        message(SEND_ERROR "The F2PY script could not be located.")
-    endif()
-    
     #TODO: Refer to the compiler in F2PY terms
     if (CMAKE_GENERATOR MATCHES "Visual Studio 10")
         set(f2py_compiler "msvc")
@@ -233,22 +218,42 @@ if(PYEXT)
         message(SEND_ERROR "F2PY compilers are not specified for this generator.")
     endif()
     
+    ##TODO: Autodiscover the platform specific Python library extension     
     if(WIN32)
-        #on windows F2PY expects a semicolon separated list, which is the CMake default
+        get_filename_component(PYTHON_HOME ${PYTHON_EXECUTABLE} PATH)
+        find_file(F2PY "f2py.py" PATHS "${PYTHON_HOME};$ENV{PATH}")
+        set(pymod_lib "pyfvs${variant}.pyd")
         set(f2py_includes "${include_dirs}")
     else()
+        find_file(F2PY "f2py" PATHS "$ENV{PATH}")
+        set(pymod_lib "pyfvs${variant}.so")
+        #F2PY expects a colon seperated list of include paths on this platform
         set(f2py_includes "")
         foreach (inc ${include_dirs})
             set(f2py_includes "${f2py_includes}:${inc}")
         endforeach(inc)
     endif()
     
+    if (F2PY)
+        message(STATUS "Found F2PY: ${F2PY}")
+    else()
+        message(FATAL_ERROR "The F2PY script could not be located.")
+    endif()
+
     #use a custom command to keep track of the output files
-    add_custom_command(
-            OUTPUT ${pymod_sig} ${pymod_lib}
-            COMMAND ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${f2py_includes}" ${pyext_source}
-            COMMAND ${F2PY} -c ${pymod_sig} -L${CMAKE_CURRENT_BINARY_DIR} -l${variant_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
-            )
+    if (WIN32)
+        add_custom_command(
+                OUTPUT ${pymod_sig} ${pymod_lib}
+                COMMAND ${PYTHON_EXECUTABLE} ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${f2py_includes}" ${pyext_source}
+                COMMAND ${PYTHON_EXECUTABLE} ${F2PY} -c ${pymod_sig} -L${CMAKE_CURRENT_BINARY_DIR} -l${variant_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
+                )
+    else ()
+        add_custom_command(
+                OUTPUT ${pymod_sig} ${pymod_lib}
+                COMMAND ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${f2py_includes}" ${pyext_source}
+                COMMAND ${F2PY} -c ${pymod_sig} -L${CMAKE_CURRENT_BINARY_DIR} -l${variant_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
+                )
+    endif ()
     add_custom_target(f2py_out ALL DEPENDS ${pymod_sig} ${pymod_lib})
     add_dependencies(f2py_out ${variant_lib} ${pyext_source})
     

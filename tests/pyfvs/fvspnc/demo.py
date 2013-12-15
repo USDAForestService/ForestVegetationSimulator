@@ -31,7 +31,7 @@ reps = 10
 #what keyword file are we using
 ##NOTE: Currently the FVS API expects a treelist file with the same basename
 #           if the dbs extension is not being used.
-kwd = 'pnt01.key'  #implies a matching 'pnt01.tre' treelist
+kwd = os.path.join(os.path.dirname(__file__),'pnt01.key')  #implies a matching 'pnt01.tre' treelist
 
 num_cycles = 10  ##TODO: add this to a keyword template
 year_zero = 1990  ##TODO: get this from FVS
