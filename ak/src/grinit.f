@@ -1,7 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-$Id$
+C AK $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES

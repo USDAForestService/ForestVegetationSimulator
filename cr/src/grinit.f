@@ -258,7 +258,6 @@ C----------
       DR016=0.
       DBHSDI=0.
       JSPINDEF=0
-C
       DO 30 J=1,9
       DO 20 K=1,MAXSP
       BFDEFT(J,K) = 0.0

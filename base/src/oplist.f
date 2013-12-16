@@ -43,7 +43,7 @@ C
       LOGICAL LINE,LFIRST,LPPEON
       CHARACTER*8 KEYWRD,UNKNOW,TITL,SCHED,SUMMR
       CHARACTER*4 TAB2(17)
-      PARAMETER (NTRSLT=151)
+      PARAMETER (NTRSLT=155)
       INTEGER ITRSL1(NTRSLT),ITRSL2(NTRSLT)
       DATA ITRSL1/
      >       33,   80,   81,   82,   90,   91,   92,   93,   94,   95,
@@ -61,7 +61,7 @@ C
      >     2512, 2515, 2520, 2521, 2522, 2523, 2525, 2527, 2528, 2529,
      >     2530, 2538, 2539, 2544, 2545, 2547, 2548, 2549, 2550, 2551,
      >     2552, 2553, 2605, 2606, 2607, 2608, 2609, 2701, 2702, 2703,
-     >     2704/
+     >     2704, 2801, 2802, 2803, 2804/
 C
       DATA ITRSL2/
      >       33,   17,   96,  102,    3,   58,   62,   70,   59,  207,
@@ -79,10 +79,10 @@ C
      >     1512, 1515, 1520, 1521, 1522, 1523, 1525, 1527, 1528, 1533,
      >     1534, 1538, 1539, 1544, 1545, 1547, 1548, 1549, 1550, 1551,
      >     1552, 1553, 1601, 1602, 1603, 1604, 1605, 1301, 1302, 1303, 
-     >     1304/
+     >     1304,  703,  704,  705,  706/
 C
       DATA TAB2/'CMPU','BASE','ESTB','DFTM','MPB', 'COVR',
-     >          'DBS ','    ','    ','RUST','MIST','WSBE','DFB',
+     >          'DBS ','CLIM','    ','RUST','MIST','WSBE','DFB',
      >          'WPBM','RDIS','FIRE','ECON'/
       DATA UNKNOW/'*UNKNOWN'/,SCHED/'SCHEDULE'/,SUMMR/'SUMMARY '/
       DATA IDISPO/'DELETED OR CANCELED ',
@@ -102,7 +102,7 @@ C                     300-399  DFTM
 C                     400-499  MPB
 C                     500-599  COVER
 C                     600-699  DBS  (DATABASE KEYWORDS)
-C                     700-799  ** free spot **
+C                     700-799  CLIMATE-FVS
 C                     800-899  ** free spot **
 C                     900-999  BRUST
 C                    1000-1099 MIST
@@ -258,7 +258,7 @@ C
       CALL DBSKEY(KEY,KEYWRD)
       GOTO 61
    48 CONTINUE
-C  ** free spot **
+      CALL CLKEY(KEY,KEYWRD)
       GO TO 61
    49 CONTINUE
 C  ** free spot **
@@ -401,7 +401,7 @@ C
       CALL DBSKEY(KEY,KEYWRD)
       GOTO 261
   248 CONTINUE
-C  ** FREE SPOT **
+      CALL CLKEY(KEY,KEYWRD)
       GO TO 261
   249 CONTINUE
 C  ** FREE SPOT **
