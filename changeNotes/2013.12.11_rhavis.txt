@@ -3,10 +3,16 @@ Name: R. Havis
 Date: December 11, 2013
 Variants affected: R9
 
-Description: Board foot volumes were not correct when the volume equation
-             number was different than the cubic foot volume equation number,
-             using the National Volume Estimator Library (Method 6).
-             This has been corrected
+Description:
+
+1) CS, LS,and NE variants: Board foot volumes were not correct when the
+   volume equation number was different than the cubic foot volume
+   equation number, using the National Volume Estimator Library
+   (Method 6). This has been corrected
+
+2) All variants: The limit on the number of fields that may be written
+   to a Table of Compute Variables was increased by 33 percent. 
+
 
 Impact on users:
 
