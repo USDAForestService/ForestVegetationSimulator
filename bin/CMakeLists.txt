@@ -315,9 +315,12 @@ include_directories(BEFORE ${include_dirs})
 
 ##TODO: Enable static linking option
 add_library(${fvs_lib} SHARED ${fvs_source})
-set_target_properties(${fvs_lib} PROPERTIES
-        LINK_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--output-def,fooBar.def"
-        )
+
+if (WIN32)
+    set_target_properties(${fvs_lib} PROPERTIES
+            LINK_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--output-def,fooBar.def"
+            )
+endif ()
 
 #add the shared libraries from the top level project
 target_link_libraries(${fvs_lib} FVSfofem FVSsql)
@@ -347,7 +350,7 @@ if (WITH_PYMOD)
         set(pymod_lib "${pymod}.pyd")
     else ()
         ##FIXME: OSX may require a .dylib extension
-        set(pymod_lib "{pymod}.so")
+        set(pymod_lib "${pymod}.so")
     endif ()
     
     if (PYTHONINTERP_FOUND)
@@ -387,17 +390,37 @@ if (WITH_PYMOD)
 
     message(STATUS "pymod_source = ${pymod_source}")
 
+    if (WIN32)
+	set(f2py_includes "${include_dirs}")
+    else ()
+        #F2PY expects include dirs to be a colon seperated list
+        set(f2py_includes)
+        foreach (p ${include_dirs})
+            set(f2py_includes "${f2py_includes}:${p}")
+        endforeach ()
+    endif ()
+
     ##TODO: Enable static linking option
     set(f2py_output)
     list(APPEND f2py_output "${LIBRARY_OUTPUT_PATH}/${pymod_lib}")
     list(APPEND f2py_output "${LIBRARY_OUTPUT_PATH}/${pymod_sig}")
-    add_custom_command(
-            OUTPUT ${f2py_output}
-            COMMAND ${python} ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${include_dirs}" ${pymod_source}
-            COMMAND ${python} ${F2PY} -c ${pymod_sig} -L${LIBRARY_OUTPUT_PATH} -l${fvs_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
-            DEPENDS ${pymod_source} ${fvs_lib}
-            WORKING_DIRECTORY ${LIBRARY_OUTPUT_PATH}
-            )
+    if (WIN32)
+        add_custom_command(
+                OUTPUT ${f2py_output}
+                COMMAND ${python} ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${f2py_includes}" ${pymod_source}
+                COMMAND ${python} ${F2PY} -c ${pymod_sig} -L${LIBRARY_OUTPUT_PATH} -l${fvs_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
+                DEPENDS ${pymod_source} ${fvs_lib}
+                WORKING_DIRECTORY ${LIBRARY_OUTPUT_PATH}
+                )
+    else ()
+        add_custom_command(
+                OUTPUT ${f2py_output}
+                COMMAND ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${f2py_includes}" ${pymod_source}
+                COMMAND ${F2PY} -c ${pymod_sig} -L${LIBRARY_OUTPUT_PATH} -l${fvs_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
+                DEPENDS ${pymod_source} ${fvs_lib}
+                WORKING_DIRECTORY ${LIBRARY_OUTPUT_PATH}
+                )
+    endif ()
     add_custom_target(${pymod} ALL DEPENDS ${f2py_output})
     # add_dependencies(ALL ${pymod})
     
