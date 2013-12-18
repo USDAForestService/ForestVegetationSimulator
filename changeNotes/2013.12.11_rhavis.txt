@@ -1,7 +1,7 @@
 Subject: R9 BF Volume
 Name: R. Havis
 Date: December 11, 2013
-Variants affected: R9
+Variants affected: all
 
 Description:
 
@@ -11,9 +11,23 @@ Description:
    (Method 6). This has been corrected
 
 2) All variants: The limit on the number of fields that may be written
-   to a Table of Compute Variables was increased by 33 percent. 
+   to a Table of Compute Variables was increased by 33 percent.
 
+3) All variants: FVS adds records to the tree list when there are too
+                 few tree records for a good statistical representation 
+                 of the stand. A problem in the tripling of diameter estimates
+                was corrected.
 
-Impact on users:
+The calculation of The upper and lower triples were being updated with error
+terms from the parent tree, not error the term from the
+previous cycle, and the middle term was being updated with
+the error term from the previous cycle. This was corrected
+so that the same error term is applied to all 3 of the triples.
+
+4) IE and NO variants: An error in the calculation of bark ratio
+                       in the mortality algorithm was corrected.
+
+Impact on users: 
+
 
 Files:
