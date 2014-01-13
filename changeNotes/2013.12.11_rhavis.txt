@@ -24,7 +24,7 @@ previous cycle, and the middle term was being updated with
 the error term from the previous cycle. This was corrected
 so that the same error term is applied to all 3 of the triples.
 
-4) IE and NO variants: An error in the calculation of bark ratio
+4) IE and NI variants: An error in the calculation of bark ratio
                        in the mortality algorithm was corrected.
 
 Impact on users: 
