@@ -1,12 +1,19 @@
 Subject:
 Name:
 Date:
-Variants affected: PN and WC (BLM forests)
+Variants affected: 
 
-Description: A coefficient in the volume equation for hemlock (B00BEHW260)
-             in was corrected in the BLM Behre's function. Refer to
-             Volume Library Bulletin No. VO161_010613.txt
+Description: 
 
-Impact on users: BLM users should obtain new executables.
+1) PN and WC (BLM forests): A coefficient in the volume equation for
+   hemlock (B00BEHW260) in was corrected in the BLM Behre's function.
+   Refer to Volume Library Bulletin No. VO161_010613.txt
+   
+2) All variants: There was a problem in writing large lists of varaibles
+   to the FVS_Compute Table. The maximum size for the list of variables
+   was increased to correct this issue.
+
+Impact on users: BLM users should obtain new executables. Users of the
+                 FVS_Compute database table should obtain new executables.
 
 Files:
