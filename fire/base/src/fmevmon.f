@@ -38,7 +38,7 @@ C.... Variable declarations.
 
 
       INTEGER ITYP,IPART,ISTAND,IT
-      INTEGER KSP,ISZ,IDC,ITM,ISPC,ISPS,ITRNC
+      INTEGER KSP,ISZ,IDC,ITM,ISPC,ISPS
       REAL    SNGSTM,SNGCRN,SNBBA
       REAL    TOTBA,TOTSBA,SNBAIH,SNBAIS,SNVIH,SNVIS
       REAL    LIVSTM,LIVSRM,LIVSLV,LIVCRN,LIVFOL,TOTFOL,TOTSTD,LIVCRM
@@ -49,6 +49,9 @@ C.... Variable declarations.
       REAL    SNGVOL1,SNGSALVOL
       REAL    CRREM(MAXTRE),DSNG1(MAXTRE),SSNG1(MAXTRE)
       INTEGER IJ
+C
+      COMMON/FMEMCOM/ICYCRM
+
 
 C********************************************************************
 C
@@ -374,7 +377,6 @@ C
 C     CHECK TO SEE IF THE FIRE MODEL IS ACTIVE
 C
       IF (.NOT. LFMON) RETURN
-      ITRNC=ITRN
       DO J=1,MAXTRE
       PREMST(J)=0.
       PREMCR(J)=0.
@@ -647,7 +649,7 @@ C  LIVE REMOVALS
 C
         IF((ISTAND.GE.0).AND.(ITYP.GE.0))THEN
 C
-          DO I = 1,ITRNC
+          DO I = 1,ITRN
 C     
           ISPC = ISPCC(I)
           D = DBHC(I)
