@@ -9,9 +9,14 @@ Description:
    hemlock (B00BEHW260) in was corrected in the BLM Behre's function.
    Refer to Volume Library Bulletin No. VO161_010613.txt
    
-2) All variants: There was a problem in writing large lists of varaibles
+2) All variants: There was a problem in writing large lists of variables
    to the FVS_Compute Table. The maximum size for the list of variables
    was increased to correct this issue.
+   
+3) CS variant: The incorrect species list was being used in small tree height
+               calculations. Therefore, while small trees were getting height
+               increments added each cycle, the increments may not have been
+               representative of the correct species.
 
 Impact on users: BLM users should obtain new executables. Users of the
                  FVS_Compute database table should obtain new executables.
