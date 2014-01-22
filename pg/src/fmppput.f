@@ -23,7 +23,7 @@ C**********************************************************************
 C     Parameter statements.
 
       INTEGER MXL,MXR,MXI
-      PARAMETER (MXL=15,MXR=56,MXI=92)
+      PARAMETER (MXL=15,MXR=56,MXI=94)
 
 C     Parameter and other include files that are not stored here
 
@@ -127,17 +127,19 @@ C------- Carbon reporting INTEGER variables --------
 C------- new FFE INTEGER variables --------
       INTS( 81) = IFLOGIC     
       INTS( 82) = IFMSET
+      INTS( 83) = ICYCRM
+      INTS( 84) = ITRNC
 C------- new FFE INTEGER variables for down wood reports --------      
-      INTS( 83) = IDWPAS
-      INTS( 84) = IDWRPB
-      INTS( 85) = IDWRPE
-      INTS( 86) = IDWRPI
-      INTS( 87) = IDCPAS
-      INTS( 88) = IDWCVB
-      INTS( 89) = IDWCVE
-      INTS( 90) = IDWCVI
-      INTS( 91) = IDDWRP
-      INTS( 92) = IDDWCV      
+      INTS( 85) = IDWPAS
+      INTS( 86) = IDWRPB
+      INTS( 87) = IDWRPE
+      INTS( 88) = IDWRPI
+      INTS( 89) = IDCPAS
+      INTS( 90) = IDWCVB
+      INTS( 91) = IDWCVE
+      INTS( 92) = IDWCVI
+      INTS( 93) = IDDWRP
+      INTS( 94) = IDDWCV      
          
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
 

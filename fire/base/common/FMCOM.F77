@@ -219,6 +219,10 @@ C----------
 *     DBHC:      Tree DBH set in FMTREM, used in FMEVTBM
 *     HTC:       Tree height set in FMTREM, used in FMEVTBM
 *     CROWNWC:   Crown weight set in FMTREM, used in FMEVTBM
+*     ICYCRM:    Thinning cycle for TREEBIO function
+*     ITRMC:     Lenght of tree list at time of call to FMTREM from CUTS.
+*                Estab trees may enter simulation between the call
+*                to FMTREM and the call to FMEVTBM.
 *
 C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
 
@@ -315,6 +319,7 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
       REAL     PREMST(MAXTRE),PREMCR(MAXTRE)
       INTEGER  ISPCC(MAXTRE)
       REAL     DBHC(MAXTRE),HTC(MAXTRE),CROWNWC(MAXTRE,0:5)
+      INTEGER  ICYCRM,ITRNC
 
       COMMON /FMCOM/
      &  ALLDWN, BURNYR, CANMHT, CBHCUT,

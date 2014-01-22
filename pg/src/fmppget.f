@@ -23,7 +23,7 @@ C
 C.... Parameter statements.
 
       INTEGER MXL,MXR,MXI
-      PARAMETER (MXL=15,MXR=56,MXI=92)
+      PARAMETER (MXL=15,MXR=56,MXI=94)
 
 C.... Parameter include files.
 
@@ -124,18 +124,20 @@ C------- Carbon reporting INTEGER variables --------
       IDCRPT   = INTS( 80)
 C------- new FFE INTEGER variables --------    
       IFLOGIC  = INTS( 81)
-      IFMSET   = INTS( 82)      
+      IFMSET   = INTS( 82)     
+      ICYCRM   = INTS( 83)
+      ITRNC    = INTS( 84)       
 C------- new FFE INTEGER variables for down wood reports --------      
-      IDWPAS   = INTS( 83)
-      IDWRPB   = INTS( 84)
-      IDWRPE   = INTS( 85)
-      IDWRPI   = INTS( 86)
-      IDCPAS   = INTS( 87)
-      IDWCVB   = INTS( 88)
-      IDWCVE   = INTS( 89)
-      IDWCVI   = INTS( 90)
-      IDDWRP   = INTS( 91)
-      IDDWCV   = INTS( 92)  
+      IDWPAS   = INTS( 85)
+      IDWRPB   = INTS( 86)
+      IDWRPE   = INTS( 87)
+      IDWRPI   = INTS( 88)
+      IDCPAS   = INTS( 89)
+      IDWCVB   = INTS( 90)
+      IDWCVE   = INTS( 91)
+      IDWCVI   = INTS( 92)
+      IDDWRP   = INTS( 93)
+      IDDWCV   = INTS( 94)  
 
       NSNAGZ = MAX(NSNAG,1)
       CALL IFREAD (WK3, IPNT, ILIMIT, DKRCLS, MAXSP       , 2)
