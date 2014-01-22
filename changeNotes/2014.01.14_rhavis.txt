@@ -1,7 +1,7 @@
-Subject:
-Name:
-Date:
-Variants affected: 
+Subject: Misc, Updates and Corrections
+Name: R. Havis
+Date: January 22, 2014
+Variants affected: ALL
 
 Description: 
 
@@ -13,12 +13,14 @@ Description:
    to the FVS_Compute Table. The maximum size for the list of variables
    was increased to correct this issue.
    
-3) CS variant: The incorrect species list was being used in small tree height
+3) CS and LS variants: The incorrect species list was being used in small tree height
                calculations. Therefore, while small trees were getting height
                increments added each cycle, the increments may not have been
                representative of the correct species.
 
+
 Impact on users: BLM users should obtain new executables. Users of the
                  FVS_Compute database table should obtain new executables.
+                 CS, and LS users should obtain new executables
 
 Files:
