@@ -14,9 +14,13 @@ Description:
    was increased to correct this issue.
    
 3) CS and LS variants: The incorrect species list was being used in small tree height
-               calculations. Therefore, while small trees were getting height
-               increments added each cycle, the increments may not have been
-               representative of the correct species.
+   calculations. Therefore, while small trees were getting height
+   increments added each cycle, the increments may not have been
+   representative of the correct species.  
+
+4) CR variant: The first record in the main output file did not identify the
+               FVS variant used in the simulation. The "Central Rockies" variant
+               was added to the first record in the main output file.
 
 
 Impact on users: BLM users should obtain new executables. Users of the
