@@ -38,7 +38,7 @@ C----------
       IF(IMODTY .EQ. 0) THEN
         WRITE (IUNIT,50) SVN,REV,DAT,TIM
    50   FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,'                                            ',
+     >  5X,'VERSION ',A,' -- CENTRAL ROCKIES VARIANT                 ',
      >  T97,'RV:',A,T112,A,2X,A)
         GO TO 1000
       ENDIF
