@@ -149,6 +149,7 @@ C----------
       RELDT=0.
       TPROB=0.
       BAT= 0.
+      BA=0.
 C----------
 C   CALL MBACAL TO IDENTIFY THE SITE SPECIES IE SPECIES WITH MOST
 C   BASAL AREA.

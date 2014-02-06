@@ -23,7 +23,7 @@ C**********************************************************************
 C     Parameter statements.
 
       INTEGER MXL,MXR,MXI
-      PARAMETER (MXL=14,MXR=54,MXI=92)
+      PARAMETER (MXL=15,MXR=56,MXI=94)
 
 C     Parameter and other include files that are not stored here
 
@@ -127,17 +127,19 @@ C------- Carbon reporting INTEGER variables --------
 C------- new FFE INTEGER variables --------
       INTS( 81) = IFLOGIC     
       INTS( 82) = IFMSET
+      INTS( 83) = ICYCRM
+      INTS( 84) = ITRNC
 C------- new FFE INTEGER variables for down wood reports --------      
-      INTS( 83) = IDWPAS
-      INTS( 84) = IDWRPB
-      INTS( 85) = IDWRPE
-      INTS( 86) = IDWRPI
-      INTS( 87) = IDCPAS
-      INTS( 88) = IDWCVB
-      INTS( 89) = IDWCVE
-      INTS( 90) = IDWCVI
-      INTS( 91) = IDDWRP
-      INTS( 92) = IDDWCV      
+      INTS( 85) = IDWPAS
+      INTS( 86) = IDWRPB
+      INTS( 87) = IDWRPE
+      INTS( 88) = IDWRPI
+      INTS( 89) = IDCPAS
+      INTS( 90) = IDWCVB
+      INTS( 91) = IDWCVE
+      INTS( 92) = IDWCVI
+      INTS( 93) = IDDWRP
+      INTS( 94) = IDDWCV      
          
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
 
@@ -177,6 +179,7 @@ C------- new FFE INTEGER variables for down wood reports --------
       LOGICS (12) = LATSHRB
       LOGICS (13) = LVWEST
       LOGICS (14) = LPRV89
+      LOGICS (15) = CFIM_ON
       CALL LFWRIT (WK3, IPNT, ILIMIT, LOGICS,   MXL, 2)
 
       CALL LFWRIT (WK3, IPNT, ILIMIT, HARD, NSNAGZ,     2)
@@ -240,7 +243,10 @@ C------- Carbon reporting REAL variables --------
 C-------new FFE REAL variables --------
       REALS ( 53) = ULHV
       REALS ( 54) = FOLMC
-
+C-------new CFIM variables --------
+      REALS ( 55) = CFIM_BD
+      REALS ( 56) = CFIM_DC
+      
       CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, MXR, 2)
 
       CALL BFWRIT (WK3, IPNT, ILIMIT, ALLDWN,       MAXSP  , 2)
@@ -348,6 +354,9 @@ C------- new FFE REAL variables --------
       CALL BFWRIT (WK3, IPNT, ILIMIT, HTC,  MAXTRE         , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, CROWNWC,  MAXTRE*6   , 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, SETDECAY, MXFLCL*4   , 2)
+C------- new CFIM variables --------
+      CALL BFWRIT (WK3, IPNT, ILIMIT, CFIM_INPUT, 26       , 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, POTCONS, 3*3         , 2)
 
       RETURN
       END

@@ -13,8 +13,8 @@
 #endif						
 
 #include <stdio.h>
-#include <tchar.h>
-
-
+#ifndef unix
+  #include <tchar.h>
+#endif
 
 // TODO: reference additional headers your program requires here

@@ -1,7 +1,7 @@
       SUBROUTINE BWEIN(LKECHO)
       IMPLICIT NONE
 C----------
-C  **BWEIN                  DATE OF LAST REVISION:  09/04/13
+C  **BWEIN                  DATE OF LAST REVISION:  10/21/13
 C----------
 C
 C     OPTION PROCESSOR FOR BUDWORM MODEL.
@@ -707,11 +707,11 @@ C        ***** End of weather station name file processing.   *****
 C        *****                                                *****
 C        **********************************************************
 
-C        Skip the supplemental record for the weather data file name
-C        because it is not utilized with this option.
+C        Skip the 2 supplemental records for the weather data file name
+C        and year range because they are not utilized with this option.
 C
          READ(IREAD,1830) 
- 1830    FORMAT (1X)
+ 1830    FORMAT (1X,/,1X)
 
        ELSEIF (IWSRC .EQ. 2 .OR. IWSRC .EQ. 3) THEN
          READ (IREAD,1850) WFNAME
