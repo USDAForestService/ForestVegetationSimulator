@@ -38,6 +38,8 @@ C----------
       IFTYR = 0
       ISALVC = 0
       ISALVS = 0
+      ICYCRM = 0
+      ITRNL = ITRN
       NSNAGSALV=0
 C
       DO I=1,4

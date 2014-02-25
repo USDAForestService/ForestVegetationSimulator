@@ -128,7 +128,7 @@ C------- new FFE INTEGER variables --------
       INTS( 81) = IFLOGIC     
       INTS( 82) = IFMSET
       INTS( 83) = ICYCRM
-      INTS( 84) = ITRNC
+      INTS( 84) = ITRNL
 C------- new FFE INTEGER variables for down wood reports --------      
       INTS( 85) = IDWPAS
       INTS( 86) = IDWRPB
@@ -164,7 +164,8 @@ C------- new FFE INTEGER variables for down wood reports --------
       CALL IFWRIT (WK3, IPNT, ILIMIT, YRDEAD, NSNAGZ      , 2)
       CALL IFWRIT (WK3, IPNT, ILIMIT, FMICR, MAXTRE       , 2)
       CALL IFWRIT (WK3, IPNT, ILIMIT, IFUELMON, MXDFMD    , 2)
-      CALL IFWRIT (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)      
+      CALL IFWRIT (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)
+      
       LOGICS ( 1) = LANHED
       LOGICS ( 2) = LATFUEL
       LOGICS ( 3) = LDHEAD
