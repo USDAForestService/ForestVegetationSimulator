@@ -5660,25 +5660,6 @@ C
       ICFLAG=237
       IDT=1
       IF (LNOTBK(1)) IDT=IFIX(ARRAY(1))
-C
-C     IF THE KEYWORD RECORD HAS THE 'PARMS' OPTION, CALL OPNEWC
-C     TO PROCESS IT.
-C
-C      IF (IPRMPT.GT.0) THEN
-C         IF (IPRMPT.NE.2) THEN
-C            CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
-C            CALL ERRGRO (.TRUE.,25)
-C         ELSE
-C            CALL OPNEWC (KODE,JOSTND,IREAD,IDT,ICFLAG,KEYWRD,KARD,
-C     >                   IPRMPT,IRECNT,ICYC)
-C         ENDIF
-C         GOTO 10
-C      ENDIF
-      PRMS(1)=2.      ! LOWER DBH
-      PRMS(2)=24.     ! UPPER DBH
-C
-C     SPECIES CODE PROCESSING.
-C
       CALL SPDECD (4,IS,NSP(1,1),JOSTND,IRECNT,KEYWRD,
      &             ARRAY,KARD)
       IF (IS.EQ.-999) GOTO 10
@@ -5686,6 +5667,8 @@ C
 C
 C  DEFAULT PARAMETERS
 C
+      PRMS(1)=0.      ! LOWER DBH
+      PRMS(2)=24.     ! UPPER DBH
       PRMS(4)=1.4     ! Q FACTOR
       PRMS(5)=2.      ! DIA. CLASS WIDTH
       PRMS(6)=0.      ! BA, SDI, OR TPA <=0 IS DEFAULT MEANS BA
@@ -5706,11 +5689,11 @@ C
       READ(IREAD,'(I1)')ISETQFA
       IRECNT=IRECNT+1
 C
-      IF(ISETQFA.LE.0)THEN                 ! TPA TARGET
-        CTARGET='TARGET TPA='
-        PRMS(7)=0
-      ELSEIF(ISETQFA.LE.1)THEN              ! BA TARGET
+      IF(ISETQFA.LE.0)THEN                  ! BA TARGET
         CTARGET='TARGET BA='
+        PRMS(7)=0
+      ELSEIF(ISETQFA.LE.1)THEN              ! TPA TARGET
+        CTARGET='TARGET TPA='
         PRMS(7)=1
       ELSEIF(ISETQFA.GT.1)THEN              ! SDI TARGET
         CTARGET='TARGET SDI='
