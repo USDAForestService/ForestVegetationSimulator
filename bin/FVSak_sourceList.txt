@@ -64,6 +64,7 @@
 ../base/src/comp.f
 ../base/src/comprs.f
 ../base/src/covolp.f
+../base/src/cutqfa.f
 ../base/src/cuts.f
 ../base/src/cwidth.f
 ../base/src/damcds.f
