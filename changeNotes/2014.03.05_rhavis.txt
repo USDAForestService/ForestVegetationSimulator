@@ -1,0 +1,48 @@
+Subject: Introduction of the ThinQFA Keyword
+Name: R. Havis
+Date: March 5,2014
+Variants affected: All
+
+Description: Schedules an uneven-aged thinning from throughout a specified diameter
+             range for any or all species to a specified basal area, trees per acre
+             or stand density index target. The distribution of the thinning throughout
+             the specified diameter range is based on a user specified q-factor,
+             where the q-factor value is the slope of a straight line function of the
+             logarithms of numbers of trees versus arithmetic values of dbh. The user
+             specifies a diameter class width that must not result in more than 30
+             diameter classes within the specified diameter range. If the diameter
+             diameter range divided by the class width results in an unequal
+             number of diameter classes the smallest diameter class will be removed
+             and a warning message will be written to the main output file. Only trees
+             of the user-specified species and user-defined diameter range are considered 
+             for removal. The residual basal area, trees per acre or stand density index
+             is specified for the species and dbh range, and does not represent the the
+             total residual unless the dbh range includes all trees of all species
+             in the stand.
+
+field 1:    Year or cycle that thinning is scheduled. Default = 1
+field 2:    Smallest dbh, in inches, to be considered for removal
+            (greater than or equal). Default = 0.0
+field 3:    Largest dbh in inches to be considered for removal
+            (less than). Default = 24.0
+field 4:    Species code for trees to be removed in this cut. Default = All
+field 5:    Value for q-factor. Default = 1.4
+field 6:    Diameter class width in inches. Default = 2.0
+field 7:    Target for the segment of the dbh distribution of the species
+            defined in fields 2, 3, and 4. The target units are specified in
+            a supplemental record by entering 0 (basal area), 1 (trees per acre),
+            or 2 (stand density index)
+
+Supplemental Record:
+            Use the first column of the supplemental record to specify the
+            units for the residual target set in field 7.
+            0 = Basal area per acre.
+            1 = Trees per acre.
+            2 = Stand density index. By default the stand density index
+                is calculated by the Reineke method. To thin to a residual value
+                calculated using the Zeide method, use the SDICALC keyword with
+                field 3 set to 2.
+
+Impact on users: Get a new executable to use the ThinQFA keyword.
+
+Files:
