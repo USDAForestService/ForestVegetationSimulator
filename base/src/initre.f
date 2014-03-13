@@ -5687,7 +5687,7 @@ C
       PRMS(2)=24.     ! UPPER DBH
       PRMS(4)=1.4     ! Q FACTOR
       PRMS(5)=2.      ! DIA. CLASS WIDTH
-      PRMS(6)=0.      ! BA, SDI, OR TPA <=0 IS DEFAULT MEANS BA
+      PRMS(6)=0.      ! BA, SDI, OR TPA TARGET VALUE
 C
       IF (LNOTBK(2))PRMS(1)=ARRAY(2)       ! LOWER DBH
       IF (LNOTBK(3))PRMS(2)=ARRAY(3)       ! UPPER DBH
