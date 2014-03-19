@@ -1,7 +1,7 @@
       SUBROUTINE ECOCLS(APASS,ASPEC,RSDI,RSI,ISFLAG,NUM,INDEX,ISEQ)
       IMPLICIT NONE
 C----------
-C  **ECOCLS---BM      DATE OF LAST REVISION:  01/10/13
+C  **ECOCLS---BM      DATE OF LAST REVISION:  03/19/14
 C----------
 C
 C  SETS DEFAULT MAX SDI VALUES, SITE INDICIES, AND SITE SPECIES
@@ -227,7 +227,7 @@ C
      &'CES131  ','LAOC  ', 414,'WL  ',  83,   5,   1,   2,       ! P/P
      &'CES131  ','PIEN  ', 586,'ES  ',  72,   5,   0,   8,       ! P/P
      &'CES131  ','ABGR  ', 681,'GF  ',  77,   5,   0,   4,       ! P/P
-     &'CES131  ','ABLA2 ', 429,'AF  ',  69,   5,   1,   9/       ! P/P
+     &'CES131  ','ABLA2 ', 429,'AF  ',  69,   5,   0,   9/       ! P/P
 C
       DATA (PA(I),SCIEN(I),SDIMX(I),SPC(I),SITE(I),NUMBR(I),IFLAG(I),
      &     FVSSEQ(I),I=66,84) /
@@ -652,7 +652,7 @@ C
      &'CWG113  ','PSME  ', 446,'DF  ',  56,   5,   0,   3,       ! P/P
      &'CWG113  ','LAOC  ', 384,'WL  ',  59,   5,   0,   2,       ! P/P
      &'CWG113  ','PICO  ', 346,'LP  ',  76,   5,   0,   7,       ! P/P
-     &'CWG113  ','ABGR  ', 555,'GF  ',  52,   5,   1,   4,       ! P/P
+     &'CWG113  ','ABGR  ', 555,'GF  ',  52,   5,   0,   4,       ! P/P
 C-------------------------------------------------------------------
 C   80 = ABGR/BRVU                                       p. 67         
 C    Grand fir/Columbia brome                            R6 E TP-036-92
