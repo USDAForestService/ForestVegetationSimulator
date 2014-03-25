@@ -647,7 +647,7 @@ C
 C  
 C  LIVE REMOVALS
 C
-        IF((ISTAND.GE.0).AND.(ITYP.GE.0))THEN
+        IF((ICYCRM.EQ.ICYC).AND.(ISTAND.GE.0).AND.(ITYP.GE.0)) THEN
           DO I = 1,ITRNL
 C     
           ISPC = ISPCC(I)
