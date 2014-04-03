@@ -1,0 +1,18 @@
+Subject: Volume Update
+Name: R. Havis
+Date: April 3, 2014
+Variants affected: Central Rockies
+
+Description:
+
+CR variant: The default volume equation for ponderosa pine has been
+            changed to 300FW2W122 for the Apache Sitgreaves, Coconino,
+            Kaibab and Tonto forests in Region 3. The addition of the
+            300FW2W122 equation number as a default makes it available
+            for use with any species in R3 through the VOLEQNUM keyword.
+
+Impact on users: Volumes for the Apache Sitgreaves, Coconino,
+                 Kaibab and Tonto forests will be affected if stands
+                 contain ponderosa pine. 
+
+Files:
