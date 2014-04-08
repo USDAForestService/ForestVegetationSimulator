@@ -19,6 +19,7 @@
 ../base/src/comp.f
 ../base/src/comprs.f
 ../base/src/covolp.f
+../base/src/cutqfa.f
 ../base/src/cuts.f
 ../base/src/damcds.f
 ../base/src/dampro.f
@@ -229,6 +230,7 @@
 ../common/CWDCOM.F77
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
+../common/ECNCOMSAVES.F77
 ../common/ECON.F77
 ../common/ESCOM2.F77
 ../common/ESCOMN.F77
@@ -252,6 +254,7 @@
 ../common/OUTCOM.F77
 ../common/PDEN.F77
 ../common/PLOT.F77
+../common/PPDNCM.F77
 ../common/RANCOM.F77
 ../common/SCREEN.F77
 ../common/SSTGMC.F77

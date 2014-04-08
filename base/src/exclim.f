@@ -32,9 +32,9 @@ C
       ENTRY CLIN  (DEBUG,LKECHO)
       CALL ERRGRO (.TRUE.,11)
       RETURN
-C!!not yet called   ENTRY CLKEY(KEY,KEYWRD)
-c!!                 KEYWRD=NOCLIM 
-c!!                 RETURN
+      ENTRY CLKEY(KEY,KEYWRD)
+      KEYWRD=NOCLIM 
+      RETURN
       ENTRY CLGMULT(TREEMULT)
       TREEMULT=1.
       RETURN

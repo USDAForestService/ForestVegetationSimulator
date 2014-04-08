@@ -15,7 +15,9 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#ifndef unix
 #include <conio.h>
+#endif
 #include <sys/timeb.h>
 
 
@@ -53,7 +55,7 @@ Input in;
 
 double windprofile(Input IN,double Z);
 double maxflametemp(double Us,Input IN);
-double reaction_time(double R,double Ua,double beta,double gamma,Input IN);
+double reaction_time(double R,double Ua,double beta,double gamm,Input IN);
 double behave(double MidflameWindspeed,Input IN,double *FirelineIntensity,double *FlameLength, double *HeatPerUnitArea);
 double pow2(double base);
 void SetStandardFuelModel(long number);
@@ -91,7 +93,7 @@ static int bPrintOut = 1;
 static double FuelModel[13];
 static double fuelmoisture[5];
 static double rhoa = 1.177;         //  kg/m^3
-static double gamma = 0.15;         //  fuels unavailable for combustion
+static double gamm = 0.15;         //  fuels unavailable for combustion
 static double combust_efficiency= 0.85;     //fuels available for flaming combustion in surface fire
 static double ROS;
 static double avail_surf_fuel;
@@ -124,7 +126,7 @@ static double maxparttemp=0.0;
 long idum;      /* for ranno */
 int ndim=4;       /* for fxn */
 double pemiss=1.0,femiss=1.0;       //emissivity of the particle and flame
-double attenuation=0.02;\
+double attenuation=0.02;
 double Lp=0.001,Wp=0.001,Wf=20.0;   //length and width of particle, width of flame
 
 static int radflag=0;       //if 0, quadruple integral Monte Carlo used;if 1, double integral Gaussian Quadrature used;
@@ -139,11 +141,23 @@ static int convectflag=0;   //if 0, gaussian profile of plume follows the "c" li
 //double Dx=1.0;      //distance from flm leading edge to particle center
 //TEMPORARY!!!TEMPORARY!!!TEMPORARY!!!TEMPORARY!!!TEMPORARY!!!TEMPORARY!!!
 
-#ifdef _WINDLL
-extern "C" __declspec(dllexport) int CFIM_DRIVER (
-  float *CFMIN_Input,
-  float *CFIM_output,
+#ifdef CMPgcc
+  #ifdef unix
+    extern "C" int cfim_driver_ (                                    // GCC compiler, Unix OS
+      float *CFIN_In,
+      float *CFIM_out,
   float *fminfo);
+  #else
+    extern "C" { __stdcall __declspec(dllexport) int cfim_driver_ (  // GCC compiler, Windows OS
+      float *CFIM_In,
+      float *CFIM_out,
+      float *fminfo);}
+#endif
+#else
+  extern "C" __declspec(dllexport) int CFIM_DRIVER (                 // VS2010 compiler, Windows OS
+    float *CFIN_In,
+    float *CFIM_out,
+    float *fminfo);
 #endif
 
 #ifdef CMPgcc
@@ -264,8 +278,8 @@ int CFIM_DRIVER (
     HeatPerUnitArea*=11356.526682227;               //convert to j/m^2
     iByram=combust_efficiency*ROS*avail_surf_fuel*in.hc;
 	FlameLength = 0.0775 * pow(iByram, 0.46);
-    beta_surf=avail_surf_fuel/(FuelModel[11]*in.rho_surf*(1.0-gamma));  //packing ratio for surface fuel bed
-    taur=reaction_time(ROS,umid,beta_surf,gamma,in);					//original CFIM equation
+    beta_surf=avail_surf_fuel/(FuelModel[11]*in.rho_surf*(1.0-gamm));  //packing ratio for surface fuel bed
+    taur=reaction_time(ROS,umid,beta_surf,gamm,in);					//original CFIM equation
 	taur = 0.39 * pow(surfuel,.25) * pow(ucantop,1.51) / ROS;			//new equation (overwrites origina)
     flamedepth=ROS*taur;
     flameheight=iByram/(385.0*umid);
@@ -359,12 +373,12 @@ double getleadingxpos(double Time,double Ros,double Startx)
 }
 
 
-double reaction_time(double R,double Ua,double BETA,double gamma,Input IN)
+double reaction_time(double R,double Ua,double BETA,double gamm,Input IN)
     {
      double Zini=0.0,taufbini=75571.0*BETA*FuelModel[11],taufbold=300.0,epsilon=0.0035,rhoa=1.2,Tab=IN.Ta-273.0,Cp=1.05,Tx=500.0,Hiprime=504.0,
             deltaHc=31200.0,SBolt=5.67*pow(10.0,-11.0),Ts=400,kc=6.63*pow(10.0,-5.0),Qf=711,Qm=2570,nu=1.13*pow(10.0,-4.0),
-            taufb=taufbini,Z=Zini,IBreacT=0.85*IN.hc*(1.0-gamma)*IN.rho_surf*BETA*FuelModel[11]*R,theta=IN.sigma_surf*BETA*FuelModel[11],F=0.283+0.178*log(theta),
-            HI=(Hiprime+2570.0*IN.FuelMoisture[0])/F,Hp=207.0,HR=175.0*(1.0-gamma),HS=836.0*IN.FuelMoisture[0],deltaHv=((1.0-epsilon)*IN.hc-(gamma-epsilon)*deltaHc)/(1.0-gamma),
+            taufb=taufbini,Z=Zini,IBreacT=0.85*IN.hc*(1.0-gamm)*IN.rho_surf*BETA*FuelModel[11]*R,theta=IN.sigma_surf*BETA*FuelModel[11],F=0.283+0.178*log(theta),
+            HI=(Hiprime+2570.0*IN.FuelMoisture[0])/F,Hp=207.0,HR=175.0*(1.0-gamm),HS=836.0*IN.FuelMoisture[0],deltaHv=((1.0-epsilon)*IN.hc-(gamm-epsilon)*deltaHc)/(1.0-gamm),
             deltaHvhigh=deltaHv+1580.0,Nv=deltaHvhigh/3270.0,HN,X1,HA1,Tm,Uv,A,rhom,V,Z1,hr,hc,hef,taufb1,taur;
 //    double Hd=772.0,Cps=2.09;
     do
@@ -372,19 +386,19 @@ double reaction_time(double R,double Ua,double BETA,double gamma,Input IN)
         taufbold=taufb;
         Nv=deltaHvhigh/3270.0;
         HN=HI+Hp+HR+HS;
-        X1=(HN+1045.0*IN.FuelMoisture[0]+1.05*(700.0-25.0)*Z)/((1.0-gamma)*(deltaHv-525.0-1024.0*Nv));
+        X1=(HN+1045.0*IN.FuelMoisture[0]+1.05*(700.0-25.0)*Z)/((1.0-gamm)*(deltaHv-525.0-1024.0*Nv));
 //        HA1=X1*(1.0-gamma)*(deltaHv-525.0-1024.0*Nv)-1045.0*IN.FuelMoisture[0]-709.0*Z;
-        Tm=500.0+(500.0*(2.09*IN.FuelMoisture[0]+1.05*X1*(1.0-gamma)*(1.0+Nv)))/(2.09*IN.FuelMoisture[0]+1.05*Z+1.05*(1.0-gamma)*(1.0+X1*Nv));
+        Tm=500.0+(500.0*(2.09*IN.FuelMoisture[0]+1.05*X1*(1.0-gamm)*(1.0+Nv)))/(2.09*IN.FuelMoisture[0]+1.05*Z+1.05*(1.0-gamm)*(1.0+X1*Nv));
         Uv=pow(((2.0*g*IBreacT)/(rhoa*Cp*(Tab+273.0))),(1.0/3.0));
         A=atan(Ua/Uv);
         rhom=rhoa*((Tab+273.0)/(Tm+273.0));
-        V=(HN*BETA*(1.0-gamma)*FuelModel[11]*IN.rho_surf*(1.0/(cos(A)))/(taufb*rhom*Cp*(Tm-Tx)));
+        V=(HN*BETA*(1.0-gamm)*FuelModel[11]*IN.rho_surf*(1.0/(cos(A)))/(taufb*rhom*Cp*(Tm-Tx)));
         Z1=((taufb*cos(A)*rhom*V)/avail_surf_fuel)-IN.FuelMoisture[0]-(1.0+X1*Nv);
         hr=0.5*SBolt*((Tm+273.0)+(Ts+273.0))*(pow((Tm+273.0),2.0)+pow((Ts+273.0),2.0));
         hc=0.344*((IN.sigma_surf*kc)/4.0)*pow(((4.0*V)/(IN.sigma_surf*nu)),0.56);
         hef=hr+hc;
 //        taup=2.0*(1.0-gamma)*IN.rho_surf*BETA*IN.sigma_surf*(Qf+Qm*IN.FuelMoisture[0])/(hef*(Tm-Ts)*(1.0-BETA));
-        taufb1=2.0*(1.0-gamma)*IN.rho_surf*BETA*FuelModel[11]*(Qf+Qm*IN.FuelMoisture[0])/(hef*(Tm-Ts)*(1.0-BETA));
+        taufb1=2.0*(1.0-gamm)*IN.rho_surf*BETA*FuelModel[11]*(Qf+Qm*IN.FuelMoisture[0])/(hef*(Tm-Ts)*(1.0-BETA));
         Z=Z1;
         taufb=taufb1;
 //        printf("\n%lf %lf",A,taufb);
@@ -490,7 +504,7 @@ double CalcSpreadRate(double *Fuel, double *Moisture, double WindSpeed,
 	long i, j, ndead=0, nlive=0;
      double seff[3][2]={{.01,.01},{.01,.01},{.01,0}};	     //mineral content
 	double wtfact, fined=0, finel=0, wmfd=0, fdmois=0, w=0, wo=0, beta;
-	double rm, sigma=0, rhob=0, sum3=0, betaop=0, rat, aa, gammax=0, gamma=0, wind=0;
+	double rm, sigma=0, rhob=0, sum3=0, betaop=0, rat, aa, gammax=0, gamm=0, wind=0;
 	double xir, rbqig=0, xi=0, b, c, e, part1=0, slopex=0;
 	double ewind, wlim, sum1=0, sum2=0, phis, phiw, phiew;
    double rateo, SpreadRate;
@@ -634,8 +648,8 @@ double CalcSpreadRate(double *Fuel, double *Moisture, double WindSpeed,
 	rat=beta/betaop;
 	aa=133.0/pow(sigma,0.7913);
 	gammax=pow(sigma,1.5)/(495.0+0.0594*pow(sigma,1.5));
-	gamma=gammax*pow(rat,aa)*exp(aa*(1.0-rat));
-	xir=gamma*(rir[0]+rir[1]);
+	gamm=gammax*pow(rat,aa)*exp(aa*(1.0-rat));
+	xir=gamm*(rir[0]+rir[1]);
 	rbqig=rhob*sum3;
 	xi=exp((0.792+0.681*pow(sigma,0.5))*(beta+0.1))/(192.0+0.2595*sigma);
 /*	flux=xi*xir;*/

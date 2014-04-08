@@ -1,4 +1,5 @@
-!== last modified  4-13-2004
+!== last modified  1-6-2014
+! 1/6/2014 YW corrected coefficient for hemlock(48) B3=0.00000546
       SUBROUTINE BLMTAP(DBHOB,HTTOT,TLH,HTUP,D17,TOP,XLEN,D2,Profile)
 C###########################################################
       USE DEBUG_MOD
@@ -29,7 +30,7 @@ C  31 zone 1, 33
 C  32, 34, 35
      >        0.6014,   0.0,      0.0,       0.0, 
 C  48
-     >        0.54568,  0.0,      0.0,       0.0000546,
+     >        0.54568,  0.0,      0.0,       0.00000546,
 C  51, 54, 55 
      >        0.4606,   0.0,      0.0,       0.0, 
 C  ALL OTHER SPECIES
@@ -62,7 +63,7 @@ C *************************************************************
 C
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, '(A)') ' -->Enter BLMTAP'
-      ENDIF
+   		ENDIF
      
      
 C   DETERMINE IF HEIGHT IS IN LOGS OR FEET
@@ -104,13 +105,13 @@ C--  Following checks per J. Alegria, 7 Dec 93.  RJM, 931.5.
            D2 = D17
            Return
          Elseif(TLH.EQ.2.0) Then
-           If(HTUP.EQ.1.0) Then
-             D2 = D17
-           Else
-             D2 = TOP
+	         If(HTUP.EQ.1.0) Then
+	           D2 = D17
+	         Else
+	           D2 = TOP
            EndIf
-           Return
-         Endif
+	         Return
+	       Endif
 
          If (TOP .EQ. D17)  Then
            D2 = D17
@@ -178,7 +179,7 @@ C-- BEHRE'S HYPERBOLA PORTION TO Calculate DIB ************************
      &        //'   SMALLH  LN  DIBCOR  TOP  PROFILE  B0     B1   B2'
      &        //'   B3'
 300           FORMAT (A)
-              WRITE  (LUDBG, 320)A, B, C, H, HTTOT, SMALLH, LN, DIBCOR
+  		        WRITE  (LUDBG, 320)A, B, C, H, HTTOT, SMALLH, LN, DIBCOR
      &        ,TOP, PROFILE, BLMTHT(1,PROFILE), BLMTHT(2,PROFILE),
      &        BLMTHT(3,PROFILE), BLMTHT(4,PROFILE)
 320           FORMAT(5F6.1, 3X, 5F6.1, 2X,4F6.3)
@@ -268,3 +269,44 @@ C     53 = PORT ORFORD CEDAR
 C     54 = WESTERN RED CEDAR
 C     55 = WESTERN LARCH
 C     56 = MISCELLANEOUS SPECIES
+
+      SUBROUTINE BEHTAP(VOLEQ,DBHOB,HTTOT,TLH,HTUP,FCLASS,TOP,D2)
+      CHARACTER*10 VOLEQ
+      REAL DBHOB,HTTOT,TLH,HTUP,D17,TOP,XLEN,D2,DBHIB
+      INTEGER PROFILE,FCLASS,TAPEQU
+      REAL H1,HX,HR,DR,AT,BT,T,A
+
+      XLEN=16.3  
+      D17=(DBHOB*FCLASS) / 100.0
+      
+      IF(VOLEQ(1:1).EQ.'B'.OR.VOLEQ(1:1).EQ.'b')THEN
+         D17=ANINT(D17)
+         CALL BLMTAPEQ(VOLEQ,PROFILE,TAPEQU)
+         CALL BLMTAP(DBHOB,HTTOT,TLH,HTUP,D17,TOP,XLEN,D2,Profile)
+      ELSE
+        IF(VOLEQ(1:3).EQ.'632')THEN
+         XLEN=32.6
+        ELSE
+          XLEN=16.3
+        ENDIF
+        A=0.62
+        IF(HTTOT.GT.0.0) THEN
+          H1=HTTOT-XLEN-1.0
+          HX=HTTOT-HTUP
+          HR=HX/H1
+          DR=HR/(0.62*HR+0.38)
+          D2=D17*DR
+        ELSE
+        !Height in number of logs
+          T=TOP/D17
+          AT=A/(1.0-A*T)
+          BT=(1.0/(1.0-T))-AT
+          H1=(TLH-1.0)*XLEN-1.0
+          HX=TLH*XLEN-HTUP
+          HR=HX/H1
+          DR=T+(HR/(AT*HR+BT))
+          D2=D17*DR
+        ENDIF
+      ENDIF
+      RETURN
+      END

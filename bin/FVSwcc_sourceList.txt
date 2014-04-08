@@ -19,6 +19,7 @@
 ../base/src/comp.f
 ../base/src/comprs.f
 ../base/src/covolp.f
+../base/src/cutqfa.f
 ../base/src/cuts.f
 ../base/src/cwidth.f
 ../base/src/damcds.f
@@ -573,6 +574,6 @@
 ../wc/src/regent.f
 ../wc/src/sichg.f
 ../wc/src/sitset.f
-../wc/src/smhtgf.f
+../wc/src/smhgdg.f
 ../wc/src/varvol.f
 ../ws/src/r5crwd.f

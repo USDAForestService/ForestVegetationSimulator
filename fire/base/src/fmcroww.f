@@ -289,11 +289,11 @@ C         western larch
 
 C         bristlecone pine
           CASE (9)
-            X = (H / 16.3) ! 16.3 is the ht of a 2in dbh bc (9.8 in drc)
-            XV(0) = 8.8839 * X
-            XV(1) = 3.4332 * X
-            XV(2) = 4.4363 * X
-            XV(3) = 0.5615 * X
+            X = (D / 2) 
+            XV(0) = 8.874 * X
+            XV(1) = 3.428 * X
+            XV(2) = 4.429 * X
+            XV(3) = 0.590 * X
 
 C         madrone -  predicted from partitioning of 1" dbh tree using
 C         large tree equation
@@ -309,26 +309,26 @@ C         ponderosa pine
             XV(2) = 0.29 * TOTWT
 
 c         pinyon, bristlecone, juniper, oak based on plugging in a
-c         2 or 4" drc tree (CR-FFE) and computing biomass components
-c         (as per large trees), the scaling result by the height of
-c         a 2 or 4" drc tree. these values are already in lbs and don't
-c         need further conversion.
+c         2" (juniper, pinyon, bristlecone) or 4" (gambel oak) drc
+c         tree and computing biomass components (as per large trees), 
+c         then scaling the result by the diameter.
+c         these values are already in lbs and don't need further conversion.
 
 c         pinyon pine
           CASE (12)
-            X = (H / 16.3) ! 16.3 is the height of a 2in drc pinyon
-            XV(0) = .73866 * X
-            XV(1) = .16971 * X
-            XV(2) = .15328 * X
-            XV(3) = .00474 * X
+            X = (D / 2)
+            XV(0) = 3.177 * X
+            XV(1) = 0.977 * X
+            XV(2) = 1.084 * X
+            XV(3) = 0.079 * X
 
 C         juniper
           CASE (16)
-            X = (H / 16.3) ! 16.3 is the height of a 2in drc juniper
-            XV(0) = .07054 * X
-            XV(1) = .03474 * X
-            XV(2) = .25751 * X
-            XV(3) = .08457 * X
+            X = (D / 2) 
+            XV(0) = 0.256 * X
+            XV(1) = 0.126 * X
+            XV(2) = 1.388 * X
+            XV(3) = 0.454 * X
 
 c         tanoak, California black oak use proportions at 1" dbh
           CASE (17,21)
@@ -344,7 +344,7 @@ C         giant sequoia, incense cedar: use proportions at 1" dbh
 
 C         Gambel oak
           CASE (22)
-            X = (H / 28) !28 is the height of a 4in drc oak
+            X = (D / 4) 
             XV(0) =  3.2119 * X
             XV(1) =  1.606  * X
             XV(2) = 15.8115 * X
@@ -632,8 +632,8 @@ C         ARE FROM GRIER ET AL. 1992 FOR. ECOL. MGMT. 50:331, TABLE 2.
 
 C         ONLY BRISTLECONE NEEDS TO HAVE ITS DBH CONVERTED TO DRC,
 C         SINCE FOR PINYON, DRC IS WHAT USERS ENTER
-
-            DRC = D
+C         STILL CONVERT TO CM --SAR 10/13
+            DRC = D*2.54
             IF (SPI .EQ. 9) DRC = 2.54 * (D + 1.9410) / 1.0222
 
 C           INPUT   DRC (CM) - DIAMETER AT ROOT COLLAR
@@ -653,10 +653,6 @@ C           ASSUMED TO BE COUNTED BY FVS BASE EQNS (>1.5" BRANCH).
 C           STEMWOOD IS ASSUMED TO BE INCLUDED IN THE BASE FVS
 C           VOLUME EQUATIONS, EVEN FOR <1.5" UTILIZATION. SO NO
 C           STEMWOOD IS INCLUDED.
-
-C           TRIAL CALCULATION COMPARING WITH GRIER STAND SUMMARIES
-C           GIVES ESTIMATED TOTAL BIOMASS 1.83 TIMES OBSERVED
-C           ** THIS IS CAUSE FOR CONCERN **
 
             DFOL = 10**(-0.946 + 1.565 * LOG10(DRC))
             DBR1 = 10**(-1.613 + 2.088 * LOG10(DRC)) * 0.33
@@ -852,12 +848,10 @@ C           INTO FOLIAGE (67%), <.25" CATEGORIES. (33%). 1-3"
 C           CATEGORY IS SPLIT SO 25% GOES INTO DBR3; REMAINDER
 C           ASSUMED TO BE COUNTED BY FVS BASE EQNS (>1.5" BRANCH).
 
-C           TRIAL CALCULATION COMPARING WITH GRIER STAND SUMMARIES
-C           GIVES ESTIMATED TOTAL BIOMASS 1.14 TIMES OBSERVED
-
 C           LINE BELOW IS NOT NEEDED SINCE USERS ENTER DRC--SAR 4/03
 C           DRC = 2.54 * (D + 1.1841) / 0.9823
-            DRC = D
+C           STILL CONVERT TO CM --SAR 10/13
+            DRC = D*2.54
 
             DFOL = 10**(-1.737 + 1.382 * LOG10(DRC)) * 0.67
             DBR1 = 10**(-1.737 + 1.382 * LOG10(DRC)) * 0.33

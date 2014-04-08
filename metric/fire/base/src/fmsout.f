@@ -1,7 +1,7 @@
       SUBROUTINE FMSOUT (IYR)
       IMPLICIT NONE
 C----------
-C  **FMSOUT--FIRE/M   DATE OF LAST REVISION:  02/08/13
+C  **FMSOUT--FIRE/M   DATE OF LAST REVISION:  04/08/14
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMMAIN
 *     CALLS:   FMSVOL
@@ -74,14 +74,14 @@ C     FIRST CHECK TO SEE IF THE SNAG LIST IS TO BE PRINTED.
 
       DO 5 JDO = 1,NTODO
          CALL OPGET(JDO,4,JYR,IACTK,NPRM,PRMS)
-         IF (JYR .NE. IYR) GOTO 5
-            ISNAGB = JYR
-            ISNAGE = JYR + PRMS(1)
+C         IF (JYR .NE. IYR) GOTO 5
+            ISNAGB = IYR
+            ISNAGE = IYR + PRMS(1)
             ISNSTP = PRMS(2)
             IF (ISNSTP.EQ.0) ISNSTP=1
             JSNOUT = INT(PRMS(3))
             LSHEAD = PRMS(4).EQ.0
-            CALL OPDONE(JDO,JYR)
+            CALL OPDONE(JDO,IYR)
             GOTO 6
     5 CONTINUE
     6 CONTINUE

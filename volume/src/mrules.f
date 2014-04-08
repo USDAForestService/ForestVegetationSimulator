@@ -1,23 +1,26 @@
-!== last modified  09-14-2007
+!== last modified  03-28-2014
 !REV  Revised TDH 12/15/10 accidentally had set trim to 0
 !     for region 5 for testing and forgot to revert.  fixed.
+C     YW 3/25/14 added PROD as input parameter and changed region 3 MINLEN and MINLENT
+C                added merch rule for DOD (region 11) using R6 rules
       SUBROUTINE MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,
-     >   MINLEN,MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD)
+     >   MINLEN,MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
+     >   PROD)
 c     program assigns regional merchandizing rules to be used with
 c      profile models
 C
 C     SETS MERCHANDIZING STANDARDS AND SOME ERROR CHECKNING
 C
       CHARACTER*1 COR 
-      CHARACTER*2 FORST                 
+      CHARACTER*2 FORST, PROD                 
       CHARACTER*3 MDL                 
       character*10 VOLEQ
       INTEGER EVOD,OPT,REGN
       REAL MAXLEN,MINLEN,MERCHL,MTOPP,MTOPS,STUMP,TRIM
       REAL MINLENT,MINBFD,BTR,DBTBH,DBHOB
-
+                  
       IF(BTR.GT.0.0 .AND. DBTBH.LE.0) DBTBH = DBHOB-(DBHOB*BTR/100.0)
-
+      
       MDL = VOLEQ(4:6)
       IF(REGN.EQ.1) THEN
          IF(MDL.EQ.'FW2' .OR. MDL.EQ.'fw2' .OR.
@@ -76,9 +79,15 @@ c        MINBFD = 7.0
         COR='Y'
         EVOD = 2
         MAXLEN = 16.0
-        MINLEN = 2.0
-        minlent = 2.0
-        OPT = 22
+C        MINLEN = 2.0
+C        minlent = 2.0
+        IF(PROD.EQ.'01')THEN
+          MINLEN = 8.0
+        ELSE
+          MINLEN = 10.0
+        ENDIF
+        minlent = 10.0
+        OPT = 22 
         IF(STUMP.LE.0.0) STUMP = 1.0
         IF(MTOPP .LE. 0.0) MTOPP = 6.0
         IF(MTOPS .LE. 0.0) MTOPS = 4.0
@@ -128,8 +137,8 @@ c min dbh tree for sawtimber
 c         MINBFD = 7.0
          MINBFD = 1.0
          
-                      
-      ELSEIF(REGN.EQ.6) THEN
+C Added Region 11 for DOD, using same as R6 (03/26/2014)                     
+      ELSEIF(REGN.EQ.6.OR.REGN.EQ.11) THEN
            COR='N'
            EVOD = 2
            MAXLEN = 16.0

@@ -1,7 +1,7 @@
       SUBROUTINE BWEP4(ICALL)
       IMPLICIT NONE
 C----------
-C **BWEP4                   DATE OF LAST REVISION:  06/18/13
+C **BWEP4                   DATE OF LAST REVISION:  08/28/13
 C----------
 C
 C  PRINT PARAMETER SUMMARY AND SPECIAL EVENTS TABLE
@@ -44,8 +44,10 @@ C      Changed array orientation of IEVENT from (4,250) to (250,4).
 C   02-JUN-2009 Lance R. David (FMSC)
 C      Added Stand ID and comma delimiter to output tables, some header
 C      and column labels modified.
-C    14-JUL-2010 Lance R. David (FMSC)
-C       Added IMPLICIT NONE and declared variables as needed.
+C   14-JUL-2010 Lance R. David (FMSC)
+C      Added IMPLICIT NONE and declared variables as needed.
+C   28-AUG-2013 Lance R. David (FMSC)
+C      Added weather year to special events table.
 C
 C----------------------------------------------------------------------
 
@@ -179,9 +181,10 @@ C
 C
          WRITE (JOBWP4,150)
   150    FORMAT (//,  
-     &      10X,'**********',5X,'Special Events Table',5X,'**********',
-     &      //'Stand ID,',18X,' Year, Tree,  Size, Third, Event,',/
-     &      26('-'),',',' ----, ----, -----, -----, ',50('-'),',')
+     &   10X,'**********',5X,'Special Events Table',5X,'**********',
+     &   //8X,    ',',18X,' Sim , Wthr, Tree,  Tree, Crwn,       ,',/
+     &    'Stand ID,',18X,' Year, Year, Spec,  Size, Third, Event,',/
+     &   26('-'),',',' ----, ----, ----, -----, -----, ',50('-'),',')
 C
 C  OTHERWISE, PRINT THE SPECIAL EVENTS TABLE
 C
@@ -206,9 +209,11 @@ C
         IF (ICROWN.EQ.0) ICROWN=3
       ENDIF
 C
-      WRITE (JOBWP4,250) NPLT,IEVENT(N,1),TRESP(IEVENT(N,2)),
-     &    TRESIZ(ISIZE),CROWN(ICROWN),EVENT(IEVENT(N,4))
-  250 FORMAT (A26,', ',I4,', ',A3,',  ',A5,',  ',A3,',  ',A50,',')
+      WRITE (JOBWP4,250) 
+     &  NPLT,IEVENT(N,1),IEVENT(N,5),TRESP(IEVENT(N,2)),
+     &  TRESIZ(ISIZE),CROWN(ICROWN),EVENT(IEVENT(N,4))
+  250 FORMAT
+     &(A26,', ',I4,', ',I4,', ',A3,',  ',A5,',  ',A3,',  ',A50,',')
 C
   300 CONTINUE
 C

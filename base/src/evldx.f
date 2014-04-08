@@ -1001,6 +1001,12 @@ C----------
         IF (J.GT.MAXSP) GOTO 1002
         IF (J.LT.0 .AND. NSPGRP.LT.-J) GOTO 1002
 C----------
+C----------
+C       CALCULATE PERCENTAGE IN HEIGHT DISTRIBUTION FOR USE IN 
+C       IDENTIFYING CO-DOMINANT AND DOMINANT TREES.
+C----------     
+        CALL RDPSRT(ITRN,HT,IPNTR,.TRUE.)
+        CALL PCTILE (ITRN,IPNTR,PROB,HPCT,JUNK)
         ACRN=0.
         XLDREG(1)=0.
         ILIM=ITRN
@@ -1024,12 +1030,6 @@ C----------
             ENDIF
   452       CONTINUE
           ENDIF
-C----------
-C       CALCULATE PERCENTAGE IN HEIGHT DISTRIBUTION FOR USE IN 
-C       IDENTIFYING CO-DOMINANT AND DOMINANT TREES.
-C----------     
-          CALL RDPSRT(ITRN,HT,IPNTR,.TRUE.)
-          CALL PCTILE (ITRN,IPNTR,PROB,HPCT,JUNK)
           IF(LINCL .AND. 
      >      (DBH(I).GE.5.0) .AND.
      >      (HPCT(I).GE.60.0)) THEN

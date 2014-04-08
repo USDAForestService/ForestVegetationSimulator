@@ -35,7 +35,6 @@ COMMONS
 C
       integer iyr, RC
       integer FMD
-      integer CFIM_DRIVER
       character VVER*7
       real CFIM_OUTPUT(10)
       REAL FMINFO(13), LHV
@@ -48,11 +47,12 @@ C
       INTEGER CANBURN, INB
       REAL ACTWFC, ACTFFC, FFC, WFC, SURFUEL
 
-#ifdef _WINDLL
       !DEC$ ATTRIBUTES DLLIMPORT :: CFIM_DRIVER
-#endif
+
       !DEC$ ATTRIBUTES ALIAS : '_CFIM_DRIVER' :: CFIM_DRIVER
       
+      integer CFIM_DRIVER   
+
 C     check for debug
 
       call dbchk (debug,'FMCFIM',6,icyc)
@@ -70,7 +70,7 @@ C     heat_content(J/kg)---hc						18600.0
       CFIM_INPUT(18) = 18600.0
 
 C     DEPENDS ON STAND CONDITION OR USER-DEFINED FIRE VARIABLES
-C     10m_wind(m/s)---u10   (test=7)   
+C     10m_wind(m/s)---10   (test=7)   
       MWIND = UWIND * MItoKM * 1000. / (60. * 60.)
       CFIM_INPUT(1) = MWIND
       

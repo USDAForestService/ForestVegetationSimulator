@@ -1,7 +1,7 @@
 
 # $Id: makefile 734 2013-03-22 22:39:10Z ncrookston.fs@gmail.com $
 
-all : climbc mgmtbc wsbw
+all : climbc mgmtbc wsbw ffe-bc
 
 climbc : 
 	@echo Test ClimBC, basic functionality 
@@ -12,7 +12,6 @@ climbc :
 	rm ClimBC.tmp ClimBC.tmp.save
 	@echo Test ClimBC ended
 	
- 
 mgmtbc : 
 	@echo "Test MgmtBC (with blanks in filenames)"
 	-../../bin/FVSbcc < "Mgmt BC.rsp"
@@ -23,10 +22,20 @@ mgmtbc :
 	@echo Test MgmtBC ended
 	
 wsbw : 
-	@echo Test WSBW, test of WSBW
-	-../../bin/FVSbcc  < WSBW-A.rsp
+	@echo "Test WSBW"
+	-../../bin/FVSbcc < WSBW-A.rsp
 	grep -v "\-999" WSBW-A.sum      > WSBW-A.tmp
 	grep -v "\-999" WSBW-A.sum.save > WSBW-A.tmp.save
 	-diff -w WSBW-A.tmp WSBW-A.tmp.save
 	rm WSBW-A.tmp WSBW-A.tmp.save
 	@echo Test WSBW ended
+
+ffe-bc : 
+	@echo "Test FFE-BC"
+	-../../bin/FVSbcc < FFE-BC.rsp
+	grep -v "\-999" FFE-BC.sum      > FFE-BC.tmp
+	grep -v "\-999" FFE-BC.sum.save > FFE-BC.tmp.save
+	-diff -w FFE-BC.tmp FFE-BC.tmp.save
+	rm FFE-BC.tmp FFE-BC.tmp.save fort.3
+	@echo Test FFE-BC ended
+

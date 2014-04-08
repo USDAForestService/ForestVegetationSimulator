@@ -1,7 +1,7 @@
       SUBROUTINE BWELIT
       IMPLICIT NONE
 C-----------
-C  **BWELIT                  DATE OF LAST REVISION:  06/17/13
+C  **BWELIT                  DATE OF LAST REVISION:  08/28/13
 C-----------
 C
 C THIS SUBROUTINE IS THE HEART OF THE BUDWORM DEFOLIATION
@@ -84,8 +84,8 @@ C   GMIN   - MIN. SHOOT LENGTH (FROM BECKWITH & KEMP 1984, SHEEHAN ET AL.1989)
 C   GODISP - TOTAL NUMBER OF BW LARVAE THAT DISPERSE
 C   GPERM2 - GRAMS OF FOLIAGE PER M2 (SET IN BLOCK DATA)
 C   IDONE  - TRACKS WHETHER FOLIAGE EXPANSION HAS BEEN CALC.FOR THIS HOST
-C   IEVENT - BW SPECIAL EVENT TABLE (X,1)=YEAR, (X,2)=HOST, (X,3)=CROWN,
-C            (X,4)= EVENT CODE FOR EVENT X
+C   IEVENT - BW SPECIAL EVENT TABLE (X,1)=SIMULATION YEAR, (X,2)=HOST SPECIES,
+C            (X,3)=CROWN 3RD, (X,4)= EVENT CODE, (X,5)=YEAR OF RAWS WEATHER DATA.
 C   INSTSP - PEAK INSTAR TARGETED BY SPRAYING(1=PEAK L4, 2=L5, 3=L6)
 C   ISTAGE - LIFE STAGE INDEX: 1=SMALL LARVAE, 2=LARGE LARVAE, 3=PUPAE
 C   IYRCUR - CURRENT YEAR (INTEGER)
@@ -149,6 +149,8 @@ C      Added test of host TPA (HOSTST) so that BWESLP is not used to
 C      determine dispersal mortality when no host trees are available.
 C   26-MAR-2012 Lance R. David (FMSC)
 C      Local variable IYRW changed to common variable IWYR
+C   28-AUG-2013 Lance R. David (FMSC)
+C      Added weather year (if using RAWS) to special events table.
 C----------------------------------------------------------------------
 C
 C     COMMONS
@@ -424,6 +426,12 @@ C
                ICODE=9
                IF (SYNCH(IH).LE.0.40) ICODE=10
                IEVENT(NEVENT,4)=ICODE
+C              weather year is reported only if RAWS data is in use
+               IF (IWSRC .EQ. 3) THEN
+                 IEVENT(NEVENT,5)=BWPRMS(11,IWYR)
+               ELSE
+                 IEVENT(NEVENT,5)=0
+               ENDIF
              ENDIF
            ENDIF
            IF (SYNCH(IH).GE.0.90) IOUT6A(2)='100'
@@ -517,6 +525,12 @@ C
              IEVENT(NEVENT,2)=IH
              IEVENT(NEVENT,3)=IC
              IEVENT(NEVENT,4)=3
+C            weather year is reported only if RAWS data is in use
+             IF (IWSRC .EQ. 3) THEN
+               IEVENT(NEVENT,5)=BWPRMS(11,IWYR)
+             ELSE
+               IEVENT(NEVENT,5)=0
+             ENDIF
            ENDIF
          ENDIF
          ACTNEW(IC,IH)=0.0

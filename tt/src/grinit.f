@@ -1,7 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-C  **GRINIT--TT   DATE OF LAST REVISION:  02/08/13
+C TT $Id$
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
 C----------
@@ -271,6 +271,7 @@ C----------
       DBHSTAGE=0.
       DR016=0.
       DBHSDI=0.
+      JSPINDEF=0
 C
       DO 30 J=1,9
       DO 20 K=1,MAXSP
