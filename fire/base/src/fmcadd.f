@@ -108,34 +108,19 @@ C           due to crown lifting):
         ENDDO
       
       
-C     Add in the debris-in-waiting from snags.  In the absence of a 
-C     salvage operation this year (CWDCUT=0), it is enough to take 
-C     all the material in the year-1 pool of CWD2B.  If there has been
-C     a salvage, then also remove a proportion of material from every 
-C     other year pool.  NOTE:  this is a slight mis-usage of CWDCUT,
-C     because CWD2B also contains dead crown material from live-but-
-C     burned trees (not much per tree, or the tree would have died).
+C     Add in the debris-in-waiting from snags.  Since crowns left during
+C     salvage are handled elsewhere, it is enough to take 
+C     all the material in the year-1 pool of CWD2B.  
 C     NOTES for cycle boundaries version: 
 C     1) The IYR field in the CWD2B field now actually holds material
 C        by CYCLE, not year (see FMSCRO)
 C     2) The loops by TFMAX could be made shorter because if the model is 
 C        using cycle lengths > 1 year, not all TFMAX fields will be used.
 C     3) (Aug/13) now dividing the CWD2B field by the number of years in the
-C         cycle so that we add an even amount each year.
-    
-        IF (CWDCUT .LE. 0.0) THEN
-            MAXYR = 1
-        ELSE
-            MAXYR = TFMAX
-        ENDIF
+C         cycle so that we add an even amount each year.  
           
-        DO IYR=1,MAXYR
-             
-          IF (IYR .EQ. 1) THEN
-            PDOWN = 1.0
-          ELSE
-            PDOWN = CWDCUT
-          END IF
+          IYR=1
+          PDOWN = 1.0
             
 C         Repeat for each decay class:        
           
@@ -158,7 +143,6 @@ C          Then all the sizes of woody material.
                   
             ENDDO
           ENDDO
-        ENDDO
             
 C     Move all the debris-in-waiting pools of each decay class forward
 C     one year, to be ready for next year:

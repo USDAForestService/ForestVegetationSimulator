@@ -303,5 +303,49 @@ C     of cut snags
 C
       IF (TOTVOL .GT. 0.0) CWDCUT = CWDCUT + CUTVOL / TOTVOL
 
+C     new section for snag crowns left as slash during salvage.  separated
+C     from fmcadd (sar april 2014).
+
+C     Here we are accounting for crowns from salvaged trees left as slash.
+C     To approximate this, remove a proportion of material from every 
+C     year pool - 1 to TFMAX.  NOTE:  this is a slight mis-usage of CWDCUT,
+C     because CWD2B also contains dead crown material from live-but-
+C     burned trees (not much per tree, or the tree would have died).
+C     NOTES for cycle boundaries version: 
+C     1) The IYR field in the CWD2B field now actually holds material
+C        by CYCLE, not year (see FMSCRO)
+C     2) The loops by TFMAX could be made shorter because if the model is 
+C        using cycle lengths > 1 year, not all TFMAX fields will be used.
+C     3) (Aug/13) now dividing the CWD2B field by the number of years in the
+C         cycle so that we add an even amount each year.
+          
+        DO IYR=1,TFMAX
+             
+          PDOWN = CWDCUT
+            
+C         Repeat for each decay class:        
+          
+          DO DKCL=1,4 
+          
+C          First add the litterfall to down debris.
+            
+            DOWN = PDOWN * CWD2B(DKCL,0,IYR)
+            CWD(1,10,2,DKCL) = CWD(1,10,2,DKCL) + DOWN / 2000.0 
+            CWDNEW(1,10) = CWDNEW(1,10) + DOWN / 2000.0
+            CWD2B(DKCL,0,IYR) = CWD2B(DKCL,0,IYR) - DOWN
+               
+C          Then all the sizes of woody material.
+            
+            DO SIZE=1,5
+                DOWN = PDOWN * CWD2B(DKCL,SIZE,IYR)
+                CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + DOWN / 2000.0
+                CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + DOWN / 2000.0
+                CWD2B(DKCL,SIZE,IYR) = CWD2B(DKCL,SIZE,IYR) - DOWN
+                  
+            ENDDO
+          ENDDO
+        ENDDO  
+
+
       RETURN
       END
