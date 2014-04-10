@@ -174,13 +174,30 @@ c           DO IYR=YNEXTY,ILIFE
            DO IYR=ICYC+1,JCYC
 c              FALLYR = IYR + 1 - YNEXTY
               FALLYR = IYR - ICYC
-              IYRS = IY(IYR) - IY(IYR-1)
+
+C        Since we're estimating the amount per cycle, be careful here to
+C        set up the cycles properly.  If you are dealing with end of cycle
+C        mortality, start with the next cycle.  if you are dealing with 
+C        other mortality (from fire or cuts), start with the current cycle.  
+C        SAR April 2014
+
+              IF (ICALL .EQ. 4) THEN
+                IYRS = IY(IYR+1) - IY(IYR)  
+              ELSE
+                IYRS = IY(IYR) - IY(IYR-1)                
+              ENDIF
+
               IF (RLIFE .LE. IYRS) THEN
                   AMT = ANNUAL * RLIFE
               ELSE
-                  AMT = ANNUAL * RLIFE
+                  AMT = ANNUAL * IYRS
+C                  AMT = ANNUAL * RLIFE
                   RLIFE = RLIFE - IYRS
               ENDIF        
+
+              IF (DEBUG) WRITE(JOSTND,*) 'annual=',annual,' amt=',amt,
+     &        ' iyrs=',iyrs,' fallyr=',fallyr,' iyr=',iyr
+
             
 C           Normally, we want to put the stuff into CWD2B2, but if this is 
 C           called during mortality reconciliation, CWD2B2 has already been 

@@ -63,13 +63,15 @@ C.... Variable declarations.
       REAL    CUTVOL, MAXDBH, MAXAGE, MINDBH, PROP, PROPLV
       REAL    IHARDV, ISOFTV, IHARDV2, ISOFTV2
       REAL    SALVTPA, TOTVOL, THISRM
-      REAL    ABIO,MBIO,RBIO, X, XNEG1
+      REAL    X, XNEG1
       REAL    PRMS(7)
       INTEGER MYACT(2)
       DATA    MYACT/2501,2520/
       INTEGER IYR,JDO,NPRM,IACTK,JYR
       INTEGER IGRP,IULIM,IG
       LOGICAL LINCL,LMERCH,DEBUG
+      REAL    DOWN, PDOWN
+      INTEGER SIZE, DKCL, KYR
 
 C.... Begin routine.
 C     Initialize some outputs.  If a salvage is not requested in this stand
@@ -312,14 +314,14 @@ C     year pool - 1 to TFMAX.  NOTE:  this is a slight mis-usage of CWDCUT,
 C     because CWD2B also contains dead crown material from live-but-
 C     burned trees (not much per tree, or the tree would have died).
 C     NOTES for cycle boundaries version: 
-C     1) The IYR field in the CWD2B field now actually holds material
+C     1) The KYR field in the CWD2B field now actually holds material
 C        by CYCLE, not year (see FMSCRO)
 C     2) The loops by TFMAX could be made shorter because if the model is 
 C        using cycle lengths > 1 year, not all TFMAX fields will be used.
 C     3) (Aug/13) now dividing the CWD2B field by the number of years in the
 C         cycle so that we add an even amount each year.
           
-        DO IYR=1,TFMAX
+        DO KYR=1,TFMAX
              
           PDOWN = CWDCUT
             
@@ -329,18 +331,18 @@ C         Repeat for each decay class:
           
 C          First add the litterfall to down debris.
             
-            DOWN = PDOWN * CWD2B(DKCL,0,IYR)
+            DOWN = PDOWN * CWD2B(DKCL,0,KYR)
             CWD(1,10,2,DKCL) = CWD(1,10,2,DKCL) + DOWN / 2000.0 
             CWDNEW(1,10) = CWDNEW(1,10) + DOWN / 2000.0
-            CWD2B(DKCL,0,IYR) = CWD2B(DKCL,0,IYR) - DOWN
+            CWD2B(DKCL,0,KYR) = CWD2B(DKCL,0,KYR) - DOWN
                
 C          Then all the sizes of woody material.
             
             DO SIZE=1,5
-                DOWN = PDOWN * CWD2B(DKCL,SIZE,IYR)
+                DOWN = PDOWN * CWD2B(DKCL,SIZE,KYR)
                 CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + DOWN / 2000.0
                 CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + DOWN / 2000.0
-                CWD2B(DKCL,SIZE,IYR) = CWD2B(DKCL,SIZE,IYR) - DOWN
+                CWD2B(DKCL,SIZE,KYR) = CWD2B(DKCL,SIZE,KYR) - DOWN
                   
             ENDDO
           ENDDO

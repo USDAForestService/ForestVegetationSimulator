@@ -51,11 +51,10 @@ C.... Common include files.
     
 C.... Variable declarations. 
     
-        INTEGER I, SIZE, SP, DKCL, IYR, MAXYR
+        INTEGER I, SIZE, SP, DKCL, IYR
         REAL    DOWN, PDOWN, FALLPR    
         LOGICAL DEBUG	
-        INTEGER IDC, ICL, JYR
-        REAL    FALLRT(4,10), AMT, DWNAMT(4,10)
+        REAL    AMT
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
