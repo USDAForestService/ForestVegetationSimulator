@@ -1,6 +1,3 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: Species Memory Table
 * Desc: This is the same as the fof_spp.dat fofem Mortality Species file
@@ -14,10 +11,10 @@ d_SMT sr_MSMT [] = {
 /* Species       Name                                         Eq   eq    regions     eq   */
 { "ABIAMA",  "Abies amabilis -- Pacific Silver Fir          ", 1,  26,-1, 2,-1,-1,  1 },
 { "ABIBAL",  "Abies balsamea -- Balsam Fir                  ", 1,  10, 1,-1, 3, 4,  2 },
-{ "ABICON",  "Abies concolor -- White Fir                   ", 1,  27, 1, 2,-1,-1,  2 },
-{ "ABIGRA",  "Abies grandis -- Grand Fir                    ", 1,  25, 1, 2,-1,-1,  3 },
-{ "ABILAS",  "Abies lasiocarpa -- Subalpine Fir             ", 1,  20, 1, 2,-1,-1,  4 },
-{ "ABIMAG",  "Abies magnifica -- Red Fir                    ", 1,  18, 1, 2,-1,-1,  5 },
+{ "ABICON",  "Abies concolor -- White Fir                   ",10,  27, 1, 2,-1,-1,  2 },
+{ "ABIGRA",  "Abies grandis -- Grand Fir                    ",11,  25, 1, 2,-1,-1,  3 },
+{ "ABILAS",  "Abies lasiocarpa -- Subalpine Fir             ",11,  20, 1, 2,-1,-1,  4 },
+{ "ABIMAG",  "Abies magnifica -- Red Fir                    ",16,  18, 1, 2,-1,-1,  5 },
 { "ABIPRO",  "Abies procera -- Noble Fir                    ", 1,  24,-1, 2,-1,-1,  7 },
 { "ABISPP",  "Abies species -- Firs                         ", 1,  30,-1,-1, 3, 4,  2 },
 { "ACEBAR",  "Acer barbatum -- Florida maple                ", 1,   8,-1,-1,-1, 4, 21 },
@@ -89,8 +86,8 @@ d_SMT sr_MSMT [] = {
 { "JUNVIR",  "Juniperus virginiana -- Eastern redcedar      ", 1,  17,-1,-1, 3, 4, 18 },
 { "LARLAR",  "Larix laricina -- Tamarack                    ", 1,  10,-1,-1, 3, 4, 14 },
 { "LARLYA",  "Larix lyallii -- Subalpine Larch              ", 1,  29,-1, 2,-1,-1, 30 },
-{ "LAROCC",  "Larix occidentalis -- Western Larch           ", 1,  36, 1, 2,-1,-1, 14 },
-{ "LIBDEC",  "Libocedrus decurrens -- Incense-cedar         ", 1,  34,-1, 2,-1,-1, 18 },
+{ "LAROCC",  "Larix occidentalis -- Western Larch           ",14,  36, 1, 2,-1,-1, 14 },
+{ "LIBDEC",  "Libocedrus decurrens -- Incense-cedar         ",12,  34,-1, 2,-1,-1, 18 },
 { "LIQSTY",  "Liquidambar styraciflua -- sweetgum           ", 1,  15,-1,-1, 3, 4, 39 },
 { "LIRTUL",  "Liriodendron tulipifera -- Yellow-poplar      ", 1,  20,-1,-1, 3, 4, 39 },
 { "LITDEN",  "Lithocarpus densiflorus -- Tanoak             ", 1,  30,-1, 2,-1,-1, 39 },
@@ -114,28 +111,37 @@ d_SMT sr_MSMT [] = {
 { "OXYARB",  "Oxydendrum arboreum -- Sourwood               ", 1,  15,-1,-1, 3, 4, 39 },
 { "PAUTOM",  "Paulownia tomentosa -- Paulownia              ", 1,  29,-1,-1, 3, 4, 39 },
 { "PERBOR",  "Persea borbonia -- Redbay                     ", 1,  17,-1,-1,-1, 4, 39 },
-{ "PICABI",  "Picea abies -- Norway spruce                  ", 1,   8,-1,-1, 3, 4, 10 },
-{ "PICENG",  "Picea engelmannii -- Engelmann spruce         ", 3,  15, 1, 2,-1,-1, 10 },
+{ "PICABI",  "Picea abies -- Norway spruce                  ", 3,   8,-1,-1, 3, 4, 10 },
+{ "PICENG",  "Picea engelmannii -- Engelmann spruce         ",15,  15, 1, 2,-1,-1, 10 },
 { "PICGLA",  "Picea glauca -- White spruce                  ", 3,   4, 1, 2, 3,-1, 10 },
 { "PICMAR",  "Picea mariana -- Black spruce                 ", 3,  11,-1, 2, 3, 4, 10 },
 { "PICPUN",  "Picea pungens -- Blue spruce                  ", 3,  10, 1,-1,-1,-1, 10 },
 { "PICRUB",  "Picea rubens -- Red spruce                    ", 3,  13,-1,-1, 3, 4, 10 },
 { "PICSIT",  "Picea sitchensis -- Sitka spruce              ", 3,   6,-1, 2,-1,-1, 10 },
 { "PICSPP",  "Picea species -- Spruces                      ", 3,  13,-1,-1, 3, 4, 10 },
-{ "PINALB",  "Pinus albicaulis -- Whitebark pine            ", 1,   9, 1, 2,-1,-1, 31 },
+{ "PINALB",  "Pinus albicaulis -- Whitebark pine            ",17,   9, 1, 2,-1,-1, 31 },
 { "PINATT",  "Pinus attenuata -- Knobcone pine              ", 1,   9,-1, 2,-1,-1, 32 },
 { "PINBAN",  "Pinus banksiana -- Jack pine                  ", 1,  19,-1,-1, 3,-1, 11 },
 { "PINCLA",  "Pinus clausa -- Sand pine                     ", 1,  14,-1,-1,-1, 4, 11 },
-{ "PINCON",  "Pinus contorta -- Lodgepole pine              ", 1,   7, 1, 2,-1,-1, 11 },
+{ "PINCON",  "Pinus contorta -- Lodgepole pine              ",17,   7, 1, 2,-1,-1, 11 },
 { "PINECH",  "Pinus echinata -- Shortleaf pine              ", 1,  16,-1,-1, 3, 4, 15 },
 { "PINELL",  "Pinus elliottii -- Slash pine                 ", 1,  31,-1,-1,-1, 4, 15 },
 { "PINFLE",  "Pinus flexilis -- Limber pine                 ", 1,   9, 1,-1,-1,-1, 31 },
 { "PINGLA",  "Pinus glabra -- Spruce pine                   ", 1,  14,-1,-1,-1, 4, 11 },
-{ "PINJEF",  "Pinus jeffreyi -- Jeffrey pine                ", 1,  37, 1, 2,-1,-1, 12 },
-{ "PINLAM",  "Pinus lambertiana -- Sugar pine               ", 1,  38, 1, 2,-1,-1, 13 },
+
+
+{ "PINJEF",  "Pinus jeffreyi -- Jeffrey pine                ",19,  37, 1, 2,-1,-1, 12 },
+{ "PINJEFk", "Pinus jeffreyi -- Jeffrey pine                ",19,  37, 1, 2,-1,-1, 12 },
+
+{ "PINLAM",  "Pinus lambertiana -- Sugar pine               ",18,  38, 1, 2,-1,-1, 13 },
 { "PINMON",  "Pinus monticola -- Western white pine         ", 1,  14, 1, 2,-1,-1, 14 },
-{ "PINPAL",  "Pinus palustrus -- Longleaf pine              ", 1,  28,-1,-1,-1, 4, 15 },
-{ "PINPON",  "Pinus ponderosa -- Ponderosa pine             ", 1,  36, 1, 2,-1,-1, 15 },
+
+/* this use to use Mort Eq 1 */
+{ "PINPAL",  "Pinus palustrus -- Longleaf pine              ", 5,  28,-1,-1,-1, 4, 15 },
+
+{ "PINPON",  "Pinus ponderosa -- Ponderosa pine             ",19,  36, 1, 2,-1,-1, 15 },
+{ "PINPONk", "Pinus ponderosa -- Ponderosa pine             ",19,  36, 1, 2,-1,-1, 15 },
+
 { "PINPUN",  "Pinus pungens -- Table mountain pine          ", 1,  19,-1,-1, 3, 4, 11 },
 { "PINRES",  "Pinus resinosa -- Red pine                    ", 1,  22,-1,-1, 3, 4, 11 },
 { "PINRIG",  "Pinus rigida -- Pitch pine                    ", 1,  24,-1,-1, 3, 4, 11 },
@@ -160,7 +166,7 @@ d_SMT sr_MSMT [] = {
 { "PRUSER",  "Prunus serotina -- Black cherry               ", 1,   9,-1,-1, 3, 4, 36 },
 { "PRUSPP",  "Prunus species -- Cherries                    ", 1,  29,-1,-1, 3, 4, 36 },
 { "PRUVIR",  "Prunus virginiana -- Chokecherry              ", 1,  19,-1,-1, 3,-1, 36 },
-{ "PSEMEN",  "Pseudotsuga menziesii -- Douglas-fir          ", 1,  36, 1, 2,-1,-1, 16 },
+{ "PSEMEN",  "Pseudotsuga menziesii -- Douglas-fir          ",20,  36, 1, 2,-1,-1, 16 },
 { "QUEAGR",  "Quercus agrifolia -- Coast live oak           ", 1,  29,-1, 2,-1,-1, 28 },
 { "QUEALB",  "Quercus alba -- White oak                     ", 1,  19,-1,-1, 3, 4, 28 },
 { "QUEBIC",  "Quercus bicolor -- Swamp white oak            ", 1,  24,-1,-1, 3, 4, 28 },

@@ -1,6 +1,3 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_bcm.h    Burnup Consumed Manager
 * Desc: Defines
@@ -21,8 +18,7 @@
 
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- */
-int   WINAPI BCM_Mngr (d_CI *a_CI,  d_CO *a_CO, char cr_ErrMes[]);
-void  BCM_SetInputs (d_CI *a_CI);
+int    BCM_Mngr (d_CI *a_CI,  d_CO *a_CO, char cr_ErrMes[]);
 int   BCM_Get (char cr_BOV_Cat[], float f_Load, float *af_Con);
 float BCM_Get3 (char cr_BOV_Cat[], int i_3InId, float f_Load);
 float BCM_DW10M_Adj (char cr_DWHr[], float f_Moist);
@@ -32,3 +28,5 @@ int  BCM_Check (d_CI *a_CI, char cr_ErrMes[]);
 int _Limit (float f_Load, char cr_ErrMes[], char cr[]);
 int _Pc_DufCon (float f_Pc, char cr_ErrMes[]);
 int _ChkDuff (d_CI *a_CI, char cr_ErrMes[]);
+
+void  BCM_SetInputs (d_CI *a_CI, d_CO *a_CO);

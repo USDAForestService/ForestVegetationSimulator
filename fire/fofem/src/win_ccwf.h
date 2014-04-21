@@ -1,13 +1,12 @@
-//
-// $Id$
-//
+
+
 
 /* Soil Type  Arguments...........                        */
 #define  e_Soi_LoaSke     "Loamy-Skeletal"  /* use to be Boulder Creek */
 #define  e_Soi_FinSil     "Fine-Silt"       /* use to be Palouse       */
 #define  e_Soi_Fin        "Fine"            /* use to be Salkum        */
 #define  e_Soi_CoaSil     "Coarse-Silt"     /* use to be Walla_Walla   */
-#define  e_Soi_CoaLoa     "Coarse-Loam"     /* use to be Royal */
+#define  e_Soi_CoaLoa     "Coarse-Loamy"     /* use to be Royal */
 
 
 
@@ -17,6 +16,7 @@
 #define  e_WD_Even         "Even"
 #define  e_WD_End          "End"
 #define  e_WD_Center       "Center"
+#define  e_WD_FCCFix       "Fixed"  /* for FCCS Cover Classification         */
 
 #define eC_WndTxt 150         /* Siz of strings getting text from a window   */
 
@@ -33,6 +33,7 @@ int   CCW_SouthEast    (void);
 int   CCW_PacificWest  (void);
 int   CCW_InteriorWest (void);
 int   CCW_NorthEast    (void);
+
 int   CCW_isDufAdjNFDR (void);
 int   CCW_isDufNFDR    (void);
 int   CCW_isDufEntire  (void);

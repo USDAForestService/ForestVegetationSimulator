@@ -1,11 +1,13 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name:
 * Desc:
 *
 {*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}*/
+
+/* The Coastal Plain Duff(Lit) equations numbers                             */
+#define e_CP_PerEq 30    /* Percent consumed equation                        */
+#define e_CP_RedEq 31    /* Depth reduction equation                         */
+#define e_CP_MSEEq 32    /* Mineral SoilV Exposed equation                   */
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
 typedef struct {
@@ -18,6 +20,12 @@ typedef struct {
    float f_MSEPer;
    int   i_MSEEqu;
    char  cr_MSEMess[400];
+
+
+/* only used for Coastal Plain cover types SAF 70,83,.. Duff Equation        */
+/*  because it also calcs the consumed litter                                */
+   float f_PerLit;
+   int   i_LitEqu;
 
 }  d_DUF;
 
@@ -68,3 +76,7 @@ void Equ_18_MSE   (d_DUF *a_DUF);
 void Equ_20_RedPer(d_CI *a_CI, d_DUF *a_DUF);
 void Equ_201_Per  (d_CI *a_CI, d_DUF *a_DUF);
 void Equ_202_MSE  (d_DUF *a_DUF);
+
+void  Equ_CP_Per (d_CI *a_CI, d_DUF *a_DUF);
+void  Equ_CP_Red (d_CI *a_CI, d_DUF *a_DUF);
+void Equ_CP_MSE  (d_DUF *a_DUF);

@@ -1,6 +1,3 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_util.h
 * Desc: Various utility functions
@@ -39,3 +36,11 @@ int   isBlankCR (char  cr[]);
 void  SetLen7 (char cr[]);
 
 int   _GetLine (char cr_Bur[], char cr_Line[], int i_Row);
+float  Sqr (float f);
+float InchToCent (float f_Inch);
+float CentToInch (float f_Cent); 
+
+float TPA_To_MTPH (float TPA);
+float MTPH_To_TPA (float Mg);
+float InchToMilMeter  (float f_Inch);
+float MilMeterToInch  (float f);

@@ -1,6 +1,5 @@
-//
-// $Id$
-//
+#pragma once 
+
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_ci.h       Consume Data Inputs
 * Date: 11/05/03
@@ -10,7 +9,7 @@
 /* These are the Fuel load limits that CI checks in the CI struct before   */
 /* sending into Burnup, Burnup has its' own limits it checks but they are    */
 /* much larger                                                               */
-/* NOTE: these are NOT user for Duff load                                    */
+/* NOTE: these are NOT used for Duff load                                    */
 #define  e_CI_LoadLimLow (float) 0.0
 #define  e_CI_LoadLimUp  (float) 999.0
 
@@ -36,9 +35,12 @@
 
 typedef struct {
 
-#define  e_DufMin  0.446      /* limits tons per acre, NOTE: these must jive */
+// change 7-18-12 changed the lower limit - see notes in bur_brn.h for e_wdf1 
+#define e_DufMin  0.1 
+// #define  e_DufMin   0.446      /* Orig - limits tons per acre, NOTE: these must jive */
+
 #define  e_DufMax  356.79     /*  with the kg/2 e_wdf1,e_wdf1 in bur_brn.h   */
-float    f_Duff;              /* Duff Load - Limits in tpa .446 ->356.79     */
+float    f_Duff;              /* Duff Load - Limits in tpa .446 ->356.79 - we changed lower limit     */
 
 #define e_DufDepMin  0.0      /* limits inches                               */
 #define e_DufDepMax  999.0
@@ -54,6 +56,10 @@ float   f_MoistDW10;          /* Down Wood 10 hr Moisture, limit  3 -> 298   */
 
 float   f_MoistDW1000;        /* Down Wood 1k hr Moiture, limits 1 -> 300    */
                               /* See defines in bur_brn.h                    */
+
+#define e_LitMoiMin  1.0      /*                                             */
+#define e_LitMoiMax 100.0
+float   f_LitMoi;             /* Lit Moist, only use for Cov Typ Grp CoastPln*/
 
 float   f_Lit;                /* Litter                                      */
 float   f_DW1;                /* 1 Hr, 0->1/4 inch                           */
@@ -169,6 +175,19 @@ float    f_TIMESTEP;     /* time step for integration of burning rates.      */
 #define e_WhiPinHem     "WhiPinHem"      /* White Pine Hemlock            */
 #define e_RedJacPin     "RedJacPin"      /* Red Jack Pine                 */
 #define e_BalBRWSpr     "BalBRWSpr"      /* Balsam, Blk Red Whit Spruce  */
+#define e_CoastPlain    "CoastPlain"     /* Coastal Plain                */
+
+
+/* These are the codes as they are in the cover input files */
+#define e_CVT_GrassGroup "GG"
+#define e_CVT_SageBrush  "SB"
+#define e_CVT_ShrubGroup "SG"
+#define e_CVT_Pocosin    "PC"
+#define e_CVT_Ponderosa  "PN"
+#define e_CVT_WhiPinHem  "WPH"
+#define e_CVT_RedJacPin  "RJP"
+#define e_CVT_BalBRWSpr  "BBS"
+#define e_CVT_CoastPlain "CP"      /* Coastal Plain */
 
 
 #define GRASSGROUP  e_GrassGroup
@@ -179,6 +198,8 @@ float    f_TIMESTEP;     /* time step for integration of burning rates.      */
 #define WHIPINHEM   e_WhiPinHem
 #define REDJACPIN   e_RedJacPin
 #define BALBRWSPR   e_BalBRWSpr
+#define COASTPLAIN  e_CoastPlain
+
 #define  eC_CoverGroup  50
 char   cr_CoverGroup [eC_CoverGroup];
 
@@ -187,9 +208,10 @@ char   cr_CoverGroup [eC_CoverGroup];
 #define  e_CI_SAF  "SAF"
 #define  e_CI_NVCS "NVCS"
 #define  e_CI_FCC  "FCC"
+#define  e_CI_FLM  "FLM"
 #define  e_CI_DefaultCoverClass e_CI_SAF
 
-char cr_CoverClass[20];
+char cr_CoverClass[1000];
 
 
 /*-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
@@ -263,7 +285,30 @@ char  cr_DufMoiMet [eC_DufMoiMet];
 
 
 /*-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
+/*
+#ifdef FOF_DLL_EXPORT
+extern "C" {
+   __declspec(dllexport) void CI_Init (d_CI *a_CI);
+}
+#endif
+
+#ifdef FOF_DLL_IMPORT
+extern "C" {
+   __declspec(dllimport) void CI_Init (d_CI *a_CI);
+}
+#endif
+*/
+
+#ifdef BorlandXX
 void  WINAPI CI_Init (d_CI *a_CI);
+#endif
+
+#ifdef MicrosoftXX
+void  CI_Init (d_CI *a_CI);
+#endif
+
+void  CI_Init (d_CI *a_CI);
+
 
 int CI_isSpring (d_CI *a_CI);
 int CI_isFall   (d_CI *a_CI);
@@ -279,6 +324,8 @@ int CI_isPonderosa (d_CI *a_CI);
 int CI_isWhiPinHem (d_CI *a_CI);
 int CI_isRedJacPin (d_CI *a_CI);
 int CI_isBalBRWSpr (d_CI *a_CI);
+int CI_isCoastPlain(d_CI *a_CI);
+
 int CI_isCoverGroup (d_CI *a_CI);
 
 int CI_isSouthEast   (d_CI *a_CI);

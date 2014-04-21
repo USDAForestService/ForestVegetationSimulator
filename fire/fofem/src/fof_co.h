@@ -1,8 +1,7 @@
-//
-// $Id$
-//
+#pragma once 
+
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
-* Name: fof_co.c
+* Name: fof_co.h
 * Desc: Consumerd Output Structure
 {*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}*/
 
@@ -152,7 +151,7 @@ typedef struct {
    float f_COF;
    float f_CO2F;
    float f_NOXF;
-   float f_SOXF;
+   float f_SO2F;
 
    float f_PM10S;                  /* Smoldering                             */
    float f_PM25S;
@@ -160,8 +159,7 @@ typedef struct {
    float f_COS;
    float f_CO2S;
    float f_NOXS;
-   float f_SOXS;
-
+   float f_SO2S;
 
 /* Flame & Smoldering Duration, which is the time step in which the          */
 /*  emission finally stop (last one).                                        */
@@ -173,6 +171,11 @@ typedef struct {
 /* NOTE: ---> expressed in Tons Per Acre                                     */
    float f_FlaCon;                 /* Total Flame Consumed                   */
    float f_SmoCon;                 /* Total Smold Consumed                   */
+
+
+/* Change 3-1-11  add */
+  d_SGV sr_SGV[eC_SGV]; 
+  int iC_SGV;  /* if a user doesn't have access to eCSGV, use this */
 
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/

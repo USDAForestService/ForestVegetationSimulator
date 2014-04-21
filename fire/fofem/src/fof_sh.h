@@ -1,6 +1,3 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_sh.h
 * Desc: Soil Heating defines for input and output structures
@@ -16,10 +13,31 @@
 *
 *
 {*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}*/
+#pragma once 
 
 #define REAL float
 
 #define e_SoiSimFail "Soil Simulation Failed"
+
+/* This gets put at the beginning of all soil simulation error message */
+/* the hypen at the at makes it unique signiture that we can use to */
+/* identify soil error message from other error messages */
+#define e_SoilErr    "Soil-"
+
+/*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-   */
+/* Used by Frames Web application version                                    */
+/* See comments in  SI_fOpen () fof_sh.c                                     */
+#define e_FrameSFN  "#FrameSoil#"
+#define e_FrameSfh  (FILE *) -1
+
+#define e_FrameSstart "Soil-Start"
+#define e_FrameSend   "Soil-End"
+
+
+FILE *SI_fopen (char cr_FN[], char cr[]);
+void SI_fprintfVal (FILE *fh, char cr_Fmt[], float r_time);
+void SI_fprintfRet (FILE *fh, char cr_Ret[]);
+void SI_fclose  (FILE *fh);
 
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-   */
@@ -85,6 +103,12 @@ typedef struct {
    int   i_Cnt;                            /* count for takin averag hea intn*/
    float f_fi;                             /* heat intensity                 */
 
+
+/* This holds the fire intensity array that comes out of burnup, coming thru */
+/*  the d_CO struct,                                                         */
+/* eC_SGV is the fire intensity arraysize in d_CO   */
+   float *ar_FI; 
+//   float fr_Fi[eC_SGV];
  } d_SI;
 
 
@@ -119,6 +143,6 @@ typedef struct {
 
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
-void WINAPI SI_Init (d_SI *a_SI);
-void WINAPI SO_Init (d_SO *a_SO);
-int  WINAPI SH_Mngr (d_SI  *a_SI, d_SO  *a_SO, char cr_TmpPth[], char cr_ErrMes[]);
+void  SI_Init (d_SI *a_SI);
+void  SO_Init (d_SO *a_SO);
+int   SH_Mngr (d_SI  *a_SI, d_SO  *a_SO,float fr_FI[], char cr_TmpPth[], char cr_ErrMes[]);

@@ -1,6 +1,3 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fir_gen.h
 * Desc: general defines that get shared by Fofem and Batch Fofem
@@ -22,7 +19,9 @@
 /*                       Fofem Input Data File Names                         */
 #define  e_FN_SAF   "FOF_SAF.DAT"       /* SAF Cover/Fuel                    */
 #define  e_FN_NVCS  "FOF_NVCS.DAT"      /* MVCS Cover/Fuel                   */
-#define  e_FN_FCC   "FOF_FCC.DAT"       /* FCC Cover/Fuel file               */
+#define  e_FN_FCC   "FOF_FCCS.DAT"      /* FCC Cover/Fuel file               */
+#define  e_FN_FLM   "FOF_FLM.DAT"       /* FLM Cover/Fuel file               */
+
 #define  e_SPP_FN   "FOF_SPP.DAT"       /* Species File                      */
 #define  e_Hlp_FN   "fof_help.dat"      /* Help text file                    */
 

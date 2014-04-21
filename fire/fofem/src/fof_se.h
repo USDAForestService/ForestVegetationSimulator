@@ -1,6 +1,3 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_se.h
 * Desc: Soil Exp Simulation
@@ -42,4 +39,6 @@ typedef struct {
 
 int  SE_Init (d_SI *a_SI, d_SE *a_SE, char cr_ErrMes[]);
 int  SE_Mngr (d_SE *a_SE, char cr_TmpFN[], char cr_ErrMes[]);
+int  SE_Mngr_Array (d_SE *a_SE, float fr_FI[], char cr_TmpFN[], char cr_ErrMes[]);
+
 void SE_Disp (d_SE *a_SE);

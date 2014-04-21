@@ -1,12 +1,20 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: bur_brn.h
 * Desc: Defines for Burnup code.
 *
 {*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}*/
 
+/*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
+/* This is for use with the FRAMES Web fofem program                         */
+/* See bur_brn.c  EFM_Open()                                                 */
+#define e_FrameFN       "#FRAMES#"
+#define e_Framefh       (FILE *) -1
+#define e_Frame_Start   "Emis-Start"
+#define e_Frame_End     "Emis-End"
+
+
+
+/*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
 #define e_BurEqu 999                    /* Burnpup Equation number           */
 
 /* Combustion Efficiencies, Flaming and Smoldering                           */
@@ -35,8 +43,15 @@
 #define e_tch2  500.0
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
+// Change 7-18-12 - change lower limit, a user was using lower limits - 
+//                  I tried some test with lowering the limit and it seemed 
+//                  to be OK, not sure how/who came up with the original
+//                  lower limit
+// NOTE see fof_ci.h  e_DufMin - both need to match 
+ #define e_wdf1 0.022   // this is kg/m2 - and equal to 0.1 tons per acre 
+//  #define  e_wdf1 (double) 0.1                  /* Orig - duff loading limits, kg/m2 */
 
-#define  e_wdf1 (double)  0.1                  /* duff loading limits, kg/m2 */
+
 /* #define  wdf2 (double) 30.0    Original Amount */
 /* changed 12/28/01, they wanted higher, some cover types have lots of duf   */
 /*  80 kg/m2 is about 357 tons per acre */
@@ -173,6 +188,7 @@ int BRN_SetFuel (int *aiX, char cr_SR[], float f_Load, float f_Moist, float f_Si
 
 int     BurnupNone (char cr_HeatFN[], float f_Con );
 void    Heat_Heading (FILE  *fh);
+void    Heat_HeadingFS (FILE  *fh);
 void    Arrays (void);
 long    loc (long k, long l);
 double  func (double h, double theta);
@@ -211,16 +227,18 @@ typedef  struct {
    double d_CO2;
    double d_CO;
    double d_NOX;
-   double d_SOX;
+   double d_SO2;
 
 
+/*..........................................................................*/
+/* Running Totals */
    double dN_PM25F;                    /* Flame Totals                       */
    double dN_CH4F ;
    double dN_COF  ;
    double dN_CO2F ;
    double dN_PM10F;
    double dN_NOXF;
-   double dN_SOXF;
+   double dN_SO2F;
 
    double dN_PM25S;                    /* Smoldering Totals                  */
    double dN_CH4S ;
@@ -228,13 +246,34 @@ typedef  struct {
    double dN_CO2S ;
    double dN_PM10S;
    double dN_NOXS;
-   double dN_SOXS;
+   double dN_SO2S;
+
+
+/*..........................................................................*/
+/* amounts at each time step */
+   double d_PM25F;                    /* Flame Totals                       */
+   double d_CH4F ;
+   double d_COF  ;
+   double d_CO2F ;
+   double d_PM10F;
+   double d_NOXF;
+   double d_SO2F;
+
+   double d_PM25S;                    /* Smoldering Totals                  */
+   double d_CH4S ;
+   double d_COS  ;
+   double d_CO2S ;
+   double d_PM10S;
+   double d_NOXS;
+   double d_SO2S;
 
 
    double d_FlaDur;                     /* Duration, last time step that     */
    double d_SmoDur;                     /* consumed something                */
+
  } d_ES;
 
+/*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
 int  ES_Calc (d_ES *a_ES, double d_WooLit,  double d_Duff, double d_HSFB,
                double d_pcSmo, double d_time);
 
@@ -247,7 +286,7 @@ float ES_CH4F (void);
 float ES_COF  (void);
 float ES_CO2F (void);
 float ES_NOXF (void);
-float ES_SOXF (void);
+float ES_SO2F (void);
 
 
 float ES_PM25S(void);
@@ -256,7 +295,7 @@ float ES_CH4S (void);
 float ES_COS  (void);
 float ES_CO2S (void);
 float ES_NOXS (void);
-float ES_SOXS (void);
+float ES_SO2S (void);
 
 float ES_FlaCon (void);
 float ES_SmoCon (void);

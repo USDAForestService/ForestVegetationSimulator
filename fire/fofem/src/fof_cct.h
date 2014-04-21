@@ -1,8 +1,5 @@
-//
-// $Id$
-//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
-* Name: fir_cct
+* Name: for_cct
 * Desc: Canopy/Crwon Cover Coefficient Table
 * "Table 8. Coefficients for tree crown widths based on data from
 *    R6 Permanent Plot Grid Inventory"
@@ -26,14 +23,14 @@
 *     to a percent of cover for an acre, the fomula adjusts for overlap
 *     It is done per acre because that is what user input of tree density
 *      are entered as.
-*   look for the  "gf_CrCoTo" variable in fir_msr.c
+*   look for the  "gf_CrCoTo" variable in fof_msr.c
 *
 * Date: 1/31/04
 *}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}*/
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- */
 /*                        Crown Coefficients                                 */
-/* The Crown Code is the FVS 2 char species code, which is whatn the Table 8 */
+/* The Crown Code is the FVS 2 char species code, which is what the Table 8 */
 /*  document used.                                                           */
 
 typedef struct  {
