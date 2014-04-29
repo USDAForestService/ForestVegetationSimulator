@@ -52,7 +52,7 @@ C
      >     'BMIN','DATASCRN','SETPTHIN','THINPT','VOLEQNUM',
      >     'POINTREF','ECHO','NOECHO','CYCLEAT','ATRTLIST'/
       DATA (TABLE(I),I=136,150) /
-     >     'THINRDSL','MORTMSB ','SETSITE ','CLIMATE ','SDICALC ',
-     >     '        ','        ','        ','        ','        ',
-     >     '        ','        ','        ','        ','        '/
+     >     'THINRDSL','MORTMSB','SETSITE','CLIMATE','SDICALC',
+     >     'THINQFA','ORGANON','        ','        ','        ',
+     >     '        ','         ','        ','        ','        '/
       END

@@ -126,7 +126,7 @@ C------- new FFE INTEGER variables --------
       IFLOGIC  = INTS( 81)
       IFMSET   = INTS( 82)     
       ICYCRM   = INTS( 83)
-      ITRNC    = INTS( 84)       
+      ITRNL    = INTS( 84)       
 C------- new FFE INTEGER variables for down wood reports --------      
       IDWPAS   = INTS( 85)
       IDWRPB   = INTS( 86)

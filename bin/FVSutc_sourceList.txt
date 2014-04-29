@@ -19,6 +19,7 @@
 ../base/src/comp.f
 ../base/src/comprs.f
 ../base/src/covolp.f
+../base/src/cutqfa.f
 ../base/src/cuts.f
 ../base/src/cwidth.f
 ../base/src/damcds.f
@@ -57,6 +58,7 @@
 ../base/src/exdfb.f
 ../base/src/exdftm.f
 ../base/src/exmpb.f
+../base/src/exorganon.f
 ../base/src/exppe.f
 ../base/src/exrd.f
 ../base/src/extree.f

@@ -1,0 +1,296 @@
+
+
+                              O R G A N O N
+               ORegon Growth ANalysis and projectiON system
+                         Growth & Yield Model for
+                Southwest Oregon Mixed Conifer Forests
+
+                     SW OREGON VERSION, EDITION 9.1
+                           by David W. Hann
+                          and Mark L. Hanus
+                           College of Forestry
+                        Oregon State University
+
+                       This model was funded by:
+          Forestry Intensified Research (FIR) and the USDI BLM
+                        [ 12-12-2012   2:56 PM ]
+
+
+ Tree Data File: SWOTEST                                 
+ Stand Identification: SWO TEST            
+ Number of Plots/Points:    2
+ Number of Sample (obs.) Trees:   25
+
+ EXPANSION FACTORS WERE INPUT--SAMPLE DESIGN NOT AVAILABLE
+
+ Douglas-fir Site Index = 129.0
+ Ponderosa Pine Site Index =125.0
+ UNEVEN AGE STAND
+ 
+   -->  -->  -->  -->  -->  -->  W A R N I N G <--  <--  <--  <--  <--  <--  
+   50 SAMPLE TREES IS THE MINIMUM RECOMMENDED !!!
+   -->  -->  -->  -->  -->  -->  W A R N I N G <--  <--  <--  <--  <--  <--  
+ Run Defaults: 
+                1.            TRIPLING:  No 
+                2.       DISPLAY MENUS:  Yes
+                3.    USE HEIGHT CALIB:  Yes
+                4.      USE HTCB CALIB:  Yes
+                5. USE DIAM. GRO CALIB:  Yes
+                6.   LIMIT ON MAX. SDI:  Yes
+                7. WOOD QUALITY OUTPUT:  No 
+                8.  JUVENILE WOOD CORE:  Age
+                9.   PRINTER FORM FEED:  Yes
+               10.    TREE LIST OUTPUT:  Yes
+               11.    VOLUME EQUATIONS:  OSU
+
+
+ Board Foot Defaults: 
+
+               12.      LOG TOP DIAM:    6. inches
+               13.    TRIM ALLOWANCE:    8. inches
+               14.      STUMP HEIGHT:  0.5  feet
+               15.        LOG LENGTH:   32  feet
+               16.    MIN LOG LENGTH:  8.0  feet
+
+ Cubic Foot Defaults: 
+
+               17.             TOP DIAM:    0. inches
+               18.         STUMP HEIGHT:  0.0  feet
+
+ CALIBRATION RATIOS USED FOR THIS RUN:
+                     HEIGHT/DIAM  HTCB   DIAM
+     DOUGLAS-FIR         1.00    1.00    1.00
+ GRAND/WHITE FIR         1.00    1.00    1.00
+  PONDEROSA PINE         1.00    1.00    1.00
+      SUGAR PINE         1.00    1.00    1.00
+   INCENSE-CEDAR         1.00    1.00    1.00
+ WESTERN HEMLOCK         1.00    1.00    1.00
+  WEST. REDCEDAR         1.00    1.00    1.00
+     PACIFIC YEW         1.00    1.00    1.00
+ PACIFIC MADRONE         1.00    1.00    1.00
+       CHINKAPIN         1.00    1.00    1.00
+          TANOAK         1.00    1.00    1.00
+ CANYON LIVE OAK         1.00    1.00    1.00
+   BIGLEAF MAPLE         1.00    1.00    1.00
+  ORE. WHITE OAK         1.00    1.00    1.00
+  CAL. BLACK OAK         1.00    1.00    1.00
+       RED ALDER         1.00    1.00    1.00
+ PACIFIC DOGWOOD         1.00    1.00    1.00
+          WILLOW         1.00    1.00    1.00
+                                                                                
+                                                                               
+                                                                                
+                           Y I E L D  T A B L E S                               
+    SWO TEST                                                        Page  1     
+    DATA FILE: SWOout                                   [ 12-12-2012   2:56 PM ]
+ *******************************************************************************
+            AT| TREES/            CF    SCRIB | TREES/           CF       SCRIB 
+   SPECIES  YR|  ACRE     BA     VOL     VOL  |  ACRE    BA      VOL       VOL  
+ *******************************************************************************
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   0-YR CHANGE ======
+ Doug Fir    0|  35.0    95.4   4295.   21155.|                                 
+ G/W Fir     0|   1.0     0.1      2.       0.|                                 
+ P/S Pine    0|   1.0     0.1      2.       0.|                                 
+ Other Con   0|   2.0     0.3      3.       0.|                                 
+ Hardwood    0|   5.0     0.7     10.       0.|                                 
+                                                                                
+ TOTALS:         44.0    96.7   4313.   21155.                                  
+               QUADRATIC MEAN DIAMETER:   20.1    RELATIVE DENSITY INDEX:  0.254
+             ESTIMATED % CROWN CLOSURE:   41.1      HEIGHT OF 40 LARGEST:   99.5
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir    5|  34.8   107.0   5129.   26069.|   -0.2    11.5    833.8   4913.4
+ G/W Fir     5|   1.0     0.2      4.       0.|    0.0     0.1      1.9      0.0
+ P/S Pine    5|   0.9     0.2      3.       0.|   -0.1     0.0      1.1      0.0
+ Other Con   5|   2.0     0.3      4.       0.|    0.0     0.1      1.2      0.0
+ Hardwood    5|   4.7     0.8     12.       0.|   -0.3     0.1      2.1      0.0
+                                                                                
+ TOTALS:         43.3   108.4   5153.   26069.    -0.7    11.8    840.2    4913.
+ MORTALITY:  Conifers                              0.4     0.2      5.5      21.
+ MORTALITY: Hardwoods                              0.3     0.0      0.7       0.
+                                                    TOTAL PAI:    168.0     983.
+                                                  CONIFER PAI:    167.6     983.
+               QUADRATIC MEAN DIAMETER:   21.4    RELATIVE DENSITY INDEX:  0.277
+             ESTIMATED % CROWN CLOSURE:   42.3      HEIGHT OF 40 LARGEST:  109.6
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   10|  34.6   118.3   6004.   31376.|   -0.2    11.3    874.3   5306.9
+ G/W Fir    10|   1.0     0.3      7.      14.|    0.0     0.1      2.7     14.5
+ P/S Pine   10|   0.8     0.2      4.       0.|   -0.1     0.0      1.2      0.0
+ Other Con  10|   2.0     0.4      6.       0.|    0.0     0.1      1.5      0.0
+ Hardwood   10|   4.4     0.8     15.       0.|   -0.3     0.1      2.2      0.0
+                                                                                
+ TOTALS:         42.7   120.0   6035.   31390.    -0.6    11.6    881.9    5321.
+ MORTALITY:  Conifers                              0.3     0.2      6.9      27.
+ MORTALITY: Hardwoods                              0.3     0.0      0.7       0.
+                                                    TOTAL PAI:    176.4    1064.
+                                                  CONIFER PAI:    175.9    1064.
+               QUADRATIC MEAN DIAMETER:   22.7    RELATIVE DENSITY INDEX:  0.300
+             ESTIMATED % CROWN CLOSURE:   43.3      HEIGHT OF 40 LARGEST:  119.1
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   15|  34.4   129.4   6909.   37282.|   -0.2    11.1    905.1   5906.5
+ G/W Fir    15|   0.9     0.4     10.      31.|    0.0     0.1      3.5     16.1
+ P/S Pine   15|   0.7     0.2      5.       6.|   -0.1     0.0      1.3      5.9
+ Other Con  15|   1.9     0.5      7.      10.|    0.0     0.1      1.7     10.1
+ Hardwood   15|   4.1     0.9     17.       0.|   -0.3     0.1      2.2      0.0
+                                                                                
+ TOTALS:         42.1   131.4   6949.   37329.    -0.6    11.4    913.8    5939.
+ MORTALITY:  Conifers                              0.3     0.2      8.4      35.
+ MORTALITY: Hardwoods                              0.3     0.1      0.8       0.
+                                                    TOTAL PAI:    182.8    1188.
+                                                  CONIFER PAI:    182.3    1188.
+               QUADRATIC MEAN DIAMETER:   23.9    RELATIVE DENSITY INDEX:  0.322
+             ESTIMATED % CROWN CLOSURE:   44.1      HEIGHT OF 40 LARGEST:  128.0
+                                                                               
+                                                                                
+                           Y I E L D  T A B L E S                               
+    SWO TEST                                                        Page  2     
+    DATA FILE: SWOout                                   [ 12-12-2012   2:56 PM ]
+ *******************************************************************************
+            AT| TREES/            CF    SCRIB | TREES/           CF       SCRIB 
+   SPECIES  YR|  ACRE     BA     VOL     VOL  |  ACRE    BA      VOL       VOL  
+ *******************************************************************************
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   20|  34.3   140.2   7836.   43275.|   -0.1    10.8    927.1   5992.7
+ G/W Fir    20|   0.9     0.4     15.      46.|    0.0     0.1      4.4     15.8
+ P/S Pine   20|   0.6     0.3      6.      15.|   -0.1     0.0      1.2      8.9
+ Other Con  20|   1.9     0.6      9.      21.|    0.0     0.1      2.0     11.0
+ Hardwood   20|   3.8     1.0     19.       0.|   -0.2     0.1      2.2      0.0
+                                                                                
+ TOTALS:         41.6   142.5   7885.   43357.    -0.5    11.1    936.9    6028.
+ MORTALITY:  Conifers                              0.3     0.2     10.0      45.
+ MORTALITY: Hardwoods                              0.2     0.1      0.9       0.
+                                                    TOTAL PAI:    187.4    1206.
+                                                  CONIFER PAI:    186.9    1206.
+               QUADRATIC MEAN DIAMETER:   25.1    RELATIVE DENSITY INDEX:  0.343
+             ESTIMATED % CROWN CLOSURE:   44.8      HEIGHT OF 40 LARGEST:  136.3
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   25|  34.1   150.8   8777.   50057.|   -0.1    10.6    941.6   6782.5
+ G/W Fir    25|   0.9     0.5     20.      68.|    0.0     0.1      5.2     21.5
+ P/S Pine   25|   0.6     0.3      7.      21.|   -0.1     0.0      1.1      6.5
+ Other Con  25|   1.9     0.7     12.      33.|    0.0     0.1      2.3     11.5
+ Hardwood   25|   3.6     1.0     21.       0.|   -0.2     0.1      2.2      0.0
+                                                                                
+ TOTALS:         41.1   153.3   8838.   50179.    -0.5    10.8    952.4    6822.
+ MORTALITY:  Conifers                              0.2     0.3     11.7      55.
+ MORTALITY: Hardwoods                              0.2     0.1      1.0       0.
+                                                    TOTAL PAI:    190.5    1364.
+                                                  CONIFER PAI:    190.0    1364.
+               QUADRATIC MEAN DIAMETER:   26.1    RELATIVE DENSITY INDEX:  0.363
+             ESTIMATED % CROWN CLOSURE:   45.4      HEIGHT OF 40 LARGEST:  144.0
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   30|  34.0   161.1   9727.   55813.|   -0.1    10.3    949.8   5756.1
+ G/W Fir    30|   0.9     0.7     26.      89.|    0.0     0.1      6.0     21.3
+ P/S Pine   30|   0.5     0.3      8.      29.|   -0.1     0.0      0.9      7.5
+ Other Con  30|   1.9     0.7     14.      40.|    0.0     0.1      2.5      7.9
+ Hardwood   30|   3.4     1.1     23.       0.|   -0.2     0.1      2.1      0.0
+                                                                                
+ TOTALS:         40.7   163.8   9799.   55972.    -0.4    10.5    961.4    5793.
+ MORTALITY:  Conifers                              0.2     0.3     13.5      66.
+ MORTALITY: Hardwoods                              0.2     0.1      1.0       0.
+                                                    TOTAL PAI:    192.3    1159.
+                                                  CONIFER PAI:    191.9    1159.
+               QUADRATIC MEAN DIAMETER:   27.2    RELATIVE DENSITY INDEX:  0.382
+             ESTIMATED % CROWN CLOSURE:   45.9      HEIGHT OF 40 LARGEST:  151.3
+                                                                               
+                                                                                
+                           Y I E L D  T A B L E S                               
+    SWO TEST                                                        Page  3     
+    DATA FILE: SWOout                                   [ 12-12-2012   2:56 PM ]
+ *******************************************************************************
+            AT| TREES/            CF    SCRIB | TREES/           CF       SCRIB 
+   SPECIES  YR|  ACRE     BA     VOL     VOL  |  ACRE    BA      VOL       VOL  
+ *******************************************************************************
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   35|  33.9   171.1  10680.   62780.|   -0.1    10.0    952.6   6966.4
+ G/W Fir    35|   0.9     0.8     33.     125.|    0.0     0.1      6.7     35.6
+ P/S Pine   35|   0.5     0.3      9.      32.|   -0.1     0.0      0.7      3.2
+ Other Con  35|   1.9     0.8     17.      48.|    0.0     0.1      2.8      7.7
+ Hardwood   35|   3.2     1.1     25.       0.|   -0.2     0.1      2.0      0.0
+                                                                                
+ TOTALS:         40.3   174.1  10764.   62985.    -0.4    10.3    964.9    7013.
+ MORTALITY:  Conifers                              0.2     0.3     15.4      77.
+ MORTALITY: Hardwoods                              0.2     0.1      1.1       0.
+                                                    TOTAL PAI:    193.0    1403.
+                                                  CONIFER PAI:    192.6    1403.
+               QUADRATIC MEAN DIAMETER:   28.1    RELATIVE DENSITY INDEX:  0.400
+             ESTIMATED % CROWN CLOSURE:   46.4      HEIGHT OF 40 LARGEST:  158.1
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   40|  33.8   180.9  11631.   69216.|   -0.1     9.7    950.9   6436.4
+ G/W Fir    40|   0.9     0.9     40.     162.|    0.0     0.1      7.3     37.1
+ P/S Pine   40|   0.4     0.3     10.      37.|    0.0     0.0      0.6      5.1
+ Other Con  40|   1.8     0.9     20.      63.|    0.0     0.1      3.0     15.1
+ Hardwood   40|   3.1     1.2     27.       0.|   -0.2     0.0      1.9      0.0
+                                                                                
+ TOTALS:         40.0   184.1  11728.   69478.    -0.4    10.0    963.8    6494.
+ MORTALITY:  Conifers                              0.2     0.3     17.4      91.
+ MORTALITY: Hardwoods                              0.2     0.1      1.2       0.
+                                                    TOTAL PAI:    192.8    1299.
+                                                  CONIFER PAI:    192.4    1299.
+               QUADRATIC MEAN DIAMETER:   29.1    RELATIVE DENSITY INDEX:  0.418
+             ESTIMATED % CROWN CLOSURE:   46.8      HEIGHT OF 40 LARGEST:  164.4
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   45|  33.7   190.3  12576.   76171.|   -0.1     9.5    945.6   6954.5
+ G/W Fir    45|   0.8     1.0     48.     195.|    0.0     0.1      8.1     33.3
+ P/S Pine   45|   0.4     0.3     10.      39.|    0.0     0.0      0.4      1.9
+ Other Con  45|   1.8     1.0     23.      72.|    0.0     0.1      3.3      8.8
+ Hardwood   45|   2.9     1.2     29.       0.|   -0.2     0.0      1.6      0.0
+                                                                                
+ TOTALS:         39.6   193.9  12687.   76477.    -0.3     9.7    958.8    6998.
+ MORTALITY:  Conifers                              0.2     0.3     19.4     104.
+ MORTALITY: Hardwoods                              0.2     0.1      1.5       0.
+                                                    TOTAL PAI:    191.8    1400.
+                                                  CONIFER PAI:    191.5    1400.
+               QUADRATIC MEAN DIAMETER:   29.9    RELATIVE DENSITY INDEX:  0.435
+             ESTIMATED % CROWN CLOSURE:   47.2      HEIGHT OF 40 LARGEST:  170.4
+                                                                               
+                                                                                
+                           Y I E L D  T A B L E S                               
+    SWO TEST                                                        Page  4     
+    DATA FILE: SWOout                                   [ 12-12-2012   2:56 PM ]
+ *******************************************************************************
+            AT| TREES/            CF    SCRIB | TREES/           CF       SCRIB 
+   SPECIES  YR|  ACRE     BA     VOL     VOL  |  ACRE    BA      VOL       VOL  
+ *******************************************************************************
+                                                                                
+ ========= ENDING ======= R E S I D U A L  Y I E L D ======   5-YR CHANGE ======
+ Doug Fir   50|  33.6   199.6  13513.   82695.|   -0.1     9.2    937.0   6523.9
+ G/W Fir    50|   0.8     1.1     57.     229.|    0.0     0.1      8.7     34.3
+ P/S Pine   50|   0.3     0.3     10.      39.|    0.0     0.0      0.2     -0.1
+ Other Con  50|   1.8     1.1     27.      84.|    0.0     0.1      3.5     11.6
+ Hardwood   50|   2.8     1.2     30.       0.|   -0.2     0.0      1.4      0.0
+                                                                                
+ TOTALS:         39.3   203.3  13637.   83046.    -0.3     9.5    950.6    6570.
+ MORTALITY:  Conifers                              0.2     0.4     21.6     118.
+ MORTALITY: Hardwoods                              0.2     0.1      1.6       0.
+                                                    TOTAL PAI:    190.1    1314.
+                                                  CONIFER PAI:    189.9    1314.
+               QUADRATIC MEAN DIAMETER:   30.8    RELATIVE DENSITY INDEX:  0.451
+             ESTIMATED % CROWN CLOSURE:   47.6      HEIGHT OF 40 LARGEST:  176.0
+
+                     C U M U L A T I V E  C U T  L O G  T A B L E
+       SWO TEST                                       [ 12-12-2012   2:56 PM ]
+       LOG LENGTH: 32 feet    MIN LOG LENGTH: 8.0 feet    TOP DIAM: 6.0 inches
+   ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   ³     Top      ³   Doug Fir   ³    G/W Fir   ³   P/S Pine   ³ Other Conifer³
+   ³   Diameter   ³  Logs    Vol ³  Logs    Vol ³  Logs    Vol ³  Logs    Vol ³
+   ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+      T O T A L S
+            Logs:         0.0            0.0            0.0            0.0
+         Volumes:         0.0            0.0            0.0            0.0
+      AVG VOLUME:         0.0            0.0            0.0            0.0
+
+               RUN HISTORY                                                      
+************************************************************                    
+  CYCLE           ACTIVITY                                                      
+************************************************************                    
+     0          GROWTH ---> 10  CYCLES                                          

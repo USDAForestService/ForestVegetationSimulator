@@ -38,7 +38,13 @@ C----------
       IFTYR = 0
       ISALVC = 0
       ISALVS = 0
+      ICYCRM = 0
+      ITRNL = ITRN
       NSNAGSALV=0
+
+      DO J=1,MAXTRE
+      ISPCC(J)=0
+      ENDDO
 C
       DO I=1,4
         PFLAM(I)=0.

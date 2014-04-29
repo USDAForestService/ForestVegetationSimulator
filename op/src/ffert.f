@@ -1,0 +1,174 @@
+      SUBROUTINE FFERT
+
+      IMPLICIT NONE
+C---------
+C     **FFERT--BASE  DATE OF LAST REVISION:  05/03/12
+C---------
+C     THIS SUBROUTINE COMPUTES A RATIO OF THE FERTILIZATION TREATMENT
+C     TO A CONTROL ON DIAMETER GROWTH, AND USES IT AS A MULTIPLICATIVE
+C     ADJUSTMENT TO THE PREDICTED VALUES OF DDS (CHANGE IN SQUARED
+C     DIAMETER). ALSO, A MULTIPLICATIVE ADJUSTMENT TO THE PREDICTED
+C     HEIGHT GROWTH IS APPLIED USING THE RATIO OF AVERAGE HEIGHT
+C     INCREMENTS OF FERTILIZER TREATMENT TO A CONTROL. THIS SUBROUTINE
+C     IS CALLED BY ** TREGRO **.
+C     
+C     OMMONS
+C     
+C     
+      COMMON /FFCOM/ IFFDAT, FFPRMS(4)
+C     
+C     
+      INCLUDE 'PRGPRM.F77'
+C     
+C     
+      INCLUDE 'ARRAYS.F77'
+C     
+C     
+      INCLUDE 'CONTRL.F77'
+C     
+C     
+      INCLUDE 'PLOT.F77'
+C     
+C     
+      INCLUDE 'ORGANON.F77' 
+
+C     
+C     
+C     OMMONS
+C     
+      LOGICAL DEBUG
+      INTEGER MYACTS(1),IFFDAT
+      INTEGER I,NTODO,NP,IACTK,IDATE,IFSTRT,IFFIN,IFLEN,ISPC,I1,I2,I3
+      REAL HTGIT,RHT,DDYR,DDSIT,FEFF,DDS,DIB,RDDS,BAL,BRATIO,BARKS,D
+      REAL CDFGF,FFPRMS,DDSYR
+
+
+C     
+C     RDDS  - DDSGF RATIO OF FERTILIZER TREATMENT TO CONTROL. USED AS A
+C     MULTIPLICATIVE ADJUSTMENT TO THE PREDICTED VALUES OF DDS.
+C     RHT   - HTGF RATIO OF FERTILIZER TREATMENT TO CONTROL. USED AS A
+C     MULTIPLICATIVE ADJUSTMENT TO THE PREDICTED HEIGHT GROWTH
+C     VALUES OF EACH TREE.
+C     
+      DATA MYACTS/260/
+C     
+C     SEE IF WE NEED TO DO SOME DEBUG.
+C     
+      CALL DBCHK (DEBUG,'FFERT',5,ICYC)
+C     
+C     NULL THE BUFFER
+C     
+      DO I=1,4
+         FFPRMS(I)=0.0
+      END DO
+
+C     
+C     FIND OUT IF THERE IS A FERTILIZATION THIS TIME PERIOD.
+C     
+      CALL OPFIND (1,MYACTS,NTODO)
+C     
+C     IF THERE ARE NONE; THEN: BRANCH TO PROCESS CARRY OVER
+C     APPLICATIONS FROM PREVIOUS CYCLE.
+C     
+      IF (NTODO.GT.0) THEN
+C     
+C     GET THE PARAMETERS FOR THE LAST FERTILIZER APPLICATION
+C     SCHEDULED FOR THIS CYCLE, AND DELETE/CANCEL ANY OTHERS.
+C     
+         CALL OPGET(NTODO,4,IDATE,IACTK,NP,FFPRMS)
+         IF (IACTK.LT.0) GOTO 1000
+         IFFDAT=IY(ICYC)
+C     
+C     SET THE STATUS OF THE OPTION AS ACCOMPLISHED
+C     IN THE BEGINNING OF THE CURRENT CYCLE
+C     
+         CALL OPDONE (NTODO,IY(ICYC))
+C     
+C     IF THERE ARE OTHER FERTILIZE KEYWORDS FOR THE
+C     CURRENT CYCLE CANCEL/DELETE ALL BUT THE LAST.
+C     
+         IF (NTODO.GT.1) THEN
+            DO 15 I=1,(NTODO-1)
+               CALL OPDEL1 (I)
+ 15         CONTINUE
+         ENDIF
+      ELSE
+         IF (IFFDAT.LT.0) GOTO 1000
+      ENDIF
+C     
+C     AT THIS POINT, FFPRMS(1) IS N FERT.(LB/AC), FFPRMS(2) IS P FERT.
+C     (LB/AC), FFPRMS(3) IS K FERT. (LB/AC), AND FFPRMS(4) IS PROP. OF
+C     EFFICACITY OF FERTIL. APPLICATION.
+C     
+
+C-----------
+C     MANAGE THE ORGANON FERTILIZATION VARIABLES
+C-----------
+      IF( FFPRMS(1) .GT. 0.0 ) THEN
+
+         DO I=5,2,-1
+            YSF(I)  = YSF(I-1)
+            PN(I)   = PN(I-1)
+         END DO
+
+         YSF(1)  = FLOAT( ( CYCLG - 1 ) * 5 )
+         PN(1)   = FFPRMS(1)
+
+C     SET THE "STAND HAS BEEN FERTILIZED" VARIABLE TO TRUE.
+         INDS(8)		= 1
+
+      END IF
+      
+      IF( INDS(8) .EQ. 1 ) THEN
+         
+C     WRITE OUT THE VARIABLES TO THE DEBUG/OUTPUT FILE FOR REVIEW LATER.
+         
+         IF (DEBUG) THEN
+            
+            WRITE(JOSTND,123) ICYC, PN(1)
+ 123        FORMAT(' STAND HAS BEEN FERTILIZED ',
+     &           ' ORGANON.DLL, CYCLE=',I2, ' PN= ', F9.3 )
+            
+C     WRITE OUT THE YEARS OF FERTILIZATION
+            WRITE(JOSTND,124) ICYC,
+     &           YSF(1), 
+     &           YSF(2), 
+     &           YSF(3), 
+     &           YSF(4), 
+     &           YSF(5) 
+ 124        FORMAT(
+     &           ' ORGANON.DLL, CYCLE=',I2, 
+     &           ', YSF(1)=', F6.2,
+     &           ', YSF(2)=', F6.2,
+     &           ', YSF(3)=', F6.2,
+     &           ', YSF(4)=', F6.2,
+     &           ', YSF(5)=', F6.2 )
+            
+C     WRITE OUT THE FERTILIZATION APPLICATIONS IN POUNDS/ACRE
+            WRITE(JOSTND,125) ICYC,
+     &           PN(1), 
+     &           PN(2), 
+     &           PN(3), 
+     &           PN(4), 
+     &           PN(5) 
+ 125        FORMAT(
+     &           ' ORGANON.DLL, CYCLE=',I2, 
+     &           ', PN(1)=', F6.2,
+     &           ', PN(2)=', F6.2,
+     &           ', PN(3)=', F6.2,
+     &           ', PN(4)=', F6.2,
+     &           ', PN(5)=', F6.2 )
+            
+         END IF
+         
+      END IF
+      
+      
+C     
+ 1000 CONTINUE
+      
+      RETURN
+      END
+      
+      
+      

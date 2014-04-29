@@ -1,0 +1,1105 @@
+      SUBROUTINE MORTS
+      IMPLICIT NONE
+C----------
+C  **MORTS--CA   DATE OF LAST REVISION:  09/17/10
+C----------
+C  THIS SUBROUTINE COMPUTES PERIODIC MORTALITY RATES FOR
+C  EACH TREE RECORD AND THEN REDUCES THE NUMBER OF TREES/ACRE
+C  REPRESENTED BY THE TREE RECORD.
+C  THIS ROUTINE IS CALLED FROM **TREGRO** WHEN CYCLING FOR GROWTH
+C  PREDICTION.  ENTRY **MORCON** IS CALLED TO LOAD SITE DEPENDENT
+C  CONSTANTS.
+C  SDI BASED MORTALITY IS USED AS LONG AS THE STAND DIAMETER METRIC
+C  (QMD OR REINEKE'S DIAMETER)IS LESS THAN 10 INCHECS, AT WHICH TIME
+C  BAMAX BASED MORTALITY TAKES OVER. IF NOT SET BY THE USER, BAMAX IS
+C  DETERMINED FROM MAX SDI AT 10" DBH.
+C----------
+COMMONS
+C
+C
+      INCLUDE 'PRGPRM.F77'
+C
+C
+      INCLUDE 'ARRAYS.F77'
+C
+C
+      INCLUDE 'CONTRL.F77'
+C
+C
+      INCLUDE 'OUTCOM.F77'
+C
+C
+      INCLUDE 'PLOT.F77'
+C
+C
+      INCLUDE 'COEFFS.F77'
+C
+C
+      INCLUDE 'ESTREE.F77'
+C
+C
+      INCLUDE 'MULTCM.F77'
+C
+C
+      INCLUDE 'PDEN.F77'
+C
+C
+      INCLUDE 'VARCOM.F77'
+C
+C
+      INCLUDE 'WORKCM.F77'
+C
+C
+      INCLUDE 'ORGANON.F77'
+C
+C
+C
+COMMONS
+C----------
+C  DEFINITIONS:
+C
+C     PMSC -- CONSTANT TERMS FOR EACH SPECIES FOR THE BACKGROUND
+C             MORTALITY
+C             RATE EQUATION (B0).
+C      PMD -- COEFFICIENTS FOR EACH SPECIES FOR THE DIAMETER TERM
+C             IN THE BACKGROUND MORTALITY RATE EQUATION (B1).
+C    PMDSQ -- COEFFICIENTS FOR EACH SPECIES FOR THE DIAMETER SQUARED
+C             TERM IN THE BACKGROUND MORTALITY RATE EQUATION (B2).
+C       C0 -- CONSTANT TERM FOR SDI RELATIONSHIP
+C             LN(T) = LN(C0)-1.605 *LN(QMD)
+C        I -- TREE SUBSCRIPT.
+C        D -- TREE DIAMETER.
+C       RI -- ESTIMATED ANNUAL BACKGROUND MORTALITY RATE BASED ON
+C             HAMILTON'S
+C       RN -- MORTALITY RATE THAT WILL MATCH THE TREND IN TREES PER
+C             ACRE THAT IS PREDICTED FROM THE SDI RELATIONSHIP
+C      RIP -- WEIGHTED AVERAGE MORTALITY RATE BASED ON TREE DBH, RI,
+C             AND RN.
+C        P -- NUMBER OF TREES PER ACRE REPRESENTED BY A TREE.
+C      WKI -- SCALAR USED FOR CALCULATION AND TEMPORARY STORAGE
+C             OF TREE MORTALITY (TREES/ACRE).
+C----------
+      REAL PRM(6)
+      INTEGER MYACTS(2)
+      REAL PMSC(6),PMD(6)
+      INTEGER IBGMAP(MAXSP)
+      INTEGER IDMFLG,KNT,NTODO,I,NP,IACTK,IDATE,ISPCC,IPASS
+      INTEGER I1,I2,I3,IS,IPATH,KSPC,KNT2,ISPC,ITODO,IP
+      INTEGER KPOINT,KBIG,IGRP,IULIM,IG,IX,J
+      REAL DQ0,SUMKIL,T,SD2SQ,P,D,BARK,BRATIO,G,CIOBDS,DQ10,DELTBA
+      REAL CONST,TMD0,TNEW,BANEW,QMDNEW,ADJFAC,XMORE,TEMP,CREDIT
+      REAL T85D0,T55D0,TMD10,T85D10,T55D10,TN10,TEM,D55M,T55M
+      REAL D85M,T85M,SLP,CEPT,TPRIME,DIFF,RN,XMORT,D1,D2
+      REAL B0,B1,WKI,RI,RIP,X,PRES,VLOS,SUMTRE,TN,SD2SQN
+      REAL DQ10N,TREEIT,TN10TMP
+      REAL TMMSB,T85MSB,TMORE,TEMEFF,TPACLS,DBHEND,BADEAD
+      REAL DIA0,D10,DR0,DR10,SUMDR0,SUMDR10,SUMDR10N,DR10N,D10N,SDQ0
+      DATA MYACTS/94,97/
+C----------
+C  DATA STATEMENTS.
+C----------
+C
+C BACKGROUND MORTALITY CONSTANTS
+C FROM SO VARIANT, MAPPED TO ICASCA SPECIES
+C 1=WP/SP  2=DF  3=WF/IC/RF/OT  4=MH/ES  5=LP  6=PP
+C----------
+      DATA PMSC/ 6.5112, 7.2985, 5.1677, 9.6943, 5.9617, 5.5877 /
+      DATA PMD/ -.0052485, -.0129121, -.0077681, -.0127328,
+     *          -.0340128, -.005348 /
+      DATA IBGMAP/ 3, 3, 3, 3, 3, 3, 2, 4, 4,
+     &          1, 1, 5, 1, 1, 6, 1, 1, 6, 6,
+     &          6, 3, 4, 3, 3, 3, 24*3 /
+C----------
+C SPECIES ORDER IN CA VARIANT:
+C  1=PC  2=IC  3=RC  4=WF  5=RF  6=SH  7=DF  8=WH  9=MH 10=WB
+C 11=KP 12=LP 13=CP 14=LM 15=JP 16=SP 17=WP 18=PP 19=MP 20=GP
+C 21=JU 22=BR 23=GS 24=PY 25=OS 26=LO 27=CY 28=BL 29=EO 30=WO
+C 31=BO 32=VO 33=IO 34=BM 35=BU 36=RA 37=MA 38=GC 39=DG 40=FL
+C 41=WN 42=TO 43=SY 44=AS 45=CW 46=WI 47=CN 48=CL 49=OH
+C
+C----------
+C  INITIALIZE.
+C----------
+C  DQ0     = START OF CYCLE MEAN SQUARE DIAMETER
+C  DR0     = START OF CYCLE REINEKE'S DIAMETER
+C  T       = TREES/ACRE AT START OF CYCLE
+C  DQ10    = QUADRATIC DBH AT END OF CYCLE IF TREES/ACRE IS HELD CONSTANT
+C  DR10    = REINEKE'S DBH AT END OF CYCLE IF TREES/ACRE IS HELD CONSTANT
+C  TN10    = PREDICTED TREES/ACRE AT THE END OF THE CYCLE
+C  RN      = TREES/ACRE LOSS EXPRESSED AS PER YEAR LOSS
+C----------
+      LOGICAL DEBUG,LINCL
+C-----------
+C  SEE IF WE NEED TO DO SOME DEBUG.
+C-----------
+      CALL DBCHK (DEBUG,'MORTS',5,ICYC)
+      IF(DEBUG)WRITE(JOSTND,9000)ICYC
+ 9000 FORMAT(' ENTERING SUBROUTINE MORTS  CYCLE =',I4)
+C----------
+C  INITIALIZATIONS
+C----------
+      TREEIT= 0.
+      KNT=0
+C-----------
+C  PROCESS MORTMULT KEYWORD.
+C-----------
+      CALL OPFIND(1,MYACTS(1),NTODO)
+      IF(NTODO .EQ. 0)GO TO 25
+      DO 24 I=1,NTODO
+      CALL OPGET(I,4,IDATE,IACTK,NP,PRM)
+      CALL OPDONE(I,IY(ICYC))
+      ISPCC=IFIX(PRM(1))
+      IF(ISPCC .EQ. 0)GO TO 21
+      XMMULT(ISPCC)=PRM(2)
+      XMDIA1(ISPCC)=PRM(3)
+      XMDIA2(ISPCC)=PRM(4)
+      GO TO 24
+   21 CONTINUE
+      DO 22 ISPCC=1,MAXSP
+      XMMULT(ISPCC)=PRM(2)
+      XMDIA1(ISPCC)=PRM(3)
+      XMDIA2(ISPCC)=PRM(4)
+   22 CONTINUE
+   24 CONTINUE
+   25 CONTINUE
+      IF(DEBUG)WRITE(JOSTND,9010)ICYC,RMSQD
+ 9010 FORMAT(1H0,'IN MORTS 9010 ICYC,RMSQD= ',
+     & I5,5X,F6.2)
+      IF(RMSQD .EQ. 0.) THEN
+        CEPMRT=0.
+        SLPMRT=0.
+      ENDIF
+C----------
+C IF BARE GROUND PLANT, LIMITS WERE NOT ADJUSTED FROM A PERCENT TO A
+C PROPORTION IN CRATET, ADJUST THEM HERE.
+C----------
+      IF(PMSDIL .GT. 1.0)PMSDIL = PMSDIL/100.
+      IF(PMSDIU .GT. 1.0)PMSDIU = PMSDIU/100.
+C----------
+C INITIALIZE STARTING VALUES.
+C DQ0, CALCULATED BELOW, IS THE SAME AS RMSQD THAT IS CALCULATED IN DENSE
+C WHEN DBHSDI=0.
+C----------
+      IPASS=0
+      SUMKIL= 0.0
+C----------
+C  ESTIMATE QUADRATIC MEAN DIAMETER 10 YEARS HENCE.
+C----------
+c$$$      T=0.0
+c$$$      DQ0=0.
+c$$$      SDQ0=0.
+c$$$      SD2SQ=0.
+c$$$      SUMDR0=0.
+c$$$      SUMDR10=0.
+c$$$      DR0=0.
+c$$$      DR10=0.
+c$$$      DO 20 ISPC=1,MAXSP
+c$$$      I1=ISCT(ISPC,1)
+c$$$      IF(I1 .LE. 0)GO TO 20
+c$$$      I2=ISCT(ISPC,2)
+c$$$      DO 12 I3=I1,I2
+c$$$      I=IND1(I3)
+c$$$      P=PROB(I)
+c$$$      IS=ISP(I)
+c$$$      WK2(I) = 0.0
+c$$$      D=DBH(I)
+c$$$      IF(D.LT.DBHSDI)GO TO 12             ! BRANCH IF D IS LT USER'S DBHSDI
+c$$$      BARK=BRATIO(IS,D,HT(I))
+c$$$      G = (DG(I)/BARK) * (FINT/10.0)
+c$$$      CIOBDS=(2.0*D*G+G*G)
+c$$$      SD2SQ=SD2SQ+P*(D*D+CIOBDS)
+c$$$      SDQ0=SDQ0+P*(D)**2.
+c$$$      IF(LZEIDE)THEN
+c$$$        SUMDR10=SUMDR10+P*(D+G)**1.605
+c$$$        SUMDR0=SUMDR0+P*(D)**1.605
+c$$$      ENDIF
+c$$$      T=T+P
+c$$$   12 CONTINUE
+c$$$   20 CONTINUE
+c$$$      IF(DEBUG)WRITE(JOSTND,*)'SDQ0,SD2SQ,SUMDR0,SUMDR10= ',
+c$$$     &SDQ0,SD2SQ,SUMDR0,SUMDR10
+c$$$C----------
+c$$$C  SOME EVENTS CAN CHANGE THE TRAJECTORY OF A STAND. FOR EXAMPLE,
+c$$$C  REGENERATION, THINNING, USER MORTALITY, FIRE, I&P EFFECTS.
+c$$$C  IF THE TRAJECTORY IS CHANGED,
+c$$$C  RESET SLOPE AND INTERCEPT FOR CALCULATION.
+c$$$C  (THE VALUE OF 1. IS TO ALLOW FOR ROUNDING ERROR)
+c$$$C----------
+c$$$      IF(ICYC.GT.1 .AND. ABS(T-TPAMRT).GT.1.) THEN
+c$$$        CEPMRT=0.
+c$$$        SLPMRT=0.
+c$$$        IF(DEBUG)WRITE(JOSTND,*)' RESETTING SLOPE,INTERCEPT T,TPAMRT= ',
+c$$$     &  T,TPAMRT
+c$$$      ENDIF
+c$$$C
+c$$$      IF(T .LT. 1.0) GO TO 45
+c$$$      DQ0=SQRT(SDQ0/T)
+c$$$      DQ10=SQRT(SD2SQ/T)
+c$$$      IF(LZEIDE)THEN
+c$$$        DR0=(SUMDR0/T)**(1./1.605)
+c$$$        DR10=(SUMDR10/T)**(1./1.605)
+c$$$      ENDIF
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' IN MORTS, T,ISISP,LZEIDE= ',
+c$$$     *T,ISISP,LZEIDE
+c$$$      IF(LZEIDE)THEN
+c$$$        DIA0=DR0
+c$$$        D10=DR10
+c$$$      ELSE
+c$$$        DIA0=DQ0
+c$$$        D10=DQ10
+c$$$      ENDIF
+c$$$   10 CONTINUE
+c$$$      DELTBA=.005454154*D10*D10*T-BA
+c$$$C
+c$$$      IF(DEBUG) WRITE(JOSTND,9020) DQ0,DQ10,T,SD2SQ,DR0,DR10
+c$$$ 9020 FORMAT(1H ,'IN MORTS  DQ0 = ',F8.2,' DQ10 = ',F10.2,
+c$$$     &' T = ',F8.2,' SD2SQ = ',F10.2,' DR0= ',F10.2,' DR10= ',F10.2)
+c$$$C----------
+c$$$C  IF D IS TOO LOW, NUMERICAL PROBLEMS OCCUR. RESET IF NECESSARY.
+c$$$C----------
+c$$$       IF(DIA0 .LT. 0.3) THEN
+c$$$         D10 = 0.3 + D10 - DIA0
+c$$$         DIA0  = 0.3
+c$$$         IF(DEBUG) WRITE(JOSTND,*)' RESETTING DIA0,D10= ',DIA0,D10
+c$$$       ENDIF
+c$$$
+c$$$
+c$$$
+c$$$C
+c$$$C***********************************************************************
+c$$$C
+c$$$C THIS SECTION OF CODE COMPUTES MORTALITY IN TERMS OF THE RELATIONSHIP
+c$$$C T = CONSTANT*(D**-1.605)  WHERE T IS THE TOTAL NUMBER OF TREES
+c$$$C AND D IS THE QUADRATIC MEAN DIAMETER OR REINEKE DIAMATER.
+c$$$C
+c$$$C DEFAULT LIMITS: LO = 55% MAX SDI (PMSDIL); UP = 85% MAX SDI (PMSDIU)
+c$$$C
+c$$$C FROM RELATIONSHIPS BETWEEN LN(TREES PER ACRE) VS
+c$$$C LN(DIAMETER), THE MAXIMUM LINE, 85 PERCENT OF MAXIMUM
+c$$$C LINE, AND 55 PERCENT OF MAXIMUM LINE, WERE DETERMINED.  TREES PER ACRE
+c$$$C IS HELD CONSTANT AS LN(D) INCREASES UNTIL THE 55 PERCENT LINE IS
+c$$$C REACHED.  THEN TREES PER ACRE STARTS DECREASING ACCORDING TO A COMPUTE
+c$$$C LINEAR FN UNTIL IT REACHES THE 85 PERCENT LINE.  FROM THIS POINT ON,
+c$$$C TREES PER ACRE FOLLOWS DOWN THE 85 PERCENT LINE.  FOR STANDS WHERE THE
+c$$$C INITIAL NUMBER OF TREES EXCEEDS THE MAXIMUM LINE, NUMBER OF TREES IS
+c$$$C DECREASED TO THE MAXIMUM LINE THE FIRST CYCLE, AND TO THE 85 PERCENT L
+c$$$C THIS SECOND CYCLE.  FOR STANDS WITH AN INITIAL NUMBER OF TREES BETWEEN
+c$$$C 85 PERCENT LINE AND MAXIMUM LINES, THE NUMBER OF TREES IS DECREASED
+c$$$C TO THE 85 PERCENT LINE THE FIRST CYCLE.
+c$$$C
+c$$$C THIS SECTION OF CODE WAS DEVELOPED BY GARY DIXON FMSC FT COLLINS, CO.
+c$$$C
+c$$$C
+c$$$C DEFINITION OF VARIABLES IMPORTANT TO THIS SECTION -
+c$$$C
+c$$$C     T      = TOTAL NUMBER OF TREES
+c$$$C     ISISP = INDEX OF SPECIES WITH MAXIMUM BASAL AREA
+c$$$C     TMD0   = MAXIMUM NUMBER OF TREES FOR A GIVEN DQ0 OR DR0
+c$$$C     T85D0  = 85 PERCENT LEVEL OF TMD0
+c$$$C     T55D0  = 55 PERCENT LEVEL OF TMD0
+c$$$C     TMD10  = MAXIMUM NUMBER OF TREES FOR A GIVEN DQ10 OR DR10
+c$$$C     T85D10 = 85 PERCENT LEVEL OF TMD10
+c$$$C     T55D10 = 55 PERCENT LEVEL OF TMD10
+c$$$C     D55M   = DIAMETER VALUE CORRESPONDING TO LN(T) ON THE 55 PERCENT L
+c$$$C     D85M   = DIAMETER VALUE CORRESPONDING TO THE POINT WHERE THE LINEA
+c$$$C              INTERSECTS THE 85 PERCENT LINE
+c$$$C   SLPMRT   = SLOPE COEFFICIENT FOR THE LINEAR FN
+c$$$C   CEPMRT   = INTERCEPT COEFFICIENT FOR THE LINEAR FN
+c$$$C     KNT    = COUNTER FOR NUMBER OF ITERATIONS IN DETERMINING COEFFICIE
+c$$$C     TREEIT = NUMBER OF TREES VALUE USED IN ITERATION PROCESS
+c$$$C     TEM    = TEMPORARY STORAGE VARIABLE
+c$$$C     IPATH  = PATH THROUGH LINEAR FN COEFFICIENT SECTION -
+c$$$C              1 IF ITERATIVE DETERMINATION
+c$$$C              2 IF STRAIGHT COMPUTATION
+c$$$C      TMMSB = MAXIMUM NUMBER OF TREES FOR A GIVEN DQ10 OR DR10
+c$$$C               ACCORDING TO THE MATURE STAND BOUNDARY FUNCTION
+c$$$C     T85MSB = 85 PERCENT LEVEL OF TMMSB
+c$$$C----------
+c$$$C SDIMAX IS USED HERE TO CARRY WEIGHTED SDI MAXIMUM
+c$$$C----------
+c$$$      CALL SDICAL(SDIMAX)
+c$$$      CONST = SDIMAX / 0.02483133
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' SDIMAX,CONST,BAMAX= ',
+c$$$     &SDIMAX,CONST,BAMAX
+c$$$C----------
+c$$$C IF SDIMAX IS LESS THAN 5, ASSUME CLIMATE HAS CHANGED ENOUGH THAT THE
+c$$$C SITE WILL NO LONGER SUPPORT TREES, AND KILL ALL EXISTING TREES.
+c$$$C----------
+c$$$      IF(SDIMAX .LT. 5)THEN
+c$$$        TN10=0.
+c$$$        GO TO 271
+c$$$      ENDIF
+c$$$C
+c$$$      IPATH = 0
+c$$$      IF(T .GT. 35000.) T=35000.
+c$$$C----------
+c$$$C GIVEN DQ0, DETERMINE MAXIMUM TREES, 85 PERCENT LEVEL AND 55 PERCENT LE
+c$$$C----------
+c$$$  190 CONTINUE
+c$$$      TMD0 = CONST * (DIA0 ** (-1.605))
+c$$$      IF(TMD0 .GT. 35000.0) TMD0 = 35000.0
+c$$$      T85D0 = TMD0 * PMSDIU
+c$$$      T55D0 = PMSDIL * TMD0
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' TMD0,PMSDIU,PMSDIL,T85D0,T55D0= ',
+c$$$     &TMD0,PMSDIU,PMSDIL,T85D0,T55D0
+c$$$C----------
+c$$$C GIVEN DQ10 OR DR10 DETERMINE MAXIMUM TREES, 85 PERCENT LEVEL,
+c$$$C AND 55 PERCENT L
+c$$$C----------
+c$$$      TMD10 = CONST * (D10**(-1.605))
+c$$$      IF(TMD10 .GT. 35000.0) TMD10 = 35000.0
+c$$$      T85D10 = TMD10 * PMSDIU
+c$$$      T55D10 = PMSDIL * TMD10
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' TMD10,PMSDIU,PMSDIL,T85D10,T55D10= ',
+c$$$     &TMD10,PMSDIU,PMSDIL,T85D10,T55D10
+c$$$      IF(DEBUG)WRITE(JOSTND,9040)ICYC,SDIMAX
+c$$$ 9040 FORMAT(' IN MORTS ICYC,MAX SDI =',I5,F10.1)
+c$$$C----------
+c$$$C IF MSB IS IN EFFECT, THEN COMPUTE NECESSARY MSB PARAMETERS
+c$$$C----------
+c$$$      IF(SLPMSB .NE. 0.)THEN
+c$$$        CEPMSB = ALOG(CONST*(QMDMSB**(-1.605)))-SLPMSB*ALOG(QMDMSB)
+c$$$      ENDIF
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' MATURE STAND BOUNDARY SETTINGS, QMDMSB,'
+c$$$     &,'CEPMSB,SLPMSB,D10= ',QMDMSB,CEPMSB,SLPMSB,D10 
+c$$$C----------
+c$$$C IF TOTAL NUMBER OF TREES IS BETWEEN 85 PERCENT AND COMPUTED MAXIMUM,
+c$$$C KILL BACK TO 85 PERCENT LEVEL.
+c$$$C----------
+c$$$      IF(T .LE. T85D0) GO TO 210
+c$$$      TN10 = T85D10
+c$$$      GO TO 270
+c$$$  210 CONTINUE
+c$$$C----------
+c$$$C IF TOTAL NUMBER OF TREES IS BETWEEN 55 PERCENT AND 85 PERCENT, FIND
+c$$$C LINEAR FN COEFFICIENTS (ITERATIVE METHOD) AND KILL ACCORDING TO
+c$$$C LINEAR FN.
+c$$$C----------
+c$$$      IF(T .LE. T55D0) GO TO 240
+c$$$C----------
+c$$$C SPECIAL CASE WHERE T IS CLOSE TO THE 85% LINE AT DIA0
+c$$$C----------
+c$$$      IF(ABS(T85D0-T).LE.5.)THEN
+c$$$        TN10=T85D10
+c$$$        GO TO 270
+c$$$      ENDIF
+c$$$      KNT = 1
+c$$$      TREEIT = T + 0.1 * T
+c$$$      IPATH = 1
+c$$$  220 CONTINUE
+c$$$      TEM = TREEIT
+c$$$      IF(IPATH .EQ. 2) TEM = T
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' MORTS 220,TEM,CONST',TEM,CONST
+c$$$      D55M = (ALOG(TEM) - ALOG(PMSDIL*CONST)) / (-1.605)
+c$$$      T55M = ALOG(TEM)
+c$$$      D85M = D55M * 1.25
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' D55M,T55M,D85M= ',D55M,T55M,D85M
+c$$$  221 IF(D85M .GT. 5.0) D85M = 5.0
+c$$$      IF(D85M .LT. 0.125)D85M=0.125
+c$$$      T85M = ALOG(CONST * (EXP(D85M) ** (-1.605)) * PMSDIU)
+c$$$      SLP = (T85M-T55M) / (D85M - D55M)
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' D55M,D85M,T55M,T85M,SLP= ',
+c$$$     &D55M,D85M,T55M,T85M,SLP
+c$$$      IF(SLP .GT. -0.5 .AND. D85M .LT. 5.0)THEN
+c$$$        D85M = D85M + .1
+c$$$        GO TO 221
+c$$$      ENDIF
+c$$$      CEPT = T55M - SLP * D55M
+c$$$      IF(T .LE. T55D0) GO TO 230
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' MORTS,359,DIA0',DIA0
+c$$$      TPRIME = CEPT + SLP * ALOG(DIA0)
+c$$$      DIFF = T - EXP(TPRIME)
+c$$$      IF(DEBUG)WRITE(JOSTND,9050) DIA0,D10,T,TREEIT,TEM,D55M,
+c$$$     *T55M,D85M,T85M,SLP,CEPT,TPRIME,DIFF,KNT
+c$$$ 9050 FORMAT(1H0,'MORTS 9050',13F9.3,I4)
+c$$$      IF(DIFF .LE. 5.0 .AND. DIFF .GE. -5.0) GO TO 230
+c$$$      TREEIT = TREEIT + 0.5 * DIFF
+c$$$      KNT = KNT + 1
+c$$$      IF(KNT .LE. 100) GO TO 220
+c$$$  230 CONTINUE
+c$$$      IF(SLPMRT .EQ. 0.) SLPMRT = SLP
+c$$$      IF(CEPMRT .EQ. 0.) CEPMRT = CEPT
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' D10,CEPMRT,SLPMRT= ',D10,CEPMRT,SLPMRT
+c$$$      TEM = ALOG(D10)
+c$$$      TN10 = CEPMRT + SLPMRT*TEM
+c$$$      TN10 = EXP(TN10)
+c$$$      IF(TN10 .GE. T85D10)  TN10 = T85D10
+c$$$      GO TO 270
+c$$$  240 CONTINUE
+c$$$C----------
+c$$$C IF TOTAL NUMBER OF TREES IS LESS THAN 55 PERCENT AT DIA0 BUT GREATER TH
+c$$$C 55 PERCENT AT D10, FIND LINEAR FN (STRAIGHT COMPUTATION) AND KILL
+c$$$C ACCORDING TO LINEAR FN.
+c$$$C IF TOTAL NUMBER OF TREES IS LESS THAN 55 PERCENT AT DIA0 AND D10,
+c$$$C HOLD NUMBER OF TREES CONSTANT.
+c$$$C----------
+c$$$      IF(T .LE. T55D10) THEN
+c$$$           TN10 = T
+c$$$           GO TO 270
+c$$$      ELSE
+c$$$           IPATH = 2
+c$$$           GO TO 220
+c$$$      ENDIF
+c$$$  270 CONTINUE
+c$$$      IF(DEBUG)WRITE(JOSTND,9060)DIA0,D10,T,TN10,TREEIT,
+c$$$     *CONST,KNT
+c$$$ 9060 FORMAT(1H0,'MORTS 9060',6(F10.3,3X),I4)
+c$$$C----------
+c$$$C BOUND TN10 (THE NUMBER OF TREES REMAINING IN THE STAND AFTER MORTALITY)
+c$$$C   IF TN10 IS GREATER THAN T, SET TN10 = T
+c$$$C   IF TN10 IS SMALL, JUST KILL ALL THE TREES
+c$$$C----------
+c$$$  271 CONTINUE
+c$$$      IF(TN10 .GT. T)TN10=T
+c$$$      IF(TN10 .LT. 0.1)TN10=0.
+c$$$C
+c$$$C***********************************************************************
+c$$$C
+c$$$      RN=1.0-(1.0-((T-TN10)/T))**(1./FINT)
+c$$$      IF(DEBUG) WRITE(JOSTND,*) 'TESTMORTS, RN=',RN,
+c$$$     *'T=',T,'TN10=',TN10
+c$$$
+c$$$
+c$$$
+
+
+
+
+
+C----------
+C  START LOOP TO ESTIMATE SDI BASED MORTALITY RATE.
+C  TREES ARE PROCESSED ONE AT A TIME WITHIN A SPECIES.
+C----------
+      DO 50 ISPC=1,MAXSP
+      I1=ISCT(ISPC,1)
+      IF(I1.LE.0) GO TO 50
+      I2=ISCT(ISPC,2)
+      XMORT = XMMULT(ISPC)
+      D1=XMDIA1(ISPC)
+      D2=XMDIA2(ISPC)
+      KSPC=IBGMAP(ISPC)
+      B0 = PMSC(KSPC)
+      B1 = PMD(KSPC)
+
+
+
+
+C----------
+C  START TREE LOOP WITHIN SPECIES.
+C----------
+      DO 40 I3=I1,I2
+C----------
+C  INITIALIZE FOR NEXT TREE.
+C----------
+      I=IND1(I3)
+      P=PROB(I)
+      WKI=0.0
+      WKI    = MORTEXP(I) ! FROM ORGANON COMMON BLOCK
+
+      WK2(I)=0.0
+      IF(P.LE.0.0) GO TO 40
+      D=DBH(I)
+
+
+c$$$C----------
+c$$$C  COMPUTE BACKGROUND MORTALITY RATE RI
+c$$$C----------
+c$$$      RI=(1.0/(1.0+EXP(B0+B1*D)))
+c$$$C----------
+c$$$C TEST RUNS SHOW BACKGROUND MORTALITY RATE IS HIGH, CUT IT IN HALF.
+c$$$C----------
+c$$$      RI = 0.5 * RI
+c$$$C----------
+c$$$C  MERGE ESTIMATES OF RI AND RN.
+c$$$C----------
+c$$$      RIP=RI
+c$$$C----------
+c$$$C IF SDI NOT IN EFFECT YET SET RIP TO BACKGROUND MORTALITY RATE.
+c$$$C OTHERWISE SET TO SDI MORTALITY RATE.
+c$$$C----------
+c$$$      RIP=RN
+c$$$      TEM=CONST*(D10**(-1.605))
+c$$$      IF(TEM .GT. 35000.0)TEM=35000.0
+c$$$      TEM=TEM*PMSDIL
+c$$$      IF(T .LE. TEM .OR. RN .LE. 0.0)RIP=RI
+c$$$      IF(RIP.GT.1.0) RIP=1.0
+c$$$      X=1.0
+c$$$      IF(D .GE. D1 .AND. D .LT. D2)X=XMORT
+c$$$C----------
+c$$$C APPLY MORTALITY MULTIPLIER ONLY TO BACKGROUND RATE
+c$$$C----------
+c$$$      IF(RIP .EQ. RN) X=1.0
+c$$$      WKI=P*(1.0-(1.0-RIP)**FINT)*X
+c$$$      IF(WKI.GT.P) WKI=P
+c$$$
+
+
+      IF(DEBUG) WRITE(JOSTND,9070) I,D,RI,RN,RIP
+ 9070 FORMAT(' MORTALITY RATE ESTIMATES FOR TREE ',I4,', DBH = ',F6.2/
+     *'  RI = ',F7.5,' RN = ',F7.5,' RIP = ',F7.5)
+
+      WK2(I)=WKI
+C----------
+C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
+C----------
+
+
+      IF(DEBUG) THEN
+        PRES=P-WKI
+        VLOS=WKI*CFV(I)/FINT
+        WRITE(JOSTND,9080) I,ISPC,D,P,WKI,PRES,VLOS
+ 9080   FORMAT(' IN MORTS, I=',I4,',  ISPC=',I3,',  DBH=',F7.2,
+     &       ',  INIT PROB=',F9.3,
+     &       ',  TREES DYING=',F9.3,'  RES PROB=',F9.3,
+     &       ',  VOL LOST=',F9.3)
+      ENDIF
+
+
+
+   40 CONTINUE
+
+C----------
+C  END OF SPECIES LOOP.  PRINT DEBUG INFO IF DESIRED.
+C----------
+
+
+
+      IF(DEBUG) THEN
+        WRITE(JOSTND,9090)  ISPC,B0,B1
+ 9090   FORMAT(' IN MORTS,  ISPC=',I3,
+     &       11X,'B0=',F8.6,',  B1=',F8.6)
+      ENDIF
+
+   50 CONTINUE
+
+
+C----------
+C DISTRIBUTE MORTALITY BY VARIANT SPECIFIC METHOD
+C IF ALL TREES ARE BEING KILLED, WE DON'T NEED TO DO THIS
+C----------
+c$$$      SUMTRE = 0.0
+c$$$      IF(RIP .EQ. RN)SUMTRE = T-TN10
+c$$$      IF(SUMTRE .LT. 0.0)SUMTRE=0.0
+c$$$      IF(TN10 .GE. 0.1)THEN
+c$$$        CALL VARMRT(SUMTRE,DEBUG,SUMKIL)
+c$$$      ENDIF
+
+c$$$
+c$$$
+c$$$C----------
+c$$$C ESTIMATE NEW QUADRATIC MEAN DIAMETER AND SEE HOW BAD OUR
+c$$$C INITIAL ESTIMATE WAS.
+c$$$C----------
+c$$$      TN=0.0
+c$$$      SD2SQN=0.0
+c$$$      SUMDR10N=0.
+c$$$      DR10N=0.
+c$$$      IPASS = IPASS+1
+c$$$      DO 30 I=1,ITRN
+c$$$      P=PROB(I)-WK2(I)
+c$$$      IS=ISP(I)
+c$$$      D=DBH(I)
+c$$$      IF(D.LT.DBHSDI)GO TO 30             ! BRANCH IF D IS LT USER'S DBHSDI
+c$$$      BARK=BRATIO(IS,D,HT(I))
+c$$$      G = (DG(I)/BARK) * (FINT/10.0)
+c$$$      CIOBDS=(2.0*D*G+G*G)
+c$$$      SD2SQN=SD2SQN+P*(D*D+CIOBDS)
+c$$$      IF(LZEIDE)THEN
+c$$$        SUMDR10N=SUMDR10N+P*(D+G)**(1.605)
+c$$$      ENDIF
+c$$$      TN=TN+P
+c$$$   30 CONTINUE
+c$$$      IF(TN .EQ. 0.0)GO TO 35
+c$$$      DQ10N=SQRT(SD2SQN/TN)
+c$$$      IF(LZEIDE)THEN
+c$$$        DR10N=(SUMDR10N/TN)**(1./1.605)
+c$$$      ENDIF
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' MORTS CHECK DIA. IPASS,DQ10,DR10',
+c$$$     *'DQ10N,DR10N= ',IPASS,DQ10,DR10,DQ10N,DR10N
+c$$$      IF(LZEIDE)THEN
+c$$$        D10N=DR10N
+c$$$      ELSE
+c$$$        D10N=DQ10N
+c$$$      ENDIF
+c$$$      IF(IPASS .EQ. 10)GO TO 35
+c$$$      DIFF=ABS(D10-D10N)
+c$$$      IF(DIFF .GT. 0.1)THEN
+c$$$C----------
+c$$$C SOMETIMES SELECTIVE KILLING CAN DECREASE QMD.  IF SO, TAKE
+c$$$C CALCULATED MORTALITY AND RECALIBRATE NEXT CYCLE.
+c$$$C----------
+c$$$        IF(D10N .LE. DIA0)THEN
+c$$$          IPATH = 0
+c$$$          GO TO 35
+c$$$        ENDIF
+c$$$        D10=D10N
+c$$$        GO TO 10
+c$$$      ENDIF
+c$$$   35 CONTINUE
+c$$$C----------
+c$$$C IF ALTERNATE MORTALITY IS IN EFFECT, THEN COMPUTE NECESSARY PARAMETERS
+c$$$C AND KILL ADDITIONAL TREES TO SIMULATE STAND BREAK-UP. QMD WILL CHANGE
+c$$$C SO SET FLAG TO RECALIBRATE NEXT CYCLE.
+c$$$C----------
+c$$$      TMMSB=0.
+c$$$      T85MSB=0.
+c$$$      IF(D10.GT.QMDMSB .AND. TN.GT.0.)THEN
+c$$$        TMMSB=EXP(CEPMSB+SLPMSB*ALOG(D10))
+c$$$        T85MSB=TMMSB*PMSDIU
+c$$$        TMORE=TN-T85MSB
+c$$$        IF(TMORE .LT. 0.)TMORE=0.
+c$$$        IF(DEBUG)WRITE(JOSTND,*)' ALTERNATE MORTALITY LOGIC, D10,TN,',
+c$$$     &  'QMDMSB,CEPMSB,SLPMSB,TMMSB,T85MSB,PMSDIU,TMORE= '
+c$$$        IF(DEBUG)WRITE(JOSTND,*)
+c$$$     &  D10,TN,QMDMSB,CEPMSB,SLPMSB,TMMSB,T85MSB,PMSDIU,TMORE  
+c$$$C----------
+c$$$C MAKE SURE MSB EFFICIENCY IS SET HIGH ENOUGH; SINCE MORTALITY IS
+c$$$C CONCENTRATED IN A DBH RANGE, FIRST COMPUTE THE TPA LEFT IN THE DBH
+c$$$C RANGE AFTER DENSITY RELATED MORTALITY HAS BEEN ACCOUNTED FOR.
+c$$$C CALL SUBROUTINE MSBMRT TO KILL TMORE TREES AND SET RECALIBRATE FLAG.
+c$$$C
+c$$$C IF THERE AREN'T ENOUGH TREES LEFT IN THE CLASS TO ACHIEVE THE
+c$$$C ALTERNATE MORTALITY LEVEL EVEN IF THEY ARE ALL KILLED, THEN CANCEL 
+c$$$C THE ALTERNATE MORTALITY LOGIC; IF THE EFFICIENCY IS SET TO LOW TO
+c$$$C ACHIEVE THE ALTERNATE MORTALITY LEVEL THEN RECOMPUTE IT AND CONTINUE
+c$$$C WITH THE LOGIC.
+c$$$C----------
+c$$$        TPACLS=0.
+c$$$        DO I=1,ITRN
+c$$$        BARK=BRATIO(ISP(I),DBH(I),HT(I))
+c$$$        DBHEND=DBH(I)+(DG(I)/BARK)*(FINT/10.0)
+c$$$        IF(DBHEND.GE.DLOMSB .AND. DBHEND.LT.DHIMSB)THEN
+c$$$          TPACLS=TPACLS+PROB(I)-WK2(I)
+c$$$        ENDIF
+c$$$        ENDDO
+c$$$        IF(DEBUG)WRITE(JOSTND,*)' ALT MORT LOGIC DLOMSB,DHIMSB,TPACLS',
+c$$$     &  ' = ',DLOMSB,DHIMSB,TPACLS
+c$$$C
+c$$$        IF(TMORE .GT. TPACLS)THEN
+c$$$          WRITE(JOSTND,351)TPACLS,TMORE
+c$$$  351     FORMAT(/,2(' ***************'/),' WARNING: FOR ALTERNATE ',
+c$$$     &    'MORTALITY, TPA IN DBH CLASS OF ',F8.1,
+c$$$     &    ' TREES/ACRE IS LESS THAN THE ADDITIONAL MORTALITY TPA',
+c$$$     &    /,10X,' OF ',F8.1,' TREES/ACRE.  '
+c$$$     &    'ALTERNATE MORTALITY CANCELLED.',/2(' ***************'/),/)
+c$$$          GO TO 353
+c$$$        ENDIF
+c$$$C
+c$$$        TEMEFF=EFFMSB
+c$$$        IF(MFLMSB .EQ. 3) THEN
+c$$$          TEMEFF=TMORE/TPACLS
+c$$$        ELSE
+c$$$          IF(TPACLS*TEMEFF .LT. TMORE)THEN
+c$$$            TEMEFF=TMORE/TPACLS
+c$$$            WRITE(JOSTND,352)EFFMSB,TEMEFF
+c$$$  352       FORMAT(/,2(' ***************'/),' WARNING: FOR ALTERNATE ',
+c$$$     &      'MORTALITY, MORTALITY EFFICIENCY OF ',F8.4,
+c$$$     &      ' IS TOO LOW TO REACH THE ADDITIONAL MORTALITY LEVEL. ',
+c$$$     &      /,10X,'MORTALITY EFFICIENCY RESET TO ',F8.4,
+c$$$     &      ' FOR FURTHER PROCESSING.',
+c$$$     &      /2(' ***************'/),/)
+c$$$          ENDIF
+c$$$        ENDIF
+c$$$        CALL MSBMRT(TEMEFF,TMORE,DLOMSB,DHIMSB,MFLMSB,DEBUG)
+c$$$        IPATH=0
+c$$$      ENDIF
+c$$$  353 CONTINUE
+c$$$C----------
+c$$$C  LOOP THROUGH TREES AND CHECK FOR SIZE (aka AGE) CAP RESTRICTIONS
+c$$$C----------
+c$$$      DO 354 I=1,ITRN
+c$$$      IS = ISP(I)
+c$$$      D = DBH(I)
+c$$$      P = PROB(I)
+c$$$      BARK=BRATIO(IS,D,HT(I))
+c$$$      G = (DG(I)/BARK) * (FINT/10.0)
+c$$$      IDMFLG=IFIX(SIZCAP(IS,3))
+c$$$      IF((D+G).GE.SIZCAP(IS,1) .AND. IDMFLG.NE.1) THEN
+c$$$        WK2(I) = AMAX1(WK2(I),(P*SIZCAP(IS,2)*FINT/10.0))
+c$$$        IF(WK2(I) .GT. P)WK2(I)=P
+c$$$        IF(DEBUG)WRITE(JOSTND,*)' SIZE CAP RESTRICTION IMPOSED, ',
+c$$$     &  'I,IS,D,P,SIZCAP 1-3,WK2 = ',
+c$$$     &  I,IS,D,P,SIZCAP(IS,1),SIZCAP(IS,2),SIZCAP(IS,3),WK2(I)
+c$$$      ENDIF
+c$$$  354 CONTINUE
+c$$$C----------
+c$$$C  CHECK TO SEE IF BA IS STILL WITHIN LIMITS. IF OUT OF BOUNDS,
+c$$$C  ADJUST THE MORTALITY VALUES PROPORTIONATELY ACROSS ALL TREE RECORDS.
+c$$$C----------
+c$$$      KNT2=0
+c$$$9001  CONTINUE
+c$$$      TNEW=0.
+c$$$      BANEW=0.
+c$$$      QMDNEW=0.
+c$$$      BADEAD=0.
+c$$$      DO 36 I=1,ITRN
+c$$$      P=PROB(I)-WK2(I)
+c$$$      D=DBH(I)
+c$$$      BARK=BRATIO(ISP(I),D,HT(I))
+c$$$      G = (DG(I)/BARK) * (FINT/10.0)
+c$$$      TNEW=TNEW+P
+c$$$      BANEW=BANEW+(0.0054542*(D+G)**2.)*P
+c$$$      BADEAD=BADEAD+(0.0054542*(D+G)**2.)*WK2(I)
+c$$$      QMDNEW=QMDNEW + ((D+G)**2.)*P
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' I,P,D,G,TNEW,BANEW,QMDNEW,BADEAD= ',
+c$$$     &I,P,D,G,TNEW,BANEW,QMDNEW,BADEAD 
+c$$$   36 CONTINUE
+c$$$      IF(TNEW .GT. 0.) THEN
+c$$$        QMDNEW=SQRT(QMDNEW/TNEW)
+c$$$      ELSE
+c$$$        QMDNEW = 0.
+c$$$      ENDIF
+c$$$      IF(DEBUG)WRITE(JOSTND,*)' ICYC,BANEW,BAMAX,TNEW,QMDNEW,KNT2= ',
+c$$$     &ICYC,BANEW,BAMAX,TNEW,QMDNEW,KNT2
+c$$$      IF((BANEW-BAMAX) .GT. 1.) THEN
+c$$$C----------
+c$$$C       CALCULATE ADJUSTMENT FACTOR NEEDED TO GET RESIDUAL BA WITHIN
+c$$$C       THE BA MAXIMUM LIMIT. INCREASE IT BY 10% AND PLACE A LOWER
+c$$$C       BOUND ON THE FACTOR TO SPEED UP ITERATION.
+c$$$C----------
+c$$$        ADJFAC = ((BANEW-BAMAX)/BADEAD)
+c$$$        IF(DEBUG)WRITE(JOSTND,*)' BANEW,BAMAX,ADJFAC= ',
+c$$$     &  BANEW,BAMAX,ADJFAC
+c$$$
+
+
+
+C----------
+C       LOOP THROUGH THE TREE LIST AND ADJUST THE MORTALITY VALUES.
+C----------
+        TNEW=0.
+        DO 1500 I=1,ITRN
+        P=PROB(I)
+        WKI=WK2(I)*(1+ADJFAC)
+        IF(WKI.GT.P) WKI=P
+        WK2(I)=WKI
+        IF(DEBUG)WRITE(JOSTND,*)' ADJUSTING FOR BAMAX I,P,WKI= ',
+     &  I,P,WKI   
+
+C----------
+C       PRINT DEBUG INFO IF DESIRED.
+C----------
+        TNEW=TNEW+P-WKI
+        IF(.NOT.DEBUG) GO TO 1500
+        PRES=P-WKI
+        VLOS=WKI*CFV(I)/FINT
+        WRITE(JOSTND,9080) I,ISPC,D,P,WKI,PRES,VLOS
+
+ 1500   CONTINUE
+
+C----------
+C LOOP BACK AND SEE IF THE BAMAX TARGET HAS BEEN ACHIEVED YET.
+C (I.E. IF THE COMPUTED MORTALITY RATE EXCEEDED THE PROB, AND WE 
+C  HAD TO LIMIT MORTALITY TO THE PROB VALUE FOR SOME TREE RECORDS,
+C  THEN WE MAY NOT REACH THE BA LIMIT IN ONE PASS.) 
+C----------
+c$$$        KNT2=KNT2+1
+c$$$c$$$        IF(KNT2 .LT. 100)GO TO 9001
+c$$$C
+c$$$        IPATH=0
+c$$$        IF(DEBUG)WRITE(JOSTND,*)' AFTER BA ADJUSTMENT RESIDUAL TPA = ',
+c$$$     &  TNEW
+c$$$      ENDIF
+c$$$      TPAMRT=TNEW
+
+   45 CONTINUE
+C
+C----------
+C  COMPUTE THE CLIMATE-PREDICTED MORTALITY RATES BY SPECIES
+C---------
+      CALL CLMORTS
+
+C
+C
+C----------
+C  COMPUTE THE FIXMORT OPTION.  LOOP OVER ALL SCHEDULED FIXMORT'S
+C  LINCL IS USED TO INDICATE WHETHER A TREE GETS AFFECTED OR NOT
+C----------
+      CALL OPFIND (1,MYACTS(2),NTODO)
+      IF (NTODO.GT.0) THEN
+        IF(DEBUG)WRITE(JOSTND,*)' FIXMORT PROCESSING, ITODO= ',ITODO
+         DO 300 ITODO=1,NTODO
+         CALL OPGET (ITODO,6,IDATE,IACTK,NP,PRM)
+         IF (IACTK.LT.0) GOTO 300
+         CALL OPDONE(ITODO,IY(ICYC))
+         ISPCC=IFIX(PRM(1))
+         IF(NP .LE. 4)THEN
+           IF(PRM(2).GT. 1.0)PRM(2)=1.0
+         ENDIF
+         IF(PRM(3).LT. 0.0)PRM(3)=0.0
+         IF(PRM(4).LE. 0.0)PRM(4)=999.
+         IP=1
+         IF (NP.GT.4) THEN
+            IF (PRM(5).EQ.1.0) THEN
+               IP=2
+            ELSEIF (PRM(5).EQ.2.0) THEN
+               IP=3
+            ELSEIF (PRM(5).EQ.3.) THEN
+               IP=4
+            ENDIF
+         ENDIF
+C----------
+C  SET FLAG FOR POINT MORTALITY, OR KILLING FROM ABOVE
+C    PRM(6)    POINT      SIZE   KBIG     KILL DIRECTION
+C      0         NO        NO     0                       DEFAULT CONDITION
+C      1         YES       NO     0
+C     10         NO        YES    1       BOTTOM UP
+C     11         YES       YES    1       BOTTOM UP
+C     20         NO        YES    2       TOP DOWN
+C     21         YES       YES    2       TOP DOWN
+C----------
+         KPOINT=0
+         KBIG=0
+         IF(PRM(6).GT.0.)THEN
+           IF(PRM(6) .EQ. 1)THEN
+             KPOINT=1
+           ELSEIF(PRM(6) .EQ. 10)THEN
+             KBIG=1
+           ELSEIF(PRM(6) .EQ. 11)THEN
+             KPOINT=1
+             KBIG=1
+           ELSEIF(PRM(6) .EQ. 20)THEN
+             KBIG=2
+           ELSEIF(PRM(6) .EQ. 21)THEN
+             KPOINT=1
+             KBIG=2
+           ENDIF
+         ENDIF
+         IF (ITRN.GT.0) THEN
+C----------
+C IF CONCENTRATING MORTALITY ON A POINT, AND/OR BY SIZE TREES IS IN
+C EFFECT, DETERMINE EFFECT OF THIS FIXMORT AND REALLOCATE BY POINT:
+C   REALLOCATE ALL MORTALITY IF REPLACE OPTION OR MULTIPLY OPTION
+C   ARE IN EFFECT.
+C   ONLY REALLOCATE ADDITIONAL MORTALITY IF "ADD" OPTION IS IN EFFECT
+C   ONLY REALLOCATE ADDITIONAL MORTALITY IF "MAX" OPTION IS IN EFFECT
+C   (I.E. MORTALITY OVER AND ABOVE WHAT WAS PREVIOUSLY PREDICTED.
+C----------
+            IF(KBIG.GE.1 .OR. (KPOINT.EQ.1 .AND. IPTINV.GT.1)) THEN
+              XMORE=0.
+              DO 199 I=1,ITRN
+              LINCL = .FALSE.
+              IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I))THEN
+                LINCL = .TRUE.
+              ELSEIF(ISPCC.LT.0)THEN
+                IGRP = -ISPCC
+                IULIM = ISPGRP(IGRP,1)+1
+                DO 90 IG=2,IULIM
+                IF(ISP(I) .EQ. ISPGRP(IGRP,IG))THEN
+                  LINCL = .TRUE.
+                  GO TO 91
+                ENDIF
+   90           CONTINUE
+              ENDIF
+   91         CONTINUE
+              IF (LINCL .AND.
+     >          (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
+                GOTO (191,192,193,194),IP
+  191           CONTINUE
+                XMORE=XMORE+PROB(I)*PRM(2)
+                WK2(I)=0.
+                GOTO 199
+  192           CONTINUE
+                XMORE=XMORE+(AMAX1(0.0,PROB(I)-WK2(I))*PRM(2))
+                GOTO 199
+  193           CONTINUE
+                TEMP=AMAX1(WK2(I),(PROB(I)*PRM(2)))
+                IF(TEMP .GT. WK2(I)) THEN
+                  XMORE=XMORE+TEMP-WK2(I)
+                ENDIF
+                GOTO 199
+  194           CONTINUE
+                XMORE=XMORE+WK2(I)*PRM(2)
+                WK2(I)=0.
+                GOTO 199
+              ENDIF
+  199         CONTINUE
+              IF(DEBUG)WRITE(JOSTND,*)' KPOINT,KBIG,ITRN,XMORE= ',
+     &                 KPOINT,KBIG,ITRN,XMORE
+              CREDIT=0.
+              DO 201 I=1,ITRN
+              IWORK1(I)=IND1(I)
+              IF(KBIG .EQ. 1)THEN
+                WORK3(I)=(-1.0)*
+     &                  (DBH(I)+DG(I)/BRATIO(ISP(I),DBH(I),HT(I)))
+              ELSE
+                WORK3(I)=DBH(I)+DG(I)/BRATIO(ISP(I),DBH(I),HT(I))
+              ENDIF
+  201         CONTINUE
+              CALL RDPSRT(ITRN,WORK3,IWORK1,.FALSE.)
+              IF(DEBUG)WRITE(JOSTND,*)' DBH= ',(DBH(IG),IG=1,ITRN)
+              IF(DEBUG)WRITE(JOSTND,*)' IWORK1= ',(IWORK1(IG),IG=1,ITRN)
+              IF(DEBUG)WRITE(JOSTND,*)' WK2= ',(WK2(IG),IG=1,ITRN)
+C
+              IF(KBIG.GE.1 .AND. KPOINT.EQ.0)THEN
+C
+C  CONCENTRATION BY SIZE ONLY
+C
+                DO 310 I=1,ITRN
+                IX=IWORK1(I)
+                LINCL = .FALSE.
+                IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(IX))THEN
+                  LINCL = .TRUE.
+                ELSEIF(ISPCC.LT.0)THEN
+                  IGRP = -ISPCC
+                  IULIM = ISPGRP(IGRP,1)+1
+                  DO 92 IG=2,IULIM
+                  IF(ISP(IX) .EQ. ISPGRP(IGRP,IG))THEN
+                    LINCL = .TRUE.
+                    GO TO 93
+                  ENDIF
+   92             CONTINUE
+                ENDIF
+   93           CONTINUE
+                IF (LINCL .AND.
+     >          (PRM(3).LE.DBH(IX) .AND. DBH(IX).LT.PRM(4))) THEN
+                  TEMP=CREDIT+PROB(IX)-WK2(IX)
+                  IF((TEMP .LE. XMORE).OR.
+     >               (ABS(TEMP-XMORE).LT.0.0001))THEN
+                    CREDIT=CREDIT+PROB(IX)-WK2(IX)
+                    WK2(IX)=PROB(IX)
+                  ELSE
+                    WK2(IX)=WK2(IX)+XMORE-CREDIT
+                    CREDIT=XMORE
+                    GO TO 295
+                  ENDIF
+                ENDIF
+  310           CONTINUE
+                GO TO 295
+C
+              ELSEIF(KPOINT.EQ.1 .AND. KBIG.EQ.0)THEN
+C
+C  CONCENTRATION ON POINTS ONLY
+C
+              DO 205 J=1,IPTINV
+              DO 204 I=1,ITRN
+              IF(ITRE(I) .NE. J)GO TO 204
+              LINCL = .FALSE.
+              IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I))THEN
+                LINCL = .TRUE.
+              ELSEIF(ISPCC.LT.0)THEN
+                IGRP = -ISPCC
+                IULIM = ISPGRP(IGRP,1)+1
+                DO 94 IG=2,IULIM
+                IF(ISP(I) .EQ. ISPGRP(IGRP,IG))THEN
+                  LINCL = .TRUE.
+                  GO TO 95
+                ENDIF
+   94           CONTINUE
+              ENDIF
+   95         CONTINUE
+              IF (LINCL .AND.
+     >          (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
+                TEMP=CREDIT+PROB(I)-WK2(I)
+                IF((TEMP .LE. XMORE).OR.
+     >             (ABS(TEMP-XMORE).LT.0.0001))THEN
+                  CREDIT=CREDIT+PROB(I)-WK2(I)
+                  WK2(I)=PROB(I)
+                ELSE
+                  WK2(I)=WK2(I)+XMORE-CREDIT
+                  CREDIT=XMORE
+                  GO TO 295
+                ENDIF
+              ENDIF
+  204         CONTINUE
+  205         CONTINUE
+              GO TO 295
+C
+C  CONCENTRATION BY SIZE ON POINTS (POINTS HAVE PRIORITY, SO TREES
+C  WILL BE KILLED BY SIZE ON ONE POINT BEFORE MOVING TO THE NEXT
+C  POINT TO START WITH THE BIGGEST/SMALLEST TREES ON THAT POINT.
+              ELSE
+              DO 312 J=1,IPTINV
+              DO 311 I=1,ITRN
+              IX=IWORK1(I)
+              IF(ITRE(IX) .NE. J)GO TO 311
+              LINCL = .FALSE.
+              IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(IX))THEN
+                LINCL = .TRUE.
+              ELSEIF(ISPCC.LT.0)THEN
+                IGRP = -ISPCC
+                IULIM = ISPGRP(IGRP,1)+1
+                DO 96 IG=2,IULIM
+                IF(ISP(IX) .EQ. ISPGRP(IGRP,IG))THEN
+                  LINCL = .TRUE.
+                  GO TO 97
+                ENDIF
+   96           CONTINUE
+              ENDIF
+   97         CONTINUE
+              IF (LINCL .AND.
+     >          (PRM(3).LE.DBH(IX) .AND. DBH(IX).LT.PRM(4))) THEN
+                TEMP=CREDIT+PROB(IX)-WK2(IX)
+                IF((TEMP .LE. XMORE).OR.
+     >             (ABS(TEMP-XMORE).LT.0.0001))THEN
+                  CREDIT=CREDIT+PROB(IX)-WK2(IX)
+                  WK2(IX)=PROB(IX)
+                ELSE
+                  WK2(IX)=WK2(IX)+XMORE-CREDIT
+                  CREDIT=XMORE
+                  GO TO 295
+                ENDIF
+              ENDIF
+  311         CONTINUE
+  312         CONTINUE
+              GO TO 295
+              ENDIF
+C
+            ENDIF
+C----------
+C  NORMAL FIXMORT PROCESSING WHEN POINT OR SIZE CONCENTRATION
+C  IS NOT IN EFFECT.
+C----------
+            DO 290 I=1,ITRN
+              LINCL = .FALSE.
+              IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I))THEN
+                LINCL = .TRUE.
+              ELSEIF(ISPCC.LT.0)THEN
+                IGRP = -ISPCC
+                IULIM = ISPGRP(IGRP,1)+1
+                DO 98 IG=2,IULIM
+                IF(ISP(I) .EQ. ISPGRP(IGRP,IG))THEN
+                  LINCL = .TRUE.
+                  GO TO 99
+                ENDIF
+   98           CONTINUE
+              ENDIF
+   99         CONTINUE
+            IF (LINCL .AND.
+     >         (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
+               GOTO (610,620,630,640),IP
+  610          CONTINUE
+               WK2(I)=PROB(I)*PRM(2)
+               GOTO 290
+  620          CONTINUE
+               WK2(I)=WK2(I)+(AMAX1(0.0,PROB(I)-WK2(I))*PRM(2))
+               GOTO 290
+  630          CONTINUE
+               WK2(I)=AMAX1(WK2(I),(PROB(I)*PRM(2)))
+               GOTO 290
+  640          CONTINUE
+               WK2(I)=AMIN1(PROB(I),WK2(I)*PRM(2))
+               GOTO 290
+            ENDIF
+  290       CONTINUE
+  295    CONTINUE
+         IF(DEBUG)WRITE(JOSTND,*)' ITODO,WK2= ',
+     &    ITODO,(WK2(IG),IG=1,ITRN)
+         ENDIF
+  300    CONTINUE
+      ENDIF
+      RETURN
+
+
+
+C
+      ENTRY MORCON
+C----------
+C  ENTRY POINT FOR LOADING MORTALITY MODEL CONSTANTS THAT
+C  REQUIRE ONE-TIME RESOLUTION.
+C----------
+      CEPMRT = 0.
+      SLPMRT = 0.
+      TPAMRT = 0.
+      RETURN
+      END

@@ -128,7 +128,7 @@ C------- new FFE INTEGER variables --------
       INTS( 81) = IFLOGIC     
       INTS( 82) = IFMSET
       INTS( 83) = ICYCRM
-      INTS( 84) = ITRNC
+      INTS( 84) = ITRNL
 C------- new FFE INTEGER variables for down wood reports --------      
       INTS( 85) = IDWPAS
       INTS( 86) = IDWRPB

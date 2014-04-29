@@ -1,7 +1,12 @@
-!== last modified  01-23-2013
+!== last modified  03-12-2014
 !== tdh added httwo = httot before prod 08
 C YW added to also check httot > 20 for prod 08 and changed subroutine PROD8 to return zero volume for height < 17.3
 C 01/18/2013 Added stump vol calculation (VOL(14))
+C YW 02/07/2014 Modified TOTHT and HT479 subroutine to make it calculate pulpwood broken height volume. 
+C               Broken height is entered to the field HT1PRD
+C YW 02/26/2014 Modified TOTHT subrouine to have broken height less then HTTWO and also set HTTOT variable when 
+C               total height is passed in with UPSHT1(HTTWO) variable befor cal TOTHT subroutine.
+C YW 03/12/2014 Fixed HT479 for smal tree problem (HT2<17.3)
       SUBROUTINE R8VOL2(VOLEQ,VOL,DBHOB,HTONE,HTTWO,MTOPP,HTTOT,CTYPE,
      >                  ERRFLAG)
 C      *** SUBROUTINE TO CALCULATE NEW VOLUMES ***
@@ -24,7 +29,7 @@ CREV   Revised TDH 06/01/11 Changed error handling/goto 998.
       IMPLICIT NONE
 
 C      ***  PASSED VARIABLES ***
-      INTEGER ERRFLAG!,I,J
+      INTEGER ERRFLAG !,I,J
       character*10 VOLEQ
 	    CHARACTER*1 CTYPE
       REAL VOL(15),DBHOB,HTONE,HTTWO,DF1,MTOPP,HTTOT,fclss
@@ -368,10 +373,18 @@ c        check for httwo equal zero and totht > 0
       IF (SPEC.EQ.SPECPR .AND. EQN.EQ.EQNPR .AND. GEOA.EQ.GEOAPR) THEN
          
          IF(EQN.EQ.0) THEN
+c  Modified the total height equation work for broken top
+c  The broken height is entered to the field HT1PRD (YW 02/07/2014)
+           IF(HTONE.GT.0.5)THEN
+             IF(HTTOT.LT.0.01) HTTOT = HTTWO
+             CALL TOTHT(VOL,DBHOB,HTTOT,HTONE,FIXDI,SPEC,SPGRP,
+     >              TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
+     >              TPO,TBO,TAO,TAFI,TBFI,THTFLAG)            
+           ELSE
              CALL TOTHT(VOL,DBHOB,HTTOT,HTTWO,FIXDI,SPEC,SPGRP,
      >              TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
      >              TPO,TBO,TAO,TAFI,TBFI,THTFLAG) 
-           
+           ENDIF
 	   ELSEIF(EQN.EQ.8) THEN
 	      
 	      IF(HTTWO.LT.20.AND.HTTOT.GT.20) HTTWO = HTTOT
@@ -554,10 +567,19 @@ C***********************************************************************
 	      CALL PROD8(VOL,DBHOB,HTTWO,FIXDI,SPEC,SPGRP,TR,TC,TE,TP,TB,
      >       TA,AD,BD,TAF,TBF,TRO,TCO,TEO,TPO,TBO,TAO,TAFI,TBFI,MTOPP)
          ELSE
+c  Modified the total height equation work for broken top
+c  The broken height is entered to the field HT1PRD (YW 02/07/2014)
+           IF(HTONE.GT.0.5)THEN
+             IF(HTTOT.LT.0.01) HTTOT = HTTWO
+             CALL TOTHT(VOL,DBHOB,HTTOT,HTONE,FIXDI,SPEC,SPGRP,
+     >              TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
+     >              TPO,TBO,TAO,TAFI,TBFI,THTFLAG)            
+           ELSE
+         
            CALL TOTHT(VOL,DBHOB,HTTOT,HTTWO,FIXDI,SPEC,SPGRP,
      >                TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
      >                TPO,TBO,TAO,TAFI,TBFI,THTFLAG)
-
+           ENDIF
 	   ENDIF
 
       ELSEIF (EQN.EQ.4) THEN
@@ -694,7 +716,7 @@ C      *** DECLARE LOCAL VARIABLES ***
      >      HT,SEG1,SEG2,SEG3,LOWER,UPPER,L1,L2,L3,U1,U2,U3,S1,S2,S3,
      >      VO,WO,XO,YO,ZO,DBH2,DBH3,FCDOB,FCDOB2,UPPERD,UPPERD2
       INTEGER IS,IB,IT,IM,I1,I2,I3,I4,I5,I6
-      REAL FCMIN, FCDIB, VOLINI,DIB
+      REAL FCMIN, FCDIB, VOLINI,DIB,HT2TMP
       
 C     ***Testing variables
       REAL FCLSCLC
@@ -782,21 +804,25 @@ C      SET INDICATOR VARIABLES
 
 C      CALCULATE HEIGHT  *******************************************
 
-
+C     Save HTTWO to a tmp variable
+      HT2TMP = HTTWO
 C -- INITIALIZE SEG* VARIABLES
-      IF(IS.EQ.1) THEN
+       IF(IS.EQ.1) THEN
          HTTWO = THT*(1-((UPPERD2/DBH2-1)/WO+VO)**(1/RO))
-      ELSEIF(IB.EQ.1) THEN
+       ELSEIF(IB.EQ.1) THEN
          HTTWO = THT*(1-(XO-(DBH2-UPPERD2)/ZO)**(1/PO))
-      ELSE
+       ELSE
           V1 = THT - 17.3
           QA = BO + IM*((1-BO)/AO**2)
           QB = -2 * BO - IM * 2*((1-BO)/AO)
           QC = BO + (1-BO)*IM - UPPERD2/FCDOB2
           V2 = (-QB - (SQRT(QB**2 - 4*QA*QC)))/(2*QA)
           HTTWO = (17.3 + V1*V2)
+       ENDIF
+C -- When broken height is entered, use the broken height to calc volume
+      IF(HT2TMP.GT.0.1.AND.HT2TMP.LT.HTTWO)THEN
+        HTTWO = HT2TMP
       ENDIF
-
 c     height to the upper top
       IF (HTTWO.LT.4.5) HTTWO = 4.5
        
@@ -914,10 +940,23 @@ C     ***Testing variables
        STFAC = 1.0
        IF (EQN.EQ.4) THEN
          IF (HT2.LE.17.3) THEN
-           STFAC = (THT2 - 0.5) / (17.31 - 0.5)
-           HT2 = 17.31
+C This fix small tree problem for the 20140227 fix         
+           IF (HT1.GT.0.0.AND.THT1.LT.THT2) THEN
+C           Broken height recorded
+              STFAC = (THT1 - 0.5) / (17.31 - 0.5)
+              HT1 = 17.31
+            ELSE
+              STFAC = (THT2 - 0.5) / (17.31 - 0.5)
+              HT2 = 17.31
+            ENDIF
          ENDIF
-         HT = HT2
+C Modified the 4" height equation to work for broken height
+C The broken height is entered to the field HT1PRD (YW 02/07/2014)
+         IF(THT1.GT.0.0.AND.THT1.LT.THT2) THEN
+           HT = HT1
+         ELSE
+           HT = HT2
+         ENDIF
        ELSE IF (EQN.EQ.7.OR.EQN.EQ.9) THEN
          IF (HT2.LE.17.3) THEN
            STFAC = (HT1 - 1.0) / (17.3 - 1.0)
