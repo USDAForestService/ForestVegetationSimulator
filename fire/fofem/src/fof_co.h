@@ -174,8 +174,8 @@ typedef struct {
 
 
 /* Change 3-1-11  add */
-  d_SGV sr_SGV[eC_SGV]; 
-  int iC_SGV;  /* if a user doesn't have access to eCSGV, use this */
+/*  d_SGV sr_SGV[eC_SGV];   commented this out - sar - april 29, 2014 */
+   int iC_SGV;  /* if a user doesn't have access to eCSGV, use this */
 
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/

@@ -78,6 +78,8 @@ d_CI s_CI;
 d_CO s_CO;
 d_SI s_SI;
 d_SO s_SO;
+/* SAR 04/29/14 new argument for SH_MNGR */
+float s_FI[1500];  
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
 /* Check if caller wants to do a test run                                    */
@@ -202,7 +204,7 @@ d_SO s_SO;
    s_SI.i_Time =  s_CO.i_Time;              /* Does Exp simulation - no Duff */
    s_SI.f_fi   =  s_CO.f_fi;                /*  Model, otherwise not used    */
 
-   i = SH_Mngr (&s_SI, &s_SO, "", gcr_EM);
+   i = SH_Mngr (&s_SI, &s_SO, s_FI, "", gcr_EM);
    if ( i == 0 ) {                      /* Error                             */
      if ( iN_ErrMes < strlen(gcr_EM) )  /* Chk len of callrs err mess string */
        gcr_EM[iN_ErrMes] = 0;           /* need to shorten error mess        */
