@@ -1,4 +1,6 @@
-
+//
+// $Id$
+//
 /*
 #ifdef FOF_DLL_EXPORT
 extern "C" {

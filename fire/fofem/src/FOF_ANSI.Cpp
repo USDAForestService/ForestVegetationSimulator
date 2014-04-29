@@ -1,4 +1,6 @@
-
+//
+// $Id$
+//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fof_ansi.c
 * Desc:  These are stub functions for xstrupr() and xstrcmpi()

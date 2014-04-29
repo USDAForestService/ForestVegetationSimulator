@@ -1,4 +1,6 @@
-
+//
+// $Id$
+//
 
 int HSF_Mngr  (d_CI *a_CI, d_CO *a_CO, char cr_ErrMes[]);
 int HSF_Check (d_CI *a_CI, char cr_ErrMes[]);

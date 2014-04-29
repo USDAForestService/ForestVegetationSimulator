@@ -18,15 +18,13 @@
 #include <math.h>
 #include <string.h>
 
-#include "fm_fofem.h"
-#include "fof_co.h"
-#include "fof_co2.h"
-#include "fof_ci.h"
-#include "fof_cm.h"
-#include "fof_sh.h"
+/* Include header files for Tree Mortaity                                    */
+#include "fm_mort.h"
+#include "fof_iss.h"
+#include "fof_mrt.h"
 
 /*.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.*/
-#define eC_fhT "soiltest.txt"           /* Test output file                  */
+#define eC_fhT "morttest.txt"           /* Test output file                  */
 FILE *fhT;
 
 char gcr_EM[3000];

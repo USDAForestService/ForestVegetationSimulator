@@ -1,3 +1,6 @@
+//
+// $Id$
+//
 /*{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}
 * Name: fir_gen.h
 * Desc: general defines that get shared by Fofem and Batch Fofem
