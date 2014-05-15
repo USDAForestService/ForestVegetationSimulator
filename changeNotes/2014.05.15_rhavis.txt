@@ -1,0 +1,19 @@
+Subject: BF Volume Methods in LS Variant
+Name: R. Havis
+Date: May 15, 2014
+
+Variants affected: LS
+
+Description:
+
+LS variant: All of the National Forests in the Lake States variant
+            were using the Gross Scribner Board Foot volume calculation
+            method. This was changed so that the Chequamegon, Chippewa,
+            Nicolet, Ottawa, Superior, Hiawatha, and Chequamegon-Nicolet
+            National Forests use the Gross Scribner Board Foot volume
+            method and all other National Forests use the International
+            1/4 inch rule.
+
+Impact on users: Users of the Lake States variant should get new executables.
+
+Files:
