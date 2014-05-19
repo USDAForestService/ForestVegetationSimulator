@@ -171,9 +171,14 @@ C        SAR 11/20/12
          IF (ANNUAL .GT. 0.0) THEN
            FALLYR = 0
 c           DO IYR=YNEXTY,ILIFE
-           DO IYR=ICYC+1,JCYC
+           IF (ICALL .EQ. 4) THEN 
+             ISTCYC = ICYC + 1
+           ELSE
+             ISTCYC = ICYC
+           ENDIF
+           DO IYR=ISTCYC,JCYC
 c              FALLYR = IYR + 1 - YNEXTY
-              FALLYR = IYR - ICYC
+              FALLYR = IYR - ISTCYC +  1
 
 C        Since we're estimating the amount per cycle, be careful here to
 C        set up the cycles properly.  If you are dealing with end of cycle
@@ -207,7 +212,7 @@ C           where we need to put the stuff.
              IF (ICALL .NE. 4) THEN
                CWD2B2(DKCL,SIZE,FALLYR) = CWD2B2(DKCL,SIZE,FALLYR) 
      >                                   + AMT
-	       ELSE
+	           ELSE
                CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
      >                                   + AMT
              ENDIF
