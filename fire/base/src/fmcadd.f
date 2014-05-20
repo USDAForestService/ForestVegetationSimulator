@@ -109,14 +109,7 @@ C           due to crown lifting):
       
 C     Add in the debris-in-waiting from snags.  Since crowns left during
 C     salvage are handled elsewhere, it is enough to take 
-C     all the material in the year-1 pool of CWD2B.  
-C     NOTES for cycle boundaries version: 
-C     1) The IYR field in the CWD2B field now actually holds material
-C        by CYCLE, not year (see FMSCRO)
-C     2) The loops by TFMAX could be made shorter because if the model is 
-C        using cycle lengths > 1 year, not all TFMAX fields will be used.
-C     3) (Aug/13) now dividing the CWD2B field by the number of years in the
-C         cycle so that we add an even amount each year.  
+C     all the material in the year-1 pool of CWD2B.   
           
           IYR=1
           PDOWN = 1.0
@@ -142,7 +135,21 @@ C          Then all the sizes of woody material.
                   
             ENDDO
           ENDDO
-            
+
+C     Write out debug values before pools are moved forward for the year. 
+ 
+        IF (DEBUG) THEN
+          WRITE(JOSTND,*) 'BEFORE POOLS ARE MOVED FORWARD'
+          DO DKCL=1,4 
+            DO SIZE=0,5
+                DO IYR=1,(TFMAX-1)
+                   WRITE (JOSTND,10)DKCL,SIZE,IYR,
+     >                    CWD2B(DKCL,SIZE,IYR),CWD2B2(DKCL,SIZE,IYR)
+                ENDDO
+            ENDDO
+          ENDDO
+        ENDIF 
+     
 C     Move all the debris-in-waiting pools of each decay class forward
 C     one year, to be ready for next year:
     
@@ -154,8 +161,11 @@ C     one year, to be ready for next year:
             CWD2B(DKCL,SIZE,TFMAX) = 0.0
           ENDDO
         ENDDO
+
+C     Write out debug values after pools are moved forward for the year. 
     
         IF (DEBUG) THEN
+          WRITE(JOSTND,*) 'AFTER POOLS ARE MOVED FORWARD'
           DO DKCL=1,4 
             DO SIZE=0,5
                 DO IYR=1,(TFMAX-1)

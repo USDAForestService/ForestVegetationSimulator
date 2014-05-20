@@ -68,8 +68,8 @@ Cppe  INCLUDE 'PPCNTL.F77'
 C.... Variable declarations.
       INTEGER I, SP, DEADYR, SIZE, DKCL, IYR, ILIFE, YNEXTY,FALLYR
       REAL    DSNAGS, TSOFT, RLIFE, ANNUAL, NEWBOT, OLDBOT, X
-      INTEGER ICALL, JYRSOFT, JADJ, JSML, JCYC, IYRS, ISTCYC
-      REAL    YRSCYC, AMT
+      INTEGER ICALL, JYRSOFT, JADJ, JSML
+      REAL    YRSCYC
       CHARACTER VVER*7
       LOGICAL  DEBUG
 C
@@ -143,14 +143,6 @@ C        and rounds it up to the next highest integer if so.
 
          IF (REAL(ILIFE) .LT. RLIFE .OR. ILIFE .LE.0) ILIFE =ILIFE+1
          RLIFE = REAL(ILIFE)
-
-c        figure out how many of the next cycles we need to distribute things over
-C        because we are no longer distributing by year. (sb 5/13)
-         DO JCYC=ICYC+1,MAXCYC
-             IF (RLIFE + DEADYR .LT. IY(JCYC)) GOTO 200
-         ENDDO
-200      CONTINUE
-         JCYC = JCYC - 1
          
 C        don't forget to consider the OLDCRW material as well as CROWNW.
 C        but only do this if it's not mortality reconciliation time (icall =4)
@@ -170,52 +162,28 @@ C        SAR 11/20/12
 
          IF (ANNUAL .GT. 0.0) THEN
            FALLYR = 0
-c           DO IYR=YNEXTY,ILIFE
-           IF (ICALL .EQ. 4) THEN 
-             ISTCYC = ICYC + 1
-           ELSE
-             ISTCYC = ICYC
-           ENDIF
-           DO IYR=ISTCYC,JCYC
-c              FALLYR = IYR + 1 - YNEXTY
-              FALLYR = IYR - ISTCYC +  1
+           DO IYR=YNEXTY,ILIFE
 
-C        Since we're estimating the amount per cycle, be careful here to
-C        set up the cycles properly.  If you are dealing with end of cycle
-C        mortality, start with the next cycle.  if you are dealing with 
-C        other mortality (from fire or cuts), start with the current cycle.  
-C        SAR April 2014
-
-              IF (ICALL .EQ. 4) THEN
-                IYRS = IY(IYR+1) - IY(IYR)  
-              ELSE
-                IYRS = IY(IYR) - IY(IYR-1)                
-              ENDIF
-
-              IF (RLIFE .LE. IYRS) THEN
-                  AMT = ANNUAL * RLIFE
-              ELSE
-                  AMT = ANNUAL * IYRS
-C                  AMT = ANNUAL * RLIFE
-                  RLIFE = RLIFE - IYRS
-              ENDIF        
-
-              IF (DEBUG) WRITE(JOSTND,*) 'annual=',annual,' amt=',amt,
-     &        ' iyrs=',iyrs,' fallyr=',fallyr,' iyr=',iyr
-
+              FALLYR = IYR + 1 - YNEXTY
             
 C           Normally, we want to put the stuff into CWD2B2, but if this is 
 C           called during mortality reconciliation, CWD2B2 has already been 
 C           copied to CWD2B in preparation for the next cycle, so that is
 C           where we need to put the stuff.
+C
+C             IF (ICALL .NE. 4) THEN
+C               CWD2B2(DKCL,SIZE,FALLYR) = CWD2B2(DKCL,SIZE,FALLYR) 
+C     >                                   + ANNUAL
+C	           ELSE
+C               CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
+C     >                                   + ANNUAL
+C             ENDIF
 
-             IF (ICALL .NE. 4) THEN
-               CWD2B2(DKCL,SIZE,FALLYR) = CWD2B2(DKCL,SIZE,FALLYR) 
-     >                                   + AMT
-	           ELSE
-               CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
-     >                                   + AMT
-             ENDIF
+C           put everything in CWD2B so that we don't have to wait a cycle for it
+C           to be added to the cwd pools.  this is especially important for beginning
+C           of cycle mortality (from fire or thinning).  i hope this works.  sar may 2014 
+             CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) + ANNUAL
+
            ENDDO
         ENDIF
       ENDDO

@@ -203,27 +203,30 @@ C        side effects of this code!
          CALL EVTSTV (iyr)
 
 C         
-C     UPDATE SNAG AND CWD POOLS
+C        UPDATE SNAG AND CWD POOLS
 C
-      DO IYR = IFMYR1,IFMYR2
-C         temporarlily reset teh value of NYRS to 1 so that we don't need to change the code again
-          NYRS = 1
-          
-C        Update conditon of existing snags for the current year.
+C        temporarlily reset teh value of NYRS to 1 so that we don't need to change the code again
+         NYRS = 1 
+         
+         DO IYR = IFMYR1,IFMYR2
+      
+C          Update conditon of existing snags for the current year.
 
-         CALL FMSNAG (IYR, IY(1))
+           CALL FMSNAG (IYR, IY(1))
 
-C        Update coarse woody debris pools
+C          Update coarse woody debris pools
 
-         CALL FMCWD(IYR)
+           CALL FMCWD(IYR)
 
-C        Add this year's litterfall, crown breakage, and snag-crown-fall
-C        to the CWD pools.
-C         change NYRS back to its original value
-          NYRS = IY(ICYC+1) - IY(ICYC)     
+C          Add this year's litterfall, crown breakage, and snag-crown-fall
+C          to the CWD pools.
 
-         CALL FMCADD
-      ENDDO
+           CALL FMCADD
+               
+         ENDDO
+
+C        change NYRS back to its original value        
+         NYRS = IY(ICYC+1) - IY(ICYC)
 
 C        Copy CWD2B2 onto CWD2B (i.e., add debris from all snags
 C        killed in the previous year to the pools of material
