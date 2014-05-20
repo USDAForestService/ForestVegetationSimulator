@@ -153,6 +153,11 @@ C         addition to the snag pools.  R&C 07/11/96
           CALL FMSSEE (I,ISP(I),DBH(I),HT(I),CURKIL(I),
      >                 1,DEBUG,JOSTND)
 
+C         Include call to fmscro to make sure crown of trees killed by pileburns
+C         aren't getting missed.  SAR May 2014
+
+          CALL FMSCRO(I,ISP(I),IYR,TRKIL,1)
+
         ENDDO
 
 C        Store the fire-caused mortality in the snag pools. R&C 07/11/96
