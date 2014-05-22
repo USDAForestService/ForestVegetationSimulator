@@ -100,6 +100,8 @@ C  COPY TEMPORARY VALUES TO FFE ARRAY
 C----------
         DO J = 0,5
           CROWNW(I,J) = XV(J)
+          IF (DEBUG) WRITE(JOSTND,*) 'I=',I,' size=',J,
+     &    ' CROWNW=',CROWNW(I,J)
         ENDDO
 C
       IF (DEBUG) WRITE(JOSTND,9) D,CROWNW(I,0),CROWNW(I,1), 
