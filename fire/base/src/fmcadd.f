@@ -2,7 +2,6 @@
         IMPLICIT NONE
 C----------
 C  $Id$
-C  $Id$
 C----------
 C     CALLED FROM: FMMAIN
 C     CALLS        
@@ -10,10 +9,8 @@ C     CALLS
 *     This subroutine calculates annual litterfall and crown breakage
 *     from each tree, and adds the material to the appropriate debris
 *     pools.  It also adds in dead material from crown lifting and the
-*     debris-in-waiting from previously killed snags (i.e. CWD2B),
-*     including a proportion (=CWDCUT) of debris slated to fall in
-*     future years that has been brought down early by a salvage
-*     operation.  CWD2B may include some dead material from
+*     debris-in-waiting from previously killed snags (i.e. CWD2B).
+*     CWD2B may include some dead material from
 *     live-but-scorched trees. Crown foliage and woody materials are not
 *     reduced for the losses calculated here: the material is assumed to
 *     be replaced by growth (and is re-calculated to take account of

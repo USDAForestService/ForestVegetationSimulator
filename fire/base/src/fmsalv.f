@@ -13,10 +13,8 @@ C                  SVSALV
 *     This subroutine removes existing snags as specified by the
 *     SALVAGE keyword. It keeps track of both the total volume of the
 *     snags that are removed, and their number. It also calculates
-*     CWDCUT, which FMCADD will use to remove a proportion of future
+*     CWDCUT, which is used to remove a proportion of future
 *     snag debris from CWD2B and add it to current debris.
-*     amount of material in CWD2B to account
-*     NOTE:  This routine may be called in any year
 *----------------------------------------------------------------------
 *
 *  Local variable definitions:
@@ -313,13 +311,6 @@ C     To approximate this, remove a proportion of material from every
 C     year pool - 1 to TFMAX.  NOTE:  this is a slight mis-usage of CWDCUT,
 C     because CWD2B also contains dead crown material from live-but-
 C     burned trees (not much per tree, or the tree would have died).
-C     NOTES for cycle boundaries version: 
-C     1) The KYR field in the CWD2B field now actually holds material
-C        by CYCLE, not year (see FMSCRO)
-C     2) The loops by TFMAX could be made shorter because if the model is 
-C        using cycle lengths > 1 year, not all TFMAX fields will be used.
-C     3) (Aug/13) now dividing the CWD2B field by the number of years in the
-C         cycle so that we add an even amount each year.
           
         DO KYR=1,TFMAX
              
