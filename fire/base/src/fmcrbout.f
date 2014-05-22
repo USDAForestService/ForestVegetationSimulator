@@ -253,7 +253,8 @@ C
   699   FORMAT(1(/1X,I5))
   700   FORMAT(1X,I5,1X,110('-'))
   701   FORMAT(1X,I5,1X,30X,'******  CARBON REPORT VERSION 1.0 ******')
-  702   FORMAT(1X,I5,1X,41X,'STAND CARBON REPORT')
+  702   FORMAT(1X,I5,1X,41X,'STAND CARBON REPORT '
+     >                      '(BASED ON STOCKABLE AREA)')
    44   FORMAT(1X,I5,' STAND ID: ',A26,4X,'MGMT ID: ',A4)
   704   FORMAT(1X,I5,1X,6(' '),'Aboveground Live    Belowground',
      >    24(' '),'Forest',13(' '),'Total    Total     Carbon')

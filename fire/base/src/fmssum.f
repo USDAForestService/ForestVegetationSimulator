@@ -67,7 +67,8 @@ C
          CALL GETID (ISNGSM)
          WRITE (JOUT,10) ISNGSM,NPLT,MGMID,
      >                   ((INT(SNPRCL(I)),I=1,6),K=1,2)
- 10      FORMAT (/I6,' $#*%'//46('-'),' SNAG SUMMARY REPORT ',46('-')/,
+ 10      FORMAT (/I6,' $#*%'//46('-'),' SNAG SUMMARY REPORT '
+     >        '(BASED ON STOCKABLE AREA) ',21('-')/,
      >        ' STAND ID: ',A26,4X,'MGMT ID: ',A4/
      >        7X,15('-'),' HARD SNAGS/ACRE ',16('-'),
      >        2X,15('-'),' SOFT SNAGS/ACRE ',16('-'),'   GRAND'/
