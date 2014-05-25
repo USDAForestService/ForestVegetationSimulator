@@ -23,7 +23,7 @@ C----
       INTEGER(SQLHANDLE_KIND)::Hndl
       INTEGER(SQLSMALLINT_KIND)::HndlType
 
-      CHARACTER(LEN=12):: SqlState
+      CHARACTER(LEN=6):: SqlState
       CHARACTER(LEN=*):: CallFrom
       CHARACTER(LEN=SQL_MAX_MESSAGE_LENGTH)::Msg
       INTEGER(SQLINTEGER_KIND)::NativeError
@@ -32,8 +32,8 @@ C----
 
       iDiag = 1
       DO WHILE (.true. .and. iDiag.le.5)
-         DiagRet = fvsSQLGetDiagRec(HndlType, Hndl, iDiag, SqlState,
-     -             NativeError, Msg,
+         DiagRet = fvsSQLGetDiagRec(loc(HndlType), Hndl, iDiag,
+     -             SqlState, NativeError, Msg,
      -             SQL_MAX_MESSAGE_LENGTH,
      -             MsgLen)
          IF (DiagRet.EQ.SQL_NO_DATA) EXIT
