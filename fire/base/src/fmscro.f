@@ -164,19 +164,19 @@ C           Normally, we want to put the stuff into CWD2B2, but if this is
 C           called during mortality reconciliation, CWD2B2 has already been 
 C           copied to CWD2B in preparation for the next cycle, so that is
 C           where we need to put the stuff.
-C
-C             IF (ICALL .NE. 4) THEN
-C               CWD2B2(DKCL,SIZE,FALLYR) = CWD2B2(DKCL,SIZE,FALLYR) 
-C     >                                   + ANNUAL
-C	           ELSE
-C               CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
-C     >                                   + ANNUAL
-C             ENDIF
+
+             IF (ICALL .NE. 4) THEN
+               CWD2B2(DKCL,SIZE,FALLYR) = CWD2B2(DKCL,SIZE,FALLYR) 
+     >                                   + ANNUAL
+	           ELSE
+               CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
+     >                                   + ANNUAL
+             ENDIF
 
 C           put everything in CWD2B so that we don't have to wait a cycle for it
 C           to be added to the cwd pools.  this is especially important for beginning
 C           of cycle mortality (from fire or thinning).  i hope this works.  sar may 2014 
-             CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) + ANNUAL
+C             CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) + ANNUAL
 
            ENDDO
         ENDIF

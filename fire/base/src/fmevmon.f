@@ -172,92 +172,96 @@ C
 C********************************************************************
 
       ENTRY FMEVSNG(RVAL, IX, JX, KX, XLDBH, XHDBH, XLHT, XHHT, IRC)
-      IRC= 0
-      XH = 0.
-      XS = 0.
-      RVAL = 0.
-      IF (NSNAG.LT.1) RETURN
-
-      DO 500 I = 1, NSNAG
-
-        ISPS = SPS(I)
-        D = DBHS(I)
-
-        LINCL = .FALSE.
-        IF(JX.EQ.0 .OR. JX.EQ.ISPS)THEN
-          LINCL = .TRUE.
-        ELSEIF(JX.LT.0)THEN
-          IGRP = -JX
-          IULIM = ISPGRP(IGRP,1)+1
-          DO 90 IG=2,IULIM
-          IF(ISPS .EQ. ISPGRP(IGRP,IG))THEN
+      IF (IFMYR1.EQ.-1) THEN
+         IRC=1
+      ELSE
+        IRC= 0
+        XH = 0.
+        XS = 0.
+        RVAL = 0.
+        IF (NSNAG.LT.1) RETURN
+        
+        DO 500 I = 1, NSNAG
+        
+          ISPS = SPS(I)
+          D = DBHS(I)
+        
+          LINCL = .FALSE.
+          IF(JX.EQ.0 .OR. JX.EQ.ISPS)THEN
             LINCL = .TRUE.
-            GO TO 91
+          ELSEIF(JX.LT.0)THEN
+            IGRP = -JX
+            IULIM = ISPGRP(IGRP,1)+1
+            DO 90 IG=2,IULIM
+            IF(ISPS .EQ. ISPGRP(IGRP,IG))THEN
+              LINCL = .TRUE.
+              GO TO 91
+            ENDIF
+   90       CONTINUE
           ENDIF
-   90     CONTINUE
-        ENDIF
-   91   CONTINUE
-
-        IF (LINCL .AND.
-     >    (D.GE.XLDBH .AND. D.LT.XHDBH)) THEN
-
-C  PASS OVER THE INITIALLY-HARD SNAGS
-
-          HS = HTIH(I)
-          TPA = DENIH(I)
-          IF (TPA .GT. 0. .AND. HS.GE.XLHT .AND. HS.LT.XHHT) THEN
-            GOTO (211,212,213), IX
-  211       CONTINUE
-            X = TPA
-            GOTO 120
-  212       CONTINUE
-            X = TPA * D * D * 0.005454154
-            GOTO 120
-  213       CONTINUE
-            CALL FMSVOL(I,HS,X1,.FALSE.,0)
-            X = TPA * X1
-            GOTO 120
-  120       CONTINUE
-
-            IF (HARD(I)) THEN
-              XH = XH + X
-            ELSE
+   91     CONTINUE
+        
+          IF (LINCL .AND.
+     >      (D.GE.XLDBH .AND. D.LT.XHDBH)) THEN
+        
+C    PASS OVER THE INITIALLY-HARD SNAGS
+        
+            HS = HTIH(I)
+            TPA = DENIH(I)
+            IF (TPA .GT. 0. .AND. HS.GE.XLHT .AND. HS.LT.XHHT) THEN
+              GOTO (211,212,213), IX
+  211         CONTINUE
+              X = TPA
+              GOTO 120
+  212         CONTINUE
+              X = TPA * D * D * 0.005454154
+              GOTO 120
+  213         CONTINUE
+              CALL FMSVOL(I,HS,X1,.FALSE.,0)
+              X = TPA * X1
+              GOTO 120
+  120         CONTINUE
+        
+              IF (HARD(I)) THEN
+                XH = XH + X
+              ELSE
+                XS = XS + X
+              ENDIF
+            ENDIF
+        
+C       PASS OVER THE INITIALLY-SOFT SNAGS
+        
+            HS = HTIS(I)
+            TPA = DENIS(I)
+            IF (TPA .GT. 0. .AND. HS.GE.XLHT .AND. HS.LT.XHHT) THEN
+              GOTO (311,312,313), IX
+  311         CONTINUE
+              X = TPA
+              GOTO 220
+  312         CONTINUE
+              X = TPA * D * D * 0.005454154
+              GOTO 220
+  313         CONTINUE
+              CALL FMSVOL(I,HS,X1,.FALSE.,0)
+              X = TPA * X1
+              GOTO 220
+  220         CONTINUE
+        
               XS = XS + X
             ENDIF
           ENDIF
-
-C     PASS OVER THE INITIALLY-SOFT SNAGS
-
-          HS = HTIS(I)
-          TPA = DENIS(I)
-          IF (TPA .GT. 0. .AND. HS.GE.XLHT .AND. HS.LT.XHHT) THEN
-            GOTO (311,312,313), IX
-  311       CONTINUE
-            X = TPA
-            GOTO 220
-  312       CONTINUE
-            X = TPA * D * D * 0.005454154
-            GOTO 220
-  313       CONTINUE
-            CALL FMSVOL(I,HS,X1,.FALSE.,0)
-            X = TPA * X1
-            GOTO 220
-  220       CONTINUE
-
-            XS = XS + X
-          ENDIF
+        
+  500   CONTINUE
+        
+C TAKE   HARD-COMPONENT, SOFT-COMPONENT, OR BOTH
+        
+        IF (KX .EQ. 1) THEN
+          RVAL = XH
+        ELSEIF (KX .EQ. 2) THEN
+          RVAL = XS
+        ELSE
+          RVAL = XH + XS
         ENDIF
-
-  500 CONTINUE
-
-C TAKE HARD-COMPONENT, SOFT-COMPONENT, OR BOTH
-
-      IF (KX .EQ. 1) THEN
-        RVAL = XH
-      ELSEIF (KX .EQ. 2) THEN
-        RVAL = XS
-      ELSE
-        RVAL = XH + XS
       ENDIF
 
       RETURN

@@ -222,27 +222,27 @@ C          Add this year's litterfall, crown breakage, and snag-crown-fall
 C          to the CWD pools.
 
            CALL FMCADD
-               
+
+C          Copy CWD2B2 onto CWD2B (i.e., add debris from all snags
+C          killed in the previous year to the pools of material
+C          scheduled to fall in the year), and zero out CWD2B2.
+C          (This used to be in FMSDIT and was moved so that it occurs
+C          before any cuts that may occur next cycle.)
+
+           DO ISZ = 0,5
+              DO IDC = 1,4
+                 DO ITM = 1,TFMAX
+                    CWD2B(IDC,ISZ,ITM) = CWD2B(IDC,ISZ,ITM)
+     &                   + CWD2B2(IDC,ISZ,ITM)
+                    CWD2B2(IDC,ISZ,ITM) = 0.0
+                 ENDDO
+              ENDDO
+           ENDDO
+                
          ENDDO
 
 C        change NYRS back to its original value        
          NYRS = IY(ICYC+1) - IY(ICYC)
-
-C        Copy CWD2B2 onto CWD2B (i.e., add debris from all snags
-C        killed in the previous year to the pools of material
-C        scheduled to fall in the year), and zero out CWD2B2.
-C        (This used to be in FMSDIT and was moved so that it occurs
-C        before any cuts that may occur next cycle.)
-
-         DO ISZ = 0,5
-            DO IDC = 1,4
-               DO ITM = 1,TFMAX
-                  CWD2B(IDC,ISZ,ITM) = CWD2B(IDC,ISZ,ITM)
-     &                 + CWD2B2(IDC,ISZ,ITM)
-                  CWD2B2(IDC,ISZ,ITM) = 0.0
-               ENDDO
-            ENDDO
-         ENDDO
 
 C        In the last year of each cycle, record some information about
 C        crown size for use in determining litterfall in the next cycle.

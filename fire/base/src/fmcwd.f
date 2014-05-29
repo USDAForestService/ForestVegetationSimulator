@@ -93,7 +93,7 @@ C           to turn material into duff
      &                 CWD(I,J,1,L) * (1.0-(DKR(J,L)*1.1))**NYRS
             IF (AMT .LT. 1.0E-9) AMT = 0.0
             CWD(I,11,2,L) = CWD(I,11,2,L) + AMT * PRDUFF(J,L)
-            AMT = CWD(I,J,1,L) - CWD(I,J,2,L) * (1.0-(DKR(J,L)))**NYRS
+            AMT = CWD(I,J,2,L) - CWD(I,J,2,L) * (1.0-(DKR(J,L)))**NYRS
             IF (AMT .LT. 1.0E-9) AMT = 0.0
             CWD(I,11,2,L) = CWD(I,11,2,L) + AMT * PRDUFF(J,L)
             
