@@ -1,6 +1,7 @@
       SUBROUTINE BRTREG
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRTREG       DATE OF LAST REVISION:  06/21/2013
+C  **BRTREG       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRTREG drives the Blister Rust Model in the cycling process.
@@ -68,8 +69,9 @@ C     Added call to BRICAL, new routine for calculating Rust Index.
 C  07-MAY-2013 Lance R. David (FMSC)
 C     Added statement label 410 for exit from routine when model
 C     is inactive.
+C  14-MAY-2014 Lance R. David (FMSC)
+C     BRECAN call modified by removal of RI(J) call parameter.
 C**********************************************************************
-
 C.... Common include files
 
       INCLUDE 'PRGPRM.F77'
@@ -81,8 +83,11 @@ C.... Common include files
 C.... Local variable declarations
 
       LOGICAL BRGO, DEBUG, LREDF
-      REAL    CRATIO, HTBC, PRMS(6), RISUM(NBRSP), GISUM(NBRSP)
-      INTEGER I1, I2, I3, I4, MYACTS(10)
+      REAL    CRATIO, HTBC, PRMS(6), RISUM(NBRSP), GISUM(NBRSP),
+     &        BRDG, BRHIN, BRHNU, BRHT, BRHTOL, CANEXP, DNEW, PIMAX,
+     &        GIBR, HNEW, PROP, REDFAC, STAR, STHT, TBSUM
+      INTEGER I1, I2, I3, I4, IACTK, ICLS, II, IIAG, J, K, KDT, L,
+     &        MYACTS(10),NLCAN, NP, NTODO
 
 C.... Activities and related codes are as follows:
 C....
@@ -118,6 +123,7 @@ C.... STOCK, DEVFACT
       LCLEN  = .FALSE.
       BRTL   = .FALSE.
       BRCL   = .FALSE.
+      LREDF  = .FALSE.
 
 C.... Find activities to be performed this cycle, if any.
 
@@ -390,6 +396,9 @@ C....    If a reduction factor has been calculated, apply it.
          GISUM(I4)=GISUM(I4)+GI(J)
          RISUM(I4)=RISUM(I4)+RI(J)
 
+         IF(DEBUG) WRITE(JOSTND,*) ' LREDF=',LREDF,' REDFAC=',REDFAC,
+     &             ' GISUM=',GISUM(I4),' RISUM=',RISUM(I4)
+
 C....       Units of measure in following calculations are:
 C....       feet for HT, HTG, HNEW; inches for DBH, DG, DNEW;
 C....       meters for BRHT, BRHIN, BRHNU, BRHTOL, STHT;
@@ -453,7 +462,7 @@ C....       Call BRECAN to calculate # new cankers expected for tree
 C....       this year and accumulate for cycle.
 
 
-            CALL BRECAN(J,BRHNU,RI(J),STAR,STHT,PROP,PIMAX,CANEXP)
+            CALL BRECAN(J,BRHNU,STAR,STHT,PROP,PIMAX,CANEXP)
             ESTCAN(J)=ESTCAN(J)+CANEXP
 
 C....       Call BRCGRO to grow cankers this year.

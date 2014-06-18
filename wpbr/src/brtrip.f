@@ -1,6 +1,7 @@
       SUBROUTINE BRTRIP(INUT,I,WT)
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRTRIP       DATE OF LAST REVISION:  06/21/2013
+C  **BRTRIP       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  Triples the Blister Rust records.
@@ -35,6 +36,8 @@ C.... Common include files.
 
 C.... Local variable definitions.
 
+      INTEGER I, INUT, J, NNCAN
+      REAL    WT
       LOGICAL DEBUG
 
 C.... See if we need to do some debug.

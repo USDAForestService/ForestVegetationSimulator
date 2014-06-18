@@ -1,6 +1,7 @@
       SUBROUTINE BRCRED
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRCRED       DATE OF LAST REVISION:  06/21/2013
+C  **BRCRED       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRCRED reduces the crowns of white pines that have been girdled
@@ -38,7 +39,8 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      INTEGER I1, I2, I3
+      INTEGER I, I1, I2, I3, ICCR, IICI, K
+      REAL CL, HD, HN
       LOGICAL DEBUG,BRGO
 
 C.... See if we need to do some debug.

@@ -1,6 +1,7 @@
       SUBROUTINE BRIBES(REDFAC,LREDF)
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRIBES       DATE OF LAST REVISION:  06/21/2013
+C  **BRIBES       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRIBES calculates the reduction factor to be applied to the each
@@ -29,7 +30,8 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      REAL NOLD
+      INTEGER IBUSH, ITYP
+      REAL    NOLD, REDFAC, BRCON
       LOGICAL DEBUG,LREDF
 
 C.... See if we need to do some debug.

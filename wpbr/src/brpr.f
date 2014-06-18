@@ -1,6 +1,7 @@
       SUBROUTINE BRPR
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRPR         DATE OF LAST REVISION:  06/21/2013
+C  **BRPR         DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRPR performs the following functions:

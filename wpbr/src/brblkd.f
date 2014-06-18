@@ -1,6 +1,7 @@
       BLOCK DATA BRBLKD
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRBLKD--NI   DATE OF LAST REVISION:  06/12/2006
+C  **BRBLKD--NI   DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  Block data for the Blister Rust model.
