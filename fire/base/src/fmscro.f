@@ -173,11 +173,6 @@ C           where we need to put the stuff.
      >                                   + ANNUAL
              ENDIF
 
-C           put everything in CWD2B so that we don't have to wait a cycle for it
-C           to be added to the cwd pools.  this is especially important for beginning
-C           of cycle mortality (from fire or thinning).  i hope this works.  sar may 2014 
-C             CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) + ANNUAL
-
            ENDDO
         ENDIF
       ENDDO
