@@ -225,7 +225,7 @@ C          to the CWD pools.
 
 C          Copy CWD2B2 onto CWD2B (i.e., add debris from all snags
 C          killed in the previous year to the pools of material
-C          scheduled to fall in the year), and zero out CWD2B2.
+C          scheduled to fall in the upcoming years), and zero out CWD2B2.
 C          (This used to be in FMSDIT and was moved so that it occurs
 C          before any cuts that may occur next cycle.)
 
@@ -249,9 +249,6 @@ C        crown size for use in determining litterfall in the next cycle.
 
 C        IF (IYR .EQ. IFMYR2) CALL FMOLDC
          CALL FMOLDC
-         
-C REMOVED YEAR LOOP ENDING
-C     ENDDO
 
       CALL FMSVSYNC
 
