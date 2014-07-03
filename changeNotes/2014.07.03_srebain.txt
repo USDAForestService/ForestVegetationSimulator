@@ -5,11 +5,11 @@ Variants affected: All
 
 Description:
 
-1)  FFE was restructured to run on cycles, rather than annually.  This significantly increases the speed of the model 
-and reporting years now match the base FVS model.  Also, the order of the FFE model has been changed to be more consistent.
+1)  FFE was restructured to run on cycles, rather than annually.  This results in significantly faster model speeds 
+and reporting years matching the base FVS model.  Also, the order of the FFE model has been changed to be more consistent.
 All of the activities (salvages, simulated fires, pileburns, and others) are modelled first.  Second, all of the reports
 are printed.  Third, all of the various pools are updated with regard to snag fall, snag height loss, snag decay, down wood
-decay and down wood accumulation.  Because of this change, all reports and event monitor variables and functions now print
+decay and down wood accumulation.  As a result of this change, all reports and event monitor variables and functions now print
 post-activity values.  Also, the values reported for the initial year represent the inventory conditions and do not
 incorporate a year of change (such as decay and accumulation when looking at the down wood values).
 
