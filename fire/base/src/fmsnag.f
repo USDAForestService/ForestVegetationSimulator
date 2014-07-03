@@ -67,7 +67,7 @@ C.... Variable declarations.
       INTEGER I, JSP, YR1, YEAR
       INTEGER IYR,NTODO,JDO,NPRM,IACTK,JYR
       REAL    BASE, DENTTL, DFIS, DFIH, DFALLN, DZERO, HTSNEW
-      REAL    OLDHTH, OLDHTS, X, XS, XH, XYR, DYR
+      REAL    OLDHTH, OLDHTS, X, XS, XH
       REAL    D,DKTIME,HTD,AGE,SNUM,RSOFT,RSMAL
       LOGICAL DEBUG, LASCO
 
@@ -152,8 +152,7 @@ C
         ENDIF
 
 C       Call FMSFALL to:
-C         1) Compute special fall rates if this is the first year
-C            after a fire.
+C         1) Compute special fall rates if this after a fire.
 C         2) Calculate the density of snags in this record that would fall
 C            ANNUALLY under normal conditions.  This depends on species, dbh and
 C            whether 5% are left.
@@ -163,12 +162,16 @@ C            whether 5% are left.
         CALL FMSFALL(IYR,JSP,DBHS(I),DEND(I),DENTTL,1,
      &               RSOFT,RSMAL,DFALLN)
 
+        IF (DEBUG) WRITE(JOSTND,*)' IN FMSNAG RSOFT=',RSOFT,
+     &                            ' RSMAL=',RSMAL,' PBSOFT=',pbsoft,
+     &                            ' PBSMAL=',PBSMAL
+
 C     Now set PBFRIH and PBFRIS. Different rates apply to small snags and
 C     snags that are soft AT TIME OF FIRE (whether initially hard or soft):
 C     if both apply, use whichever rate is greater.  Fires do not affect
 C     the fall rate of large snags that are hard at the time of the fire.
 
-        IF ((IYR - BURNYR) .LE. NYRS) THEN
+        IF ((IYR - BURNYR) .LE. 1) THEN
           PBFRIS(I) = RSOFT
           PBFRIH(I) = 0.0
 
@@ -190,40 +193,21 @@ C
         DFIS = DENIS(I) * DFALLN / (DENIS(I)+DENIH(I))
         DFIH = DENIH(I) * DFALLN / (DENIS(I)+DENIH(I))
 
-C       Note that this snag routine is called before any fires. Thus, we need
-C       to know whether a fire occurred LAST cycle, or within the appropriate time frame.
-        XS = -1
-        XH = -1
-        IF (ICYC .GT. 1 .AND. BURNYR .GT. 0  .AND.
+        IF (BURNYR .GT. 0  .AND.
      >              YRDEAD(I) .LE. BURNYR) THEN
             IF (LASCO .AND. (IYR-BURNYR) .LE. 10) THEN
-                XYR = 10
-                IF (NYRS .LT. 10) XYR = NYRS
-                DYR = NYRS - 10
-                IF (DYR .LT. 0) DYR = 0
               DFIS = DFIS * 0.5
               DFIH = DFIH * 0.5
               XS = PBFRIS(I) * DENIS(I)
-            XH = PBFRIH(I) * DENIH(I)
-            ELSEIF (((IY(ICYC-1) .EQ. BURNYR) .OR. 
-     >               (IYR-BURNYR .LE. PBTIME))) THEN
-                XYR = PBTIME
-                IF (NYRS .LT. PBTIME) XYR = NYRS
-                DYR = NYRS - PBTIME
-                IF (DYR .LT. 0) DYR = 0
-                XS = PBFRIS(I) * DENIS(I) * XYR + DFIS * DYR
-                XH = PBFRIH(I) * DENIH(I) * XYR + DFIH * DYR
-            ENDIF
-            DFIS = DFIS * NYRS
-            DFIH = DFIH * NYRS
-            
-            IF (DFIS .LT. XS) DFIS = XS
-            IF (DFIH .LT. XH) DFIH = XH
-        ELSE
-C         We didn't calculate different rates, so 
-C         convert the annual fall into the total for the period.
-          DFIS = DFIS * NYRS
-          DFIH = DFIH * NYRS     
+              XH = PBFRIH(I) * DENIH(I)
+              IF (DFIS .LT. XS) DFIS = XS
+              IF (DFIH .LT. XH) DFIH = XH   
+            ELSEIF ((IYR-BURNYR) .LE. PBTIME) THEN
+              XS = PBFRIS(I) * DENIS(I) 
+              XH = PBFRIH(I) * DENIH(I) 
+              IF (DFIS .LT. XS) DFIS = XS
+              IF (DFIH .LT. XH) DFIH = XH   
+            ENDIF       
         ENDIF
 
 C     Now actually remove the snags.  If less than DZERO will be left,
