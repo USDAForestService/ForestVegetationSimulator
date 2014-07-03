@@ -1180,6 +1180,8 @@ C
       DEFECT(ITRN)=0.
       ISPECL(ITRN)=0
       NORMHT(ITRN)=0
+      HT2TD(ITRN,1)=0.
+      HT2TD(ITRN,2)=0.
       PROB(ITRN)=(ESPROB(N)*300.0) /DUPNPT
       DBH(ITRN)=0.1
       HT(ITRN)=HHT

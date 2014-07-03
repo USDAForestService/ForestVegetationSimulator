@@ -24,7 +24,7 @@ C
 COMMONS
 C
 C----------
-      REAL RTEM(21)
+      REAL RTEM(23)
       INTEGER ITEM(13),IREC2,IREC1,IDMR,JDMR
 C
       RTEM( 1) = BFV(IREC1)
@@ -48,6 +48,8 @@ C
       RTEM(19) = PDBH(IREC1)
       RTEM(20) = PHT(IREC1)
       RTEM(21) = CRWDTH(IREC1)
+      RTEM(22) = HT2TD(IREC1,1)
+      RTEM(23) = HT2TD(IREC1,2)
       ITEM( 1) = ICR(IREC1)
       ITEM( 2) = IMC(IREC1)
       ITEM( 3) = ISP(IREC1)
@@ -96,6 +98,8 @@ C----------
       PDBH(IREC1)   = PDBH(IREC2)
       PHT(IREC1)    = PHT(IREC2)
       CRWDTH(IREC1) = CRWDTH(IREC2)
+      HT2TD(IREC1,1)= HT2TD(IREC2,1)
+      HT2TD(IREC1,2)= HT2TD(IREC2,2)
 C----------
 C  ZERO OUT IREC2 POSITION
 C----------
@@ -120,6 +124,8 @@ C----------
       PDBH(IREC2)   = RTEM(19)
       PHT(IREC2)    = RTEM(20)
       CRWDTH(IREC2) = RTEM(21)
+      HT2TD(IREC2,1)= RTEM(22)
+      HT2TD(IREC2,2)= RTEM(23)
       ICR(IREC2)    = ITEM( 1)
       IMC(IREC2)    = ITEM( 2)
       ISP(IREC2)    = ITEM( 3)

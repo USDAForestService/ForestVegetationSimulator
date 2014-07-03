@@ -1,6 +1,7 @@
       SUBROUTINE BRATV(L)
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRATV        DATE OF LAST REVISION:  05/01/1994
+C  **BRATV        DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRATV returns L=.TRUE. to indicate that the Blister Rust model is

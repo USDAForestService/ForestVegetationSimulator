@@ -1,6 +1,7 @@
       SUBROUTINE BRSTAT
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRSTAT       DATE OF LAST REVISION:  06/21/2013
+C  **BRSTAT       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRSTAT calculates value for proportion of trees infected with
@@ -48,10 +49,11 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      INTEGER I1, I2, I3, I4
+      INTEGER I1, I2, I3, I4, II, ILLCAN, ISC, J, K, M, NLCAN
       LOGICAL DEBUG
       REAL TPROB2(10),TRELN2(10),TRETN2(10),SUMNL2(10),SUMNT2(10),
-     &   SUMEC2(10),TRELN(NBRSP),SUMNL(NBRSP),SUMNT(NBRSP),SUMEC(NBRSP)
+     &     SUMEC2(10),TRELN(NBRSP),SUMNL(NBRSP),SUMNT(NBRSP),
+     &     SUMEC(NBRSP),CURDBH, PROBJ
 
 C.... See if we need to do some debug.
 

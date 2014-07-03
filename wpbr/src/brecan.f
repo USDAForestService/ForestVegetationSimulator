@@ -1,6 +1,7 @@
-      SUBROUTINE BRECAN(IBRN,HITE,RINDX,SSTAR,SSTHT,PROP,PIMX,EXPC)
+      SUBROUTINE BRECAN(IBRN,HITE,SSTAR,SSTHT,PROP,PIMX,EXPC)
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRECAN       DATE OF LAST REVISION:  06/21/2013
+C  **BRECAN       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRECAN calculates the number of new cankers expected for a
@@ -41,9 +42,11 @@ C  03-MAY-2001 Lance R. David (FHTET)
 C     Added species dimension to variables (arrays).
 C  10-MAY-2006 Lance R. David (FHTET)
 C     Added debug.
+C  14-MAY-2014 Lance R. David (FMSC)
+C     Removed RINDX parmeter (third in list) because it is in common.
+C     RINDX changed to RI(IBRN) in processing.
 C
 C**********************************************************************
-
 C.... Common include files.
 
       INCLUDE 'PRGPRM.F77'
@@ -53,19 +56,19 @@ C.... Common include files.
       INCLUDE 'BRCOM.F77'
 
 C.... Local variable declarations.
-      INTEGER IBRN,NUMTIM
-      REAL    HITE,RINDX,SSTAR,SSTHT,PROP,PIMX,EXPC,RITEM,TNEWC,
-     &        CRLEN,PLI,TOUT,TUP,PLETH,XBRAN
+      INTEGER IBRN,NUMTIM,I3,ICANB,J
+      REAL    HITE,SSTAR,SSTHT,PROP,PIMX,EXPC,RITEM,TNEWC,
+     &        CRLEN,PLI,TOUT,TUP,PLETH,XBRAN,PIEXP
       LOGICAL DEBUG
 
 C.... See if we need to do some debug.
 
       CALL DBCHK(DEBUG,'BRECAN',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,22) ICYC,
-     & IBRN,ISP(IBRN),HITE,RINDX,SSTAR,SSTHT,PROP,
+     & IBRN,ISP(IBRN),HITE,RI(IBRN),SSTAR,SSTHT,PROP,
      & PIMX,IBRSTAT(IBRN),ILCAN(IBRN),ITCAN(IBRN)
   22  FORMAT('Entering subroutine BRECAN: cycle = ',I2,/,
-     & 'IBRN=',I4,' ISP=',I2,' HITE=',F10.7,' RINDX=',F10.7,
+     & 'IBRN=',I4,' ISP=',I2,' HITE=',F10.7,' RI=',F10.7,
      & ' SSTAR=',F10.4,' SSTHT=',F10.7,' PROP=',F10.7,
      & ' PIMX=',F10.7,' IBRSTAT=',I2,' ILCAN=',I2,' ITCAN=',I3)
 
@@ -105,13 +108,13 @@ C.... Calculate temporary rust index variable based on height at the
 C.... end of the cycle.
 
       IF(HITE.GT.25.0) THEN
-         RITEM=RINDX*0.1
+         RITEM=RI(IBRN)*0.1
       ELSE IF(HITE.GT.15.0) THEN
-         RITEM=RINDX*(1.0-(0.09*(HITE-15.0)))
+         RITEM=RI(IBRN)*(1.0-(0.09*(HITE-15.0)))
       ELSE
-         RITEM=RINDX
+         RITEM=RI(IBRN)
       ENDIF
-      IF(DEBUG) WRITE(JOSTND,*) 'RITEM=',RITEM,' RINDX=',RINDX
+      IF(DEBUG) WRITE(JOSTND,*) 'RITEM=',RITEM,' RI=',RI(IBRN)
 
 C.... Calculate number of expected cankers for current year
 C.... (total and "potentially lethal") based on tree's target area.
@@ -195,8 +198,8 @@ C....       full then skip adding a canker altogether.
 
 C.... Common return.
       IF(DEBUG) THEN
-      WRITE (JOSTND,38) IBRN,HITE,RINDX,SSTAR,SSTHT,PROP,EXPC
-   38    FORMAT(' IBRN=',I4,' HITE=',F5.1,' RINDX=',F7.4,
+      WRITE (JOSTND,38) IBRN,HITE,RI(IBRN),SSTAR,SSTHT,PROP,EXPC
+   38    FORMAT(' IBRN=',I4,' HITE=',F5.1,' RI=',F7.4,
      &   ' SSTAR=',F7.1,' SSTHT=',F5.1,' PROP=',F4.1,' EXPC=',F3.1)
       ENDIF
 

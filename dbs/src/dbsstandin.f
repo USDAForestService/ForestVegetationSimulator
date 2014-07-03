@@ -205,8 +205,7 @@ C       EXECUTE QUERY
 
         iRet=fvsSQLExecDirect(StmtHndlIn,trim(SQLSTR),
      -            int(len_trim(SQLSTR),SQLINTEGER_KIND))
-
-        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlIn,
+        IF (iRet.NE.0) CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlIn,
      -             'STANDIN:Query: '//trim(SQLSTR))
       ENDIF
 

@@ -25,16 +25,15 @@ C----
 
       CHARACTER(LEN=6):: SqlState
       CHARACTER(LEN=*):: CallFrom
-      CHARACTER(LEN= SQL_MAX_MESSAGE_LENGTH)::Msg
+      CHARACTER(LEN=SQL_MAX_MESSAGE_LENGTH)::Msg
       INTEGER(SQLINTEGER_KIND)::NativeError
       INTEGER(SQLSMALLINT_KIND):: iDiag, MsgLen
       INTEGER(SQLRETURN_KIND):: DiagRet
 
       iDiag = 1
-
       DO WHILE (.true. .and. iDiag.le.5)
-         DiagRet = fvsSQLGetDiagRec(HndlType, Hndl, iDiag, SqlState,
-     -             NativeError, Msg,
+         DiagRet = fvsSQLGetDiagRec(loc(HndlType), Hndl, iDiag,
+     -             SqlState, NativeError, Msg,
      -             SQL_MAX_MESSAGE_LENGTH,
      -             MsgLen)
         IF (DiagRet.EQ.SQL_NO_DATA) EXIT
@@ -50,7 +49,6 @@ C----
          CALL RCDSET (2,.TRUE.)
 
          iDiag=iDiag+1
-
 
       ENDDO
       RETURN

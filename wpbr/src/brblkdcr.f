@@ -1,36 +1,55 @@
       BLOCK DATA BRBLKD
+      IMPLICIT NONE
 C----------------------------------------------------------------------
-C  **BRBLKD--CR   DATE OF LAST REVISION:  06/12/2006
+C  **BRBLKD--CR   DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  Block data for the Blister Rust model.
 C----------
 C     SPECIES LIST FOR CENTRAL ROCKIES VARIANT.
 C
-C     1 = SUBALPINE FIR (AF)          ABIES LASIOCARPA var. LASIOCARPA
-C     2 = CORKBARK FIR (CB)           ABIES LASIOCARPA var. ARIZONICA
-C     3 = DOUGLAS-FIR (DF)            PSEUDOTSUGA MENZIESII
-C     4 = GRAND FIR (GF)              ABIES GRANDIS
-C     5 = WHITE FIR (WF)              ABIES CONCOLOR
-C     6 = MOUNTAIN HEMLOCK (MH)       TSUGA MERTENSIANA
-C     7 = WESTERN REDCEDAR (RC)       THUJA PLICATA
-C     8 = WESTERN LARCH (WL)          LARIX OCCIDENTALIS
-C     9 = BRISTLECONE PINE (BC)       PINUS ARISTATA
-C    10 = LIMBER PINE (LM)            PINUS FLEXILIS var. FLEXILIS
-C    11 = LODGEPOLE PINE (LP)         PINUS CONTORTA
-C    12 = PINYON PINE (PI)            PINUS EDULIS
-C    13 = PONDEROSA PINE (PP)         PINUS PONDEROSA
-C    14 = WHITEBARK PINE (WB)         PINUS ALBICAULIS
-C    15 = SOUTHWESTERN WHITE PINE (WP)PINUS STROBIFORMUS
-C    16 = ROCKY MTN JUNIPER (JU)      JUNIPERUS SCOPULORUM
-C    17 = BLUE SPRUCE (BS)            PICEA PUNGENS
-C    18 = ENGELMANN SPRUCE (ES)       PICEA ENGELMANNII
-C    19 = WHITE SPRUCE (WS)           PICEA GLAUCA
-C    20 = QUAKING ASPEN (AS)          POPULUS TREMULOIDES
-C    21 = COTTONWOODS (CO)            POPULUS sp.
-C    22 = OAKS (OA)                   QUERCUS sp.
-C    23 = OTHER SOFTWOODS (OS)
-C    24 = OTHER HARDWOODS (OH)
+C    AL COMMON                  FIA SCIENTIFIC                         
+C  # CD NAME                    CD  NAME                               
+C -- -- ---------------------   --- -----------------------------------
+C  1 AF SUBALPINE FIR           019 ABIES LASIOCARPA var. LASIOCARPA
+C  2 CB CORKBARK FIR            018 ABIES LASIOCARPA var. ARIZONICA
+C  3 DF DOUGLAS-FIR             202 PSEUDOTSUGA MENZIESII
+C  4 GF GRAND FIR               017 ABIES GRANDIS
+C  5 WF WHITE FIR               015 ABIES CONCOLOR
+C  6 MH MOUNTAIN HEMLOCK        264 TSUGA MERTENSIANA
+C  7 RC WESTERN REDCEDAR        242 THUJA PLICATA
+C  8 WL WESTERN LARCH           073 LARIX OCCIDENTALIS
+C  9 BC BRISTLECONE PINE        102 PINUS ARISTATA
+C 10 LM LIMBER PINE             113 PINUS FLEXILIS var. FLEXILIS
+C 11 LP LODGEPOLE PINE          108 PINUS CONTORTA
+C 12 PI COMMON PINYON           106 PINUS EDULIS
+C 13 PP PONDEROSA PINE          122 PINUS PONDEROSA
+C 14 WB WHITEBARK PINE          101 PINUS ALBICAULIS
+C 15 SW SOUTHWESTERN WHITE PINE 114 PINUS STROBIFORMUS
+C 16 UJ UTAH JUNIPER            065 JUNIPERUS OSTEOSPERMA
+C 17 BS BLUE SPRUCE             096 PICEA PUNGENS
+C 18 ES ENGELMANN SPRUCE        093 PICEA ENGELMANNII
+C 19 WS WHITE SPRUCE            094 PICEA GLAUCA
+C 20 AS QUAKING ASPEN           746 POPULUS TREMULOIDES
+C 21 NC NARROWLEAF COTTONWOOD   749 POPULUS ANGUSTIFOLIA
+C 22 PW PLAINS COTTONWOOD       745 POPULUS DELTOIDES var. MONOLIFERA
+C 23 GO GAMBEL OAK              814 QUERCUS GAMBELII
+C 24 AW ARIZONA WHITE OAK       803 QUERCUS ARIZONICA
+C 25 EM EMORY OAK               810 QUERCUS EMORYI
+C 26 BK BUR OAK                 823 QUERCUS MACROCARPA
+C 27 SO SILVERLEAF OAK          843 QUERCUS HYPOLEUCOIDES
+C 28 PB PAPER BIRCH             375 BETULA PAPYRIFERA
+C 29 AJ ALLIGATOR JUNIPER       063 JUNIPERUS DEPPEANA
+C 30 RM ROCKY MOUNTAIN JUNIPER  066 JUNIPERUS SCOPULORUM
+C 31 OJ ONESEED JUNIPER         069 JUNIPERUS MONOSPERMA
+C 32 ER EASTERN REDCEDAR        068 JUNIPERUS VIRGINIANA
+C 33 PM SINGLELEAF PINYON       133 PINUS MONOPHYLLA
+C 34 PD BORDER PINYON           134 PINUS DISCOLOR
+C 35 AZ ARIZONA PINYON PINE     143 PINUS MONOPHYLLA var. FALLAX
+C 36 CI CHIHUAHUA PINE          118 PINUS LEIOPHYLLA var. CHIHUAHUANA
+C 37 OS OTHER SOFTWOODS         298
+C 38 OH OTHER HARDWOODS         998
+C
 C----------------------------------------------------------------------
 C  Revision History:
 C
@@ -47,6 +66,8 @@ C  02-JUN-2006 Lance R. David (FHTET)
 C     Changed I/O units from 25, 26, 27 to units 55, 56, 57
 C  12-JUN-2006 Lance R. David (FHTET)
 C     Moved RIBUS initilization to brinit.
+C  03-JUN-2014 Lance R. David (FMSC)
+C     Modified for the CR 38 species representation.
 C**********************************************************************
 
 C.... Common include files.
@@ -72,8 +93,20 @@ C.... WPBR Model species/indices are: LP/1, PP/2
 C.... Lodgepole and Ponderosa Pine set as host to Blister Rust
 C.... (comandrae), both species use the original coefficients 
 C.... and default values of white pine blister rust with NI variant.
-
-      DATA BRSPM/0,0,0,0,0,0,0,0,0,0,1,0,2,0,0,0,0,0,0,0,0,0,0,0/
+C....
+C.... FVS Central Rockies Species list for all model types:
+C....              1   2   3   4   5   6   7   8   9  10  11  12  -- FVS index
+C....             AF  CB  DF  GF  WF  MH  RC  WL  BC  LM  LP  PI  -- FVS species
+      DATA BRSPM / 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,
+C....             13  14  15  16  17  18  19  20  21  22  23  24  -- FVS index
+C....             PP  WB  SW  UJ  BS  ES  WS  AS  NC  PW  GO  AW  -- FVS species
+     &             2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+C....             25  26  27  28  29  30  31  32  33  34  35  36  -- FVS index
+C....             EM  BK  SO  PB  AJ  RM  OJ  ER  PM  PD  AZ  CI  -- FVS species
+     &             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+C....             37  38                                          -- FVS index
+C....             OS  OH                                          -- FVS species
+     &             0,  0/
 
 C.... Blister Rust model alpha species codes.
       DATA BRSPC/'LP  ','PP  '/
