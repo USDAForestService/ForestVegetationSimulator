@@ -542,6 +542,8 @@
 ../so/src/adjmai.f
 ../so/src/avht40.f
 ../so/src/r6crwd.f
+../volume/src/blmtap.f
+../volume/src/blmvol.f
 ../volume/src/brk_up.f
 ../volume/src/clkcoef_mod.f
 ../volume/src/debug_mod.f
