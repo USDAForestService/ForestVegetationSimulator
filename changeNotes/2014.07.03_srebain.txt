@@ -50,6 +50,8 @@ metric/fire/base/src/fmfout.f - adjusted reporting years
 metric/fire/base/src/fmpofl.f - adjusted reporting years
 metric/fire/base/src/fmsout.f - adjusted reporting years
 
+fire/base/common/FMCOM.F77 - updated a comment
+
 fire/ak/src/fmcrow.f - added debug statement
 fire/bc/src/fmcrow.f - added debug statement
 fire/bm/src/fmcrow.f - added debug statement
