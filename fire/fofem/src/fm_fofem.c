@@ -65,7 +65,7 @@ void Test_In (float fr_In[]);
       float *fr_In,
       float *fr_Out,
       char  *cr_ErrMes);
-  #endif
+#endif
 #else
   extern __declspec(dllexport) int FM_FOFEM (    // VS2010 compiler, Windows OS
     float *fr_In,

@@ -1,7 +1,7 @@
       SUBROUTINE FMCFMD2 (IYR, FMD)
       IMPLICIT NONE
 C----------
-C   **FMCFMD2 FIRE-BASE-DATE OF LAST REVISION: 01/08/08
+C  $Id$
 C----------
 *     CALLED FROM: FMBURN, FMPOFL
 *     PURPOSE:
@@ -69,6 +69,14 @@ C
       REAL    FMSAV(MXDFMD), FMBD(MXDFMD), FMFFL(MXDFMD), DIndex(MXDFMD)
       REAL    WTFT(5), WEIGHTLIVE, WEIGHTDEAD, SAVDEAD, SAVLIVE, SALIVE
       LOGICAL DEBUG, LARID, LFUELMON(MXDFMD)
+C
+C     ADDITIONAL VARIABLES REQUIRED FOR ENTRY FMCFMD3
+C
+      INTEGER  IFMD, INL, INDD
+      REAL     XSUR(2,3),XFML(2,3), XDEP, XEXT
+      REAL     BDavg
+      LOGICAL  LOK
+C      
 
 C     BEGIN ROUTINE
 C
@@ -107,7 +115,7 @@ C     CHECK WHETHER THE FMODLIST KEYWORD IS SCHEDULED FOR THIS YEAR
       IF (NTODO.GT.0) THEN
         DO 400 ITODO = 1,NTODO
           CALL OPGET(ITODO,2,JYR,IACTK,NPRM,PRMS)
-          IF (JYR .NE. IYR) GO TO 400
+C          IF (JYR .NE. IYR) GO TO 400
           CALL OPDONE (ITODO,IYR)
           IFUELMON(INT(PRMS(1))) = INT(PRMS(2))                    
   400   CONTINUE
@@ -470,4 +478,205 @@ C     THE STATIC OR DYNAMIC FUEL MODEL OPTION IS TURNED ON
      &       ' FMOD3=',I4,' FWT3=',F7.2,' FMOD4=',I4,' FWT4=',F7.2)
 
       RETURN
+      END
+      
+***********************************************************************
+***********************************************************************    
+      SUBROUTINE FMCFMD3 (IYR, FMD)
+c
+C     CALLED FROM: FMBURN
+C     CALLS    FMPOCR
+C              FMCFMD2
+C
+C     NOTE: If desired, this could be made into a seperate file/routine.
+C     Comments below will help in that process.
+C
+C  PURPOSE:
+C     THIS SUBROUTINE DETERMINES THE VARIABLES NEEDED FOR DETERMINING THE 
+C     FUEL MODEL.  
+C     ALL CODE IS EXTRACTED FROM THE EARLIER FMBURN ROUTINE.
+C
+C  CALL LIST DEFINITIONS:
+C     IYR:  CURRENT YEAR
+C     FMD:  FUEL MODEL THAT IS USED IN THE STATIC CASE
+C
+C  LOCAL VARIABLE DEFINITIONS:
+C     FMOIS:  FUEL MOISTURE CODES
+C     SCH:     SCORCH HEIGHT (IN FEET)
+C     STLAST: LAST STAND THAT COULD BE CALLED
+C     HPA:    HEAT PER UNIT AREA
+C     IFTYPE = 1 IF USER USED FLAMEADJ KEYWORD
+C     USRFL = TRUE IS USER ENTERED FLAME LENGTH ON FLAMEADJ KEYWORD
+C     MKODE = MORTALITY CODE (0=TURN OFF FFE MORTALITY, 1=FFE ESTIMATES MORTALITY)
+C     PSBURN = PERCENTAGE OF THE STAND THAT IS BURNED
+C----------
+COMMONS: For use if turned into its own file.
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'FMPARM.F77'
+      INCLUDE 'FMCOM.F77'
+      INCLUDE 'FMFCOM.F77'
+      INCLUDE 'CONTRL.F77'
+      INCLUDE 'ARRAYS.F77'
+C----------
+C     VARIABLE DECLARATIONS: for use if turned into its own file
+C----------
+      CHARACTER VVER*7
+      INTEGER   IFMD, FMD, I, J, K, L, INL, INDD
+      REAL     XSUR(2,3),XFML(2,3), XDEP, XEXT
+      LOGICAL  DEBUG,LOK
+      INTEGER  IYR
+      REAL     CURRCWD(MXFLCL), BDavg, WF, FDFL, FFL, HERB, WOODY
+C----------
+C  CHECK FOR DEBUG.
+C----------
+      CALL DBCHK (DEBUG,'FMCFMD3',6,ICYC)
+      IF (DEBUG) WRITE(JOSTND,107) ICYC, IYR
+  107 FORMAT(' FMCFMD3 CYCLE=',I2,' IYR=',I5)
+C----------
+C  IF USING MODELLED FUEL LOADS TO PREDICT FIRE BEHAVIOR, LOAD CUSTOM
+C  FUEL MODEL 89 WITH THE RIGHT PARAMETERS.
+C----------
+      IF (IFLOGIC .EQ. 2) THEN
+        LOK   = .TRUE.
+        INL   = 0
+        INDD   = 0
+        DO I = 1, 2       ! ZERO TEMP COPIES
+          DO J = 1, 3
+            XSUR(I,J) = 0.0
+            XFML(I,J) = 0.0
+          ENDDO
+        ENDDO
+C
+        IFMD = 89
+        XSUR(1,1) = USAV(1)
+        XSUR(1,2) = 109
+        XSUR(1,3) = 30
+        XSUR(2,1) = USAV(3)
+        XSUR(2,2) = USAV(2)
+C
+        DO I = 1, MXFLCL
+          CURRCWD(I) = 0.0
+        ENDDO
+        
+C       Sum up CWD categories by size class and convert from tons/acre to lbs/ft2
+        
+        DO I = 1, 2
+           DO J = 1, MXFLCL
+              DO K = 1, 2
+                 DO L = 1, 4
+                    CURRCWD(J) = CURRCWD(J) + CWD(I,J,K,L) * 0.04591
+                 ENDDO
+              ENDDO
+           ENDDO
+        ENDDO
+
+        HERB =  FLIVE(1)* 0.04591
+
+        WOODY = 0
+        DO I = 1,ITRN
+          IF (HT(I) .LE. CANMHT) THEN
+            WOODY = WOODY + (CROWNW(I,0)+0.5*CROWNW(I,1))*FMPROB(I)*P2T
+          ENDIF
+        ENDDO
+        WOODY = WOODY + FLIVE(2)
+        WOODY = WOODY* 0.04591 
+
+        XFML(1,1) = MAX(0.0,(CURRCWD(1)+CURRCWD(10))) ! includes litter and 0-.25"
+        XFML(1,2) = MAX(0.0,CURRCWD(2))           
+        XFML(1,3) = MAX(0.0,CURRCWD(3))           
+        XFML(2,1) = MAX(0.0,WOODY) 
+        XFML(2,2) = MAX(0.0,HERB) 
+
+C       calculate fuel bed depth and moisture of extinction.
+c       but first need to calculate fuelbed bulk density.
+
+        FDFL = CURRCWD(1) + CURRCWD(10)
+        FFL = CURRCWD(1) + CURRCWD(10) + HERB + WOODY
+        WF = FDFL/FFL
+        BDavg = UBD(1) + (WF*(UBD(2) - UBD(1)))
+        XDEP = (FFL + CURRCWD(2) + CURRCWD(3))/BDavg
+        XEXT = (12 + 480*BDavg/32)/100
+C
+        IF (XDEP .LT. 0.0) LOK = .FALSE.
+        IF (XEXT .LT. 0.0 .OR. XEXT .GT. 1.0) LOK = .FALSE.
+        DO I = 1,3
+          IF (XFML(1,I) .GT. 0.0) INDD = INDD + 1
+          IF (XFML(2,I) .GT. 0.0) INL = INL + 1
+        ENDDO
+        IF (INDD .LE. 0 .AND. INL .LE. 0) LOK = .FALSE.
+C----------
+C  ALL PARAMETERS ARE OK - ASSIGN
+C----------
+        IF (LOK) THEN
+          DO I = 1,2
+            DO J = 1,3
+              SURFVL(IFMD,I,J) = XSUR(I,J)
+              FMLOAD(IFMD,I,J) = XFML(I,J)
+            ENDDO
+          ENDDO
+          FMDEP(IFMD)  = XDEP
+          MOISEX(IFMD) = XEXT
+        ENDIF
+      ENDIF
+      
+      IF (DEBUG) WRITE (JOSTND,50) XDEP,XEXT,INDD,INL
+   50 FORMAT (' FMCFMD3, XDEP=',F7.3,' XEXT=',F7.3,' INDD=',I2,
+     >        ' INL=',I2)
+
+      IF (DEBUG) THEN
+         DO I=1,2 
+            DO J=1,3
+              WRITE (JOSTND,51) I,J,SURFVL(89,I,J),FMLOAD(89,I,J)
+   51         FORMAT(' FMCFMD3: I J =',2I3,' SURFVL=',I7,
+     >               ' FMLOAD=',F12.4)
+            ENDDO
+         ENDDO
+      ENDIF
+
+C----------
+C  COMPUTE CANOPY BASE HEIGHT, CROWN BULK DENSITY AND TOTAL
+C  CANOPY LOAD; RESULTS IN **FMFCOM** ACTCBH,CBD,TCLOAD
+C----------
+      CALL FMPOCR(IYR)
+C----------
+C  WE WANT TO KNOW THE FUEL MODEL THIS STAND WOULD BE, EVEN IF THERE
+C  IS NO FIRE SCHEDULED FOR THIS YEAR (SO CAN PRINT TO AN OUTPUT FILE)
+C
+C  SELECT APPROPRIATE FUEL MODEL OR MODELS AND CORRESPONDING WEIGHTS
+C  BASED ON VARIANT-SPECIFIC RULES. THE UT AND CR VARIANT LOGIC 
+C  EMPLOY WIND SPEED; THE SN/CS VARIANT LOGIC EMPLOYS MOISTURE LEVELS.
+C  THE LS VARIANT LOGIC USES MOISTURE AND WIND SPEED.  AS A RESULT, IF
+C  YOU ARE USING THESE VARIANTS, YOU NEED TO DETERMINE THE FUEL MODEL 
+C  MULTIPLE TIMES DURING A YEAR BECAUSE THE WEATHER CONDITIONS (AND
+C  ASSOCIATED FUEL MODEL) MAY CHANGE.  IF YOU ARE NOT USING THESE VARIANTS,
+C  YOU CAN CALL FMCMFD ONCE HERE AND BE DONE WITH IT.
+C
+C  IF YOU ARE USING THE NEW FUEL MODEL LOGIC (IFLOGIC = 1), CALL 
+C  FMCFMD2 INSTEAD, REGARDLESS OF THE VARIANT.
+C
+C  ALSO, IF YOU ARE USING MODELLED LOADS TO PREDICT FIRE BEHAVIOR
+C  (IFLOGIC = 2), YOU CAN BYPASS THIS.  
+C
+C  TT VARIANT ADDED TO THIS CR/UT LOGIC SINCE THE EXPANDED VARIANT MODELS
+C  TWO SPECIES OF JUNIPER. 06/03/10.
+C----------
+      IF (IFLOGIC .EQ. 0) THEN
+        CALL VARVER(VVER)
+        IF (.NOT.(
+     &    VVER(1:2) .EQ. 'UT' .OR.
+     &    VVER(1:2) .EQ. 'TT' .OR.
+     &    VVER(1:2) .EQ. 'SM' .OR.
+     &    VVER(1:2) .EQ. 'SP' .OR.
+     &    VVER(1:2) .EQ. 'BP' .OR.
+     &    VVER(1:2) .EQ. 'SF' .OR.
+     &    VVER(1:2) .EQ. 'LP' .OR.
+     &    VVER(1:2) .EQ. 'LS' .OR.
+     &    VVER(1:2) .EQ. 'CS' .OR.
+     &    VVER(1:2) .EQ. 'SN')) CALL FMCFMD (IYR, FMD)
+      ELSEIF (IFLOGIC .EQ. 1) THEN
+        CALL FMCFMD2 (IYR, FMD)        
+      ENDIF
+
+      RETURN
+      
       END

@@ -1,7 +1,7 @@
       SUBROUTINE FMSNGHT(VVER,KSP,HTD,HTCURR,IHRD,HTSNEW)
       IMPLICIT NONE
 C----------
-C  **FMSNGHT--FIRE     DATE OF LAST REVISION: 02/25/08
+C  $Id: fmsnght.f 709 2013-03-19 22:06:06Z drobinsonessa@gmail.com $
 C----------
 C
 C     SNAG HEIGHT PREDICTION
@@ -74,17 +74,17 @@ C       CI variant has special rules for WP & RC
             CASE (1,6)          ! WP, RC STOP LOSING HEIGHT AT 75%
               IF (HTCURR .GT. (0.75 * HTD)) THEN
                 HTSNEW = HTCURR * (1.0 - HTR1 * HTX(KSP,HTINDX1)
-     &                   * SFTMULT)
+     &                   * SFTMULT)**NYRS
               ELSE
                 HTSNEW = HTCURR
               ENDIF
             CASE DEFAULT
               IF (HTCURR .GT. (0.5 * HTD)) THEN
                 HTSNEW = HTCURR * (1.0 - HTR1 * HTX(KSP,HTINDX1)
-     &                   * SFTMULT)
+     &                   * SFTMULT)**NYRS
               ELSE
                 HTSNEW = HTCURR * (1.0 - HTR2 * HTX(KSP,HTINDX2)
-     &                   * SFTMULT)
+     &                   * SFTMULT)**NYRS
               ENDIF
           END SELECT
 
@@ -97,16 +97,18 @@ C       you use their values.
           IF (HTCURR .GT. (0.5 * HTD)) THEN
             IF ((HTX(KSP,HTINDX1) .GT. 1.01) .OR.
      &          (HTX(KSP,HTINDX1) .LT. 0.99)) THEN
-              HTSNEW = HTCURR * (1.0 - HTR1 * HTX(KSP,HTINDX1)*SFTMULT)
+              HTSNEW = HTCURR * 
+     &                   (1.0 - HTR1 * HTX(KSP,HTINDX1)*SFTMULT)**NYRS
             ELSE	 
-              HTSNEW = HTCURR * (1.0 - X2)
+              HTSNEW = HTCURR * (1.0 - X2)**NYRS
             ENDIF
           ELSE
             IF ((HTX(KSP,HTINDX2) .GT. 1.01) .OR.
      &          (HTX(KSP,HTINDX2) .LT. 0.99)) THEN
-              HTSNEW = HTCURR * (1.0 - HTR2 * HTX(KSP,HTINDX2)*SFTMULT)
+              HTSNEW = HTCURR * 
+     &                   (1.0 - HTR2 * HTX(KSP,HTINDX2)*SFTMULT)**NYRS
             ELSE	 
-              HTSNEW = HTCURR * (1.0 - X2)
+              HTSNEW = HTCURR * (1.0 - X2)**NYRS
             ENDIF
           ENDIF
 
@@ -116,9 +118,11 @@ C       you use their values.
      &         KODFOR .GE. 700) THEN                        ! CALIFORNIA
 
             IF (HTCURR .GT. (0.5 * HTD)) THEN
-              HTSNEW = HTCURR * (1.0 - HTR1 * HTX(KSP,HTINDX1) *SFTMULT)
+              HTSNEW = HTCURR * 
+     &                   (1.0 - HTR1 * HTX(KSP,HTINDX1) *SFTMULT)**NYRS
             ELSE
-              HTSNEW = HTCURR * (1.0 - HTR2 * HTX(KSP,HTINDX2) *SFTMULT)
+              HTSNEW = HTCURR * 
+     &                   (1.0 - HTR2 * HTX(KSP,HTINDX2) *SFTMULT)**NYRS
             ENDIF
           ELSE                                              ! OREGON
 
@@ -130,25 +134,29 @@ C         you use their values.
             IF (HTCURR .GT. (0.5 * HTD)) THEN
               IF ((HTX(KSP,HTINDX1) .GT. 1.01) .OR.
      &            (HTX(KSP,HTINDX1) .LT. 0.99)) THEN
-                HTSNEW = HTCURR * (1.0 - HTR1 *HTX(KSP,HTINDX1)*SFTMULT)
+                HTSNEW = HTCURR * 
+     &                    (1.0 - HTR1 *HTX(KSP,HTINDX1)*SFTMULT)**NYRS
               ELSE
-                HTSNEW = HTCURR * (1.0 - X2)
+                HTSNEW = HTCURR * (1.0 - X2)**NYRS
               ENDIF
             ELSE
               IF ((HTX(KSP,HTINDX2) .GT. 1.01) .OR.
      &            (HTX(KSP,HTINDX2) .LT. 0.99)) THEN
-                HTSNEW = HTCURR * (1.0 - HTR2 *HTX(KSP,HTINDX2)*SFTMULT)
+                HTSNEW = HTCURR * 
+     &                     (1.0 - HTR2 *HTX(KSP,HTINDX2)*SFTMULT)**NYRS
               ELSE
-                HTSNEW = HTCURR * (1.0 - X2)
+                HTSNEW = HTCURR * (1.0 - X2)**NYRS
               ENDIF
             ENDIF
           ENDIF
 
         CASE DEFAULT
           IF (HTCURR .GT. (0.5 * HTD)) THEN
-            HTSNEW = HTCURR * (1.0 - HTR1 * HTX(KSP,HTINDX1) * SFTMULT)
+            HTSNEW = HTCURR * 
+     &                (1.0 - HTR1 * HTX(KSP,HTINDX1) * SFTMULT)**NYRS
           ELSE
-            HTSNEW = HTCURR * (1.0 - HTR2 * HTX(KSP,HTINDX2) * SFTMULT)
+            HTSNEW = HTCURR * 
+     &                 (1.0 - HTR2 * HTX(KSP,HTINDX2) * SFTMULT)**NYRS
           ENDIF
 
       END SELECT

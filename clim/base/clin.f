@@ -447,7 +447,7 @@ C
      >         ' MULTIPLIER FOR SPECIES ',I4,'=',A,'    IS ',F10.4)
         ENDIF
       ENDIF
-      GOTO 10      
+      GOTO 10
   600 CONTINUE
 C                        OPTION NUMBER 6 -- MXDENMLT
 C     ACTIVITY CODE 2804

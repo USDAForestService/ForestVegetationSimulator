@@ -1308,7 +1308,7 @@ C
       ENDIF
 C 
       IF (THIS.LE.0.0) CALL OPDEL1(KUT)
-C      
+C
       IF(LQFA)GOTO 352
 C
  1400 CONTINUE

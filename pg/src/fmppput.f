@@ -247,7 +247,7 @@ C-------new FFE REAL variables --------
 C-------new CFIM variables --------
       REALS ( 55) = CFIM_BD
       REALS ( 56) = CFIM_DC
-      
+
       CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, MXR, 2)
 
       CALL BFWRIT (WK3, IPNT, ILIMIT, ALLDWN,       MAXSP  , 2)

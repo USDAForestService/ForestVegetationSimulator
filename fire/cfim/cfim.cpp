@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdlib.h>
 #ifndef unix
-  #include <conio.h>
+#include <conio.h>
 #endif
 #include <sys/timeb.h>
 
@@ -152,7 +152,7 @@ static int convectflag=0;   //if 0, gaussian profile of plume follows the "c" li
       float *CFIM_In,
       float *CFIM_out,
       float *fminfo);}
-  #endif
+#endif
 #else
   extern "C" __declspec(dllexport) int CFIM_DRIVER (                 // VS2010 compiler, Windows OS
     float *CFIN_In,

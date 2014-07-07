@@ -2,6 +2,7 @@
       IMPLICIT NONE
 C----------
 C  $Id$
+C  $Id$
 C----------
 C     CALLED FROM: FMMAIN
 C     CALLS   FMSSEE
@@ -151,10 +152,9 @@ C
         ENDIF
 
 C       Call FMSFALL to:
-C         1) Compute special fall rates if this is the first year
-C            after a fire.
+C         1) Compute special fall rates if this after a fire.
 C         2) Calculate the density of snags in this record that would fall
-C            under normal conditions.  This depends on species, dbh and
+C            ANNUALLY under normal conditions.  This depends on species, dbh and
 C            whether 5% are left.
 
         JSP = SPS(I)
@@ -162,12 +162,16 @@ C            whether 5% are left.
         CALL FMSFALL(IYR,JSP,DBHS(I),DEND(I),DENTTL,1,
      &               RSOFT,RSMAL,DFALLN)
 
+        IF (DEBUG) WRITE(JOSTND,*)' IN FMSNAG RSOFT=',RSOFT,
+     &                            ' RSMAL=',RSMAL,' PBSOFT=',pbsoft,
+     &                            ' PBSMAL=',PBSMAL
+
 C     Now set PBFRIH and PBFRIS. Different rates apply to small snags and
 C     snags that are soft AT TIME OF FIRE (whether initially hard or soft):
 C     if both apply, use whichever rate is greater.  Fires do not affect
 C     the fall rate of large snags that are hard at the time of the fire.
 
-        IF ((IYR - BURNYR) .EQ. 1) THEN
+        IF ((IYR - BURNYR) .LE. 1) THEN
           PBFRIS(I) = RSOFT
           PBFRIH(I) = 0.0
 
@@ -189,23 +193,22 @@ C
         DFIS = DENIS(I) * DFALLN / (DENIS(I)+DENIH(I))
         DFIH = DENIH(I) * DFALLN / (DENIS(I)+DENIH(I))
 
-        IF (LASCO .AND. ((IYR-BURNYR) .LE. 10) .AND.
-     >    (YRDEAD(I) .LE. BURNYR)) THEN
+        IF (BURNYR .GT. 0  .AND.
+     >              YRDEAD(I) .LE. BURNYR) THEN
+            IF (LASCO .AND. (IYR-BURNYR) .LE. 10) THEN
           DFIS = DFIS * 0.5
           DFIH = DFIH * 0.5
           XS = PBFRIS(I) * DENIS(I)
             XH = PBFRIH(I) * DENIH(I)
             IF (DFIS .LT. XS) DFIS = XS
-            IF (DFIH .LT. XH) DFIH = XH
-        ELSE
-          IF (((IYR-BURNYR) .LE. PBTIME) .AND.
-     &      (YRDEAD(I) .LE. BURNYR)) THEN
-          XS = PBFRIS(I) * DENIS(I)
-            XH = PBFRIH(I) * DENIH(I)
+              IF (DFIH .LT. XH) DFIH = XH   
+            ELSEIF ((IYR-BURNYR) .LE. PBTIME) THEN
+              XS = PBFRIS(I) * DENIS(I) 
+              XH = PBFRIH(I) * DENIH(I) 
             IF (DFIS .LT. XS) DFIS = XS
-            IF (DFIH .LT. XH) DFIH = XH
+              IF (DFIH .LT. XH) DFIH = XH   
+            ENDIF       
           ENDIF
-        ENDIF
 
 C     Now actually remove the snags.  If less than DZERO will be left,
 C     remove them all.
