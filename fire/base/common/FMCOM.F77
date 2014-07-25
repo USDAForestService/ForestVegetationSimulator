@@ -41,7 +41,7 @@ C----------
 *                involve that variable should be re-examined (see FMSCRO)
 *     CWD2B2:    dimensioned like CWD2B, this is crown material from trees
 *                killed during the current FVS cycle.  It won't start falling
-*                until after it is added to CWD2B at the start of the next cycle.
+*                until after it is added to CWD2B (at the end of the year).
 *                **Indexed the same way as CWD2B**
 *     CWDVOL:    array for down woody debris, it holds down wood volume 
 *                in cuft/acre. Dimensioned like CWD, but without the litter and

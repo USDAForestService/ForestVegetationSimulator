@@ -1,0 +1,15 @@
+Subject: Updated PV Codes
+Name: R. Havis
+Date: June 27, 2014
+Variants affected: EC
+
+Description:
+
+EC variant: The Potential Vegitation (PV) code / PV Reference code sets are
+            mapped to FVS habitat types for processing in FVS. The PV codes
+            with reference number 653 were added to the East Cascades
+            variant.
+
+Impact on users: Users of the EC variant should obtain a new executable.
+
+Files:

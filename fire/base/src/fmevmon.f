@@ -172,17 +172,20 @@ C
 C********************************************************************
 
       ENTRY FMEVSNG(RVAL, IX, JX, KX, XLDBH, XHDBH, XLHT, XHHT, IRC)
+      IF (IFMYR1.EQ.-1) THEN
+         IRC=1
+      ELSE
       IRC= 0
       XH = 0.
       XS = 0.
       RVAL = 0.
       IF (NSNAG.LT.1) RETURN
-
+        
       DO 500 I = 1, NSNAG
-
+        
         ISPS = SPS(I)
         D = DBHS(I)
-
+        
         LINCL = .FALSE.
         IF(JX.EQ.0 .OR. JX.EQ.ISPS)THEN
           LINCL = .TRUE.
@@ -197,12 +200,12 @@ C********************************************************************
    90     CONTINUE
         ENDIF
    91   CONTINUE
-
+        
         IF (LINCL .AND.
      >    (D.GE.XLDBH .AND. D.LT.XHDBH)) THEN
-
+        
 C  PASS OVER THE INITIALLY-HARD SNAGS
-
+        
           HS = HTIH(I)
           TPA = DENIH(I)
           IF (TPA .GT. 0. .AND. HS.GE.XLHT .AND. HS.LT.XHHT) THEN
@@ -218,16 +221,16 @@ C  PASS OVER THE INITIALLY-HARD SNAGS
             X = TPA * X1
             GOTO 120
   120       CONTINUE
-
+        
             IF (HARD(I)) THEN
               XH = XH + X
             ELSE
               XS = XS + X
             ENDIF
           ENDIF
-
+        
 C     PASS OVER THE INITIALLY-SOFT SNAGS
-
+        
           HS = HTIS(I)
           TPA = DENIS(I)
           IF (TPA .GT. 0. .AND. HS.GE.XLHT .AND. HS.LT.XHHT) THEN
@@ -243,21 +246,22 @@ C     PASS OVER THE INITIALLY-SOFT SNAGS
             X = TPA * X1
             GOTO 220
   220       CONTINUE
-
+        
             XS = XS + X
           ENDIF
         ENDIF
-
+        
   500 CONTINUE
-
+        
 C TAKE HARD-COMPONENT, SOFT-COMPONENT, OR BOTH
-
+        
       IF (KX .EQ. 1) THEN
         RVAL = XH
       ELSEIF (KX .EQ. 2) THEN
         RVAL = XS
       ELSE
         RVAL = XH + XS
+      ENDIF
       ENDIF
 
       RETURN
@@ -430,6 +434,7 @@ C
       ELSE
         IRC=0
         RVAL = 0.0
+
 C
 C  IF THIS IS NOT A THINING CYCLE, SET LREMT TO FALSE SO REMOVALS ARE
 C  NOT ACCOUNTED FOR UNTIL NEXT THINING, AND ZERO OUT PREMSTAND
@@ -649,7 +654,7 @@ C  LIVE REMOVALS
 C
         IF((ICYCRM.EQ.ICYC).AND.(ISTAND.GE.0).AND.(ITYP.GE.0)) THEN
           DO I = 1,ITRNL
-C     
+C
           ISPC = ISPCC(I)
           D = DBHC(I)
           H = HTC(I)
@@ -751,9 +756,9 @@ C  CONSTRAIN TO HEIGHT RANGE
 C
               IF((H.GE.XLHT).AND.(H.LT.XHHT))THEN
                 LMERCH = .FALSE.
-
+           
                 CALL FMSVL2(ISPC,D,H,XM1,VT,LMERCH,.FALSE.,JOSTND)
-
+           
                 IF (DEBUG) WRITE(JOSTND,61) I,FMPROB(I),PROB(I),
      >                                      ISP(I),D,H,VT
  61             FORMAT(' FMEVMON(LIVE): I=',I5,' FMPROB=',F10.3,

@@ -1,6 +1,7 @@
       SUBROUTINE BRCMPR (NCLAS,PROB2,INDX,INDX1)
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRCMPR       DATE OF LAST REVISION:  06/21/2013
+C  **BRCMPR       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  This Blister Rust Model subroutine is called from the FVS routine
@@ -24,9 +25,10 @@ C.... Common include files.
 C.... Local variable declarations.
 
       INTEGER BOLCNT,BOLAVE,BRACNT,BRAAVE,ITRCNT,NCLAS,INDX(MAXTRE),
-     &   INDX1(MAXTRE),IXP1
+     &   INDX1(MAXTRE), I, I1, I2, I3, I4, ICL, IREC, J, K
       REAL TXP2,TXP3,TXP4,TXP5,TXP6,TXP7,TXP8,TXP9,TXP10,
-     &   TXP12(10),TXP13(10),TXP14(10),TXP15(10),PROB2(MAXTRE)
+     &   TXP12(10),TXP13(10),TXP14(10),TXP15(10),TXP16,PROB2(MAXTRE),
+     &   GIRD, OUT, TXP, UP, XP
       LOGICAL LGO,DEBUG
 
 C.... See if we need to do some debug.
@@ -79,7 +81,7 @@ C....    variables not compressed by a weighted average.
          TXP8=TSTARG(IREC1)*XP
          TXP9=BRAGE(IREC1)
          TXP10=BRPB(IREC1)
-         IXP1=ITCAN(IREC1)*XP
+         TXP16=ITCAN(IREC1)*XP
 
 C....    Initialize arrays used to accumulate the values for bole
 C....    and branch cankers.  Inactivated cankers are not included.
@@ -131,7 +133,7 @@ C....    Add in the other trees which form the class.
             TXP8=TXP8+TSTARG(IREC)*XP
             TXP9=TXP9+BRAGE(IREC)
             TXP10=TXP10+BRPB(IREC)
-            IXP1=IXP1+ITCAN(IREC)*XP
+            TXP16=TXP16+ITCAN(IREC)*XP
 
             DO 80 J=1,ILCAN(IREC)
                UP=DUP(J,IREC)
@@ -167,7 +169,7 @@ C....    Move the values into the IREC1 position in the arrays.
          TSTARG(IREC1)=TXP8/TXP
          BRAGE(IREC1)=TXP9/ITRCNT
          BRPB(IREC1)=TXP10
-         ITCAN(IREC1)=IXP1/ITRCNT
+         ITCAN(IREC1)=INT(TXP16/ITRCNT)
          ISTOTY(IREC1)=5
          ICRED(IREC1)=0
 

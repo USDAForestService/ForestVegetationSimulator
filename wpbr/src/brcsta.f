@@ -1,6 +1,7 @@
       SUBROUTINE BRCSTA
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRCSTA       DATE OF LAST REVISION:  06/21/2013
+C  **BRCSTA       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRCSTA determines the status of cankers on each tree during the
@@ -85,7 +86,7 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      REAL EXHT,GIRD,HTBCR,OUT,PHTST,PRHT,UP
+      REAL BRDBH,EXHT,GIRD,HTBCR,OUT,PHTST,PRHT,UP
       INTEGER I1,I2,I3,J,K,L,NLCAN,EXCNCT
       LOGICAL DEBUG
 

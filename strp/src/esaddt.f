@@ -176,7 +176,7 @@ c             Data requirements for Blue Mountains estab model
               J = LEN_TRIM(FNAM)
               FNAM(J-3:J) = ".es2"
               CALL MYOPEN (FNO,FNAM(1:LEN_TRIM(FNAM)),
-     >          5,150,0,1,1,0,KODE)
+     >          1,150,0,1,1,0,KODE)
               IF (KODE .NE. 0) GOTO 101
               READ(FNO,'(I10)',END=101) IKEEP
               CALL OPRDAT(FNO,KODE)

@@ -1,6 +1,7 @@
       SUBROUTINE BRUPDT
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRUPDT       DATE OF LAST REVISION:  05/09/2000
+C  **BRUPDT       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  Updates tree ground diameter and converts it to centimeters

@@ -16,11 +16,6 @@ C
 *     the old Division of Forest Economics report (1961).  The model
 *     assumes that a constant proportion of the material will fall in
 *     each future year up to that time.
-*     NOTE:  this routine is called after CWD2B has been added to the
-*     down debris pools and an FVS cycle completed.  i,e, material which 
-*     is to fall in the next year of simluation should be put in 
-*     CWD2B2( , ,1).  CWD2B2 will be added to CWD2B at the end of this
-*     cycle.
 *----------------------------------------------------------------------
 *
 *  Local variable definitions:
@@ -86,7 +81,7 @@ Cppe  YRSCYC = FLOAT( MIY(MICYC)-DEADYR )
       
 C     find out how long it will be between the year of death and the 
 C     next year simulated, so that only crown material to fall in that 
-C     year or later is added to CWD2B2.  
+C     year or later is added to CWD2B2 or CWD2B.  
 
 Cppe  IF (DEADYR .LT. MIY(1)) THEN
 Cppe    YNEXTY = MIY(1) - DEADYR
@@ -154,12 +149,15 @@ C        SAR 11/20/12
          IF (SIZE .GT. 0) ANNUAL = ANNUAL + YRSCYC*OLDCRW(I,SIZE)*X
          ENDIF
          ANNUAL = ANNUAL * DSNAGS / RLIFE
-         
+
          IF (DEBUG) WRITE(JOSTND,*) 'annual=',annual,' yrscyc=',yrscyc,
      &   ' oldcrw=',OLDCRW(I,SIZE),' x=',x,' i=',i,' size=',size,
      &   ' CROWNW=', CROWNW(I,SIZE),' dsnags =',dsnags,' rlife=',rlife
 
+         IF (ANNUAL .GT. 0.0) THEN
+           FALLYR = 0
          DO IYR=YNEXTY,ILIFE
+
             FALLYR = IYR + 1 - YNEXTY
             
 C           Normally, we want to put the stuff into CWD2B2, but if this is 
@@ -174,8 +172,9 @@ C           where we need to put the stuff.
                CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
      >                                   + ANNUAL
             ENDIF
-         ENDDO
 
+      ENDDO
+        ENDIF
       ENDDO
 
   101 CONTINUE

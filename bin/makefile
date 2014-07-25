@@ -21,6 +21,7 @@ else
  WIN = 
  SLIBSUFX = .so
  PRGSUFX = 
+ ODBC = odbc 
  ifdef OSTYPE
   ifeq ($(OSTYPE),linux)
     OSARCH = l64
@@ -39,8 +40,8 @@ else
  ifndef OSARCH
    OSARCH = osx
    PIC =      # never use PIC on this OSARCH type
+   ODBC = iodbc 
  endif
- ODBC = odbc 
 endif
 
 #.PHONY: printvars

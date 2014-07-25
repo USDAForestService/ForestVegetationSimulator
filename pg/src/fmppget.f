@@ -347,7 +347,7 @@ C------- new FFE REAL variables --------
       CALL BFREAD (WK3, IPNT, ILIMIT, DBHC,  MAXTRE        , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, HTC,  MAXTRE         , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, CROWNWC, MAXTRE*6    , 2)
-      CALL BFREAD (WK3, IPNT, ILIMIT, SETDECAY, MXFLCL*4   , 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, SETDECAY, MXFLCL*4   , 2)      
 C------- new CFIM variables --------
       CALL BFREAD (WK3, IPNT, ILIMIT, CFIM_INPUT, 26       , 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, POTCONS, 3*3         , 2)

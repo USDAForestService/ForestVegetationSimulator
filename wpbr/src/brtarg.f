@@ -1,6 +1,7 @@
       SUBROUTINE BRTARG
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRTARG       DATE OF LAST REVISION:  06/21/2013
+C  **BRTARG       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRTARG calculates STAND TARGET, individual tree GROWTH INDEX,
@@ -61,7 +62,9 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      INTEGER I1, I2, I3
+      INTEGER I1, I2, I3, I4, IIAG, ICLS, L, LL, M, MM
+      REAL    ACTRI, ARI, ARISUM, DFD, DFN, GIBR, GISUM,
+     &        HHT, RISUM, TBSUM
       LOGICAL DEBUG
 
 C.... See if we need to do some debug.

@@ -1,6 +1,7 @@
       SUBROUTINE BRTOUT
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRTOUT       DATE OF LAST REVISION:  06/21/2013
+C  **BRTOUT       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRTOUT writes the treelist summary to output file.
@@ -53,7 +54,7 @@ C....    CTPKIL - char. rep. of tree canker status: top kill
 C....    CTDEAD - char. rep. of tree canker status: tree kill
 C....    CHSTAT - current tree status in character form
 
-      INTEGER I1,I2,I3,I4,J,K
+      INTEGER I1,I2,I3,I4,J,K,ISTLNB
       REAL GGI,HTBCR,TRUNC
       CHARACTER*8 CNOCNK,CNONLE,CPRUNE,CEXCIS,CNONSA,CTPKIL,CTDEAD,
      &   CHSTAT,CESCAP

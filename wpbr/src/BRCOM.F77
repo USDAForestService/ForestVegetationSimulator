@@ -1,6 +1,6 @@
 CODE SEGMENT BRCOM
 C**********************************************************************
-C  **BRCOM        DATE OF LAST REVISION:  05/15/2006
+C  **BRCOM        DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Common block variable definitions for the Blister Rust model.
 C----------------------------------------------------------------------
@@ -47,6 +47,7 @@ C     Changed array ISTAT to IBRSTAT.
 C  15-MAY-2006 Lance R. David (FHTET)
 C     Added variables LBRDBH and LBRSUM.
 C**********************************************************************
+      INTEGER NBRSP
       PARAMETER (NBRSP=2)
 
 C.... Variable declarations.
@@ -63,13 +64,14 @@ C.... Variable declarations.
       INTEGER BRSPM(MAXSP),IBRDAM,IBRTID(MAXTRE),ICIN,ICRED(MAXTRE),
      &  IDCOUT,IDTOUT,ILCAN(MAXTRE),INCAN,IBRSTAT(MAXTRE),
      &  ISTCAN(10,MAXTRE),ISTOTY(MAXTRE),ITCAN(MAXTRE),
-     &  BRNTRECS(NBRSP),RIMETH
+     &  BRNTRECS(NBRSP),RIMETH,LOTCA
 
       REAL 
      &  AVECPT(NBRSP),AVGGI(NBRSP),AVGRI(NBRSP),AVGSTS(NBRSP),
      &  AVLCPT(NBRSP),AVTCPT(NBRSP),BOGRTH(NBRSP,4),BRAGE(MAXTRE),
      &  BRDBHO(10,13,41),BRGD(MAXTRE),BRGRTH(NBRSP,4),BRHTBC(MAXTRE),
-     &  BROUT(NBRSP,18,41),BRPB(MAXTRE),D2AVE(10),D2AVL(10),D2AVT(10),
+     &  BROUT(NBRSP,18,41),BRPB(MAXTRE),BRPI,
+     &  D2AVE(10),D2AVL(10),D2AVT(10),
      &  D2CLN(10),D2DED(10),D2EXC(10),D2GIR(10),D2NOL(10),D2NOS(10),
      &  D2PIL(10),D2PIT(10),D2PRN(10),D2WP(10),DFACT(NBRSP,4),
      &  DOUT(10,MAXTRE),DUP(10,MAXTRE),ESTCAN(MAXTRE),EXDMIN,GI(MAXTRE),
@@ -80,7 +82,7 @@ C.... Variable declarations.
      &  TBRCLN(NBRSP),TBREXC(NBRSP),TBRGIR(NBRSP),TBRHMR(NBRSP),
      &  TBRHST(NBRSP),TBRMRT(NBRSP),TBRNOL(NBRSP),TBRNOS(NBRSP),
      &  TBRPRN(NBRSP),THPROB(NBRSP),TRETN(NBRSP),TSTARG(MAXTRE),
-     &  UPMARK(MAXTRE)
+     &  UPMARK(MAXTRE),TOTCA
 
       REAL FACTOR(3),RIBSUM(2),RIBUS(2,3)
 C.... Common blocks.

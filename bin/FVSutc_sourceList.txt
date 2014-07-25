@@ -478,7 +478,6 @@
 ../pg/src/ecnget.f
 ../pg/src/ecnput.f
 ../pg/src/fmppget.f
-../pg/src/fmpphv.f
 ../pg/src/fmppput.f
 ../pg/src/getstd.f
 ../pg/src/putgetsubs.f
@@ -538,6 +537,8 @@
 ../ut/src/sitset.f
 ../ut/src/utmrt.f
 ../ut/src/varvol.f
+../volume/src/blmtap.f
+../volume/src/blmvol.f
 ../volume/src/brk_up.f
 ../volume/src/clkcoef_mod.f
 ../volume/src/debug_mod.f

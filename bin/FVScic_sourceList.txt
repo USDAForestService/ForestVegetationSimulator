@@ -536,7 +536,6 @@
 ../pg/src/ecnget.f
 ../pg/src/ecnput.f
 ../pg/src/fmppget.f
-../pg/src/fmpphv.f
 ../pg/src/fmppput.f
 ../pg/src/getstd.f
 ../pg/src/putgetsubs.f
@@ -544,6 +543,8 @@
 ../pg/src/stash.f
 ../so/src/adjmai.f
 ../ut/src/dgfasp.f
+../volume/src/blmtap.f
+../volume/src/blmvol.f
 ../volume/src/brk_up.f
 ../volume/src/clkcoef_mod.f
 ../volume/src/debug_mod.f
