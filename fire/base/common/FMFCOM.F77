@@ -18,7 +18,7 @@ C----------
 *     BURNCR: Burned amounts from the crown - only used for smoke production.
 *     BURNLV: Array holding the comsumed amounts of live fuels
 *              1=herbs, 2=shrubs
-*     BURNSEAS:Season assumed within the fuel model logic (used in LS-FFE only)
+*     BURNSEAS:Season assumed for simulated fire behavior and effects.
 *             1 = early spring (compact leaves), 2 = before greenup,
 *             3 = after greenup, 4 = fall
 *     CANCLS: CANOPY CLOSURE CLASS USED IN DETERMINING WIND SPEED CORRECTION
@@ -91,8 +91,8 @@ C----------
 *             potential flame lengths.
 *     POTPAB: The new percent area burned to use when calculating
 *             potential fire effects.  For 1 = severe, 2 = moderate.
-*     POTSEAS:The new season to use when calculating potential fire
-*             behavior.  For 1 = severe, 2 = moderate. (affects LS-FFE only)
+*     POTSEAS:The season to use when calculating potential fire
+*             behavior and effects.  For 1 = severe, 2 = moderate. 
 *             1 = early spring (compact leaves), 2 = before greenup,
 *             3 = after greenup, 4 = fall
 *     POTFSR: potential fire spread rate, in feet/min
