@@ -94,7 +94,8 @@ C        ENDIF
 C     The amount of fuel burned is the amount that is in the affected area
 C     (CWD*AFFECT) times the amount from the affected area that is in the
 C     treated area (*FULCON).  Transfer this amount from the unpiled to the
-C     piled
+C     piled.  For litter and duff, only the material under the piles gets burned,
+C     so we multiply by ATREAT instead.
 
       DO K = 1,2
         DO ISPD = 1,4
@@ -104,7 +105,7 @@ C     piled
             CWD(2,ISZ,K,ISPD) = CWD(2,ISZ,K,ISPD) + PILE
           ENDDO
           DO ISZ = 10,11
-            PILE = CWD(1,ISZ,K,ISPD) * AFFECT
+            PILE = CWD(1,ISZ,K,ISPD) * AFFECT * ATREAT
             CWD(1,ISZ,K,ISPD) = CWD(1,ISZ,K,ISPD) - PILE
             CWD(2,ISZ,K,ISPD) = CWD(2,ISZ,K,ISPD) + PILE
           ENDDO
