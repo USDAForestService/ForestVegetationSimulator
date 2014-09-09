@@ -1,0 +1,40 @@
+Subject: FFE Restructuring update
+Name:  Stephanie Rebain
+Date:  09/09/2014
+Variants affected: All
+
+Description:
+
+1)  With the last software release, the reporting interval field on many FFE report keywords,
+such as POTFIRE, FUELOUT, CARBREPT, CARBCUT, DWDCVOUT, DWDVLOUT, CANFPROF, and SNAGOUT, did not
+operate properly.  As a result, this field was removed.  Simultaneously, many FFE report
+keywords (POTFIRE, FUELOUT, CARBREPT, CARBCUT, DWDCVOUT, DWDVLOUT, CANFPROF, BURNREPT, FUELREPT,
+MORTREPT, SOILHEAT) were simplied so that a starting year and reporting duration are no longer entered. 
+Reported output will always be on cycle boundary years for these output tables.
+
+
+Modified Files:
+fire/base/src/fmpofl.f - removed processing of potfire keyword.
+fire/base/src/fmchrvout.f - removed processing of carbrept keyword
+fire/base/src/fmcrbout.f - removed processing of carbcut keyword 
+fire/base/src/fmdout.f - removed processing of the fuelout, dwdvlout, dwdcvout
+fire/base/src/fmpocr.f - removed processing of canfprof keyword 
+fire/base/src/fmsout.f - removed reporting interval logic (ISNSTP)
+fire/base/src/fmfout.f - removed processing of mortrept, burnrept, fuelrept
+fire/base/src/fmburn.f - removed processing of soilheat keyword
+fire/bc/src/fmburn.f - removed processing of soilheat keyword; added changes that were missed during the cycle-based FFE code change
+fire/base/src/fmin.f - edited processing of 11 keywords; removed setting of myact and call to opnew, set report beginning and end years.
+pg/src/fmppget.f - removed variables IPFSTP, ICHRVI, ICRPTI, IFSTEP, IDWRPI,IDWCVI, ICFPST, ISNSTP
+pg/src/fmppput.f - removed variables IPFSTP, ICHRVI, ICRPTI, IFSTEP, IDWRPI,IDWCVI, ICFPST, ISNSTP
+
+metric/fire/base/src/fmdout.f - removed processing of the fuelout, dwdvlout, dwdcvout
+metric/fire/base/src/fmfout.f - removed processing of mortrept, burnrept, fuelrept
+metric/fire/base/src/fmpofl.f - removed processing of potfire keyword.
+metric/fire/base/src/fmsout.f - removed reporting interval logic (ISNSTP)
+metric/fire/base/src/fmin.f - edited processing of 11 keywords; removed setting of myact and call to opnew, set report beginning and end years.
+fire/base/common/FMFCOM.F77 - removed variables IPFSTP, ICHRVI, ICRPTI, IFSTEP, IDWRPI,IDWCVI, ICFPST, ISNSTP
+base/src/oplist.f - deleted out 11 ffe keywords from ITRSL1 and ITRSL2.  Lowered NTRSLT to match.
+
+
+
+
