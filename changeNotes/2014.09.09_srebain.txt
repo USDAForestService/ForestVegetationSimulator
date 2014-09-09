@@ -1,4 +1,4 @@
-Subject: FFE Restructuring update
+Subject: FFE Reporting Update
 Name:  Stephanie Rebain
 Date:  09/09/2014
 Variants affected: All
