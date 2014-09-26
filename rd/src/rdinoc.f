@@ -1,4 +1,5 @@
       SUBROUTINE RDINOC(LICALL)
+      IMPLICIT NONE
 C----------
 C  **RDINOC      LAST REVISION:  07/30/02 
 C----------
@@ -38,7 +39,11 @@ C   30-JUL-2002 Lance David (FHTET)
 C     Added check and reset of root radius when current radius is 
 C     less than the value calculated as the radius at which the 
 C     root system is suppose to sit for x years.
-C-----------------------------------------
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+
 C.... Parameter include files.
 
       INCLUDE 'PRGPRM.F77'
@@ -53,8 +58,10 @@ C.... Common include files.
 
 C.... Local variables.
 
-      LOGICAL DEBUG  
-      LOGICAL LICALL
+      INTEGER  I, IDI, J, JINT, K
+      REAL     DROOTS, TMINLF, RTODEC, RTREM
+
+      LOGICAL  DEBUG, LICALL
 
 C.... See if we need to do some debug. 
 

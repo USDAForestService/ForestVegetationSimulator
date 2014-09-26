@@ -1,6 +1,7 @@
       SUBROUTINE RDMN1(INUM)
+      IMPLICIT NONE
 C----------
-C  **RDMN1       LAST REVISION:  03/25/03
+C  **RDMN1       LAST REVISION:  08/29/14
 C----------
 C
 C  THIS SUBROUTINE IS CALLED FROM PROGNOSIS MAIN AND INITIALIZES THE
@@ -41,7 +42,10 @@ C       values in it and comprs expects values in WK2 to be mortality which
 C       has not yet been predicted.
 C       Gary Dixon and Lance David discussed this problem and agreed
 C       on this solution to reset WK2 in this routine.
-C..................................................................
+C   08/29/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 C.... PARAMETER INCLUDE FILES
 C
@@ -55,11 +59,9 @@ C
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'OUTCOM.F77'
 C
-      LOGICAL LGO,LTEE,DEBUG
-      INTEGER I, II, MYACT(1)
-      REAL    SPCNT(MAXSP,3), PRMS(2)
-
-CLRD      EQUIVALENCE (WK6,SPCNT)
+      LOGICAL  LGO, LTEE, DEBUG
+      INTEGER  I, ICCY, IDI, II, IM, INUM, IS, KDT, MYACT(1)
+      REAL     PRMS(2), SPCNT(MAXSP,3), TPAREA
 
       DATA MYACT /250/
 

@@ -1,6 +1,7 @@
       SUBROUTINE RDCSD(ISPI,DBHLIM,THRESH,CRIT)
+      IMPLICIT NONE
 C----------
-C  **RDCSD       LAST REVISION:  07/15/02     
+C  **RDCSD       LAST REVISION:  08/28/14     
 C----------
 C
 C  Purpose :
@@ -64,8 +65,10 @@ C               Changed local variable "SLOPE" to "REISLP" because SLOPE
 C               is a FVS variable in common PLOT.F77. 
 C     15-JUL-02 Lance David (FHTET)
 C               Added debug.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C
-C.........................................................................
+C----------------------------------------------------------------------
 C
 COMMONS
 C
@@ -80,20 +83,18 @@ C
 C
 COMMONS
 C
-      
-      INTEGER     I, J, I1, I2
+      INTEGER  ALLX, DTYPE, I, I1, I2, ISPI, J, LIVE, METHOD,
+     &         OUTSDE, RRTYPE, SDI, SPACE, STEM
 
-      LOGICAL     CRIT, DEBUG
-      INTEGER     RRTYPE, SPACE, METHOD, DTYPE
-      INTEGER     STEM, ALL, LIVE, OUTSDE, SDI
-      REAL        TOTDEN, NSUM, DOSUM, PIBY4, PIABY4, TEMP, RRFREE
-      REAL        ASD, SDIVAL
-      REAL        REISLP
+      REAL     ASD, BASUM, DBHLIM, DOSUM, NSUM, PIBY4, PIABY4,
+     &         REISLP, RRFREE, SDIVAL, TEMP, THRESH, TOTDEN
+
+      LOGICAL  CRIT, DEBUG
 
 C
 C    Index conventions for arrays and logic
 C
-      DATA ALL      /0 /
+      DATA ALLX     /0 /
       DATA OUTSDE   /1/
 
       DATA LIVE     /1/
@@ -119,7 +120,7 @@ C subroutine 'rrin').
 C Default options for critical density calculations.
 
       METHOD = STEM
-      SPACE = ALL
+      SPACE = ALLX
       DTYPE = LIVE
 
       IF (REINEK(1) .EQ. 0.0) GOTO 4
@@ -131,7 +132,7 @@ C Default options for critical density calculations.
 
     5 CONTINUE
       IF (REINEK(3) .EQ. 0.0) GOTO 6
-      DTYPE = ALL
+      DTYPE = ALLX
 
     6 CONTINUE
       REISLP = REINEK(4)
@@ -179,21 +180,21 @@ C        count live stems outside
          DOSUM = DOSUM + FPROB(I)
          
 C        add recent dead stems outside 
-         IF (DTYPE .EQ. ALL) NSUM = NSUM + ((2/FINT) * PROAKL(DSO,I))
+         IF (DTYPE .EQ. ALLX) NSUM = NSUM + ((2/FINT) * PROAKL(DSO,I))
          
-         IF (SPACE .EQ. ALL) THEN
+         IF (SPACE .EQ. ALLX) THEN
 C           add live stems inside
             NSUM = NSUM + PROBIT(I) + PROBIU(I)
             
 C           add recent dead stems inside
-            IF (DTYPE .EQ. ALL) NSUM = NSUM + ((2/FINT)
+            IF (DTYPE .EQ. ALLX) NSUM = NSUM + ((2/FINT)
      &                  * (PROAKL(DSII,I) + PROAKL(DSIU,I) + PRANKL(I)))
          END IF
   100 CONTINUE
 
 C Calculate TOTDEN, compare it to the user's threshold, and use CRIT to signal
 C whether the threshold was surpassed.
-      IF (SPACE .EQ. ALL) THEN
+      IF (SPACE .EQ. ALLX) THEN
          TOTDEN = (NSUM + DOSUM*(SAREA - PAREA(RRTYPE))) / SAREA
       ELSE
          TOTDEN = DOSUM + NSUM / (SAREA - PAREA(RRTYPE))
@@ -243,7 +244,7 @@ C        start with live stems
          BASUM = BASUM + PROBL(I) * PIABY4 * DBH(I)**2
          
 C        add recent dead stems
-         IF (DTYPE .EQ. ALL) THEN
+         IF (DTYPE .EQ. ALLX) THEN
             TEMP = (2/FINT) * 
      &           (PROAKL(DSO,I)+PROAKL(DSII,I)+PROAKL(DSIU,I)+PRANKL(I))
             NSUM = NSUM + TEMP
@@ -276,7 +277,7 @@ C        start with live stems outside
          BASUM = BASUM + (TEMP * PIBY4 * DBH(I)**2)
          
 C        add recent dead stems outside 
-         IF (DTYPE .EQ. ALL) THEN
+         IF (DTYPE .EQ. ALLX) THEN
             RRTYPE = MAXRR
             IF (MAXRR .LT. 3) RRTYPE = IDITYP(IRTSPC(ISP(I)))
             TEMP = (2/FINT) * PROAKL(DSO,I) 

@@ -1,7 +1,7 @@
       SUBROUTINE PTSCL(IPLTNO,IPTLUN)
       IMPLICIT NONE
 C----------
-C  **PTSCL         DATE OF LAST REVISION:  07/02/10
+C  **PTSCL         DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C        ROUTINE TO PRINT SCALES
@@ -11,6 +11,9 @@ C Revision History
 C   02/08/88 Last noted revision date.
 C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to I2
 C----------
 COMMONS
 C
@@ -24,7 +27,7 @@ C
       CHARACTER*4  IFORM
       CHARACTER*35 IFORM4
 
-      INTEGER I, INT, IPLTNO, IPTLUN, J, K
+      INTEGER I, I2, IPLTNO, IPTLUN, J, K
 
       REAL DIV, S(5), SI, TEMP, XJ
 
@@ -32,12 +35,12 @@ C
 C        SET UP LINE LENGTH  AND DEFAULT FORMAT
 C
       IFORM4 ='(1X,0PF10.3,4(15X,0PF10.3),1X,10A1)'
-      INT=5
-      DIV=INT-1
+      I2=5
+      DIV=I2-1
 C
       I=1
     7 SI=(PTU(IPLTNO,I)-PTL(IPLTNO,I))/DIV
-      DO 1 J=1,INT
+      DO 1 J=1,I2
       XJ=J-1
     1 S(J)=PTL(IPLTNO,I)+XJ*SI
 C             SETS UP 3 OR 5 MARKERS ACROSS TOP
@@ -61,7 +64,7 @@ C
       IF (1. .LE. TEMP .AND. TEMP .LT. 100000.) GO TO 6
       IFORM4 ='(1X,1PE10.3,4(15X,1PE10.3),1X,10A1)'
 C
-    6 WRITE(IPTLUN,IFORM4) (S(K),K=1,INT),(L(K),K=1,J)
+    6 WRITE(IPTLUN,IFORM4) (S(K),K=1,I2),(L(K),K=1,J)
       IFORM4 ='(1X,0PF10.3,4(15X,0PF10.3),1X,10A1)'
       IF(I .LE. IPTVAR(IPLTNO)) GO TO 7
 C

@@ -1,10 +1,11 @@
       SUBROUTINE  RDINUP
+      IMPLICIT NONE
 C----------
-C  **RDINUP      LAST REVISION:  11/06/89
+C  **RDINUP      LAST REVISION:  08/28/14
 C----------
 C
 C  THIS SUBROUTINE FORMS A WEIGHTED AVERAGE OF INFECTED ROOT
-C  CHARACTERISTICS FOR THE ROOT DISEASE ROOT DISEASE MODEL
+C  CHARACTERISTICS FOR THE ROOT DISEASE MODEL
 C
 C  CALLED BY :
 C     RDCNTL  [ROOT DISEASE]
@@ -13,24 +14,24 @@ C
 C  CALLS     :
 C     NONE
 C
+C  Revision History :
+C   11/06/89 - Last revision date.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
-C
 C
       INCLUDE 'PRGPRM.F77'
-C
-C
       INCLUDE 'RDPARM.F77'
-C
-C
       INCLUDE 'RDCOM.F77'
-C
-C
       INCLUDE 'PLOT.F77'
-C
 C
 COMMONS
 C
+      INTEGER  I, IDI, J, K
+      
 C*    WRITE(6,1)
 C*  1 FORMAT(' STARTING RDINUP')
 

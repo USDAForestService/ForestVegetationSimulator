@@ -1,7 +1,7 @@
       SUBROUTINE MPBINT
       IMPLICIT NONE
 C----------
-C  **MPBINT        DATE OF LAST REVISION:  07/02/10
+C  **MPBINT        DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C     INITIALIZES MPB VARIABLES.  CALLED FROM INITRE
@@ -14,6 +14,9 @@ C     Random number generator initialization with default seed value.
 C     Added local variables LSET and MPSEED.
 C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to INCRS
 C----------
 C
 COMMONS
@@ -88,7 +91,7 @@ C
 
       JOMPBX = 0
       SADLPP = 0.0
-      INT    = 10
+      INCRS  = 10
       BETTER(1) = 1.0
       BETTER(2) = 4.0
       MPBYR  = 0

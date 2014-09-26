@@ -1,6 +1,7 @@
       SUBROUTINE RDMN2 (XFINT)
+      IMPLICIT NONE
 C----------
-C  **RDMN2       LAST REVISION:  MARCH 1, 1995
+C  **RDMN2       LAST REVISION:  08/29/14
 C----------
 C
 C  SETS UP INITIAL CONDITIONS FOR THE OTHER AGENTS AND ROOT DISEASE
@@ -18,6 +19,12 @@ C
 C  PARAMETERS :
 C     XFINT  -
 C
+C  Revision History :
+C   03/01/95 - Last revision date.
+C   08/29/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
@@ -32,9 +39,10 @@ COMMONS
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'CONTRL.F77'
       INCLUDE 'RDADD.F77'
-C
-C
-      LOGICAL DEBUG
+
+      LOGICAL  DEBUG
+      INTEGER  I, IDI, J
+      REAL     TPAREA, XFINT
 C
 C     SEE IF WE NEED TO DO SOME DEBUG.
 C

@@ -1,6 +1,7 @@
       SUBROUTINE RDESTB(N,ANS)
+      IMPLICIT NONE
 C----------
-C  **RDESTB      LAST REVISION:  MARCH 7, 1995
+C  **RDESTB      LAST REVISION:  O8/28/14
 C----------
 C
 C  SUBROUTINE FOR PUTTING REGENERATION ONTO ROOT DISEASE ROOT DISEASE PATCHES
@@ -16,6 +17,14 @@ C  PARAMETERS :
 C     N      -
 C     ANS    -
 C
+C  Revision History :
+C   03/07/95 - Last revision date.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
+C
 C
 COMMONS
 C
@@ -29,6 +38,8 @@ C
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'CONTRL.F77'
 
+      INTEGER  IDI, IT, ISPI, J, N
+      REAL     ANS, TPAREA, XXX
 
       TPAREA = 0.0
       DO 20 IDI=MINRR,MAXRR

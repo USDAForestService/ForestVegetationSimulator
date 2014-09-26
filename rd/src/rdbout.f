@@ -1,6 +1,7 @@
       SUBROUTINE RDBOUT
+      IMPLICIT NONE
 C----------
-C  **RDBOUT                       LAST REVISION:  06/12/13
+C  **RDBOUT      LAST REVISION:  08/27/14
 C----------
 C
 C  Purpose :
@@ -59,6 +60,9 @@ C     16-AUG-2006 Lance R. David (FHTET)
 C        Change of metric conversion factors variable names to match
 C        variables in new \FVS\COMMON\METRIC.F77. rd\src\metric.f77
 C        will be retired. (mods courtesy of Don Robinson, ESSA)
+C   08/26/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
 C----------------------------------------------------------------------
 
 C.... Parameter include files.
@@ -79,7 +83,7 @@ C.... Common include files.
 C.... Local variable declarations.
 
       LOGICAL     TOLDYR, NOKILL
-      INTEGER     SP, CLASS, I, J, K
+      INTEGER     CLASS, I, ICL, IDI, J, JYR, K, SP
       REAL        ROWSUM(3,MAXSP), CLKILL(3,MAXSP,7), SUMLIV(3,MAXSP)
       REAL        TOTSPC(MAXSP)
       

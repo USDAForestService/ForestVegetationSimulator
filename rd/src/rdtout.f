@@ -1,6 +1,7 @@
       SUBROUTINE RDTOUT
+      IMPLICIT NONE
 C----------
-C  **RDTOUT      LAST REVISION:  06/12/13
+C  **RDTOUT      LAST REVISION:  09/04/14
 C----------
 C
 C  PRINTS A SUMMARY OF THE DISEASE INFORMATION WHICH WAS READ IN
@@ -22,6 +23,15 @@ C
 C
 C  LOCAL VARIABLES :
 C
+C
+C  Revision History:
+C   06/12/13 Lance R. David (FMSC)
+C     Modified for removal of "print control" column 1.
+C   09/04/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
 C.... PARAMETER INCLUDE FILES
 C
       INCLUDE 'PRGPRM.F77'
@@ -34,10 +44,12 @@ C
       INCLUDE 'RDARRY.F77'
       INCLUDE 'RDADD.F77'
       INCLUDE 'METRIC.F77'
+
+      INTEGER IDI, J
+      CHARACTER*1 DITYPE(4)
 C
 C.... DATA statements
 C
-      CHARACTER*1 DITYPE(4)
       DATA DITYPE/'P','S','A','W'/
 C
 C     WRITE HEADING FOR OUTPUT

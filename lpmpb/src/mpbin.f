@@ -1,7 +1,7 @@
       SUBROUTINE MPBIN (PASKEY,ARRAY,LNOTBK,LKECHO)
       IMPLICIT NONE
 C----------
-C  **MPBIN         DATE OF LAST REVISION:  06/14/13
+C  **MPBIN         DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C     OPTION PROCESSOR FOR MOUNTAIN PINE BEETLE MODEL
@@ -14,6 +14,9 @@ C  07/27/07 - Lance R. David (FHTET)
 C    Improved text written for the INVMORT keyword.
 C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to INCRS
 C----------
 C
 C------------------------------
@@ -469,9 +472,9 @@ C     =================  OPTION NUMBER 24 -- STRONG  =========
 
 C     =================  OPTION NUMBER 25 -- EMERINC  ========
 
-      IF (LNOTBK(1)) INT = IFIX (ARRAY(1))
+      IF (LNOTBK(1)) INCRS = IFIX (ARRAY(1))
 
-      IF(LKECHO) WRITE(JOSTND,3540) KEYWRD,INT
+      IF(LKECHO) WRITE(JOSTND,3540) KEYWRD,INCRS
  3540 FORMAT (/,A8,'   NUMBER OF EMERGENCE INCREMENTS = ',I4)
       GO TO 10
 

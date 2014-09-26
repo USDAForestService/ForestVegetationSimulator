@@ -1,6 +1,7 @@
       SUBROUTINE RDESIN
+      IMPLICIT NONE
 C----------
-C  **RDESIN      LAST REVISION:  08/24/89
+C  **RDESIN      LAST REVISION:  08/28/14
 C----------
 C
 C  THIS SUBROUTINE HAS ONE FUNCTION: TO CHANGE THE VALUE OF
@@ -20,18 +21,18 @@ C
 C  CALLS     :
 C     NONE
 C
+C  Revision History :
+C   08/24/89 - Last revision date.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
-C
       INCLUDE 'PRGPRM.F77'
-C
-C
       INCLUDE 'PLOT.F77'
-C
-C
       INCLUDE 'ESHAP.F77'
-C
 C
 COMMONS
 C

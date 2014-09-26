@@ -1,6 +1,7 @@
       SUBROUTINE RDRDEL
+      IMPLICIT NONE
 C----------
-C  **RDRDEL      LAST REVISION:  03/21/00
+C  **RDRDEL      LAST REVISION:  09/02/14
 C----------
 C
 C  THIS SUBROUTINE LOOPS THRU THE TREELIST TO DETERMINE IF
@@ -25,7 +26,10 @@ C
 C  Revision History
 C    21-MAR-00 Lance David (FHTET)
 C      Added Debug code.
-C....................................................................
+C   09/02/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 C.... PARAMETER INCLUDE FILES
 C
@@ -44,7 +48,8 @@ C
 C
 
       LOGICAL DEBUG
-      REAL SPCNT(MAXSP,3)
+      INTEGER I, I1, I2, IM, IS, IT, IVAC, J, KSP
+      REAL    SPCNT(MAXSP,3), TOAKL
 
 C.... SEE IF WE NEED TO DO SOME DEBUG.
 

@@ -1,6 +1,7 @@
       SUBROUTINE RDTDEL(IVAC,IREC,IDUM)
+      IMPLICIT NONE
 C----------
-C  **RDTDEL      LAST REVISION:  07/22/02
+C  **RDTDEL      LAST REVISION:  09/04/14
 C----------
 C
 C  THIS SUBROUTINE DELETES AND PACKS THE ROOT DISEASE TREE LISTS.
@@ -16,27 +17,29 @@ C     IVAC   -
 C     IREC   -
 C
 C  Revision History:
+C    03/07/95 - Last revision date.
 C    22-JUL-02 Lance R. David (FHTET)
-C      Previous revision date noted was March 7, 1995.
 C      Removed unused array PROBO. It was also unused in the old
 C      annosus model.
+C   09/04/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
-C
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'RDPARM.F77'
-C
-C
       INCLUDE 'CONTRL.F77'
       INCLUDE 'RDCOM.F77'
       INCLUDE 'RDADD.F77'
       INCLUDE 'RDARRY.F77'
 C
-C
 COMMONS
 C
       LOGICAL LGO, LTEE
+      INTEGER IDI, IDUM, IP, IREC, ITSTP, IVAC, J, JINF
+      REAL    TPAREA
 
       CALL RDATV (LGO,LTEE)
 

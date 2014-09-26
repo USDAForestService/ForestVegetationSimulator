@@ -1,6 +1,7 @@
       REAL FUNCTION RDRANP(PROP)
+      IMPLICIT NONE
 C----------
-C  **RDRANP  DATE OF LAST REVISION:   01/28/09
+C  **RDRANP  DATE OF LAST REVISION:   09/09/14
 C----------
 C
 C  THIS FUNCTION WILL RETURN A PROPORTION BASED ON A RANDOM DRAW GIVEN
@@ -43,18 +44,34 @@ C    01/28/09 - Lance R. David
 C      Common block array CDF was moved to its own common due to compiler
 C      complaint (mixed variable types in common) reported by Don Robinson
 C      (ESSA).
-C
-C----------
+C   09/09/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C     Changed array CDF to REAL, double precision was not necessary.
+C     Moved local commons PRPDAT and PRPDATD to RDCOM.F77 file.
+C----------------------------------------------------------------------
+
+C.... PARAMETER INCLUDE FILES
+
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'RDPARM.F77'
+
+C.... COMMON INCLUDE FILES
+
+      INCLUDE 'RDCOM.F77'
+
       LOGICAL LREV
-      INTEGER K, L
-      REAL    RANNUM, PROP, PROPIN, OLDPRP, EXPROP
-      DOUBLE PRECISION  CDF(1001), PDF
+      INTEGER INTNUM, K, L
+      REAL    EXPROP, PROP, PROPIN, RANNUM, RDRANN
+      REAL    PDF
 C
 C     OLDPRP AND CDF WERE PUT IN A COMMON BLOCKS SO THAT THEY WOULD BE
 C     SAVED BETWEEN CALLS TO THIS FUNCTION
+C     The variable declatations (REAL OLDPRP, DOUBLE PRECISSION CDF(1001))
+C     and common block specifications were moved to the RDCOM.F77 file 
+C     and then the RDCOM.F77 included in this routine.
 C
-      COMMON  /PRPDAT/ OLDPRP
-      COMMON  /PRPDATD/ CDF
+c      COMMON  /PRPDAT/ OLDPRP
+c      COMMON  /PRPDATD/ CDF
 
 C
 C     INITIALIZE L AND LREV, SET PROPIN TO PROP
@@ -116,6 +133,7 @@ C        SET PDF AND CDF FOR FIRST ITERATION
 C
          PDF = (1.0 - PROPIN)**INTNUM
          CDF(1) = PDF
+cccc         write(*,*) 'cdf 1 = ', pdf
 
 C
 C        CALCULATE PDF FOR ALL ITERATIONS AND SET CDF
@@ -130,6 +148,7 @@ C           ADJUST CDF VALUE TO ACCOUNT FOR THE TRUNCATED RANGE
 C           0 < X <= 1
 C
             CDF(K+1) = CDF(K) + (PDF / (1.0 - CDF(1)))
+cccc         write(*,*) 'cdf x = ', cdf(k+1)
   200    CONTINUE
       ENDIF
 
@@ -166,5 +185,8 @@ C
          RDRANP = 1.0 - RDRANP
       ENDIF
 
+cccc      write (*,*) 'oldprp = ', oldprp
+cccc      write (*,*) 'cdf = ', cdf
+      
       RETURN
       END

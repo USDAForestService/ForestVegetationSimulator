@@ -1,6 +1,7 @@
       SUBROUTINE RDDAM (II,ICODES)
+      IMPLICIT NONE
 C----------
-C  **RDDAM       LAST REVISION:  07/10/07
+C  **RDDAM       LAST REVISION:  08/28/14
 C----------
 C
 C  Purpose :
@@ -66,6 +67,8 @@ C    code (IITH).
 C    No need for special handling of dead tree index (IREC2) because
 C    dead trees are already at the end of the arrays. Argument II is
 C    correct index value for both live and dead.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C----------
 C.... Parameter include files.
 
@@ -89,7 +92,7 @@ C.... Argument variable declarations.
 
 C.... Local variable declarations.
 
-      INTEGER IDAMC(ITOTRR+1), NSRD
+      INTEGER IDAMC(ITOTRR+1), J, K, NSRD
       LOGICAL DEBUG          
      
 C.... Data statements.

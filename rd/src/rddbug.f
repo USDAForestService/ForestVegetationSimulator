@@ -1,6 +1,7 @@
       SUBROUTINE RDDBUG (ICODE)
+      IMPLICIT NONE
 C----------
-C  **RDDBUG      LAST REVISION:  03/18/93
+C  **RDDBUG      LAST REVISION:  08/28/14
 C---------
 C
 C  PRINT DEBUG INFORMATION BASED ON PARAMETER ICODE.
@@ -28,6 +29,13 @@ C     PRSNT:  Array (IDI,IS): true if stumps of that type are
 C             present in this cycle; controls printing.
 C     HEADR:  Array (IDI,IS): headers for output tables.
 C
+C  Revision History :
+C   03/18/93 - Last revision date.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
 C.... PARAMETER INCLUDE FILES
 C
       INCLUDE 'PRGPRM.F77'
@@ -40,7 +48,7 @@ C
 C
 C.... Local variables
 C
-      INTEGER IDI,IS,ISL,IST
+      INTEGER ICODE, I, IDI, IS, ISL, IST, J
       LOGICAL PRSNT(2,2)
       CHARACTER*20 HEADR(2,2)
 C

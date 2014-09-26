@@ -1,6 +1,7 @@
       SUBROUTINE RDBB1
+      IMPLICIT NONE
 C----------
-C  **RDBB1       LAST REVISION:  12/10/07
+C  **RDBB1       LAST REVISION:  08/26/14
 C---------- 
 C
 C  Purpose :
@@ -48,6 +49,8 @@ C       mismatch reported by LF95.
 C    10-DEC-07 Lance R. David (FHTET)
 C       Update to argument list in call to OPCOPY, added variable
 C       DONE for debug/tracking (from Don Robinson).
+C   08/26/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C....................................................................
 
 C.... Parameter include files.
@@ -67,9 +70,9 @@ C.... Local variable declarations.
 
       LOGICAL   CRIT, DEBUG
       INTEGER   ISPI, ONLY1X, RACE, NOCOPY, DONE, IACTK
+      INTEGER   KDT, KODE, MYACT(1), NCOPYS, NPS, NTODO
       REAL      DBHLIM, THRESH, MORT
-
-      DIMENSION MYACT(1), PRMS(5)
+      REAL      PRMS(5)
       
 C.... Data statements.
 
