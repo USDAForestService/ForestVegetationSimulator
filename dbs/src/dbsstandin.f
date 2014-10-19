@@ -1094,16 +1094,17 @@ C     FUEL PHOTO CODE
       IF(FotoCode_LI.NE.SQL_NULL_DATA) THEN
          LFOTO2 = .TRUE.
          I=INDEX(CFotocode,CHAR(0))
-         IF (I.EQ.1) GOTO 60
          IF (I.GT.0) CFotoCode(I:)=' '
-         CFotoCode = ADJUSTL(CFotoCode)
-         READ (CFotoCode,*,ERR=60)  ISTANDDATA(53)
-   60    CONTINUE
-         CALL FMPHOTOCODE(ISTANDDATA(52),CFotoCode(1:13),FKOD,1)
-         IF(LKECHO)WRITE (JOSTND,70) ADJUSTR(CFotoCode),FKOD
-   70    FORMAT (T12,'PHOTO_CODE:',T26,A:
-     >             ' CONVERTED TO CODE: ',I4)
-         IF (FKOD .EQ. -1) LFOTO2 = .FALSE.
+          IF (CFotoCode .NE. ' ') THEN
+           CFotoCode = ADJUSTL(CFotoCode)
+           READ (CFotoCode,*,ERR=70)  ISTANDDATA(53)
+           CALL FMPHOTOCODE(ISTANDDATA(52),CFotoCode(1:13),FKOD,1)
+           IF(LKECHO)WRITE (JOSTND,60) ADJUSTR(CFotoCode),FKOD
+   60      FORMAT (T12,'PHOTO_CODE:',T26,A:
+     >               ' CONVERTED TO CODE: ',I4)
+           IF (FKOD .EQ. -1) LFOTO2 = .FALSE.
+   70      CONTINUE
+         ENDIF
       ENDIF
 
       FOTODATA(1) = ISTANDDATA(52)
