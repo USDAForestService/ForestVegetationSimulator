@@ -75,7 +75,7 @@ C     CHECK TO SEE IF THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
       ELSE
         TABLENAME = 'FVS_Down_Wood_Vol'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
 
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
@@ -84,8 +84,7 @@ C     CHECK TO SEE IF THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Down_Wood_Vol('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'DWD_Volume_0to3_Hard double null,'//
@@ -107,7 +106,6 @@ C     CHECK TO SEE IF THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Down_Wood_Vol('//
-     -              'ID Int,'//
      -              'CaseID Int,'//
      -              'StandID Text,'//
      -              'Year Int ,'//
@@ -129,8 +127,7 @@ C     CHECK TO SEE IF THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
      -              'DWD_Volume_Total_Soft Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_Down_Wood_Vol('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'DWD_Volume_0to3_Hard real null,'//
@@ -157,20 +154,7 @@ C     CHECK TO SEE IF THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      >    'DBSFMDWVOL:Creating Table: '//trim(SQLStmtStr))
-        DWDVID = 0
       ENDIF
-
-C     CREATE ENTRY FROM DATA FOR DOWN WOOD VOLUME TABLE
-
-      IF(DWDVID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        DWDVID = ID
-      ENDIF
-      DWDVID = DWDVID + 1
-
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-
-      IF(DWDVID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
 
 C     COPY INPUT VECTOR TO DOUBLE-PRECISION
 
@@ -178,17 +162,16 @@ C     COPY INPUT VECTOR TO DOUBLE-PRECISION
         VARD(I) = VAR(I)
       ENDDO
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TRIM(TABLENAME),' (Id,CaseID,
-     >  StandID,Year,DWD_Volume_0to3_Hard,DWD_Volume_3to6_Hard,
-     >  DWD_Volume_6to12_Hard,DWD_Volume_12to20_Hard,
-     >  DWD_Volume_20to35_Hard,DWD_Volume_35to50_Hard,
-     >  DWD_Volume_ge_50_Hard,DWD_Volume_Total_Hard,
-     >  DWD_Volume_0to3_Soft,DWD_Volume_3to6_Soft,
-     >  DWD_Volume_6to12_Soft,DWD_Volume_12to20_Soft,
-     >  DWD_Volume_20to35_Soft,DWD_Volume_35to50_Soft,
-     >  DWD_Volume_ge_50_Soft,DWD_Volume_Total_Soft)
-     >  VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,
-     >  ?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TRIM(TABLENAME),' (CaseID,',
+     >  'StandID,Year,DWD_Volume_0to3_Hard,DWD_Volume_3to6_Hard,',
+     >  'DWD_Volume_6to12_Hard,DWD_Volume_12to20_Hard,',
+     >  'DWD_Volume_20to35_Hard,DWD_Volume_35to50_Hard,',
+     >  'DWD_Volume_ge_50_Hard,DWD_Volume_Total_Hard,',
+     >  'DWD_Volume_0to3_Soft,DWD_Volume_3to6_Soft,',
+     >  'DWD_Volume_6to12_Soft,DWD_Volume_12to20_Soft,',
+     >  'DWD_Volume_20to35_Soft,DWD_Volume_35to50_Soft,',
+     >  'DWD_Volume_ge_50_Soft,DWD_Volume_Total_Soft) VALUES ("',
+     >  CASEID,'","',TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
 C     CLOSE CURSOR
 
@@ -202,18 +185,6 @@ C     PREPARE THE SQL QUERY
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),DWDVID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),

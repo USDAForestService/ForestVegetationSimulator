@@ -59,7 +59,7 @@ C $Id$
       else
         decoratedTableName = tableName
       end if
-      SQLStmtStr = 'SELECT * FROM ' // decoratedTableName
+      SQLStmtStr = 'SELECT Count(*) FROM ' // decoratedTableName
       iRet = fvsSQLExecDirect(
      &            StmtHndlOut,SQLStmtStr,
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
@@ -67,7 +67,7 @@ C $Id$
       if(.not. success(iRet)) then
         if(trim(DBMSOUT) .eq. 'ACCESS') then
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
-     &          // 'CaseID int, '
+     &          // 'CaseID text, '
      &          // 'Year int null, '
      &          // 'Period int null, '
      &          // 'Pretend_Harvest text null, '
@@ -90,7 +90,7 @@ C $Id$
      &          // 'PRIMARY KEY(CaseID, Year))'
         elseif(trim(DBMSOUT) .eq. 'EXCEL') then
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
-     &          // 'CaseID Int, '
+     &          // 'CaseID text, '
      &          // 'Year Int, '
      &          // 'Period Int, '
      &          // 'Pretend_Harvest Text, '
@@ -111,7 +111,7 @@ C $Id$
      &          // 'Given_SEV Number)'
         else
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
-     &          // 'CaseID int, '
+     &          // 'CaseID char(36), '
      &          // 'Year int null, '
      &          // 'Period int null, '
      &          // 'Pretend_Harvest char(3) null, '
@@ -158,7 +158,7 @@ C $Id$
      &   'RRR, SEV, Value_of_Forest, Value_of_Trees,',
      &   'Mrch_Cubic_Volume, Mrch_BoardFoot_Volume, Discount_Rate,',
      &   'Given_SEV)',
-     &   'VALUES (',ICASE,',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     &   'VALUES ("',CASEID,'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))

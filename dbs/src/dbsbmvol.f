@@ -11,8 +11,6 @@ C     TVOL  ARRAY HOLDING STAND VOLUME BY WWPBM-SIZE CLASS
 C     HVOL  ARRAY HOLDING STAND HOST VOLUME BY WWPBM-SIZE CLASS
 C     VOLK  ARRAY HOLDING VOLUME BEETLE-KILLED BY WWPBM-SIZE CLASS
 C
-C     CID/ICASE - CASE NUMBER FROM THE FVSRUN TABLE
-C
 C---
 COMMONS
 C
@@ -22,20 +20,14 @@ COMMONS
 C
 C     DECLARATIONS
 C---
-      INTEGER IYEAR,NUMSC,ID,X,CID
+      INTEGER IYEAR,NUMSC,ID,X
+      CHARACTER (len=36) CID
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL TVOL(NUMSC),HVOL(NUMSC),VOLK(NUMSC)
       DOUBLE PRECISION TVOLB(NUMSC),HVOLB(NUMSC),VOLKB(NUMSC)
       CHARACTER*2000 SQLStmtStr
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
-C
-C
-C     CASE ID WAS FETCHED IN BMSDIT.
-C     THE WWPBM IS UNIQUE IN THIS REGARD BECAUSE OF ITS PPE MODE 2 OPERABILITY
-C     WE BOOKKEEP CASE ID WITHIN THE WWPBM AND PASS IT HERE.
-C
-      ICASE=CID
 C
 C---------
 C     ALLOCATE A STATEMENT HANDLE
@@ -55,7 +47,7 @@ C---------
       ELSE
         TABLENAME = 'FVS_BM_Vol'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
 C
       !PRINT*, SQLStmtStr
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
@@ -65,8 +57,7 @@ C
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Vol('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'TV_SC1 double null,'//
@@ -102,8 +93,7 @@ C
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Vol('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'TV_SC1 Number,'//
@@ -138,8 +128,7 @@ C
      -              'VK_10  Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_BM_Vol('//
-     -              'Id int        primary key,'//
-     -              'CaseID        int not null,'//
+     -              'CaseID        char(36) not null,'//
      -              'StandID       char(26) not null,'//
      -              'Year          Int null,'//
      -              'TV_SC1 real null,'//
@@ -179,21 +168,7 @@ C
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
          CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'DBSBMVOL:Creating Table: '//trim(SQLStmtStr))
-        BMVOLID = 0
       ENDIF
-C
-C---------
-C     CREATE ENTRY FROM DATA FOR SUMMARYSTAT TABLE
-C---------
-      IF(BMVOLID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        BMVOLID = ID
-      ENDIF
-      BMVOLID = BMVOLID + 1
-C
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-      IF(BMVOLID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS/ARRAYS
 C
@@ -201,14 +176,13 @@ C
       HVOLB=HVOL
       VOLKB=VOLK
 C
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -  StandID,Year,
-     - TV_SC1, TV_SC2,TV_SC3, TV_SC4,TV_SC5,TV_SC6,TV_SC7,TV_SC8,
-     - TV_SC9,TV_10 ,HV_SC1,HV_SC2,HV_SC3,HV_SC4,HV_SC5,HV_SC6,HV_SC7,
-     - HV_SC8,HV_SC9,HV_10 ,VK_SC1,VK_SC2,VK_SC3,VK_SC4,VK_SC5,VK_SC6,
-     - VK_SC7,VK_SC8,VK_SC9,VK_10)VALUES(?,?,',
-     -  CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,?,?,?,?,?,?,?,?,?
-     -  ,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+     - ' (CaseID,StandID,Year,',
+     - 'TV_SC1, TV_SC2,TV_SC3, TV_SC4,TV_SC5,TV_SC6,TV_SC7,TV_SC8,
+     - 'TV_SC9,TV_10 ,HV_SC1,HV_SC2,HV_SC3,HV_SC4,HV_SC5,HV_SC6,HV_SC7,
+     - 'HV_SC8,HV_SC9,HV_10 ,VK_SC1,VK_SC2,VK_SC3,VK_SC4,VK_SC5,VK_SC6,
+     - 'VK_SC7,VK_SC8,VK_SC9,VK_10)VALUES("',CID,'","',TRIM(NPLT),
+     -'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 C
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
@@ -217,18 +191,6 @@ C
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),BMVOLID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),

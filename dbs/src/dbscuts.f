@@ -90,7 +90,7 @@ C---------
 C     CHECK TO SEE IF THE CUTS LIST TABLE EXISTS IN DATBASE
 C     IF IT DOESN'T THEN WE NEED TO CREATE IT
 C---------
-      SQLStmtStr= 'SELECT * FROM '//TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM '//TABLENAME
 
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
@@ -99,8 +99,7 @@ C---------
      -    iRet.NE.SQL_SUCCESS_WITH_INFO) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_CutList'//
-     -             '(Id int primary key,'//
-     -             'CaseID int not null,'//
+     -             '(CaseID Text not null,'//
      -             'StandID Text null,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
@@ -134,8 +133,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_CutList'//
-     -             '(Id INT null,'//
-     -             'CaseID INT null,'//
+     -             '(CaseID Text null,'//
      -             'StandID Text null,'//
      -             'Year INT null,'//
      -             'PrdLen int null,'//
@@ -168,8 +166,7 @@ C---------
      -             'Ht2TDBF real null)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_CutList'//
-     -             '(Id int primary key,'//
-     -             'CaseID int null,'//
+     -             '(CaseID char(36) null,'//
      -             'StandID char(26) null,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
@@ -207,7 +204,6 @@ C---------
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -       'DBSCUTS:Creating Table: '//trim(SQLStmtStr))
-        CUTSID = 0
       ENDIF
 C---------
 C     SET THE CUTS LIST TYPE FLAG (LET IP BE THE RECORD OUTPUT COUNT).
@@ -287,28 +283,16 @@ C
             IF(ISPOUT17.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
             IF(ISPOUT17.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
             IF(ISPOUT17.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-C---------
-C           CREATE ENTRY FROM DATA FOR CUTSLIST TABLE
-C---------
-            IF(CUTSID.EQ.-1) THEN
-              CALL DBSGETID(TABLENAME,'Id',ID)
-              CUTSID = ID
-            ENDIF
-            CUTSID = CUTSID + 1
-C----------
-C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C----------
-            IF(CUTSID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
 
-            WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(
-     -           Id,CaseID,StandID,Year,PrdLen,
-     -           TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,
-     -           MortPA,DBH,DG,
-     -           HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,
-     -           MCuFt,BdFt,MDefect,BDefect,TruncHt,
-     -           EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES(',
-     -           CUTSID,',',ICASE,',',CHAR(39),TRIM(NPLT),CHAR(39),
-     -           ',',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
+            WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+     -           '(CaseID,StandID,Year,PrdLen,',
+     -           'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
+     -           'MortPA,DBH,DG,',
+     -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
+     -           'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
+     -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES("',
+     -           CASEID,'","',TRIM(NPLT),
+     -           '",',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
      -           CSPECIES,"',",IMC(I),',',ISPECL(I),',',ITRE(I),
      -           ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
      -           ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
@@ -329,13 +313,6 @@ C----------
       ENDDO
 
  100  CONTINUE
-
-C
-C     DO NOT ALLOW MORE THAN ONE CUTS LIST OUTPUT TO THE DATABASE PER RUN
-C
-C      ICUTLIST = 0     !This is incorrect since you can have
-C                       !thinning in many different cycles - SAR 01/05
-
       !Release statement handle
       iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
 

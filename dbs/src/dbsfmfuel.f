@@ -29,8 +29,6 @@ C             15: SMOKE PRODUCTION < 2.5
 C             16: SMOKE PRODUCTION < 10
 C             17: KODE FOR WHETHER THE REPORT ALSO DUMPS TO FILE
 C
-C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
-C
 COMMONS
 C
       INCLUDE 'DBSCOM.F77'
@@ -77,7 +75,7 @@ C---------
       ELSE
         TABLENAME = 'FVS_Consumption'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
 
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
@@ -86,8 +84,7 @@ C---------
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Consumption('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'Min_Soil_Exp double null,'//
@@ -109,8 +106,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Consumption('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'Min_Soil_Exp Number,'//
@@ -131,8 +127,7 @@ C---------
      -              'Smoke_Production_10 Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_Consumption('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'Min_Soil_Exp real null,'//
@@ -158,21 +153,7 @@ C---------
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'DBSFMFUEL:Creating Table: '//trim(SQLStmtStr))
-        CONID = 0
       ENDIF
-
-C---------
-C     CREATE ENTRY FROM DATA FOR FUEL CONSUMPTION TABLE
-C---------
-      IF(CONID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        CONID = ID
-      ENDIF
-      CONID = CONID + 1
-C
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-      IF(CONID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
 
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
@@ -193,15 +174,16 @@ C
       SM25B=SM25
       SM10B = SM10
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -  StandID,Year,Min_Soil_Exp,Litter_Consumption,Duff_Consumption,
-     -  Consumption_lt3,Consumption_ge3,Consumption_3to6,
-     -  Consumption_6to12,Consumption_ge12,Consumption_Herb_Shrub,
-     -  Consumption_Crowns,Total_Consumption,Percent_Consumption_Duff,
-     -  Percent_Consumption_ge3,Percent_Trees_Crowning,
-     -  Smoke_Production_25,Smoke_Production_10) VALUES(?,?,',
-     -  CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,?,?,?,?,?,?,?,?,?
-     -  ,?,?,?)'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
+     -  'StandID,Year,Min_Soil_Exp,Litter_Consumption,',
+     -  'Duff_Consumption,',
+     -  'Consumption_lt3,Consumption_ge3,Consumption_3to6,',
+     -  'Consumption_6to12,Consumption_ge12,Consumption_Herb_Shrub,',
+     -  'Consumption_Crowns,Total_Consumption,',
+     -  'Percent_Consumption_Duff,',
+     -  'Percent_Consumption_ge3,Percent_Trees_Crowning,',
+     -  'Smoke_Production_25,Smoke_Production_10) VALUES ("',
+     -  CASEID,'","',TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
@@ -210,18 +192,6 @@ C
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),CONID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),

@@ -29,18 +29,17 @@ C     TPAFAST: TPA KILLED BY WWPBM "FAST" DVs
 C     BAFAST:  BASAL AREA KILLED BY WWPBM "FAST" DVs
 C     VOLFAST: VOLUME KILLED BY WWPBM "FAST" DVs
 C
-C     CID/ICASE - CASE NUMBER FROM THE FVSRUN TABLE
 C
 C---
 COMMONS
 C
       INCLUDE 'DBSCOM.F77'
 C
-COMMONS END
+COMMONS 
 C
 C     DECLARATIONS
 C---
-      INTEGER IYEAR,ID,CID
+      INTEGER IYEAR,ID
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL OLDBKP,NEWBKP,SELFBKP,TO_LS,FRM_LS,BKPIN,BKPOUT,
      > BKPSV,STRPBKP,STRP_SC,RV,DVRV1,DVRV2,DVRV3,DVRV4,DVRV5,
@@ -52,18 +51,6 @@ C---
       CHARACTER*2000 SQLStmtStr
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
-C
-C---------
-C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
-C---------
-C      CALL DBSCASE(1)
-C
-C     CASE ID WAS FETCHED IN BMSDIT.
-C     THE WWPBM IS UNIQUE IN THIS REGARD BECAUSE OF ITS PPE MODE 2 OPERABILITY
-C     WE BOOKKEEP CASE ID WITHIN THE WWPBM AND PASS IT HERE.
-C
-      ICASE=CID
-C
 C---------
 C     ALLOCATE A STATEMENT HANDLE
 C---------
@@ -82,7 +69,7 @@ C---------
       ELSE
         TABLENAME = 'FVS_BM_BKP'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
 
       !PRINT*, SQLStmtStr
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
@@ -93,8 +80,7 @@ C---------
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_BKP('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'OLDBKP    double null,'//
@@ -124,8 +110,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_BKP('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'OLDBKP    Number,'//
@@ -154,8 +139,7 @@ C---------
      -              'VOLFAST   Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_BM_BKP('//
-     -              'Id int        primary key,'//
-     -              'CaseID        int not null,'//
+      -              'CaseID       char(36) not null,'//
      -              'StandID       char(26) not null,'//
      -              'Year          Int null,'//
      -              'OLDBKP    real null,'//
@@ -184,30 +168,13 @@ C---------
      -              'VOLFAST   real null)'
 
         ENDIF
-        !PRINT*, SQLStmtStr
+        iRet = fvsSQLCloseCursor(StmtHndlOut)
 
-            !Close Cursor
-            iRet = fvsSQLCloseCursor(StmtHndlOut)
-
-            iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-            CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
+        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'DBSBMBKP:Creating Table: '//trim(SQLStmtStr))
-        BMBKPID = 0
       ENDIF
-
-C---------
-C     CREATE ENTRY FROM DATA FOR SUMMARYSTAT TABLE
-C---------
-      IF(BMBKPID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        BMBKPID = ID
-      ENDIF
-      BMBKPID = BMBKPID + 1
-C
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-      IF(BMBKPID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS & ARRAYS
 C
@@ -237,13 +204,13 @@ C
        VOLFASTB = VOLFAST
 
 C
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -  StandID,Year,
-     -  OLDBKP,NEWBKP,SELFBKP,TO_LS,FRM_LS,IN_OW,OUT2OW,PER_SURV,
-     -  STRPBKP,STRP_SC,REMBKP,RV,DVRV1,DVRV2,DVRV3,DVRV4,DVRV5,
-     -  DVRV6,DVRV7,DVRV8,DVRV9,TPAFAST,BAFAST,VOLFAST)VALUES(?,?,',
-     -  CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,?,?,?,?,?,?,?,?,?
-     -  ,?,?,?,?,?,?,?,?,?,?,?)'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+     -  ' (CaseID,StandID,Year,',
+     -  'OLDBKP,NEWBKP,SELFBKP,TO_LS,FRM_LS,IN_OW,OUT2OW,PER_SURV,',
+     -  'STRPBKP,STRP_SC,REMBKP,RV,DVRV1,DVRV2,DVRV3,DVRV4,DVRV5,',
+     -  'DVRV6,DVRV7,DVRV8,DVRV9,TPAFAST,BAFAST,VOLFAST) VALUES ("',
+     -  CID,'","',TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?',
+     -  ',?,?,?,?,?,?,?,?,?,?,?)'
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
@@ -252,18 +219,6 @@ C
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),BMBKPID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
@@ -416,7 +371,6 @@ C
   100 CONTINUE
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)
-
       iRet = fvsSQLExecute(StmtHndlOut)
       CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -              'DBSBMBKP:Inserting Row')

@@ -130,7 +130,7 @@ C
           ConnStr='DRIVER=SQLite3 ODBC Driver'//
      -            ';Database='//TRIM(DSN)//
      -            ';Version=3;LongNames=0;Timeout=1000;NoTXN=0'//
-     -            ';SyncPragma=NORMAL;StepAPI=0;NoWCHAR=1'
+     -            ';SyncPragma=OFF;StepAPI=0;NoWCHAR=1'
         ELSE
           IF(SUFFIX.EQ.'XLS') THEN
             ConnStr='DRIVER={Microsoft Excel Driver (*.xls)}'//

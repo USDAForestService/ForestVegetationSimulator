@@ -28,18 +28,13 @@ C             16: KODE FOR WHETHER THE REPORT ALSO DUMPS TO FILE
 C
 C     NOTE: THE DBH CLASS BREAKS CAN BE CHANGED BY THE SNAGCLAS KEYWORD
 C
-C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
-C
-C---
-C
-C---
 COMMONS
 C
       INCLUDE 'DBSCOM.F77'
 C
 COMMONS
 
-      INTEGER IYEAR,ID,KODE
+      INTEGER IYEAR,KODE
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,HCL7,SCL1,SCL2,SCL3,SCL4,SCL5,
      -  SCL6,SCL7,HDSF
@@ -78,18 +73,16 @@ C---------
       ELSE
         TABLENAME = 'FVS_SnagSum'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
 
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
 
       IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'Hard_snags_class1 double null,'//
@@ -110,8 +103,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'Hard_snags_class1 Number,'//
@@ -132,8 +124,7 @@ C---------
 
         ELSE
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'Hard_snags_class1 real null,'//
@@ -158,21 +149,7 @@ C---------
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'DBSFMSSNAG:Creating Table: '//trim(SQLStmtStr))
-        SSUMID = 0
       ENDIF
-
-C---------
-C     CREATE ENTRY FROM DATA FOR SUMMARY SNAG TABLE
-C---------
-      IF(SSUMID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        SSUMID = ID
-      ENDIF
-      SSUMID = SSUMID + 1
-C
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-      IF(SSUMID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
 
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
@@ -193,17 +170,15 @@ C
       SCL7B = SCL7
       HDSFB = HDSF
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -  StandID,Year,Hard_snags_class1,Hard_snags_class2,
-     -  Hard_snags_class3,Hard_snags_class4,Hard_snags_class5,
-     -  Hard_snags_class6,Hard_snags_total,Soft_snags_class1,
-     -  Soft_snags_class2,Soft_snags_class3,Soft_snags_class4,
-     -  Soft_snags_class5,Soft_snags_class6,Soft_snags_total,
-     -  Hard_soft_snags_total) VALUES(?,?,',
-     -  CHAR(39),TRIM(NPLT),CHAR(39),',
-     -  ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
+     -  'StandID,Year,Hard_snags_class1,Hard_snags_class2,',
+     -  'Hard_snags_class3,Hard_snags_class4,Hard_snags_class5,',
+     -  'Hard_snags_class6,Hard_snags_total,Soft_snags_class1,',
+     -  'Soft_snags_class2,Soft_snags_class3,Soft_snags_class4,',
+     -  'Soft_snags_class5,Soft_snags_class6,Soft_snags_total,',
+     -  'Hard_soft_snags_total) VALUES("',CASEID,'","',TRIM(NPLT),
+     -  '",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
-      !PRINT*, SQLStmtStr
 C
 C     CLOSE CURSOR
 C
@@ -218,18 +193,6 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
 
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),SSUMID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
@@ -329,6 +292,8 @@ C
       iRet = fvsSQLCloseCursor(StmtHndlOut)
 
       iRet = fvsSQLExecute(StmtHndlOut)
+      IF (iRet.NE.SQL_SUCCESS) ISSUM=0
+
       CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -              'DBSFMSSNAG:Inserting Row')
 

@@ -14,8 +14,6 @@ C
 C     THIS TABLE IS UNIQUE IN THAT THERE IS NOT A CORRESPONDING
 C     TEXT FILE TABLE.
 C
-C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
-C
 COMMONS
 C
 C
@@ -61,7 +59,7 @@ C---------
       ELSE
         TABLENAME = 'FVS_CanProfile'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
 
       !PRINT*, SQLStmtStr
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
@@ -72,8 +70,7 @@ C---------
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_CanProfile('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'Height_m double null,'//
@@ -83,8 +80,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_CanProfile('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'Height_m Number,'//
@@ -94,8 +90,7 @@ C---------
 
         ELSE
           SQLStmtStr='CREATE TABLE FVS_CanProfile('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'Height_m real null,'//
@@ -104,34 +99,18 @@ C---------
      -              'Canopy_Fuel_lbs_acre_ft real null)'
 
         ENDIF
-        !PRINT*, SQLStmtStr
-
-            !Close Cursor
+        !Close Cursor
         iRet = fvsSQLCloseCursor(StmtHndlOut)
 
         iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'DBSFMCANPR:Creating Table: '//trim(SQLStmtStr))
-        CANPRID = 0
       ENDIF
 
       DO I = 1,200
 
         IF (CRFILL(I) .LE. 0) GOTO 150
-C
-C       CREATE ENTRY FROM DATA FOR CANOPY PROFILE TABLE
-C
-        IF(CANPRID.EQ.-1) THEN
-          CALL DBSGETID(TABLENAME,'Id',ID)
-          CANPRID = ID
-        ENDIF
-        CANPRID = CANPRID + 1
-C
-C       MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-        IF(CANPRID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-
 C
 C       ASSIGN VALUES TO DOUBLE PRECISION VARS
 C
@@ -140,10 +119,10 @@ C
         HTFT = I
         HTM = I*0.3048
 
-        WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -    StandID,Year,Height_m,Canopy_Fuel_kg_m3,Height_ft,
-     -    Canopy_Fuel_lbs_acre_ft)
-     -    VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?)'
+        WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
+     -    'StandID,Year,Height_m,Canopy_Fuel_kg_m3,Height_ft,',
+     -    'Canopy_Fuel_lbs_acre_ft) VALUES ("',CASEID,
+     -    '","',TRIM(NPLT),'",?,?,?,?,?)'
 
         !PRINT*, SQLStmtStr
 C
@@ -160,20 +139,6 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
 
         ColNumber=1
-        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
-     -    SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
-     -    INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
-     -    CANPRID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-        ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
-     -    SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
-     -    INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
-     -    ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-        ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_INTEGER, SQL_INTEGER,
      -    INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),

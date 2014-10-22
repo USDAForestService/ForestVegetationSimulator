@@ -41,7 +41,7 @@ C     CHECK TO SEE IF THE Climate TABLE EXISTS IN DATBASE
       ELSE
         TABLENAME = 'FVS_Climate'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
 
       ! PRINT*, trim(SQLStmtStr)
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
@@ -51,7 +51,7 @@ C     CHECK TO SEE IF THE Climate TABLE EXISTS IN DATBASE
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Climate('//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'Species Text null,'//
@@ -67,7 +67,7 @@ C     CHECK TO SEE IF THE Climate TABLE EXISTS IN DATBASE
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Climate('//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'Species Text,'//
@@ -111,7 +111,7 @@ C     CHECK TO SEE IF THE Climate TABLE EXISTS IN DATBASE
       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,'//
      -   'StandID,Year,Species,Viability,BA,TPA,ViabMort,'//
      -   'dClimMort,GrowthMult,SiteMult,MxDenMult,AutoEstbTPA) '//
-     -   'VALUES(',ICASE,',"',trim(NPLT),'",',IYR,',"',
+     -   'VALUES("',CASEID,'","',trim(NPLT),'",',IYR,',"',
      -   trim(SP),'",',SPVIAB,',',SPBA,',',SPTPA,',',
      -   SPMORT1,',',SPMORT2,',',SPGMULT,',',
      -   SPSITGM,',',MXDENMLT,',',POTESTAB,')'

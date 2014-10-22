@@ -61,7 +61,6 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
 
       IF(ITREELIST.EQ.2) KODE = 0
 
-
 C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 
       CALL DBSCASE(1)
@@ -91,7 +90,7 @@ C     ALLOCATE A STATEMENT HANDLE
 C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
 C     IF IT DOESN'T THEN WE NEED TO CREATE IT
 
-      SQLStmtStr= 'SELECT * FROM '//TABLENAME
+      SQLStmtStr= 'SELECT COUNT(*) FROM '//TABLENAME
 
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
@@ -100,8 +99,7 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
      -    iRet.NE.SQL_SUCCESS_WITH_INFO) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_TreeList('//
-     -             'Id int primary key,'//
-     -             'CaseID int not null,'//
+     -             'CaseID Text not null,'//
      -             'StandID Text null,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
@@ -135,8 +133,7 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_TreeList('//
-     -             'Id INT null,'//
-     -             'CaseID INT null,'//
+     -             'CaseID Text null,'//
      -             'StandID Text null,'//
      -             'Year INT null,'//
      -             'PrdLen int null,'//
@@ -169,9 +166,8 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
      -             'Ht2TDBF real null)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_TreeList('//
-     -             'Id int primary key,'//
-     -             'CaseID int null,'//
-     -             'StandID char(26) null,'//
+     -             'CaseID char(36),'//
+     -             'StandID char(26),'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
      -             'TreeId char(8) null,'//
@@ -207,7 +203,6 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -       'DBSTRLS:Creating Table: '//trim(SQLStmtStr))
-        TREEOUTID = 0
       ENDIF
 
 C     SET THE TREELIST TYPE FLAG (LET IP BE THE RECORD OUTPUT COUNT).
@@ -289,29 +284,17 @@ C
             IF(ISPOUT6.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
             IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
             IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-C
-C           CREATE ENTRY FROM DATA FOR TREELIST TABLE
 
-            IF(TREEOUTID.EQ.-1) THEN
-              CALL DBSGETID(TABLENAME,'Id',ID)
-              TREEOUTID = ID
-            ENDIF
-            TREEOUTID = TREEOUTID + 1
-
-C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-
-            IF(TREEOUTID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-
-            WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(
-     -           Id,CaseID,StandID,Year,PrdLen,
-     -           TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,
-     -           MortPA,DBH,DG,
-     -           HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,
-     -           MCuFt,BdFt,MDefect,BDefect,TruncHt,
-     -           EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES(',
-     -           TREEOUTID,',',ICASE,',',CHAR(39),TRIM(NPLT),CHAR(39),
-     -           ',',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
-     -           CSPECIES,"',",IMC(I),',',ISPECL(I),',',ITRE(I),
+            WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+     -           ' (CaseID,StandID,Year,PrdLen,',
+     -           'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
+     -           'MortPA,DBH,DG,',
+     -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
+     -           'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
+     -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES("',
+     -           CASEID,'","',TRIM(NPLT),
+     -           '",',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
+     -           trim(CSPECIES),"',",IMC(I),',',ISPECL(I),',',ITRE(I),
      -           ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
      -           ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
      -           CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
@@ -322,6 +305,7 @@ C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 
             iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+            IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -                  'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
           ENDDO
@@ -331,6 +315,7 @@ C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 C     FOR CYCLE 0 TREELIST, PRINT DEAD TREES WHICH WERE PRESENT IN
 C     THE INVENTORY DATA AT THE BOTTOM OF THE TREELIST.
 C
+      IF (ITREELIST .EQ. 0) GOTO 100
       IF((IREC2.GE.MAXTP1).OR.(ITPLAB.EQ.3).OR.(ICYC.GE.1)) GO TO 100
       DO 150 I=IREC2,MAXTRE
         P =(PROB(I) / GROSPC) / (FINT/FINTM)
@@ -372,29 +357,17 @@ C
             IF(ISPOUT6.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
             IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
             IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-C
-C           CREATE ENTRY FROM DATA FOR TREELIST TABLE
 
-            IF(TREEOUTID.EQ.-1) THEN
-              CALL DBSGETID(TABLENAME,'Id',ID)
-              TREEOUTID = ID
-            ENDIF
-            TREEOUTID = TREEOUTID + 1
-
-C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-
-            IF(TREEOUTID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-
-            WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(
-     -           Id,CaseID,StandID,Year,PrdLen,
-     -           TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,
-     -           MortPA,DBH,DG,
-     -           HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,
-     -           MCuFt,BdFt,MDefect,BDefect,TruncHt,
-     -           EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES(',
-     -           TREEOUTID,',',ICASE,',',CHAR(39),TRIM(NPLT),CHAR(39),
-     -           ',',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
-     -           CSPECIES,"',",IMC(I),',',ISPECL(I),',',ITRE(I),
+            WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+     -           ' (CaseID,StandID,Year,PrdLen,',
+     -           'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
+     -           'MortPA,DBH,DG,',
+     -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
+     -           'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
+     -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES("',
+     -           CASEID,'","',TRIM(NPLT),
+     -           '",',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,
+     -           ",'",CSPECIES,"',",IMC(I),',',ISPECL(I),',',ITRE(I),
      -           ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
      -           ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
      -           CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
@@ -405,6 +378,7 @@ C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 
             iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+            IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -                  'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
 
@@ -412,5 +386,4 @@ C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
  100  CONTINUE
 
       iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
-
       END

@@ -19,8 +19,6 @@ C              7: DENSITY OF SOFT SNAGS
 C              8: YRLAST
 C              9: KODE FOR WHETHER THE REPORT ALSO DUMPS TO FILE
 C
-C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
-C
 COMMONS
 C
 C
@@ -77,7 +75,7 @@ C---------
       ELSE
         TABLENAME = 'FVS_SnagDet'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
+      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
 
       !PRINT*, SQLStmtStr
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
@@ -88,8 +86,7 @@ C---------
      -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_SnagDet('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'Species Text null,'//
@@ -107,8 +104,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_SnagDet('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'Species Text,'//
@@ -126,8 +122,7 @@ C---------
 
         ELSE
           SQLStmtStr='CREATE TABLE FVS_SnagDet('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'Species char(3) null,'//
@@ -144,16 +139,13 @@ C---------
      -              'Density_Total real null)'
 
         ENDIF
-        !PRINT*, SQLStmtStr
-
-            !Close Cursor
-            iRet = fvsSQLCloseCursor(StmtHndlOut)
-
-            iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-            CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
+ 
+        !Close Cursor
+        iRet = fvsSQLCloseCursor(StmtHndlOut)
+        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     -          int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'DBSFMDSNAG:Creating Table: '//trim(SQLStmtStr))
-        SDETID = 0
       ENDIF
 
       DO JYR= 1,YRLAST
@@ -183,19 +175,6 @@ C
               IF(ISPOUT23.EQ.2)CSPECIES=ADJUSTL(FIAJSP(IDC))
               IF(ISPOUT23.EQ.3)CSPECIES=ADJUSTL(PLNJSP(IDC))
 C
-C             CREATE ENTRY FROM DATA FOR DETAILED SNAG TABLE
-C
-              IF(SDETID.EQ.-1) THEN
-                CALL DBSGETID(TABLENAME,'Id',ID)
-                SDETID = ID
-              ENDIF
-              SDETID = SDETID + 1
-C
-C             MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-              IF(SDETID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-
-C
 C             ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
 C
               SDBHB(IDC,JYR,JCL) = SDBH(IDC,JYR,JCL)
@@ -206,14 +185,13 @@ C
               SDTB(IDC,JYR,JCL) = SDT(IDC,JYR,JCL)
 
 
-              WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -          StandID,Year,Species,DBH_Class,Death_DBH,
-     -          Current_Ht_Hard,Current_Ht_Soft,Current_Vol_Hard,
-     -          Current_Vol_Soft,Total_Volume,Year_Died,Density_Hard,
-     -          Density_Soft,Density_Total)
-     -          VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,
-     -          ',CHAR(39),TRIM(CSPECIES),CHAR(39),',?,?,?,?,?,?,?,
-     -          ?,?,?,?)'
+              WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+     -          '(CaseID,StandID,Year,Species,DBH_Class,Death_DBH,',
+     -          'Current_Ht_Hard,Current_Ht_Soft,Current_Vol_Hard,',
+     -          'Current_Vol_Soft,Total_Volume,Year_Died,Density_Hard,',
+     -          'Density_Soft,Density_Total) VALUES ("',
+     -          CASEID,'","',TRIM(NPLT),'",?,"',
+     -          TRIM(CSPECIES),'",?,?,?,?,?,?,?,?,?,?,?)'
 
               !PRINT*, SQLStmtStr
 C
@@ -230,20 +208,6 @@ C             BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
 
               ColNumber=1
-              iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -          SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
-     -          INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
-     -          SDETID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-              ColNumber=ColNumber+1
-              iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -          SQL_PARAM_INPUT,SQL_F_INTEGER, SQL_INTEGER,
-     -          INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),
-     -          ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-              ColNumber=ColNumber+1
               iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -          SQL_PARAM_INPUT, SQL_F_INTEGER, SQL_INTEGER,
      -          INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),

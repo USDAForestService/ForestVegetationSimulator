@@ -108,7 +108,7 @@ C                        OPTION NUMBER 1 -- END
   200 CONTINUE
 C                        OPTION NUMBER 2 -- DSNOUT
       CALL PPEATV (LACT)
-      IF (LACT.AND.ICASE.GT. -1) THEN
+      IF (LACT.AND.CASEID.NE. "") THEN
          CALL ERRGRO(.TRUE.,16)
          WRITE(JOSTND,205) TRIM(DSNOUT)
   205    FORMAT (/T12,'DSNOUT CONNECTION CAN NOT BE REDEFINED.',
@@ -124,34 +124,7 @@ C     SIMPLY CALL THE DBS OPEN FUNCTION
 C--------
       CALL DBSOPEN(DSNOUT,EnvHndlOut,ConnHndlOut,DBMSOUT,JOSTND,
      -             LKECHO,KODE)
-      !MUST RESET ICASE
-      ICASE     = -1
-      CMPUID    = -1
-      SUMRYID   = -1
-      TREEOUTID = -1
-      IATRTLID  = -1
-      CUTSID    = -1
-      FMPFID    = -1
-      FUELID    = -1
-      DM1ID     = -1
-      DM2ID     = -1
-      DM3ID     = -1
-      DM5ID     = -1
-      DM6ID     = -1
-      CONID     = -1
-      BURNID    = -1
-      CMRPTID   = -1
-      CHRPTID   = -1
-      MORTID    = -1
-      SSUMID    = -1
-      SDETID    = -1
-      STRCLID   = -1
-      BM_MNID   = -1
-      BMTREID   = -1
-      BMVOLID   = -1
-      BMBKPID   = -1
-      DWDVID    = -1
-      DWDCID    = -1
+      CASEID    = ""
 
 C     CHECK TO SEE IF A CONNECTION WAS SUCCESSFULLY OPENED
       IF (KODE.EQ.0) THEN
