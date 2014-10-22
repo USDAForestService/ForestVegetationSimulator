@@ -1095,15 +1095,15 @@ C     FUEL PHOTO CODE
          LFOTO2 = .TRUE.
          I=INDEX(CFotocode,CHAR(0))
          IF (I.GT.0) CFotoCode(I:)=' '
-          IF (CFotoCode .NE. ' ') THEN
+         IF (CFotoCode .NE. ' ') THEN
            CFotoCode = ADJUSTL(CFotoCode)
-           READ (CFotoCode,*,ERR=70)  ISTANDDATA(53)
+           READ (CFotoCode,*,ERR=58)  ISTANDDATA(53)
+   58      CONTINUE           
            CALL FMPHOTOCODE(ISTANDDATA(52),CFotoCode(1:13),FKOD,1)
            IF(LKECHO)WRITE (JOSTND,60) ADJUSTR(CFotoCode),FKOD
    60      FORMAT (T12,'PHOTO_CODE:',T26,A:
      >               ' CONVERTED TO CODE: ',I4)
            IF (FKOD .EQ. -1) LFOTO2 = .FALSE.
-   70      CONTINUE
          ENDIF
       ENDIF
 
