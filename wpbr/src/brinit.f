@@ -1,6 +1,7 @@
       SUBROUTINE BRINIT
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRINIT       DATE OF LAST REVISION:  06/12/2006
+C  **BRINIT       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  Initializes the Blister Rust model variables.
@@ -53,7 +54,7 @@ C.... Common include files.
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'CONTRL.F77'
 
-      INTEGER I4
+      INTEGER I4, I, J, K, L
 
 C.... Reset the random number seed generator. WK6(1) is just used
 C.... as a dummy variable as it is not utilized in the process.
@@ -286,6 +287,5 @@ C.... information, for up to 41 cycles).
 
 C.... Common return.
 
-  100 CONTINUE
       RETURN
       END

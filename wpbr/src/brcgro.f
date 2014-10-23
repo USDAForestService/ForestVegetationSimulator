@@ -1,6 +1,7 @@
       SUBROUTINE BRCGRO(K,PROP,BRHT,BRHTG,BRDG,NLCAN,HNEW,DNEW)
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRCGRO       DATE OF LAST REVISION:  06/21/2013
+C  **BRCGRO       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRCGRO grows cankers for one year and determines if any active
@@ -118,7 +119,6 @@ C     Added condition so that circumference of the stem at the canker
 C     must be greater than the bole canker growth rate with additional
 C     buffer of 25% before bole canker growth is applied.
 C**********************************************************************
-
 C.... Common include files.
 
       INCLUDE 'PRGPRM.F77'
@@ -132,7 +132,7 @@ C.... Local variable declarations.
       INTEGER JCSTAT,K,NCAN,NLCAN,EXCNCT,I4,I5
       REAL BRDG,BRHT,BRHTG,HNEW,HNEWCM,DNEW,DNEWCM,PROP,BRGDY,BRHYR,
      &   DGPROP,EXHT,GIRAMT,GIRD,GROBOL,HTBCR,HTGPRP,OUT,PRHT,PHTST,
-     &   UP,XRAN
+     &   UP,XRAN,BCL,RCL,PCTREM,POTST
       LOGICAL DEBUG
 
 C.... See if we need to do some debug.
@@ -524,7 +524,7 @@ C....             Set tree status to 7 indicate its death so it
 C....             will not be processed for following years, if any,
 C....             for the current cycle.
 
-   	          IF(UP.LE.HTBCR) THEN
+                  IF(UP.LE.HTBCR) THEN
                      WK2(K)=PROB(K)*0.99999
                      BRPB(K)=BRPB(K)+PROB(K)
                      TBRHMR(I4)= TBRHMR(I4)+PROB(K)

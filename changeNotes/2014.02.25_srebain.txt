@@ -1,0 +1,22 @@
+Subject: FVS update
+Name:  Stephanie Rebain
+Date:  02/25/2014
+Variants affected: All
+
+Description:
+
+1)  Corrections were made to the TreeBio event monitor function.
+
+Impact on users:
+Users should download new executables.  
+
+Modified Files:
+fire/base/common/FMCOM.F77 - changed variable ITRNC to ITRNL 
+                           - added ITRNL and ICYCRM to the common statement at the bottom
+fire/base/src/fminit.f - initalized ICYCRM to 0 and ITRNL to ITRN
+pg/src/fmppput.f - changed variable ITRNC to ITRNL
+pg/src/fmppget.f - changed variable ITRNC to ITRNL
+fire/base/src/fmevmon.f - changed ITRNC to ITRNL where appropriate.  For standing live, looped over ITRN instead of ITRNC.
+
+
+

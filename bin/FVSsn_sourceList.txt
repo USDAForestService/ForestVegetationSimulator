@@ -19,6 +19,7 @@
 ../base/src/comp.f
 ../base/src/comprs.f
 ../base/src/covolp.f
+../base/src/cutqfa.f
 ../base/src/cuts.f
 ../base/src/cwidth.f
 ../base/src/damcds.f
@@ -433,7 +434,6 @@
 ../pg/src/ecnget.f
 ../pg/src/ecnput.f
 ../pg/src/fmppget.f
-../pg/src/fmpphv.f
 ../pg/src/fmppput.f
 ../pg/src/getstd.f
 ../pg/src/putgetsubs.f

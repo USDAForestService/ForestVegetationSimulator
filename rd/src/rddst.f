@@ -1,6 +1,7 @@
       SUBROUTINE RDDST(N,RATTR,PCTWK,ODBH,INDX)
+      IMPLICIT NONE
 C----------
-C  **RDDST       LAST REVISION:  11/06/89
+C  **RDDST       LAST REVISION:  08/28/14
 C----------
 C
 C  THIS SUBROUTINE COMPUTES THE DIAMETERS CORRESPONDING TO THE
@@ -26,6 +27,13 @@ C              (INPUT)
 C     ODBH   - ARRAY OF THE DBH'S OF THE TREE RECORDS.  (INPUT)
 C     INDX   - INDEX ARRAY OF THE TREE RECORDS SORTED BY DBH. (INPUT)
 C
+C  Revision History :
+C   11/06/89 - Last revision date.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
 COMMONS
 C
 C
@@ -35,9 +43,9 @@ C
 COMMONS
 C
 
-      REAL     RATTR(7), PCTWK(IRRTRE), ODBH(IRRTRE)
+      INTEGER  I, IBOT, INDX(IRRTRE), IPTR, ITOP, J, MIDPTR, N, N1
 
-      INTEGER  INDX(IRRTRE)
+      REAL     ODBH(IRRTRE), PCTAGE, PCTWK(IRRTRE), RATTR(7)
 
 C
 C     IF THE TREE LIST IS NOT EMPTY, THEN:

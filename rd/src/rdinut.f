@@ -1,6 +1,6 @@
       SUBROUTINE RDIN(PASKEY,ARRAY,LNOTBK,LKECHO)
 C----------
-C  **RDIN--UT                     LAST REVISION:  08/21/09
+C  **RDIN--UT                     LAST REVISION:  08/28/14
 C----------
 C
 C  Purpose :
@@ -107,7 +107,10 @@ C     been processed and terminating to run if they had. The restructuring of
 C     damage code processing eliminates this requirement.
 C  19-AUG-09 Lance David (FMSC)
 C    FVS UT variant expanded to 24 species. Format statements set accordingly.
-C..........................................................................
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 C.... Parameter include files.
 
@@ -136,9 +139,11 @@ C.... Local variable declarations.
       CHARACTER*4  C4TMP
       CHARACTER*80 RECORD
 
-      INTEGER MYACT(9)
+      INTEGER  I, IC, IDI, IDSPLT, IDT, IHB, IHST(MAXSP), IPOINT, IRG,
+     &         IRMAX, IRMIN, IRRPSH, ISIZE, ISL, ISPC, J, JAGE, KEY,
+     &         K, KODE, KSP, M, MYACT(9), NEXT, NUMBER
 
-      DIMENSION    ARRAY(7), PRMS(10), IHST(MAXSP)
+      REAL     ANS, ARRAY(7), DEN, DIAM, PRMS(10), RDPRP, RTD, TT 
 
 C.... Data Statements.
 C

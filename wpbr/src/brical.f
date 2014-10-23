@@ -1,6 +1,7 @@
       SUBROUTINE BRICAL
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRICAL       DATE OF LAST REVISION:  06/21/2013
+C  **BRICAL       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRIBA calculates the Rust Index based on exposure time.

@@ -1,6 +1,7 @@
       REAL FUNCTION RDRANN(J)
+      IMPLICIT NONE
 C----------
-C  **RDRANN      LAST REVISION:  11/06/89
+C  **RDRANN      LAST REVISION:  09/02/14
 C----------
 C
 C  THIS FUNCTION RETURNS A UNIFORM RANDOM NUMBER TO THE
@@ -20,21 +21,27 @@ C
 C  PARAMETERS :
 C     J      -
 C
-COMMONS
+C  Revision History :
+C   11/06/89 - Last revision date.
+C   09/02/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C
+C----------------------------------------------------------------------
+C
+COMMONS
 C
       INCLUDE 'PRGPRM.F77' 
       INCLUDE 'RDPARM.F77'
-C
-C
+
       INCLUDE 'RDADD.F77'
-C
 C
 COMMONS
 C
-         S1 = DMOD(16807D0*S0,2147483647D0)
-         RDRANN = S1 / 2147483648D0
-         S0 = S1
+      INTEGER J
+      
+      S1 = DMOD(16807D0*S0,2147483647D0)
+      RDRANN = S1 / 2147483648D0
+      S0 = S1
 
-         RETURN
-         END
+      RETURN
+      END

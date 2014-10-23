@@ -1,11 +1,11 @@
 CODE SEGMENT RDPARM
 C----------
-C  **RDPARM      LAST REVISION:  08/03/12
+C  **RDPARM      LAST REVISION:  08/15/14
 C----------
 C
 C  Parameters for the root disease model are :
 C
-      INTEGER DSO, DSII, DSIU
+      INTEGER DSO, DSII, DSIU, IRRTRE, IRRTP1, ITOTSP, ITOTRR
 
       PARAMETER (DSO=1)
       PARAMETER (DSII=2)

@@ -1,6 +1,7 @@
       SUBROUTINE RDSHRK
+      IMPLICIT NONE
 C----------
-C  **RDSHRK      LAST REVISION:  02/24/04
+C  **RDSHRK      LAST REVISION:  09/03/14
 C----------
 C
 C  Purpose :
@@ -31,8 +32,11 @@ C Revision History:
 C   24-FEB-2004 Lance R. David (FHTET)
 C      At DO loop 700 a GOTO loop existed within it which lead to
 C      an array out of bounds error.
+C   09/03/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C
-C--------------------------------------------------------------------
+C----------------------------------------------------------------------
+C
 C.... Parameter include files.
 
       INCLUDE 'PRGPRM.F77'
@@ -50,7 +54,9 @@ C.... Common include files.
 C.... Local variables.
 
       LOGICAL DEBUG 
-      DIMENSION IPNT(100)
+      INTEGER I, I1, I2, ICEN, IDI, IJ, IPNT(100), IRSP, ISHR, ITMP,
+     &        J, KNT, KSP, NDIF
+      REAL    DBHM, REDAMT, ROOTM, RSFAC, TCLAS, TMINLF, TSTU, YREM
 
 C.... SEE IF WE NEED TO DO SOME DEBUG.
 

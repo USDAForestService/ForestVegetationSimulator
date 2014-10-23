@@ -1,6 +1,7 @@
       SUBROUTINE RDOWIN
+      IMPLICIT NONE
 C----------
-C  **RDOWIN      LAST REVISION:  12/14/07
+C  **RDOWIN      LAST REVISION:  08/29/14
 C----------
 C
 C  Purpose :
@@ -39,7 +40,10 @@ C    26-MAR-2002 Lance R. David (FHTET)
 C       Changed dimension on PROBUN from 1350 to FVS parameter MAXTRE.
 C    14-DEC-2007 Lance R. David (FHTET)
 C       Changed MYACT to MYACT(1) in call to OPREDT (from Don Robinson).
-C......................................................................
+C   08/29/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 
 C.... Parameter include files.
 
@@ -56,11 +60,11 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      INTEGER  RRTYPE
-      INTEGER  MYACT(1)
+      INTEGER  I, I1, I2, IACTK, IFL, IK, IP, ISPI, J, KDT,
+     &         MYACT(1), NPS, NREDTS, NTODO, RRTYPE
 
-      REAL PROBUN(MAXTRE)
-      REAL PRMS(2)
+      REAL     CRASH, THRESH, PRMS(2), PROBUN(MAXTRE), REMNO, RN,
+     &         RRTEMP, RRTEMS, SNAP, TBPROB, TT, TTIU, TTO, ZAREA
 
 C.... Data statements.
 

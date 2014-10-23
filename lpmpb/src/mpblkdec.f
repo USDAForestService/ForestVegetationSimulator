@@ -1,7 +1,7 @@
       BLOCK DATA MPBLKD
       IMPLICIT NONE
 C----------
-C  **MPBLKD--EC  DATE OF LAST REVISION:  03/16/12
+C  **MPBLKD--EC  DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C     MOUNTAIN PINE BEETLE --
@@ -12,6 +12,9 @@ C   03/16/12 Lance R. David (FMSC)
 C     Created this 32 species East Cascades variant version to
 C     accomodate the species expansion of the variant. Surrogate species
 C     assignments are based on those made in the SO, BM and IE variants.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to INCRS
 C----------------------------------------------------------------------
 C
 COMMONS
@@ -25,7 +28,7 @@ C
       DATA  JOMPB  / 7 /
 
       DATA IPLTNO/ 1 /,IMPROB/ 1 /,NATR/ 2 /, KEYMPB/ 2,3,6*0,1 /,
-     >      INT/ 10 /
+     >     INCRS/ 10 /
 
 C----------
 C vv---- MPB surface area calculation surrogate specie (surfce.f)

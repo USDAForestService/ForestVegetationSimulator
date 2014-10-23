@@ -1,6 +1,7 @@
       SUBROUTINE RDSPL1(RCROSS,STNEW,IDI,DIAM,RTD)
+      IMPLICIT NONE
 C----------
-C  **RDSPL1      LAST REVISION:  01/01/91
+C  **RDSPL1      LAST REVISION:  09/03/14
 C----------
 C
 C  SUBROUTINE TO CREATE NEW STUMPS AND DISEASE CENTERS FROM
@@ -18,27 +19,32 @@ C     STNEW  -
 C     IDI    -
 C     DIAM   -
 C     RTD    -
-C                           
-COMMONS
 C
+C  Revision History :
+C   01/01/91 - Last revision date.
+C   09/03/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
+COMMONS
 C
       INCLUDE 'PRGPRM.F77'
-C
-C
+
       INCLUDE 'RDPARM.F77'
-C
-C
+
       INCLUDE 'CONTRL.F77'
-C
-C
+
       INCLUDE 'RDCOM.F77'
-C
-C
+
       INCLUDE 'RDADD.F77'
-C
 C
 COMMONS
 C
+      INTEGER  II, IDI, JJ, NCROSS
+      REAL     DIAM, R, R1, R2, R3, RCROSS, RDRANN, REMCRO, RMX,
+     &         RTD, STNEW, XC, YC, XDIF, YDIF, DIS
+      
       STNEW = 0.0
       IF (DIAM .LT. SPDBH(IDI)) GOTO 300
 

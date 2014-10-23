@@ -1,6 +1,7 @@
       SUBROUTINE RDESCP (LMAXTR,MXRR)
+      IMPLICIT NONE
 C----------
-C  **RDESCP      LAST REVISION:  08/14/12
+C  **RDESCP      LAST REVISION:  08/28/14
 C----------
 C
 C  THIS ROOT DISEASE MODEL SUBROUTINE INSURES THAT THERE IS ROOM
@@ -16,6 +17,12 @@ C              (NAME CHANGED TO AVOID CONFLICT WITH MAXTRE IN
 C               PRGPRM FILE.)
 C     MXRR   - MAXIMUM NUMBER OF RROT TREE RECORDS
 C
+C  Revision History :
+C   08/14/12 - Last revision date.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
@@ -27,6 +34,8 @@ C
 C
 COMMONS
 C
+      INTEGER  IDI, LMAXTR, MXRR
+      REAL     TPAREA
 
       TPAREA = 0.0
       DO 100 IDI=1,ITOTRR

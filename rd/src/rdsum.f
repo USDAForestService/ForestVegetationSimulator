@@ -1,6 +1,7 @@
       SUBROUTINE RDSUM(N,A1,A2,IYEND)
+      IMPLICIT NONE
 C----------
-C  **RDSUM       LAST REVISION:  NOV 23, 1993
+C  **RDSUM       LAST REVISION:  09/03/14
 C----------
 C
 C  SUBROUTINE TO SUM UP THE ARRAY PROBI(1350,41)
@@ -28,17 +29,22 @@ C     A1     - ARRAY TO SUM UP INTO
 C     A2     - ARRAY TO BE SUMMED UP
 C     IYEND  - NUMBER OF YEARS TO SUM UP OVER
 C
+C  Revision History :
+C   11/23/93 - Last revision date.
+C   09/03/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
-C
       INCLUDE 'RDPARM.F77'
-C
 C
 COMMONS
 C
 
-      DIMENSION A1(IRRTRE), A2(IRRTRE,41,2)
+      INTEGER I, IYEND, J, N
+      REAL    A1(IRRTRE), A2(IRRTRE,41,2)
 
       IF (N .LE. 0) RETURN
 

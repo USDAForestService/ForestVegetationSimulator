@@ -31,7 +31,10 @@ C--     FWSMALL  - INTERNAL - CALLS SF_DS, BRK_UP
 !REV  See notes in GETDIB subroutine below
 C YW 11/06/2012 Changed the errflag to 12 for NUMSEG > 20
 C YW 01/18/2013 Added calculation for stump VOL(14) and tip VOL(15)
-
+C YW 03/25/2014 added PROD to call MRULES
+C YW 06/20/2014 added logic for region 10 32-foot log equation to reset MINLEN 
+C               to correct the missing 18, 20, and 22 foot logs
+C YW 07/02/2014 added errflag (13) for top diameter greater than DBH in VOLINTRP routine
 C**************************************************************
 C**************************************************************
 
@@ -39,7 +42,7 @@ c     MERCH VARIABLES
       CHARACTER*1 COR,HTTYPE,CTYPE
       CHARACTER*2 FORST,PROD
       CHARACTER*10 VOLEQ
-      INTEGER EVOD,OPT,REGN,HTFLG,FCLASS
+      INTEGER EVOD,OPT,REGN,HTFLG,FCLASS,N16SEG
       INTEGER CUTFLG,BFPFLG,CUPFLG,SPFLG,ERRFLAG,CDPFLG
       REAL LENGTH,DRCOB,MINBFD,MHT,slope,TOPD
       REAL MAXLEN,MINLEN,minlent,MERCHL,MTOPP,MTOPS,STUMP,TRIM,TRM
@@ -102,7 +105,8 @@ C--   IF DBHOB OR HTTOT EQUALS ZERO THEN DON'T CALCULATE THE VOLUME
       
 c     MRULES IS EXTERNAL AND CONTAINS THE MERCHANDIZING RULES SETTINGS
       CALL MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,MINLEN,
-     >         MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD)
+     >           MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
+     >           PROD)
       
       IF (VOLEQ(4:4).EQ.'F' .OR. VOLEQ(4:4).EQ.'f' .OR.
      >    VOLEQ(4:6).EQ.'DEM' .OR. VOLEQ(4:6).EQ.'dem' .OR.
@@ -179,7 +183,8 @@ C--   Initialize Flewelling model for this tree
           IF(ERRFLAG .EQ. 11)THEN
 C         USE ITERPOLATION ROUTINE 11/02
 	      CALL VOLINTRP(REGN,VOLEQ,DBHOB,LHT,MHT,MTOPP,HTTYPE,DBTBH,
-     >             LOGVOL,LOGDIA,HTLOG,LOGLEN,LOGST,NOLOGP,VOL,CTYPE)
+     >           LOGVOL,LOGDIA,HTLOG,LOGLEN,LOGST,NOLOGP,VOL,CTYPE,PROD,
+     >           ERRFLAG)
             GO TO 1000  
           ENDIF
         ELSE
@@ -234,6 +239,11 @@ C--   SUBROUTINE "TCUBIC" IS INTERNAL AND USES PROFILE MODEL
 	  if(drcob.le.0 .and. ctype.eq.'F')then
 	      drcob = dex(2)
 	  endif
+      ENDIF
+
+      IF (DEBUG%MODEL) THEN
+        WRITE  (LUDBG, 125)'Profile - VOL(1)=', VOL(1)
+  125   FORMAT (A, 2x, F8.4)
       ENDIF
       
 C--  ******************************************************
@@ -290,6 +300,15 @@ C--    CHECK FOR A MINIMUM MERCH STEM LENGTH - IF NOT MERCH DO NOT
 C--            CACULATE PRODUCT VOLUMES
            IF (LMERCH.LT.MERCHL) THEN
               GO TO 500
+           ENDIF
+
+C--   For Region 10 32 foot log equation, it needs to reset MINLEN in some 
+C--   situation in order to NOT miss 18, 20, 22 foot logs. (YW 06/20/2014)
+           IF((voleq(4:5).eq.'f3' .or. voleq(4:5).eq.'F3' .or. 
+     >         voleq(2:3).eq.'61' .or. voleq(2:3).eq.'62'.OR. 
+     >         voleq(2:3).eq.'32') .AND. CTYPE.NE.'V') THEN
+               N16SEG = INT(LMERCH/(MAXLEN+TRIM))
+               IF(MOD(N16SEG,2).EQ.1) MINLEN = 2
            ENDIF
 
 C--         SUBROUTINE "NUMLOG" WILL DETERMINE THE NUMBER OF
@@ -975,7 +994,7 @@ C      geosub=voleq(2:3)
  66      FORMAT(F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 2X, I4, 4X,
      &          F5.2, 4X, I6)
      
-         WRITE  (LUDBG, 600)'LOGDIA(5,2) ', LOGDIA(5,2)
+         WRITE  (LUDBG, 76)'LOGDIA(2,2) ', LOGDIA(2,2)
  76      FORMAT (A, 2x, F8.4)
        END IF
 
@@ -1212,15 +1231,19 @@ C**************************************************************
      >    DBTBH,HEX,DEX,ZEX,RHFW,RFLW,TAPCOE,F,FMOD,PINV_Z,TOP6,HT2,
      >    MTOPP,MFLG,CUVOL,DIB,DOB,errflag)
 c calls taper equations or profile models.
+C     USE VOLINPUT_MOD
+      IMPLICIT NONE
+      
       character*2 geosub,FORST
       CHARACTER*10 VOLEQ 
       INTEGER JSP,NEXTRA,SETOPT(6)
-      INTEGER ineedsl,errflag,MFLG
-      REAL DIB,DOB,HT2,DBTBH,DBT,HTTOT
+      INTEGER ineedsl,errflag,MFLG,FCLASS
+      REAL DIB,DOB,HT2,DBTBH,DBT,HTTOT,TLH
       REAL slope,CUVOL,MTOPP,TOP
       REAL DBHOB,HEX(2),DEX(2),ZEX(2),PINV_Z(2),FMOD(3),F,TOP6
       REAL RHFW(4),RFLW(6),TAPCOE(12)
-
+      
+C     FCLASS=FORMCLASS
       ineedsl = 0
       DOB = 0.0
       geosub=voleq(2:3)
@@ -1256,6 +1279,10 @@ c         ENDIF
             CALL R1TAP('100JB2W108',FORST,DBHOB,HTTOT,MTOPP,HT2,MFLG,
      >                CUVOL,DIB)
         ENDIF
+C Added to test for BEH equation in profile(09/12/13 YW)        
+      ELSEIF(VOLEQ(4:6).EQ.'BEH' .OR. VOLEQ(4:6).EQ.'beh') THEN
+        TLH=0.0
+        CALL BEHTAP(VOLEQ,DBHOB,HTTOT,TLH,HT2,FCLASS,MTOPP,DIB)
       ENDIF
 
       RETURN
@@ -1324,22 +1351,29 @@ C********************************************************************
 C********************************************************************
 C********************************************************************
 	SUBROUTINE VOLINTRP(REGN,VOLEQ,DBH,LHT,MHT,MTOPP,HTTYPE,DBTBH,
-     >               LOGVOL,LOGDIA,HTLOG,LOGLEN,LOGST,NOLOGP,VOL,CTYPE)  
+     >        LOGVOL,LOGDIA,HTLOG,LOGLEN,LOGST,NOLOGP,VOL,CTYPE,PROD,
+     >        ERRFLAG)  
 c     total height could not be predicted, interpolate the diameters for logs
 c     in the merch piece.      
       CHARACTER*1 HTTYPE,COR,CTYPE
-      CHARACTER*2 FORST
+      CHARACTER*2 FORST, PROD
 	CHARACTER*10 VOLEQ 
-      INTEGER LOGST,HTLOG,REGN,EVOD,OPT,I,LCNT
+      INTEGER LOGST,HTLOG,REGN,EVOD,OPT,I,LCNT,ERRFLAG
       REAL DBH, LHT, MTOPP, DBTBH, VOL(15),NOLOGP,MHT,HTUP
       REAL LOGLEN(20),LOGVOL(7,20),LOGDIA(21,3),D2,LEN,MINBFD
       REAL DBHIB,MAXLEN,MINLEN,MERCHL,MINLENT,MTOPS,STUMP,TRIM,BTR
 	REAL DIBL,DIBS,LENGTH,LOGV,LOGVOL32(20),TOPV16,BOTV16,R,LMERCH
 
       DBHIB = DBH-DBTBH
+c     check top diameter not greater than DBH inside bark. (YW 2014/07/02)      
+      IF(MTOPP.GE.DBHIB)THEN
+         ERRFLAG = 13
+         RETURN
+      ENDIF
 c       MRULES IS EXTERNAL AND CONTAINS THE MERCHANDIZING RULES SETTINGS
       CALL MRULES(REGN,FORST,VOLEQ,DBH,COR,EVOD,OPT,MAXLEN,MINLEN,
-     >           MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD)
+     >           MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
+     >           PROD)
 	IF(HTTYPE.EQ.'L' .OR. HTTYPE.EQ.'l')THEN
           LOGDIA(1,1) = ANINT(DBHIB)
           LOGDIA(1,2) = DBHIB
@@ -1567,11 +1601,12 @@ C
 C SET HTD TO MERCHANTABLE HEIGHT, CONVERTING LOGS TO FEET IF NECESSARY
 C
       IF(HTTYPE.EQ.'L' .OR. HTTYPE.EQ.'l') THEN
+         !logs are in 10s of logs. So added /10 to get number of logs. YW 9/9/13
          IF (EQNUM(1:3).EQ.'A16') THEN
-            LMERCH = HT1PRD*16.3
+            LMERCH = HT1PRD/10*16.3
             HTD = LMERCH +STUMP
          ELSE IF (EQNUM(1:3).EQ.'A32') THEN
-            LMERCH = HT1PRD*32.6
+            LMERCH = HT1PRD/10*32.6
             HTD = LMERCH + STUMP
          ENDIF
       ELSE

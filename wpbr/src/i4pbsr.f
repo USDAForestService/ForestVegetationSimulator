@@ -1,6 +1,7 @@
       SUBROUTINE I4PBSR (N,A,IORD,F,IP)
+      IMPLICIT NONE
 C**********************************************************************
-C  **I4PBSR       DATE OF LAST REVISION:  01/01/1981
+C  **I4PBSR       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  This is an INTEGER*4 keyed binary search.
@@ -32,7 +33,7 @@ C**********************************************************************
 C.... Local variable declarations.
 
       INTEGER*4 A,F
-      INTEGER IORD,ITOP,IBOT,IMID,IP
+      INTEGER IORD,ITOP,IBOT,IMID,IP,I1,N,IB,IM,IN,IT
       DIMENSION A(1),IORD(1)
 
 C.... Initializations.

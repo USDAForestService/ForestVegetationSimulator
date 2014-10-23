@@ -1,6 +1,7 @@
       SUBROUTINE RDPUSH
+      IMPLICIT NONE
 C----------
-C  **RDPUSH      LAST REVISION:  03/24/93
+C  **RDPUSH      LAST REVISION:  09/02/14
 C----------
 C
 C  PROCESSES THE PSTUMP KEYWORD.
@@ -22,6 +23,13 @@ C
 C
 C  LOCAL VARIABLES :
 C
+C  Revision History :
+C   03/24/93 - Last revision date.
+C   09/02/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
 C.... PARAMETER INCLUDE FILES
 C
       INCLUDE 'PRGPRM.F77'
@@ -35,7 +43,8 @@ C
 C
 C.... DATA statements
 C
-      DIMENSION MYACT(1), PRMS(2)
+      INTEGER  I, IACTK, IDI, J, K, KDT, MYACT(1), NPS, NTODO
+      REAL     DIAM, PROP, PRMS(2)
 
       DATA MYACT /2403/
 
@@ -67,7 +76,7 @@ C                 WITH STUMPS
 C
                   DBHDA(IDI,I,J,K)  = 0.0
                   ROOTDA(IDI,I,J,K) = 0.0
-                  JRAGED(IDI,I,J,K) = 0.0
+                  JRAGED(IDI,I,J,K) = 0
 
 C*                DO 1010 J = 1,NCENTS(IDI)
 C*                   PCENTS(IDI,J,3) = 0.0

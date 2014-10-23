@@ -1,6 +1,7 @@
       SUBROUTINE RDGROW
+      IMPLICIT NONE
 C----------
-C  **RDGROW      LAST REVISION:  MARCH 7, 1995
+C  **RDGROW      LAST REVISION:  08/28/14
 C----------
 C
 C  SUBROUTINE FOR CALCULATING GROWTH INCREMENT REDUCTION
@@ -12,6 +13,14 @@ C
 C  CALLS     :
 C     RDSUM   (SUBROUTINE)   [ROOT DISEASE]
 C     RDSLP   (FUNCTION)     [ROOT DISEASE]
+C
+C  Revision History :
+C   03/07/95 - Last revision date.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
 C
 COMMONS
 C
@@ -26,6 +35,9 @@ C
 C
 COMMONS
 C
+      INTEGER  I, IDI, IP, IS, J
+      REAL     BOTTOM, DGIMP, DIFF, OUTNUM, PRADI, RDSLP, TPAREA
+      
       TPAREA = 0.0
       DO 150 IDI=MINRR,MAXRR
          TPAREA = TPAREA + PAREA(IDI)

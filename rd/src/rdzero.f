@@ -1,6 +1,7 @@
       SUBROUTINE RDZERO
+      IMPLICIT NONE
 C----------
-C  **RDZERO      LAST REVISION:  OCT 4, 1993
+C  **RDZERO      LAST REVISION:  09/04/14
 C----------
 C
 C  THIS SUBROUTINE TAKES THE CENTERS, CHECKS IF THE RADIUS OF ANY IS ZERO 
@@ -15,6 +16,14 @@ C  CALLS     :
 C     DBCHK   (SUBROUTINE)   [PROGNOSIS]
 C
 C  DEFINITIONS:
+C
+C  Revision History:
+C   10/04/93 - Last revision date.
+C   09/04/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
 C
 C.... PARAMETER INCLUDE FILES
 C
@@ -31,6 +40,7 @@ C
       INCLUDE 'RDADD.F77'
 C
       LOGICAL DEBUG
+      INTEGER I, ICEN, ICENT, JCEN
 
 C
 C     SEE IF WE NEED TO DO SOME DEBUG.

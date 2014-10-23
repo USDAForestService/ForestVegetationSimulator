@@ -1,6 +1,7 @@
       SUBROUTINE RDSSIZ(ISP,A,STCUT,ISL,ISPS,IRTSPC)
+      IMPLICIT NONE
 C----------
-C  **RDSSIZ      LAST REVISION:  MARCH 5, 1995
+C  **RDSSIZ      LAST REVISION:  09/03/14
 C----------
 C
 C  SUBROUTINE FOR ASSIGNING SIZE CLASS TO STUMPS.
@@ -23,12 +24,21 @@ C     ISL    -
 C     ISPS   -
 C     IRTSPC -
 C
+C  Revision History :
+C   03/05/95 - Last revision date.
+C   09/03/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
+C
 C.... PARAMETER INCLUDE FILES
 C
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'RDPARM.F77'
 C
-      DIMENSION STCUT(5), ISPS(ITOTSP), IRTSPC(MAXSP)
+      INTEGER ISL, ISP, ISPS(ITOTSP), IRTSPC(MAXSP), J
+      REAL    A, STCUT(5)
 
       DO 100 J = 2,5
          IF (A .LT. STCUT(J-1) .OR. A .GT. STCUT(J)) GOTO 100

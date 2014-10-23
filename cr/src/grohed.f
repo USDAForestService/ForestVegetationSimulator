@@ -1,7 +1,7 @@
       SUBROUTINE GROHED (IUNIT)
       IMPLICIT NONE
 C----------
-C CR $Id$
+C CR $Id: grohed.f 1143 2014-01-29 19:20:07Z rhavis@msn.com $
 C----------
 C     WRITES HEADER FOR BASE MODEL PORTION OF PROGNOSIS SYSTEM
 C----------
@@ -38,7 +38,7 @@ C----------
       IF(IMODTY .EQ. 0) THEN
         WRITE (IUNIT,50) SVN,REV,DAT,TIM
    50   FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,'                                            ',
+     >  5X,'VERSION ',A,' -- CENTRAL ROCKIES                         ',
      >  T97,'RV:',A,T112,A,2X,A)
         GO TO 1000
       ENDIF

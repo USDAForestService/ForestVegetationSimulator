@@ -1,6 +1,7 @@
       SUBROUTINE RDBB4
+      IMPLICIT NONE
 C----------
-C  **RDBB4       LAST REVISION:  12/10/07
+C  **RDBB4       LAST REVISION:  08/26/14
 C----------
 C
 C  Purpose :
@@ -52,6 +53,8 @@ C       mismatch reported by LF95.
 C    10-DEC-07 Lance R. David (FHTET)
 C       Update to argument list in call to OPCOPY, added variable
 C       DONE for debug/tracking (from Don Robinson).
+C   08/26/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C....................................................................
 
 
@@ -71,15 +74,14 @@ C.... Common include files.
 
 C.... Local variable declarations.
       
-      INTEGER     I,J,IK,I1,I2, ISPI, ONLY1X, NOCOPY, DONE,
-     &            RRTYPE, RACE, IACTK
-      REAL        DBHLIM, THRESH, MORTII, MORTIU, MORTF, MORTO, SUM
-C
-C     Change dimension of temporary storage arrays PREVA(2) and PREVB(2)
-C     to PREVA(4) and PREVB(4) to correspond with PAREA and OOAREA
-C     RNH(FEB98)
-C
-      DIMENSION MYACT(1), PRMS(9), PREVA(4), PREVB(4)
+      INTEGER  I, J, IK, I1, I2, ISPI, ONLY1X, NOCOPY, DONE,
+     &         RRTYPE, RACE, IACTK, MYACT(1)
+
+      INTEGER  IP, KDT, KODE, NCOPYS, NPS, NTODO
+
+      REAL     DBHLIM, THRESH, MORTII, MORTIU, MORTF, MORTO, STEMS
+
+      REAL     PRMS(9), PREVA(4), PREVB(4), RROTEX, XXXX
       
       NOCOPY = 0
       DONE = 0
@@ -125,7 +127,7 @@ C....    that meet the user's criteria for size and % of roots infected
 C....    with annosus.  Determine whether the density of these stems 
 C....    exceeds the user's threshold for an active beetle outbreak.
 
-         SUM = 0.0
+         STEMS = 0.0
 
          DO 6 J = I1,I2
             I = IND1(J)
@@ -134,14 +136,14 @@ C....    exceeds the user's threshold for an active beetle outbreak.
             DO 5 IK = 1,ISTEP
                DO 4 IP = 1,2
                   IF (PROPI(I,IK,IP) .LT. RROTEX) GOTO 4
-                  SUM = SUM + ((2/FINT) * PROBI(I,IK,IP))
+                  STEMS = STEMS + ((2/FINT) * PROBI(I,IK,IP))
     4          CONTINUE   
     5       CONTINUE
 
-            SUM = SUM + ((2/FINT) * (PROAKL(DSII,I) + PRANKL(I)))
+            STEMS = STEMS + ((2/FINT) * (PROAKL(DSII,I) + PRANKL(I)))
     6    CONTINUE
 
-         IF ((SUM / PAREA(RRTYPE)) .LT. THRESH) GOTO 888
+         IF ((STEMS / PAREA(RRTYPE)) .LT. THRESH) GOTO 888
       
 C....    If the beetle is active, call OPDONE to signal the outbreak,
 C....    increment NUMBB and store the specified mortality rates for

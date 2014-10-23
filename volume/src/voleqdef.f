@@ -1,5 +1,6 @@
-!== last modified  01-18-2013
+!== last modified  03-25-2014
 C 01/18/2013 added FIAVOLEQDEF, R5_PNWEQN and R6_PNWEQN for PNE FIA equations.
+C 03/25/2014 changed default equation for Region 3 (R3_EQN) Ponderosa pine in the forest Apache Sitgreaves, Coconino, Kaibab and Tonto to 300FW2W122.
       SUBROUTINE VOLEQDEF (VAR,REGN,FORST,DIST,SPEC,PROD,VOLEQ,ERRFLAG)
 
 C    SUBROUTINE WILL RETURN THE DEFAULT VOLUME EQUATION NUMBER
@@ -387,7 +388,7 @@ C     Emory oak,              Gambel oak,       Bur oak,              Silverleaf
      >'300DVEW060','300DVEW060','300DVEW060','300DVEW060','300DVEW060',
      >'300DVEW060','301DVEW015','300DVEW093','300DVEW093','300DVEW093',
      >'300DVEW113','300DVEW113','300DVEW106','301DVEW202','300DVEW113',
-     >'300DVEW113','300DVEW122','300DVEW122','300DVEW106','300DVEW106',
+     >'300DVEW113','300DVEW122','300FW2W122','300DVEW106','300DVEW106',
      >'300DVEW106','301DVEW202','301DVEW015','301DVEW015','300DVEW060',
      >'300DVEW310','300DVEW314','300DVEW999','300DVEW999','300DVEW999',
      >'300DVEW999','300DVEW746','300DVEW999','300DVEW800','300DVEW800',
@@ -420,6 +421,11 @@ C
       ELSEIF(SPEC.EQ.15.AND.(FORNUM.EQ.2.OR.FORNUM.EQ.3.OR.
      >                       FORNUM.EQ.7.OR.FORNUM.EQ.10)) THEN
          VOLEQ = EQNUM(47)
+C    using Fleweling profile model for Ponderosa pine in following forest:
+C    Apache Sitgreaves, Coconino, Kaibab, Tonto. 
+      ELSEIF(SPEC.EQ.122.AND.(FORNUM.EQ.1.OR.FORNUM.EQ.4.OR.
+     >                       FORNUM.EQ.7.OR.FORNUM.EQ.12)) THEN
+         VOLEQ = '300FW2W122'
       ELSE
          FIRST = 1
 

@@ -1,6 +1,7 @@
       SUBROUTINE RDTIM
+      IMPLICIT NONE
 C----------
-C  **RDTIM       LAST REVISION:  MARCH 1, 1995
+C  **RDTIM       LAST REVISION:  09/04/14
 C----------
 C
 C  SUBROUTINE FOR SUMMING UP OPROB FOR TIM
@@ -11,22 +12,27 @@ C
 C  CALLS     :
 C     NONE
 C
-COMMONS
+C  Revision History:
+C   03/01/95 - Last revision date.
+C   09/04/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C
+C----------------------------------------------------------------------
+C
+COMMONS
 C
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'RDPARM.F77'
-C
-C
       INCLUDE 'RDCOM.F77'
       INCLUDE 'RDARRY.F77'
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'CONTRL.F77' 
       INCLUDE 'RDADD.F77'
 C
-C
 COMMONS
 C
+      INTEGER I, IDI
+
       RRGEN(1,1) = 0.0
       RRGEN(2,1) = 0.0
       IF (ITRN .LT. 1) RETURN

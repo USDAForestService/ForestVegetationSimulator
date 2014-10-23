@@ -1,6 +1,7 @@
       SUBROUTINE RDINF
+      IMPLICIT NONE
 C----------
-C  **RDINF       LAST REVISION:  06/12/96
+C  **RDINF       LAST REVISION:  08/28/14
 C----------
 C
 C  Purpose :
@@ -20,8 +21,10 @@ C  Revision History :
 C     06/12/96 - Matthew K. Thompson
 C                Moved the declaration of DSO, DSII, and DSIU to the
 C                parameter include file RDPARM.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C
-
+C----------------------------------------------------------------------
 
 C.... Parameter include files.
 
@@ -40,9 +43,9 @@ C.... Common include files.
 C.... Local variable declarations.
 
       LOGICAL DEBUG
-      REAL    NUINSD
-      DIMENSION OAMOVE(3)
 
+      INTEGER  I, I1, I2, IDI, J, KSP
+      REAL     ADDINF, NUINSD, OAMOVE(3), PNSP, PROPN, RDRANP
 
 C.... See if we need to do some debug.
 

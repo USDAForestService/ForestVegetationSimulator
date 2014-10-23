@@ -1,7 +1,7 @@
       SUBROUTINE MPBDRV
       IMPLICIT NONE
 C----------
-C  **MPBDRV        DATE OF LAST REVISION:  06/14/13
+C  **MPBDRV        DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C     INTERFACING PROGRAM TO CALL MPBMOD
@@ -17,6 +17,9 @@ C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
 C   03/29/13 Lance R. David (FMSC)
 C     Some variables defined locally were already defined in a common.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to INCRS
 C----------
 COMMONS
 C
@@ -224,7 +227,7 @@ C
      >        ' (B), AND P **',/,T7,
      >        '    NOTE:  $ SHOWS ACTUAL SURFACE KILLED DATA',/)
 C
-      CALL PTOPT ( IPLTNO, JOMPB, IF60  , INT + 1, 1 )
+      CALL PTOPT ( IPLTNO, JOMPB, IF60  , INCRS + 1, 1 )
 C
       RETURN
       END

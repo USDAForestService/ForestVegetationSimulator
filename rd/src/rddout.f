@@ -1,6 +1,7 @@
       SUBROUTINE RDDOUT
+      IMPLICIT NONE
 C----------
-C  **RDDOUT                       LAST REVISION:  06/12/13
+C  **RDDOUT      LAST REVISION:  08/28/14
 C----------
 C
 C  Purpose :
@@ -114,7 +115,9 @@ C     16-AUG-2006 Lance R. David (FHTET)
 C        Change of metric conversion factors variable names to match
 C        variables in new \FVS\COMMON\METRIC.F77. rd\src\metric.f77
 C        will be retired. (mods courtesy of Don Robinson, ESSA)
-C**********************************************************************
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C----------------------------------------------------------------------
 
 C.... Parameter include files.
 
@@ -133,12 +136,13 @@ C.... Common include files.
 
 C.... Dimension statements for local variables.
 
-      DIMENSION ORRKIL(MAXSP), OPROBI(MAXSP), OPROBU(MAXSP)
-      DIMENSION ODBHKL(IRRTRE), ODBHU(IRRTRE)
-      DIMENSION PVECKL(IRRTRE),  PVECU(IRRTRE)
-      DIMENSION PCTKL(IRRTRE),  PCTU(IRRTRE)
-      DIMENSION ONDTRE(7), ONLTRE(7)
-      DIMENSION INDXKL(IRRTRE), INDXU(IRRTRE)
+      INTEGER  I, I1, I2, IDI, IK, INDXKL(IRRTRE), INDXU(IRRTRE),
+     &         IU, J, JYR, KSP, L
+      
+      REAL     ODBHKL(IRRTRE), ODBHU(IRRTRE), ONDTRE(7), ONLTRE(7),
+     &         OPROBI(MAXSP), OPROBU(MAXSP), ORRKIL(MAXSP),
+     &         PCTKL(IRRTRE),  PCTU(IRRTRE), PVECKL(IRRTRE),
+     &         PVECU(IRRTRE), TMPI, X1, X2, X3, X4
 
       CHARACTER*1 CHTYPE(ITOTRR)
       

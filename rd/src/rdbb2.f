@@ -1,6 +1,7 @@
       SUBROUTINE RDBB2
+      IMPLICIT NONE
 C----------
-C  **RDBB2       LAST REVISION:  12/10/07
+C  **RDBB2       LAST REVISION:  08/26/14
 C----------                              
 C
 C  Purpose :
@@ -38,6 +39,8 @@ C       (previous date of last revision was 12/7/93)
 C    10-DEC-07 Lance R. David (FHTET)
 C       Update to argument list in call to OPCOPY, added variable
 C       DONE for debug/tracking (from Don Robinson).
+C   08/26/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C....................................................................
 
 C.... Parameter include files.
@@ -55,10 +58,12 @@ C.... Common include files.
 
 C.... Local variable declarations.
       
-      INTEGER     I,J,I1,I2, ISPI, ONLY1X, NOCOPY, RACE, DONE, IACTK
-      REAL        KILLF, CLSUML, CLSUMI, SPSUMI, SPSUML, CLCNT, CLCNTA
-      REAL        DBHLIM, THRESH, MORT, TSTEM, TDENS, CLKILL
-      DIMENSION   MYACT(1), PRMS(5)
+      INTEGER   I, J, I1, I2, ISPI, ONLY1X, NOCOPY, RACE, DONE, IACTK
+      INTEGER   KDT, KODE, MYACT(1), NCOPYS, NPS, NTODO
+      REAL      KILLF, CLSUML, CLSUMI, SPSUMI, SPSUML, CLCNT, CLCNTA
+      
+      REAL      DBHLIM, THRESH, MORT, TSTEM, TDENS, CLKILL
+      REAL      PRMS(5)
       
       IF (ITRN .LE. 0) RETURN
       NOCOPY = 0

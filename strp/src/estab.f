@@ -602,6 +602,8 @@ C
       CFV(ITRN)=0.
       ITRUNC(ITRN)=0
       NORMHT(ITRN)=0
+      HT2TD(ITRN,1)=0.
+      HT2TD(ITRN,2)=0.
       ITRE(ITRN)=NNID
       FTEMP2=FTEMP/BRKUP
       PROB(ITRN)=FTEMP2

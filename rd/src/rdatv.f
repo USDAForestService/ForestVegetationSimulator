@@ -1,4 +1,5 @@
       SUBROUTINE RDATV (L,LTREE)
+      IMPLICIT NONE
 C----------
 C  **RDATV       LAST REVISION:  MARCH 1, 1995
 C----------

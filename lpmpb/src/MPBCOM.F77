@@ -1,15 +1,18 @@
 CODE SEGMENT MPBCOM
 C----------
-C  **MPBCOM        DATE OF LAST REVISION:  07/02/10
+C  **MPBCOM        DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C Revision History
 C   06/05/00 Last noted revision date.
 C   07/02/10 Lance R. David (FMSC)
 C     Declared variables for Addition of IMPLICIT NONE to subroutines.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to INCRS
 C----------
       INTEGER IBACK, IBOUSE, IDXDF, IDXLP, IDXPP, IDXWL, IDXWP, ILP,
-     &        IMPROB, INT, IPLTNO, IPT(MAXTRE), ISTDT, JOMPB, JOMPBX,
+     &        IMPROB, INCRS, IPLTNO, IPT(MAXTRE), ISTDT, JOMPB, JOMPBX,
      &        KEYMPB(9), MPBON, MPBSPM(MAXSP), MPBYR, MPISC(30,2),
      &        MPMXYR, MPRBMT, NACLAS, NATR, NCLASS, NDAMS, NEPIYR,
      &        NG, NPGR, NPYR
@@ -31,7 +34,7 @@ C----------
      &       BANEW, BAOLD, BETTER, CE, CF1, CF2, CF3, CLASS, CNTLP,
      &       CRITAD, DCPF, DCPK, DEBUIN, DST, EFELEV, EFLAT, EFPHLM,
      &       EPIPRB, EXCON, FORLAT, HS, IBACK, IBOUSE, IDXDF, IDXLP,
-     &       IDXPP, IDXWL, IDXWP, ILP, IMPROB, INT, IPLTNO, IPT,
+     &       IDXPP, IDXWL, IDXWP, ILP, IMPROB, INCRS, IPLTNO, IPT,
      &       ISTDT, JOMPB, JOMPBX, KEYMPB, LAGG, LBET, LCRES, LDC,
      &       LEPI, LINVMR, LMPB1, LPOPDY, LPS, LRANST, LREP, LSADLP,
      &       LXNOTE, MPBGRF, MPBON, MPBSPM, MPBYR, MPISC, MPMXYR,

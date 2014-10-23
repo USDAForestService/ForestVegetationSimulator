@@ -62,7 +62,7 @@ sumvars = ('year','age','tpa','tcuft','mcuft','mbdft','rtpa','rtcuft'
         ,'samwt','cvrtype','sizecls','stkcls')
 
 summary = numpy.zeros(
-        (reps, num_cycles)
+        (reps, num_cycles+1)
         , dtype=zip(sumvars,['I4']*len(sumvars))
         )
 
@@ -113,7 +113,7 @@ for kwd in kwds:
 #        print('{:>6d}{:>5s}{:>10.3f}'.format(trees[-tn:]['year'][0],trees[-tn:]['spp'][-1],trees[-tn:]['tpa'][-1]))
             
         #loop through growth cycles, collecting summary and tree stats
-        for cycle in range(num_cycles):
+        for cycle in range(num_cycles+1):
             #set the stop point to the end of the next cycle
             fvs.fvssetstoppointcodes(6,cycle_year)
 
@@ -138,12 +138,12 @@ for kwd in kwds:
             trees['cycle'][-tn:] = cycle+1
             trees['year'][-tn:] = cycle_year
             trees['stop'][-tn:] = sp[0]
-            #trees['tpa'][-tn:] = fvs.arrays.prob[:tn]
+            trees['tpa'][-tn:] = fvs.arrays.prob[:tn]
             #trees['spp'][-tn:] = spp_codes[fvs.arrays.isp[:tn]]
 
             #print sum(trees[-tn:]['tpa']) - summary[run_id,cycle]['tpa']
             print('{:>6s}{:>5s}{:>5s}{:>10s}'.format('year','stop','spp','tpa'))
-            print('{:>6d}{:>5d}{:>5s}{:>10.3f}'.format(trees[-tn:]['year'][0],trees[-tn:]['stop'][0],trees[-tn:]['spp'][0],trees[-tn:]['tpa'][0]))
+            print('{:>6d}{:>5d}{:>5s}{:>10.3f}'.format(trees[-tn:]['year'][0],trees[-tn:]['stop'][0],trees[-tn:]['spp'][0],sum(trees[-tn:]['tpa'])))
             print('{:>6d}{:>5d}{:>5s}{:>10.3f}'.format(trees[-tn:]['year'][0],trees[-tn:]['stop'][0],trees[-tn:]['spp'][-1],trees[-tn:]['tpa'][-1]))
 
 #            ntrees,ncycles,nplots,maxtrees,maxspecies,maxplots,maxcycles = fvs.fvsdimsizes()
@@ -176,7 +176,11 @@ shutil.copy2('pnt01.tre.save','pnt01.tre')
 print '%d reps; total elapsed time: %.2f, %.3f second per rep' % (reps, et - st, (et - st) / run_id)
 
 if plot:
+    xbar_cuft = numpy.mean(summary['tcuft'],axis=0)
     for r in xrange(summary.shape[0]):
-        pylab.plot(summary[r,:]['tcuft'])
+        pylab.plot(summary[r,:]['tcuft'],color='blue',alpha=0.25)
     #pylab.boxplot(summary[:,:]['tcuft'])
+	
+    pylab.plot(xbar_cuft,linewidth=3,color='green')
     pylab.show()
+	

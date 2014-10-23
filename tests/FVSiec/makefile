@@ -40,7 +40,7 @@ ffe_svs:
 	-../../bin/FVSiec --restart=ffe_svs.stop
 	-diff -w ffe_svs_007.svs ffe_svs_007.svs.save
 	-diff -w ffe_svs_index.svs ffe_svs_index.svs.save
-	rm ffe_svs_*.svs ffe_svs_*.grd
+#	rm ffe_svs_*.svs ffe_svs_*.grd
 	@echo Test ffe_svs ended
 	
 

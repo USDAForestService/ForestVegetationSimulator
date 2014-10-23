@@ -319,11 +319,10 @@ C       BURN PILED FUELS
           PRBURN(2,IL) = 0.9
         ENDDO
 
-        PRBURN(2,11) = PLAREA
+C       100% OF LITTER AND DUFF UNDER THE PILES IS BURNED
 
-C       AND LITTER (100% OF LITTER UNDER THE PILES IS BURNED)
-
-        PRBURN(2,10) = PLAREA
+        PRBURN(2,11) = 1.0
+        PRBURN(2,10) = 1.0
         
 C       NO LIVE FUELS BURN 
         PLVBRN(1) = 0

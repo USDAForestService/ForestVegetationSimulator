@@ -23,7 +23,7 @@ C**********************************************************************
 C     Parameter statements.
 
       INTEGER MXL,MXR,MXI
-      PARAMETER (MXL=15,MXR=56,MXI=92)
+      PARAMETER (MXL=15,MXR=56,MXI=86)
 
 C     Parameter and other include files that are not stored here
 
@@ -73,71 +73,65 @@ C     Include files that are stored here
       INTS( 28) = IFMMRE
       INTS( 29) = IFMYR1
       INTS( 30) = IFMYR2
-      INTS( 31) = IFSTEP
-      INTS( 32) = IFTYR
-      INTS( 33) = IMRPAS
-      INTS( 34) = IPFLMB
-      INTS( 35) = IPFLME
-      INTS( 36) = IPFPAS
-      INTS( 37) = IPFSTP
-      INTS( 38) = ISALVC
-      INTS( 39) = ISALVS
-      INTS( 40) = ISNAGB
-      INTS( 41) = ISNAGE
-      INTS( 42) = ISNGSM
-      INTS( 43) = ISNSTP
-      INTS( 44) = JCOUT
-      INTS( 45) = JSNOUT
-      INTS( 46) = ND
-      INTS( 47) = NFMODS
-      INTS( 48) = NFMSVPX
-      INTS( 49) = NL
-      INTS( 50) = NSNAG
-      INTS( 51) = OLDCOVTYP
-      INTS( 52) = OLDICT
-      INTS( 53) = OLDICT2
-      INTS( 54) = PBURNYR
-      INTS( 55) = FM89YR
-      INTS( 56) = ICBHMT
-      INTS( 57) = ICANSP
-      INTS( 58) = BURNSEAS
-      INTS( 59) = IDSHEAT
-      INTS( 60) = ISHEATB
-      INTS( 61) = ISHEATE
-      INTS( 62) = SOILTP
-      INTS( 63) = ICFPB
-      INTS( 64) = ICFPE
-      INTS( 65) = ICFPST
-      INTS( 66) = NSNAGSALV
-      INTS( 67) = NYRS
+      INTS( 31) = IFTYR
+      INTS( 32) = IMRPAS
+      INTS( 33) = IPFLMB
+      INTS( 34) = IPFLME
+      INTS( 35) = IPFPAS
+      INTS( 36) = ISALVC
+      INTS( 37) = ISALVS
+      INTS( 38) = ISNAGB
+      INTS( 39) = ISNAGE
+      INTS( 40) = ISNGSM
+      INTS( 41) = JCOUT
+      INTS( 42) = JSNOUT
+      INTS( 43) = ND
+      INTS( 44) = NFMODS
+      INTS( 45) = NFMSVPX
+      INTS( 46) = NL
+      INTS( 47) = NSNAG
+      INTS( 48) = OLDCOVTYP
+      INTS( 49) = OLDICT
+      INTS( 50) = OLDICT2
+      INTS( 51) = PBURNYR
+      INTS( 52) = FM89YR
+      INTS( 53) = ICBHMT
+      INTS( 54) = ICANSP
+      INTS( 55) = BURNSEAS
+      INTS( 56) = IDSHEAT
+      INTS( 57) = ISHEATB
+      INTS( 58) = ISHEATE
+      INTS( 59) = SOILTP
+      INTS( 60) = ICFPB
+      INTS( 61) = ICFPE
+      INTS( 62) = NSNAGSALV
+      INTS( 63) = NYRS
 C------- Carbon reporting INTEGER variables --------
-      INTS( 68) = ICHABT
-      INTS( 69) = ICHPAS
-      INTS( 70) = ICHRVB
-      INTS( 71) = ICHRVE
-      INTS( 72) = ICHRVI
-      INTS( 73) = ICMETRC
-      INTS( 74) = ICMETH
-      INTS( 75) = ICRPAS
-      INTS( 76) = ICRPTB
-      INTS( 77) = ICRPTE
-      INTS( 78) = ICRPTI
-      INTS( 79) = IDCHRV
-      INTS( 80) = IDCRPT
+      INTS( 64) = ICHABT
+      INTS( 65) = ICHPAS
+      INTS( 66) = ICHRVB
+      INTS( 67) = ICHRVE
+      INTS( 68) = ICMETRC
+      INTS( 69) = ICMETH
+      INTS( 70) = ICRPAS
+      INTS( 71) = ICRPTB
+      INTS( 72) = ICRPTE
+      INTS( 73) = IDCHRV
+      INTS( 74) = IDCRPT
 C------- new FFE INTEGER variables --------
-      INTS( 81) = IFLOGIC     
-      INTS( 82) = IFMSET
+      INTS( 75) = IFLOGIC     
+      INTS( 76) = IFMSET
+      INTS( 77) = ICYCRM
+      INTS( 78) = ITRNL
 C------- new FFE INTEGER variables for down wood reports --------      
-      INTS( 83) = IDWPAS
-      INTS( 84) = IDWRPB
-      INTS( 85) = IDWRPE
-      INTS( 86) = IDWRPI
-      INTS( 87) = IDCPAS
-      INTS( 88) = IDWCVB
-      INTS( 89) = IDWCVE
-      INTS( 90) = IDWCVI
-      INTS( 91) = IDDWRP
-      INTS( 92) = IDDWCV      
+      INTS( 79) = IDWPAS
+      INTS( 80) = IDWRPB
+      INTS( 81) = IDWRPE
+      INTS( 82) = IDCPAS
+      INTS( 83) = IDWCVB
+      INTS( 84) = IDWCVE
+      INTS( 85) = IDDWRP
+      INTS( 86) = IDDWCV      
          
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
 
@@ -162,7 +156,8 @@ C------- new FFE INTEGER variables for down wood reports --------
       CALL IFWRIT (WK3, IPNT, ILIMIT, YRDEAD, NSNAGZ      , 2)
       CALL IFWRIT (WK3, IPNT, ILIMIT, FMICR, MAXTRE       , 2)
       CALL IFWRIT (WK3, IPNT, ILIMIT, IFUELMON, MXDFMD    , 2)
-      CALL IFWRIT (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)      
+      CALL IFWRIT (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)
+      
       LOGICS ( 1) = LANHED
       LOGICS ( 2) = LATFUEL
       LOGICS ( 3) = LDHEAD
@@ -244,7 +239,7 @@ C-------new FFE REAL variables --------
 C-------new CFIM variables --------
       REALS ( 55) = CFIM_BD
       REALS ( 56) = CFIM_DC
-      
+
       CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, MXR, 2)
 
       CALL BFWRIT (WK3, IPNT, ILIMIT, ALLDWN,       MAXSP  , 2)

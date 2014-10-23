@@ -1,6 +1,7 @@
       SUBROUTINE BRTSTA
+      IMPLICIT NONE
 C**********************************************************************
-C  **BRTSTA       DATE OF LAST REVISION:  06/21/2013
+C  **BRTSTA       DATE OF LAST REVISION:  06/05/2014
 C----------------------------------------------------------------------
 C  Purpose:
 C  BRTSTA determines the status of each tree based on the worst
@@ -41,7 +42,7 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      INTEGER I1, I2, I3, I4
+      INTEGER I1, I2, I3, I4, II, J, KT, MAXNO, NTIM
       LOGICAL DEBUG
 
 C.... See if we need to do some debug.

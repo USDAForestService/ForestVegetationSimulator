@@ -118,7 +118,7 @@ C----------
         IF(ITOHI .GT. 0) NTOHI=NTOHI+1
       ENDIF
       IF(ISISP.GT.0 .AND. ISFLAG.EQ.1) THEN
-        IF(SDIDEF(ISISP) .LE. 0.) THEN
+        IF((RSDI.LE.0.).AND.(SDIDEF(ISISP).LE.0.)) THEN
           SDIDEF(ISISP)=RSDI
           IF(ITOHI .GT. 0) NTOHI=NTOHI+1
         ENDIF

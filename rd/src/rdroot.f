@@ -1,6 +1,7 @@
       SUBROUTINE RDROOT(I,A,ANS,F1,F2,HEI)
+      IMPLICIT NONE
 C----------
-C  **RDROOT      LAST REVISION:  JAN 20. 1994
+C  **RDROOT      LAST REVISION:  09/02/14
 C----------
 C
 C  FUNCTION FOR CALCULATING THE ROOT RADIUS OF LIVE TREES
@@ -24,6 +25,13 @@ C     F1     - PROOT
 C     F2     - RSLOP
 C     HEI    - HEIGHT
 C
+C  Revision History :
+C   01/20/94 - Last revision date.
+C   09/02/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
 COMMONS
 C
       INCLUDE 'PRGPRM.F77' 
@@ -31,6 +39,9 @@ C
       INCLUDE 'PLOT.F77'
       INCLUDE 'RDADD.F77'
                                  
+      INTEGER I
+      REAL    A, ANS, EFFECT, F1, F2, HEI, SDINEW
+
 C     CALCULATE THE EFFECT OF SDI (IF KEYWORD WAS NOT USED,
 C     THERE MAY BE NO EFFECT) 
       

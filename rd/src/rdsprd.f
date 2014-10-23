@@ -1,6 +1,7 @@
       SUBROUTINE RDSPRD
+      IMPLICIT NONE
 C----------
-C  **RDSPRD      LAST REVISION:  08/07/01
+C  **RDSPRD      LAST REVISION:  09/12/14
 C----------
 C
 C  THIS SUBROUTINE CALCULATES THE RATE OF SPREAD OF DISEASE CENTER
@@ -99,7 +100,14 @@ C       Reduced RETURN statements to 1 at the end of routine.
 C       Added Debug code.
 C    07-AUG-01 Lance R. David (FHTET)
 C       Initialization of variable YFORWD near statement lable 300.
-C....................................................................
+C    19-AUG-14 Lance R. David (FMSC)
+C       Variable NTREES declared locally is in RDCOM.F77. Local
+C       declaration removed.
+C   09/12/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables. The implicit type for
+C     variable NEWDEN was not consistent with its use, declared REAL.
+C
+C----------------------------------------------------------------------
 
 C.... PARAMETER INCLUDE FILES
 
@@ -115,18 +123,15 @@ C.... COMMON INCLUDE FILES
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'RDADD.F77'
 
-      DIMENSION YTK(50), DISTNC(50,50)
-
-      DIMENSION EFFSDI(ITOTSP)
-      DIMENSION TRURAD(50), RKILLS(50)
-      DIMENSION SINE(50)
-      INTEGER ROOM, NEW, NOW, UPDATE, UPLTD, NTREES, ITREES
-      INTEGER NUMPAL(50)
-      INTEGER IDPAL(50,50)
-      INTEGER IRSSP(50)
-      INTEGER SICK(50), I, J, II, IT, JT, IN
-      INTEGER GCENTS
       LOGICAL DEBUG
+      INTEGER GCENTS, I, I1, I2, ICEN, IDI, IDPAL(50,50), II, IN,
+     &        IRSSP(50), IRSTEP, IRSTP, IT, ITM, ITREES, J, JT,
+     &        JTIME, JYEARS, K, KSP, KT, NEW, NOW, NUMPAL(50),
+     &        ROOM, SICK(50), UPDATE, UPLTD
+      REAL    DIFF, DISTNC(50,50), EFFSDI(ITOTSP), HABSP, NEWDEN,
+     &        PNIN, PNSP, R, RDRANN, RDSLP, RKILLS(50), RPINT, RRSDIM,
+     &        RRSMEN, SFPROB, SINE(50), TRURAD(50), YDMAX, YFORWD,
+     &        YTK(50), YTKX
 
 C.... SEE IF WE NEED TO DO SOME DEBUG.
 
@@ -158,7 +163,7 @@ C.... ZERO INFECTION ARRAYS
 
       DO 5 JTIME = 1,NMONT
          MCRATE(IRRSP,JTIME) = 0.0
-         MCTREE(IRRSP,JTIME) = 0.0
+         MCTREE(IRRSP,JTIME) = 0
          SPRQMD(IRRSP,JTIME) = 0.0
     5 CONTINUE
 

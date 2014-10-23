@@ -1,6 +1,7 @@
       SUBROUTINE RDCLOC
+      IMPLICIT NONE
 C----------
-C  **RDCLOC      LAST REVISION:  FEB 1, 1994
+C  **RDCLOC      LAST REVISION:  08/27/14
 C----------
 C
 C  THIS ROUTINE LOCATES THE ROOT DISEASE CENTERS IN THE STAND
@@ -11,6 +12,13 @@ C     RDSETP  [ROOT DISEASE]
 C
 C  CALLS     :
 C     RDRANN  (FUNCTION)  [ROOT DISEASE]
+C
+C  Revision History :
+C   02/01/94 - Last revision date.
+C   08/27/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
@@ -32,8 +40,10 @@ C
 C
 COMMONS
 C
-      DIMENSION AX1(100), AX2(100), AY1(100), AY2(100)
-
+      INTEGER  II, JJ, NTRY
+      REAL     AX1(100), AX2(100), AY1(100), AY2(100)
+      REAL     RDRANN
+      
       DATA AX1, AX2, AY1, AY2 /400*0.0/
 
       DIMEN = SQRT(SAREA) * 208.7

@@ -97,7 +97,7 @@ C  This could be done outside the snag loop except when either PBSOFT
 C  of PBSMAL equals 1, which may often be the case.  So it's done here.
 C----------
       IF (DENTTL .LE. 0) RETURN
-      IF ((IYR - BURNYR) .EQ. 1) THEN
+      IF ((IYR - BURNYR) .LT. PBTIME) THEN
         DZERO = NZERO / 50.0
         RSOFT = 0.0
         IF (PBSOFT .GT. 0.0) THEN

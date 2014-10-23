@@ -1,0 +1,78 @@
+Subject: White Pine Blister Rust Model
+Name: Lance R. David
+Date: 06/10/2014
+Variants affected: CR, IE, SO
+
+Description: Modifications to code due to changes in development
+             environment where made and IMPLICIT NONE was added to all
+             subroutines. 
+
+             The White Pine Blister Rust Model was originally available
+             with the Northern Idaho (NI) FVS variant. It had not been 
+             linked to the Inland Empire (IE) variant until now. the IE
+             variant represents two white pine blister rust host species,
+             western white pine (WP) and limber pine (LM). The model
+             recognizes  both of these species.
+
+             The model is also linked to the Southern Oregon / Northeast
+             California (SO) FVS variant. The recognized host species
+             are western white pine (WP) and sugar pine (SP).
+
+             The model is linked to the Central Rockies (CR) FVS variant
+             for investigative purposes to determine its suitability for
+             representing comandra blister rust. These investigations
+             have not been done and availability of suitable data is not
+             known at this time. Recognized comandra host species are
+             lodgepole pine (LP) and ponderosa pine (PP).
+
+Impact on users: Model is available.
+
+Files:
+bin/FVScr_srcList.txt  - Removed WPBR stub and added WPBR file list.
+bin/FVSie_srcList.txt
+
+wpbr/src/brblkdie.f - new file.
+
+wpbr/src/brann.f    - minor code modifications.
+wpbr/src/bratv.f
+wpbr/src/brblkd.f
+wpbr/src/brblkdcr.f
+wpbr/src/brblkdso.f
+wpbr/src/brcank.f
+wpbr/src/brcdel.f
+wpbr/src/brcgro.f
+wpbr/src/brcini.f
+wpbr/src/brcmpr.f
+wpbr/src/BRCOM.F77
+wpbr/src/brcout.f
+wpbr/src/brcred.f
+wpbr/src/brcrem.f
+wpbr/src/brcsta.f
+wpbr/src/brdam.f
+wpbr/src/brdout.f
+wpbr/src/brecan.f
+wpbr/src/brestb.f
+wpbr/src/brgi.f
+wpbr/src/briba.f
+wpbr/src/bribes.f
+wpbr/src/brical.f
+wpbr/src/brin.f
+wpbr/src/brinit.f
+wpbr/src/brpr.f
+wpbr/src/brrout.f
+wpbr/src/brsetp.f
+wpbr/src/brsor.f
+wpbr/src/brstar.f
+wpbr/src/brstat.f
+wpbr/src/brstyp.f
+wpbr/src/brsum.f
+wpbr/src/brtarg.f
+wpbr/src/brtdel.f
+wpbr/src/brtout.f
+wpbr/src/brtreg.f
+wpbr/src/brtrip.f
+wpbr/src/brtsta.f
+wpbr/src/brupdt.f
+wpbr/src/exbrus.f
+wpbr/src/i4pbsr.f
+wpbr/src/i4psrt.f

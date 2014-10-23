@@ -1,10 +1,7 @@
       SUBROUTINE RDIPRP(PROPN,NOPLOT,PRAN)
+      IMPLICIT NONE
 C----------
-C  **RDIPRP      LAST REVISION:  08/02/01
-C  **RDIPRP      LAST REVISION:  10/16/98 (RNH) MOdificaion to more
-C                accurately calculate the number of trees in each species
-C                to be inititially infected with root disease with RRINIT
-C                keyword
+C  **RDIPRP      LAST REVISION:  08/29/14
 C----------
 C
 C  Purpose :
@@ -34,8 +31,14 @@ C  Common Block Variables Used :
 C     <incomplete>
 C
 C  Revision History :
-C    02-AUG-01 Lance R. David (FHTET)
-C      Changed initialization control loop from MINRR,MAXRR to 1,ITOTRR.
+C  10/16/98 (RNH) 
+C    MOdificaion to more accurately calculate the number of trees
+C    in each species to be inititially infected with root disease
+C    with RRINIT keyword
+C  02-AUG-01 Lance R. David (FHTET)
+C    Changed initialization control loop from MINRR,MAXRR to 1,ITOTRR.
+C  08/29/14 Lance R. David (FMSC)
+C    Added implicit none and declared variables.
 C------------------------------------------------------------------
 C.... Parameter include files.
 
@@ -55,19 +58,17 @@ C.... Argument variable declarations.
 
 C.... Local variable declarations.
 
-      LOGICAL   YESSP(MAXSP), FULL(MAXSP)                 
-      REAL      AVGYTK  
-      INTEGER   NUMFUL(ITOTRR), INUMSP(ITOTRR), NOPLOT
-      DIMENSION TOTSP(MAXSP), TOTYTK(MAXSP), TREENO(MAXSP)
-      DIMENSION TOTVAL(ITOTRR), TOTINF(ITOTRR), TOTREE(ITOTRR)
-      DIMENSION RELVAL(MAXSP)
-      DIMENSION PROPN(MAXTRE), TMPPRP(MAXSP),PRAN(ITOTRR)
+      LOGICAL  YESSP(MAXSP), FULL(MAXSP)                 
+      INTEGER  I, IDI, II, INUMSP(ITOTRR), KSP, NOPLOT, NUMFUL(ITOTRR)
+      REAL     ADDON, AVGYTK, HABSP, OVER, PRAN(ITOTRR),
+     &         PROPN(MAXTRE), RDSLP, RELVAL(MAXSP),
+     &         SSTVAL(ITOTRR), TMPPRP(MAXSP), TOTINF(ITOTRR),
+     &         TOTNUM, TOTREE(ITOTRR), TOTSP(MAXSP), TOTVAL(ITOTRR),
+     &         TOTYTK(MAXSP), TREENO(MAXSP)
 C
 C     the array SSTVAL(MAXSP) is used in the calculation of initial 
 C     root disease in each species (RNH NOV98)
 C
-      DIMENSION SSTVAL(ITOTRR)
-C                             
 C.... Initializations.
 
       AVGYTK = 0.0
@@ -77,9 +78,9 @@ C.... Initializations.
          TOTVAL(IDI) = 0.0
          TOTINF(IDI) = 0.0
          TOTREE(IDI) = 0.0
-         INUMSP(IDI) = 0.0
+         INUMSP(IDI) = 0
          SSTVAL(IDI) = 0.0
-         NUMFUL(IDI) = 0.0
+         NUMFUL(IDI) = 0
    99 CONTINUE  
 
       DO 100 KSP = 1, MAXSP

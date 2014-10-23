@@ -41,7 +41,7 @@ C----------
 *                involve that variable should be re-examined (see FMSCRO)
 *     CWD2B2:    dimensioned like CWD2B, this is crown material from trees
 *                killed during the current FVS cycle.  It won't start falling
-*                until after it is added to CWD2B at the start of the next cycle.
+*                until after it is added to CWD2B (at the end of the year).
 *                **Indexed the same way as CWD2B**
 *     CWDVOL:    array for down woody debris, it holds down wood volume 
 *                in cuft/acre. Dimensioned like CWD, but without the litter and
@@ -219,6 +219,10 @@ C----------
 *     DBHC:      Tree DBH set in FMTREM, used in FMEVTBM
 *     HTC:       Tree height set in FMTREM, used in FMEVTBM
 *     CROWNWC:   Crown weight set in FMTREM, used in FMEVTBM
+*     ICYCRM:    Thinning cycle for TREEBIO function
+*     ITRNL:     Lenght of tree list at time of call to FMTREM from CUTS.
+*                Estab trees may enter simulation between the call
+*                to FMTREM and the call to FMEVTBM.
 *
 C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
 
@@ -315,6 +319,7 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
       REAL     PREMST(MAXTRE),PREMCR(MAXTRE)
       INTEGER  ISPCC(MAXTRE)
       REAL     DBHC(MAXTRE),HTC(MAXTRE),CROWNWC(MAXTRE,0:5)
+      INTEGER  ICYCRM,ITRNL
 
       COMMON /FMCOM/
      &  ALLDWN, BURNYR, CANMHT, CBHCUT,
@@ -326,8 +331,8 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
      &  FMICR, FMKOD, FMSLOP,FTREAT,
      &  FUAREA, GROW, HARD, HARTYP, HARVYR, HTDEAD, HTIH,
      &  HTIS, HTR1, HTR2, HTX, HTXSFT, ICANSP, ICBHMT,
-     &  IFMYR1, IFMYR2, IFTYR, ISALVC, ISALVS, ISNGSM,
-     &  JCOUT, JFROUT,
+     &  ICYCRM, IFMYR1, IFMYR2, IFTYR, ISALVC, ISALVS, ISNGSM,
+     &  ITRNL, JCOUT, JFROUT,
      &  JLOUT,  LANHED, LEAFLF,  LFMON, LFMON2, LFROUT,
      &  LDYNFM, LIMBRK, LDHEAD, LSHEAD, LVWEST, MAXHT, MINHT,
      &  NSNAG, NYRS, NZERO, OLDCOVTYP, OLDCRL, OLDHT, OLDCRW,
