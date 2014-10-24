@@ -346,8 +346,8 @@ C
      -     'Fuel_Wt3_mod,Fuel_Wt4_mod,Fuel_Mod1_Sev,',
      -     'Fuel_Mod2_Sev,Fuel_Mod3_Sev,Fuel_Mod4_Sev,',
      -     'Fuel_Wt1_Sev,Fuel_Wt2_Sev,Fuel_Wt3_Sev,',
-     -     'Fuel_Wt4_Sev) VALUES ("',CASEID,'","',TRIM(NPLT),
-     -     '",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ',
+     -     'Fuel_Wt4_Sev) VALUES (''',CASEID,''',''',TRIM(NPLT),
+     -     ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ',
      -     ',?,?,?,?)'
       ELSE
        WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(CaseID,',
@@ -358,9 +358,9 @@ C
      -     'Mortality_BA_Mod,Mortality_VOL_Sev,Mortality_VOL_Mod,',
      -     'Pot_Smoke_Sev,Pot_Smoke_Mod,Fuel_Mod1,Fuel_Mod2,',
      -     'Fuel_Mod3,Fuel_Mod4,Fuel_Wt1,Fuel_Wt2,',
-     -     'Fuel_Wt3,Fuel_Wt4) VALUES ("',CASEID,'","',TRIM(NPLT),
-     -     '",?,?,?,?,?,"',TRIM(SFTYPE),'","',TRIM(MFTYPE),
-     -     '",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -     'Fuel_Wt3,Fuel_Wt4) VALUES (''',CASEID,''',''',TRIM(NPLT),
+     -     ''',?,?,?,?,?,''',TRIM(SFTYPE),''',''',TRIM(MFTYPE),
+     -     ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
       ENDIF
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),

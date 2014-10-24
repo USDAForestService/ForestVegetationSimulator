@@ -178,11 +178,13 @@ C
 C
       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
      - ' (CaseID,StandID,Year,',
-     - 'TV_SC1, TV_SC2,TV_SC3, TV_SC4,TV_SC5,TV_SC6,TV_SC7,TV_SC8,
-     - 'TV_SC9,TV_10 ,HV_SC1,HV_SC2,HV_SC3,HV_SC4,HV_SC5,HV_SC6,HV_SC7,
-     - 'HV_SC8,HV_SC9,HV_10 ,VK_SC1,VK_SC2,VK_SC3,VK_SC4,VK_SC5,VK_SC6,
-     - 'VK_SC7,VK_SC8,VK_SC9,VK_10)VALUES("',CID,'","',TRIM(NPLT),
-     -'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     - 'TV_SC1, TV_SC2,TV_SC3, TV_SC4,TV_SC5,TV_SC6,TV_SC7,TV_SC8,',
+     - 'TV_SC9,TV_10 ,HV_SC1,HV_SC2,HV_SC3,HV_SC4,HV_SC5,',
+     - 'HV_SC6,HV_SC7,HV_SC8,',
+     - 'HV_SC9,HV_10,VK_SC1,VK_SC2,VK_SC3,VK_SC4,VK_SC5,VK_SC6,',
+     - 'VK_SC7,VK_SC8,VK_SC9,VK_10) VALUES (''',CID,''',''',TRIM(NPLT),
+     - ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?',
+     - ',?,?,?,?,?,?,?,?,?,?,?,?)'
 C
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),

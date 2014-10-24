@@ -162,8 +162,8 @@ C     COPY INPUT VECTOR TO DOUBLE-PRECISION
      >  'DWD_Cover_3to6_Soft,',
      >  'DWD_Cover_6to12_Soft,DWD_Cover_12to20_Soft,',
      >  'DWD_Cover_20to35_Soft,DWD_Cover_35to50_Soft,',
-     >  'DWD_Cover_ge_50_Soft,DWD_Cover_Total_Soft) VALUES ("',
-     >  CASEID,'","',TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     >  'DWD_Cover_ge_50_Soft,DWD_Cover_Total_Soft) VALUES (''',
+     >  CASEID,''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
 C     CLOSE CURSOR
 

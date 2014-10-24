@@ -287,20 +287,20 @@ C
             IF(ISPOUT31.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
 
             WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
-     -           '(CaseID,StandID,Year,PrdLen,',
-     -           'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
-     -           'MortPA,DBH,DG,',
-     -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
-     -           'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
-     -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES ("',
-     -           CASEID,'","',TRIM(NPLT),
-     -           '","',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
-     -           CSPECIES,"',",IMC(I),',',ISPECL(I),',',ITRE(I),
-     -           ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
-     -           ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
-     -           CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
-     -           ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
-     -           ',',HT2TD(I,2),',',HT2TD(I,1),')'
+     -         '(CaseID,StandID,Year,PrdLen,',
+     -         'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
+     -         'MortPA,DBH,DG,',
+     -         'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
+     -         'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
+     -         'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES (''',
+     -         CASEID,''',''',TRIM(NPLT),''',',
+     -        JYR,',',IFINT,',''',ADJUSTL(TID),''',',I,',''',
+     -        CSPECIES,''',',IMC(I),',',ISPECL(I),',',ITRE(I),
+     -         ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
+     -         ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
+     -         CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
+     -         ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
+     -         ',',HT2TD(I,2),',',HT2TD(I,1),')'
 
             !PRINT*, SQLStmtStr
 

@@ -192,9 +192,9 @@ C
      -  'Live_Woody_Moisture,Live_Herb_Moisture,Midflame_Wind,Slope,',
      -  'Flame_length,Scorch_height,Fire_Type,FuelModl1,',
      -  'Weight1,FuelModl2,Weight2,FuelModl3,Weight3,',
-     -  'FuelModl4,Weight4) VALUES("',CASEID,'","',
-     -  TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,"',
-     -  TRIM(FTYPE),'",?,?,?,?,?,?,?,?)'
+     -  'FuelModl4,Weight4) VALUES(''',CASEID,''',''',
+     -  TRIM(NPLT),''',?,?,?,?,?,?,?,?,?,?,?,?,''',
+     -  TRIM(FTYPE),''',?,?,?,?,?,?,?,?)'
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),

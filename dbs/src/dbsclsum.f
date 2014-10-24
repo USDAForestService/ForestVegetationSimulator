@@ -111,8 +111,8 @@ C     CHECK TO SEE IF THE Climate TABLE EXISTS IN DATBASE
       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,'//
      -   'StandID,Year,Species,Viability,BA,TPA,ViabMort,'//
      -   'dClimMort,GrowthMult,SiteMult,MxDenMult,AutoEstbTPA) '//
-     -   'VALUES("',CASEID,'","',trim(NPLT),'",',IYR,',"',
-     -   trim(SP),'",',SPVIAB,',',SPBA,',',SPTPA,',',
+     -   'VALUES(''',CASEID,''',''',trim(NPLT),''',',IYR,',''',
+     -   trim(SP),''',',SPVIAB,',',SPBA,',',SPTPA,',',
      -   SPMORT1,',',SPMORT2,',',SPGMULT,',',
      -   SPSITGM,',',MXDENMLT,',',POTESTAB,')'
 

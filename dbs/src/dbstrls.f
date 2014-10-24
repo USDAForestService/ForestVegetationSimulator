@@ -88,7 +88,7 @@ C     ALLOCATE A STATEMENT HANDLE
 
 
 C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
-C     IF IT DOESN'T THEN WE NEED TO CREATE IT
+C     IF NOT, THEN WE NEED TO CREATE IT
 
       SQLStmtStr= 'SELECT COUNT(*) FROM '//TABLENAME
 
@@ -253,7 +253,7 @@ C           DECODE DEFECT AND ROUND OFF POINT BAL.
             IPTBAL=NINT(PTBALT(I))
 
 C           DETERMINE ESTIMATED HEIGHT
-C           ESTIMATED HEIGHT IS NORMAL HEIGHT, UNLESS THE LATTER HASN'T
+C           ESTIMATED HEIGHT IS NORMAL HEIGHT, UNLESS THE IT WAS NOT
 C           BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
 
             IF (NORMHT(I) .NE. 0) THEN
@@ -291,9 +291,9 @@ C
      -           'MortPA,DBH,DG,',
      -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
      -           'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
-     -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES("',
-     -           CASEID,'","',TRIM(NPLT),
-     -           '",',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
+     -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES(''',
+     -           CASEID,''',''',TRIM(NPLT),
+     -           ''',',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
      -           trim(CSPECIES),"',",IMC(I),',',ISPECL(I),',',ITRE(I),
      -           ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
      -           ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
@@ -305,6 +305,7 @@ C
 
             iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+       print *,"iRet1=",iRet," stmt=",trim(SQLStmtStr)        
             IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -                  'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
@@ -317,7 +318,7 @@ C     THE INVENTORY DATA AT THE BOTTOM OF THE TREELIST.
 C
       IF (ITREELIST .EQ. 0) GOTO 100
       IF((IREC2.GE.MAXTP1).OR.(ITPLAB.EQ.3).OR.(ICYC.GE.1)) GO TO 100
-      DO 150 I=IREC2,MAXTRE
+      DO I=IREC2,MAXTRE
         P =(PROB(I) / GROSPC) / (FINT/FINTM)
         WRITE(TID,'(I8)') IDTREE(I)
 
@@ -341,49 +342,50 @@ C       PUT PROB IN MORTALITY COLUMN
         P = 0.
 
 C
-C           DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
-C           KEYWORD OVER RIDES
+C       DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
+C       KEYWORD OVER RIDES
 C
-            IF(JSPIN(ISP(I)).EQ.1)THEN
-              CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
-            ELSEIF(JSPIN(ISP(I)).EQ.2)THEN
-              CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
-            ELSEIF(JSPIN(ISP(I)).EQ.3)THEN
-              CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-            ELSE
-              CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-            ENDIF
-C
-            IF(ISPOUT6.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
-            IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
-            IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
+        IF(JSPIN(ISP(I)).EQ.1)THEN
+          CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
+        ELSEIF(JSPIN(ISP(I)).EQ.2)THEN
+          CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
+        ELSEIF(JSPIN(ISP(I)).EQ.3)THEN
+          CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
+        ELSE
+          CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
+        ENDIF
+C       
+        IF(ISPOUT6.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
+        IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
+        IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
+        
+        WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+     -       ' (CaseID,StandID,Year,PrdLen,',
+     -       'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
+     -       'MortPA,DBH,DG,',
+     -       'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
+     -       'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
+     -       'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES(''',
+     -       CASEID,''',''',TRIM(NPLT),
+     -       ''',',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,
+     -       ",'",CSPECIES,"',",IMC(I),',',ISPECL(I),',',ITRE(I),
+     -       ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
+     -       ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
+     -       CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
+     -       ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
+     -       ',',HT2TD(I,2),',',HT2TD(I,1),')'
+        
+        iRet = fvsSQLCloseCursor(StmtHndlOut)
+        
+        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+        
+       print *,"iRet=",iRet," stmt=",trim(SQLStmtStr)        
+        IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
+        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
+     -              'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
 
-            WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
-     -           ' (CaseID,StandID,Year,PrdLen,',
-     -           'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
-     -           'MortPA,DBH,DG,',
-     -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
-     -           'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
-     -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES("',
-     -           CASEID,'","',TRIM(NPLT),
-     -           '",',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,
-     -           ",'",CSPECIES,"',",IMC(I),',',ISPECL(I),',',ITRE(I),
-     -           ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
-     -           ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
-     -           CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
-     -           ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
-     -           ',',HT2TD(I,2),',',HT2TD(I,1),')'
-
-            iRet = fvsSQLCloseCursor(StmtHndlOut)
-
-            iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-            IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
-            CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -                  'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
-
- 150  CONTINUE
- 100  CONTINUE
-
+      ENDDO
+  100 CONTINUE          
       iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
       END

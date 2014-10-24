@@ -123,8 +123,8 @@ C     COPY INPUT VECTOR TO DOUBLE-PRECISION
 
       WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
      >  'StandID,Year,Products,Landfill,Energy,Emissions,',
-     >  'Merch_Carbon_Stored,Merch_Carbon_Removed) VALUES("',
-     >  CASEID,'","',TRIM(NPLT),'",?,?,?,?,?,?,?)'
+     >  'Merch_Carbon_Stored,Merch_Carbon_Removed) VALUES(''',
+     >  CASEID,''',''',TRIM(NPLT),''',?,?,?,?,?,?,?)'
 
 C     CLOSE CURSOR
 

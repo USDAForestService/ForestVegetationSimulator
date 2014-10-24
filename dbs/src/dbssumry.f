@@ -332,7 +332,7 @@ C
      -          'Year,Age,Tpa,BA,SDI,CCF,TopHt,QMD,MCuFt,SCuFt,SBdFt,',
      -          'RTpa,RMCuFt,RSCuFt,RSBdFt,ATBA,ATSDI,ATCCF,ATTopHt,',
      -          'ATQMD,PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls)',
-     -          'VALUES("',CASEID,'","',TRIM(NPLT),'",?,?,?,',
+     -          'VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,?,?,',
      -          '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
       ELSE
         WRITE(SQLStmtStr,*)'INSERT INTO ',
@@ -340,7 +340,7 @@ C
      -           'Year,Age,Tpa,BA,SDI,CCF,TopHt,QMD,TCuFt,MCuFt,BdFt,',
      -           'RTpa,RTCuFt,RMCuFt,RBdFt,ATBA,ATSDI,ATCCF,ATTopHt,',
      -           'ATQMD,PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls)',
-     -           'VALUES("',CASEID,'","',TRIM(NPLT),'",?,?,?,',
+     -           'VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,?,?,',
      -           '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
       ENDIF
 C

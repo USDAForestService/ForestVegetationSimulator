@@ -13,21 +13,21 @@ C       NPLT   - CASE NUMBER
 C       VAR    - ARRAY WITH VARIABLES TO REPORT
 C       VARDIM - LENGTH OF VAR ARRAY
 C       UNITS ARE CUFT/ACRE
-C         1 = DOWN WOOD 0 - 3" HARD
-C         2 = DOWN WOOD 3 - 6" HARD
-C         3 = DOWN WOOD 6 - 12" HARD
-C         4 = DOWN WOOD 12 - 20" HARD
-C         5 = DOWN WOOD 20 - 35" HARD
-C         6 = DOWN WOOD 35 - 50" HARD
-C         7 = DOWN WOOD 50"+ HARD
+C         1 = DOWN WOOD 0 - 3 HARD
+C         2 = DOWN WOOD 3 - 6 HARD
+C         3 = DOWN WOOD 6 - 12 HARD
+C         4 = DOWN WOOD 12 - 20 HARD
+C         5 = DOWN WOOD 20 - 35 HARD
+C         6 = DOWN WOOD 35 - 50 HARD
+C         7 = DOWN WOOD 50+ HARD
 C         8 = DOWN WOOD TOTAL HARD
-C         9 = DOWN WOOD 0 - 3" SOFT
-C         10 = DOWN WOOD 3 - 6" SOFT
-C         11 = DOWN WOOD 6 - 12" SOFT
-C         12 = DOWN WOOD 12 - 20" SOFT
-C         13 = DOWN WOOD 20 - 35" SOFT
-C         14 = DOWN WOOD 35 - 50" SOFT
-C         15 = DOWN WOOD 50"+ SOFT
+C         9 = DOWN WOOD 0 - 3 SOFT
+C         10 = DOWN WOOD 3 - 6 SOFT
+C         11 = DOWN WOOD 6 - 12 SOFT
+C         12 = DOWN WOOD 12 - 20 SOFT
+C         13 = DOWN WOOD 20 - 35 SOFT
+C         14 = DOWN WOOD 35 - 50 SOFT
+C         15 = DOWN WOOD 50+ SOFT
 C         16 = DOWN WOOD TOTAL SOFT
 C       KODE   - RETURN CODE
 
@@ -170,8 +170,9 @@ C     COPY INPUT VECTOR TO DOUBLE-PRECISION
      >  'DWD_Volume_0to3_Soft,DWD_Volume_3to6_Soft,',
      >  'DWD_Volume_6to12_Soft,DWD_Volume_12to20_Soft,',
      >  'DWD_Volume_20to35_Soft,DWD_Volume_35to50_Soft,',
-     >  'DWD_Volume_ge_50_Soft,DWD_Volume_Total_Soft) VALUES ("',
-     >  CASEID,'","',TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     >  'DWD_Volume_ge_50_Soft,DWD_Volume_Total_Soft) VALUES (''',
+     >  CASEID,''',''',TRIM(NPLT),
+     >  ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
 C     CLOSE CURSOR
 

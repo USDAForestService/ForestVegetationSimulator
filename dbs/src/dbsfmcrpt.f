@@ -146,9 +146,9 @@ C     COPY INPUT VECTOR TO DOUBLE-PRECISION
      >  'Belowground_Live,Belowground_Dead,Standing_Dead,',
      >  'Forest_Down_Dead_Wood,Forest_Floor,Forest_Shrub_Herb,',
      >  'Total_Stand_Carbon,Total_Removed_Carbon,',
-     >  'Carbon_Released_From_Fire) VALUES ("',
-     >  CASEID,'","',TRIM(NPLT),
-     >  '",?,?,?,?,?,?,?,?,?,?,?,?)'
+     >  'Carbon_Released_From_Fire) VALUES (''',
+     >  CASEID,''',''',TRIM(NPLT),
+     >  ''',?,?,?,?,?,?,?,?,?,?,?,?)'
 
 C     CLOSE CURSOR
 

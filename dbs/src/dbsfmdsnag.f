@@ -189,9 +189,9 @@ C
      -          '(CaseID,StandID,Year,Species,DBH_Class,Death_DBH,',
      -          'Current_Ht_Hard,Current_Ht_Soft,Current_Vol_Hard,',
      -          'Current_Vol_Soft,Total_Volume,Year_Died,Density_Hard,',
-     -          'Density_Soft,Density_Total) VALUES ("',
-     -          CASEID,'","',TRIM(NPLT),'",?,"',
-     -          TRIM(CSPECIES),'",?,?,?,?,?,?,?,?,?,?,?)'
+     -          'Density_Soft,Density_Total) VALUES (''',
+     -          CASEID,''',''',TRIM(NPLT),''',?,''',
+     -          TRIM(CSPECIES),''',?,?,?,?,?,?,?,?,?,?,?)'
 
               !PRINT*, SQLStmtStr
 C

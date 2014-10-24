@@ -51,7 +51,7 @@ C
 COMMONS
 C
 
-      INTEGER IYEAR,ID,KODE,RCODE,S1NHT,S1LHT,S1SHT,S1CB,S1CC,S1SC
+      INTEGER IYEAR,KODE,RCODE,S1NHT,S1LHT,S1SHT,S1CB,S1CC,S1SC
       INTEGER S2NHT,S2LHT,S2SHT,S2CB,S2CC,S3NHT,S3LHT,S3SHT,S3CB,S3CC
       INTEGER S2SC, S3SC, TOTCOV,NS, NTREES
       INTEGER(SQLSMALLINT_KIND)::ColNumber
@@ -241,11 +241,11 @@ C---------
      -    'Stratum_3_Lg_Ht,Stratum_3_Sm_Ht,Stratum_3_Crown_Base,',
      -    'Stratum_3_Crown_Cover,Stratum_3_Species_1,',
      -    'Stratum_3_Species_2,Stratum_3_Status_Code,Number_of_Strata,',
-     -    'Total_Cover,Structure_Class) VALUES("',CASEID,
-     -    '","',TRIM(NPLT),'",?,?,?,?,?,?,?,?"',
-     -    TRIM(S1MS1),'","',TRIM(S1MS2),'",?,?,?,?,?,?,?,"',TRIM(S2MS1),
-     -    '","',TRIM(S2MS2),'",?,?,?,?,?,?,?,"',
-     -    TRIM(S3MS1),'","',TRIM(S3MS2),'",?,?,?,"',TRIM(SCLASS),'")'
+     -    'Total_Cover,Structure_Class) VALUES(''',CASEID,
+     -    ''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?''',TRIM(S1MS1),
+     -    ''',''',TRIM(S1MS2),''',?,?,?,?,?,?,?,''',TRIM(S2MS1),
+     -    ''',''',TRIM(S2MS2),''',?,?,?,?,?,?,?,''',TRIM(S3MS1),
+     -    ''',''',TRIM(S3MS2),''',?,?,?,''',TRIM(SCLASS),''')'
 C
 C     CLOSE CURSOR
 C
@@ -408,7 +408,6 @@ C
      -          INT(5,SQLSMALLINT_KIND),TOTCOV,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
-  100 CONTINUE
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLExecute(StmtHndlOut)
       CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,

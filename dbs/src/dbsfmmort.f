@@ -219,8 +219,8 @@ C
      -    'Total_class2,Killed_class3,Total_class3,Killed_class4,',
      -    'Total_class4,Killed_class5,Total_class5,Killed_class6,',
      -    'Total_class6,Killed_class7,Total_class7,Bakill,Volkill)',
-     -    'VALUES("',CASEID,'","',TRIM(NPLT),'",?,"',
-     -    TRIM(CSPECIES),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -    'VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,''',
+     -    TRIM(CSPECIES),''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
         !PRINT*, SQLStmtStr
 C

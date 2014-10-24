@@ -214,12 +214,12 @@ C----------
 C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 C----------
       IF (KEYFNAME.EQ.' ') KEYFNAME='Unknown'
-      WRITE(SQLStmtStr,*)'INSERT INTO ',trim(TABLENAME),
-     - ' (CaseID,Stand_CN,StandID,MgmtID,RunTitle,KeywordFile,',
-     - 'SamplingWt,Variant,RunDateTime) VALUES("',CASEID,'","',
-     - TRIM(DBCN),'","',TRIM(NPLT),'","',TRIM(MGMID),'","',
-     - TRIM(ITITLE),'","',TRIM(KEYFNAME),'",',SAMWT,',"',VAR,'","',
-     - TRIM(TIMESTAMP),'")'
+      WRITE(SQLStmtStr,*)"INSERT INTO ",trim(TABLENAME),
+     - " (CaseID,Stand_CN,StandID,MgmtID,RunTitle,KeywordFile,",
+     - "SamplingWt,Variant,RunDateTime) VALUES('",CASEID,"','",
+     - TRIM(DBCN),"','",TRIM(NPLT),"','",TRIM(MGMID),"','",
+     - TRIM(ITITLE),"','",TRIM(KEYFNAME),"',",SAMWT,",'",VAR,"','",
+     - TRIM(TIMESTAMP),"')"
 
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)

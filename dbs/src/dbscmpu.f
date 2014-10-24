@@ -316,8 +316,8 @@ C
         SQLStr1 = TRIM(SQLStr2)
       ENDDO
       SQLStr2 = SQLStr1(1:(LEN_TRIM(SQLStr1)-1))
-      WRITE(SQLStr1,*)TRIM(SQLStr2),') VALUES("',
-     -      CASEID,'","',TRIM(STANDID),'",?,'
+      WRITE(SQLStr1,*)TRIM(SQLStr2),') VALUES(''',
+     -      CASEID,''',''',TRIM(STANDID),''',?,'
 
       DO X=1,NUMCMPU
         SQLStr2 = TRIM(SQLStr1)//'?,'

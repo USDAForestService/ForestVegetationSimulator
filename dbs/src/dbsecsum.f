@@ -158,7 +158,7 @@ C $Id$
      &   'RRR, SEV, Value_of_Forest, Value_of_Trees,',
      &   'Mrch_Cubic_Volume, Mrch_BoardFoot_Volume, Discount_Rate,',
      &   'Given_SEV)',
-     &   'VALUES ("',CASEID,'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     &   'VALUES (''',CASEID,''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))

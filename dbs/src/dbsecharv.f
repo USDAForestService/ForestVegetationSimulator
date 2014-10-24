@@ -112,8 +112,8 @@ C $Id$
      &      decoratedTableName,'(CaseID,Year,Species,',
      &      'Min_DIB,Max_DIB,Min_DBH,Max_DBH,TPA_Removed,TPA_Value,',
      &      'Tons_Per_Acre,Ft3_Removed,Ft3_Value,Board_Ft_Removed,',
-     &      'Board_Ft_Value,Total_Value) VALUES ("',CASEID,
-     &      '",?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     &      'Board_Ft_Value,Total_Value) VALUES (''',CASEID,
+     &      ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
          iRet = fvsSQLCloseCursor(StmtHndlOut)
          iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
@@ -130,8 +130,8 @@ C $Id$
 
          implicit none
 
-         include 'PRGPRM.F77'                                            !Contains MAXSP
-         include 'PLOT.F77'                                              !Contains JSPIN(speciesId,speciesSymboltype), JSP, FIAJSP, & PLNJSP
+         include 'PRGPRM.F77' !Contains MAXSP
+         include 'PLOT.F77'   !Contains JSPIN(speciesId,speciesSymboltype), JSP, FIAJSP, & PLNJSP
          include 'DBSCOM.F77'
 
 
@@ -145,9 +145,9 @@ C $Id$
          integer, intent(in) :: speciesId
          integer(SQLPOINTER_KIND) :: maybeNullNeg
 
-         if(IDBSECON < 2) return                                         !ECON harvest table was not requested
+         if(IDBSECON < 2) return   !ECON harvest table was not requested
 
-         !if(tooManyRows(decoratedTableName)) return                               !database table will exceed Excel's maximum row count
+         !if(tooManyRows(decoratedTableName)) return    !database table will exceed Excel's maximum row count
 
          !Determine preferred species output format - keyword has precedence
          select case (ISPOUT30)

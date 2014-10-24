@@ -121,8 +121,8 @@ C
 
         WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
      -    'StandID,Year,Height_m,Canopy_Fuel_kg_m3,Height_ft,',
-     -    'Canopy_Fuel_lbs_acre_ft) VALUES ("',CASEID,
-     -    '","',TRIM(NPLT),'",?,?,?,?,?)'
+     -    'Canopy_Fuel_lbs_acre_ft) VALUES (''',CASEID,
+     -    ''',''',TRIM(NPLT),''',?,?,?,?,?)'
 
         !PRINT*, SQLStmtStr
 C

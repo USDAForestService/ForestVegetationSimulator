@@ -182,8 +182,8 @@ C
      -  'Consumption_Crowns,Total_Consumption,',
      -  'Percent_Consumption_Duff,',
      -  'Percent_Consumption_ge3,Percent_Trees_Crowning,',
-     -  'Smoke_Production_25,Smoke_Production_10) VALUES ("',
-     -  CASEID,'","',TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -  'Smoke_Production_25,Smoke_Production_10) VALUES (''',CASEID,
+     -  ''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),

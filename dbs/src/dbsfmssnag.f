@@ -9,21 +9,21 @@ C              INFORMATION
 C     AUTH: S. REBAIN -- FMSC -- DECEMBER 2004
 C     INPUT:
 C              THE SUMMARY SNAG OUTPUT FROM THE FIRE MODEL.
-C              1: HARD SNAGS - DBH CLASS 1 (> 0" BY DEFAULT)
-C              2: HARD SNAGS - DBH CLASS 2 (> 12" BY DEFAULT)
-C              3: HARD SNAGS - DBH CLASS 3 (> 18" BY DEFAULT)
-C              4: HARD SNAGS - DBH CLASS 4 (> 24" BY DEFAULT)
-C              5: HARD SNAGS - DBH CLASS 5 (> 30" BY DEFAULT)
-C              6: HARD SNAGS - DBH CLASS 6 (> 36" BY DEFAULT)
-C              7: HARD SNAGS - TOTAL       (> 0")
-C              8: SOFT SNAGS - DBH CLASS 1 (> 0" BY DEFAULT)
-C              9: SOFT SNAGS - DBH CLASS 2 (> 12" BY DEFAULT)
-C             10: SOFT SNAGS - DBH CLASS 3 (> 18" BY DEFAULT)
-C             11: SOFT SNAGS - DBH CLASS 4 (> 24" BY DEFAULT)
-C             12: SOFT SNAGS - DBH CLASS 5 (> 30" BY DEFAULT)
-C             13: SOFT SNAGS - DBH CLASS 6 (> 36" BY DEFAULT)
-C             14: SOFT SNAGS - TOTAL       (> 0")
-C             15: HARD+SOFT  - TOTAL       (> 0")
+C              1: HARD SNAGS - DBH CLASS 1 (> 0 BY DEFAULT)
+C              2: HARD SNAGS - DBH CLASS 2 (> 12 BY DEFAULT)
+C              3: HARD SNAGS - DBH CLASS 3 (> 18 BY DEFAULT)
+C              4: HARD SNAGS - DBH CLASS 4 (> 24 BY DEFAULT)
+C              5: HARD SNAGS - DBH CLASS 5 (> 30 BY DEFAULT)
+C              6: HARD SNAGS - DBH CLASS 6 (> 36 BY DEFAULT)
+C              7: HARD SNAGS - TOTAL       (> 0)
+C              8: SOFT SNAGS - DBH CLASS 1 (> 0 BY DEFAULT)
+C              9: SOFT SNAGS - DBH CLASS 2 (> 12 BY DEFAULT)
+C             10: SOFT SNAGS - DBH CLASS 3 (> 18 BY DEFAULT)
+C             11: SOFT SNAGS - DBH CLASS 4 (> 24 BY DEFAULT)
+C             12: SOFT SNAGS - DBH CLASS 5 (> 30 BY DEFAULT)
+C             13: SOFT SNAGS - DBH CLASS 6 (> 36 BY DEFAULT)
+C             14: SOFT SNAGS - TOTAL       (> 0)
+C             15: HARD+SOFT  - TOTAL       (> 0)
 C             16: KODE FOR WHETHER THE REPORT ALSO DUMPS TO FILE
 C
 C     NOTE: THE DBH CLASS BREAKS CAN BE CHANGED BY THE SNAGCLAS KEYWORD
@@ -176,8 +176,8 @@ C
      -  'Hard_snags_class6,Hard_snags_total,Soft_snags_class1,',
      -  'Soft_snags_class2,Soft_snags_class3,Soft_snags_class4,',
      -  'Soft_snags_class5,Soft_snags_class6,Soft_snags_total,',
-     -  'Hard_soft_snags_total) VALUES("',CASEID,'","',TRIM(NPLT),
-     -  '",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -  'Hard_soft_snags_total) VALUES(''',CASEID,''',''',TRIM(NPLT),
+     -  ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
 C
 C     CLOSE CURSOR

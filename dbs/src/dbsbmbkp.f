@@ -208,8 +208,8 @@ C
      -  ' (CaseID,StandID,Year,',
      -  'OLDBKP,NEWBKP,SELFBKP,TO_LS,FRM_LS,IN_OW,OUT2OW,PER_SURV,',
      -  'STRPBKP,STRP_SC,REMBKP,RV,DVRV1,DVRV2,DVRV3,DVRV4,DVRV5,',
-     -  'DVRV6,DVRV7,DVRV8,DVRV9,TPAFAST,BAFAST,VOLFAST) VALUES ("',
-     -  CID,'","',TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?',
+     -  'DVRV6,DVRV7,DVRV8,DVRV9,TPAFAST,BAFAST,VOLFAST) VALUES (''',
+     -  CID,''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?,?,?,?,?,?,?',
      -  ',?,?,?,?,?,?,?,?,?,?,?)'
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)

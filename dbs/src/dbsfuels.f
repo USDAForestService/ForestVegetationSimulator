@@ -12,19 +12,19 @@ C     INPUT:
 C              THE ALL FUELS OUTPUT FROM THE FIRE MODEL.
 C              1: SURFACE LITTER
 C              2: SURFACE DUFF
-C              3: SURFACE DEAD FUEL LESS THAN 3"
-C              4: SURFACE DEAD FUEL GREATER THAN OR EQUAL TO 3"
-C              5: SURFACE DEAD FUEL BETWEEN 3" AND 6"
-C              6: SURFACE DEAD FUEL BETWEEN 6" AND 12"
-C              7: SURFACE DEAD FUEL GREATER THAN OR EQUAL TO 12"
+C              3: SURFACE DEAD FUEL LESS THAN 3 INCHES
+C              4: SURFACE DEAD FUEL GREATER THAN OR EQUAL TO 3 INCHES
+C              5: SURFACE DEAD FUEL BETWEEN 3 AND 6
+C              6: SURFACE DEAD FUEL BETWEEN 6 AND 12
+C              7: SURFACE DEAD FUEL GREATER THAN OR EQUAL TO 12
 C              8: SURFACE HERB FUEL
 C              9: SURFACE SHRUB FUEL
 C             10: SURFACE TOTAL FUEL
-C             11: STANDING SNAGS LESS THAN 3"
-C             12: STANDING SNAGS GREATER THAN OR EQUAL TO 3"
+C             11: STANDING SNAGS LESS THAN 3
+C             12: STANDING SNAGS GREATER THAN OR EQUAL TO 3
 C             13: STANDING FOLIAGE
-C             14: STANDING LIVE LESS THAN 3"
-C             15: STANDING LIVE GREATER THAN OR EQUAL TO 3"
+C             14: STANDING LIVE LESS THAN 3
+C             15: STANDING LIVE GREATER THAN OR EQUAL TO 3
 C             16: STANDING TOTAL
 C             17: TOTAL BIOMASS
 C             18: TOTAL CONSUMED
@@ -201,8 +201,8 @@ C
      -  'Surface_Herb,Surface_Shrub,Surface_Total,Standing_Snag_lt3,',
      -  'Standing_Snag_ge3,Standing_Foliage,Standing_Live_lt3,',
      -  'Standing_Live_ge3,Standing_Total,Total_Biomass,',
-     -  'Total_Consumed,Biomass_Removed) VALUES("',CASEID,
-     -  '","',TRIM(NPLT),'",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -  'Total_Consumed,Biomass_Removed) VALUES(''',CASEID,
+     -  ''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),

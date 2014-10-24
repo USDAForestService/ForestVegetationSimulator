@@ -30,7 +30,7 @@ C     ARGUMENT LIST
 C     LOCAL VARIABLES
 
       INTEGER(SQLSMALLINT_KIND)::ColNumber
-      INTEGER           ID,I
+      INTEGER           I
 
       DOUBLE PRECISION  SPDMR4B, SPDMI4B
       INTEGER           ISPINF4,ISPMRT4,ISPPIN4,ISPPMR4,ISPPOC4
@@ -150,8 +150,8 @@ C       INTEGER COPIES OF REAL VECTOR INPUTS
         WRITE(SQLStmtStr,*) 'INSERT INTO ',TRIM(TABLENAME),
      -    ' (CaseID,StandID,Year,Spp,Mean_DMR,Mean_DMI,Inf_TPA,',
      -    'Mort_TPA,Inf_TPA_Pct,Mort_TPA_Pct,Stnd_TPA_Pct) ',
-     -    ' VALUES ("',CASEID,'","',TRIM(NPLT),
-     -    '","',TRIM(CSP(I)),'",?,?,?,?,?,?,?)'
+     -    ' VALUES (''',CASEID,''',''',TRIM(NPLT),
+     -    ''',''',TRIM(CSP(I)),''',?,?,?,?,?,?,?)'
 
         iRet=fvsSQLCloseCursor(StmtHndlOut)
         iRet=fvsSQLPrepare(StmtHndlOut, SQLStmtStr,
@@ -266,7 +266,6 @@ C     ARGUMENT LIST
 C     LOCAL VARIABLES
 
       INTEGER(SQLSMALLINT_KIND)::ColNumber
-      INTEGER           ID
 
       DOUBLE PRECISION  STDMRB, STDMIB
 
@@ -392,8 +391,8 @@ C     DOUBLE PRECISION COPIES OF SINGLE PRECISION INPUTS
      -  'StandID,Year,Age,Stnd_TPA,Stnd_BA,Stnd_Vol,Inf_TPA,Inf_BA,',
      -  'Inf_Vol,Mort_TPA,Mort_BA,Mort_Vol,Inf_TPA_Pct,Inf_Vol_Pct,',
      -  'Mort_TPA_Pct,Mort_Vol_Pct,Mean_DMR,Mean_DMI)',
-     -  'VALUES ("',CASEID,'","',TRIM(NPLT),
-     -  '",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -  'VALUES (''',CASEID,''',''',TRIM(NPLT),
+     -  ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
       iRet=fvsSQLCloseCursor(StmtHndlOut)
       iRet=fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
@@ -557,7 +556,7 @@ C     ARGUMENT LIST
 C     LOCAL VARIABLES
 
       INTEGER(SQLSMALLINT_KIND)::ColNumber
-      INTEGER           ID,I,J
+      INTEGER           I,J
 
       DOUBLE PRECISION  X(10)
 
@@ -701,9 +700,9 @@ C     LOOP OVER 5 TYPES, MAKING DOUBLE PRECISION COPIES OF SINGLE PRECISION INPU
      -    char(39),'15-17in',char(39),',',
      -    char(39),'17-19in',char(39),',',
      -    char(39),'gt19in', char(39),') VALUES ',
-     -    '("',CASEID,'","',TRIM(NPLT),
-     -    '",?,"',TRIM(NLABS(I)),
-     -    '",?,?,?,?,?,?,?,?,?,?)'
+     -    '(''',CASEID,''',''',TRIM(NPLT),
+     -    ''',?,''',TRIM(NLABS(I)),
+     -    ''',?,?,?,?,?,?,?,?,?,?)'
 
 C       CLOSE CURSOR
 
