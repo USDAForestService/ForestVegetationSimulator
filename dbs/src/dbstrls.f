@@ -379,7 +379,6 @@ C
         iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         
-       print *,"iRet=",iRet," stmt=",trim(SQLStmtStr)        
         IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -              'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
