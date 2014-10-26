@@ -9,7 +9,6 @@ ie :
 	rm -f FVSieOut.db
 	-../../../bin/FVSiec --keywordfile=ie2.key 
 	-sqlite3 FVSieOut.db < sqliteTestFVSieOut.sql > ie2.db_dump.txt
-	@echo This diff should show timestamp differences
 	-diff -w ie2.db_dump.txt ie2.db_dump.txt.save
 	@echo Test ie2 ended
 	
@@ -29,7 +28,6 @@ fireTest :
 	rm -f FVSieFireOutput.db
 	-../../../bin/FVSiec --keywordfile=fireTest.key 
 	-sqlite3 FVSieFireOutput.db < sqliteTestFireOut.sql > fireTest.db_dump.txt
-	@echo This diff should show timestamp differences
 	-diff -w fireTest.db_dump.txt fireTest.db_dump.txt.save
 	@echo fireTest ended
 	

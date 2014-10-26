@@ -1,5 +1,4 @@
 .tables
-.schema
 .mode csv
 select StandID, RunTitle, KeywordFile, SamplingWt, Variant from FVS_Cases;
 select Count(*),Duff_Moisture from FVS_BurnReport;     

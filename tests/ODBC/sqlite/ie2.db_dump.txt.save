@@ -1,8 +1,4 @@
 FVS_Cases     FVS_Compute   FVS_Summary   FVS_TreeList
-CREATE TABLE FVS_Cases            (CaseID char(36) primary key,Stand_CN char(40) null,StandID char(26) null,MgmtID char(4) null,RunTitle char(72) null,KeywordFile char(50) null,SamplingWt real  null,Variant char(2) null,RunDateTime char(19) null);
-CREATE TABLE FVS_TreeList(CaseID char(36),StandID char(26),Year int null,PrdLen int null,TreeId char(8) null,TreeIndex int null,Species char(8) null,TreeVal int null,SSCD int null,PtIndex int null,TPA real null,MortPA real null,DBH real null,DG real null,Ht real null,HtG real null,PctCr int null,CrWidth real null,MistCD int null,BAPctile real null,PtBAL real null,TCuFt real null,MCuFt real null,BdFt real null,MDefect int null,BDefect int null,TruncHt int null,EstHt real null,ActPt int null,Ht2TDCF real null,Ht2TDBF real null);
-CREATE TABLE FVS_Summary(CaseID char(36),StandID Char(26),Year int null,Age int null,Tpa real null,BA real null,SDI real null,CCF real null,TopHt real null,QMD real null,TCuFt real null,MCuFt real null,BdFt real null,RTpa real null,RTCuFt real null,RMCuFt real null,RBdFt real null,ATBA real null,ATSDI real null,ATCCF real null,ATTopHt real null,ATQMD real null,PrdLen int null,Acc real null,Mort real null,MAI real null,ForTyp int null,SizeCls int null,StkCls int null);
-CREATE TABLE FVS_Compute(CaseID char(36) ,StandID char(26) null,Year int null, MYBBA  real null, MYABA  real null, MYBAR  real null);
 01160805050012,"Stand 01160805050012 at Regional Training",ie2,26.0,IE
 01160805050028,"",ie2,122.0,IE
 01160805050012,2006,86.67,86.67,0.0
@@ -10,7 +6,7 @@ CREATE TABLE FVS_Compute(CaseID char(36) ,StandID char(26) null,Year int null, M
 01160805050012,2026,91.26,91.26,0.0
 01160805050012,2036,100.83,100.83,0.0
 01160805050012,2046,110.59,110.59,0.0
-1184
+1451
 01160805050012,69.0,87.0,140.0
 01160805050012,74.0,100.0,133.0
 01160805050012,79.0,91.0,136.0
