@@ -37,13 +37,13 @@ C
 C
 COMMONS
 
-      INTEGER IYEAR, KODE,VARDIM
+      INTEGER IYEAR,KODE,VARDIM
       CHARACTER(len=26) NPLT
       REAL      VAR
       DIMENSION VAR(VARDIM)
 
       DOUBLE PRECISION  VARD(VARDIM)
-      INTEGER           ID,I
+      INTEGER           IRCODE,I
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       CHARACTER*2000    SQLStmtStr
       CHARACTER(len=20) TABLENAME
@@ -75,13 +75,12 @@ C     CHECK TO SEE IF THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
       ELSE
         TABLENAME = 'FVS_Down_Wood_Vol'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IDWDVOL = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Down_Wood_Vol('//
      -              'CaseID Text not null,'//

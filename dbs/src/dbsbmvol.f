@@ -20,7 +20,7 @@ COMMONS
 C
 C     DECLARATIONS
 C---
-      INTEGER IYEAR,NUMSC,ID,X
+      INTEGER IYEAR,NUMSC,IRCODE,X
       CHARACTER (len=36) CID
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL TVOL(NUMSC),HVOL(NUMSC),VOLK(NUMSC)
@@ -47,14 +47,9 @@ C---------
       ELSE
         TABLENAME = 'FVS_BM_Vol'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-C
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-C
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) RETURN
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Vol('//
      -              'CaseID Text not null,'//

@@ -42,7 +42,7 @@ C---
       CHARACTER*8   TIM
       CHARACTER*(*) CFN
       CHARACTER(len=MaxStringLen) TIMESTAMP
-      INTEGER IFORSURE, IFORSR, I, KODE
+      INTEGER IFORSURE, IFORSR, I, KODE, IRCODE
       CHARACTER(len=36) CID
 
       CHARACTER*20 TABLENAME
@@ -155,14 +155,9 @@ C---------
       ELSE
         TABLENAME = 'FVS_Cases'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
-        !Close Cursor
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) RETURN
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr="CREATE TABLE FVS_Cases("//
      -              "CaseID Text primary key,"//

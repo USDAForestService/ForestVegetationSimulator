@@ -23,7 +23,7 @@ C $Id$
 
       integer, parameter :: zero = 0
       integer :: beginAnalYear, endTime, status,
-     &           ft3Volume, bfVolume
+     &           ft3Volume, bfVolume, IRCODE
 
       logical :: sevCalculated, rrrCalculated,
      &           forestValueCalculated, reprodValueCalculated,
@@ -54,17 +54,19 @@ C $Id$
       end if
 
 !    Ensure that the FVS_EconSummary table exists in the DB.
+
       if(trim(DBMSOUT) .eq. 'EXCEL') then
         decoratedTableName = '[' // tableName // '$]'
       else
         decoratedTableName = tableName
       end if
-      SQLStmtStr = 'SELECT Count(*) FROM ' // decoratedTableName
-      iRet = fvsSQLExecDirect(
-     &            StmtHndlOut,SQLStmtStr,
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      if(.not. success(iRet)) then
+      CALL DBSCKNROWS(IRCODE,decoratedTableName,1,
+     >                TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IDBSECON = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         if(trim(DBMSOUT) .eq. 'ACCESS') then
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
      &          // 'CaseID text, '
@@ -145,12 +147,6 @@ C $Id$
      &         'DBSECSUM:Creating Table: ' // trim(SQLStmtStr))
       end if
 
-!    Make sure we do not exceed Excel's maximum table size.
-      !if(tooManyRows(decoratedTableName)) then
-      !      goto 100
-      !end if
-
-!    Insert a row of data into the summary table.
       write(SQLStmtStr, *) 'INSERT INTO ',
      &   decoratedTableName,'(CaseID, Year, Period,',
      &   'Pretend_Harvest, Undiscounted_Cost, Undiscounted_Revenue,',

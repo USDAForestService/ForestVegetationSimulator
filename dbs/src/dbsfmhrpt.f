@@ -24,7 +24,7 @@ C
 C
 COMMONS
 
-      INTEGER IYEAR, KODE,VARDIM
+      INTEGER IYEAR,KODE,VARDIM,IRCODE
       CHARACTER(len=26) NPLT
       REAL      VAR
       DIMENSION VAR(VARDIM)
@@ -62,13 +62,12 @@ C     CHECK TO SEE IF THE CARBON HARVEST TABLE EXISTS IN DATBASE
       ELSE
         TABLENAME = 'FVS_Hrv_Carbon'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        ICMRPT = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Hrv_Carbon('//
      -              'CaseID Text not null,'//

@@ -38,7 +38,7 @@ COMMONS
       DIMENSION VAR(VARDIM)
 
       DOUBLE PRECISION  VARD(VARDIM)
-      INTEGER           ID,I
+      INTEGER           IRCODE,I
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       CHARACTER*2000    SQLStmtStr
       CHARACTER(len=20) TABLENAME
@@ -70,13 +70,12 @@ C     CHECK TO SEE IF THE MAIN CARBON TABLE EXISTS IN DATBASE
       ELSE
         TABLENAME = 'FVS_Carbon'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        ICMRPT = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Carbon('//
      -              'CaseID Text not null,'//

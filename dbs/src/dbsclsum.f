@@ -9,7 +9,7 @@ C     POPULATE A DATABASE WITH THE CLIMATE SUMMARY
 
       INCLUDE 'DBSCOM.F77'
 C
-      INTEGER IYR
+      INTEGER IYR,IRCODE
       CHARACTER(LEN=*) NPLT,SP
       REAL SPVIAB,SPBA,SPTPA,SPMORT1,SPMORT2,SPGMULT,
      >     SPSITGM,MXDENMLT,POTESTAB
@@ -41,15 +41,10 @@ C     CHECK TO SEE IF THE Climate TABLE EXISTS IN DATBASE
       ELSE
         TABLENAME = 'FVS_Climate'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      ! PRINT*, trim(SQLStmtStr)
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
-        IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) RETURN
+      IF(IRCODE.EQ.1) THEN
+         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Climate('//
      -              'CaseID Text not null,'//
      -              'StandID Text null,'//

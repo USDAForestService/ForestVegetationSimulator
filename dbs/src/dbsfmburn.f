@@ -31,7 +31,7 @@ C
 C
 COMMONS
 
-      INTEGER IYEAR,ID,KODE,FM,SLOPE
+      INTEGER IYEAR,IRCODE,KODE,FM,SLOPE
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL ONEHR, TENHR, HUNDHR, THOUSHR, DUFF, LIVEW, LIVEH, MFWIND,
      -     FLAME, SCORCH, WT
@@ -73,14 +73,12 @@ C---------
       ELSE
         TABLENAME = 'FVS_BurnReport'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IBURN = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_BurnReport('//
      -              'CaseID Text not null,'//

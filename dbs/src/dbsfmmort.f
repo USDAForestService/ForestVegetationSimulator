@@ -30,7 +30,7 @@ COMMONS
 C---
       INTEGER MXSP1
       PARAMETER (MXSP1 = MAXSP + 1)
-      INTEGER IYEAR,ID,KODE,I,J
+      INTEGER IYEAR,IRCODE,KODE,I,J
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL KILLED,TOTAL,BAKILL,VOKILL
       DOUBLE PRECISION KILLEDB,TOTALB,BAKILLB,VOKILLB
@@ -73,15 +73,12 @@ C---------
       ELSE
         TABLENAME = 'FVS_Mortality'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IMORTF = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Mortality('//
      -              'CaseID Text not null,'//

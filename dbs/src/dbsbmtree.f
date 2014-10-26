@@ -26,7 +26,7 @@ COMMONS
 C
 C     DECLARATIONS
 C---
-      INTEGER IYEAR,NSCL,ID,X
+      INTEGER IYEAR,NSCL,IRCODE,X
       CHARACTER (len=36) CID
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL TPA(NSCL),TPAH(NSCL),TPAKLL(NSCL),SPCLTRE(NSCL),
@@ -56,13 +56,9 @@ C---------
       ELSE
         TABLENAME = 'FVS_BM_Tree'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) RETURN
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Tree('//
      -              'CaseID Text not null,'//

@@ -41,7 +41,7 @@ COMMONS END
 C
 C     DECLARATIONS
 C---
-      INTEGER IYEAR,ID
+      INTEGER IYEAR,IRCODE
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL PREDBKP,POSTDBKP,RV,STD_BA,BAH,BAK,TPA,TPAH,TPAK,
      >     VOL,VOLH,VOLK,BA_SP,SPCL_TPA,IPSLSH,REMBKP,
@@ -75,15 +75,9 @@ C---------
       ELSE
         TABLENAME = 'FVS_BM_Main'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) RETURN
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Main('//
      -              'CaseID Text not null,'//

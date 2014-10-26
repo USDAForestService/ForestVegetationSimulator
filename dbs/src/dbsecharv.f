@@ -12,7 +12,8 @@ C $Id$
         character(len=1000) :: SQLStmtStr
         logical success
         integer(SQLPOINTER_KIND) :: maybeNullNeg
-
+        integer IRCODE
+        
         if(IDBSECON < 2) return
 
         ! Make sure we have an up-to-date case ID.
@@ -39,12 +40,13 @@ C $Id$
          else
             decoratedTableName = TABLENAME
          end if
-         SQLStmtStr = 'SELECT Count(*) FROM ' // decoratedTableName
-         iRet = fvsSQLExecDirect(
-     &         StmtHndlOut,SQLStmtStr,
-     -         int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-         if(.not. success(iRet)) then
+         CALL DBSCKNROWS(IRCODE,decoratedTableName,1,
+     >                TRIM(DBMSOUT).EQ.'EXCEL')
+         IF(IRCODE.EQ.2) THEN
+           IDBSECON = 0
+           RETURN
+         ENDIF
+         IF(IRCODE.EQ.1) THEN
             if(trim(DBMSOUT) .eq. 'ACCESS') then
                 SQLStmtStr = 'CREATE TABLE ' // TABLENAME // ' ('
      &              // 'CaseID Text not null,'

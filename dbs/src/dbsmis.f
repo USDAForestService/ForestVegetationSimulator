@@ -25,7 +25,7 @@ C     ARGUMENT LIST
       INTEGER IYEAR
       REAL    SPDMR4(4),SPDMI4(4),SPINF4(4),SPMRT4(4)
       REAL    SPPIN4(4),SPPMR4(4),SPPOC4(4)
-      INTEGER KODE
+      INTEGER KODE,IRCODE
 
 C     LOCAL VARIABLES
 
@@ -69,13 +69,12 @@ C     CHECK TO SEE IF THE DM TABLE EXISTS IN THE DATBASE
       ELSE
         TABLENAME = 'FVS_DM_Spp_Sum'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet=fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -          int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -  iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IDM1 = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_DM_Spp_Sum ('//
      -      'CaseID text not null,'//
@@ -261,7 +260,7 @@ C     ARGUMENT LIST
       INTEGER ISTTPAT,IBA,ISTVOL,ISTTPAI,ISTBAI,ISTVOLI,ISTTPAM,ISTBAM
       INTEGER ISTVOLM,ISTPIT,ISTPIV,ISTPMT,ISTPMV
       REAL    STDMR,STDMI
-      INTEGER KODE
+      INTEGER KODE,IRCODE
 
 C     LOCAL VARIABLES
 
@@ -301,13 +300,12 @@ C     CHECK TO SEE IF THE DM TABLE EXISTS IN THE DATBASE
       ELSE
         TABLENAME = 'FVS_DM_Stnd_Sum'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet=fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -          int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -  iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IDM2 = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_DM_Stnd_Sum ('//
      -      'CaseID text not null,'//
@@ -551,7 +549,7 @@ C     ARGUMENT LIST
       CHARACTER(LEN=26) NPLT
       CHARACTER(LEN=3)  NLABS(5)
       REAL    DCTPA(10),DCINF(10),DCMRT(10),DCDMR(10),DCDMI(10)
-      INTEGER KODE
+      INTEGER KODE,IRCODE
 
 C     LOCAL VARIABLES
 
@@ -592,13 +590,12 @@ C     CHECK TO SEE IF THE DM TABLE EXISTS IN THE DATBASE
       ELSE
         TABLENAME = 'FVS_DM_Sz_Sum'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet=fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -          int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -  iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IDM3 = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_DM_Sz_Sum ('//
      -      'CaseID text not null,'//

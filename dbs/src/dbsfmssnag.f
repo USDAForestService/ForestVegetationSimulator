@@ -34,7 +34,7 @@ C
 C
 COMMONS
 
-      INTEGER IYEAR,KODE
+      INTEGER IYEAR,KODE,IRCODE
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,HCL7,SCL1,SCL2,SCL3,SCL4,SCL5,
      -  SCL6,SCL7,HDSF
@@ -73,13 +73,12 @@ C---------
       ELSE
         TABLENAME = 'FVS_SnagSum'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        ISSUM = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
      -              'CaseID Text not null,'//

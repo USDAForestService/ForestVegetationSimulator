@@ -32,7 +32,7 @@ C
 C
 COMMONS
 
-      INTEGER IYEAR,ID,KODE,YRDEAD,SVLH,SVLS,SVLT,YRLAST,JYR,IDC,JCL
+      INTEGER IYEAR,IRCODE,KODE,YRDEAD,SVLH,SVLS,SVLT,YRLAST,JYR,IDC,JCL
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL SDBH, SHTH, SHTS, SDH, SDS, SDT
       DOUBLE PRECISION SDBHB, SHTHB, SHTSB, SDHB, SDSB, SDTB
@@ -75,15 +75,13 @@ C---------
       ELSE
         TABLENAME = 'FVS_SnagDet'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,MAXSP*YRLAST*6,
+     >     TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        ISDET = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_SnagDet('//
      -              'CaseID Text not null,'//

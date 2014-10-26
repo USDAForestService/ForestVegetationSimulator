@@ -14,16 +14,16 @@ C              THE FUEL CONSUMPTION OUTPUT FROM THE FIRE MODEL.
 C              1: MINERAL SOIL EXPOSURE
 C              2: LITTER CONSUMPTION
 C              3: DUFF CONSUMPTION
-C              4: CONSUMPTION 0 - 3"
-C              5: CONSUMPTION >= 3"
-C              6: CONSUMPTION 3" -  6"
-C              7: CONSUMPTION 6" - 12"
-C              8: CONSUMPTION >= 12"
+C              4: CONSUMPTION 0 - 3
+C              5: CONSUMPTION >= 3
+C              6: CONSUMPTION 3 -  6
+C              7: CONSUMPTION 6 - 12
+C              8: CONSUMPTION >= 12
 C              9: HERB / SHRUB CONSUMPTION
 C             10: CROWN CONSUMPTION
 C             11: TOTAL CONSUMPTION
 C             12: % CONSUMPTION DUFF
-C             13: % CONSUMPTION >= 3"
+C             13: % CONSUMPTION >= 3
 C             14: % TREES WITH CROWNING
 C             15: SMOKE PRODUCTION < 2.5
 C             16: SMOKE PRODUCTION < 10
@@ -35,7 +35,7 @@ C
 C
 COMMONS
 
-      INTEGER IYEAR,ID,KODE,PERTRCR
+      INTEGER IYEAR,IRCODE,KODE,PERTRCR
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL MSE,LITTER,DUFF,CLT3,CGT3,C3TO6,C6TO12,CGT12,HERB,CROWN,
      -     CTOTAL,PERCDUFF,PERCGT3,SM25,SM10
@@ -75,13 +75,12 @@ C---------
       ELSE
         TABLENAME = 'FVS_Consumption'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IFUELC = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Consumption('//
      -              'CaseID Text not null,'//

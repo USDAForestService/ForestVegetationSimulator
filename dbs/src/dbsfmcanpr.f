@@ -22,7 +22,7 @@ C
 C
 COMMONS
 C---
-      INTEGER IYEAR,ID, I
+      INTEGER IYEAR,IRCODE,I
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL CRFILL
       DOUBLE PRECISION CRFILLB, CRFILLKG, HTFT, HTM
@@ -59,15 +59,12 @@ C---------
       ELSE
         TABLENAME = 'FVS_CanProfile'
       ENDIF
-      SQLStmtStr= 'SELECT Count(*) FROM ' // TABLENAME
-
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,200,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        ICANPR = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_CanProfile('//
      -              'CaseID Text not null,'//
