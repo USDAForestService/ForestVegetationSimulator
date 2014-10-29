@@ -1,36 +1,34 @@
-' usage:   cscript.exe ExportAccessQueriesToCSV.vbs [/outputDirectory:<output directory>] (<SELECT query> <output filename>)*
+' usage:   cscript.exe ExportAccessQueriesToCSV.vbs [/databaseFile:<source database file path>] [/outputDirectory:<output directory path>] (<SELECT query> <output filename>)*
 ' example: cscript.exe ExportAccessQueriesToCSV.vbs /outputDirectory:DataDump "SELECT * FROM FVS_Cases" FVS_Cases.csv "SELECT StandID, ROUND(RD, 2) FROM FVS_Compute" FVS_Compute.csv
 
-' assumption: the Access database file is in the script's working directory, and the name
-'             of the file is the same as the value of the databaseFilename constant defined
-'             in this script
-' output: for each query passed as an argument to the script, a file in the script's working
-'         directory that contains the results of the query in comma-separated values format;
-'         the arguments to the script are taken in pairs, where the first element of each pair
-'         is the query itself and the second element is the name of the file which the results
-'         of the query will be written into; if an output directory is specified on the
-'         command line, the CSV files will be written into this directory, which will be created
-'         if it does not already exist; if no output directory is specified, then the CSV files
-'         will be written into the script's working directory
-
-
-Const databaseFilename = "FVS_Data.mdb"
+' arguments:
+'   /databaseFile       the path to the Access database file against which queries will be
+'                       executed; if this argument is omitted, it defaults to ".\FVS_Data.mdb"
+'   /outputDirectory    the path to the directory into which the files containing query results
+'                       will be written; if this argument is omitted, it defaults to the script's
+'                       working directory
+'   (unnamed)           all unnamed arguments are interpreted as either an SQL query string or
+'                       the name of a file into which query results will be written; the unnamed
+'                       arguments are taken in pairs, where the first member of each pair is the
+'                       query and the second is the name of the file into which the results of that
+'                       query will be written; the file will be written in the designated output
+'                       directory
 
 Const acExportDelim = 2
 Const acQuery       = 1
 
 
 currentDirectory = GetCurrentDirectory()
+databasePath     = ToAbsolutePath(GetNamedArgumentOrDefault("databaseFile",    MakePath(currentDirectory, "FVS_Data.mdb")))
 outputDirectory  = ToAbsolutePath(GetNamedArgumentOrDefault("outputDirectory", currentDirectory))
 CreateDirectoryIfMissing outputDirectory
 
 Set accessApplication = CreateObject("Access.Application")
-accessApplication.OpenCurrentDatabase MakePath(currentDirectory, databaseFilename)
+accessApplication.OpenCurrentDatabase databasePath
 
 For i = 0 To WScript.Arguments.Unnamed.Length - 1 Step 2
     queryText  = WScript.Arguments.Unnamed(i)
     outputFile = MakePath(outputDirectory, WScript.Arguments.Unnamed(i + 1))
-    WScript.Echo outputFile
 
     ExportQueryResults accessApplication, queryText, outputFile
 Next
