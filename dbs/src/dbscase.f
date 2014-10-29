@@ -168,29 +168,32 @@ C---------
      -              "KeywordFile Text null,"//
      -              "SamplingWt double null,"//
      -              "Variant Text null,"//
+     -              "Groups Text null,"//
      -              "RunDateTime Text null)"
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr="CREATE TABLE FVS_Cases("//
      -              "CaseID Text,"//
-     -              "Stand_CN Text null,"//
+     -              "Stand_CN Text,"//
      -              "StandID Text,"//
      -              "MgmtID Text,"//
-     -              "RunTitle Text null,"//
+     -              "RunTitle Text,"//
      -              "KeywordFile Text,"//
      -              "SamplingWt Number,"//
      -              "Variant Text,"//
+     -              "Groups Text,"//
      -              "RunDateTime Text);"
         ELSE
           SQLStmtStr="CREATE TABLE "//TABLENAME//
      -              " (CaseID char(36) primary key,"//
-     -              "Stand_CN char(40) null,"//
-     -              "StandID char(26) null,"//
-     -              "MgmtID char(4) null,"//
-     -              "RunTitle char(72) null,"//
-     -              "KeywordFile char(50) null,"//
-     -              "SamplingWt real  null,"//
-     -              "Variant char(2) null,"//
-     -              "RunDateTime char(19) null)"
+     -              "Stand_CN char(40),"//
+     -              "StandID char(26),"//
+     -              "MgmtID char(4),"//
+     -              "RunTitle char(72),"//
+     -              "KeywordFile char(50),"//
+     -              "SamplingWt real,"//
+     -              "Variant char(2),"//
+     -              "Groups char(250),"//
+     -              "RunDateTime char(19))"
         ENDIF
 
         iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
@@ -208,13 +211,14 @@ C---------
 C----------
 C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 C----------
+      if (LENSLS.EQ.-1) SLSET =""
       IF (KEYFNAME.EQ.' ') KEYFNAME='Unknown'
       WRITE(SQLStmtStr,*)"INSERT INTO ",trim(TABLENAME),
      - " (CaseID,Stand_CN,StandID,MgmtID,RunTitle,KeywordFile,",
-     - "SamplingWt,Variant,RunDateTime) VALUES('",CASEID,"','",
+     - "SamplingWt,Variant,Groups,RunDateTime) VALUES('",CASEID,"','",
      - TRIM(DBCN),"','",TRIM(NPLT),"','",TRIM(MGMID),"','",
      - TRIM(ITITLE),"','",TRIM(KEYFNAME),"',",SAMWT,",'",VAR,"','",
-     - TRIM(TIMESTAMP),"')"
+     - TRIM(SLSET),"','",TRIM(TIMESTAMP),"')"
 
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)
