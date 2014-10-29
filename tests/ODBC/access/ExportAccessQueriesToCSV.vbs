@@ -1,5 +1,5 @@
-' usage:   cscript.exe ExportAccessQueriesToCSV.vbs [/databaseFile:<source database file path>] [/outputDirectory:<output directory path>] (<SELECT query> <output filename>)*
-' example: cscript.exe ExportAccessQueriesToCSV.vbs /outputDirectory:DataDump "SELECT * FROM FVS_Cases" FVS_Cases.csv "SELECT StandID, ROUND(RD, 2) FROM FVS_Compute" FVS_Compute.csv
+' usage:   cscript.exe ExportAccessQueriesToCSV.vbs [/databaseFile:<source database file path>] [/outputDirectory:<output directory path>] <queries file path>
+' example: cscript.exe ExportAccessQueriesToCSV.vbs /databaseFile:FVS_Output.accdb /outputDirectory:DataDump queries.txt
 
 ' arguments:
 '   /databaseFile       the path to the Access database file against which queries will be
@@ -7,16 +7,18 @@
 '   /outputDirectory    the path to the directory into which the files containing query results
 '                       will be written; if this argument is omitted, it defaults to the script's
 '                       working directory
-'   (unnamed)           all unnamed arguments are interpreted as either an SQL query string or
-'                       the name of a file into which query results will be written; the unnamed
-'                       arguments are taken in pairs, where the first member of each pair is the
-'                       query and the second is the name of the file into which the results of that
-'                       query will be written; the file will be written in the designated output
-'                       directory
+'   (unnamed)           a single unnamed argument is expected, which is interpreted as the path to
+'                       the "queries" file; the queries file defines the queries that will be used
+'                       to query the database; each line in the queries file begins with the name of
+'                       the file to which the results of the query will be written, followed by a colon,
+'                       followed by the text of the SELECT query itself
+
 
 Const acExportDelim = 2
 Const acQuery       = 1
 
+
+Set fileSystem = CreateObject("Scripting.FileSystemObject")     ' Referenced in the main script body, as well as in several functions.
 
 currentDirectory = GetCurrentDirectory()
 databasePath     = ToAbsolutePath(GetNamedArgumentOrDefault("databaseFile",    MakePath(currentDirectory, "FVS_Data.mdb")))
@@ -26,15 +28,25 @@ CreateDirectoryIfMissing outputDirectory
 Set accessApplication = CreateObject("Access.Application")
 accessApplication.OpenCurrentDatabase databasePath
 
-For i = 0 To WScript.Arguments.Unnamed.Length - 1 Step 2
-    queryText  = WScript.Arguments.Unnamed(i)
-    outputFile = MakePath(outputDirectory, WScript.Arguments.Unnamed(i + 1))
+Set queriesFile = fileSystem.OpenTextFile(WScript.Arguments.Unnamed(0))
 
-    ExportQueryResults accessApplication, queryText, outputFile
-Next
+Do While Not queriesFile.AtEndOfStream
+    line = Trim(queriesFile.ReadLine())
+    
+    If Len(line) > 0 Then
+        fields         = Split(line, ":")
+        outputFilename = Trim(fields(0))
+        queryText      = Trim(fields(1))
+        
+        ExportQueryResults accessApplication, queryText, MakePath(outputDirectory, outputFilename)
+    End If
+Loop
+queriesFile.Close
+Set queriesFile = Nothing
 
 accessApplication.Quit
 Set accessApplication = Nothing
+Set fileSystem        = Nothing
 
 WScript.Echo "Done."
 
@@ -59,19 +71,13 @@ Function GetCurrentDirectory()
 End Function
 
 Function ToAbsolutePath(path)
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    
-    ToAbsolutePath = fso.GetAbsolutePathName(path)
-    Set fso = Nothing
+    ToAbsolutePath = fileSystem.GetAbsolutePathName(path)
 End Function
 
 Sub CreateDirectoryIfMissing(path)
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    
-    If Not fso.FolderExists(path) Then
-        fso.CreateFolder path
+    If Not fileSystem.FolderExists(path) Then
+        fileSystem.CreateFolder path
     End If
-    Set fso = Nothing
 End Sub
 
 
