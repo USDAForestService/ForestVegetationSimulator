@@ -294,7 +294,7 @@ C
      -         'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES (''',
      -         CASEID,''',''',TRIM(NPLT),''',',
      -        JYR,',',IFINT,',''',ADJUSTL(TID),''',',I,',''',
-     -        CSPECIES,''',',IMC(I),',',ISPECL(I),',',ITRE(I),
+     -        trim(CSPECIES),''',',IMC(I),',',ISPECL(I),',',ITRE(I),
      -         ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
      -         ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
      -         CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
