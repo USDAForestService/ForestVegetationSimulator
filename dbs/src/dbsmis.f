@@ -150,7 +150,7 @@ C       INTEGER COPIES OF REAL VECTOR INPUTS
      -    ' (CaseID,StandID,Year,Spp,Mean_DMR,Mean_DMI,Inf_TPA,',
      -    'Mort_TPA,Inf_TPA_Pct,Mort_TPA_Pct,Stnd_TPA_Pct) ',
      -    ' VALUES (''',CASEID,''',''',TRIM(NPLT),
-     -    ''',''',TRIM(CSP(I)),''',?,?,?,?,?,?,?)'
+     -    ''',?,''',TRIM(CSP(I)),''',?,?,?,?,?,?,?)'
 
         iRet=fvsSQLCloseCursor(StmtHndlOut)
         iRet=fvsSQLPrepare(StmtHndlOut, SQLStmtStr,
