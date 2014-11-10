@@ -133,7 +133,7 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_ATRTList('//
-     -             'CaseID Text not null,'//
+     -             'CaseID Text null,'//
      -             'StandID Text null,'//
      -             'Year INT null,'//
      -             'PrdLen int null,'//
