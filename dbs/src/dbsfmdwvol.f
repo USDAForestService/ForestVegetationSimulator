@@ -105,7 +105,7 @@ C     CHECK TO SEE IF THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Down_Wood_Vol('//
-     -              'CaseID Int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int ,'//
      -              'DWD_Volume_0to3_Hard Number,'//
