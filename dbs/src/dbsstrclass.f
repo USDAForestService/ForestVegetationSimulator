@@ -240,7 +240,7 @@ C---------
      -    'Stratum_3_Crown_Cover,Stratum_3_Species_1,',
      -    'Stratum_3_Species_2,Stratum_3_Status_Code,Number_of_Strata,',
      -    'Total_Cover,Structure_Class) VALUES(''',CASEID,
-     -    ''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?''',TRIM(S1MS1),
+     -    ''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?,''',TRIM(S1MS1),
      -    ''',''',TRIM(S1MS2),''',?,?,?,?,?,?,?,''',TRIM(S2MS1),
      -    ''',''',TRIM(S2MS2),''',?,?,?,?,?,?,?,''',TRIM(S3MS1),
      -    ''',''',TRIM(S3MS2),''',?,?,?,''',TRIM(SCLASS),''')'
