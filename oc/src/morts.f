@@ -777,7 +777,7 @@ C     &  I,P,WKI
 C----------
 C       PRINT DEBUG INFO IF DESIRED.
 C----------
-        TNEW=TNEW+P-WKI
+C        TNEW=TNEW+P-WKI
         IF(.NOT.DEBUG) GO TO 1500
         PRES=P-WKI
         VLOS=WKI*CFV(I)/FINT
