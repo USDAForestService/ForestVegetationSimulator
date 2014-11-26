@@ -16,17 +16,17 @@
 # Example: A project folder for a debug build and a seperate folder for releas
 #   mkdir <FVS bin>/debug
 #   cd <FVS bin>/debug
-#   cmake -G"MinGW Makefiles" -DFVS_VARIANTS=pnc;wcc -DCMAKE_BUILD_TYPE=DEBUG
-#   mingw32-make -j2
+#   cmake .. -G"MinGW Makefiles" -DFVS_VARIANTS=pnc;wcc -DDEBUG=ON -DWITH_PYMOD=ON
+#   mingw32-make -j4
 #
 #   mkdir <FVS bin>/release
 #   cd <FVS bin>/release
-#   cmake -G"MinGW Makefiles" -DFVS_VARIANTS=pnc;wcc -DCMAKE_BUILD_TYPE=RELEASE
-#   mingw32-make -j2
+#   cmake .. -G"MinGW Makefiles" -DFVS_VARIANTS=pnc;wcc -DRELEASE=ON -DWITH_PYMOD=ON
+#   mingw32-make -j4
 #
 # CMake will create a subfolder for each FVS variant, copy in the cmake list 
 # and source list files.  A sub-project is then specified for each variant. The
-# common libraries (FVSsql,FVSfofem) are built in the top evel folder where 
+# common libraries (FVSsql,FVSffe) are built in the top evel folder where 
 # they can be located by each variant sub-project.
 #
 # The result is a target for each executable, library, Python module. These
@@ -80,39 +80,50 @@ if (CMAKE_GENERATOR MATCHES "Visual Studio 10")
     message(STATUS "Building FVS with VS10/Intel")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /DWIN32 /D_WINDOWS /W3 /Zm100" CACHE STRING "VS10 mod A" FORCE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DWIN32 /D_WINDOWS /W3 /Zm100" CACHE STRING "VS10 mod B" FORCE)
-elseif (CMAKE_GENERATOR MATCHES "MinGW Makefiles")
+
+elseif (CMAKE_GENERATOR MATCHES "MinGW Makefiles") # AND WIN32
     message(STATUS "Building FVS with MinGW (gcc, gfortran)")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgfortran -static-libgcc")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgfortran -static-libgcc -static-libstdc++")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -static-libgfortran -static-libgcc -static-libstdc++")
     add_definitions(-DANSI -DWINDOWS -D_WINDLL -DCMPgcc)
-    link_libraries(odbc32)
+    
 elseif (CMAKE_GENERATOR MATCHES "Unix Makefiles")
     message(STATUS "Building FVS with Unix (gcc, gfortran)")
     #static libraries are probably not necessary on this platform
     #set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgfortran -static-libgcc")
     add_definitions(-DANSI -DCMPgcc)
-    link_libraries(odbc)
+
 else ()
     message(FATAL_ERROR "Unknown FVS toolchain; exiting")    
+
 endif()
 
 if (DEBUG)
     set(CMAKE_BUILD_TYPE DEBUG)
-    set (CMAKE_Fortran_FLAGS_DEBUG   "-fno-f2c -O0 -g")
+    set (CMAKE_Fortran_FLAGS_DEBUG   "-Og -g")
 endif()
 
 if (RELEASE)
     set(CMAKE_BUILD_TYPE RELEASE)
-    #set (CMAKE_Fortran_FLAGS_RELEASE "-funroll-all-loops -fno-f2c -O2")
-    set (CMAKE_Fortran_FLAGS_RELEASE "-fno-f2c -O2")
+    set (CMAKE_Fortran_FLAGS_RELEASE "-O2 -ffast-math")
 endif()
 
 if (PROFILE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg")
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -pg")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_FLAGS} -pg")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -pg")
+    set(CMAKE_CXX_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_C_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_C_FLAGS}")
+    set(CMAKE_Fortran_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_Fortran_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_EXE_FLAGS}")
+    set(CMAKE_SHARED_LINKER_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_SHARED_LINKER_FLAGS}")
 endif (PROFILE)
+
+# TODO: Add architecture flags, -m32; -march=..., etc.
+##-----END COMPILER FLAGS-----##
+
+#FIXME: There is possibly more than one destination for the resulting binaries
+#      Perhaps this should be handled with installer packaging.
+set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}/FVSbin")
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 #Process the variant list command line argument and make a list of source lists
 #  eg. cmake <...> -DFVS_VARIANTS=pnc;wcc;iec
@@ -133,29 +144,25 @@ else()
         if (NOT EXISTS "${fn}")
             message(FATAL_ERROR "No source list for variant ${var}: ${fn}")
         else()
-            message(STATUS "Adding source list for variant: ${var} - ${to_find} - ${fn}")
+            message(STATUS "Adding source list for variant: ${var} - ${fn}")
             list(APPEND source_lists ${fn})
         endif()
     endforeach(var)
 endif()
     
-list(SORT source_lists)
 message(STATUS "source_lists = ${source_lists}")
 message(STATUS "FVS_VARIANTS = ${FVS_VARIANTS}")
 
-#Setup targest for the mkdbsTypeDefs generator, SQL, FFE Libraries
+# Setup targets for the mkdbsTypeDefs generator, SQL, FFE Libraries
 ##NOTE: if these libraries are variant specific then we have a problem
 #       and they should really be static libraries build in the subprojects.
 list(GET source_lists 0 source_list)
 
-file(STRINGS ${source_list} sql_src REGEX "fvsSQL.c")
-string(REPLACE "../" "${src_root}/" sql_src ${sql_src})
-if (STATIC)
-    add_library(FVSsql STATIC ${sql_src})
-else ()
-    add_library(FVSsql SHARED ${sql_src})
-endif()
+# Extract the SQL source code files
+file(STRINGS ${source_list} sql_source REGEX "fvsSQL.c")
+string(REPLACE "../" "${src_root}/" sql_source ${sql_source})
 
+# Add the command to generate the SQL type defs
 file(STRINGS ${source_list} typedefs_src REGEX "mkdbsTypeDefs.c")
 string(REPLACE "../" "${src_root}/" typedefs_src ${typedefs_src})
 add_executable(mkdbsTypeDefs ${typedefs_src})
@@ -202,18 +209,26 @@ list(REMOVE_DUPLICATES include_dirs)
 list(APPEND include_dirs ${CMAKE_CURRENT_BINARY_DIR})        
 include_directories(BEFORE ${include_dirs})
 
-#TODO: if FFE is truly variant agnostic, seperate it's source list text file.
-if (STATIC)
-    add_library(FVSfofem STATIC ${ffe_source})
-else ()
-    add_library(FVSfofem SHARED ${ffe_source})
-endif ()
+# Compile the FFE and SQL code into object libraries for use down stream
+add_library(sql_objs OBJECT ${sql_source})
+add_library(ffe_objs OBJECT ${ffe_source})
 
-if (NOT STATIC)
-    install(TARGETS FVSfofem FVSsql DESTINATION "${version}/bin")
+#TODO: if FFE is truly variant agnostic, seperate it's source list text file.
+if (NOT STATIC_LINK)
+    # If linking shared libraries, create them now
+    add_library(FVSsql SHARED $<TARGET_OBJECTS:sql_objs>)
+    
+    if (WIN32)
+        target_link_libraries(FVSsql odbc32)
+    else ()
+        target_link_libraries(FVSsql odbc)
+    endif ()
+    
+    add_library(FVSffe SHARED $<TARGET_OBJECTS:ffe_objs>)
+    install(TARGETS FVSffe FVSsql DESTINATION "${version}/bin")
 endif()
 
-#Now configure each requested variant.
+# Configure each requested variant.
 list(LENGTH FVS_VARIANTS num_variants)
 message(STATUS "Number of FVS Variants = ${num_variants}.")
 math(EXPR num_variants "${num_variants}-1")
@@ -224,36 +239,39 @@ foreach(v RANGE ${num_variants})
 
     file(MAKE_DIRECTORY ${variant_dir})
 
-    #write out the modified source list file
-    list(GET source_lists v srclst_fn)
+    # Write out the modified source list file
+    list(GET source_lists ${v} srclst_fn)
     message(STATUS "Source List File: ${srclst_fn}")
     file(STRINGS ${srclst_fn}  source_list  NEWLINE_CONSUME)
     string(REPLACE "../" "${src_root}/" source_list ${source_list})
     file(WRITE ${variant_dir}/sourcelist.txt ${source_list})
 
-    #write out the new variant CMakeLists file
-    ##TODO: Move the variant template to a seperate file.
+    # Write out the new variant CMakeLists file
+    # TODO: Move the variant template to a seperate file.
     file(STRINGS CMakeLists.txt cmakelist NEWLINE_CONSUME)
-    string(REGEX REPLACE ".*##DO NOT REMOVE THIS TAG##" ""
+    string(REGEX REPLACE ".*##-----DO NOT REMOVE THIS TAG-----##" ""
            cmakelist ${cmakelist})
-    #replace template strings in the 
+    
+    # Replace template strings 
     string(REGEX REPLACE "<<variant>>" "${variant}" cmakelist ${cmakelist})
     # string(REGEX REPLACE "<<install_dir>>" "${INSTALL_DIR}" cmakelist ${cmakelist})
     string(REGEX REPLACE "<<source_list>>" "${variant_dir}/sourcelist.txt" cmakelist ${cmakelist})
     string(REGEX REPLACE "<<with_pymod>>" ${WITH_PYMOD} cmakelist ${cmakelist})
     file(WRITE ${variant_dir}/CMakeLists.txt ${cmakelist})
     
-    #Add the the FVS variant CMakeLists.txt as a sub-project
+    # Add the the FVS variant CMakeLists.txt as a sub-project
     add_subdirectory(${variant_dir} ${variant_dir})
 endforeach()
 
 return()
 
 ##This text below this tag becomes the CMakeLists.txt file in the subdirectory
-##DO NOT REMOVE THIS TAG##
+##-----DO NOT REMOVE THIS TAG-----##
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 project(FVS<<variant>> C CXX Fortran)
+set(fvs_exe "FVS${variant}")
+set(fvs_lib "FVS_${variant}")
 
 #Replaced by regex during configuration
 set(variant <<variant>>)
@@ -277,35 +295,36 @@ set(pymod_source)
 
 file(STRINGS ${source_list} file_list)
 foreach (fn ${file_list})
-    get_filename_component(filename ${fn} NAME)
-    get_filename_component(pathname ${fn} PATH)
-    get_filename_component(extname ${fn} EXT)
-    
-    if(WITH_PYMOD)
-        if (${filename} STREQUAL "apisubs.f" OR
-            ${filename} STREQUAL "cmdline.f" OR
-            ${filename} STREQUAL "filopn.f" OR
-            ${filename} STREQUAL "fvs.f")
-            list(APPEND pymod_source ${fn})
+    if (NOT ${fn} MATCHES "#.*")
+        get_filename_component(filename ${fn} NAME)
+        get_filename_component(pathname ${fn} PATH)
+        get_filename_component(extname ${fn} EXT)
+        
+        if(WITH_PYMOD)
+            if (${filename} STREQUAL "apisubs.f" OR
+                ${filename} STREQUAL "cmdline.f" OR
+                ${filename} STREQUAL "filopn.f" OR
+                ${filename} STREQUAL "fvs.f")
+                list(APPEND pymod_source ${fn})
+            endif()
         endif()
-    endif()
-    
-    if ((${extname} STREQUAL ".h") OR (${extname} STREQUAL ".F77"))
-        list(APPEND include_dirs ${pathname})
-    endif()
-    
-    if ((${extname} STREQUAL ".f") OR (${extname} STREQUAL ".f90"))
-        if (${filename} STREQUAL "main.f")
-            list(APPEND main_source ${fn})
-        else()
-            list (APPEND fvs_source ${fn})
+        
+        if ((${extname} STREQUAL ".h") OR (${extname} STREQUAL ".F77"))
+            list(APPEND include_dirs ${pathname})
         endif()
-    endif()
-
-    unset(filename CACHE)
-    unset(pathname CACHE)
-    unset(extname CACHE)
+        
+        if ((${extname} STREQUAL ".f") OR (${extname} STREQUAL ".f90"))
+            if (${filename} STREQUAL "main.f")
+                list(APPEND main_source ${fn})
+            else()
+                list (APPEND fvs_source ${fn})
+            endif()
+        endif()
     
+        unset(filename CACHE)
+        unset(pathname CACHE)
+        unset(extname CACHE)
+    endif()
 endforeach(fn)
 
 list(REMOVE_DUPLICATES include_dirs)
@@ -313,65 +332,89 @@ list(APPEND include_dirs ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(BEFORE ${include_dirs})
 
-##TODO: Enable static linking option
-add_library(${fvs_lib} SHARED ${fvs_source})
+#---Compile the variant FVS code to an object library
+set(fvs_objs "fvs${variant}_objs")
+add_library(${fvs_objs} OBJECT ${fvs_source})
 
-if (WIN32)
-    set_target_properties(${fvs_lib} PROPERTIES
-            LINK_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--output-def,fooBar.def"
-            )
-endif ()
+##TODO: Need a fixup for VBA 
+#if (WIN32)
+#    set_target_properties(${fvs_lib} PROPERTIES
+#            LINK_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--output-def,fooBar.def"
+#            )
+#endif ()
 
-#add the shared libraries from the top level project
-target_link_libraries(${fvs_lib} FVSfofem FVSsql)
+#Require the DBSTYPEDEFS.F77 file for the SQL library
+add_dependencies(${fvs_objs} gen_dbstypedefs)
 
-#Require the DBSTYPEDEFS.F77 file for the FVS library
-add_dependencies(${fvs_lib} gen_dbstypedefs)
+#--- Link the shared library and executables
+if (STATIC_LINK)
+    add_library(${fvs_lib} SHARED
+        $<TARGET_OBJECTS:${fvs_objs}>
+        $<TARGET_OBJECTS:ffe_objs>
+        $<TARGET_OBJECTS:sql_objs>
+        )
+    add_executable (${fvs_exe} ${main_source} $<TARGET_OBJECTS:${fvs_objs}> $<TARGET_OBJECTS:ffe_objs> $<TARGET_OBJECTS:sql_objs>)
 
-add_executable (${fvs_exe} ${main_source})
-target_link_libraries(${fvs_exe} ${fvs_lib})
+    if (WIN32)
+        target_link_libraries(${fvs_lib} odbc32)
+        target_link_libraries(${fvs_exe} odbc32)
+    else ()
+        target_link_libraries(${fvs_lib} odbc)
+        target_link_libraries(${fvs_exe} odbc)
+    endif ()
+
+else()
+    add_library(${fvs_lib} SHARED $<TARGET_OBJECTS:${fvs_objs}>)
+    target_link_libraries(${fvs_lib} FVSffe FVSsql)
+    
+    add_executable (${fvs_exe} ${main_source} $<TARGET_OBJECTS:${fvs_objs}>)
+    target_link_libraries(${fvs_exe} FVSffe FVSsql)
+
+endif()
 
 set_target_properties(${fvs_exe} PROPERTIES LINKER_LANGUAGE Fortran)
 
-#Only add the Python module targets if it was requested
+install(TARGETS ${fvs_lib} DESTINATION "${version}/bin")
+install(TARGETS ${fvs_exe} DESTINATION "${version}/bin")
+
+# Build the Python module if requested
 if (WITH_PYMOD)
     message(STATUS "Build the Python module.")
     ##TODO: This works well, but the safer approach would be to use distutils
     ##      with a template setup.py script and avoid all the F2PY command 
     ##      line manipulation.
-    find_package(PythonInterp)
-    find_package(PythonLibs)
-    
+    ##      NOTE: distutils worked up to linking with the FVS object library
+    ##            I could not find a way to get the list of obj files.
+    find_package(PythonInterp 2.7 REQUIRED)
+    find_package(PythonLibs REQUIRED)
+#    find_package(Numpy REQUIRED)
+
     set(pymod "pyfvs${variant}")
     set(pymod_sig "pyfvs${variant}.pyf")
     
-    ##TODO: Autodiscover the platform specific Python library file extension.
-    if (WIN32)
-        set(pymod_lib "${pymod}.pyd")
-    else ()
-        ##FIXME: OSX may require a .dylib extension
-        set(pymod_lib "${pymod}.so")
-    endif ()
+    # Discover key Python configuration variables
+    execute_process(
+            COMMAND ${PYTHON_EXECUTABLE} -c "import sysconfig\nprint sysconfig.get_config_var('py_version_nodot')"
+            OUTPUT_VARIABLE python_ver
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+    execute_process(
+            COMMAND ${PYTHON_EXECUTABLE} -c "import sysconfig\nprint sysconfig.get_config_var('SO')"
+            OUTPUT_VARIABLE pymod_ext
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+     execute_process(
+            COMMAND ${PYTHON_EXECUTABLE} -c "import numpy as n\nprint n.get_include()"
+            OUTPUT_VARIABLE numpy_include
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
     
-    if (PYTHONINTERP_FOUND)
-        message(STATUS "Found Python: ${PYTHON_EXECUTABLE}")
-    else ()
-        message(SEND_ERROR "Python could not be located. Make sure it is in the system PATH variable.")
-    endif ()
-
-    get_filename_component(python_home ${PYTHON_EXECUTABLE} PATH)
-    if (WIN32)
-        #F2PY is typically in the scripts Python subfolder on windows
-        find_file(F2PY "f2py.py" PATHS "${python_home};$ENV{PATH}")
-    else ()
-        find_file(F2PY "f2py" PATHS "$ENV{PATH}")
-    endif ()
+    include_directories(
+        ${PYTHON_INCLUDE_DIRS}
+        ${numpy_include}
+        )
     
-    if (F2PY)
-        message(STATUS "Found F2PY: ${F2PY}")
-    else ()
-        message(SEND_ERROR "The F2PY script could not be located. Make sure it's available in the system PATH.")
-    endif ()
+    set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${PYTHON_LIBRARIES})
     
     ##FIXME: This is not a robust way to specify the F2PY/distutils compilers
     ##      It should be possible to interogate the CMake compilers
@@ -390,57 +433,77 @@ if (WITH_PYMOD)
 
     message(STATUS "pymod_source = ${pymod_source}")
 
-    if (WIN32)
-	set(f2py_includes "${include_dirs}")
-    else ()
-        #F2PY expects include dirs to be a colon seperated list
-        set(f2py_includes)
-        foreach (p ${include_dirs})
-            set(f2py_includes "${f2py_includes}:${p}")
-        endforeach ()
-    endif ()
-
-    ##TODO: Enable static linking option
-    set(f2py_output)
-    list(APPEND f2py_output "${LIBRARY_OUTPUT_PATH}/${pymod_lib}")
-    list(APPEND f2py_output "${LIBRARY_OUTPUT_PATH}/${pymod_sig}")
-    if (WIN32)
-        add_custom_command(
-                OUTPUT ${f2py_output}
-                COMMAND ${python} ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${f2py_includes}" ${pymod_source}
-                COMMAND ${python} ${F2PY} -c ${pymod_sig} -L${LIBRARY_OUTPUT_PATH} -l${fvs_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
-                DEPENDS ${pymod_source} ${fvs_lib}
-                WORKING_DIRECTORY ${LIBRARY_OUTPUT_PATH}
-                )
-    else ()
-        add_custom_command(
-                OUTPUT ${f2py_output}
-                COMMAND ${F2PY} -h ${pymod_sig} -m ${pymod} --overwrite-signature --include-paths "${f2py_includes}" ${pymod_source}
-                COMMAND ${F2PY} -c ${pymod_sig} -L${LIBRARY_OUTPUT_PATH} -l${fvs_lib} --compiler=${f2py_compiler} --fcompiler=${f2py_fcompiler} --build-dir ${CMAKE_CURRENT_BINARY_DIR}/f2py
-                DEPENDS ${pymod_source} ${fvs_lib}
-                WORKING_DIRECTORY ${LIBRARY_OUTPUT_PATH}
-                )
-    endif ()
-    add_custom_target(${pymod} ALL DEPENDS ${f2py_output})
-    # add_dependencies(ALL ${pymod})
+    # Define the F2PY outputs to expect
+    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/f2py")
+    set(f2py_sig "${CMAKE_CURRENT_BINARY_DIR}/f2py/${pymod_sig}")
+    set(f2py_lib "${LIBRARY_OUTPUT_PATH}/${pymod}${pymod_ext}")
     
-    #ensure the f2py sub folder can be cleaned
-    set_directory_properties(PROPERTIES 
-            ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_BINARY_DIR}/f2py"
+    set(f2py_gen "${CMAKE_CURRENT_BINARY_DIR}/f2py_gen.py")
+    set(f2py_wrappers "${CMAKE_CURRENT_BINARY_DIR}/f2py/${pymod}module.c")
+    list(APPEND f2py_wrappers "${CMAKE_CURRENT_BINARY_DIR}/f2py/${pymod}-f2pywrappers.f")
+    list(APPEND f2py_wrappers "${CMAKE_CURRENT_BINARY_DIR}/f2py/${pymod}-f2pywrappers2.f90")
+    list(APPEND f2py_wrappers "${CMAKE_CURRENT_BINARY_DIR}/f2py/fortranobject.c")
+    
+    # Update the F2PY script template with the current configuration and save it to the build dir
+    configure_file("${CMAKE_CURRENT_LIST_DIR}/../../f2py_gen.py" ${f2py_gen})
+    #message(STATUS "F2PY Script: " ${f2py_gen})
+    
+    # Execute the configured F2PY script to geneate the wrapper module code 
+    add_custom_command(
+            OUTPUT ${f2py_sig} ${f2py_wrappers}
+            COMMAND ${PYTHON_EXECUTABLE} ${f2py_gen}
+            DEPENDS ${pymod_source}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             )
     
-    #TODO: setup a destination relative to Python site-packages or equivalent
-    install(FILES "${LIBRARY_OUTPUT_PATH}/${pymod_lib}" DESTINATION "${version}/bin")
+    #message(STATUS "F2PY Wrappers: " ${f2py_wrappers})
+    
+    if (STATIC_LINK)
+        add_library(${pymod}-lib SHARED ${f2py_wrappers}
+            $<TARGET_OBJECTS:sql_objs>
+            $<TARGET_OBJECTS:ffe_objs>
+            $<TARGET_OBJECTS:${fvs_objs}>
+            )
+        target_link_libraries(${pymod}-lib ${PYTHON_LIBRARIES}) # "python${python_ver}")
 
+        if (WIN32)
+            target_link_libraries(${pymod}-lib odbc32)
+        else ()
+            target_link_libraries(${pymod}-lib odbc)
+        endif ()
+        
+    else ()
+        # Link the Python module library to the FVS variant shared library
+        add_library(${pymod}-lib SHARED ${f2py_wrappers})
+        target_link_libraries(${pymod}-lib ${fvs_lib} ${PYTHON_LIBRARIES})
+        
+    endif ()
+    
+    # Python is a C language, so link accordingly
+    set_target_properties(${pymod}-lib PROPERTIES
+            LINKER_LANGUAGE CXX
+            OUTPUT_NAME ${pymod}
+            SUFFIX ${pymod_ext}
+            PREFIX ""
+            )
+    
+    add_dependencies(${pymod}-lib ${f2py_sig})    
+    add_custom_target(${pymod} ALL DEPENDS ${pymod}-lib)
+    
+    #ensure the build folder can be cleaned
+    set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_BINARY_DIR}/f2py")
+
+    #TODO: setup a destination relative to Python site-packages or equivalent
+    install(FILES "${LIBRARY_OUTPUT_PATH}/${pymod}${pymod_ext}" DESTINATION "${version}/bin")
+#    install(CODE 'execute_process(COMMAND ${python} ${f2py_setup} install --prefix "${version}/bin")')
+    
+    message(STATUS "*** End PyMod Configuration ***")
+    
 endif()
 
-#add a target to build everything
+# Add a variant name target to build everything
 if (WITH_PYMOD)
-    add_custom_target(${variant} DEPENDS ${pymod} ${fvs_exe} ${fvs_lib})
+    add_custom_target(${variant} DEPENDS ${pymod}-lib ${fvs_exe} ${fvs_lib})
 else ()
     add_custom_target(${variant} DEPENDS ${fvs_exe} ${fvs_lib})
 endif ()
-
-##TODO: These may have different final destination depending on platform
-install(TARGETS ${fvs_exe} DESTINATION "${version}/bin")
-install(TARGETS ${fvs_lib} DESTINATION "${version}/bin")
