@@ -2,6 +2,7 @@
 ../base/src/algevl.f
 ../base/src/algexp.f
 ../base/src/algkey.f
+../base/src/algptg.f
 ../base/src/algslp.f
 ../base/src/algspp.f
 ../base/src/apisubs.f
@@ -446,6 +447,7 @@
 ../ls/src/prtexm.f
 ../ls/src/prtrls.f
 ../ls/src/ptbal.f
+../base/src/ptgdecd.f
 ../ls/src/pvref9.f
 ../ls/src/regent.f
 ../ls/src/sitset.f
