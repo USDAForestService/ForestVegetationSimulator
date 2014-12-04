@@ -871,14 +871,16 @@ C
         ELSEIF(LPTGROUP.AND.(JPT.LE.IPTGRP(JPTGRP,1)))THEN
           JPT=JPT+1
           JPNUM=IPTGRP(JPTGRP,JPT)
-          DO IPCHK=1,IPTINV
           IF(ITHNPI .EQ. 1)THEN
+            DO IPCHK=1,IPTINV
             IF(JPNUM .EQ. IPVEC(IPCHK))THEN
               JPNUM=IPCHK
               GO TO 400
             ENDIF
+            ENDDO
+          ELSEIF(JPNUM.LE.IPTINV)THEN
+            GOTO 400
           ENDIF
-          ENDDO
         ELSE
           GOTO 400
         ENDIF
@@ -1346,16 +1348,16 @@ C
         IF(JPT.LE.IPTGRP(JPTGRP,1))THEN
           JPT=JPT+1
           JPNUM=IPTGRP(JPTGRP,JPT)
-          DO IPCHK=1,IPTINV
-C          IF(ITHNPI .EQ. 1)THEN
+          IF(ITHNPI .EQ. 1)THEN
+            DO IPCHK=1,IPTINV
             IF(JPNUM .EQ. IPVEC(IPCHK))THEN
               JPNUM=IPCHK
               GO TO 400
             ENDIF
-C          ELSE
-C            IF(JPNUM .LE. IPTINV) GO TO 400
-C          ENDIF
-          ENDDO
+            ENDDO
+          ELSE
+            IF(JPNUM .LE. IPTINV) GO TO 400
+          ENDIF
         ENDIF
       ENDIF
 C 
