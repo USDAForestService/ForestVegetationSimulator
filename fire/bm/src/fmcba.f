@@ -115,7 +115,7 @@ C                  herbs, shrubs
      &              0.2,  0.2, !DF
      &             0.15,  0.1, !GF
      &              0.2,  0.2, !MH
-     &             0.14, 0.35, !WJ (USE UT WJ - Ottmar 2000)
+     &             0.14, 0.35, !WJ (WJ - Ottmar vol 1)
      &              0.2,  0.1, !LP
      &             0.15,  0.2, !ES
      &             0.15,  0.2, !AF
