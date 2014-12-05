@@ -3,6 +3,8 @@ Python script to generate F2PY wrappers for a set of Fortran sources.
 
 This script originates as a template that is populated by the CMake command
     `configure_file`.
+
+@author: Tod Haren tod.haren@gmail.com
 """
 
 import os
@@ -12,9 +14,9 @@ from numpy.f2py import f2py2e
 
 # These are the file names F2PY may generate depending on the source
 wrappers = {
-    'cmodule':'${pymod}module.c'
-    , 'fwrapper':'${pymod}-f2pywrappers.f'
-    , 'f90wrapper':'${pymod}-f2pywrappers2.f90'
+    'cmodule':'${pymod_name}module.c'
+    , 'fwrapper':'${pymod_name}-f2pywrappers.f'
+    , 'f90wrapper':'${pymod_name}-f2pywrappers2.f90'
     , 'fortranobject':'fortranobject.c'
     }
 
@@ -29,7 +31,7 @@ pyf_fn = '{}/${pymod_sig}'.format(build_dir)
 # Generate the PYF signature file from source files
 # f2py.run_main takes a list of arguments identical to the command line options
 args = ['-h', pyf_fn
-        , '-m', '${pymod}'
+        , '-m', '${pymod_name}'
         , '--overwrite-signature'
         , '--build-dir', build_dir
         , '--include-paths']
@@ -41,6 +43,12 @@ else:
     # F2PY expects a colon separated list, not semicolon
     args = ':'.join(args.append('${include_dirs}').split(';'))
 
+pymod_skip = '${pymod_skip}'.split(';')
+if pymod_skip[0] != '':
+    args.append('skip:')
+    args.extend(pymod_skip)
+    args.append(':')
+
 args.extend('${pymod_source}'.split(';'))
 
 r = f2py2e.run_main(args)
@@ -51,14 +59,14 @@ r = f2py2e.run_main(args)
 
 # Copy the fortranobject files to the build_dir
 fortran_files = [
-        [p for p in r['${pymod}']['csrc'] if p.endswith('fortranobject.c')][0]
-        ,[p for p in r['${pymod}']['h'] if p.endswith('fortranobject.h')][0]
+        [p for p in r['${pymod_name}']['csrc'] if p.endswith('fortranobject.c')][0]
+        , [p for p in r['${pymod_name}']['h'] if p.endswith('fortranobject.h')][0]
         ]
 
 for fortran_file in fortran_files:
     fn = os.path.split(fortran_file)[-1]
     dest = os.path.join(build_dir, fn)
-    
+
     try:
         shutil.copy2(fortran_file, dest)
     except:
