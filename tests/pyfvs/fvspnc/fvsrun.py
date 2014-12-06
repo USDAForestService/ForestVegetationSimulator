@@ -121,14 +121,14 @@ for kwd in kwds:
             rtn = fvs.fvs()
             #print 'FVS Returned with exit code %d' % rtn
 
-            if rtn != 0:
+            if rtn == 1:
                 raise ValueError('FVS return with error code %d' % rtn)
 
             sp = fvs.fvsgetstoppointcodes()
             cycle_year += cycle_len
             if sp==(0,0): break
 
-            rtn = fvs.fvssummary(repsum, cycle+1) #cycle+1 - Fortran is 1 based indexing
+            repsum = fvs.fvssummary(cycle+1) #cycle+1 - Fortran is 1 based indexing
             #populate the summary recarray with this cycle
             summary[run_id,cycle] = repsum[:]
 
@@ -180,7 +180,6 @@ if plot:
     for r in xrange(summary.shape[0]):
         pylab.plot(summary[r,:]['tcuft'],color='blue',alpha=0.25)
     #pylab.boxplot(summary[:,:]['tcuft'])
-	
+
     pylab.plot(xbar_cuft,linewidth=3,color='green')
     pylab.show()
-	

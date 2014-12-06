@@ -45,12 +45,12 @@ c     Created in late 2011 by Nick Crookston, RMRS-Moscow
       include "OUTCOM.F77"
 
 !Python F2PY Interface Directives
-!f2py intent(inout) :: summary
+!f2py intent(out) :: summary
 !f2py intent(in) :: icycle
 !f2py intent(hide) :: ncycles
 !f2py intent(hide) :: maxrow
 !f2py intent(hide) :: maxcol
-!f2py intent(out) :: rtnCode
+!f2py intent(hide) :: rtnCode
 
 #ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSSUMMARY'::FVSSUMMARY
@@ -725,10 +725,10 @@ c     indx    = species index
 !f2py intent(out) :: fia_code
 !f2py intent(out) :: plant_code
 !f2py intent(in) :: indx
-!f2py intent(out) :: nchfvs
-!f2py intent(out) :: nchfia
-!f2py intent(out) :: nchplant
-!f2py intent(out) :: rtnCode
+!f2py intent(hide) :: nchfvs
+!f2py intent(hide) :: nchfia
+!f2py intent(hide) :: nchplant
+!f2py intent(hide) :: rtnCode
 
 #ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT,ALIAS:'FVSSPECIESCODE'::FVSSPECIESCODE

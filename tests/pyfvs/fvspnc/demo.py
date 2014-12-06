@@ -8,6 +8,7 @@ and plot the resulting variable growth curves
 import os
 import sys
 import time
+import random
 import numpy
 
 try:
@@ -23,18 +24,15 @@ import pyfvspnc as fvs
 #ensure runs will bomb if the previous call failed, ensure all files are closed
 fvs.filclose()
 
-##TODO: make the keyword file a template so some of the variables can be manipulated
-
 #how many reps to run
-reps = 10
+reps = 20
 
 #what keyword file are we using
 ##NOTE: Currently the FVS API expects a treelist file with the same basename
 #           if the dbs extension is not being used.
-kwd = os.path.join(os.path.dirname(__file__),'pnt01.key')  #implies a matching 'pnt01.tre' treelist
+kwd = os.path.join(os.path.dirname(__file__),'pnt01.key')
 
-num_cycles = 10  ##TODO: add this to a keyword template
-year_zero = 1990  ##TODO: get this from FVS
+num_cycles = 10
 cycle_len = 10
 
 #Initialize a Numpy integer array to collect the summary records
@@ -51,20 +49,19 @@ for cnt in xrange(reps):
 
     #initialize the run
     i = fvs.fvssetcmdline(cl)
+    num_cycles = fvs.contrl.ncyc
+    fvs.ransed(True,random.random())
     
     #print 'FVS Returned with exit code %d' % i
     
     cycle = 0
-    cycle_year = year_zero
     while 1:
         #set the stop point to the end of the next cycle
+        cycle_year = fvs.contrl.iy[cycle]
         fvs.fvssetstoppointcodes(6,cycle_year)
         
         #call the main FVS grower loop
         rtn = fvs.fvs()
-        
-        if rtn != 0:
-            raise ValueError('FVS return with error code %d' % rtn)
         
         sp = fvs.fvsgetstoppointcodes()
         if sp==(0,0): break
@@ -80,20 +77,14 @@ for cnt in xrange(reps):
         cycle_year += cycle_len
         cycle += 1
         
-        if cycle >= num_cycles+1: break
+        if cycle >= num_cycles: break
         
     #close all IO files
-    #NOTE: this was added to fvssetcmdline in Open-FVS @ r493
     fvs.filclose()
     
     #collect the summary values
-    for i in xrange(1, num_cycles + 2):
-        #by passing a slice of the numpy array, the f2py wrappers ensure the 
-        #array is modified inplace, this could be changed in the future so
-        #that summaries, treelists, etc. are returned as variables.  However,
-        #this would likely incur some modest and unecessary overhead.
-        r = fvs.fvssummary(summary[cnt,i - 1], i)
-    
+    for i in range(num_cycles+1):
+        summary[cnt,i,:] = fvs.fvssummary(i+1) #+1 since Fortran indexes start at 1
     
     #Print the periodic growth for this iteration to show progress
     print '%3d CUFT %s' % (cnt,' '.join('%5d' % v for v in summary[cnt,:, 3]))
@@ -101,14 +92,18 @@ for cnt in xrange(reps):
 
 et = time.clock()
 
-print '%d reps; total elapsed time: %.2f, %.3f second per rep' % (reps, et - st, (et - st) / cnt)
+print '%d reps; total elapsed time: %.2f, %.3f second per rep' % (reps, et - st, (et - st) / (cnt+1))
 
 if plot:
+    v = 3
     #plot the cubic foot growth curves for each iteration
-    mean_curve = numpy.mean(summary[:,:,3],axis=0)
-    # for s in summary[:]:
-        # pylab.plot(s[:,0],s[:,3])
-    pylab.plot(summary[0,:,0],mean_curve)
+    mean_curve = numpy.mean(summary[:,:num_cycles+1,v],axis=0)
+    print summary[0,:num_cycles+1,0]
+    pylab.plot(summary[0,:num_cycles+1,0],mean_curve)
+    
+    if cnt>0:
+        pylab.boxplot(
+                summary[:,:num_cycles+1,v]
+                ,positions=summary[0,:num_cycles+1,0])
         
-    pylab.boxplot(summary[:,:,3],positions=summary[0,:,0])
     pylab.show()
