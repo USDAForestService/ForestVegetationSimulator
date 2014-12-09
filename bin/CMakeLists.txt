@@ -45,10 +45,9 @@
 #   -DFVS_VARIANTS=<variant list> - Explicitly list the variants to include in
 #           the build as a semicolon seperated list of variant abbreviations,
 #           eg. pnc;wcc;ncc;soc, the default is to include all variants.
-#   -DPROFILE=ON/OFF - Include profiling info with compiled binaries.
-#
-# The build type can be specified as Debug or Release
-#   -DCMAKE_BUILD_TYPE - Build type to perform Debug or Release.
+#   -DPROFILING=ON/OFF - Include profiling info with compiled binaries.
+#   -DBUILD_TYPE - Build type to perform (Debug; Release).
+#   -DENABLE_LTO=ON/OFF - Enable link time optimizations if BUILD_TYPE=Release.
 
 cmake_minimum_required (VERSION 2.8.8 FATAL_ERROR)
 
@@ -62,12 +61,14 @@ set(version "Open-FVS")
 get_filename_component(src_root "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
 set(source_list_dir ${CMAKE_CURRENT_LIST_DIR})
 
+#TODO: Clean up cache variable to enable cmake-gui usage
 # Define default values for build configuration options
 set(FVS_VARIANTS "all" CACHE STRING "FVS variants to configure")
 set(WITH_PYMOD OFF CACHE BOOL "Build the Python module module.")
 set(STATIC_LINK ON CACHE BOOL "Statically link FFE & SQL.")
-set(BUILD_TYPE DEBUG CACHE STRING "Select the build type to perform (Debug or Release).")
-set(PROFILE OFF CACHE BOOL "Compile with profiling information.")
+set(BUILD_TYPE DEBUG CACHE STRING "Select the build type (Debug; Release).")
+set(ENABLE_LTO OFF CACHE BOOL "Enable link time optimizations.")
+set(PROFILING OFF CACHE BOOL "Compile with profiling information.")
 
 set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
 message(STATUS "Build Type:" ${CMAKE_BUILD_TYPE})
@@ -83,51 +84,63 @@ set(INCLUDE_INSTALL_PATH ${INSTALL_DIR}/lib)
 
 ##-----COMPILER FLAGS-----##
 if (CMAKE_GENERATOR MATCHES "Visual Studio 10")
-    message(STATUS "Building FVS with VS10/Intel")
-    set (CMAKE_C_FLAGS   "/D_WINDOWS /W3 /Zm100" CACHE STRING "VS10 mod A" FORCE)
-    set (CMAKE_CXX_FLAGS "/D_WINDOWS /W3 /Zm100" CACHE STRING "VS10 mod B" FORCE)
+    message(STATUS "Configure FVS for VS10/Intel")
+    set(flags "/D_WINDOWS /W3 /Zm100")
+    set (CMAKE_C_FLAGS "${flags}" CACHE STRING "VS10 mod A" FORCE)
+    set (CMAKE_CXX_FLAGS "${flags}" CACHE STRING "VS10 mod B" FORCE)
 
 elseif (CMAKE_GENERATOR MATCHES "MinGW Makefiles") # AND WIN32
-    message(STATUS "Building FVS with MinGW (gcc, gfortran)")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static ") #-static-libgfortran -static-libgcc -static-libstdc++")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static ") #-static-libgfortran -static-libgcc -static-libstdc++")
+    message(STATUS "Configure FVS for MinGW (gcc, gfortran)")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
     add_definitions(-DANSI -DWINDOWS -DCMPgcc)
     
 elseif (CMAKE_GENERATOR MATCHES "Unix Makefiles")
-    message(STATUS "Building FVS with Unix (gcc, gfortran)")
-    #static libraries are probably not necessary on this platform
-    #set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgfortran -static-libgcc")
+    message(STATUS "Configure FVS for *nix (gcc, gfortran)")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
     add_definitions(-DANSI -DCMPgcc)
 
-# TODO: Add Cygwin
+# TODO: Add MSYS and Cygwin GNU toolchains
+
 else ()
     message(FATAL_ERROR "Unknown compiler toolchain; exiting")    
 
 endif()
 
-# BUILD_TYPE = Debug 
-set (CMAKE_Fortran_FLAGS_DEBUG "-Og -g")
-set (CMAKE_CXX_FLAGS_DEBUG "-Og -g")
-set (CMAKE_C_FLAGS_DEBUG "-Og -g")
+if (CMAKE_COMPILER_IS_GNUCC)
+    message(STATUS "Add GCC compiler flags.")
+    # BUILD_TYPE = Debug 
+    set (CMAKE_Fortran_FLAGS_DEBUG "-Og -g")
+    set (CMAKE_CXX_FLAGS_DEBUG "-Og -g")
+    set (CMAKE_C_FLAGS_DEBUG "-Og -g")
+    
+    # BUILD_TYPE = Release
+    set (flags "-m32 -mfpmath=sse -Ofast -march=native -funroll-loops")
+    if (ENABLE_LTO)
+        set(flags "${flags} -flto -fwhole-program")
+    endif()
+    set(CMAKE_Fortran_FLAGS_RELEASE "${flags}")
+    set(CMAKE_CXX_FLAGS_RELEASE "${flags}")
+    set(CMAKE_C_FLAGS_RELEASE "${flags}")
+    
+    if (PROFILING)
+        add_definitions(-DPROFILING) 
+        set(flags "-pg -fprofile-arcs -ftest-coverage")
+        set(CMAKE_CXX_FLAGS "${flags} ${CMAKE_CXX_FLAGS}")
+        set(CMAKE_C_FLAGS "${flags} ${CMAKE_C_FLAGS}")
+        set(CMAKE_Fortran_FLAGS "${flags} ${CMAKE_Fortran_FLAGS}")
+        set(CMAKE_EXE_LINKER_FLAGS "${flags} ${CMAKE_EXE_LINKER_FLAGS}")
+        set(CMAKE_SHARED_LINKER_FLAGS "${flags} ${CMAKE_SHARED_LINKER_FLAGS}")
+    endif ()
+    
+    set(CMAKE_CXX_FLAGS "-pipe -cpp ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_C_FLAGS "-pipe -cpp ${CMAKE_C_FLAGS}")
+    set(CMAKE_Fortran_FLAGS "-pipe -cpp ${CMAKE_Fortran_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "-pipe ${CMAKE_EXE_LINKER_FLAGS}")
+    set(CMAKE_SHARED_LINKER_FLAGS "-pipe ${CMAKE_SHARED_LINKER_FLAGS}")
 
-# BUILD_TYPE = Release
-set (CMAKE_Fortran_FLAGS_RELEASE "-m32 -mfpmath=sse -Ofast -flto -march=native -funroll-loops -fwhole-program")
-set (CMAKE_CXX_FLAGS_RELEASE "-m32 -mfpmath=sse -Ofast -flto -march=native -funroll-loops -fwhole-program")
-set (CMAKE_C_FLAGS_RELEASE "-m32 -mfpmath=sse -Ofast -flto -march=native -funroll-loops -fwhole-program")
-
-if (PROFILE)
-    set(CMAKE_CXX_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_C_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_C_FLAGS}")
-    set(CMAKE_Fortran_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_Fortran_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_EXE_FLAGS}")
-    set(CMAKE_SHARED_LINKER_FLAGS "-pg -fprofile-arcs -ftest-coverage ${CMAKE_SHARED_LINKER_FLAGS}")
 endif ()
-
-set(CMAKE_CXX_FLAGS "-pipe ${CMAKE_CXX_FLAGS}")
-set(CMAKE_C_FLAGS "-pipe ${CMAKE_C_FLAGS}")
-set(CMAKE_Fortran_FLAGS "-pipe ${CMAKE_Fortran_FLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "-pipe ${CMAKE_EXE_FLAGS}")
-set(CMAKE_SHARED_LINKER_FLAGS "-pipe ${CMAKE_SHARED_LINKER_FLAGS}")
 
 # TODO: Add architecture flags, -m32; -march=..., -mtune=, -mfpmath=sse, etc.
 ##-----END COMPILER FLAGS-----##
@@ -402,7 +415,7 @@ set(source_list <<source_list>>)
 
 message(STATUS "Configure variant: ${variant}")
 message(STATUS "CMake Build Type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "Profiling: ${PROFILE}")
+message(STATUS "Profiling: ${PROFILING}")
 message(STATUS "source_list: ${source_list}")
 message(STATUS "fvs_exe: ${fvs_exe}")
 message(STATUS "fvs_lib: ${fvs_lib}")
@@ -466,7 +479,10 @@ endforeach()
 file(WRITE "cmakevars-${variant}.txt" "CMake Variables - ${variant}")
 get_cmake_property(_variableNames VARIABLES)
 foreach (_variableName ${_variableNames})
-    file(APPEND "cmakevars-${variant}.txt" "${_variableName}=${${_variableName}}")
+    file(APPEND
+            "cmakevars-${variant}.txt"
+            "${_variableName}=${${_variableName}}\n"
+            )
 endforeach()
 
 #---Compile the variant FVS code to an object library
@@ -551,8 +567,10 @@ if (WITH_PYMOD)
 
     # Define the F2PY outputs to expect
     file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/f2py")
-    set(f2py_sig "${CMAKE_CURRENT_BINARY_DIR}/f2py/${pymod_sig}") # pyf signature file
-    set(f2py_lib "${LIBRARY_OUTPUT_PATH}/${pymod_name}${pymod_ext}") # pyd/so python module
+    # pyf signature file
+    set(f2py_sig "${CMAKE_CURRENT_BINARY_DIR}/f2py/${pymod_sig}")
+    # pyd/so python module
+    set(f2py_lib "${LIBRARY_OUTPUT_PATH}/${pymod_name}${pymod_ext}")
     
     # Generated wrapper code
     set(f2py_wrappers "${CMAKE_CURRENT_BINARY_DIR}/f2py/${pymod_name}module.c")
@@ -582,7 +600,8 @@ if (WITH_PYMOD)
     endforeach(fn)
     list(REMOVE_DUPLICATES pymod_source)
     
-    # Update the F2PY automation script template with the current configuration and save it to the build dir
+    # Update the F2PY automation script template with the current 
+    # configuration and save it to the build dir
     set(f2py_gen "${CMAKE_CURRENT_BINARY_DIR}/f2py_gen.py")
     configure_file("${CMAKE_CURRENT_LIST_DIR}/../../f2py_gen.py" ${f2py_gen})
 
@@ -616,12 +635,11 @@ if (WITH_PYMOD)
         
     endif ()
     
-    target_link_libraries(${pymod_name} ${PYTHON_LIBRARIES}) # "python${python_ver}")
+    target_link_libraries(${pymod_name} ${PYTHON_LIBRARIES})
     
     # Python is a C language, so link accordingly
     set_target_properties(${pymod_name} PROPERTIES
             LINKER_LANGUAGE CXX
-            #OUTPUT_NAME ${pymod_name}
             SUFFIX ${pymod_ext}
             IMPORT_SUFFIX ${pymod_ext}
             PREFIX ""
@@ -636,7 +654,9 @@ if (WITH_PYMOD)
     install(TARGETS ${pymod_name} DESTINATION "./")    
     
     # Add the build folder to the clean target
-    set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_BINARY_DIR}/f2py")
+    set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
+             "${CMAKE_CURRENT_BINARY_DIR}/f2py"
+             )
 
     # Generate a PyDoc HTML file for the module
     if (WIN32)
@@ -657,7 +677,12 @@ if (WITH_PYMOD)
                 )
     endif ()
     
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/"${pymod_name}.html" DESTINATION "${INSTALL_DIR}/doc")
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.html"
+            DESTINATION "${INSTALL_DIR}/doc"
+            )
+    set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.html"
+            )
     
     message(STATUS "*** End PyMod Configuration ***")
     
