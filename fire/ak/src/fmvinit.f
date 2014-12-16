@@ -188,7 +188,7 @@ C         white spruce
             DO J= 1,4
               HTX(I,J) =  1
             ENDDO
-            DKRCLS(I)  =  4
+            DKRCLS(I)  =  2
             LSW(I)     =  .TRUE.
 
 C         western redcedar
@@ -201,7 +201,7 @@ C         western redcedar
             DO J= 1,4
               HTX(I,J) =  0 
             ENDDO
-            DKRCLS(I)  =  2
+            DKRCLS(I)  =  1
             LSW(I)     =  .TRUE.
 
 C         pacific silver fir / other softwoods
@@ -214,7 +214,7 @@ C         pacific silver fir / other softwoods
             DO J= 1,4
               HTX(I,J) = 1
             ENDDO
-            DKRCLS(I)  = 4
+            DKRCLS(I)  = 3
             LSW(I)     = .TRUE.
 
 C         mountain hemlock
@@ -227,7 +227,7 @@ C         mountain hemlock
             DO J= 1,4
               HTX(I,J) = 1
             ENDDO
-            DKRCLS(I)  = 4
+            DKRCLS(I)  = 2
             LSW(I)     = .TRUE.
 
 C         western hemlock
@@ -240,7 +240,7 @@ C         western hemlock
             DO J= 1,4
               HTX(I,J) =  1
             ENDDO
-            DKRCLS(I)  =  4
+            DKRCLS(I)  =  2
             LSW(I)     =  .TRUE.
 
 
@@ -254,7 +254,7 @@ C         Alaska-cedar
             DO J= 1,4
               HTX(I,J) =  0
             ENDDO
-            DKRCLS(I)  =  2
+            DKRCLS(I)  =  1
             LSW(I)     =  .TRUE.
 
 C         lodgepole pine
@@ -267,7 +267,7 @@ C         lodgepole pine
             DO J= 1,4
               HTX(I,J) = 1
             ENDDO
-            DKRCLS(I)  = 4
+            DKRCLS(I)  = 2
             LSW(I)     = .TRUE.
 
 C         sitka spruce
@@ -280,7 +280,7 @@ C         sitka spruce
             DO J= 1,4
               HTX(I,J) = 1
             ENDDO
-            DKRCLS(I)  = 4
+            DKRCLS(I)  = 2
             LSW(I)     = .TRUE. 
 
 
@@ -294,7 +294,7 @@ C         subalpine fir
             DO J= 1,4
               HTX(I,J) = 1
             ENDDO
-            DKRCLS(I)  = 4
+            DKRCLS(I)  = 3
             LSW(I)     = .TRUE. 
 
 C         red alder

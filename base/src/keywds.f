@@ -53,6 +53,6 @@ C
      >     'POINTREF','ECHO','NOECHO','CYCLEAT','ATRTLIST'/
       DATA (TABLE(I),I=136,150) /
      >     'THINRDSL','MORTMSB ','SETSITE ','CLIMATE ','SDICALC ',
-     >     'THINQFA ','        ','        ','        ','        ',
+     >     'THINQFA ','PTGROUP ','        ','        ','        ',
      >     '        ','        ','        ','        ','        '/
       END

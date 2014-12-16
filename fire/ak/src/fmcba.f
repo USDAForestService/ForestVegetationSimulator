@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-AK-DATE OF LAST REVISION:  01/03/11
+C  **FMCBA   FIRE-AK-DATE OF LAST REVISION:  11/24/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -20,8 +20,7 @@ C     CALLED FROM: FMMAIN
 *              bare stands
 *     CRL:     Crown length
 *     CWIDTH:  The maximum width of the crowns (ft)
-*     FUINIE:  The initial fuel loadings for established stands (from JBrown)
-*     FUINII:  The initial fuel loadings for initiating stands (from JBrown)
+*     FUINI:   The initial fuel loadings by FIA forest type
 *     FULIVE:  The herb/shrub/regen for established stands (from JBrown)
 *     FULIVI:  The herb/shrub/regen for initiating stands (from JBrown)
 *     ISWTCH:  =1 if called by SVSTART
@@ -50,12 +49,12 @@ C     Variable declarations.
 
       REAL      BAMOST, TOTCRA, CWIDTH
       REAL FULIVE(2,MAXSP), FULIVI(2,MAXSP)
-      REAL FUINIE(MXFLCL,MAXSP), FUINII(MXFLCL,MAXSP)
+      REAL FUINI(MXFLCL,6)
       REAL STFUEL(MXFLCL,2),XCOV(2),YLOAD(2),DCYMLT, FOTOVAL(MXFLCL)
       REAL PRMS(12), FOTOVALS(9)
       LOGICAL DEBUG
 
-      INTEGER MYACT(3)
+      INTEGER MYACT(3), FTDEADFU
 
       INTEGER IYR,KSP,I,ISZ,J,NPRM,IACTK,ISWTCH,JYR,IDC
       INTEGER ICT(MAXSP),IFGS,IWET
@@ -103,44 +102,17 @@ C                  herbs, shrubs
      >             0.18, 2.00, !12 = other hardwoods (use black cottonwood)      
      >             0.30, 2.00/ !13 = other softwoods (use PSF)
 
-C     INITIAL FUEL LOADING FOR 'ESTABLISHED' STANDS WITH 60% COVER
-C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD
-C     (TAKEN FROM PN-FFE)
+C     INITIAL FUEL LOADING BASED ON FIA FOREST TYPE CODE
+C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD)
 C     <.25 to1  1-3 3-6  6-12 12-20 20-35 35-50 >50 Lit Duf
-      DATA FUINIE /
-     &2.2, 2.2, 5.2,15.0,20.0,15.0, 0.0, 0.0, 0.0, 1.0,35.0, ! 1 = white spruce (use PN ES)
-     &2.2, 2.2, 5.2,15.0,20.0,15.0, 0.0, 0.0, 0.0, 1.0,35.0, ! 2 = western redcedar
-     &1.1, 1.1, 2.2,10.0,10.0, 0.0, 0.0, 0.0, 0.0, 0.6,30.0, ! 3 = Pacific silver fir
-     &1.1, 1.1, 2.2,10.0,10.0, 0.0, 0.0, 0.0, 0.0, 0.6,30.0, ! 4 = mountain hemlock
-     &0.7, 0.7, 3.0, 7.0, 7.0,10.0, 0.0, 0.0, 0.0, 1.0,35.0, ! 5 = western hemlock
-     &2.2, 2.2, 5.2,15.0,20.0,15.0, 0.0, 0.0, 0.0, 1.0,35.0, ! 6 = Alaska cedar
-     &0.9, 0.9, 1.2, 7.0, 8.0, 0.2, 0.0, 0.0, 0.0, 0.6,30.0, ! 7 = lodgepole pine
-     &0.7, 0.7, 3.0, 7.0, 7.0,10.0, 0.0, 0.0, 0.0, 1.0,35.0, ! 8 = Sitka spruce     
-     &1.1, 1.1, 2.2,10.0,10.0, 0.0, 0.0, 0.0, 0.0, 0.6,30.0, ! 9 = subalpine fir
-     &0.7, 0.7, 1.6, 2.5, 2.5, 5.0, 0.0, 0.0, 0.0, 0.8,30.0, !10 = red alder
-     &0.2, 0.6, 2.4, 3.6, 5.6, 0.0, 0.0, 0.0, 0.0, 1.4,16.8, !11 = black cottonwood
-     &0.2, 0.6, 2.4, 3.6, 5.6, 0.0, 0.0, 0.0, 0.0, 1.4,16.8, !12 = other hardwoods (use BC)      
-     &1.1, 1.1, 2.2,10.0,10.0, 0.0, 0.0, 0.0, 0.0, 0.6,30.0/ !13 = other softwoods (use PSF)    
+      DATA FUINI /
+     &0.12, 0.24, 0.56,0.27,1.00, 2.61, 0.0, 0.0, 0.0, 2.95, 39.20, ! 1 = mountain hemlock
+     &0.12, 0.24, 0.42,0.46,1.54, 5.81, 0.0, 0.0, 0.0, 3.23, 62.46, ! 2 = Alaska yellow cedar
+     &0.23, 0.46, 1.14,0.66,2.01,22.47, 0.0, 0.0, 0.0, 4.53, 50.75, ! 3 = western hemlock
+     &0.41, 0.72, 2.23,1.44,5.14,15.79, 0.0, 0.0, 0.0, 4.94, 30.62, ! 4 = sitka spruce 
+     &0.22, 0.56, 1.25,0.07,0.11, 0.02, 0.0, 0.0, 0.0, 3.01,  8.61, ! 5 = cottonwood       
+     &0.22, 0.47, 1.62,0.62,2.88, 7.99, 0.0, 0.0, 0.0, 5.35, 46.41/ ! 6 = others       
 
-C     INITIAL FUEL LOADING FOR 'INITIALIZING' STANDS WITH 10% COVER
-C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD
-C     (TAKEN FROM PN-FFE)
-C     <.25 to1  1-3 3-6  6-12 12-20 20-35 35-50 >50 Lit Duf
-      DATA FUINII /
-     &1.6, 1.6, 3.6, 6.0, 8.0, 6.0, 0.0, 0.0, 0.0, 0.5,12.0, ! 1 = white spruce (use PN ES)     
-     &1.6, 1.6, 3.6, 6.0, 8.0, 6.0, 0.0, 0.0, 0.0, 0.5,12.0, ! 2 = western redcedar     
-     &0.7, 0.7, 1.6, 4.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.3,12.0, ! 3 = Pacific silver fir
-     &0.7, 0.7, 1.6, 4.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.3,12.0, ! 4 = mountain hemlock
-     &0.5, 0.5, 2.0, 2.8, 2.8, 6.0, 0.0, 0.0, 0.0, 0.5,12.0, ! 5 = western hemlock     
-     &1.6, 1.6, 3.6, 6.0, 8.0, 6.0, 0.0, 0.0, 0.0, 0.5,12.0, ! 6 = Alaska cedar     
-     &0.6, 0.7, 0.8, 2.8, 3.2, 0.0, 0.0, 0.0, 0.0, 0.3,12.0, ! 7 = lodgepole pine          
-     &0.5, 0.5, 2.0, 2.8, 2.8, 6.0, 0.0, 0.0, 0.0, 0.5,12.0, ! 8 = Sitka spruce 
-     &0.7, 0.7, 1.6, 4.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.3,12.0, ! 9 = subalpine fir
-     &0.1, 0.1, 0.2, 0.5, 0.5, 3.0, 0.0, 0.0, 0.0, 0.4,12.0, !10 = red alder
-     &0.1, 0.4, 5.0, 2.2, 2.3, 0.0, 0.0, 0.0, 0.0, 0.8, 5.6, !11 = black cottonwood     
-     &0.1, 0.4, 5.0, 2.2, 2.3, 0.0, 0.0, 0.0, 0.0, 0.8, 5.6, !12 = other hardwoods (use BC)
-     &0.7, 0.7, 1.6, 4.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.3,12.0/ !13 = other softwoods (use PSF)       
-      
       DATA MYACT / 2521, 2548, 2553 /
 
 C     CHECK FOR DEBUG.
@@ -254,15 +226,28 @@ C     INITIALIZE THE DEAD FUELS ONLY FOR THE FIRST YEAR OF THE SIMULATION
 
       IF (IYR .EQ. IY(1)) THEN
 
-C       LOAD DEAD FUELS AS A FUNCTION OF PERCOV...ASSUME THAT THE INITIATING
-C       STANDS CORRESPOND TO ABOUT 10% COVER AND ESTABLISHED ARE 60% OR MORE.
+C----------
+C  LOAD DEAD FUELS AS A FUNCTION OF FOREST TYPE.
+C----------
+         SELECT CASE (IFORTP)
+         CASE(270)          
+           FTDEADFU = 1 !mountain hemlock
+         CASE(271)        
+           FTDEADFU = 2 !alaska yellow cedar
+         CASE(301)          
+           FTDEADFU = 3 !western hemlock
+         CASE(305)          
+           FTDEADFU = 4 !sitka spruce
+         CASE(703)          
+           FTDEADFU = 5 !cottonwood
+         CASE DEFAULT
+           FTDEADFU = 6 !others
+         END SELECT
 
-        DO ISZ = 1,MXFLCL  ! CWD size category loop
-          YLOAD(1) = FUINII(ISZ,COVTYP)
-          YLOAD(2) = FUINIE(ISZ,COVTYP)
-          STFUEL(ISZ,2) = ALGSLP(PERCOV,XCOV,YLOAD,2)
-          STFUEL(ISZ,1) = 0
-        ENDDO
+         DO ISZ = 1,MXFLCL
+            STFUEL(ISZ,2) = FUINI(ISZ,FTDEADFU)
+            STFUEL(ISZ,1) = 0
+         ENDDO
         
 C       CHANGE THE INITIAL FUEL LEVELS BASED ON PHOTO SERIES INFO INPUT
 
