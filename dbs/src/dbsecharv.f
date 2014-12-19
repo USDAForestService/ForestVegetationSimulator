@@ -12,7 +12,8 @@ C $Id$
         character(len=1000) :: SQLStmtStr
         logical success
         integer(SQLPOINTER_KIND) :: maybeNullNeg
-
+        integer IRCODE
+        
         if(IDBSECON < 2) return
 
         ! Make sure we have an up-to-date case ID.
@@ -39,15 +40,16 @@ C $Id$
          else
             decoratedTableName = TABLENAME
          end if
-         SQLStmtStr = 'SELECT * FROM ' // decoratedTableName
-         iRet = fvsSQLExecDirect(
-     &         StmtHndlOut,SQLStmtStr,
-     -         int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-         if(.not. success(iRet)) then
+         CALL DBSCKNROWS(IRCODE,decoratedTableName,1,
+     >                TRIM(DBMSOUT).EQ.'EXCEL')
+         IF(IRCODE.EQ.2) THEN
+           IDBSECON = 0
+           RETURN
+         ENDIF
+         IF(IRCODE.EQ.1) THEN
             if(trim(DBMSOUT) .eq. 'ACCESS') then
                 SQLStmtStr = 'CREATE TABLE ' // TABLENAME // ' ('
-     &              // 'CaseID int not null,'
+     &              // 'CaseID Text not null,'
      &              // 'Year int not null,'
      &              // 'Species text not null,'
      &              // 'Min_DIB double null,'
@@ -64,7 +66,7 @@ C $Id$
      &              // 'Total_Value int null)'
             elseif(trim(DBMSOUT) .eq. 'EXCEL') then
                 SQLStmtStr = 'CREATE TABLE ' // TABLENAME // ' ('
-     &              // 'CaseID Int,'
+     &              // 'CaseID Text,'
      &              // 'Year Int,'
      &              // 'Species Text,'
      &              // 'Min_DIB Number,'
@@ -81,7 +83,7 @@ C $Id$
      &              // 'Total_Value Int)'
             else
                 SQLStmtStr = 'CREATE TABLE ' // TABLENAME // ' ('
-     &              // 'CaseID int not null,'
+     &              // 'CaseID char(36) not null,'
      &              // 'Year int not null,'
      &              // 'Species char(8) not null,'
      &              // 'Min_DIB real null,'
@@ -112,8 +114,8 @@ C $Id$
      &      decoratedTableName,'(CaseID,Year,Species,',
      &      'Min_DIB,Max_DIB,Min_DBH,Max_DBH,TPA_Removed,TPA_Value,',
      &      'Tons_Per_Acre,Ft3_Removed,Ft3_Value,Board_Ft_Removed,',
-     &      'Board_Ft_Value,Total_Value) VALUES (',ICASE,
-     &      ',?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     &      'Board_Ft_Value,Total_Value) VALUES (''',CASEID,
+     &      ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
          iRet = fvsSQLCloseCursor(StmtHndlOut)
          iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
@@ -130,8 +132,8 @@ C $Id$
 
          implicit none
 
-         include 'PRGPRM.F77'                                            !Contains MAXSP
-         include 'PLOT.F77'                                              !Contains JSPIN(speciesId,speciesSymboltype), JSP, FIAJSP, & PLNJSP
+         include 'PRGPRM.F77' !Contains MAXSP
+         include 'PLOT.F77'   !Contains JSPIN(speciesId,speciesSymboltype), JSP, FIAJSP, & PLNJSP
          include 'DBSCOM.F77'
 
 
@@ -145,9 +147,9 @@ C $Id$
          integer, intent(in) :: speciesId
          integer(SQLPOINTER_KIND) :: maybeNullNeg
 
-         if(IDBSECON < 2) return                                         !ECON harvest table was not requested
+         if(IDBSECON < 2) return   !ECON harvest table was not requested
 
-         !if(tooManyRows(decoratedTableName)) return                               !database table will exceed Excel's maximum row count
+         !if(tooManyRows(decoratedTableName)) return    !database table will exceed Excel's maximum row count
 
          !Determine preferred species output format - keyword has precedence
          select case (ISPOUT30)

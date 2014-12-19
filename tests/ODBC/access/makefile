@@ -2,8 +2,13 @@
 all : ie ne sn fireTest
 
 ie : 
-	@echo Test ie database read
-	-../../../bin/FVSiec --keywordfile=ie.key 
+	@echo Test ie database read and write
+	rm -f FVS_Output.accdb
+	rm -fr DataDump
+	cscript.exe MakeNewAccessDataBase.vbs
+	-../../../bin/FVSiec --keywordfile=ie.key
+	cscript.exe ExportAccessQueriesToCSV.vbs /databaseFile:FVS_Output.accdb /outputDirectory:DataDump ieTestQueries.txt
+	-diff -qsw DataDump ExpectedValues
 	@echo Test ie ended
 	
 ne : 
@@ -23,6 +28,3 @@ fireTest :
 	-../../../bin/FVSiec --keywordfile=fireTest.key 
 	@echo fireTest ended
 	
- 
- 
-

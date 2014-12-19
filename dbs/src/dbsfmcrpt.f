@@ -38,7 +38,7 @@ COMMONS
       DIMENSION VAR(VARDIM)
 
       DOUBLE PRECISION  VARD(VARDIM)
-      INTEGER           ID,I
+      INTEGER           IRCODE,I
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       CHARACTER*2000    SQLStmtStr
       CHARACTER(len=20) TABLENAME
@@ -70,17 +70,15 @@ C     CHECK TO SEE IF THE MAIN CARBON TABLE EXISTS IN DATBASE
       ELSE
         TABLENAME = 'FVS_Carbon'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        ICMRPT = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Carbon('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'Aboveground_Total_Live double null,'//
@@ -97,8 +95,7 @@ C     CHECK TO SEE IF THE MAIN CARBON TABLE EXISTS IN DATBASE
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Carbon('//
-     -              'ID Int,'//
-     -              'CaseID Int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int ,'//
      -              'Aboveground_Total_Live Number,'//
@@ -114,8 +111,7 @@ C     CHECK TO SEE IF THE MAIN CARBON TABLE EXISTS IN DATBASE
      -              'Carbon_Released_From_Fire Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_Carbon('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'Aboveground_Total_Live real null,'//
@@ -137,35 +133,21 @@ C     CHECK TO SEE IF THE MAIN CARBON TABLE EXISTS IN DATBASE
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      >    'DBSFMCRPT:Creating Table: '//trim(SQLStmtStr))
-        CMRPTID = 0
       ENDIF
-
-C     CREATE ENTRY FROM DATA FOR CARBON REPORT TABLE
-
-      IF(CMRPTID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        CMRPTID = ID
-      ENDIF
-      CMRPTID = CMRPTID + 1
-
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-
-      IF(CMRPTID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-
 C     COPY INPUT VECTOR TO DOUBLE-PRECISION
 
       DO I=1,VARDIM
         VARD(I) = VAR(I)
       ENDDO
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TRIM(TABLENAME),' (Id,CaseID,
-     >  StandID,Year,Aboveground_Total_Live,Aboveground_Merch_Live,
-     >  Belowground_Live,Belowground_Dead,Standing_Dead,
-     >  Forest_Down_Dead_Wood,Forest_Floor,Forest_Shrub_Herb,
-     >  Total_Stand_Carbon,Total_Removed_Carbon,
-     >  Carbon_Released_From_Fire)
-     >  VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,
-     >  ?,?,?,?,?,?,?,?,?)'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TRIM(TABLENAME),' (CaseID,',
+     >  'StandID,Year,Aboveground_Total_Live,Aboveground_Merch_Live,',
+     >  'Belowground_Live,Belowground_Dead,Standing_Dead,',
+     >  'Forest_Down_Dead_Wood,Forest_Floor,Forest_Shrub_Herb,',
+     >  'Total_Stand_Carbon,Total_Removed_Carbon,',
+     >  'Carbon_Released_From_Fire) VALUES (''',
+     >  CASEID,''',''',TRIM(NPLT),
+     >  ''',?,?,?,?,?,?,?,?,?,?,?,?)'
 
 C     CLOSE CURSOR
 
@@ -179,18 +161,6 @@ C     PREPARE THE SQL QUERY
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),CMRPTID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),

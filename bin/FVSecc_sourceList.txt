@@ -271,6 +271,7 @@
 ../dbs/src/dbsatrtls.f
 ../dbs/src/dbsblkd.f
 ../dbs/src/dbscase.f
+../dbs/src/dbscknrows.f
 ../dbs/src/dbsclose.f
 ../dbs/src/dbsclsum.f
 ../dbs/src/dbscmpu.f
@@ -295,7 +296,6 @@
 ../dbs/src/dbsfmpf.f
 ../dbs/src/dbsfmssnag.f
 ../dbs/src/dbsfuels.f
-../dbs/src/dbsgetid.f
 ../dbs/src/dbshelpers.f
 ../dbs/src/dbsin.f
 ../dbs/src/dbsinit.f
@@ -314,6 +314,7 @@
 ../dbs/src/dbstrls.f
 ../dbs/src/fvsSQL.c
 ../dbs/src/mkdbsTypeDefs.c
+../dbs/src/uuidgen.f
 ../ec/common/ESPARM.F77
 ../ec/common/PRGPRM.F77
 ../econ/src/eccalc.f

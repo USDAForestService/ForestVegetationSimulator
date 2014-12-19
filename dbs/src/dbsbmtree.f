@@ -15,7 +15,7 @@ C     TPAKLL:   TPA BEETLE-KILLED BY SIZE CLASS (DURING THIS YEAR)
 C     SPCLTRE:  TPA OF WWPBM "SPECIAL" TREES (BEGINNING OF YEAR)
 C     SAN1(-10):LIVE, UNATTACKED TPA REMOVED VIA SANITATION CUTS THIS YR
 C     NSCL:     # WWPBM SIZE CLASSES (CURRENTLY =10)
-C     CID[=ICASE]: CASE NUMBER FROM THE FVSRUN TABLE
+C     CID: CASE ID FROM THE FVSCases TABLE
 C
 C---
 COMMONS
@@ -26,7 +26,8 @@ COMMONS
 C
 C     DECLARATIONS
 C---
-      INTEGER IYEAR,NSCL,ID,X,CID
+      INTEGER IYEAR,NSCL,IRCODE,X
+      CHARACTER (len=36) CID
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL TPA(NSCL),TPAH(NSCL),TPAKLL(NSCL),SPCLTRE(NSCL),
      >   SAN1,SAN2,SAN3,SAN4,SAN5,SAN6,SAN7,SAN8,SAN9,SAN10
@@ -36,12 +37,6 @@ C---
       CHARACTER*2000 SQLStmtStr
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
-C
-C     CASE ID WAS FETCHED IN BMSDIT.
-C     THE WWPBM IS UNIQUE IN THIS REGARD BECAUSE OF ITS PPE MODE 2 OPERABILITY
-C     WE BOOKKEEP CASE ID WITHIN THE WWPBM AND PASS IT HERE.
-C
-      ICASE=CID
 C
 C---------
 C     ALLOCATE A STATEMENT HANDLE
@@ -61,19 +56,12 @@ C---------
       ELSE
         TABLENAME = 'FVS_BM_Tree'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
-
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) RETURN
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Tree('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'TPA_SC1  double null,'//
@@ -129,8 +117,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Tree('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'TPA_SC1  Number,'//
@@ -185,8 +172,7 @@ C---------
      -              'SAN10    Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_BM_Tree('//
-     -              'Id int        primary key,'//
-     -              'CaseID        int not null,'//
+     -              'CaseID        char(36) not null,'//
      -              'StandID       char(26) not null,'//
      -              'Year          Int null,'//
      -              'TPA_SC1  real null,'//
@@ -249,21 +235,7 @@ C---------
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'DBSBMTREE:Creating Table: '//trim(SQLStmtStr))
-        BMTREID = 0
       ENDIF
-
-C---------
-C     CREATE ENTRY FROM DATA FOR SUMMARYSTAT TABLE
-C---------
-      IF(BMTREID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        BMTREID = ID
-      ENDIF
-      BMTREID = BMTREID + 1
-C
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-      IF(BMTREID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS & ARRAYS
 C
@@ -282,21 +254,21 @@ C
       SAN9B= SAN9
       SAN10B= SAN10
 C
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -  StandID,Year,
-     - TPA_SC1,TPA_SC2,TPA_SC3,TPA_SC4,TPA_SC5,
-     - TPA_SC6,TPA_SC7,TPA_SC8,TPA_SC9,TPA_10 ,
-     - HOST1  ,HOST2  ,HOST3  ,HOST4  ,HOST5  ,
-     - HOST6  ,HOST7  ,HOST8  ,HOST9  ,HOST10 ,
-     - TKLD1  ,TKLD2  ,TKLD3  ,TKLD4  ,TKLD5  ,
-     - TKLD6  ,TKLD7  ,TKLD8  ,TKLD9  ,TKLD10 ,
-     - SPCL1  ,SPCL2  ,SPCL3  ,SPCL4  ,SPCL5  ,
-     - SPCL6  ,SPCL7  ,SPCL8  ,SPCL9  ,SPCL10 ,
-     - SAN1   ,SAN2   ,SAN3   ,SAN4   ,SAN5   ,
-     - SAN6   ,SAN7   ,SAN8   ,SAN9   ,SAN10  )VALUES(?,?,',
-     -  CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,?,?,?,?,?,?,?,?,?
-     -  ,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
-     -  ,?,?,?,?,?,?,?,?)'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+     - ' (CaseID,StandID,Year,',
+     - 'TPA_SC1,TPA_SC2,TPA_SC3,TPA_SC4,TPA_SC5,',
+     - 'TPA_SC6,TPA_SC7,TPA_SC8,TPA_SC9,TPA_10 ,',
+     - 'HOST1  ,HOST2  ,HOST3  ,HOST4  ,HOST5  ,',
+     - 'HOST6  ,HOST7  ,HOST8  ,HOST9  ,HOST10 ,',
+     - 'TKLD1  ,TKLD2  ,TKLD3  ,TKLD4  ,TKLD5  ,',
+     - 'TKLD6  ,TKLD7  ,TKLD8  ,TKLD9  ,TKLD10 ,',
+     - 'SPCL1  ,SPCL2  ,SPCL3  ,SPCL4  ,SPCL5  ,',
+     - 'SPCL6  ,SPCL7  ,SPCL8  ,SPCL9  ,SPCL10 ,',
+     - 'SAN1   ,SAN2   ,SAN3   ,SAN4   ,SAN5   ,',
+     - 'SAN6   ,SAN7   ,SAN8   ,SAN9   ,SAN10  ) VALUES(''',
+     - CID,''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?,?,?,?,?,?,?',
+     - ',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?',
+     - ',?,?,?,?,?,?,?,?)'
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
@@ -305,18 +277,6 @@ C
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),BMTREID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),

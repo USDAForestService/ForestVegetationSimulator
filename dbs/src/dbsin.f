@@ -108,7 +108,7 @@ C                        OPTION NUMBER 1 -- END
   200 CONTINUE
 C                        OPTION NUMBER 2 -- DSNOUT
       CALL PPEATV (LACT)
-      IF (LACT.AND.ICASE.GT. -1) THEN
+      IF (LACT.AND.CASEID.NE. "") THEN
          CALL ERRGRO(.TRUE.,16)
          WRITE(JOSTND,205) TRIM(DSNOUT)
   205    FORMAT (/T12,'DSNOUT CONNECTION CAN NOT BE REDEFINED.',
@@ -124,34 +124,7 @@ C     SIMPLY CALL THE DBS OPEN FUNCTION
 C--------
       CALL DBSOPEN(DSNOUT,EnvHndlOut,ConnHndlOut,DBMSOUT,JOSTND,
      -             LKECHO,KODE)
-      !MUST RESET ICASE
-      ICASE     = -1
-      CMPUID    = -1
-      SUMRYID   = -1
-      TREEOUTID = -1
-      IATRTLID  = -1
-      CUTSID    = -1
-      FMPFID    = -1
-      FUELID    = -1
-      DM1ID     = -1
-      DM2ID     = -1
-      DM3ID     = -1
-      DM5ID     = -1
-      DM6ID     = -1
-      CONID     = -1
-      BURNID    = -1
-      CMRPTID   = -1
-      CHRPTID   = -1
-      MORTID    = -1
-      SSUMID    = -1
-      SDETID    = -1
-      STRCLID   = -1
-      BM_MNID   = -1
-      BMTREID   = -1
-      BMVOLID   = -1
-      BMBKPID   = -1
-      DWDVID    = -1
-      DWDCID    = -1
+      CASEID    = ""
 
 C     CHECK TO SEE IF A CONNECTION WAS SUCCESSFULLY OPENED
       IF (KODE.EQ.0) THEN
@@ -539,7 +512,7 @@ C                        OPTION NUMBER 19 -- FUELREPT
          IFUELC=1
          I=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IFUELC = 2
            I=2
          ENDIF
@@ -559,7 +532,7 @@ C                        OPTION NUMBER 20 -- BURNREPT
          IBURN=1
          I=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IBURN = 2
            I=2
          ENDIF
@@ -579,7 +552,7 @@ C                        OPTION NUMBER 21 -- MORTREPT
          IMORTF=1
          I=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IMORTF = 2
            I=2
          ENDIF
@@ -612,7 +585,7 @@ C                        OPTION NUMBER 22 -- SNAGSUM
          ISSUM=1
          I=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            ISSUM = 2
            I=2
          ENDIF
@@ -632,7 +605,7 @@ C                        OPTION NUMBER 23 -- SNAGOUT
          ISDET=1
          I=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            ISDET = 2
            I=2
          ENDIF
@@ -663,7 +636,7 @@ C                        OPTION NUMBER 24 -- STRCLASS
       ISTRCLAS=1
       I=1
       IF(ARRAY(1).GT.1) THEN
-C       WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C       WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
         ISTRCLAS = 2
         I=2
       ENDIF
@@ -678,7 +651,7 @@ C                        OPTION NUMBER 25 --PPBMMAIN
       IF (LACT) THEN
          IBMMAIN=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IBMMAIN = 2
          ENDIF
          IF(LKECHO)WRITE(JOSTND,2510) KEYWRD,TRIM(DSNOUT)
@@ -696,7 +669,7 @@ C                        OPTION NUMBER 26 --PPBMTREE
       IF (LACT) THEN
          IBMTREE=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IBMTREE = 2
          ENDIF
          IF(LKECHO)WRITE(JOSTND,2610) KEYWRD,TRIM(DSNOUT)
@@ -715,7 +688,7 @@ C                        OPTION NUMBER 27 --PPBMBKP
       IF (LACT) THEN
          IBMBKP=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IBMBKP = 2
          ENDIF
          IF(LKECHO)WRITE(JOSTND,2710) KEYWRD,TRIM(DSNOUT)
@@ -734,7 +707,7 @@ C                        OPTION NUMBER 28 --PPBMVOL
       IF (LACT) THEN
          IBMVOL=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IBMVOL = 2
          ENDIF
          IF(LKECHO)WRITE(JOSTND,2810) KEYWRD,TRIM(DSNOUT)
@@ -756,7 +729,7 @@ C                        OPTION NUMBER 29 -- CARBRPTS
          ICHRPT=1
          I=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            ICMRPT=2
            ICHRPT=2
            I=2
@@ -820,7 +793,7 @@ C                        OPTION NUMBER 32 -- DWDVLOUT
          IDWDVOL=1
          I=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IDWDVOL = 2
            I=2
          ENDIF
@@ -840,7 +813,7 @@ C                        OPTION NUMBER 33 -- DWDCVOUT
          IDWDCOV=1
          I=1
          IF(ARRAY(1).GT.1) THEN
-C          WE ARE REDIRECTING OUTPUT AND DON'T WANT TO PRINT TO FILE
+C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
            IDWDCOV = 2
            I=2
          ENDIF
@@ -912,7 +885,7 @@ C     PRIVATE ROUTINE TO DBSIN, USED TO LOAD THE CMDBUF.
       ENDIF
       RETURN
   100 CONTINUE
-      CALL ERRGRO(.FALSE.,2) ! will not return
+      CALL ERRGRO(.FALSE.,2) 
       CALL fvsGetRtnCode(IRTNCD)
       IF (IRTNCD.NE.0) RETURN
 
