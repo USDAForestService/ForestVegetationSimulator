@@ -1,6 +1,7 @@
       SUBROUTINE RDMORT
+      IMPLICIT NONE
 C----------
-C  **RDMORT      LAST REVISION:  MARCH 7, 1995
+C  **RDMORT      LAST REVISION:  08/29/14
 C----------
 C
 C  THIS SUBROUTINE CALCULATES THE INFECTION OF THE ROOT SYSTEMS OF
@@ -20,7 +21,10 @@ C  Revision History:
 C    17-JUN-2002  Lance R. David
 C      Previous revision date note was "MARCH 7, 1995".
 C      Added debug code.
-C---------------------------------------------
+C   08/29/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
@@ -37,8 +41,10 @@ C
       INCLUDE 'RDARRY.F77'
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'RDADD.F77'
-C
-      LOGICAL DEBUG
+
+      LOGICAL  DEBUG
+      INTEGER  I, I1, I2, IDI, IP, ISL, IT, J, KSP
+      REAL     HABSP, TAREA, RDSLP
 
 C
 C     SEE IF WE NEED TO DO SOME DEBUG.

@@ -16,6 +16,7 @@ C              FMFINT
 C              FMFOUT
 C              FMMOIS
 C              FMPOFL
+C              FMCFMD3
 C
 C  PURPOSE:
 C     THIS SUBROUTINE IS THE DRIVING PART OF THE FIRE INTENSITY AND EFFECTS
@@ -72,9 +73,9 @@ C----------
       REAL     TMP2(3), TMP3(3)
       REAL     SUMPS, XSUR(2,3),XFML(2,3), XDEP, XEXT, ROS
       CHARACTER*8 CFTMP
-      INTEGER  MYACTS(6)
+      INTEGER  MYACTS(5)
       LOGICAL  DEBUG,LOK,LNMOUT,USRFL,LCFTMP
-      DATA     MYACTS/2505,2506,2507,2529,2539,2503/
+      DATA     MYACTS/2505,2506,2507,2529,2539/
       INTEGER  IYR,ICOND,ITODO,IFT,NPRM,IACTK,JYR,IFTYPE,JTODO,
      &         IFC,KTODO,JDO,IFIRE, MKODE
       REAL     SWIND,FLAME,WMULT,ALGSLP,BYRAM,CRRATE,CRTCBH,
@@ -99,7 +100,7 @@ C----------
       IF (ITODO.GT.0) THEN
         DO 422 IFT = 1,ITODO
           CALL OPGET(IFT,3,JYR,IACTK,NPRM,CPRMS)
-          IF (JYR .NE. IYR) GO TO 422
+C          IF (JYR .NE. IYR) GO TO 422
           ICOND = 1
   422   CONTINUE
       ENDIF
@@ -115,12 +116,12 @@ C----------
       IF (ITODO.EQ.0) GOTO 406
       DO JDO = 1,ITODO
         CALL OPGET(JDO,1,JYR,IACTK,NPRM,DPRMS)
-        IF (JYR .EQ. IYR) THEN
+C        IF (JYR .EQ. IYR) THEN
           CALL OPDONE(JDO,IYR)
           IDRYB = JYR
           IDRYE = JYR + DPRMS(1) - 1
           GOTO 406
-        ENDIF
+C        ENDIF
       ENDDO
   406 CONTINUE
 C----------
@@ -134,7 +135,7 @@ C----------
       IF (ITODO.EQ.0) GOTO 399
       DO JDO = 1,ITODO
         CALL OPGET(JDO,13,JYR,IACTK,NPRM,PRMS)
-        IF (JYR .EQ. IYR) THEN
+C        IF (JYR .EQ. IYR) THEN
 C
           LOK   = .TRUE.
           SUMPS = 0.0
@@ -242,173 +243,37 @@ C----------
             CALL OPDEL1(JDO)
           ENDIF
 C
-        ENDIF
+C        ENDIF
       ENDDO
   399 CONTINUE
+
+C----------
+C  CALL NEW ROUTINE TO LOAD INFORMATION FOR CALCULATING THE 
+C  FUEL MODEL VARIABLES
+C----------
+      CALL FMCFMD3(IYR, FMD)   
 C----------
 C  IF USING MODELLED FUEL LOADS TO PREDICT FIRE BEHAVIOR, LOAD CUSTOM
 C  FUEL MODEL 89 WITH THE RIGHT PARAMETERS.
 C----------
-      IF (IFLOGIC .EQ. 2) THEN
-        LOK   = .TRUE.
-        INL   = 0
-        INDD   = 0
-        DO I = 1, 2       ! ZERO TEMP COPIES
-          DO J = 1, 3
-            XSUR(I,J) = 0.0
-            XFML(I,J) = 0.0
-          ENDDO
-        ENDDO
-C
-        IFMD = 89
-        XSUR(1,1) = USAV(1)
-        XSUR(1,2) = 109
-        XSUR(1,3) = 30
-        XSUR(2,1) = USAV(3)
-        XSUR(2,2) = USAV(2)
-C
-        DO I = 1, MXFLCL
-          CURRCWD(I) = 0.0
-        ENDDO
-        
-C       Sum up CWD categories by size class and convert from tons/acre to lbs/ft2
-        
-        DO I = 1, 2
-           DO J = 1, MXFLCL
-              DO K = 1, 2
-                 DO L = 1, 4
-                    CURRCWD(J) = CURRCWD(J) + CWD(I,J,K,L) * 0.04591
-                 ENDDO
-              ENDDO
-           ENDDO
-        ENDDO
-
-        HERB =  FLIVE(1)* 0.04591
-
-        WOODY = 0
-        DO I = 1,ITRN
-          IF (HT(I) .LE. CANMHT) THEN
-            WOODY = WOODY + (CROWNW(I,0)+0.5*CROWNW(I,1))*FMPROB(I)*P2T
-          ENDIF
-        ENDDO
-        WOODY = WOODY + FLIVE(2)
-        WOODY = WOODY* 0.04591 
-
-        XFML(1,1) = MAX(0.0,(CURRCWD(1)+CURRCWD(10))) ! includes litter and 0-.25"
-        XFML(1,2) = MAX(0.0,CURRCWD(2))           
-        XFML(1,3) = MAX(0.0,CURRCWD(3))           
-        XFML(2,1) = MAX(0.0,WOODY) 
-        XFML(2,2) = MAX(0.0,HERB) 
-
-C       calculate fuel bed depth and moisture of extinction.
-c       but first need to calculate fuelbed bulk density.
-
-        FDFL = CURRCWD(1) + CURRCWD(10)
-        FFL = CURRCWD(1) + CURRCWD(10) + HERB + WOODY
-        WF = FDFL/FFL
-        BDavg = UBD(1) + (WF*(UBD(2) - UBD(1)))
-        XDEP = (FFL + CURRCWD(2) + CURRCWD(3))/BDavg
-        XEXT = (12 + 480*BDavg/32)/100
-C
-        IF (XDEP .LT. 0.0) LOK = .FALSE.
-        IF (XEXT .LT. 0.0 .OR. XEXT .GT. 1.0) LOK = .FALSE.
-        DO I = 1,3
-          IF (XFML(1,I) .GT. 0.0) INDD = INDD + 1
-          IF (XFML(2,I) .GT. 0.0) INL = INL + 1
-        ENDDO
-        IF (INDD .LE. 0 .AND. INL .LE. 0) LOK = .FALSE.
-C----------
-C  ALL PARAMETERS ARE OK - ASSIGN
-C----------
-        IF (LOK) THEN
-          DO I = 1,2
-            DO J = 1,3
-              SURFVL(IFMD,I,J) = XSUR(I,J)
-              FMLOAD(IFMD,I,J) = XFML(I,J)
-            ENDDO
-          ENDDO
-          FMDEP(IFMD)  = XDEP
-          MOISEX(IFMD) = XEXT
-        ENDIF
-      ENDIF
-      
-      IF (DEBUG) WRITE (JOSTND,50) XDEP,XEXT,INDD,INL
-   50 FORMAT (' FMBURN, XDEP=',F7.3,' XEXT=',F7.3,' INDD=',I2,
-     >        ' INL=',I2)
-
-      IF (DEBUG) THEN
-         DO I=1,2 
-            DO J=1,3
-              WRITE (JOSTND,51) I,J,SURFVL(89,I,J),FMLOAD(89,I,J)
-   51         FORMAT(' FMBURN: I J =',2I3,' SURFVL=',I7,
-     >               ' FMLOAD=',F12.4)
-            ENDDO
-         ENDDO
-      ENDIF
+csb: moved to fmcfmd3
 
 C----------
 C  COMPUTE CANOPY BASE HEIGHT, CROWN BULK DENSITY AND TOTAL
 C  CANOPY LOAD; RESULTS IN **FMFCOM** ACTCBH,CBD,TCLOAD
 C----------
-      CALL FMPOCR(IYR)
-C----------
-C  WE WANT TO KNOW THE FUEL MODEL THIS STAND WOULD BE, EVEN IF THERE
-C  IS NO FIRE SCHEDULED FOR THIS YEAR (SO CAN PRINT TO AN OUTPUT FILE)
-C
-C  SELECT APPROPRIATE FUEL MODEL OR MODELS AND CORRESPONDING WEIGHTS
-C  BASED ON VARIANT-SPECIFIC RULES. THE UT AND CR VARIANT LOGIC 
-C  EMPLOY WIND SPEED; THE SN/CS VARIANT LOGIC EMPLOYS MOISTURE LEVELS.
-C  THE LS VARIANT LOGIC USES MOISTURE AND WIND SPEED.  AS A RESULT, IF
-C  YOU ARE USING THESE VARIANTS, YOU NEED TO DETERMINE THE FUEL MODEL 
-C  MULTIPLE TIMES DURING A YEAR BECAUSE THE WEATHER CONDITIONS (AND
-C  ASSOCIATED FUEL MODEL) MAY CHANGE.  IF YOU ARE NOT USING THESE VARIANTS,
-C  YOU CAN CALL FMCMFD ONCE HERE AND BE DONE WITH IT.
-C
-C  IF YOU ARE USING THE NEW FUEL MODEL LOGIC (IFLOGIC = 1), CALL 
-C  FMCFMD2 INSTEAD, REGARDLESS OF THE VARIANT.
-C
-C  ALSO, IF YOU ARE USING MODELLED LOADS TO PREDICT FIRE BEHAVIOR
-C  (IFLOGIC = 2), YOU CAN BYPASS THIS.  
-C
-C  TT VARIANT ADDED TO THIS CR/UT LOGIC SINCE THE EXPANDED VARIANT MODELS
-C  TWO SPECIES OF JUNIPER. 06/03/10.
-C----------
-      IF (IFLOGIC .EQ. 0) THEN
-        CALL VARVER(VVER)
-        IF (.NOT.(
-     &    VVER(1:2) .EQ. 'UT' .OR.
-     &    VVER(1:2) .EQ. 'TT' .OR.
-     &    VVER(1:2) .EQ. 'SM' .OR.
-     &    VVER(1:2) .EQ. 'SP' .OR.
-     &    VVER(1:2) .EQ. 'BP' .OR.
-     &    VVER(1:2) .EQ. 'SF' .OR.
-     &    VVER(1:2) .EQ. 'LP' .OR.
-     &    VVER(1:2) .EQ. 'LS' .OR.
-     &    VVER(1:2) .EQ. 'CS' .OR.
-     &    VVER(1:2) .EQ. 'SN')) CALL FMCFMD (IYR, FMD)
-      ELSEIF (IFLOGIC .EQ. 1) THEN
-        CALL FMCFMD2 (IYR, FMD)        
-      ENDIF
+csb: moved to fmcfmd3
+C      CALL FMPOCR(IYR)
+
+csb: moved to fmcfmd3
+c     &    VVER(1:2) .EQ. 'SN')) CALL FMCFMD (IYR, FMD)
+c        CALL FMCFMD2 (IYR, FMD)
 C----------
 C  CALCULATE AND PRINT THE POTENTIAL FLAME LENGTH REPORT
 C----------
-      CALL FMPOFL (IYR, FMD, LNMOUT)
-      CALL fvsGetRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN
-C----------
-C  NOW CHECK FOR THE SOIL HEATING REPORT.
-C----------
-      CALL OPFIND(1,MYACTS(6),ITODO)
-      IF (ITODO.GT.0) THEN
-        DO 416 I = 1,ITODO
-          CALL OPGET(I,2,JYR,IACTK,NPRM,TPRMS)
-          IF (JYR .NE. IYR) GO TO 416
-          CALL OPDONE(I,IYR)
-          ISHEATB = -JYR    ! WHEN NEGATIVE, A HEADING IS NEEDED.
-          ISHEATE = JYR + TPRMS(1)
-          SOILTP = TPRMS(2)
-  416 CONTINUE
-      ENDIF 
+ C     CALL FMPOFL (IYR, FMD, LNMOUT)
+ C     CALL fvsGetRtnCode(IRTNCD)
+ C     IF (IRTNCD.NE.0) RETURN 
 C----------
 C  CHECK WHETHER A FIRE IS SCHEDULED FOR THIS YEAR (KEYWORD SIMFIRE)
 C  IF NOT, OR IF THE COVER TYPE IS 0 (NO TREES IN THE STAND), THEN
@@ -419,7 +284,7 @@ C----------
       IF (ITODO.GT.0) THEN
         DO 400 IFT = 1,ITODO
           CALL OPGET(IFT,6,JYR,IACTK,NPRM,CPRMS)
-          IF (JYR .NE. IYR) GO TO 400
+C          IF (JYR .NE. IYR) GO TO 400
           CALL OPDONE (IFT,IYR)
 C----------
 C  GET THE SIMFIRE PARAMETER VALUES.
@@ -474,7 +339,7 @@ C----------
       IF (JTODO.GT.0) THEN
         DO 405 IFC = 1,JTODO
           CALL OPGET(IFC,4,JYR,IACTK,NPRM,FPRMS)
-          IF (JYR .NE. IYR) GO TO 405
+C          IF (JYR .NE. IYR) GO TO 405
           CALL OPDONE (IFC,IYR)
 C
           FLAME  = FPRMS(2)
@@ -510,7 +375,7 @@ C----------
       IF (KTODO.GT.0) THEN
         DO 415 JDO = 1,KTODO
           CALL OPGET(JDO,7,JYR,IACTK,NPRM,MPRMS)
-          IF (JYR .NE. IYR) GO TO 415
+C          IF (JYR .NE. IYR) GO TO 415
           CALL OPDONE (JDO,IY(ICYC))
           FMOIS = 0
           MOIS(1,1) = MPRMS(1)*.01
@@ -538,6 +403,7 @@ C  MOISTURES ARE KNOWN.
 C  TT ADDED TO THIS SINCE THE EXPANDED VARIANT NOW MODELS JUNIPER. 06/03/10
 C----------
       IF (IFLOGIC .EQ. 0) THEN
+        CALL VARVER(VVER)      
         IF (VVER(1:2) .EQ. 'UT' .OR.
      &      VVER(1:2) .EQ. 'TT' .OR.
      &      VVER(1:2) .EQ. 'SM' .OR.

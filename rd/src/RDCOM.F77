@@ -1,68 +1,93 @@
 CODE SEGMENT RDCOM
 C----------
-C  **RDCOM       LAST REVISION:  06/27/02
+C  **RDCOM       LAST REVISION:  08/19/14
 C----------
 C REVISION HISTORY:
 C   27-JUNE-2002 Lance David
 C     Added variable descriptions found in the original western root disease
 C     model.
 C-------------------------
-      INTEGER NUMBB
-      INTEGER HOST(3*MAXSP), IROOT, IDOBB
-      REAL    MCRATE(ITOTRR,50)
-      REAL    MINDBH(3*MAXSP), MININF(3*MAXSP), ORATE(3*MAXSP)
-      REAL    FRINGE(ITOTRR)
-      REAL    OFRATE(3*MAXSP), IURATE(3*MAXSP), IIRATE(3*MAXSP)
-      LOGICAL LRTYPE, LBBON
+      INTEGER HOST(3*MAXSP)
+      INTEGER IBBOUT, IDOBB, IDITYP(ITOTSP), IFRRC, IIEND, ILEND,
+     &        IMCOUT, INFLAG, IOUNIT, IPCFLG(ITOTRR), IPUSH, IRCOMP,
+     &        IRDOUT, IRFLAG, IRGEN(10), IRHAB, IRINIT, IRIPTY,
+     &        IROOT, IRRSP, IRSNYR, IRSPTY, IRSTYP, IRTSPC(MAXSP),
+     &        IRUNIT, ISPS(ITOTSP), ISTEP, ISTFLG, IYEAR,
+     &        JRAGED(ITOTRR,2,5,41), JRSIT, MCTREE(ITOTRR,50),
+     &        NCENTS(ITOTRR), NINSIM, NMONT, NNCENT, NNDEC, NNDMX,
+     &        NNINF, NRSTEP, NSCEN(ITOTRR), NSTUMP, NTREES, NUMBB,
+     &        NUMTRE
 
-C     Flag to write warning RE. use of ??X.exe models (RNH June 1998)
-      LOGICAL LXNOTE
-C
-      COMMON /RDCOM/ AGECUR, AREANU(ITOTRR), CORINF(ITOTRR,2),
-     &               CURAGE, DBHD(ITOTRR,2,5), DBHDA(ITOTRR,2,5,41),
-     &               DBIFAC(ITOTSP), DECRAT(ITOTRR,2,5,41), DGTOT,
-     &               DICLAS(4), DIMEN, DSEED, DSFAC(2),   
-     &               EXPINF(ITOTRR,2), FRINGE, HABFAC(ITOTSP,ITOTRR,2), 
-     &               HOST, HTIFAC(ITOTSP), HTIMP, HTTOT,
-     &               IBBOUT, IDITYP(ITOTSP), IFRRC, IIEND,
-     &               IIRATE, ILEND, IMCOUT, INFLAG, IOUNIT,
-     &               IPCFLG(ITOTRR), IPUSH, IRCOMP, IRDOUT, IRFLAG, 
-     &               IRGEN(10), IRHAB, IRINIT, IRIPTY, IROOT, IRRSP,
-     &               IRSNYR, IRSPTY, IRSTYP, IRTSPC(MAXSP),
-     &               IRUNIT, ISPS(ITOTSP), ISTEP, ISTFLG, IURATE,
-     &               IYEAR, JRAGED(ITOTRR,2,5,41), JRSIT, MCRATE,
-     &               MCTREE(ITOTRR,50), MINDBH, MININF, NCENTS(ITOTRR),
-     &               NINSIM, NMONT, NNCENT, NNDEC, NNDMX, NNINF,
-     &               NRSTEP, NSCEN(ITOTRR), NSTUMP, NTREES, NUMBB,
-     &               NUMTRE, OFRATE, OOAREA(ITOTRR), ORATE,
-     &               PAREA(ITOTRR), PCENTS(ITOTRR,100,3),
-     &               PCOLO(ITOTSP,ITOTRR), PINSET, PISIZE(ITOTRR),
-     &               PKILLS(ITOTSP,ITOTRR), PNINF(ITOTSP,ITOTRR),
-     &               PPUSH, PRANKL(IRRTRE), PRINF(ITOTRR+MAXSP),
-     &               PRKILL(ITOTRR), PROBD(ITOTRR,2,5),
-     &               PROBDA(ITOTRR,2,5,41), PROOT(ITOTSP),
-     &               PRPTOT(ITOTRR+MAXSP), PRREM, PRUN(ITOTRR), PTRE,
-     &               RADINF(50,2), RDKILL(IRRTRE), REINEK(4),
-     &               ROCRI(MAXSP), ROCRL(MAXSP),ROOT4(4),
-     &               ROOTD(ITOTRR,2,5), ROOTDA(ITOTRR,2,5,41),
-     &               ROOTH(4,IRRTRE), ROTSIT, ROWDOM(ITOTSP),
-     &               ROWIBP(ITOTSP,2), ROWIND, ROWMIN,
-     &               RRATES(ITOTRR,100), RRGEN(ITOTRR,10), RRIARE,
-     &               RRIDIM, RRIMEN, RRINCS(ITOTRR), RRIRAD(IRRTRE),
-     &               RRJINC(ITOTRR), RROBMR(ITOTRR),
-     &               RROBNK(MAXSP), RROBOL(4),RROBRD(4), RROBSC(4),
-     &               RROBTS(4), RROOTT(IRRTRE), RRPSWT(ITOTSP),
-     &               RRRATE(ITOTRR), RRRSET(ITOTRR), RRSARE,
-     &               RRSDBH(50), RRSFRN, RRSRAD(50),
-     &               RSLOP(ITOTSP), SAREA, SDRATE(IRRTRE),
-     &               SHCENT(ITOTRR,100,3), SPRQMD(ITOTRR,50),
-     &               SSSFAC(ITOTSP,ITOTRR), STCUT(5), STEMSI(MAXSP),
-     &               STEMSL(MAXSP), TNJUMP(ITOTRR), TSTEMS, TXP12(4),
-     &               WINDN, WINDSP(MAXSP,4), WK22(IRRTRE), XDBH(2),
-     &               XHT(2), XMINKL(ITOTRR), XMINLF(ITOTRR),
-     &               XMTH(4,IRRTRE), XRRI(IRRTRE), XRRS(50), XXINF(5),
-     &               YDBH(2), YHT(2),YRRI(IRRTRE), YRRS(50), YTKILL,
-     &               YYINF(5), LXNOTE, IDOBB, LBBON, LRTYPE
+      REAL    IURATE(3*MAXSP), IIRATE(3*MAXSP),
+     &        MCRATE(ITOTRR,50), MINDBH(3*MAXSP), MININF(3*MAXSP)
+
+      REAL   AGECUR, AREANU(ITOTRR), CORINF(ITOTRR,2), CURAGE,
+     &       DBHD(ITOTRR,2,5), DBHDA(ITOTRR,2,5,41), DBIFAC(ITOTSP),
+     &       DECRAT(ITOTRR,2,5,41), DGTOT, DICLAS(4), DIMEN, DSEED,
+     &       DSFAC(2), EXPINF(ITOTRR,2), FRINGE(ITOTRR),
+     &       HABFAC(ITOTSP,ITOTRR,2), HTIFAC(ITOTSP), HTIMP, HTTOT,
+     &       OFRATE(3*MAXSP), OOAREA(ITOTRR), ORATE(3*MAXSP),
+     &       PAREA(ITOTRR), PCENTS(ITOTRR,100,3),
+     &       PCOLO(ITOTSP,ITOTRR), PINSET, PISIZE(ITOTRR),
+     &       PKILLS(ITOTSP,ITOTRR), PNINF(ITOTSP,ITOTRR), PPUSH,
+     &       PRANKL(IRRTRE), PRINF(ITOTRR+MAXSP), PRKILL(ITOTRR),
+     &       PROBD(ITOTRR,2,5), PROBDA(ITOTRR,2,5,41), PROOT(ITOTSP),
+     &       PRPTOT(ITOTRR+MAXSP), PRREM, PRUN(ITOTRR), PTRE,
+     &       RADINF(50,2), RDKILL(IRRTRE), REINEK(4), ROCRI(MAXSP),
+     &       ROCRL(MAXSP), ROOT4(4), ROOTD(ITOTRR,2,5),
+     &       ROOTDA(ITOTRR,2,5,41), ROOTH(4,IRRTRE), ROTSIT,
+     &       ROWDOM(ITOTSP), ROWIBP(ITOTSP,2), ROWIND, ROWMIN,
+     &       RRATES(ITOTRR,100), RRGEN(ITOTRR,10), RRIARE, RRIDIM,
+     &       RRIMEN, RRINCS(ITOTRR), RRIRAD(IRRTRE), RRJINC(ITOTRR),
+     &       RROBMR(ITOTRR), RROBNK(MAXSP), RROBOL(4), RROBRD(4),
+     &       RROBSC(4), RROBTS(4), RROOTT(IRRTRE), RRPSWT(ITOTSP),
+     &       RRRATE(ITOTRR), RRRSET(ITOTRR), RRSARE, RRSDBH(50),
+     &       RRSFRN, RRSRAD(50), RSLOP(ITOTSP), SAREA, SDRATE(IRRTRE),
+     &       SHCENT(ITOTRR,100,3), SPRQMD(ITOTRR,50),
+     &       SSSFAC(ITOTSP,ITOTRR), STCUT(5), STEMSI(MAXSP),
+     &       STEMSL(MAXSP), TNJUMP(ITOTRR), TSTEMS, TXP12(4), WINDN,
+     &       WINDSP(MAXSP,4), WK22(IRRTRE), XDBH(2), XHT(2),
+     &       XMINKL(ITOTRR), XMINLF(ITOTRR), XMTH(4,IRRTRE),
+     &       XRRI(IRRTRE), XRRS(50), XXINF(5), YDBH(2), YHT(2),
+     &       YRRI(IRRTRE), YRRS(50), YTKILL, YYINF(5)
+
+      REAL   OLDPRP                 ! From common that was directly coded in rdranp.f
+      
+      REAL   CDF(1001)
+c      DOUBLE PRECISION CDF(1001)    ! From common that was directly coded in rdranp.f
+      
+      LOGICAL LBBON, LRTYPE, LXNOTE
+
+      COMMON /RDCOM/ AGECUR, AREANU, CORINF, CURAGE, DBHD, DBHDA,
+     &               DBIFAC, DECRAT, DGTOT,DICLAS, DIMEN, DSEED,
+     &               DSFAC, EXPINF, FRINGE, HABFAC, HOST, HTIFAC,
+     &               HTIMP, HTTOT, IBBOUT, IDITYP, IDOBB, IFRRC,
+     &               IIEND, IIRATE, ILEND, IMCOUT, INFLAG, IOUNIT,
+     &               IPCFLG, IPUSH, IRCOMP, IRDOUT, IRFLAG, IRGEN,
+     &               IRHAB, IRINIT, IRIPTY, IROOT, IRRSP,IRSNYR,
+     &               IRSPTY, IRSTYP, IRTSPC, IRUNIT, ISPS, ISTEP,
+     &               ISTFLG, IURATE, IYEAR, JRAGED, JRSIT, LBBON,
+     &               LRTYPE, LXNOTE, MCRATE, MCTREE, MINDBH, MININF,
+     &               NCENTS, NINSIM, NMONT, NNCENT, NNDEC, NNDMX,
+     &               NNINF, NRSTEP, NSCEN, NSTUMP, NTREES, NUMBB,
+     &               NUMTRE, OFRATE, OOAREA, ORATE, PAREA, PCENTS,
+     &               PCOLO, PINSET, PISIZE, PKILLS, PNINF, PPUSH,
+     &               PRANKL, PRINF, PRKILL, PROBD, PROBDA, PROOT,
+     &               PRPTOT, PRREM, PRUN, PTRE, RADINF, RDKILL,
+     &               REINEK, ROCRI, ROCRL, ROOT4, ROOTD, ROOTDA,
+     &               ROOTH, ROTSIT, ROWDOM, ROWIBP, ROWIND, ROWMIN,
+     &               RRATES, RRGEN, RRIARE, RRIDIM, RRIMEN, RRINCS,
+     &               RRIRAD, RRJINC, RROBMR, RROBNK, RROBOL,
+     &               RROBRD, RROBSC, RROBTS, RROOTT, RRPSWT,
+     &               RRRATE, RRRSET, RRSARE, RRSDBH, RRSFRN,
+     &               RRSRAD, RSLOP, SAREA, SDRATE, SHCENT, SPRQMD,
+     &               SSSFAC, STCUT, STEMSI, STEMSL, TNJUMP, TSTEMS,
+     &               TXP12, WINDN, WINDSP, WK22, XDBH, XHT, XMINKL,
+     &               XMINLF, XMTH, XRRI, XRRS, XXINF, YDBH, YHT,
+     &               YRRI, YRRS, YTKILL, YYINF
+
+      COMMON  /PRPDAT/ OLDPRP       ! From common that was directly coded in rdranp.f
+      COMMON  /PRPDATD/ CDF         ! From common that was directly coded in rdranp.f
 
 C     AGECUR  -- YEAR IN WHICH CARRYOVER IS TO OCCUR
 C                (** CURRENTLY NOT USED)
@@ -163,8 +188,8 @@ C     NNINF   --
 C     NRSTEP  --
 C     NSCEN   --  NUMBER OF SHRINKING CENTERS
 C     NSTUMP  --
-C     NTREES  --
-C     NUMTRE  --
+C     NTREES  -- actual number of trees used in the simulation spread rate
+C     NUMTRE  -- 
 C     OOAREA  --
 C     PAREA   --
 C     PCENTS  --

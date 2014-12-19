@@ -1,6 +1,7 @@
       SUBROUTINE RDPR
+      IMPLICIT NONE
 C----------
-C  **RDPR                         LAST REVISION:  06/12/13
+C  **RDPR        LAST REVISION:  08/29/14
 C----------
 C
 C  PRODUCES SUMMARY OUTPUT IN TABLE FORM FROM THE ROOT
@@ -36,6 +37,9 @@ C    16-AUG-2006 Lance R. David (FHTET)
 C       Change of metric conversion factors variable names to match
 C       variables in new \FVS\COMMON\METRIC.F77. rd\src\metric.f77
 C       will be retired. (mods courtesy of Don Robinson, ESSA)
+C   08/29/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
 C----------------------------------------------------------------------
 C
 C.... PARAMETER INCLUDE FILES
@@ -54,8 +58,12 @@ C
       INCLUDE 'RDADD.F77' 
       INCLUDE 'METRIC.F77'
 
-      LOGICAL DEBUG, FIRSTL
-      REAL    LYAREA(ITOTSP), ALLVOL
+      LOGICAL  DEBUG, FIRSTL
+      INTEGER  I, I1, I2, IDI, IEND, IOAGE, IOUT, J, JYR, M,
+     &         K, KSP, L
+      REAL     ALLVOL, BAPA, BASTPA, CFVPA, CORE, DAREA, EXPAND,
+     &         LYAREA(ITOTSP), TCLAS, TDIE, TDVOL, TIN, TOTINF,
+     &         TPRBIN, TPRINF, TSTMPS, TUN
       CHARACTER*1 CHTYPE(ITOTRR)
       
       DATA CHTYPE /'P','S','A','W'/
@@ -85,7 +93,7 @@ C
          TIN    = 0.0
          TUN    = 0.0
          TPRBIN = 0.0 
-         CORE = 0.0
+         CORE   = 0.0
          EXPAND = 0.0
          TOTINF = 0.0 
          ALLVOL = 0.0

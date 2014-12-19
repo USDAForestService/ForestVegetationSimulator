@@ -1,6 +1,7 @@
       SUBROUTINE RDSADD(I,TP)
+      IMPLICIT NONE
 C----------
-C  **RDSADD      LAST REVISION:  04/07/93
+C  **RDSADD      LAST REVISION:  09/02/14
 C----------
 C
 C  ADD TO THE STUMP LIST.
@@ -23,6 +24,13 @@ C
 C  LOCAL VARIABLES :
 C     DEN
 C     JJ
+C
+C  Revision History :
+C   04/07/93 - Last revision date.
+C   09/02/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 C.... PARAMETER INCLUDE FILES
 C

@@ -72,6 +72,7 @@ C
       INTEGER ISPC,ILEN,IS,IDT,JRECNT,ISDSP,IGNDEF,IPSI,KODE,IPRMPT
       INTEGER NUMBER,IPTKNT,I,IISP,J,I2
       INTEGER ERRFLAG,IRTNCD
+      INTEGER POINTNO,IFLAG
       LOGICAL LTRERD,LFIRST,LNOTBK(7),LNOTRE,LACTV
       LOGICAL DEBUG,LOPEVN,LKECHO
       LOGICAL RRGO,RRT
@@ -247,7 +248,8 @@ C----------
      >      11100,11200,11300,11400,11500,11600,11700,11800,11900,12000,
      >      12100,12200,12300,12400,12500,12600,12700,12800,12900,13000,
      >      13100,13200,13300,13400,13500,13600,13700,13800,13900,14000,
-     >      14100,14200), NUMBER
+     >      14100,14200,14300)
+     >   , NUMBER
 C
 C  ==========  OPTION NUMBER 1: PROCESS  ============================PROCESS
 C
@@ -4681,20 +4683,27 @@ C   PROCESS REMAINING PARAMETER FIELDS
 C
       PRMS(1)=FLOAT(ITHNPN)
       IF(LNOTBK(2)) PRMS(1)=ARRAY(2)
+      POINTNO=PRMS(1)
+C
+C  CHECK FOR POINT GROUP
+C
+      CALL PTGDECD(POINTNO,KARD(2),IFLAG)
+      IF(IFLAG.GE.1)THEN
+        ITHNPN=POINTNO
+        PRMS(1)=FLOAT(ITHNPN)
+        ILEN=IPTGRP(ITHNPN,52)
+        IF(LKECHO)WRITE(JOSTND,12812) 'POINT= ',KARD(2)(1:ILEN),ITHNPN
+12812 FORMAT (T12,A,A,I3' TARGETED FOR THIS CUT.')
+      ENDIF
+C
       PRMS(2)=FLOAT(ITHNPA)
       IF(LNOTBK(3).AND.ARRAY(3).GT.0.) PRMS(2)=ARRAY(3)
-      IF(PRMS(1) .EQ. -1.) THEN
-        CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
-        CALL ERRGRO (.TRUE.,4)
-        IF(LKECHO)WRITE(JOSTND,12811)
-12811   FORMAT(T12,'POINT NUMBER IS MISSING.')
-        GO TO 10
-      ENDIF
+C
       IF(PRMS(2).LE.0. .OR. PRMS(2).GT.6)THEN
         CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
         CALL ERRGRO (.TRUE.,4)
-        IF(LKECHO)WRITE(JOSTND,12814)
-12814   FORMAT(T12,'POINT THINNING RESIDUAL ATTRIBUTE IS MISSING ',
+        IF(LKECHO)WRITE(JOSTND,12816)
+12816   FORMAT(T12,'POINT THINNING RESIDUAL ATTRIBUTE IS MISSING ',
      &  'OR INVALID.')
         GO TO 10
       ENDIF
@@ -5746,13 +5755,109 @@ C
 C
       GOTO 10
 C
-C  ==========  OPTION NUMBER 142: ORGANON  ===========================ORGANON
+C  ==========  OPTION NUMBER 142: PTGROUP ===========================PTGROUP
+C
+14200 CONTINUE
+C
+C     FIRST CHECK TO SEE THAT THE MAXIMUM NUMBER OF POINT GROUPS HAS NOT
+C     ALREADY BEEN DEFINED.  IF SO, IGNORE THIS REQUEST.
+C
+      IF(NPTGRP .GE. 30)THEN
+        IF(LKECHO)WRITE(JOSTND,14210) IRECNT,KEYWRD,KARD(1)
+14210   FORMAT (/,'CARD NUM =',I5,'; KEYWORD FIELD = ',A8,
+     &  '   GROUP NAME: ',A10)
+        CALL ERRGRO(.TRUE.,37)
+14220   CONTINUE
+        IRECNT=IRECNT+1
+        READ(IREAD,'(A)',END=80) RECORD
+        I=LEN_TRIM(RECORD)
+        IF(LKECHO)WRITE(JOSTND,'(" SKIPPED RECORD=",A)') RECORD(:I)
+        IF (RECORD(I:I).EQ.'&') GOTO 14220
+        GO TO 10
+      ENDIF
+C
+C     PROCESS THE POINT GROUP REQUEST. DELETE LEADING BLANKS
+C     FROM THE POINT GROUP NAME AND STORE THE LENGTH OF THE
+C     NAME
+C
+      NPTGRP=NPTGRP+1
+      IF(LNOTBK(1))THEN            ! if there is a name, then use it
+        PTGNAME(NPTGRP)=ADJUSTL(KARD(1))
+        ILEN=LEN_TRIM(PTGNAME(NPTGRP))
+        DO J=1,ILEN
+          CALL UPCASE(PTGNAME(NPTGRP)(J:J))
+        ENDDO
+      ELSE                         ! otherwise build one
+        WRITE(PTGNAME(NPTGRP),'("PTGROUP",I2.2,2X)') NPTGRP
+        ILEN=9
+      ENDIF
+      IPTGRP(NPTGRP,52)=ILEN       ! save the group name length
+      INUM=0                       ! initialize the number of codes in the group
+      KARD=' '                     ! blank out and zero out kard and arrays
+      ARRAY=0
+14504 CONTINUE
+      IRECNT=IRECNT+1
+      READ(IREAD,'(A)',END=80) RECORD
+      ILEN=LEN_TRIM(RECORD)
+      J=0                          ! j points to the first char for the new token...
+                                   ! when j is zero, no new token is being built.
+      DO I=1,ILEN                  ! loop over the chars in the record
+        IF (RECORD(I:I).EQ.' ') THEN ! hit a blank
+          IF (J.EQ.0) CYCLE          ! if no token being built, go on to next char
+        ENDIF
+        IF (RECORD(I:I).EQ.'&') GOTO 14504  ! read another record
+        IF (J.EQ.0) J=I
+C        CALL UPCASE(RECORD(I:I))
+        IF (RECORD(I:I).EQ.' '.OR.I.EQ.ILEN) THEN ! end of token (a blank or end of record)
+          INUM=INUM+1              ! so, we have a token.
+C
+C  DON'T SAVE OVER 50, COULD DO AN ERROR MSG, BUT DIDN'T
+C
+          IF (INUM.GT.50) INUM=50
+          IF (I.EQ.ILEN) THEN      ! store the token in kard(1)
+            KARD(1)=RECORD(J:I)
+          ELSE
+            KARD(1)=RECORD(J:I-1)
+          ENDIF
+          J=0
+          ARRAY(1)=0.
+          READ(KARD(1),'(F10.0)',ERR=14505) ARRAY(1)  ! make a number, if we can.
+14505     CONTINUE
+          IF (ARRAY(1).EQ.0) THEN  ! zero is illegal
+            INUM=INUM-1
+            CYCLE
+          ENDIF
+          IF (INUM.GT.1) THEN     ! check for duplicates, save unique codes
+            DO J=2,INUM
+              IF (IPTGRP(NPTGRP,J).EQ.ARRAY(1)) THEN
+                ARRAY(1)=-999           ! if it is a dup, then set flag
+                EXIT
+              ENDIF
+            ENDDO
+            J=0
+            IF (ARRAY(1).EQ.-999) THEN  ! skip dups
+              INUM=INUM-1
+              CYCLE
+            ENDIF
+          ENDIF
+          IPTGRP(NPTGRP,INUM+1)=ARRAY(1)
+        ENDIF
+      ENDDO
+      IPTGRP(NPTGRP,1)=INUM
+C
+      IF(LKECHO)WRITE(JOSTND,14535) KEYWRD,-NPTGRP,PTGNAME(NPTGRP),INUM,
+     &(IPTGRP(NPTGRP,J),J=2,INUM+1)
+14535 FORMAT(/A8,'   GROUP NUMBER:',I4,'  GROUP NAME: ',A10,
+     &'  NUMBER OF POINTS IN THIS GROUP:',I3,'  POINTS:'/5(T12,10I10/))
+      GO TO 10
+C
+C  ==========  OPTION NUMBER 143: ORGANON  ===========================ORGANON
 C----------
 C  ORGANON: CALL THE FUNCTION THAT INITIALIZES 
 C     READS AND ASSIGNS THE VARIABLES FROM THE KEYWORD FILE
 C----------
 C
-14200 CONTINUE
+14300 CONTINUE
 C----------
 C     SET UP THE OPTION POINTERS FOR THE CYCLE.
 C     SINCE WE ARE USING ORGANON, FIX THE CYCLE LENGTH TO 
@@ -5763,10 +5868,10 @@ C     SET THE TIME INTERVAL TO FIVE YEAR INTERVALS
       DO I=2,MAXCY1
       IY(I) = 5
       END DO
-      IF(LKECHO)WRITE(JOSTND,14205) KEYWRD,5
-14205 FORMAT(/,A8,3X,'ALL CYCLES;  PERIOD LENGTH=',I3)
-      IF(LKECHO)WRITE(JOSTND,14210) KEYWRD
-14210 FORMAT (/,A8,'   ORGANON KEYWORDS:')
+      IF(LKECHO)WRITE(JOSTND,14305) KEYWRD,5
+14305 FORMAT(/,A8,3X,'ALL CYCLES;  PERIOD LENGTH=',I3)
+      IF(LKECHO)WRITE(JOSTND,14310) KEYWRD
+14310 FORMAT (/,A8,'   ORGANON KEYWORDS:')
       CALL ORIN (DEBUG,LKECHO)
       GOTO 10
 C

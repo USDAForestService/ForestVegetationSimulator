@@ -1,7 +1,7 @@
       BLOCK DATA MPBLKD
       IMPLICIT NONE
 C----------
-C  **MPBLKD--UT   DATE OF LAST REVISION:  07/02/10
+C  **MPBLKD--UT   DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C     MOUNTAIN PINE BEETLE --
@@ -16,6 +16,9 @@ C   08/21/09 LANCE DAVID (FMSC)
 C     Utah variant expanded to 24 species.
 C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to INCRS
 C----------------------------------------------------------------------
 C
 COMMONS
@@ -27,7 +30,7 @@ COMMONS
       DATA  JOMPB  / 7 /
 
       DATA IPLTNO/ 1 /,IMPROB/ 1 /,NATR/ 2 /, KEYMPB/ 2,3,6*0,1 /,
-     >      INT/ 10 /
+     >     INCRS/ 10 /
 
 C     SPECIES LIST FOR UTAH VARIANT. ***** 24 species *****
 C     

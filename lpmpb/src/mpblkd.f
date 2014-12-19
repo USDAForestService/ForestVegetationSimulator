@@ -1,7 +1,7 @@
       BLOCK DATA MPBLKD
       IMPLICIT NONE
 C----------
-C  **MPBLKD  DATE OF LAST REVISION:  6/5/2000
+C  **MPBLKD  DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C     MOUNTAIN PINE BEETLE --
@@ -20,6 +20,9 @@ C       instead of always having to change the COMPUTED GO TO.
 C   	Added to common block in file MPBCOM.F77.
 C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to INCRS
 C----------------------------------------------------------------------
 C
 COMMONS
@@ -33,7 +36,7 @@ C
       DATA  JOMPB  / 7 /
 
       DATA IPLTNO/ 1 /,IMPROB/ 1 /,NATR/ 2 /, KEYMPB/ 2,3,6*0,1 /,
-     >      INT/ 10 /
+     >     INCRS/ 10 /
 
 C     SPECIES LIST FOR INLAND EMPIRE VARIANT.
 C

@@ -1,7 +1,7 @@
       SUBROUTINE MPBTAB(CFTVOL)
       IMPLICIT NONE
 C----------
-C  **MPBTAB        DATE OF LAST REVISION:  06/14/13
+C  **MPBTAB        DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C  PRINTS OUT THE SUMMARY OF MORTALITY BY MPB.  THIS TABLE IS PRINTED
@@ -54,6 +54,9 @@ C Revision History
 C   03/26/91 Last noted revision date.
 C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INDEX to INDX
 C----------
 C
 COMMONS
@@ -75,7 +78,7 @@ C
 COMMONS
 C
 
-      INTEGER I, J, INDEX, NUMYR
+      INTEGER I, J, INDX, NUMYR
 
       REAL    TOTGRN(10), CFTVOL(10), LIVELP(10), DEADLP(10)
       REAL    TTLIVE, TTDEAD, TTTOTL, TTVOL, YRTEST
@@ -113,8 +116,8 @@ C
 C     BREAK PROGNOSIS PROB ARRAY INTO DBH CLASSES.
 C
       DO 200 I = 1, ITRN
-         CALL COLIND (DBH(I), INDEX)
-         TOTGRN(INDEX) = TOTGRN(INDEX) + PROB(I)
+         CALL COLIND (DBH(I), INDX)
+         TOTGRN(INDX) = TOTGRN(INDX) + PROB(I)
   200 CONTINUE
 
 C

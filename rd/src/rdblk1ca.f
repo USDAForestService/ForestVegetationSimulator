@@ -1,6 +1,7 @@
       BLOCK DATA RDBLK1
+      IMPLICIT NONE
 C----------
-C  **RDBLK1-CA                              LAST REVISION:  06/25/01
+C  **RDBLK1-CA     LAST REVISION:  08/27/14
 C----------
 C
 C  Purpose :

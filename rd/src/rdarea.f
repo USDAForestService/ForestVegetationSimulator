@@ -1,6 +1,7 @@
       SUBROUTINE RDAREA
+      IMPLICIT NONE
 C----------
-C  **RDAREA      LAST REVISION:  06/10/96
+C  **RDAREA      LAST REVISION:  08/26/14
 C----------
 C
 C  Purpose :
@@ -36,8 +37,12 @@ C     NCENTS   - (RDCOM)   (I)
 C     <incomplete>
 C
 C  Revision History :
-C     06/10/96 - Matthew K. Thompson
-C                Renamed variables in inline functions.
+C   06/10/96 - Matthew K. Thompson
+C     Renamed variables in inline functions.
+C   08/26/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
@@ -56,9 +61,16 @@ C
 C
 COMMONS
 C
-      INTEGER ITRN0, ITRN1, IDUM1
       LOGICAL LMEM(75,75), DEBUG
+
+      INTEGER ITRN0, ITRN1, IDUM1
+      
+      INTEGER IGRID, IPAT, I, IN, IX, IX1, IX2, IX3, IXC, IXX, IY1, IY2,
+     &        IYC, IYR, IYS, IYY, J, K, NTRY
       REAL    SCL, RTRNS, RDUM1, RDUM2, SDUM1, SDUM2, SDUM3
+
+      REAL    ABSDEL, ABSDIF, ARCAL, AREAI, ARINC, ARTAR, ARTEM,
+     &        DELTA, PERDIF, RNURAD, TOLER, X, Y2
 
       DATA IGRID /75/, TOLER/0.01/
 

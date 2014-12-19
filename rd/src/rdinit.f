@@ -1,6 +1,7 @@
       SUBROUTINE RDINIT
+      IMPLICIT NONE
 C----------
-C  **RDINIT      LAST REVISION:  07/22/02
+C  **RDINIT      LAST REVISION:  08/28/14
 C----------
 C
 C  Purpose :
@@ -100,7 +101,10 @@ C     treatments (tree cutting).
 C    22-JUL-02 Lance R. David (FHTET)
 C      Removed unused array PROBO. It was also unused in the old
 C      annosus model.
-C......................................................................
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 
 C.... Parameter include files.
 
@@ -120,7 +124,9 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      INTEGER I, ICYLS, IDI, ISCL, ITREC, IWOOD, J, KSP, NC, NCCS
+      INTEGER I, I1, I2, ICYLS, IDI, ISCL, ITREC, IWOOD, J,
+     &        K, KSP, NC, NCCS,
+     &        ITEMP1(ITOTSP), ITEMP2(ITOTSP), ITEMP3(10)
       REAL    TEMP1(ITOTRR, 2, 2)
       REAL    TEMP2(ITOTRR, 2, 2)
       REAL    TEMP3(ITOTRR, 2)
@@ -138,9 +144,6 @@ C.... Local variable declarations.
       REAL    TEMP15(4)
       REAL    TEMP16(5)
       REAL    TEMP17(5)
-      INTEGER ITEMP1(ITOTSP)
-      INTEGER ITEMP2(ITOTSP)
-      INTEGER ITEMP3(10)
 
 C.... Data statements.
 
@@ -558,8 +561,8 @@ C.... dimension of 2 is not related between the 3 arrays.)
 
          FPROB(I)  = 0.0
 
-         ISTEMI(I) = 0.0
-         ISTEML(I) = 0.0
+         ISTEMI(I) = 0
+         ISTEML(I) = 0
 
          PROBIT(I) = 0.0
          PROBIU(I) = 0.0

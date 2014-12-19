@@ -1,11 +1,11 @@
-      SUBROUTINE ESSPRT(VAR,ISPC,NSPT,PREM)
+      SUBROUTINE ESSPRT(VAR,ISPC,NSPT,PREM,DSTMP)
       IMPLICIT NONE
 C----------
-C  **ESSPRT--STRP   DATE OF LAST REVISION:   03/14/12
+C  **ESSPRT--STRP   DATE OF LAST REVISION:   12/16/2014
 C
 C  SUBROUTINE CONTAINING ENTRY POINTS TO HANDLE COMPUTATIONS FOR
-C  VARIOUS STUMP SPROUTING FUNCTIONS WHICH VARY BY VARIANT AND 
-C  SPECIES.
+C  VARIOUS STUMP SPROUTING FUNCTIONS WHICH VARY BY VARIANT, SPECIES,
+C  AND PARENT-TREE DIAMETER.
 C
 C  VARIANTS USING THE STRP VERSION: BM, CA, CR, CS, EC, LS, NC, NE,
 C  PN, SN, SO, TT, UT, WC, WS
@@ -20,7 +20,7 @@ C
 C----------
       CHARACTER VAR*2
       INTEGER IAG,INDXAS,ISHAG,ISPC,NASPRT,NMSPRC,NSPT
-      REAL ASTPAR,ASBAR,HTSPRT,PREM,RSHAG,SI,SPA,TREES
+      REAL ASTPAR,ASBAR,HTSPRT,PREM,RSHAG,SI,SPA,TREES,DSTMP
 C----------
 C  VARIANT AND SPECIES SPECIFIC RULES FOR DETERMINING TPA A SPROUT
 C  RECORD WILL REPRESENT. ASPEN IS HANDLED SEPERATELY IN ENTRY ASSPTN
@@ -34,6 +34,12 @@ C     CHIHUAHUA PINE (36) SET AT 2 SPROUTS/STUMP PER JIM YOUTZ R3
 C     OAK SPECIES SET AT 3 SPROUTS: GAMBEL OAK (23),
 C     ARIZONA WHITE OAK (24), EMORY OAK (25), BUR OAK (26),
 C     SILVERLEAF OAK (27)
+C
+C  SN: SOUTHERN 
+C     BASED ON KEYSER AND LOFTIS, SHORT-TERM STUMP SPROUT DYNAMICS OF 
+C     24 UPLAND HARDWOOD TREE SPECIES FOLLOWING REGENERATION HARVESTS
+C     IN THE SOUTHERN APPALACHIAN MOUNTAINS, USA
+C     
 C----------
       CASE('CR')
         SELECT CASE(ISPC)
@@ -45,6 +51,49 @@ C----------
             PREM = 1.0/FLOAT(NSPT)
           CASE(36)
             PREM = 2.0/FLOAT(NSPT)
+        END SELECT
+      CASE('SN')
+        SELECT CASE(ISPC)
+          CASE(5,18,19,26,30:32,41,51,52,56,82)
+            PREM = PREM * 0.94
+          CASE(20)
+            PREM = PREM * 1 / (1 + EXP(-(4.1975 + (-0.1821 * DSTMP))))
+          CASE(22)
+            PREM = PREM * 0.73
+          CASE(23)
+            PREM = PREM * 0.96
+          CASE(24,25)
+            PREM = PREM * 1 / (1 + EXP(-(3.3670 + (-0.5159 * DSTMP))))
+          CASE(27)
+            PREM = PREM * 0.95
+          CASE(33)
+            PREM = PREM * 0.93
+          CASE(45)
+            PREM = PREM * 0.79
+          CASE(46)
+            PREM = PREM * 0.95
+          CASE(47)
+            PREM = PREM * 0.69
+          CASE(54)
+            PREM = PREM * 0.72
+          CASE(57)
+            PREM = PREM * 0.97
+          CASE(63)
+            PREM = PREM * 1 / (1 + EXP(-(2.4608 + (-0.3093 * DSTMP))))
+          CASE(64)
+            PREM = PREM * 1 / (1 + EXP(-(3.8897 + (-0.2260 * DSTMP))))
+          CASE(74)
+            PREM = PREM * 0.78
+          CASE(75)
+            PREM = PREM * 1 / (1 + EXP(-(3.2586 + (-0.1120 * DSTMP))))
+          CASE(78)
+            PREM = PREM * 1 / (1 + EXP(-(3.1070 + (-0.2128 * DSTMP))))
+          CASE(80)
+            PREM = PREM * 0.86
+          CASE(83)
+            PREM = PREM * 0.99
+          CASE DEFAULT
+            PREM = PREM * 1 / (1 + EXP(-(2.7386 + (-0.1076 * DSTMP))))
         END SELECT
       END SELECT
       RETURN
@@ -84,7 +133,7 @@ C----------
       RETURN
 C
 C
-      ENTRY NSPREC (VAR,ISPC,NMSPRC)
+      ENTRY NSPREC (VAR,ISPC,NMSPRC,DSTMP)
 C----------
 C  DETERMINE NUMBER OF SPROUT RECORDS TO CREATE
 C----------
@@ -95,6 +144,10 @@ C                CA - PACIFIC YEW (24) AND CALIFORNIA NUTMEG (47)
 C                PN - PACIFIC YEW (33)
 C                SO - PACIFIC YEW (20)
 C                WC - PACIFIC YEW (33)
+C                SN - DEFAULT AND SP < 7.0"
+C  SET TO 6 FOR: SN - STUMP + 5 ROOT SUCKERS: AMERICAN BEECH (33),
+C                     BIGTOOTH ASPEN(61), BLACK LOCUST (80), AND
+C                     SASSAFRAS (82)
 C
 C  OTHERWISE SET TO 2
 C----------
@@ -125,6 +178,19 @@ C----------
           NMSPRC = 1
         CASE DEFAULT
           NMSPRC = 2
+        END SELECT
+      CASE('SN')
+        SELECT CASE (ISPC)
+        CASE(5)
+          IF(DSTMP.LT.7.0)THEN
+            NMSPRC = 1
+          ELSE
+            NMSPRC = 0
+          ENDIF
+        CASE(33,61,80,82)
+          NMSPRC = 6
+        CASE DEFAULT
+          NMSPRC = 1
         END SELECT
 C----------
 C  ALL OTHER VARIANTS & SPECIES

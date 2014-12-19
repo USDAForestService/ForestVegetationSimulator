@@ -49,7 +49,7 @@ C.... Common include files.
 C.... Variable declarations. 
     
         INTEGER I, SIZE, SP, DKCL, IYR
-        REAL    DOWN, PDOWN, FALLPR    
+        REAL    DOWN, PDOWN 
       LOGICAL DEBUG	
         REAL    AMT
 C-----------
@@ -69,24 +69,18 @@ C     Go through the tree list, calculating debris inputs from each tree.
     
             SP = ISP(I)
             DKCL = DKRCLS(SP)
-         
-C           Original (annual) FFE used .0005 fall prop in each year. (.0005 = 1/2000.)
-C           Cycle boundary FFE needs to multiply this value by cycle length.
-C            FALLPR = 0.0005 * NYRS
-C            IF (FALLPR .GT. 1.0) FALLPR = 1.0
-            FALLPR = 0.0005 
           
 C           Litterfall from foliage:
             CWD(1,10,2,DKCL) = CWD(1,10,2,DKCL)
-     +        + (CROWNW(I,0) * FMPROB(I)/LEAFLF(SP)) * FALLPR
+     +        + (CROWNW(I,0) * FMPROB(I)/LEAFLF(SP)) * P2T
             CWDNEW(1,10) = CWDNEW(1,10) 
-     +        + (CROWNW(I,0) * FMPROB(I)/LEAFLF(SP)) * FALLPR   
+     +        + (CROWNW(I,0) * FMPROB(I)/LEAFLF(SP)) * P2T   
       
             DO SIZE=1,5 
         
 C           Random breakage of each woody crown component:
                 AMT = (LIMBRK * FMPROB(I) * CROWNW(I,SIZE)) 
-     &                                    * FALLPR
+     &                                    * P2T
                 CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + AMT
                 CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + AMT
         
@@ -95,7 +89,7 @@ C           included here because it's assumed that the leaf-lifespan
 C           data used above already incorporates the death of some foliage 
 C           due to crown lifting):
     
-                AMT = (FMPROB(I) * OLDCRW(I,SIZE)) * FALLPR
+                AMT = (FMPROB(I) * OLDCRW(I,SIZE)) * P2T
                 CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + AMT
                 CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + AMT
     

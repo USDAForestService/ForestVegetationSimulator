@@ -176,7 +176,7 @@ C     IF IT DOESN'T THEN WE NEED TO CREATE IT
      -             'PrdLen int null,'//
      -             'TreeId char(8) null,'//
      -             'TreeIndex int null,'//
-     -             'Species char(3) null,'//
+     -             'Species char(8) null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
      -             'PtIndex int null,'//

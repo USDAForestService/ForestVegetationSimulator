@@ -1,6 +1,7 @@
       SUBROUTINE RDSETP
+      IMPLICIT NONE
 C----------
-C  **RDSETP      LAST REVISION:  07/17/02
+C  **RDSETP      LAST REVISION:  09/03/14
 C----------
 C
 C  SUBROUTINE FOR CALCULATING VALUES OF ROOT DISEASE VARIABLES
@@ -77,6 +78,11 @@ C                Branched out of tree loop in several places
 C                when non-host tree record was beeing analysed
 C     17-JUL-2002 Lance R. David (FHTET)
 C                Modified/added debug code.
+C   09/03/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
+C
 C------------------------------
 C
 C.... Parameter include files
@@ -96,10 +102,8 @@ C.... Common include files
 C.... Local variable declarations
 
       LOGICAL DEBUG
-      DIMENSION NDPLTS(ITOTRR), PROPN(MAXTRE)
-      DIMENSION TMP(ITOTRR)
-
-      REAL TPROP
+      INTEGER I, I1, I2, IDI, IIPI, IK, J, K, KSP, NDPLTS(ITOTRR)
+      REAL    PROPN(MAXTRE), RDRANP, TMP(ITOTRR), TPROP
 
 C.... See if we need to do some debug.
 

@@ -1,6 +1,7 @@
       SUBROUTINE RDPPGT (WK3, IPNT, ILIMIT)
+      IMPLICIT NONE
 ***********************************************************************
-*  **RDPPGT      DATE OF LAST REVISION:  07/22/02
+*  **RDPPGT      DATE OF LAST REVISION:  09/10/14
 *----------------------------------------------------------------------
 *  Purpose:
 *     Get (read) the Root Disease model data for a given stand from
@@ -31,12 +32,14 @@
 *       Added new RDCOM variables LBBON, LRTYPE, IDOBB, IROOT
 *     22-JUL-02 Lance R. David (FHTET)
 *       Removed unused array PROBO from RDARRY common area processing.
+*   09/10/14 Lance R. David (FMSC)
+*     Updated, added implicit none and declared variables.
 *
 ***********************************************************************
 
 C.... Parameter statements.
-
-      PARAMETER (MXL=11,MXR=29,MXI=41)
+      INTEGER  MXL, MXR, MXI
+      PARAMETER (MXL=11,MXR=30,MXI=40)
 
 C.... Parameter include files.
 
@@ -86,17 +89,17 @@ C
 C---- from common METRIC ------------
       LMTRIC = LOGICS ( 1)
 C---- from common RDADD ------------
-      RRTINV = LOGICS ( 2)
-      RRMAN  = LOGICS ( 3)
-      BB2GO  = LOGICS ( 4)
-      WINGO  = LOGICS ( 5)
-      BB1GO  = LOGICS ( 6)
-      REINGO = LOGICS ( 7)
-      LPLINF = LOGICS ( 8)
+      BB1GO  = LOGICS ( 2)
+      BB2GO  = LOGICS ( 3)
+      LPLINF = LOGICS ( 4)
+      REINGO = LOGICS ( 5)
+      RRMAN  = LOGICS ( 6)
+      RRTINV = LOGICS ( 7)
+      WINGO  = LOGICS ( 8)
 C---- from common RDCOM ------------
-      LXNOTE = LOGICS ( 9)
+      LBBON  = LOGICS ( 9)
       LRTYPE = LOGICS (10)
-      LBBON  = LOGICS (11)
+      LXNOTE = LOGICS (11)
 
 C     Read logical arrays from buffer.
 C
@@ -120,42 +123,41 @@ C---- from common RDADD ------------
       PINT   = INTS ( 4)
 C---- from common RDCOM ------------
       IBBOUT = INTS ( 5)
-      IFRRC  = INTS ( 6)
-      IIEND  = INTS ( 7)
-      ILEND  = INTS ( 8)
-      IMCOUT = INTS ( 9)
-      INFLAG = INTS (10)
-      IOUNIT = INTS (11)
-      IPUSH  = INTS (12)
-      IRCOMP = INTS (13)
-      IRDOUT = INTS (14)
-      IRFLAG = INTS (15)
-      IRHAB  = INTS (16)
-      IRINIT = INTS (17)
-      IRIPTY = INTS (18)
-      IROOT  = INTS (19)
-      IRRSP  = INTS (20)
-      IRSNYR = INTS (21)
-      IRSPTY = INTS (22)
-      IRSTYP = INTS (23)
-      IRUNIT = INTS (24)
-      ISTEP  = INTS (25)
-      ISTFLG = INTS (26)
-      IYEAR  = INTS (27)
-      JRSIT  = INTS (28)
-      NINSIM = INTS (29)
-      NMONT  = INTS (30)
-      NNCENT = INTS (31)
-      NNDEC  = INTS (32)
-      NNDMX  = INTS (33)
-      NNINF  = INTS (34)
-      NRSTEP = INTS (35)
-      NSTUMP = INTS (36)
-      NTREES = INTS (37)
-      NUMBB  = INTS (38)
-      NUMTRE = INTS (39)
-      IDOBB  = INTS (40)
-      IROOT  = INTS (41)
+      IDOBB  = INTS ( 6)
+      IFRRC  = INTS ( 7)
+      IIEND  = INTS ( 8)
+      ILEND  = INTS ( 9)
+      IMCOUT = INTS (10)
+      INFLAG = INTS (11)
+      IOUNIT = INTS (12)
+      IPUSH  = INTS (13)
+      IRCOMP = INTS (14)
+      IRDOUT = INTS (15)
+      IRFLAG = INTS (16)
+      IRHAB  = INTS (17)
+      IRINIT = INTS (18)
+      IRIPTY = INTS (19)
+      IROOT  = INTS (20)
+      IRRSP  = INTS (21)
+      IRSNYR = INTS (22)
+      IRSPTY = INTS (23)
+      IRSTYP = INTS (24)
+      IRUNIT = INTS (25)
+      ISTEP  = INTS (26)
+      ISTFLG = INTS (27)
+      IYEAR  = INTS (28)
+      JRSIT  = INTS (29)
+      NINSIM = INTS (30)
+      NMONT  = INTS (31)
+      NNCENT = INTS (32)
+      NNDEC  = INTS (33)
+      NNDMX  = INTS (34)
+      NNINF  = INTS (35)
+      NRSTEP = INTS (36)
+      NSTUMP = INTS (37)
+      NTREES = INTS (38)
+      NUMBB  = INTS (39)
+      NUMTRE = INTS (40)
 
 C.... Read real scalars from buffer.
 C
@@ -171,9 +173,8 @@ C---- from common RDADD ------------
       BOTRT  = REALS ( 2)
       SDISLP = REALS ( 3)
       SDNORM = REALS ( 4)
-      YINCPT = REALS ( 5)
-C---- from common RDANN ------------
-      SS     = REALS ( 6)
+      SS     = REALS ( 5)
+      YINCPT = REALS ( 6)
 C---- from common RDCOM ------------
       AGECUR = REALS ( 7)
       CURAGE = REALS ( 8)
@@ -198,6 +199,7 @@ C---- from common RDCOM ------------
       TSTEMS = REALS (27)
       WINDN  = REALS (28)
       YTKILL = REALS (29)
+      OLDPRP = REALS (30)
 
 C.... Read double precision scalars (random number seeds) from buffer.
 C
@@ -536,6 +538,7 @@ C---- from common RDCOM ------------
       CALL BFREAD (WK3, IPNT, ILIMIT, YRRI,        IRRTRE, 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, YRRS,            50, 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, YYINF,            5, 2)
+      CALL BFREAD (WK3, IPNT, ILIMIT, CDF,           1001, 2)
 C---- from common RDCRY ------------
       DO 103 I = 1, 2
       DO 102 J = 1, 5

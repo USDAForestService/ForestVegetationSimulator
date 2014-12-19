@@ -1,6 +1,7 @@
       SUBROUTINE RDMREC (ITYP,I,KSP,OAMOVE)
+      IMPLICIT NONE
 C----------
-C  **RDMREC   LAST REVISION:  06/12/96
+C  **RDMREC      LAST REVISION:  08/29/14
 C----------
 C
 C  Purpose :
@@ -25,6 +26,10 @@ C                Commented out the line of code that sets
 C                PROBI = PROBI - OAMOVE(DSII)
 C                The other agent mortality has already been deleted
 C                from PROBI.
+C   08/29/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 
 
@@ -44,7 +49,8 @@ C.... Coomon include fules.
 
 C.... Local variable declaraions.
 
-      DIMENSION OAMOVE(3)
+      INTEGER  I, ISL, ITYP, KSP
+      REAL     OAMOVE(3)
 
 C.... Make sure that OAKL continues to contain the right number of
 C.... killed trees. Assume that some proportion of those trees that

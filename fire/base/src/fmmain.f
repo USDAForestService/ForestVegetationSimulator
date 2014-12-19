@@ -166,9 +166,12 @@ C        Print out the current snag list (if requested)
 C        Potential fire report
          
 C----------
+C  CALL FMPOCR SO THE CANOPY FUELS PROFILE TABLE IS PRINTED 
+C  AT THE CORRECT TIME.
 C  CALL NEW ROUTINE TO LOAD INFORMATION FOR CALCULATING THE 
 C  FUEL MODEL VARIABLES, BUT ONLY CALL THIS TIME IF A FIRE OCCURRED.
 C----------
+         CALL FMPOCR(IYR,2)
          IF (BURNYR .EQ. IYR) THEN
             CALL FMCFMD3(IYR, FMD)   
          ENDIF

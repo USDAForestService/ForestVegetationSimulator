@@ -1,7 +1,7 @@
-      FUNCTION EMERG(BY,T,INT)
+      FUNCTION EMERG(BY,T,INCRS)
       IMPLICIT NONE
 C----------
-C  **EMERG         DATE OF LAST REVISION:  07/08/11
+C  **EMERG         DATE OF LAST REVISION:  08/22/14
 C----------
 C
 C     PART OF THE MOUNTAIN PINE BEETLE EXTENSION OF PROGNOSIS SYSTEM.
@@ -11,15 +11,18 @@ C Revision History
 C   02/08/88 Last noted revision date.
 C   07/02/10 Lance R. David (FMSC)
 C     Added IMPLICIT NONE.
+C   08/22/14 Lance R. David (FMSC)
+C     Function name was used as variable name.
+C     changed variable INT to INCRS
 C----------
       DOUBLE PRECISION C
-      INTEGER T, INT
+      INTEGER T, INCRS
       REAL EMERG,BY
       
       IF(T .NE. 0) GO TO 1
-      C = 1.0D00/2**INT
+      C = 1.0D00/2**INCRS
       GO TO 2
-    1 C = C*(INT-T+1)/T
+    1 C = C*(INCRS-T+1)/T
     2 EMERG = BY*C
       RETURN
       END

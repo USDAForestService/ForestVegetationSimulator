@@ -1,6 +1,7 @@
       SUBROUTINE RDPPPT (WK3, IPNT, ILIMIT)
+      IMPLICIT NONE
 ***********************************************************************
-*  **RDPPPT      DATE OF LAST REVISION:  07/22/02
+*  **RDPPPT      DATE OF LAST REVISION:  09/10/14
 *----------------------------------------------------------------------
 *  Purpose:
 *     Put (store) the Root Disease model data for a given stand into
@@ -31,11 +32,14 @@
 *       Added new RDCOM variables LBBON, LRTYPE, IDOBB, IROOT
 *     22-JUL-02 Lance R. David (FHTET)
 *       Removed unused array PROBO from RDARRY common area processing.
+*   09/10/14 Lance R. David (FMSC)
+*     Updated, added implicit none and declared variables.
+*
 ***********************************************************************
 
 C.... Parameter statements.
-
-      PARAMETER (MXL=11,MXR=29,MXI=41)
+      INTEGER  MXL, MXR, MXI
+      PARAMETER (MXL=11,MXR=30,MXI=40)
 
 C.... Parameter include files.
 
@@ -78,17 +82,17 @@ C
 C---- from common METRIC ------------
       LOGICS ( 1) = LMTRIC
 C---- from common RDADD ------------
-      LOGICS ( 2) = RRTINV
-      LOGICS ( 3) = RRMAN
-      LOGICS ( 4) = BB2GO
-      LOGICS ( 5) = WINGO
-      LOGICS ( 6) = BB1GO
-      LOGICS ( 7) = REINGO
-      LOGICS ( 8) = LPLINF
+      LOGICS ( 2) = BB1GO
+      LOGICS ( 3) = BB2GO
+      LOGICS ( 4) = LPLINF
+      LOGICS ( 5) = REINGO
+      LOGICS ( 6) = RRMAN
+      LOGICS ( 7) = RRTINV
+      LOGICS ( 8) = WINGO
 C---- from common RDCOM ------------
-      LOGICS ( 9) = LXNOTE
+      LOGICS ( 9) = LBBON
       LOGICS (10) = LRTYPE
-      LOGICS (11) = LBBON
+      LOGICS (11) = LXNOTE
 
 C     Write logical scalars to buffer.
 C
@@ -112,42 +116,41 @@ C---- from common RDADD ------------
       INTS ( 4) = PINT
 C---- from common RDCOM ------------
       INTS ( 5) = IBBOUT
-      INTS ( 6) = IFRRC
-      INTS ( 7) = IIEND
-      INTS ( 8) = ILEND
-      INTS ( 9) = IMCOUT
-      INTS (10) = INFLAG
-      INTS (11) = IOUNIT
-      INTS (12) = IPUSH
-      INTS (13) = IRCOMP
-      INTS (14) = IRDOUT
-      INTS (15) = IRFLAG
-      INTS (16) = IRHAB
-      INTS (17) = IRINIT
-      INTS (18) = IRIPTY
-      INTS (19) = IROOT
-      INTS (20) = IRRSP
-      INTS (21) = IRSNYR
-      INTS (22) = IRSPTY
-      INTS (23) = IRSTYP
-      INTS (24) = IRUNIT
-      INTS (25) = ISTEP
-      INTS (26) = ISTFLG
-      INTS (27) = IYEAR
-      INTS (28) = JRSIT
-      INTS (29) = NINSIM
-      INTS (30) = NMONT
-      INTS (31) = NNCENT
-      INTS (32) = NNDEC
-      INTS (33) = NNDMX
-      INTS (34) = NNINF
-      INTS (35) = NRSTEP
-      INTS (36) = NSTUMP
-      INTS (37) = NTREES
-      INTS (38) = NUMBB
-      INTS (39) = NUMTRE
-      INTS (40) = IDOBB
-      INTS (41) = IROOT
+      INTS ( 6) = IDOBB
+      INTS ( 7) = IFRRC
+      INTS ( 8) = IIEND
+      INTS ( 9) = ILEND
+      INTS (10) = IMCOUT
+      INTS (11) = INFLAG
+      INTS (12) = IOUNIT
+      INTS (13) = IPUSH
+      INTS (14) = IRCOMP
+      INTS (15) = IRDOUT
+      INTS (16) = IRFLAG
+      INTS (17) = IRHAB
+      INTS (18) = IRINIT
+      INTS (19) = IRIPTY
+      INTS (20) = IROOT
+      INTS (21) = IRRSP
+      INTS (22) = IRSNYR
+      INTS (23) = IRSPTY
+      INTS (24) = IRSTYP
+      INTS (25) = IRUNIT
+      INTS (26) = ISTEP
+      INTS (27) = ISTFLG
+      INTS (28) = IYEAR
+      INTS (29) = JRSIT
+      INTS (30) = NINSIM
+      INTS (31) = NMONT
+      INTS (32) = NNCENT
+      INTS (33) = NNDEC
+      INTS (34) = NNDMX
+      INTS (35) = NNINF
+      INTS (36) = NRSTEP
+      INTS (37) = NSTUMP
+      INTS (38) = NTREES
+      INTS (39) = NUMBB
+      INTS (40) = NUMTRE
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN RDPPPT: INTS=',
      >            INTS
@@ -163,9 +166,8 @@ C---- from common RDADD ------------
       REALS ( 2) = BOTRT
       REALS ( 3) = SDISLP
       REALS ( 4) = SDNORM
-      REALS ( 5) = YINCPT
-C---- from common RDANN ------------
-      REALS ( 6) = SS
+      REALS ( 5) = SS
+      REALS ( 6) = YINCPT
 C---- from common RDCOM ------------
       REALS ( 7) = AGECUR
       REALS ( 8) = CURAGE
@@ -190,6 +192,7 @@ C---- from common RDCOM ------------
       REALS (27) = TSTEMS
       REALS (28) = WINDN
       REALS (29) = YTKILL
+      REALS (30) = OLDPRP
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN RDPPPT: REALS=',
      >            REALS
@@ -535,6 +538,7 @@ C---- from common RDCOM ------------
       CALL BFWRIT (WK3, IPNT, ILIMIT, YRRI,        IRRTRE, 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, YRRS,            50, 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, YYINF,            5, 2)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, CDF,           1001, 2)
 C---- from common RDCRY ------------
       DO 103 I = 1, 2
       DO 102 J = 1, 5

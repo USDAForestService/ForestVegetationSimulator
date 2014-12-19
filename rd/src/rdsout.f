@@ -1,6 +1,7 @@
       SUBROUTINE RDSOUT
+      IMPLICIT NONE
 C----------
-C  **RDSOUT                       LAST REVISION:  06/12/13
+C  **RDSOUT                       LAST REVISION:  09/03/14
 C----------
 C
 C  PRODUCES OPTIONAL OUTPUT (IN A SEPARATE FILE) OF THE RESULTS
@@ -30,6 +31,9 @@ C     16-AUG-2006 Lance R. David (FHTET)
 C        Change of metric conversion factors variable names to match
 C        variables in new \FVS\COMMON\METRIC.F77. rd\src\metric.f77
 C        will be retired. (mods courtesy of Don Robinson, ESSA)
+C   09/03/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
 C----------------------------------------------------------------------
 C.... PARAMETER INCLUDE FILES
 C
@@ -46,12 +50,10 @@ C
       INCLUDE 'RDCRY.F77'
       INCLUDE 'RDADD.F77'
       INCLUDE 'METRIC.F77'
-C
-C
-C      LOGICAL DEBUG
+
       LOGICAL FIRSTL
-C      CHARACTER*40 CMC
-      INTEGER JOMCS
+      INTEGER I, IDI, IJ, J, JOMCS, JYR, N
+      REAL    AVG, SFPROB, SUMX
       CHARACTER*1 CHTYPE(ITOTRR)
       
       DATA CHTYPE /'P','S','A','W'/  
@@ -89,11 +91,11 @@ C
          
          IF (PAREA(IRRSP) .LE. 0.0) GOTO 5000
          
-         SUM = 0.0
+         SUMX = 0.0
          DO 100 IJ = 1,NMONT
-            SUM = SUM + MCRATE(IRRSP,IJ)
+            SUMX = SUMX + MCRATE(IRRSP,IJ)
   100    CONTINUE
-         AVG = SUM / FLOAT(NMONT)
+         AVG = SUMX / FLOAT(NMONT)
          
          SFPROB = 0.0         
          IDI = IRRSP

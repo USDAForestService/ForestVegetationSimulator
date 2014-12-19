@@ -1,6 +1,7 @@
       SUBROUTINE RDIOUT
+      IMPLICIT NONE
 C----------
-C  **RDIOUT                     LAST REVISION:  06/18/01
+C  **RDIOUT                     LAST REVISION:  08/28/14
 C----------
 C
 C  PRODUCES OPTIONAL OUTPUT (IN A SEPARATE FILE) OF THE RESULTS
@@ -26,6 +27,9 @@ C
 C  REVISION HISTORY:
 C  18-JUN-2001 Lancd R. David (FHTET)
 C    Added Stand ID and Management ID line to report header.
+C   08/28/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
 C----------------------------------------------------------------------
 C
 C.... PARAMETER INCLUDE FILES
@@ -45,6 +49,8 @@ C
 C
 C
       CHARACTER*1 CHTYPE(ITOTRR)
+      INTEGER  ISIM, J, JYR, MAXSIM, N
+      REAL     AVG, SD, SUMX, UINUM
       
       DATA CHTYPE /'P','S','A','W'/
       
@@ -80,12 +86,12 @@ C
          AVG = CORINF(IRRSP,1)                   
          UINUM = CORINF(IRRSP,2)
          
-         SUM = 0.0
+         SUMX = 0.0
          SD = 0.0
          DO 100 ISIM=1,NINSIM
-            SUM = SUM + (ANUINF(IRRSP,ISIM) - AVG)**2
+            SUMX = SUMX + (ANUINF(IRRSP,ISIM) - AVG)**2
   100    CONTINUE
-         IF (NINSIM .GT. 1) SD = SQRT(SUM) / FLOAT(NINSIM - 1)
+         IF (NINSIM .GT. 1) SD = SQRT(SUMX) / FLOAT(NINSIM - 1)
 
          WRITE(ISDOUT,2099) JYR,CHTYPE(IRRSP),NINSIM,AVG,SD,UINUM,
      &                      (ANUINF(IRRSP,J),J=1,MAXSIM)

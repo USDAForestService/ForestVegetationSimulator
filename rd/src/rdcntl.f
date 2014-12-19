@@ -1,6 +1,7 @@
       SUBROUTINE RDCNTL
+      IMPLICIT NONE
 C----------
-C  **RDCNTL      LAST REVISION:  07/01/02
+C  **RDCNTL      LAST REVISION:  08/27/14
 C----------
 C  MAIN ROOT DISEASE SUBROUTINE.  CONTROLS SPREAD OF DISEASE
 C  PATCHES, CARRYOVER OF ROOT DISEASE BETWEEN ROTATIONS, INFECTS
@@ -42,8 +43,11 @@ C    06-AUG-01 Lance R. David (FHTET)
 C      Added declaration and initialization of TOTCEN.
 C    01-JUL-02 Lance R. David (FHTET)
 C      Corrected what looked like a typo with reset of PAREA near line 257.
+C   08/27/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
 C
-C----------------------------------------------------------------------------
+C----------------------------------------------------------------------
+C
 C.... PARAMETER INCLUDE FILES
 C
       INCLUDE 'PRGPRM.F77'
@@ -66,10 +70,12 @@ C   PROCESSING LOGIC AND SIGNALED COMPLETED IN THE CYCLE WHEN
 C   CARRYOVER IS DONE.
 C*******************************************************************
 C
-      REAL    TOTCEN
-      LOGICAL DEBUG
-
-      DIMENSION PRMS(5),MYACT(3)
+      INTEGER  I, I1, I2, IACTK, ICEN, ICLASS, IDI, IDIFF, II, IJ,
+     &         IP, IRG, ISIZE, IT, J, KDT, KSP, MYACT(3), NPS,
+     &         NTODO
+      REAL     DIFF, MRAT, PRMS(5), PTMOVE, RRADEC, RRSURV, SPCEN,
+     &         TESTAG, TOTCEN
+      LOGICAL  DEBUG
 
       DATA MYACT / 2401, 2402, 2431/
 

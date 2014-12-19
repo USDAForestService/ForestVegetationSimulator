@@ -1,11 +1,14 @@
       BLOCK DATA RDBLK1
+      IMPLICIT NONE
 C----------
-C  **RDBLK1-EC  LAST REVISION:  03/16/12
+C  **RDBLK1-EC     LAST REVISION:  08/27/14
 C----------
 C
 C  Purpose :
 C     This block data file initializes constants in the Root Disease
 C     extension to FVS.
+C
+C  Previous revision date 03/16/12
 C
 COMMONS
 C

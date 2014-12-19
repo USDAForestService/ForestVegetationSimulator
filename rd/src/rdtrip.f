@@ -1,6 +1,7 @@
       SUBROUTINE RDTRIP (ITFN,I,WEIGHT)
+      IMPLICIT NONE
 C----------
-C  **RDTRIP      LAST REVISION:  07/22/02
+C  **RDTRIP      LAST REVISION:  09/04/14
 C----------
 C
 C  THIS ROOT DISEASE MODEL SUBROUTINE IS USED
@@ -22,25 +23,24 @@ C    22-JUL-02 Lance R. David (FHTET)
 C      Previous revision date noted was 11/06/89.
 C      Removed unused array PROBO. It was also unused in the old
 C      annosus model.
+C   09/04/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
-C
       INCLUDE 'PRGPRM.F77'
-C
-C
       INCLUDE 'RDPARM.F77'
-C
-C
       INCLUDE 'CONTRL.F77'
-C
-C
       INCLUDE 'RDCOM.F77'              
       INCLUDE 'RDADD.F77'
       INCLUDE 'RDARRY.F77'
 C
 COMMONS
 C
+      INTEGER I, IDI, ITFN, ITYP, J, JINF
+      REAL    TPAREA, WEIGHT
       TPAREA = 0.0
       DO 59 IDI=MINRR,MAXRR
          TPAREA = TPAREA + PAREA(IDI)

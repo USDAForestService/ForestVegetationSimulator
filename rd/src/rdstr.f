@@ -1,6 +1,7 @@
       SUBROUTINE RDSTR (IT,PREM,PREPRB)
+      IMPLICIT NONE
 C----------
-C  **RDSTR       LAST REVISION:  07/16/02
+C  **RDSTR       LAST REVISION:  09/03/14
 C----------
 C
 C  SUBROUTINE FOR DECREASING INFESTED TREES WHEN CUTTING OR
@@ -29,36 +30,33 @@ C      was active. This value is needed elsewhere regardless of spore
 C      infection processes.
 C    16-JUL-2002 Lance R. David (FHTET)
 C      Modified comment and debug statements.
-C---------------------------- 
+C   09/03/14 Lance R. David (FMSC)
+C     Added implicit none and declared variables.
+C
+C----------------------------------------------------------------------
 C
 COMMONS
 C
-C
       INCLUDE 'PRGPRM.F77'
-C
-C
+
       INCLUDE 'RDPARM.F77'
-C
-C
+
       INCLUDE 'RDCOM.F77'
-C
-C
+
       INCLUDE 'RDARRY.F77'
-C
-C
+
       INCLUDE 'ARRAYS.F77'
-C
-C
+
       INCLUDE 'CONTRL.F77'
-C
-C
+
       INCLUDE 'RDADD.F77'
-C
 C
 COMMONS
 C
 
       LOGICAL DEBUG
+      INTEGER I, IDI, IRG, ISL, IT, JJ
+      REAL    ANS, PREM, PREPRB, TESTAG, TP, TPAREA, XXX
 
 C
 C     SEE IF WE NEED TO DO SOME DEBUG.
