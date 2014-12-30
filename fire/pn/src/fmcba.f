@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-PN-DATE OF LAST REVISION:  04/25/13
+C  **FMCBA   FIRE-PN-DATE OF LAST REVISION:  12/29/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -135,21 +135,21 @@ C                  herbs, shrubs
      >             0.20, 0.20, !22 = red alder - use DF
      >             0.20, 0.20, !23 = white alder/pacific madrone - use DF
      >             0.20, 0.20, !24 = paper birch - use DF
-     >             0.25, 0.25, !25 = giant chinkapin/tanoak - use AS
-     >             0.25, 0.25, !26 = quaking aspen
-     >             0.25, 0.25, !27 = black cottonwood - use AS
-     >             0.23, 0.22, !28 = Or. white oak/Cal. black oak
+     >             0.25, 0.25, !25 = giant chinkapin/tanoak - use QA Ottmar and others 2000b
+     >             0.25, 0.25, !26 = quaking aspen - Ottmar and others 2000b
+     >             0.25, 0.25, !27 = black cottonwood - use QA Ottmar and others 2000b
+     >             0.23, 0.22, !28 = Or. white oak/Cal. black oak - Gambel oak Ottmar 
      >             0.14, 0.35, !29 = juniper (Ottmar Volume I)
      >             0.20, 0.20, !30 = subalpine larch - use WL
      >             0.20, 0.10, !31 = whitebark pine - use LP
      >             0.20, 0.10, !32 = knobcone pine - use LP
      >             0.20, 0.20, !33 = Pacific yew - use DF
      >             0.20, 0.20, !34 = Pacific dogwood - use DF
-     >             0.25, 0.25, !35 = hawthorn (r4 definition) - use AS
-     >             0.25, 0.25, !36 = bitter cherry - use AS
-     >             0.25, 0.25, !37 = willow - use AS
+     >             0.25, 0.25, !35 = hawthorn (r4 definition) - use QA Ottmar and others 2000b
+     >             0.25, 0.25, !36 = bitter cherry - use QA Ottmar and others 2000b
+     >             0.25, 0.25, !37 = willow - use QA Ottmar and others 2000b
      >             0.00, 0.00, !38 = ---
-     >             0.25, 0.25/ !39 = other - use AS
+     >             0.25, 0.25/ !39 = other - use QA Ottmar and others 2000b
 
 C     INITIAL LIVE FUEL LOADING FOR 'INTIALIZING STANDS WITH 10% COVER
 
@@ -179,21 +179,21 @@ C                  herbs, shrubs
      >             0.40, 2.00, !22 = red alder - use DF
      >             0.40, 2.00, !23 = white alder/pacific madrone - use DF
      >             0.40, 2.00, !24 = paper birch - use DF
-     >             0.18, 2.00, !25 = giant chinkapin/tanoak - use AS
-     >             0.18, 2.00, !26 = quaking aspen
-     >             0.18, 2.00, !27 = black cottonwood - use AS
-     >             0.55, 0.35, !28 = Or. white oak/Cal. black oak
+     >             0.18, 2.00, !25 = giant chinkapin/tanoak - use QA Ottmar and others 2000b, modified.
+     >             0.18, 1.32, !26 = quaking aspen - Ottmar and others 2000b
+     >             0.18, 1.32, !27 = black cottonwood - use QA Ottmar and others 2000b
+     >             0.55, 0.35, !28 = Or. white oak/Cal. black oak - Gambel oak Ottmar
      >             0.10, 2.06, !29 = juniper (Ottmar Volume I)
      >             0.40, 2.00, !30 = subalpine larch - use WL
      >             0.40, 1.00, !31 = whitebark pine - use LP
      >             0.40, 1.00, !32 = knobcone pine - use LP
      >             0.40, 2.00, !33 = Pacific yew - use DF
      >             0.40, 2.00, !34 = Pacific dogwood - use DF
-     >             0.18, 2.00, !35 = hawthorn (r4 definition) - use AS
-     >             0.18, 2.00, !36 = bitter cherry - use AS
-     >             0.18, 2.00, !37 = willow - use AS
+     >             0.18, 1.32, !35 = hawthorn (r4 definition) - use QA Ottmar and others 2000b
+     >             0.18, 1.32, !36 = bitter cherry - use QA Ottmar and others 2000b
+     >             0.18, 1.32, !37 = willow - use QA Ottmar and others 2000b
      >             0.00, 0.00, !38 = ---
-     >             0.18, 2.00/ !39 = other - use AS
+     >             0.18, 1.32/ !39 = other - use QA Ottmar and others 2000b
 
 C     INITIAL FUEL LOADING FOR 'ESTABLISHED' STANDS WITH 60% COVER
 C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD
@@ -225,7 +225,7 @@ C     <.25 to1  1-3   3-6 6-12  12-20 20-35 35-50 >50  Lit  Duf
      &2.2, 2.2, 5.2,15.0,20.0,15.0, 0.0,0.0,0.0,1.0,35.0, !23 = white alder/pacific madrone - use DF
      &2.2, 2.2, 5.2,15.0,20.0,15.0, 0.0,0.0,0.0,1.0,35.0, !24 = paper birch - use DF
      &0.7, 0.7, 0.8, 1.2, 1.2, 0.5, 0.0,0.0,0.0,1.4, 0.0, !25 = giant chinkapin/tanoak
-     &0.2, 0.6, 2.4, 3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !26 = quaking aspen
+     &0.2, 0.6, 2.4, 3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !26 = quaking aspen - Ottmar 2000b
      &0.2, 0.6, 2.4, 3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !27 = black cottonwood - use AS
      &0.7, 0.7, 0.8, 1.2, 1.2, 0.5, 0.0,0.0,0.0,1.4, 0.0, !28 = Or. white oak/Cal. black oak
      &0.1, 0.2, 0.4, 0.5, 0.8, 1.0, 0.0,0.0,0.0,0.1, 0.0, !29 = juniper - Ottmar Volume I
@@ -270,7 +270,7 @@ C     <.25 to1  1-3  3-6 6-12  12-20 20-35 35-50 >50  Lit  Duf
      &1.1, 1.1, 3.6, 6.0, 8.0, 6.0, 0.0,0.0,0.0,0.5,12.0, !23 = white alder/pacific madrone - use DF
      &1.1, 1.1, 3.6, 6.0, 8.0, 6.0, 0.0,0.0,0.0,0.5,12.0, !24 = paper birch - use DF
      &0.1, 0.1, 0.1, 0.2, 0.2, 0.0, 0.0,0.0,0.0,0.5, 0.0, !25 = giant chinkapin/tanoak
-     &0.1, 0.4, 5.0, 2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !26 = quaking aspen
+     &0.1, 0.4, 5.0, 2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !26 = quaking aspen - Ottmar 2000b
      &0.1, 0.4, 5.0, 2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !27 = black cottonwood - use AS
      &0.1, 0.1, 0.1, 0.2, 0.2, 0.0, 0.0,0.0,0.0,0.5, 0.0, !28 = Or. white oak/Cal. black oak
      &0.2, 0.4, 0.2, 0.0, 0.0, 0.0, 0.0,0.0,0.0,0.2, 0.0, !29 = juniper - Ottmar Volume I

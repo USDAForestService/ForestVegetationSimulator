@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-AK-DATE OF LAST REVISION:  11/24/14
+C  **FMCBA   FIRE-AK-DATE OF LAST REVISION:  12/23/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -79,8 +79,8 @@ C                  herbs, shrubs
      >             0.30, 0.20, ! 8 = Sitka spruce 
      >             0.15, 0.10, ! 9 = subalpine fir      
      >             0.20, 0.20, !10 = red alder    
-     >             0.25, 0.25, !27 = black cottonwood     
-     >             0.25, 0.25, !27 = other hardwoods (use black cottonwood)             
+     >             0.25, 0.25, !11 = black cottonwood - use QA Ottmar and others 2000b   
+     >             0.25, 0.25, !12 = other hardwoods - use QA Ottmar and others 2000b             
      >             0.15, 0.10/ !13 = other softwoods (use PSF)
 
 
@@ -98,8 +98,8 @@ C                  herbs, shrubs
      >             0.30, 2.00, ! 8 = Sitka spruce      
      >             0.30, 2.00, ! 9 = subalpine fir 
      >             0.40, 2.00, !10 = red alder
-     >             0.18, 2.00, !11 = black cottonwood     
-     >             0.18, 2.00, !12 = other hardwoods (use black cottonwood)      
+     >             0.18, 1.32, !11 = black cottonwood - use QA Ottmar and others 2000b     
+     >             0.18, 1.32, !12 = other hardwoods - use QA Ottmar and others 2000b      
      >             0.30, 2.00/ !13 = other softwoods (use PSF)
 
 C     INITIAL FUEL LOADING BASED ON FIA FOREST TYPE CODE

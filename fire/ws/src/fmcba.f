@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-WS-DATE OF LAST REVISION: 04/25/13
+C  **FMCBA   FIRE-WS-DATE OF LAST REVISION: 12/29/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -169,20 +169,20 @@ C                  herbs, shrubs
      &             0.14, 0.35, ! Utah juniper use CA western juniper
      &             0.14, 0.35, ! California juniper CA western juniper
      &             0.23, 0.22, ! California live oak use CA California live oak
-     &             0.25, 0.25, ! canyon live oak use CA canyon live oak
+     &             0.25, 0.25, ! canyon live oak - use QA Ottmar and others 2000b
      &             0.23, 0.22, ! blue oak use CA blue oak
      &             0.23, 0.22, ! California black oak - Gambel oak - Ottmar
      &             0.23, 0.22, ! California white / valley oak use 
 C                                            CA California white / valley oak
      &             0.23, 0.22, ! interior live oak use CA interior live oak
-     &             0.25, 0.25, ! tanoak - aspen - Ottmar
-     &             0.25, 0.25, ! giant chinkapin use CA giant chinkapin
-     &             0.25, 0.25, ! quaking aspen use CA quaking aspen - Ottmar
-     &             0.25, 0.25, ! California-laurel use CA California-laurel
+     &             0.25, 0.25, ! tanoak - use QA Ottmar and others 2000b
+     &             0.25, 0.25, ! giant chinkapin - use QA Ottmar and others 2000b
+     &             0.25, 0.25, ! quaking aspen - Ottmar and others 2000b
+     &             0.20, 0.20, ! California-laurel use CA California-laurel
      &             0.20, 0.20, ! Pacific madrone use CA Pacific madrone
      &             0.20, 0.20, ! Pacific dogwood use CA Pacific dogwood
      &             0.20, 0.20, ! bigleaf maple use CA bigleaf maple
-     &             0.25, 0.25, ! curlleaf mtn-mahogany use SO curlleaf mtn maho
+     &             0.25, 0.25, ! curlleaf mtn-mahogany - use QA Ottmar and others 2000b
      &             0.20, 0.10, ! other softwoods use lodgepole pine NI
      &             0.23, 0.22/ ! other hardwoods use California black oak
 
@@ -218,20 +218,20 @@ C                  herbs, shrubs
      &             0.10, 2.06,  ! Utah juniper use CA western juniper
      &             0.10, 2.06,  ! California juniper use CA western juniper
      &             0.55, 0.35,  ! California live oak use CA California live oak
-     &             0.18, 2.00,  ! canyon live oak use CA canyon live oak
+     &             0.18, 2.00,  ! canyon live oak use QA Ottmar and others 2000b, modified.
      &             0.55, 0.35,  ! blue oak use CA blue oak
      &             0.55, 0.35,  ! California black oak
      &             0.55, 0.35,  ! California white/valley oak use 
 C                                             CA California white / valley oak
      &             0.55, 0.35,  ! interior live oak use CA interior live oak
-     &             0.18, 2.00,  ! tanoak - aspen - Ottmar
-     &             0.18, 2.00,  ! giant chinkapin use CA giant chinkapin
-     &             0.18, 2.00,  ! quaking aspen use CA quaking aspen
+     &             0.18, 2.00,  ! tanoak - use QA Ottmar and others 2000b, modified.
+     &             0.18, 2.00,  ! giant chinkapin - use QA Ottmar and others 2000b, modified.
+     &             0.18, 1.32,  ! quaking aspen - Ottmar and others 2000b
      &             0.40, 2.00,  ! California-laurel use CA California-laurel
      &             0.40, 2.00,  ! Pacific madrone use CA Pacific madrone
      &             0.40, 2.00,  ! Pacific dogwood use CA Pacific dogwood
      &             0.40, 2.00,  ! bigleaf maple use CA bigleaf maple
-     &             0.18, 1.32,  ! curlleaf mtn-mahogany - use CR AS (SO MC)
+     &             0.18, 1.32,  ! curlleaf mtn-mahogany - use QA Ottmar and others 2000b
      &             0.40, 1.00,  ! other softwoods use lodgepole pine NI
      &             0.55, 0.35/  ! other hardwoods use California black oak
 

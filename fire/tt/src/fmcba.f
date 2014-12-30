@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-TT-DATE OF LAST REVISION:  04/25/13
+C  **FMCBA   FIRE-TT-DATE OF LAST REVISION:  12/29/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -109,21 +109,21 @@ C----------
      &  0.2,   0.1, !1  WB - use LP
      &  0.2,   0.1, !2  LM - use LP
      &  0.2,   0.2, !3  DF
-     & 0.04,  0.05, !4  PM - use common pinyon - Ottmar, 2000
+     & 0.04,  0.05, !4  PM - Ottmar, 2000
      & 0.15,   0.2, !5  BS - use ES
      & 0.25,  0.25, !6  AS - Ottmar, 2000
      &  0.2,   0.1, !7  LP
      & 0.15,   0.2, !8  ES
      & 0.15,   0.2, !9  AF
      &  0.2,  0.25, !10 PP - use CI PP
-     & 0.04,  0.05, !11 UJ - use western juniper - Ottmar, 2000
-     & 0.04,  0.05, !12 RM - use western juniper - Ottmar, 2000
+     & 0.04,  0.05, !11 UJ - Ottmar, 2000
+     & 0.04,  0.05, !12 RM - Ottmar, 2000
      & 0.20,  0.20, !13 BI - from SO BM, use CR DF
      &  0.2,   0.2, !14 MM - use IE MM
-     & 0.25,  0.25, !15 NC - use CR narrowleaf cottonwood
-     & 0.25,  0.25, !16 MC - from SO, use CR AS
+     & 0.25,  0.25, !15 NC - use aspen Ottmar, 2000
+     & 0.25,  0.25, !16 MC - use aspen Ottmar, 2000
      &  0.2,   0.1, !17 OS - use LP
-     & 0.25,  0.25/ !18 OH - use CR narrowleaf cottonwood
+     & 0.25,  0.25/ !18 OH - use aspen Ottmar, 2000
 C----------
 C     INITIAL LIVE FUEL LOADING FOR 'INTIALIZING STANDS WITH 10% COVER
 C
@@ -133,21 +133,21 @@ C----------
      &  0.4,  1.0, !1  WB - use LP
      &  0.4,  1.0, !2  LM - use LP
      &  0.4,  2.0, !3  DF
-     & 0.13, 1.63, !4  PM - use common pinyon - Ottmar, 2000
+     & 0.13, 1.63, !4  PM - Ottmar, 2000
      &  0.3,  2.0, !5  BS - use ES
      & 0.18, 1.32, !6  AS - Ottmar, 2000
      &  0.4,  1.0, !7  LP
      &  0.3,  2.0, !8  ES
      &  0.3,  2.0, !9  AF
      & 0.25, 0.10, !10 PP - use CI PP
-     & 0.13, 1.63, !11 UJ - use western juniper - Ottmar, 2000
-     & 0.13, 1.63, !12 RM - use western juniper - Ottmar, 2000
+     & 0.13, 1.63, !11 UJ - Ottmar, 2000
+     & 0.13, 1.63, !12 RM - Ottmar, 2000
      & 0.40, 2.00, !13 BI - from SO BM, use CR DF
      &  0.4,  2.0, !14 MM - use IE MM
-     & 0.18, 1.32, !15 NC - use CR narrowleaf cottonwood
-     & 0.18, 1.32, !16 MC - from SO, use CR AS
+     & 0.18, 1.32, !15 NC - use aspen Ottmar, 2000
+     & 0.18, 1.32, !16 MC - use aspen Ottmar, 2000
      &  0.4,  1.0, !17 OS - use LP
-     & 0.18, 1.32/ !18 OH - use CR narrowleaf cottonwood
+     & 0.18, 1.32/ !18 OH - use aspen Ottmar, 2000
 C----------
 C     INITIAL FUEL LOADING FOR 'ESTABLISHED' STANDS WITH 60% COVER
 C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD
@@ -158,21 +158,21 @@ C----------
      & 0.9, 0.9, 1.2,  7.0, 8.0,  0.0, 0.0,  0.0, 0.0, 0.6, 15.0, !1  WB - use LP
      & 0.9, 0.9, 1.2,  7.0, 8.0,  0.0, 0.0,  0.0, 0.0, 0.6, 15.0, !2  LM - use LP
      & 0.9, 0.9, 1.6,  3.5, 3.5,  0.0, 0.0,  0.0, 0.0, 0.6, 10.0, !3  DF
-     & 0.2, 0.8, 2.3,  1.4, 3.0,  0.0, 0.0,  0.0, 0.0, 0.5,  0.0, !4  PM - use common pinyon - Ottmar, 2000
+     & 0.2, 0.8, 2.3,  1.4, 3.0,  0.0, 0.0,  0.0, 0.0, 0.5,  0.0, !4  PM - Ottmar, 2000
      & 1.1, 1.1, 2.2, 10.0,10.0,  0.0, 0.0,  0.0, 0.0, 0.6, 30.0, !5  BS - use ES
      & 0.2, 0.6, 2.4,  3.6, 5.6,  0.0, 0.0,  0.0, 0.0, 1.4, 16.8, !6  AS - Ottmar, 2000
      & 0.9, 0.9, 1.2,  7.0, 8.0,  0.0, 0.0,  0.0, 0.0, 0.6, 15.0, !7  LP
      & 1.1, 1.1, 2.2, 10.0,10.0,  0.0, 0.0,  0.0, 0.0, 0.6, 30.0, !8  ES
      & 1.1, 1.1, 2.2, 10.0,10.0,  0.0, 0.0,  0.0, 0.0, 0.6, 30.0, !9  AF
      & 0.7, 0.7, 1.6,  2.5, 2.5,  0.0, 0.0,  0.0, 0.0, 1.4,  5.0, !10 PP - use CI PP
-     & 0.2, 0.8, 2.3,  1.4, 3.0,  0.0, 0.0,  0.0, 0.0, 0.5,  0.0, !11 UJ - use western juniper - Ottmar, 2000
-     & 0.2, 0.8, 2.3,  1.4, 3.0,  0.0, 0.0,  0.0, 0.0, 0.5,  0.0, !12 RM - use western juniper - Ottmar, 2000
+     & 0.2, 0.8, 2.3,  1.4, 3.0,  0.0, 0.0,  0.0, 0.0, 0.5,  0.0, !11 UJ - Ottmar, 2000
+     & 0.2, 0.8, 2.3,  1.4, 3.0,  0.0, 0.0,  0.0, 0.0, 0.5,  0.0, !12 RM - Ottmar, 2000
      & 0.9, 0.9, 1.6,  3.5, 3.5,  0.0, 0.0,  0.0, 0.0, 0.6, 10.0, !13 BI - from SO BM, use CR DF
      & 0.9, 0.9, 1.6,  3.5, 3.5,  0.0, 0.0,  0.0, 0.0, 0.6, 10.0, !14 MM - use IE MM
-     & 0.2, 0.6, 2.4,  3.6, 5.6,  0.0, 0.0,  0.0, 0.0, 1.4, 16.8, !15 NC - use CR narrowleaf cottonwood
-     & 0.2, 0.6, 2.4,  3.6, 5.6,  0.0, 0.0,  0.0, 0.0, 1.4, 16.8, !16 MC - from SO, use CR AS
+     & 0.2, 0.6, 2.4,  3.6, 5.6,  0.0, 0.0,  0.0, 0.0, 1.4, 16.8, !15 NC - use aspen Ottmar, 2000
+     & 0.2, 0.6, 2.4,  3.6, 5.6,  0.0, 0.0,  0.0, 0.0, 1.4, 16.8, !16 MC - use aspen Ottmar, 2000
      & 0.9, 0.9, 1.2,  7.0, 8.0,  0.0, 0.0,  0.0, 0.0, 0.6, 15.0, !17 OS - use LP
-     & 0.2, 0.6, 2.4,  3.6, 5.6,  0.0, 0.0,  0.0, 0.0, 1.4, 16.8/ !18 OH - use CR narrowleaf cottonwood
+     & 0.2, 0.6, 2.4,  3.6, 5.6,  0.0, 0.0,  0.0, 0.0, 1.4, 16.8/ !18 OH - use aspen Ottmar, 2000
 C----------
 C     INITIAL FUEL LOADING FOR 'INITIALIZING' STANDS WITH 10% COVER
 C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD
@@ -183,21 +183,21 @@ C----------
      & 0.6, 0.7, 0.8,  2.8, 3.2,  0.0, 0.0,  0.0, 0.0, 0.3,  7.0, !1  WB - use LP
      & 0.6, 0.7, 0.8,  2.8, 3.2,  0.0, 0.0,  0.0, 0.0, 0.3,  7.0, !2  LM - use LP
      & 0.5, 0.5, 1.0,  1.4, 1.4,  0.0, 0.0,  0.0, 0.0, 0.3,  5.0, !3  DF
-     & 0.0, 0.1, 0.0,  0.0, 0.0,  0.0, 0.0,  0.0, 0.0, 0.3,  0.0, !4  PM - use common pinyon - Ottmar, 2000
+     & 0.0, 0.1, 0.0,  0.0, 0.0,  0.0, 0.0,  0.0, 0.0, 0.3,  0.0, !4  PM - Ottmar, 2000
      & 0.7, 0.7, 1.6,  4.0, 4.0,  0.0, 0.0,  0.0, 0.0, 0.3, 12.0, !5  BS - use ES
      & 0.1, 0.4, 5.0,  2.2, 2.3,  0.0, 0.0,  0.0, 0.0, 0.8,  5.6, !6  AS - Ottmar, 2000
      & 0.6, 0.7, 0.8,  2.8, 3.2,  0.0, 0.0,  0.0, 0.0, 0.3,  7.0, !7  LP
      & 0.7, 0.7, 1.6,  4.0, 4.0,  0.0, 0.0,  0.0, 0.0, 0.3, 12.0, !8  ES
      & 0.7, 0.7, 1.6,  4.0, 4.0,  0.0, 0.0,  0.0, 0.0, 0.3, 12.0, !9  AF
      & 0.1, 0.1, 0.2,  0.5, 0.5,  0.0, 0.0,  0.0, 0.0, 0.5,  0.8, !10 PP - use CI PP
-     & 0.0, 0.1, 0.0,  0.0, 0.0,  0.0, 0.0,  0.0, 0.0, 0.3,  0.0, !11 UJ - use western juniper - Ottmar, 2000
-     & 0.0, 0.1, 0.0,  0.0, 0.0,  0.0, 0.0,  0.0, 0.0, 0.3,  0.0, !12 RM - use western juniper - Ottmar, 2000
+     & 0.0, 0.1, 0.0,  0.0, 0.0,  0.0, 0.0,  0.0, 0.0, 0.3,  0.0, !11 UJ - Ottmar, 2000
+     & 0.0, 0.1, 0.0,  0.0, 0.0,  0.0, 0.0,  0.0, 0.0, 0.3,  0.0, !12 RM - Ottmar, 2000
      & 0.5, 0.5, 1.0,  1.4, 1.4,  0.0, 0.0,  0.0, 0.0, 0.3,  5.0, !13 BI - from SO BM, use CR DF
      & 0.5, 0.5, 1.0,  1.4, 1.4,  0.0, 0.0,  0.0, 0.0, 0.3,  5.0, !14 MM - use IE MM
-     & 0.1, 0.4, 5.0,  2.2, 2.3,  0.0, 0.0,  0.0, 0.0, 0.8,  5.6, !15 NC - use CR narrowleaf cottonwood
-     & 0.1, 0.4, 5.0,  2.2, 2.3,  0.0, 0.0,  0.0, 0.0, 0.8,  5.6, !16 MC - from SO, use CR AS
+     & 0.1, 0.4, 5.0,  2.2, 2.3,  0.0, 0.0,  0.0, 0.0, 0.8,  5.6, !15 NC - use aspen Ottmar, 2000
+     & 0.1, 0.4, 5.0,  2.2, 2.3,  0.0, 0.0,  0.0, 0.0, 0.8,  5.6, !16 MC - use aspen Ottmar, 2000
      & 0.6, 0.7, 0.8,  2.8, 3.2,  0.0, 0.0,  0.0, 0.0, 0.3,  7.0, !17 OS - use LP
-     & 0.1, 0.4, 5.0,  2.2, 2.3,  0.0, 0.0,  0.0, 0.0, 0.8,  5.6/ !18 OH - use CR narrowleaf cottonwood
+     & 0.1, 0.4, 5.0,  2.2, 2.3,  0.0, 0.0,  0.0, 0.0, 0.8,  5.6/ !18 OH - use aspen Ottmar, 2000
 C----------
 C     DOMINANT SPECIES FOR EACH (OPTIONAL) VEGETATION CODE.
 C     DERIVED FROM VEG CODES IN R4HABT ARRAY IN **HABTYP**
