@@ -144,10 +144,16 @@ c     there is no attached file.
         fvsRtnCode = 1
         return
    40   continue
-        read (jdstash) restartcode,oldstopyr,i,keywordfile(:i)
-        write (*,41) restartfile(:len_trim(restartfile)),
+        read (jdstash,end=42) restartcode,oldstopyr,i,keywordfile(:i)
+        goto 43
+   42   continue
+        print *,"Premature end of data on file=",trim(restartfile)
+        fvsRtnCode = 1
+        return
+   43   continue
+        write (*,44) restartfile(:len_trim(restartfile)),
      >          oldstopyr,restartcode
-   41   format (" Restarting from file=",A," Year=",I5,
+   44   format (" Restarting from file=",A," Year=",I5,
      >          " Stop point code=",I2)
 
 c       store the last used restart code that was used to store all the stands.
@@ -369,7 +375,6 @@ cc     -        " restrtcd=",restrtcd
 
       subroutine fvsSetRtnCode (rtnCode)
       implicit none
-      
       include "GLBLCNTL.F77"
       integer :: rtnCode
 

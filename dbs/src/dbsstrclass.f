@@ -44,8 +44,6 @@ C             31: STRUCTURE CLASS
 C             32: KODE FOR WHETHER OR NOT THE REPORT ALSO DUMPS TO FILE
 C             33: THE NUMBER OF TREE RECORDS
 C
-C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
-C
 COMMONS
 C
       INCLUDE 'DBSCOM.F77'
@@ -53,7 +51,7 @@ C
 COMMONS
 C
 
-      INTEGER IYEAR,ID,KODE,RCODE,S1NHT,S1LHT,S1SHT,S1CB,S1CC,S1SC
+      INTEGER IYEAR,KODE,RCODE,S1NHT,S1LHT,S1SHT,S1CB,S1CC,S1SC,IRCODE
       INTEGER S2NHT,S2LHT,S2SHT,S2CB,S2CC,S3NHT,S3LHT,S3SHT,S3CB,S3CC
       INTEGER S2SC, S3SC, TOTCOV,NS, NTREES
       INTEGER(SQLSMALLINT_KIND)::ColNumber
@@ -98,19 +96,16 @@ C---------
       ELSE
         TABLENAME = 'FVS_StrClass'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        ISTRCLAS = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
 
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_StrClass('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year int null,'//
      -              'Removal_Code double null,'//
@@ -146,8 +141,7 @@ C---------
      -              'Structure_Class text null)'
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_StrClass('//
-     -              'Id int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year int,'//
      -              'Removal_Code Number,'//
@@ -183,8 +177,7 @@ C---------
      -              'Structure_Class Text)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_StrClass('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) null,'//
      -              'Year int null,'//
      -              'Removal_Code real null,'//
@@ -225,21 +218,7 @@ C---------
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -       'DBSSTRCLASS:Creating Table: '//trim(SQLStmtStr))
-        STRCLID = 0
       ENDIF
-
-C---------
-C     CREATE ENTRY FROM DATA FOR STRUCTURE CLASS TABLE
-C---------
-      IF(STRCLID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        STRCLID = ID
-      ENDIF
-      STRCLID = STRCLID + 1
-C----------
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C----------
-      IF(STRCLID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
 
       BS1DBH=0D0
       BS2DBH=0D0
@@ -248,25 +227,23 @@ C----------
       BS2DBH=S2DBH
       BS3DBH=S3DBH
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(Id,CaseID,
-     -       StandID,Year,Removal_Code,Stratum_1_DBH,Stratum_1_Nom_Ht,
-     -       Stratum_1_Lg_Ht,Stratum_1_Sm_Ht,Stratum_1_Crown_Base,
-     -       Stratum_1_Crown_Cover,Stratum_1_Species_1,
-     -       Stratum_1_Species_2,Stratum_1_Status_Code,Stratum_2_DBH,
-     -       Stratum_2_Nom_Ht,Stratum_2_Lg_Ht,Stratum_2_Sm_Ht,
-     -       Stratum_2_Crown_Base,Stratum_2_Crown_Cover,
-     -       Stratum_2_Species_1,Stratum_2_Species_2,
-     -       Stratum_2_Status_Code,Stratum_3_DBH,Stratum_3_Nom_Ht,
-     -       Stratum_3_Lg_Ht,Stratum_3_Sm_Ht,Stratum_3_Crown_Base,
-     -       Stratum_3_Crown_Cover,Stratum_3_Species_1,
-     -       Stratum_3_Species_2,Stratum_3_Status_Code,Number_of_Strata,
-     -       Total_Cover,Structure_Class)
-     -       VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,?,?,
-     -       ?,',CHAR(39),S1MS1,CHAR(39),',',CHAR(39),S1MS2,CHAR(39),',
-     -       ?,?,?,?,?,?,?,',CHAR(39),S2MS1,CHAR(39),',
-     -       ',CHAR(39),S2MS2,CHAR(39),',?,?,?,?,?,?,?,
-     -       ',CHAR(39),S3MS1,CHAR(39),',',CHAR(39),S3MS2,CHAR(39),',?,
-     -       ?,?,',CHAR(39),SCLASS,CHAR(39),')'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(CaseID,',
+     -    'StandID,Year,Removal_Code,Stratum_1_DBH,Stratum_1_Nom_Ht,',
+     -    'Stratum_1_Lg_Ht,Stratum_1_Sm_Ht,Stratum_1_Crown_Base,',
+     -    'Stratum_1_Crown_Cover,Stratum_1_Species_1,',
+     -    'Stratum_1_Species_2,Stratum_1_Status_Code,Stratum_2_DBH,',
+     -    'Stratum_2_Nom_Ht,Stratum_2_Lg_Ht,Stratum_2_Sm_Ht,',
+     -    'Stratum_2_Crown_Base,Stratum_2_Crown_Cover,',
+     -    'Stratum_2_Species_1,Stratum_2_Species_2,',
+     -    'Stratum_2_Status_Code,Stratum_3_DBH,Stratum_3_Nom_Ht,',
+     -    'Stratum_3_Lg_Ht,Stratum_3_Sm_Ht,Stratum_3_Crown_Base,',
+     -    'Stratum_3_Crown_Cover,Stratum_3_Species_1,',
+     -    'Stratum_3_Species_2,Stratum_3_Status_Code,Number_of_Strata,',
+     -    'Total_Cover,Structure_Class) VALUES(''',CASEID,
+     -    ''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?,''',TRIM(S1MS1),
+     -    ''',''',TRIM(S1MS2),''',?,?,?,?,?,?,?,''',TRIM(S2MS1),
+     -    ''',''',TRIM(S2MS2),''',?,?,?,?,?,?,?,''',TRIM(S3MS1),
+     -    ''',''',TRIM(S3MS2),''',?,?,?,''',TRIM(SCLASS),''')'
 C
 C     CLOSE CURSOR
 C
@@ -280,18 +257,6 @@ C
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(0,SQLSMALLINT_KIND),STRCLID,int(4,SQLLEN_KIND),
-     -          SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -          INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -          SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -          SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -          INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
@@ -441,7 +406,6 @@ C
      -          INT(5,SQLSMALLINT_KIND),TOTCOV,int(4,SQLLEN_KIND),
      -          SQL_NULL_PTR)
 
-  100 CONTINUE
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLExecute(StmtHndlOut)
       CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,

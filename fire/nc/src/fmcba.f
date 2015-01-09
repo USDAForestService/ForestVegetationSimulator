@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-NC-DATE OF LAST REVISION: 04/25/13
+C  **FMCBA   FIRE-NC-DATE OF LAST REVISION:  12/23/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -98,10 +98,10 @@ C                  herbs, shrubs
      &             0.20, 0.20, ! madrone - use DF
      &             0.20, 0.20, ! incense cedar - use Douglas-fir
      &             0.23, 0.22, ! California black oak - Gambel oak - Ottmar
-     &             0.25, 0.25, ! tanoak - aspen - Ottmar
+     &             0.25, 0.25, ! tanoak - use QA Ottmar and others 2000b
      &             0.15, 0.10, ! red fir - use white fir
      &             0.20, 0.25, ! ponderosa pine
-     &             0.25, 0.25/ ! other hardwood - tanoak
+     &             0.25, 0.25/ ! other hardwood - tanoak - use QA Ottmar and others 2000b
 
 C     INITIAL LIVE FUEL LOADING FOR 'INTIALIZING STANDS WITH 10% COVER
 
@@ -113,10 +113,10 @@ C                  herbs, shrubs
      &             0.40, 2.00,  ! madrone - use DF
      &             0.40, 2.00,  ! incense cedar - use Douglas-fir
      &             0.55, 0.35,  ! California black oak - Gambel oak - Ottmar
-     &             0.18, 2.00,  ! tanoak - from aspen - Ottmar
+     &             0.18, 2.00,  ! tanoak - use QA Ottmar and others 2000b, modified.
      &             0.30, 2.00,  ! red fir - use white fir
      &             0.25, 1.00,  ! ponderosa pine
-     &             0.18, 2.00/  ! other hardwood - tanoak
+     &             0.18, 2.00/  ! other hardwood - tanoak - use QA Ottmar and others 2000b, modified.
 
 C     INITIAL FUEL LOADING FOR 'ESTABLISHED' STANDS WITH 60% COVER
 C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD

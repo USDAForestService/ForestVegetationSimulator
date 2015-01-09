@@ -45,8 +45,8 @@ C     RUN ALL THE CYCLES and STANDS--unless there is a stop point!
       call fvsGetICCode(i)
 
 #ifdef PROFILING
-      print '(a i4)',"End of run: ",j
-      if (i > 0) exit
+	      print '(a i4)',"End of run: ",j
+	      if (i > 0) exit
       enddo
 #endif
 

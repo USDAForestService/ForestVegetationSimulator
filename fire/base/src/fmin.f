@@ -1028,10 +1028,10 @@ C
       ENDIF
 
       NPARMS= 6
-      PRMS(1) = 10.0
+      PRMS(1) = 0.0
       PRMS(2) = 999.0
       PRMS(3) = 5.0
-      PRMS(4) = 0.0
+      PRMS(4) = 1.0
       PRMS(5) = 0.9
       PRMS(6) = 0.0
 

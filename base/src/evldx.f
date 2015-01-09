@@ -59,6 +59,7 @@ C
       INTEGER JPNUM,IGSP,IPNTR(MAXTRE)
       EXTERNAL RANN
       REAL TPA3,DCM,ADIV,HPCT(MAXTRE),JUNK,BADJ,ACRN
+      INTEGER JPT,JPTGRP
 C
       ITMPDX(1) = 0
 C
@@ -198,6 +199,7 @@ C----------
         XLHT=0.0
         XHHT=1E30
         JPNUM=0
+        JPTGRP=0
         IF (JARGS.GE.4) XLDBH=XLDREG(4)
         IF (JARGS.GE.5) XHDBH=XLDREG(5)
         IF (JARGS.GE.6) XLHT=XLDREG(6)
@@ -206,14 +208,21 @@ C----------
         IF (JARGS.GE.8 .AND. XLDREG(8).EQ.2) CUT=XLDREG(8)
         IF (JARGS.GE.8 .AND. XLDREG(8).EQ.3) RES=XLDREG(8)
         IF (JARGS.GE.8 .AND. XLDREG(8).EQ.4) IDMI=IFIX(XLDREG(8)+0.5)
-        IF (JARGS.GE.9) JPNUM=IFIX(XLDREG(9)+0.5)
-C
+        IF (JARGS.GE.9)THEN
+          IF(XLDREG(9).LT.0.)THEN
+            JPNUM=IFIX(XLDREG(9)-0.5)
+            JPTGRP=-JPNUM
+          ELSE
+            JPNUM=IFIX(XLDREG(9)+0.5)
+          ENDIF
+        ENDIF
+C----------
 C IF THE POINT NUMBER IS PRESENT, AND VALID, AND A POINT NUMBER FROM
 C THE INVENTORY DATA, CONVERT IT TO THE CORRESPONDING FVS SEQUENTIAL
 C POINT NUMBER
-C
+C----------
         XLDREG(1)=0.0
-        IF(JPNUM.NE.0)THEN
+        IF(JPNUM.GT.0)THEN
           IF(ITHNPI .LE. 0 .OR. ITHNPI.GT.2)THEN
             GO TO 1000
           ELSEIF(ITHNPI .EQ. 1)THEN
@@ -253,6 +262,28 @@ C
    90       CONTINUE
           ENDIF
    91     CONTINUE
+C----------
+C  CHECK TO SEE IF TREE IS ON A POINT IN A POINT GROUP
+C----------
+          IF(JPTGRP.GT.0)THEN
+            IF(ITHNPI .LE. 0 .OR. ITHNPI.GT.2)GO TO 1000
+            DO JPT=2,IPTGRP(JPTGRP,1)+1
+            IF(ITHNPI .EQ. 1)THEN
+              IF(IPTGRP(JPTGRP,JPT).EQ.IPVEC(ITRE(I)))THEN
+                JPNUM=ITRE(I)
+                GO TO 95
+              ENDIF
+            ELSEIF(ITHNPI .EQ. 2)THEN
+              IF(IPTGRP(JPTGRP,JPT).EQ.ITRE(I))THEN
+                JPNUM=ITRE(I)
+                IF(JPNUM .GT. IPTINV)GO TO 1000
+                GOTO 95
+              ENDIF
+            ENDIF
+            ENDDO
+            LINCL=.FALSE.
+          ENDIF
+   95     CONTINUE
           IF(JPNUM.GT.0 .AND. JPNUM.NE.ITRE(I)) LINCL=.FALSE.
           IF (LINCL .AND.
      >       (K.EQ.0  .OR. K.EQ.IMC(I)) .AND.
@@ -311,7 +342,7 @@ C----------
 C           NOTE:  0.785398 DEALS WITH PI*TRECW/2*TRECW/2
 C----------
             WORK1(NTREES)=WORK1(NTREES)*WORK1(NTREES)*TPA*0.785398
-            GO TO 190
+            GOTO 190
   118       CONTINUE
             CALL MISGET(I,IDMR)
             XLDREG(1)=XLDREG(1)+(FLOAT(IDMR)*TPA)
@@ -322,25 +353,35 @@ C----------
             ELSE
                XLDREG(1)=XLDREG(1)+(TPA*WK1(I))
             ENDIF
-            GO TO 190
+            GOTO 190
   120       CONTINUE
             XLDREG(1)=XLDREG(1)+(TPA*DG(I))
-            GO TO 190
+            GOTO 190
   121       CONTINUE
             IF(DBH(I).LT.DBHSTAGE)GO TO 190   ! BRANCH IF D IS LT MIN DBH            
             XLDREG(1)=XLDREG(1)+(STAGEA + STAGEB*(DBH(I)**2.0))*TPA
-            GO TO 190
+            GOTO 190
   122       CONTINUE
             CALL RDSLTR(ISP(I),I,TREERD)
             XLDREG(1)=XLDREG(1)+(TPA*TREERD)/GROSPC
-            GO TO 190
+            GOTO 190
   123       CONTINUE
             IF(DBH(I).LT.DBHZEIDE)GO TO 190   ! BRANCH IF D IS LT MIN DBH 
             XLDREG(1)=XLDREG(1)+((DBH(I)/10)**1.605)*TPA
+            GOTO 190
 C
           ENDIF
   190     CONTINUE
-  192     CONTINUE
+C----------
+C  NORMALIZE GROUP POINT STATISTICS BASED ON GROUP AREA,
+C  I.E. NUMBER OF POINTS IN GROUP
+C----------
+          IF(((L.GE.1).AND.(L.LE.4)).OR.(L.EQ.9).OR.
+     &       ((L.GE.11).AND.(L.LE.13)))THEN
+            IF((JPTGRP.GT.0).AND.(IPTGRP(JPTGRP,1).GT.0))
+     &      XLDREG(1)=XLDREG(1)/FLOAT(IPTGRP(JPTGRP,1))
+          ENDIF
+C
           IF (L.EQ.5 .OR. L.EQ.6 .OR. L.EQ.8 .OR. L.EQ.10) THEN
             IF (SUMP.GT.0.0001) THEN
               IF (L.EQ.5) XLDREG(1)=SQRT(XLDREG(1)/SUMP)

@@ -10,8 +10,6 @@ C
 C     INPUT: IFORSURE - 1 NEED CONNECTION, 0 CHECK IF CONNECTION IS
 C                       NEEDED.
 C
-C     AUTH: D. GAMMEL -- SEM -- JUNE 2002
-C
 C---
 COMMONS
 C
@@ -23,6 +21,9 @@ C
 C
 C
       INCLUDE 'OPCOM.F77'
+C
+C
+      INCLUDE 'OUTCOM.F77'
 C
 C
       INCLUDE 'KEYCOM.F77'
@@ -41,7 +42,8 @@ C---
       CHARACTER*8   TIM
       CHARACTER*(*) CFN
       CHARACTER(len=MaxStringLen) TIMESTAMP
-      INTEGER ID, IFORSURE, IFORSR, I, KODE,CID
+      INTEGER IFORSURE, IFORSR, I, KODE, IRCODE
+      CHARACTER(len=36) CID
 
       CHARACTER*20 TABLENAME
 
@@ -89,7 +91,7 @@ C-----
 C---------
 C     IF ALREADY HAVE A CURRENT CASE NUMBER, JUST BAIL
 C---------
-      IF (ICASE.GT.0) RETURN
+      IF (CASEID.NE."") RETURN
 C---
 C     Initialize variables
 C     CREATE DATETIME AND KEYFNAME
@@ -153,44 +155,45 @@ C---------
       ELSE
         TABLENAME = 'FVS_Cases'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
-        !Close Cursor
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) RETURN
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr="CREATE TABLE FVS_Cases("//
-     -              "CaseID int primary key,"//
+     -              "CaseID Text primary key,"//
      -              "Stand_CN Text null,"//
      -              "StandID Text null,"//
      -              "MgmtID Text null,"//
+     -              "RunTitle Text null,"//
      -              "KeywordFile Text null,"//
      -              "SamplingWt double null,"//
      -              "Variant Text null,"//
+     -              "Groups Text null,"//
      -              "RunDateTime Text null)"
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr="CREATE TABLE FVS_Cases("//
-     -              "CaseID INT,"//
-     -              "Stand_CN Text null,"//
+     -              "CaseID Text,"//
+     -              "Stand_CN Text,"//
      -              "StandID Text,"//
      -              "MgmtID Text,"//
+     -              "RunTitle Text,"//
      -              "KeywordFile Text,"//
      -              "SamplingWt Number,"//
      -              "Variant Text,"//
+     -              "Groups Text,"//
      -              "RunDateTime Text);"
         ELSE
           SQLStmtStr="CREATE TABLE "//TABLENAME//
-     -              " (CaseID int primary key,"//
-     -              "Stand_CN char(40) null,"//
-     -              "StandID char(26) null,"//
-     -              "MgmtID char(4) null,"//
-     -              "KeywordFile char(50) null,"//
-     -              "SamplingWt real  null,"//
-     -              "Variant char(2) null,"//
-     -              "RunDateTime char(19) null)"
+     -              " (CaseID char(36) primary key,"//
+     -              "Stand_CN char(40),"//
+     -              "StandID char(26),"//
+     -              "MgmtID char(4),"//
+     -              "RunTitle char(72),"//
+     -              "KeywordFile char(50),"//
+     -              "SamplingWt real,"//
+     -              "Variant char(2),"//
+     -              "Groups char(250),"//
+     -              "RunDateTime char(19))"
         ENDIF
 
         iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
@@ -200,34 +203,23 @@ C---------
         !Close Cursor
         iRet = fvsSQLCloseCursor(StmtHndlOut)
 
-        ICASE = 0
       ENDIF
 C---------
 C     CREATE ENTRY FROM DATA FOR FVSRUN TABLE
 C---------
-      IF(ICASE.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'CaseID',ID)
-        ICASE = ID
-      ENDIF
-      ICASE = ICASE + 1
+      CALL UUIDGEN(CASEID)
 C----------
 C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 C----------
+      if (LENSLS.EQ.-1) SLSET =""
       IF (KEYFNAME.EQ.' ') KEYFNAME='Unknown'
-      IF(ICASE.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-      WRITE(SQLStmtStr,*)'INSERT INTO ',trim(TABLENAME),
-     - ' (CaseID,Stand_CN,StandID,MgmtID,KeywordFile,SamplingWt,',
-     - 'Variant,RunDateTime) VALUES(',ICASE,',',
-     - CHAR(39), TRIM(DBCN),   CHAR(39),',',
-     - CHAR(39), TRIM(NPLT),   CHAR(39),',',
-     - CHAR(39), TRIM(MGMID),  CHAR(39),',',
-     - CHAR(39),TRIM(KEYFNAME),CHAR(39),','
-     -            ,SAMWT,',',
-     - CHAR(39),VAR,CHAR(39),',',
-     - CHAR(39),TRIM(TIMESTAMP),CHAR(39), ')'
+      WRITE(SQLStmtStr,*)"INSERT INTO ",trim(TABLENAME),
+     - " (CaseID,Stand_CN,StandID,MgmtID,RunTitle,KeywordFile,",
+     - "SamplingWt,Variant,Groups,RunDateTime) VALUES('",CASEID,"','",
+     - TRIM(DBCN),"','",TRIM(NPLT),"','",TRIM(MGMID),"','",
+     - TRIM(ITITLE),"','",TRIM(KEYFNAME),"',",SAMWT,",'",VAR,"','",
+     - TRIM(SLSET),"','",TRIM(TIMESTAMP),"')"
 
-
-  100 CONTINUE
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)
 
@@ -256,12 +248,12 @@ C
       RETURN
 C
 C======================================================================
-C     ENTRY FOR WWPBM, FETCHING ICASE
-C    (NOTE: THE WWPBM NEEDS TO KNOW AND SAVE (INTERNALLY) ICASE, BECAUSE
+C     ENTRY FOR WWPBM, FETCHING CASEID
+C    (NOTE: THE WWPBM NEEDS TO KNOW AND SAVE (INTERNALLY) CASEID, BECAUSE
 C     IT IS DOING ITS DB-WRITING FROM WITHIN ITS OWN INTERNAL STAND LOOP
 C
       ENTRY DBSWW2(CID)
-      CID=ICASE
+      CID=CASEID
       RETURN
 C======================================================================
       END

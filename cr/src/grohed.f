@@ -1,7 +1,7 @@
       SUBROUTINE GROHED (IUNIT)
       IMPLICIT NONE
 C----------
-C CR $Id: grohed.f 1143 2014-01-29 19:20:07Z rhavis@msn.com $
+C CR $Id$
 C----------
 C     WRITES HEADER FOR BASE MODEL PORTION OF PROGNOSIS SYSTEM
 C----------
