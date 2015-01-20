@@ -1,0 +1,15 @@
+Subject: Crown Width Update
+Name:  Erin Smith-Mateja
+Date:  01/20/2015
+Variants affected: PN, EC, WC, BM, SO, NC, CA
+
+Description:  An error was found in ni/cwcalc.f code, it was incorrectly 
+              setting the National Forest 'BF' coefficient (used in Equation #5,
+              Crookston (2005)). This error has been resolved. 
+
+Impact on users:  It may slightly modify the crown width calculation for any
+                  species using Equation #5 in ni/cwcalc that has a BF value
+                  other than 1.0. 
+
+Modified Files:
+ni/src/cwcalc.f - BF coefficient set based on KODFOR
