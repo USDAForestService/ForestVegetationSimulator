@@ -73,6 +73,10 @@ C----------
 C  DATA STATEMENTS
 C----------
       DATA MIND/5./,OMIND/1./
+C-----------
+C  SEE IF WE NEED TO DO SOME DEBUG.
+C-----------
+      CALL DBCHK (DEBUG,'CWCALC',6,ICYC)
 C----------
 C  MAP EQUATION NUMBERS FOR VARIANT
 C----------
