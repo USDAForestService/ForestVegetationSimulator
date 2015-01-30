@@ -349,6 +349,7 @@ C
         CASE('WS')
           CWEQN=WSMAP(ISPC)
       END SELECT
+      DEBUG=.FALSE.
 C----------
 C      IF(DEBUG)WRITE(JOSTND,*)
 C     &' ENTERING CWCALC: ISPC,CWEQN,VVER(:2)= ',ISPC,CWEQN,VVER(:2)
