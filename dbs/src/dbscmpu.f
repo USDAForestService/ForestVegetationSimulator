@@ -144,9 +144,9 @@ C
      -         int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DTp,
      -         NColSz, NDecs, Nullable)
           COLNAME(NameLen+1:)=' '
-          IF (ColNumber.GT.4) KWLIST(ColNumber-4) = COLNAME
+          IF (ColNumber.GT.3) KWLIST(ColNumber-3) = COLNAME
         ENDDO
-        NUMKW = ColumnCount - 4
+        NUMKW = ColumnCount - 3
       ENDIF
       iRet = fvsSQLCloseCursor(StmtHndlOut)
 C
@@ -207,17 +207,17 @@ C
             ENDIF
             
             !IF KW NOT IN LIST THEN DETERMINE IF WE WANT TO ALTER TABLE
-            IF((.NOT.KWINLIST).AND.TRIM(DBMSOUT).NE.'EXCEL'
-     -          .AND.IADDCMPU.LT.1) THEN
-              SQLStmtStr='ALTER TABLE '//trim(TABLENAME)//' ADD '//
+            IF((.NOT.KWINLIST).AND.(IADDCMPU.LT.1)) THEN
+              IF(TRIM(DBMSOUT).NE.'EXCEL')THEN       
+                SQLStmtStr='ALTER TABLE '//trim(TABLENAME)//' ADD '//
      -          LWRAP//TRIM(KEYWRD)//RWRAP//' '//trim(DTYPE)//' null'
-              !Close Cursor
-              iRet = fvsSQLCloseCursor(StmtHndlOut)
-              iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+                !Close Cursor
+                iRet = fvsSQLCloseCursor(StmtHndlOut)
+                iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-              CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
+                CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -            'DBSCMPU:Alter Table: '//trim(SQLStmtStr))
-
+              ENDIF
               !ADD NEW COLUMN TO MASTER LIST
               NUMKW = NUMKW+1
               KWLIST(NUMKW) = KEYWRD
