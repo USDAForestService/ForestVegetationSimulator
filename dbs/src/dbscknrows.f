@@ -50,9 +50,11 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
           if (IRCNT .GE. 65535-NRESERV) then
             IRCODE = 2
             iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
+            return
           endif
         endif
       endif
+      iRet = fvsSQLCloseCursor(StmtHndlOut)
       return
       end
  
