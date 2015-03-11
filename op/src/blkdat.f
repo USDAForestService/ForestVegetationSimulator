@@ -64,7 +64,7 @@ C----------
      >'(I4,T1,I7,F6.0,I1,A3,F4.1,F3.1,2F3.0,F4.1,I1,3(I2,I2),2I1,I2,2I3,
      >2I1,F3.0)' /
 C
-      DATA YR / 10.0 /, IRECNT/ 0 /,ICCODE/0/
+      DATA YR / 5.0 /, IRECNT/ 0 /,ICCODE/0/
 C
       DATA IREAD,ISTDAT,JOLIST,JOSTND,JOSUM,JOTREE/ 15,2,3,16,4,8 /
 C----------

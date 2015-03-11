@@ -147,7 +147,7 @@ C     TO ONE.
       IF ( IAGE .GT. 0 ) then
         INDS(4) = 1
       end if
-
+      MANAGD = INDS(4)
 
 C     ASSIGN THE MAX SDI MORTALITY SWITCH TO ON
       INDS(9) = 0

@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C  **BLKDAT--CA   DATE OF LAST REVISION:  05/09/12
+C  **BLKDAT--CA   DATE OF LAST REVISION:  02/22/15
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -60,7 +60,7 @@ C
      >'(I4,T1,I7,F6.0,I1,A3,F4.1,F3.1,2F3.0,F4.1,I1,3(I2,I2),2I1,I2,2I3,
      >2I1,F3.0)' /
 C
-      DATA YR / 10.0 /, IRECNT/ 0 /,ICCODE/0/
+      DATA YR / 5.0 /, IRECNT/ 0 /,ICCODE/0/
 C
       DATA IREAD,ISTDAT,JOLIST,JOSTND,JOSUM,JOTREE/ 15,2,3,16,4,8 /
 C----------
@@ -97,7 +97,7 @@ C
 C     1 = PORT ORFORD CEDAR (PC)          CHAMAECYPARIS LAWSONIANA
 C     2 = INCENSE CEDAR (IC)              LIBOCEDRUS DECURRENS
 C     3 = WESTERN REDCEDAR (RC)           THUJA PLICATA
-C     4 = WHITE FIR (WF)                  ABIES CONCOLOR
+C     4 = GRAND FIR (GF) / WHITE FIR      ABIES GRANDIS
 C     5 = CALIFORNIA RED FIR (RF)         ABIES MAGNIFICA (MAGNIFICA)
 C     6 = SHASTA RED FIR (SH)             ABIES MAGNIFICA (SHASTENSIS)
 C     7 = DOUGLAS-FIR (DF)                PSEUDOTSUGA MENZIESII
@@ -145,7 +145,7 @@ C    48 = CALIFORNIA LAUREL (CL)          UMBELLULARIA CALIFORNICA
 C    49 = OTHER HARDWOODS (OH)
 C----------
       DATA JSP /
-     & 'PC ',   'IC ',   'RC ',   'WF ',   'RF ',   'SH ',   'DF ',
+     & 'PC ',   'IC ',   'RC ',   'GF ',   'RF ',   'SH ',   'DF ',
      & 'WH ',   'MH ',   'WB ',   'KP ',   'LP ',   'CP ',   'LM ',
      & 'JP ',   'SP ',   'WP ',   'PP ',   'MP ',   'GP ',   'WJ ',
      & 'BR ',   'GS ',   'PY ',   'OS ',   'LO ',   'CY ',   'BL ',
@@ -154,7 +154,7 @@ C----------
      & 'SY ',   'AS ',   'CW ',   'WI ',   'CN ',   'CL ',   'OH '/
 C
       DATA FIAJSP /
-     & '041',   '081',   '242',   '015',   '020',   '021',   '202',
+     & '041',   '081',   '242',   '017',   '020',   '021',   '202',
      & '263',   '264',   '101',   '103',   '108',   '109',   '113',
      & '116',   '117',   '119',   '122',   '124',   '127',   '064',
      & '092',   '212',   '231',   '298',   '801',   '805',   '807',
@@ -163,7 +163,7 @@ C
      & '730',   '746',   '747',   '920',   '251',   '981',   '998'/
 C
       DATA PLNJSP /
-     & 'CHLA  ','CADE27','THPL  ','ABCO  ','ABMA  ','ABSH  ','PSME  ',
+     & 'CHLA  ','CADE27','THPL  ','ABGR  ','ABMA  ','ABSH  ','PSME  ',
      & 'TSHE  ','TSME  ','PIAL  ','PIAT  ','PICO  ','PICO3 ','PIFL2 ',
      & 'PIJE  ','PILA  ','PIMO3 ','PIPO  ','PIRA2 ','PISA2 ','JUOC  ',
      & 'PIBR  ','SEGI2 ','TABR2 ','2TE   ','QUAG  ','QUCH2 ','QUDO  ',
@@ -176,19 +176,19 @@ C
      &            660,670,680,690,710,720,730,830,850,999,92*0 /
 C
       DATA (NSP(I,1),I=1,MAXSP)/
-     &'PC1','IC1','RC1','WF1','RF1','SH1','DF1','WH1','MH1','WB1',
+     &'PC1','IC1','RC1','GF1','RF1','SH1','DF1','WH1','MH1','WB1',
      &'KP1','LP1','CP1','LM1','JP1','SP1','WP1','PP1','MP1','GP1',
      &'WJ1','BR1','GS1','PY1','OS1','LO1','CY1','BL1','EO1','WO1',
      &'BO1','VO1','IO1','BM1','BU1','RA1','MA1','GC1','DG1','FL1',
      &'WN1','TO1','SY1','AS1','CW1','WI1','CN1','CL1','OH1'/
       DATA (NSP(I,2),I=1,MAXSP)/
-     &'PC2','IC2','RC2','WF2','RF2','SH2','DF2','WH2','MH2','WB2',
+     &'PC2','IC2','RC2','GF2','RF2','SH2','DF2','WH2','MH2','WB2',
      &'KP2','LP2','CP2','LM2','JP2','SP2','WP2','PP2','MP2','GP2',
      &'WJ2','BR2','GS2','PY2','OS2','LO2','CY2','BL2','EO2','WO2',
      &'BO2','VO2','IO2','BM2','BU2','RA2','MA2','GC2','DG2','FL2',
      &'WN2','TO2','SY2','AS2','CW2','WI2','CN2','CL2','OH2'/
       DATA (NSP(I,3),I=1,MAXSP)/
-     &'PC3','IC3','RC3','WF3','RF3','SH3','DF3','WH3','MH3','WB3',
+     &'PC3','IC3','RC3','GF3','RF3','SH3','DF3','WH3','MH3','WB3',
      &'KP3','LP3','CP3','LM3','JP3','SP3','WP3','PP3','MP3','GP3',
      &'WJ3','BR3','GS3','PY3','OS3','LO3','CY3','BL3','EO3','WO3',
      &'BO3','VO3','IO3','BM3','BU3','RA3','MA3','GC3','DG3','FL3',

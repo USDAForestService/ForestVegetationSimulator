@@ -12,6 +12,4 @@ C
       ENTRY ORIN(DEBUG,LKECHO)
       RETURN
 C
-      ENTRY ORINIT
-      RETURN
       END
