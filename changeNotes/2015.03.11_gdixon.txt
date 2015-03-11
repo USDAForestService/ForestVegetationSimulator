@@ -1,0 +1,111 @@
+Subject: Revamping the two FVS-Organon variants for production use
+Name: Gary Dixon
+Date: 03/04/15
+Variants affected: CACOR (now OC) and PNCOR (now OP)
+
+Description: Incorporation of the ORGANON growth model into FVS was initially done by Jeff Hammond. The Organon 
+Southwest Oregon model type was incorporated into the CA variant and called CACOR; The Northwest Oregon and Stand
+Management Co-op model types were incorporated into the PN variant and called PNCOR. This effort did not result in
+variants useful for production processing. The resulting code is now being revamped to eliminate errors, make 
+available the full array of FVS processing options, and make the code conform to established code standards for ease
+of maintainence and updating.
+
+As part of this update, and in keeping with the two character alpha codes as variant identifiers, CACOR will now be
+known as the OC variant and PNCOR the OP variant.
+
+Impact on users: None
+
+Files:
+base/src
+     keywds.f  modified to be consistent with the trunk version of this subroutine (i.e. moved the ORGANON keyword
+               to position 143 and put the PTGROUP keyword in position 142)
+     initre.f  added code to ORGANON keyword processing to write an error message and return if the variant identifier
+               was not either OC or OP; moved the setting of the IY( ) array to subroutine GRINIT; removed the call
+               to subroutine ORINIT
+     revise.f  added OC and OP variants
+  exorganon.f  removed entry ORINIT
+
+ni/src
+     spctrn.f  added OC and OP variants (duplicated CA and PN mapping for now with the exception of changing 4 = WF
+               to 4 = GF in the CA variant, and mapping WF to GF in this routine)
+               
+organon/src
+  ORGANON.F77  added the IORG( ) array to flag which trees meet ORGANON "tree" specifications (species & size)             
+               
+oc
+     COMMON    added
+  
+oc/COMMON
+   PRGPRM.F77  added; changed MAXTRE from 3000 to 2000
+   ESPARM.F77  added
+
+oc/src
+     blkdat.f  changed YR to 5; changed WF to GF
+     cratet.f  changed the conversion of real crown ratio proportions to integer crown ratio percents
+     crown.f   added; added ORGANON.F77 common block; moved the assignment of crown ratio values for Organon trees
+               to here
+     dgdriv.f  added; added ORGANON.F77 common block; moved call to EXECUTE, which estimates growth and mortality for
+               Organon trees, from GRINCR into here; converted Organon DG(i) from outside bark DG to inside bark DDS;
+               cleaned up and organized the Organon code section; moved initializations of COMMON variables to GRINIT
+     dgf.f     added
+     grinit.f  added; added ORGANON.F77 common block; added setting of IY( ) array to 5; moved initialization of Organon
+               variables from ORINIT to here; changed FINT and IFINT to 5; changed the default value for the management
+               flag, MANAGD, from 0 (unmanaged) to 1 (managed)
+     grohed.f  modified header and changed the version to OC
+     htgf.f    added; added ORGANON.F77 common block; moved the assignment of height growth values for Organon trees
+               to here
+     orin.f    set the management flag, MANAGD, to the value entered on the ORGINFO keyword
+     regent.f  added; added ORGANON.F77 common block; modified to skip through this routine for Organon trees
+     sitset.f  added; added ORGANON.F77 common block
+     exorg.f   deleted
+     filopn.f  deleted
+     gradd.f   deleted
+     grincr.f  deleted
+     orinit.f  deleted
+     revise.f  deleted
+     update.f  deleted
+
+op/COMMON
+   PRGPRM.F77  added; changed MAXTRE from 3000 to 2000
+   ESPARM.F77  added
+
+op/src
+     blkdat.f  changed YR to 5
+     cratet.f  changed the conversion of real crown ratio proportions to integer crown ratio percents
+     crown.f   added; added ORGANON.F77 common block; moved the assignment of crown ratio values for Organon trees 
+               to here; corrected the conversion of real crown ratio proportions to integer crown ratio percents
+               (was not rounding correctly)
+     dgdriv.f  added; added ORGANON.F77 common block; moved call to EXECUTE, which estimates growth and mortality 
+               for Organon trees, from GRINCR into here; converted Organon DG(i) from outside bark DG to
+               inside bark DDS; cleaned up and organized the Organon code section; moved initializations of COMMON
+               variables to GRINIT
+     dgf.f     added
+     grinit.f  added; added ORGANON.F77 common block; added setting of IY( ) array to 5; moved initialization of 
+               Organon variables from ORINIT to here; changed FINT and IFINT to 5; changed the default value for the 
+               management flag, MANAGD, from 0 (unmanaged) to 1 (managed)
+     grohed.f  modified header and changed the version to OP
+     htgf.f    added; added ORGANON.F77 common block; moved the assignment of height growth values for Organon trees
+               to here
+     orin.f    set the management flag, MANAGD, to the value entered on the ORGINFO keyword
+     regent.f  added; added ORGANON.F77 common block; modified to skip through this routine for Organon trees
+     sitset.f  added; added ORGANON.F77 common block; added setting of default model type
+     exorg.f   deleted
+     filopn.f  deleted
+     gradd.f   deleted
+     grincr.f  deleted
+     orinit.f  deleted
+     revise.f  deleted
+     update.f  deleted
+
+bin
+  FVSoc_sourceList.txt changed GRINIT to come from OC/src instead of CA/src; deleted ORINIT; changed REVISE to come from 
+                       base/src instead of OC/src; changed PRGPRM and ESPARM to come from OC/common instead of CA/common; 
+                       changed GRADD, GRINCR, and UPDATE to come from base/src instead of OC/src; changed CROWN, DGDRIV,  
+                       DGF, HTGF, REGENT, and SITSET to come from OC/src instead of CA/src; change FILOPN to come from 
+                       base/src instead of OC/src
+
+  FVSop_sourceList.txt changed GRINIT to come from OP/src instead of PN/src; deleted ORINIT; changed REVISE to come from 
+                       base/src instead of OP/src; changed PRGPRM and ESPARM to come from OP/common instead of PN/common; 
+                       changed GRADD, GRINCR, and UPDATE to come from base/src instead of OP/src; changed CROWN, DGF, and 
+                       SITSET to come from OP/src instead of PN/src; changed DGDRIV, DGF, and REGENT to come from OP/src 
+                       instead of WC/src; change FILOPN to come from base/src instead of OC/src
