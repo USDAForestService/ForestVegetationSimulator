@@ -1,6 +1,6 @@
 Subject: Revamping the two FVS-Organon variants for production use
 Name: Gary Dixon
-Date: 03/04/15
+Date: 03/11/15
 Variants affected: CACOR (now OC) and PNCOR (now OP)
 
 Description: Incorporation of the ORGANON growth model into FVS was initially done by Jeff Hammond. The Organon 
