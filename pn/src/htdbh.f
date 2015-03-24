@@ -1,5 +1,10 @@
       SUBROUTINE HTDBH (IFOR,ISPC,D,H,MODE)
       IMPLICIT NONE
+
+!Python F2PY Interface Directives
+!F2PY intent(inout) :: D,H
+!F2PY intent(in) :: IFOR,ISPC,MODE
+
 C----------
 C  **HTDBH--PN  DATE OF LAST REVISION:  05/09/12
 C----------

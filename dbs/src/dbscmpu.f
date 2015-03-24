@@ -40,9 +40,10 @@ C
       REAL,DIMENSION(MXTST5)::KWVALS
       INTEGER NUMKW,I,I1,I2,I3,I4,INSRTNUM,II,X,ICY,THISYR,IRCODE
       LOGICAL KWINLIST,LDUPKW
-      INTEGER(SQLSMALLINT_KIND)::ColNumber,NameLen,ColumnCount,DTp,
+      INTEGER(SQLUSMALLINT_KIND)::ColNumber
+      INTEGER(SQLSMALLINT_KIND)::NameLen,ColumnCount,DTp,
      -       NDecs, Nullable
-      INTEGER(SQLUINTEGER_KIND) NColSz
+      INTEGER(SQLULEN_KIND) NColSz
       NUMKW = ITST5
 C
 C     IF COMPUTE IS NOT TURNED ON OR THE NUMBER OF VARIABLES IS 0
@@ -136,17 +137,23 @@ C
       ELSE
 C
 C       POPULATE THE KWLIST WITH THE CURRENT COLUMN NAMES
+C       FIRST, FETCH ALL THE COLS SO WE CAN GET THE NAMES
 C
+        SQLStmtStr= 'SELECT * FROM FVS_Compute'
+        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     >            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         iRet = fvsSQLNumResultCols(StmtHndlOut,ColumnCount)
-
+c*       print *,"iRet=",iRet," ColumnCount=",ColumnCount
         DO ColNumber = 1,ColumnCount
           iRet = fvsSQLDescribeCol (StmtHndlOut, ColNumber, ColName,
-     -         int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DTp,
-     -         NColSz, NDecs, Nullable)
-          COLNAME(NameLen+1:)=' '
-          IF (ColNumber.GT.4) KWLIST(ColNumber-4) = COLNAME
+     -         int(LEN(ColName),SQLSMALLINT_KIND), NameLen, DTp,
+     -         NColSz, NDecs, Nullable)     
+          ColName(NameLen+1:)=' '
+c*        print *,"ColNumber=",ColNumber," iRet=",iRet,
+c*     >   " NameLen=",NameLen," ColName=",ColName
+          IF (ColNumber.GT.3) KWLIST(ColNumber-3) = ColName(:NameLen)
         ENDDO
-        NUMKW = ColumnCount - 4
+        NUMKW = ColumnCount - 3
       ENDIF
       iRet = fvsSQLCloseCursor(StmtHndlOut)
 C
@@ -205,7 +212,7 @@ C
                 ENDIF
               ENDDO
             ENDIF
-            
+             
             !IF KW NOT IN LIST THEN DETERMINE IF WE WANT TO ALTER TABLE
             IF((.NOT.KWINLIST).AND.TRIM(DBMSOUT).NE.'EXCEL'
      -          .AND.IADDCMPU.LT.1) THEN

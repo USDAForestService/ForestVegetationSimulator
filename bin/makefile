@@ -1,4 +1,4 @@
-#	$Id$	
+#	$Id$
 
 # Notes: If OS is defined, then then we are 32 bit windows, otherwise, we are Linix 
 # x86_64 or mac osx x86_64. 

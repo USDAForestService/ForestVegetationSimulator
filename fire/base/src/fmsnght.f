@@ -1,7 +1,7 @@
       SUBROUTINE FMSNGHT(VVER,KSP,HTD,HTCURR,IHRD,HTSNEW)
       IMPLICIT NONE
 C----------
-C  $Id: fmsnght.f 709 2013-03-19 22:06:06Z drobinsonessa@gmail.com $
+C  $Id$
 C----------
 C
 C     SNAG HEIGHT PREDICTION

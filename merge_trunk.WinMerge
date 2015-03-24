@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<project>
+   <paths>
+      <left>C:\workspace\Open-FVS\google_code\trunk\</left>
+      <right>C:\workspace\Open-FVS\google_code\branches\PyFVS\</right>
+      <filter>Project Meta</filter>
+      <subfolders>1</subfolders>
+      <left-readonly>0</left-readonly>
+      <right-readonly>0</right-readonly>
+   </paths>
+</project>

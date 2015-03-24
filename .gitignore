@@ -1,0 +1,64 @@
+.hg
+.hgignore
+.svn
+
+*.py[cod]
+
+*.o
+*.obj
+*.*~
+*.bak
+*.bogus
+*.orig
+*.rej
+*.tmp
+
+*.h5
+*.mdb
+*.zip
+
+*.out
+*.sng
+*.chp
+*.trl
+*.sum
+
+*.h5
+*.mdb
+bin
+!bin/*List.txt
+!bin/CMakeLists.txt
+
+# C extensions
+*.so
+*.dll
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject

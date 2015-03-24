@@ -1,0 +1,12 @@
+syntax: glob
+
+*.pyc
+*.o
+*.obj
+*.*~
+*.bak
+*.out
+*.chp
+*.trl
+
+bin\*

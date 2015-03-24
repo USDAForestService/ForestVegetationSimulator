@@ -1,5 +1,5 @@
 
-# $Id: makefile 767 2013-04-10 22:29:22Z rhavis@msn.com $
+# $Id$
 # to execute run following from tests/fvsiec/econ directory: make -f makefile
 
 all : AnnualValueOfTrees ClearCutPretend Example1A Example1B Example2SEV\

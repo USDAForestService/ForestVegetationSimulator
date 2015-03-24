@@ -598,7 +598,10 @@ if (WITH_PYMOD)
     string(REPLACE "../" "${src_root}/" source_files "${source_files}")
     
     # Source files to be wrapped with F2PY
-    set(_pymod_src "apisubs.f" "cmdline.f" "filopn.f" "fvs.f" "rann.f")
+    set(_pymod_src 
+				"apisubs.f" "cmdline.f" "filopn.f" "fvs.f" "htcalc.f" "rann.f"
+				"htdbh.f"
+				)
     # Routines to be skipped by F2PY
     set(pymod_skip "") #required by f2py_gen 
     
