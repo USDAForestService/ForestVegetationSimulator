@@ -13,7 +13,7 @@ COMMONS
 C
 C
       INTEGER MXI,I
-      PARAMETER (MXI=41)
+      PARAMETER (MXI=44)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
@@ -61,6 +61,9 @@ C
       IF (ConnHndlIn .NE.-1) INTS( 39)=1 ! The connection was openned
       IF (ConnHndlOut.NE.-1) INTS( 40)=1
       INTS( 41) = ICLIM
+      INTS( 42) = IRD1
+      INTS( 43) = IRD2
+      INTS( 44) = IRD3
 C
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
       LENSTRINGS(1) = LEN_TRIM(DSNIN)

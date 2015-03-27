@@ -1,7 +1,7 @@
       SUBROUTINE BWEP3
       IMPLICIT NONE
 C----------
-C  **BWEP3                   DATE OF LAST REVISION:  06/18/13
+C  **BWEP3                   DATE OF LAST REVISION:  09/19/14
 C----------
 C
 C  PRINT ANNUAL OUTPUT RE: BUDWORM MORTALITY & FEEDING
@@ -42,6 +42,8 @@ C      Added IMPLICIT NONE and declared variables as needed.
 C   11-APR-2013 Lance R. David (FMSC)
 C      REAL variable DIFF was used in loop control at label 85 in error.
 C      Changed to variable IDIFF and removed REAL declaration of DIFF.
+C   19-SEP-2014 Lance R. David (FMSC)
+C      Changed variable named INDEX to INDX.
 C---------------------------------------------------------------------
 C
 COMMONS
@@ -56,7 +58,7 @@ C
       LOGICAL HEADER
       CHARACTER*3 TRESP(6),sumt1,sumt2
       INTEGER IAPPB, IAPPC, IAPPD, IAPPE, IAPPF, IAPPG, IAPPH, IAPPI,
-     &        IAPPJ, IC, ICROWN, IDIFF, IEGGS, IH, INDEX, ISEL2,
+     &        IAPPJ, IC, ICROWN, IDIFF, IEGGS, IH, INDX, ISEL2,
      &        ISIZE, ISPAR, ISPNUM, ISPRE, ISSPR, ISSTV, IYEARK, K, 
      &        KCROWN(18), LH, LSIZE, NEWDEF
       INTEGER I, IYEAR, IYR, LASTYR 
@@ -242,11 +244,11 @@ C
 C  PRINT NEW TABLE 2 (G_CROWN)
 C
       IF (LP2 .AND. ISPNUM .NE. 0) THEN
-         INDEX=((ISPNUM-1)*9)+IC
+         INDX=((ISPNUM-1)*9)+IC
          DEFNEW=0.0
          IF (OUT3(IC,IH,10).GT.0.0) DEFNEW=100.0*(1.0-(OUT3(IC,IH,8)
      &      /OUT3(IC,IH,10)))
-         IF (DEFNEW.GT.0.0) KCROWN(INDEX)=NINT(DEFNEW)              
+         IF (DEFNEW.GT.0.0) KCROWN(INDX)=NINT(DEFNEW)              
       ENDIF
 C
 C  RESET THE ARRAY TO ZERO

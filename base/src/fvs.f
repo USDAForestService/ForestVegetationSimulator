@@ -421,7 +421,7 @@ C
       CALL DFBOUT
       CALL TMOUT
       CALL BWEOUT
-      CALL RDROUT
+C      CALL RDROUT ! RD output now handled by GENPRT 12/5/14 LD
       CALL BRROUT
 C
       CALL GENPRT

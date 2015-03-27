@@ -1,6 +1,6 @@
       SUBROUTINE RDIN(PASKEY,ARRAY,LNOTBK,LKECHO)
 C----------
-C  **RDIN--UT                     LAST REVISION:  08/28/14
+C  **RDIN--UT                     LAST REVISION:  03/24/15
 C----------
 C
 C  Purpose :
@@ -107,8 +107,11 @@ C     been processed and terminating to run if they had. The restructuring of
 C     damage code processing eliminates this requirement.
 C  19-AUG-09 Lance David (FMSC)
 C    FVS UT variant expanded to 24 species. Format statements set accordingly.
-C   08/28/14 Lance R. David (FMSC)
+C  08/28/14 Lance R. David (FMSC)
 C     Added implicit none and declared variables.
+C  03/24/15 Lance R. David
+C     For implementation of General Report Writer facility and addition 
+C     of output to database option, BBOUT and RRDOUT keywords modified.
 C
 C----------------------------------------------------------------------
 C
@@ -1395,7 +1398,7 @@ C
 C.... OUTPUT FOR RRDOUT KEYWORD
 
       IF(LKECHO)WRITE(JOSTND,1201) KEYWRD
- 1201 FORMAT (/A8,'   DETAILED ROOT DISEASE OUTPUT WILL BE PRINTED')
+ 1201 FORMAT (/A8,'   DETAILED ROOT DISEASE OUTPUT WILL BE WRITTEN')
       GOTO 90
 
   13  CONTINUE
@@ -2575,14 +2578,27 @@ C
 C     OUTPUT DETAILING BARK BEETLE MORTALITY BY SIZE CLASS
 C     (IN REGULAR TABLE FORMAT, WITH HEADINGS)
 
-      IBBOUT = 27
-      IF (ARRAY(1) .GT. 0.0) IBBOUT = INT(ARRAY(1))
+C  12/11/14 implementatin of general report facilty eliminates the need
+C  for unit number specification (field 1) and opening of the file
+C  which occurs elsewhere. Report will be written to main out file and
+C  will be optionally written to output DB, but I have not done the DB
+C  part yet. -LD
+
+CX      IBBOUT = 27
+CX      IF (ARRAY(1) .GT. 0.0) IBBOUT = INT(ARRAY(1))
 
 C.... OUTPUT FOR BBOUT KEYWORD
 
-      IF(LKECHO)WRITE(JOSTND,3501) KEYWRD, IBBOUT
- 3501 FORMAT (/A8,'   DETAILED BARK BEETLE MORTALITY OUTPUT ON ',
-     &               'LOGICAL UNIT ',I4)
+CX      IF(LKECHO)WRITE(JOSTND,3501) KEYWRD, IBBOUT
+CX 3501 FORMAT (/A8,'   DETAILED BARK BEETLE MORTALITY OUTPUT ON ',
+CX     &               'LOGICAL UNIT ',I4)
+
+C     Set IBBOUT as trigger to call output routine.
+
+      IBBOUT = 999
+      IF(LKECHO)WRITE(JOSTND,3501) KEYWRD
+ 3501 FORMAT (/A8,'   DETAILED BARK BEETLE MORTALITY OUTPUT WILL ',
+     &        'BE WRITTEN')
 
       GOTO 90
 

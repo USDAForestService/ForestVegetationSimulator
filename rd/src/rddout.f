@@ -1,7 +1,7 @@
       SUBROUTINE RDDOUT
       IMPLICIT NONE
 C----------
-C  **RDDOUT      LAST REVISION:  08/28/14
+C  **RDDOUT      LAST REVISION:  03/24/15
 C----------
 C
 C  Purpose :
@@ -117,6 +117,8 @@ C        variables in new \FVS\COMMON\METRIC.F77. rd\src\metric.f77
 C        will be retired. (mods courtesy of Don Robinson, ESSA)
 C   08/28/14 Lance R. David (FMSC)
 C     Added implicit none and declared variables.
+C   03/24/15 Lance R. David (FMSC)
+C     Implemented General Report Writer facility.
 C----------------------------------------------------------------------
 
 C.... Parameter include files.
@@ -175,21 +177,29 @@ C.... Initialize arrays.
       IF (ISTEP .GT. 1 .OR. IRRSP .NE. MINRR) GOTO 1000
       JYR = IY(1)
 
+C
+C     get report ID and logical unit number.
+C
+      CALL GETID(IDRDOUT(2))
+      CALL GETLUN(IOUNIT)
+
+      WRITE (IOUNIT,'(2(/1X,I5))') IDRDOUT(2),IDRDOUT(2)
+
 C.... Print header for detailed output table.
 
-      WRITE (IOUNIT,1100)
-      WRITE (IOUNIT,1105)
-      WRITE (IOUNIT,1107)
-      WRITE (IOUNIT,1110) NPLT, MGMID
-      WRITE (IOUNIT,1115)
-      WRITE (IOUNIT,1120)
-      WRITE (IOUNIT,1125)
-      IF (.NOT. LMTRIC) WRITE (IOUNIT,1130)
-      IF (LMTRIC) WRITE (IOUNIT,1230)
-      WRITE (IOUNIT,1135)
-      IF (.NOT. LMTRIC) WRITE (IOUNIT,1140)
-      IF (LMTRIC) WRITE (IOUNIT,1240)
-      WRITE (IOUNIT,1145)
+      WRITE (IOUNIT,1100) IDRDOUT(2)
+      WRITE (IOUNIT,1105) IDRDOUT(2)
+      WRITE (IOUNIT,1107) IDRDOUT(2)
+      WRITE (IOUNIT,1110) IDRDOUT(2), NPLT, MGMID
+      WRITE (IOUNIT,1115) IDRDOUT(2)
+      WRITE (IOUNIT,1120) IDRDOUT(2)
+      WRITE (IOUNIT,1125) IDRDOUT(2)
+      IF (.NOT. LMTRIC) WRITE (IOUNIT,1130) IDRDOUT(2)
+      IF (LMTRIC) WRITE (IOUNIT,1230) IDRDOUT(2)
+      WRITE (IOUNIT,1135) IDRDOUT(2)
+      IF (.NOT. LMTRIC) WRITE (IOUNIT,1140) IDRDOUT(2)
+      IF (LMTRIC) WRITE (IOUNIT,1240)  IDRDOUT(2)
+      WRITE (IOUNIT,1145) IDRDOUT(2)
       GOTO 1010
 
  1000 CONTINUE
@@ -199,28 +209,30 @@ C.... Print header for detailed output table.
 
       IF (IRRSP .EQ. MINRR) THEN
          IF (LMTRIC) THEN
-            WRITE (IOUNIT,2105) JYR, CHTYPE(IRRSP),
+            WRITE (IOUNIT,2105) IDRDOUT(2), JYR, CHTYPE(IRRSP),
      &        PAREA(IRRSP)*ACRtoHA
          ELSE
-            WRITE (IOUNIT,2105) JYR, CHTYPE(IRRSP), PAREA(IRRSP)
+            WRITE (IOUNIT,2105) IDRDOUT(2), JYR,
+     &        CHTYPE(IRRSP), PAREA(IRRSP)
          ENDIF
       ELSE   
          IF (LMTRIC) THEN
-            WRITE (IOUNIT,2106) CHTYPE(IRRSP), PAREA(IRRSP)*ACRtoHA
+            WRITE (IOUNIT,2106) IDRDOUT(2), CHTYPE(IRRSP),
+     &        PAREA(IRRSP)*ACRtoHA
          ELSE
-            WRITE (IOUNIT,2106) CHTYPE(IRRSP), PAREA(IRRSP)
+            WRITE (IOUNIT,2106) IDRDOUT(2), CHTYPE(IRRSP), PAREA(IRRSP)
          ENDIF
       ENDIF   
 
       IF (PAREA(IRRSP) .EQ. 0.0) THEN
-        WRITE(IOUNIT,2120)
+        WRITE(IOUNIT,2120) IDRDOUT(2)
         RETURN
       ENDIF  
 
 C.... Find tree species in root disease patches.
 
       IF (ITRN .GT. 0) GOTO 804
-      WRITE (IOUNIT,4100)
+      WRITE (IOUNIT,4100) IDRDOUT(2)
  4100 FORMAT ('***** NO TREES IN STAND')
       GOTO 4000
 
@@ -289,13 +301,31 @@ C....    Write out the indicators.
 
   801    CONTINUE 
          IF (LMTRIC) THEN 
-            WRITE(IOUNIT,2110) JSP(KSP),
+            WRITE(IOUNIT,2110) IDRDOUT(2), JSP(KSP),
      >           (ONDTRE(I)*INTOCM,I=1,6), X1/ACRtoHA,
      >           (ONLTRE(I)*INTOCM,I=1,6),  X2/ACRtoHA, X3/ACRtoHA, X4
+C
+C           Call DBS for RD Detail output to database
+C
+            CALL DBSRD2 (JYR,NPLT,CHTYPE(IRRSP),PAREA(IRRSP)*ACRtoHA,
+     >        JSP(KSP), 
+     >        ONDTRE(1)*INTOCM, ONDTRE(2)*INTOCM, ONDTRE(3)*INTOCM,
+     >        ONDTRE(4)*INTOCM, ONDTRE(5)*INTOCM, ONDTRE(6)*INTOCM,
+     >        X1/ACRtoHA,
+     >        ONLTRE(1)*INTOCM, ONLTRE(2)*INTOCM, ONLTRE(3)*INTOCM, 
+     >        ONLTRE(4)*INTOCM, ONLTRE(5)*INTOCM, ONLTRE(6)*INTOCM, 
+     >        X2/ACRtoHA, X3/ACRtoHA, X4)
+
          ELSE
-            WRITE(IOUNIT,2110) JSP(KSP),
+            WRITE(IOUNIT,2110) IDRDOUT(2), JSP(KSP),
      >           (ONDTRE(I),I=1,6), X1,
      >           (ONLTRE(I),I=1,6),  X2, X3, X4
+C
+C           Call DBS for RD Detail output to database
+C
+            CALL DBSRD2 (JYR,NPLT,CHTYPE(IRRSP),PAREA(IRRSP),
+     >           JSP(KSP),ONDTRE, X1, ONLTRE,  X2, X3, X4)
+
          ENDIF
 
 C        Zero out arrays.
@@ -330,42 +360,42 @@ C.... No entries in tree list.
 
 C.... Format statements for header.
 
- 1100 FORMAT (//,65('* '))
- 1105 FORMAT (50X,'WESTERN ROOT DISEASE MODEL')
- 1107 FORMAT (65('* '))
- 1110 FORMAT (33X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
- 1115 FORMAT (32X,'DETAILED OUTPUT OF STAND ATTRIBUTES INSIDE ',
+ 1100 FORMAT (1X,I5,/1X,I5,1X,65('* '))
+ 1105 FORMAT (1X,I5,51X,'WESTERN ROOT DISEASE MODEL')
+ 1107 FORMAT (1X,I5,1X,65('* '))
+ 1110 FORMAT (1X,I5,34X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
+ 1115 FORMAT (1X,I5,33X,'DETAILED OUTPUT OF STAND ATTRIBUTES INSIDE ',
      &                'ROOT DISEASE PATCHES')
- 1120 FORMAT (130('-'))
- 1125 FORMAT (7X,'ROOT',18X,'KILLED TREES',33X,'ALIVE TREES')
- 1130 FORMAT (6X,'DISEASE',3X,
+ 1120 FORMAT (1X,I5,1X,130('-'))
+ 1125 FORMAT (1X,I5,8X,'ROOT',18X,'KILLED TREES',33X,'ALIVE TREES')
+ 1130 FORMAT (1X,I5,7X,'DISEASE',3X,
      >        2(6X,'%TILE POINTS BY DBH (INCHES)    TOTAL'),
      >'       TOTAL')
- 1135 FORMAT (5X,9('-'),8X,28('-'),'    KILLED',
+ 1135 FORMAT (1X,I5,6X,9('-'),8X,28('-'),'    KILLED',
      >5X,28('-'),'   UNINFECTED  INFECTED',4X,'% ROOTS')
- 1140 FORMAT ('YEAR TYPE AREA  SP',2(5X,'10   30   50   70   90',
-     >'  100  TREES/ACRE'),' TREES/ACRE',2X,'INFECTED')
- 1145 FORMAT ('---- ---------  --',2(3X,6(' ----'),' ----------'),
-     >2(' ----------'))   
+ 1140 FORMAT (1X,I5,' YEAR TYPE AREA  SP',2(5X,'10   30   50   70',
+     >'   90  100  TREES/ACRE'),' TREES/ACRE',2X,'INFECTED')
+ 1145 FORMAT (1X,I5,1X,'---- ---------  --',2(3X,6(' ----'),
+     >' ----------'),2(' ----------'))   
      
 C.... Format statements for headers specific to metric.
 
- 1230 FORMAT (6X,'DISEASE',3X,
+ 1230 FORMAT (1X,I5,7X,'DISEASE',3X,
      >        2(6X,' %TILE POINTS BY DBH (CMS)      TOTAL'),
      >'       TOTAL')
- 1240 FORMAT ('YEAR TYPE AREA  SP',2(5X,'10   30   50   70   90',
-     >'  100   TREES/HA '),'  TREES/HA  ',2X,'INFECTED')
+ 1240 FORMAT (1X,I5,' YEAR TYPE AREA  SP',2(5X,'10   30   50   70',
+     >'   90  100   TREES/HA '),'  TREES/HA  ',2X,'INFECTED')
 
 C.... Format statements for data values.
 
- 2105 FORMAT(I4,2X,A1,F7.1)
- 2106 FORMAT(4X,2X,A1,F7.1)
- 2110 FORMAT(16X,A2,2(3X,6F5.1,2X,F6.1,3X),2X,F6.1,F10.2)
- 2120 FORMAT(130('-'))
- 2121 FORMAT(130(' '))
+ 2105 FORMAT(1X,I5,1X,I4,2X,A1,F7.1)
+ 2106 FORMAT(1X,I5,1X,4X,2X,A1,F7.1)
+ 2110 FORMAT(1X,I5,1X,16X,A2,2(3X,6F5.1,2X,F6.1,3X),2X,F6.1,F10.2)
+ 2120 FORMAT(1X,I5,1X,130('-'))
+ 2121 FORMAT(1X,I5,1X,130(' '))
 
 C.... Format statements for no root disease area.
 
- 3100 FORMAT(I4,46X,'*** NO AREA WITH ROOT DISEASE ***')
+ 3100 FORMAT(1X,I5,1X,I4,46X,'*** NO AREA WITH ROOT DISEASE ***')
 
       END

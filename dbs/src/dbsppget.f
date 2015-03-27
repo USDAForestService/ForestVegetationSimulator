@@ -13,7 +13,7 @@ COMMONS
 C
 C
       INTEGER MXI
-      PARAMETER (MXI=41)
+      PARAMETER (MXI=44)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
@@ -64,6 +64,9 @@ C
       IF (INTS(39).EQ.1) ConnHndlIn = 0 ! signal to reopen
       IF (INTS(40).EQ.1) ConnHndlOut= 0
       ICLIM        = INTS( 41)
+      IRD1         = INTS( 42)
+      IRD2         = INTS( 43)
+      IRD3         = INTS( 44)
 
       CALL IFREAD(WK3, IPNT, ILIMIT, LENSTRINGS, 3, 2)
 C

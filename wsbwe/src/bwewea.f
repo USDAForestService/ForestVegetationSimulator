@@ -1,7 +1,7 @@
       SUBROUTINE BWEWEA
       IMPLICIT NONE
 C-----------
-C **BWEWEA                  DATE OF LAST REVISION:  08/28/13
+C **BWEWEA                  DATE OF LAST REVISION:  09/19/14
 C-----------
 C
 C GET WEATHER PARAMETERS FOR THE CURRENT YEAR
@@ -56,6 +56,8 @@ C   14-JUL-2010 Lance R. David (FMSC)
 C      Added IMPLICIT NONE and declared variables as needed.
 C   28-AUG-2013 Lance R. David (FMSC)
 C      Added weather year (if using RAWS) to special events table.
+C   19-SEP-2014 Lance R. David (FMSC)
+C      Changed variable named INDEX to INDX.
 C
 C----------
 C
@@ -65,7 +67,7 @@ C
       INCLUDE 'BWEBOX.F77'
       INCLUDE 'BWECOM.F77'
 
-      INTEGER I, INDEX, IOS, N
+      INTEGER I, INDX, IOS, N
       REAL AMIN, AMULT, BWENOR, PICK, RAIN(3)
       LOGICAL DBUG
 
@@ -231,10 +233,10 @@ C             so IEVENT(x,5) is set to 0 here.
          DAYS(2)=BWENOR(BWEATH(2,1),BWEATH(2,2))
          DAYS(3)=BWENOR(BWEATH(3,1),BWEATH(3,2))
          DO 50 I=1,3
-         INDEX=I+6
-         PICK=BWENOR(BWEATH(INDEX,1),BWEATH(INDEX,2))
-         IF (PICK .GT. BWEATH(INDEX,1)) THEN
-            CALL BWEMUL(BWEATH(INDEX,1),BWEATH(INDEX,2),PICK,
+         INDX=I+6
+         PICK=BWENOR(BWEATH(INDX,1),BWEATH(INDX,2))
+         IF (PICK .GT. BWEATH(INDX,1)) THEN
+            CALL BWEMUL(BWEATH(INDX,1),BWEATH(INDX,2),PICK,
      &                   AMIN,AMULT)
          ELSE
             AMULT=1.0

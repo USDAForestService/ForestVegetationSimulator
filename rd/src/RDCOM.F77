@@ -1,6 +1,6 @@
 CODE SEGMENT RDCOM
 C----------
-C  **RDCOM       LAST REVISION:  08/19/14
+C  **RDCOM       LAST REVISION:  03/24/15
 C----------
 C REVISION HISTORY:
 C   27-JUNE-2002 Lance David
@@ -16,7 +16,7 @@ C-------------------------
      &        JRAGED(ITOTRR,2,5,41), JRSIT, MCTREE(ITOTRR,50),
      &        NCENTS(ITOTRR), NINSIM, NMONT, NNCENT, NNDEC, NNDMX,
      &        NNINF, NRSTEP, NSCEN(ITOTRR), NSTUMP, NTREES, NUMBB,
-     &        NUMTRE
+     &        NUMTRE, IDRDOUT(3)
 
       REAL    IURATE(3*MAXSP), IIRATE(3*MAXSP),
      &        MCRATE(ITOTRR,50), MINDBH(3*MAXSP), MININF(3*MAXSP)
@@ -53,8 +53,7 @@ C-------------------------
 
       REAL   OLDPRP                 ! From common that was directly coded in rdranp.f
       
-      REAL   CDF(1001)
-c      DOUBLE PRECISION CDF(1001)    ! From common that was directly coded in rdranp.f
+      REAL   CDF(1001)              ! From common that was directly coded in rdranp.f
       
       LOGICAL LBBON, LRTYPE, LXNOTE
 
@@ -84,7 +83,7 @@ c      DOUBLE PRECISION CDF(1001)    ! From common that was directly coded in rd
      &               SSSFAC, STCUT, STEMSI, STEMSL, TNJUMP, TSTEMS,
      &               TXP12, WINDN, WINDSP, WK22, XDBH, XHT, XMINKL,
      &               XMINLF, XMTH, XRRI, XRRS, XXINF, YDBH, YHT,
-     &               YRRI, YRRS, YTKILL, YYINF
+     &               YRRI, YRRS, YTKILL, YYINF, IDRDOUT
 
       COMMON  /PRPDAT/ OLDPRP       ! From common that was directly coded in rdranp.f
       COMMON  /PRPDATD/ CDF         ! From common that was directly coded in rdranp.f
@@ -124,6 +123,7 @@ C                              3 = ARMILLARIA
 C                              4 = PHELLINUS
 C     IDOBB  - COUNTER THAT IS USED TO KEEP TRACK OF THE NUMBER OF
 C              BARK BEETLE EVENTS THAT ARE SCHEDULED.
+C     IDRDOUT -- ARRAY HOLDS REPORT ID'S FOR GENERAL REPORT WRITER.
 C     IMCOUT  -- OUTPUT FILE NUMBER FOR SPREADRATE MONTE CARLO RESULTS
 C     INFLAG  --
 C     IPCFLG  -- FLAG FOR INITIALIZATION OF ROOT DISEASE.  0 = PATCHES
