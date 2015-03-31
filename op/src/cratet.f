@@ -2,7 +2,7 @@
 C----------
       IMPLICIT NONE
 C----------
-C  **CRATET--PNCOR   DATE OF LAST REVISION:  NOV 14, 2012
+C  **CRATET--OP   DATE OF LAST REVISION:  03/26/15
 C----------
 C  THIS SUBROUTINE IS CALLED PRIOR TO PROJECTION.  IT HAS THE
 C  FOLLOWING FUNCTIONS:
@@ -21,16 +21,6 @@ C        AND ISCT.
 C    8)  PRINT A TABLE DESCRIBING CONTROL PARAMETERS AND INPUT
 C        VARIABLES.
 C----------
-
-C----------
-C  SECTIONS THAT ARE SPECIFIC TO THE ORGANON MODEL
-C  ARE DENOTED/DELINITATED WITH THE "ORGANON" 
-C  COMMENT BLOCK. 
-C  DEVEOPMENT NOTES FOR FUTURE EXAMINATION ARE
-C  DENOTED WITH A TODO: TAG
-C----------
-
-
 C
 COMMONS
 C
@@ -79,64 +69,15 @@ C----------
       INTEGER JCR,IICR,IS,IM,I1,I2,I3,K1,K2,K3,K4,NH,JJ
       REAL SITAGE,SITHT,AGMAX,HTMAX,HTMAX2,D1,D2
       REAL SPCNT(MAXSP,3),AX,Q,SUMX,H,BX,XX,YY,XN,HS,D
-
-C----------
-C     ORGANON: ADDED THE ORGANON HEADER FILE TO INCLUDE GLOBAL VARIABLES
-C     THAT MIGHT BE REQUIRED BY ORGANON DLL FUNCTION CALLS.
-C     TODO: CHANGE THE FIXED ARRAY SIZE WITH THE MAXTRE VARIABLE FROM 
-C     THE GLOBAL DEFINITION IN PRGPRM.F77
-C      PARAMETER (MAXTRE=3000)
-C     SHOULD REALLY BE MODIFIED TO:
-C      PARAMETER (MAXTRE=2000)
-C----------
-
-C     this is used for the existing layhe build process
-C      DLL_IMPORT PREPARE
-!DEC$ ATTRIBUTES DLLIMPORT, C, DECORATE, ALIAS : "PREPARE" :: PREPARE
-C
-C     this is used for the Visual Studio 6.0 build process
-c$$$      INTERFACE
-c$$$      SUBROUTINE PREPARE(VERSION,NPTS,NTREES,STAGE,BHAGE,SPECIES,
-c$$$     1                   USER,IEVEN,DBH,HT,CR,EXPAN,RADGRO,RVARS,
-c$$$     2                   SERROR,TERROR,SWARNING,TWARNING,IERROR,IRAD,
-c$$$     3                   GROWTH,ACALIB)
-c$$$      !DEC$ ATTRIBUTES DLLIMPORT:: PREPARE
-c$$$      INTEGER*4 VERSION
-c$$$      INTEGER*4	NPTS
-c$$$      INTEGER*4	NTREES
-c$$$      INTEGER*4	STAGE
-c$$$      INTEGER*4	BHAGE
-c$$$      INTEGER*4	SPECIES(2000)
-c$$$      INTEGER*4	USER(2000)
-c$$$      INTEGER*4 IEVEN
-c$$$      REAL*4    DBH(2000)
-c$$$      REAL*4	HT(2000)
-c$$$      REAL*4	CR(2000)
-c$$$      REAL*4	EXPAN(2000)
-c$$$      REAL*4	RADGRO(2000)
-c$$$      REAL*4	RVARS(30)
-c$$$      INTEGER*4	SERROR(35)
-c$$$      INTEGER*4	TERROR(2000,6)
-c$$$      INTEGER*4	SWARNING(9)
-c$$$      INTEGER*4	TWARNING(2000)
-c$$$      INTEGER*4	IERROR
-c$$$      INTEGER*4 IRAD
-c$$$      REAL*4    GROWTH(2000)
-c$$$      REAL*4    ACALIB(3,18)
-c$$$      END SUBROUTINE
-c$$$      END INTERFACE
-      
 C----------
 C     ORGANON:  
 C----------
-C      INTEGER     PORG          ! POINTER TO THE DLL ENTRY POINT
       INTEGER*4   ORGEDIT_STATUS ! STATUS VARIABLE FOR THE DLL      
       INTEGER*4   IEVEN          ! ORGANON::INDS(4)
-      REAL*4      RADGRO(2000)   ! DON'T INCLUDE FOR NOW.
       INTEGER*4   IRAD
+      INTEGER     NBIG6,NVALID,NLOAD,NUNLOAD
+      REAL*4      RADGRO(2000)   ! DON'T INCLUDE FOR NOW.
       REAL*4      GROWTH(2000)
-
-
 C----------
 C     THE SPECIES ORDER IS VARIANT SPECIFIC, SEE BLKDATA FOR A LIST.
 C----------
@@ -147,217 +88,247 @@ C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'CRATET',6,ICYC)
-
-C-------
+C----------
 C  ORGANON
 C  CALL PREPARE TO FILL IN THE MISSING VALUES
-C-------
-
+C----------
       IF( DEBUG ) THEN
-      WRITE(JOSTND,124) ICYC, IMODTY
-  124 FORMAT(' CALLING ORGANON.DLL::PREPARE::BETA, CYCLE=',I2,
-     &  ', ORGANON::VARIANT= ',I2 )
+      WRITE(JOSTND,124) ICYC,IMODTY
+  124 FORMAT(' CALLING PREPARE FROM DGDRIV, CYCLE=',I2,', IMODTY= ',I2)
       END IF
-
+C----------
 C     ASSIGN THE SPECIES SPECIFIC VALUES FOR THE STAND LEVEL VARIABLES
 C     SO THAT ORGANON WILL IMPUTE THE VALUES WHEN IT CALLS PREPARE 
-      
-C     ORGANON VARIANT: SWO
-      IF( IMODTY .EQ. 1 ) THEN
-         RVARS(1)    = SITEAR( 16 ) ! THE DOUGLAS-FIR SITE INDEX
-         RVARS(2)    = 0.940792*SITEAR( 16 ) ! THE PP SITE INDEX
-
-         RVARS(3)    = SDIDEF( 16 ) ! MAX SDI FOR DF IN SWO, NWO, AND SMC
-         RVARS(4)    = SDIDEF(  2 ) ! MAX SDI FOR WF/GF IN SWO (WF), NWO/SMC (GF).
-         RVARS(5)    = SDIDEF( 15 ) ! MAX SDI FOR PP/WH IN SWO (PP), NWO/SMC (WH).
-      END IF
-      
+C      
 C     ORGANON VARIANT: NWO
+C----------
       IF( IMODTY .EQ. 2 ) THEN
          RVARS(1)    = SITEAR( 16 ) ! THE DOUGLAS-FIR SITE INDEX
          RVARS(2)    = -0.432 +( 0.899 * SITEAR( 16 )) ! WESTERN HEMLOCK SITE INDEX
-
          RVARS(3)    = SDIDEF( 16 ) ! MAX SDI FOR DF IN SWO, NWO, AND SMC
          RVARS(4)    = SDIDEF(  3 ) ! MAX SDI FOR WF/GF IN SWO (WF), NWO/SMC (GF).
          RVARS(5)    = SDIDEF( 19 ) ! MAX SDI FOR PP/WH IN SWO (PP), NWO/SMC (WH).
-      END IF
-      
+C----------      
 C     ORGANON VARIANT: SMC
-      IF( IMODTY .EQ. 3 ) THEN
+C----------
+      ELSE
          RVARS(1)    = SITEAR( 16 ) ! THE DOUGLAS-FIR SITE INDEX
          RVARS(2)    = -0.432 +( 0.899 * SITEAR( 16 )) ! WESTERN HEMLOCK SITE INDEX
-
          RVARS(3)    = SDIDEF( 16 ) ! MAX SDI FOR DF IN SWO, NWO, AND SMC
          RVARS(4)    = SDIDEF(  3 ) ! MAX SDI FOR WF/GF IN SWO (WF), NWO/SMC (GF).
          RVARS(5)    = SDIDEF( 19 ) ! MAX SDI FOR PP/WH IN SWO (PP), NWO/SMC (WH).
       END IF
-
-      
-C-----------
-C     MOVE THE DATA FROM THE EXISTING FVS TREE ARRAYS 
-C     INTO THE FORMAT THAT ORGANON REQUIRES
-C     ASSIGNMENT OF FVS-VARIABLES TO ORGANON-VARIABLES
-C     ORGANON VARIABLE = FVS VARIABLE
-C-----------
-        DO I = 1, IREC1           
-           TREENO(I)	= I     ! TREE NUMBER (ON PLOT?)
-           PTNO(I)= ITRE(I)     ! POINT NUMBER OF THE TREE RECORD          
-           READ( FIAJSP( ISP( I ) ), '(I4)'  ) SPECIES( I )                      
-           DBH1(I)= DBH(I)      ! DBH 
-           HT1OR(I)= HT(I)      ! TOTAL HEIGHT AT BEGINNING OF PERIOD
-           CR1(I)= REAL(ICR(I)) / 100.0 ! MEASURED/PREDICTED CROWN RATIO
-           EXPAN1(I)= PROB(I)   ! EXPANSION FACTOR
-           USER(I)= ISPECL(I)   ! USER CODE AT BEGINNING OF PERIOD           
+      IF(DEBUG)WRITE(JOSTND,*)' RVARS(1-5)= ',(RVARS(I),I=1,5)
+C----------
+C  SET ORGANON TREE INDICATOR (0 = NO, 1 = YES). 
+C  VALID TREE:
+C    SPECIES 3=GF, 16=DF, 18=RC 19=WH, 21=BM, 22=RA, 23=MA, 28=WO, 
+C           33=PY, 34=DG, 37=WI
+C    HEIGHT HT > 4.5 FEET
+C    DBH    DBH >= 0.1 INCH
+C
+C THE CALL TO PREPARE IS TO EDIT THE DATA, DUB MISSING VALUES, AND CALIBRATE THE
+C ORGANON EQUATIONS TO THE INPUT DATA. WE WILL ONLY PASS VALID ORGANON TREES TO
+C PREPARE FOR THIS PURPOSE. 
+C
+C ALSO CHECK FOR MAJOR TREE SPECIES; IF NONE, SKIP CALL TO PREPARE AND
+C USE FVS LOGIC.
+C----------
+      NVALID = 0
+      NBIG6 = 0
+      DO I=1,IREC1
+C----------
+C CHECK TO SEE IF TREE MEETS DIAMETER LOWER LIMITS
+C----------
+        IF(DBH(I).GE. 0.1)THEN
+C----------
+C CHECK TO SEE IF THIS IS A BIG6 SPECIES
+C----------
+          SELECT CASE (ISP(I))
+          CASE(3,16)
+            NBIG6 = NBIG6 + 1
+          END SELECT
+C----------
+C SET VALID SPECIES FLAG, IORG(I).
+C----------
+          SELECT CASE (ISP(I))
+          CASE(3,16,18,19,21,22,23,28,33,34,37)
+            IORG(I) = 1
+            NVALID = NVALID + 1
+          CASE DEFAULT
+            IORG(I) = 0
+          END SELECT
+        ELSE
+          IORG(I) = 0
+        ENDIF
       ENDDO
-      
-      IEVEN = INDS(4)
-
-C     TOTAL STAND AGE (EVEN AGED ONLY)
-      IF( INDS(4) .EQ. 1 ) THEN
+      IF(DEBUG)WRITE(JOSTND,*)' IN CRATET IREC1,NVALID,NBIG6= ',
+     &IREC1,NVALID,NBIG6 
+C----------
+C IF THERE ARE NO "BIG 6" TREES ORGANON WON'T RUN. FLAG ALL TREES AS
+C NON-VALID ORGANON TREES AND SKIP CALL TO PREPARE.
+C ALL TREES WILL GO INTO FVS DUBBING AND CALIBRATION LOGIC
+C
+C NOTE: EVEN TREES THAT GET DUBBED VALUES IN ORGANON WILL GO INTO THE
+C FVS DUBBING AND CALIBATION LOGIC. ORGANON DUBBED VALUES WON'T GET
+C OVERWRITTEN AND INCLUDING THOSE VALUES IN FVS CALIBRATION SHOULD BRING
+C FVS AND ORGANON EQUATIONS MORE IN SYNC
+C----------
+      IF(NBIG6 .EQ. 0)THEN
+        DO I=1,ITRN
+        IORG(I) = 0
+        END DO
+        GO TO 261
+      ENDIF
+C-----------
+C  FOR VALID ORGANON TREES, MOVE THE DATA FROM THE EXISTING FVS TREE  
+C  ARRAYS INTO THE FORMAT THAT ORGANON REQUIRES.
+C  ASSIGNMENT OF FVS-VARIABLES TO ORGANON-VARIABLES
+C  ORGANON VARIABLE = FVS VARIABLE
+C  THIS SHOULD LOAD NVALID TREE RECORDS INTO THE ORGANON ARRAYS
+C-----------
+      NLOAD = 0
+      DO I = 1, IREC1
+        IF(IORG(I) .EQ. 1) THEN
+          TREENO(I) = I        ! FVS TREE NUMBER
+          PTNO(I)= ITRE(I)     ! POINT NUMBER OF THE TREE RECORD          
+          READ( FIAJSP( ISP( I ) ), '(I4)'  ) SPECIES( I )                      
+          DBH1(I)= DBH(I)      ! DBH 
+          HT1OR(I)= HT(I)      ! TOTAL HEIGHT AT BEGINNING OF PERIOD
+          CR1(I)= REAL(ICR(I)) / 100.0 ! MEASURED/PREDICTED CROWN RATIO
+          EXPAN1(I)= PROB(I)   ! EXPANSION FACTOR
+          USER(I)= ISPECL(I)   ! USER CODE AT BEGINNING OF PERIOD   
+          NLOAD = NLOAD + 1
+          IF(DEBUG)WRITE(JOSTND,*)
+     &    ' I,PTNO,SPECIES,DBH1,HT1OR,CR1,EXPAN1,USER,NLOAD= ',
+     &    I,PTNO(I),SPECIES(I),DBH1(I),HT1OR(I),CR1(I),EXPAN1(I),
+     &    USER(I),NLOAD
+        ENDIF        
+      ENDDO
+      IF(DEBUG)WRITE(JOSTND,*)' NVALID,NLOAD= ',NVALID,NLOAD
+C----------
+C  TOTAL STAND AGE (EVEN AGED ONLY)
+C----------
+      IEVEN = MANAGD
+      IF( MANAGD .EQ. 1 ) THEN
         STAGE     = IAGE + ( CYCLG * 5 )         
         BHAGE     = STAGE - 5   ! BREAST HEIGHT AGE
       ELSE
         STAGE     = 0
         BHAGE     = 0           ! BREAST HEIGHT AGE
       ENDIF
-
-C      CALL PREPARE(IMODTY, IPTINV, ITRN, STAGE, BHAGE, SPECIES, 
-      CALL PREPARE(IMODTY, IPTINV, IREC1, STAGE, BHAGE, SPECIES, 
+C----------
+C  CALL PREPARE
+C----------
+      CALL PREPARE(IMODTY, IPTINV, NVALID, STAGE, BHAGE, SPECIES, 
      1              USER, IEVEN, DBH1, HT1OR, CR1, EXPAN1, 
      2              RADGRO, RVARS, SERROR, TERROR, 
      3              SWARNING, TWARNING, IERROR, IRAD, 
      4              GROWTH, ACALIB )
-
-C     IF THE DLL THREW AN ERROR, REPORT THE ERROR TO THE OUTPUT FILE.
+C----------
+C  IF DEBUGGING, REPORT ANY ERRORS TO THE OUTPUT FILE.
+C----------
       IF( DEBUG .AND. IERROR .NE. 0 ) THEN
-
-      WRITE(JOSTND,9125) ICYC, IERROR
- 9125 FORMAT(' CALLING ORGANON.DLL::PREPARE::BETA, CYCLE=',I2,
-     &     ' IERROR=',I2 )
-      
-C     PUT SOME DEBUGGING OUTPUTS HERE.
-      DO I = 1, 9
-         IF( SWARNING(I) .NE. 0 ) THEN
+        WRITE(JOSTND,9125) ICYC, IERROR
+ 9125   FORMAT(' CRATET ORGANON ERROR CODE, CYCLE= ',I2,' IERROR= ',I2)
+        DO I = 1, 9
+          IF( SWARNING(I) .NE. 0 ) THEN
             WRITE(JOSTND,9127) ICYC, SWARNING(I)
- 9127       FORMAT(' CALLING ORGANON.DLL::PREPARE::BETA, CYCLE=',I2,
-     &           ' SWARNING=',I2 )
-         END IF
-      END DO
-      
-      
-      DO I = 1, 35
-         IF( SERROR(I) .NE. 0 ) THEN           
-C     IGNORE THE FOLLOWING ERRORS:
+ 9127       FORMAT(' CRATET ORGANON ERROR CODE, CYCLE= ',I2,
+     &      ' SWARNING= ',I2 )
+          END IF
+        END DO
+C
+        DO I = 1, 35
+          IF( SERROR(I) .NE. 0 ) THEN
+C----------          
+C  IGNORE THE FOLLOWING ERRORS:
 C     6 -- BHAGE HAS BEEN SET TO 0 FOR AN UNEVEN-AGED STAND
 C     7 -- BHAGE > 0 FOR AN UNEVEN-AGED STAND
 C     8 -- STAGE IS TOO SMALL FOR THE BHAGE
+C     9 --
+C    11 --
+C----------
             IF( ( I .EQ. 6  ) .OR. 
-     &           ( I .EQ. 7 ) .OR. 
-     &           ( I .EQ. 8 ) .OR.
-     &           ( I .EQ. 9 ) .OR.
-     &           ( I .EQ. 11 ) ) THEN
-            WRITE(JOSTND,9136) ICYC, I, SERROR(I)
- 9136       FORMAT(' CALLING ORGANON.DLL::PREPARE::BETA, CYCLE=',I2,
-     &           ' IDX=',I2, ' SERROR=',I2, ' ERROR IGNORED.'
-     &           ' PLEASE REFER TO: ', 
-     &   'HTTP://WWW.COF.ORST.EDU/COF/FR/RESEARCH/ORGANON/DOWNLD.HTM' )
-               IERROR = 0
-               SERROR(I) = 0
+     &          ( I .EQ. 7  ) .OR. 
+     &          ( I .EQ. 8  ) .OR.
+     &          ( I .EQ. 9  ) .OR.
+     &          ( I .EQ. 11 ) ) THEN
+              WRITE(JOSTND,9136) ICYC, I, SERROR(I)
+ 9136         FORMAT(' CRATET ORGANON ERROR CODE, CYCLE= ',I2,
+     &           ' IDX= ',I2, ' SERROR= ',I2, ' ERROR IGNORED.')
+              IERROR = 0
+              SERROR(I) = 0
             ELSE
                
-               WRITE(JOSTND,9126) ICYC, I, SERROR(I)
- 9126          FORMAT(' CALLING ORGANON.DLL::PREPARE::BETA, CYCLE=',I2,
-     &              ' IDX=',I2, ' SERROR=',I2 )
+              WRITE(JOSTND,9126) ICYC, I, SERROR(I)
+ 9126         FORMAT(' CRATET ORGANON ERROR CODE, CYCLE= ',I2,
+     &              ' IDX= ',I2, ' SERROR= ',I2 )
             END IF
-         END IF
-         
-      END DO
-      
-      
-      DO I = 1, 2000
-         IF( TWARNING(I) .NE. 0 ) THEN
+          END IF
+        END DO
+C
+        DO I = 1, 2000
+          IF( TWARNING(I) .NE. 0 ) THEN
             WRITE(JOSTND,9128) ICYC, TWARNING(I)
- 9128       FORMAT(' CALLING ORGANON.DLL::PREPARE::BETA, CYCLE=',I2,
-     &           ' TWARNING=',I2 )
-         END IF
-         
-         DO J = 1, 6
+ 9128       FORMAT(' CRATET ORGANON ERROR CODE, CYCLE= ',I2,
+     &           ' TWARNING= ',I2 )
+          END IF
+C         
+          DO J = 1, 6
             IF( TERROR(I,J) .NE. 0 ) THEN
-               WRITE(JOSTND,9129) ICYC, TERROR(I,J), I, J
- 9129          FORMAT(' CALLING ORGANON.DLL::PREPARE::BETA, CYCLE=',I2,
-     &              ', TERROR(I,J)=',I2,
-     &              ', TREE NUMBER=',I4, 
-     &              ', ERROR NUMBER=', I4 )
+              WRITE(JOSTND,9129) ICYC, TERROR(I,J), I, J
+ 9129         FORMAT(' CRATET ORGANON ERROR CODE, CYCLE=' ,I2,
+     &              ', TERROR(I,J)= ',I2,
+     &              ', TREE NUMBER= ',I4, 
+     &              ', ERROR NUMBER= ',I4 )
             END IF
-            
-         END DO
-      END DO
-      
+          END DO
+        END DO
       ELSE
-         
-         WRITE(JOSTND,9130) ICYC, IERROR
- 9130    FORMAT(' CALLED ORGANON.DLL::PREPARE::BETA, CYCLE=',I2,
-     &        ' IERROR=',I2 )
-         
-      END IF                    ! END OF THE ERROR CHECK FOR THE GROWTH CYCLE
-      
-C      DO I = 1, ITRN           
+        WRITE(JOSTND,9130) ICYC, IERROR
+ 9130   FORMAT(' CRATET ORGANON ERROR CODE, CYCLE= ',I2,
+     &        ' IERROR= ',I2 )
+      END IF
+C----------
+C  END OF THE CRATET ERROR REPORTING SECTION
+C
+C  NOW RELOAD THE FVS ARRAYS WITH DBH, HT, AND CR FOR ALL VALID
+C  ORGANON TREES
+C----------
+      NUNLOAD = 0
       DO I = 1, IREC1
-         DBH(I)= DBH1(I)        ! DBH 
-         HT(I)= HT1OR(I)        ! TOTAL HEIGHT AT BEGINNING OF PERIOD
-C         ICR(I)= INT( ANINT( CR1(I) * 100.0 ) ) ! MEASURED/PREDICTED CROWN RATIO           
-         ICR(I) =   ANINT( CR1(I) * 100.0 ) ! MEASURED/PREDICTED CROWN RATIO
+        IF(IORG(I) .EQ. 1)THEN
+          DBH(I)= DBH1(I)
+          HT(I)= HT1OR(I)
+          ICR(I) = ANINT( CR1(I) * 100.0 )
+          NUNLOAD = NUNLOAD + 1
+          IF(DEBUG)WRITE(JOSTND,*)
+     &    ' I,ITRE,ISP,DBH,HT,ICR,PROB,ISPECL,NUNLOAD= ',
+     &    I,ITRE(I),ISP(I),DBH(I),HT(I),ICR(I),PROB(I),
+     &    ISPECL(I),NUNLOAD
+        ENDIF
       ENDDO
-      
-C     IF THE FIRST CALIBRATION FLAG IS SET, THEN PRINT OUT ALL 
-C     OF THE CALIBRATION VALUES.
+      IF(DEBUG)WRITE(JOSTND,*)' NVALID,NUNLOAD= ',NVALID,NUNLOAD
+C----------      
+C  IF THE FIRST CALIBRATION FLAG IS SET, THEN PRINT OUT ALL 
+C  OF THE CALIBRATION VALUES.
+C----------
       IF( DEBUG .AND. INDS(1) .EQ. 1 ) THEN
-         DO I=1,18
-            WRITE(JOSTND,9220) I, ACALIB(1,I), 
+        DO I=1,18
+          WRITE(JOSTND,9220) I, ACALIB(1,I), 
      >           I, ACALIB(2,I), 
      >           I, ACALIB(3,I)
  9220       FORMAT ('   ORGANON ', 
      >           ' ACALIB(1,',I2,') = ',F9.6,
      >           ' ACALIB(2,',I2,') = ',F9.6,
      >           ' ACALIB(3,',I2,') = ',F9.6 )
-         ENDDO         
-      END IF
-
-
-
-C-------
-C     IF THE ORGANON DIDN'T FILL IN THE SECOND SITE INDEX, 
-C     THEN FILL IT IT USING THE BASIC EQUATIONS FOUND WITHIN
-C     THE SOURCE CODE.
-C     TODO: THIS SHOULD PROBABLY GO BEFORE THE CALL TO PREPARE
-C     SINCE I SUSPECT THIS CODE WILL NEVER GET CALLED IF
-C     FVS ALREADY FILLS IN THE SITE INDEX VALUES.
-C-------
-      IF(IMODTY .EQ. 1)THEN
-        IF(SITEAR( 16 ) .LE. 0.0 .AND. SITEAR( 15 ) .GT. 0.0)THEN
-          SITEAR( 16 )=1.062934*SITEAR( 15 )
-        ELSEIF(SITEAR( 15 ) .LE. 0.0)THEN
-          SITEAR( 15 )=0.940792*SITEAR( 16 )
-        ENDIF
-
-      ELSEIF(IMODTY .EQ. 2 .OR. IMODTY .EQ. 3)THEN
-C  Site index conversion equation from Nigh (1995, Forest Science 41:84-98)
-        IF(SITEAR( 16 ) .LE. 0.0 .AND. SITEAR( 19 ) .GT. 0.0)THEN
-          SITEAR( 16 )=0.480 +( 1.110 * SITEAR( 19 ))
-        ELSEIF(SITEAR( 19 ) .LE. 0.0)THEN
-          SITEAR( 19 )=-0.432 +( 0.899 * SITEAR( 16 ))
-        ENDIF
-      ELSE
-        IF(SITEAR( 19 ) .LE. 0.0) THEN
-           SITEAR( 19 )=4.776377*SITEAR( 16 )**0.763530587
-        ENDIF
+        ENDDO         
       ENDIF
-
-      
 C-------
 C     ORGANON - END
 C-------
-      
+  261 CONTINUE
 C-------
 C     IF THERE ARE TREE RECORDS, BRANCH TO PREFORM CALIBRATION.
 C-------

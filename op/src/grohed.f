@@ -1,18 +1,25 @@
       SUBROUTINE GROHED (IUNIT)
       IMPLICIT NONE
 C----------
-C  **GROHED -- OP   DATE OF LAST REVISION:  03/04/15
+C  **GROHED -- OP   DATE OF LAST REVISION:  03/11/15
 C $Id: grohed.f 167 2012-04-14 15:58:06Z jdh $
 C $Revision: 167 $
 C $Date: 2012-04-14 08:58:06 -0700 (Sat, 14 Apr 2012) $
 C $HeadURL: https://www.forestinformatics.com/svn/fvs/trunk/pncor/src/grohed.f $
 C----------
 C     WRITES HEADER FOR BASE MODEL PORTION OF PROGNOSIS SYSTEM
+C----------
+COMMONS
 C
+C
+      INCLUDE 'INCLUDESVN.F77'
+C
+C
+COMMONS
+C----------
       CHARACTER DAT*10,TIM*8,VVER*7,DVVER*7,REV*10,SVN*4
       INTEGER IUNIT
       DATA DVVER/'OP     '/
-      INCLUDE 'INCLUDESVN.F77'
 C----------
 C     CALL REVISE TO GET THE LATEST REVISION DATE FOR THIS VARIANT.
 C----------

@@ -98,7 +98,7 @@ C----------
 C  SPECIFIC TO ORGANON
 C
       REAL DIAGR
-      INTEGER NBIG6
+      INTEGER NBIG6,JJ
       INTEGER OSPMAP(MAXSP)
       LOGICAL STATUS,ALLOW_THINNING_OPTION
 C
@@ -164,8 +164,9 @@ C----------
       WK1(I)=DG(I)
     5 CONTINUE
 C----------
-C  CALL **DGF** TO LOAD WK2 WITH EXPECTED VALUES OF LN(DDS)FOR ALL TREES
-C  AND PRINT VALUES IF DEBUGGING.
+C  CALL **DGF** TO LOAD WK2 WITH EXPECTED VALUES OF LN(DDS)FOR ALL TREES.
+C  LN(DDS) ESTIMATES ARE CONVERTED TO A 5-YR BASIS IN **DGF**.
+C  PRINT VALUES IF DEBUGGING.
 C----------
       CALL DGF(DBH)
       IF(DEBUG)THEN
@@ -181,22 +182,21 @@ C----------
  121  FORMAT(' STARTING ORGANON SEQUENCE, CYCLE=',I2 )
 C----------
 C  LOAD FVS STAND LEVEL DATA INTO THE APPROPRIATE ORGANON VARIABLE
-C---------- 
 C      
 C     THE NUMBER OF CYCLES GROWN IN ORGANON = FVS CYCLES - 1
-C
+C----------
       CYCLG = ICYC - 1
-C
+C----------
 C     SET THE NUMBER OF SAMPLE POINTS FOR ORGANON TO 1 SINCE FVS HAS
 C     ALREADY PROCESSED THE TREE INPUT DATA AND EXPANDED THE DATA TO
 C     AN ACRE BASIS.
-C
+C----------
       NPTS=1
-C
+C----------
 C     SET THE NUMBER OF TREE RECORDS
-C
+C----------
       NTREES1=ITRN
-C
+C----------
 C     SET EVEN-AGED OR UNEVEN-AGED INDICATOR. THE VARIABLE MANAGD
 C     IS IN THE PLOT.F77 COMMON BLOCK AND SET USING THE MANAGED KEYWORD TO  
 C     INDICATE WHETHER THE STAND IS EVEN-AGED (I.E. 1=MANAGED) OR UNEVEN-AGED
@@ -204,7 +204,7 @@ C     (I.E. 0=UNMANAGED; DEFAULT SETTING); THE VALUE CAN ALSO BE SET USING
 C     THE ORGINFO KEYWORD RECORD
 C     ALSO SET TOTAL STAND AGE AND BREAST-HEIGHT STAND AGE (ONLY APPLICABLE
 C     FOR EVEN-AGED STANDS
-C     
+C----------     
       IF( MANAGD .EQ. 1 ) THEN
         STAGE     = IAGE + ( CYCLG * 5 )         
         BHAGE     = STAGE - 5   ! breast height age
@@ -212,69 +212,6 @@ C
         STAGE     = 0
         BHAGE     = 0           ! breast height age
       ENDIF
-C
-C INITIALIZE ORGANON CONTROL VARIABLE DEFAULTS
-C
-      INDS(1) = 1     ! HEIGHT CALIBRATION ON
-      INDS(2) = 1     ! HEIGHT-TO-CROWN BASE CALIBRATION ON
-      INDS(3) = 1     ! DIAMETER GROWTH CALIBRATION ON
-      INDS(4) = 0     ! STAND IS UNEVEN-AGED      
-      INDS(5) = 0     ! ORGANON TRIPPLING OFF
-      INDS(6) = 0     ! STAND HAS NOT BEEN PRUNED
-      INDS(7) = 0     ! STAND HAS NOT BEEN THINNED
-      INDS(8) = 0     ! STAND HAS NOT BEEN FERTILIZED      
-      INDS(9)	= 1     ! USE SDI-BASED MORTALITY      
-      INDS(10)= 0     ! WOOD QUALITY VARIABLES ARE NOT BEING COMPUTED.
-      INDS(11)= 0     ! OVERSTORY TREES WERE NOT REMOVED AT START OF CURRENT CYCLE
-      INDS(12)= 0     ! INGROWTH WAS NOT ADDED AT START OF GROWTH CYCLE
-      INDS(13)= 0     ! MAJOR CONIFER TREES WERE NOT CUT AT BEINNING OF CYCLE
-      INDS(14)= 0     ! NOT PLANTED WITH GENETIC IMPROVED STOCK
-      INDS(15)= 0     ! STAND IS NOT INFECTED WITH SWISS NEEDLE CAST
-      
-C     ASSIGN THE SPECIES SPECIFIC VALUES FOR THE STAND LEVEL VARIABLES
-C     SO THAT ORGANON WILL IMPUTE THE VALUES WHEN IT CALLS PREPARE 
-      
-C     ORGANON VARIANT: SWO
-      IF( IMODTY .EQ. 1 ) THEN
-         RVARS(1)    = SITEAR( 16 ) ! THE DOUGLAS-FIR SITE INDEX
-         RVARS(2)    = SITEAR( 15 ) ! THE PP SITE INDEX
-
-         RVARS(3)    = SDIDEF( 16 ) ! MAX SDI FOR DF IN SWO, NWO, AND SMC
-         RVARS(4)    = SDIDEF(  2 ) ! MAX SDI FOR WF/GF IN SWO (WF), NWO/SMC (GF).
-         RVARS(5)    = SDIDEF( 15 ) ! MAX SDI FOR PP/WH IN SWO (PP), NWO/SMC (WH).
-      END IF
-      
-C     ORGANON VARIANT: NWO
-      IF( IMODTY .EQ. 2 ) THEN
-         RVARS(1)    = SITEAR( 16 ) ! THE DOUGLAS-FIR SITE INDEX
-         RVARS(2)    = SITEAR( 19 ) ! WESTERN HEMLOCK SITE INDEX
-
-         RVARS(3)    = SDIDEF( 16 ) ! MAX SDI FOR DF IN SWO, NWO, AND SMC
-         RVARS(4)    = SDIDEF(  3 ) ! MAX SDI FOR WF/GF IN SWO (WF), NWO/SMC (GF).
-         RVARS(5)    = SDIDEF( 19 ) ! MAX SDI FOR PP/WH IN SWO (PP), NWO/SMC (WH).
-      END IF
-      
-C     ORGANON VARIANT: SMC
-      IF( IMODTY .EQ. 3 ) THEN
-         RVARS(1)    = SITEAR( 16 ) ! THE DOUGLAS-FIR SITE INDEX
-         RVARS(2)    = SITEAR( 19 ) ! THE WESTERN HEMLOCK SITE INDEX
-
-         RVARS(3)    = SDIDEF( 16 ) ! MAX SDI FOR DF IN SWO, NWO, AND SMC
-         RVARS(4)    = SDIDEF(  3 ) ! MAX SDI FOR WF/GF IN SWO (WF), NWO/SMC (GF).
-         RVARS(5)    = SDIDEF( 19 ) ! MAX SDI FOR PP/WH IN SWO (PP), NWO/SMC (WH).
-      END IF
-
-C     TODO: HOLD OFF CONVERTING THESE UNTIL FIRST CODE REVIEW.
-!RVARS(6)	= DF GENETIC WORTH VALUE FOR DIAMETER GROWTH
-!RVARS(7)	= DF GENETIC WORTH VALUE FOR HEIGHT GROWTH
-
-C     TODO: ASSIGN THE SWISS NEEDLE CAST PARAMETERS
-!RVARS(8)	= N YRS FOLIAGE RETENTION FOR DF (SNC)
-!RVARS(9)	= PLANTING DENSITY OF ALDER RAP VERSION
-
-C     
-!RVARS(10-30)	= UNUSED. 
-      
 C----------
 C  SET ORGANON TREE INDICATOR (0 = NO, 1 = YES). 
 C  VALID TREE:
@@ -332,16 +269,19 @@ C----------
         GO TO 261
       ENDIF
 C-----------
-C     MOVE THE DATA FROM THE EXISTING FVS TREE ARRAYS 
-C     INTO THE FORMAT THAT ORGANON REQUIRES
-C     ASSIGNMENT OF FVS-VARIABLES TO ORGANON-VARIABLES
+C  MOVE THE DATA FROM THE EXISTING FVS TREE ARRAYS INTO THE APPROPRIATE 
+C  ORGANON ARRAY AND CONVERT FORMAT IF NECESSARY
+C
+C  ASSIGN MINIMUM HEIGHT AND DIAMETER FOR SMALL TREES (MARKED AS NON-VALID
+C  ABOVE BUT NEEDED FOR DENSITY MEASURES IN ORGANON
 C-----------
       DO I = 1, ITRN         
          TREENO(I) = I     ! TREE NUMBER (ON PLOT?)
          PTNO(I) = ITRE(I) ! POINT NUMBER OF THE TREE RECORD
-C         READ( FIAJSP( ISP( I ) ), '(I4)'  ) SPECIES( I )
          DBH1(I) = DBH(I) ! DBH 
+         IF(DBH1(I) .LT. 0.1) DBH1(I)=0.1
          HT1OR(I) = HT(I) ! TOTAL HEIGHT AT BEGINNING OF PERIOD
+         IF(HT1OR(I) .LT. 4.6) HT1OR(I)=4.6
          CR1(I) = REAL(ICR(I)) / 100.0 ! MEASURED/PREDICTED CROWN RATIO
          SCR1B(I) = 0.0   ! SHADOW CROWN RATIO
          EXPAN1(I) = PROB(I) ! EXPANSION FACTOR
@@ -353,99 +293,66 @@ C         READ( FIAJSP( ISP( I ) ), '(I4)'  ) SPECIES( I )
       
 C-----------
 C     INITIALIZE THE WARNING AND ERROR VARIABLES
-C     BEFORE THE CALL THE EXECUTE FUNCTION 
-C     IN THE ORGANON DLL
 C-----------
       IERROR = 0
-      
       DO I = 1, 35
          SERROR(I) = 0
       end do
-      
       DO I = 1, 9
          SWARNING(I) = 0
       end do
-      
       DO I = 1, 2000
          TWARNING(I) = 0
          DO J = 1, 6
             TERROR(I,J) = 0
          end do
       end do
-
 C-----------
 C  MANAGE THE THINNING VARIABLES
+C  MOVE THE VARIABLES FROM THE PREVIOUS THINNINGS, IF THERE ARE ANY
 C-----------
       IF( OLDBA .NE. BA ) THEN
-
-C     MOVE THE VARIABLES FROM THE PREVIOUS THINNINGS, IF THERE ARE ANY
         DO I=5,2,-1
           YST(I)  = YST(I-1)
           BART(I) = BART(I-1)
-	  END DO
-
+	      END DO
+C
 C     THE YST VECTOR CONTAINS AN ARRAY OF LENGTH FIVE 
 C     FOR THE NUMBER OF YEARS THAT HAVE PASSED SINCE 
 C     THE LAST THINNING. SINCE THIS HAPPENS BEFORE THE 
 C     CURRENT GROWTH CYCLE, THE OLDBA IS THE BASAL AREA
 C     BEFORE THINNING.
-      YST(1)  = FLOAT( ( CYCLG - 1 ) * 5 )
-      BART(1) = OLDBA - ATBA
-      BABT    = OLDBA
-      
+C
+        YST(1)  = FLOAT( ( CYCLG - 1 ) * 5 )
+        BART(1) = OLDBA - ATBA
+        BABT    = OLDBA
+C      
 C     SET THE "STAND HAS BEEN THINNED" VARIABLE TO TRUE.
-      INDS(7) = 1 ! stand has been thinned
-
+C
+        INDS(7) = 1       ! stand has been thinned
       END IF
-
-      IF( INDS(7) .EQ. 1 ) THEN
-
-C     WRITE OUT THE VARIABLES TO THE DEBUG/OUTPUT FILE FOR REVIEW LATER.
-        IF (DEBUG) THEN
-          
-          WRITE(JOSTND,123) ICYC, BABT
-  123     FORMAT(' STAND HAS BEEN THINNED BEFORE CALLING ',
-     &    ' ORGANON.DLL, CYCLE=',I2, ' BABT= ', F9.3 )
-
-C     WRITE OUT THE YEARS SINCE THINNING ARRAY
-          WRITE(JOSTND,1240) ICYC,
-     &      YST(1), 
-     &      YST(2), 
-     &      YST(3), 
-     &      YST(4), 
-     &      YST(5) 
- 1240     FORMAT(
-     &    ' ORGANON.DLL, CYCLE=',I2, 
-     &    ', YST(1)=', F6.2,
-     &    ', YST(2)=', F6.2,
-     &    ', YST(3)=', F6.2,
-     &    ', YST(4)=', F6.2,
-     &    ', YST(5)=', F6.2 )
-
-C     WRITE OUT THE THINNING BASAL AREA REMOVED AT THINNING ARRAY
-          WRITE(JOSTND,1250) ICYC,
-     &      BART(1), 
-     &      BART(2), 
-     &      BART(3), 
-     &      BART(4), 
-     &      BART(5) 
- 1250     FORMAT(
-     &    ' ORGANON.DLL, CYCLE=',I2, 
-     &    ', BART(1)=', F6.2,
-     &    ', BART(2)=', F6.2,
-     &    ', BART(3)=', F6.2,
-     &    ', BART(4)=', F6.2,
-     &    ', BART(5)=', F6.2 )
-     
-        END IF
-
-	END IF
-
-      IF (DEBUG) WRITE(JOSTND,124) ICYC, IMODTY
- 124  FORMAT(' CALLING ORGANON.DLL::EXECUTE::BETA, CYCLE=',I2,
-     &     ', ORGANON::VARIANT= ',I2 )
-
-
+C
+      IF(INDS(7) .EQ. 1 .AND. DEBUG) THEN
+        WRITE(JOSTND,123) ICYC, BABT
+  123   FORMAT(' STAND HAS BEEN THINNED BEFORE CALLING ',
+     &  ' EXECUTE, CYCLE=',I2, ' BABT= ', F9.3 )
+C
+C       WRITE OUT THE YEARS SINCE THINNING
+C
+        WRITE(JOSTND,1240) ICYC,(YST(JJ),JJ=1,5) 
+ 1240   FORMAT(
+     &  ' YRS SINCE THIN, CYCLE= ',I2,', YST(1)= ',F6.2,', YST(2)= ', 
+     &  F6.2,', YST(3)= ',F6.2,', YST(4)= ',F6.2,', YST(5)= ',F6.2)
+C
+C       WRITE OUT THE THINNING BASAL AREA REMOVED
+C
+        WRITE(JOSTND,1250) ICYC,(BART(JJ),JJ=1,5)
+ 1250   FORMAT(
+     &  ' BA REMOVED, CYCLE= ',I2,', BART(1)= ',F6.2,', BART(2)= ',
+     &  F6.2,', BART(3)= ',F6.2,', BART(4)= ',F6.2,', BART(5)= ',F6.2)
+      ENDIF
+      IF (DEBUG) WRITE(JOSTND,124) ICYC,VERSION
+ 124  FORMAT(' IN DGDRIV CALLING EXECUTE, CYCLE= ',I2,' VERSION= ',I2)
 C---------- 
 C  RUN ORGANON TO GET GROWTH AND MORTALITY ESTIMATES WHICH WILL BE USED
 C  FOR VALID ORGANON TREES
@@ -461,84 +368,71 @@ C----------
 C----------
 C  PROCESS THE ORGANON ERROR CODES
 C----------
-      if( IERROR .EQ. 1 ) then
-
-         IF (DEBUG) WRITE(JOSTND,125) ICYC, status, IERROR
- 125     FORMAT(' CALLING ORGANON.DLL::EXECUTE::BETA, CYCLE=',I2,
-     &        ' STATUS=',L10,
-     &        ' IERROR=',I2 )
-
-         DO I = 1, 9
-            if( SWARNING(I) .EQ. 1 ) then
-               IF (DEBUG) WRITE(JOSTND,127) ICYC, I, SWARNING(I)
- 127           FORMAT(' CALLING ORGANON.DLL::EXECUTE::BETA, CYCLE=',I2,
-     &              ' IDX=',I2, ' SWARNING=',I2 )
-            end if
-         end do
-
-
-         DO I = 1, 35
-            if( SERROR(I) .EQ. 1 ) then
-           
+      IF(IERROR.EQ.1 .AND. DEBUG)THEN
+        WRITE(JOSTND,125) ICYC,STATUS,IERROR
+ 125    FORMAT(' ORGANON ERROR CODE, CYCLE=',I2,' STATUS=',L10,
+     &         ' IERROR=',I2 )
+        DO I = 1,9
+          if(SWARNING(I) .EQ. 1) then
+            WRITE(JOSTND,127) ICYC,I,SWARNING(I)
+ 127        FORMAT(' ORGANON ERROR CODE, CYCLE=',I2,
+     &             ' IDX=',I2, ' SWARNING=',I2 )
+          end if
+        end do
+C
+        DO I = 1,35
+          if( SERROR(I) .EQ. 1 ) then
+C           
 C     IGNORE THE FOLLOWING ERRORS:
 C     6 -- BHAGE has been set to 0 for an uneven-aged stand
 C     7 -- BHAGE > 0 for an uneven-aged stand
 C     8 -- STAGE is too small for the BHAGE
-                if( ( I .EQ. 6  ) .OR. 
-     &               ( I .EQ. 7 ) .OR. 
-     &               ( I .EQ. 8 ) .OR.
-     &               ( I .EQ. 9 ) .OR.
-     &               ( I .EQ. 11 ) ) then
-
-               IF (DEBUG) WRITE(JOSTND,136) ICYC, I, SERROR(I)
- 136           FORMAT(' CALLING ORGANON.DLL::EXECUTE::BETA, CYCLE=',I2,
-     &   ' IDX=',I2, ' SERROR=',I2, ' ERROR IGNORED.'
-     &   ' PLEASE REFER TO: ', 
-     &   'http://www.cof.orst.edu/cof/fr/research/organon/downld.htm' )
-
-                else
-
-               IF (DEBUG) WRITE(JOSTND,126) ICYC, I, SERROR(I)
- 126           FORMAT(' CALLING ORGANON.DLL::EXECUTE::BETA, CYCLE=',I2,
-     &              ' IDX=',I2, ' SERROR=',I2 )
-                end if
+C
+            if((I.EQ.6) .OR. (I.EQ.7) .OR. (I.EQ.8) .OR.
+     &         (I.EQ.9) .OR. (I.EQ.11) ) then
+              WRITE(JOSTND,136) ICYC, I, SERROR(I)
+ 136          FORMAT(' ORGANON ERROR CODE, CYCLE=',I2,
+     &        ' IDX=',I2, ' SERROR=',I2, ' ERROR IGNORED.')
+            else
+              WRITE(JOSTND,126) ICYC, I, SERROR(I)
+ 126          FORMAT(' ORGANON ERROR CODE, CYCLE=',I2,
+     &               ' IDX=',I2, ' SERROR=',I2 )
             end if
-         end do
-
-
-         DO I = 1, 2000
-            if( TWARNING(I) .EQ. 1 ) then
-               IF (DEBUG) WRITE(JOSTND,128) ICYC, I, TWARNING(I)
- 128           FORMAT(' CALLING ORGANON.DLL::EXECUTE::BETA, CYCLE=',I2,
-     &              ' IDX=',I2, ' TWARNING=',I2 )
+          end if
+        end do
+C
+        DO I=1,2000
+          if(TWARNING(I) .EQ. 1) then
+            WRITE(JOSTND,128) ICYC, I, TWARNING(I)
+ 128        FORMAT(' ORGANON ERROR CODE, CYCLE=',I2,' IDX=',I2,
+     &       ' TWARNING=',I2 )
+          end if
+          DO J = 1,6
+            if( TERROR(I,J) .EQ. 1 ) then
+              WRITE(JOSTND,129) ICYC, TERROR(I,J), I, J
+ 129          FORMAT(' ORGANON ERROR CODE, CYCLE= ',I2,
+     &        ', TERROR(I,J)= ',I2,', TREE NUMBER= ',I4, 
+     &        ', ERROR NUMBER= ', I4 )
             end if
-
-            DO J = 1, 6
-               if( TERROR(I,J) .EQ. 1 ) then
-                  IF (DEBUG) WRITE(JOSTND,129) ICYC, TERROR(I,J), I, J
- 129              FORMAT(' CALLING ORGANON.DLL::EXECUTE::BETA, CYCLE=',
-     &                 I2,', TERROR(I,J)=',I2,
-     &                 ', TREE NUMBER=',I4, 
-     &                 ', ERROR NUMBER=', I4 )
-               end if
-
-            end do
-         end do
-
-      end if                    ! end of the error check for the growth cycle
-
-            DO J = 1, 30
-               IF (DEBUG) WRITE(JOSTND,135) ICYC, J, STOR(J)
- 135          FORMAT(' CALLING ORGANON.DLL::EXECUTE::BETA, CYCLE=',I2,
-     &               ', J=',I2,
-     &               ', STOR(J)=',F10.4 )
-            end do
-
+          end do
+        end do
+      ENDIF
+C----------
+C  END OF THE ERROR CHECK FOR THE GROWTH CYCLE
+C----------
+      IF(DEBUG)THEN
+        DO J = 1,30
+          WRITE(JOSTND,135) ICYC, J, STOR(J)
+ 135      FORMAT(' ORGANON STOR ARRAY, CYCLE=',I2,', J=',I2,
+     &    ', STOR(J)=',F10.4 )
+        end do
+      ENDIF
 C-----------
 C  LOAD WK2 WITH EXPECTED VALUES OF LN(DDS) FOR
 C  VALID ORGANON TREES.
 C-----------
-      DO I = 1, ITRN           
+      DO I = 1, ITRN   
+        IF(IORG(I) .EQ. 0)CYCLE        
         BARK = BRATIO(ISP(I),DBH(I),HT(I))
         DIAGR = DGRO(I) * BARK
         DDS = ALOG( (DIAGR * (2.0 * DBH(I) * BARK + DIAGR)) )
@@ -630,8 +524,16 @@ C----------
       IF(LTRIP) GO TO 30
 C----------
 C  CALL DGSCOR TO ASSIGN ERROR TO DIAMETER GROWTH PREDICTION.
+C  ONLY DO THIS FOR FVS SPECIES; ORGANON SPECIES GET ASSIGNED AN ERROR
+C  TERM IN ORGANON CODE
 C----------
-      CALL DGSCOR (SSIGMA,FRM,RHO,RHOCP,I)
+      SELECT CASE(ISPC)
+      CASE(3,16,18,19,21:23,28,33,34,37)
+        OLDRN(I)=0.
+        FRM = 1.
+      CASE DEFAULT
+        CALL DGSCOR (SSIGMA,FRM,RHO,RHOCP,I)
+      END SELECT
       DG(I)=(SQRT(DSQ+DDS*FRM)-D)
 C----------
 C  ACCOUNT FOR THE NEGATIVE EFFECTS OF DWARF MISTLETOE ON DIAMETER
