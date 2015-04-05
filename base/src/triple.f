@@ -26,13 +26,14 @@ C
 C
       INCLUDE 'STDSTK.F77'
 C
-C
+COMMONS
+C----------
 C
       INTEGER I,ITFN,IDMR
       REAL WEIGHT
 C
-C
-COMMONS
+C----------
+C LOOP THROUGH ALL TREE RECORDS
 C----------
       DO 30 I=1,ITRN
 C----------
@@ -80,6 +81,13 @@ C----------
       CRWDTH(ITFN)=CRWDTH(I)
       HT2TD(ITFN,1)=HT2TD(I,1)
       HT2TD(ITFN,2)=HT2TD(I,2)
+C----------
+C  START ORGANON
+C
+      CALL ORGTRIP(I,ITFN)
+C
+C  END ORGANON
+C----------
 C----------
 C     GET MISTLETOE RATING FROM POSITION I AND PUT IT AT POSITION ITFN.
 C

@@ -513,6 +513,7 @@
 ../organon/src/growth_mods.f
 ../organon/src/htgrowth.f   
 ../organon/src/mortality.f  
+../organon/src/orgtrip.f     
 ../organon/src/orgvol.f     
 ../organon/src/prepare.f    
 ../organon/src/start2.f     

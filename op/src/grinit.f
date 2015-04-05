@@ -206,7 +206,7 @@ C----------
       GROSPC = -1.0
       NCYC = 0
       NONSTK = -9999
-      NOTRIP = .FALSE.
+      NOTRIP = .TRUE.
       NPLT = DBLK
       DBCN = ' '
       SAMWT = -1E25
