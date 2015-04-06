@@ -155,7 +155,7 @@ C----------
       BAF = 40.
       BAMAX = 0.0
       BRK = 5.0
-      DGSD = 1.7
+      DGSD = 0
       EFF = 1.0
       ELEV = 7.
       FINT = 5.

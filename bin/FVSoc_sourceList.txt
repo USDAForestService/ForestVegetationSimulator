@@ -217,7 +217,6 @@
 ../ca/src/pvref6.f
 ../ca/src/sichg.f
 ../ca/src/smhtgf.f
-../ca/src/varmrt.f
 ../ca/src/varvol.f
 ../clim/base/clauestb.f
 ../clim/base/clgmult.f
@@ -495,6 +494,7 @@
 ../oc/src/crown.f
 ../oc/src/dgdriv.f
 ../oc/src/dgf.f
+../oc/src/esinit.f
 ../oc/src/ffert.f
 ../oc/src/grinit.f
 ../oc/src/grohed.f
@@ -547,7 +547,6 @@
 ../strp/src/esfltr.f
 ../strp/src/esgent.f
 ../strp/src/esin.f
-../strp/src/esinit.f
 ../strp/src/esmsgs.f
 ../strp/src/esnutr.f
 ../strp/src/esout.f
