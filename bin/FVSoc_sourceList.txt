@@ -217,6 +217,7 @@
 ../ca/src/pvref6.f
 ../ca/src/sichg.f
 ../ca/src/smhtgf.f
+../ca/src/varmrt.f
 ../ca/src/varvol.f
 ../clim/base/clauestb.f
 ../clim/base/clgmult.f
