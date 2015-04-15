@@ -1,6 +1,7 @@
 !== last modified  09-18-2013
 C 01/18/2013 Added calculation for stump VOL(14) and tip VOL(15)
 C 09/18/2013 Correct XINT to sum all logs
+C 03/26/2015 Modified SUBROUTINE DOUBLE_BARK to include TAPEQN 14 and also catch error for no bark equation (YW)
       SUBROUTINE BLMVOL(VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,FCLASS,
      >        VOL,LOGDIA,LOGLEN,LOGVOL,TLOGS,NOLOGP,NOLOGS,BFPFLG,
      >        CUPFLG,ERRFLAG)
@@ -303,7 +304,11 @@ c        PROFILE = 9
 c      ENDIF
       
       CALL DOUBLE_BARK (TAPEQU, DBHOB, DBHIB)
-
+c     Added arror catch for equations without Double bark equation (03/26/2015)      
+      IF(DBHIB.LE.0.0001) THEN
+        ERRFLAG = 14
+        RETURN
+      ENDIF
       IF (MTOPP.LE.0)THEN
          MTOPP = anint((0.184*DBHOB)+2.24)
       ENDIF
@@ -863,7 +868,8 @@ C     DOUGLAS-FIR (LARSEN & HANN, 1985)
 C     PONDEROSA AND JEFFREY PINE (LARSEN & HANN, 1985)
         DBHIB = 0.809427 * DBHOB**1.016866
 
-      ELSEIF (TAPEQU .EQ. 13) THEN
+      ELSEIF (TAPEQU .EQ. 13 .OR. TAPEQU .EQ. 14) THEN
+C     Added TAPEQN 14 for white pine per BLM 3/26/2015 (Kristen Thompson, state cruiser)      
 C     SUGAR PINE (LARSEN & HANN, 1985)
 C => ?  DBHIB = 0.859045 * DBHOB**1.000000
         DBHIB = 0.859045 * DBHOB

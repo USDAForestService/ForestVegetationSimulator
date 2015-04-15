@@ -1,7 +1,7 @@
       SUBROUTINE FORMCL(ISPC,IFOR,D,FC)
       IMPLICIT NONE
 C----------
-C  **FORMCL--CA     DATE OF LAST REVISION:  02/22/08
+C CA $Id$
 C----------
 C
 C THIS PROGRAM CALCULATES FORM FACTORS FOR CALCULATING CUBIC AND
@@ -20,10 +20,13 @@ COMMONS
 C
 C----------
       REAL ROGRFC(MAXSP,5),SISKFC(MAXSP,5),FC,D
+      REAL BLM710(MAXSP),BLM711(MAXSP),BLM712(MAXSP)
       INTEGER IFOR,ISPC,IFCDBH
 C----------
 C  FOREST ORDER: (IFOR)
-C  6=ROGUE RIVER(610)      7=SISKIYOU(611)
+C  6=ROGUE RIVER(610)  7=SISKIYOU(611)  8 = ROSENBURG(710)  9 = MEDFORD(711)
+C  10 = = COOS BAY(712)  11 =  TRINITY(518)(MAPPED TO SHASTA-TRINITY)
+
 C
 C
 C  SPECIES ORDER:
@@ -99,6 +102,33 @@ C
      & 81., 76., 95., 79., 95., 82., 81., 75., 84., 80.,
      & 82., 79., 95., 95., 80., 92., 95., 78., 95./     
 C----------
+C  BLM ROSENBURG FORM CLASS VALUES
+C----------
+      DATA BLM710/
+     & 73., 86., 80., 87., 76., 76., 89., 91., 76., 80.,
+     & 80., 80., 80., 80., 80., 91., 80., 88., 80., 80.,
+     & 76., 76., 76., 76., 76., 80., 80., 80., 80., 80.,
+     & 80., 80., 80., 84., 80., 88., 81., 83., 83., 84.,
+     & 83., 84., 80., 76., 76., 75., 76., 84., 76./    
+C----------
+C  BLM MEDFORD FORM CLASS VALUES
+C----------
+      DATA BLM711/
+     & 70., 78., 78., 91., 78., 78., 87., 91., 70., 73.,
+     & 68., 68., 68., 68., 70., 84., 76., 85., 68., 68.,
+     & 70., 74., 70., 76., 70., 80., 80., 80., 80., 80.,
+     & 80., 80., 80., 84., 80., 88., 81., 83., 83., 84.,
+     & 83., 84., 80., 72., 72., 75., 76., 84., 70./
+C----------
+C  BLM COOS BAY FORM CLASS VALUES
+C----------
+      DATA BLM712/
+     & 70., 78., 78., 91., 75., 75., 87., 92., 72., 80.,
+     & 80., 80., 80., 80., 75., 91., 80., 88., 80., 80.,
+     & 60., 76., 75., 70., 74., 80., 80., 80., 80., 80.,
+     & 80., 80., 80., 84., 80., 91., 86., 86., 83., 84.,
+     & 83., 86., 80., 75., 74., 75., 70., 86., 74./
+C----------
 C  FOR REGION 6 FORESTS, LOAD THE FORM CLASS USING TABLE VALUES.
 C  IF A FORM CLASS HAS BEEN ENTERED VIA KEYWORD, USE IT INSTEAD.
 C----------
@@ -110,6 +140,12 @@ C----------
           FC = ROGRFC(ISPC,IFCDBH)
         ELSEIF(IFOR.EQ.7) THEN
           FC = SISKFC(ISPC,IFCDBH)
+        ELSEIF(IFOR.EQ.8) THEN
+          FC = BLM710(ISPC)
+        ELSEIF(IFOR.EQ.9) THEN
+          FC = BLM711(ISPC)
+        ELSEIF(IFOR.EQ.10) THEN
+          FC = BLM712(ISPC)
         ELSE
           FC = 80.
         ENDIF
