@@ -1520,11 +1520,13 @@ C
 
       FIRST = 1
       IF(SPEC.EQ.202) THEN
-          IF((VAR.EQ."WC" .OR. VAR.EQ."wc").OR.
-     &       (VAR.EQ."PN" .OR. VAR.EQ."pn").OR.
+          IF(VAR.EQ."WC" .OR. VAR.EQ."wc")THEN
+          	DONE=44
+          ELSEIF((VAR.EQ."PN" .OR. VAR.EQ."pn").OR.
      &       (VAR.EQ."NC" .OR. VAR.EQ."nc").OR.
      &       (VAR.EQ."CA" .OR. VAR.EQ."ca")) THEN
-                DONE = 42
+            DONE = 44
+            IF(FORNUM.EQ.12)DONE=42
           ELSE
                 DONE = 44
           ENDIF
