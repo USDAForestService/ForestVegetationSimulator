@@ -205,6 +205,8 @@ c               4= the length of the "name" string was too big or small
 c
       include "PRGPRM.F77"
       include "PLOT.F77"
+      include 'VOLSTD.F77'
+      include 'CONTRL.F77'
 
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE:: FVSSPECIESATTR
 !DEC$ ATTRIBUTES ALIAS:'FVSSPECIESATTR'::FVSSPECIESATTR
@@ -235,6 +237,36 @@ c
       case ("spsdi")
         if (action=="get") attr = sdidef
         if (action=="set") sdidef = real(attr,4)
+
+c     volume calculation-related vectors
+
+      case ("bfmind")
+        if (action=="get") attr = bfmind
+        if (action=="set") bfmind = real(attr,4)
+      case ("bftopd")
+        if (action=="get") attr = bftopd
+        if (action=="set") bftopd = real(attr,4)
+      case ("bfstmp")
+        if (action=="get") attr = bfstmp
+        if (action=="set") bfstmp = real(attr,4)
+      case ("frmcls")
+        if (action=="get") attr = frmcls
+        if (action=="set") frmcls = real(attr,4)
+      case ("bfmeth")
+        if (action=="get") attr = methb
+        if (action=="set") methb = int(attr,4)
+      case ("mcmind")
+        if (action=="get") attr = dbhmin
+        if (action=="set") dbhmin = real(attr,4)
+      case ("mctopd")
+        if (action=="get") attr = topd
+        if (action=="set") topd = real(attr,4)
+      case ("mcstmp")
+        if (action=="get") attr = stmp
+        if (action=="set") stmp = real(attr,4)
+      case ("mcmeth")
+        if (action=="get") attr = methc
+        if (action=="set") methc = int(attr,4)
       case default
         rtnCode = 1
         attr = 0
