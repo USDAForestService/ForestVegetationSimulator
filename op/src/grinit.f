@@ -317,23 +317,27 @@ C     INITIALIZE ORGANON VARIABLES
 C----------
       LORGANON  = .FALSE.       ! THE DLL IS NOT LOADED.
       LORGVOLS  = .FALSE.       ! THE VOLUME DLL IS NOT BEING USED.
+      LORGPREP  = .FALSE.       ! TREE DATA HAS NOT GONE THROUGH THE PREPARATION PROCESS
       VERSION   = 0             ! ORGANON VERSION, DEFAULT NWO (SITSET)
       STAGE     = 0             ! total stand age (even aged only)
       BHAGE     = 0             ! breast height age            
       SITE_1    = 0.0           ! the default site index dependant on variant
       SITE_2    = 0.0           ! the default site index dependant on variant
+      MSDI_1    = 0.0
+      MSDI_2    = 0.0
+      MSDI_2    = 0.0
 C
 C INITIALIZE ORGANON CONTROL VARIABLE DEFAULTS
 C
       INDS(1) = 1     ! HEIGHT CALIBRATION ON
       INDS(2) = 1     ! HEIGHT-TO-CROWN BASE CALIBRATION ON
       INDS(3) = 1     ! DIAMETER GROWTH CALIBRATION ON
-      INDS(4) = 0     ! STAND IS UNEVEN-AGED      
+      INDS(4) = 1     ! STAND IS EVEN-AGED      
       INDS(5) = 0     ! ORGANON TRIPPLING OFF
       INDS(6) = 0     ! STAND HAS NOT BEEN PRUNED
       INDS(7) = 0     ! STAND HAS NOT BEEN THINNED
       INDS(8) = 0     ! STAND HAS NOT BEEN FERTILIZED      
-      INDS(9)	= 1     ! USE SDI-BASED MORTALITY      
+      INDS(9) = 1     ! USE SDI-BASED MORTALITY      
       INDS(10)= 0     ! WOOD QUALITY VARIABLES ARE NOT BEING COMPUTED.
       INDS(11)= 0     ! OVERSTORY TREES WERE NOT REMOVED AT START OF CURRENT CYCLE
       INDS(12)= 0     ! INGROWTH WAS NOT ADDED AT START OF GROWTH CYCLE
@@ -353,29 +357,26 @@ C
 C     FOR NOW, ASSIGN THE DBH, HEIGHT, AND CR CALIBRATIONS TO UNITY.
 C     TODO: THIS NEED TO BE CONVERTED UPDATED FROM FVS.
       DO I=1,18
-         ACALIB(1,I)	= 1.0 
-         ACALIB(2,I)	= 1.0
-         ACALIB(3,I)	= 1.0
+         ACALIB(1,I)  = 1.0 
+         ACALIB(2,I)  = 1.0
+         ACALIB(3,I)  = 1.0
       ENDDO
       
 C     CLEAR OUT THE TREE VARIABLES
 C     THIS SHOULD ALSO BE PERFORMED EACH CYCLE AS THE TREE
 C     RECORDS ARE RE-INITIALIZED FROM THE NATIVE FVS ARRAYS
       DO I=1,2000
-         
-         TREENO(I)      = 0
-         PTNO(I)        = 0
-         SPECIES(I)     = 0
-         DBH1(I)	= 0.0 
-         HT1OR(I)	= 0.0
-         CR1(I)		= 0.0
-         SCR1B(I)	= 0.0
-         EXPAN1(I)	= 0.0
-         MGEXP(I)	= 0.0
-         USER(I)	= 0
-
+         TREENO(I)   = 0
+         PTNO(I)     = 0
+         SPECIES(I)  = 0
+         DBH1(I)     = 0.0 
+         HT1OR(I)    = 0.0
+         CR1(I)      = 0.0
+         SCR1B(I)    = 0.0
+         EXPAN1(I)   = 0.0
+         MGEXP(I)    = 0.0
+         USER(I)     = 0
          TWARNING(I) = 0
-         
       ENDDO
 
 C     INITIALIZE THE VOLUME VARIABLES NOT NATIVE TO FVS 

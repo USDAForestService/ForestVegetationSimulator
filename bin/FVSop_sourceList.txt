@@ -481,7 +481,6 @@
 ../op/src/grohed.f
 ../op/src/htgf.f
 ../op/src/morts.f
-../op/src/orin.f
 ../op/src/regent.f
 ../op/src/sitset.f
 ../op/src/vols.f
@@ -494,8 +493,10 @@
 ../organon/src/growth_mods.f
 ../organon/src/htgrowth.f   
 ../organon/src/mortality.f  
+../organon/src/org_intree.f  
 ../organon/src/orgtrip.f     
 ../organon/src/orgvol.f     
+../organon/src/orin.f
 ../organon/src/prepare.f    
 ../organon/src/start2.f     
 ../organon/src/statsorg.f      
