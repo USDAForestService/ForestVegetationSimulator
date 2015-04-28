@@ -65,8 +65,8 @@ C      LOGICAL DEBUG
       CHARACTER CRMAP(38)*5, ECMAP(32)*5, EMMAP(19)*5, IEMAP(23)*5
       CHARACTER KTMAP(11)*5, NCMAP(11)*5, NIMAP(11)*5, PNMAP(39)*5
       CHARACTER SOMAP(33)*5, TTMAP(18)*5, UTMAP(24)*5, WCMAP(39)*5
-      CHARACTER WSMAP(43)*5
-      INTEGER ISPC,IICR, IWHO, JCR, ICYC, JOSTND
+      CHARACTER WSMAP(43)*5, OCMAP(49)*5, OPMAP(39)*5
+      INTEGER ISPC,IICR, IWHO, JOSTND
       REAL D, H, CW, HI, HILAT, HILONG, HIELEV,EL,MIND,CR,CL,BAREA
       REAL BF,P,OMIND
 C----------
@@ -282,6 +282,40 @@ C          AS       CL       MA       DG       BM
      & '74605', '98102', '36102', '35106', '31206',   
 C          MC       OS       OH
      & '47502', '12205', '81802'/  
+C----------
+C  FVS-ORGANON SWO  (OC VARIANT)
+C----------
+C                      PC       IC       RC       GF       RF      SH
+       DATA OCMAP/ '04105', '08105', '24205', '01703', '02006', '02105',
+C             DF       WH       MH       WB       KP       LP   CPtoLP
+     &    '20205', '26305', '26403', '10105', '10305', '10805', '10805',
+C             LM       JP       SP       WP       PP   MPtoGP       GP
+     &    '11301', '11605', '11705', '11905', '12205', '12702', '12702',
+C             WJ       BR   GStoRW       PY   OStoJP       LO       CY
+     &    '06405', '09204', '21104', '23104', '11605', '80102', '80502',
+C             BL   EOtoBL       WO       BO       VO       IO       BM
+     &    '80702', '80702', '81505', '81802', '82102', '83902', '31206',
+C         BUtoBM       RA       MA   GCtoTO   DGtoRA   FLtoBM   WNtoBM
+     &    '31206', '35106', '36102', '63102', '35106', '31206', '31206',
+C             TO   SYtoTO       AS       CW   WItoBM   CNtoCL       CL
+     &    '63102', '63102', '74605', '74705', '31206', '98102', '98102',
+C             OH
+     &    '31206'/
+C----------
+C  FVS-ORGANON NWO & SMC  (OP VARIANT)
+C----------
+C                      SF       WF       GF       AF       RF      SS
+       DATA OPMAP/ '01105', '01505', '01703', '01905', '02006', '09805',
+C             NF       YC       IC       ES       LP       JP       SP
+     &    '02206', '04205', '08105', '09305', '10805', '11605', '11705',
+C             WP       PP       DF       RW       RC       WH       MH
+     &    '11905', '12205', '20205', '21104', '24205', '26305', '26403',
+C             BM       RA   WAtoBM       PB   GCtoTO       AS       CW
+     &    '31206', '35106', '31206', '37506', '63102', '74605', '74705',
+C             WO        J       LL       WB       KP       PY   DGtoRA
+     &    '81505', '06405', '07204', '10105', '10305', '23104', '35106',
+C         HTtoRA   CHtoRA   WItoBM       --       OT
+     &    '35106', '35106', '31206', '12205', '12205'/
 C
 C----------
 C  SET THE EQUATION NUMBER
@@ -336,6 +370,10 @@ C
           CWEQN=NCMAP(ISPC)
         CASE('NI')
           CWEQN=NIMAP(ISPC)
+        CASE('OC')
+          CWEQN=OCMAP(ISPC)
+        CASE('OP')
+          CWEQN=OPMAP(ISPC)
         CASE('PN')
           CWEQN=PNMAP(ISPC)
         CASE('SO')
