@@ -144,7 +144,7 @@ C----------
       ITABLE(K) = 0
    11 CONTINUE
 C----------
-      MANAGD = 1
+      MANAGD = 0
       ALPHA = 0.05
       BJPHI = 0.74
       BJTHET = 0.42

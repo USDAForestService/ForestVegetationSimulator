@@ -197,20 +197,15 @@ C     SET THE NUMBER OF TREE RECORDS
 C----------
       NTREES1=ITRN
 C----------
-C     SET EVEN-AGED OR UNEVEN-AGED INDICATOR. THE VARIABLE MANAGD
-C     IS IN THE PLOT.F77 COMMON BLOCK AND SET USING THE MANAGED KEYWORD TO  
-C     INDICATE WHETHER THE STAND IS EVEN-AGED (I.E. 1=MANAGED) OR UNEVEN-AGED
-C     (I.E. 0=UNMANAGED; DEFAULT SETTING); THE VALUE CAN ALSO BE SET USING
-C     THE ORGINFO KEYWORD RECORD
-C     ALSO SET TOTAL STAND AGE AND BREAST-HEIGHT STAND AGE (ONLY APPLICABLE
-C     FOR EVEN-AGED STANDS
+C     SET TOTAL STAND AGE AND BREAST-HEIGHT STAND AGE (ONLY APPLICABLE
+C     FOR EVEN-AGED STANDS)
 C----------     
-      IF( MANAGD .EQ. 1 ) THEN
-        STAGE     = IAGE + ( CYCLG * 5 )         
-        BHAGE     = STAGE - 5   ! breast height age
+      IF(INDS(4) .EQ. 1 ) THEN               ! even-aged
+        STAGE = IAGE+IY(ICYC)-IY(1)
+        BHAGE = STAGE - 5                    ! breast height age
       ELSE
-        STAGE     = 0
-        BHAGE     = 0           ! breast height age
+        STAGE = 0
+        BHAGE = 0                            ! breast height age
       ENDIF
 C----------
 C  SET ORGANON TREE INDICATOR (0 = NO, 1 = YES). 

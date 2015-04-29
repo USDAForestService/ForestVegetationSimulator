@@ -195,14 +195,13 @@ C-----------
 C----------
 C  TOTAL STAND AGE (EVEN AGED ONLY)
 C----------
-      IEVEN = MANAGD
-      IF( MANAGD .EQ. 1 ) THEN
-C        STAGE     = IAGE + ( CYCLG * 5 )         
+      IEVEN = INDS(4)
+      IF(INDS(4) .EQ. 1 ) THEN               !STAND IS EVEN-AGED
         STAGE = IAGE+IY(ICYC)-IY(1)
-        BHAGE     = STAGE - 5   ! BREAST HEIGHT AGE
+        BHAGE     = STAGE - 5                ! BREAST HEIGHT AGE
       ELSE
         STAGE     = 0
-        BHAGE     = 0           ! BREAST HEIGHT AGE
+        BHAGE     = 0                        ! BREAST HEIGHT AGE
       ENDIF
 C----------
 C  CALL PREPARE
