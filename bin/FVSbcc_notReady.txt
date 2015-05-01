@@ -284,6 +284,7 @@
 ../covr/src/cvsum.f
 ../dbs/src/dbsblkd.f
 ../dbs/src/dbscase.f
+../dbs/src/dbscknrows.f
 ../dbs/src/dbsclose.f
 ../dbs/src/dbsclsum.f
 ../dbs/src/dbscmpu.f

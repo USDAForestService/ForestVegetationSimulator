@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-EC-DATE OF LAST REVISION: 04/25/13
+C  **FMCBA   FIRE-EC-DATE OF LAST REVISION: 12/29/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -163,15 +163,15 @@ C                  herbs, shrubs
      &             0.20, 0.20, !21 vine maple use bm
      &             0.20, 0.20, !22 red alder from WC - df
      &             0.20, 0.20, !23 paper birch from WC - df
-     &             0.25, 0.25, !24 golden chinkapin from WC - as
+     &             0.25, 0.25, !24 golden chinkapin from WC - use QA Ottmar and others 2000b
      &             0.20, 0.20, !25 Pacific dogwood from WC - df
-     &             0.25, 0.25, !26 quaking aspen from WC - as
-     &             0.25, 0.25, !27 black cottonwood from WC - as
+     &             0.25, 0.25, !26 quaking aspen from WC - use QA Ottmar and others 2000b
+     &             0.25, 0.25, !27 black cottonwood from WC - use QA Ottmar and others 2000b
      &             0.23, 0.22, !28 Oregon white oak from WC
-     &             0.25, 0.25, !29 cherry and plum species from WC bc - as
-     &             0.25, 0.25, !30 willow species from WC - as
+     &             0.25, 0.25, !29 cherry and plum species from WC bc - use QA Ottmar and others 2000b
+     &             0.25, 0.25, !30 willow species from WC - use QA Ottmar and others 2000b
      &             0.15, 0.20, !31 other softwoods NI
-     &             0.25, 0.25/ !32 other hardwoods use as
+     &             0.25, 0.25/ !32 other hardwoods - use QA Ottmar and others 2000b
 C----------
 C     INITIAL LIVE FUEL LOADING FOR 'INTIALIZING STANDS WITH 10% COVER
 C----------
@@ -199,15 +199,15 @@ C                  herbs, shrubs
      &             0.40, 2.00, !21 vine maple use bm
      &             0.40, 2.00, !22 red alder from WC - df
      &             0.40, 2.00, !23 paper birch from WC - df
-     &             0.18, 2.00, !24 golden chinkapin from WC - as
+     &             0.18, 2.00, !24 golden chinkapin from WC - use QA Ottmar and others 2000b, modified.
      &             0.40, 2.00, !25 Pacific dogwood from WC - df
-     &             0.18, 2.00, !26 quaking aspen from WC - as
-     &             0.18, 2.00, !27 black cottonwood from WC - as
+     &             0.18, 1.32, !26 quaking aspen from WC - use QA Ottmar and others 2000b
+     &             0.18, 1.32, !27 black cottonwood from WC - use QA Ottmar and others 2000b
      &             0.55, 0.35, !28 Oregon white oak from WC
-     &             0.18, 2.00, !29 cherry and plum species from WC bc - as
-     &             0.18, 2.00, !30 willow species from WC - as
+     &             0.18, 1.32, !29 cherry and plum species from WC bc - use QA Ottmar and others 2000b
+     &             0.18, 1.32, !30 willow species from WC - use QA Ottmar and others 2000b
      &             0.30, 2.00, !31 other softwoods NI
-     &             0.18, 2.00/ !32 other hardwoods use as
+     &             0.18, 1.32/ !32 other hardwoods - use QA Ottmar and others 2000b
 C----------
 C     INITIAL FUEL LOADING FOR 'ESTABLISHED' STANDS WITH 60% COVER
 C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD

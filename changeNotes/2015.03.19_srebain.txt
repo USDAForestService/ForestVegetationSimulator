@@ -1,0 +1,25 @@
+Subject: FFE Update
+Name:  Stephanie Rebain
+Date:  03/19/2015
+Variants affected: All
+
+Description:
+
+1)  Errors with the canopy fuels calculations used to estimate canopy base height
+    and canopy bulk density were corrected.
+
+Impact on users:
+Canopy base height and canopy bulk density values (and fire behavior and fire effects metrics as a result) 
+may be different.
+
+Modified Files:
+fire/base/src/fmpocr.f - edited the canopy fuels calculations used to estimate
+                         canopy base height and canopy bulk density.  Specifically,
+                         adjusted the amount in the top and bottom 1-foot section for 
+                         each tree based on the proportional coverage of the crown in
+                         that 1-foot section so that the individual crown biomass 
+                         sections adds up to the correct total.  Also, when the 
+                         weibull distribution is used, a check was made to make
+                         sure the top of the distribution is at the correct spot.  Also,
+                         the max height was changed from 200 to 400.
+dbs/src/dbsfmcanpr.f - changed the max height from 200 to 400.

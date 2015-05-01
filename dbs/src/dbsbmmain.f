@@ -21,8 +21,8 @@ C     VOL        STAND VOLUME BEGINNING OF YEAR (CU FT / ACRE) WWPBM-ESTIMATED
 C     VOLH       VOLUME OF HOST CU FT/ACRE; WWPBM-ESTIMATED
 C     VOLK       VOLUME BEETLE-KILLED THIS YEAR
 C     BA_SP      BASAL AREA OF "SPECIAL" TREES AT BEGINNING OF YEAR
-C                  =AFTER THIS YR's LIGHTNING, ATTRACT PHER, FIRE SCORCH ETC.
-C                  & INCLUDING LAST YR's (BUT NOT THIS YR's) PITCHOUTS/STRPKILS
+C                  =AFTER THIS YRs LIGHTNING, ATTRACT PHER, FIRE SCORCH ETC.
+C                  & INCLUDING LAST YRs (BUT NOT THIS YRs) PITCHOUTS/STRPKILS
 C     SPCL_TPA   TPA SPECIAL TREES
 C     IPSLSH     IPS SLASH (RECENT DEAD FUEL OF QUALIFYING SIZE) TONS PER ACRE
 C     SANBAREM   BASAL AREA SANITIZED THIS YEAR (LIVE-TREE SANITIATIONS ONLY)
@@ -31,8 +31,6 @@ C     SANTREM2   TPA SANITIZED --LIVE PLUS DEAD TREE SANITATIONS
 C     VOLREMSAN  VOLUME REMOVED SANITATION (ALL TREES, LIVE + DEAD)
 C     VOLREMSAL  VOLUME REMOVED SALVAGE
 C     REMBKP     BKP PER ACRE REMOVED VIA SANITATION CUTS
-C
-C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
 C
 C---
 COMMONS
@@ -43,7 +41,7 @@ COMMONS END
 C
 C     DECLARATIONS
 C---
-      INTEGER IYEAR,ID,CID
+      INTEGER IYEAR,IRCODE
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL PREDBKP,POSTDBKP,RV,STD_BA,BAH,BAK,TPA,TPAH,TPAK,
      >     VOL,VOLH,VOLK,BA_SP,SPCL_TPA,IPSLSH,REMBKP,
@@ -58,14 +56,7 @@ C
 C---------
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C---------
-C      CALL DBSCASE(1)
-C
-C     CASE ID WAS FETCHED IN BMSDIT.
-C     THE WWPBM IS UNIQUE IN THIS REGARD BECAUSE OF ITS PPE MODE 2 OPERABILITY
-C     WE BOOKKEEP CASE ID WITHIN THE WWPBM AND PASS IT HERE.
-C
-      ICASE=CID
-C
+      CALL DBSCASE(1)
 C---------
 C     ALLOCATE A STATEMENT HANDLE
 C---------
@@ -84,19 +75,12 @@ C---------
       ELSE
         TABLENAME = 'FVS_BM_Main'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
-
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) RETURN
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Main('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'PreDispBKP  double null,'//
@@ -122,8 +106,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_BM_Main('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'PreDispBKP  Number,'//
@@ -148,8 +131,7 @@ C---------
      -              'VolRemSalv Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_BM_Main('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'PreDispBKP real null,'//
@@ -181,22 +163,7 @@ C---------
             iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr))
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'DBSBMMAIN:Creating Table: '//trim(SQLStmtStr))
-        BM_MNID = 0
       ENDIF
-
-C---------
-C     CREATE ENTRY FROM DATA FOR SUMMARYSTAT TABLE
-C---------
-      IF(BM_MNID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        BM_MNID = ID
-      ENDIF
-      BM_MNID = BM_MNID + 1
-C
-C     MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-      IF(BM_MNID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
       PREDBKPb=    PREDBKP
@@ -222,13 +189,13 @@ C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
       VOLREMSALb=  VOLREMSAL
 
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -  StandID,Year,PreDispBKP,PostDispBKP,StandRV,StandBA,
-     -  BAH,BA_BtlKld,TPA,TPAH,TPA_BtlKld,StandVol,VolHost,VolBtlKld,
-     -  BA_Special,Ips_Slash,BA_San_Remv,BKP_San_Remv,
-     -  TPA_SanRemvLv,TPA_SanRemLvDd,VolRemSan,VolRemSalv)
-     -  VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,?,?,?,?,?,?,?,?,
-     -  ?,?,?,?,?,?,?,?,?,?,?,?)'
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
+     -  'StandID,Year,PreDispBKP,PostDispBKP,StandRV,StandBA,',
+     -  'BAH,BA_BtlKld,TPA,TPAH,TPA_BtlKld,StandVol,VolHost,',
+     -  'VolBtlKld,BA_Special,Ips_Slash,BA_San_Remv,BKP_San_Remv,',
+     -  'TPA_SanRemvLv,TPA_SanRemLvDd,VolRemSan,VolRemSalv)',
+     -  'VALUES(''',CID,''',''',TRIM(NPLT),''',?,?,?,?,?,?,?,?,?,'
+     -  '?,?,?,?,?,?,?,?,?,?,?,?)'
 
       !PRINT*, SQLStmtStr
       iRet = fvsSQLCloseCursor(StmtHndlOut)
@@ -238,18 +205,6 @@ C
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),BM_MNID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber, SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),

@@ -3,6 +3,11 @@
 C----------
 C  **RDROUT      LAST REVISION:  09/02/14
 C----------
+C  ****** NOTICE ********* NOTICE ******* NOTICE ****** NOTICE *******
+C  ***                                                             ***
+C  *** 3/24/2015 Implementation of General Report Writer facility  ***
+C  *** has made this subroutined obsolete. It is no longer needed. ***
+C  *******************************************************************
 C
 C  WRITES FINAL ROOT DISEASE SUMMARY OUTPUT.  ALSO WRITES DETAILED REPORT IF
 C  THE RRDOUT KEYWORD IS USED.

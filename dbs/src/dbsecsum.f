@@ -23,7 +23,7 @@ C $Id$
 
       integer, parameter :: zero = 0
       integer :: beginAnalYear, endTime, status,
-     &           ft3Volume, bfVolume
+     &           ft3Volume, bfVolume, IRCODE
 
       logical :: sevCalculated, rrrCalculated,
      &           forestValueCalculated, reprodValueCalculated,
@@ -54,20 +54,22 @@ C $Id$
       end if
 
 !    Ensure that the FVS_EconSummary table exists in the DB.
+
       if(trim(DBMSOUT) .eq. 'EXCEL') then
         decoratedTableName = '[' // tableName // '$]'
       else
         decoratedTableName = tableName
       end if
-      SQLStmtStr = 'SELECT * FROM ' // decoratedTableName
-      iRet = fvsSQLExecDirect(
-     &            StmtHndlOut,SQLStmtStr,
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      if(.not. success(iRet)) then
+      CALL DBSCKNROWS(IRCODE,decoratedTableName,1,
+     >                TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IDBSECON = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         if(trim(DBMSOUT) .eq. 'ACCESS') then
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
-     &          // 'CaseID int, '
+     &          // 'CaseID text, '
      &          // 'Year int null, '
      &          // 'Period int null, '
      &          // 'Pretend_Harvest text null, '
@@ -90,7 +92,7 @@ C $Id$
      &          // 'PRIMARY KEY(CaseID, Year))'
         elseif(trim(DBMSOUT) .eq. 'EXCEL') then
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
-     &          // 'CaseID Int, '
+     &          // 'CaseID text, '
      &          // 'Year Int, '
      &          // 'Period Int, '
      &          // 'Pretend_Harvest Text, '
@@ -111,7 +113,7 @@ C $Id$
      &          // 'Given_SEV Number)'
         else
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
-     &          // 'CaseID int, '
+     &          // 'CaseID char(36), '
      &          // 'Year int null, '
      &          // 'Period int null, '
      &          // 'Pretend_Harvest char(3) null, '
@@ -145,12 +147,6 @@ C $Id$
      &         'DBSECSUM:Creating Table: ' // trim(SQLStmtStr))
       end if
 
-!    Make sure we do not exceed Excel's maximum table size.
-      !if(tooManyRows(decoratedTableName)) then
-      !      goto 100
-      !end if
-
-!    Insert a row of data into the summary table.
       write(SQLStmtStr, *) 'INSERT INTO ',
      &   decoratedTableName,'(CaseID, Year, Period,',
      &   'Pretend_Harvest, Undiscounted_Cost, Undiscounted_Revenue,',
@@ -158,7 +154,7 @@ C $Id$
      &   'RRR, SEV, Value_of_Forest, Value_of_Trees,',
      &   'Mrch_Cubic_Volume, Mrch_BoardFoot_Volume, Discount_Rate,',
      &   'Given_SEV)',
-     &   'VALUES (',ICASE,',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     &   'VALUES (''',CASEID,''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))

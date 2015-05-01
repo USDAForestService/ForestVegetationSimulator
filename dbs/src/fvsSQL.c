@@ -263,6 +263,13 @@ int FVSSQLDESCRIBECOL(
        ColumnSizePtr,
        DecimalDigitsPtr,
        NullablePtr);
+/****************  DEBUG 
+  printf("\nStatementHandle= %d\n",StatementHandle);
+  printf(" ColumnNumber= %d\n",*ColumnNumber);
+  printf(" ColumnName= %s\n",ColumnName);
+  printf(" NameLengthPtr= %d\n",*NameLengthPtr);
+  printf(" BufferLength= %d\n",*BufferLength);
+ **************/
   return rtn;
 }
 
@@ -331,7 +338,7 @@ int FVSSQLDRIVERCONNECT(
   printf("\nSQLDriverConnect, InConnectionString= %s\n",InConnectionString);
   printf(" StringLength1= %d\n",*StringLength1);
   printf(" BufferLength= %d DriverCompletion = %d\n",*BufferLength,*DriverCompletion);
-/**********************/
+ **********************/
   /* blank out OutConnection String */
   int i;
   for (i=0; i<*BufferLength; i++) *(OutConnectionString+i)=' ';
@@ -350,7 +357,7 @@ int FVSSQLDRIVERCONNECT(
   printf("\nSQLDriverConnect, OutConnectionString2= %s\n",OutConnectionString);
   printf(" StringLength2Ptr= %d\n",*StringLength2Ptr);
   printf(" rtn SQLDriverConnect= %d\n",rtn);
-/**********************/
+ **********************/
 
   return rtn;
 }

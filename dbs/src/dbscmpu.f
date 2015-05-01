@@ -38,11 +38,12 @@ C
       CHARACTER(LEN=1) LWRAP,RWRAP
       CHARACTER(LEN = 8),DIMENSION (MXTST5)::KWLIST,KWINSRT
       REAL,DIMENSION(MXTST5)::KWVALS
-      INTEGER NUMKW,I,I1,I2,I3,I4,INSRTNUM,II,X,ICY,THISYR
+      INTEGER NUMKW,I,I1,I2,I3,I4,INSRTNUM,II,X,ICY,THISYR,IRCODE
       LOGICAL KWINLIST,LDUPKW
-      INTEGER(SQLSMALLINT_KIND)::ColNumber,NameLen,ColumnCount,DTp,
+      INTEGER(SQLUSMALLINT_KIND)::ColNumber
+      INTEGER(SQLSMALLINT_KIND)::NameLen,ColumnCount,DTp,
      -       NDecs, Nullable
-      INTEGER(SQLUINTEGER_KIND) NColSz
+      INTEGER(SQLULEN_KIND) NColSz
       NUMKW = ITST5
 C
 C     IF COMPUTE IS NOT TURNED ON OR THE NUMBER OF VARIABLES IS 0
@@ -90,18 +91,16 @@ C
 C     CHECK TO SEE IF THE COMPUTE TABLE EXISTS IN DATBASE
 C     IF IT DOES NOT THEN WE NEED TO CREATE IT
 C
-      SQLStmtStr= 'SELECT * FROM '//TABLENAME
-
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,NCYC,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        ICOMPUTE = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         KWLIST = CTSTV5
         IF(TRIM(DBMSOUT).EQ."EXCEL".OR.TRIM(DBMSOUT).EQ."ACCESS") THEN
           TABLESTR='CREATE TABLE FVS_Compute('//
-     -             'Id INT null,'//
-     -             'CaseID INT null,'//
+     -             'CaseID Text,'//
      -             'StandID Text null,'//
      -             'Year INT null'
 
@@ -115,8 +114,7 @@ C
           ENDDO
         ELSE
           TABLESTR='CREATE TABLE FVS_Compute('//
-     -             'Id int primary key,'//
-     -             'CaseID int null,'//
+     -             'CaseID char(36) ,'//
      -             'StandID char(26) null,'//
      -             'Year int null'
           DO I=1,NUMKW
@@ -136,21 +134,26 @@ C
 
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -       'DBSCMPU:Creating Table: '//trim(SQLStmtStr))
-        CMPUID = 0
       ELSE
 C
 C       POPULATE THE KWLIST WITH THE CURRENT COLUMN NAMES
+C       FIRST, FETCH ALL THE COLS SO WE CAN GET THE NAMES
 C
+        SQLStmtStr= 'SELECT * FROM FVS_Compute'
+        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
+     >            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
         iRet = fvsSQLNumResultCols(StmtHndlOut,ColumnCount)
-
+c*       print *,"iRet=",iRet," ColumnCount=",ColumnCount
         DO ColNumber = 1,ColumnCount
           iRet = fvsSQLDescribeCol (StmtHndlOut, ColNumber, ColName,
-     -         int(LEN(ColName),SQLUSMALLINT_KIND), NameLen, DTp,
-     -         NColSz, NDecs, Nullable)
-          COLNAME(NameLen+1:)=' '
-          IF (ColNumber.GT.4) KWLIST(ColNumber-4) = COLNAME
+     -         int(LEN(ColName),SQLSMALLINT_KIND), NameLen, DTp,
+     -         NColSz, NDecs, Nullable)     
+          ColName(NameLen+1:)=' '
+c*        print *,"ColNumber=",ColNumber," iRet=",iRet,
+c*     >   " NameLen=",NameLen," ColName=",ColName
+          IF (ColNumber.GT.3) KWLIST(ColNumber-3) = ColName(:NameLen)
         ENDDO
-        NUMKW = ColumnCount - 4
+        NUMKW = ColumnCount - 3
       ENDIF
       iRet = fvsSQLCloseCursor(StmtHndlOut)
 C
@@ -170,8 +173,6 @@ C
             IF(IACT(I,4).NE.THISYR) THEN
               !CHECK TO SEE IF WE HAVE SOMETHING TO INSERT
               IF(INSRTNUM.GT.0) THEN
-                !MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-                IF(CMPUID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL')GOTO 10
 
                 !BUILD THE INSERT QUERY
                 CALL INSERTCMPU(KWINSRT,KWVALS,THISYR,NPLT,INSRTNUM)
@@ -211,7 +212,7 @@ C
                 ENDIF
               ENDDO
             ENDIF
-            
+             
             !IF KW NOT IN LIST THEN DETERMINE IF WE WANT TO ALTER TABLE
             IF((.NOT.KWINLIST).AND.TRIM(DBMSOUT).NE.'EXCEL'
      -          .AND.IADDCMPU.LT.1) THEN
@@ -240,8 +241,6 @@ C     CHECK TO SEE IF WE HAVE SOMETHING MORE TO INSERT
 C
       IF(INSRTNUM.GT.0) THEN
 
-        !MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-        IF(CMPUID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 10
         !DO NOT INSERT 0 YEAR ENTRIES
         IF(.NOT.THISYR.GT.0)GOTO 10
 
@@ -314,24 +313,17 @@ C
         RWRAP = ' '
       END SELECT
 
-      !INCREMENT THE COMPUTE ID
-      IF(CMPUID.EQ.-1) THEN
-        CALL DBSGETID(TABLENAME,'Id',ID)
-        CMPUID = ID
-      ENDIF
-      CMPUID = CMPUID + 1
-
       !BUILD THE EXECUTE QUERY
       SQLStr1 = 'INSERT INTO '//TABLENAME//
-     -  '(Id,CaseID,StandID,Year,'
+     -  '(CaseID,StandID,Year,'
       DO X=1,NUMCMPU
         SQLStr2 =TRIM(SQLStr1)//LWRAP//TRIM(KWINSRT(X))
      -    //RWRAP//','
         SQLStr1 = TRIM(SQLStr2)
       ENDDO
       SQLStr2 = SQLStr1(1:(LEN_TRIM(SQLStr1)-1))
-      WRITE(SQLStr1,*)TRIM(SQLStr2),') VALUES(?,?,',
-     -      CHAR(39),TRIM(STANDID),CHAR(39),',?,'
+      WRITE(SQLStr1,*)TRIM(SQLStr2),') VALUES(''',
+     -      CASEID,''',''',TRIM(STANDID),''',?,'
 
       DO X=1,NUMCMPU
         SQLStr2 = TRIM(SQLStr1)//'?,'
@@ -346,18 +338,6 @@ C
 
       !BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),CMPUID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
       iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
      -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -           INT(0,SQLSMALLINT_KIND),THISYR,int(4,SQLLEN_KIND),

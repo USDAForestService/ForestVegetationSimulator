@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-CA-DATE OF LAST REVISION:  07/02/13
+C  **FMCBA   FIRE-CA-DATE OF LAST REVISION:  12/29/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -149,7 +149,7 @@ C                  herbs, shrubs
      >             0.20, 0.20, !  24 = pacific yew (py) - use DF
      >             0.20, 0.25, !  25 = other softwoods (os) - use PP
      >             0.23, 0.22, !  26 = coast live oak (lo) - use BO
-     >             0.25, 0.25, !  27 = canyon live oak (cy) - use TO/GC
+     >             0.25, 0.25, !  27 = canyon live oak (cy) - use AS Ottmar and others 2000b
      >             0.23, 0.22, !  28 = blue oak (bl) - use BO
      >             0.23, 0.22, !  29 = Engelmann oak (eo) - use BO
      >             0.23, 0.22, !  30 = Oregon white oak (wo) - use BO
@@ -160,17 +160,17 @@ C                  herbs, shrubs
      >             0.20, 0.20, !  35 = California buckeye (bu) - use DF
      >             0.20, 0.20, !  36 = red alder (ra) - use DF
      >             0.20, 0.20, !  37 = pacific madrone (ma) - use DF
-     >             0.25, 0.25, !  38 = golden chinkapin (gc) - use AS
+     >             0.25, 0.25, !  38 = golden chinkapin (gc) - use AS Ottmar and others 2000b
      >             0.20, 0.20, !  39 = pacific dogwood (dg) - use DF
      >             0.20, 0.25, !  40 = oregon ash (fl) - use PP
      >             0.20, 0.20, !  41 = walnut (wn) - use DF
-     >             0.25, 0.25, !  42 = tanoak (to) - use AS
-     >             0.25, 0.25, !  43 = California sycamore (sy) - use DF
-     >             0.25, 0.25, !  44 = quaking aspen (as)
-     >             0.25, 0.25, !  45 = black cottonwood (cw) - use AS
-     >             0.25, 0.25, !  46 = willow (wi) ! Salix spp.- use AS
-     >             0.25, 0.25, !  47 = California nutmeg (cn) - use DF
-     >             0.25, 0.25, !  48 = California laurel (cl) - use DF
+     >             0.25, 0.25, !  42 = tanoak (to) - use AS Ottmar and others 2000b
+     >             0.20, 0.20, !  43 = California sycamore (sy) - use DF
+     >             0.25, 0.25, !  44 = quaking aspen (as) - Ottmar and others 2000b
+     >             0.25, 0.25, !  45 = black cottonwood (cw) - use AS Ottmar and others 2000b
+     >             0.25, 0.25, !  46 = willow (wi) ! Salix spp.- use AS Ottmar and others 2000b
+     >             0.20, 0.20, !  47 = California nutmeg (cn) - use DF
+     >             0.20, 0.20, !  48 = California laurel (cl) - use DF
      >             0.23, 0.22/ !  49 = other hardwoods (oh) - use BO
 
 
@@ -203,7 +203,7 @@ C                  herbs, shrubs
      >             0.40, 2.00, !  24 = pacific yew (py) - use DF
      >             0.25, 1.00, !  25 = other softwoods (os) - use PP
      >             0.55, 0.35, !  26 = coast live oak (lo) - use BO
-     >             0.18, 2.00, !  27 = canyon live oak (cy) - use AS
+     >             0.18, 2.00, !  27 = canyon live oak (cy) - use AS Ottmar and others 2000b, modified.
      >             0.55, 0.35, !  28 = blue oak (bl) - use BO
      >             0.55, 0.35, !  29 = Engelmann oak (eo) - BO
      >             0.55, 0.35, !  30 = Oregon white oak (wo) - use BO
@@ -214,15 +214,15 @@ C                  herbs, shrubs
      >             0.40, 2.00, !  35 = California buckeye (bu) - use DF
      >             0.40, 2.00, !  36 = red alder (ra) - use DF
      >             0.40, 2.00, !  37 = pacific madrone (ma) - use DF
-     >             0.18, 2.00, !  38 = golden chinkapin (gc) - use AS
+     >             0.18, 2.00, !  38 = golden chinkapin (gc) - use AS Ottmar and others 2000b, modified.
      >             0.40, 2.00, !  39 = pacific dogwood (dg) - use DF
      >             0.25, 1.00, !  40 = oregon ash (fl) - use PP
      >             0.40, 2.00, !  41 = walnut (wn) - use DF
-     >             0.18, 2.00, !  42 = tanoak - use AS
+     >             0.18, 2.00, !  42 = tanoak - use AS Ottmar and others 2000b, modified.
      >             0.40, 2.00, !  43 = California sycamore (sy) - use DF
-     >             0.18, 2.00, !  44 = quaking aspen (as)
-     >             0.18, 2.00, !  45 = black cottonwood (cw) - use AS
-     >             0.18, 2.00, !  46 = willow (wi) ! Salix spp.- use AS
+     >             0.18, 1.32, !  44 = quaking aspen (as) - Ottmar and others 2000b
+     >             0.18, 1.32, !  45 = black cottonwood (cw) - use AS Ottmar and others 2000b
+     >             0.18, 1.32, !  46 = willow (wi) ! Salix spp.- use AS Ottmar and others 2000b
      >             0.40, 2.00, !  47 = California nutmeg (cn) - use DF
      >             0.40, 2.00, !  48 = California laurel (cl) - use DF
      >             0.55, 0.35/ !  49 = other hardwood - use BO

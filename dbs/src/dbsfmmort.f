@@ -15,8 +15,6 @@ C              3: MORTALITY IN TERMS OF BASAL AREA
 C              4: MORTALITY IN TERMS OF CUFT VOLUME
 C              5: KODE FOR WHETHER THE REPORT ALSO DUMPS TO FILE
 C
-C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
-C
 COMMONS
 C
 C
@@ -32,7 +30,7 @@ COMMONS
 C---
       INTEGER MXSP1
       PARAMETER (MXSP1 = MAXSP + 1)
-      INTEGER IYEAR,ID,KODE,I,J
+      INTEGER IYEAR,IRCODE,KODE,I,J
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       REAL KILLED,TOTAL,BAKILL,VOKILL
       DOUBLE PRECISION KILLEDB,TOTALB,BAKILLB,VOKILLB
@@ -44,10 +42,6 @@ C---
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=3) CSP
       CHARACTER(LEN=8) CSPECIES
-
-C
-C
-COMMONS END
 
 C---
 C     Initialize variables
@@ -79,19 +73,15 @@ C---------
       ELSE
         TABLENAME = 'FVS_Mortality'
       ENDIF
-      SQLStmtStr= 'SELECT * FROM ' // TABLENAME
-
-      !PRINT*, SQLStmtStr
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-
-      IF(.NOT.(iRet.EQ.SQL_SUCCESS .OR.
-     -    iRet.EQ.SQL_SUCCESS_WITH_INFO)) THEN
+      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+      IF(IRCODE.EQ.2) THEN
+        IMORTF = 0
+        RETURN
+      ENDIF
+      IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_Mortality('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID Text not null,'//
      -              'StandID Text null,'//
      -              'Year Int null,'//
      -              'Species Text null,'//
@@ -114,8 +104,7 @@ C---------
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_Mortality('//
-     -              'ID Int,'//
-     -              'CaseID int,'//
+     -              'CaseID Text,'//
      -              'StandID Text,'//
      -              'Year Int,'//
      -              'Species Text,'//
@@ -137,8 +126,7 @@ C---------
      -              'Volkill Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_Mortality('//
-     -              'Id int primary key,'//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'Species char(3) null,'//
@@ -168,7 +156,6 @@ C---------
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
             CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -           'FMMORT:Creating Table: '//trim(SQLStmtStr))
-        MORTID = 0
       ENDIF
 
       DO 150 J = 1,MXSP1
@@ -213,19 +200,6 @@ C
 
         end if
 C
-C       CREATE ENTRY FROM DATA FOR MORTALITY TABLE
-C
-        IF(MORTID.EQ.-1) THEN
-          CALL DBSGETID(TABLENAME,'Id',ID)
-          MORTID = ID
-        ENDIF
-        MORTID = MORTID + 1
-C
-C       MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C
-        IF(MORTID.GE.65535.AND.TRIM(DBMSOUT).EQ.'EXCEL') GOTO 100
-
-C
 C       ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
 C
         BAKILLB(J) = BAKILL(J)
@@ -236,14 +210,14 @@ C
         TOTALB(J,I) = TOTAL(J,I)
         ENDDO
 
-        WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (Id,CaseID,
-     -    StandID,Year,Species,Killed_class1,Total_class1,Killed_class2,
-     -    Total_class2,Killed_class3,Total_class3,Killed_class4,
-     -    Total_class4,Killed_class5,Total_class5,Killed_class6,
-     -    Total_class6,Killed_class7,Total_class7,Bakill,Volkill)
-     -    VALUES(?,?,',CHAR(39),TRIM(NPLT),CHAR(39),',?,
-     -   ',CHAR(39),TRIM(CSPECIES),CHAR(39),',?,?,?,?,?,?,?,?,?,?,?,
-     -    ?,?,?,?,?)'
+        WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
+     -    'StandID,Year,Species,Killed_class1,Total_class1,',
+     -    'Killed_class2,',
+     -    'Total_class2,Killed_class3,Total_class3,Killed_class4,',
+     -    'Total_class4,Killed_class5,Total_class5,Killed_class6,',
+     -    'Total_class6,Killed_class7,Total_class7,Bakill,Volkill)',
+     -    'VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,''',
+     -    TRIM(CSPECIES),''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
         !PRINT*, SQLStmtStr
 C
@@ -260,21 +234,6 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
 
         ColNumber=1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -             SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -             INT(0,SQLSMALLINT_KIND),MORTID,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-        ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -
-     -             SQL_PARAM_INPUT,
-     -             SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -             INT(0,SQLSMALLINT_KIND),ICASE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-        ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -
      -             SQL_PARAM_INPUT,

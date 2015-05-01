@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-EM-DATE OF LAST REVISION:  01/04/11
+C  **FMCBA   FIRE-EM-DATE OF LAST REVISION:  12/23/14
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -87,15 +87,15 @@ C----------
      &              0.15,   0.10,   !ES
      &              0.15,   0.10,   !AF
      &               0.2,  0.125,   !PP
-     &               0.2,    0.2,   !GA USE IE CO
-     &               0.2,    0.2,   !AS USE IE AS
-     &               0.2,    0.2,   !CW USE IE CO
-     &               0.2,    0.2,   !BA USE IE CO
-     &               0.2,    0.2,   !PW USE IE CO
-     &               0.2,    0.2,   !NC USE IE CO
-     &               0.2,    0.2,   !PB USE IE PB
+     &              0.25,   0.25,   !GA USE QA Ottmar and others 2000b
+     &              0.25,   0.25,   !AS Ottmar and others 2000b
+     &              0.25,   0.25,   !CW USE QA Ottmar and others 2000b
+     &              0.25,   0.25,   !BA USE QA Ottmar and others 2000b
+     &              0.25,   0.25,   !PW USE QA Ottmar and others 2000b
+     &              0.25,   0.25,   !NC USE QA Ottmar and others 2000b
+     &              0.25,   0.25,   !PB USE QA Ottmar and others 2000b
      &              0.14,   0.35,   !OS (JUNIPER) (Ottmar, Volume I) 
-     &               0.2,    0.2/   !OH USE IE CO
+     &              0.25,   0.25/   !OH USE QA Ottmar and others 2000b
 C----------
 C     INITIAL LIVE FUEL LOADING FOR 'INTIALIZING STANDS WITH 10% COVER
 C
@@ -111,15 +111,15 @@ C----------
      &               0.3,   1.0,   !ES
      &               0.3,   1.0,   !AF
      &              0.25,  0.05,   !PP
-     &               0.4,   2.0,   !GA USE IE CO
-     &               0.4,   2.0,   !AS USE IE AS
-     &               0.4,   2.0,   !CW USE IE CO
-     &               0.4,   2.0,   !BA USE IE CO
-     &               0.4,   2.0,   !PW USE IE CO
-     &               0.4,   2.0,   !NC USE IE CO
-     &               0.4,   2.0,   !PB USE IE PB
+     &              0.18,  1.32,   !GA USE QA Ottmar and others 2000b
+     &              0.18,  1.32,   !AS Ottmar and others 2000b
+     &              0.18,  1.32,   !CW USE QA Ottmar and others 2000b
+     &              0.18,  1.32,   !BA USE QA Ottmar and others 2000bO
+     &              0.18,  1.32,   !PW USE QA Ottmar and others 2000b
+     &              0.18,  1.32,   !NC USE QA Ottmar and others 2000b
+     &              0.18,  1.32,   !PB USE QA Ottmar and others 2000b
      &               0.1,  2.06,   !OS (JUNIPER) (Ottmar, Volume I)
-     &               0.4,   2.0/   !OH USE IE CO
+     &              0.18,  1.32/   !OH USE QA Ottmar and others 2000b
 C----------
 C     INITIAL FUEL LOADING FOR 'ESTABLISHED' STANDS WITH 60% COVER
 C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD
@@ -136,15 +136,15 @@ C----------
      &             1.1, 1.1, 2.2, 10.0,10.0, 0.0, 0.0,0.0,0.0,0.6,30.0, !ES
      &             1.1, 1.1, 2.2, 10.0,10.0, 0.0, 0.0,0.0,0.0,0.6,30.0, !AF
      &             0.7, 0.7, 1.6,  2.5, 2.5, 0.0, 0.0,0.0,0.0,1.4, 5.0, !PP
-     &             0.9 ,0.9, 1.6,  3.5, 3.5, 0.0, 0.0,0.0,0.0,0.6,10.0, !GA USE IE CO
-     &             0.9 ,0.9, 1.6,  3.5, 3.5, 0.0, 0.0,0.0,0.0,0.6,10.0, !AS USE IE AS
-     &             0.9 ,0.9, 1.6,  3.5, 3.5, 0.0, 0.0,0.0,0.0,0.6,10.0, !CW USE IE CO
-     &             0.9 ,0.9, 1.6,  3.5, 3.5, 0.0, 0.0,0.0,0.0,0.6,10.0, !BA USE IE CO
-     &             0.9 ,0.9, 1.6,  3.5, 3.5, 0.0, 0.0,0.0,0.0,0.6,10.0, !PW USE IE CO
-     &             0.9 ,0.9, 1.6,  3.5, 3.5, 0.0, 0.0,0.0,0.0,0.6,10.0, !NC USE IE CO
-     &             0.9 ,0.9, 1.6,  3.5, 3.5, 0.0, 0.0,0.0,0.0,0.6,10.0, !PB USE IE PB
+     &             0.2, 0.6, 2.4,  3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !GA - QA - ottmar and others 2000b
+     &             0.2, 0.6, 2.4,  3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !AS - ottmar and others 2000b
+     &             0.2, 0.6, 2.4,  3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !CW - QA - ottmar and others 2000b
+     &             0.2, 0.6, 2.4,  3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !BA - QA - ottmar and others 2000b
+     &             0.2, 0.6, 2.4,  3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !PW - QA - ottmar and others 2000b
+     &             0.2, 0.6, 2.4,  3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !NC - QA - ottmar and others 2000b
+     &             0.2, 0.6, 2.4,  3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8, !PB - QA - ottmar and others 2000b
      &             0.1, 0.2, 0.4,  0.5, 0.8, 1.0, 0.0,0.0,0.0,0.1, 0.0, !OS (juniper - Ottmar, Volume I)
-     &             0.9 ,0.9, 1.6,  3.5, 3.5, 0.0, 0.0,0.0,0.0,0.6,10.0/ !OH USE IE CO
+     &             0.2, 0.6, 2.4,  3.6, 5.6, 0.0, 0.0,0.0,0.0,1.4,16.8/ !OH - QA - ottmar and others 2000b
 C----------
 C     INITIAL FUEL LOADING FOR 'INITIALIZING' STANDS WITH 10% COVER
 C     THIS CAN BE MODIFIED BY THE *FUELINIT** KEYWORD
@@ -161,15 +161,15 @@ C----------
      &             0.7, 0.7, 1.6,  4.0, 4.0, 0.0, 0.0,0.0,0.0,0.3,12.0, !ES
      &             0.7, 0.7, 1.6,  4.0, 4.0, 0.0, 0.0,0.0,0.0,0.3,12.0, !AF
      &             0.1, 0.1, 0.2,  0.5, 0.5, 0.0, 0.0,0.0,0.0,0.5, 0.8, !PP
-     &             0.5, 0.5, 1.0,  1.4, 1.4, 0.0, 0.0,0.0,0.0,0.3, 5.0, !GA USE IE CO
-     &             0.5, 0.5, 1.0,  1.4, 1.4, 0.0, 0.0,0.0,0.0,0.3, 5.0, !AS USE IE AS
-     &             0.5, 0.5, 1.0,  1.4, 1.4, 0.0, 0.0,0.0,0.0,0.3, 5.0, !CW USE IE CO
-     &             0.5, 0.5, 1.0,  1.4, 1.4, 0.0, 0.0,0.0,0.0,0.3, 5.0, !BA USE IE CO
-     &             0.5, 0.5, 1.0,  1.4, 1.4, 0.0, 0.0,0.0,0.0,0.3, 5.0, !PW USE IE CO
-     &             0.5, 0.5, 1.0,  1.4, 1.4, 0.0, 0.0,0.0,0.0,0.3, 5.0, !NC USE IE CO
-     &             0.5, 0.5, 1.0,  1.4, 1.4, 0.0, 0.0,0.0,0.0,0.3, 5.0, !PB USE IE PB
+     &             0.1, 0.4, 5.0,  2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !GA - QA - ottmar and others 2000b
+     &             0.1, 0.4, 5.0,  2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !AS - ottmar and others 2000b
+     &             0.1, 0.4, 5.0,  2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !CW - QA - ottmar and others 2000b
+     &             0.1, 0.4, 5.0,  2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !BA - QA - ottmar and others 2000b
+     &             0.1, 0.4, 5.0,  2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !PW - QA - ottmar and others 2000b
+     &             0.1, 0.4, 5.0,  2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !NC - QA - ottmar and others 2000b
+     &             0.1, 0.4, 5.0,  2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6, !PB - QA - ottmar and others 2000b
      &             0.2, 0.4, 0.2,  0.0, 0.0, 0.0, 0.0,0.0,0.0,0.2, 0.0, !OS (juniper - Ottmar, Volume I)
-     &             0.5, 0.5, 1.0,  1.4, 1.4, 0.0, 0.0,0.0,0.0,0.3, 5.0/ !OH USE IE CO
+     &             0.1, 0.4, 5.0,  2.2, 2.3, 0.0, 0.0,0.0,0.0,0.8, 5.6/ !OH - QA - ottmar and others 2000b
 C----------
 C     FIRE MODEL TO USE WHEN COVER < 20%
 C     USES ITYPE INDEX TO JTYPE() IN **BLKDAT**

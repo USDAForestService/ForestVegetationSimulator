@@ -6,7 +6,7 @@ C
       INCLUDE 'DBSCOM.F77'
 C
 C
-      ICASE    = -1
+      CASEID    = ""
 
       ISUMARY  = 0
       ICOMPUTE = 0
@@ -46,6 +46,9 @@ C
       ISPOUT31 = 0
       IDWDVOL  = 0
       IDWDCOV  = 0
+      IRD1     = 0
+      IRD2     = 0
+      IRD3     = 0
 
       RETURN
       END

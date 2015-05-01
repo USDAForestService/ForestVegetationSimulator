@@ -60,8 +60,8 @@ c     Created in late 2011 by Nick Crookston, RMRS-Moscow
       implicit none
 
 c     set and/or gets the named tree attributes
-c     name    = char string of the variable name,
-c     nch     = the number of characters in "name" (case sensitive)
+c     name    = char string of the variable name, (case sensitive)
+c     nch     = the number of characters in "name" 
 c     action  = char string that is one of "set" or "get" (case sensitive)
 c     ntrees  = the number of trees, length of data
 c     attr    = a vector of length data, always "double"
@@ -75,6 +75,7 @@ c
       include "FMCOM.F77"
       include "ARRAYS.F77"
       include "CONTRL.F77"
+      include "VARCOM.F77"
 
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSTREEATTR'::FVSTREEATTR
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NTREES, ATTR, RTNCODE
@@ -148,13 +149,19 @@ c
         if (action=="set") bfv(:itrn) = real(attr,4)
       case ("defect")
         if (action=="get") attr = defect(:itrn)
-        if (action=="set") defect(:itrn) = real(attr,4)
+        if (action=="set") defect(:itrn) = ifix(real(attr,4))
+      case ("ptbalt")
+        if (action=="get") attr = ptbalt(:itrn)
+        if (action=="set") ptbalt(:itrn) = real(attr,4)
       case ("mgmtcd")
         if (action=="get") attr = imc(:itrn)
         if (action=="set") imc(:itrn) = int(attr,4)
       case ("plotsize")
         if (action=="get") attr = pltsiz(:itrn)
         if (action=="set") pltsiz(:itrn) = int(attr,4)
+      case ("bapctile")
+        if (action=="get") attr = pct(:itrn)
+        if (action=="set") pct(:itrn) = int(attr,4)
       case ("crownwt0")
         if (action=="get") attr = crownw(:itrn,0)
         if (action=="set") crownw(:itrn,0) = real(attr,4)
@@ -189,8 +196,8 @@ c
       implicit none
 
 c     set and/or gets the named species attributes
-c     name    = char string of the variable name,
-c     nch     = the number of characters in "name" (case sensitive)
+c     name    = char string of the variable name, (case sensitive)
+c     nch     = the number of characters in "name" 
 c     action  = char string that is one of "set" or "get" (case sensitive)
 c     attr    = a vector of length data, always "double"
 c     rtnCode = 0 is OK, 1= "name" not found,
@@ -198,6 +205,8 @@ c               4= the length of the "name" string was too big or small
 c
       include "PRGPRM.F77"
       include "PLOT.F77"
+      include 'VOLSTD.F77'
+      include 'CONTRL.F77'
 
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE:: FVSSPECIESATTR
 !DEC$ ATTRIBUTES ALIAS:'FVSSPECIESATTR'::FVSSPECIESATTR
@@ -228,6 +237,36 @@ c
       case ("spsdi")
         if (action=="get") attr = sdidef
         if (action=="set") sdidef = real(attr,4)
+
+c     volume calculation-related vectors
+
+      case ("bfmind")
+        if (action=="get") attr = bfmind
+        if (action=="set") bfmind = real(attr,4)
+      case ("bftopd")
+        if (action=="get") attr = bftopd
+        if (action=="set") bftopd = real(attr,4)
+      case ("bfstmp")
+        if (action=="get") attr = bfstmp
+        if (action=="set") bfstmp = real(attr,4)
+      case ("frmcls")
+        if (action=="get") attr = frmcls
+        if (action=="set") frmcls = real(attr,4)
+      case ("bfmeth")
+        if (action=="get") attr = methb
+        if (action=="set") methb = int(attr,4)
+      case ("mcmind")
+        if (action=="get") attr = dbhmin
+        if (action=="set") dbhmin = real(attr,4)
+      case ("mctopd")
+        if (action=="get") attr = topd
+        if (action=="set") topd = real(attr,4)
+      case ("mcstmp")
+        if (action=="get") attr = stmp
+        if (action=="set") stmp = real(attr,4)
+      case ("mcmeth")
+        if (action=="get") attr = methc
+        if (action=="set") methc = int(attr,4)
       case default
         rtnCode = 1
         attr = 0
@@ -241,8 +280,8 @@ c
       implicit none
 
 c     set and/or gets the named tree attributes
-c     name    = char string of the variable name,
-c     nch     = the number of characters in "name" (case sensitive)
+c     name    = char string of the variable name, (case sensitive)
+c     nch     = the number of characters in "name" 
 c     action  = char string that is one of "set" or "get" (case sensitive)
 c     attr    = a vector of length data, always "double"
 c     rtnCode = 0 is OK, 1=action is "get" and variable
@@ -824,8 +863,8 @@ C     add an activity to the schedule.
       implicit none
 
 c     set and/or gets the named SVS object attributes
-c     name    = char string of the variable name,
-c     nch     = the number of characters in "name" (case sensitive)
+c     name    = char string of the variable name, (case sensitive)
+c     nch     = the number of characters in "name" 
 c     action  = char string that is one of "set" or "get" (case sensitive)
 c     nobjs   = the number of objects, length of data
 c     attr    = a vector of length data, always "double"
@@ -1147,8 +1186,8 @@ C     CWD section:
       implicit none
 
 c     set and/or gets the named FFE variables
-c     name    = char string of the variable name,
-c     nch     = the number of characters in "name" (case sensitive)
+c     name    = char string of the variable name, (case sensitive)
+c     nch     = the number of characters in "name" 
 c     action  = char string that is one of "set" or "get" (case sensitive)
 c     nobjs   = the number of objects, length of data
 c     attr    = a vector of length data, always "double"
@@ -1244,3 +1283,96 @@ c               4= the length of the "name" string was too big or small
       
       return
       end
+      
+      
+      subroutine fvsUnitConversion(name,nch,value,rtnCode)
+      implicit none
+      
+c     get the named unit conversion
+c     name    = char string of the variable name (case sensitive)
+c     rtnCode = 0 is OK, 
+c               1= "name" not found,
+
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE
+!DEC$ ATTRIBUTES ALIAS:'FVSUNITCONVERSIONS'::FVSUNITCONVERSIONS
+!DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, VALUE, RTNCODE
+
+      include "METRIC.F77"
+      
+      integer :: nch,rtnCode
+      real(kind=8)       :: value
+      character(len=15)  :: name
+
+      rtnCode = 0      
+      if (nch == 0 .or. nch > 15) then
+        rtnCode = 1
+        return
+      endif
+        
+      select case(name(1:nch))
+
+      case ("CMtoIN")
+        value = CMtoIN
+      case ("CMtoFT")
+        value = CMtoFT
+      case ("MtoIN")
+        value = MtoIN
+      case ("MtoFT")
+        value = MtoFT  
+      case ("KMtoMI")
+        value = KMtoMI 
+      case ("M2toFT2")
+        value = M2toFT2
+      case ("HAtoACR")
+        value = HAtoACR
+      case ("M3toFT3")
+        value = M3toFT3
+      case ("KGtoLB")
+        value = KGtoLB 
+      case ("TMtoTI")
+        value = TMtoTI 
+      case ("CtoF1")
+        value = CtoF1  
+      case ("CtoF2")
+        value = CtoF2  
+      case ("INtoCM")
+        value = INtoCM 
+      case ("FTtoCM")
+        value = FTtoCM 
+      case ("INtoM")
+        value = INtoM  
+      case ("FTtoM")
+        value = FTtoM  
+      case ("MItoKM")
+        value = MItoKM 
+      case ("FT2toM2")
+        value = FT2toM2 
+      case ("ACRtoHA")
+        value = ACRtoHA 
+      case ("FT3toM3")
+        value = FT3toM3 
+      case ("LBtoKG")
+        value = LBtoKG 
+      case ("TItoTM")
+        value = TItoTM 
+      case ("FtoC1")
+        value = FtoC1 
+      case ("FtoC2")
+        value = FtoC2  
+      case ("BTUtoKJ")
+        value = BTUtoKJ       
+      case ("M2pHAtoFT2pACR")
+        value = M2pHAtoFT2pACR
+      case ("M3pHAtoFT3pACR")
+        value = M3pHAtoFT3pACR
+      case ("FT2pACRtoM2pHA")
+        value = FT2pACRtoM2pHA
+      case ("FT3pACRtoM3pHA")
+        value = FT3pACRtoM3pHA 
+      case default
+        rtnCode = 1
+      end select
+      return
+      end
+      
+
