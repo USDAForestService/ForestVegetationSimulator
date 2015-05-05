@@ -66,7 +66,7 @@ C
 C----------
 C  SPECIES ORDER 1=SF,  2=WF,  3=GF,  4=AF,  5=RF,  6=SS,  7=NF,  8=YC,
 C                9=IC, 10=ES, 11=LP, 12=JP, 13=SP, 14=WP, 15=PP, 16=DF,
-C               17=RW, 18=RC, 19=WH, 20=MH, 21=BM, 22=RA, 23=WA, 24=PB,
+C               17=RW, 18=RC, 19=WH, 20=MH, 21=BM, 22=RA, 23=MA, 24=TO,
 C               25=GC, 26=AS, 27=CW, 28=WO, 29=J , 30=LL, 31=WB, 32=KP,
 C               33=PY, 34=DG, 35=HT, 36=CH, 37=WI, 38=  , 39=OT
 C-----------
@@ -231,7 +231,7 @@ C
       ENDIF
 C
 C  END ORGANON
-C----------
+C
 C----------
 C  CALCULATE THE PREDICTED CURRENT CROWN RATIO
 C----------

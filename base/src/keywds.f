@@ -54,5 +54,5 @@ C
       DATA (TABLE(I),I=136,150) /
      >     'THINRDSL','MORTMSB','SETSITE','CLIMATE','SDICALC',
      >     'THINQFA','PTGROUP ','ORGANON','        ','        ',
-     >     '        ','         ','        ','        ','        '/
+     >     '        ','        ','        ','        ','        '/
       END

@@ -102,7 +102,7 @@ C     5 = CALIFORNIA RED FIR (RF)/     ABIES MAGNIFICA
 C         SHASTA RED FIR
 C     6 = SITKA SPRUCE (SS)            PICEA SITCHENSIS
 C     7 = NOBLE FIR (NF)               ABIES PROCERA
-C     8 = ALASKA CEDAR (YC)/           CHAMAECYPARIS NOOTKATENSIS
+C     8 = ALASKA CEDAR (YC)/           CALLITROPSIS NOOTKATENSIS
 C         WESTERN LARCH                LARIX OCCIDENTALIS
 C     9 = INCENSE CEDAR (IC)           LIBOCEDRUS DECURRENS
 C    10 = ENGELMANN SPRUCE (ES)        PICEA ENGELMANNII
@@ -120,7 +120,7 @@ C    21 = BIGLEAF MAPLE (BM)           ACER MACROPHYLLUM
 C    22 = RED ALDER (RA)               ALNUS RUBRA
 C    23 = PACIFIC MADRONE (MA)         ARBUTUS MENZIESII
 C    24 = TANOAK (TO)                  LITHOCARPUS DENSIFLORUS
-C    25 = GIANT CHINKAPIN (GC)         CASTANOPSIS CHRYSOPHYLLA
+C    25 = GIANT CHINKAPIN (GC)         CHRYSOLEPIS CHRYSOPHYLLA
 C    26 = QUAKING ASPEN (AS)           POPULUS TREMULOIDES
 C    27 = BLACK COTTONWOOD (CW)        POPULUS TRICHOCARPA
 C    28 = OREGON WHITE OAK (WO) /      QUERCUS GARRYANA
@@ -137,12 +137,6 @@ C    37 = WILLOW (WI)                  SALIX sp.
 C    38 = ---
 C    39 = OTHER (OT)
 C----------
-
-C     UPDATED THE #38 SLOT WITH CANYON LIVE OAK TO COMPLETE THE SPECIES LIST
-C     FOR ORGANON LIBRARY.
-C http://www.fs.fed.us/database/feis/plants/tree/quechr/all.html
-
-
       DATA JSP /
      & 'SF ',   'WF ',   'GF ',   'AF ',   'RF ',   'SS ',   'NF ',
      & 'YC ',   'IC ',   'ES ',   'LP ',   'JP ',   'SP ',   'WP ',
@@ -150,9 +144,6 @@ C http://www.fs.fed.us/database/feis/plants/tree/quechr/all.html
      & 'RA ',   'MA ',   'TO ',   'GC ',   'AS ',   'CW ',   'WO ',
      & 'WJ ',   'LL ',   'WB ',   'KP ',   'PY ',   'DG ',   'HT ',
      & 'CH ',   'WI ',   '   ',   'OT '/
-c$$$     & 'CH ',   'WI ',   'LO ',   'OT '/
-
-
 C
       DATA FIAJSP /
      & '011',   '015',   '017',   '019',   '020',   '098',   '022',
@@ -161,40 +152,31 @@ C
      & '351',   '361',   '631',   '431',   '746',   '747',   '815',
      & '064',   '072',   '101',   '103',   '231',   '492',   '500',
      & '768',   '920',   '   ',   '999'/
-c$$$     & '768',   '920',   '805',   '999'/
 C
-
       DATA PLNJSP /
      & 'ABAM  ','ABCO  ','ABGR  ','ABLA  ','ABMA  ','PISI  ','ABPR  ',
-     & 'CHNO  ','CADE27','PIEN  ','PICO  ','PIJE  ','PILA  ','PIMO3 ',
+     & 'CANO9 ','CADE27','PIEN  ','PICO  ','PIJE  ','PILA  ','PIMO3 ',
      & 'PIPO  ','PSME  ','SESE3 ','THPL  ','TSHE  ','TSME  ','ACMA3 ',
      & 'ALRU2 ','ARME  ','LIDE3 ','CHCHC4','POTR5 ','POBAT ','QUGA4 ',
      & 'JUOC  ','LALY  ','PIAL  ','PIAT  ','TABR2 ','CONU4 ','CRATA ',
      & 'PREM  ','SALIX ','      ','2TREE '/
-c$$$     & 'PREM  ','SALIX ','QUCH2 ','2TREE '/
-
-
 C
       DATA JTYPE /130,170,250,260,280,290,310,320,330,420,
      &            470,510,520,530,540,550,570,610,620,640,
      &            660,670,680,690,710,720,730,830,850,999,92*0 /
 C
-
       DATA NSP /  'SF1','WF1','GF1','AF1','RF1','SS1','NF1','YC1',
      &'IC1','ES1','LP1','JP1','SP1','WP1','PP1','DF1','RW1','RC1',
-     &'WH1','MH1','BM1','RA1','PM1','TO1','GC1','AS1','CW1','WO1','WJ1',
+     &'WH1','MH1','BM1','RA1','MA1','TO1','GC1','AS1','CW1','WO1','WJ1',
      &'LL1','WB1','KP1','PY1','DG1','HT1','CH1','WI1','__1','OT1',
      &            'SF2','WF2','GF2','AF2','RF2','SS2','NF2','YC2',
      &'IC2','ES2','LP2','JP2','SP2','WP2','PP2','DF2','RW2','RC2',
-     &'WH2','MH2','BM2','RA2','PM2','TO2','GC2','AS2','CW2','WO2','WJ2',
+     &'WH2','MH2','BM2','RA2','MA2','TO2','GC2','AS2','CW2','WO2','WJ2',
      &'LL2','WB2','KP2','PY2','DG2','HT2','CH2','WI2','__2','OT2',
      &            'SF3','WF3','GF3','AF3','RF3','SS3','NF3','YC3',
      &'IC3','ES3','LP3','JP3','SP3','WP3','PP3','DF3','RW3','RC3',
-     &'WH3','MH3','BM3','RA3','PM3','TO3','GC3','AS3','CW3','WO3','WJ3',
+     &'WH3','MH3','BM3','RA3','MA3','TO3','GC3','AS3','CW3','WO3','WJ3',
      &'LL3','WB3','KP3','PY3','DG3','HT3','CH3','WI3','__3','OT3'/
-
-
-
 C----------
 C COMMON STATEMENT FOR COEFFS VARIABLES
 C----------
@@ -267,7 +249,7 @@ C
      & -0.0968   ,128.8952205, -4.62536  , -4.62536  ,128.8952205,
      & -0.954038 ,  0.6192   , -0.2050542, -1.7307   , 22.8741   ,
      &  0.6192   , 59.5864   ,  0.6192   ,  0.6192   ,  0.6192   ,
-     &  0.6192   ,  0.6192   ,  0.0      ,  0.6192   ,  0.0      ,
+     &  0.6192   ,  0.6192   , -0.954038 ,  0.6192   ,  0.0      ,
      &  0.6192   ,  0.6192   ,  0.6192   ,  0.6192   ,  0.6192   ,
      &  0.6192   ,  0.6192   ,  0.6192   ,  0.6192    /
 C
@@ -277,7 +259,7 @@ C
      &  0.02679  , -0.016959 ,  1.346399 ,  1.346399 , -0.016959 ,
      &  0.109757 , -5.3394   ,  1.449615 ,  0.1394   ,  0.950234 ,
      & -5.3394   ,  0.7953   , -5.3394   , -5.3394   , -5.3394   ,
-     & -5.3394   , -5.3394   ,  0.0      , -5.3394   ,  1.46897  ,
+     & -5.3394   , -5.3394   ,  0.109757 , -5.3394   ,  1.46897  ,
      & -5.3394   , -5.3394   , -5.3394   , -5.3394   , -5.3394   ,
      & -5.3394   , -5.3394   , -5.3394   , -5.3394    /
 C
@@ -287,7 +269,7 @@ C
      & -9.309E-5 ,  1.23114  ,-135.354483,-135.354483,  1.23114  ,
      & 5.58178E-2, 240.29    ,-0.01780992, -0.0616   , -2.06465E-3,
      & 240.29    ,  0.00194  , 240.29    , 240.29    , 240.29    ,
-     & 240.29    , 240.29    ,  0.0      , 240.29    ,  0.0092466,
+     & 240.29    , 240.29    ,5.58178E-2 , 240.29    ,  0.0092466,
      & 240.29    , 240.29    , 240.29    , 240.29    , 240.29    ,
      & 240.29    , 240.29    , 240.29    , 240.29     /
 C
@@ -297,7 +279,7 @@ C
      &  0.0      , -0.7864   ,  0.0      ,  0.0      , -0.7864   ,
      & 7.92236E-3, 3368.9    ,6.519748E-5,  0.0137   ,  0.5      ,
      & 3368.9    , -0.0007403, 3368.9    , 3368.9    , 3368.9    ,
-     & 3368.9    , 3368.9    ,  0.0      , 3368.9    , -2.3957E-4,
+     & 3368.9    , 3368.9    ,7.92236E-3 , 3368.9    , -2.3957E-4,
      & 3368.9    , 3368.9    , 3368.9    , 3368.9    , 3368.9    ,
      & 3368.9    , 3368.9    , 3368.9    , 3368.9     /
 C
@@ -307,7 +289,7 @@ C
      &  0.0        ,  2.49717  ,  0.0        ,  0.0      ,  2.49717  ,
      &-7.33819E-4  ,  0.0      ,-1.095593E-23,  0.00192  ,  1.365566 ,
      &  0.0        ,  0.9198   ,  0.0        ,  0.0      ,  0.0      ,
-     &  0.0        ,  0.0      ,  0.0        ,  0.0      ,  1.1122E-6,
+     &  0.0        ,  0.0      ,-7.33819E-4  ,  0.0      ,  1.1122E-6,
      &  0.0        ,  0.0      ,  0.0        ,  0.0      ,  0.0      ,
      &  0.0        ,  0.0      ,  0.0        ,  0.0       /
 C
@@ -317,7 +299,7 @@ C
      &  0.0      , -0.0045042,  0.0      ,  0.0      , -0.0045042,
      & 1.97693E-4,  0.0      , -5.611879 ,  0.00007  ,  2.045963 ,
      &  0.0      ,  0.0      ,  0.0      ,  0.0      ,  0.0      ,
-     &  0.0      ,  0.0      ,  0.0      ,  0.0      , -0.12528,
+     &  0.0      ,  0.0      ,1.97693E-4 ,  0.0      , -0.12528,
      &  0.0      ,  0.0      ,  0.0      ,  0.0      ,  0.0      ,
      &  0.0      ,  0.0      ,  0.0      ,  0.0       /
 C
