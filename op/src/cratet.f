@@ -70,19 +70,45 @@ C----------
       REAL SPCNT(MAXSP,3),AX,Q,SUMX,H,BX,XX,YY,XN,HS,D
 C----------
 C     ORGANON:  
+C    ACALIB(i,j) IS AN ARRAY IN THE ORGANON.F77 COMMON BLOCK THAT IS
+C                USED TO STORE CALIBRATION VALUES READ IN VIA KEYWORDS
+C                OR CALCULATED IN **PREPARE** AND PASSED TO **EXECUTE**
+C    TMPCAL(i,j) IS A LOCAL VARIABLE USED TO STORE CALIBRATION VALUES RETURNED
+C                FROM **PREPARE**. IF THE USER ENTERED CALIBRATION VALUES, THEN
+C                KEEP THOSE; IF THE USER DID NOT ENTER CALIBRATION VALUES, USE
+C                THE ONES FROM **PREPARE**.
+C    NEWCAL(j)   AN ARRAY INDICATING THAT SOME NEW CALIBRATION VALUES CAME
+C                FROM **PREPARE** WHICH NEED TO BE PRINTED IN THE 
+C                CALIBRATION STATISTICS TABLE
 C----------
+      CHARACTER*31 LABEL(11)
       INTEGER*4   ORGEDIT_STATUS ! STATUS VARIABLE FOR THE DLL      
       INTEGER*4   IEVEN          ! ORGANON::INDS(4)
       INTEGER*4   IRAD
       INTEGER     NBIG6,NVALID,NLOAD,NUNLOAD
+      INTEGER     NEWCAL(18),IHEAD
       REAL*4      RADGRO(2000)   ! DON'T INCLUDE FOR NOW.
       REAL*4      GROWTH(2000)
+      REAL*4      TMPCAL(3,18)
 C----------
 C     THE SPECIES ORDER IS VARIANT SPECIFIC, SEE BLKDATA FOR A LIST.
 C----------
 C  INITIALIZE INTERNAL VARIABLES:
 C----------
       DATA UNDER/'----'/
+C
+      DATA LABEL/
+     &  '                   DOUGLAS FIR:',
+     &  '                     GRAND FIR:',
+     &  '               WESTERN HEMLOCK:',
+     &  '              WESTERN REDCEDAR:',
+     &  '                   PACIFIC YEW:',
+     &  ' WHITE ALDER / PACIFIC MADRONE:',
+     &  '                 BIGLEAF MAPLE:',
+     &  '  OREGON WHITE / CAL BLACK OAK:',
+     &  '                     RED ALDER:',
+     &  '               PACIFIC DOGWOOD:',
+     &  '                WILLOW SPECIES:'/
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------
@@ -92,6 +118,12 @@ C  ORGANON
 C  IF NECESSARY, CALL PREPARE TO FILL IN THE MISSING VALUES
 C  LORGPREP=.TRUE. IF DATA HAS ALREADY BEEN PREPARED/EDITED
 C----------
+      DO I=1,18
+         TMPCAL(1,I)  = 0.0 
+         TMPCAL(2,I)  = 0.0
+         TMPCAL(3,I)  = 0.0
+         NEWCAL(I)    = 0
+      ENDDO
       IF( DEBUG ) THEN
         WRITE(JOSTND,124) ICYC,IMODTY,LORGPREP
   124   FORMAT(' PREPARE FROM CRATET, CYCLE=',I2,', IMODTY= ',I2,
@@ -209,7 +241,7 @@ C----------
      1              USER, IEVEN, DBH1, HT1OR, CR1, EXPAN1, 
      2              RADGRO, RVARS, SERROR, TERROR, 
      3              SWARNING, TWARNING, IERROR, IRAD, 
-     4              GROWTH, ACALIB )
+     4              GROWTH, TMPCAL )
       LORGPREP = .TRUE.
 C----------
 C  IF DEBUGGING, REPORT ANY ERRORS TO THE OUTPUT FILE.
@@ -297,10 +329,9 @@ C----------
       ENDDO
       IF(DEBUG)WRITE(JOSTND,*)' NVALID,NUNLOAD= ',NVALID,NUNLOAD
 C----------      
-C  IF THE FIRST CALIBRATION FLAG IS SET, THEN PRINT OUT ALL 
-C  OF THE CALIBRATION VALUES.
+C  IF DEBUGGING PRINT OUT THE CALIBRATION VALUES.
 C----------
-      IF( DEBUG .AND. INDS(1) .EQ. 1 ) THEN
+      IF( DEBUG) THEN
         DO I=1,18
           WRITE(JOSTND,9220) I, ACALIB(1,I), 
      >           I, ACALIB(2,I), 
@@ -309,8 +340,28 @@ C----------
      >           ' ACALIB(1,',I2,') = ',F9.6,
      >           ' ACALIB(2,',I2,') = ',F9.6,
      >           ' ACALIB(3,',I2,') = ',F9.6 )
+          WRITE(JOSTND,9221) I, TMPCAL(1,I),
+     >           I, TMPCAL(2,I), 
+     >           I, TMPCAL(3,I), I, NEWCAL(I)
+ 9221       FORMAT ('   ORGANON ', 
+     >           ' TMPCAL(1,',I2,') = ',F9.6,
+     >           ' TMPCAL(2,',I2,') = ',F9.6,
+     >           ' TMPCAL(3,',I2,') = ',F9.6,
+     >           ' NEWCAL('I2') = ',I3)
         ENDDO         
       ENDIF
+C----------
+C  LOAD ACALIB(I,J) WITH ANY CALIBRATION VALUES COMPUTED IN **PREPARE**
+C  WHICH WERE NOT LOADED BY KEYWORD ENTRY
+C----------
+      DO I=1,18
+        DO J=1,3
+          IF((ACALIB(J,I) .EQ. 1.0) .AND. (TMPCAL(J,I) .NE. 1.0)) THEN
+            ACALIB(J,I) = TMPCAL(J,I)
+            NEWCAL(I) = 1
+          ENDIF
+        END DO
+      END DO
 C-------
 C     ORGANON - END
 C-------
@@ -883,6 +934,24 @@ C----------
       CALL MISCNT(KNT)
       WRITE(JOSTND,248) (KNT(I),I=1,NUMSP)
   248 FORMAT(/,'NUMBER OF RECORDS WITH MISTLETOE',((T49,11(I4,2X)/)))
+C----------
+C  PRINT ANY NEW ORGANON CALIBRATION VALUES
+C----------
+      IHEAD=0
+      DO I=1,11
+        IF(NEWCAL(I) .NE. 0)THEN
+          IF(IHEAD .EQ. 0) THEN
+            WRITE(JOSTND,250) LABEL(I),(ACALIB(J,I),J=1,3)
+ 250        FORMAT(/,'ORGANON NEW CALIBRATION RATIOS:',/,
+     &      20X,'  SPECIES GROUP   HT/DBH    HTCB    DIAM',/,
+     &      5X,A31,3F8.2)
+            IHEAD=1
+          ELSE
+            WRITE(JOSTND,251) LABEL(I),(ACALIB(J,I),J=1,3)
+ 251        FORMAT(5X,A31,3F8.2)
+          ENDIF
+        ENDIF
+      ENDDO
 C----------
 C  CALL **SDICHK** TO SEE IF INITIAL STAND SDI IS ABOVE THE SPECIFIED
 C  MAXIMUM SDI.  RESET MAXIMUM SDI IF THIS IS THE CASE.
