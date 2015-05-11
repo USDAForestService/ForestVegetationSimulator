@@ -473,7 +473,7 @@
 ../mistoe/src/misin.f
 ../mistoe/src/misin0.f
 ../mistoe/src/misinf.f
-../mistoe/src/misintca.f
+../mistoe/src/misintoc.f
 ../mistoe/src/mismrt.f
 ../mistoe/src/misprt.f
 ../mistoe/src/misputz.f

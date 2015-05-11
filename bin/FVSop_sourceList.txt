@@ -452,7 +452,7 @@
 ../mistoe/src/misin.f
 ../mistoe/src/misin0.f
 ../mistoe/src/misinf.f
-../mistoe/src/misintpn.f
+../mistoe/src/misintop.f
 ../mistoe/src/mismrt.f
 ../mistoe/src/misprt.f
 ../mistoe/src/misputz.f
