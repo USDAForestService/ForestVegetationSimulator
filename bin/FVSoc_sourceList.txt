@@ -62,6 +62,7 @@
 ../base/src/exppe.f
 ../base/src/exrd.f
 ../base/src/extree.f
+../base/src/ffert.f
 ../base/src/ffin.f
 ../base/src/filopn.f
 ../base/src/fndkey.f
@@ -497,7 +498,6 @@
 ../oc/src/dgdriv.f
 ../oc/src/dgf.f
 ../oc/src/esinit.f
-../oc/src/ffert.f
 ../oc/src/grinit.f
 ../oc/src/grohed.f
 ../oc/src/htgf.f
