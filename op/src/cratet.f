@@ -119,9 +119,9 @@ C  IF NECESSARY, CALL PREPARE TO FILL IN THE MISSING VALUES
 C  LORGPREP=.TRUE. IF DATA HAS ALREADY BEEN PREPARED/EDITED
 C----------
       DO I=1,18
-         TMPCAL(1,I)  = 0.0 
-         TMPCAL(2,I)  = 0.0
-         TMPCAL(3,I)  = 0.0
+         TMPCAL(1,I)  = 1.0 
+         TMPCAL(2,I)  = 1.0
+         TMPCAL(3,I)  = 1.0
          NEWCAL(I)    = 0
       ENDDO
       IF( DEBUG ) THEN
@@ -356,7 +356,8 @@ C  WHICH WERE NOT LOADED BY KEYWORD ENTRY
 C----------
       DO I=1,18
         DO J=1,3
-          IF((ACALIB(J,I) .EQ. 1.0) .AND. (TMPCAL(J,I) .NE. 1.0)) THEN
+          IF((ACALIB(J,I) .EQ. 1.0) .AND. 
+     &    ((TMPCAL(J,I) .GT. 0.0) .AND. (TMPCAL(J,I) .NE. 1.0))) THEN
             ACALIB(J,I) = TMPCAL(J,I)
             NEWCAL(I) = 1
           ENDIF
