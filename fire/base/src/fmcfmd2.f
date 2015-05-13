@@ -195,6 +195,7 @@ C     CALCULATE WHETHER YOU ARE IN AN ARID OR HUMID VARIANT
 
       CALL VARVER(VVER)
       IF (VVER(1:2) .EQ. 'AK' .OR.
+     &    VVER(1:2) .EQ. 'OP' .OR.
      &    VVER(1:2) .EQ. 'PN' .OR.
      &    VVER(1:2) .EQ. 'WC' .OR.
      &    VVER(1:2) .EQ. 'NE' .OR.

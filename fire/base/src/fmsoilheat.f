@@ -192,6 +192,7 @@ C     use duff moisture to determine the soil moisture and moisture code
          regnum = 3
       ELSEIF (VVER(1:2) .EQ. 'PN' .OR.
      &        VVER(1:2) .EQ. 'WC' .OR.
+     &        VVER(1:2) .EQ. 'OP' .OR.
      &        VVER(1:2) .EQ. 'NC') THEN
          regnum = 2
       ELSE

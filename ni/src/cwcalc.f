@@ -337,7 +337,8 @@ C
       ELSEIF ((VVER(:2).EQ.'NC').AND.((IFOR.LE.3).OR.(IFOR.GE.9)))THEN
         CALL R5CRWD(ISPC,D,H,CW)
         GO TO 9000
-      ELSEIF ((VVER(:2).EQ.'CA').AND.((IFOR.LE.5).OR.(IFOR.GE.8)))THEN
+      ELSEIF (((VVER(:2).EQ.'CA') .OR. (VVER(:2).EQ.'OC')).AND.
+     &        ((IFOR.LE.5).OR.(IFOR.GE.8)))THEN
         CALL R5CRWD(ISPC,D,H,CW)
         GO TO 9000
       ENDIF
