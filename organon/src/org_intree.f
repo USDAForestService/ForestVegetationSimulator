@@ -574,8 +574,5 @@ C
      &  7X,'AGE',4X,'T OR B',4X,'ON OFF',20(/,1X,F10.0,2F10.1,3F10.0))
       ENDIF
 C
-      do i=1,itrn
-      write(16,*)' i,prob(i)= ',i,prob(i)
-      enddo
       RETURN
       END

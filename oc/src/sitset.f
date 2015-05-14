@@ -267,7 +267,7 @@ C----------
       IREGN = KODFOR/100
       DIST='  '
       PROD='  '
-      VAR='CA'
+      VAR='OC'
 C
       DO ISPC=1,MAXSP
       READ(FIAJSP(ISPC),'(I4)')IFIASP

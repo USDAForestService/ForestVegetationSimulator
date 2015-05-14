@@ -3197,7 +3197,7 @@ C     CALL DUNN TO PROCESS ANY DUNNING SITE CODE INFORMATION.
 C
       IF(LNOTBK(2) .AND. ARRAY(2) .LE. 7)THEN
         SELECT CASE (VVER(:2))
-        CASE('CA','NC','SO','WS')
+        CASE('CA','NC','SO','WS','OC')
           IF(LKECHO)WRITE(JOSTND,9620)
  9620     FORMAT(8X,'   FIELD 2 OF THE SITECODE KEWORD IS LESS',
      &    ' THAN 8 AND WILL BE INTERPRETED AS A DUNNING CODE.')
@@ -3542,7 +3542,8 @@ C----------
 C
       IF (VVER(:2).EQ.'SM' .OR. VVER(:2).EQ.'SP' .OR.
      &        VVER(:2).EQ.'BP' .OR. VVER(:2).EQ.'SF' .OR.
-     &        VVER(:2).EQ.'LP') THEN
+     &        VVER(:2).EQ.'LP' .OR.
+     &        VVER(:2).EQ.'OC' .OR. VVER(:2).EQ.'OP') THEN
         IF(LNOTBK(1)) IMODTY=IFIX(ARRAY(1))
         IF(LKECHO)WRITE(JOSTND,10430) KEYWRD,IMODTY
 10430   FORMAT(/A8,'   MODEL TYPE =',I5)
@@ -4857,6 +4858,8 @@ C
           IRDUM=5
         CASE('BM','PN','WC','EC')
           IRDUM=6
+        CASE('OC','OP')
+          IRDUM=7
         CASE('SN')
           IRDUM=8
         CASE('CS','LS','NE')
@@ -4968,6 +4971,17 @@ C
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IGSP),ERRFLAG)
               ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(IGSP),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(IGSP),ERRFLAG)
+                ENDIF
+              ENDIF
             END SELECT
           ENDIF
 C
@@ -5018,6 +5032,17 @@ C
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IGSP),ERRFLAG)
+              ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(IGSP),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(IGSP),ERRFLAG)
+                ENDIF
               ENDIF
             END SELECT
           ENDIF
@@ -5086,6 +5111,17 @@ C
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(1),ERRFLAG)
               ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(1),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(1),ERRFLAG)
+                ENDIF
+              ENDIF
             END SELECT
           ENDIF
 C
@@ -5132,6 +5168,17 @@ C
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(1),ERRFLAG)
+              ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(1),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(1),ERRFLAG)
+                ENDIF
               ENDIF
             END SELECT
           ENDIF
@@ -5197,6 +5244,17 @@ C
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IS),ERRFLAG)
               ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(IS),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(IS),ERRFLAG)
+                ENDIF
+              ENDIF
             END SELECT
           ENDIF
 C
@@ -5240,6 +5298,17 @@ C
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IS),ERRFLAG)
+              ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(IS),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(IS),ERRFLAG)
+                ENDIF
               ENDIF
             END SELECT
           ENDIF

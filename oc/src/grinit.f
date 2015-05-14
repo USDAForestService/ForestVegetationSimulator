@@ -176,7 +176,7 @@ C----------
       IDG = 0
       IFINT = 5
       IFINTH = 5
-      IFOR = 6
+      IFOR = 9
       KODFOR = 0
       IFST = 1
       IGL = 1
