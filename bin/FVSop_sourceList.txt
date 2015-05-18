@@ -105,7 +105,6 @@
 ../base/src/main.f
 ../base/src/mbacal.f
 ../base/src/meansd.f
-../base/src/msbmrt.f
 ../base/src/mults.f
 ../base/src/myopen.f
 ../base/src/natcrz.f
