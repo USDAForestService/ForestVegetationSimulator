@@ -113,8 +113,8 @@ C 231=PY    PY, WJ
 C 242=RC    RC, YC, IC 
 C 263=WH    WH, RW, MH
 C 312=BM    BM, TO, AS, CW
-C 351=RA    RA, MA
-C 361=MA    GC
+C 351=RA    RA 
+C 361=MA    MA, GC
 C 492=DG    DG, HT, CH, OT 
 C 815=WO    WO
 C 920=WI    WI
@@ -126,7 +126,7 @@ C       SF   WF   GF   AF   RF   SS   NF   YC   IC   ES
 C       LP   JP   SP   WP   PP   DF   RW   RC   WH   MH      
      & 202, 202, 202, 202, 202, 202, 263, 242, 263, 263, 
 C       BM   RA   MA   TO   GC   AS   CW   WO   WJ   LL      
-     & 312, 351, 351, 312, 361, 312, 312, 815, 231, 017, 
+     & 312, 351, 361, 312, 361, 312, 312, 815, 231, 017, 
 C       WB   KP   PY   DG   HT   CH   WI        OT    
      & 202, 202, 231, 492, 492, 492, 920, 492, 492/
 C-----------
@@ -290,6 +290,9 @@ C-----------
          USER(I) = ISPECL(I) ! USER CODE AT BEGINNING OF PERIOD
 C         WK2(I) = 0.0   ! CLEAR OUT THE WK2 ARRAY FOR THIS CYCLE
 C                         ! IT WILL BE ASSIGNED THE MORTALITY          
+         IF(DEBUG)WRITE(JOSTND,*)' FOR EXECUTE I,TREENO,PTNO,DBH1,HT1OR,
+     &   CR1,SCR1B,EXPAN1,MGEXP,USER= ',I,TREENO(I),PTNO(I),DBH1(I),
+     &   HT1OR(I),CR1(I),SCR1B(I),EXPAN1(I),MGEXP(I),USER(I)   
       ENDDO
       
 C-----------
@@ -317,7 +320,7 @@ C      IF( OLDBA .NE. BA ) THEN   !THIS WAS JEFF'S ORIGINAL
         DO I=5,2,-1
           YST(I)  = YST(I-1)
           BART(I) = BART(I-1)
-	      END DO
+        END DO
 C
 C     THE YST VECTOR CONTAINS AN ARRAY OF LENGTH FIVE 
 C     FOR THE NUMBER OF YEARS THAT HAVE PASSED SINCE 
@@ -459,6 +462,8 @@ C-----------
         DO 26 I=1,ITRN
         WRITE(JOSTND,*)' DGDRIV EXECUTE, I,ISPC,DBH,HT,LN(DDS),IORG= ',
      *  I,ISP(I),DBH(I),HT(I),WK2(I),IORG(I) 
+        WRITE(JOSTND,*)' DGDRIV EXECUTE, I,HGRO,CR2,MORTEXP,PROB= ',
+     *  I,HGRO(I),CR2(I),MORTEXP(I),PROB(I)
    26   CONTINUE
       ENDIF
 C----------

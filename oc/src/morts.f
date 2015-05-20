@@ -498,6 +498,7 @@ C----------
       IF(SMORMT .GT. 0.)THEN
         WK2(I) = MORTEXP(I)
         WKI = MORTEXP(I)
+        IF(WKI.GT.P) WKI=P
         IF(DEBUG) WRITE(JOSTND,*) ' IN MORTS I,ISPC,D,WK2,IORG= ',
      *  I,ISPC,D,WK2(I),IORG(I) 
         GO TO 39
