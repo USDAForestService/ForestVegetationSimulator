@@ -11,6 +11,7 @@ C----------
      3          BRDIA(2000,40),JCORE(2000,40),NPR(2000),SERROR(35),
      4          TERROR(2000,6),SWARNING(9),TWARNING(2000),
      6          NTREES2,IERROR,IORG(2000)
+      INTEGER ITEST
 
       REAL*4 DBH1(2000),HT1OR(2000),CR1(2000),EXPAN1(2000),
      1       SCR1B(2000),SITE_1,SITE_2,ACALIB(3,18),MSDI_1,MSDI_2,
@@ -27,10 +28,7 @@ C----------
      3  PREXP,BRCNT,BRHT,BRDIA,JCORE,SERROR,TERROR,SWARNING,TWARNING,
      4  IERROR,DGRO,HGRO,CRCHNG,SCRCHNG,MORTEXP,NTREES2,DBH2,HT2OR,CR2,                 
      5  SCR2B,EXPAN2,STOR,LORGANON,SITE_1,SITE_2,LOGTA,LOGML,LOGLL,                 
-     6  LORGVOLS,IORG,LORGPREP,MSDI_1,MSDI_2,MSDI_3                 
-     7                   
-     8                   
-
+     6  LORGVOLS,IORG,LORGPREP,MSDI_1,MSDI_2,MSDI_3,ITEST               
 C----------
 C  DEFINITIONS OF VARIABLES IN 'ORGANON' COMMON BLOCK:
 C----------
@@ -68,6 +66,8 @@ C  HT2OR,          R * 4         (2000)         ENDING TOTAL HEIGHT FOR TREE I
 C  IERROR,         I * 4                        INDICATOR FOR ERRORS AT THE END OF THE CYCLE
 C  INDS,           I * 4         (30)           STAND LEVEL INDICATOR VARIABLES/SWITCHES
 C  IORG,           I * 4         (2000)         FLAG INDICATING A VALID ORGANON TREE (0 = NO, 1 = YES)
+C  ITEST,          I                            DEFAULT 0; SET TO 1 IF STAND IS EVEN-AGED BUT STAND AGE WAS
+C                                               NOT ENTERED. THIS IS AN ERROR CONDITION IN ORGANON
 C  JCORE,          I * 4         (2000,40)      DIAMETER OF JUVINILE COREWOOD AT THE END OF THE CYCLE
 C  LOGLL,          R * 4                        TARGET LOG LENGTH, IN FEET
 C  LOGML,          R * 4                        MINIMUM LOG LENGTH, IN FEET

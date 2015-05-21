@@ -497,7 +497,6 @@
 ../oc/src/crown.f
 ../oc/src/dgdriv.f
 ../oc/src/dgf.f
-../oc/src/esinit.f
 ../oc/src/grinit.f
 ../oc/src/grohed.f
 ../oc/src/htgf.f
@@ -551,6 +550,7 @@
 ../strp/src/esfltr.f
 ../strp/src/esgent.f
 ../strp/src/esin.f
+../strp/src/esinit.f
 ../strp/src/esmsgs.f
 ../strp/src/esnutr.f
 ../strp/src/esout.f

@@ -1,7 +1,7 @@
       SUBROUTINE SITSET
       IMPLICIT NONE
 C----------
-C  **SITSET--OP   DATE OF LAST REVISION:  03/11/15
+C  **SITSET--OP   DATE OF LAST REVISION:  05/21/15
 C----------
 C
 C THIS SUBROUTINE LOADS THE SITEAR ARRAY WITH A SITE INDEX FOR EACH
@@ -297,8 +297,12 @@ C  IF STAND AGE FROM STDINFO KEYWORD AND ORGANON .INP FILE IS 0
 C  SET EVEN/UNEVEN FLAG TO EVEN-AGED STAND
 C----------
 C
+      ITEST=0
       IF(IAGE .EQ. 0) THEN
-        INDS(4)=0                                    ! UNEVEN-AGED
+        IF(INDS(4) .EQ. 1) THEN
+          INDS(4) = 0                                  ! UNEVEN-AGED
+          ITEST = 1
+        ENDIF
       ENDIF
 C
       IF(RVARS(1) .EQ. 0.) RVARS(1) = SITEAR( 16 )   ! DOUGLAS-FIR SITE INDEX

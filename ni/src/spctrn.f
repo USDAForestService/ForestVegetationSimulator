@@ -2107,6 +2107,10 @@ C----------
             SPCOUT= ASPT(I,19)
           CASE('WS')
             SPCOUT= ASPT(I,20)
+          CASE('OC')
+            SPCOUT= ASPT(I,21)
+          CASE('OP')
+            SPCOUT= ASPT(I,22)
         END SELECT 
         GO TO 150        
       ELSEIF (SPCIN .EQ. ASPT(I,2)) THEN
@@ -2146,6 +2150,10 @@ C----------
             SPCOUT= ASPT(I,19)
           CASE('WS') 
             SPCOUT= ASPT(I,20)
+          CASE('OC')
+            SPCOUT= ASPT(I,21)
+          CASE('OP')
+            SPCOUT= ASPT(I,22)
         END SELECT
         GO TO 150   
       ELSEIF (SPCIN .EQ. ASPT(I,3)) THEN
@@ -2185,6 +2193,10 @@ C----------
             SPCOUT= ASPT(I,19)
           CASE('WS') 
             SPCOUT= ASPT(I,20)
+          CASE('OC')
+            SPCOUT= ASPT(I,21)
+          CASE('OP')
+            SPCOUT= ASPT(I,22)
         END SELECT
         GO TO 150   
       ENDIF      
