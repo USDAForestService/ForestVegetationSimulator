@@ -84,6 +84,7 @@ C.... VARIABLE DECLARATIONS.
       DIMENSION TCROWN(0:5)
       DIMENSION TOLDCR(0:5)
 
+      
 C     COEFFICIENTS FOR SOME SN MORTALITY EQUATIONS
 
       DATA     MORTB0 / 1.0229, 0.1683, 1.2165, 0.8221, 2.775 /
@@ -104,13 +105,14 @@ C.... BEGIN ROUTINE
 Cppe  YRSCYC = FLOAT( MIY(MICYC)-IYR )
 Csng  YRSCYC = FLOAT( IY(ICYC+1)-IYR )
       YRSCYC = FLOAT( IY(ICYC+1)-IYR )
-
+      
       BAMORT = 0.0
       TOTBA  = 0.0
       POMORT = 0.0
       PVOLKL = 0.0
 
       CALL VARVER(VVER)
+
 C
 C     Burn the entire crown of pre-existing snags caught in the area with
 C     crown fire (if crown fire occurred).  This is done here so that
@@ -337,7 +339,11 @@ C
 
       IF (DEBUG) WRITE(JOSTND,15) ICYC,IYR,PSBURN
    15 FORMAT(' ENTERING FMEFF CYCLE = ',I2,
-     >       ' IYR=',I5,' PSBURN=',F6.1) 
+     >       ' IYR=',I5,' PSBURN=',F6.1)
+     
+C       MODIFY PMORT BY THE MULTIPLIER
+
+        PMORT = PMORT*FMORTMLT(I)
         
         IF (PMORT .GT. 1.0) PMORT = 1.0
         IF (PMORT .LT. 0.0) PMORT = 0.0
@@ -510,7 +516,7 @@ C
 C
 C            SET THE NEW FIRE MODEL VERSION OF CROWN LENGTH.  
 C
-             FMICR(I) = 100.0 * (CRL - CRBNL) / HT(I)
+             FMICR(I) = IFIX(100.0 * (CRL - CRBNL) / HT(I))
 
            ENDIF
 C
