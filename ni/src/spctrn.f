@@ -42,7 +42,7 @@ C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPE
      & 'SH ','021','ABSH    ','OS ','OS ','SH ','OS ','OS ','NF ','OS ',    !Abies ×shastensis
      & 'SF ','011','ABAM    ','SF ','OS ','SH ','OS ','OS ','SF ','OS ',    !Abies amabilis
      & 'SL ','014','ABBR    ','OS ','OS ','OS ','OS ','OS ','WB ','OS ',    !Abies bracteata
-     & 'GF ','015','ABCO    ','OS ','GF ','WF ','GF ','WF ','WF ','AF ',    !Abies concolor
+     & 'WF ','015','ABCO    ','OS ','GF ','WF ','GF ','WF ','WF ','AF ',    !Abies concolor
      & '   ','   ','ABCOC   ','OS ','GF ','WF ','GF ','WF ','WF ','AF ',    !Abies concolor var. concolor
      & '   ','   ','ABCOL   ','OS ','GF ','WF ','GF ','WF ','WF ','AF ',    !Abies concolor var. lowiana
      & 'GF ','017','ABGR    ','OS ','GF ','WF ','GF ','GF ','GF ','AF ',    !Abies grandis
