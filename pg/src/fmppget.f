@@ -151,8 +151,7 @@ C------- new FFE INTEGER variables for down wood reports --------
       CALL IFREAD (WK3, IPNT, ILIMIT, YRDEAD, NSNAGZ      , 2)
       CALL IFREAD (WK3, IPNT, ILIMIT, FMICR, MAXTRE       , 2)
       CALL IFREAD (WK3, IPNT, ILIMIT, IFUELMON, MXDFMD    , 2)
-      CALL IFREAD (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)
-      
+      CALL IFREAD (WK3, IPNT, ILIMIT, ISPCC, MAXTRE       , 2)      
       CALL LFREAD (WK3, IPNT, ILIMIT, LOGICS,   MXL, 2)
       LANHED = LOGICS ( 1)
       LATFUEL= LOGICS ( 2)

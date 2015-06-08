@@ -1,0 +1,77 @@
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  0  CYCLE LENGTH: 10 YRS  YEAR: 1992  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  214.000    0.000  12.3  0.00 115.0  0.0 46 18.7  0 100.00     0   33.7   30.2   150.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  1  CYCLE LENGTH:  5 YRS  YEAR: 1997  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  212.609    1.391  13.7  1.38 125.6 10.6 43 19.5  0 100.00     0   45.5   43.5   237.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  2  CYCLE LENGTH:  5 YRS  YEAR: 2002  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  211.445    1.165  15.0  1.32 135.6 10.0 41 20.3  0 100.00     0   57.4   52.0   276.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  3  CYCLE LENGTH:  5 YRS  YEAR: 2007  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  210.280    1.165  16.3  1.32 145.6 10.0 37 20.8  0 100.00     0   71.3   67.8   358.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  4  CYCLE LENGTH:  5 YRS  YEAR: 2012  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  209.115    1.165  17.6  1.32 155.5 10.0 37 21.7  0 100.00     0   87.2   81.9   428.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  5  CYCLE LENGTH:  5 YRS  YEAR: 2017  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  207.950    1.165  19.0  1.32 165.5 10.0 37 22.5  0 100.00     0  105.3   99.7   533.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  6  CYCLE LENGTH:  5 YRS  YEAR: 2022  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  206.785    1.165  20.3  1.32 175.5 10.0 37 23.3  0 100.00     0  125.7  119.3   657.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  7  CYCLE LENGTH:  5 YRS  YEAR: 2027  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  205.621    1.165  21.6  1.32 185.5 10.0 37 24.1  0 100.00     0  165.8  160.5   953.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  8  CYCLE LENGTH:  5 YRS  YEAR: 2032  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  204.456    1.165  22.9  1.32 195.4 10.0 37 24.9  0 100.00     0  194.4  187.8  1130.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE:  9  CYCLE LENGTH:  5 YRS  YEAR: 2037  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  203.291    1.165  24.2  1.32 205.4 10.0 37 25.6  0 100.00     0  226.0  217.6  1327.0  0  0   0
+1        FOREST VEGETATION SIMULATOR     VERSION 1108 -- ORGANON BETA RELEASE                   RV:11/14/12    04-29-2014  09:03:25
+
+COMPLETE TREE LIST -- STAND: C10                         MGMTID: NONE  END CYCLE: 10  CYCLE LENGTH:  5 YRS  YEAR: 2042  PAGE:  1
+  TREE   TREE SP SP TR SS PNT  TREES    MORTAL   CURR  DIAM  CURR  HT     MAX       BA   POINT TOT CU MCH CU  MCH BD MC BF TRC
+ NUMBER  INDX CD NO CL CD NUM PER ACRE PER ACRE  DIAM  INCR   HT  INCR CR  CW  MS %-TILE  BAL  FT VOL FT VOL  FT VOL DF DF  HT
+-------- ---- -- -- -- -- --- -------- -------- ----- ----- ----- ---- -- ---- -- ------ ----- ------ ------ ------- -- -- ---
+     501    1 DF 16  1  0   1  202.126    1.165  25.5  1.32 215.4 10.0 37 26.3  0 100.00     0  261.0  253.7  1574.0  0  0   0

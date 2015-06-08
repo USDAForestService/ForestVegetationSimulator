@@ -41,7 +41,7 @@ C-----------
       CALL DBCHK (DEBUG,'PTBAL',5,ICYC)
       IF (DEBUG) WRITE (JOSTND,1) ICYC,ITRN
     1 FORMAT(' ENTERING SUBROUTINE PTBAL CYCLE=',I5,
-     >     '; ITRN=')
+     >     '; ITRN=',I5)
       IF (ITRN.LE.0) THEN
         PTBALT = 0
         PTBAA = 0

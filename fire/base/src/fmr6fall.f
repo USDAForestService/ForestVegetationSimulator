@@ -775,7 +775,7 @@ C----------
 C  DETERMINE IF WE ARE IN OREGON OR WASHINGTON
 C----------
       LOREG = .TRUE.
-      IF ((KODFOR .EQ. 609) .OR. (KODFOR .EQ. 709) .OR. 
+      IF ((KODFOR .EQ. 609) .OR. 
      &    (KODFOR .EQ. 603) .OR. (KODFOR .EQ. 605) .OR. 
      &    (KODFOR .EQ. 608) .OR. (KODFOR .EQ. 617) .OR. 
      &    (KODFOR .EQ. 699) .OR. (KODFOR .EQ. 613) .OR.
@@ -807,7 +807,7 @@ C----------
           SPG =  SOSPEC(KSP)
           OTSH = SOOTSH(ITYPE)
           OTRT = SOOTRT(ITYPE)                  
-        CASE('PN')
+        CASE('PN','OP')
           MOIS = PNWMD(ITYPE)
           SPG =  WSSPEC(KSP,J)
           OTSH = PNOTSH(ITYPE)

@@ -229,11 +229,12 @@ C----------
         INDX=MAPIE(ISPC)
       ELSEIF (VVER(:2).EQ.'NC') THEN
         INDX=MAPNC(ISPC)
-      ELSEIF (VVER(:2).EQ.'WC' .OR. VVER(:2).EQ.'PN') THEN
+      ELSEIF (VVER(:2).EQ.'WC' .OR. VVER(:2).EQ.'PN'
+     &        .OR. VVER(:2).EQ.'OP' ) THEN
         INDX=MAPWC(ISPC)
       ELSEIF (VVER(:2).EQ.'NI' .OR. VVER(:2).EQ.'KT') THEN
         INDX=MAPNI(ISPC)
-      ELSEIF (VVER(:2).EQ.'CA') THEN
+      ELSEIF (VVER(:2).EQ.'CA' .OR. VVER(:2).EQ.'OC') THEN
         INDX=MAPCA(ISPC)
       ELSEIF (VVER(:2).EQ.'AK') THEN
         INDX=MAPAK(ISPC)

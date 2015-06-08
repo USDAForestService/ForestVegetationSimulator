@@ -1,0 +1,55 @@
+Subject: Revamping the two FVS-Organon variants for production use
+Name: Gary Dixon
+Date: 04/06/15
+Variants affected: OC and OP
+
+Description: The OC and OP are variants incorporate the ORGANON growth model into FVS using the CA and PN
+variants, respectively, as the starting points. The OC variant incorporates the ORGANON Southwest Oregon model type;
+the OP variant the ORGANON Northwest Oregon and Stand Management Co-op model types. The resulting code is now being 
+revamped to eliminate errors, make available the full array of FVS keyword options, and revamp the code conform to 
+established code standards for ease of maintainence and updating.
+
+Impact on users: None
+
+Files:
+base/src
+     triple.f  added a call to subroutine ORGTRIP to triple the IORG(i) variable
+  exorganon.f  added an entry ORGTRIP
+  
+organon/src
+    orgtrip.f  new routine to triple the IORG(i) variable
+
+oc/src
+     cratet.f  removed Organon default setting of site index for species 15 and 16; removed model type 2 and 3 settings;
+               added logic for trees not valid in Organon
+     crown.f   revised logic dealing with Organon crown ratios and making multipliers etc work
+     dgdriv.f  delete INDS and RVARS array settings; add minimum dbh and ht restrictions before call to ORGANON growth
+               routine; added logic to only load organon dg estimates and assign error terms for valid organon trees
+     dgf.f     added logic to convert the 10-yr dg estimate to a 5-yr estimate
+     esinit.f  new routine with automatic sprouting turned off
+     grinit.f  add INDS array defaults setting, turned tripling off by default
+     grohed.f  code style changes
+     htgf.f    revised logic dealing with Organon height growth and making multipliers etc work
+     morts.f   made to operate on Organon mortality estimates
+     regent.f  revised logic dealing with valid Organon trees
+     sitset.f  add RVARS array setting, added Organon default setting of site index for species 15 and 16
+
+op/src
+     cratet.f  removed Organon default setting of site index for species 16 and 19; removed model type 1 settings; added
+               logic for trees not valid in Organon
+     crown.f   revised logic dealing with Organon crown ratios and making multipliers etc work
+     dgdriv.f  delete INDS and RVARS array settings; add minimum dbh and ht restrictions before call to ORGANON growth
+               routine; added logic to only load organon dg estimates and assign error terms for valid organon trees
+     dgf.f     added logic to convert the 10-yr dg estimate to a 5-yr estimate
+     esinit.f  new routine with automatic sprouting turned off
+     grinit.f  add INDS array defaults setting, turned tripling off by default
+     grohed.f  code style changes
+     htgf.f    revised logic dealing with Organon height growth and making multipliers etc work
+     morts.f   made to operate on Organon mortality estimates
+     regent.f  revised logic dealing with valid Organon trees
+     sitset.f  add RVARS array setting, added Organon default setting of site index for species 16 and 19
+
+/bin
+FVSoc_sourceList.txt  added subroutine ORGTRIP; deleted subroutine VARMRT; changed ESINIT to come from OC instead of STRP
+
+FVSop_sourceList.txt  added subroutine ORGTRIP; changed ESINIT to come from OP instead of STRP

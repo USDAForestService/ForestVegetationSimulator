@@ -239,7 +239,7 @@ C----------
      >      11100,11200,11300,11400,11500,11600,11700,11800,11900,12000,
      >      12100,12200,12300,12400,12500,12600,12700,12800,12900,13000,
      >      13100,13200,13300,13400,13500,13600,13700,13800,13900,14000,
-     >      14100,14200)
+     >      14100,14200,14300)
      >   , NUMBER
 C
 C  ==========  OPTION NUMBER 1: PROCESS  ============================PROCESS
@@ -480,6 +480,12 @@ C----------
      &  ' INPUT DATA):')
         WRITE(JOSTND,216) (I,IPVEC(I),I=1,IPTINV)
  216    FORMAT ((8(I3,'=',I8,:,'; '),I3,'=',I8))
+C
+C  WRITE THE ORGANON SETTINGS TABLE FOR FVS-ORGANON VARIANTS
+C
+      IF((VVER(:2).EQ.'OC') .OR. (VVER(:2).EQ.'OP')) THEN
+        CALL ORGTAB(JOSTND,IMODTY)
+      ENDIF
 C
 C     PRINT THE DEFAULT STAND LABEL SET
 C
@@ -3191,7 +3197,7 @@ C     CALL DUNN TO PROCESS ANY DUNNING SITE CODE INFORMATION.
 C
       IF(LNOTBK(2) .AND. ARRAY(2) .LE. 7)THEN
         SELECT CASE (VVER(:2))
-        CASE('CA','NC','SO','WS')
+        CASE('CA','NC','SO','WS','OC')
           IF(LKECHO)WRITE(JOSTND,9620)
  9620     FORMAT(8X,'   FIELD 2 OF THE SITECODE KEWORD IS LESS',
      &    ' THAN 8 AND WILL BE INTERPRETED AS A DUNNING CODE.')
@@ -3536,7 +3542,8 @@ C----------
 C
       IF (VVER(:2).EQ.'SM' .OR. VVER(:2).EQ.'SP' .OR.
      &        VVER(:2).EQ.'BP' .OR. VVER(:2).EQ.'SF' .OR.
-     &        VVER(:2).EQ.'LP') THEN
+     &        VVER(:2).EQ.'LP' .OR.
+     &        VVER(:2).EQ.'OC' .OR. VVER(:2).EQ.'OP') THEN
         IF(LNOTBK(1)) IMODTY=IFIX(ARRAY(1))
         IF(LKECHO)WRITE(JOSTND,10430) KEYWRD,IMODTY
 10430   FORMAT(/A8,'   MODEL TYPE =',I5)
@@ -4851,6 +4858,8 @@ C
           IRDUM=5
         CASE('BM','PN','WC','EC')
           IRDUM=6
+        CASE('OC','OP')
+          IRDUM=7
         CASE('SN')
           IRDUM=8
         CASE('CS','LS','NE')
@@ -4962,6 +4971,17 @@ C
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IGSP),ERRFLAG)
               ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(IGSP),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(IGSP),ERRFLAG)
+                ENDIF
+              ENDIF
             END SELECT
           ENDIF
 C
@@ -5012,6 +5032,17 @@ C
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IGSP),ERRFLAG)
+              ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(IGSP),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(IGSP),ERRFLAG)
+                ENDIF
               ENDIF
             END SELECT
           ENDIF
@@ -5080,6 +5111,17 @@ C
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(1),ERRFLAG)
               ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(1),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(1),ERRFLAG)
+                ENDIF
+              ENDIF
             END SELECT
           ENDIF
 C
@@ -5126,6 +5168,17 @@ C
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(1),ERRFLAG)
+              ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(1),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(1),ERRFLAG)
+                ENDIF
               ENDIF
             END SELECT
           ENDIF
@@ -5191,6 +5244,17 @@ C
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IS),ERRFLAG)
               ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(IS),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNC(IS),ERRFLAG)
+                ENDIF
+              ENDIF
             END SELECT
           ENDIF
 C
@@ -5234,6 +5298,17 @@ C
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IS),ERRFLAG)
+              ENDIF
+            CASE(7)
+              IF((VVER(:2).EQ.'OC'))THEN
+                IRDUM=6
+                CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(IS),ERRFLAG)
+                IF(ISPEC.NE.8888)THEN
+                  IRDUM=5
+                  CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
+     &                VEQNNB(IS),ERRFLAG)
+                ENDIF
               ENDIF
             END SELECT
           ENDIF
@@ -5841,5 +5916,23 @@ C
 14535 FORMAT(/A8,'   GROUP NUMBER:',I4,'  GROUP NAME: ',A10,
      &'  NUMBER OF POINTS IN THIS GROUP:',I3,'  POINTS:'/5(T12,10I10/))
       GO TO 10
+C
+C  ==========  OPTION NUMBER 143: ORGANON  ===========================ORGANON
+C
+14300 CONTINUE
+C----------
+C  CALL THE SUBROUTINE THAT READS ORGANON CONTROL PARAMETERS FROM THE
+C  KEYWORD FILE
+C----------
+      IF((VVER(:2).EQ.'OC').OR.(VVER(:2).EQ.'OP'))THEN
+        IF(LKECHO)WRITE(JOSTND,14310) KEYWRD
+14310   FORMAT (/,A8,'   START OF ORGANON KEYWORDS:')
+        CALL ORIN (DEBUG,LKECHO,LNOTRE)
+      ELSE
+        IF(LKECHO)WRITE(JOSTND,14315) KEYWRD
+14315   FORMAT (/,A8,'   ORGANON KEYWORDS NOT RECOGNIZED IN THIS',
+     &  ' VARIANT')
+      ENDIF
+      GOTO 10
 C
       END
