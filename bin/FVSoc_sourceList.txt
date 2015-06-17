@@ -402,12 +402,8 @@
 ../fire/base/src/fmtret.f
 ../fire/base/src/fmtrip.f
 ../fire/base/src/fmusrfm.f
-../fire/ca/src/fmbrkt.f
-../fire/ca/src/fmcba.f
 ../fire/ca/src/fmcblk.f
 ../fire/ca/src/fmcfmd.f
-../fire/ca/src/fmcrow.f
-../fire/ca/src/fmvinit.f
 ../fire/fofem/src/bur_bov.c
 ../fire/fofem/src/bur_bov.h
 ../fire/fofem/src/bur_brn.c
@@ -459,6 +455,10 @@
 ../fire/fofem/src/win_ccwf.h
 ../fire/ni/src/fmcons.f
 ../fire/ni/src/fmsfall.f
+../fire/oc/src/fmbrkt.f
+../fire/oc/src/fmcba.f
+../fire/oc/src/fmcrow.f
+../fire/oc/src/fmvinit.f
 ../fire/ws/src/cwhr.f
 ../fire/ws/src/fmmois.f
 ../fire/ws/src/fmshrub.f
@@ -501,6 +501,7 @@
 ../oc/src/grohed.f
 ../oc/src/htgf.f
 ../oc/src/morts.f
+../oc/src/orgspc.f
 ../oc/src/regent.f
 ../oc/src/sitset.f
 ../oc/src/vols.f

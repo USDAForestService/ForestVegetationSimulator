@@ -1,7 +1,7 @@
       SUBROUTINE HTGF
       IMPLICIT NONE
 C----------
-C  **HTGF--OP    DATE OF LAST REVISION:  03/30/15
+C  **HTGF--OP    DATE OF LAST REVISION:  06/17/15
 C----------
 C  THIS SUBROUTINE COMPUTES THE PREDICTED PERIODIC HEIGHT
 C  INCREMENT FOR EACH CYCLE AND LOADS IT INTO THE ARRAY HTG.
@@ -82,8 +82,8 @@ C  DEVEOLPED BY D.DONNELY, TO COMPUTE HGMDRH (RELAT. HT. CONTRIBUTION)
 C  SEQ. NO.   CHAR. CODE    SHADE TOL.   SEQ. NO.  CHAR. CODE    SHADE TOL.
 C      1      SF            TOLN            21     BM            VTOL
 C      2      WF            TOLN            22     RA            INTL
-C      3      GF            TOLN            23     WA            INTL
-C      4      AF            VTOL            24     PB            INTL
+C      3      GF            TOLN            23     MA            INTL
+C      4      AF            VTOL            24     TO            INTM
 C      5      RF            TOLN            25     GC            INTM
 C      6      SS            TOLN            26     AS            VINT
 C      7      NF            INTM            27     CW            VINT
@@ -105,7 +105,7 @@ C----------
      &              16.0,  15.0,  16.0,  20.0,  16.0,
      &              12.0,  13.0,  15.0,  15.0,  13.0,
      &              15.0,  20.0,  20.0,  20.0,  20.0,
-     &              20.0,  13.0,  13.0,  13.0,  15.0,
+     &              20.0,  13.0,  13.0,  15.0,  15.0,
      &              12.0,  12.0,  15.0,  13.0,  12.0,
      &              15.0,  12.0,  20.0,  20.0,  12.0,
      &              13.0,  12.0,  15.0,  15.0/
@@ -113,7 +113,7 @@ C----------
      &              0.15,  0.10,  0.15,  0.20,  0.15,
      &              0.01,  0.05,  0.10,  0.15,  0.05,
      &              0.10,  0.20,  0.20,  0.20,  0.20,
-     &              0.20,  0.05,  0.05,  0.05,  0.10,
+     &              0.20,  0.05,  0.05,  0.10,  0.10,
      &              0.01,  0.01,  0.10,  0.05,  0.01,
      &              0.10,  0.01,  0.20,  0.20,  0.01,
      &              0.05,  0.01,  0.10,  0.10/
@@ -122,7 +122,7 @@ C----------
      &             -1.20, -1.45, -1.20, -1.10, -1.20,
      &             -1.60, -1.60, -1.45, -1.45, -1.60,
      &             -1.45, -1.10, -1.10, -1.10, -1.10,
-     &             -1.10, -1.60, -1.60, -1.60, -1.45,
+     &             -1.10, -1.60, -1.60, -1.45, -1.45,
      &             -1.60, -1.60, -1.45, -1.60, -1.60,
      &              0.10, -1.60, -1.10, -1.10, -1.60,
      &             -1.60, -1.60, -1.45, -1.45/

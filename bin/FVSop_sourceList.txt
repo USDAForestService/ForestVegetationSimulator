@@ -433,13 +433,13 @@
 ../fire/fofem/src/win_ccwf.h
 ../fire/ni/src/fmcons.f
 ../fire/ni/src/fmmois.f
-../fire/pn/src/fmbrkt.f
-../fire/pn/src/fmcba.f
-../fire/pn/src/fmcblk.f
-../fire/pn/src/fmcfmd.f
-../fire/pn/src/fmcrow.f
+../fire/op/src/fmbrkt.f
+../fire/op/src/fmcba.f
+../fire/op/src/fmcblk.f
+../fire/op/src/fmcfmd.f
+../fire/op/src/fmcrow.f
+../fire/op/src/fmvinit.f
 ../fire/pn/src/fmsfall.f
-../fire/pn/src/fmvinit.f
 ../mistoe/src/MISCOM.F77
 ../mistoe/src/misact.f
 ../mistoe/src/miscnt.f
@@ -480,6 +480,7 @@
 ../op/src/grohed.f
 ../op/src/htgf.f
 ../op/src/morts.f
+../op/src/orgspc.f
 ../op/src/regent.f
 ../op/src/sitset.f
 ../op/src/vols.f

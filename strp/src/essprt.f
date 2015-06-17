@@ -1,14 +1,14 @@
       SUBROUTINE ESSPRT(VAR,ISPC,NSPT,PREM,DSTMP)
       IMPLICIT NONE
 C----------
-C  **ESSPRT--STRP   DATE OF LAST REVISION:   12/16/2014
+C  **ESSPRT--STRP   DATE OF LAST REVISION:   06/16/2015
 C
 C  SUBROUTINE CONTAINING ENTRY POINTS TO HANDLE COMPUTATIONS FOR
 C  VARIOUS STUMP SPROUTING FUNCTIONS WHICH VARY BY VARIANT, SPECIES,
 C  AND PARENT-TREE DIAMETER.
 C
 C  VARIANTS USING THE STRP VERSION: BM, CA, CR, CS, EC, LS, NC, NE,
-C  PN, SN, SO, TT, UT, WC, WS
+C  PN, SN, SO, TT, UT, WC, WS, OC, OP
 C----------
 C
 COMMONS
@@ -107,7 +107,7 @@ C----------
       SELECT CASE (VAR)
       CASE('BM')
         INDXAS = 15
-      CASE('CA')
+      CASE('CA','OC')
         INDXAS = 44
       CASE('CR')
         INDXAS = 20
@@ -121,7 +121,7 @@ C----------
         INDXAS = 24
       CASE('TT','UT')
         INDXAS = 6
-      CASE('WC','PN')
+      CASE('WC','PN','OP')
         INDXAS = 26
       CASE('WS')
         INDXAS = 36
@@ -145,6 +145,8 @@ C                PN - PACIFIC YEW (33)
 C                SO - PACIFIC YEW (20)
 C                WC - PACIFIC YEW (33)
 C                SN - DEFAULT AND SP < 7.0"
+C                OC - PACIFIC YEW (24) AND CALIFORNIA NUTMEG (47)
+C                OP - PACIFIC YEW (33)
 C  SET TO 6 FOR: SN - STUMP + 5 ROOT SUCKERS: AMERICAN BEECH (33),
 C                     BIGTOOTH ASPEN(61), BLACK LOCUST (80), AND
 C                     SASSAFRAS (82)
@@ -158,14 +160,14 @@ C----------
         CASE DEFAULT
           NMSPRC = 2
         END SELECT
-      CASE('CA')
+      CASE('CA','OC')
         SELECT CASE (ISPC)
         CASE(24,47)
           NMSPRC = 1
         CASE DEFAULT
           NMSPRC = 2
         END SELECT
-      CASE('PN','WC')
+      CASE('PN','WC','OP')
         SELECT CASE (ISPC)
         CASE(33)
           NMSPRC = 1
@@ -245,11 +247,12 @@ C----------
         END SELECT
 C----------
 C CA: INLAND CALIFORNIA / SOUTHERN CASCADES
+C OC: ORGANON - SOUTHWEST OREGON
 C     SPROUTING SPECIES:   24=PY, 26=LO, 27=CY, 28=BL, 29=EO, 30=WO,
 C     31=BO, 32=VO, 33=IO, 34=BM, 35=BU, 36=RA, 37=MA, 38=GC, 39=DG,
 C     40=FL, 41=WN, 42=TO, 43=SY, 44=AS, 45=CW, 46=WI, 47=CN, 48=CL
 C----------
-      CASE('CA')
+      CASE('CA','OC')
         SELECT CASE (ISPC)
         CASE(24,26:48)
           HTSPRT = (0.1 + SI/50.)*IAG
@@ -415,10 +418,12 @@ C----------
 C----------
 C WC: WEST CASCADES
 C PN: PACIFIC NORTHWEST
+C OP: ORGANON - NORTHWEST OREGON AND STAND MANAGEMENT COOP;
+C     23=MA, 24=TO IN THE OP VARIANT
 C     SPROUTING SPECIES:   17=RW, 21=BM, 22=RA, 23=WA, 24=PB, 25=GC,
 C     26=AS, 27=CW, 28=WO, 33=PY, 34=DG, 35=HT, 36=CH, 37=WI
 C----------
-      CASE('WC','PN')
+      CASE('WC','PN','OP')
         SELECT CASE (ISPC)
         CASE(17,21,23:27,33:37)
           HTSPRT = (0.1 + SI/100.)*IAG

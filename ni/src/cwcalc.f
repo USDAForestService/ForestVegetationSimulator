@@ -1,7 +1,7 @@
       SUBROUTINE CWCALC(ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND)
       IMPLICIT NONE
 C----------
-C  **CWCALC--NI   DATE OF LAST REVISION:   01/20/15
+C  **CWCALC--NI   DATE OF LAST REVISION:   06/15/15
 C----------
 COMMONS
 C
@@ -315,8 +315,8 @@ C             NF       YC       IC       ES       LP       JP       SP
      &    '02206', '04205', '08105', '09305', '10805', '11605', '11705',
 C             WP       PP       DF       RW       RC       WH       MH
      &    '11905', '12205', '20205', '21104', '24205', '26305', '26403',
-C             BM       RA   WAtoBM       PB   GCtoTO       AS       CW
-     &    '31206', '35106', '31206', '37506', '63102', '74605', '74705',
+C             BM       RA       MA       TO   GCtoTO       AS       CW
+     &    '31206', '35106', '36102', '63102', '63102', '74605', '74705',
 C             WO        J       LL       WB       KP       PY   DGtoRA
      &    '81505', '06405', '07204', '10105', '10305', '23104', '35106',
 C         HTtoRA   CHtoRA   WItoBM       --       OT

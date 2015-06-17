@@ -4894,7 +4894,7 @@ C  PN-QUINAULT IR (FC=800 USES OLYMIC 609)
 C  NC SIMPSOM TIMBER (FC=800 USES R5 SAY 510)
 C  SO INDUSTRY LANDS (FC=701 USES R5 SAY 505)
 C
-        IF(VVER(:2).EQ.'PN')THEN
+        IF(VVER(:2).EQ.'PN' .OR. VVER(:2).EQ.'OP')THEN
           IF(IREGN.EQ.8)THEN
             IRDUM=6
             FORDUM='09'
@@ -4966,7 +4966,7 @@ C
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
-     &           (VVER(:2).EQ.'SO'))THEN
+     &           (VVER(:2).EQ.'SO').OR.(VVER(:2).EQ.'OC'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IGSP),ERRFLAG)
@@ -5028,7 +5028,7 @@ C
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
-     &           (VVER(:2).EQ.'SO'))THEN
+     &           (VVER(:2).EQ.'SO').OR.(VVER(:2).EQ.'OC'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IGSP),ERRFLAG)
@@ -5106,7 +5106,7 @@ C
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
-     &           (VVER(:2).EQ.'SO'))THEN
+     &           (VVER(:2).EQ.'SO').OR.(VVER(:2).EQ.'OC'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(1),ERRFLAG)
@@ -5164,7 +5164,7 @@ C
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
-     &           (VVER(:2).EQ.'SO'))THEN
+     &           (VVER(:2).EQ.'SO').OR.(VVER(:2).EQ.'OC'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(1),ERRFLAG)
@@ -5239,7 +5239,7 @@ C
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
-     &           (VVER(:2).EQ.'SO'))THEN
+     &           (VVER(:2).EQ.'SO').OR.(VVER(:2).EQ.'OC'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IS),ERRFLAG)
@@ -5294,7 +5294,7 @@ C
               ENDIF
             CASE(5)
               IF((VVER(:2).EQ.'CA').OR.(VVER(:2).EQ.'NC').OR.
-     &           (VVER(:2).EQ.'SO'))THEN
+     &           (VVER(:2).EQ.'SO').OR.(VVER(:2).EQ.'OC'))THEN
                 IRDUM=6
                 CALL VOLEQDEF(VVER(:2),IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IS),ERRFLAG)

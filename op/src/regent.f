@@ -1,7 +1,7 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
 C----------
-C  **REGENT--OP   DATE OF LAST REVISION:  05/05/15
+C  **REGENT--OP   DATE OF LAST REVISION:  06/17/15
 C----------
 C  THIS SUBROUTINE COMPUTES HEIGHT AND DIAMETER INCREMENTS FOR
 C  SMALL TREES.  THE **SMHTGF ROUTINE IS CALLED TO CALCULATE
@@ -106,7 +106,7 @@ C
       DATA IRDMAP/
 C         SF  WF  GF  AF  RF   DUM  NF  YC   IC   ES  LP  JP  SP
      &     1,  2,  2,  3,  3,    3,  5,  4,   4,   4,  5,  5,  5,
-C         WP   PP  DF  RW  RC   WH  MH  BM   RA  WA  PB   GC   AS
+C         WP   PP  DF  RW  RC   WH  MH  BM   RA  MA  TO   GC   AS
      &     5,  5,  8,  8,   9,  11, 11, 12,  12, 12, 12,  12,  12,
 C         CO   WO  J   LL  WB   KP  PY   DG   HW  BC  WI  DUM  DUM
      &    12,  12, 4,   5,  5,   5,  5,  12,  12,  12, 12,  12, 12  /
