@@ -123,7 +123,7 @@ C  INDS(7)   0 = NO THINNING   (THIN=.FALSE.)                 1 = THIN      (THI
 C  INDS(8)   0 = NO FERTILIZER (FERT=.FALSE.)                 1 = FERTILIZE (FERT=.TRUE.)
 C  INDS(9)   0 = NO ADDITIONAL MORTALITY (MORT=.FALSE.)       1 = USE MAX SDI FOR ADDITIONAL MORTALITY (MORT=.TRUE.)
 C  INDS(10)
-C  INDS(11)  0 =               (OSTORY=.FALSE.)               1 =           (OSTORY=.TRUE.)
+C  INDS(11)  0 = OVERSTORY NOT REMOVED (OSTORY=.FALSE.)       1 = OVERSTORY REMOVED (OSTORY=.TRUE.)
 C  INDS(12)  0 =               (INGRO=.FALSE.)                1 =           (INGRO=.TRUE.)
 C  INDS(13)  0 =               (B6THIN=.FALSE.)               1 =           (B6THIN=.TRUE.)
 C  INDS(14)  0 = NO GENETICS   (GENETICS=.FALSE.)             1 = GENETICS  (GENETICS=.TRUE.)
