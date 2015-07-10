@@ -1,4 +1,4 @@
-Subject: Percent Crown Width Input Data
+Subject:   Percent Crown Width Input Data
 Name:    R. Havis
 Date:    01Apr05
 Variants affected: All
