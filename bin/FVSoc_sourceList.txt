@@ -524,6 +524,8 @@
 ../organon/src/statsorg.f      
 ../organon/src/submax.f     
 ../organon/src/tripleorg.f     
+../organon/src/varget.f
+../organon/src/varput.f
 ../organon/src/voleqns.f    
 ../organon/src/whphg.f      
 ../organon/src/woodq2.f     
@@ -540,8 +542,6 @@
 ../pg/src/putgetsubs.f
 ../pg/src/putstd.f
 ../pg/src/stash.f
-../pg/src/varget.f
-../pg/src/varput.f
 ../so/src/avht40.f
 ../so/src/r6crwd.f
 ../strp/src/esaddt.f
