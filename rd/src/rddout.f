@@ -174,6 +174,11 @@ C.... Initialize arrays.
          PVECU(J) = 0.0
   200 CONTINUE
 
+C
+C     Get logical unit number and open genrpt file if it has been closed.
+C
+      CALL GETLUN(IOUNIT)
+
       IF (ISTEP .GT. 1 .OR. IRRSP .NE. MINRR) GOTO 1000
       JYR = IY(1)
 
@@ -181,13 +186,12 @@ C
 C     get report ID and logical unit number.
 C
       CALL GETID(IDRDOUT(2))
-      CALL GETLUN(IOUNIT)
 
       WRITE (IOUNIT,'(2(/1X,I5))') IDRDOUT(2),IDRDOUT(2)
 
 C.... Print header for detailed output table.
 
-      WRITE (IOUNIT,1100) IDRDOUT(2)
+      WRITE (IOUNIT,1100) IDRDOUT(2),IDRDOUT(2)
       WRITE (IOUNIT,1105) IDRDOUT(2)
       WRITE (IOUNIT,1107) IDRDOUT(2)
       WRITE (IOUNIT,1110) IDRDOUT(2), NPLT, MGMID

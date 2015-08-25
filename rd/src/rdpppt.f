@@ -39,18 +39,16 @@
 
 C.... Parameter statements.
       INTEGER  MXL, MXR, MXI
-      PARAMETER (MXL=11,MXR=30,MXI=40)
+      PARAMETER (MXL=11,MXR=30,MXI=43)
 
 C.... Parameter include files.
 
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'RDPARM.F77'
       INCLUDE 'METRIC.F77'
-      INCLUDE 'PPEPRM.F77'
 
 C.... Common include files.
 
-      INCLUDE 'PPCNTL.F77'
       INCLUDE 'CONTRL.F77'
       INCLUDE 'RDADD.F77'
       INCLUDE 'RDARRY.F77'
@@ -73,10 +71,6 @@ C.... Variable declarations.
       REAL    SEED0(2), SEED1(2)
       EQUIVALENCE (SEED0,S0), (SEED1,S1)
 
-      IF (PDEBUG)
-     >   WRITE (JOPPRT,'(/'' IN RDPPPT: ISTND,ICYC='',I7,I4)')
-     >         ISTND,ICYC
-
 C.... Store logical scalars in LOGICS array.
 C
 C---- from common METRIC ------------
@@ -96,9 +90,6 @@ C---- from common RDCOM ------------
 
 C     Write logical scalars to buffer.
 C
-      IF (PDEBUG) WRITE (JOPPRT,*) 'IN RDPPPT: LOGICS=',
-     >            LOGICS
-
       CALL LFWRIT (WK3, IPNT, ILIMIT, LOGICS, MXL, 2)
 
 C     Write logical arrays to buffer.
@@ -117,43 +108,43 @@ C---- from common RDADD ------------
 C---- from common RDCOM ------------
       INTS ( 5) = IBBOUT
       INTS ( 6) = IDOBB
-      INTS ( 7) = IFRRC
-      INTS ( 8) = IIEND
-      INTS ( 9) = ILEND
-      INTS (10) = IMCOUT
-      INTS (11) = INFLAG
-      INTS (12) = IOUNIT
-      INTS (13) = IPUSH
-      INTS (14) = IRCOMP
-      INTS (15) = IRDOUT
-      INTS (16) = IRFLAG
-      INTS (17) = IRHAB
-      INTS (18) = IRINIT
-      INTS (19) = IRIPTY
-      INTS (20) = IROOT
-      INTS (21) = IRRSP
-      INTS (22) = IRSNYR
-      INTS (23) = IRSPTY
-      INTS (24) = IRSTYP
-      INTS (25) = IRUNIT
-      INTS (26) = ISTEP
-      INTS (27) = ISTFLG
-      INTS (28) = IYEAR
-      INTS (29) = JRSIT
-      INTS (30) = NINSIM
-      INTS (31) = NMONT
-      INTS (32) = NNCENT
-      INTS (33) = NNDEC
-      INTS (34) = NNDMX
-      INTS (35) = NNINF
-      INTS (36) = NRSTEP
-      INTS (37) = NSTUMP
-      INTS (38) = NTREES
-      INTS (39) = NUMBB
-      INTS (40) = NUMTRE
-
-      IF (PDEBUG) WRITE (JOPPRT,*) 'IN RDPPPT: INTS=',
-     >            INTS
+      INTS ( 7) = IDRDOUT(1)
+      INTS ( 8) = IDRDOUT(2)
+      INTS ( 9) = IDRDOUT(3)
+      INTS (10) = IFRRC
+      INTS (11) = IIEND
+      INTS (12) = ILEND
+      INTS (13) = IMCOUT
+      INTS (14) = INFLAG
+      INTS (15) = IOUNIT
+      INTS (16) = IPUSH
+      INTS (17) = IRCOMP
+      INTS (18) = IRDOUT
+      INTS (19) = IRFLAG
+      INTS (20) = IRHAB
+      INTS (21) = IRINIT
+      INTS (22) = IRIPTY
+      INTS (23) = IROOT
+      INTS (24) = IRRSP
+      INTS (25) = IRSNYR
+      INTS (26) = IRSPTY
+      INTS (27) = IRSTYP
+      INTS (28) = IRUNIT
+      INTS (29) = ISTEP
+      INTS (30) = ISTFLG
+      INTS (31) = IYEAR
+      INTS (32) = JRSIT
+      INTS (33) = NINSIM
+      INTS (34) = NMONT
+      INTS (35) = NNCENT
+      INTS (36) = NNDEC
+      INTS (37) = NNDMX
+      INTS (38) = NNINF
+      INTS (39) = NRSTEP
+      INTS (40) = NSTUMP
+      INTS (41) = NTREES
+      INTS (42) = NUMBB
+      INTS (43) = NUMTRE
 
 C.... Write integer scalars to buffer.
 C
@@ -193,9 +184,6 @@ C---- from common RDCOM ------------
       REALS (28) = WINDN
       REALS (29) = YTKILL
       REALS (30) = OLDPRP
-
-      IF (PDEBUG) WRITE (JOPPRT,*) 'IN RDPPPT: REALS=',
-     >            REALS
 
 C.... Write real scalars to buffer.
 C
@@ -257,12 +245,10 @@ C---- from common RDCOM ------------
       DO 33 I = 1, 50
       CALL IFWRIT (WK3, IPNT, ILIMIT, MCTREE(1,I),   ITOTRR, 2) !(ITOTRR,50)
    33 CONTINUE
-      IF (PDEBUG) WRITE (JOPPRT,*) 'IN RDPPPT: NCENTS=',
-     >            NCENTS
+
       CALL IFWRIT (WK3, IPNT, ILIMIT, NCENTS,        ITOTRR, 2)
-      IF (PDEBUG) WRITE (JOPPRT,*) 'IN RDPPPT: NSCEN=',
-     >            NSCEN
       CALL IFWRIT (WK3, IPNT, ILIMIT, NSCEN,         ITOTRR, 2)
+
 C---- from common RDCRY ------------
 C     no integer arrays
 
@@ -355,6 +341,7 @@ C---- from common RDADD ------------
       CALL BFWRIT (WK3, IPNT, ILIMIT, YRSITF(1,I,J), ITOTRR, 2) !(ITOTRR,2,2)
    61 CONTINUE
    62 CONTINUE
+
 C---- from common RDARRY ------------
       CALL BFWRIT (WK3, IPNT, ILIMIT, FPROB,         IRRTRE, 2)
       DO 64 I = 1, 41
@@ -405,11 +392,13 @@ C---- from common RDCOM ------------
       CALL BFWRIT (WK3, IPNT, ILIMIT, EXPINF(1,1), ITOTRR, 2) !(ITOTRR,2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, EXPINF(1,2), ITOTRR, 2) !----------
       CALL BFWRIT (WK3, IPNT, ILIMIT, FRINGE,      ITOTRR, 2)
-      DO 76 I = 1, 2
-      DO 75 J = 1, ITOTRR
+
+      DO 76 I = 1, ITOTRR
+      DO 75 J = 1, 2
       CALL BFWRIT (WK3, IPNT, ILIMIT, HABFAC(1,I,J),ITOTSP,2) !(ITOTSP,ITOTRR,2)
    75 CONTINUE
    76 CONTINUE
+
       CALL BFWRIT (WK3, IPNT, ILIMIT, HTIFAC,      ITOTSP, 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, IURATE,     3*MAXSP, 2)
       CALL BFWRIT (WK3, IPNT, ILIMIT, IIRATE,     3*MAXSP, 2)
@@ -545,17 +534,12 @@ C---- from common RDCRY ------------
       CALL BFWRIT (WK3, IPNT, ILIMIT, PROBIN(1,I,J), ITOTRR, 2)!(ITOTRR,2,5)
   102 CONTINUE
   103 CONTINUE
-      IF (PDEBUG) WRITE (JOPPRT,*) 'IN RDPPPT: CRNSTO=',
-     >            CRNSTO
+
       DO 105 I = 1, 2
       DO 104 J = 1, 5
       CALL BFWRIT (WK3, IPNT, ILIMIT, CRNSTO(1,I,J), ITOTRR, 2)!(ITOTRR,2,5)
   104 CONTINUE
   105 CONTINUE
-
-      IF (PDEBUG) 
-     >   WRITE (JOPPRT,'(/'' IN RDPPPT: END OF ISTND,ICYC='',I7,I4)')
-     >         ISTND,ICYC
 
       RETURN
       END

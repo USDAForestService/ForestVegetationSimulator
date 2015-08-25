@@ -103,12 +103,16 @@ C.... Since the report has been requested, need to get report ID and
 C.... logical unit number from general report facility and write headers
 C.... whether there are any trees in the simulation at this time or not.
 
+C
+C     Get logical unit number and open genrpt file if it has been closed.
+C
+      CALL GETLUN(IBBOUT)
+
       IF (ISTEP .EQ. 2) THEN 
 C
 C     get report ID and logical unit number.
 C
           CALL GETID(IDRDOUT(3))
-          CALL GETLUN(IBBOUT)
 
           WRITE (IBBOUT,'(2(/1X,I5))') IDRDOUT(3),IDRDOUT(3)
 

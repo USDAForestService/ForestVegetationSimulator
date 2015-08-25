@@ -62,13 +62,13 @@
 *     Added varaibles IMOUT_ to integer scalars section.
 *  07-JUL-11  Lance R. David (FMSC)
 *     Added HGPDMR to arrays section.
-*  06-JUN-13  Lance R. David (FMSC)
+*  06-JUN-15  Lance R. David (FMSC)
 *     Corrected read of MISCYC array, only 1 dimension being processed.
 *
 ***********************************************************************
       IMPLICIT NONE
 
-C.... Parameter statements.
+C.... Parameter statements for numeric variable processing.
       INTEGER MXI,MXL,MXR
       PARAMETER (MXL=8,MXR=1,MXI=5)
 
@@ -137,6 +137,45 @@ C.... Note that MISCYC, PRFMST, PMCSP, and DGPDMR are 2-d arrays.
 
       CALL BFREAD (WK3, IPNT, ILIMIT, DGPDMR, MAXSP*7, 2)
       CALL BFREAD (WK3, IPNT, ILIMIT, HGPDMR, MAXSP*7, 2)
+
+      RETURN
+      END
+
+      SUBROUTINE MSCHGET (CBUFF, IPNT, LNCBUF)
+      IMPLICIT NONE
+C----------
+C  **MSCHGET--MS  DATE OF LAST REVISION:  07/10/15
+C----------
+C  Purpose:
+C     Get (retrieve) the mistletoe model character data for a stand.
+C  This is part of the Stop/Restart utility.
+C
+C
+COMMONS
+C
+C
+C.... Parameter include files.
+
+      INCLUDE 'PRGPRM.F77'
+
+C.... Common include files.
+
+      INCLUDE 'MISCOM.F77'
+
+C.... Parameter statements for character variable processing.
+      INTEGER LNCBUF
+      CHARACTER CBUFF(LNCBUF)
+      INTEGER I,IPNT,J
+
+c      write(*,*) 'in MSCHGET:', IPNT
+      
+      DO 102 J=1,MAXSP
+      DO 101 I=1,2
+      CALL CHREAD(CBUFF,IPNT,LNCBUF,CSPARR(J)(I:I),2)
+  101 CONTINUE
+  102 CONTINUE
+c      write(*,*) 'CSPARR=',CSPARR
+c      write(*,*) 'in MSCHGET:', IPNT
 
       RETURN
       END
