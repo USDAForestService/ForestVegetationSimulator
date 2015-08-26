@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-SO-DATE OF LAST REVISION: 04/25/13
+C  **FMCBA   FIRE-SO-DATE OF LAST REVISION: 08/24/15
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -608,7 +608,7 @@ C----------
         IF (IYR .GT. IY(1)) THEN
           COVTYP = OLDCOV
         ELSEIF ((ITYPE .GT. 0) .AND. 
-     >   (KODFOR .GE. 600 .AND. KODFOR .LT. 700)) THEN
+     >   ((KODFOR.GE.600 .AND. KODFOR.LT.700) .OR. KODFOR.EQ.799)) THEN
           COVTYP = COVINI(ITYPE)
         ELSE
           COVTYP = 10
@@ -743,7 +743,7 @@ C       CALIFORNIA SETTING; OTHERWISE THE DEFAULT OREGON
 C       RATE WILL BE USED
 
         IF ((KODFOR .GE. 500 .AND. KODFOR .LT. 600)
-     >    .OR. KODFOR .GE. 700) THEN
+     >    .OR. KODFOR .EQ. 701) THEN
           DKRT(1,1) = 0.025   ! < 0.25" - California
           DKRT(2,1) = 0.025   ! 0.25 - 1"
           DKRT(3,1) = 0.025   ! 1 - 3"
@@ -895,7 +895,7 @@ C     GET TO 50% HEIGHT LOSS. ALL SNAGS WILL HAVE FALLEN IN THAT TIME
 C     ANYWAYS.
 
         IF ((KODFOR .GE. 500 .AND. KODFOR .LT. 600)
-     >    .OR. KODFOR .GE. 700) THEN
+     >    .OR. KODFOR .EQ. 701) THEN
           DO I = 1,MAXSP                        ! CALIFORNIA
             SELECT CASE (I)
 
@@ -1031,7 +1031,7 @@ C       THAT THEY BEHAVE PROPERLY.
 C       FINE DEAD FOLIAGE DIFFERS BETWEEN CA AND OR
 
         IF ((KODFOR .GE. 500 .AND. KODFOR .LT. 600)
-     >    .OR. KODFOR .GE. 700) THEN
+     >    .OR. KODFOR .EQ. 701) THEN
           DO I = 1, MAXSP            !! CALIFORNIA
             TFALL(I,0) =  3.0
             TFALL(I,1) = 10.0
@@ -1213,7 +1213,7 @@ C----------
 
 C     IN FIRST YEAR, SET C-REPORTING REGION FOR FOREST CODES IN CALIFORNIA
         IF ((KODFOR .GE. 500 .AND. KODFOR .LT. 600)
-     >    .OR. KODFOR .GE. 700) ICHABT = 2
+     >    .OR. KODFOR .EQ. 701) ICHABT = 2
 
       RETURN
       END

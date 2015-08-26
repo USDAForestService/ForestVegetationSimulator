@@ -72,7 +72,7 @@ C----------
         GO TO 20
       ELSEIF((VVER(:2).EQ.'CA'.OR.VVER(:2).EQ.'OC').AND.IFOR.LT.6)THEN
         GO TO 20
-      ELSEIF(VVER(:2).EQ.'SO' .AND. IFOR.GT.3)THEN
+      ELSEIF(VVER(:2).EQ.'SO' .AND. (IFOR.GT.3 .AND. IFOR.LT.10))THEN
         GO TO 20
       ELSEIF(VVER(:2).EQ.'WS')THEN
         GO TO 20
