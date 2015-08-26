@@ -1,7 +1,7 @@
-      SUBROUTINE ESSPRT(VAR,ISPC,NSPT,PREM)
+      SUBROUTINE ESSPRT(VAR,ISPC,NSPT,PREM,DSTMP)
       IMPLICIT NONE
 C----------
-C  **ESSPRT--ESTB   DATE OF LAST REVISION:   02/01/12
+C  **ESSPRT--ESTB   DATE OF LAST REVISION:   08/24/15
 C
 C  SUBROUTINE CONTAINING ENTRY POINTS TO HANDLE COMPUTATIONS FOR
 C  VARIOUS STUMP SPROUTING FUNCTIONS WHICH VARY BY VARIANT AND 
@@ -19,20 +19,69 @@ C
 C----------
       CHARACTER VAR*2
       INTEGER IAG,INDXAS,ISHAG,ISPC,NASPRT,NMSPRC,NSPT
-      REAL ASTPAR,ASBAR,HTSPRT,PREM,RSHAG,SI,SPA,TREES
+      REAL ASTPAR,ASBAR,HTSPRT,PREM,RSHAG,SI,SPA,TREES,DSTMP
 C----------
 C  VARIANT AND SPECIES SPECIFIC RULES FOR DETERMINING TPA A SPROUT
 C  RECORD WILL REPRESENT. ASPEN IS HANDLED SEPERATELY IN ENTRY ASSPTN
 C----------
       SELECT CASE (VAR)
 C----------
-C  XX: NO VARIANTS USING THIS ROUTINE CURRENTLY HAVE ANY SPECIAL RULES
+C  
 C----------
-      CASE('XX')
+      CASE('AK')
         SELECT CASE(ISPC)
-          CASE(999999)
-            PREM = PREM
-        END SELECT
+          CASE(10)
+        		IF(DSTMP.LT.25.9)THEN
+        			PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
+        		ELSE
+        			PREM = 0
+        		ENDIF
+        	CASE(11)
+        		PREM = PREM * 0.90	
+        	CASE DEFAULT
+        		PREM = PREM * 1	
+        END SELECT		        
+      CASE('IE')
+      SELECT CASE(ISPC)
+      	CASE(17)
+      		PREM = PREM * 0.40
+      	CASE(19)
+      		PREM = PREM * 0.90
+      	CASE(20,21)
+      		PREM = PREM * 0.70
+      	CASE DEFAULT
+      		PREM = PREM * 1	
+      	END SELECT	
+      CASE('CI')
+      SELECT CASE(ISPC)
+      	CASE(12)
+      		PREM = PREM * 0.40
+      	CASE(17)
+      		PREM = PREM * 0.90
+      	CASE DEFAULT
+        		PREM = PREM * 1
+        END SELECT		
+      CASE('EM')
+      SELECT CASE(ISPC)
+				CASE(11)
+      		IF(DSTMP.LE.12.0)THEN
+      			PREM = PREM * 0.80
+      		ELSE
+      			PREM = PREM * 0.50
+      		ENDIF
+      	CASE(13,15)
+      		PREM = PREM * 0.90
+      	CASE(14)
+      		IF(DSTMP.LE.25.0)THEN
+      			PREM = PREM * 0.80
+      		ELSE
+      			PREM = PREM * 0.50
+      		ENDIF
+      	CASE(16)
+      		PREM = PREM * 0.80			      
+      	CASE(17)
+      		PREM = PREM * 0.70      		            					  				
+      	END SELECT		 		
       END SELECT
       RETURN
 C
@@ -55,7 +104,7 @@ C----------
       RETURN
 C
 C
-      ENTRY NSPREC (VAR,ISPC,NMSPRC)
+      ENTRY NSPREC (VAR,ISPC,NMSPRC,DSTMP)
 C----------
 C  DETERMINE NUMBER OF SPROUT RECORDS TO CREATE
 C----------
@@ -70,16 +119,62 @@ C----------
         SELECT CASE (ISPC)
         CASE(12)
           NMSPRC = 1
+        CASE(13)
+          NMSPRC = 2  
+        CASE(17)
+          IF(DSTMP.LT.5.0)THEN
+        		NMSPRC = 1
+        	ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+          	NMSPRC = -1.0 + 0.4 * DSTMP
+          ELSE
+          	NMSPRC = 3 
+          ENDIF  
         CASE DEFAULT
-          NMSPRC = 2
+          NMSPRC = 1
         END SELECT
       CASE('IE')
         SELECT CASE (ISPC)
-        CASE(17)
-          NMSPRC = 1
-        CASE DEFAULT
+        CASE(18)
           NMSPRC = 2
+        CASE(19)
+          IF(DSTMP.LT.5.0)THEN
+        		NMSPRC = 1
+        	ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+          	NMSPRC = -1.0 + 0.4 * DSTMP
+          ELSE
+          	NMSPRC = 3 
+          ENDIF
+        CASE DEFAULT
+          NMSPRC = 1
         END SELECT
+      CASE('AK')
+        SELECT CASE (ISPC)
+        CASE(11)
+          IF(DSTMP.LT.5.0)THEN
+        		NMSPRC = 1
+        	ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+          	NMSPRC = -1.0 + 0.4 * DSTMP
+          ELSE
+          	NMSPRC = 3 
+          ENDIF
+        CASE DEFAULT
+          NMSPRC = 1
+        END SELECT 
+      CASE('EM')
+        SELECT CASE (ISPC)
+        CASE(12)
+          NMSPRC = 2
+        CASE(13:16)
+          IF(DSTMP.LT.5.0)THEN
+        		NMSPRC = 1
+        	ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+          	NMSPRC = -1.0 + 0.4 * DSTMP
+          ELSE
+          	NMSPRC = 3 
+          ENDIF
+        CASE DEFAULT
+          NMSPRC = 1
+        END SELECT   
 C----------
 C  ALL OTHER VARIANTS & SPECIES
 C----------
@@ -132,13 +227,13 @@ C----------
         END SELECT
 C----------
 C CI: CENTRAL IDAHO
-C     SPROUTING SPECIES: 13=AS, 17=CW
+C     SPROUTING SPECIES: 12=PY, 13=AS, 17=CW
 C----------
       CASE('CI')
         SELECT CASE (ISPC)
         CASE(13)
           HTSPRT = (0.1 + SI/80.)*IAG
-        CASE(17)
+        CASE(12,17)
           HTSPRT = (0.1 + SI/100.)*IAG
         CASE DEFAULT
           HTSPRT = 0.5 + 0.5*IAG

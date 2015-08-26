@@ -52,6 +52,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C     ALLOCATE A STATEMENT HANDLE
 
       iRet=fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut,StmtHndlOut)
+
       IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
         IDM1 = 0
         PRINT *,'Error connecting to data source'
@@ -69,7 +70,9 @@ C     CHECK TO SEE IF THE DM TABLE EXISTS IN THE DATBASE
       ELSE
         TABLENAME = 'FVS_DM_Spp_Sum'
       ENDIF
+
       CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+
       IF(IRCODE.EQ.2) THEN
         IDM1 = 0
         RETURN
@@ -119,8 +122,10 @@ C     CHECK TO SEE IF THE DM TABLE EXISTS IN THE DATBASE
 C       CLOSE CURSOR
 
         iRet=fvsSQLCloseCursor(StmtHndlOut)
+
         iRet=fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -          int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -    'DBSMIS1:Creating Table: '//trim(SQLStmtStr))
       ENDIF
@@ -131,6 +136,7 @@ C     LOOP OVER 4 TOP SPECIES
 
 C       IF THERE ARE LESS THAN 4 SPECIES INFECTED IN THE STAND,
 C       DO NOT WRITE THE BLANK RECORDS TO THE DATABASE. 
+
 
         IF (CSP(I) .EQ. '**') GOTO 100
         
@@ -153,6 +159,7 @@ C       INTEGER COPIES OF REAL VECTOR INPUTS
      -    ''',?,''',TRIM(CSP(I)),''',?,?,?,?,?,?,?)'
 
         iRet=fvsSQLCloseCursor(StmtHndlOut)
+
         iRet=fvsSQLPrepare(StmtHndlOut, SQLStmtStr,
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
 
@@ -209,6 +216,7 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C       CLOSE CURSOR
 
         iRet=fvsSQLCloseCursor(StmtHndlOut)
+
         iRet=fvsSQLExecute(StmtHndlOut)
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -    'DBSMIS1:Inserting Row')

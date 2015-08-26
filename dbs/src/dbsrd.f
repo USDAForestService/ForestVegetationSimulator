@@ -59,7 +59,7 @@ C
      -  INTPAD, PCTROOTD, MRCUFTD, DABAD, NEWIND, NEWEXPD, NEWTOTD
 
 C     If RD Summary not selected for DB output, return.
-
+C      WRITE(23,*) "IN DBSRD1: IRD1 = ",IRD1               ! DEBUG
       IF(IRD1 .EQ. 0) RETURN
 
 C     This variable is used for ColNumber set and increment
@@ -84,6 +84,7 @@ C       Turn off this table DB output
       ENDIF
 
 C     CHECK TO SEE IF THE RD SUMMARY TABLE EXISTS IN THE DATBASE
+C      WRITE(23,*) "IN DBSRD1: DBMSOUT = ",DBMSOUT                ! DEBUG
 
       IF(TRIM(DBMSOUT).EQ."EXCEL") THEN
         TABLENAME = '[FVS_RD_Sum$]'
@@ -93,6 +94,9 @@ C     CHECK TO SEE IF THE RD SUMMARY TABLE EXISTS IN THE DATBASE
         TABLENAME = 'FVS_RD_Sum'
       ENDIF
       CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
+C      WRITE(23,*) "IN DBSRD1: DBSKNROWS IRCODE = ",IRCODE        ! DEBUG
+C      WRITE(23,*) "IN DBSRD1: CASEID = ",CASEID                  ! DEBUG
+
       IF(IRCODE.EQ.2) THEN
 C       Turn off this table DB output
         IRD1 = 0

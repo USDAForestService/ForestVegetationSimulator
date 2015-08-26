@@ -105,14 +105,18 @@ C
          IF (DEBUG) WRITE(JOSTND,101) ISTEP
  101     FORMAT ('IN RDPR ISTEP=',I5)
 
+C
+C        Get logical unit number and open genrpt file if it has been closed.
+C
+         CALL GETLUN(IRUNIT)
+            
          IF (ISTEP .EQ. 1 .AND. IRRSP .EQ. MINRR) THEN
             JYR = IY(1)
             IOAGE = IAGE
 C
-C           get report ID and logical unit number.
+C           get report ID.
 C
             CALL GETID(IDRDOUT(1))
-            CALL GETLUN(IRUNIT)
 
 C
 C           WRITE THE TABLE HEADERS
