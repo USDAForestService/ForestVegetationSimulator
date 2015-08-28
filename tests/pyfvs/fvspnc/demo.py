@@ -10,16 +10,14 @@ import sys
 import time
 import random
 import numpy
-
-try:
-    import pylab
-    plot = True
-
-except:
-    print 'Plotting requires the matplotlib Python package'
-    plot = False
+import matplotlib
 
 import pyfvspnc as fvs
+
+# Matplotlib backend must be specified before importing pyplot
+# Comment the following line to use the default backend.
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 #ensure runs will bomb if the previous call failed, ensure all files are closed
 fvs.filclose()
@@ -32,24 +30,26 @@ reps = 20
 #           if the dbs extension is not being used.
 kwd = os.path.join(os.path.dirname(__file__),'pnt01.key')
 
-num_cycles = 10
-cycle_len = 10
-
-#Initialize a Numpy integer array to collect the summary records
-summary = numpy.zeros((reps,num_cycles + 1, 20), dtype='i')
+cycle_len = 5
 
 st = time.clock()
 
 trees = open('trees.txt','w')
 
+#Initialize a Numpy integer array to collect the summary records
+summary = numpy.zeros((reps,40, 20), dtype='i')
+
 #The current FVS API requires using command line style arguments passed to the
 #setcommandline subroutine to initialize the FVS arrays
 cl = '--keywordfile=%s' % (kwd,)
-for cnt in xrange(reps):
-
+for rep in xrange(reps):
+    
     #initialize the run
     i = fvs.fvssetcmdline(cl)
+    
     num_cycles = fvs.contrl.ncyc
+    
+    # fvs.contrl.ncyc = numpy.int(num_cycles)
     fvs.ransed(True,random.random())
     
     #print 'FVS Returned with exit code %d' % i
@@ -83,27 +83,29 @@ for cnt in xrange(reps):
     fvs.filclose()
     
     #collect the summary values
-    for i in range(num_cycles+1):
-        summary[cnt,i,:] = fvs.fvssummary(i+1) #+1 since Fortran indexes start at 1
+    for i in range(num_cycles):
+        summary[rep,i,:] = fvs.fvssummary(i+1) #+1 since Fortran indexes start at 1
     
     #Print the periodic growth for this iteration to show progress
-    print '%3d CUFT %s' % (cnt,' '.join('%5d' % v for v in summary[cnt,:, 3]))
+    print '%3d CUFT %s' % (rep,' '.join('%5d' % v for v in summary[rep,:num_cycles, 3]))
     # print 'BDFT',','.join('%6d' % v for v in summary[:,5])
 
 et = time.clock()
 
-print '%d reps; total elapsed time: %.2f, %.3f second per rep' % (reps, et - st, (et - st) / (cnt+1))
+print '%d reps; total elapsed time: %.2f, %.3f second per rep' % (reps, et - st, (et - st) / (rep+1))
 
-if plot:
-    v = 3
-    #plot the cubic foot growth curves for each iteration
-    mean_curve = numpy.mean(summary[:,:num_cycles+1,v],axis=0)
-    print summary[0,:num_cycles+1,0]
-    pylab.plot(summary[0,:num_cycles+1,0],mean_curve)
+fig, ax = plt.subplots( nrows=1, ncols=1 )
+
+v = 3
+#plot the cubic foot growth curves for each iteration
+mean_curve = numpy.mean(summary[:,:num_cycles,v],axis=0)
+print summary[0,:num_cycles,0]
+ax.plot(summary[0,:num_cycles,0],mean_curve)
+
+if rep>0:
+    ax.boxplot(
+            summary[:,:num_cycles,v]
+            ,positions=summary[0,:num_cycles,0])
     
-    if cnt>0:
-        pylab.boxplot(
-                summary[:,:num_cycles+1,v]
-                ,positions=summary[0,:num_cycles+1,0])
-        
-    pylab.show()
+fig.savefig('demo.png')
+plt.close(fig)

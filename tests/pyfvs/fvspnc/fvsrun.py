@@ -9,15 +9,14 @@ import shutil
 import time
 import numpy
 
-try:
-    import pylab
-    plot = True
-
-except:
-    print 'Plotting requires the matplotlib Python package'
-    plot = False
+import matplotlib
 
 import pyfvspnc as fvs
+
+# Matplotlib backend must be specified before importing pyplot
+# Comment the following line to use the default backend.
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 def readtrees(treelist='pnt01.tre.save'):
     tl = open(treelist).readlines()
@@ -175,11 +174,12 @@ shutil.copy2('pnt01.tre.save','pnt01.tre')
 
 print '%d reps; total elapsed time: %.2f, %.3f second per rep' % (reps, et - st, (et - st) / run_id)
 
-if plot:
-    xbar_cuft = numpy.mean(summary['tcuft'],axis=0)
-    for r in xrange(summary.shape[0]):
-        pylab.plot(summary[r,:]['tcuft'],color='blue',alpha=0.25)
-    #pylab.boxplot(summary[:,:]['tcuft'])
+fig, ax = plt.subplots( nrows=1, ncols=1 )
+xbar_cuft = numpy.mean(summary['tcuft'],axis=0)
+for r in xrange(summary.shape[0]):
+    ax.plot(summary[r,:]['tcuft'],color='blue',alpha=0.25)
+#pylab.boxplot(summary[:,:]['tcuft'])
 
-    pylab.plot(xbar_cuft,linewidth=3,color='green')
-    pylab.show()
+ax.plot(xbar_cuft,linewidth=3,color='green')
+fig.savefig('fvsrun.png')
+plt.close(fig)
