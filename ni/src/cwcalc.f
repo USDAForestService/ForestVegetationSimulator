@@ -1,7 +1,7 @@
       SUBROUTINE CWCALC(ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND)
       IMPLICIT NONE
 C----------
-C  **CWCALC--NI   DATE OF LAST REVISION:   01/20/15
+C  **CWCALC--NI   DATE OF LAST REVISION:   07/02/15
 C----------
 COMMONS
 C
@@ -65,8 +65,9 @@ C----------
       CHARACTER CRMAP(38)*5, ECMAP(32)*5, EMMAP(19)*5, IEMAP(23)*5
       CHARACTER KTMAP(11)*5, NCMAP(11)*5, NIMAP(11)*5, PNMAP(39)*5
       CHARACTER SOMAP(33)*5, TTMAP(18)*5, UTMAP(24)*5, WCMAP(39)*5
-      CHARACTER WSMAP(43)*5
-      INTEGER ISPC,IICR, IWHO, JCR, ICYC, JOSTND
+      CHARACTER WSMAP(43)*5, OCMAP(49)*5, OPMAP(39)*5
+      INTEGER ISPC,IICR, IWHO, JOSTND
+      INTEGER ICYC
       REAL D, H, CW, HI, HILAT,HILONG,HIELEV,EL,MIND,CR,CL,BAREA
       REAL BF,P,OMIND
 C----------
@@ -286,23 +287,77 @@ C          AS       CL       MA       DG       BM
      & '74605', '98102', '36102', '35106', '31206',   
 C          MC       OS       OH
      & '47502', '12205', '81802'/  
+C----------
+C  FVS-ORGANON SWO  (OC VARIANT)
+C----------
+C                      PC       IC       RC       GF       RF      SH
+       DATA OCMAP/ '04105', '08105', '24205', '01703', '02006', '02105',
+C             DF       WH       MH       WB       KP       LP   CPtoLP
+     &    '20205', '26305', '26403', '10105', '10305', '10805', '10805',
+C             LM       JP       SP       WP       PP   MPtoGP       GP
+     &    '11301', '11605', '11705', '11905', '12205', '12702', '12702',
+C             WJ       BR   GStoRW       PY   OStoJP       LO       CY
+     &    '06405', '09204', '21104', '23104', '11605', '80102', '80502',
+C             BL   EOtoBL       WO       BO       VO       IO       BM
+     &    '80702', '80702', '81505', '81802', '82102', '83902', '31206',
+C         BUtoBM       RA       MA   GCtoTO   DGtoRA   FLtoBM   WNtoBM
+     &    '31206', '35106', '36102', '63102', '35106', '31206', '31206',
+C             TO   SYtoTO       AS       CW   WItoBM   CNtoCL       CL
+     &    '63102', '63102', '74605', '74705', '31206', '98102', '98102',
+C             OH
+     &    '31206'/
+C----------
+C  FVS-ORGANON NWO & SMC  (OP VARIANT)
+C----------
+C                      SF       WF       GF       AF       RF      SS
+       DATA OPMAP/ '01105', '01505', '01703', '01905', '02006', '09805',
+C             NF       YC       IC       ES       LP       JP       SP
+     &    '02206', '04205', '08105', '09305', '10805', '11605', '11705',
+C             WP       PP       DF       RW       RC       WH       MH
+     &    '11905', '12205', '20205', '21104', '24205', '26305', '26403',
+C             BM       RA       MA       TO   GCtoTO       AS       CW
+     &    '31206', '35106', '36102', '63102', '63102', '74605', '74705',
+C             WO        J       LL       WB       KP       PY   DGtoRA
+     &    '81505', '06405', '07204', '10105', '10305', '23104', '35106',
+C         HTtoRA   CHtoRA   WItoBM       --       OT
+     &    '35106', '35106', '31206', '12205', '12205'/
 C
 C----------
 C  SET THE EQUATION NUMBER
 C  OR IF THIS IS AN R5 FOREST BRANCH TO THE R5CRWD ROUTINE
+C
+C  NOTES FOR NON-FS FOREST CODES (ALSO SEE SUBROUTINE **FORKOD**):
+C  SO VARIANT IFOR=8=INDUSTRY IS IN R5
+C  NC VARIANT IFOR=5=HOOPA IS IN R5; IFOR=6=SIMPSON TIMBER IS IN R6;
+C                 IFOR=7=BLM COOS BAY IS IN R6
+C  PN&OP VARIANTS IFOR=3=QUINAULT IS IN R6; IFOR=4,5,6=BLM SALEM,EUGENE,COOS BAY
+C                 ARE IN R6
+C  WC VARIANT IFOR=7,8,9,10=BLM SALEM,EUGENE,ROSEBURG,MEDFORD ARE IN R6
+C  CA VARIANT IFOR=8,9,10=BLM ROSEBURG,MEDFORD, COOS BAY ARE IN R6
+C
+C  ALSO BECAUSE OF FOREST CODE MAPPING IN **FORKOD**, IFOR WILL BE:
+C  BM VARIANT  .LE. 4
+C  CA VARIANT  .LE. 10
+C  EC VARIANT  .LE. 4
+C  NC VARIANT  .LE. 7
+C  SO VARIANT  .LE. 8
+C  WC VARIANT  .LE. 10
+C  WS VARIANT  .LE. 6
+C  MAPPING IS ALWAYS WITHIN REGIONAL BOUNDARIES.
 C----------
       CALL VARVER(VVER)
 C
       IF((VVER(:2).EQ.'SO').AND.(IFOR.GE.4))THEN
         CALL R5CRWD(ISPC,D,H,CW)
         GO TO 9000
-      ELSEIF ((VVER(:2).EQ.'WS').AND.(IFOR.LE.12))THEN
+      ELSEIF (VVER(:2).EQ.'WS')THEN
         CALL R5CRWD(ISPC,D,H,CW)
         GO TO 9000
-      ELSEIF ((VVER(:2).EQ.'NC').AND.((IFOR.LE.3).OR.(IFOR.GE.9)))THEN
+      ELSEIF ((VVER(:2).EQ.'NC').AND.((IFOR.LE.3).OR.(IFOR.EQ.5)))THEN
         CALL R5CRWD(ISPC,D,H,CW)
         GO TO 9000
-      ELSEIF ((VVER(:2).EQ.'CA').AND.((IFOR.LE.5).OR.(IFOR.GE.8)))THEN
+      ELSEIF (((VVER(:2).EQ.'CA') .OR. (VVER(:2).EQ.'OC')).AND.
+     &        (IFOR.LE.5))THEN
         CALL R5CRWD(ISPC,D,H,CW)
         GO TO 9000
       ENDIF
@@ -340,6 +395,10 @@ C
           CWEQN=NCMAP(ISPC)
         CASE('NI')
           CWEQN=NIMAP(ISPC)
+        CASE('OC')
+          CWEQN=OCMAP(ISPC)
+        CASE('OP')
+          CWEQN=OPMAP(ISPC)
         CASE('PN')
           CWEQN=PNMAP(ISPC)
         CASE('SO')
@@ -361,10 +420,54 @@ C     &ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND
 C      IF(DEBUG)WRITE(JOSTND,*)' ISPC,IFOR,KODFOR= ',ISPC,IFOR,KODFOR
 C----------
 C SET R6 FOREST SPECIFIC CONSTANTS FOR CROOKSTON(R6) MODELS
+C
+C NOTES:
+C CA/OC VARIANTS  710 BLM ROSEBURG USES 610 ROGUE RIVER
+C                 711 BLM MEDFORD USES 610 ROGUE RIVER
+C                 712 BLM COOS BAY USES 611 SISKIYOU
+C NC VARIANT      712 BLM COOS BAY USES 611 SISKIYOU
+C                 800 SIMPSON TIMBER USES 611 SISKIYOU
+C PN/OP VARIANTS  708 BLM SALEM USES 606 MT HOOD
+C                 709 BLM EUGENE USES 618 WILLAMETTE
+C                 712 BLM COOS BAY USES 611 SISKIYOU
+C WC VARIANT      708 BLM SALEM USES 606 MT HOOD
+C                 709 BLM EUGENE USES 618 WILLAMETTE
+C                 710 BLM ROSEBURG USES 610 ROGUE RIVER
+C                 711 BLM MEDFORD USES 610 ROGUE RIVER
 C----------
       FIASP=CWEQN(1:3)
       BF=1.0
-      IF (KODFOR.LT.601 .OR. KODFOR.GT.621)GO TO 10
+C----------
+C SKIP THIS SECTION FOR FORESTS IN REGIONS 1,2,3,4,5,10
+C THIS VERSION OF CWCALC IS NOT USED IN REGIONS 8 OR 9
+C NON-FS AND NON-BLM CODES 7xx WHICH USE **R5CRWD** FALL THROUGH THIS SECTION
+C THE CODE FOR NC FOREST CODE 800 IS BECAUSE THERE IS ALSO A FOREST CODE 800
+C IN THE PN AND OP VARIANTS. NC 800 USES SISKIYOU SETTINGS. PN/OP 800 USES
+C OLYMPIC SETTINGS 
+C----------
+      IF(KODFOR .LT. 601 .OR. KODFOR.GE.1000)GO TO 10
+      IF(VVER(:2).EQ.'NC' .AND. KODFOR.EQ.800)THEN
+          SELECT CASE (FIASP)     !USE 611=SISKIYOU VALUES
+            CASE('351')
+              BF=0.810
+            CASE('081')
+              BF=0.821
+            CASE('108')
+              BF=0.944
+            CASE('122')
+              BF=0.951
+            CASE('202')
+              BF=0.961
+            CASE('242')
+              BF=0.973
+            CASE('263')
+              BF=1.028
+            CASE('264')
+              BF=0.900
+          END SELECT
+        GO TO 10
+      ENDIF
+C
       SELECT CASE (KODFOR)
         CASE(601)                 !DESCHUTES
           SELECT CASE (FIASP)
@@ -451,7 +554,7 @@ C----------
             CASE('242')
               BF=0.973
           END SELECT
-        CASE(606)                 !MT HOOD
+        CASE(606, 708)            !MT HOOD, BLM SALEM
           SELECT CASE (FIASP)
             CASE('011')
               BF=1.296
@@ -504,7 +607,7 @@ C----------
             CASE('264')
               BF=0.900
           END SELECT
-        CASE(609)                 !OLYMPIC
+        CASE(609, 800)            !OLYMPIC, QUINAULT IR
           SELECT CASE (FIASP)
             CASE('011')
               BF=1.032
@@ -515,7 +618,7 @@ C----------
             CASE('242')
               BF=0.941
           END SELECT
-        CASE(610)                 !ROGUE RIVER
+        CASE(610, 710, 711)       !ROGUE RIVER, BLM ROSEBURG AND MEDFORD
           SELECT CASE (FIASP)
             CASE('019')
               BF=0.886
@@ -536,7 +639,7 @@ C----------
             CASE('264')
               BF=0.900
           END SELECT
-        CASE(611)                 !SISKIYOU
+        CASE(611, 712)            !SISKIYOU, BLM COOS BAY
           SELECT CASE (FIASP)
             CASE('351')
               BF=0.810
@@ -652,7 +755,7 @@ C----------
             CASE('264')
               BF=0.952
           END SELECT
-        CASE(618)                 !WILLAMETTE
+        CASE(618, 709)            !WILLAMETTE, BLM EUGENE
           SELECT CASE (FIASP)
             CASE('017')
               BF=0.972

@@ -19,3 +19,7 @@ pnt02 :
 	-diff -w pnt01.tmp pnt01.tmp.save
 	rm pnt01.tmp pnt01.tmp.save
 	@echo Test pnt02 ended
+		 
+ 
+ 
+

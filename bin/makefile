@@ -61,7 +61,7 @@ endif
 # LD is the linker
 
 export FC = gfortran 
-export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero
+export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 export CC = gcc
 export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
 export LD = gfortran
@@ -131,6 +131,12 @@ FVSncc$(SLIBSUFX) FVSncc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSncc) $(shel
 	
 FVSne$(SLIBSUFX) FVSne$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSne) $(shell cat $(addsuffix _sourceList.txt,FVSne))
 	$(MAKE) --file=makefile FVSne.setup
+
+FVSoc$(SLIBSUFX) FVSoc$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSoc) $(shell cat $(addsuffix _sourceList.txt,FVSoc))
+	$(MAKE) --file=makefile FVSoc.setup
+
+FVSop$(SLIBSUFX) FVSop$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSop) $(shell cat $(addsuffix _sourceList.txt,FVSop))
+	$(MAKE) --file=makefile FVSop.setup
 
 FVSpnc$(SLIBSUFX) FVSpnc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSpnc) $(shell cat $(addsuffix _sourceList.txt,FVSpnc))
 	$(MAKE) --file=makefile FVSpnc.setup

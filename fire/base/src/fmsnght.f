@@ -1,7 +1,7 @@
       SUBROUTINE FMSNGHT(VVER,KSP,HTD,HTCURR,IHRD,HTSNEW)
       IMPLICIT NONE
 C----------
-C  $Id$
+C  $Id: fmsnght.f 709 2013-03-19 22:06:06Z drobinsonessa@gmail.com $
 C----------
 C
 C     SNAG HEIGHT PREDICTION
@@ -88,7 +88,7 @@ C       CI variant has special rules for WP & RC
               ENDIF
           END SELECT
 
-        CASE('PN', 'WC', 'BM', 'EC')
+        CASE('PN', 'WC', 'BM', 'EC', 'OP')
 C       First, get the height loss rate from fmr6htls. But if the
 C       height loss is adjusted by user (snagbrk keyword), make sure
 C       you use their values.

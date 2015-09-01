@@ -70,7 +70,7 @@ C----------
       CALL VARVER(VVER)
       IF(VVER(:2).EQ.'NC' .AND. IFOR.NE.4 .AND. IFOR.NE.5)THEN
         GO TO 20
-      ELSEIF(VVER(:2).EQ.'CA' .AND. IFOR.LT.6)THEN
+      ELSEIF((VVER(:2).EQ.'CA'.OR.VVER(:2).EQ.'OC').AND.IFOR.LT.6)THEN
         GO TO 20
       ELSEIF(VVER(:2).EQ.'SO' .AND. IFOR.GT.3)THEN
         GO TO 20
@@ -155,7 +155,7 @@ C
      &       ISPC.EQ.8 .OR. ISPC.EQ.11))THEN
         ADHW=ADHW + D*P
         SUMTPA=SUMTPA + P
-      ELSEIF(VVER(:2).EQ.'CA' .AND. ISPC.GE.26)THEN
+      ELSEIF((VVER(:2).EQ.'CA'.OR.VVER(:2).EQ.'OC').AND.ISPC.GE.26)THEN
         ADHW=ADHW + D*P
         SUMTPA=SUMTPA + P
       ELSEIF(VVER(:2).EQ.'SO' .AND. ((ISPC.GE.21 .AND. ISPC.LE.31) .OR.

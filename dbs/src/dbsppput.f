@@ -13,7 +13,7 @@ COMMONS
 C
 C
       INTEGER MXI,I
-      PARAMETER (MXI=41)
+      PARAMETER (MXI=44)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
@@ -61,6 +61,9 @@ C
       IF (ConnHndlIn .NE.-1) INTS( 39)=1 ! The connection was openned
       IF (ConnHndlOut.NE.-1) INTS( 40)=1
       INTS( 41) = ICLIM
+      INTS( 42) = IRD1
+      INTS( 43) = IRD2
+      INTS( 44) = IRD3
 C
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
       LENSTRINGS(1) = LEN_TRIM(DSNIN)
@@ -73,7 +76,7 @@ C
       SUBROUTINE DBSCHPUT (CBUFF, IPNT, LNCBUF)
       IMPLICIT NONE
 C----------
-C  **DBSPPPUT--DBS DATE OF LAST REVISION: 10/31/2011
+C  **DBSCHPUT--DBS DATE OF LAST REVISION: 05/14/2015
 C----------
 C
 C
@@ -108,9 +111,11 @@ C
         ENDDO
       ENDIF
 
+      DO J=1,36
+        CALL CHWRIT(CBUFF,IPNT,LNCBUF,CASEID(J:J),2)
+      ENDDO
+
       CALL DBSCLOSE(.TRUE.,.TRUE.)
 
       RETURN
       END
-
-

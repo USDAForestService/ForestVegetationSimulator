@@ -78,6 +78,7 @@ C----------
 *     FMTBA:     Fire Model Total Basal Area, by species.
 *     NFMSVPX:   The number of pictures to render for a fire using the
 *                SVS keyword.
+*     FMORTMLT:  Tree mortality multiplier, set in FMMAIN for a given cycle
 *     FTREAT:    Fuel treatment type: 0=none,1=lopping (inc.flailing),
 *                2=trampling (inc chopping, crushing, chipping)
 *     FUAREA:    Number of acres in various loading categories: for
@@ -223,7 +224,7 @@ C----------
 *     ITRNL:     Lenght of tree list at time of call to FMTREM from CUTS.
 *                Estab trees may enter simulation between the call
 *                to FMTREM and the call to FMEVTBM.
-*
+*,FMORTMLT(MAXTRE)
 C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
 
       REAL     ALLDWN(MAXSP)
@@ -252,6 +253,7 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
       REAL     FALLX(MAXSP)
       REAL     FIRKIL(MAXTRE), FOLMC
       INTEGER  FMICR(MAXTRE)
+      REAL     FMORTMLT(MAXTRE)
       INTEGER  FMKOD
       REAL     FLIVE(2)
       REAL     FMPROB(MAXTRE)
@@ -328,7 +330,7 @@ C     VARIABLE DECLARATIONS: COMMON BLOCK FMCOM
      &  DBHS, DECAYX, DENIH, DENIS, DEND, DKR, DKRCLS,
      &  DKRDEF, DSPDBH,
      &  FALLX, FLIVE, FIRKIL, FOLMC, FMPROB, FMTBA, NFMSVPX,
-     &  FMICR, FMKOD, FMSLOP,FTREAT,
+     &  FMICR, FMKOD, FMSLOP,FTREAT, FMORTMLT,
      &  FUAREA, GROW, HARD, HARTYP, HARVYR, HTDEAD, HTIH,
      &  HTIS, HTR1, HTR2, HTX, HTXSFT, ICANSP, ICBHMT,
      &  ICYCRM, IFMYR1, IFMYR2, IFTYR, ISALVC, ISALVS, ISNGSM,

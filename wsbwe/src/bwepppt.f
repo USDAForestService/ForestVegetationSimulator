@@ -1,7 +1,7 @@
       SUBROUTINE BWEPPPT (WK3, IPNT, ILIMIT, IB)
       IMPLICIT NONE
 C----------
-C  **BWEPPPT                DATE OF LAST REVISION:  09/20/13
+C  **BWEPPPT                DATE OF LAST REVISION:  10/15/14
 C----------
 C  Purpose:
 C     Put (store) the GenDefol/Budworm model data for a given stand
@@ -39,6 +39,10 @@ C   23-JUN-2011 Lance R. David (FMSC)
 C     Added BWPRMS array for RAWS daily weather processing to BLCOM3.
 C   20-SEP-2013 Lance R. David (FMSC)
 C     Added RAWS weather year range (IYRNG array), expanded IEVENT array.
+C   15-OCT-2014 Lance R. David (FMSC)
+C     Complete rebuild of routine to include all integer and real variables
+C     and arrays in common blocks. There are a few character array noted at
+C     the end of this routine that are static and not stored or retrieved.
 C----------
 
 
@@ -69,7 +73,7 @@ C.... Variable declarations.
 C.... Parameter statements.
       INTEGER LNCBUF, MXI, MXL, MXR
       
-      PARAMETER (MXL=21,MXI=83,MXR=918)
+      PARAMETER (MXL=21,MXI=86,MXR=918)
       PARAMETER (LNCBUF=IRECLN*4)
 
       CHARACTER CBUFF(LNCBUF)
@@ -118,7 +122,7 @@ C---- from common BWECM2 ------------
       LOGICS(14) = LFIRST   
       LOGICS(15) = LREGO    
       LOGICS(16) = LSPRAY   
-C---- from common RDCOM ------------
+C---- from common BWECOM ------------
       LOGICS(17) = LBWDAM   
       LOGICS(18) = LBWPDM   
       LOGICS(19) = LCALBW   
@@ -211,16 +215,19 @@ C---- from common BWECOM ------------
       INTS(72) = ITODO      
       INTS(73) = IYRCUR     
       INTS(74) = JOWSBW     
-      INTS(75) = NCUMYR     
-      INTS(76) = NTODO      
+      INTS(75) = NCROWN
+      INTS(76) = NCUMYR
+      INTS(77) = NHOSTS
+      INTS(78) = NTODO
+      INTS(79) = TABSZ
 C---- from common BWESTD ------------
-      INTS(77) = IFHOST(1)  
-      INTS(78) = IFHOST(2)  
-      INTS(79) = IFHOST(3)  
-      INTS(80) = IFHOST(4)  
-      INTS(81) = IFHOST(5)  
-      INTS(82) = IFHOST(6)  
-      INTS(83) = IFHOST(7)  
+      INTS(80) = IFHOST(1)  
+      INTS(81) = IFHOST(2)  
+      INTS(82) = IFHOST(3)  
+      INTS(83) = IFHOST(4)  
+      INTS(84) = IFHOST(5)  
+      INTS(85) = IFHOST(6)  
+      INTS(86) = IFHOST(7)  
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: INTS=',
      >            INTS
@@ -252,6 +259,7 @@ C.... Load real scalars then arrays into the REALS array.
 C     Scalars and small one-dimensional arrays are handled first
 C     for ease of indexing. 
 C
+C BWEBOX.F77 - BWBOX
       REALS(1)  = RAINDM    
       REALS(2)  = RAINDS    
       REALS(3)  = RAINM(1)  
@@ -261,55 +269,252 @@ C
       REALS(7)  = RAINS(2)  
       REALS(8)  = RAINS(3)  
       REALS(9)  = WHOTM     
-      REALS(10) = WHOTSD    
-      REALS(11) = DISPMR    
-      REALS(12) = EGGS      
-      REALS(13) = OLDMAX    
-      REALS(14) = TREEDD    
-      REALS(15) = WCOLDW    
-      REALS(16) = WHOTF     
-      REALS(17) = WRAIND    
-      REALS(18) = DSEEDR    
-      REALS(19) = OBSEER    
-      REALS(20) = WSEEDR    
-      REALS(21) = DEFLYR    
-      REALS(22) = HOSTST    
-      REALS(23) = SPEFF     
-      REALS(24) = TRIGGR    
-      REALS(25) = WRAIN1(1) 
-      REALS(26) = WRAIN1(2) 
-      REALS(27) = WRAIN1(3) 
-      REALS(28) = WRAIN2(1) 
-      REALS(29) = WRAIN2(2) 
-      REALS(30) = WRAIN2(3) 
-      REALS(31) = WRAIN3(1) 
-      REALS(32) = WRAIN3(2) 
-      REALS(33) = WRAIN3(3) 
-      REALS(34) = WRAINA(1) 
-      REALS(35) = WRAINA(1) 
-      REALS(36) = WRAINA(3) 
-      REALS(37) = WRAINB(1) 
-      REALS(38) = WRAINB(2) 
-      REALS(39) = WRAINB(3) 
-
-      IIX = 39
-      DO 30 IIA = 1,4
-        DO 30 IIB = 1,3
+      REALS(10) = WHOTSD
+C BWECM2.F77 - BLCOMN
+      REALS(11) = DEFYRS(1)
+      REALS(12) = DEFYRS(2)
+      REALS(13) = DEFYRS(3)
+      REALS(14) = DEFYRS(4)
+      REALS(15) = DEFYRS(5)
+      REALS(16) = DEFYRS(6)
+      REALS(17) = DISPMR    
+      REALS(18) = EGG1(1)
+      REALS(19) = EGG1(2)
+      REALS(20) = EGG1(3)
+      REALS(21) = EGG1(4)
+      REALS(22) = EGG1(5)
+      REALS(23) = EGG1(6)
+      REALS(24) = EGG2(1)
+      REALS(25) = EGG2(2)
+      REALS(26) = EGG2(3)
+      REALS(27) = EGG2(4)
+      REALS(28) = EGG2(5)
+      REALS(29) = EGG2(6)
+      REALS(30) = EGGDEN
+      REALS(31) = EGGS      
+      REALS(32) = FRESHC(1)
+      REALS(33) = FRESHC(2)
+      REALS(34) = FRESHC(3)
+      REALS(35) = FRESHC(4)
+      REALS(36) = FRESHC(5)
+      REALS(37) = FRESHC(6)
+      REALS(38) = FWSURV
+      REALS(39) = GPERM2
+      REALS(40) = OLDMAX    
+      REALS(41) = TREEDD    
+      REALS(42) = WASTED(1)
+      REALS(43) = WASTED(2)
+      REALS(44) = WCOLDW    
+      REALS(45) = WHOTF     
+      REALS(46) = WRAIND
+C BWECM2.F77 - BLCOM2
+      REALS(47) = AVEAMT(1)
+      REALS(48) = AVEAMT(2)
+      REALS(49) = AVEAMT(3)
+      REALS(50) = AVEAMT(4)
+      REALS(51) = AVEAMT(5)
+      REALS(52) = AVEAMT(6)
+      REALS(53) = DAYS(1)
+      REALS(54) = DAYS(2)
+      REALS(55) = DAYS(3)
+      REALS(56) = DISPX(1)
+      REALS(57) = DISPX(2)
+      REALS(58) = DISPX(3)
+      REALS(59) = DISPX(4)
+      REALS(60) = DISPY(1)
+      REALS(61) = DISPY(2)
+      REALS(62) = DISPY(3)
+      REALS(63) = DISPY(4)
+      REALS(64) = EWTX(1)
+      REALS(65) = EWTX(2)
+      REALS(66) = EWTX(3)
+      REALS(67) = EWTX(4)
+      REALS(68) = EWTY(1)
+      REALS(69) = EWTY(2)
+      REALS(70) = EWTY(3)
+      REALS(71) = EWTY(4)
+      REALS(72) = OLDX(1)
+      REALS(73) = OLDX(2)
+      REALS(74) = OLDX(3)
+      REALS(75) = OLDX(4)
+      REALS(76) = OLDY(1)
+      REALS(77) = OLDY(2)
+      REALS(78) = OLDY(3)
+      REALS(79) = OLDY(4)
+      REALS(80) = PMATED
+      REALS(81) = SRATIO
+      REALS(82) = WASTO
+C BWECM2.F77 - BLCOM3
+      REALS(83) = ANT_BD(1)
+      REALS(84) = ANT_BD(2)
+      REALS(85) = ANT_BD(3)
+      REALS(86) = ANT_BD(4)
+      REALS(87) = ANT_BD(5)
+      REALS(88) = ANT_BD(6)
+      REALS(89) = ANT_BD(7)
+      REALS(90) = ANT_BD(8)
+      REALS(91) = ANT_BD(9)
+      REALS(92) = APRED(1)
+      REALS(93) = APRED(2)
+      REALS(94) = APRED(3)
+      REALS(95) = BPRED(1)
+      REALS(96) = BPRED(2)
+      REALS(97) = BPRED(3)
+      REALS(98) = DEFLYR    
+      REALS(99) = DEVEL
+      REALS(100) = DEVELS(1)
+      REALS(101) = DEVELS(2)
+      REALS(102) = DEVELS(3)
+      REALS(103) = DFLUSH
+      REALS(104) = FOLDVX(1)
+      REALS(105) = FOLDVX(2)
+      REALS(106) = FOLDVX(3)
+      REALS(107) = FOLDVX(4)
+      REALS(108) = FOLDVY(1)
+      REALS(109) = FOLDVY(2)
+      REALS(110) = FOLDVY(3)
+      REALS(111) = FOLDVY(4)
+      REALS(112) = FOLWTX(1)
+      REALS(113) = FOLWTX(2)
+      REALS(114) = FOLWTX(3)
+      REALS(115) = FOLWTX(4)
+      REALS(116) = FOLWTY(1)
+      REALS(117) = FOLWTY(2)
+      REALS(118) = FOLWTY(3)
+      REALS(119) = FOLWTY(4)
+      REALS(120) = M1PRED(1)
+      REALS(121) = M1PRED(2)
+      REALS(122) = M1PRED(3)
+      REALS(123) = M2PRED(1)
+      REALS(124) = M2PRED(2)
+      REALS(125) = M2PRED(3)
+      REALS(126) = M3PRED(1)
+      REALS(127) = M3PRED(2)
+      REALS(128) = M3PRED(3)
+      REALS(129) = OBPHX(1)
+      REALS(130) = OBPHX(2)
+      REALS(131) = OBPHX(3)
+      REALS(132) = OBPHX(4)
+      REALS(133) = OBPHY(1)
+      REALS(134) = OBPHY(2)
+      REALS(135) = OBPHY(3)
+      REALS(136) = OBPHY(4)
+      REALS(137) = PRATE(1)
+      REALS(138) = PRATE(2)
+      REALS(139) = PRATE(3)
+      REALS(140) = PRATE(4)
+      REALS(141) = PRATE(5)
+      REALS(142) = PRATE(6)
+      REALS(143) = PRATE(7)
+      REALS(144) = PRATE(8)
+      REALS(145) = PRATE(9)
+      REALS(146) = RPHEN(1)
+      REALS(147) = RPHEN(2)
+      REALS(148) = RPHEN(3)
+      REALS(149) = RPHEN(4)
+      REALS(150) = RPHEN(5)
+      REALS(151) = RPHEN(6)
+      REALS(152) = SPEFF     
+      REALS(153) = SYNCHX(1)
+      REALS(154) = SYNCHX(2)
+      REALS(155) = SYNCHX(3)
+      REALS(156) = SYNCHX(4)
+      REALS(157) = SYNCHX(5)
+      REALS(158) = SYNCHX(6)
+      REALS(159) = SYNCHY(1)
+      REALS(160) = SYNCHY(2)
+      REALS(161) = SYNCHY(3)
+      REALS(162) = SYNCHY(4)
+      REALS(163) = SYNCHY(5)
+      REALS(164) = SYNCHY(6)
+      REALS(165) = TRIGGR    
+      REALS(166) = WRAIN1(1) 
+      REALS(167) = WRAIN1(2) 
+      REALS(168) = WRAIN1(3) 
+      REALS(169) = WRAIN2(1) 
+      REALS(170) = WRAIN2(2) 
+      REALS(171) = WRAIN2(3) 
+      REALS(172) = WRAIN3(1) 
+      REALS(173) = WRAIN3(2) 
+      REALS(174) = WRAIN3(3) 
+      REALS(175) = WRAINA(1) 
+      REALS(176) = WRAINA(2) 
+      REALS(177) = WRAINA(3) 
+      REALS(178) = WRAINB(1) 
+      REALS(179) = WRAINB(2) 
+      REALS(180) = WRAINB(3) 
+C BWECM2.F77 - BLCOM4
+      REALS(181) = ADMORT
+      REALS(182) = DISPDR(1)
+      REALS(183) = DISPDR(2)
+      REALS(184) = DISPDR(3)
+      REALS(185) = DISPDR(4)
+      REALS(186) = DISPDR(5)
+      REALS(187) = DISPDR(6)
+      REALS(188) = DISPDR(7)
+      REALS(189) = DISPDR(8)
+      REALS(190) = DISPDR(9)
+      REALS(191) = DISPMX(1)
+      REALS(192) = DISPMX(2)
+      REALS(193) = DISPMX(3)
+      REALS(194) = DISPMX(4)
+      REALS(195) = DISPMY(1)
+      REALS(196) = DISPMY(2)
+      REALS(197) = DISPMY(3)
+      REALS(198) = DISPMY(4)
+      REALS(199) = EGDISP
+      REALS(200) = EPMASS
+      REALS(201) = HOSTST    
+      REALS(202) = OBSEER    
+      REALS(203) = WSEEDR    
+C BWECOM.F77
+      REALS(204) = BWFINT
+      REALS(205) = DSEEDR    
+C BWESTD.F77
+      REALS(206) = FOLNH(1)
+      REALS(207) = FOLNH(2)
+      REALS(208) = FOLNH(3)
+      REALS(209) = FOLNH(4)
+      REALS(210) = FOLNH(5)
+      REALS(211) = FOLNH(6)
+      REALS(212) = FOLNH(7)
+      REALS(213) = FOLNH(8)
+      REALS(214) = FOLNH(9)
+      REALS(215) = PRCRN3(1)
+      REALS(216) = PRCRN3(2)
+      REALS(217) = PRCRN3(3)
+      REALS(218) = PRCRN3(4)
+      REALS(219) = PRCRN3(5)
+      REALS(220) = PRCRN3(6)
+      REALS(221) = PRCRN3(7)
+      REALS(222) = PRCRN3(8)
+      REALS(223) = PRCRN3(9)
+C
+C     Load REAL arrays larger than single dimension of 9
+C     set index based on preceding assignment in scalar section.
+C
+      IIX = 223
+      DO IIA = 1,4
+        DO IIB = 1,3
           IIX = IIX + 1
-          REALS(IIX) = NEMULT(IIA,IIB)
-   30 CONTINUE
-C.... IIX at 51
-      DO 32 IIA = 1,9
-        DO 32 IIB = 1,6
+          REALS(IIX) = NEMULT(IIA,IIB)   ! NEMULT(4,3) BWEBOX.F77
+        END DO
+      END DO
+C.... IIX at 235
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = BW(IIA,IIB)
-   32 CONTINUE
-C.... IIX at 105
-      DO 34 IIA = 1,6
-        IIX = IIX + 1
-        REALS(IIX) = DEFYRS(IIA)
-   34 CONTINUE
-C.... IIX ends at 111
+          REALS(IIX) = BW(IIA,IIB)       ! BW(9,6) BWECM2.FYY
+        END DO
+      END DO
+C.... IIX at 289
+      DO IIA = 1,2
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = EATEN(IIA,IIB)    ! EATEN(2,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX ends at 301
 
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 1 - REALS=',
@@ -317,58 +522,86 @@ C.... IIX ends at 111
 
 C.... Write real varaibles (scalars and arrays) to buffer.
 
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 111, K)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
 
 C.... Load next real array(s) into REALS.
 
       IIX = 0
-      DO 36 IIA = 1,9
-        DO IIB = 1,6
-          DO IIC = 1,17
+
+      DO IIA = 1,3
+        DO IIB = 1,2
+          IIX = IIX + 1
+          REALS(IIX) = OBPHAS(IIA,IIB)    ! OBPHAS(3,2) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 6
+
+      DO IIA = 1,8
+        DO IIB = 1,3
+          IIX = IIX + 1
+          REALS(IIX) = OBTABL(IIA,IIB)    ! OBTABL(8,3) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 30
+
+      DO IIA = 1,6
+        DO IIB = 1,3
+          DO IIC = 1,8
             IIX = IIX + 1
-            REALS(IIX) = OUT1(IIA,IIB,IIC)
+            REALS(IIX) = OUT2(IIA,IIB,IIC)  ! OUT2(6,3,8) BWECM2.F77
           END DO
         END DO
-   36 CONTINUE
+      END DO
+C.... IIX at 174
+
+      DO IIA = 1,3
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = OBTABL(IIA,IIB)    ! PHENOL(3,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX ends at 192
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 2 - REALS=',
      >            REALS
 
 C.... Write next real array(s) to buffer.
 
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 918, K)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
 
 C.... Load next real array(s) into REALS.
 
       IIX = 0
-      DO 38 IIA = 1,6
-        DO IIB = 1,3
-          DO IIC = 1,8
+      DO IIA = 1,9
+        DO IIB = 1,6
+          DO IIC = 1,17
             IIX = IIX + 1
-            REALS(IIX) = OUT2(IIA,IIB,IIC)
+            REALS(IIX) = OUT1(IIA,IIB,IIC)  ! OUT1(9,6,17) BWECM2.F77
           END DO
         END DO
-   38 CONTINUE
-
-C.... Write next real array(s) to buffer.
-
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 144, K)
+      END DO
+C.... IIX ends at 918
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 3 - REALS=',
      >            REALS
+
+C.... Write next real array(s) to buffer.
+
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
 
 C.... Load next real array(s) to REALS.
 C.... Due to the size of this array, it is done in 2 parts,
 C.... Third dimension (IIC) 1-10, part 1.
       IIX = 0
-      DO 40 IIA = 1,9
+      DO IIA = 1,9
         DO IIB = 1,6
           DO IIC = 1,10
             IIX = IIX + 1
-            REALS(IIX) = OUT3(IIA,IIB,IIC)
+            REALS(IIX) = OUT3(IIA,IIB,IIC)  ! OUT3(9,6,20) BWECM2.F77
           END DO
         END DO
-   40 CONTINUE
+      END DO
+C.... IIX ends at 540
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 4A - REALS=',
      >            REALS
@@ -382,14 +615,15 @@ C.... Load next real array(s) to REALS.
 C.... Due to the size of this array, it is done in 2 parts,
 C.... Third dimension (IIC) 11-20, part 2.
       IIX = 0
-      DO 41 IIA = 1,9
+      DO IIA = 1,9
         DO IIB = 1,6
           DO IIC = 11,20
             IIX = IIX + 1
-            REALS(IIX) = OUT3(IIA,IIB,IIC)
+            REALS(IIX) = OUT3(IIA,IIB,IIC) ! OUT3(9,6,20) BWECM2.F77
           END DO
         END DO
-   41 CONTINUE
+      END DO
+C.... IIX ends at 540
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 4B - REALS=',
      >            REALS
@@ -401,259 +635,397 @@ C.... Write next real array(s) to buffer.
 C.... Load next real array(s) into REALS.
 
       IIX = 0
-      DO 42 IIA = 1,6
-        DO 42 IIB = 1,3
-          DO 42 IIC = 1,2
-            DO 42 IID = 1,5
-              IIX = IIX + 1
-              REALS(IIX) = APRBYR(IIA,IIB,IIC,IID)
-   42 CONTINUE
-C.... IIX at 180
-      DO 44 IIA = 1,6
-        DO 44 IIB = 1,3
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = AVYRMX(IIA,IIB)
-   44 CONTINUE
-C.... IIX at 198
-      DO 46 IIA = 1,6
-        DO 46 IIB = 1,3
+          REALS(IIX) = A1(IIA,IIB)    ! A1(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 54
+
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = BWMXCD(IIA,IIB)
-   46 CONTINUE
+          REALS(IIX) = A2(IIA,IIB)    ! A2(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 108
+
+      DO IIA = 1,9
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = A3(IIA,IIB)    ! A3(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 162
+
+      DO IIA = 1,9
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = A4(IIA,IIB)    ! A4(9,6) BWECM2.F77
+        END DO
+      END DO
 C.... IIX at 216
-      DO 48 IIA = 1,7
-        DO 48 IIB = 1,3
+
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = BWTPHA(IIA,IIB)
-   48 CONTINUE
-C.... IIX at 237
-      DO 50 IIA = 1,6
-        DO 50 IIB = 1,3
+          REALS(IIX) = ACTNEW(IIA,IIB) ! ACTNEW(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 270
+
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = CDEF(IIA,IIB)
-   50 CONTINUE
-C.... IIX at 255
-      DO 52 IIA = 1,6
-        DO 52 IIB = 1,3
-          DO 52 IIC = 1,5
-            IIX = IIX + 1
-            REALS(IIX) = CUMDEF(IIA,IIB,IIC)
-   52 CONTINUE
-C.... IIX at 345
-      DO 54 IIA = 1,9
-        DO 54 IIB = 1,6
+          REALS(IIX) = ANTDEN(IIA,IIB)    ! ANTDEN(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 324
+
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = FNEW(IIA,IIB)
-   54 CONTINUE
-C.... IIX ends at 399
-C.... Write next real array(s) to buffer.
+          REALS(IIX) = BIRDEN(IIA,IIB)    ! BIRDEN(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 378
+
+      DO IIA = 1,2
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = ECI(IIA,IIB)    ! ECI(2,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 390
+
+      DO IIA = 1,9
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = GMAX(IIA,IIB)    ! GMAX(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 444
+
+      DO IIA = 1,9
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = GMIN(IIA,IIB)    ! GMIN(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 498
+
+      DO IIA = 1,9
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = MYS1DN(IIA,IIB)    ! MYS1DN(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 552
+
+      DO IIA = 1,9
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = MYS2DN(IIA,IIB)    ! MYS2DN(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 606
+
+      DO IIA = 1,9
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = MYS3DN(IIA,IIB)    ! MYS3DN(9,6) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 660
+
+      DO IIA = 1,2
+        DO IIB = 1,4
+          IIX = IIX + 1
+          REALS(IIX) = STARVX(IIA,IIB)    ! STARVX(2,4) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 714
+
+      DO IIA = 1,2
+        DO IIB = 1,4
+          IIX = IIX + 1
+          REALS(IIX) = STARVY(IIA,IIB)    ! STARVY(2,4) BWECM2.F77
+        END DO
+      END DO
+C.... IIX ends at 768
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 5 - REALS=',
      >            REALS
 
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 399, K)
+C.... Write next real array(s) to buffer.
 
-C.... Load next real array(s) to REALS.
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
+
+C.... Load next real array(s) into REALS.
 
       IIX = 0
-      DO 56 IIA = 1,6
-        DO 56 IIB = 1,9
-          DO 56 IIC = 1,4
-            IIX = IIX + 1
-            REALS(IIX) = FOLADJ(IIA,IIB,IIC)
-   56 CONTINUE
-C.... IIX at 216
-      DO 58 IIA = 1,9
-        DO 58 IIB = 1,6
+      DO IIA = 1,10
+        DO IIB = 1,4
           IIX = IIX + 1
-          REALS(IIX) = FOLD1(IIA,IIB)
-   58 CONTINUE
-C.... IIX at 270
-      DO 60 IIA = 1,9
-        DO 60 IIB = 1,6
-          IIX = IIX + 1
-          REALS(IIX) = FOLD2(IIA,IIB)
-   60 CONTINUE
-C.... IIX at 324
-      DO 62 IIA = 1,9
+          REALS(IIX) = BWEATH(IIA,IIB)    ! BWEATH(10,4) BWECM2.F77
+        END DO
+      END DO
+C.... IIX at 40
+
+      DO IIA = 1,10
         IIX = IIX + 1
-        REALS(IIX) = FOLNH(IIA)
-   62 CONTINUE
-C.... IIX ends at 333
+        REALS(IIX) = SPEFFS(IIA)         ! SPEFFS(10) BWECM2.F77
+      END DO
+C.... IIX at 50
+
+      DO IIA = 1,10
+        IIX = IIX + 1
+        REALS(IIX) = SPINST(IIA)         ! SPINST(10) BWECM2.F77
+      END DO
+C.... IIX at 60
+
+      DO IIA = 1,11
+        DO IIB = 1,50
+          IIX = IIX + 1
+          REALS(IIX) = BWPRMS(IIA,IIB)   ! BWPRMS(11,50) BWECM2.F77
+        END DO
+      END DO
+C.... IIX ends at 610
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 6 - REALS=',
      >            REALS
 
-C.... Write next real array(s) from buffer.
+C.... Write next real array(s) to buffer.
 
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 333, K)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
 
 C.... Load next real array(s) into REALS.
-
       IIX = 0
-      DO 64 IIA = 1,6
-        DO 64 IIB = 1,9
-          DO 64 IIC = 1,4
+      DO IIA = 1,6
+        DO IIB = 1,3
+          DO IIC = 1,2
+            DO IID = 1,5
+              IIX = IIX + 1
+              REALS(IIX) = APRBYR(IIA,IIB,IIC,IID)   ! APRBYR(6,3,2,5) BWESTD.F77
+            END DO
+          END DO
+        END DO
+      END DO
+C.... IIX at 180
+
+      DO IIA = 1,6
+        DO IIB = 1,3
           IIX = IIX + 1
-          REALS(IIX) = FOLPOT(IIA,IIB,IIC)
-   64 CONTINUE
+          REALS(IIX) = AVYRMX(IIA,IIB)   ! AVYRMX(6,3) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 198
+
+      DO IIA = 1,6
+        DO IIB = 1,3
+          IIX = IIX + 1
+          REALS(IIX) = BWMXCD(IIA,IIB)   ! BWMXCD(6,3) BWESTD.F77
+        END DO
+      END DO
 C.... IIX at 216
-      DO 66 IIA = 1,9
-        DO 66 IIB = 1,6
+
+      DO IIA = 1,7
+        DO IIB = 1,3
           IIX = IIX + 1
-          REALS(IIX) = FREM(IIA,IIB)
-   66 CONTINUE
-C.... IIX at 270
-      DO 68 IIA = 1,6
-        DO 68 IIB = 1,3
+          REALS(IIX) = BWTPHA(IIA,IIB)   ! BWTPHA(7,3) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 237
+
+      DO IIA = 1,6
+        DO IIB = 1,3
           IIX = IIX + 1
-          REALS(IIX) = PEDDS(IIA,IIB)
-   68 CONTINUE
-C.... IIX at 288
-      DO 70 IIA = 1,6
-        DO 70 IIB = 1,3
-          IIX = IIX + 1
-          REALS(IIX) = PEHTG(IIA,IIB)
-   70 CONTINUE
-C.... IIX at 306
-      DO 72 IIA = 1,6
-        DO 72 IIB = 1,9
-          DO 72 IIC = 1,4
+          REALS(IIX) = CDEF(IIA,IIB)     ! CDEF(6,3) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 255
+
+      DO IIA = 1,6
+        DO IIB = 1,3
+          DO IIC = 1,5
             IIX = IIX + 1
-            REALS(IIX) = POFPOT(IIA,IIB,IIC)
-   72 CONTINUE
-C.... IIX ends at 522
+            REALS(IIX) = CUMDEF(IIA,IIB,IIC)   ! CUMDEF(6,3,5) BWESTD.F77
+          END DO
+        END DO
+      END DO
+C.... IIX at 345
+
+      DO IIA = 1,9
+        DO IIB = 1,6
+          IIX = IIX + 1
+          REALS(IIX) = FNEW(IIA,IIB)   ! FNEW(9,6) BWESTD.F77
+        END DO
+      END DO
+C.... IIX ends at 399
+C.... Write next real array(s) to buffer.
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 7 - REALS=',
      >            REALS
 
-C.... Write next real array(s) to buffer.
-
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 522, K)
-
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
 
 C.... Load next real array(s) into REALS.
 
       IIX = 0
-      DO 74 IIA = 1,6
-        DO 74 IIB = 1,9
-          DO 74 IIC = 1,4
+      DO IIA = 1,6
+        DO IIB = 1,9
+          DO IIC = 1,4
             IIX = IIX + 1
-            REALS(IIX) = PRBIO(IIA,IIB,IIC)
-   74 CONTINUE
+            REALS(IIX) = FOLADJ(IIA,IIB,IIC)   ! FOLADJ(6,9,4) BWESTD.F77
+          END DO
+        END DO
+      END DO
 C.... IIX at 216
-      DO 76 IIA = 1,6
-        DO 76 IIB = 1,3
+
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = RDDSM1(IIA,IIB)
-   76 CONTINUE
-C.... IIX at 234
-      DO 78 IIA = 1,6
-        DO 78 IIB = 1,3
+          REALS(IIX) = FOLD1(IIA,IIB)   ! FOLD1(9,6) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 270
+
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = RHTGM1(IIA,IIB)
-   78 CONTINUE
-C.... IIX at 252
-      DO 80 IIA = 1,9
-        DO 80 IIB = 1,6
-          IIX = IIX + 1
-            REALS(IIX) = ACTNEW(IIA,IIB)
-   80 CONTINUE
-C.... IIX ends at 306
+          REALS(IIX) = FOLD2(IIA,IIB)   ! FOLD2(9,6) BWESTD.F77
+        END DO
+      END DO
+C.... IIX ends at 324
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 8 - REALS=',
      >            REALS
 
-C.... Write next real array(s) to buffer.
+C.... Write next real array(s) from buffer.
 
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 306, K)
-
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
 
 C.... Load next real array(s) into REALS.
 
       IIX = 0
-
-      DO 82 IIA = 1,9
-        DO 82 IIB = 1,6
-          IIX = IIX + 1
-          REALS(IIX) = ANTDEN(IIA,IIB)
-   82 CONTINUE
-C.... IIX at 54
-      DO 84 IIA = 1,9
-        DO 84 IIB = 1,6
-          IIX = IIX + 1
-          REALS(IIX) = BIRDEN(IIA,IIB)
-   84 CONTINUE
-C.... IIX at 108
-      DO 86 IIA = 1,9
-        DO 86 IIB = 1,6
-          IIX = IIX + 1
-          REALS(IIX) = MYS1DN(IIA,IIB)
-   86 CONTINUE
-C.... IIX at 162
-      DO 88 IIA = 1,9
-        DO 88 IIB = 1,6
-          IIX = IIX + 1
-          REALS(IIX) = MYS2DN(IIA,IIB)
-   88 CONTINUE
+      DO IIA = 1,6
+        DO IIB = 1,9
+          DO IIC = 1,4
+            IIX = IIX + 1
+            REALS(IIX) = FOLPOT(IIA,IIB,IIC)   ! FOLPOT(6,9,4) BWESTD.F77
+          END DO
+        END DO
+      END DO
 C.... IIX at 216
-      DO 90 IIA = 1,9
-        DO 90 IIB = 1,6
+
+      DO IIA = 1,9
+        DO IIB = 1,6
           IIX = IIX + 1
-          REALS(IIX) = MYS3DN(IIA,IIB)
-   90 CONTINUE
+          REALS(IIX) = FREM(IIA,IIB)   ! FREM(9,6) BWESTD.F77
+        END DO
+      END DO
 C.... IIX at 270
-      DO 92 IIA = 1,4
-        IIX = IIX + 1
-        REALS(IIX) = FOLDVY(IIA)
-   92 CONTINUE
-C.... IIX at 274
-      DO 94 IIA = 1,4
-        IIX = IIX + 1
-        REALS(IIX) = FOLWTY(IIA)
-   94 CONTINUE
-C.... IIX at 278
-      DO 96 IIA = 1,10
-        IIX = IIX + 1
-        REALS(IIX) = SPEFFS(IIA)
-   96 CONTINUE
+
+      DO IIA = 1,6
+        DO IIB = 1,3
+          IIX = IIX + 1
+          REALS(IIX) = PEDDS(IIA,IIB)   ! PEDDS(6,3) BWESTD.F77
+        END DO
+      END DO
 C.... IIX at 288
-      DO 98 IIA = 1,10
-        IIX = IIX + 1
-        REALS(IIX) = SPINST(IIA)
-   98 CONTINUE
-C.... IIX ends at 298
+
+      DO IIA = 1,6
+        DO IIB = 1,3
+          IIX = IIX + 1
+          REALS(IIX) = PEHTG(IIA,IIB)   ! PEHTG(6,3) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 306
+
+      DO IIA = 1,6
+        DO IIB = 1,9
+          DO IIC = 1,4
+            IIX = IIX + 1
+            REALS(IIX) = POFPOT(IIA,IIB,IIC)   ! POFPOT(6,9,4) BWESTD.F77
+          END DO
+        END DO
+      END DO
+C.... IIX ends at 522
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 9 - REALS=',
      >            REALS
 
 C.... Write next real array(s) to buffer.
 
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 298, K)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
+
 
 C.... Load next real array(s) into REALS.
 
       IIX = 0
+      DO IIA = 1,6
+        DO IIB = 1,9
+          DO IIC = 1,4
+            IIX = IIX + 1
+            REALS(IIX) = PRBIO(IIA,IIB,IIC)   ! PRBIO(6,9,4) BWESTD.F77
+          END DO
+        END DO
+      END DO
+C.... IIX at 216
 
-      DO 100 IIA = 1,11
-        DO 100 IIB = 1,50
+      DO IIA = 1,6
+        DO IIB = 1,3
           IIX = IIX + 1
-          REALS(IIX) = BWPRMS(IIA,IIB)
-  100 CONTINUE
-C.... IIX ends at 550
+          REALS(IIX) = RDDSM1(IIA,IIB)   ! RDDSM1(6,3) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 234
+
+      DO IIA = 1,4
+        DO IIB = 1,9
+          IIX = IIX + 1
+          REALS(IIX) = RELFX(IIA,IIB)   ! RELFX(4,9) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 270
+
+      DO IIA = 1,4
+        DO IIB = 1,9
+          IIX = IIX + 1
+          REALS(IIX) = RELFY(IIA,IIB)    ! RELFY(4,9) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 306
+
+      DO IIA = 1,6
+        DO IIB = 1,3
+          IIX = IIX + 1
+          REALS(IIX) = RHTGM1(IIA,IIB)   ! RHTGM1(6,3) BWESTD.F77
+        END DO
+      END DO
+C.... IIX at 324
+
+      DO IIA = 1,4
+        DO IIB = 1,9
+          IIX = IIX + 1
+          REALS(IIX) = THEOFL(IIA,IIB)   ! THEOFL(4,9) BWESTD.F77
+        END DO
+      END DO
+C.... IIX ends at 360
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 10 - REALS=',
      >            REALS
 
 C.... Write next real array(s) to buffer.
 
-      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, 550, K)
+      CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, IIX, K)
 
 C
 C.... Write double precision scalars (random number seeds) to buffer.
 C     SEEDA is DSEEDD, SEEDB is OBSEED, SEEDC is WSEED
 
-      IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 10 - SEEDA=',SEEDA,
+      IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 11 - SEEDA=',SEEDA,
      >            ' SEEDB=',SEEDB,' SEEDC=',SEEDC
 
       CALL BFWRIT (WK3, IPNT, ILIMIT, SEEDA, 2, K)
@@ -718,6 +1090,3 @@ C     CHARACTER*8 TABLE(25)  -- Static
 
       RETURN
       END
-
-
-

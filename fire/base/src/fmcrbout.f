@@ -1,7 +1,7 @@
       SUBROUTINE FMCRBOUT (IYR)
       IMPLICIT NONE
 C----------
-C  $Id$
+C  $Id: fmcrbout.f 709 2013-03-19 22:06:06Z drobinsonessa@gmail.com $
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMMAIN

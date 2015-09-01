@@ -1,7 +1,7 @@
       SUBROUTINE RDPR
       IMPLICIT NONE
 C----------
-C  **RDPR        LAST REVISION:  08/29/14
+C  **RDPR        LAST REVISION:  03/24/15
 C----------
 C
 C  PRODUCES SUMMARY OUTPUT IN TABLE FORM FROM THE ROOT
@@ -39,6 +39,8 @@ C       variables in new \FVS\COMMON\METRIC.F77. rd\src\metric.f77
 C       will be retired. (mods courtesy of Don Robinson, ESSA)
 C   08/29/14 Lance R. David (FMSC)
 C     Added implicit none and declared variables.
+C   03/24/15 Lance R. David (FMSC)
+C     Implemented General Report Writer facility.
 C
 C----------------------------------------------------------------------
 C
@@ -103,40 +105,51 @@ C
          IF (DEBUG) WRITE(JOSTND,101) ISTEP
  101     FORMAT ('IN RDPR ISTEP=',I5)
 
+C
+C        Get logical unit number and open genrpt file if it has been closed.
+C
+         CALL GETLUN(IRUNIT)
+            
          IF (ISTEP .EQ. 1 .AND. IRRSP .EQ. MINRR) THEN
             JYR = IY(1)
             IOAGE = IAGE
 C
+C           get report ID.
+C
+            CALL GETID(IDRDOUT(1))
+
+C
 C           WRITE THE TABLE HEADERS
 C
-            WRITE (IRUNIT,1100)
-            WRITE (IRUNIT,1105)
+            WRITE (IRUNIT,'(2(/1X,I5))') IDRDOUT(1),IDRDOUT(1)
+            WRITE (IRUNIT,1100) IDRDOUT(1),IDRDOUT(1)
+            WRITE (IRUNIT,1105) IDRDOUT(1)
 C
 C     Write warning message RE. use of multi pest models (RNH June 98)
 C
       IF (LXNOTE) THEN
-      WRITE (IRUNIT,1106)
+      WRITE (IRUNIT,1106) IDRDOUT(1)
       LXNOTE = .FALSE.
       ENDIF
 C
-            WRITE (IRUNIT,1107)
-            WRITE (IRUNIT,1110) NPLT, MGMID
-            WRITE (IRUNIT,1115)
-            WRITE (IRUNIT,1120)
-            WRITE (IRUNIT,1125)
-            WRITE (IRUNIT,1130)
-            WRITE (IRUNIT,1135)
-            WRITE (IRUNIT,1140)
-            WRITE (IRUNIT,1143)
-            WRITE (IRUNIT,1145)
+            WRITE (IRUNIT,1107) IDRDOUT(1)
+            WRITE (IRUNIT,1110) IDRDOUT(1), NPLT, MGMID
+            WRITE (IRUNIT,1115) IDRDOUT(1)
+            WRITE (IRUNIT,1120) IDRDOUT(1)
+            WRITE (IRUNIT,1125) IDRDOUT(1)
+            WRITE (IRUNIT,1130) IDRDOUT(1)
+            WRITE (IRUNIT,1135) IDRDOUT(1)
+            WRITE (IRUNIT,1140) IDRDOUT(1)
+            WRITE (IRUNIT,1143) IDRDOUT(1)
+            WRITE (IRUNIT,1145) IDRDOUT(1)
             IF (LMTRIC) THEN
-               WRITE (IRUNIT,1250)
-               WRITE (IRUNIT,1255)
+               WRITE (IRUNIT,1250) IDRDOUT(1)
+               WRITE (IRUNIT,1255) IDRDOUT(1)
             ELSE
-               WRITE (IRUNIT,1150)
-               WRITE (IRUNIT,1155)
+               WRITE (IRUNIT,1150) IDRDOUT(1)
+               WRITE (IRUNIT,1155) IDRDOUT(1)
             ENDIF   
-            WRITE (IRUNIT,1160)
+            WRITE (IRUNIT,1120) IDRDOUT(1)
          ELSE
             JYR = IY(ISTEP)
             IOAGE = IAGE + IY(ISTEP) - IY(1)
@@ -166,7 +179,6 @@ C
 C
 C        FIND TREES IN TREE LIST
 C
-  710    CONTINUE
          IF (ITRN .LE. 0) GOTO 805
          IDI = IRRSP
          DO 800 KSP = 1,MAXSP
@@ -227,15 +239,33 @@ C
          TPRINF = PRINF(IRRSP) * 100.0
 
           IF (LMTRIC) THEN
-            WRITE(IRUNIT,2098) JYR,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
+            WRITE(IRUNIT,2098)
+     &         IDRDOUT(1),JYR,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
      &         PAREA(IRRSP)*ACRtoHA,RRRATE(IRRSP)*FTTOM,TSTMPS/ACRtoHA,
      &         BASTPA*FT2pACRtoM2pHA,TDIE/ACRtoHA,TDVOL*FT3pACRtoM3pHA,
      &         TUN/ACRtoHA,TIN/ACRtoHA,TPRINF,CFVPA*FT3pACRtoM3pHA,
      &         BAPA*FT2pACRtoM2pHA,CORE,EXPAND,TOTINF
+C
+C              Call DBS for RD Summary output to database
+C
+               CALL DBSRD1 (
+     &         JYR,NPLT,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
+     &         PAREA(IRRSP)*ACRtoHA,RRRATE(IRRSP)*FTTOM,TSTMPS/ACRtoHA,
+     &         BASTPA*FT2pACRtoM2pHA,TDIE/ACRtoHA,TDVOL*FT3pACRtoM3pHA,
+     &         TUN/ACRtoHA,TIN/ACRtoHA,TPRINF,CFVPA*FT3pACRtoM3pHA,
+     &         BAPA*FT2pACRtoM2pHA,CORE,EXPAND,TOTINF)
           ELSE  
-            WRITE(IRUNIT,2098) JYR,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
+            WRITE(IRUNIT,2098)
+     &         IDRDOUT(1),JYR,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
      &         PAREA(IRRSP),RRRATE(IRRSP),TSTMPS,BASTPA,TDIE,TDVOL,
      &         TUN,TIN,TPRINF,CFVPA,BAPA,CORE,EXPAND,TOTINF
+C
+C              Call DBS for RD Summary output to database
+C
+               CALL DBSRD1 (
+     &         JYR,NPLT,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
+     &         PAREA(IRRSP),RRRATE(IRRSP),TSTMPS,BASTPA,TDIE,TDVOL,
+     &         TUN,TIN,TPRINF,CFVPA,BAPA,CORE,EXPAND,TOTINF)
           ENDIF  
           FIRSTL = .FALSE.
           GOTO 7300
@@ -245,10 +275,12 @@ C
 C         OUTPUT TO PRINT IF THIS WAS THE CYCLE AFTER CENTERS DISAPPEARED
 
          IF (LMTRIC) THEN
-            WRITE(IRUNIT,2199) JYR,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
+            WRITE(IRUNIT,2199)
+     &            IDRDOUT(1),JYR,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
      &            PAREA(IRRSP)*ACRtoHA,RRRATE(IRRSP)*FTTOM
          ELSE
-            WRITE(IRUNIT,2199) JYR,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
+            WRITE(IRUNIT,2199)
+     &            IDRDOUT(1),JYR,IOAGE,CHTYPE(IRRSP),NCENTS(IRRSP),
      &            PAREA(IRRSP),RRRATE(IRRSP)
          ENDIF
          RRRATE(IRRSP) = 0.0
@@ -285,17 +317,19 @@ C       NOW THAT WE'VE USED THE VARIABLES, ZERO THEM FOR FUTURE USE
         EXPINF(IRRSP,2) = 0.0
  5000 CONTINUE
                      
-      IF (.NOT. FIRSTL .AND. MINRR .NE. MAXRR) WRITE(IRUNIT,1121)
+      IF (.NOT. FIRSTL .AND. MINRR .NE. MAXRR)
+     &  WRITE(IRUNIT,1120) IDRDOUT(1)
       RETURN
 
- 1100 FORMAT (//,65('* '))
- 1107 FORMAT (65('* '))
- 1105 FORMAT (50X,'WESTERN ROOT DISEASE MODEL')
- 1110 FORMAT (33X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
+ 1100 FORMAT (1X,I5,/1X,I5,1X,65('* '))
+ 1107 FORMAT (1X,I5,1X,65('* '))
+ 1105 FORMAT (1X,I5,51X,'WESTERN ROOT DISEASE MODEL')
+ 1110 FORMAT (1X,I5,34X,'STAND ID= ',A26,5X,'MANAGEMENT ID= ',A4)
 C
 C     Warning message RE. multi-pest models (RNH June 1998)
 C
- 1106 FORMAT (/,'*=================================================',
+ 1106 FORMAT (/1X,I5,1X,
+     &'*=================================================',
      &'===========================*',/ 
      &'*---> Note:  The combined insect and pathogen models (in ',
      &'one executable) <---*',/
@@ -312,50 +346,44 @@ C
      &'*==========================================================',
      &'==================*',/)
  
- 1115 FORMAT (25X,'SUMMARY STATISTICS FOR ROOT DISEASE AREAS',
+ 1115 FORMAT (1X,I5,26X,'SUMMARY STATISTICS FOR ROOT DISEASE AREAS',
      &        ' (PER ACRE BASED ON DISEASED AREA ONLY)')
- 1120 FORMAT (130('-'))
- 1121 FORMAT (130(' '))
- 1125 FORMAT (16X,'DISEASE STATISTICS',
+ 1120 FORMAT (1X,I5,1X,130('-'))
+ 1125 FORMAT (1X,I5,17X,'DISEASE STATISTICS',
      &       9X,'DEAD TREE CHARACTERISTICS',
      &       8X,'LIVE TREE CHARACTERISTICS')
- 1130 FORMAT (42X,'STUMPS',6X,'LOSSES FROM DISEASE')
+ 1130 FORMAT (1X,I5,43X,'STUMPS',6X,'LOSSES FROM DISEASE')
 
- 1135 FORMAT (11X,26('-'),3X,12('-'),2X,19('-'),1X,35('-'))
- 1140 FORMAT (40X,'   ',31X,'UNINF',4X,'INFECTED',9X,'OVERALL')
- 1143 FORMAT (55X,'NO OF',3X,'VOLUME')
- 1160 FORMAT (130('-'))
- 2098 FORMAT (I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
+ 1135 FORMAT (1X,I5,12X,26('-'),3X,12('-'),2X,19('-'),1X,35('-'))
+ 1140 FORMAT (1X,I5,41X,'   ',31X,'UNINF',4X,'INFECTED',9X,'OVERALL')
+ 1143 FORMAT (1X,I5,56X,'NO OF',3X,'VOLUME')
+ 2098 FORMAT (1x,I5,1X,I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
      &       F8.1,F8.0,F7.0,1X,F5.3,3X,F5.3,3X,F5.3)
  4099 FORMAT (I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
      &       F8.1,F8.2,1X,F5.3,3X,F5.3,3X,F5.3)
- 1145 FORMAT ('    ',13X,'NO',3X,'DISEASE',2X,'SPREAD',10X,'BA/',
+ 1145 FORMAT (1X,I5,18X,'NO',3X,'DISEASE',2X,'SPREAD',10X,'BA/',
      &       4X,'TREES',3X,'LOSSES',5X,'NO OF',3X,'NO OF',
      &       4X,'AVE',3X,'MERCH',4X,'BA/',3X,'NEWLY INFECTED')
 
- 1150 FORMAT (17X,'OF',4X,'AREA',5X,'RATE',3X,'TOTAL',
+ 1150 FORMAT (1X,I5,18X,'OF',4X,'AREA',5X,'RATE',3X,'TOTAL',
      &       3X,'ACRE',4X,'KILLED',2X,'CU FT',6X,'TREES',3X,'TREES',2X,
      &       '%ROOTS',2X,'CU FT',2X,'ACRE',5X,'PROPORTION')
 
- 1155 FORMAT ('YEAR',3X,'AGE',1X,'TYPE',1X,'CENTS',2X,'ACRES',3X,
-     &       'FT/YR',
+ 1155 FORMAT (1X,I5,' YEAR',3X,'AGE',1X,'TYPE',1X,'CENTS',2X,'ACRES',
+     &       3X,'FT/YR',
      &       3X,'/ACRE',2X,'SQFT',4X,'/ACRE',3X,'/ACRE',3X,
      &       2(3X,'/ACRE'),1X,'INFECTED',1X,'/ACRE',3X,'SQFT',1X,
      &       'INSIDE',2X,'EXPAND',2X,'TOTAL')
- 2099 FORMAT (I4,I6,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
-     &       F8.1,F8.0,F8.0,1X,A8,1X,A4)
- 2100 FORMAT (4X,6X,4X,A1,I4,F8.2,F8.2,4(F8.1),3X,F8.1,F8.1,
-     &       F8.1,F8.0,F8.0,1X,A8,1X,A4)
- 2199 FORMAT (I4,I6,4X,A1,I4,F8.2,F8.2)
+ 2199 FORMAT (1X,I5,1X,I4,I6,4X,A1,I4,F8.2,F8.2)
 C
 C     SPECIFIC METRIC HEADERS
 C
- 1250 FORMAT (17X,'OF',4X,'AREA',5X,'RATE',3X,'TOTAL',
+ 1250 FORMAT (1X,I5,18X,'OF',4X,'AREA',5X,'RATE',3X,'TOTAL',
      &       3X,'HA  ',4X,'KILLED',2X,'CU M ',6X,'TREES',3X,'TREES',2X,
      &       '%ROOTS',2X,'CU M ',2X,' HA ',5X,'PROPORTION')
 
- 1255 FORMAT ('YEAR',3X,'AGE',1X,'TYPE',1X,'CENTS',2X,' HA  ',3X,
-     &       ' M/YR',
+ 1255 FORMAT (1X,I5,' YEAR',3X,'AGE',1X,'TYPE',1X,'CENTS',2X,' HA  ',
+     &       3X,' M/YR',
      &       3X,' /HA ',2X,'SQ M',4X,' /HA ',3X,' /HA ',3X,
      &       2(3X,' /HA '),1X,'INFECTED',1X,' /HA ',3X,'SQ M',1X,
      &       'INSIDE',2X,'EXPAND',2X,'TOTAL')

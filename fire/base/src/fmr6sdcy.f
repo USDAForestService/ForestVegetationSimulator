@@ -558,7 +558,7 @@ C----------
           ELSE 
       	    SML = 3 
           ENDIF          
-        CASE('PN')
+        CASE('PN','OP')
           TEMP = PNWMC(ITYPE)
           MOIS = PNWMD(ITYPE)
           SPG = WSSPEC(KSP)
@@ -597,7 +597,7 @@ C  DETERMINE THE NUMBER OF YEARS FROM HARD TO SOFT AND THE SNAG FALL
 C  ADJUSTMENT FACTOR.
 C----------
       SELECT CASE (VVER(1:2))
-        CASE('PN','AK')
+        CASE('PN','AK','OP')
           X = PNYRSOFT(SPG,TEMP,MOIS,SML)
           Y = PNDCYADJ(SPG,TEMP,MOIS,SML)
         CASE('WC')

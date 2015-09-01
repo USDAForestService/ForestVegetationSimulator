@@ -1,7 +1,7 @@
       SUBROUTINE CVOUT
       IMPLICIT NONE
 C----------
-C  **CVOUT--COVR   DATE OF LAST REVISION:  06/28/13
+C  **CVOUT--COVR   DATE OF LAST REVISION:  03/26/15
 C----------
 C  PRINTS (PRE- AND POST-THIN) **COVER** STATISTICS BY CYCLE.
 C  CALLED FROM **MAIN** ONCE PER STAND, AT THE END OF PROJECTION.
@@ -63,7 +63,7 @@ C----------
      &       / 52X,'(BASED ON STOCKABLE AREA)' // T49,31('-') /
      &       T50,'ATTRIBUTE BY 10'' HEIGHT CLASS' / T49,31('-') //
      &       T26,'  TREES -- TREES PER ACRE' /
-     &       T26,'  COVER -- PERCENTAGE OF CANOPY CLOSURE CONTRIBUTED',
+     &       T26,'  COVER -- PERCENTAGE OF CANOPY COVER CONTRIBUTED',
      &           ' BY TREES IN HEIGHT CLASS' /
      &       T26,'   AREA -- CROWN PROFILE AREA (SQ.FT. PER ACRE)'/
      &       T26,' VOLUME -- CROWN VOLUME (CU.FT. PER ACRE X 100)'/
@@ -386,7 +386,7 @@ C----------
      &'SHRUB    TWIGS  SUCC.  STAND  TOP     CANOPY   ',
      &'FOLIAGE  STEM    NUMBER'/
      &9X,'DISTURB. COV>0)  LOW  MED TALL TOTAL   HEIGHT  ',
-     &'BIOMASS  (NO./  STAGE  AGE    HEIGHT  CLOSURE  ',
+     &'BIOMASS  (NO./  STAGE  AGE    HEIGHT   COVER   ',
      &'BIOMASS  DIAMS.   OF   '/
      &'DATE',5X,'(YEARS)   (%)    (%)  (%)  (%)  (%)    (FEET)  ',
      &'(LB/AC)  SQFT)  CODE   (YRS)  (FEET)    (%)    ',

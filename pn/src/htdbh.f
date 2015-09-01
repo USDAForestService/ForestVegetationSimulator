@@ -228,7 +228,8 @@ C----------
 C  PROCESS ACCORDING TO MODE
 C  DUB TRUNCATED FOR SITKA SPRUCE ON OLY NF FOR DBH>100
 C----------
-      IF((IFOR.EQ.2 .OR. IFOR.EQ.4) .and. ISPC.EQ.16) GO TO 100
+      IF((IFOR.EQ.2 .OR. IFOR.EQ.4 .OR. IFOR.EQ.6) .AND. ISPC.EQ.16)
+     &  GO TO 100
       IF(MODE .EQ. 0) THEN
         IF(D .GE. 3.) THEN
           H = 4.5 + P2 * EXP(-1.*P3*D**P4)

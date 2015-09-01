@@ -116,6 +116,7 @@ C     Loop over all snag records that are in use.
 
       IF (VVER(1:2) .EQ. 'PN' .OR.
      &    VVER(1:2) .EQ. 'WC' .OR.
+     &    VVER(1:2) .EQ. 'OP' .OR.
      &    VVER(1:2) .EQ. 'SO' .OR.
      &    VVER(1:2) .EQ. 'BM' .OR.
      &    VVER(1:2) .EQ. 'EC') THEN
@@ -287,6 +288,7 @@ C       soft. Update hard/soft status accordingly.
 
       IF (VVER(1:2) .EQ. 'PN' .OR.
      &    VVER(1:2) .EQ. 'WC' .OR.
+     &    VVER(1:2) .EQ. 'OP' .OR.
      &    VVER(1:2) .EQ. 'SO' .OR.
      &    VVER(1:2) .EQ. 'BM' .OR.
      &    VVER(1:2) .EQ. 'EC') THEN

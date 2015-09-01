@@ -13,7 +13,7 @@ COMMONS
 C
 C
       INTEGER MXI
-      PARAMETER (MXI=41)
+      PARAMETER (MXI=44)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
@@ -64,6 +64,9 @@ C
       IF (INTS(39).EQ.1) ConnHndlIn = 0 ! signal to reopen
       IF (INTS(40).EQ.1) ConnHndlOut= 0
       ICLIM        = INTS( 41)
+      IRD1         = INTS( 42)
+      IRD2         = INTS( 43)
+      IRD3         = INTS( 44)
 
       CALL IFREAD(WK3, IPNT, ILIMIT, LENSTRINGS, 3, 2)
 C
@@ -73,7 +76,7 @@ C
       SUBROUTINE DBSCHGET (CBUFF, IPNT, LNCBUF)
       IMPLICIT NONE
 C----------
-C  **DBSPPPUT--DBS DATE OF LAST REVISION: 10/31/2011
+C  **DBSCHGET--DBS DATE OF LAST REVISION: 05/14/2015
 C----------
 C
 C
@@ -89,23 +92,28 @@ C
       INTEGER LNCBUF
       CHARACTER CBUFF(LNCBUF)
       INTEGER K,J,I,IPNT,KODE
+
       IF (LENSTRINGS(1).GT.0) THEN
         DO J=1,LENSTRINGS(1)
           CALL CHREAD(CBUFF,IPNT,LNCBUF,DSNIN(J:J),2)
         ENDDO
       ENDIF
 
-      IF (LENSTRINGS(1).GT.0) THEN
+      IF (LENSTRINGS(2).GT.0) THEN
         DO J=1,LENSTRINGS(2)
           CALL CHREAD(CBUFF,IPNT,LNCBUF,DSNOUT(J:J),2)
         ENDDO
       ENDIF
 
-      IF (LENSTRINGS(1).GT.0) THEN
+      IF (LENSTRINGS(3).GT.0) THEN
         DO J=1,LENSTRINGS(3)
           CALL CHREAD(CBUFF,IPNT,LNCBUF,KEYFNAME(J:J),2)
         ENDDO
       ENDIF
+
+      DO J=1,36
+        CALL CHREAD(CBUFF,IPNT,LNCBUF,CASEID(J:J),2)
+      ENDDO
 
       ! reopen connections that were in use.
 
@@ -113,6 +121,7 @@ C
         ConnHndlIn = -1
         CALL DBSOPEN(DSNIN,EnvHndlIn,ConnHndlIn,DBMSIN,0,
      -     .FALSE.,KODE)
+
         IF (KODE.EQ.0) PRINT *,"Reopen DBSIN failed. DSNIN=",
      -     DBMSIN(:LEN_TRIM(DBMSIN))
       ENDIF
@@ -120,10 +129,10 @@ C
         ConnHndlOut = -1
         CALL DBSOPEN(DSNOUT,EnvHndlOut,ConnHndlOut,DBMSOUT,0,
      -     .FALSE.,KODE)
+
         IF (KODE.EQ.0) PRINT *,"Reopen DBMSOUT failed. DSNOUT=",
-     -     DBMSIN(:LEN_TRIM(DBMSIN))
+     -     DBMSOUT(:LEN_TRIM(DBMSOUT))
       ENDIF
 
       RETURN
       END
-

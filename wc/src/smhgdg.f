@@ -188,8 +188,7 @@ C----------
      &  'AVH,FINT= ',IT,H,D,AVH,FINT
         IF(IT.GT.0)WRITE(JOSTND,*)' ICR(IT),PCT(IT),PTBAA(ITRE(IT))= ',
      &   ICR(IT),PCT(IT),PTBAA(ITRE(IT))
-        WRITE(JOSTND,*)' ITRE= ',ITRE
-        WRITE(JOSTND,*)' PTBAA= ',PTBAA     
+        WRITE(JOSTND,*)' IT,ITRE,PTBAA= ',IT,ITRE(IT),PTBAA(ITRE(IT))
       ENDIF
 C
       IF((MODE.EQ.0).OR.(IT.LE.0))THEN

@@ -30,7 +30,7 @@ C----------
       INTEGER MAXASPT, ISPC1, I, J, J2, IJSPIN
       PARAMETER (MAXASPT=517)
       CHARACTER*4 SPCOUT
-      CHARACTER*8 ASPT(MAXASPT,20)
+      CHARACTER*8 ASPT(MAXASPT,22)
       CHARACTER VAR*2
 C----------
 C  DATA STATEMENT
@@ -62,6 +62,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'AF ','AF ','OS ','AF ','AF ','AF ','AF ','AF ','AF ','OS ',         !Abies lasiocarpa
      & 'OS ','AF ','OS ','AF ','AF ','OS ','AF ','AF ','AF ','OS '/         !Abies lasiocarpa var. arizonica
 C
+      DATA ((ASPT(I,J),J=21,22),I=1,10) /
+C       OC    OP                                                             SPECIES
+     & 'GF ','SF ',                                                         !Abies
+     & 'SH ','RF ',                                                         !Abies ×shastensis
+     & 'SH ','SF ',                                                         !Abies amabilis
+     & 'OS ','OT ',                                                         !Abies bracteata
+     & 'GF ','WF ',                                                         !Abies concolor
+     & 'GF ','WF ',                                                         !Abies concolor var. concolor
+     & 'GF ','WF ',                                                         !Abies concolor var. lowiana
+     & 'GF ','GF ',                                                         !Abies grandis
+     & 'OS ','AF ',                                                         !Abies lasiocarpa
+     & 'OS ','AF '/                                                         !Abies lasiocarpa var. arizonica
+C
       DATA ((ASPT(I,J),J=1,10),I=11,20) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','ABLAL   ','AF ','AF ','OS ','AF ','AF ','AF ','AF ',    !Abies lasiocarpa var. lasiocarpa
@@ -87,6 +100,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Acacia angustissima var. suffrutescens
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Acacia angustissima var. texensis
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Acacia baileyana
+C
+      DATA ((ASPT(I,J),J=21,22),I=11,20) /
+C       OC    OP                                                             SPECIES
+     & 'OS ','AF ',                                                         !Abies lasiocarpa var. lasiocarpa
+     & 'RF ','RF ',                                                         !Abies magnifica
+     & 'RF ','NF ',                                                         !Abies procera
+     & 'SH ','RF ',                                                         !Abies x shastensis
+     & 'OH ','OT ',                                                         !Acacia
+     & 'OH ','OT ',                                                         !Acacia angustissima
+     & 'OH ','OT ',                                                         !Acacia angustissima var. shrevei
+     & 'OH ','OT ',                                                         !Acacia angustissima var. suffrutescens
+     & 'OH ','OT ',                                                         !Acacia angustissima var. texensis
+     & 'OH ','OT '/                                                         !Acacia baileyana
 C
       DATA ((ASPT(I,J),J=1,10),I=21,30) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -114,6 +140,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Acacia greggii
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Acacia greggii var. greggii
 C
+      DATA ((ASPT(I,J),J=21,22),I=21,30) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Acacia constricta
+     & 'OH ','OT ',                                                         !Acacia constricta var. constricta
+     & 'OH ','OT ',                                                         !Acacia constricta var. paucispina
+     & 'OH ','OT ',                                                         !Acacia cyclops
+     & 'OH ','OT ',                                                         !Acacia dealbata
+     & 'OH ','OT ',                                                         !Acacia decurrens
+     & 'OH ','OT ',                                                         !Acacia elata
+     & 'OH ','OT ',                                                         !Acacia farnesiana
+     & 'OH ','OT ',                                                         !Acacia greggii
+     & 'OH ','OT '/                                                         !Acacia greggii var. greggii
+C
       DATA ((ASPT(I,J),J=1,10),I=31,40) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','ACLO    ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Acacia longifolia
@@ -139,6 +178,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Acacia pycnantha
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Acacia redolens
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Acacia retinodes
+C
+      DATA ((ASPT(I,J),J=21,22),I=31,40) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Acacia longifolia
+     & 'OH ','OT ',                                                         !Acacia mearnsii
+     & 'OH ','OT ',                                                         !Acacia melanoxylon
+     & 'OH ','OT ',                                                         !Acacia millefolia
+     & 'OH ','OT ',                                                         !Acacia neovernicosa
+     & 'OH ','OT ',                                                         !Acacia paradoxa
+     & 'OH ','OT ',                                                         !Acacia podalyriifolia
+     & 'OH ','OT ',                                                         !Acacia pycnantha
+     & 'OH ','OT ',                                                         !Acacia redolens
+     & 'OH ','OT '/                                                         !Acacia retinodes
 C
       DATA ((ASPT(I,J),J=1,10),I=41,50) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -166,6 +218,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Acer glabrum var. greenei
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','BI ','OT ','OH '/         !Acer glabrum var. neomexicanum
 C
+      DATA ((ASPT(I,J),J=21,22),I=41,50) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Acacia saligna
+     & 'OH ','OT ',                                                         !Acacia verticillata
+     & 'BM ','BM ',                                                         !Acer
+     & 'OH ','CH ',                                                         !Acer circinatum
+     & 'OH ','OT ',                                                         !Acer glabrum
+     & 'OH ','OT ',                                                         !Acer glabrum var. diffusum
+     & 'OH ','OT ',                                                         !Acer glabrum var. douglasii
+     & 'OH ','OT ',                                                         !Acer glabrum var. glabrum
+     & 'OH ','OT ',                                                         !Acer glabrum var. greenei
+     & 'OH ','OT '/                                                         !Acer glabrum var. neomexicanum
+C
       DATA ((ASPT(I,J),J=1,10),I=51,60) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','ACGLT2  ','OH ','OH ','OH ','OH ','OH ','VN ','OH ',    !Acer glabrum var. torreyi
@@ -191,6 +256,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','BI ','BE ','OT ','OH ',         !Acer negundo var. californicum
      & 'OH ','OT ','OH ','OT ','OT ','OH ','BI ','BE ','OT ','OH ',         !Acer negundo var. interius
      & 'OH ','OT ','OH ','OT ','OT ','OH ','BI ','BE ','OT ','OH '/         !Acer negundo var. negundo
+C
+      DATA ((ASPT(I,J),J=21,22),I=51,60) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Acer glabrum var. torreyi
+     & 'OH ','OT ',                                                         !Acer grandidentatum
+     & 'OH ','OT ',                                                         !Acer grandidentatum var. grandidentatum
+     & 'OH ','OT ',                                                         !Acer grandidentatum var. sinuosum
+     & 'BM ','BM ',                                                         !Acer macrophyllum
+     & 'OH ','OT ',                                                         !Acer negundo
+     & 'OH ','OT ',                                                         !Acer negundo var. arizonicum
+     & 'OH ','OT ',                                                         !Acer negundo var. californicum
+     & 'OH ','OT ',                                                         !Acer negundo var. interius
+     & 'OH ','OT '/                                                         !Acer negundo var. negundo
 C
       DATA ((ASPT(I,J),J=1,10),I=61,70) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -218,6 +296,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Albizia julibrissin
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Albizia lebbeck
 C
+      DATA ((ASPT(I,J),J=21,22),I=61,70) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Acer negundo var. texanum
+     & 'OH ','OT ',                                                         !Acer platanoides
+     & 'OH ','OT ',                                                         !Acer saccharinum
+     & 'BU ','OT ',                                                         !Aesculus
+     & 'BU ','OT ',                                                         !Aesculus californica
+     & 'BU ','OT ',                                                         !Aesculus glabra
+     & 'BU ','OT ',                                                         !Aesculus hippocastanum
+     & 'OH ','OT ',                                                         !Ailanthus altissima
+     & 'OH ','OT ',                                                         !Albizia julibrissin
+     & 'OH ','OT '/                                                         !Albizia lebbeck
+C
       DATA ((ASPT(I,J),J=1,10),I=71,80) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & 'AD ','350','ALNUS   ','RA ','OH ','RA ','OH ','OH ','RA ','OH ',    !Alnus
@@ -243,6 +334,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','RA ','RA ','OH ','OH ','RA ','OH ',         !Alnus rubra
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Alnus viridis
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Alnus viridis ssp. crispa
+C
+      DATA ((ASPT(I,J),J=21,22),I=71,80) /
+C       OC    OP                                                             SPECIES
+     & 'RA ','RA ',                                                         !Alnus
+     & 'OH ','OT ',                                                         !Alnus cordata
+     & 'OH ','OT ',                                                         !Alnus glutinosa
+     & 'OH ','OT ',                                                         !Alnus incana
+     & 'OH ','OT ',                                                         !Alnus incana ssp. tenuifolia
+     & 'OH ','OT ',                                                         !Alnus oblongifolia
+     & 'RA ','WA ',                                                         !Alnus rhombifolia
+     & 'RA ','RA ',                                                         !Alnus rubra
+     & 'OH ','OT ',                                                         !Alnus viridis
+     & 'OH ','OT '/                                                         !Alnus viridis ssp. crispa
 C
       DATA ((ASPT(I,J),J=1,10),I=81,90) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -270,6 +374,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Arbutus xalapensis
      & 'PB ','OT ','OH ','OT ','PB ','OH ','OH ','OH ','PB ','OH '/         !Betula
 C
+      DATA ((ASPT(I,J),J=21,22),I=81,90) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Alnus viridis ssp. fruticosa
+     & 'OH ','OT ',                                                         !Alnus viridis ssp. sinuata
+     & 'OH ','OT ',                                                         !Aralia
+     & 'OH ','OT ',                                                         !Aralia elata
+     & 'MA ','WA ',                                                         !Arbutus
+     & 'OH ','OT ',                                                         !Arbutus arizonica
+     & 'MA ','WA ',                                                         !Arbutus menziesii
+     & 'MA ','WA ',                                                         !Arbutus menziesii (Old Code)
+     & 'OH ','OT ',                                                         !Arbutus xalapensis
+     & 'OH ','PB '/                                                         !Betula
+C
       DATA ((ASPT(I,J),J=1,10),I=91,100) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','BEEA    ','OH ','OH ','OH ','OH ','OH ','PB ','PB ',    !Betula ×eastwoodiae
@@ -295,6 +412,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'PB ','OT ','OH ','OT ','PB ','OH ','OH ','OH ','PB ','OH ',         !Betula papyrifera var. commutata
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Betula papyrifera var. kenaica
      & 'PB ','OT ','OH ','OT ','PB ','OH ','OH ','OH ','PB ','OH '/         !Betula papyrifera var. papyrifera
+C
+      DATA ((ASPT(I,J),J=21,22),I=91,100) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','PB ',                                                         !Betula ×eastwoodiae
+     & 'OH ','PB ',                                                         !Betula ×utahensis
+     & 'OH ','OT ',                                                         !Betula glandulosa
+     & 'OH ','OT ',                                                         !Betula nana
+     & 'OH ','OT ',                                                         !Betula neoalaskana
+     & 'OH ','OT ',                                                         !Betula occidentalis
+     & 'OH ','PB ',                                                         !Betula papyrifera
+     & 'OH ','PB ',                                                         !Betula papyrifera var. commutata
+     & 'OH ','OT ',                                                         !Betula papyrifera var. kenaica
+     & 'OH ','PB '/                                                         !Betula papyrifera var. papyrifera
 C
       DATA ((ASPT(I,J),J=1,10),I=101,110) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -322,6 +452,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Catalpa bignonioides
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Catalpa speciosa
 C
+      DATA ((ASPT(I,J),J=21,22),I=101,110) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Betula pendula
+     & 'OH ','OT ',                                                         !Betula pumila
+     & 'OH ','OT ',                                                         !Betula pumila var. glandulifera
+     & 'OH ','OT ',                                                         !Brachychiton populneum
+     & 'PC ','YC ',                                                         !Callitropsis nootkatensis
+     & 'IC ','IC ',                                                         !Calocedrus decurrens
+     & 'OH ','OT ',                                                         !Carnegiea gigantea
+     & 'OH ','OT ',                                                         !Catalpa
+     & 'OH ','OT ',                                                         !Catalpa bignonioides
+     & 'OH ','OT '/                                                         !Catalpa speciosa
+C
       DATA ((ASPT(I,J),J=1,10),I=111,120) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','CELTI   ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Celtis
@@ -347,6 +490,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Ceratonia siliqua
      & 'OH ','OT ','OH ','OT ','OT ','MB ','MC ','MC ','OT ','MC ',         !Cercocarpus
      & 'OH ','OT ','OH ','OT ','OT ','MB ','MC ','MC ','OT ','MC '/         !Cercocarpus alnifolius
+C
+      DATA ((ASPT(I,J),J=21,22),I=111,120) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Celtis
+     & 'OH ','OT ',                                                         !Celtis ehrenbergiana
+     & 'OH ','OT ',                                                         !Celtis laevigata
+     & 'OH ','OT ',                                                         !Celtis laevigata var. brevipes
+     & 'OH ','OT ',                                                         !Celtis laevigata var. reticulata
+     & 'OH ','OT ',                                                         !Celtis laevigata var. texana
+     & 'OH ','OT ',                                                         !Celtis occidentalis
+     & 'OH ','OT ',                                                         !Ceratonia siliqua
+     & 'OH ','OT ',                                                         !Cercocarpus
+     & 'OH ','OT '/                                                         !Cercocarpus alnifolius
 C
       DATA ((ASPT(I,J),J=1,10),I=121,130) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -374,6 +530,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OS ','OT ','DF ','OT ','DF ','OS ','OS ','OS ','DF ','OS ',         !Chamaecyparis lawsoniana
      & 'OS ','OT ','DF ','OT ','YC ','OS ','OS ','OS ','YC ','OS '/         !Chamaecyparis nootkatensis
 C
+      DATA ((ASPT(I,J),J=21,22),I=121,130) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Cercocarpus intricatus
+     & 'OH ','OT ',                                                         !Cercocarpus ledifolius
+     & 'OH ','OT ',                                                         !Cercocarpus ledifolius var. intercedens
+     & 'OH ','OT ',                                                         !Cercocarpus ledifolius var. ledifolius
+     & 'OH ','OT ',                                                         !Cercocarpus montanus
+     & 'OH ','OT ',                                                         !Cercocarpus montanus var. glaber
+     & 'OH ','OT ',                                                         !Cercocarpus montanus var. montanus
+     & 'OH ','OT ',                                                         !Cercocarpus montanus var. paucidentatus
+     & 'PC ','DF ',                                                         !Chamaecyparis lawsoniana
+     & 'PC ','YC '/                                                         !Chamaecyparis nootkatensis
+C
       DATA ((ASPT(I,J),J=1,10),I=131,140) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & 'CS ','040','CHAMA4  ','YC ','YC ','PC ','OS ','OS ','YC ','OS ',    !Chamaecyparis spp.
@@ -399,6 +568,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Cordyline australis
      & 'OH ','OT ','OH ','OT ','DG ','OH ','OH ','OH ','DG ','DG ',         !Cornus
      & 'OH ','OT ','OH ','OT ','DG ','OH ','OH ','OH ','DG ','DG '/         !Cornus glabrata
+C
+      DATA ((ASPT(I,J),J=21,22),I=131,140) /
+C       OC    OP                                                             SPECIES
+     & 'PC ','YC ',                                                         !Chamaecyparis spp.
+     & 'GC ','GC ',                                                         !Chrysolepis
+     & 'GC ','GC ',                                                         !Chrysolepis chrysophylla
+     & 'GC ','GC ',                                                         !Chrysolepis chrysophylla var. chrysophylla
+     & 'GC ','GC ',                                                         !Chrysolepis chrysophylla var. chrysophylla
+     & 'GC ','GC ',                                                         !Chrysolepis chrysophylla var. minor
+     & 'OH ','OT ',                                                         !Cinnamomum camphora
+     & 'OH ','OT ',                                                         !Cordyline australis
+     & 'DG ','DG ',                                                         !Cornus
+     & 'DG ','DG '/                                                         !Cornus glabrata
 C
       DATA ((ASPT(I,J),J=1,10),I=141,150) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -426,6 +608,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','HT ','OH ','OH ','OH ','HT ','OH ',         !Crataegus douglasii
      & 'OH ','OT ','OH ','OT ','HT ','OH ','OH ','OH ','HT ','OH '/         !Crataegus erythropoda
 C
+      DATA ((ASPT(I,J),J=21,22),I=141,150) /
+C       OC    OP                                                             SPECIES
+     & 'DG ','DG ',                                                         !Cornus nuttallii
+     & 'DG ','DG ',                                                         !Cornus sericea
+     & 'DG ','DG ',                                                         !Cornus sericea ssp. occidentalis
+     & 'DG ','DG ',                                                         !Cornus sericea ssp. sericea
+     & 'DG ','DG ',                                                         !Cornus sessilis
+     & 'OH ','CH ',                                                         !Corylus cornuta
+     & 'OH ','OT ',                                                         !Corymbia citriodora
+     & 'OH ','HT ',                                                         !Crataegus
+     & 'OH ','HT ',                                                         !Crataegus douglasii
+     & 'OH ','HT '/                                                         !Crataegus erythropoda
+C
       DATA ((ASPT(I,J),J=1,10),I=151,160) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','CRRI    ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Crataegus rivularis
@@ -451,6 +646,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','WJ ','OT ','OS ',         !Cupressus arizonica ssp. nevadensis
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','WJ ','OT ','OS ',         !Cupressus arizonica ssp. stephensonii
      & 'OS ','OT ','OS ','OT ','OT ','WJ ','OS ','OS ','OT ','WJ '/         !Cupressus bakeri
+C
+      DATA ((ASPT(I,J),J=21,22),I=151,160) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','HT ',                                                         !Crataegus rivularis
+     & 'OH ','HT ',                                                         !Crataegus saligna
+     & 'OH ','HT ',                                                         !Crataegus succulenta
+     & 'WJ ','OT ',                                                         !Cupressus
+     & 'OS ','OT ',                                                         !Cupressus abramsiana
+     & 'OS ','OT ',                                                         !Cupressus arizonica
+     & 'OS ','OT ',                                                         !Cupressus arizonica ssp. arizonica
+     & 'OS ','OT ',                                                         !Cupressus arizonica ssp. nevadensis
+     & 'OS ','OT ',                                                         !Cupressus arizonica ssp. stephensonii
+     & 'WJ ','OT '/                                                         !Cupressus bakeri
 C
       DATA ((ASPT(I,J),J=1,10),I=161,170) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -478,6 +686,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Diospyros virginiana
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Elaeagnus
 C
+      DATA ((ASPT(I,J),J=21,22),I=161,170) /
+C       OC    OP                                                             SPECIES
+     & 'OS ','OT ',                                                         !Cupressus forbesii
+     & 'OS ','OT ',                                                         !Cupressus goveniana
+     & 'OS ','OT ',                                                         !Cupressus goveniana ssp. goveniana
+     & 'OS ','OT ',                                                         !Cupressus goveniana ssp. pygmaea
+     & 'OS ','OT ',                                                         !Cupressus macnabiana
+     & 'OS ','OT ',                                                         !Cupressus macrocarpa
+     & 'PC ','YC ',                                                         !Cupressus nootkatensis
+     & 'WJ ','OT ',                                                         !Cupressus sargentii
+     & 'OH ','OT ',                                                         !Diospyros virginiana
+     & 'OH ','OT '/                                                         !Elaeagnus
+C
       DATA ((ASPT(I,J),J=1,10),I=171,180) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','ELAN    ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Elaeagnus angustifolia
@@ -503,6 +724,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Eucalyptus globulus
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Eucalyptus globulus ssp. globulus
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Eucalyptus polyanthemos
+C
+      DATA ((ASPT(I,J),J=21,22),I=171,180) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Elaeagnus angustifolia
+     & 'OH ','OT ',                                                         !Elaeagnus commutata
+     & 'OH ','OT ',                                                         !Eriobotrya japonica
+     & 'OH ','OT ',                                                         !Eucalyptus
+     & 'OH ','OT ',                                                         !Eucalyptus ×mortoniana
+     & 'OH ','OT ',                                                         !Eucalyptus camaldulensis
+     & 'OH ','OT ',                                                         !Eucalyptus cladocalyx
+     & 'OH ','OT ',                                                         !Eucalyptus globulus
+     & 'OH ','OT ',                                                         !Eucalyptus globulus ssp. globulus
+     & 'OH ','OT '/                                                         !Eucalyptus polyanthemos
 C
       DATA ((ASPT(I,J),J=1,10),I=181,190) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -530,6 +764,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Ficus
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Ficus carica
 C
+      DATA ((ASPT(I,J),J=21,22),I=181,190) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Eucalyptus pulverulenta
+     & 'OH ','OT ',                                                         !Eucalyptus sideroxylon
+     & 'OH ','OT ',                                                         !Eucalyptus tereticornis
+     & 'OH ','OT ',                                                         !Eucalyptus torquata
+     & 'OH ','OT ',                                                         !Eucalyptus viminalis
+     & 'OH ','OT ',                                                         !Fagus
+     & 'OH ','OT ',                                                         !Fagus grandifolia
+     & 'OH ','OT ',                                                         !Fagus sylvatica
+     & 'OH ','OT ',                                                         !Ficus
+     & 'OH ','OT '/                                                         !Ficus carica
+C
       DATA ((ASPT(I,J),J=1,10),I=191,200) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','FIPA2   ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Ficus palmata
@@ -555,6 +802,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Fraxinus anomala var. lowellii
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Fraxinus cuspidata
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Fraxinus dipetala
+C
+      DATA ((ASPT(I,J),J=21,22),I=191,200) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Ficus palmata
+     & 'OH ','OT ',                                                         !Ficus rubiginosa
+     & 'OH ','CH ',                                                         !Frangula purshiana
+     & 'FL ','OT ',                                                         !Fraxinus
+     & 'OH ','OT ',                                                         !Fraxinus americana
+     & 'OH ','OT ',                                                         !Fraxinus anomala
+     & 'OH ','OT ',                                                         !Fraxinus anomala var. anomala
+     & 'OH ','OT ',                                                         !Fraxinus anomala var. lowellii
+     & 'OH ','OT ',                                                         !Fraxinus cuspidata
+     & 'OH ','OT '/                                                         !Fraxinus dipetala
 C
       DATA ((ASPT(I,J),J=1,10),I=201,210) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -582,6 +842,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Fremontodendron mexicanum
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Gleditsia triacanthos
 C
+      DATA ((ASPT(I,J),J=21,22),I=201,210) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Fraxinus gooddingii
+     & 'OH ','OT ',                                                         !Fraxinus greggii
+     & 'FL ','OT ',                                                         !Fraxinus latifolia
+     & 'OH ','OT ',                                                         !Fraxinus papillosa
+     & 'OH ','OT ',                                                         !Fraxinus pennsylvanica
+     & 'OH ','OT ',                                                         !Fraxinus uhdei
+     & 'OH ','OT ',                                                         !Fraxinus velutina
+     & 'OH ','OT ',                                                         !Fremontodendron californicum
+     & 'OH ','OT ',                                                         !Fremontodendron mexicanum
+     & 'OH ','OT '/                                                         !Gleditsia triacanthos
+C
       DATA ((ASPT(I,J),J=1,10),I=211,220) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','HOPO5   ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Hoheria populnea
@@ -607,6 +880,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Juglans nigra
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Juglans regia
      & 'RM ','OT ','OS ','OT ','WJ ','WJ ','RM ','WJ ','WJ ','WJ '/         !Juniperus
+C
+      DATA ((ASPT(I,J),J=21,22),I=211,220) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Hoheria populnea
+     & 'OH ','OT ',                                                         !Ilex aquifolium
+     & 'WN ','OT ',                                                         !Juglans
+     & 'WN ','OT ',                                                         !Juglans californica
+     & 'WN ','OT ',                                                         !Juglans hindsii
+     & 'OH ','OT ',                                                         !Juglans major
+     & 'OH ','OT ',                                                         !Juglans microcarpa
+     & 'OH ','OT ',                                                         !Juglans nigra
+     & 'OH ','OT ',                                                         !Juglans regia
+     & 'WJ ','WJ '/                                                         !Juniperus
 C
       DATA ((ASPT(I,J),J=1,10),I=221,230) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -634,6 +920,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OS ','OT ','OS ','OT ','WJ ','OS ','OS ','WJ ','WJ ','OS ',         !Juniperus deppeana
      & 'OS ','OT ','OS ','OT ','WJ ','OS ','OS ','OS ','WJ ','OS '/         !Juniperus erythrocarpa
 C
+      DATA ((ASPT(I,J),J=21,22),I=221,230) /
+C       OC    OP                                                             SPECIES
+     & 'WJ ','WJ ',                                                         !Juniperus (Old Code)
+     & 'WJ ','WJ ',                                                         !Juniperus californica
+     & 'OS ','WJ ',                                                         !Juniperus coahuilensis
+     & 'OS ','WJ ',                                                         !Juniperus coahuilensis var. arizonica
+     & 'OS ','WJ ',                                                         !Juniperus coahuilensis var. coahuilensis
+     & 'WJ ','WJ ',                                                         !Juniperus communis
+     & 'WJ ','WJ ',                                                         !Juniperus communis var. depressa
+     & 'WJ ','WJ ',                                                         !Juniperus communis var. saxatilis
+     & 'OS ','WJ ',                                                         !Juniperus deppeana
+     & 'OS ','WJ '/                                                         !Juniperus erythrocarpa
+C
       DATA ((ASPT(I,J),J=1,10),I=231,240) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & 'OJ ','069','JUMO    ','OS ','OS ','OS ','WJ ','OJ ','OS ','OS ',    !Juniperus monosperma
@@ -659,6 +958,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','OS ',         !Juniperus virginiana
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','OS ',         !Juniperus virginiana var. virginiana
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Koelreuteria paniculata
+C
+      DATA ((ASPT(I,J),J=21,22),I=231,240) /
+C       OC    OP                                                             SPECIES
+     & 'OS ','WJ ',                                                         !Juniperus monosperma
+     & 'WJ ','WJ ',                                                         !Juniperus occidentalis
+     & 'WJ ','WJ ',                                                         !Juniperus occidentalis var. australis
+     & 'WJ ','WJ ',                                                         !Juniperus occidentalis var. occidentalis
+     & 'OS ','WJ ',                                                         !Juniperus osteosperma
+     & 'OS ','WJ ',                                                         !Juniperus pinchotii
+     & 'OS ','WJ ',                                                         !Juniperus scopulorum
+     & 'OS ','OT ',                                                         !Juniperus virginiana
+     & 'OS ','OT ',                                                         !Juniperus virginiana var. virginiana
+     & 'OH ','OT '/                                                         !Koelreuteria paniculata
 C
       DATA ((ASPT(I,J),J=1,10),I=241,250) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -686,6 +998,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Leucaena
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Leucaena esculenta
 C
+      DATA ((ASPT(I,J),J=21,22),I=241,250) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Laburnum anagyroides
+     & 'OS ','YC ',                                                         !Larix
+     & 'OS ','YC ',                                                         !Larix laricina
+     & 'OS ','LL ',                                                         !Larix lyallii
+     & 'OS ','YC ',                                                         !Larix occidentalis
+     & 'OS ','YC ',                                                         !Larix occidentalis (Old Code)
+     & 'OH ','OT ',                                                         !Laurus nobilis
+     & 'OH ','OT ',                                                         !Leptochloa
+     & 'OH ','OT ',                                                         !Leucaena
+     & 'OH ','OT '/                                                         !Leucaena esculenta
+C
       DATA ((ASPT(I,J),J=1,10),I=251,260) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','LELE10  ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Leucaena leucocephala
@@ -711,6 +1036,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Lithrea molleoides
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Lyonothamnus
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Lyonothamnus floribundus
+C
+      DATA ((ASPT(I,J),J=21,22),I=251,260) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Leucaena leucocephala
+     & 'IC ','IC ',                                                         !Libocedrus decurrens
+     & 'OH ','OT ',                                                         !Liquidambar styraciflua
+     & 'TO ','GC ',                                                         !Lithocarpus
+     & 'TO ','GC ',                                                         !Lithocarpus densiflorus
+     & 'TO ','GC ',                                                         !Lithocarpus densiflorus var. densiflorus
+     & 'TO ','GC ',                                                         !Lithocarpus densiflorus var. echinoides
+     & 'OH ','OT ',                                                         !Lithrea molleoides
+     & 'OH ','OT ',                                                         !Lyonothamnus
+     & 'OH ','OT '/                                                         !Lyonothamnus floribundus
 C
       DATA ((ASPT(I,J),J=1,10),I=261,270) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -738,6 +1076,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Morella californica
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Morus
 C
+      DATA ((ASPT(I,J),J=21,22),I=261,270) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Lyonothamnus floribundus ssp. aspleniifolius
+     & 'OH ','OT ',                                                         !Lyonothamnus floribundus ssp. floribundus
+     & 'OH ','CH ',                                                         !Malus
+     & 'OH ','OT ',                                                         !Malus coronaria
+     & 'OH ','OT ',                                                         !Malus fusca
+     & 'OH ','OT ',                                                         !Malus pumila
+     & 'OH ','OT ',                                                         !Melaleuca quinquenervia
+     & 'OH ','OT ',                                                         !Melia azedarach
+     & 'OH ','OT ',                                                         !Morella californica
+     & 'OH ','OT '/                                                         !Morus
+C
       DATA ((ASPT(I,J),J=1,10),I=271,280) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','MOAL    ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Morus alba
@@ -763,6 +1114,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','OS ',         !Other
      & 'OS ','OT ','OS ','OT ','DF ','OS ','OS ','OS ','DF ','OS ',         !Other Conifer
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Other Hardwood
+C
+      DATA ((ASPT(I,J),J=21,22),I=271,280) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Morus alba
+     & 'OH ','OT ',                                                         !Morus microphylla
+     & 'OH ','OT ',                                                         !Olneya tesota
+     & 'OH ','OT ',                                                         !Ostrya
+     & 'OH ','OT ',                                                         !Ostrya knowltonii
+     & 'OH ','OT ',                                                         !Ostrya virginiana
+     & 'OH ','OT ',                                                         !Ostrya virginiana  var. virginiana
+     & 'OH ','OT ',                                                         !Other
+     & 'OS ','DF ',                                                         !Other Conifer
+     & 'OH ','OT '/                                                         !Other Hardwood
 C
       DATA ((ASPT(I,J),J=1,10),I=281,290) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -790,6 +1154,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'ES ','ES ','OS ','ES ','ES ','ES ','ES ','ES ','ES ','OS ',         !Picea engelmannii (Old Code)
      & 'ES ','ES ','OS ','ES ','ES ','ES ','ES ','ES ','ES ','OS '/         !Picea engelmannii var. engelmannii
 C
+      DATA ((ASPT(I,J),J=21,22),I=281,290) /
+C       OC    OP                                                             SPECIES
+     & 'OS ','OT ',                                                         !Other Softwood
+     & 'OS ','OT ',                                                         !Other Softwood
+     & 'OH ','OT ',                                                         !Phoenix
+     & 'OH ','OT ',                                                         !Phoenix canariensis
+     & 'OH ','OT ',                                                         !Phoenix dactylifera
+     & 'BR ','SS ',                                                         !Picea
+     & 'BR ','OT ',                                                         !Picea breweriana
+     & 'BR ','ES ',                                                         !Picea engelmannii
+     & 'BR ','ES ',                                                         !Picea engelmannii (Old Code)
+     & 'BR ','ES '/                                                         !Picea engelmannii var. engelmannii
+C
       DATA ((ASPT(I,J),J=1,10),I=291,300) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','PIENM2  ','OS ','ES ','BR ','ES ','ES ','ES ','ES ',    !Picea engelmannii var. mexicana
@@ -815,6 +1192,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','MP ',         !Pinus ×attenuradiata
      & 'WB ','LP ','OS ','LP ','WB ','WB ','WB ','WB ','WB ','WB ',         !Pinus albicaulis
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','OS '/         !Pinus aristata
+C
+      DATA ((ASPT(I,J),J=21,22),I=291,300) /
+C       OC    OP                                                             SPECIES
+     & 'BR ','ES ',                                                         !Picea engelmannii var. mexicana
+     & 'OS ','OT ',                                                         !Picea glauca
+     & 'OS ','OT ',                                                         !Picea lutzii
+     & 'OS ','OT ',                                                         !Picea mariana
+     & 'OS ','OT ',                                                         !Picea pungens
+     & 'OS ','SS ',                                                         !Picea sitchensis
+     & 'SP ','LP ',                                                         !Pinus
+     & 'MP ','OT ',                                                         !Pinus ×attenuradiata
+     & 'WB ','WB ',                                                         !Pinus albicaulis
+     & 'OS ','OT '/                                                         !Pinus aristata
 C
       DATA ((ASPT(I,J),J=1,10),I=301,310) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -842,6 +1232,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'LP ','LP ','PP ','LP ','LP ','LP ','LP ','LP ','LP ','LP ',         !Pinus contorta
      & 'OS ','OT ','OS ','OT ','LP ','OS ','OS ','OS ','OT ','OS '/         !Pinus contorta var. bolanderi
 C
+      DATA ((ASPT(I,J),J=21,22),I=301,310) /
+C       OC    OP                                                             SPECIES
+     & 'OS ','OT ',                                                         !Pinus arizonica
+     & 'OS ','OT ',                                                         !Pinus arizonica var. arizonica
+     & 'OS ','OT ',                                                         !Pinus arizonica var. stormiae
+     & 'KP ','KP ',                                                         !Pinus attenuata
+     & 'WB ','WB ',                                                         !Pinus balfouriana
+     & 'WB ','WB ',                                                         !Pinus balfouriana ssp. austrina
+     & 'WB ','WB ',                                                         !Pinus balfouriana ssp. balfouriana
+     & 'OS ','OT ',                                                         !Pinus cembroides
+     & 'LP ','LP ',                                                         !Pinus contorta
+     & 'OS ','LP '/                                                         !Pinus contorta var. bolanderi
+C
       DATA ((ASPT(I,J),J=1,10),I=311,320) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','PICOC   ','LP ','OS ','OS ','OS ','OS ','OS ','OS ',    !Pinus contorta var. contorta
@@ -867,6 +1270,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'LM ','OT ','OS ','OT ','OT ','WB ','LM ','LM ','OT ','LM ',         !Pinus flexilis
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','OS ',         !Pinus halepensis
      & 'OS ','OT ','PP ','OT ','JP ','PP ','OS ','OS ','JP ','JP '/         !Pinus jeffreyi
+C
+      DATA ((ASPT(I,J),J=21,22),I=311,320) /
+C       OC    OP                                                             SPECIES
+     & 'OS ','LP ',                                                         !Pinus contorta var. contorta
+     & 'LP ','LP ',                                                         !Pinus contorta var. latifolia
+     & 'LP ','LP ',                                                         !Pinus contorta var. murrayana
+     & 'CP ','OT ',                                                         !Pinus coulteri
+     & 'OS ','OT ',                                                         !Pinus discolor
+     & 'OS ','OT ',                                                         !Pinus edulis
+     & 'OS ','OT ',                                                         !Pinus engelmannii
+     & 'LM ','OT ',                                                         !Pinus flexilis
+     & 'OS ','OT ',                                                         !Pinus halepensis
+     & 'JP ','JP '/                                                         !Pinus jeffreyi
 C
       DATA ((ASPT(I,J),J=1,10),I=321,330) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -894,6 +1310,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'WP ','WP ','SP ','WP ','WP ','WP ','OS ','OS ','WP ','WP ',         !Pinus monticola
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','OS '/         !Pinus muricata
 C
+      DATA ((ASPT(I,J),J=21,22),I=321,330) /
+C       OC    OP                                                             SPECIES
+     & 'SP ','SP ',                                                         !Pinus lambertiana
+     & 'OS ','OT ',                                                         !Pinus leiophylla
+     & 'OS ','OT ',                                                         !Pinus leiophylla var. chihuahuana
+     & 'OS ','OT ',                                                         !Pinus longaeva
+     & 'OS ','OT ',                                                         !Pinus monophylla
+     & 'OS ','OT ',                                                         !Pinus monophylla var. californiarum
+     & 'OS ','OT ',                                                         !Pinus monophylla var. fallax
+     & 'OS ','OT ',                                                         !Pinus monophylla var. monophylla
+     & 'WP ','WP ',                                                         !Pinus monticola
+     & 'OS ','OT '/                                                         !Pinus muricata
+C
       DATA ((ASPT(I,J),J=1,10),I=331,340) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & 'PN ','136','PINI    ','OS ','OS ','OS ','PP ','PP ','OS ','OS ',    !Pinus nigra
@@ -919,6 +1348,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','OS ',         !Pinus quadrifolia
      & 'OS ','OT ','PP ','OT ','LP ','OS ','OS ','OS ','OT ','MP ',         !Pinus radiata
      & 'OS ','OT ','OS ','OT ','OT ','OS ','OS ','OS ','OT ','GP '/         !Pinus sabiniana
+C
+      DATA ((ASPT(I,J),J=21,22),I=331,340) /
+C       OC    OP                                                             SPECIES
+     & 'OS ','OT ',                                                         !Pinus nigra
+     & 'OS ','OT ',                                                         !Pinus pinea
+     & 'PP ','PP ',                                                         !Pinus ponderosa
+     & 'OS ','OT ',                                                         !Pinus ponderosa ssp. arizonica
+     & 'OS ','OT ',                                                         !Pinus ponderosa var. arizonica
+     & 'PP ','PP ',                                                         !Pinus ponderosa var. ponderosa
+     & 'PP ','PP ',                                                         !Pinus ponderosa var. scopulorum
+     & 'OS ','OT ',                                                         !Pinus quadrifolia
+     & 'MP ','LP ',                                                         !Pinus radiata
+     & 'GP ','OT '/                                                         !Pinus sabiniana
 C
       DATA ((ASPT(I,J),J=1,10),I=341,350) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -946,6 +1388,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Pistacia chinensis
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Platanus occidentalis
 C
+      DATA ((ASPT(I,J),J=21,22),I=341,350) /
+C       OC    OP                                                             SPECIES
+     & 'OS ','OT ',                                                         !Pinus strobiformis
+     & 'OS ','OT ',                                                         !Pinus sylvestris
+     & 'MP ','OT ',                                                         !Pinus torreyana
+     & 'MP ','OT ',                                                         !Pinus torreyana var. insularis
+     & 'MP ','OT ',                                                         !Pinus torreyana var. torreyana
+     & 'PP ','OT ',                                                         !Pinus washoensis
+     & 'OH ','OT ',                                                         !Pistacia
+     & 'OH ','OT ',                                                         !Pistacia atlantica
+     & 'OH ','OT ',                                                         !Pistacia chinensis
+     & 'SY ','OT '/                                                         !Platanus occidentalis
+C
       DATA ((ASPT(I,J),J=1,10),I=351,360) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & 'SY ','730','PLRA    ','OH ','OH ','SY ','OH ','NC ','OH ','OH ',    !Platanus racemosa
@@ -971,6 +1426,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'CO ','OT ','OH ','OT ','CW ','CW ','NC ','NC ','CW ','OH ',         !Populus ×hinckleyana
      & 'CO ','OT ','OH ','OT ','CW ','CW ','NC ','NC ','CW ','OH ',         !Populus ×inopina
      & 'OH ','OT ','OH ','OT ','CW ','CW ','OH ','NC ','CW ','OH '/         !Populus ×jackii
+C
+      DATA ((ASPT(I,J),J=21,22),I=351,360) /
+C       OC    OP                                                             SPECIES
+     & 'SY ','OT ',                                                         !Platanus racemosa
+     & 'SY ','OT ',                                                         !Platanus spp.
+     & 'SY ','OT ',                                                         !Platanus wrightii
+     & 'CW ','CW ',                                                         !Populus
+     & 'CW ','CW ',                                                         !Populus ×acuminata
+     & 'CW ','CW ',                                                         !Populus ×brayshawii
+     & 'CW ','CW ',                                                         !Populus ×canadensis
+     & 'CW ','CW ',                                                         !Populus ×hinckleyana
+     & 'CW ','CW ',                                                         !Populus ×inopina
+     & 'CW ','CW '/                                                         !Populus ×jackii
 C
       DATA ((ASPT(I,J),J=1,10),I=361,370) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -998,6 +1466,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','CW ','CW ','NC ','NC ','CW ','OH ',         !Populus deltoides ssp. wislizeni
      & 'OH ','OT ','OH ','OT ','CW ','CW ','NC ','FC ','CW ','OH '/         !Populus fremontii
 C
+      DATA ((ASPT(I,J),J=21,22),I=361,370) /
+C       OC    OP                                                             SPECIES
+     & 'CW ','CW ',                                                         !Populus ×parryi
+     & 'CW ','CW ',                                                         !Populus alba
+     & 'CW ','CW ',                                                         !Populus angustifolia
+     & 'CW ','CW ',                                                         !Populus balsamifera
+     & 'CW ','CW ',                                                         !Populus balsamifera ssp. balsamifera
+     & 'CW ','CW ',                                                         !Populus balsamifera ssp. trichocarpa
+     & 'CW ','CW ',                                                         !Populus deltoides
+     & 'CW ','CW ',                                                         !Populus deltoides ssp. monilifera
+     & 'CW ','CW ',                                                         !Populus deltoides ssp. wislizeni
+     & 'CW ','CW '/                                                         !Populus fremontii
+C
       DATA ((ASPT(I,J),J=1,10),I=371,380) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','POFRF3  ','OH ','CW ','CW ','CW ','NC ','CW ','OH ',    !Populus fremontii ssp. fremontii
@@ -1023,6 +1504,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Prosopis glandulosa var. glandulosa
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Prosopis glandulosa var. torreyana
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Prosopis pubescens
+C
+      DATA ((ASPT(I,J),J=21,22),I=371,380) /
+C       OC    OP                                                             SPECIES
+     & 'CW ','CW ',                                                         !Populus fremontii ssp. fremontii
+     & 'CW ','CW ',                                                         !Populus fremontii ssp. mesetae
+     & 'CW ','CW ',                                                         !Populus nigra
+     & 'AS ','AS ',                                                         !Populus tremuloides
+     & 'CW ','CW ',                                                         !Populus trichocarpa
+     & 'OH ','OT ',                                                         !Prosopis
+     & 'OH ','OT ',                                                         !Prosopis glandulosa
+     & 'OH ','OT ',                                                         !Prosopis glandulosa var. glandulosa
+     & 'OH ','OT ',                                                         !Prosopis glandulosa var. torreyana
+     & 'OH ','OT '/                                                         !Prosopis pubescens
 C
       DATA ((ASPT(I,J),J=1,10),I=381,390) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -1050,6 +1544,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'DF ','DF ','DF ','DF ','DF ','DF ','DF ','DF ','DF ','DF ',         !Pseudotsuga menziesii var. glauca
      & 'DF ','DF ','DF ','DF ','DF ','DF ','DF ','DF ','DF ','DF '/         !Pseudotsuga menziesii var. menziesii
 C
+      DATA ((ASPT(I,J),J=21,22),I=381,390) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Prosopis velutina
+     & 'OH ','CH ',                                                         !Prunus
+     & 'OH ','CH ',                                                         !Prunus americana
+     & 'OH ','CH ',                                                         !Prunus emarginata
+     & 'OH ','CH ',                                                         !Prunus virginiana var. demissa
+     & 'DF ','DF ',                                                         !Pseudotsuga
+     & 'OS ','DF ',                                                         !Pseudotsuga macrocarpa
+     & 'DF ','DF ',                                                         !Pseudotsuga menziesii
+     & 'DF ','DF ',                                                         !Pseudotsuga menziesii var. glauca
+     & 'DF ','DF '/                                                         !Pseudotsuga menziesii var. menziesii
+C
       DATA ((ASPT(I,J),J=1,10),I=391,400) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','PTELE   ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Ptelea
@@ -1075,6 +1582,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','BO ','OT ','WO ','WO ','OH ','GO ','WO ','BO ',         !Quercus
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','BO ',         !Quercus ×moreha
      & 'OH ','OT ','BO ','OT ','WO ','WO ','OH ','GO ','WO ','LO '/         !Quercus ×pauciloba
+C
+      DATA ((ASPT(I,J),J=21,22),I=391,400) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Ptelea
+     & 'OH ','OT ',                                                         !Ptelea trifoliata
+     & 'OH ','OT ',                                                         !Ptelea trifoliata ssp. pallida
+     & 'OH ','OT ',                                                         !Ptelea trifoliata ssp. pallida  var. confinis
+     & 'OH ','OT ',                                                         !Ptelea trifoliata ssp. polyadenia
+     & 'OH ','OT ',                                                         !Pyrus communis
+     & 'LO ','WO ',                                                         !Quercus
+     & 'LO ','WO ',                                                         !Quercus
+     & 'OH ','OT ',                                                         !Quercus ×moreha
+     & 'LO ','WO '/                                                         !Quercus ×pauciloba
 C
       DATA ((ASPT(I,J),J=1,10),I=401,410) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -1102,6 +1622,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','GO ','OT ','BO ',         !Quercus gambelii
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','GO ','OT ','BO '/         !Quercus gambelii var. gambelii
 C
+      DATA ((ASPT(I,J),J=21,22),I=401,410) /
+C       OC    OP                                                             SPECIES
+     & 'LO ','WO ',                                                         !Quercus agrifolia
+     & 'OH ','OT ',                                                         !Quercus arizonica
+     & 'CY ','WO ',                                                         !Quercus chrysolepis
+     & 'CY ','WO ',                                                         !Quercus chrysolepis var. chrysolepis
+     & 'BL ','WO ',                                                         !Quercus douglasii
+     & 'IO ','OT ',                                                         !Quercus dumosa
+     & 'OH ','OT ',                                                         !Quercus emoryi
+     & 'EO ','OT ',                                                         !Quercus engelmannii
+     & 'OH ','OT ',                                                         !Quercus gambelii
+     & 'OH ','OT '/                                                         !Quercus gambelii var. gambelii
+C
       DATA ((ASPT(I,J),J=1,10),I=411,420) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & 'WO ','815','QUGA4   ','OH ','OH ','WO ','OH ','OH ','WO ','OH ',    !Quercus garryana
@@ -1127,6 +1660,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','BO ','OT ','WO ','WO ','OH ','OH ','WO ','VO ',         !Quercus lobata
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Quercus macrocarpa
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Quercus muehlenbergii
+C
+      DATA ((ASPT(I,J),J=21,22),I=411,420) /
+C       OC    OP                                                             SPECIES
+     & 'WO ','WO ',                                                         !Quercus garryana
+     & 'WO ','WO ',                                                         !Quercus garryana var. fruticosa
+     & 'WO ','WO ',                                                         !Quercus garryana var. garryana
+     & 'WO ','WO ',                                                         !Quercus garryana var. semota
+     & 'OH ','OT ',                                                         !Quercus grisea
+     & 'OH ','OT ',                                                         !Quercus hypoleucoides
+     & 'BO ','WO ',                                                         !Quercus kelloggii
+     & 'VO ','WO ',                                                         !Quercus lobata
+     & 'OH ','OT ',                                                         !Quercus macrocarpa
+     & 'OH ','OT '/                                                         !Quercus muehlenbergii
 C
       DATA ((ASPT(I,J),J=1,10),I=421,430) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -1154,6 +1700,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','BO ','OT ','WO ','WO ','OH ','OH ','WO ','IO ',         !Quercus wislizeni var. frutescens
      & 'OH ','OT ','BO ','OT ','WO ','WO ','OH ','OH ','WO ','IO '/         !Quercus wislizeni var. wislizeni
 C
+      DATA ((ASPT(I,J),J=21,22),I=421,430) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Quercus oblongifolia
+     & 'OH ','OT ',                                                         !Quercus rugosa
+     & 'OH ','OT ',                                                         !Quercus sadleriana
+     & 'OH ','OT ',                                                         !Quercus toumeyi
+     & 'OH ','OT ',                                                         !Quercus turbinella
+     & 'OH ','OT ',                                                         !Quercus undulata
+     & 'OH ','OT ',                                                         !Quercus vacciniifolia
+     & 'IO ','WO ',                                                         !Quercus wislizeni
+     & 'IO ','WO ',                                                         !Quercus wislizeni var. frutescens
+     & 'IO ','WO '/                                                         !Quercus wislizeni var. wislizeni
+C
       DATA ((ASPT(I,J),J=1,10),I=431,440) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','ROBIN   ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Robinia
@@ -1179,6 +1738,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Robinia neomexicana var. rusbyi
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Robinia pseudoacacia
      & 'OH ','OT ','OH ','OT ','WI ','WI ','OH ','OH ','WI ','OH '/         !Salix
+C
+      DATA ((ASPT(I,J),J=21,22),I=431,440) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Robinia
+     & 'OH ','OT ',                                                         !Robinia ×holdtii
+     & 'OH ','OT ',                                                         !Robinia hispida
+     & 'OH ','OT ',                                                         !Robinia hispida var. fertilis
+     & 'OH ','OT ',                                                         !Robinia hispida var. hispida
+     & 'OH ','OT ',                                                         !Robinia neomexicana
+     & 'OH ','OT ',                                                         !Robinia neomexicana var. neomexicana
+     & 'OH ','OT ',                                                         !Robinia neomexicana var. rusbyi
+     & 'OH ','OT ',                                                         !Robinia pseudoacacia
+     & 'WI ','WI '/                                                         !Salix
 C
       DATA ((ASPT(I,J),J=1,10),I=441,450) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -1206,6 +1778,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','WI ','WI ','OH ','OH ','WI ','OH ',         !Salix fragilis
      & 'OH ','OT ','OH ','OT ','WI ','WI ','OH ','OH ','WI ','OH '/         !Salix glauca
 C
+      DATA ((ASPT(I,J),J=21,22),I=441,450) /
+C       OC    OP                                                             SPECIES
+     & 'WI ','WI ',                                                         !Salix alaxensis
+     & 'WI ','WI ',                                                         !Salix alaxensis var. alaxensis
+     & 'WI ','WI ',                                                         !Salix alaxensis var. longistylis
+     & 'WI ','WI ',                                                         !Salix alba
+     & 'WI ','WI ',                                                         !Salix amygdaloides
+     & 'WI ','WI ',                                                         !Salix bebbiana
+     & 'WI ','WI ',                                                         !Salix bonplandiana
+     & 'WI ','WI ',                                                         !Salix exigua
+     & 'WI ','WI ',                                                         !Salix fragilis
+     & 'WI ','WI '/                                                         !Salix glauca
+C
       DATA ((ASPT(I,J),J=1,10),I=451,460) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','SAGO    ','OH ','OH ','WI ','OH ','OH ','WI ','OH ',    !Salix gooddingii
@@ -1231,6 +1816,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','WI ','WI ','OH ','OH ','WI ','OH ',         !Salix lucida ssp. lasiandra
      & 'OH ','OT ','OH ','OT ','WI ','WI ','OH ','OH ','WI ','OH ',         !Salix maccalliana
      & 'OH ','OT ','OH ','OT ','WI ','WI ','OH ','OH ','WI ','OH '/         !Salix monticola
+C
+      DATA ((ASPT(I,J),J=21,22),I=451,460) /
+C       OC    OP                                                             SPECIES
+     & 'WI ','WI ',                                                         !Salix gooddingii
+     & 'WI ','WI ',                                                         !Salix lasiandra
+     & 'WI ','WI ',                                                         !Salix lasiolepis
+     & 'WI ','WI ',                                                         !Salix lasiolepis var. bigelovii
+     & 'WI ','WI ',                                                         !Salix lasiolepis var. lasiolepis
+     & 'WI ','WI ',                                                         !Salix ligulifolia
+     & 'WI ','WI ',                                                         !Salix lucida
+     & 'WI ','WI ',                                                         !Salix lucida ssp. lasiandra
+     & 'WI ','WI ',                                                         !Salix maccalliana
+     & 'WI ','WI '/                                                         !Salix monticola
 C
       DATA ((ASPT(I,J),J=1,10),I=461,470) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -1258,6 +1856,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Sapindus saponaria var. drummondii
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Schinus
 C
+      DATA ((ASPT(I,J),J=21,22),I=461,470) /
+C       OC    OP                                                             SPECIES
+     & 'WI ','WI ',                                                         !Salix planifolia
+     & 'WI ','WI ',                                                         !Salix planifolia sp. planifolia
+     & 'WI ','WI ',                                                         !Salix scouleriana
+     & 'WI ','WI ',                                                         !Salix taxifolia
+     & 'OH ','OT ',                                                         !Sambucus
+     & 'OH ','OT ',                                                         !Sambucus nigra ssp. canadensis
+     & 'OH ','OT ',                                                         !Sapindus
+     & 'OH ','OT ',                                                         !Sapindus saponaria
+     & 'OH ','OT ',                                                         !Sapindus saponaria var. drummondii
+     & 'OH ','OT '/                                                         !Schinus
+C
       DATA ((ASPT(I,J),J=1,10),I=471,480) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','SCMO    ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Schinus molle
@@ -1283,6 +1894,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Syringa reticulata
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Syringa reticulata ssp. amurensis
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Syringa vulgaris
+C
+      DATA ((ASPT(I,J),J=21,22),I=471,480) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Schinus molle
+     & 'OH ','OT ',                                                         !Schinus polygamus
+     & 'OH ','OT ',                                                         !Schinus terebinthifolius
+     & 'OH ','OT ',                                                         !Schinus terebinthifolius var. raddianus
+     & 'GS ','RW ',                                                         !Sequoia sempervirens
+     & 'GS ','RW ',                                                         !Sequoiadendron giganteum
+     & 'OH ','OT ',                                                         !Syringa
+     & 'OH ','OT ',                                                         !Syringa reticulata
+     & 'OH ','OT ',                                                         !Syringa reticulata ssp. amurensis
+     & 'OH ','OT '/                                                         !Syringa vulgaris
 C
       DATA ((ASPT(I,J),J=1,10),I=481,490) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -1310,6 +1934,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'RC ','RC ','OS ','RC ','RC ','RC ','OS ','OS ','RC ','OS ',         !Thuja plicata (Old Code)
      & 'RC ','RC ','OS ','RC ','RC ','RC ','OS ','OS ','RC ','OS '/         !Thuja spp.
 C
+      DATA ((ASPT(I,J),J=21,22),I=481,490) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Tamarix
+     & 'OH ','OT ',                                                         !Tamarix chinensis
+     & 'OH ','OT ',                                                         !Tamarix parviflora
+     & 'OH ','OT ',                                                         !Tamarix ramosissima
+     & 'PY ','PY ',                                                         !Taxus
+     & 'PY ','PY ',                                                         !Taxus baccata
+     & 'PY ','PY ',                                                         !Taxus brevifolia
+     & 'RC ','RC ',                                                         !Thuja plicata
+     & 'RC ','RC ',                                                         !Thuja plicata (Old Code)
+     & 'RC ','RC '/                                                         !Thuja spp.
+C
       DATA ((ASPT(I,J),J=1,10),I=491,500) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','TIEU4   ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Tilia ×europaea
@@ -1335,6 +1972,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Ulmus
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Ulmus americana
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Ulmus glabra
+C
+      DATA ((ASPT(I,J),J=21,22),I=491,500) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Tilia ×europaea
+     & 'CN ','OT ',                                                         !Torreya californica
+     & 'OH ','OT ',                                                         !Triadica sebifera
+     & 'WH ','WH ',                                                         !Tsuga
+     & 'WH ','WH ',                                                         !Tsuga ×jeffreyi
+     & 'WH ','WH ',                                                         !Tsuga heterophylla
+     & 'MH ','MH ',                                                         !Tsuga mertensiana
+     & 'OH ','OT ',                                                         !Ulmus
+     & 'OH ','OT ',                                                         !Ulmus americana
+     & 'OH ','OT '/                                                         !Ulmus glabra
 C
       DATA ((ASPT(I,J),J=1,10),I=501,510) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
@@ -1362,6 +2012,19 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Vauquelinia californica
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Vauquelinia californica  ssp. pauciflora
 C
+      DATA ((ASPT(I,J),J=21,22),I=501,510) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Ulmus parvifolia
+     & 'OH ','OT ',                                                         !Ulmus procera
+     & 'OH ','OT ',                                                         !Ulmus pumila
+     & 'CL ','OT ',                                                         !Umbellularia
+     & 'CL ','OT ',                                                         !Umbellularia californica
+     & 'CL ','OT ',                                                         !Umbellularia californica var. californica
+     & 'CL ','OT ',                                                         !Umbellularia californica var. fresnensis
+     & 'OH ','OT ',                                                         !Vauquelinia
+     & 'OH ','OT ',                                                         !Vauquelinia californica
+     & 'OH ','OT '/                                                         !Vauquelinia californica  ssp. pauciflora
+C
       DATA ((ASPT(I,J),J=1,10),I=511,517) /
 C      ALFA   FIA   PLNT       AK    BM    CA    CI    CR    EC    EM        SPECIES
      & '   ','   ','VEFO    ','OH ','OH ','OH ','OH ','OH ','OH ','OH ',    !Vernicia fordii
@@ -1381,6 +2044,16 @@ C       IE    KT    NC    NI    PN    SO    TT    UT    WC    WS             SPE
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Yucca brevifolia
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH ',         !Yucca brevifolia var. brevifolia
      & 'OH ','OT ','OH ','OT ','OT ','OH ','OH ','OH ','OT ','OH '/         !Yucca brevifolia var. jaegeriana
+C
+      DATA ((ASPT(I,J),J=21,22),I=511,517) /
+C       OC    OP                                                             SPECIES
+     & 'OH ','OT ',                                                         !Vernicia fordii
+     & 'OH ','OT ',                                                         !Washingtonia
+     & 'OH ','OT ',                                                         !Washingtonia filifera
+     & 'OH ','OT ',                                                         !Washingtonia robusta
+     & 'OH ','OT ',                                                         !Yucca brevifolia
+     & 'OH ','OT ',                                                         !Yucca brevifolia var. brevifolia
+     & 'OH ','OT '/                                                         !Yucca brevifolia var. jaegeriana
 C
 C----------
 C  INITIALIZATIONS
@@ -1434,6 +2107,10 @@ C----------
             SPCOUT= ASPT(I,19)
           CASE('WS')
             SPCOUT= ASPT(I,20)
+          CASE('OC')
+            SPCOUT= ASPT(I,21)
+          CASE('OP')
+            SPCOUT= ASPT(I,22)
         END SELECT 
         GO TO 150        
       ELSEIF (SPCIN .EQ. ASPT(I,2)) THEN
@@ -1473,6 +2150,10 @@ C----------
             SPCOUT= ASPT(I,19)
           CASE('WS') 
             SPCOUT= ASPT(I,20)
+          CASE('OC')
+            SPCOUT= ASPT(I,21)
+          CASE('OP')
+            SPCOUT= ASPT(I,22)
         END SELECT
         GO TO 150   
       ELSEIF (SPCIN .EQ. ASPT(I,3)) THEN
@@ -1512,6 +2193,10 @@ C----------
             SPCOUT= ASPT(I,19)
           CASE('WS') 
             SPCOUT= ASPT(I,20)
+          CASE('OC')
+            SPCOUT= ASPT(I,21)
+          CASE('OP')
+            SPCOUT= ASPT(I,22)
         END SELECT
         GO TO 150   
       ENDIF      

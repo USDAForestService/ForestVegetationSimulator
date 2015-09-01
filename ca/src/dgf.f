@@ -1,7 +1,7 @@
       SUBROUTINE DGF(DIAM)
       IMPLICIT NONE
 C----------
-C  **DGF--CA    DATE OF LAST REVISION:  09/30/10
+C CA $Id$
 C----------
 C  THIS SUBROUTINE COMPUTES THE VALUE OF DDS (CHANGE IN SQUARED
 C  DIAMETER) FOR EACH TREE RECORD, AND LOADS IT INTO THE ARRAY
@@ -107,7 +107,7 @@ C
       REAL DIAM(MAXTRE),DGLD(13),DGLBA(13),DGCR(13),DGCRSQ(13)
       REAL DGDBAL(13),DGBAL(13),DGFOR(5,13),DGDS(13),DGEL(13)
       REAL DGSASP(13),DGCASP(13),DGSLOP(13),DGSLSQ(13),DGELSQ(13)
-      INTEGER MAPLOC(7,13),MAPSPC(MAXSP),OBSERV(13)
+      INTEGER MAPLOC(10,13),MAPSPC(MAXSP),OBSERV(13)
       REAL DGSITE(13),DGPCCF(13),DGHAH(13)
 C
       DATA MAPSPC/
@@ -176,19 +176,19 @@ C  DGFOR CONTAINS LOCATION CLASS CONSTANTS FOR EACH SPECIES.
 C  MAPLOC IS AN ARRAY WHICH MAPS FOREST ONTO A LOCATION CLASS.
 C----------
       DATA MAPLOC/
-     & 1,1,1,1,2,1,1,
-     & 1,1,1,1,1,1,1,
-     & 1,1,1,2,1,1,1,
-     & 1,2,2,1,3,4,5,
-     & 1,1,1,1,1,1,1,
-     & 1,1,1,2,1,1,1,
-     & 1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1/
+     & 1,1,1,1,2,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,2,1,1,1,1,1,1,
+     & 1,2,2,1,3,4,5,4,4,5,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,2,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1/
 C
       DATA DGFOR/
      & -3.428338, -3.966547,  0.0     ,  0.0     ,  0.0     ,

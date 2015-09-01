@@ -265,7 +265,7 @@ C----------
         INDX=MAPWS(ISPC)
       ELSEIF (VVER(:2).EQ.'NC') THEN
         INDX=MAPNC(ISPC)
-      ELSEIF (VVER(:2).EQ.'CA') THEN
+      ELSEIF (VVER(:2).EQ.'CA' .OR. VVER(:2).EQ.'OC') THEN
         INDX=MAPCA(ISPC)
       ELSE
         INDX=99
