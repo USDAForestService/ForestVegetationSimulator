@@ -600,7 +600,7 @@ if (NOT STATIC_LINK)
     add_library(${fvslib_static}
         $<TARGET_OBJECTS:common_objs>
         $<TARGET_OBJECTS:${fvs_objs}>)
-    target_link_libraries(${fvslib_shared}_static ffe_lib sql_lib)
+    target_link_libraries(${fvslib_static} ffe_lib sql_lib)
 
     add_executable (${fvsexe} ${main_source}
         $<TARGET_OBJECTS:common_objs>
@@ -733,7 +733,7 @@ if (WITH_PYMOD)
             )
 
     # Compile the Python module and link required libraries
-    if (STATIC_LINK EQUAL OFF)
+    if (NOT STATIC_LINK)
         add_library(${pymod_name} SHARED ${f2py_wrappers}
             $<TARGET_OBJECTS:common_objs>
             $<TARGET_OBJECTS:${fvs_objs}>)
