@@ -13,7 +13,7 @@ Description: Western Root Disease model modified to function with FVS
              in the name. This is a temporary file for the Establishment Model
              reports and will be deleted upon successful execution of a
              restart.
-             : dSuse the General Report
+             Updated the Western Root Disease model to use the General Report
              Writer facility and to send output disease summary and reports
              (summary, detailed, and bark beetle mortality) to a output
              database. A correction was made to the bark beetle mortality
