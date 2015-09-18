@@ -35,6 +35,8 @@ C YW 03/25/2014 added PROD to call MRULES
 C YW 06/20/2014 added logic for region 10 32-foot log equation to reset MINLEN 
 C               to correct the missing 18, 20, and 22 foot logs
 C YW 07/02/2014 added errflag (13) for top diameter greater than DBH in VOLINTRP routine
+C YW 08/19/2015 Added VOL to SUBROUTINE TCUBIC and modified TCUBIC to calculate stump and tip vol
+C               and save value in VOL(14) and VOL(15)
 C**************************************************************
 C**************************************************************
 
@@ -234,7 +236,7 @@ C--   SUBROUTINE "TCUBIC" IS INTERNAL AND USES PROFILE MODEL
       IF (CUTFLG .EQ. 1) THEN
         CALL TCUBIC (VOLEQ,FORST,JSP,NEXTRA,SETOPT,DBHOB,HTTOT,DBTBH,
      >           MTOPP,HEX,DEX,ZEX,RHFW,RFLW,TAPCOE,F,FMOD,PINV_Z,TOP6,
-     >           TCVOL,slope,errflag)
+     >           TCVOL,slope,errflag,VOL,MTOPS)
         VOL(1) = NINT(TCVOL * 10.0) * 1E-1       
 	  if(drcob.le.0 .and. ctype.eq.'F')then
 	      drcob = dex(2)
@@ -802,7 +804,7 @@ C**************************************************************
 C**************************************************************
       SUBROUTINE TCUBIC(VOLEQ,FORST,JSP,NEXTRA,SETOPT,DBHOB,HTTOT,DBTBH,
      >     MTOPP,HEX,DEX,ZEX,RHFW,RFLW,TAPCOE,F,FMOD,PINV_Z,TOP6,TCVOL,
-     >     slope,errflag) 
+     >     slope,errflag, VOL, MTOPS) 
 C**************************************************************
 
 C--   DETERMINE TOTAL CUBIC FIBER CONTENT.  THE VOLUME WILL BE
@@ -823,7 +825,13 @@ C--                  DOES NOT INCLUDE THE LIMBS OR ROOTS.
       REAL RHFW(4),RFLW(6),TAPCOE(12),F,FMOD(3),PINV_Z(2)
       REAL DBHOB, HEX(2), ZEX(2),TOP6,DEX(2),slope
       REAL DIB,DOB,R,CUVOL
-                                                    
+      REAL TIPV, TIPL, TIPTMP, VOL(15)
+      REAL MTOPS, TIPD
+      
+      TIPD = MTOPS
+      IF(TIPD.GT.4.0 .OR. TIPD.LE.0.0) TIPD = 4.0
+      TIPV = 0.0
+      TIPTMP = 0.0                                              
 C      geosub=voleq(2:3)
        HTLOOP = INT((HTTOT + .5 - 1.0)/4.0)
        HT2=1.0
@@ -851,6 +859,8 @@ C                  SMALL TREE FIX FOR FLEWELLING STUMP DIAMETERS
 C--   STUMP VOLUME IS VOLUME FOR A 1 FT HIGH CYLINDER
       R=DIB/2.0
       TCVOL = (3.1416*R*R)/144.0
+C     Save stump vol to VOL(14) (YW 2015/08/19)
+      VOL(14) = TCVOL      
 	dex(2) = dib
       DO 10 I = 1,HTLOOP
          D2OLD = DIB
@@ -863,13 +873,23 @@ c       WRITE(*,*) DBHOB, HTTOT, HT2, DIB
 
 C--     USE SMALIAN FOR NON STUMP SEGMENTS
          VOLTMP = .00272708*(D2OLD*D2OLD+DIB*DIB)*4.0
+C       Check if DIB < 4 for tip volume
+         IF(D2OLD.GT.TIPD .AND. DIB.LT.TIPD)THEN
+           TIPL = 4.0-(D2OLD*D2OLD-TIPD*TIPD)/(D2OLD*D2OLD-DIB*DIB)*4.0
+           TIPTMP = .00272708*(TIPD*TIPD+DIB*DIB)*TIPL
+         ELSEIF(D2OLD.LE.TIPD)THEN
+           TIPTMP = VOLTMP
+         ENDIF   
          TCVOL = TCVOL + VOLTMP
+         TIPV = TIPV + TIPTMP
    10 CONTINUE
 c--   USE SMALIAN FOR TIP, WITH A TIP DIAMETER OF 0.0
       IF ( (HTTOT-HT2) .GT. 0.0 ) THEN
          VOLTMP = .00272708*(DIB*DIB)*(HTTOT-HT2)
          TCVOL = TCVOL + VOLTMP
+         TIPV = TIPV + VOLTMP
       ENDIF
+      VOL(15) = TIPV
       RETURN
       END
 
@@ -1231,7 +1251,13 @@ C**************************************************************
      >    DBTBH,HEX,DEX,ZEX,RHFW,RFLW,TAPCOE,F,FMOD,PINV_Z,TOP6,HT2,
      >    MTOPP,MFLG,CUVOL,DIB,DOB,errflag)
 c calls taper equations or profile models.
-C     USE VOLINPUT_MOD
+C
+C  *** FVS MODIFICATION *** FORMCLASS IS PASSED IN THROUGH THE VOILINIT
+C  ROUTINE, BUT FVS DOES NOT USE THE VOLLINIT ROUTINE. SO IN THE FVS
+C  VERSION OF THE PROFILE ROUTINE WE COMMENT OUT THE FOLLOWING LINE AND
+C  THE LINE SETTING FCLASS = FORMCLASS 10 LINES BELOW
+C
+C      USE VOLINPUT_MOD
       IMPLICIT NONE
       
       character*2 geosub,FORST
@@ -1243,7 +1269,7 @@ C     USE VOLINPUT_MOD
       REAL DBHOB,HEX(2),DEX(2),ZEX(2),PINV_Z(2),FMOD(3),F,TOP6
       REAL RHFW(4),RFLW(6),TAPCOE(12)
       
-C     FCLASS=FORMCLASS
+C      FCLASS=FORMCLASS
       ineedsl = 0
       DOB = 0.0
       geosub=voleq(2:3)

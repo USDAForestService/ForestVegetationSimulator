@@ -1,4 +1,4 @@
-!== last modified  04-15-2014 reconciled Vol. Eq. No. output from FVS with Cruise dsoftware-RNH
+!== last modified  04-15-2014 reconciled Vol. Eq. No. output from FVS with Cruise software-RNH
 C 01/18/2013 added FIAVOLEQDEF, R5_PNWEQN and R6_PNWEQN for PNE FIA equations.
 C 03/25/2014 changed default equation for Region 3 (R3_EQN) Ponderosa pine in the forest Apache Sitgreaves, Coconino, Kaibab and Tonto to 300FW2W122.
 C
@@ -946,9 +946,14 @@ C
           SPEC=8888
           RETURN
         ENDIF
+        IF(VOLEQ(1:7).EQ.'632BEHW')THEN
 C
-C  FOUND VALID WESTSIDE EQUATION NUMBER
+C  FOUND VALID EASTSIDE EQUATION NUMBER
 C
+          SPEC=8888
+          RETURN
+        ENDIF
+
         DO I=1,44
         IF(VOLEQ.EQ.EQNUM(I))THEN
 C

@@ -302,7 +302,10 @@ C-----Get board foot volumes
 !***********************************************************************
          
 !...  get cubic log volumes'
-      CALL R9LGCFT(TLOGS, LOGLEN, LOGDIA, LOGVOL, TLOGVOL, tcfVol)
+!      CALL R9LGCFT(TLOGS, LOGLEN, LOGDIA, LOGVOL, TLOGVOL, tcfVol)
+!test I think it should use cfvol (5/21/2015)      
+      CALL R9LGCFT(TLOGS, LOGLEN, LOGDIA, LOGVOL, TLOGVOL, cfVol)
+
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 580)'TCFVOL  = ', TCFVOL
   580    FORMAT (A, F6.1)
