@@ -6,6 +6,7 @@ Variants affected: R6 variants and CS, SO, TT, UT, OC and OP
 Description: 
 
 1) Corrected the sum.save files (CS, SO, TT, and UT) committed in revision 1583.
+2) Added NOAUTOES back into cst01.key
 2) Removed start/stop tests that are not working for OC and OP variants
    and updated the sum.save files.
 3) Added 32 foot log Behre equations as VOLEQNUM keyword options in R6.
