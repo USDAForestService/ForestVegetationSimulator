@@ -98,6 +98,7 @@ C     INITIAL VALUES FOR "Version 2" active and processed; respectively
       SIZCAP(I,3) = 0.
       SIZCAP(I,4) = 999.
       JSPIN(I)=1
+      LEAVESP(I)=.FALSE.
     5 CONTINUE
       DBHMIN(7) = 12.5 * CMtoIN    ! PL uses 12.5 cm 
       LFLAGV = .FALSE.

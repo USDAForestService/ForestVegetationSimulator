@@ -1,7 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-C  **GRINIT--ON  DATE OF LAST REVISION:  07/21/11
+C  ON  $ID
 C    ON: 05/06/04
 C----------
 C
@@ -176,6 +176,7 @@ C----------
       SIZCAP(I,3) = 0.
       SIZCAP(I,4) = 999.
       JSPIN(I)=1
+      LEAVESP(I)=.FALSE.
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
