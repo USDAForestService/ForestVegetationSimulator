@@ -1,16 +1,21 @@
-!== last modified  04-15-2014 reconciled Vol. Eq. No. output from FVS with Cruise dsoftware-RNH
+!== last modified  04-15-2014 reconciled Vol. Eq. No. output from FVS with Cruise software-RNH
 C 01/18/2013 added FIAVOLEQDEF, R5_PNWEQN and R6_PNWEQN for PNE FIA equations.
 C 03/25/2014 changed default equation for Region 3 (R3_EQN) Ponderosa pine in the forest Apache Sitgreaves, Coconino, Kaibab and Tonto to 300FW2W122.
 C
       SUBROUTINE VOLEQDEF (VAR,REGN,FORST,DIST,SPEC,PROD,VOLEQ,ERRFLAG)
-
+C
 C    SUBROUTINE WILL RETURN THE DEFAULT VOLUME EQUATION NUMBER
 C        SPEC = 3 DIGIT FIA SPECIES CODE
 
       CHARACTER*2 FORST,PROD,DIST,VAR
       CHARACTER*10 VOLEQ
       INTEGER ERRFLAG,REGN,SPEC
-
+C
+C  The GETVARIANT routine is required by the NVEL system to find the
+C  FVS variant. When VOLEQDEF is used by FVS, the call to VOLEQDEF always
+C  carries the variant 2 character symbol so the GETVARIANT routine
+C  is not used by FVS.
+C
       IF(VAR .EQ. '  ') THEN
          CALL GETVARIANT(REGN,FORST,DIST,VAR)
       ENDIF
@@ -46,115 +51,105 @@ C//////////////////////////////////////////////////////////////////
       CHARACTER*2 FORST,DIST,VAR
       CHARACTER VVER*7
       INTEGER REGN,FORNUM,DISTNUM
-      
-      CALL VARVER(VVER)
-      VAR=VVER(:2)
-C      
-C THE FOLLOWING CODE IS WRONG BECAUSE
-C FORESTS LIKE 117=NEZPERCE, MIGHT BE IN CI OR IE/NI OR KT. SO I CHANGED
-C IT TO THE ABOVE 2 LINES. THERE ARE OTHER EXAMPLES, 712=BLM COOS BAY MIGHT
-C BE IN CA, NC, OR PN. ETC. BESIDES, WHY GO THROUGH ALL THIS WHEN THE
-C ABOVE TWO LINES WILL SUFFICE. CODE LEFT HERE COMMENTED OUT FOR THE TIME
-C BEING IN CASE I'M MISSING SOMETHING.  DIXON 5/14/15
-C
-C    IF(FORST(2:2) .LT. '0') THEN 
-C       FORST(2:2) = FORST(1:1)
-C       FORST(1:1) = '0'
-C       IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
-C     ENDIF
-C     IF(DIST(2:2) .LT. '0') THEN
-C       DIST(2:2) = DIST(1:1)
-C       DIST(1:1) = '0'
-C       IF(DIST(2:2) .LT. '0') DIST(2:2) = '0'
-C     ENDIF
-C     READ(FORST,'(I2)')FORNUM
-C     READ(DIST,'(I2)')DISTNUM
-C
-C     IF(REGN .EQ. 8)THEN
-C        VAR = 'SN'
-C
-C     ELSE IF(REGN.EQ.1)THEN
-C        IF(FORNUM.EQ.4 .OR. FORNUM.EQ.5 .OR. FORNUM.EQ.17 .OR. 
-C    >      FORNUM.EQ.3 .OR. FORNUM.EQ.14 .OR. FORNUM.EQ.16)THEN
-C           VAR = 'IE'
-C        ELSE
-C           VAR = 'EM'
-C        ENDIF
-C
-C     ELSE IF(REGN.EQ.5) THEN
-C       DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
-C       INLAND CALIFORNIA
-C        IF(FORNUM.EQ.5 .OR. FORNUM.EQ.6 .OR. FORNUM.EQ.8 .OR. 
-C    >      FORNUM.EQ.11 .OR. FORNUM.EQ.14) THEN
-C           VAR = 'CA'
-C        SOUTHERN OREGON
-C        ELSEIF(FORNUM.EQ.9) THEN
-C           VAR = 'SO'
-C        WESTERN SIERRA
-C        ELSEIF(FORNUM.EQ.17 .OR. FORNUM.EQ.16 .OR. FORNUM.EQ.15 .OR. 
-C    >          FORNUM.EQ.13 .OR. FORNUM.EQ.3) THEN
-C           VAR = 'WS'
-C        KLAMATH/NORTHERN CALIFORNIA
-C        ELSEIF(FORNUM.EQ.5) THEN
-C           VAR = 'NC'
-C        ENDIF
-C
-C     ELSE IF(REGN.EQ.6) THEN
-C        DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
-C        BLUE MTN VARIANT
-C        IF(FORNUM.EQ.4 .OR. FORNUM.EQ.7 .OR. FORNUM.EQ.14 .OR. 
-C    >      FORNUM.EQ.16) THEN
-C           VAR = 'BM'
-C        EASTERN CASCADES
-C        ELSEIF(FORNUM.EQ.17 .OR. FORNUM.EQ.8 .OR. (FORNUM.EQ.3 .AND. 
-C    >          DISTNUM .EQ. 3) .OR. (FORNUM.EQ.6 .AND. 
-C    >         (DISTNUM.EQ.1.OR.DISTNUM.EQ.2.OR.DISTNUM.EQ.6))) THEN
-C           MOUNT HOOD Barlow RD
-C           VAR = 'EC'
-C        SOUTHERN OREGON
-C        ELSEIF(FORNUM.EQ.1 .OR. FORNUM.EQ. 2 .OR. FORNUM.EQ.20) THEN
-C           VAR = 'SO'
-C        WESTERN CASCADES
-C        ELSEIF(FORNUM.EQ.5 .OR. FORNUM.EQ.15 .OR. FORNUM.EQ.18 .OR. 
-C    >          FORNUM.EQ.10 .OR. FORNUM.EQ.3 .OR. FORNUM.EQ.6) THEN
-C           VAR = 'WC'
-C        PACFIC NORTHWEST
-C        ELSEIF(FORNUM.EQ.9 .OR. FORNUM.EQ.12) THEN
-C           VAR = 'PN'
-C        NORTHERN CALIFORNIA
-C        ELSEIF(FORNUM.EQ.11) THEN
-C           VAR = 'NC'
-C        ELSEIF(FORNUM.EQ.21) THEN
-C           VAR = 'IE'
-C        ENDIF
-C
-C     ELSE IF(REGN.EQ.7) THEN
-C     DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
-C        IF(FORNUM.EQ.2) THEN
-C           VAR = 'WC'
-C        ELSEIF(FORNUM.EQ.3) THEN
-C           VAR = 'NC'
-C        ELSE
-C           VAR = 'SO'
-C        ENDIF
-C
-C     ELSE IF (REGN .EQ. 9) THEN
-C        IF(FORNUM.EQ.13 .OR. FORNUM.EQ.10 .OR. FORNUM.EQ.3 .OR. 
-C    >        FORNUM.EQ.9 .OR. FORNUM.EQ.4 .OR. FORNUM.EQ.7 .OR. 
-C    >        FORNUM.EQ.2 .OR. FORNUM.EQ.6)THEN
-C           VAR = 'LS'
-C        ELSE IF(FORNUM.EQ.12 .OR. FORNUM.EQ.8 .OR. FORNUM.EQ.5)THEN
-C           VAR = 'CS'
-C        ELSE IF(FORNUM.EQ.21 .OR. FORNUM.EQ.20 .OR. FORNUM.EQ.19 .OR. 
-C    >           FORNUM.EQ.14 .OR. FORNUM.EQ.22)THEN
-C           VAR = 'NE'
-C        ENDIF
-C
-C     ENDIF
-C
+ 
+      IF(FORST(2:2) .LT. '0') THEN 
+        FORST(2:2) = FORST(1:1)
+        FORST(1:1) = '0'
+        IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
+      ENDIF
+      IF(DIST(2:2) .LT. '0') THEN
+        DIST(2:2) = DIST(1:1)
+        DIST(1:1) = '0'
+        IF(DIST(2:2) .LT. '0') DIST(2:2) = '0'
+      ENDIF
+      READ(FORST,'(I2)')FORNUM
+      READ(DIST,'(I2)')DISTNUM
+ 
+      IF(REGN .EQ. 8)THEN
+         VAR = 'SN'
+ 
+      ELSE IF(REGN.EQ.1)THEN
+         IF(FORNUM.EQ.4 .OR. FORNUM.EQ.5 .OR. FORNUM.EQ.17 .OR. 
+     >      FORNUM.EQ.3 .OR. FORNUM.EQ.14 .OR. FORNUM.EQ.16)THEN
+            VAR = 'IE'
+         ELSE
+            VAR = 'EM'
+         ENDIF
+ 
+      ELSE IF(REGN.EQ.5) THEN
+C  DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
+C  INLAND CALIFORNIA
+         IF(FORNUM.EQ.5 .OR. FORNUM.EQ.6 .OR. FORNUM.EQ.8 .OR. 
+     >      FORNUM.EQ.11 .OR. FORNUM.EQ.14) THEN
+            VAR = 'CA'
+C  SOUTHERN OREGON
+         ELSEIF(FORNUM.EQ.9) THEN
+            VAR = 'SO'
+C  WESTERN SIERRA
+         ELSEIF(FORNUM.EQ.17 .OR. FORNUM.EQ.16 .OR. FORNUM.EQ.15 .OR. 
+     >          FORNUM.EQ.13 .OR. FORNUM.EQ.3) THEN
+            VAR = 'WS'
+C  KLAMATH/NORTHERN CALIFORNIA
+         ELSEIF(FORNUM.EQ.5) THEN
+            VAR = 'NC'
+         ENDIF
+ 
+      ELSE IF(REGN.EQ.6) THEN
+C  DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
+C  BLUE MTN VARIANT
+         IF(FORNUM.EQ.4 .OR. FORNUM.EQ.7 .OR. FORNUM.EQ.14 .OR. 
+     >      FORNUM.EQ.16) THEN
+            VAR = 'BM'
+C  EASTERN CASCADES
+         ELSEIF(FORNUM.EQ.17 .OR. FORNUM.EQ.8 .OR. (FORNUM.EQ.3 .AND. 
+     >          DISTNUM .EQ. 3) .OR. (FORNUM.EQ.6 .AND. 
+     >         (DISTNUM.EQ.1.OR.DISTNUM.EQ.2.OR.DISTNUM.EQ.6))) THEN
+C  MOUNT HOOD Barlow RD
+            VAR = 'EC'
+C  SOUTHERN OREGON
+         ELSEIF(FORNUM.EQ.1 .OR. FORNUM.EQ. 2 .OR. FORNUM.EQ.20) THEN
+            VAR = 'SO'
+C  WESTERN CASCADES
+         ELSEIF(FORNUM.EQ.5 .OR. FORNUM.EQ.15 .OR. FORNUM.EQ.18 .OR. 
+     >          FORNUM.EQ.10 .OR. FORNUM.EQ.3 .OR. FORNUM.EQ.6) THEN
+            VAR = 'WC'
+C  PACFIC NORTHWEST
+         ELSEIF(FORNUM.EQ.9 .OR. FORNUM.EQ.12) THEN
+            VAR = 'PN'
+C  NORTHERN CALIFORNIA
+         ELSEIF(FORNUM.EQ.11) THEN
+            VAR = 'NC'
+         ELSEIF(FORNUM.EQ.21) THEN
+            VAR = 'IE'
+         ENDIF
+ 
+      ELSE IF(REGN.EQ.7) THEN
+C  DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
+         IF(FORNUM.EQ.2) THEN
+            VAR = 'WC'
+         ELSEIF(FORNUM.EQ.3) THEN
+            VAR = 'NC'
+         ELSE
+            VAR = 'SO'
+         ENDIF
+ 
+      ELSE IF (REGN .EQ. 9) THEN
+         IF(FORNUM.EQ.13 .OR. FORNUM.EQ.10 .OR. FORNUM.EQ.3 .OR. 
+     >        FORNUM.EQ.9 .OR. FORNUM.EQ.4 .OR. FORNUM.EQ.7 .OR. 
+     >        FORNUM.EQ.2 .OR. FORNUM.EQ.6)THEN
+            VAR = 'LS'
+         ELSE IF(FORNUM.EQ.12 .OR. FORNUM.EQ.8 .OR. FORNUM.EQ.5)THEN
+            VAR = 'CS'
+         ELSE IF(FORNUM.EQ.21 .OR. FORNUM.EQ.20 .OR. FORNUM.EQ.19 .OR. 
+     >           FORNUM.EQ.14 .OR. FORNUM.EQ.22)THEN
+            VAR = 'NE'
+         ENDIF
+ 
+      ENDIF
+ 
       RETURN
       END
-
+C
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R1_EQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
 C      SEARCH BY FIA SPECIES CODE
@@ -946,9 +941,14 @@ C
           SPEC=8888
           RETURN
         ENDIF
+        IF(VOLEQ(1:7).EQ.'632BEHW')THEN
 C
-C  FOUND VALID WESTSIDE EQUATION NUMBER
+C  FOUND VALID EASTSIDE EQUATION NUMBER
 C
+          SPEC=8888
+          RETURN
+        ENDIF
+
         DO I=1,44
         IF(VOLEQ.EQ.EQNUM(I))THEN
 C

@@ -114,6 +114,7 @@ C
       SIZCAP(I,3) = 0.
       SIZCAP(I,4) = 999.
       JSPIN(I)=3
+      LEAVESP(I)=.FALSE.
     5 CONTINUE
       LHTDRG(20) = .FALSE.
       LHTDRG(21) = .FALSE.

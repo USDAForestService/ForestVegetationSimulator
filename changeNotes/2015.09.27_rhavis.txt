@@ -1,0 +1,40 @@
+Subject: SPLEAVE Keyword
+Name: R. Havis
+Date: Augst 27, 2015
+Variants affected: ALL
+
+Description:
+
+SPLEAVE (SPecies LEAVE)
+Variants: All
+Related keywords: NONE
+Allows species to be excluded from scheduled harvesing actions.
+If the leave-status is True for any trees within the specified limits
+for harvest, the residual will be greater than the target residual
+because of the trees left.
+
+field 1: Year or cycle that the keyword is to go into effect. Default = 1
+
+field 2: Species or species group whose leave-status is to be changed.
+A valid code is required or the keyword is ignored.
+
+field 3: Flag indicating the leave-status of the species in field 2.
+         (default=0)
+Flag <= 0 the species leave-status is True
+Flag >  0 the species leave-status is False, species will be harvested
+
+Note: For any particular species or species group this keyword remains in
+effect until a subsequent use of the keyword changes the leave-status.
+
+Note: Keyword order may be important. If a SPLEAVE keyword is specified for
+the same year that a thinning keyword is specified, the species leave-status will
+affect the thinning only if the SPLEAVE keyword appears in the keyword sequence
+before the thinning keyword.
+
+Note: The PARMS format may be used with this keyword. See the introduction
+for a description of this format.
+
+
+Impact on users:
+
+Files:

@@ -1,7 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-C  **GRINIT--NE   DATE OF LAST REVISION:  02/08/13
+C NE $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
@@ -112,6 +112,7 @@ C----------
       SIZCAP(I,3) = 0.
       SIZCAP(I,4) = 999.
       JSPIN(I)=3
+      LEAVESP(I)=.FALSE.
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
