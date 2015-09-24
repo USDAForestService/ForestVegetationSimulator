@@ -247,6 +247,7 @@ C----------
       IF(NBIG6 .EQ. 0)THEN
         DO I=1,ITRN
         IORG(I) = 0
+        MORTEXP(I) = 0.
         END DO
         GO TO 261
       ENDIF
