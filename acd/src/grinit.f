@@ -54,6 +54,9 @@ C
       INCLUDE 'CALCOM.F77'
 C
 C
+      INCLUDE 'TWIGCOM.F77'
+C
+C
 COMMONS
 C----------
       INTEGER I,J,K
@@ -308,6 +311,10 @@ C----------
       SITETR(I,J)=0.
    74 CONTINUE
    75 CONTINUE
+C
+      DO J=1,50
+      BAU(J) = 0.0
+      ENDDO
 C
       RETURN
       END
