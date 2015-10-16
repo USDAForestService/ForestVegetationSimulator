@@ -253,6 +253,7 @@ C----------
      &SUMDR10,G
       T=T+P
    20 CONTINUE
+      IF(T. EQ. 0.0) T= 0.0001
       DQ10=SQRT(SD2SQ/T)
       IF(LZEIDE)THEN
         DQ10=(SUMDR10/T)**(1/1.605)
