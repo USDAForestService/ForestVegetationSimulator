@@ -123,9 +123,10 @@ C     11:  Duff
 C    (  -,  -,1:2,  -) 1 = SOFT, 2 = HARD
 C    (  -,  -,  -,1:4) 1 = V.Slow,..., 4 = Fast decay rate
 C
-C  The "Litter" and "Duff" categories of the base CWD array are ignored,
-C  since they can potentially generate a very large number of SVS
-C  objects that can potentially displace more significant SVS objects.
+C  The "Litter", "Duff", "0-0.25", and "0.25-1.0" categories of the 
+C  base CWD array are ignored,since they can potentially generate a 
+C  very large number of SVS objects that can potentially displace 
+C  more significant SVS objects.
 C----------
 
       DO IP=1,3
@@ -136,9 +137,7 @@ C----------
       DO IP=1,3
         DO IH=1,2
           DO ID=1,4
-            TCWD3(IP,1) = TCWD3(IP,1) + CWD(IP,1,IH,ID)
-     &                                + CWD(IP,2,IH,ID)
-     &                                + CWD(IP,3,IH,ID)
+            TCWD3(IP,1) = TCWD3(IP,1) + CWD(IP,3,IH,ID)
             TCWD3(IP,2) = TCWD3(IP,2) + CWD(IP,4,IH,ID)
             TCWD3(IP,3) = TCWD3(IP,3) + CWD(IP,5,IH,ID)
             TCWD3(IP,4) = TCWD3(IP,4) + CWD(IP,6,IH,ID) +CWD(IP,7,IH,ID)

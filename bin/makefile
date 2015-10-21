@@ -18,7 +18,8 @@ ifdef OS
  PIC =      # never use PIC on this OSARCH type
 #not 32 bit windows, assume 64 bit Linux or mac osx.
 else
- WIN = 
+#setting WIN as done below is to enable correct processing of fofem (fire) c code.
+ WIN = -Dunix  
  SLIBSUFX = .so
  PRGSUFX = 
  ODBC = odbc 

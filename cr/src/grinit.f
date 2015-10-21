@@ -320,6 +320,23 @@ C----------
       SITETR(I,J)=0.
    74 CONTINUE
    75 CONTINUE
+C----------
+C     INITIALIZE VARIABLES CARRIED IN GGCOM.
+C----------
+      DO I=1,MAXSP
+      TBA(I) = 0.0
+      DO J=1,41
+      IF(I .EQ. 1) BAU(J) = 0.0
+      BCLAS(I,J) = 0.0
+      TCLAS(I,J) = 0.0
+      ENDDO
+      ENDDO
+      AGERNG=0.
+      SEEDS=0.
+      BARK1=0.
+      BARK2=0.
+      TPAT=0.
+      DSTAG=0.
 C
       RETURN
       END
