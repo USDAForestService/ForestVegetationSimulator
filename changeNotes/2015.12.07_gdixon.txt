@@ -1,0 +1,73 @@
+Subject: Addition of Confederated Tribes of Warm Springs as a valid forest code and 
+         change in which large tree diameter growth equations get used for Warm Springs for some species
+Name: Gary Dixon
+Date: 12/07/15
+Variants affected: SO
+
+Description: The Confederated Tribes of Warm Springs has three variants (EC, SO, WC) which intersect it's forest lands. None
+             of these variants include a location code specifically for Warm Springs. Users were selecting, first the
+             variant to use depending where on the reservation the stand was located, and second the nearest National Forest
+             location code. Also, for a given location, the designated variant did not always yield the most accurate
+             projection for all species (i.e. one of the other variants used on the reservation yielded lower average large tree
+             diameter growth calibration values for a given species over all stands). The tribe selected the SO variant to use as 
+             the designated variant for the Reservation and requested two changes: 
+                 1) Develop a location code within the SO variant specifically for the Warm Springs Reservation.
+                 2) When this location code is selected, use a species specific large tree diameter growth equation,
+                    designated by the tribe, from one of the three currently used variants. 
+                    
+             note: Deschutes NF equations are used for Warm Springs for species which were not changed, and for other model
+                   equations such as large and small tree height growth and small tree diameter growth.
+
+Impact on users: Only FVS users from the Confederated Tribes of Warm Springs are affected. Users may now use the SO variant
+                 to model all stands on reservation lands. A location code of 799 should be entered in field 1 of the 
+                 STDINFO keyword to designate the Confederated Tribes of Warm Springs. Large tree diameter growth will be 
+                 different for six species when a 799 code is designated. These species are: incense cedar, lodgepole pine, 
+                 western redcedar, sugar pine, western white pine, and the other softwoods species group. These differences 
+                 will, in turn, affect other model components such as large tree height growth.
+
+Files:
+ec/src
+        dgf.f  changed the date of revision; took leading "+" off the equation for SASP (line 606)
+so/src
+     ccfcal.f  changed the date of revision; added code for Warm Springs (IFOR=10) and restructured code using CASE statements
+     dgdriv.f  changed the date of revision; added setting of PVAR to correct values for Warm Springs.
+        dgf.f  changed the date of revision; changed dimensions of arrays MAPLOC and MAPDSQ from (8,MAXSP) to (10,MAXSP);
+               entered 1 values in MAPLOC and MAPDSQ in the 9th position (right now IFOR=9 gets mapped to IFOR=4 in FORKOD);
+               entered values in MAPLOC and MAPDSQ in the 10th position for Warm Springs (uses Deschutes coefficients for the
+               27 species in the variant not listed above);
+               added code to use the following species-specific equations when Warm Springs is selected as the location: 
+               WP, SP, IC, RC all use the corresponding species equation from the WC variant, OS uses the Alaska yellow cedar
+               equation from the WC variant, and LP uses the LP equation from the EC variant 
+     findag.f  changed the date of revision; added .AND. IFOR.LT.10 to line 58
+     forkod.f  changed the date of revision; added code for Warm Springs: forest code 799, IFOR=10
+     formcl.f  changed the date of revision; added comment at line 29; set Warm Springs to use Deschutes form class values
+     habtyp.f  changed the date of revision; added comment at line 190; set region flag IR6=1 for Warm Springs; changed logic
+               in setting of region flag to use a CASE structure 
+     htcalc.f  changed the date of revision; added IFOR=10 to SH case line 116 and WO case line 223
+      htdbh.f  changed the date of revision; added comment lines 18 and 133; set Warm Springs to use Deschutes coefficients;
+               changed the coefficient setting logic to a CASE structure
+     sitset.f  changed the date of revision; added IFOR=10 to lines 95, 149, 229, 264, 287; corrected comment lines 281-284;
+               added Warm Springs to volume equation assignment logic and changed this logic to CASE structure
+     varvol.f  changed the date of revision; added IFOR<10 to branching logic at line 78; added setting of forest code to
+               Deschutes for Warm Springs in R6 logic lines 123 & 234
+     
+base/src
+     evpred.f  changed the date of revision; excluded Warm Springs from Fisher habitat calculation
+     initre.f  changed the date of revision; added Warm Springs to volume equation assignment logic and changed this logic to
+               CASE structure; corrected a spelling error in comment line 4847
+
+fire/base/src
+    fmsngdk.f  changed the date of revision; added Warm Springs to the Oregon section; restructured using CASE format
+    fmsnght.f  changed the date of revision; directed Warm Springs to the Oregon section; changed the structure for the SO
+               variant to use CASE statements based on forest code
+    
+fire/so/src
+      fmcba.f  changed the date of revision; added Warm Springs to R6 section, line 611; excluded Warm Springs from R5 section,
+               lines 746, 898, 1034, 1216
+     fmcfmd.f  changed the date of revision; excluded Warm Springs from R5 logic, line 249
+    fmsfall.f  changed the date of revision; excluded Warm Springs from R5 logic, line 139
+
+ni/src
+     cwcalc.f  changed the date of revision; added comment line 331; excluded Warm Springs from R5 logic, line 351; added
+               comment line 434; added Warm Springs to CASE statement, line 474
+               
