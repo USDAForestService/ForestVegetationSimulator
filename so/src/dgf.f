@@ -1,7 +1,7 @@
       SUBROUTINE DGF(DIAM)
       IMPLICIT NONE
 C----------
-C  **DGF--SO    DATE OF LAST REVISION:  08/19/15
+C  **DGF--SO    DATE OF LAST REVISION:  12/07/15
 C----------
 C  THIS SUBROUTINE COMPUTES THE VALUE OF DDS (CHANGE IN SQUARED
 C  DIAMETER) FOR EACH TREE RECORD, AND LOADS IT INTO THE ARRAY
@@ -525,8 +525,8 @@ C----------
         SELECT CASE (ISPC)
         CASE(1,2,6,7,18,32)
           CONSPP = DGCON(ISPC) + COR(ISPC)
-        END SELECT
         GO TO 5
+        END SELECT
       ENDIF
 C----------
 C  FORESTS OTHER THAN WARM SPRINGS, AND WARM SPRINGS SPECIES THAT USE
@@ -545,9 +545,9 @@ C
       SI=SITEAR(ISPC)
 C
       IF(DEBUG)WRITE(JOSTND,9002)ISPC,DGCON(ISPC),COR(ISPC),
-     &DGCCF(ISPC),DGMACC(ISPC),RELDEN,CONSPP
- 9002 FORMAT(' IN DGF 9002 ISPC,DGCON,COR,DGCCF,DGMACC,RELDEN,CON
-     &SPP=',I5,10F10.5)
+     &DGCCF(ISPC),DGMACC(ISPC),RELDEN,RMAI,CONSPP
+ 9002 FORMAT(' IN DGF 9002 ISPC,DGCON,COR,DGCCF,DGMACC,RELDEN,RMAI,',
+     &'CONSPP=',I5,10F10.5)
 C----------
 C  BEGIN TREE LOOP WITHIN SPECIES ISPC.
 C----------
@@ -619,6 +619,8 @@ C----------
 C  WARM SPRINGS RESERVATION USES EQUATIONS FROM EC OR WC VARIANTS 
 C  FOR SOME SPECIES
 C----------
+      IF(DEBUG)WRITE(JOSTND,*)' I,IFOR,ISPC,ICR,PCT,BA= ',
+     &I,IFOR,ISPC,ICR(I),PCT(I),BA 
       IF(IFOR .EQ. 10)THEN
         CR=ICR(I)*0.01
         BAL = (1.0 - (PCT(I)/100.)) * BA
@@ -760,8 +762,8 @@ C----------
         SELECT CASE (ISPC)
         CASE(1,2,6,7,18,32)
         CALL PPDGF (XPPDDS,X1,X1,X1,X1,X1,X1,X1,X1,X1,X1)
-        END SELECT
         GO TO 9
+        END SELECT
       ENDIF
 C----------
 C  FORESTS OTHER THAN WARM SPRINGS, AND WARM SPRINGS SPECIES THAT USE
@@ -848,7 +850,7 @@ C
             XSITE = SITEAR(ISPC)
           ENDIF
           DGCON(ISPC) =
-     &                  -0.589570
+     &                 - 0.589570
      &                 - 0.023376 * ELEV
      &                 + 0.404010 * ALOG(XSITE)
      &                 + SASP
@@ -868,7 +870,7 @@ C
           SASP = 0.
           XSITE = 25.0 + 1.2 * SITEAR(ISPC)
           DGCON(ISPC) =
-     &                  -1.310067
+     &                 - 1.310067
      &                 + 0.252853 * ALOG(XSITE)
      &                 + SASP
           ATTEN(ISPC) = 475.
@@ -886,15 +888,15 @@ C
         CASE (7)
           SASP =
      &                  (-0.142328 * SIN(ASPECT)
-     &                 + -0.064328 * COS(ASPECT)
-     &                 + -0.097297) * SLOPE
+     &                 - 0.064328 * COS(ASPECT)
+     &                 - 0.097297) * SLOPE
      &                 + 0.094464 * SLOPE * SLOPE
           XSITE= 12.25 + 1.325 * SITEAR(ISPC)
           DGCON(ISPC) =
-     &                   -1.084679
-     &                 + -0.001124 * ELEV
-     &                 +  0.458662 * ALOG(XSITE)
-     &                 +  SASP
+     &                 - 1.084679
+     &                 - 0.001124 * ELEV
+     &                 + 0.458662 * ALOG(XSITE)
+     &                 + SASP
           ATTEN(ISPC) = 1478.
           SMCON(ISPC) = 0.
           IF(DEBUG)WRITE(JOSTND,*)' WSPR LP: DGCON,SLOPE,ASPECT,ELEV,',
@@ -934,7 +936,7 @@ C
      &                 - 0.023186 * COS(ASPECT)) * SLOPE
           XSITE = 3.5 + 1.45 * SITEAR(ISPC)
           DGCON(ISPC) =
-     &                  -1.277664
+     &                 - 1.277664
      &                 + 0.244694 * ALOG(XSITE)
      &                 + SASP
           ATTEN(ISPC) = 0.
@@ -950,6 +952,7 @@ C----------
 C  FORESTS OTHER THAN WARM SPRINGS, AND WARM SPRINGS SPECIES THAT USE
 C  EQUATIONS FROM THE SO VARIANT
 C----------
+      XSITE = SITEAR(ISISP)
       XSLOPE=SLOPE
       IF(ISPC.EQ.11.OR.ISPC.EQ.16.OR.ISPC.EQ.24)THEN
         ASPTEM=ASPECT-0.7854
