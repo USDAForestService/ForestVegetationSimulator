@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-SO  DATE OF LAST REVISION: 11/30/09
+C  **FMSFALL--FIRE-SO  DATE OF LAST REVISION: 08/24/15
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -136,7 +136,7 @@ C  left.
 C----------
 
       IF ((KODFOR .GE. 500 .AND. KODFOR .LT. 600)
-     &     .OR. KODFOR .GE. 700) THEN   ! CALIFORNIA
+     &     .OR. KODFOR .EQ. 701) THEN   ! CALIFORNIA
      	
         BASE = -0.001679 * D + 0.064311
         IF (BASE .LT. 0.01) BASE = 0.01

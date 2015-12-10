@@ -1,7 +1,7 @@
       SUBROUTINE DGF(DIAM)
       IMPLICIT NONE
 C----------
-C  **DGF--SO    DATE OF LAST REVISION:  11/17/09
+C  **DGF--SO    DATE OF LAST REVISION:  12/07/15
 C----------
 C  THIS SUBROUTINE COMPUTES THE VALUE OF DDS (CHANGE IN SQUARED
 C  DIAMETER) FOR EACH TREE RECORD, AND LOADS IT INTO THE ARRAY
@@ -87,12 +87,12 @@ C
      &   DGMAI(MAXSP),DGMACC(MAXSP),DGPCCF(MAXSP),DGCCFA(MAXSP),
      &   SLODUM(MAXSP),DGHAH(MAXSP),DGSITE(MAXSP),
      &   DGLBA(MAXSP),DGBA(MAXSP)
-      INTEGER MAPDSQ(8,MAXSP),MAPLOC(8,MAXSP)
+      INTEGER MAPDSQ(10,MAXSP),MAPLOC(10,MAXSP)
       INTEGER IBSERV(5,MAXSP),I,J,ISPC,I1,I2,I3,IPCCF,ISIC
       REAL ALCCF,CONSPP,DGLDS,DGBALS,DGCRS,DGCRS2,DGDSQS,DGDBLS,SI,D
       REAL BARK,BRATIO,RELHT,DPP,BATEM,DF,DIAGR,DDS,CR,ASPDG,CONST
       REAL DUMMY,ALD,BAL,HOAVH,DGLCCF,DGPCF2,BREL,XPPDDS,XSITE,LSI
-      REAL XSLOPE,ASPTEM,TEMEL,SASP,OBSERV(MAXSP)
+      REAL XSLOPE,ASPTEM,TEMEL,SASP,OBSERV(MAXSP),X1
       DATA DGLD/
      &  0.77889,  1.05245,  0.33160,  0.89887,  0.99324,
      &  0.72947,  0.63249,  1.32610, 1.186676,  0.53028,
@@ -233,41 +233,41 @@ C----------
 C  DGFOR CONTAINS LOCATION CLASS CONSTANTS FOR EACH SPECIES.
 C  MAPLOC IS AN ARRAY WHICH MAPS FOREST ONTO A LOCATION CLASS.
 C----------
-      DATA ((MAPLOC(I,J),I=1,8),J=1,15)/
-     & 1,1,1,1,1,1,1,1,
-     & 1,2,3,4,4,4,4,1,
-     & 1,1,2,3,4,5,4,5,
-     & 1,1,2,2,3,3,3,4,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,2,2,3,4,5,4,6,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,2,2,3,3,4,3,2,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,2,2,3,3,3,4,
-     & 1,2,2,3,4,5,4,5,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1/
-      DATA ((MAPLOC(I,J),I=1,8),J=16,33)/
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,2,3,4,5,4,5,
-     & 1,1,1,1,1,1,1,1/
+      DATA ((MAPLOC(I,J),I=1,10),J=1,15)/
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,2,3,4,4,4,4,1,1,1,
+     & 1,1,2,3,4,5,4,5,1,1,
+     & 1,1,2,2,3,3,3,4,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,2,2,3,4,5,4,6,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,2,2,3,3,4,3,2,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,2,2,3,3,3,4,1,1,
+     & 1,2,2,3,4,5,4,5,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1/
+      DATA ((MAPLOC(I,J),I=1,10),J=16,33)/
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,2,3,4,5,4,5,1,1,
+     & 1,1,1,1,1,1,1,1,1,1/
 C
       DATA ((DGFOR(I,J),I=1,6),J=1,15)/
      &-0.23185, 0.00000, 0.00000, 0.00000, 0.00000, 0.00000,
@@ -310,41 +310,41 @@ C  IN THE DIAMETER INCREMENT MODELS; ARRAYED BY FOREST BY
 C  SPECIES.  MAPDSQ IS AN ARRAY WHICH MAPS FOREST ONTO A DBH**2
 C  COEFFICIENT.
 C----------
-      DATA ((MAPDSQ(I,J),I=1,8),J=1,15)/
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,2,3,2,3,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,2,1,2,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,2,3,3,3,3,3,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,2,3,2,3,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1/
-      DATA ((MAPDSQ(I,J),I=1,8),J=16,33)/
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1,
-     & 1,1,1,1,1,1,1,1/
+      DATA ((MAPDSQ(I,J),I=1,10),J=1,15)/
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,2,3,2,3,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,2,1,2,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,2,3,3,3,3,3,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,2,3,2,3,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1/
+      DATA ((MAPDSQ(I,J),I=1,10),J=16,33)/
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1,
+     & 1,1,1,1,1,1,1,1,1,1/
 C
       DATA ((DGDS(I,J),I=1,4),J=1,15)/
      & -0.000091, 0.000000,      0.0,      0.0,
@@ -517,8 +517,25 @@ C----------
       I1=ISCT(ISPC,1)
       IF(I1.EQ.0) GO TO 20
       I2=ISCT(ISPC,2)
+C----------
+C  WARM SPRINGS RESERVATION USES EQUATIONS FROM EC OR WC VARIANTS 
+C  FOR SOME SPECIES
+C----------
+      IF(IFOR .EQ. 10) THEN
+        SELECT CASE (ISPC)
+        CASE(1,2,6,7,18,32)
+          CONSPP = DGCON(ISPC) + COR(ISPC)
+        GO TO 5
+        END SELECT
+      ENDIF
+C----------
+C  FORESTS OTHER THAN WARM SPRINGS, AND WARM SPRINGS SPECIES THAT USE
+C  EQUATIONS FROM THE SO VARIANT
+C----------
       CONSPP= DGCON(ISPC) + COR(ISPC) + 0.01*DGCCF(ISPC)*RELDEN
      & +0.01*DGMACC(ISPC)*RMAI*RELDEN
+C
+    5 CONTINUE
       DGLDS= DGLD(ISPC)
       DGBALS=DGBAL(ISPC)
       DGCRS= DGCR(ISPC)
@@ -528,9 +545,9 @@ C----------
       SI=SITEAR(ISPC)
 C
       IF(DEBUG)WRITE(JOSTND,9002)ISPC,DGCON(ISPC),COR(ISPC),
-     &DGCCF(ISPC),DGMACC(ISPC),RELDEN,CONSPP
- 9002 FORMAT(' IN DGF 9002 ISPC,DGCON,COR,DGCCF,DGMACC,RELDEN,CON
-     &SPP=',I5,10F10.5)
+     &DGCCF(ISPC),DGMACC(ISPC),RELDEN,RMAI,CONSPP
+ 9002 FORMAT(' IN DGF 9002 ISPC,DGCON,COR,DGCCF,DGMACC,RELDEN,RMAI,',
+     &'CONSPP=',I5,10F10.5)
 C----------
 C  BEGIN TREE LOOP WITHIN SPECIES ISPC.
 C----------
@@ -566,17 +583,18 @@ CCCC        IF(DF .GT. DBHMAX(IS)) DF = DBHMAX(IS)
         ENDIF
         IF(DEBUG)WRITE(JOSTND,*)' ISPC,D,DIAGR,DPP,BA,BARK,CONSPP= '
         IF(DEBUG)WRITE(JOSTND,*)ISPC,D,DIAGR,DPP,BA,BARK,CONSPP
-        GO TO 9
+        GO TO 8
       ELSEIF(ISPC.EQ.24)THEN
 C----------
 C  AS(24) IS FROM THE UT VARIANT
 C----------
         CR = ICR(I)
         CALL DGFASP(D,ASPDG,CR,BARK,SI,DEBUG)
-      IF(DEBUG)WRITE(JOSTND,*)' D,ASPDG,CR,BARK,SI= ',D,ASPDG,CR,BARK,SI
-      IF(DEBUG)WRITE(JOSTND,*)' COR2, COR= ',COR2(ISPC),COR(ISPC)
+        IF(DEBUG)WRITE(JOSTND,*)' D,ASPDG,CR,BARK,SI= ',
+     &  D,ASPDG,CR,BARK,SI
+        IF(DEBUG)WRITE(JOSTND,*)' COR2, COR= ',COR2(ISPC),COR(ISPC)
         DDS = ASPDG + ALOG(COR2(ISPC)) + COR(ISPC)
-        GO TO 9
+        GO TO 8
 C----------
 C  RED ALDER USES A DIFFERENT EQUATION.
 C  FUNCTION BOTTOMS OUT AT D=18. DECREASE LINERALY AFTER THAT TO
@@ -595,8 +613,75 @@ C----------
         IF(DEBUG)WRITE(JOSTND,*)' RA-BARK,D,BA,DIAGR,COR2,COR,DDS= '
         IF(DEBUG)WRITE(JOSTND,*)BARK,D,BA,DIAGR,COR2(ISPC),COR(ISPC),DDS
 C
-        GO TO 9
+        GO TO 8
       ENDIF
+C----------
+C  WARM SPRINGS RESERVATION USES EQUATIONS FROM EC OR WC VARIANTS 
+C  FOR SOME SPECIES
+C----------
+      IF(DEBUG)WRITE(JOSTND,*)' I,IFOR,ISPC,ICR,PCT,BA= ',
+     &I,IFOR,ISPC,ICR(I),PCT(I),BA 
+      IF(IFOR .EQ. 10)THEN
+        CR=ICR(I)*0.01
+        BAL = (1.0 - (PCT(I)/100.)) * BA
+        SELECT CASE (ISPC)
+C
+C       USE WHITE PINE AND SUGAR PINE EQN FROM WC VARIANT
+C
+        CASE (1,2)                   
+          DDS = CONSPP + 0.844690*ALOG(D) + 1.597250*CR
+     &    - 0.0000596*D*D  - 0.003726*BAL/(ALOG(D+1.0))
+     &    - 0.000257*PCCF(IPCCF)
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR WP&SP: I,CONSPP,D,CR,BAL,',
+     &    'PCCF,DDS= ',I,CONSPP,D,CR,BAL,PCCF(IPCCF),DDS
+          GO TO 8
+C
+C       USE INCENSE CEDAR EQN FROM WC VARIANT
+C
+        CASE (6)                   
+          DDS = CONSPP + 0.879338*ALOG(D)
+     &    + 1.970052*CR  - 0.0001323*D*D
+     &    - 0.004215*BAL/(ALOG(D+1.0)) - 0.000173*BA
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR IC: I,CONSPP,D,CR,BAL,BA,',
+     &    'DDS= ',I,CONSPP,D,CR,BAL,BA,DDS
+          GO TO 8
+C
+C       USE LODGEPOLE PINE EQN FROM EC VARIANT
+C
+        CASE (7)                   
+          DDS = CONSPP + 0.554261*ALOG(D) + 1.423849*CR
+     &    - 0.004803*BAL/(ALOG(D+1.0)) - 0.000627*PCCF(IPCCF)
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR LP: I,CONSPP,D,CR,BAL,PCCF,',
+     &    'DDS= ',I,CONSPP,D,CR,BAL,PCCF(IPCCF),DDS
+          GO TO 8
+C
+C       USE REDCEDAR EQN FROM WC VARIANT
+C
+        CASE (18)                  
+          DDS = CONSPP + 0.843013*ALOG(D)
+     &    + CR*(2.878032 - 1.631418*CR)
+     &    - 0.0000644*D*D  - 0.003923*BAL/(ALOG(D+1.0))
+     &    - 0.000552*PCCF(IPCCF)
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR RC: I,CONSPP,D,CR,BAL,PCCF,',
+     &    'DDS= ',I,CONSPP,D,CR,BAL,PCCF(IPCCF),DDS
+          GO TO 8
+C
+C       OTHER SOFTWOODS USE ALASKA YELLOW CEDAR EQN FROM WC VARIANT
+C
+        CASE (32)    
+          DDS = CONSPP + 0.816880*ALOG(D)
+     &    + 2.471226*CR - 0.0002536*D*D
+     &    - 0.005950*BAL/(ALOG(D+1.0)) - 0.000147*BA
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR OS: I,CONSPP,D,CR,BAL,BA,',
+     &    'DDS= ',I,CONSPP,D,CR,BAL,BA,DDS
+          GO TO 8
+C
+        END SELECT
+      ENDIF
+C----------
+C  FORESTS OTHER THAN WARM SPRINGS, AND WARM SPRINGS SPECIES THAT USE
+C  EQUATIONS FROM THE SO VARIANT
+C
 C----------
 C  SF(14) FROM EC NEEDS ADDITIONAL VARIABLE (DUMMY)
 C----------
@@ -651,7 +736,6 @@ C      WRITE(JOSTND,*)' DGLBA(ISPC)*ALOG(BA)= ',DGLBA(ISPC)*ALOG(BA)
 C      WRITE(JOSTND,*)' DGBA(ISPC)*BA + DUMMY= ',DGBA(ISPC)*BA + DUMMY
 C      WRITE(JOSTND,*)' DDS= ', DDS
 C      ENDIF
-   9  CONTINUE
 
       IF(DEBUG)WRITE(JOSTND,*)' DGCON,COR,DGCCF,RELDEN,DGMACC,RMAI,',
      &'CONSPP,DGLDS,ALD,DGBALS,BAL,CR,DGCRS,DGCRS2,DGDSQS,D,DGDBLS,',
@@ -666,11 +750,29 @@ C----------
 C     CALL PPDGF TO GET A MODIFICATION VALUE FOR DDS THAT ACCOUNTS
 C     FOR THE DENSITY OF NEIGHBORING STANDS.
 C----------
+   8  CONTINUE
       BREL=0.01*(DGCCF(ISPC)+DGMACC(ISPC)*RMAI)
+      X1=0.
       XPPDDS=0.
+C----------
+C  WARM SPRINGS RESERVATION USES EQUATIONS FROM EC OR WC VARIANTS 
+C  FOR SOME SPECIES
+C----------
+      IF(IFOR .EQ. 10) THEN
+        SELECT CASE (ISPC)
+        CASE(1,2,6,7,18,32)
+        CALL PPDGF (XPPDDS,X1,X1,X1,X1,X1,X1,X1,X1,X1,X1)
+        GO TO 9
+        END SELECT
+      ENDIF
+C----------
+C  FORESTS OTHER THAN WARM SPRINGS, AND WARM SPRINGS SPECIES THAT USE
+C  EQUATIONS FROM THE SO VARIANT
+C----------
       CALL PPDGF (XPPDDS,BAL,RELDEN,PCCF(IPCCF),D,BREL,DGBALS,DGDBLS,
      &            DGPCCF(ISPC),DGLCCF,DGPCF2)
 C
+    9 CONTINUE
       DDS=DDS+XPPDDS
 C---------
       IF(DDS.LT.-9.21) DDS=-9.21
@@ -692,6 +794,8 @@ C----------
       IF(DEBUG)WRITE(JOSTND,100)ICYC
   100 FORMAT(' LEAVING SUBROUTINE DGF  CYCLE =',I5)
       RETURN
+C
+C
       ENTRY DGCONS
 C----------
 C  ENTRY POINT FOR LOADING COEFFICIENTS OF THE DIAMETER INCREMENT
@@ -724,6 +828,131 @@ C----------
       ISPFOR=MAPLOC(IFOR,ISPC)
       ISPDSQ=MAPDSQ(IFOR,ISPC)
       DGCCF(ISPC)=DGCCFA(ISPC)
+      DGDSQ(ISPC)=DGDS(ISPDSQ,ISPC)
+C----------
+C  WARM SPRINGS RESERVATION USES EQUATIONS FROM EC OR WC VARIANTS 
+C  FOR SOME SPECIES
+C----------
+      IF(IFOR .EQ. 10)THEN
+        SELECT CASE (ISPC)
+C
+C       USE WHITE PINE AND SUGAR PINE EQN FROM WC VARIANT
+C       FOR WHITE PINE TRANSLATE SITE FROM BRICKELL (T50) TO CURTIS (B100)
+C       FOR SUGAR PINE TRANSLATE SITE FROM BARRETT (B100) TO CURTIS (B100) 
+C       SITE TRANSLATION EQNS FROM ERIN SMITH-MATEJA, FMSC
+C       USE MT HOOD LOCATION CONSTANTS
+C
+        CASE (1,2)                   
+          SASP = 0.
+          IF(ISPC .EQ. 1) THEN
+            XSITE= 1.96 * SITEAR(ISPC)
+          ELSE
+            XSITE = SITEAR(ISPC)
+          ENDIF
+          DGCON(ISPC) =
+     &                 - 0.589570
+     &                 - 0.023376 * ELEV
+     &                 + 0.404010 * ALOG(XSITE)
+     &                 + SASP
+          ATTEN(ISPC) = 596.
+          SMCON(ISPC) = 0.
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR WP,SP: DGCON,SLOPE,ASPECT,',
+     &    'ELEV,SITEAR,XSITE,SASP= ',DGCON(ISPC),SLOPE,ASPECT,
+     &    ELEV,SITEAR(ISPC),XSITE,SASP      
+          GO TO 28
+C
+C       USE INCENSE CEDAR EQN FROM WC VARIANT
+C       TRANSLATE SITE FROM COCHRAN (B50) TO BARRETT (B100) 
+C       SITE TRANSLATION EQN FROM ERIN SMITH-MATEJA, FMSC 
+C       USE MT HOOD LOCATION CONSTANTS
+C
+        CASE (6)                   
+          SASP = 0.
+          XSITE = 25.0 + 1.2 * SITEAR(ISPC)
+          DGCON(ISPC) =
+     &                 - 1.310067
+     &                 + 0.252853 * ALOG(XSITE)
+     &                 + SASP
+          ATTEN(ISPC) = 475.
+          SMCON(ISPC) = 0.
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR IC: DGCON,SLOPE,ASPECT,ELEV,',
+     &    'SITEAR,XSITE,SASP= ',DGCON(ISPC),SLOPE,ASPECT,ELEV,
+     &    SITEAR(ISPC),XSITE,SASP      
+          GO TO 28
+C
+C       USE LODGEPOLE PINE EQN FROM EC VARIANT
+C       TRANSLATE SITE FROM DAHMS (T50) TO ALEXANDER (T100) 
+C       SITE TRANSLATION EQN FROM ERIN SMITH-MATEJA, FMSC 
+C       USE MT HOOD LOCATION CONSTANTS
+C
+        CASE (7)
+          SASP =
+     &                  (-0.142328 * SIN(ASPECT)
+     &                 - 0.064328 * COS(ASPECT)
+     &                 - 0.097297) * SLOPE
+     &                 + 0.094464 * SLOPE * SLOPE
+          XSITE= 12.25 + 1.325 * SITEAR(ISPC)
+          DGCON(ISPC) =
+     &                 - 1.084679
+     &                 - 0.001124 * ELEV
+     &                 + 0.458662 * ALOG(XSITE)
+     &                 + SASP
+          ATTEN(ISPC) = 1478.
+          SMCON(ISPC) = 0.
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR LP: DGCON,SLOPE,ASPECT,ELEV,',
+     &    'SITEAR,XSITE,SASP= ',DGCON(ISPC),SLOPE,ASPECT,ELEV,
+     &    SITEAR(ISPC),XSITE,SASP      
+          GO TO 28
+C
+C       USE REDCEDAR EQN FROM WC VARIANT
+C       TRANSLATE SITE FROM HEGYI (T100) TO CURTIS (B100) 
+C       SITE TRANSLATION EQN FROM ERIN SMITH-MATEJA, FMSC 
+C       USE MT HOOD LOCATION CONSTANTS
+C
+        CASE (18)                  
+          SASP = 0.
+          XSITE = SITEAR(ISPC)
+          DGCON(ISPC) =
+     &                   0.645645
+     &                 - 0.050081 * ELEV
+     &                 + 0.000660 * ELEV * ELEV
+     &                 + 0.139734 * ALOG(XSITE)
+     &                 + SASP
+          ATTEN(ISPC) = 1309.
+          SMCON(ISPC) = 0.
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR RC: DGCON,SLOPE,ASPECT,ELEV,',
+     &    'SITEAR,XSITE,SASP= ',DGCON(ISPC),SLOPE,ASPECT,ELEV,
+     &    SITEAR(ISPC),XSITE,SASP      
+          GO TO 28
+C
+C       OTHER SOFTWOODS USE ALASKA YELLOW CEDAR EQN FROM WC VARIANT
+C       TRANSLATE SITE FROM COCHRAN (B50) TO CURTIS (B100) 
+C       SITE TRANSLATION EQN FROM ERIN SMITH-MATEJA, FMSC 
+C       USE MT HOOD LOCATION CONSTANTS
+C
+        CASE (32)    
+          SASP =
+     &                  (0.679903 * SIN(ASPECT)
+     &                 - 0.023186 * COS(ASPECT)) * SLOPE
+          XSITE = 3.5 + 1.45 * SITEAR(ISPC)
+          DGCON(ISPC) =
+     &                 - 1.277664
+     &                 + 0.244694 * ALOG(XSITE)
+     &                 + SASP
+          ATTEN(ISPC) = 0.
+          SMCON(ISPC) = 0.
+          IF(DEBUG)WRITE(JOSTND,*)' WSPR OS: DGCON,SLOPE,ASPECT,ELEV,',
+     &    'SITEAR,XSITE,SASP= ',DGCON(ISPC),SLOPE,ASPECT,ELEV,
+     &    SITEAR(ISPC),XSITE,SASP      
+          GO TO 28
+C
+        END SELECT
+      ENDIF
+C----------
+C  FORESTS OTHER THAN WARM SPRINGS, AND WARM SPRINGS SPECIES THAT USE
+C  EQUATIONS FROM THE SO VARIANT
+C----------
+      XSITE = SITEAR(ISISP)
       XSLOPE=SLOPE
       IF(ISPC.EQ.11.OR.ISPC.EQ.16.OR.ISPC.EQ.24)THEN
         ASPTEM=ASPECT-0.7854
@@ -757,7 +986,6 @@ C
      &                 + DGSITE(ISPC)*ALOG(SITEAR(ISPC))
      &                 + SASP
 C
-      DGDSQ(ISPC)=DGDS(ISPDSQ,ISPC)
 C
 C      IF(DEBUG)THEN
 C      WRITE(JOSTND,*)' DGFOR(ISPFOR,ISPC)= ',       DGFOR(ISPFOR,ISPC)
@@ -792,6 +1020,7 @@ C  IF READCORD OR REUSCORD WAS SPECIFIED (LDCOR2 IS TRUE) ADD
 C  LN(COR2) TO THE BAI MODEL CONSTANT TERM (DGCON).  COR2 IS
 C  INITIALIZED TO 1.0 IN BLKDATA.
 C----------
+   28 CONTINUE
       IF (LDCOR2.AND.COR2(ISPC).GT.0.0) DGCON(ISPC)=DGCON(ISPC)
      &  + ALOG(COR2(ISPC))
    30 CONTINUE

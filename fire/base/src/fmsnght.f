@@ -1,7 +1,7 @@
       SUBROUTINE FMSNGHT(VVER,KSP,HTD,HTCURR,IHRD,HTSNEW)
       IMPLICIT NONE
 C----------
-C  $Id: fmsnght.f 709 2013-03-19 22:06:06Z drobinsonessa@gmail.com $
+C  $Id: fmsnght.f 709 2015-08-23 22:06:06Z drobinsonessa@gmail.com $
 C----------
 C
 C     SNAG HEIGHT PREDICTION
@@ -113,9 +113,8 @@ C       you use their values.
           ENDIF
 
         CASE('SO')
-
-          IF ((KODFOR .GE. 500 .AND. KODFOR .LT. 600) .OR.
-     &         KODFOR .GE. 700) THEN                        ! CALIFORNIA
+          SELECT CASE (KODFOR)
+          CASE(505,506,509,511,701,514)                  ! CALIFORNIA
 
             IF (HTCURR .GT. (0.5 * HTD)) THEN
               HTSNEW = HTCURR * 
@@ -124,7 +123,8 @@ C       you use their values.
               HTSNEW = HTCURR * 
      &                   (1.0 - HTR2 * HTX(KSP,HTINDX2) *SFTMULT)**NYRS
             ENDIF
-          ELSE                                              ! OREGON
+C
+          CASE DEFAULT                                   ! OREGON
 
 C         First, get the height loss rate from fmr6htls. But if the
 C         height loss is adjusted by user (snagbrk keyword), make sure
@@ -148,7 +148,7 @@ C         you use their values.
                 HTSNEW = HTCURR * (1.0 - X2)**NYRS
               ENDIF
             ENDIF
-          ENDIF
+          END SELECT
 
         CASE DEFAULT
           IF (HTCURR .GT. (0.5 * HTD)) THEN

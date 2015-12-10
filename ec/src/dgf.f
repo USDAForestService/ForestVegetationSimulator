@@ -1,7 +1,7 @@
       SUBROUTINE DGF(DIAM)
       IMPLICIT NONE
 C----------
-C  **DGF--EC    DATE OF LAST REVISION:  05/09/12
+C  **DGF--EC    DATE OF LAST REVISION:  12/02/15
 C----------
 C  THIS SUBROUTINE COMPUTES THE VALUE OF DDS (CHANGE IN SQUARED
 C  DIAMETER) FOR EACH TREE RECORD, AND LOADS IT INTO THE ARRAY
@@ -603,7 +603,7 @@ C----------
       ISPFOR=MAPLOC(IFOR,ISPC)
       ISPDSQ=MAPDSQ(IFOR,ISPC)
       SASP =
-     &                 +(DGSASP(ISPC) * SIN(ASPECT)
+     &                  (DGSASP(ISPC) * SIN(ASPECT)
      &                 + DGCASP(ISPC) * COS(ASPECT)
      &                 + DGSLOP(ISPC)) * SLOPE
      &                 + DGSLSQ(ISPC) * SLOPE * SLOPE
