@@ -98,23 +98,23 @@ C----------
         IF (.NOT.LTSTV4(I)) GOTO 1001
         XLDREG(1)=TSTV4(I)
         GOTO 1000
-   15   CONTINUE
-        IF (.NOT.LTSTV5(I)) GOTO 1001
+   15   CONTINUE   ! OPCODE 501 to 599
+        IF (.NOT.LTSTV5(I)) GOTO 1001  
         XLDREG(1)=TSTV5(I)
         GOTO 1000
-   16   CONTINUE
-        IF (.NOT.LTSTV5(I+100)) GOTO 1001
+   16   CONTINUE  ! OPCODE 600 to 699
+        IF (.NOT.LTSTV5(I+100)) GOTO 1001 
         XLDREG(1)=TSTV5(I+100)
         GOTO 1000
-   17   CONTINUE
+   17   CONTINUE  ! OPCODE 700 to 799
         IF (.NOT.LTSTV5(I+200)) GOTO 1001
         XLDREG(1)=TSTV5(I+200)
         GOTO 1000
-   18   CONTINUE
+   18   CONTINUE  ! OPCODE 800 to 899
         IF (.NOT.LTSTV5(I+300)) GOTO 1001
         XLDREG(1)=TSTV5(I+300)
         GOTO 1000
-   19   CONTINUE
+   19   CONTINUE  ! OPCODE 900
         IF (I.EQ.0) THEN
           CALL RANN (XLDREG(1))
         ELSE
