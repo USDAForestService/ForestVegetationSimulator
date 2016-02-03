@@ -424,6 +424,7 @@ C----------
       LSPECL=.FALSE.
       LBAREA=.FALSE.
       LSDI=.FALSE.
+      LQFA=.FALSE.
       DO 101 I=1,7
       PRMS(I)=0.
   101 CONTINUE
@@ -666,6 +667,7 @@ C----------
      &            CTPA,CBA,CSDI,QFATAR,QFAC,DIACW,JOSTND1,
      &            DEBUG1,LDELQFA,LQFA)
       IF(LDELQFA)THEN
+        LQFA=.FALSE.
         CALL OPDEL1(KUT)
         GO TO 1400
       ENDIF
