@@ -75,7 +75,7 @@ C----------
 C  FOR REGION 5 FORESTS, BRANCH TO R5 LOGIC.
 C  FOR INDUSTRY, USE R5 LOGIC.
 C----------
-      IF(IFOR.GT.3) GO TO 100
+      IF(IFOR.GT.3 .AND. IFOR.LT.10) GO TO 100
 C----------
 C  R6 VOLUME LOGIC
 C----------
@@ -116,9 +116,11 @@ C----------
       PROD='  '
 C----------
 C  CONSTANT INTEGER ARGUMENTS
+C  SET WARM SPRINGS TO USE DESCHUTES
 C----------
       I1= 1
       IREGN= 6
+      IF(KODFOR .EQ. 799)FORST='01'
       IF(VEQNNC(ISPC)(4:4).EQ.'F')THEN
 C
         IF(DEBUG)WRITE(JOSTND,*)' CALLING PROFILE CF ISPC,ARGS = ',
@@ -225,9 +227,11 @@ C----------
         PROD='  '
 C----------
 C  CONSTANT INTEGER ARGUMENTS
+C  SET WARM SPRINGS TO USE DESCHUTES
 C----------
         I1= 1
         IREGN= 6
+        IF(KODFOR .EQ. 799)FORST='01'
 C----------
 C  USE PROFILE EQUATIONS OR BRANCH TO R6VOLE EQS.
 C----------

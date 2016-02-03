@@ -68,13 +68,14 @@ C----------
           CALL FMR6SDCY(KSP, D, JYRSOFT, JADJ, JSML)
           DKTIME = JYRSOFT * DECAYX(KSP)
         CASE('SO')
-          IF ( (KODFOR .GE. 600) .AND. (KODFOR .LT. 700)) THEN  ! OREGON
+          SELECT CASE (KODFOR)
+          CASE (601,602,620,799)                     !OREGON
             CALL FMR6SDCY(KSP, D, JYRSOFT, JADJ, JSML)
             DKTIME = JYRSOFT * DECAYX(KSP)
-          ELSE
+          CASE DEFAULT                               !CALIFORNIA
             DKTIME = (1.24 * DECAYX(KSP) * D) + (13.82 * DECAYX(KSP))
             DKTIME = DKTIME * XMOD
-          ENDIF
+          END SELECT
         CASE DEFAULT
           DKTIME = (1.24 * DECAYX(KSP) * D) + (13.82 * DECAYX(KSP))
           DKTIME = DKTIME * XMOD
