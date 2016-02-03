@@ -307,8 +307,8 @@ C             READ TO THE END OF DATA MARK (-999)
 
 C     TURN ON CLIMATE ESTAB AND TURN OFF BASE ESTAB.      
 
-      LAESTB=.TRUE.
-      CALL ESNOAU ('********',LKECHO)
+c      LAESTB=.TRUE.
+c      CALL ESNOAU ('********',LKECHO)
             
       GOTO 10
   296 CONTINUE
