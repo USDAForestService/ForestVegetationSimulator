@@ -1,0 +1,12 @@
+Subject: BLM Volumes
+Name: R. Havis
+Date: January 14, 2016
+Variants affected: BM, CA, EC, IE, NC, OC, OP, PN, SO, WC
+
+Description: Volumes calculated using BLM equations were using
+             Merch. top Specs. calculated with outside bark diameters.
+
+Impact on users: Merchantable volumes calculated using BLM equations
+                 are increased by a few percent.
+
+Files:

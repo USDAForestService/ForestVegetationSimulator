@@ -2,7 +2,7 @@
 # $Id$
 
 all : iet01 iet02 iet03  \
- ffe_svs climate climatePutGet
+ ffe_svs climate climatePutGet maxActs 
 
 iet01 : 
 	@echo Test iet01, basic functionality 
@@ -62,4 +62,12 @@ climatePutGet:
 	-diff -w climate.tmp climate.tmp.save
 	rm climate.tmp climate.tmp.save
 	@echo Test Climate-FVS with PutGet ended
+
+maxActs:
+	@echo Test having many compute statements
+	-../../bin/FVSiec --keywordfile=maxActs.key
+	@echo This grep command should not find the string
+	grep "OPTION/ACTIVITY STORAGE AREA IS FULL" maxActs.out 
+	rm maxActs.out 
+	@echo Test having many compute statements ended
 
