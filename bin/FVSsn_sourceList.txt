@@ -497,7 +497,11 @@
 ../strp/src/esuckr.f
 ../volume/src/clkcoef_mod.f
 ../volume/src/debug_mod.f
+../volume/src/mrules.f
+../volume/src/numlog.f
 ../volume/src/R8CLIST.INC
+../volume/src/R8CLKCOEF.INC
+../volume/src/r8clkdib.f
 ../volume/src/R8DIB.INC
 ../volume/src/r8init.f
 ../volume/src/R8VLIST.INC
@@ -509,5 +513,7 @@
 ../volume/src/r9init.f
 ../volume/src/r9logs.f
 ../volume/src/r9vol.f
+../volume/src/segmnt.f
 ../volume/src/voleqdef.f
+../volume/src/volinput_mod.f
 ../ws/src/exppnb.f

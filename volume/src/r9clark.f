@@ -34,7 +34,8 @@ C
 C          YW  02/28/2012  Changed to calc HT for prod 1 when ht1prd = 0
 C          YW  08/21/2012  Added error flag check and reset vol array.
 C YW 01/18/2013 Added vol calculation for stump (VOL(14)) and tip VOL(15)
-C          YW 04/15/2015 Added to make prod 14 to be same as prod 01 for volume calculation.
+C YW 04/15/2015 Added to make prod 14 to be same as prod 01 for volume calculation.
+C YW 10/06/2015 Added TLOGS,NOLOGP and NOLOGS to the R9CLARK subroutine
 C-------------------------------------------------------------------------
 C  This subroutine is designed for use with the VOLLIB routines in 
 C  the National Volume Estimator Library.  It returns arrays filled 
@@ -49,7 +50,7 @@ C
       subroutine r9clark (volEq,stump,mTopP,mTopS,dbhOb,
      &                    ht1Prd,ht2Prd,htTot,logDia,bolHt,Loglen,
      &                    logVol,vol,cutFlg,bfpFlg,cupFlg,cdpFlg,
-     &                    spFlg,prod,errFlg,cType,upsHt1)
+     &             spFlg,prod,errFlg,cType,upsHt1,TLOGS,NUMLOGP,NUMLOGS)
 C_______________________________________________________________________
 C
  
@@ -74,7 +75,8 @@ C     Internal variables
       REAL      TLOGVOL
       logical   short      
       
-      INTEGER         NOLOGP,NOLOGS, TLOGS
+      INTEGER   TLOGS,NOLOGP,NOLOGS      
+      REAL      NUMLOGP,NUMLOGS 
       TYPE(CLKCOEF):: COEFFS
 
       IF (DEBUG%MODEL) THEN
@@ -306,6 +308,8 @@ C-----Get board foot volumes
 !test I think it should use cfvol (5/21/2015)      
       CALL R9LGCFT(TLOGS, LOGLEN, LOGDIA, LOGVOL, TLOGVOL, cfVol)
 
+      NUMLOGP = NOLOGP
+      NUMLOGS = NOLOGS
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 580)'TCFVOL  = ', TCFVOL
   580    FORMAT (A, F6.1)

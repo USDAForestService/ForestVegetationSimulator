@@ -37,6 +37,7 @@ C               to correct the missing 18, 20, and 22 foot logs
 C YW 07/02/2014 added errflag (13) for top diameter greater than DBH in VOLINTRP routine
 C YW 08/19/2015 Added VOL to SUBROUTINE TCUBIC and modified TCUBIC to calculate stump and tip vol
 C               and save value in VOL(14) and VOL(15)
+C YW 10/15/2015 Modified TAPERMODEL for call R1tap to calc vol.
 C**************************************************************
 C**************************************************************
 
@@ -69,7 +70,6 @@ C       Variables to hold flewellings coefficients
       REAL RHFW(4),RFLW(6),TAPCOE(12),F,FMOD(3),PINV_Z(2)
       REAL HEX(2),dex(2), ZEX(2)
 C       Temp variables for Region 1
-
 
       REAL UHT,VMER,VMER1,VMER2,TEMPVOL,TCVOL,TCVOL1,TCVOL2
 
@@ -1251,13 +1251,7 @@ C**************************************************************
      >    DBTBH,HEX,DEX,ZEX,RHFW,RFLW,TAPCOE,F,FMOD,PINV_Z,TOP6,HT2,
      >    MTOPP,MFLG,CUVOL,DIB,DOB,errflag)
 c calls taper equations or profile models.
-C
-C  *** FVS MODIFICATION *** FORMCLASS IS PASSED IN THROUGH THE VOILINIT
-C  ROUTINE, BUT FVS DOES NOT USE THE VOLLINIT ROUTINE. SO IN THE FVS
-C  VERSION OF THE PROFILE ROUTINE WE COMMENT OUT THE FOLLOWING LINE AND
-C  THE LINE SETTING FCLASS = FORMCLASS 10 LINES BELOW
-C
-C      USE VOLINPUT_MOD
+      USE VOLINPUT_MOD
       IMPLICIT NONE
       
       character*2 geosub,FORST
@@ -1269,7 +1263,7 @@ C      USE VOLINPUT_MOD
       REAL DBHOB,HEX(2),DEX(2),ZEX(2),PINV_Z(2),FMOD(3),F,TOP6
       REAL RHFW(4),RFLW(6),TAPCOE(12)
       
-C      FCLASS=FORMCLASS
+      FCLASS=FORMCLASS
       ineedsl = 0
       DOB = 0.0
       geosub=voleq(2:3)
@@ -1298,6 +1292,10 @@ c         ENDIF
         IF(MFLG .EQ. 0)THEN
             TOP = 0.0
             HT2 = 0.0
+c   The following function should be called for volume calc.(10/15/2015)!            
+            CALL R1TAP(VOLEQ,FORST,DBHOB,HTTOT,TOP,HT2,MFLG,
+     >                CUVOL,DIB)
+            
         ELSE IF(MFLG .EQ. 1) THEN
             CALL R1TAP(VOLEQ,FORST,DBHOB,HTTOT,MTOPP,HT2,MFLG,
      >                CUVOL,DIB)

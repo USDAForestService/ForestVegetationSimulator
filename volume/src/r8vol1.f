@@ -1,10 +1,12 @@
-!== last modified  02-07-2012
-!== RNH chenged names of include files to R8CLIST.INC and R8VLIST.INC
+!== last modified  10-26-2005
       SUBROUTINE R8VOL1(VOLEQ,DBHOB,HTONE,HTTWO,PROD,VOL,ERRFLAG)
 
 C  CREATED:   05-28-91
 C  PURPOSE:   THIS ROUTINE IS FOR CALCULATING REGION 8 VOLUMES FOR
 C             EQUATION NUMBERS 1 THROUGH 799.
+
+     
+      IMPLICIT NONE
 
 C  DECLARE VARIABLES
 
@@ -12,7 +14,7 @@ C  DECLARE VARIABLES
 C      CHARACTER*4 SPC
 C     CHARACTER*8 READIT
       CHARACTER*10 VOLEQ
-      character*19 atmp1(2592)
+      !character*19 atmp1(2592)
 
       INTEGER ERRFLAG,DONEFLAG,LAST,HALF,LASTFLAG
       INTEGER GC1
@@ -21,9 +23,10 @@ C     CHARACTER*8 READIT
 
       REAL DBHOB, HTONE, HTTWO,VEQ
       REAL VOL(15)
+      !COFARR(162,10)
 
-      include 'R8CLIST.INC'
-      include 'R8VLIST.INC'
+      include 'r8clist.inc'
+      include 'R8VLIST.inc'
 
 c      INCLUDE 'COMM0'
 

@@ -76,8 +76,8 @@ C Equations for Subdivision 2 and Unit 4 (NOR-5)
           ENDIF
 
 	    IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
-             VOL(2) = 98.7701+(0.02022*D2H) - 0.77651*DBHOB**2 - 1.63023
-     &       *HTTOT
+	      VOL(2) = 98.7701+(0.02022*D2H) - 0.77651*DBHOB**2
+     &                - 1.63023*HTTOT
 	      VOL(10) = -67.1116+(0.013663011*D2H) + (3344.33/(DBHOB**2))
           ENDIF
         ENDIF  
