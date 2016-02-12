@@ -294,16 +294,21 @@ cc     -        " restrtcd=",restrtcd
 
       include "GLBLCNTL.F77"
 
+!DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE :: FVSRESTARTLASTSTAND
+!DEC$ ATTRIBUTES ALIAS:'FVSRESTARTLASTSTAND' :: FVSRESTARTLASTSTAND
+!DEC$ ATTRIBUTES REFERENCE :: restrtcd
+
       integer :: restrtcd
       if (readFilePos == -1) then
         call fvsSetRtnCode (1)
-        restrtcd = fvsRtnCode
+      else
+        seekReadPos = readFilePos ! start reading form here.
+        call getstd
+        ! signal return to caller, will be reset when fvsRestart is called.
+        restartcode = -1 
+        stopstatcd = 4
       endif
-
-      seekReadPos = readFilePos ! start reading form here.
-      call getstd
-      restartcode = -1 ! signal return to caller
-      stopstatcd = 4
+      restrtcd = fvsRtnCode
       return
       end
 
@@ -417,7 +422,7 @@ c     If the program is "stopping", then store the data (unless there is
   100 continue
 cc      print *,"in fvsStopPoint,minorstopptyear=",minorstopptyear,
 cc     -  " minorstopptcode=",minorstopptcode," icyc=",icyc,"iy(icyc)=",
-cc     -  iy(icyc)," +1=",iy(icyc+1)
+cc     -  iy(icyc)," iy(icyc+1)=",iy(icyc+1)
 
       if (minorstopptyear == 0 .or. minorstopptcode == 0) return
 
