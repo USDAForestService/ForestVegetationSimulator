@@ -30,11 +30,17 @@ Description:
 
 4) LS and NE variants: The equation for yellow birch was updated.
 
+5) OC and OP variants: Trees having DBH of less than or equal to 0.1 inches were
+                       were assigned small volumes in these variants, but are now
+                       assigned zero volume.
+
 
 Impact on users: The list of volume equations available for selection in FVS has
                  been increased in the western variants. Users of the AK, and
                  CR variants will see slight changes in volumes, and LS and
                  NE variant users will see very slight changes in volumes
-                 if there is yellow birch in their stand.
+                 if there is yellow birch in their stand. Small changes in volume
+                 estimates can be expected in the OC and OP variants because
+                 trees with less than or equal to 0.1 inches are assigned zero volume.
 
 Files:
