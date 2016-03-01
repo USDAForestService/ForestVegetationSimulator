@@ -20,7 +20,7 @@ endif()
 ## example 1: Single-variant GLOB: file(GLOB tobuild FVSiec_sourceList.txt)
 ## example 2: All-variant GLOB: file(GLOB tobuild FVS*_sourceList.txt)
 
-file(GLOB tobuild FVSak_sourceList.txt)
+file(GLOB tobuild FVSiec_sourceList.txt)
 
 list(SORT tobuild)
 message(STATUS "tobuild = ${tobuild}")

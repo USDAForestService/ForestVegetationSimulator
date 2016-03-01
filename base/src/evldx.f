@@ -378,8 +378,11 @@ C  I.E. NUMBER OF POINTS IN GROUP
 C----------
           IF(((L.GE.1).AND.(L.LE.4)).OR.(L.EQ.9).OR.
      &       ((L.GE.11).AND.(L.LE.13)))THEN
-            IF((JPTGRP.GT.0).AND.(IPTGRP(JPTGRP,1).GT.0))
-     &      XLDREG(1)=XLDREG(1)/FLOAT(IPTGRP(JPTGRP,1))
+            IF(JPTGRP.GT.0)THEN
+              IF(IPTGRP(JPTGRP,1).GT.0)THEN
+                XLDREG(1)=XLDREG(1)/FLOAT(IPTGRP(JPTGRP,1))
+              ENDIF
+            ENDIF
           ENDIF
 C
           IF (L.EQ.5 .OR. L.EQ.6 .OR. L.EQ.8 .OR. L.EQ.10) THEN

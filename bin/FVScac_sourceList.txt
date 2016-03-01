@@ -63,6 +63,7 @@
 ../base/src/exppe.f
 ../base/src/exrd.f
 ../base/src/extree.f
+../base/src/extwigvol.f
 ../base/src/ffert.f
 ../base/src/ffin.f
 ../base/src/filopn.f

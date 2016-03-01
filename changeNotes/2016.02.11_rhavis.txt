@@ -15,6 +15,24 @@ Description:
                          Region has been made available to the FVS variants in 
                          each region through the VOLEQNUM keyword.
 
+2) Region 9 variants:    in 2009, the Gevorkiantz volume calculatin method was superceeded
+                         by the Clark method in Region 9, but was retained
+                         as option 5 in field 8 of the BFVOLUME and VOLUME
+                         keywords. The older FVS Gevorkiantz code has been replaced by the
+                         National Volume Library Estimator code. There may be differences
+                         volume calculations by this method using the newer NVEL code.
+                         The Gevorkiantz board foot equations were not working.
+                         This has been corrected. The dependancy of the Gevorkian
+                         board foot tables on the National Forest has been added (see
+                         volume equation documentation on the Forest Products 
+                         Measurements Staff web site (http://www.fs.fed.us/fmsc
+                         /measure/volume/nvel/index.php).
+
+3) Region 8 and 9 variants: The default stump height was set to 1 foot for all products.
+                            This has been changed to 0.5 foot for calculations of Merch.
+                            cubic foot volumes. 
+
+
 2) AK and CR variants: The end-of-cycle DBH is used to calculate bark ratios
                        for the purpose of volume estimation. The AK and CR 
                        variants were using the beginning-of-cycle DBH to calculate
@@ -42,5 +60,9 @@ Impact on users: The list of volume equations available for selection in FVS has
                  if there is yellow birch in their stand. Small changes in volume
                  estimates can be expected in the OC and OP variants because
                  trees with less than or equal to 0.1 inches are assigned zero volume.
+                 The Merch. volumes of truncated trees wiull be slightly higher (on the order
+                 of 0.1 cf) in Regions 8 and 9 because the change in default stump heights.
+                 Volumes calculated using the Gevorkiantz mehtod in Region 9 may
+                 be different.
 
 Files:

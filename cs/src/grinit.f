@@ -77,7 +77,7 @@ C----------
       XMDIA2(I) = 99999.
       VEQNNB(I) = '          '
       VEQNNC(I) = '          '
-      STMP(I) = 1.0
+      STMP(I) = 0.5
       DBHMIN(I) = 0.
       BFTOPD(I) = 0.
       BFMIND(I) = 0.
