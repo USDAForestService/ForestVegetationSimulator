@@ -362,6 +362,8 @@
 ../em/src/sitset.f
 ../em/src/smdgf.f
 ../em/src/smhtgf.f
+../em/src/varget.f
+../em/src/varput.f
 ../estb/src/esaddt.f
 ../estb/src/esblkd.f
 ../estb/src/escprs.f
@@ -544,8 +546,6 @@
 ../pg/src/putgetsubs.f
 ../pg/src/putstd.f
 ../pg/src/stash.f
-../pg/src/varget.f
-../pg/src/varput.f
 ../so/src/adjmai.f
 ../ut/src/dgfasp.f
 ../volume/src/blmtap.f
