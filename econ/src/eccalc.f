@@ -1,6 +1,6 @@
       subroutine ECCALC(IY, ICYC, JSP, MGMID, NPLT, ITITLE)
 C----------
-C ECON $Id:
+C ECON $Id$
 C----------
 C Author Fred Martin, WA DNR,
 C Calculates costs & revenues associated with the FVS/ECON extension.

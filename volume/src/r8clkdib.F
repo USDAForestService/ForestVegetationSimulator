@@ -1,4 +1,4 @@
-
+C YW 2016/03/08 Modofied the DIB calculation for TOPHT less than 17.3 to avoid Nan vaue error.
       SUBROUTINE R8PREPCOEF(VOLEQ, COEFFS, ERRFLAG)
       USE CLKCOEF_MOD
       
@@ -363,12 +363,38 @@ C CALL R8VOL2 TO GET THE UPSHT1. THIS WILL BE SAME AS FVS
          ENDIF
          TOPHT = UPSHT1
          DIB17=DBHOB*(A17+B17*(17.3/TOPHT)**2)
-         dib=(is*(dbhib**2*(1+(c+e/dbhib**3)*((1-highht/topht)**r
-     &       -(1-4.5/topht)**r)/(1-(1-4.5/topht)**r)))
-     &     +ib*(dbhib**2-(dbhib**2-dib17**2)*((1-4.5/topht)**p
-     &       -(1-highht/topht)**p)/((1-4.5/topht)**p-(1-17.3/topht)**p))
-     &     +IT*(DIB17**2-(DIB17**2-DX**2)*(1-((TOPHT-HTUP)/
+c         dib=(is*(dbhib**2*(1+(c+e/dbhib**3)*((1-highht/topht)**r
+c     &       -(1-4.5/topht)**r)/(1-(1-4.5/topht)**r)))
+c     &     +ib*(dbhib**2-(dbhib**2-dib17**2)*((1-4.5/topht)**p
+c     &       -(1-highht/topht)**p)/((1-4.5/topht)**p-(1-17.3/topht)**p))
+c     &     +IT*(DIB17**2-(DIB17**2-DX**2)*(1-((TOPHT-HTUP)/
+c     &      (TOPHT-17.3))**Q)))**0.5
+C The codes below replaces the above comment out codes for NaN problem
+C when TOPHT < 17.3 (YW 2016/03/08)
+         IF(IS.GT.0)THEN
+           dib=(is*(dbhib**2*(1+(c+e/dbhib**3)*((1-highht/topht)**r
+     &       -(1-4.5/topht)**r)/(1-(1-4.5/topht)**r))))**0.5
+         ELSEIF(IB.GT.0)THEN
+           IF(TOPHT.GT.17.3)THEN
+           dib = (ib*(dbhib**2-(dbhib**2-dib17**2)*((1-4.5/topht)**p
+     &           -(1-highht/topht)**p)/((1-4.5/topht)**p
+     &           -(1-17.3/topht)**p)))**0.5
+           ELSE
+             IF(highht.le.topht)THEN
+               dib = (dbhib**2-(highht-4.5)/(topht-4.5)
+     &               *(dbhib**2-DX**2))**0.5
+             ELSEIF(HTTOT.GT.0)THEN
+               dib = (DX**2-(highht-topht)/(httot-topht)*DX**2)**0.5
+             ENDIF
+           ENDIF
+         ELSEIF(IT.GT.0)THEN
+           IF(TOPHT.GT.17.3)THEN
+           dib = (IT*(DIB17**2-(DIB17**2-DX**2)*(1-((TOPHT-HTUP)/
      &      (TOPHT-17.3))**Q)))**0.5
+           ELSE
+           dib = (DX**2-(highht-topht)/(httot-topht)*DX**2)**0.5
+           ENDIF
+         ENDIF
        ENDIF
        RETURN
        END

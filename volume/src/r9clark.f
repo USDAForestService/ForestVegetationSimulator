@@ -36,6 +36,8 @@ C          YW  08/21/2012  Added error flag check and reset vol array.
 C YW 01/18/2013 Added vol calculation for stump (VOL(14)) and tip VOL(15)
 C YW 04/15/2015 Added to make prod 14 to be same as prod 01 for volume calculation.
 C YW 10/06/2015 Added TLOGS,NOLOGP and NOLOGS to the R9CLARK subroutine
+C YW 01/22/2016 Added extra NaN check in r9ht routine for stemHt.
+C YW 03/02/2016 Removed the error check for small tree (<17.3) and calculation using small tree logic
 C-------------------------------------------------------------------------
 C  This subroutine is designed for use with the VOLLIB routines in 
 C  the National Volume Estimator Library.  It returns arrays filled 
@@ -427,8 +429,9 @@ c      elseif(ht2Prd.eq.0.0 .and. htTot.eq.0.0) then
       elseif(ht1Prd.le.0.01 .and. ht2Prd.le.0.01 
      &  .and. htTot.le.0.01 .and. upsHt1.le.0.01) then
         errFlg=10
-      elseif(htTot.gt.0.0.and.htTot.le.17.3) then
-        errFlg=10
+c YW removed the following check to let small tree calc using short tree logic(02/12/2016)
+c      elseif(htTot.gt.0.0.and.htTot.le.17.3) then
+c        errFlg=10
       elseif(htTot.gt.0.0 .and. ht1Prd.gt.0.0 
      &  .and. htTot.lt.ht1Prd) then
         errFlg=7
@@ -772,7 +775,12 @@ C  a and b are coefficients for inside-bark calculations.
       totHt=0.0
 
       if(htTot.gt.0.0) then
-        totHt=htTot
+        if(htTot.gt.17.3) then
+          totHt=htTot
+        else
+c       short tree using the topHt (17.4) YW(02/12/2016)
+          totHt = topHt
+        endif
       elseif(topHt.gt.17.3) then
         if(topDib**2.gt.b*(a-1.0)**2*dib17**2) then
           Im=1.0
@@ -1108,6 +1116,8 @@ C     Eqn 2: split since terms are undefined when evaluated together.
       ! we use the subroutine IISNAN (RNH)
       call IISNAN(stemHt,res)
       if((stemHt.lt.0.0).OR. res ) stemHt=0.0
+C     The following line check if stemHt is a NaN 
+      if(stemHt.ne.stemHt) stemHt=0.0
       return
       end
 C
