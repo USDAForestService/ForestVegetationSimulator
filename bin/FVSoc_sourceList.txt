@@ -235,6 +235,7 @@
 ../common/CONTRL.F77
 ../common/CVCOM.F77
 ../common/CWDCOM.F77
+../common/DBSCOM.F77
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
 ../common/ECNCOMSAVES.F77
@@ -255,8 +256,10 @@
 ../common/INCLUDESVN.F77
 ../common/KEYCOM.F77
 ../common/METRIC.F77
+../common/MISCOM.F77
 ../common/MULTCM.F77
 ../common/OPCOM.F77
+../common/ORGANON.F77
 ../common/OUTCOM.F77
 ../common/PDEN.F77
 ../common/PLOT.F77
@@ -288,7 +291,6 @@
 ../covr/src/cvshap.f
 ../covr/src/cvsum.f
 ../cr/src/crdecd.f
-../dbs/src/DBSCOM.F77
 ../dbs/src/dbsatrtls.f
 ../dbs/src/dbsblkd.f
 ../dbs/src/dbscase.f
@@ -462,7 +464,6 @@
 ../fire/ws/src/cwhr.f
 ../fire/ws/src/fmmois.f
 ../fire/ws/src/fmshrub.f
-../mistoe/src/MISCOM.F77
 ../mistoe/src/misact.f
 ../mistoe/src/miscnt.f
 ../mistoe/src/miscpf.f
@@ -505,7 +506,6 @@
 ../oc/src/regent.f
 ../oc/src/sitset.f
 ../oc/src/vols.f
-../organon/src/ORGANON.F77
 ../organon/src/crngrow.f
 ../organon/src/diagro.f
 ../organon/src/diamcal.f

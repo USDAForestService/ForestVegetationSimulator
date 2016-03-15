@@ -217,6 +217,7 @@
 ../common/CONTRL.F77
 ../common/CVCOM.F77
 ../common/CWDCOM.F77
+../common/DBSCOM.F77
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
 ../common/ECNCOMSAVES.F77
@@ -237,6 +238,7 @@
 ../common/INCLUDESVN.F77
 ../common/KEYCOM.F77
 ../common/METRIC.F77
+../common/MISCOM.F77
 ../common/MULTCM.F77
 ../common/OPCOM.F77
 ../common/OUTCOM.F77
@@ -276,7 +278,6 @@
 ../dbs/src/dbsclose.f
 ../dbs/src/dbsclsum.f
 ../dbs/src/dbscmpu.f
-../dbs/src/DBSCOM.F77
 ../dbs/src/dbscuts.f
 ../dbs/src/dbsdiags.f
 ../dbs/src/dbsdriv.f
@@ -476,7 +477,6 @@
 ../fire/pn/src/fmsfall.f
 ../mistoe/src/misact.f
 ../mistoe/src/miscnt.f
-../mistoe/src/MISCOM.F77
 ../mistoe/src/miscpf.f
 ../mistoe/src/misdam.f
 ../mistoe/src/misdgf.f

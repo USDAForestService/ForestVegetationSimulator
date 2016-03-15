@@ -211,6 +211,7 @@
 ../common/COEFFS.F77
 ../common/CONTRL.F77
 ../common/CWDCOM.F77
+../common/DBSCOM.F77
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
 ../common/ECNCOMSAVES.F77
@@ -255,7 +256,6 @@
 ../dbs/src/dbscknrows.f
 ../dbs/src/dbsclose.f
 ../dbs/src/dbscmpu.f
-../dbs/src/DBSCOM.F77
 ../dbs/src/dbscuts.f
 ../dbs/src/dbsdiags.f
 ../dbs/src/dbsdriv.f
@@ -447,7 +447,6 @@
 ../pg/src/stash.f
 ../sn/common/ESPARM.F77
 ../sn/common/PRGPRM.F77
-../sn/common/R8DIB.F77
 ../sn/src/blkdat.f
 ../sn/src/bratio.f
 ../sn/src/cratet.f
@@ -469,7 +468,6 @@
 ../sn/src/morts.f
 ../sn/src/nbolt.f
 ../sn/src/regent.f
-../sn/src/sevlht.f
 ../sn/src/sitset.f
 ../sn/src/varget.f
 ../sn/src/varmrt.f
