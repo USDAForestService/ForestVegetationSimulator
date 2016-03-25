@@ -242,7 +242,17 @@ C     Note
 
 C.....   If Annosus then select S-type or P-type.
 
-         IF (MAXRR .LT. 3) IDI = IDITYP(IRTSPC(ISP(I)))
+C         IF (MAXRR .LT. 3) IDI = IDITYP(IRTSPC(ISP(I))) ! changed 11/24/2015
+
+C....    If both P and S type Annosus is being used, set disease area
+C....    to that of the disease type of the host tree species; otherwise,
+C....    use the disease area of the one disease being simulated even though
+C....    current tree may not be specified as host species.
+
+         IF (MAXRR .LT. 3 .AND. MINRR .NE. MAXRR) THEN
+            IDI = IDITYP(IRTSPC(ISP(I)))
+         ENDIF
+
 C
 C     Branch outof loop for non-host tree ((RNH June98)
 C
