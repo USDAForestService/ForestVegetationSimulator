@@ -625,7 +625,7 @@
 ../volume/src/volinit.f
 ../volume/src/volinput_mod.f
 ../ws/src/r5crwd.f
-../rd/src/rdinec.f
+../rd/src/rdin.f
 ../rd/src/rdblk1ec.f
 ../rd/src/RDADD.F77
 ../rd/src/RDARRY.F77

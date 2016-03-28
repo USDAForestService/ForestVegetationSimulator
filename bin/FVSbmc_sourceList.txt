@@ -546,7 +546,7 @@
 ../rd/src/rdesin.f
 ../rd/src/rdestb.f
 ../rd/src/rdgrow.f
-../rd/src/rdinbm.f
+../rd/src/rdin.f
 ../rd/src/rdinf.f
 ../rd/src/rdinit.f
 ../rd/src/rdinoc.f

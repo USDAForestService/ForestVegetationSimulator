@@ -625,7 +625,7 @@
 ../ws/src/sitset.f
 ../ws/src/smhtgf.f
 ../ws/src/varmrt.f
-../rd/src/rdinws.f
+../rd/src/rdin.f
 ../rd/src/rdblk1ws.f
 ../rd/src/RDADD.F77
 ../rd/src/RDARRY.F77

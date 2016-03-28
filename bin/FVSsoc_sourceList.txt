@@ -629,7 +629,7 @@
 ../volume/src/volinput_mod.f
 ../ws/src/pvref5.f
 ../ws/src/r5crwd.f
-../rd/src/rdinso.f
+../rd/src/rdin.f
 ../rd/src/rdblk1so.f
 ../rd/src/RDADD.F77
 ../rd/src/RDARRY.F77
