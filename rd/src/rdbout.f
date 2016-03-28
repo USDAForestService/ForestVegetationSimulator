@@ -160,7 +160,17 @@ C
 
       DO 66 I=1,ITRN
          SP = ISP(I)
-         IF (MAXRR .LT. 3) IDI = IDITYP(IRTSPC(SP))
+C         IF (MAXRR .LT. 3) IDI = IDITYP(IRTSPC(SP)) ! changed 11/18/2015
+
+C....    If both P and S type Annosus is being used, set disease area
+C....    to that of the disease type of the host tree species; otherwise,
+C....    use the disease area of the one disease being simulated even though
+C....    current tree may not be specified as host species.
+
+         IF (MAXRR .LT. 3 .AND. MINRR .NE. MAXRR) THEN
+            IDI = IDITYP(IRTSPC(SP))
+         ENDIF
+
          CLASS = INT(DBH(I)/5.0) + 1
          IF (CLASS .GT. 7) CLASS = 7
 
@@ -168,6 +178,10 @@ C
             ROWSUM(J,SP) = ROWSUM(J,SP) + BBKILL(J,I)
             CLKILL(J,SP,CLASS) = CLKILL(J,SP,CLASS) + BBKILL(J,I)
    33    CONTINUE
+
+C      IF (SP .EQ. 10)                                       ! Debug
+C     & WRITE (*,*) 'IN RDBOUT: I, SP, BBKILL(x,I) ',I, SP,  ! Debug
+C     & BBKILL(1,I),BBKILL(2,I),BBKILL(3,I)                  ! Debug
 
          SUMLIV(2,SP) = SUMLIV(2,SP) + PROBIT(I) + BBKILL(2,I)
          SUMLIV(3,SP) = SUMLIV(3,SP) + PROBIU(I)
@@ -182,7 +196,16 @@ C
          
 C....    First change everything into per acre.
 
-         IF (MAXRR .LT. 3) IDI = IDITYP(IRTSPC(SP))
+C         IF (MAXRR .LT. 3) IDI = IDITYP(IRTSPC(SP)) ! changed 11/18/2015
+
+C....    If both P and S type Annosus is being used, set disease area
+C....    to that of the disease type of the host tree species; otherwise,
+C....    use the disease area of the one disease being simulated even though
+C....    current tree may not be specified as host species.
+
+         IF (MAXRR .LT. 3 .AND. MINRR .NE. MAXRR) THEN
+            IDI = IDITYP(IRTSPC(SP))
+         ENDIF
 
          DO 77 J=2,3
             SUMLIV(J,SP) = SUMLIV(J,SP) / PAREA(IDI)
@@ -194,6 +217,9 @@ C            TOTSPC(SP) = TOTSPC(SP) + ROWSUM(J,SP)
             TOTSPC(SP) = TOTSPC(SP) 
      &      + (ROWSUM(J,SP) * (PAREA(IDI) / SAREA))
    77    CONTINUE         
+
+C         WRITE (*,*) 'IN RDBOUT: SP, IDI, PAREA, SAREA',  ! Debug
+C     &                           SP,IDI,PAREA(IDI),SAREA  ! Debug
 
          IF (PAREA(IDI) .LT. SAREA) THEN
             SUMLIV(1,SP) = SUMLIV(1,SP) / (SAREA-PAREA(IDI))

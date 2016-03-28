@@ -578,7 +578,19 @@ C     &VEQNNC(ISPC)
       IF(((METHB(ISPC).EQ.6).OR.(METHB(ISPC).EQ.9).OR.
      &    (METHB(ISPC).EQ.5)).AND.(VEQNNB(ISPC).EQ.'          '))THEN
         IF(METHB(ISPC).EQ.5)THEN
-          VOLEQ(1:7)='900DVEE'
+          IF(KFORST.EQ.19)THEN
+            VOLEQ(1:7)='903DVEE'
+          ELSEIF((KFORST.EQ.11).OR.(KFORST.EQ.14))THEN
+            VOLEQ(1:7)='902DVEE'
+          ELSEIF((KFORST.EQ.20).OR.(KFORST.EQ.22).OR.(KFORST.EQ.30))THEN
+            VOLEQ(1:7)='904DVEE'
+          ELSEIF(KFORST.EQ.21)THEN
+            IF(ISPC.LE.25)THEN
+              VOLEQ(1:7)='906DVEE'
+            ELSE
+              VOLEQ(1:7)='905DVEE'
+            ENDIF            
+          ENDIF          
         ELSE
           VOLEQ(1:7)='900CLKE'
         ENDIF        

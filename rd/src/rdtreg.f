@@ -1,12 +1,12 @@
       SUBROUTINE RDTREG
       IMPLICIT NONE
 C----------
-C  **RDTREG      LAST REVISION:  09/04/14
+C  **RDTREG      LAST REVISION:  03/01/16
 C----------
 C
 C  Purpose :
 C     This root disease model subroutine is called from FVS
-C     TREGRO every cycle.  It calls the other agents model,
+C     GRADD every cycle.  It calls the other agents model,
 C     then calls the master root disease model.  Finally,
 C     it calls various subroutines to produce output files.
 C
@@ -43,7 +43,8 @@ C              Modified and added debug statements. Changed two return
 C              statements to "GOTO 300" so routine has single point of exit.
 C   09/04/14 Lance R. David (FMSC)
 C     Added implicit none and declared variables.
-C
+C   03/01/16 Lance R. David (FMSC)
+C     Moved check to exit routine if RD not in use. IF (IROOT .EQ. 0) GOTO 300
 C-----------------------------------------------------------------------------
 C.... Parameter include files.
 
@@ -74,6 +75,7 @@ C.... See if we need to do some debug.
       
       IF (DEBUG) WRITE (JOSTND,*) 'ENTER RDTREG'
 
+      IF (IROOT .EQ. 0) GOTO 300
       DO 10 IDI=1,ITOTRR
          DIFF(IDI) = 0.0
    10 CONTINUE
@@ -87,7 +89,6 @@ C.... Changed the following two lines so that the annosus model will be run if
 C.... there is no area but a cut did occur (LSPFLG(1..3) = .TRUE.).
 C.... mt 04-03-97
 
-      IF (IROOT .EQ. 0)GOTO 300
       IF ((TPAREA .EQ. 0) .AND. 
      &   (.NOT. LSPFLG(1) .AND.
      &    .NOT. LSPFLG(2) .AND.

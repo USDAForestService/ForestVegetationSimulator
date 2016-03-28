@@ -323,8 +323,17 @@ cc     -        " restrtcd=",restrtcd
 
       integer :: mxch,nch
       character(mxch) fn
-      fn = " "
+
+C     nch of 251 is key to save, not load, filename
+      if (nch == 251) then
+        keywordfile = fn
+        return
+      else
+        fn = " "
+      endif
+
       if (mxch < 1) return
+      
       nch = min(mxch,len_trim(keywordfile))
       if (nch > 0) fn = keywordfile(:nch)
       return
