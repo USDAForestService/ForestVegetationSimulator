@@ -682,7 +682,7 @@ C
       IDT = 1
       PRMS(1)=200.
       PRMS(2)=-1.  ! reporting interval no longer used with cycle boundary FFE
-      PRMS(3)=13.
+      PRMS(3)=35.
       PRMS(4)=0.
 
       IF (LNOTBK(1)) IDT= IFIX(ARRAY(1))
