@@ -223,10 +223,10 @@ C----------
       WRITE(SQLStmtStr,*)"INSERT INTO ",trim(TABLENAME),
      - " (CaseID,Stand_CN,StandID,MgmtID,RunTitle,KeywordFile,",
      - "SamplingWt,Variant,Groups,RunDateTime) VALUES('",CASEID,"','",
-     - TRIM(DBCN),"','",TRIM(NPLT),"','",TRIM(MGMID),"','",
-     - TRIM(ITITLE),"','",TRIM(KEYFNAME),"',",SAMWT,",'",VAR,"','",
-     - TRIM(SLSET),"','",TRIM(TIMESTAMP),"')"
-
+     - TRIM(ADJUSTL(DBCN)),"','",TRIM(ADJUSTL(NPLT)),"','",
+     - TRIM(ADJUSTL(MGMID)),"','",TRIM(ADJUSTL(ITITLE)),"','",
+     - TRIM(ADJUSTL(KEYFNAME)),"',",SAMWT,",'",VAR,"','",
+     - TRIM(ADJUSTL(SLSET)),"','",TRIM(ADJUSTL(TIMESTAMP)),"')"
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)
 
