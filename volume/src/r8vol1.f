@@ -25,8 +25,8 @@ C     CHARACTER*8 READIT
       REAL VOL(15)
       !COFARR(162,10)
 
-      include 'r8clist.inc'
-      include 'R8VLIST.inc'
+      include 'R8CLIST.INC'
+      include 'R8VLIST.INC'
 
 c      INCLUDE 'COMM0'
 
