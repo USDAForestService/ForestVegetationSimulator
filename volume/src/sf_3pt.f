@@ -1,4 +1,4 @@
-!== last modified  09-14-2007
+!== last modified  04-02-2014
       SUBROUTINE SF_3pt(JSP,geosub,setopt,DBH,TOTALH,DBT_BH,NEXTRA,HEX,
      >                  DEX,ZEX,RHFW,RFLW,TAPCOE,F,PINV_Z,FMOD)
 c     given meausremts at 1 or 2 heights besides BH, perform
@@ -13,6 +13,7 @@ c     DEX    Input   R*4()   Vector of measured diameters at stated heights.
 c     IDTYPE Input  I       1: DEX's are outside bark; 2: DEX's are inside bark.
 c     ZEX    Output  R*4()   Standardized errors at those heights. 
 c                                (These are Never adjusted for white noise).
+C  04/02/2014 YW Comment out a piece code which does not doing anything but causes problem for JSP > 25.
       INTEGER NSP
       CHARACTER*2 GEOSUB
       INTEGER SETOPT(6),JSP,NEXTRA,IDTYPE,ineedsl,JX
@@ -136,8 +137,9 @@ C                          Outside bark model
              FMOD(3) = HFIRSTUP 
           ENDIF        
 c              white noise adjustments (on Z in common, not ZEX argument)
-          IF(setopt(4).eq.1  .and. whitenoise(jsp).lt. 1.0) 
-     1                            Z(jx) = Z(jx) * whitenoise(jsp)
+C The following piece of code is comment out by YW on 04/02/2014. It is not doing anything.
+c          IF(setopt(4).eq.1  .and. whitenoise(jsp).lt. 1.0) 
+c     1                            Z(jx) = Z(jx) * whitenoise(jsp)
 100   continue                
 
       if(NEXTRA.eq.2) then

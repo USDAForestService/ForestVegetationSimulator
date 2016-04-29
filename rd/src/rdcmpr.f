@@ -1,7 +1,7 @@
       SUBROUTINE RDCMPR (NCLAS,PROB,IND,IND1)
       IMPLICIT NONE
 C----------
-C  **RDCMPR      LAST REVISION:  08/27/14
+C  **RDCMPR      LAST REVISION:  03/01/16
 C----------
 C
 C  THIS SUBROUTINE IS USED TO COMPRESS THE TREE RECORDS ARRAYS FOR
@@ -25,6 +25,8 @@ C      Removed unused array PROBO. It was also unused in the old
 C      annosus model.
 C   08/27/14 Lance R. David (FMSC)
 C     Added implicit none and declared variables.
+C   03/01/2016 Lance R. David (FMSC)
+C     Moved two conditions to exit to top.
 C
 C----------------------------------------------------------------------
 C
@@ -62,6 +64,8 @@ C 557 CONTINUE
 C
 
       CALL RDATV(LGO,LTEE)
+      IF (.NOT. LGO) RETURN
+      IF (.NOT. LTEE .AND. LSTART) RETURN
 C
 C     IF ROOT DISEASE NOT ACTIVE OR NO PATCH AREA THEN RETURN. ALSO
 C     IF USING MANUAL DATA INITIALIZATION AND WE ARE IN CYCLE 0 ALSO
@@ -71,8 +75,7 @@ C
       DO 99 IDI=MINRR,MAXRR
          TPAREA = TPAREA + PAREA(IDI)
    99 CONTINUE     
-      IF (.NOT. LGO .OR. TPAREA .EQ. 0.0) RETURN
-      IF (.NOT. LTEE .AND. LSTART) RETURN
+      IF (TPAREA .EQ. 0.0) RETURN
 
 C
 C     COMPRESS THE ROOT DISEASE TREE RECORDS.

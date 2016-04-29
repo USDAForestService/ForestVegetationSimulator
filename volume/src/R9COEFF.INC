@@ -1,5 +1,6 @@
 C  Region 9 Profile Model Coefficients
 C  Coefficients updated 01/31/2011
+C  Mike VanDyck refited Yellow Birch coefficient A and B (07/01/2013).
 C
 C  This file contains coefficients for calculation of inside-bark 
 C  volumes using the equations in research paper SE-282, "Stem 
@@ -89,7 +90,7 @@ C        Spp,a17_0, b17_0,   r_0,  c_0,   e_0,    p_0,  a_0,  b_0
      &   316,0.871,-0.500, 34.37,0.567,   52.,  6.773,0.143,1.073,
      &   317,0.989,-3.371,  2.05,0.281,  956., -0.027,0.223,1.076,
      &   318,0.940,-1.321, 51.52,0.891,   97.,  5.086,0.285,1.183,
-     &   371,0.849,-0.281, 36.00,0.990,  114.,  6.170,1.509,1.070,
+     &   371,0.849,-0.281, 36.00,0.990,  114.,  6.170,0.159,1.013,
      &   375,0.919,-0.821, 52.10,1.125,   -1.,  3.883,0.405,1.312/
       data ((coef0(i,j),j=1,9),i=16,30) /
      &   407,0.890,-0.221, 69.00,1.224,  464., 17.110,0.346,1.398,

@@ -1,4 +1,4 @@
-!== last modified  09-14-2007
+!== last modified  04-02-2014
       SUBROUTINE FWINIT(VOLEQ,DBHOB,HTTOT,MHT,MTOPP,UPSHT1,UPSHT2,
      >     UPSD1,UPSD2,AVGZ1,AVGZ2,HTREF,DBTBH,JSP,RHFW,RFLW,
      >     TAPCOE,F,SETOPT,NEXTRA,HEX,DEX,ZEX,PINV_Z,FMOD,btr,FCLASS,
@@ -8,7 +8,7 @@ c        Initialiazes SF Subroutines using Flewelling profile models
 c        Uses SF_TEST2 initializing code 
 c                  J. Flewelling  July, 1996
 c                  Modified by K. Cormier Sept, 1996
-
+C  04/02/2014 YW Changed UPSHT1 to 33.6 for 32 foot log when using FCLASS
 C     TREE VARIABLES
       REAL DBHOB,HTTOT,DBTBH,MHT,MTOPP,btr
 
@@ -271,6 +271,8 @@ c                                                       Specify upper dob(s)
 	  ELSE IF(FCLASS .GT. 0)THEN
 	     NEXTRA = 1
            UPSHT1 = 17.5
+C          FCLASS for 32 foot log (YW 04/02/14)           
+           IF(VOLEQ(5:5).EQ.'3') UPSHT1 = 33.6
            UPSD1 = ANINT(DBHOB*FCLASS) / 100.0
         ENDIF
         

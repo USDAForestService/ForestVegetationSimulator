@@ -1,7 +1,7 @@
       SUBROUTINE RDSTR (IT,PREM,PREPRB)
       IMPLICIT NONE
 C----------
-C  **RDSTR       LAST REVISION:  09/03/14
+C  **RDSTR       LAST REVISION:  03/01/16
 C----------
 C
 C  SUBROUTINE FOR DECREASING INFESTED TREES WHEN CUTTING OR
@@ -32,6 +32,9 @@ C    16-JUL-2002 Lance R. David (FHTET)
 C      Modified comment and debug statements.
 C   09/03/14 Lance R. David (FMSC)
 C     Added implicit none and declared variables.
+C   03/01/2016 Lance R. David (FMSC)
+C     Moved check to exit if not active, no trees or no disease area
+C     to top.
 C
 C----------------------------------------------------------------------
 C
@@ -64,12 +67,13 @@ C
       CALL DBCHK (DEBUG,'RDSTR',5,ICYC)
       IF (DEBUG) WRITE (JOSTND,100) ICYC
   100 FORMAT (' ENTER RDSTR: CYCLE=',I5)
+  
+      IF (IROOT .EQ. 0 .OR. PREPRB .EQ. 0.0) GOTO 1100
 
       TPAREA = 0.0
       DO 101 IDI=MINRR,MAXRR
          TPAREA = TPAREA + PAREA(IDI)
   101 CONTINUE       
-      IF (IROOT .EQ. 0 .OR. PREPRB .EQ. 0.0) GOTO 1100
 
       TP = (1.0 - (PREM / PREPRB))
 C
