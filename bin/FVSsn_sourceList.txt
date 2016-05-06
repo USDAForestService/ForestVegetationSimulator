@@ -548,7 +548,7 @@
 ../volume/src/r8clkdib.f
 ../volume/src/R8DIB.INC
 ../volume/src/r8init.f
-../volume/src/r8vlist.inc
+../volume/src/R8VLIST.INC
 ../volume/src/r8vol.f
 ../volume/src/r8vol1.f
 ../volume/src/r8vol2.f
