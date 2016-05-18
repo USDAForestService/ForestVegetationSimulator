@@ -58,7 +58,7 @@ C....  20   BS   BLUE SPRUCE           40   NH   NON-HOST
 C....
 C.... SPECIES LIST FOR WESTERN SIERRAS VARIANT. ***** 43 species *****
 C.... 
-C.... ----------FVS UT VARIANT-----------   WRD MODEL SPECIES    ANNOSUS     
+C.... ----------FVS WS VARIANT-----------   WRD MODEL SPECIES    ANNOSUS     
 C....  # CD COMMON NAME                     OR SURROGATE SP.     TYPE        
 C.... -- -- ----------------------------- ---------------------  --------
 C....  1 SP SUGAR PINE                          SUGAR PINE (12)  P-TYPE 

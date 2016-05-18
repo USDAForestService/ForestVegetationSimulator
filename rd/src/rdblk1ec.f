@@ -53,7 +53,7 @@ C.... The following IRTSPC is for the EC (32 species) variant.
 C....              WP  WL  DF  SF  RC  GF  LP  ES  AF  PP  WH 
       DATA IRTSPC / 1,  2,  3, 16,  6,  4,  7,  8,  9, 10,  5,
 C....              MH  PY  WB  NF  WF  LL  YC  WJ  BM  VN  RA 
-     &              8, 38, 22, 39, 13, 36, 34, 26, 40, 40, 40,
+     &             11, 38, 22, 39, 13, 36, 34, 26, 40, 40, 40,
 C....              PB  GC  DG  AS  CW  WO  PL  WI  OS  OH 
      &             40, 40, 40, 19, 40, 40, 40, 40, 17, 18 /
 
