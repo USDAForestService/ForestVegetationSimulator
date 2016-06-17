@@ -3,7 +3,7 @@
      +    UPSD2,HTREF,AVGZ1,AVGZ2,FCLASS,DBTBH,BTR,I3,I7,I15,I20,I21,
      +    VOL,LOGVOL,LOGDIA,LOGLEN,BOLHT,TLOGS,NOLOGP,NOLOGS,CUTFLG,
      +    BFPFLG,CUPFLG,CDPFLG,SPFLG,CONSPEC,PROD,HTTFLL,LIVE,
-     +    BA,SI,CTYPE,ERRFLAG)
+     +    BA,SI,CTYPE,ERRFLAG,IDIST)
 
 !...  Prepare parameters and data for call to appropriate volume
 !...  equations. 
@@ -21,14 +21,15 @@
 !REV  YW 05/16/2013 set HTTYPE to F if total height is entered
 !REV  YW 02/27/2014 For region 6 Behre equation, if merch height is entered in feet, convert it to log ht
 !REV  YW 07/30/2014 For region 6 Behre equation, if merch height is entered in feet, use log rules to convert to log ht.
-
+C     YW 2016/01/13 Added BTR default value for Region 3 Santa Fe forest DF and PP
+C     YW 04/19/2016 Added input variable DIST.
 !REV  Added manual debugging for use with pro vollib09 calls and
 !REV  code to check for forest = null which caused blm problems
 
 !**********************************************************************
       CHARACTER*1  HTTYPE,LIVE,CTYPE
       CHARACTER*2  FORST,PROD
-      CHARACTER*4  CONSPEC
+      character*4  CONSPEC
       CHARACTER*10 VOLEQ
       CHARACTER*3  MDL,SPECIES
       CHARACTER*2  DIST,VAR
@@ -53,7 +54,7 @@
     
 !   OUTPUTS
       REAL           NOLOGP,NOLOGS
-      INTEGER        TLOGS,IFORST
+      INTEGER        TLOGS,IFORST, IDIST
     
 !   ARRAYS
       INTEGER        I15,I21,I20,I7,I3,I,J
@@ -67,8 +68,7 @@ C  variables for stump dia and vol
 c  test biomass calc variable
       REAL WF(3), BMS(8)
       INTEGER SPCD, FOREST      
-!********************************************************************
-
+ !********************************************************************
 
 !=====================================================================
 
@@ -114,6 +114,7 @@ c  test biomass calc variable
 !     +               CONSPEC, BFPFLG,CUPFLG,errflag
   
   
+  
    		IF (DEBUG%MODEL) THEN
         WRITE  (LUDBG, 100)'FORST VOLEQ     MTOPP HTTOT HT1PRD DBHOB 
      &   HTTYPE FCLASS'
@@ -137,14 +138,18 @@ c  test biomass calc variable
         ERRFLAG = 3
         GOTO 4000
       ENDIF
+!-----Set the default DIST to 01---------------------      
+      IF(IDIST.NE.IDIST) IDIST = 1
+      WRITE (DIST, '(I2)') IDIST
+      IF(DIST(1:1) .LT. '0') DIST(1:1) = '0'
+!-----End for DIST (04/19/2016)
+
       IF(VOLEQ .EQ. "" .AND. CTYPE.EQ.'F')THEN
         VAR = '  '
-c        READ(CONSPEC,'(I3)')SPEC
-        DIST = '01'
+        READ(CONSPEC,'(I3)')SPEC
+C        DIST = '01'
         CALL VOLEQDEF(VAR,REGN,FORST,DIST,SPEC,PROD,EQNUM,ERRFLAG)
         VOLEQ = EQNUM
-        VOLEQ = ""        
-       
         ERRFLAG = 1
         GOTO 4000
       ENDIF
@@ -159,7 +164,7 @@ c  save FCLASS value
       IF(FORST(2:2) .LT. '0') THEN
         FORST(2:2) = FORST(1:1)
 	    FORST(1:1) = '0'
-      IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
+        IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
       ENDIF
       READ(FORST,'(i2)') IFORST
 
@@ -169,7 +174,15 @@ c  save FCLASS value
  3    CONTINUE
 
       MDL = VOLEQ(4:6)
-
+C     Modifid BTR for Region 3 Santa Fe forest DF and PP (YW 2016/01/13)
+C     The BTR for Region 3 has not been released. It is test only
+c      IF(REGN.EQ.3.AND.FORST.EQ.'10'.AND.BTR.EQ.0)THEN
+c        IF(VOLEQ(8:10).EQ.'202') BTR = 89.12
+c        IF(VOLEQ(8:10).EQ.'122') BTR = 89.72
+c        IF(VOLEQ(8:10).EQ.'015') BTR = 91.16
+c       White pine BTR (using 200FW2W108)
+c        IF(VOLEQ(8:10).EQ.'108') BTR = 93.26       
+c      ENDIF
 ! When total height is entered, the height type has to be feet. (2013/05/16)
       IF(HTTOT.GT.0) HTTYPE = 'F'              
       
@@ -284,6 +297,13 @@ C ADDED TO TEST R8 CLARK PROFILE FOR LOG BOARDFOOT VOLUME
      +             HT2PRD,HTTOT, LOGDIA,BOLHT,LOGLEN,LOGVOL,VOL,CUTFLG,
      +             BFPFLG,CUPFLG, CDPFLG,SPFLG,PROD,ERRFLAG,CTYPE,
      +             UPSHT1,TLOGS,NOLOGP,NOLOGS)
+C 04/19/2016
+C PUT THE INTL BDFT TO VOL(2) FOR GW/JF(08),OUACHITA(09),OZARK-ST FRANCIS(10) 
+C AND ALL OTHER RD (EXCEPT ANDREW PICKENS(02)) OF FRANCIS MARION & SUTTER(12)
+          IF(IFORST.EQ.8.OR.IFORST.EQ.9.OR.IFORST.EQ.10.OR.
+     +       (IFORST.EQ.12.AND.IDIST.NE.2)) THEN
+             VOL(2) = VOL(10)
+          ENDIF          
         ELSE        
         
           CALL R8VOL (VOLEQ,DBHOB,HTTOT,UPSHT1,HT1PRD,MTOPP,PROD,VOL,
