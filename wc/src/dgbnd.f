@@ -18,16 +18,24 @@ C
       INCLUDE 'CONTRL.F77'
 C
 C
+			INCLUDE 'PLOT.F77'
+C
+C			
 COMMONS
 C
 C----------
 C MAX DG CHECK.
 C----------
       INTEGER ISPC
-      REAL DDG,DBH,TEMDBH,DGMAX
+      REAL DDG,DBH,TEMDBH,DGMAX,SCALE
       TEMDBH=DBH
+      IF(ICYC.EQ.0)THEN
+      	SCALE=1/(YR/FINT)
+      ELSE
+      	SCALE=YR/FINT
+      ENDIF
       IF(TEMDBH .GT. 150.)TEMDBH=150.
-      DGMAX = 7.92*EXP(-0.03*TEMDBH)
+      DGMAX = (7.92*EXP(-0.03*TEMDBH))*SCALE
       IF(DDG .GT. DGMAX) DDG = DGMAX
       IF(DDG .LT. 0.0) DDG = 0.0
 C----------
@@ -40,3 +48,4 @@ C----------
 C
       RETURN
       END
+	
