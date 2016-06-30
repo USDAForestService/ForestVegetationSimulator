@@ -576,12 +576,12 @@
 ../volume/src/r6vol1.f
 ../volume/src/r6vol2.f
 ../volume/src/r6vol3.f
-../volume/src/r8clist.inc
+../volume/src/R8CLIST.INC
 ../volume/src/R8CLKCOEF.INC
 ../volume/src/r8clkdib.f
 ../volume/src/R8DIB.INC
 ../volume/src/r8init.f
-../volume/src/r8vlist.inc
+../volume/src/R8VLIST.INC
 ../volume/src/r8vol.f
 ../volume/src/r8vol1.f
 ../volume/src/r8vol2.f
