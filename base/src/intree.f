@@ -150,7 +150,7 @@ C----------
      &        DBH(I),DG(I),HT(I),THT,HTG(I),ICR(I),IDAMCD(1),IDAMCD(2),
      &        IDAMCD(3),IDAMCD(4),IDAMCD(5),IDAMCD(6),
      &        IMC1,KUTKOD(I),IPVARS(1),IPVARS(2),IPVARS(3),IPVARS(4),
-     &        IPVARS(5),DBSKODE,DEBUG,JOSTND,LKECHO,ABIRTH(I))
+     &        IPVARS(5),DBSKODE,DEBUG,JOSTND,LKECHO,ABIRTH(I),LBIRTH(I))
       IF(DBSKODE.EQ.0)THEN
         IF (.NOT.LCONN) INQUIRE(UNIT=ISTDAT,exist=LCONN)
         IF (LCONN) INQUIRE(UNIT=ISTDAT,opened=LCONN)
@@ -178,6 +178,12 @@ C----------
      &        DBH(I),DG(I),HT(I),THT,HTG(I),ICR(I),(IDAMCD(J),J=1,6),
      &        IMC1,KUTKOD(I),IPVARS(1),IPVARS(2),IPVARS(3),IPVARS(4),
      &        IPVARS(5),ABIRTH(I)
+        IF(ABIRTH(I).LE.0) THEN
+          ABIRTH(I) = 0
+          LBIRTH(I) =.FALSE.
+        ELSE
+          LBIRTH(I) =.TRUE.
+        END IF
       ELSEIF(DBSKODE.EQ.-1) THEN
         GOTO 900
       ENDIF
@@ -194,7 +200,7 @@ C----------
         WRITE(JOSTND,*) ' ',I,' HTG=',HTG(I),' ICR=',ICR(I),' IDAMCD=',
      >     IDAMCD,' IMC1=',IMC1,' KUTKOD= ',KUTKOD(I),' IPVARS=',
      >     (IPVARS(K),K=1,5),' ABIRTH= ',ABIRTH(I),' DBSKODE=',
-     >     DBSKODE
+     >     DBSKODE, ' LBIRTH= ',LBIRTH(I)
       ENDIF
       IF (IDTREE(I) .GT. IDCMP1-1) WRITE(JOSTND,35)
    35 FORMAT('IN INTREE: TREE ID NUMBER IS LARGER THAN MAXIMUM',
@@ -486,6 +492,7 @@ C----------
       IMC(IREC2)= 7
       IF(ITH.EQ.8 .OR. ITH.EQ.9) IMC(IREC2)=9
       ABIRTH(IREC2)=ABIRTH(I)
+      LBIRTH(IREC2)=LBIRTH(I)
       KUTKOD(IREC2)=KUTKOD(I)
       DO I3 = 1,6
         DAMSEV(I3,IREC2) = DAMSEV(I3,I)
@@ -514,6 +521,7 @@ C----------
       PHT(I)=0.
       ZRAND(I)=-999.
       ABIRTH(I)=0.
+      LBIRTH(I)=.FALSE.
       KUTKOD(I)=0
       DO I3 = 1,6
         DAMSEV(I3,I) = 0

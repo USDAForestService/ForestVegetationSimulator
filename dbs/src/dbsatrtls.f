@@ -48,7 +48,7 @@ C
       INTEGER ISPC,I1,I2,I3
       INTEGER*4 IDCMP1,IDCMP2
       DATA IDCMP1,IDCMP2/10000000,20000000/
-      REAL CW,P,CCFT,DGI,DP,TEM,ESTHT
+      REAL CW,P,CCFT,DGI,DP,TEM,ESTHT,TREAGE
 
 C---------
 C     IF TREEOUT IS NOT TURNED ON OR THE IWHO VARIABLE IS NOT 1
@@ -129,7 +129,8 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
      -             'EstHt double null,'//
      -             'ActPt int null,'//
      -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null)'
+     -             'Ht2TDBF real null,'//
+     -             'TreeAge double null)'
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
           SQLStmtStr='CREATE TABLE FVS_ATRTList('//
@@ -163,7 +164,8 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
      -             'EstHt Number null,'//
      -             'ActPt int null,'//
      -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null)'
+     -             'Ht2TDBF real null,'//
+     -             'TreeAge Number null)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_ATRTList('//
      -             'CaseID char(36) not null,'//
@@ -196,7 +198,8 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
      -             'EstHt real null,'//
      -             'ActPt int null,'//
      -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null)'
+     -             'Ht2TDBF real null,'//
+     -             'TreeAge real null)'
         ENDIF
 
         iRet = fvsSQLCloseCursor(StmtHndlOut)
@@ -263,6 +266,14 @@ C           BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
               ESTHT = HT(I)
             ENDIF
 
+C           DETERMINE TREE AGE
+
+            IF (LBIRTH(I)) THEN
+              TREAGE = ABIRTH(I)
+            ELSE
+              TREAGE = 0
+            ENDIF
+
 C           GET DG INPUT
 
             DGI=DG(I)
@@ -291,7 +302,7 @@ C
      -         'MortPA,DBH,DG,',
      -         'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
      -         'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
-     -         'EstHt,ActPt,Ht2TDCF,Ht2TDBF) VALUES (''',
+     -         'EstHt,ActPt,Ht2TDCF,Ht2TDBF,TreeAge) VALUES (''',
      -         CASEID,''',''',TRIM(NPLT),''',',
      -        JYR,',',IFINT,',''',ADJUSTL(TID),''',',I,',''',
      -        trim(CSPECIES),''',',IMC(I),',',ISPECL(I),',',ITRE(I),
@@ -299,7 +310,7 @@ C
      -         ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
      -         CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
      -         ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
-     -         ',',HT2TD(I,2),',',HT2TD(I,1),')'
+     -         ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,')'
 
             !PRINT*, SQLStmtStr
 

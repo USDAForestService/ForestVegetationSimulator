@@ -1,0 +1,18 @@
+Subject:Snag Output FIle, Tree Age full estab
+Name: R. Havis
+Date: April 25, 2016
+Variants affected: All
+
+Description:
+1) All variants: The default unit number for the snag output file was not being set when
+   using the command line or reponse file intput mehtods. This has been
+   corrected.
+2) EM, CI, kt, and IE variants: Tree ages were not correct when using the full establishment model.
+   This has been corrected.
+
+
+Impact on users:
+The snag file will be populated correctly when file unit number is not set.
+TRee ages will track correctly in when entering the fullestableishment model.
+
+Files:
