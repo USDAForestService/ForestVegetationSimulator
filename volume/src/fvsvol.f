@@ -88,6 +88,7 @@ C
       HTTYPE='F'
       IERR=0
       DBTBH = D*(1-BARK)
+      IF(DEBUG)WRITE(JOSTND,*)' INTFOR, IREGN= ',INTFOR, IREGN
       DO 100 IZERO=1,15
       TVOL(IZERO)=0.
   100 CONTINUE
@@ -96,7 +97,7 @@ C  REGION 9 INPUTS OUTSIDE-BARK TOP DIAMETERS TO VOLINIT
 C  REGION 8 DOESN'T CARE, TOP DIAMETERS ARE HARD WIRED
 C  WESTERN VARIANTS INPUT INSIDE-BARK TOP DIAMETERS 
 C
-      IF((IREGN.EQ.8).OR.(IREGN.EQ.9))THEN
+      IF(((IREGN.EQ.8).AND.(VVER.NE.'NC')).OR.(IREGN.EQ.9))THEN
         MTOPS=TOPD(ISPC)
         MTOPP=BFTOPD(ISPC)
       ELSE
@@ -116,7 +117,7 @@ C
 C  EASTERN VARIANTS DONT'T NEED TOTAL VOLUME SO GO TO NEXT TREE
 C  FOR WESTERN VARIANTS CALCULATE TOTAL CUBIC FOR ALL TREES
 C
-        IF((IREGN.EQ.8).OR.(IREGN.EQ.9))GO TO 500
+        IF(((IREGN.EQ.8).AND.(VVER.NE.'NC')).OR.(IREGN.EQ.9))GO TO 500
         VOLEQ=VEQNNC(ISPC)
         STUMP=STMP(ISPC)
         PROD='02'
@@ -124,7 +125,7 @@ C
         VOLEQ=VEQNNC(ISPC)
         STUMP=STMP(ISPC)
         PROD='02'
-        IF(IREGN.EQ.8)THEN
+        IF((IREGN.EQ.8).AND.(VVER.NE.'NC'))THEN
           IF((TOPD(ISPC).NE.0.).AND.TOPD(ISPC).NE.4.0)THEN
             TVOL4=0.
           ELSE
@@ -168,7 +169,7 @@ C
         VOLEQ=VEQNNC(ISPC)
         STUMP=BFSTMP(ISPC)
         PROD='01'
-        IF(IREGN.EQ.8)THEN
+        IF((IREGN.EQ.8).AND.(VVER.NE.'NC'))THEN
           WRITE(BFTOP,'(I1)')NINT(BFTOPD(ISPC))
           VOLEQ(3:3)=BFTOP
           IF ((BFTOPD(ISPC).NE.7.0 .AND. ISPC.LE.17)
@@ -260,7 +261,7 @@ C----------
       ELSE
         IF(IT.GT.0)HT2TD(IT,1)=HT2PRD
       ENDIF
-      IF((IREGN.EQ.8).AND.(HT1PRD.LT.10.))THEN
+      IF(((IREGN.EQ.8).AND.(VVER.NE.'NC')).AND.(HT1PRD.LT.10.))THEN
         TVOL(4)=0.
         TVOL(2)=0.
       ENDIF  
@@ -275,7 +276,8 @@ C----------
         TVOL4=TVOL(4)
         TVOL7=TVOL(7)
         VOLEQ=VEQNNB(ISPC)
-        IF((IREGN.EQ.8).AND.(VOLEQ(4:6).EQ.'CLK'))THEN
+        IF(((IREGN.EQ.8).AND.(VVER.NE.'NC'))
+     &                 .AND.(VOLEQ(4:6).EQ.'CLK'))THEN
           WRITE(BFTOP,'(I1)')NINT(BFTOPD(ISPC))
           VOLEQ(3:3)=BFTOP
         ENDIF
@@ -314,7 +316,8 @@ C  CONSTANTS
         TLOGS = 0.
         NOLOGP = 0.
         NOLOGS = 0.
-        IF((IREGN.NE.8).AND.(VOLEQ(4:6).NE.'DVE'))HT1PRD=0.
+        IF((IREGN.NE.8).OR.((IREGN.EQ.8).AND.(VVER.EQ.'NC'))
+     &     .AND.(VOLEQ(4:6).NE.'DVE'))HT1PRD=0.
         SIDUM=0
         BADUM=0
         HTTDUM=0
@@ -348,7 +351,7 @@ C
         TVOL(1)=TVOL1
         TVOL(4)=TVOL4
         TVOL(7)=TVOL7
-        IF((IREGN.EQ.8).AND.(HT1PRD.LT.10.))THEN
+        IF(((IREGN.EQ.8).AND.(VVER.NE.'NC')).AND.(HT1PRD.LT.10.))THEN
           TVOL(4)=0.
           TVOL(2)=0.
         ENDIF  
@@ -357,7 +360,7 @@ C
 C----------
 C  SET RETURN VALUES.
 C----------
-      IF((IREGN.EQ.8).OR.(IREGN.EQ.9))THEN
+      IF(((IREGN.EQ.8).AND.(VVER.NE.'NC')).OR.(IREGN.EQ.9))THEN
         IF(D.LT.BFMIND(ISPC))THEN
           VN=TVOL(4)
           VM=0.
