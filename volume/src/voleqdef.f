@@ -386,7 +386,7 @@ C//////////////////////////////////////////////////////////////////
       CHARACTER*10 VOLEQ
       CHARACTER*2 FORST
       INTEGER SPEC,ERRFLAG
-      CHARACTER*10 EQNUM(48)
+      CHARACTER*10 EQNUM(52)
       INTEGER FIA(45), FIRST, HALF, LAST, DONE, FORNUM,I
 
 C     SPECIES
@@ -411,7 +411,7 @@ C     Emory oak,              Gambel oak,       Bur oak,              Silverleaf
      >                     745, 746, 749, 800, 803, 
      >                     810, 814, 823, 843, 998/
 
-      DATA (EQNUM(I),I=1,48)/
+      DATA (EQNUM(I),I=1,52)/
      >'301DVEW015','300DVEW093','300DVEW093','300DVEW093','300DVEW060',
      >'300DVEW060','300DVEW060','300DVEW060','300DVEW060','300DVEW060',
      >'300DVEW060','301DVEW015','300DVEW093','300DVEW093','300DVEW093',
@@ -421,7 +421,8 @@ C     Emory oak,              Gambel oak,       Bur oak,              Silverleaf
      >'300DVEW310','300DVEW314','300DVEW999','300DVEW999','300DVEW999',
      >'300DVEW999','300DVEW746','300DVEW999','300DVEW800','300DVEW800',
      >'300DVEW800','300DVEW800','300DVEW800','300DVEW800','300DVEW999',
-     >'302DVEW202','302DVEW202','302DVEW015'/
+     >'302DVEW202','302DVEW202','302DVEW015',
+     >'301FW2W108','301FW2W015','301FW2W202','301FW2W122'/
 C
 C  SEARCH FOR VALID EQUATION NUMBER
 C
@@ -444,10 +445,10 @@ C
       LAST = 45
    
       IF(SPEC.EQ.202.AND.(FORNUM.EQ.2.OR.FORNUM.EQ.3.OR.
-     >                    FORNUM.EQ.7.OR.FORNUM.EQ.10)) THEN
+     >                    FORNUM.EQ.7)) THEN
          DONE=46
       ELSEIF(SPEC.EQ.15.AND.(FORNUM.EQ.2.OR.FORNUM.EQ.3.OR.
-     >                       FORNUM.EQ.7.OR.FORNUM.EQ.10)) THEN
+     >                       FORNUM.EQ.7)) THEN
          DONE=48
 C    using Fleweling profile model for Ponderosa pine in following forest:
 C    Apache Sitgreaves, Coconino, Kaibab, Tonto. The 300FW2W122 equation
@@ -456,11 +457,19 @@ c    set to the DVE equation blow.
       ELSEIF(SPEC.EQ.122.AND.(FORNUM.EQ.2.OR.FORNUM.EQ.3.OR.
      >                        FORNUM.EQ.5.OR.FORNUM.EQ.6.OR.
      >                        FORNUM.EQ.8.OR.FORNUM.EQ.9.OR.
-     >                        FORNUM.EQ.10.OR.FORNUM.EQ.11))THEN
+     >                        FORNUM.EQ.11))THEN
          DONE=22
+      ELSEIF((SPEC.EQ.114).AND.(FORNUM.EQ.10))THEN
+         DONE=49
+      ELSEIF((SPEC.EQ.15).AND.(FORNUM.EQ.10))THEN
+         DONE=50
+      ELSEIF((SPEC.EQ.202).AND.(FORNUM.EQ.10))THEN
+         DONE=51
+      ELSEIF((SPEC.EQ.122).AND.(FORNUM.EQ.10))THEN
+         DONE=52
       ELSE
          FIRST = 1
-
+C
           DO 5, WHILE (DONE.EQ.0)
             HALF = (LAST - FIRST +1)/2 + FIRST
              IF(FIA(HALF) .EQ. SPEC)THEN

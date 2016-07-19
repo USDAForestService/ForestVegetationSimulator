@@ -9,6 +9,7 @@ c        Uses SF_TEST2 initializing code
 c                  J. Flewelling  July, 1996
 c                  Modified by K. Cormier Sept, 1996
 C  04/02/2014 YW Changed UPSHT1 to 33.6 for 32 foot log when using FCLASS
+C  07/12/2016 YW ADDED BTR VALUE FOR REGION 3 SANTA FE NF SPECIES 122,202,015,108
 C     TREE VARIABLES
       REAL DBHOB,HTTOT,DBTBH,MHT,MTOPP,btr
 
@@ -87,7 +88,8 @@ C                                INGY
       NEXTRA = 0
       THREEFLAG = 0
 
-      IF(BTR.GT.0.0 .AND. DBTBH.LE.0) DBTBH = DBHOB-(DBHOB*BTR/100.0)
+C     MOVED THE FOLLOWING LINE TO END OF THE SETUP PHASE(YW 07/12/2016)
+C      IF(BTR.GT.0.0 .AND. DBTBH.LE.0) DBTBH = DBHOB-(DBHOB*BTR/100.0)
 
       GEOCODE = VOLEQ(1:1)
       GEOSUB = VOLEQ(2:3)
@@ -197,9 +199,36 @@ c         R2 Ponderosa Pine model with R4 bark
 C                                 REGION 3
 C     REGION 3
       ELSE IF (GEOCODE.EQ.'3') THEN
-c         IF(GEOSUB.EQ.'01') THEN
-            IF(SPEC.EQ.'122') JSP = 29
-c         ENDIF
+         IF(GEOSUB.EQ.'00')THEN
+           IF(SPEC.EQ.'122')THEN
+             JSP = 29
+           ELSE
+             ERRFLAG = 1
+             RETURN
+           ENDIF
+C        GEOSUB 01 is for Santa Fe NF
+         ELSEIF(GEOSUB.EQ.'01') THEN
+            IF(SPEC.EQ.'122') THEN
+              JSP = 29
+              IF(BTR.LE.0) BTR = 89.12
+C         SPECIES 202, 015, AND 108 USE REGION 2 PROFILE
+            ELSEIF(SPEC.EQ.'108')THEN
+              JSP = 25
+              IF(BTR.LE.0) BTR = 93.26
+            ELSEIF(SPEC.EQ.'202')THEN
+              JSP = 26
+              IF(BTR.LE.0) BTR = 89.72
+            ELSEIF(SPEC.EQ.'015')THEN
+              JSP = 27
+              IF(BTR.LE.0) BTR = 91.16
+            ELSE
+              ERRFLAG = 1
+              RETURN
+            ENDIF
+         ELSE
+           ERRFLAG = 1
+           RETURN
+         ENDIF
 C                                 REGION 10
       ELSE IF(GEOCODE.EQ.'A') THEN
           IF(SPEC.EQ.'042') THEN
@@ -230,7 +259,8 @@ c         Hemlock
         ERRFLAG = 1
         RETURN
       ENDIF
-
+      
+      IF(BTR.GT.0.0 .AND. DBTBH.LE.0) DBTBH = DBHOB-(DBHOB*BTR/100.0)
 C-------------------------- end of set-up phase ------------------------------
 c
 c      WRITE(*,*)'FWINIT',JSP
