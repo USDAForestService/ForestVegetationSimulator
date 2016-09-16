@@ -217,6 +217,11 @@ C----------
         IF(ICDF.GT.99) ICDF=99
         IF(ICDF.LT. 0) ICDF= 0
       ENDIF
+C----------
+C  CALL ECON EXTENSION TO PROCESS VOLUME INFORMATION
+C----------
+      IF (WK1(I) .GT. 0.0) CALL ECVOL(IT,LOGDIA,LOGVOL,.TRUE.)
+C
 C**************************************************
 C        BOARD FOOT SAWLOG VOLUME SECTION         *
 C**************************************************
@@ -277,6 +282,11 @@ C----------
         IF(IBDF.GT.99)IBDF=99
         IF(IBDF.LT. 0)IBDF= 0
       ENDIF
+C----------
+C  CALL ECON EXTENSION TO PROCESS VOLUME INFORMATION
+C----------
+      IF (BFV(I) .GT. 0.0) CALL ECVOL(IT,LOGDIA,LOGVOL,.FALSE.)
+C
 C----------
 C  RESET NEGATIVE VOLUMES TO ZERO, ADJUST FOR DEFECT, AND COMPILE TOTAL.
 C  CONSIDER 99% DEFECT AS 100% DEFECT.
