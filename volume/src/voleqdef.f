@@ -427,7 +427,7 @@ C
 C  SEARCH FOR VALID EQUATION NUMBER
 C
       IF(SPEC.EQ.9999)THEN
-        DO I=1,48
+        DO I=1,52
         IF(VOLEQ.EQ.EQNUM(I))THEN
 C
 C  FOUND VALID EQUATION NUMBER
@@ -1654,6 +1654,7 @@ C
       END
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R8_BEQN(FORST,DIST,SPEC,PROD,VAR,VOLEQ,ERRFLAG)
+      CHARACTER*1 TOPCODE(4),ICHAR
       CHARACTER*2 GEOAREA,GEOCODES(33)
       CHARACTER*2 PROD,VAR,FORST,DIST
       CHARACTER*10 VOLEQ,VEQTEM
@@ -1690,23 +1691,45 @@ c     match species to valid species equation code
      >  '21','22','23','24','25','26','27','28','29','30',
      >  '31','32','33'/
 C
+      DATA TOPCODE / '4','7','8','9' /
+C
 C  SEARCH FOR VALID EQUATION NUMBER
 C
       IF(SPEC.EQ.9999)THEN
-        VEQTEM(1:1)='8'
-        VEQTEM(4:7)='DVEE'
-        DO I=1,33
-        VEQTEM(2:3)=GEOCODES(I)
+        IF(VOLEQ(4:7).EQ.'DVEE')THEN
+          VEQTEM(1:1)='8'
+          VEQTEM(4:7)='DVEE'
+          DO I=1,33
+          VEQTEM(2:3)=GEOCODES(I)
 C  SN
-        DO J=1,92
-        VEQTEM(8:10)=SNSP(J)
-        IF(VOLEQ.EQ.VEQTEM)THEN
-          SPEC=8888
-          RETURN
+          DO J=1,92
+          VEQTEM(8:10)=SNSP(J)
+          IF(VOLEQ.EQ.VEQTEM)THEN
+            SPEC=8888
+            RETURN
+          ENDIF
+          ENDDO
+          ENDDO
+        ELSEIF(VOLEQ(4:7).EQ.'CLKE')THEN
+          VEQTEM(1:1)='8'
+          VEQTEM(4:7)='CLKE'
+          DO I=1,7
+          WRITE(ICHAR,'(I1)')I
+          VEQTEM(2:2)=ICHAR
+          DO J=1,4
+          VEQTEM(3:3)=TOPCODE(J)
+C  SN
+          DO K=1,92
+          VEQTEM(8:10)=SNSP(K)
+          IF(VOLEQ.EQ.VEQTEM)THEN
+            SPEC=8888
+            RETURN
+          ENDIF
+          ENDDO
+          ENDDO
+          ENDDO
         ENDIF
-        ENDDO
-        ENDDO
-      RETURN
+        RETURN
       ENDIF
 
       READ(FORST,'(I2)')FORNUM

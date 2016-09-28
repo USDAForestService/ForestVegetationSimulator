@@ -1,8 +1,10 @@
-!== last modified  01-11-2013
+!== last modified  09-15-2016
 C 01/11/2013 added volume calculation for stump vol(14) and tip vol(15)
 C 11/06/2012 Changed errflag to 12 when NUMLOGS > 20
+C 09/15/2016 Added output variable LOGDIA,LOGLEN,LOGVOL to the routine
       SUBROUTINE R4VOL(REGN,VOLEQ,MTOPP,HTTOT,DBHOB,HT1PRD,VOL,NOLOGP,
-     >           NOLOGS,CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG,ERRFLAG)
+     >           NOLOGS,LOGDIA,LOGLEN,LOGVOL,
+     +           CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG,ERRFLAG)
       IMPLICIT NONE
 C**********************************************************************
       CHARACTER*10 VOLEQ
@@ -263,7 +265,8 @@ C     CUBIC VOLUME
               IF(M.EQ.3)THEN
                  CFVOL = INT(.002727*(DLG(1)**2+
      +                        DSM(1)**2)*16.*10.+.499)/10.
-                 LOGVOL(3,I) = CFVOL
+c                 LOGVOL(3,I) = CFVOL
+                 LOGVOL(4,NUM) = CFVOL
                  VOLR4(M)=VOLR4(M)+CFVOL
 	        ENDIF
               
@@ -272,6 +275,7 @@ C     BOARD FOOT VOLUME
 	           
                  IF(REGN.EQ.7) THEN
                     CALL SCRIB (DSM(1),16.0,'N',BFSCR)
+                    LOGVOL(1,NUM) = BFSCR
                  ELSE
                     IF(INT(DSM(1)-5.) .GT. 70)THEN
                       ERRFLAG = 4
@@ -280,13 +284,15 @@ C     BOARD FOOT VOLUME
 555                   CONTINUE
                      RETURN
                     ENDIF
-                     BFSCR = SCRIBC(INT(DSM(1)-5.),INT((16./2.)))
+                    BFSCR = SCRIBC(INT(DSM(1)-5.),INT((16./2.)))
+                    LOGVOL(1,NUM) = BFSCR*10
 	           ENDIF
-                 LOGVOL(1,I) = BFSCR
+c                 LOGVOL(1,I) = BFSCR
                  VOLR4(M)=VOLR4(M) + BFSCR
 
                  CALL INTL14(DSM(1),16.0,BFINT)
-                 LOGVOL(7,I) = BFINT
+c                 LOGVOL(7,I) = BFINT
+                 LOGVOL(7,NUM) = BFINT
                  VOL(10) = VOL(10) + BFINT
               ENDIF
 C  NOTE THAT CORDWOOD (M=2) ADDS TRIM INTO VOLR4
@@ -313,7 +319,8 @@ C     CUBIC VOLUME
                   IF(M.EQ.3)THEN
                     CFVOL = INT(.002727*(DLG(NUM)**2+DSM(NUM)**2)*
      +                          16.*10.+.499)/10.
-                    LOGVOL(3,I) = CFVOL
+c                    LOGVOL(3,I) = CFVOL
+                    LOGVOL(4,NUM) = CFVOL
                     VOLR4(M)=VOLR4(M)+CFVOL
                   ENDIF
 C     BOARD FOOT VOLUME
@@ -321,6 +328,7 @@ C     BOARD FOOT VOLUME
 
                     IF(REGN.EQ.7) THEN
                        CALL SCRIB (DSM(NUM),16.0,'N',BFSCR)
+                       LOGVOL(1,NUM) = BFSCR
                     ELSE
                      IF (INT(DSM(NUM)-5.) .GT. 70) THEN
                        ERRFLAG = 4
@@ -330,12 +338,14 @@ C     BOARD FOOT VOLUME
                        RETURN
                      ENDIF
                        BFSCR=SCRIBC(INT(DSM(NUM)-5.),INT((16./2.)))
+                       LOGVOL(1,NUM) = BFSCR*10
                     ENDIF
-                    LOGVOL(1,I) = BFSCR
+c                    LOGVOL(1,I) = BFSCR
                     VOLR4(M)=VOLR4(M)+ BFSCR
                   
                     CALL INTL14(DSM(NUM),16.0,BFINT)
-                    LOGVOL(7,I) = BFINT
+c                    LOGVOL(7,I) = BFINT
+                    LOGVOL(7,NUM) = BFINT
                     VOL(10) = VOL(10) + BFINT
                   ENDIF
 C  NOTE THAT CORDWOOD (M=2) ADDS TRIM INTO VOLR4
@@ -358,13 +368,15 @@ C     CUBIC VOLUME
             IF(M.EQ.3)THEN
                CFVOL =INT(.002727*(DLG(NUMLGS)**2+DSM(NUMLGS)**2)*
      +                    LEN*10.+.499)/10.
-               LOGVOL(3,I) = CFVOL
+c               LOGVOL(3,I) = CFVOL
+               LOGVOL(4,NUM) = CFVOL
                VOLR4(M)=VOLR4(M)+CFVOL
 	      ENDIF
 C     BOARD FOOT VOLUME
             IF(M.EQ.1) THEN
                IF(REGN.EQ.7) THEN
                   CALL SCRIB (DSM(NUMLGS),LEN,'N',BFSCR)
+                  LOGVOL(1,NUM) = BFSCR
                ELSE
                      IF (INT(DSM(NUMLGS)-5.) .GT. 70) THEN
                        ERRFLAG = 4
@@ -374,12 +386,14 @@ C     BOARD FOOT VOLUME
                        RETURN
                      ENDIF
                   BFSCR = SCRIBC(INT(DSM(NUMLGS)-5.),INT((LEN/2)))
+                  LOGVOL(1,NUM) = BFSCR*10
 	         ENDIF
-               LOGVOL(1,I) = BFSCR
+c               LOGVOL(1,I) = BFSCR
                VOLR4(M)=VOLR4(M) + BFSCR
 
                CALL INTL14(DSM(NUM),16.0,BFINT)
-               LOGVOL(7,I) = BFINT
+c               LOGVOL(7,I) = BFINT
+               LOGVOL(7,NUM) = BFINT
                VOL(10) = VOL(10) + BFINT
             ENDIF
 C  NOTE THAT CORDWOOD (M=2) ADDS TRIM INTO VOLR4
