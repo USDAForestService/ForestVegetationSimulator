@@ -84,6 +84,8 @@ C-----
      -     IBMMAIN.GE.1.OR.
      -     IBMBKP.GE.1.OR.
      -     IBMTREE.GE.1.OR.
+     -     IFMBMCMP.GE.1.OR.
+     -     IFMBMCMPCUT.GE.1.OR.
      -     IBMVOL.GE.1) IFORSR = 1
        ENDIF
        IF(IFORSR.EQ.0) RETURN
@@ -141,6 +143,8 @@ C---------
         IBMBKP    = 0
         IBMTREE   = 0
         IBMVOL    = 0
+        IFMBMCMP  = 0
+        IFMBMCMPCUT=0
 C
         CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlOut,
      -                 'DBSRun:Connecting to DSN')

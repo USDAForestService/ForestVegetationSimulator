@@ -2,7 +2,6 @@
       IMPLICIT NONE
 C----------
 C  $Id$
-C  $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMMAIN

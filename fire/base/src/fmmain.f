@@ -30,6 +30,7 @@ C
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'FMCOM.F77'
       INCLUDE 'FMFCOM.F77'
+      INCLUDE 'DBSCOM.F77'
 C
 COMMONS
 C
@@ -214,6 +215,10 @@ C        Print the stand-level fuel output table
 C        Print the stand-level main carbon report
 
          CALL FMCRBOUT (IYR)
+C
+C     TREE BOIMASS COMPONENT OUTPUT
+C
+         IF(IFMBMCMP.GT.0)CALL DBSFMBMCMP(IY(ICYC))
 
 C        Print the stand-level harvest products carbon report
 

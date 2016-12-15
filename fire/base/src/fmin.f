@@ -26,7 +26,7 @@ C
 COMMONS
 C
       INTEGER    KWCNT
-      PARAMETER (KWCNT = 54)
+      PARAMETER (KWCNT = 55)
 
       CHARACTER*4  NSP(MAXSP,3)
       CHARACTER*8  TABLE(KWCNT), KEYWRD, PASKEY
@@ -34,12 +34,18 @@ C
       CHARACTER*10 APRMS(13)
       CHARACTER*40 PHOTOREF(32), REF
       CHARACTER*13 CHARCODE
+      CHARACTER(LEN=800) BMEQS
+      CHARACTER(LEN=12) BMCMPEQNO(47)
+      
+      CHARACTER(LEN=200) RECORD  
       LOGICAL      LNOTBK(12),LOK,LKECHO
       INTEGER      NPARMS, IDT, ICALL, IFMD, NVALS, ILEN, ICANPR, J, K
       INTEGER      IRTNCD
+      INTEGER      IG,IGRP,ISPEC,IULIM,IGSP
       REAL         YRS50(2), YRS30(2)
       REAL         PRMS(13)
       REAL         ARRAY(12)
+
 
       DATA TABLE /
      >     'SALVSP  ','END     ','SVIMAGES','BURNREPT','MOISTURE',
@@ -52,7 +58,7 @@ C
      >     'POTFTEMP','SNAGPSFT','FUELMODL','DEFULMOD','CANCALC ',
      >     'POTFSEAS','POTFPAB ','SOILHEAT','CARBREPT','CARBCUT ',
      >     'CARBCALC','CANFPROF','FUELFOTO','FIRECALC','FMODLIST',
-     >     'DWDVLOUT','DWDCVOUT','FUELSOFT','FMORTMLT'/
+     >     'DWDVLOUT','DWDCVOUT','FUELSOFT','FMORTMLT','BIOMASEQ'/
 
       DATA PHOTOREF / 'Fischer INT-96                      ',
      >                'Fischer INT-97                      ',
@@ -152,7 +158,7 @@ C
      &      2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,
      &      3100,3200,3300,3400,3500,3600,3700,3800,3900,4000,
      &      4100,4200,4300,4400,4500,4600,4700,4800,4900,5000,
-     &      5100,5200,5300,5400), NUMBER
+     &      5100,5200,5300,5400,5500), NUMBER
 
   100 CONTINUE
 C                        OPTION NUMBER 1 -- SALVSP
@@ -846,10 +852,10 @@ C        set array SETDECAY so we know if the decay rates have been set by the u
          IF (LNOTBK(7)) THEN
             SETDECAY(4,IDEC) = ARRAY(7)
             SETDECAY(5,IDEC) = ARRAY(7)
-            SETDECAY(6,IDEC) = ARRAY(7)   
+            SETDECAY(6,IDEC) = ARRAY(7)
             SETDECAY(7,IDEC) = ARRAY(7)
             SETDECAY(8,IDEC) = ARRAY(7)
-            SETDECAY(9,IDEC) = ARRAY(7)            
+            SETDECAY(9,IDEC) = ARRAY(7)
          ENDIF
 C        NOW RE-DETERMINE THE DECAY RATE TO DUFF
          IF (ID .LT. 5) THEN
@@ -2034,7 +2040,7 @@ C                        OPTION NUMBER 43 -- SOILHEAT
 C
       IF (IDSHEAT .EQ. 0) CALL GETID (IDSHEAT)
 C
-      ISHEATB = -IY(1)  ! WHEN NEGATIVE, A HEADING IS NEEDED. 
+      ISHEATB = -IY(1)  ! WHEN NEGATIVE, A HEADING IS NEEDED.
       ISHEATE = IY(1) + 999
       SOILTP = 3
       IF (LNOTBK(3)) SOILTP = INT(ARRAY(3))
@@ -2115,7 +2121,7 @@ C
 
  4610 FORMAT(/A8,T12,'CARBON REPORTS WILL BE BASED ON METHOD',
      >      I2, ' (0=FFE, 1=JENKINS)',/T12, 'REPORT UNITS WILL BE',
-     >      I2, ' (0=US(TONS/ACRE), 1=METRIC(METRIC TONS/HA)', 
+     >      I2, ' (0=US(TONS/ACRE), 1=METRIC(METRIC TONS/HA)',
      >          ' 2=COMBINED(METRIC TONS/ACRE))',/T12,
      >      'PROPORTION OF DEAD ROOTS DECAYING ANNUALLY WILL BE: ',
      >      F7.4,' (<0 = NO DEAD ROOTS)',/T12,
@@ -2509,7 +2515,7 @@ C
       MYACT = 2553
       CALL OPNEW(KODE,IDT,MYACT,NPARMS,PRMS)
       GOTO 10
-      
+
  5400 CONTINUE
 C                        OPTION NUMBER 54 -- FMORTMLT
 C
@@ -2552,10 +2558,170 @@ C
      >    F7.2,' AND LESS THAN ',F7.2,' DBH ARE AFFECTED.')
       ENDIF
       GOTO 10
-      
+C
+C
+ 5500 CONTINUE
+C                        OPTION NUMBER 55 -- BIOMASEQ
+C
+      JSP = 0
+      BMEQS=''
+      CALL SPDECD (1,JSP,NSP(1,1),JOSTND,IRECNT,KEYWRD,
+     &          ARRAY,KARD)
+      IF (JSP.EQ.-999) GOTO 10
+C----------
+C  SPECIES GROUP PROCESSING
+C----------
+      IF(JSP .LT. 0) THEN
+        IGRP = -JSP
+        IULIM = ISPGRP(IGRP,1)+1
+C
+C  READ SUPPLEMENTAL RECORD SETING BIOMASS EQ NO FOR
+C  EACH COMPONENT
+C
+ 5505   CONTINUE
+        IRECNT=IRECNT+1
+        READ(IREAD,'(A)',END=80) RECORD
+        RECORD=ADJUSTl(TRIM(RECORD))
+        I=LEN_TRIM(RECORD)
+        IF (RECORD(I:I).EQ.'&')THEN
+          IF(BMEQS.EQ.'')THEN
+            BMEQS=RECORD(:I-1)
+          ELSE
+            BMEQS=ADJUSTl(TRIM(BMEQS)) // ' ' // RECORD(:I-1) 
+          ENDIF
+          GOTO 5505
+        ELSE
+          BMEQS= ADJUSTl(TRIM(BMEQS)) // ' ' // RECORD(:I)
+        ENDIF
+        J=0
+        DO I=1,2000,13
+        J=J+1
+        BMCMPEQNO(J)=BMEQS(I:I+12)
+        IF(J.EQ.47)EXIT
+        ENDDO
+C----------
+C  CHECK FOR VALID BIOMASS EQUATION
+C----------
+        ISPEC=9999
+        CALL BMEQNOS(BMCMPEQNO,ISPEC)
+        IF(ISPEC.NE.8888)THEN
+          DO IG=2,IULIM
+          IGSP = ISPGRP(IGRP,IG)
+          DO J=1,47
+          BMEQNO(IGSP,J)=BMCMPEQNO(J)
+          ENDDO
+          ENDDO
+          ILEN=ISPGRP(-JSP,52)
+          IF(LKECHO)WRITE(JOSTND,5510)KEYWRD,KARD(1)(1:ILEN),JSP
+ 5510     FORMAT(/A8,'   NATIONAL BIOMASS LIBRARY EQUATION',
+     &    ' SET FOR SPECIES GROUP=',A,' (CODE=',I3,');')
+        ELSE
+          ILEN=ISPGRP(-JSP,52)
+          IF(LKECHO)WRITE(JOSTND,5520)KEYWRD,KARD(1)(1:ILEN),JSP
+ 5520     FORMAT(/A8,'   INVALID BIOMASS EQUATION SET ',
+     &    'FOR SPECIES GROUP=',A,
+     &    ' (CODE=',I3,');')
+        ENDIF
+C----------
+C  ALL SPECIES PROCESSING
+C----------
+      ELSEIF(JSP.EQ.0)THEN
+C
+C  READ SUPPLEMENTAL RECORD SETING BIMASS EQ SEQ NO FOR
+C  EACH COMPONENT
+C
+ 5525   CONTINUE
+        IRECNT=IRECNT+1
+        READ(IREAD,'(A)',END=80) RECORD
+        RECORD=ADJUSTl(TRIM(RECORD))
+        I=LEN_TRIM(RECORD)
+        IF (RECORD(I:I).EQ.'&')THEN
+          IF(BMEQS.EQ.'')THEN
+            BMEQS=RECORD(:I-1)
+          ELSE
+            BMEQS=ADJUSTl(TRIM(BMEQS)) // ' ' // RECORD(:I-1) 
+          ENDIF
+          GOTO 5525
+        ELSE
+          BMEQS= ADJUSTl(TRIM(BMEQS)) // ' ' // RECORD(:I)
+        ENDIF
+        J=0
+        DO I=1,2000,13
+        J=J+1
+        BMCMPEQNO(J)=BMEQS(I:I+12)
+        IF(J.EQ.47)EXIT
+        ENDDO
+C----------
+C  CHECK FOR VALID BIOMASS EQUATION
+C----------
+        ISPEC=9999
+        CALL BMEQNOS(BMCMPEQNO,ISPEC)
+        IF(ISPEC.NE.8888)THEN
+          DO I=1,MAXSP
+          DO J=1,47
+          BMEQNO(I,J)=BMCMPEQNO(J)
+          ENDDO
+          ENDDO
+          IF(LKECHO)WRITE(JOSTND,5550)KEYWRD
+ 5550     FORMAT(/A8,'   NATIONAL BIOMASS LIBRARY ',
+     &    'EQUATIONS SET FOR ALL SPECIES:')
+        ELSE
+          IF(LKECHO)WRITE(JOSTND,5560)KEYWRD,ISPEC
+ 5560     FORMAT(/A8,'   INVALID BIOMASS EQUATION SET',
+     &    ' FOR ALL SPECIES ')
+        ENDIF
+C----------
+C  SINGLE SPECIES PROCESSING
+C----------
+      ELSE
+C
+C  READ SUPPLEMENTAL RECORD SETING BIMASS EQ SEQ NO FOR
+C  EACH COMPONENT
+C
+ 5565   CONTINUE
+        IRECNT=IRECNT+1
+        READ(IREAD,'(A)',END=80) RECORD
+        RECORD=ADJUSTl(TRIM(RECORD))
+        I=LEN_TRIM(RECORD)
+        IF (RECORD(I:I).EQ.'&')THEN
+          IF(BMEQS.EQ.'')THEN
+            BMEQS=RECORD(:I-1)
+          ELSE
+            BMEQS=ADJUSTl(TRIM(BMEQS)) // ' ' // RECORD(:I-1) 
+          ENDIF
+          GOTO 5565
+        ELSE
+          BMEQS= ADJUSTl(TRIM(BMEQS)) // ' ' // RECORD(:I)
+        ENDIF
+        J=0
+        DO I=1,2000,13
+        J=J+1
+        BMCMPEQNO(J)=BMEQS(I:I+12)
+        IF(J.EQ.47)EXIT
+        ENDDO
+C----------
+C  CHECK FOR VALID BIOMASS EQUATION
+C----------
+        ISPEC=9999
+        CALL BMEQNOS(BMCMPEQNO,ISPEC)
+        IF(ISPEC.NE.8888)THEN
+          DO J=1,47
+          BMEQNO(JSP,J)=BMCMPEQNO(J)
+          ENDDO
+          IF(LKECHO)WRITE(JOSTND,5570)KEYWRD,KARD(1)(1:3),JSP
+ 5570      FORMAT(/A8,'   NATIONAL BIOMASS LIBRARY EQUATION ',
+     &    'SET FOR SPECIES=',A,' (CODE=',I3,');')
+        ELSE
+          IF(LKECHO)WRITE(JOSTND,5580)KEYWRD,KARD(1)(1:3),JSP
+ 5580     FORMAT(/A8,'   INVALID BIOMASS EQUATION SET',
+     &    ' FOR SPECIES=',
+     &    A,' (CODE=',I3,');')
+        ENDIF
+      ENDIF
+      GOTO 10
 C
 C.... Special entry to retrieve keywords.
-
+C
       ENTRY FMKEY (KEY,PASKEY)
       PASKEY= TABLE(KEY)
       RETURN

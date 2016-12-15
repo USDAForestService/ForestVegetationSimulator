@@ -1,0 +1,44 @@
+Subject: Biomass Component Keyword and Output Table
+Name: R. Havis
+Date: December 14, 2016
+Variants affected: ALL
+
+Description:
+
+BIOMASEQ: Set biomass component equation number for any of the 47 biomass component
+          categories. The biomass component categories in the database table output
+          correspond to the 47 equation spaces in the supplemental record. The output
+          is written to the FVS-Biocmp and/or FVS_CutBiocmp database tables which must
+          be opened using the BMCMPTRL and/or BMCMPCUT keywords. Blank equation numbers
+          in the supplemetal record receive a zero value in the database output. The FFE
+          extension must be running to use this keyword.
+
+      Field 1:    Species group, single species, or all species (0/ALL) (Default).
+                  Species group Alpha Code, or FVS Species Sequence No.
+
+      Supplemental Record: There are  8 supplemental records containing a
+                  total of 47 twelve character elements separated by a space and
+                  each record ends with the standard line continuation character (&).
+
+BMCMPTRL Signals that the FVS_Biocmp (tree list biocomponents) table is to be output.
+         Six of the Jenkins biomass components are printed for each tree record. If the
+         BIOMASEQ keyword is used, the user-specified biomass components are written
+         after the Jenkins biomass components. There are no fields associated with
+         the keyword, and there is no text file output option. The FFE extension must
+         be running to use this keyword.
+
+BMCMPCUT Signals that the FVS_CutBiocmp (cut tree list biocomponents) table is to be output.
+         Six of the Jenkins biomass components are printed for each tree record. If the
+         BIOMASEQ keyword is used, the user-specified biomass components are written
+         after the Jenkins biomass components. There are no fields associated with
+         the keyword, and there is no text file output option. The FFE extension must
+         be running to use this keyword.
+
+BMCMPCUT
+
+Impact on users: Biomass component values are available for individual tree records
+                 using Jenkins Equations by default and by user-specified equations
+                 from the Biomass Equation Library. Database tables are created
+                 for all trees and for cut trees.
+
+Files:
