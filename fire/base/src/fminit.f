@@ -833,12 +833,9 @@ C----------
         IFUELMON(I) = -1       
       ENDDO 
 C----------
-C  SNAG POOL INITIALIZATION, AND TREE BIOMASS COMPONENT EQ. NO. INITIALIZATION
+C  SNAG POOL INITIALIZATION
 C----------
       DO I = 1, MAXSP
-        DO J=1,47
-          BMEQNO(I,J)='            '
-        ENDDO
         DO J = 1, 19
           MAXHT(I,J)  =    0.0
           MINHT(I,J)  = 1000.0

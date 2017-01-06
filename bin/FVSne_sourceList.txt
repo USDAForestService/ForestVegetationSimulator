@@ -259,8 +259,6 @@
 ../dbs/src/dbsecsum.f
 ../dbs/src/dbsevm.f
 ../dbs/src/dbsexecsql.f
-../dbs/src/dbsfmbmcmp.f
-../dbs/src/dbsfmbmcmpcut.f
 ../dbs/src/dbsfmburn.f
 ../dbs/src/dbsfmcanpr.f
 ../dbs/src/dbsfmcrpt.f
@@ -501,11 +499,8 @@
 ../strp/src/estime.f
 ../strp/src/estump.f
 ../strp/src/esuckr.f
-../volume/src/BEQINFO.INC
-../volume/src/biomassformula.f
 ../volume/src/blmtap.f
 ../volume/src/blmvol.f
-../volume/src/calcbiomass.f
 ../volume/src/brk_up.f
 ../volume/src/charmod.f
 ../volume/src/clkcoef_mod.f
@@ -526,7 +521,6 @@
 ../volume/src/formclas.f
 ../volume/src/fwinit.f
 ../volume/src/intl78.f
-../volume/src/jenkins.f
 ../volume/src/mrules.f
 ../volume/src/numlog.f
 ../volume/src/pnwtarif.f
@@ -587,4 +581,3 @@
 ../volume/src/voleqdef.f
 ../volume/src/volinit.f
 ../volume/src/volinput_mod.f
-../volume/src/WDBKWTDATA.INC

@@ -48,7 +48,6 @@ C             by fire
 C     YEAR:   the year of death of all the snags to be added during this
 C             subroutine call (during initialization, this may be more than
 C             one year before the next year that will be simulated).
-C     IWHO    FLAG TO INDICATE CALLING ROUTINE
 C
 COMMONS
 C
@@ -72,8 +71,7 @@ C
       INTEGER OLDITN,ITYP, IGAP, TAKEN(MXSNAG)
       LOGICAL GAPS,DEBUG
       REAL    PRMS(6)
-      INTEGER NPRM,IACTK,JYR,IT,IWHO
-      REAL    CRR
+      INTEGER NPRM,IACTK,JYR
 
       CALL DBCHK (DEBUG,'FMSADD',6,ICYC)
       IF (DEBUG) WRITE(JOSTND,7) ICYC, YEAR, LFMON, ITYP, ITRN
@@ -87,7 +85,6 @@ C     IF THE FIRE MODEL EXTENSION IS NOT ACTIVE, THEN RETURN
 
 C     Initialize some variables
 
-      IWHO=0
       LOSSES = 0
       GAPS = .TRUE.
       IF (NSNAG .LE. 3) GAPS = .FALSE.
@@ -266,8 +263,6 @@ C     whole loop over the tree list.
 
       DO 50 I=1,ITRN
 
-        IT=I
-
 C       Skip tree records with no snags.
 
         IF (SNGNEW(I) .LE. 0.0) GOTO 50
@@ -315,10 +310,7 @@ C       CALCULATE THE ROOT BIOMASS OF SNAGS. WHEN READING FROM
 C       STAND INVENTORY, ASSUME SNAGS HAVE BEEN DEAD 10 YEARS
 C       FOR CALCULATING DECAY OF DEAD ROOTS
 
-        CRR= FLOAT(ICR(I))
-
-        CALL FMCBIO(IT, DBH(I), HT(I), CRR, ISP(I), ABIO, MBIO, RBIO,
-     &              IWHO)
+        CALL FMCBIO(DBH(I), ISP(I), ABIO, MBIO, RBIO)
         XDCAY = 1.0
         IF (ITYP .EQ. 3) THEN
           XDCAY = 1.0
@@ -390,11 +382,8 @@ C     see what can be done later.
 
 C           CALCULATE THE ROOT BIOMASS OF THESE SNAGS, TAKING INTO ACCOUNT
 C           YEARS DEAD, IF THE KEYWORDS ARE ORDERED CORRECTLY.
-C           MEED TO PASS CROWN RATIO AND TREE INDEX, USE 0.
-            CRR= 0.
-            IT=0
-            CALL FMCBIO(IT, PRMS(2), PRMS(3), CRR, SPCL, ABIO, MBIO,
-     &                  RBIO,IWHO)
+
+            CALL FMCBIO(PRMS(2), SPCL, ABIO, MBIO, RBIO)
             XDCAY = 1.0
             IF (CRDCAY .GT. 0.0 .AND. PRMS(5) .GT. 0.0) THEN
               XDCAY = (1.0 - CRDCAY)**PRMS(5)

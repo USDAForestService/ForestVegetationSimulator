@@ -35,13 +35,12 @@ C     VARIABLE DECLARATIONS
       INTEGER   IYR
 
       LOGICAL   DEBUG,LDCAY,LMERCH
-      INTEGER   I,JROUT,DBSKODE,IWHO
-      INTEGER   JS, IT, J
+      INTEGER   I,JROUT,DBSKODE
+      INTEGER   JS
       REAL      VT, X, H, D
       REAL      V(11)
-      REAL      ABIO, MBIO, RBIO, XDCAY, CRR
-C
-      IWHO=1
+      REAL      ABIO, MBIO, RBIO, XDCAY
+
 C     CHECK FOR DEBUG.
 
       CALL DBCHK (DEBUG,'FMCRBOUT',8,ICYC)
@@ -62,14 +61,7 @@ C
       ELSE
         LDCAY = .FALSE.
       ENDIF
-      DO I=1,ITRN
-        DO J=1,47
-        BMCMPTRE(I,J)=0.
-        ENDDO
-        DO J=1,8
-        JENKTRE(I,J)=0.
-        ENDDO
-      ENDDO
+
 C
 C     THERE ARE 11 INDICATORS:
 C
@@ -102,16 +94,14 @@ C     - JENKINS EQUATIONS GIVE KG. WE NEED TO CHANGE TO TONS
       ENDDO
 
       DO I = 1,ITRN
-        IT=I
         D = DBH(I)
-        H = HT(I)
-        CRR = FLOAT(ICR(I))
+
 C     1. ABOVEGROUND BIOMASS (ABIO)
 C     2. MERCH BIOMASS       (MBIO) ("Stem wood" in Jenkin's paper; proportion)
 C     3. BELOWGROUND LIVE    (RBIO) ("Coarse roots" in Jenkin's paper; proportion)
 C     CALCULATE JENKINS EQUATIONS OF BIOMASS
 
-        CALL FMCBIO(IT, D, H, CRR, ISP(I), ABIO, MBIO, RBIO, IWHO)
+        CALL FMCBIO(D, ISP(I), ABIO, MBIO, RBIO)
 
         ABIO = ABIO * FMPROB(I)
         MBIO = MBIO * FMPROB(I)
@@ -128,6 +118,7 @@ C       "MERCH" VOLUME AS COMMERCIALLY USEFUL, SO LMERCH IS .TRUE.
           V(2) = V(2) + MBIO
         ELSE                     ! FFE
           JS = ISP(I)
+          H = HT(I)
           X = -1.0
           LMERCH = .FALSE.
           IF (LVWEST) LMERCH = .TRUE.
@@ -156,8 +147,6 @@ C     ROOTS (WHEN DECAY >0) USE JENKINS EQUATIONS.
       V(11) = BIOCON(1) * 0.37 + BIOCON(2) * 0.50
 
 C     CONVERT BIOMASS TO C, BUT NOT 9TH OR 11TH
-      
-      IF(DEBUG)WRITE(JOSTND,*)' V(1), V(3)= ',V(1), V(3)
 
       DO I = 1,10
         SELECT CASE (I)
@@ -166,9 +155,7 @@ C     CONVERT BIOMASS TO C, BUT NOT 9TH OR 11TH
           CASE (7)
             V(I) = V(I) * 0.37
         END SELECT
-
       ENDDO
-      
 
 C     CONVERT UNITS IF NECESSARY
 
@@ -249,7 +236,7 @@ C
   699   FORMAT(1(/1X,I5))
   700   FORMAT(1X,I5,1X,110('-'))
   701   FORMAT(1X,I5,1X,30X,'******  CARBON REPORT VERSION 1.0 ******')
-  702   FORMAT(1X,I5,1X,28X,'STAND CARBON REPORT '
+  702   FORMAT(1X,I5,1X,41X,'STAND CARBON REPORT '
      >                      '(BASED ON STOCKABLE AREA)')
    44   FORMAT(1X,I5,' STAND ID: ',A26,4X,'MGMT ID: ',A4)
   704   FORMAT(1X,I5,1X,6(' '),'Aboveground Live    Belowground',

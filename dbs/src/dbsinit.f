@@ -49,10 +49,6 @@ C
       IRD1     = 0
       IRD2     = 0
       IRD3     = 0
-      IFMBMCMP = 0
-      IFMBMCMPCUT=0
-      ISPOUT37 = 0
-      ISPOUT38 = 0
 
       RETURN
       END
