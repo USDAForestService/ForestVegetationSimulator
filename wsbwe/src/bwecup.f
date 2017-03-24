@@ -1,10 +1,9 @@
       SUBROUTINE BWECUP
       IMPLICIT NONE
 C----------
-C  **BWECUP             DATE OF LAST REVISION:  08/28/13
+C  $Id: bwecup.f 1842 2016-06-30 22:20:31Z ldavid $
+C  **BWECUP             DATE OF LAST REVISION:  03/23/17
 C----------
-C
-C     PROCESSES ALL OF THE STANDS IN A RUN FROM YEAR IBWYR1 TO IBWYR2.
 C
 C     PART OF THE WESTERN SPRUCE BUDWORM MODEL/PROGNOSIS LINKAGE CODE.
 c
@@ -50,6 +49,8 @@ C   28-FEB-2012 Lance R. David (FMSC)
 C      Added check for presence of host species and exit if none present.
 C   28-AUG-2013 Lance R. David (FMSC)
 C      Added loading of weather year into IEVENT array.
+C   23-MAR-2017 Lance R. David (FMSC)
+C      Corrected index used in detected presence of host species in stand.
 C-----------------------------------------------------------------------------
 C
 COMMONS
@@ -71,8 +72,8 @@ C.... Check for DEBUG
 C
       CALL DBCHK(DEBUG,'BWECUP',6,ICYC)
 
-      IF (DEBUG) WRITE (JOSTND,*) 'ENTER BWECUP: ICYC = ',ICYC
-
+      IF (DEBUG) WRITE (JOSTND,*) 'ENTER BWECUP: ICYC = ',ICYC,
+     & ' IBWSPM=',IBWSPM,' ISCT=',ISCT
 C
 C     Check for presence of host species. If no host, exit.
 C
@@ -80,9 +81,12 @@ C
       DO  I=1,MAXSP
         K=IBWSPM(I)
         IF (K .LT. 7) THEN
-           IF (ISCT(K,1).GT.0) LBWHOST = .TRUE.
+           IF (ISCT(I,1).GT.0) LBWHOST = .TRUE.
         ENDIF
+      IF (DEBUG) WRITE (JOSTND,*) 'IN BWECUP: I=',I,', K=',K,
+     &   ', ISCT(I,1_2)=',ISCT(I,1),ISCT(K,2),' LBWHOST = ',LBWHOST
       END DO
+      IF (DEBUG) WRITE (JOSTND,*) 'IN BWECUP: LBWHOST = ',LBWHOST
       IF (.NOT. LBWHOST) GOTO 300
 
 C     ************************ EXECUTION BEGINS ************************
