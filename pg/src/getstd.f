@@ -272,7 +272,7 @@ C
       NPTGRP   =  INTS(117)
       MAXTOP   =  INTS(118)      ! DBSTK common
       MAXLEN   =  INTS(119)      ! DBSTK common
-
+			GLOCCC	 =	INTS(120)
 C
 C     GET THE INTEGER ARRAYS.
 C
@@ -559,7 +559,7 @@ C
       DBHZEIDE =REALS(128)
       DBHSTAGE= REALS (129)
       DR016  = REALS (130)  
-
+			CCCOEF = REALS(131)
 C
 C     GET THE REAL ARRAYS.
 C

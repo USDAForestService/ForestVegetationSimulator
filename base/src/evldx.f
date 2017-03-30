@@ -391,7 +391,8 @@ C
                 XLDREG(1)=0.0
             ENDIF
           ELSEIF (L.EQ.7) THEN
-            CALL COVOLP (LDEB,JOSTND,NTREES,ITMPDX,WORK1,XLDREG(1))
+            CALL COVOLP (LDEB,JOSTND,NTREES,ITMPDX,WORK1,XLDREG(1),
+     &      						 CCCOEF)
           ELSEIF ((L.GE.1 .AND. L.LE.4) .OR. L.EQ.9) THEN
             XLDREG(1)=XLDREG(1)/GROSPC
           ENDIF
