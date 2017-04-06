@@ -997,7 +997,7 @@ C----------
               END SELECT
             ENDDO
           ENDIF
-          CALL COVOLP (DEBUG,JOSTND,J,IDUM,XWID,CVR10)
+          CALL COVOLP (DEBUG,JOSTND,J,IDUM,XWID,CVR10,CCCOEF)
 C
           IF (CVR10 .GT. 40.0) THEN
             EQWT(8) = 1.0
