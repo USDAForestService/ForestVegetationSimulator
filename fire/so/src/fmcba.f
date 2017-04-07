@@ -589,7 +589,8 @@ C----------
           CW(I)=CRWDTH(I)
           CW(I) = CW(I)*CW(I)*3.1415927/4*FMPROB(I)
         ENDDO
-        CALL COVOLP(.FALSE.,JOSTND,ITRN,IDUM,CW,PERCOV)
+        CALL COVOLP(.FALSE.,JOSTND,ITRN,IDUM,CW,PERCOV,
+     &   CCCOEF)
 
       ENDIF
 C----------

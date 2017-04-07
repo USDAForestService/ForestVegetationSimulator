@@ -80,7 +80,7 @@ C
 C     FVS TT 18 SPECIES VARIANT INDICES:
 C                 1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18
 C                 WB LM DF PM BS AS LP ES AF PP UJ RM BI MM NC MC OS OH
-      DATA IBWSPM/7, 7, 2, 3, 7, 7, 7, 5, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7/
+      DATA IBWSPM/7, 7, 2, 7, 7, 7, 7, 5, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7/
 
       DATA PRCRN3/ 0.05, 0.3, 0.65, 0.15, 0.45, 0.40, 0.15, 0.45, 0.40/
       DATA THEOFL/ 0.70, 0.24, 0.04, 0.02,
