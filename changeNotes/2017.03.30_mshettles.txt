@@ -41,5 +41,8 @@ base/src/sstage.f - Added code for processing the CCADJ keyword and
 common/CONTROL.f77 - Declared the GLOCCC and CCCOEF variables
 pg/src/getstd.f -  Added GLOCCC and CCCOEF to the INTS and REALS arrays
 pg/src/putstd.f -  Added GLOCCC and CCCOEF to the INTS and REALS arrays
+fire/bm/src/fmcfmd.f - Updated call to COVOLP to include CCCOEF
+fire/so/src/fmcba.f  - Updated call to COVOLP to include CCCOEF
+fire/ut/src/fmcfmd.f - Updated call to COVOLP to include CCCOEF
 
 
