@@ -804,7 +804,6 @@ C----------
         IF(EMVAR)THEN
           HK=WK3(I)
           DK=WK5(I)
-          HTG(K)=0.0
           HTGR=HK-H
           IF(DEBUG)WRITE(JOSTND,*)'K,HK,DK,HTGR= ',K,HK,DK,HTGR
         ELSEIF(NIVAR)THEN
