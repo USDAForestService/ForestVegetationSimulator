@@ -137,6 +137,8 @@ C
      +2.91519,0.95244/
 C
       DATA BIAS/ .4809 /, HGLH/ 0.23315 /
+C      
+      DATA RHK /1.0/, RHXS /0.0/
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------
