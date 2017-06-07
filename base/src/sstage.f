@@ -45,9 +45,9 @@ C
       INTEGER IS2I2,IS2I1,IS1I2,IS1I1,ILARGE,IILG,ID2I2,ID2I1,IHTLS3
       INTEGER IHTS1,IHTS2,IHTS3,IHTSS1,IHTSS2,IHTSS3,IHTLS1,IHTLS2
       INTEGER ICRBS1,ICRBS2,ICRBS3,ICRCV1,ICRCV2,ICRCV3,ICOVR,NTREES
-      INTEGER II,ID1I1,ID1I2,NTODO,IDATE,IACTK,NP,IDT,MYACTS(2)
+      INTEGER II,ID1I1,ID1I2,NTODO,IDATE,IACTK,NP,MYACTS(1)
       INTEGER IBA2
-      REAL COVER,DMIND,CRS3,CRS2,CRS1,DIFF,X,SUMPRB,DIFF1,DIFF2,COV
+      REAL COVER,DMIND,CRS3,CRS2,CRS1,DIFF,X,SUMPRB,DIFF1,DIFF2
       REAL DBHS3,DBHS2,DBHS1,XBAMAX,TMPCCC,PRM(1)
       LOGICAL LSUPRT
 
@@ -55,10 +55,10 @@ C
 
       INTEGER INDEX(MAXTRE),IHTLS,IHTSS,NSTR,DBSKODE
       INTEGER INBA,IBA,INICYCLE,ICYCLE,I,J
-      REAL XHTLS,XHTSS,XNSTR,XSDI,VSET
+      REAL XHTLS,XHTSS,XNSTR,XSDI
       REAL TPA1, TPA2, TPA3
 
-      LOGICAL DEBUG,LSET
+      LOGICAL DEBUG
 
       CHARACTER*3 SP11,SP21,SP12,SP22,SP13,SP23
       INTEGER ISP11,ISP21,ISP12,ISP22,ISP13,ISP23,J1,J2 
@@ -85,10 +85,9 @@ C     CALLED BY FFE THRU ENTRY POINT BELOW.
       INTEGER TMPSCL, FMSTCL, FMFLAG, TMPICR(MAXTRE),FICR(MAXTRE)
 C----------
 C  DATA STATEMENTS.
-C  ACTIVITY 231 = THINCC KEYWORD
 C  ACTIVITY 444 = CCADJ KEYWORD
 C----------
-      DATA MYACTS/231,444/
+      DATA MYACTS/444/
 
       TMPTPA = TPAMIN
       TMPCCM = CCMIN
@@ -113,59 +112,42 @@ C     SETUP THE DEBUG FLAG.
 C-----------
 C  PROCESS CCADJ KEYWORD.
 C-----------
-      IF(INBA.EQ.1.AND.GLOCCC.EQ.0)CALL OPFIND(2,MYACTS,NTODO)    
+      IF(INBA.EQ.1.AND.GLOCCC.EQ.0)CALL OPFIND(1,MYACTS,NTODO)    
       IF(NTODO.EQ.0)THEN
         IF(INBA.EQ.1)THEN
           IF(GLOCCC.EQ.1)THEN
+C
+C           CCAdj activity not present at this call, but value saved
+C           from previous CCAdj processing is loaded and GLOCC set
+C           for use in cuts.f
+C
             CCCOEF=TMPCCC
             GLOCCC=2
-            GOTO 6
-          ELSE
-            GOTO 6
           ENDIF
         ELSEIF(INBA.EQ.2)THEN
-          IF(TMPCCC.EQ.0)THEN
-            GOTO 6
-          ELSE
+          IF(TMPCCC.NE.0)THEN
             CCCOEF=TMPCCC
-            GOTO 6   
           ENDIF
-        ELSE
-          GOTO 6
         ENDIF   
       ELSE
-        GOTO 3
-      ENDIF
-  3   CONTINUE
-      CALL OPGET(1,1,IDATE,IACTK,NP,PRM)
-      IF(NTODO.EQ.1.AND.IACTK.EQ.231)GOTO 6
-      IF(NTODO.EQ.1.AND.IACTK.EQ.444)THEN
-        IF(ICYCLE.EQ.1)THEN
-          CCCOEF=PRM(1)
-          GOTO 4
-        ELSE
-          TMPCCC=PRM(1)
-          GOTO 4
+        CALL OPGET(1,1,IDATE,IACTK,NP,PRM)
+        IF(NTODO.EQ.1)THEN
+          IF(ICYCLE.EQ.1)THEN
+C
+C           Load value directly
+C
+            CCCOEF=PRM(1)
+          ELSE
+C
+C           Load value in temp for later call
+C           and set GLOCCC indicator
+C
+            TMPCCC=PRM(1)
+            GLOCCC=1
+          ENDIF
+          CALL OPDONE(1,IDATE)        
         ENDIF
       ENDIF
-
-      IF(NTODO.GE.2)THEN
-        GLOCCC=1
-        CALL OPFIND(1,MYACTS(2),NTODO)
-        CALL OPGET(1,1,IDATE,IACTK,NP,PRM)
-        IF(ICYCLE.EQ.1)THEN
-          CCCOEF=PRM(1)
-     			GOTO 4
-        ELSEIF(ICYCLE.GT.1)THEN
-          TMPCCC=PRM(1)
-          GOTO 4
-        ENDIF           
-      ENDIF
-   4  CONTINUE        
-      IDT=IDATE      
-      CALL OPDONE(1,IDT)        
-
-   6  CONTINUE
    
       IF(DEBUG)WRITE(JOSTND,*)'CCCOEF=',CCCOEF,'PRM(1)=',PRM(1),
      &'NTODO=',NTODO,'GLOCCC=',GLOCCC

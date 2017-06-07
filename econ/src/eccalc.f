@@ -713,7 +713,7 @@ C  ITITLE - STDIDENT title
          call GETLUN(IOUT)                                               !Returns logical unit number for writing output
          call getDbsEconStatus(dbOutput)                                 !Returns DB output: 0=no output, 1=summary table, 2=summary & harvest table
          if (dbOutput > 0 .or. (.not. noOutputTables)) then              !Options are no tables or no log/stock table, can't have log/stock table w/o summary table
-         call DBSECSUM(beginAnalYear, endTime, pretend, costUndisc,
+         call DBSECSUM(NPLT,beginAnalYear, endTime, pretend, costUndisc,
      &              revUndisc, costDisc, revDisc, pnv, irr,
      &              irrCalculated, bcRatio, bcRatioCalculated, rrr,
      &              rrrCalculated, sevSum, sevCalculated,

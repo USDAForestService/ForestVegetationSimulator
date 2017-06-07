@@ -10,53 +10,36 @@ C  EQUAL TO 5 (GEVORKIANTZ) OR 6. IT ALSO CONTAINS ENTRY POINTS
 C  AT THE END FOR OTHER VARIANT-SPECIFIC SPECIAL VOLUME
 C  CALCULATION METHODZ (METHB OR METHC = 8)
 C----------
-C
 COMMONS
-C
 C
       INCLUDE 'PRGPRM.F77'
-C
-C
       INCLUDE 'ARRAYS.F77'
-C
-C
       INCLUDE 'COEFFS.F77'
-C
-C
       INCLUDE 'CONTRL.F77'
-C
-C
       INCLUDE 'PLOT.F77'
-C
-C
       INCLUDE 'VOLSTD.F77'
-C
+
       COMMON/FVSVOLCOM/IREGN,FORST,VOLEQ,MTOPP,MTOPS,PROD
 C
-C
 COMMONS
-C
 C----------
-      INTEGER IT,ITRNC,ISPC,INTFOR,IERR,IZERO
-      INTEGER I1,IREGN,IFC,IFIASP,LOGST
-      REAL VMAX,BARK,H,D,BBFV,VM,VN
-      REAL FC,DBTBH,TVOL1,TVOL4,TDIBB,TDIBC,BRATIO
-      REAL NOLOGP,NOLOGS
-      CHARACTER CFTOP*1,BFTOP*1
-      CHARACTER CTYPE*1,FORST*2,HTTYPE*1,PROD*2,FIASP*4
-      REAL SCALEN(20),BOLHT(21),LOGLEN(20),TVOL(15)
-      INTEGER ERRFLAG,TLOGS
-      LOGICAL TKILL,CTKFLG,BTKFLG,LCONE,DEBUG
+      CHARACTER*1 BFTOP,CFTOP,CTYPE,HTTYPE,LIVEDUM
+      CHARACTER*2 FORST,PROD
+      CHARACTER*4 CONSPEC,FIASP
+      CHARACTER*7 VVER
       CHARACTER*10 EQNC,EQNB,VOLEQ
-      INTEGER I3,I7,I15,I20,I21,I01,I02
       INTEGER CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG
-      REAL HT1PRD,HT2PRD,X1,MTOPP,MTOPS
-      CHARACTER CONSPEC*4,VVER*7,LIVEDUM*1
-      REAL S3,BV,BEHRE
-      REAL ALVN,VOLT,VOLM,STUMP,DMRCH,HTMRCH
-      INTEGER ITD,BADUM,SIDUM,HTTDUM,IDIST
-      REAL BBF,VVN,TVOL7,TVOL2
+      INTEGER IT,ITRNC,ISPC,INTFOR,IERR,IZERO
+      INTEGER I1,IREGN,IFC
+      INTEGER I3,I7,I15,I20,I21,I01,I02
+      INTEGER ITD,BADUM,SIDUM,HTTDUM,IDIST,TLOGS
+      REAL VMAX,BARK,BRATIO,H,D,BBF,BBFV,BV,VM,VN,VVN
+      REAL FC,DBTBH,TVOL1,TVOL2,TVOL4,TVOL7,TDIBB,TDIBC
+      REAL NOLOGP,NOLOGS
+      REAL BOLHT(21),LOGLEN(20),TVOL(15)
+      REAL HT1PRD,HT2PRD,X1,MTOPP,MTOPS,STUMP,TOPDIAM
       REAL XTOPD,HTC1,HTC2
+      LOGICAL TKILL,CTKFLG,BTKFLG,LCONE,DEBUG
       
 C----------
 C  NATIONAL CRUISE SYSTEM ROUTINES (METHOD = 6)
@@ -71,7 +54,7 @@ C-----------
     3 FORMAT(' ENTERING SUBROUTINE FVSVOL CYCLE,IFOR =',I5,i4)
       IF(DEBUG)WRITE(JOSTND,*)' AFTER NATCRS ARGUMENTS= ',VN,VM,BBFV,
      &ISPC,D,H,TKILL,BARK,ITRNC,VMAX,CTKFLG,BTKFLG,IT
-C
+
       CALL VARVER(VVER)
       IDIST=1
       IF(KODFOR.GT.10000)THEN
@@ -96,50 +79,63 @@ C
 C  REGION 9 INPUTS OUTSIDE-BARK TOP DIAMETERS TO VOLINIT
 C  REGION 8 DOESN'T CARE, TOP DIAMETERS ARE HARD WIRED
 C  WESTERN VARIANTS INPUT INSIDE-BARK TOP DIAMETERS 
+C  MTOPP (primary product - BdFt, Sawlog)
+C  MTOPS (secondary product - Cuft, Pulpwood)
 C
       IF((IREGN.EQ.8).OR.(IREGN.EQ.9))THEN
-        MTOPS=TOPD(ISPC)
         MTOPP=BFTOPD(ISPC)
+        MTOPS=TOPD(ISPC)
       ELSE
-        MTOPS=TOPD(ISPC)*BARK
         MTOPP=BFTOPD(ISPC)*BARK
+        MTOPS=TOPD(ISPC)*BARK
       ENDIF
 C----------
 C  CALL TO VOLUME INTERFACE - VOLINIT - CUBIC VOLUMES
 C  INITIALIZE CONSTANT ARGUMENTS, AND VARIABLES
 C----------
+      IF(DEBUG) WRITE(JOSTND,*)
+     &  'IREGN,ISPC,D,BFMIND,DBHMIN,MTOPP,MTOPS = ',
+     &  IREGN,ISPC,D,BFMIND(ISPC),DBHMIN(ISPC),MTOPP,MTOPS
+     
       IF(D.LT.DBHMIN(ISPC))THEN
+C
+C       Tree DBH does not meet min merch for Pulp/CuFT or Saw/BdFt
+C
         TVOL(1)=0.
         TVOL(4)=0.
         TVOL(7)=0.
         BBFV=0.
 C
-C  EASTERN VARIANTS DONT'T NEED TOTAL VOLUME SO GO TO NEXT TREE
-C  FOR WESTERN VARIANTS CALCULATE TOTAL CUBIC FOR ALL TREES
+C       EASTERN VARIANTS DONT'T NEED TOTAL VOLUME SO GO TO NEXT TREE
+C       FOR WESTERN VARIANTS CALCULATE TOTAL CUBIC FOR ALL TREES
 C
-        IF((IREGN.EQ.8).OR.(IREGN.EQ.9))GO TO 500
+        IF(IREGN.EQ.8 .OR. IREGN.EQ.9) GO TO 500
         VOLEQ=VEQNNC(ISPC)
         STUMP=STMP(ISPC)
         PROD='02'
       ELSEIF(D.LT.BFMIND(ISPC))THEN
+C
+C       Tree DBH meets min merch for Pulp/CuFT only
+C
         VOLEQ=VEQNNC(ISPC)
         STUMP=STMP(ISPC)
         PROD='02'
         IF(IREGN.EQ.8)THEN
+          IF(DEBUG)WRITE(JOSTND,*)'R8 ISPC TOPD: ',ISPC,TOPD(ISPC)
           IF((TOPD(ISPC).NE.0.).AND.TOPD(ISPC).NE.4.0)THEN
             TVOL4=0.
           ELSE
-C----------
-C  CALL R8VOL TO CALCULATE PULPWOOD AND HEIGHT TO 4 IN TOP
-C  SET EQUATION NUMBER FOR PULPWOOD TREE
-C----------
+C           ----------
+C           CALL R8VOL TO CALCULATE PULPWOOD AND HEIGHT TO 4 IN TOP
+C           SET EQUATION NUMBER FOR PULPWOOD TREE
+C           ----------
             WRITE(CFTOP,'(I1)')NINT(TOPD(ISPC))
             VOLEQ(3:3)=CFTOP
-C----------
-C  SET CONSTANT ARGUMENTS IN CALL TO R8VOL
+C           ----------
+C           SET CONSTANT ARGUMENTS IN CALL TO R8VOL
 C
-C  INTEGER CCONSTANT ARGUMENTS - ALL PULPWOOD TREE
-C----------
+C           INTEGER CCONSTANT ARGUMENTS - ALL PULPWOOD TREE
+C           ----------
             XTOPD=0.
             FORST='  '
             CTYPE='F'
@@ -155,9 +151,11 @@ C
             CALL R8VOL(VOLEQ,D,H,HTC1,HTC2,XTOPD,PROD,TVOL,FORST,
      &                 I01,I02,CTYPE,BFPFLG,CUPFLG,SPFLG,IERR)
 C           
-            IF(DEBUG)WRITE(JOSTND,*)'AFTER R8VOL-VOLEQ= ',VOLEQ,'ISPC= '
+            IF(DEBUG)WRITE(JOSTND,*)
+     &      'AFTER PULP R8VOL-VOLEQ= ',VOLEQ,'ISPC= '
      &      ,ISPC,' D=',D,' H=',H,' HTC1=',HTC1,' HTC2=',HTC2,' PROD=',
-     &      PROD,' VOL4=',TVOL(4),' VOL5=',TVOL(5),' VOL7=',TVOL(7)
+     &      PROD,' VOL1=',TVOL(1),' VOL2=',TVOL(2),' VOL4=',TVOL(4),
+     &      ' VOL5=',TVOL(5),' VOL7=',TVOL(7)
 C
             IF(IT.GT.0)HT2TD(IT,2)=HTC2
             TVOL4=TVOL(4)
@@ -166,9 +164,67 @@ C
         ENDIF                                  ! END OF REGION 8 PULP LOGIC
 C
       ELSE
+C
+C       Tree DBH meets min merch for Pulp/CuFT and Saw/BdFt
+C
+C       Region 8 Note:
+C       Due to structure of R8 equations and routines, must make call
+C       to get Height to top diameter for pulp wood, HT2TD(x,2), first.
+C       Then process sawlog. The code to do this is copy of code above
+C       in pulpwood only process
+C
         VOLEQ=VEQNNC(ISPC)
-        STUMP=BFSTMP(ISPC)
-        PROD='01'
+        STUMP=STMP(ISPC)
+        PROD='02'
+        IF(IREGN.EQ.8)THEN
+          IF(DEBUG)WRITE(JOSTND,*)'R8 ISPC TOPD: ',ISPC,TOPD(ISPC)
+          IF((TOPD(ISPC).NE.0.).AND.TOPD(ISPC).NE.4.0)THEN
+            TVOL4=0.
+          ELSE
+C           ----------
+C           CALL R8VOL TO CALCULATE PULPWOOD AND HEIGHT TO 4 IN TOP
+C           SET EQUATION NUMBER FOR PULPWOOD TREE
+C           ----------
+            WRITE(CFTOP,'(I1)')NINT(TOPD(ISPC))
+            VOLEQ(3:3)=CFTOP
+C           ----------
+C           SET CONSTANT ARGUMENTS IN CALL TO R8VOL
+C
+C           INTEGER CCONSTANT ARGUMENTS - ALL PULPWOOD TREE
+C           ----------
+            XTOPD=0.
+            FORST='  '
+            CTYPE='F'
+            BFPFLG=1
+            CUPFLG=1
+            SPFLG=1
+            IERR=0
+            I01=0
+            I02=0
+            HTC1=0.
+            HTC2=0.
+C           
+            CALL R8VOL(VOLEQ,D,H,HTC1,HTC2,XTOPD,PROD,TVOL,FORST,
+     &                 I01,I02,CTYPE,BFPFLG,CUPFLG,SPFLG,IERR)
+C           
+            IF(DEBUG)WRITE(JOSTND,*)
+     &      'AFTER SAW  R8VOL-VOLEQ= ',VOLEQ,'ISPC= '
+     &      ,ISPC,' D=',D,' H=',H,' HTC1=',HTC1,' HTC2=',HTC2,' PROD=',
+     &      PROD,' VOL1=',TVOL(1),' VOL2=',TVOL(2),' VOL4=',TVOL(4),
+     &      ' VOL5=',TVOL(5),' VOL7=',TVOL(7)
+C
+            IF(IT.GT.0)HT2TD(IT,2)=HTC2
+            TVOL4=TVOL(4)
+          ENDIF
+        ENDIF                           ! END OF REGION 8 PULP LOGIC
+
+C       **** End of Region 8 special process to get HT2TD(x,2) ****
+
+        IF(IREGN.EQ.8 .OR. IREGN.EQ.9)THEN
+          STUMP=BFSTMP(ISPC)
+          PROD='01'
+        ENDIF
+        
         IF(IREGN.EQ.8)THEN
           WRITE(BFTOP,'(I1)')NINT(BFTOPD(ISPC))
           VOLEQ(3:3)=BFTOP
@@ -179,17 +235,16 @@ C
             TVOL4=0.0
             TVOL2=0.0
             IF(IT.GT.0)HT2TD(IT,1)=0.
-            IF(IT.GT.0)HT2TD(IT,2)=0.
             GOTO 500
           ENDIF
         ENDIF
       ENDIF
       I1=0
-      I3=3
-      I7=7
-      I15=15
-      I20=20
-      I21=21
+      I3=3      ! second dimension of LOGDIA(,x) array
+      I7=7      ! first dimension of LOGVOL(x,) array
+      I15=15    ! Dimension of VOL(x) array
+      I20=20    ! second dimension of LOGVOL(,x) array, dimension of LOGLEN(x)
+      I21=21    ! first dimension of LOGDIA(x,) array, dimension of BOLHT(x)
       X1=0.
 C----------
 C  CONSTANT CHARACTER ARGUMENTS
@@ -220,7 +275,7 @@ C
       IF((VOLEQ(4:6).EQ.'DVE').OR.(VOLEQ(4:6).EQ.'dve'))IFC=0     
       IF(DEBUG)WRITE(JOSTND,*)' ISPC,INTFOR,D,FC,IFC= ',
      &ISPC,INTFOR,D,FC,IFC
-      TLOGS = 0.
+      TLOGS = 0
       NOLOGP = 0.
       NOLOGS = 0.
       HT1PRD=0.
@@ -232,16 +287,41 @@ C
       LIVEDUM=' '
       CONSPEC='    '
 C
+C     Setting top diameter spec for calculating height to diameter for
+C     Merch CuFt.
+C     Region 5 uses inside bark diameter,
+C     Region 9 computes a saw timber CuFt, VOL(4),
+C     other regions need top diameter set at secondary product for this
+C     step of process. That is why TOPDIAM for Region 9 is set to MTOPP
+C     here which is the saw timber spec instead of typical CuFt spec, MTOPS.
 C
-C
-      IF(IREGN.EQ.5)MTOPP=TOPD(ISPC)*BARK
-C
+      IF(IREGN.EQ.5) THEN
+        TOPDIAM=TOPD(ISPC)*BARK
+      ELSE
+        IF(IREGN.EQ.9) THEN
+          TOPDIAM=MTOPP
+        ELSE
+          TOPDIAM=MTOPS
+        ENDIF
+      ENDIF
+
       DBTBH = D*(1-BARK)
-      IF(DEBUG)WRITE(JOSTND,*)' CALLING VOLILNIT CF ISPC,ARGS = ',
-     &  ISPC,IREGN,FORST,VEQNNC(ISPC),MTOPP,MTOPS,STMP(ISPC),D,H,
-     &  IFC,DBTBH,BARK,CUPFLG,BFPFLG,PROD
-C
-      CALL VOLINIT(IREGN,FORST,VOLEQ,MTOPP,MTOPS,STUMP,
+
+
+      IF(DEBUG)WRITE(JOSTND,*)
+     & ' CALLING VOLINIT CF ISPC,IREGN,FORST,VEQNNC = ',
+     &                       ISPC,IREGN,FORST,VEQNNC(ISPC)
+      IF(DEBUG)WRITE(JOSTND,*)'  TOPDIAM,MTOPS,STMP(ISPC),D,H = ',
+     &                           TOPDIAM,MTOPS,STMP(ISPC),D,H
+      IF(DEBUG)WRITE(JOSTND,*)'  IFC,DBTBH,BARK,CUPFLG,BFPFLG,PROD = ',
+     &                           IFC,DBTBH,BARK,CUPFLG,BFPFLG,PROD
+
+C     It does not appear that the secondary product top diameter MTOPS,
+C     5th argument, functions. So it is used in primary product position on
+C     this call to compute the height to merch cubic top diameter. Region 5
+C     is a special case and so TOPDIAM is set above.
+
+      CALL VOLINIT(IREGN,FORST,VOLEQ,TOPDIAM,MTOPS,STUMP,
      & D,X1,HTTYPE,H,I1,HT1PRD,HT2PRD,X1,X1,X1,X1,I1,X1,X1,IFC,
      & DBTBH,BARK*100.,I3,I7,I15,I20,I21,TVOL,LOGVOL,LOGDIA,LOGLEN,
      & BOLHT,TLOGS,NOLOGP,NOLOGS,CUTFLG,BFPFLG,CUPFLG,CDPFLG,
@@ -249,46 +329,72 @@ C
      & BADUM,SIDUM,CTYPE,IERR,IDIST)
 C
       IF(DEBUG)WRITE(JOSTND,*)'AFTER VOLINIT CF IERR,PROD,TVOL= ',
-     & IERR,PROD,TVOL
-      IF(DEBUG)WRITE(JOSTND,*)' VOLEQ,HT1PRD,TLOGS,NOLOGP= ',
-     & VOLEQ,HT1PRD,TLOGS,NOLOGP      
-      IF(DEBUG)WRITE(JOSTND,*)' AFTER VOLINIT CF TVOL= ',TVOL
-      IF(DEBUG)WRITE(JOSTND,*)' AFTER VOLINIT CF PROD,LOGVOL= ',
-     &                          PROD,LOGVOL
-      IF(DEBUG)WRITE(JOSTND,*)' AFTER VOLINIT CF LOGDIA= ',
-     &                         LOGDIA
-      IF(DEBUG)WRITE(JOSTND,*)' AFTER VOLINIT CF LOGLEN= ',
-     &                           LOGLEN
+     &                                          IERR,PROD,TVOL
+      IF(DEBUG)WRITE(JOSTND,*)'   VOLEQ,HT1PRD,HT2PRD,TLOGS,NOLOGP= ',
+     &                            VOLEQ,HT1PRD,HT2PRD,TLOGS,NOLOGP
+c      IF(DEBUG)WRITE(JOSTND,*)'   LOGVOL= ',
+c     &                            LOGVOL
+c      IF(DEBUG)WRITE(JOSTND,*)'   LOGDIA= ',
+c     &                            LOGDIA
+c      IF(DEBUG)WRITE(JOSTND,*)'   LOGLEN= ',
+c     &                            LOGLEN
+
 C----------
-C  STORE CALCULATED MERCH HEIGHTS
+C  STORE CALCULATED MERCH CUBIC HEIGHT
+C                               West     East
+C  Primary product (HT1PRD):    BdFt     Sawlog
+C  Secondary Product (HT2PRD):  CuFt     Pulpwood
+C
+C  While working on this routine 5/24/2017, using default volume equation 
+C  assignments, Region 9 (Variants CS, LS, NE) is the only one that
+C  returns value in HT2PRD, others are captured from HT1PRD with the
+C  merch CuFt top diameter set for primary product (volinit 4th argument).
+C  
+C  Region 8 pulpwood height already stored 
 C----------
-      IF(D.GE.DBHMIN(ISPC))THEN
-        IF(IT.GT.0)HT2TD(IT,2)=HT1PRD
-      ELSE
-        IF(IT.GT.0)HT2TD(IT,2)=HT2PRD
-      ENDIF        
       IF(D.GE.BFMIND(ISPC))THEN
         IF(IT.GT.0)HT2TD(IT,1)=HT1PRD
-      ELSE
-        IF(IT.GT.0)HT2TD(IT,1)=HT2PRD
+      ENDIF        
+      IF(D.GE.DBHMIN(ISPC))THEN
+        IF(IT.GT.0) THEN
+          IF(IREGN.EQ.8) THEN
+            CONTINUE
+          ELSEIF (IREGN .EQ.9) THEN
+            HT2TD(IT,2)=HT2PRD
+          ELSE
+            HT2TD(IT,2)=HT1PRD
+          ENDIF
+        ENDIF
       ENDIF
+
+C     Region 8 requires at least 10' product from tree for tree
+C     volume to be included.
       IF((IREGN.EQ.8).AND.(HT1PRD.LT.10.))THEN
         TVOL(4)=0.
         TVOL(2)=0.
       ENDIF  
 C----------
 C  END OF CF SECTION
-C  IF THE BF VOLUME EQ. IS DIFFERENT THAN THE CF VOLUME EQ.
-C  THEN STORE CUBIC VOLUMES AND CALL PROFILE AGAIN TO CALCULATE
-C  BF VOLUMES ONLY
 C----------
-      IF((VEQNNB(ISPC).NE.VEQNNC(ISPC)).OR.(IREGN.EQ.5))THEN
+
+        STUMP=BFSTMP(ISPC)
+        PROD='01'
+
+C  IF THE BF VOLUME EQUATION IS DIFFERENT THAN THE CF VOLUME EQ OR
+C  THE TOP DIAMETER SPECIFICATION FOR THE CUFT AND BDFT PRODUCTS
+C  ARE DIFFERENT, THEN STORE CUBIC VOLUMES AND CALL PROFILE AGAIN
+C  TO CALCULATE BF VOLUMES ONLY
+C----------
+      IF((VEQNNB(ISPC).NE.VEQNNC(ISPC)).OR.(IREGN.EQ.5)
+     &  .OR. MTOPP.NE.MTOPS)THEN
         TVOL1=TVOL(1)
         TVOL4=TVOL(4)
         TVOL7=TVOL(7)
         VOLEQ=VEQNNB(ISPC)
-        IF((IREGN.EQ.8)
-     &                 .AND.(VOLEQ(4:6).EQ.'CLK'))THEN
+
+C       Region 8 Clark equation needs saw timber top diameter spec 
+C       inserted into equation identification.
+        IF(IREGN.EQ.8 .AND. VOLEQ(4:6).EQ.'CLK')THEN
           WRITE(BFTOP,'(I1)')NINT(BFTOPD(ISPC))
           VOLEQ(3:3)=BFTOP
         ENDIF
@@ -324,7 +430,7 @@ C  CORDWOOD
 C  SECONDARY PRODUCT
         SPFLG=0
 C  CONSTANTS
-        TLOGS = 0.
+        TLOGS = 0
         NOLOGP = 0.
         NOLOGS = 0.
         IF((IREGN.NE.8)
@@ -342,39 +448,38 @@ C  CONSTANTS
         HTTDUM=0
         LIVEDUM=' '
         CONSPEC='   '
-C
-C
-C
-C
+
         IF(IREGN.EQ.5)MTOPP=BFTOPD(ISPC)*BARK
-C
+
       DBTBH = D*(1-BARK)
       IF(DEBUG)WRITE(JOSTND,*)' CALLING VOLILNIT BF ISPC,ARGS = ',
      &  ISPC,IREGN,FORST,VEQNNB(ISPC),MTOPP,MTOPS,BFSTMP(ISPC),D,H,
      &  HT1PRD,IFC,DBTBH,BARK,CUTFLG,BFPFLG,CUPFLG,CDPFLG,
      &  SPFLG,CONSPEC,PROD
-C
+
         CALL VOLINIT(IREGN,FORST,VOLEQ,MTOPP,MTOPS,BFSTMP(ISPC),
      &  D,X1,HTTYPE,H,I1,HT1PRD,HT2PRD,X1,X1,X1,X1,I1,X1,X1,IFC,
      &  DBTBH,BARK*100.,I3,I7,I15,I20,I21,TVOL,LOGVOL,LOGDIA,LOGLEN,
      &  BOLHT,TLOGS,NOLOGP,NOLOGS,CUTFLG,BFPFLG,CUPFLG,CDPFLG,
      &  SPFLG,CONSPEC,PROD,HTTDUM,LIVEDUM,
      &  BADUM,SIDUM,CTYPE,IERR,IDIST)
-C
-        IF(DEBUG)WRITE(JOSTND,*)' VOLEQ,HT1PRD,TLOGS,NOLOGP= ',
-     &   VOLEQ,HT1PRD,TLOGS,NOLOGP      
-        IF(DEBUG)WRITE(JOSTND,*)' AFTER VOLINIT BF TVOL= ',TVOL
-        IF(DEBUG)WRITE(JOSTND,*)' AFTER VOLINIT BF PROD,LOGVOL= ',
-     &                            PROD,LOGVOL
-        IF(DEBUG)WRITE(JOSTND,*)' AFTER VOLINIT BF LOGDIA= ',
+
+      IF(DEBUG)WRITE(JOSTND,*)'AFTER VOLINIT BF IERR,PROD,TVOL= ',
+     &                                          IERR,PROD,TVOL
+      IF(DEBUG)WRITE(JOSTND,*)'   VOLEQ,HT1PRD,HT2PRD,TLOGS,NOLOGP= ',
+     &                            VOLEQ,HT1PRD,HT2PRD,TLOGS,NOLOGP
+      IF(DEBUG)WRITE(JOSTND,*)'   LOGVOL= ',
+     &                            LOGVOL
+      IF(DEBUG)WRITE(JOSTND,*)'   LOGDIA= ',
      &                            LOGDIA
-        IF(DEBUG)WRITE(JOSTND,*)' AFTER VOLINIT BF LOGLEN= ',
+      IF(DEBUG)WRITE(JOSTND,*)'   LOGLEN= ',
      &                            LOGLEN
-C
+
         IF(D.GE.BFMIND(ISPC))THEN
           IF(IT.GT.0)HT2TD(IT,1)=HT1PRD
         ELSE
-          IF(IT.GT.0)HT2TD(IT,1)=HT2PRD
+          IF(IT.GT.0)HT2TD(IT,1)=0.0
+          TVOL(2)=0.0
         ENDIF
 C
 C  WHEN THERE IS NO CF VOL. EQ. NO. (E.G. CF METHC=2 OR 3, AND CFVOL
@@ -414,7 +519,7 @@ C----------
           IF(VM.LT.0.)VM=0.
         ENDIF
       ENDIF
-C
+
       IF(D.LT.BFMIND(ISPC))THEN
         BBFV=0.
       ELSE
@@ -425,6 +530,8 @@ C
         ENDIF
         IF(BBFV.LT.0.)BBFV=0.
       ENDIF
+      IF(DEBUG)WRITE(JOSTND,*)'  IN FVSVOL D, VN, VM, VMAX, BBFV = ',
+     &                            D, VN, VM, VMAX, BBFV
       CTKFLG = .TRUE.
       BTKFLG = .TRUE.
       RETURN
@@ -491,7 +598,7 @@ C----------
      &       (VVER(:2).EQ.'LP'))THEN
         CALL HANNBAREBF(BBFV,ISPC,D,H,VMAX,BTKFLG)
       ELSEIF(VVER(:2).EQ.'NC')THEN
-        ITD=BFTOPD(ISPC)+0.5
+        ITD=INT(BFTOPD(ISPC)+0.5)
         IF(ITD.GT.100) ITD = 100
         CALL LOGS(D,H,ITD,ITD,DBHMIN(ISPC),BFMIND(ISPC),ISPC,
      &            BFSTMP(ISPC),BV,JOSTND)
@@ -522,5 +629,5 @@ C----------
       TDIBC=TOPD(ISPC)*BRATIO(ISPC,D,H)
       TDIBB=BFTOPD(ISPC)*BRATIO(ISPC,D,H)
       RETURN
-C
+
       END

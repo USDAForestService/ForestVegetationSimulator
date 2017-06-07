@@ -38,8 +38,8 @@ C---
       INTEGER(SQLINTEGER_KIND),parameter:: MaxStringLen=255
 
       CHARACTER*2000 SQLStmtStr
-      CHARACTER*10  DATO
-      CHARACTER*8   TIM
+      CHARACTER*10  DATO, REV
+      CHARACTER*8   TIM, SVN
       CHARACTER*(*) CFN
       CHARACTER(len=MaxStringLen) TIMESTAMP
       INTEGER IFORSURE, IFORSR, I, KODE, IRCODE
@@ -51,7 +51,10 @@ C---
 
       CHARACTER*2 VAR
 
+      INCLUDE 'INCLUDESVN.F77'
+
       CALL VARVER(VVER)
+      CALL REVISE(VVER,REV)
       VAR=VVER(:2)
       IF(VAR.EQ.'BP' .OR. VAR.EQ.'LP' .OR. VAR.EQ.'SF' .OR.
      & VAR.EQ.'SM' .OR. VAR.EQ.'SP')VAR='CR'
@@ -175,6 +178,8 @@ C---------
      -              "KeywordFile Text null,"//
      -              "SamplingWt double null,"//
      -              "Variant Text null,"//
+     -              "Version Text null,"//
+     -              "RV Text null,"//
      -              "Groups Text null,"//
      -              "RunDateTime Text null)"
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
@@ -187,6 +192,8 @@ C---------
      -              "KeywordFile Text,"//
      -              "SamplingWt Number,"//
      -              "Variant Text,"//
+     -              "Version Text,"//
+     -              "RV Text,"//
      -              "Groups Text,"//
      -              "RunDateTime Text);"
         ELSE
@@ -199,6 +206,8 @@ C---------
      -              "KeywordFile char(50),"//
      -              "SamplingWt real,"//
      -              "Variant char(2),"//
+     -              "Version char(10),"//
+     -              "RV char(8),"//
      -              "Groups char(250),"//
      -              "RunDateTime char(19))"
         ENDIF
@@ -222,10 +231,12 @@ C----------
       IF (KEYFNAME.EQ.' ') KEYFNAME='Unknown'
       WRITE(SQLStmtStr,*)"INSERT INTO ",trim(TABLENAME),
      - " (CaseID,Stand_CN,StandID,MgmtID,RunTitle,KeywordFile,",
-     - "SamplingWt,Variant,Groups,RunDateTime) VALUES('",CASEID,"','",
+     - "SamplingWt,Variant,Version,RV,Groups,RunDateTime) ",
+     - "VALUES('",CASEID,"','",
      - TRIM(ADJUSTL(DBCN)),"','",TRIM(ADJUSTL(NPLT)),"','",
      - TRIM(ADJUSTL(MGMID)),"','",TRIM(ADJUSTL(ITITLE)),"','",
-     - TRIM(ADJUSTL(KEYFNAME)),"',",SAMWT,",'",VAR,"','",
+     - TRIM(ADJUSTL(KEYFNAME)),"',",SAMWT,",'",VAR,"',",
+     - "'",SVN,"','",REV,"','",
      - TRIM(ADJUSTL(SLSET)),"','",TRIM(ADJUSTL(TIMESTAMP)),"')"
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)

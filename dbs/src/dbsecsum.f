@@ -1,9 +1,9 @@
-      subroutine DBSECSUM(beginAnalYear, endTime, pretend, costUndisc,
-     &      revUndisc, costDisc, revDisc, npv, irr, irrCalculated,
-     &      bcRatio, bcRatioCalculated, rrr, rrrCalculated,
-     &      sev, sevCalculated, forestValue, forestValueCalculated,
-     &      reprodValue, reprodValueCalculated, ft3Volume, bfVolume,
-     &      discountRate, sevInput, sevInputUsed)
+      subroutine DBSECSUM(STDID,beginAnalYear, endTime, pretend,
+     &      costUndisc,revUndisc, costDisc, revDisc, npv, irr,
+     &      irrCalculated,bcRatio, bcRatioCalculated, rrr,
+     &      rrrCalculated,sev, sevCalculated, forestValue,
+     &      forestValueCalculated,reprodValue, reprodValueCalculated,
+     &      ft3Volume, bfVolume,discountRate, sevInput, sevInputUsed)
 
 C $Id$
 
@@ -15,6 +15,7 @@ C $Id$
       character(len=*), parameter :: tableName = 'FVS_EconSummary'
 
       character(len=30)   :: decoratedTableName
+      character(len=26)   :: STDID
       character(len=*)    :: pretend
       character(len=2000) :: SQLStmtStr
         logical success
@@ -70,6 +71,7 @@ C $Id$
         if(trim(DBMSOUT) .eq. 'ACCESS') then
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
      &          // 'CaseID text, '
+     &          // 'StandID text, '
      &          // 'Year int null, '
      &          // 'Period int null, '
      &          // 'Pretend_Harvest text null, '
@@ -93,6 +95,7 @@ C $Id$
         elseif(trim(DBMSOUT) .eq. 'EXCEL') then
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
      &          // 'CaseID text, '
+     &          // 'StandID text, '
      &          // 'Year Int, '
      &          // 'Period Int, '
      &          // 'Pretend_Harvest Text, '
@@ -114,6 +117,7 @@ C $Id$
         else
             SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
      &          // 'CaseID char(36), '
+     &          // 'StandID char(26), '
      &          // 'Year int null, '
      &          // 'Period int null, '
      &          // 'Pretend_Harvest char(3) null, '
@@ -148,13 +152,14 @@ C $Id$
       end if
 
       write(SQLStmtStr, *) 'INSERT INTO ',
-     &   decoratedTableName,'(CaseID, Year, Period,',
+     &   decoratedTableName,'(CaseID, StandID, Year, Period,',
      &   'Pretend_Harvest, Undiscounted_Cost, Undiscounted_Revenue,',
      &   'Discounted_Cost, Discounted_Revenue, PNV, IRR, BC_Ratio,',
      &   'RRR, SEV, Value_of_Forest, Value_of_Trees,',
      &   'Mrch_Cubic_Volume, Mrch_BoardFoot_Volume, Discount_Rate,',
      &   'Given_SEV)',
-     &   'VALUES (''',CASEID,''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     &   'VALUES (''',CASEID,''',''',STDID,''',?,?,?,?,?,?,?,?,?,?,',
+     &   '?,?,?,?,?,?,?,?)'
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
      -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
