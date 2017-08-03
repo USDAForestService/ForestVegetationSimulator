@@ -25,7 +25,7 @@ C
 C     ALL VARIABLES ARE IN THE ORGANON.F77 COMMON BLOCK
 C----------
       INTEGER ILIMIT,IPNT,MXL,MXI,MXR,I,II
-      PARAMETER (MXL=3,MXI=8,MXR=9)
+      PARAMETER (MXL=3,MXI=10,MXR=15)
       LOGICAL LOGICS(MXL)
       REAL WK3(MAXTRE)
       INTEGER*4 INTS(MXI)
@@ -42,6 +42,8 @@ C----------
       INTS( 6) = BHAGE
       INTS( 7) = NTREES2
       INTS( 8) = IERROR
+      INTS( 9) = BLMRA
+      INTS(10) = ORGVEQ
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
       INTS2( 1) = ITEST
       CALL IFWRIT (WK3, IPNT, ILIMIT,INTS2,   1, 2)
@@ -104,9 +106,15 @@ C----------
       REALS( 4) = MSDI_2
       REALS( 5) = MSDI_3
       REALS( 6) = BABT
-      REALS( 7) = LOGTA
-      REALS( 8) = LOGML
-      REALS( 9) = LOGLL
+      REALS( 7) = CFTD
+      REALS( 8) = CFTDHW
+      REALS( 9) = CFSH
+      REALS(10) = LOGLL
+      REALS(11) = LOGML
+      REALS(12) = LOGTD
+      REALS(13) = LOGSH
+      REALS(14) = LOGTA
+      REALS(15) = BLMMIND
       CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, MXR, 2)
 C----------
 C     PUT THE REAL ARRAYS USING BFWRIT.

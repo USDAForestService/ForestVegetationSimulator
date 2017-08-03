@@ -485,7 +485,6 @@
 ../op/src/orgspc.f
 ../op/src/regent.f
 ../op/src/sitset.f
-../op/src/vols.f
 ../organon/src/crngrow.f
 ../organon/src/diagro.f
 ../organon/src/diamcal.f
@@ -507,6 +506,7 @@
 ../organon/src/varget.f
 ../organon/src/varput.f
 ../organon/src/voleqns.f
+../organon/src/vols.f
 ../organon/src/whphg.f
 ../organon/src/woodq2.f
 ../organon/src/woodqual.f
