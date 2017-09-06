@@ -50,6 +50,7 @@ C     3                   SWARNING,TWARNING,IERROR,IRAD,GROWTH,ACALIB)
       LOGICAL*2 EVEN,ERROR,MISSHT,MISSCR,RAD
       INTEGER*4 I,II,J,K,KK,IDXAGE,IDXCYC
 C      INTEGER*4 IANS,IYN
+C
       EVEN =   .FALSE.
       IF(IEVEN .EQ. 1) THEN
          EVEN = .TRUE.
@@ -80,9 +81,9 @@ C      INTEGER*4 IANS,IYN
          IDXCYC=30
       ENDIF
       DO I=1,2000
-        TDATAI(I,1)=0.0
-        TDATAI(I,2)=0.0
-        TDATAI(I,3)=0.0
+        TDATAI(I,1)=0
+        TDATAI(I,2)=0
+        TDATAI(I,3)=0
         TDATAR(I,1)=0.0
         TDATAR(I,2)=0.0
         TDATAR(I,3)=0.0

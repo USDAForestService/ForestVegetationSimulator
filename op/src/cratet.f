@@ -216,16 +216,16 @@ C  ORGANON VARIABLE = FVS VARIABLE
 C-----------
       NLOAD = 0
       DO I = 1, IREC1
-        TREENO(I) = I        ! FVS TREE NUMBER
-        PTNO(I)= ITRE(I)     ! POINT NUMBER OF THE TREE RECORD          
-        DBH1(I)= DBH(I)      ! DBH 
+        TREENO(I) = I                  ! FVS TREE NUMBER
+        PTNO(I)= ITRE(I)               ! POINT NUMBER OF THE TREE RECORD          
+        DBH1(I)= DBH(I)                ! DBH 
         IF(DBH1(I) .LT. 0.1) DBH1(I)=0.1
-        HT1OR(I)= HT(I)      ! TOTAL HEIGHT AT BEGINNING OF PERIOD
+        HT1OR(I)= HT(I)                ! TOTAL HEIGHT AT BEGINNING OF PERIOD
         IF(HT(I).GT.0. .AND. HT1OR(I).LT.4.6) HT1OR(I)=4.6
-        CR1(I)= REAL(ICR(I)) / 100.0 ! MEASURED/PREDICTED CROWN RATIO
-        EXPAN1(I)= PROB(I)   ! EXPANSION FACTOR
-        RADGRO(I)= DG(I)     ! INSIDE BARK RADIAL GROWTH 
-        USER(I)= ISPECL(I)   ! USER CODE AT BEGINNING OF PERIOD   
+        CR1(I)= REAL(ICR(I)) / 100.0   ! MEASURED/PREDICTED CROWN RATIO
+        EXPAN1(I)= PROB(I)             ! EXPANSION FACTOR
+        RADGRO(I)= DG(I)/2.0           ! INSIDE BARK RADIAL GROWTH 
+        USER(I)= ISPECL(I)             ! USER CODE AT BEGINNING OF PERIOD   
         NLOAD = NLOAD + 1
         ITEM(NLOAD) = I
 C----------
@@ -247,11 +247,12 @@ C----------
       IEVEN = INDS(4)
       IF(INDS(4) .EQ. 1 ) THEN               !STAND IS EVEN-AGED
         STAGE = IAGE+IY(ICYC)-IY(1)
-        BHAGE     = STAGE - 5                ! BREAST HEIGHT AGE
+        BHAGE     = STAGE - 6                ! BREAST HEIGHT AGE
       ELSE
         STAGE     = 0
         BHAGE     = 0                        ! BREAST HEIGHT AGE
       ENDIF
+      IF(DEBUG)WRITE(JOSTND,*)' STAGE,BHAGE= ',STAGE,BHAGE
 C----------
 C  CALL PREPARE
 C----------
@@ -846,9 +847,7 @@ C----------
      &       ((T49,11(I4,2X)/)))
       DO 160 I=1,MAXSP
       KNT(I)=0
-      KNT2(I)=KNTOCR(I)
-      IF(DEBUG)WRITE(JOSTND,*)' I,IPTR,KNTOCR,KNT2= ',
-     & I,IPTR,KNTOCR(I),KNT2(I)
+      KNT2(I)=0
   160 CONTINUE
 C----------
 C  CHECK FOR MISSING CROWNS ON LIVE TREES.
@@ -865,6 +864,16 @@ C----------
       ENDIF
       IF(ITRE(I).LE.0) ITRE(I) = 9999
   190 CONTINUE
+C----------
+C  ADD THE NUMBER OF MISSING CROWN RATIOS DUBBED BY ORGANON TO THE
+C  NUMBER BEING DUBBED BY FVS.
+C----------
+      DO ISPC=1,MAXSP
+      IPTR = IREF(ISPC)
+      KNT2(IPTR) = KNT2(IPTR) + KNTOCR(ISPC)
+      IF(DEBUG)WRITE(JOSTND,*)' ISPC,IPTR,KNTOCR,KNT2= ',
+     &ISPC,IPTR,KNTOCR(ISPC),KNT2(ISPC) 
+      ENDDO
 C----------
 C  CHECK FOR MISSING CROWNS ON CYCLE 0 DEAD TREES.
 C----------
