@@ -292,7 +292,6 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        ISTANDDATA(4),int(4,SQLLEN_KIND),Location_LI)
 
          CASE('HABITAT','PV_CODE')
-          CHAB = ' '
           ISTANDDATA(5) = 0
           IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
      -       DType.EQ.SQL_LONGVARCHAR) THEN
@@ -621,8 +620,8 @@ C
         ENDIF
       ENDIF
       IF(Habitat_LI.NE.0) THEN
-         CHAB = ' '
          IF (LHABISNUM) THEN   ! HABITAT CODE IS NUMBER.
+            CHAB = ' '
             WRITE (CHAB,'(I10)') ISTANDDATA(5)
          GOTO 45
          ELSE
@@ -661,9 +660,10 @@ C
          ENDIF
       ENDIF
 
-      IF(Ecoregion_LI.NE.SQL_NULL_DATA) THEN
+      IF(Ecoregion_LI.GT.0) THEN
         IF (VVER(:2).EQ.'SN') THEN
           IF (LECOISNUM) THEN   ! ECOREGION CODE IS NUMBER.
+            CECOREG = " "
             WRITE (CECOREG,'(I10)') ISTANDDATA(54)
             GOTO 46
           ELSE
@@ -788,6 +788,7 @@ C
 C     SITE SPECIES CODE PROCESSING
       IF(SiteSp_LI.GT.0) THEN
          IF (LSITEISNUM) THEN   ! SITE SPECIES CODE IS NUMBER.
+            CSITECODE = " "
             WRITE (CSITECODE,'(I8)') ISTANDDATA(34)
          ENDIF
 
