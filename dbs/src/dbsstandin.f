@@ -57,11 +57,11 @@ COMMONS
       CHARACTER*5000 SQLSTR
       CHARACTER*10 KARD2
       CHARACTER(LEN=11) CHAB,CECOREG
-      CHARACTER(LEN=14) CFotoCode
+      CHARACTER(LEN=15) CFotoCode
       CHARACTER(LEN=LEN(DBCN)+1) TMP_DBCN
       CHARACTER(LEN=LEN(NPLT)+1) CSTAND
       CHARACTER*7 VVER
-      CHARACTER*9 CSITECODE
+      CHARACTER*10 CSITECODE
       CHARACTER*40 PHOTOREF(32), REF
       REAL ARRAY2,X(1)
       REAL XXG,FOTODATA(2)
@@ -279,7 +279,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
           IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
      -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
-     -        CECOREG,int(LEN(CECOREG),SQLLEN_KIND),Ecoregion_LI)
+     -        CECOREG,int(LEN(CECOREG)-1,SQLLEN_KIND),Ecoregion_LI)
             LECOISNUM =.FALSE.
           ELSE
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
@@ -292,10 +292,12 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        ISTANDDATA(4),int(4,SQLLEN_KIND),Location_LI)
 
          CASE('HABITAT','PV_CODE')
+          CHAB = ' '
+          ISTANDDATA(5) = 0
           IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
      -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
-     -        CHAB,int(LEN(CHAB),SQLLEN_KIND),Habitat_LI)
+     -        CHAB,int(LEN(CHAB)-1,SQLLEN_KIND),Habitat_LI)
             LHABISNUM =.FALSE.
           ELSE
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
@@ -379,7 +381,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
           IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
      -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
-     -        CSITECODE,int(LEN(CSITECODE),SQLLEN_KIND),SiteSp_LI)
+     -        CSITECODE,int(LEN(CSITECODE)-1,SQLLEN_KIND),SiteSp_LI)
             LSITEISNUM=.FALSE.
           ELSE
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_INTEGER,
@@ -492,7 +494,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
      -        ISTANDDATA(52),int(4,SQLLEN_KIND), FotoRef_LI)
          CASE('PHOTO_CODE')
           iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
-     -        CFotoCode,int(LEN(CFotoCode),SQLLEN_KIND), FotoCode_LI)
+     -        CFotoCode,int(LEN(CFotoCode)-1,SQLLEN_KIND), FotoCode_LI)
         END SELECT
 
       ENDDO
@@ -513,8 +515,6 @@ C     Fetch the Row Data
         ENDIF
       ENDIF
 
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlIn)
-
 C     DEFINE VVER IN CASE IT IS NEEDED.
 
       CALL VARVER(VVER)
@@ -526,7 +526,7 @@ C     STAND CONTROL NUMBER SET BY KEYWORD (STANDCN OR STDIDENT)
 C     IS HIGHEST PROIORITY. OTHERWISE USE VALUE FROM DATA BASE
 C
       IF(DBCN.EQ.' ')THEN
-        IF(DBCN_LI.NE.SQL_NULL_DATA) THEN
+        IF(DBCN_LI.GT.0) THEN
            I=INDEX(TMP_DBCN,CHAR(0))
            IF (I.GT.0) TMP_DBCN(I:)=' '
            DBCN = ADJUSTL(TMP_DBCN)
@@ -537,7 +537,7 @@ C
          DBCN=TRIM(ADJUSTL(DBCN))
       ENDIF
       IF(NPLT.EQ.' ')THEN
-        IF(Stand_LI.NE.SQL_NULL_DATA) THEN
+        IF(Stand_LI.GT.0) THEN
            IF(LSTDISNUM) THEN
               WRITE (CSTAND,'(I26)') ISTANDDATA(28)
            ELSE
@@ -620,8 +620,8 @@ C
           WRITE(CPVREF,'(I10)')NUMPVREF
         ENDIF
       ENDIF
-
-      IF(Habitat_LI.NE.SQL_NULL_DATA) THEN
+      IF(Habitat_LI.NE.0) THEN
+         CHAB = ' '
          IF (LHABISNUM) THEN   ! HABITAT CODE IS NUMBER.
             WRITE (CHAB,'(I10)') ISTANDDATA(5)
          GOTO 45
@@ -630,7 +630,7 @@ C
             IF (I.EQ.1) GOTO 45
             IF (I.GT.0) CHAB(I:)=' '
             CHAB = ADJUSTL(CHAB)
-            READ (CHAB,*,ERR=40)  ISTANDDATA(5)
+            READ (CHAB,'(I10)',ERR=40)  ISTANDDATA(5)
             GOTO 45
    40       CONTINUE
             ISTANDDATA(5)=0
@@ -671,7 +671,7 @@ C
             IF (I.EQ.1) GOTO 46
             IF (I.GT.0) CECOREG(I:)=' '
             CECOREG = ADJUSTL(CECOREG)
-            READ (CECOREG,*,ERR=41)  ISTANDDATA(54)
+            READ (CECOREG,'(I10)',ERR=41)  ISTANDDATA(54)
             GOTO 46
    41       CONTINUE
             ISTANDDATA(54)=0
@@ -786,8 +786,7 @@ C
       ENDIF
 
 C     SITE SPECIES CODE PROCESSING
-
-      IF(SiteSp_LI.NE.SQL_NULL_DATA) THEN
+      IF(SiteSp_LI.GT.0) THEN
          IF (LSITEISNUM) THEN   ! SITE SPECIES CODE IS NUMBER.
             WRITE (CSITECODE,'(I8)') ISTANDDATA(34)
          ENDIF
@@ -797,7 +796,7 @@ C     SITE SPECIES CODE PROCESSING
          CSITECODE=ADJUSTL(CSITECODE)
          NAMELEN=LEN_TRIM(CSITECODE)
          DO J=1,NAMELEN
-         CALL UPCASE(CSITECODE(J:J))
+           CALL UPCASE(CSITECODE(J:J))
          ENDDO
          DO I=1,MAXSP
             IF(CSITECODE.EQ.NSP(I,1)(1:2).OR.CSITECODE.EQ.PLNJSP(I).OR.
@@ -1091,13 +1090,13 @@ C     FUEL PHOTO CODE
 
       FKOD=-1
       LFOTO2 = .FALSE.
-      IF(FotoCode_LI.NE.SQL_NULL_DATA) THEN
+      IF(FotoCode_LI.GT.0) THEN
          LFOTO2 = .TRUE.
          I=INDEX(CFotocode,CHAR(0))
          IF (I.GT.0) CFotoCode(I:)=' '
          IF (CFotoCode .NE. ' ') THEN
            CFotoCode = ADJUSTL(CFotoCode)
-           READ (CFotoCode,*,ERR=58)  ISTANDDATA(53)
+           READ (CFotoCode,'(I10)',ERR=58)  ISTANDDATA(53)
    58      CONTINUE           
            CALL FMPHOTOCODE(ISTANDDATA(52),CFotoCode(1:13),FKOD,1)
            IF(LKECHO)WRITE (JOSTND,60) ADJUSTR(CFotoCode),FKOD
@@ -1121,8 +1120,7 @@ C     selected is set, followed by tons/acre entered directly.
       ELSEIF (LFOTO.AND.LFOTO2.AND. .NOT. LFMLK) THEN
         WRITE(JOSTND,
      >  '(T12,''FIRE MODEL NOT LINKED, FUELS PHOTO DATA IGNORED.'')')
-      ELSEIF ((FOTOREF_LI.NE.SQL_NULL_DATA) .OR.
-     >        (FotoCode_LI.NE.SQL_NULL_DATA)) THEN
+      ELSEIF ((FOTOREF_LI.GT.0).OR.(FotoCode_LI.GT.0)) THEN
         WRITE(JOSTND,'(T12,''MISSING PHOTO ''
      >  ''REFERENCE OR PHOTO CODE, FUELS PHOTO DATA IGNORED.'')')
       ENDIF
@@ -1148,5 +1146,6 @@ C     the method used in the fire model.
 
       IF(LKECHO)WRITE(JOSTND,'(T12,''END OF DATA BASE READ.'')')
 
+      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlIn)
       RETURN
       END

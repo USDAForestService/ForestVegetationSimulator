@@ -23,6 +23,8 @@ C  revised TDH 5/24/2011   Added comments and an ISNAN check to final
 C                          stemHt in r9Ht
 C  revised RNH 5/24/2011   Added subroutine IISNAN to replace ISNAN check
 C                          which isn't available in Lahey Fortran
+C  revised NLC 9/17/2017   removed the ISNAN code, figured out why NaN were
+C                          being generated and avoided them with *logic*.
 C
 C  revised RNH 07/21/2011  reassigned sawHT to ht1prd
 c
@@ -1035,8 +1037,6 @@ C  diameter (stmDib) occurs, given inside-bark dbh (dbhIb), inside-bark
 C  diameter at 17.3' (dib17) and total height (totHt).  r, c, e, p, b,
 C  and a are the coefficients for inside-bark calculations.
 
-CDate 5/24/2011
-CREV  TDH added comments and an ISNAN check to final stemHt
       USE CLKCOEF_MOD
 
       IMPLICIT NONE
@@ -1049,7 +1049,7 @@ CREV  TDH added comments and an ISNAN check to final stemHt
       
 !... Local variables
       logical  res
-      REAL      totHt,dbhIb,dib17
+      REAL      totHt,dbhIb,dib17,xxx
       real      r,c,e,p,b,a,G,W,X,Y,Z,Qa,Qb,Qc,Is,Ib,It,Im
 !======================================================================
 
@@ -1101,32 +1101,44 @@ c-----Set height indicator variables
 
 C-----Get height to specified DIB
 C     Eqn 2: split since terms are undefined when evaluated together.
+cc this section replaced by NCrookston, Sept 2017 to deal with degenerate 
+c  math when trying to exponentiate negative numbers with real-valued powers.
+c  *** note that an original version included the use of testing the results 
+c  *** for NaN, but that idea isn't valid because it happens after the math
+c  *** exception causeing an abnormal termination on some systems.
+c      if(Is.eq.1)  then
+c      !this equation causes illegal math for many species so we
+c      !catch this at the bottom of this subroutine
+c        stemHt=totHt*(1-((stmDib**2/dbhIb**2-1)/W+G)**(1/r))
+c      elseif(Ib.eq.1) then
+c        stemHt=totHt*(1-(X-(dbhIb**2-stmDib**2)/Z)**(1/p))
+c      else
+c        stemHt=17.3+(totHt-17.3)*((-Qb-(Qb**2-4*Qa*Qc)**0.5)/(2*Qa))
+c      endif     
+cc end of deleted code, start of replacement
+
+      stemHt = 0.
       if(Is.eq.1)  then
-      !this equation causes illegal math for many species so we
-      !catch this at the bottom of this subroutine
-        stemHt=totHt*(1-((stmDib**2/dbhIb**2-1)/W+G)**(1/r))
+        xxx = (stmDib**2/dbhIb**2-1)/W+G
+        if (xxx .gt. 0.) then 
+          stemHt=totHt*(1.-xxx**(1/r))
+        endif
       elseif(Ib.eq.1) then
-        stemHt=totHt*(1-(X-(dbhIb**2-stmDib**2)/Z)**(1/p))
+        xxx = X-(dbhIb**2-stmDib**2)/Z
+        if (xxx .gt. 0.) then
+          stemHt=totHt*(1-xxx**(1/p))
+        endif
       else
-        stemHt=17.3+(totHt-17.3)*((-Qb-(Qb**2-4*Qa*Qc)**0.5)/(2*Qa))
+        xxx = Qb**2-4*Qa*Qc
+        if (xxx .gt. 0.) then
+          stemHt=17.3+(totHt-17.3)*((-Qb-xxx**0.5)/(2*Qa))
+        endif
       endif
-      
-      !added the ISNAN check as per the above comments
-      ! Lahey doesn't provide the ISNAN intrinsic function, so
-      ! we use the subroutine IISNAN (RNH)
-      call IISNAN(stemHt,res)
-      if((stemHt.lt.0.0).OR. res ) stemHt=0.0
-C     The following line check if stemHt is a NaN 
-      if(stemHt.ne.stemHt) stemHt=0.0
+cc end of replacement
+
       return
       end
-C
-      subroutine iisnan(x,res)
-      real, intent(in) :: x
-      logical :: res
-      integer, parameter :: NaN = Z"7FC00000"
-      res = ieor(transfer(x,Nan), NaN) == 0
-      end subroutine
+
       subroutine r9bdft(vol,logLen,NUMSEG,logDia,errFlg,logVol)
 C_______________________________________________________________________
 C

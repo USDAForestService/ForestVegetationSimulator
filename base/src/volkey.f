@@ -231,7 +231,7 @@ C
       IF(DEBUG) WRITE(JOSTND,9970) (BFMIND(I),BFTOPD(I),BFSTMP(I),
      &                              I,I=1,MAXSP)
  9970 FORMAT(' BFMIND=',F10.2,' BFTOPD=',F10.2,' BFSTMP=',
-     &       F10.2,' SPECIES=',I2)
+     &       F10.2,' SPECIES=',I3)
 C
       RETURN
       END
