@@ -45,6 +45,7 @@ C
       CHARACTER*4 TAB2(17)
       PARAMETER (NTRSLT=148)
       INTEGER ITRSL1(NTRSLT),ITRSL2(NTRSLT)
+      INTEGER IOPCYHLD(MAXACT)             ! Used for temp hold of IOPCYC array
       DATA ITRSL1/
      >       33,   80,   81,   82,   90,   91,   92,   93,   94,   95,
      >       96,   97,   98,   99,  100,  101,  102,  110,  111,  120,
@@ -150,7 +151,9 @@ C
       IF (LFIRST) GOTO 16
       I1=IMGL-1
       DO 13 I=1,I1
-      IOPCYC(I)=IDATE(I)
+      IOPCYHLD(I)=IOPCYC(I) 
+      IOPCYC(I)=IDATE(I) 
+
       IF(IACT(I,4).GT.0) IDATE(I)=IACT(I,4)
    13 CONTINUE
 C
@@ -167,6 +170,7 @@ C     (3) RETURN THE VALUES OF IDATE
 C
       DO 14 I=1,I1
       IDATE(I)=IOPCYC(I)
+      IOPCYC(I)=IOPCYHLD(I)
    14 CONTINUE
    16 CONTINUE
 C

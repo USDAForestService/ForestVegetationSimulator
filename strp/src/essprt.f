@@ -39,7 +39,7 @@ C  ALL OTHER VARIANTS:
 C     ESTIMATES OF SPROUTS/AC REPRESENTED BY EACH SPROUT RECORD COME 
 C     FROM VARIOUS LITERATURE SOURCES 
 C----------
-C CS Variant
+C CR Variant
       CASE('SM','SP','BP','SF','LP')
         SELECT CASE(ISPC)
           CASE(24,28)
@@ -453,7 +453,7 @@ C CS Variant
               PREM = PREM * 0.50  
             ENDIF
           CASE(40)            
-            PREM = PREM * 0.50             
+            PREM = PREM * 0.93             
           CASE(50)          
             IF(DSTMP.LT.25.0)THEN
               PREM = PREM * 0.80
@@ -830,12 +830,6 @@ C----------
         END SELECT
       CASE('NE')
         SELECT CASE (ISPC)
-        CASE(40)
-          IF(DSTMP.LT.4.0)THEN
-            NMSPRC = 1
-          ELSE
-            NMSPRC = 0
-          ENDIF
         CASE(49)
           NMSPRC = 2    
         CASE(51)
@@ -864,7 +858,7 @@ C----------
           ELSE
             NMSPRC = 2
           ENDIF              
-        CASE(46,50,52,82,87,92,93,94,101)
+        CASE(40,46,50,52,82,87,92,93,94,101)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
           ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN

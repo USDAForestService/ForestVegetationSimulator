@@ -1,7 +1,7 @@
       SUBROUTINE SITSET
       IMPLICIT NONE
 C----------
-C CS $Id$
+C  **SITSET-- CS  DATE OF LAST REVISION:  10/03/17
 C----------
 C THIS SUBROUTINE LOADS THE SITELG ARRAY WITH A SITE INDEX FOR EACH
 C SPECIES WHICH WAS NOT ASSIGNED A SITE INDEX BY KEYWORD.
@@ -25,7 +25,7 @@ COMMONS
 C
 C
       LOGICAL DEBUG
-      REAL BAMAXA(MAXSP)
+      REAL BAMAXA(MAXSP),ASITE(MAXSP),BSITE(MAXSP)
       INTEGER I,J,JJ,K
       CHARACTER FORST*2,DIST*2,PROD*2,VAR*2,VOLEQ*10
       INTEGER IFIASP,ERRFLAG,ISPC,IREGN,KFORST
@@ -47,6 +47,52 @@ C----------
      & 150.,   150.,   160.,   150.,   140.,   150.,   150.,
      & 150.,   150.,   150.,   150.,   170.,   150.,   150.,
      & 180.,   150.,   150.,   150.,   150.     /
+C---------
+C LOAD SITE INDEX COEFF
+C----------
+      DATA ASITE /
+     &      0,      0,-5.1489,      0,      0,
+     &      0,      0,      0,      0,      0,
+     &      0,      0,      0,      0,      0,
+     &      0,      0,      0,      0,      0,
+     &      0,      0,      0,  18.19,-35.098,
+     &-35.098,-35.098,      0,      0,      0,
+     &      0,      0,-26.067,-26.067,-26.067,
+     &-26.067,-26.067,-26.067,-26.067,-26.067,
+     &  -7.01,  18.19,      0,-36.805,-36.805,
+     &-36.805,      0, -1.334, -1.334, -2.706,
+     &  1.097,      0,      0,      0,      0,
+     &      0,      0,      0,  2.656,      0,
+     &      0,      0,      0,      0,      0,
+     &      0,      0,      0,      0,      0,
+     &      0,      0,      0,  3.543,  3.543,
+     &  3.543,      0,      0,      0,      0,
+     &  7.521,  7.521,  7.521,  7.521,      0,
+     &      0,      0,      0,      0,      0,
+     &      0,      0,      0,      0,      0,
+     &      0/
+      DATA BSITE /
+     &    0.8,    0.8,  1.062,   1.25,   1.25,
+     &   1.25,   1.35,   1.19,   1.19,   1.15,
+     &   1.15,   1.15,   1.15,   1.08,   1.08,
+     &   1.08,   1.08,   1.08,    1.1,    1.1,
+     &    1.1,    1.1,    1.1, 0.7695,  1.729,
+     &  1.729,  1.729,    1.3,   1.32,   1.32,
+     &   1.32,   1.25,1.51754,1.51754,1.51754,
+     &1.51754,1.51754,1.51754,1.51754,1.51754,
+     &  1.203, 0.7695,   1.22, 1.6748, 1.6748,
+     & 1.6748,      1,  1.082,  1.082,  1.106,
+     &  1.063,   0.96,   0.89,   0.89,   0.89,
+     &   0.89,   0.83,   0.83,  0.965,    1.2,
+     &    1.2,    1.2,    1.2,    1.2,    1.2,
+     &    1.2,    1.2,   1.35,   1.35,   1.35,
+     &   1.35,   1.35,   1.35, 1.2407, 1.2407,
+     & 1.2407,    1.2,   1.35,   1.35,   1.35,
+     &  1.074,  1.074,  1.074,  1.074,    0.8,
+     &    0.8,    0.8,    0.8,    0.8,    0.9,
+     &    0.9,    0.9,    0.9,    0.9,    0.9,
+     &    0.9/
+C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'SITSET',6,ICYC)
@@ -54,16 +100,26 @@ C----------
 C  DEFAULT MERCH LIMITS ARE SET IN LS/VOLS
 C----------
 C  SET DEFAULT SITE SPECIES OF WHITE OAK WITH INDEX OF 65
-C  IF MISSING.
+C  IF MISSING
 C----------
       IF(ISISP .LE. 0) ISISP=47
       IF(SITEAR(ISISP) .LE. 0.0) SITEAR(ISISP)=65.
 C----------
-C  SET ALL SPECIES SITES TO THE STAND SITE INDEX
-C  SET SDIDEF VALUES IF NOT SET BY KEYWORD.
+C  BEGIN BY CALCULATING WO SI BASED ON SITE SPECIES 
 C----------
-      DO 15 I=1,MAXSP
-      IF(SITEAR(I) .LT. .0001) SITEAR(I) = SITEAR(ISISP)
+      IF(ISISP .NE. 47) SITEAR(47)= (-1*ASITE(ISISP)/BSITE(ISISP))
+     &     +((1/BSITE(ISISP))*SITEAR(ISISP))
+C----------                                              
+C  SET SITE INDEX FOR ALL SPECIES           
+C----------                                                   
+      DO 5 I=1,MAXSP
+        IF(SITEAR(I) .LT. .0001) SITEAR(I) = ASITE(I)
+     &     +BSITE(I)*(SITEAR(47))
+    5 CONTINUE
+C----------                                              
+C  SET SDIDEF VALUES IF NOT SET BY KEYWORD.            
+C----------
+      DO 15 I=1,MAXSP                                   
       IF(SDIDEF(I) .LE. 0.) THEN
         IF(BAMAX .GT. 0.)THEN
           SDIDEF(I)=BAMAX/(0.5454154*(PMSDIU/100.))
@@ -166,7 +222,7 @@ C     &VEQNNC(ISPC)
       IF(((METHB(ISPC).EQ.6).OR.(METHB(ISPC).EQ.9).OR.
      &    (METHB(ISPC).EQ.5)).AND.(VEQNNB(ISPC).EQ.'          '))THEN
         IF(METHB(ISPC).EQ.5)THEN
-          VOLEQ(1:7)='902DVEE'
+          VOLEQ(1:7)='900DVEE'
         ELSE
           VOLEQ(1:7)='900CLKE'
         ENDIF        
