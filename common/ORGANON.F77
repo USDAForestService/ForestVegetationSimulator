@@ -1,6 +1,6 @@
 CODE SEGMENT ORGANON
 C----------
-C  **ORGANON      DATE OF LAST REVISION:  05/18/2015
+C COMMON $Id: ORGANON.F77 $
 C----------
 
       LOGICAL   LORGANON,LORGVOLS,LORGPREP
@@ -20,15 +20,16 @@ C----------
      4       MGEXP(2000),DGRO(2000),HGRO(2000),MORTEXP(2000),
      5       CRCHNG(2000),SCRCHNG(2000),STOR(30),RVARS(30),
      6       DBH2(2000),HT2OR(2000),CR2(2000),EXPAN2(2000),SCR2B(2000),
-     7       LOGTA,LOGML,LOGLL
+     7       CFTD,CFTDHW,CFSH,LOGLL,LOGML,LOGTD,LOGSH,LOGTA
 
       COMMON /ORGANON/  CYCLG,VERSION,NPTS,NTREES1,STAGE,BHAGE,TREENO,
      1  PTNO,SPECIES,USER,INDS,DBH1,HT1OR,CR1,SCR1B,EXPAN1,MGEXP,RVARS,
      2  ACALIB,PN,YSF,BABT,BART,YST,NPR,PRAGE,PRLH,PRDBH,PRHT,PRCR,
      3  PREXP,BRCNT,BRHT,BRDIA,JCORE,SERROR,TERROR,SWARNING,TWARNING,
      4  IERROR,DGRO,HGRO,CRCHNG,SCRCHNG,MORTEXP,NTREES2,DBH2,HT2OR,CR2,
-     5  SCR2B,EXPAN2,STOR,LORGANON,SITE_1,SITE_2,LOGTA,LOGML,LOGLL,
-     6  LORGVOLS,IORG,LORGPREP,MSDI_1,MSDI_2,MSDI_3,ITEST
+     5  SCR2B,EXPAN2,STOR,LORGANON,SITE_1,SITE_2,
+     6  LORGVOLS,IORG,LORGPREP,MSDI_1,MSDI_2,MSDI_3,ITEST,
+     7  CFTD,CFTDHW,CFSH,LOGLL,LOGML,LOGTD,LOGSH,LOGTA
 C----------
 C  DEFINITIONS OF VARIABLES IN 'ORGANON' COMMON BLOCK:
 C----------
@@ -44,72 +45,77 @@ C       3       OLD,
 C
 C  variable       declaration    dimension      description
 C
-C  ACALIB,         R * 4         (3,18)         ARRAY OF DIAM/HEIGHT/CROWN RECESSION CALIBRATION VALUES
-C  BABT,           R * 4                        BASAL AREA REMOVED AFTER LAST THINNING ARRAY
-C  BART,           R * 4         (5)            RESIDUAL BASAL AREA AFTER THINNING ARRAY
-C  BHAGE,          I * 4                        BREAST HEIGHT AGE FOR EVEN-AGED STANDS
-C  BRCNT,          I * 4         (2000,3)       WOOD QUALITY - BRANCH COUNT OF TYPE J FOR TREE I
-C  BRDIA,          I * 4         (2000,40)      BRANCH DIAMETER AT THE END OF THE CYCLE
-C  BRHT,           I * 4         (2000,40)      WOOD QUALITY - HEIGHT OF BRANCH J FOR TREE I
-C  CR1,            R * 4         (2000)         STARTING CROWN RATIO FOR THE TREE RECORD
-C  CR2,            R * 4         (2000)         ENDING CROWN RATIO FOR TREE RECORD I
-C  CRCHNG,         R * 4         (2000)         CHANGE IN CROWN RATIO FOR TREE I
-C  CYCLG,          I * 4                        NUMBER OF CYCLES PROJECTED
-C  DBH1,           R * 4         (2000)         STARTING DIAMETER AT BREAST HEIGHT, IN INCHES
-C  DBH2,           R * 4         (2000)         ENDING DIAMETER AT BREAST HEIGHT FOR TREE I
-C  DGRO,           R * 4         (2000)         DIAMETER GROWTH FOR TREE I, IN INCHES
-C  EXPAN1,         R * 4         (2000)         INITIAL TREES/ACRE FOR TREE RECORD I
-C  EXPAN2,         R * 4         (2000)         ENDING EXPANSION FACTOR FOR TREE RECORD I
-C  HGRO,           R * 4         (2000)         HEIGHT GROWTH INCREMENT FOR TREE I, IN FEET
-C  HT1OR,          R * 4         (2000)         STARTING TOTAL HEIGHT, IN FEET
-C  HT2OR,          R * 4         (2000)         ENDING TOTAL HEIGHT FOR TREE I
-C  IERROR,         I * 4                        INDICATOR FOR ERRORS AT THE END OF THE CYCLE
-C  INDS,           I * 4         (30)           STAND LEVEL INDICATOR VARIABLES/SWITCHES
-C  IORG,           I * 4         (2000)         FLAG INDICATING A VALID ORGANON TREE (0 = NO, 1 = YES)
-C  ITEST,          I                            DEFAULT 0; SET TO 1 IF STAND IS EVEN-AGED BUT STAND AGE WAS
+C  ACALIB          R * 4         (3,18)         ARRAY OF DIAM/HEIGHT/CROWN RECESSION CALIBRATION VALUES
+C  BABT            R * 4                        BASAL AREA REMOVED AFTER LAST THINNING ARRAY
+C  BART            R * 4         (5)            RESIDUAL BASAL AREA AFTER THINNING ARRAY
+C  BHAGE           I * 4                        BREAST HEIGHT AGE FOR EVEN-AGED STANDS
+C  BRCNT           I * 4         (2000,3)       WOOD QUALITY - BRANCH COUNT OF TYPE J FOR TREE I
+C  BRDIA           I * 4         (2000,40)      BRANCH DIAMETER AT THE END OF THE CYCLE
+C  BRHT            I * 4         (2000,40)      WOOD QUALITY - HEIGHT OF BRANCH J FOR TREE I
+C  CFTD            R * 4                        CUBIC FOOT TOP DIAMETER
+C  CFTDHW          R * 4                        CUBIC FOOT TOP DIAMETER FOR HARDWOODS
+C  CFSH            R * 4                        CUBIC FOOT STUMP HEIGHT
+C  CR1             R * 4         (2000)         STARTING CROWN RATIO FOR THE TREE RECORD
+C  CR2             R * 4         (2000)         ENDING CROWN RATIO FOR TREE RECORD I
+C  CRCHNG          R * 4         (2000)         CHANGE IN CROWN RATIO FOR TREE I
+C  CYCLG           I * 4                        NUMBER OF CYCLES PROJECTED
+C  DBH1            R * 4         (2000)         STARTING DIAMETER AT BREAST HEIGHT, IN INCHES
+C  DBH2            R * 4         (2000)         ENDING DIAMETER AT BREAST HEIGHT FOR TREE I
+C  DGRO            R * 4         (2000)         DIAMETER GROWTH FOR TREE I, IN INCHES
+C  EXPAN1          R * 4         (2000)         INITIAL TREES/ACRE FOR TREE RECORD I
+C  EXPAN2          R * 4         (2000)         ENDING EXPANSION FACTOR FOR TREE RECORD I
+C  HGRO            R * 4         (2000)         HEIGHT GROWTH INCREMENT FOR TREE I, IN FEET
+C  HT1OR           R * 4         (2000)         STARTING TOTAL HEIGHT, IN FEET
+C  HT2OR           R * 4         (2000)         ENDING TOTAL HEIGHT FOR TREE I
+C  IERROR          I * 4                        INDICATOR FOR ERRORS AT THE END OF THE CYCLE
+C  INDS            I * 4         (30)           STAND LEVEL INDICATOR VARIABLES/SWITCHES
+C  IORG            I * 4         (2000)         FLAG INDICATING A VALID ORGANON TREE (0 = NO, 1 = YES)
+C  ITEST           I                            DEFAULT 0; SET TO 1 IF STAND IS EVEN-AGED BUT STAND AGE WAS
 C                                               NOT ENTERED. THIS IS AN ERROR CONDITION IN ORGANON
-C  JCORE,          I * 4         (2000,40)      DIAMETER OF JUVINILE COREWOOD AT THE END OF THE CYCLE
-C  LOGLL,          R * 4                        TARGET LOG LENGTH, IN FEET
-C  LOGML,          R * 4                        MINIMUM LOG LENGTH, IN FEET
-C  LOGTA,          R * 4                        LOG TRIM, IN INCHES
-C  LORGANON,       L                            LOGICAL SWITCH TO SIGNAL THAT ORGANON EXTENSION IS PRESENT
+C  JCORE           I * 4         (2000,40)      DIAMETER OF JUVINILE COREWOOD AT THE END OF THE CYCLE
+C  LOGLL           R * 4                        TARGET LOG LENGTH, IN FEET
+C  LOGML           R * 4                        MINIMUM LOG LENGTH, IN FEET
+C  LOGSH           R * 4                        BF STUMP HEIGHT, IN FEET
+C  LOGTA           R * 4                        LOG TRIM, IN INCHES
+C  LOGTD           R * 4                        BF TOP DIAMETER, IN INCHES
+C  LORGANON        L                            LOGICAL SWITCH TO SIGNAL THAT ORGANON EXTENSION IS PRESENT
 C  LORGPREP        L                            LOGICAL SWITCH TO SIGNAL THAT PREPARE HAS BEEN CALLED
-C  LORGVOLS,       L
-C  MGEXP,          R * 4         (2000)         NUMBER OF TREES THAT DIED DURING THE CYCLE
-C  MORTEXP,        R * 4         (2000)         CHANGE IN EXPANSION FACTOR FOR TREE I, IN TREES/ACRE
+C  LORGVOLS        L                            .TRUE. WHEN USING ORGANON VOLUME ROUTINES
+C  MGEXP           R * 4         (2000)         NUMBER OF TREES THAT DIED DURING THE CYCLE
+C  MORTEXP         R * 4         (2000)         CHANGE IN EXPANSION FACTOR FOR TREE I, IN TREES/ACRE
 C  MSDI_1          R * 4                        MAXIMUM SDI FOR DOUGLAS-FIR
 C  MSDI_2          R * 4                        MAXIMUM SDI FOR PONDEROSA PINE
 C  MSDI_3          R * 4                        MAXIMUM SDI FOR WF/GF
-C  NPR,            I * 4         (2000)         NUMBER OF PRUNINGS FOR TREE I
-C  NPTS,           I * 4                        THE NUMBER OF POINTS IN THE SAMPLE TREE LIST (TREE LIST)
-C  NTREES1,        I * 4                        THE NUMBER OF TREE RECORDS IN THE TREE LIST
-C  NTREES2,        I * 4                        TOTAL NUMBER OF TREE PER ACRE FOR TREE I AT END OF CYCLE
-C  PN,             R * 4         (5)            ARRAY OF POUNDS OF NITROGEN FERTILIZER
-C  PRAGE,          I * 4         (2000,3)       AGE OF THE I-TH PRUNING
-C  PRCR,           R * 4         (2000,3)       CROWN RATIO OF THE I-TH TREE AT PRUNING J
-C  PRDBH,          R * 4         (2000,3)       DBH OF THE J-TH PRUNING FOR TREE I
-C  PREXP,          R * 4         (2000,3)       POINT LEVEL EXPANSION FACTOR OF THE I-TH TREE AT PRUNING J
-C  PRHT,           R * 4         (2000,3)       TOTAL HEIGHT OF THE I-TH TREE AT PRUNING J
-C  PRLH,           R * 4         (2000,3)       LIFT HEIGHT OF THE J-TH PRUNING FOR TREE I
-C  PTNO,           I * 4         (2000)         PLOT/POINT NUMBER
-C  RVARS,          R * 4         (30)           ARRAY OF FLOATING-POINT (REAL) VARIABLES FOR THE STAND
-C  SCR1B,          R * 4         (2000)         SHADOW CROWN RATIO AT THE BEGINGING OF THE GROWTH CYCLE
-C  SCR2B,          R * 4         (2000)         ENDING SHADOW CROWN RATIO FOR TREE RECORD I
-C  SCRCHNG,        R * 4         (2000)         CHANGE IN SHADOW CROWN RATIO FOR TREE I
-C  SERROR,         I * 4         (35)           STAND LEVEL ERRORS AT THE END OF THE PROJECTION
-C  SITE_1,         R * 4                        FIRST SITE INDEX FOR THE VARIANT
-C  SITE_2,         R * 4                        SECOND SITE INDEX VARIABLE FOR THE VARIANT
-C  SPECIES,        I * 4         (2000)         FIA SPECIES CODE
-C  STAGE,          I * 4                        THE STAND AGE FOR EVEN AGED STANDS
-C  STOR,           R * 4         (30)           ARRAY OF INTERNAL VARIABLES THAT MUST NOT BE CHANGED OVER THE RUNS OF ORGANON
-C  SWARNING,       I * 4         (9)            STAND LEVEL WARNINGS AT THE END OF THE PROJECTION
-C  TERROR,         I * 4         (2000,6)       TREE LEVEL ERRORS AT THE END OF THE PROJECTION
-C  TREENO,         I * 4         (2000)         TREE NUMBER ON THE PLOT
-C  TWARNING,       I * 4         (2000)         TREE LEVEL WARNINGS AT THE END OF THE PROJECTION
-C  USER,           I * 4         (2000)         USER CODE
-C  VERSION,        I * 4                        THE VARIANT NUMBER OF ORGANON TO PROJECT (1=SWO,2=NWO,3=SMC)
-C  YSF,            R * 4         (5)            YEARS SINCE LAST FERTILIZATION
-C  YST,            R * 4         (5)            YEARS SINCE LAST THINNING ARRAY
+C  NPR             I * 4         (2000)         NUMBER OF PRUNINGS FOR TREE I
+C  NPTS            I * 4                        THE NUMBER OF POINTS IN THE SAMPLE TREE LIST (TREE LIST)
+C  NTREES1         I * 4                        THE NUMBER OF TREE RECORDS IN THE TREE LIST
+C  NTREES2         I * 4                        TOTAL NUMBER OF TREE PER ACRE FOR TREE I AT END OF CYCLE
+C  PN              R * 4         (5)            ARRAY OF POUNDS OF NITROGEN FERTILIZER
+C  PRAGE           I * 4         (2000,3)       AGE OF THE I-TH PRUNING
+C  PRCR            R * 4         (2000,3)       CROWN RATIO OF THE I-TH TREE AT PRUNING J
+C  PRDBH           R * 4         (2000,3)       DBH OF THE J-TH PRUNING FOR TREE I
+C  PREXP           R * 4         (2000,3)       POINT LEVEL EXPANSION FACTOR OF THE I-TH TREE AT PRUNING J
+C  PRHT            R * 4         (2000,3)       TOTAL HEIGHT OF THE I-TH TREE AT PRUNING J
+C  PRLH            R * 4         (2000,3)       LIFT HEIGHT OF THE J-TH PRUNING FOR TREE I
+C  PTNO            I * 4         (2000)         PLOT/POINT NUMBER
+C  RVARS           R * 4         (30)           ARRAY OF FLOATING-POINT (REAL) VARIABLES FOR THE STAND
+C  SCR1B           R * 4         (2000)         SHADOW CROWN RATIO AT THE BEGINGING OF THE GROWTH CYCLE
+C  SCR2B           R * 4         (2000)         ENDING SHADOW CROWN RATIO FOR TREE RECORD I
+C  SCRCHNG         R * 4         (2000)         CHANGE IN SHADOW CROWN RATIO FOR TREE I
+C  SERROR          I * 4         (35)           STAND LEVEL ERRORS AT THE END OF THE PROJECTION
+C  SITE_1          R * 4                        FIRST SITE INDEX FOR THE VARIANT
+C  SITE_2          R * 4                        SECOND SITE INDEX VARIABLE FOR THE VARIANT
+C  SPECIES         I * 4         (2000)         FIA SPECIES CODE
+C  STAGE           I * 4                        THE STAND AGE FOR EVEN AGED STANDS
+C  STOR            R * 4         (30)           ARRAY OF INTERNAL VARIABLES THAT MUST NOT BE CHANGED OVER THE RUNS OF ORGANON
+C  SWARNING        I * 4         (9)            STAND LEVEL WARNINGS AT THE END OF THE PROJECTION
+C  TERROR          I * 4         (2000,6)       TREE LEVEL ERRORS AT THE END OF THE PROJECTION
+C  TREENO          I * 4         (2000)         TREE NUMBER ON THE PLOT
+C  TWARNING        I * 4         (2000)         TREE LEVEL WARNINGS AT THE END OF THE PROJECTION
+C  USER            I * 4         (2000)         USER CODE
+C  VERSION         I * 4                        THE VARIANT NUMBER OF ORGANON TO PROJECT (1=SWO,2=NWO,3=SMC)
+C  YSF             R * 4         (5)            YEARS SINCE LAST FERTILIZATION
+C  YST             R * 4         (5)            YEARS SINCE LAST THINNING ARRAY
 C
 C
 C  

@@ -367,23 +367,34 @@ C----------
       ELSE
         INDX = 1
       ENDIF
+
+      IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC INDX=',INDX
+
       B1= LTBHEC(1,INDX)
       B2= LTBHEC(2,INDX)
       B3= LTBHEC(3,INDX)
       B4= LTBHEC(4,INDX)
       B5= LTBHEC(5,INDX)
       BH= LTBHEC(6,INDX)
+
+      IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC B1,B2,B3,B4,B5,BH=',
+     &  B1,B2,B3,B4,B5,BH
+
 C----------
 C  CALCULATE MAXIMUM HEIGHT FOR SPECIES, IF CURRENT TREE HEIGHT
 C  H >= HTMAX THEN RETURN
 C----------
       HTMAX=(B1*SI**B2)
+      IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC HTMAX=',HTMAX,' H=',H
+
       IF(HTMAX-H.LE.1.) GO TO 900
 C----------
 C  CALCUALTE TREE AGE IF N<=0
 C----------
       IF (N .LE. 0) THEN
         AGET= 1./B3*(ALOG(1-((H-BH)/B1/SI**B2)**(1./B4/SI**B5)))
+        HTG1= 0.0
+        IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC AGET=',AGET
         GO TO 900
       ENDIF
 C----------
@@ -392,6 +403,7 @@ C----------
       IF ((N .GT. 0) .AND. (N .LT. 2)) THEN
 C
         H= BH + B1*SI**B2*(1.-EXP(B3*AGET))**(B4*SI**B5)
+        IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC HEIGHT ON AGE H=',H
         GOTO 900
       ENDIF
 C-----------
@@ -402,6 +414,7 @@ C-----------
       HTGP5= BH + B1*SI**B2*(1.-EXP(B3*(AGET+YRS)))**(B4*SI**B5)
 C
       HTG1= HTGP5 - HTG0
+      IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC HTG0,HTGP5,HTG1=',HTG0,HTGP5,HTG1
 C
   900 CONTINUE
 C

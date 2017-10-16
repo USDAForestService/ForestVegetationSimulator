@@ -2,7 +2,7 @@
      &                  DEBUG)
       IMPLICIT NONE
 C----------
-C  **FINDAG--CS  DATE OF LAST REVISION:  01/14/11
+C  **FINDAG--CS  DATE OF LAST REVISION:  10/13/17
 C----------
 C  THIS ROUTINE FINDS EFFECTIVE TREE AGE
 C  CALLED FROM **COMCUP
@@ -35,9 +35,18 @@ C
 C----------
 C   CALL HTCALC TO CALCULATE AGE BASED ON INITIAL TREE HEIGHT
 C----------
-      MODE0= 0
-      IVAR=2
-      YRS=10.
+      MODE0 = 0
+      IVAR  = 2
+      YRS   = 10.0
+      AGET  = 0.0
+      HTMAX = 0.0
+
+      IF(DEBUG) WRITE(JOSTND,*) 'in findag before call to htcalc'
+      IF(DEBUG) WRITE(JOSTND,*) 'params: ',
+     &' MODE0,IVAR,ISPC,SITEAR(ISPC),YRS,H,AGET,HTMAX,HTG1'
+      IF(DEBUG) WRITE(JOSTND,*)
+     & ' values: ',MODE0,IVAR,ISPC,SITEAR(ISPC),YRS,H,AGET,HTMAX,HTG1
+     
       CALL HTCALC (MODE0,IVAR,ISPC,SITEAR(ISPC),YRS,H,AGET,HTMAX,
      &             HTG1,JOSTND,DEBUG)
 C----------

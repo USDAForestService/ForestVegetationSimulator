@@ -293,6 +293,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
 
          CASE('HABITAT','PV_CODE')
           ISTANDDATA(5) = 0
+          CHAB = ' '
           IF(DType.EQ.SQL_CHAR.OR.DType.EQ.SQL_VARCHAR.OR.
      -       DType.EQ.SQL_LONGVARCHAR) THEN
             iRet = fvsSQLBindCol (StmtHndlIn,ColNumber,SQL_F_CHAR,
@@ -642,7 +643,7 @@ C
            KODTYP=0
            ICL5=0
            IF(LKECHO)WRITE(JOSTND,'(T12,'' HABITAT/PV_CODE IGNORED.'')')
-         ELSE
+         ELSEIF(CHAB .NE. ' ') THEN
            KODTYP=IFIX(ARRAY2)
            ICL5=KODTYP
            CALL HABTYP (KARD2,ARRAY2)
@@ -799,6 +800,16 @@ C     SITE SPECIES CODE PROCESSING
          DO J=1,NAMELEN
            CALL UPCASE(CSITECODE(J:J))
          ENDDO
+
+         IF(LEN_TRIM(CSITECODE).LE.2)THEN
+            IF((ICHAR(ADJUSTL(CSITECODE(1:1))).GE.48).AND.
+     &      (ICHAR(ADJUSTL(CSITECODE(1:1))).LE.57).AND.
+     &      (ICHAR(ADJUSTL(CSITECODE(2:2))).GE.48).AND.
+     &      (ICHAR(ADJUSTL(CSITECODE(2:2))).LE.57))THEN
+               CSITECODE='0'//ADJUSTL(CSITECODE)
+            ENDIF
+         ENDIF
+
          DO I=1,MAXSP
             IF(CSITECODE.EQ.NSP(I,1)(1:2).OR.CSITECODE.EQ.PLNJSP(I).OR.
      >         CSITECODE.EQ.FIAJSP(I)) THEN

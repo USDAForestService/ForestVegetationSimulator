@@ -147,9 +147,10 @@ C**************************************************
 C----------
 C  INITIALIZE VOLUME ESTIMATES.
 C----------
-      VN=0.
-      VM=0.
-      VMAX=0.
+      VN=0.0
+      VM=0.0
+      VMAX=0.0
+      BBFV=0.0
       IF(DEBUG)WRITE(JOSTND,*)' CUBIC SECTION, I,ISPC,METHC= ',
      &I,ISPC,METHC(ISPC)
 C----------
