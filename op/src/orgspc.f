@@ -1,7 +1,7 @@
-      SUBROUTINE ORGSPC(INSPEC,OUTSPC)
+      SUBROUTINE ORGSPC(INSPEC,OUTSPC,OUTSPG)
       IMPLICIT NONE
 C----------
-C  **ORGSPC--OP   DATE OF LAST REVISION:  06/17/15
+C  **ORGSPC--OP   DATE OF LAST REVISION:  11/02/17
 C----------
 C THIS SUBROUTINE CONVERTS AN FVS SPECIES SEQUENCE NUMBER TO A VALID
 C ORGANON SPECIES FIA CODE.
@@ -16,7 +16,7 @@ C
 C
 COMMONS
 C----------
-      INTEGER OSPMAP(MAXSP),INSPEC,OUTSPC
+      INTEGER OSPMAP(MAXSP),INSPEC,OUTSPC,OSGMAP(MAXSP),OUTSPG
 C
 C   SPECIES ORDER IN THIS VARIANT
 C
@@ -27,7 +27,7 @@ C  25=GC, 26=AS, 27=CW, 28=WO, 29=J , 30=LL, 31=WB, 32=KP,
 C  33=PY, 34=DG, 35=HT, 36=CH, 37=WI, 38=  , 39=OT
 C----------
 C MAPPING OF FVS SPECIES TO VALID ORGANON SPECIES FOR THE 
-C ORGANON SOUTHWEST OREGON MODEL TYPE:
+C ORGANON NORTHWEST OREGON AND STAND MANAGEMENT COOP MODEL TYPES:
 C
 C VALID
 C ORGANON   FVS
@@ -53,8 +53,22 @@ C       BM   RA   MA   TO   GC   AS   CW   WO   WJ   LL
      & 312, 351, 361, 312, 361, 312, 312, 815, 231, 017, 
 C       WB   KP   PY   DG   HT   CH   WI        OT    
      & 202, 202, 231, 492, 492, 492, 920, 492, 492/
+C----------
+C  MAPPING TO THE ORGANON SPECIES GROUP NUMBER (ALSO SEE 
+C  **SPGROUP_RUN** IN **EXECUTE2**)
+C----------
+      DATA OSGMAP/
+C       SF   WF   GF   AF   RF   SS   NF   YC   IC   ES      
+     &   2,   2,   2,   2,   1,   1,   2,   4,   4,   1, 
+C       LP   JP   SP   WP   PP   DF   RW   RC   WH   MH      
+     &   1,   1,   1,   1,   1,   1,   3,   4,   3,   3, 
+C       BM   RA   MA   TO   GC   AS   CW   WO   WJ   LL      
+     &   7,   9,   6,   7,   6,   7,   7,   8,   5,   2, 
+C       WB   KP   PY   DG   HT   CH   WI        OT    
+     &   1,   1,   5,  10,  10,  10,  11,  10,  10/
 C
       OUTSPC = OSPMAP(INSPEC)
+      OUTSPG = OSGMAP(INSPEC)
 C
       RETURN
       END

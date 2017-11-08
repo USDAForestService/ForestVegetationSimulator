@@ -1,7 +1,7 @@
-      SUBROUTINE ORGSPC(INSPEC,OUTSPC)
+      SUBROUTINE ORGSPC(INSPEC,OUTSPC,OUTSPG)
       IMPLICIT NONE
 C----------
-C  **ORGSPC--OC   DATE OF LAST REVISION:  06/16/15
+C  **ORGSPC--OC   DATE OF LAST REVISION:  11/02/17
 C----------
 C THIS SUBROUTINE CONVERTS AN FVS SPECIES SEQUENCE NUMBER TO A VALID
 C ORGANON SPECIES FIA CODE.
@@ -16,7 +16,7 @@ C
 C
 COMMONS
 C----------
-      INTEGER OSPMAP(MAXSP),INSPEC,OUTSPC
+      INTEGER OSPMAP(MAXSP),INSPEC,OUTSPC,OSGMAP(MAXSP),OUTSPG
 C
 C   SPECIES ORDER IN THIS VARIANT
 C
@@ -63,8 +63,24 @@ C       BO   VO   IO   BM   BU   RA   MA   GC   DG   FL
      & 818, 805, 805, 312, 312, 351, 361, 431, 492, 312, 
 C       WN   TO   SY   AS   CW   WI   CN   CL   OH        
      & 312, 631, 312, 312, 312, 920, 492, 492, 492/ 
+C----------
+C  MAPPING TO THE ORGANON SPECIES GROUP NUMBER (ALSO SEE 
+C  **SPGROUP_RUN** IN **EXECUTE2**)
+C----------
+      DATA OSGMAP/
+C       PC   IC   RC   GF   RF   SH   DF   WH   MH   WB      
+     &   7,   5,   7,   2,   1,   1,   1,   6,   6,   3, 
+C       KP   LP   CP   LM   JP   SP   WP   PP   MP   GP      
+     &   3,   3,   3,   3,   3,   4,   3,   3,   3,   3, 
+C       WJ   BR   GS   PY   OS   LO   CY   BL   EO   WO      
+     &   8,   2,   3,   8,   8,  12,  12,  12,  12,  14, 
+C       BO   VO   IO   BM   BU   RA   MA   GC   DG   FL      
+     &  15,  12,  12,  13,  13,  16,   9,  10,  17,  13, 
+C       WN   TO   SY   AS   CW   WI   CN   CL   OH        
+     &  13,  11,  13,  13,  13,  18,  17,  17,  17/ 
 C
       OUTSPC = OSPMAP(INSPEC)
+      OUTSPG = OSGMAP(INSPEC)
 C
       RETURN
       END

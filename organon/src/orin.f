@@ -27,7 +27,7 @@ C----------
 C VARIABLE DECLARATIONS:
 C----------
       INTEGER    KWCNT
-      PARAMETER (KWCNT = 7)
+      PARAMETER (KWCNT = 8)
 c
       LOGICAL      LNOTBK(7)
       LOGICAL      LKECHO,LNOTRE
@@ -35,7 +35,6 @@ c
 C
       CHARACTER*8  TABLE(KWCNT)
       CHARACTER*8  KEYWRD
-      CHARACTER*8  PASKEY
       CHARACTER*10 KARD(7)
       CHARACTER    VVER*7,FNAME*80
       INTEGER      KODE,IPRMPT,NUMBER
@@ -53,7 +52,8 @@ C
      >    'INPFILE ',      ! Option 400
      >    'OSUCFVOL',      ! Option 500
      >    'OSUBFVOL',      ! Option 600
-     >    'ORGOFF  '/      ! Option 700
+     >    'ORGOFF  ',      ! Option 700
+     >    'ORGMCW  '/      ! Option 800
 C
 C----------
 C     **********          EXECUTION BEGINS          **********
@@ -102,7 +102,7 @@ C----------
 C     PROCESS OPTIONS
 C----------
    90 CONTINUE
-      GO TO(100, 200, 300, 400, 500, 600, 700), NUMBER
+      GO TO(100, 200, 300, 400, 500, 600, 700, 800), NUMBER
 C
 C
 C  ==========  OPTION NUMBER  1: END       ===========================END
@@ -431,7 +431,7 @@ C
       GO TO 10
 C
 C
-C  ==========  OPTION NUMBER  8: ORGOFF    =======================ORGOFF
+C  ==========  OPTION NUMBER  7: ORGOFF    =======================ORGOFF
 C
   700 CONTINUE
       LORGANON = .FALSE.
@@ -439,6 +439,20 @@ C
       WRITE(JOSTND,701) KEYWRD
   701 FORMAT (/A8,
      &'   ORGANON GROWTH AND MORTALITY EQUATIONS TURNED OFF')
+      ENDIF
+      GO TO 10
+C
+C
+C  ==========  OPTION NUMBER  8: ORGMCW    =======================ORGOFF
+C
+  800 CONTINUE
+      LORGCW = .TRUE.
+      IF(LKECHO) THEN 
+      WRITE(JOSTND,801) KEYWRD
+  801 FORMAT (/A8,
+     &'   ORGANON MAXIMUM CROWN WIDTH VALUES WILL BE PRINTED ',
+     &'IN THE TREELIST OUTPUT TABLE AND USED FOR ALL CANOPY COVER ',
+     &'CALCULATIONS')
       ENDIF
       GO TO 10
 C
