@@ -322,7 +322,6 @@ C----------
       LORGANON  = .TRUE.        ! THE GROWTH AND MORTALITY DLL IS ACTIVE
       LORGVOLS  = .FALSE.       ! THE VOLUME DLL IS NOT BEING USED.
       LORGPREP  = .FALSE.       ! TREE DATA HAS NOT GONE THROUGH THE PREPARATION PROCESS
-      LORGCW    = .FALSE.       ! USE FVS CROWN WIDTH ESTIMATES (TREELIST & CANOPY COVER)
       VERSION   = 1             ! ORGANON VERSION, DEFAULT SWO
       STAGE     = 0             ! total stand age (even aged only)
       BHAGE     = 0             ! breast height age            
