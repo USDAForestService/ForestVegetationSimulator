@@ -62,31 +62,52 @@ C WRITE ORGANON TYPE HEADINGS:
 C----------
       WRITE(JOSTND,120)
   120 FORMAT(/T30,'O R G A N O N',
-     &/T16,'ORegon Growth ANalysis and projectiON system',
-     &/T26,'Growth & Yield Project for')
+     &/T15,'ORegon Growth ANalysis and projectiON system',
+     &/T25,'Growth & Yield Model for')
       SELECT CASE (VVER(:2))
       CASE ('OC')
         WRITE(JOSTND,125)
-  125   FORMAT(/T17,'Southwest Oregon Mixed Conifer Forests',
+  125   FORMAT(T17,'Southwest Oregon Mixed Conifer Forests',
      &  //T22,'SW OREGON VERSION, EDITION 9.1')
       CASE DEFAULT
         IF(IMODTY .EQ. 2) THEN
           WRITE(JOSTND,126)
-  126     FORMAT(/,T24,'Northwest Oregon Forests',
+  126     FORMAT(T24,'Northwest Oregon Forests',
      &    //T22,'NW OREGON VERSION, EDITION 9.1')
         ELSE
           WRITE(JOSTND,127)
-  127     FORMAT(/,T24,'Northwest Oregon Forests',
-     &    //T16,'STAND MANAGEMENT COOP VERSION, EDITION 9.1')
+  127     FORMAT(T20,'Stand Management Coop Conifer Forests',
+     &    //T19,'STAND MANAGEMENT COOP VERSION, EDITION 9.1')
         ENDIF
       END SELECT
-      WRITE(JOSTND,130)
-  130 FORMAT(/T28,'by David W. Hann',
+      SELECT CASE (VVER(:2))
+      CASE ('OC')
+          WRITE(JOSTND,130)
+  130     FORMAT(T28,'by David W. Hann',
+     &/T27,'and Mark Hanus',
+     &/T28,'College of Forestry',
+     &/T25,'Oregon State University',
+     &//T24,'This model was funded by:',
+     &/T11,'Forestry Intensified Research (FIR) and the USDI BLM')
+      CASE DEFAULT
+        IF(IMODTY .EQ. 2) THEN
+          WRITE(JOSTND,131)
+  131     FORMAT(T28,'by David W. Hann',
      &/T12,'Martin Ritchie, Chao-Huan Wang, and Abdel Azim Zumrawi',
      &/T28,'College of Forestry',
      &/T25,'Oregon State University',
      &//T24,'This model was funded by the',
      &/T18,'College of Forestry Research Forests')
+        ELSE
+          WRITE(JOSTND,132)
+  132     FORMAT(T28,'by David W. Hann',
+     &/T18,'David D. Marshall and Mark L. Hanus',
+     &/T28,'College of Forestry',
+     &/T25,'Oregon State University',
+     &//T24,'This model was funded by:',
+     &/T18,'The Stand Management Cooperative (SMC)')
+        ENDIF
+      END SELECT
 C----------
 C  IMPORTANT SITE INDEX VALUES; SDI; STAND AGE
 C----------
