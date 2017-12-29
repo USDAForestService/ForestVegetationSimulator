@@ -7,7 +7,10 @@ C
 C
 C
       CASEID    = ""
-
+      DSNOUT    = "FVSOut.db"
+      DSNIN     = "FVS_Data.db"
+      IOUTDBREF = -1
+      IINDBREF  = -1
       ISUMARY  = 0
       ICOMPUTE = 0
       IATRTLIST= 0

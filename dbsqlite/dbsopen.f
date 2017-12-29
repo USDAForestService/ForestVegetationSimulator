@@ -1,18 +1,14 @@
-      SUBROUTINE DBSOPEN(CONNECT,EnvHndl,ConnHndl,DBMS,JOSTND,
-     -                   LKECHO,KODE)
+      SUBROUTINE DBSOPEN(LCOUT,LCIN,KODE)
+      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 C $Id: dbsopen.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
 C
-C     PURPOSE: TO OPEN A DATABASE CONNECTION
-C     INPUT: CONNECT  - THE INPUT CONNECTION STRING (or file name)
-C            EnvHndl  - ENVIRONMENT HANDLE
-C            ConnHndl - CONNECTION HANDLE
-C            DBMS     - DATABASE MANAGEMENT SYSTEM NAME
-C            JOSTND   - OUTPUT FILE REFERENCE NUMBER
-C            LKECHO   - TRUE IF KEYWORD OUTPUT IS BEING OUTPUT
-C            KODE     - RETURN CODE 0: CONNECTION UN-SUCCESSFUL
-C                                   1: CONNECTION SUCCESSFUL
+C     PURPOSE: TO OPEN BOTH THE INPUT AND OUTPUT DATABASE CONNECTIONS
+C            LCOUT and LCIN - passed in a TRUE if you want to open the
+C             correspoinding databases, 0 if you don't
+C            KODE     - RETURN CODE 0: OPEN SUCCESSFUL
+C                                   1: OPEN NOT SUCCESSFUL
 C---
 COMMONS
 C
@@ -20,186 +16,28 @@ C
 C
 COMMONS
 C
-      INTEGER(SQLHENV_KIND):: EnvHndl
-      INTEGER(SQLHDBC_KIND):: ConnHndl
-      INTEGER(SQLSMALLINT_KIND)::ConnStrLength,ConnStrLengthOut,LenDBMS
-      INTEGER(SQLSMALLINT_KIND), PARAMETER::LenConnStr=500
-      INTEGER(SQLSMALLINT_KIND)::DriverComplete
       INTEGER JOSTND,I,KODE
-      CHARACTER(LEN=*) CONNECT,DBMS
-      CHARACTER(LEN=LEN_TRIM(CONNECT)) SOURCE
-      CHARACTER(LEN=LenConnStr) ConnStr,ConnStrOut
-      CHARACTER*256 DSN
-      CHARACTER*40 USER,PSSWRD,SUFFIX
-      CHARACTER(LEN=10) ConnPrefix
-      LOGICAL LKECHO
+      LOGICAL LCOUT,LCIN
 C
-C     CLOSE ANY OPEN CONNECTION
+C     CLOSE ANY OPEN CONNECTIONS
 C
-      IF(ConnHndl.NE.-1 .AND. ConnHndl.EQ.ConnHndlOut)
-     >            CALL DBSCLOSE(.TRUE.,.FALSE.)
-      IF(ConnHndl.NE.-1 .AND. ConnHndl.EQ.ConnHndlIn)
-     >            CALL DBSCLOSE(.FALSE.,.TRUE.)
-      KODE = 0
-C
-C     ALLOCATE AND ENVIRONMENT HANDLE
-C
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, EnvHndl)
-C
-C     SET ODBC VERSION TO USE 3.X
-C
-      iRet = fvsSQLSetEnvAttr(EnvHndl, SQL_ATTR_ODBC_VERSION,
-     -  SQL_OV_ODBC3)
-C
-C     ALLOCATE A CONNECTION HANDLE
-C
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_DBC,EnvHndl, ConnHndl)
-C
-C     ENABLE AUTOCOMMIT ATTRIBUTE
-C
-      iRet = fvsSQLSetConnectAttr(ConnHndl,SQL_AUTOCOMMIT,
-     -  SQL_AUTOCOMMIT_ON,SQLINTEGER_KIND)
-      iRet = fvsSQLSetConnectAttr (ConnHndl, SQL_ACCESS_MODE,
-     -  SQL_MODE_READ_WRITE,SQLINTEGER_KIND)
-C
-C     If the first part CONNECT is "DRIVER=", "DSN=", or "FILEDSN=",
-C     then this is considered a full connection string.
-C     Jump directly to the DB connection.
-C
-      ConnPrefix = CONNECT(1:10)
-      do I = 1,len_trim(ConnPrefix)
-        call upcase(ConnPrefix(I:I))
-      enddo
-      if (
-     -   (ConnPrefix(1:7).eq."DRIVER=")
-     -   .or.(ConnPrefix(1:4).eq."DSN=")
-     -   .or.(ConnPrefix(1:8).eq."FILEDSN=")
-     -   ) then
-        ConnStr = CONNECT
-        DriverComplete = SQL_DRIVER_NOPROMPT
-        goto 10
-      endif
-C
-C     PARSE OUT NEEDED DATA FROM DSNOUT CHECKING FOR QUOTED STRINGS
-C
-      SOURCE = TRIM(CONNECT)
-      PSSWRD=' '
-      USER=' '
-      IF(SOURCE(1:1).EQ.CHAR(34)) THEN
-        SOURCE = TRIM(SOURCE(2:))
-        CALL DBSPRS(DSN,SOURCE,CHAR(34))
-      ELSE
-        CALL DBSPRS(DSN,SOURCE,' ')
-      END IF
-      IF(SOURCE(1:1).EQ.CHAR(34)) THEN
-        SOURCE = TRIM(SOURCE(2:))
-        CALL DBSPRS(USER,SOURCE,CHAR(34))
-      ELSE
-        CALL DBSPRS(USER,SOURCE,' ')
-      END IF
-      IF(SOURCE(1:1).EQ.CHAR(34)) THEN
-        SOURCE = TRIM(SOURCE(2:))
-        CALL DBSPRS(PSSWRD,SOURCE,CHAR(34))
-      ELSE
-        CALL DBSPRS(PSSWRD,SOURCE,' ')
-      END IF
-C
-C     IF THERE IS A FILE NAME SUFFIX, GET IT (LOAD INTO SUFFIX)
-C
-      SUFFIX=' '
-      DO I=LEN_TRIM(DSN),1,-1
-        IF (DSN(I:I).EQ.'.') THEN
-          SUFFIX=DSN(I+1:)
-          EXIT
-        ENDIF
-      ENDDO
-      ConnStr = ' '
-      IF (SUFFIX.EQ.' ') THEN
-        ConnStr='DSN='//TRIM(DSN)//';UID='//TRIM(USER)//
-     -          ';PWD='//TRIM(PSSWRD)
-        DriverComplete = SQL_DRIVER_COMPLETE
-      ELSE
-        DO I = 1,LEN_TRIM(SUFFIX)
-          CALL UPCASE(SUFFIX(I:I))
-        ENDDO
-        IF (DSN(2:2).NE.':') THEN
-          CALL GETCWD(ConnStr)
-          DSN = TRIM(ConnStr)//"/"//TRIM(DSN)
-         ENDIF
-        IF(SUFFIX.EQ.'DB') THEN
-          ConnStr='DRIVER=SQLite3 ODBC Driver'//
-     -            ';Database='//TRIM(DSN)//
-     -            ';Version=3;LongNames=0;Timeout=1000;NoTXN=0'//
-     -            ';SyncPragma=OFF;StepAPI=0;NoWCHAR=1'
-        ELSE
-          IF(SUFFIX.EQ.'XLS') THEN
-            ConnStr='DRIVER={Microsoft Excel Driver (*.xls)}'//
-     -                    ';ReadOnly=False'
-          ELSEIF (SUFFIX.EQ.'XLSX') THEN
-            ConnStr='DRIVER={Microsoft Excel Driver (*.xls, '//
-     -                      '*.xlsx, *.xlsm, *.xlsb)}'//
-     -                      ';ReadOnly=False'
-          ELSEIF(SUFFIX.EQ.'MDB'.OR.SUFFIX.EQ.'ACCDB')THEN
-            ConnStr='DRIVER={Microsoft Access Driver (*.mdb, '//
-     -              '*.accdb)}'
-          ENDIF
-          IF (ConnStr.NE.' ') THEN
-            ConnStr=trim(ConnStr)//';DBQ='//TRIM(DSN)//
-     -              ';UID='//TRIM(USER)//
-     -              ';PWD='//TRIM(PSSWRD)
-          ENDIF
-        ENDIF
-        DriverComplete = SQL_DRIVER_NOPROMPT
-      ENDIF
-   10 CONTINUE
-      ConnStrLength = LEN_TRIM(ConnStr)
-      IF (ConnStrLength.GT.0) THEN
-        iRet = fvsSQLDriverConnect(ConnHndl, SQL_NULL_PTR,
-     -         ConnStr,ConnStrLength,ConnStrOut,LenConnStr,
-     -         ConnStrLengthOut,DriverComplete)
-C
-C       MAKE SURE WE CONNECTED OK
-C
-        IF(iRet.NE.SQL_SUCCESS.AND.iRet.NE.SQL_SUCCESS_WITH_INFO)THEN
-          print *,"Data base connection error using connection string:"
-          print *,ConnStr(:ConnStrLength)
-          WRITE(JOSTND,20) ConnStr(:ConnStrLength)
-          CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndl,
-     -                   'DBSOPEN: Connection error.')
+      CALL DBSCLOSE(LCOUT,LCIN)
+
+      IF (LCOUT) THEN
+        I = fsql3_open(IOUTDBREF,trim(DSNOUT)//C_NULL_CHAR)
+        IF (I.NE.0) THEN
+          KODE=1
           RETURN
-        ELSE
-          IF (LKECHO) THEN
-            WRITE(JOSTND,20) ConnStr(:ConnStrLength)
-   20       FORMAT(T12,'ODBC CONNECT STRING: ',A)
-          ENDIF
         ENDIF
-
-      ELSE
-        print *,"Data base connection error: connection string ",
-     -          "could not be formed."
-        RETURN
-      ENDIF
-C
-C     CONNECTION SUCCESSFULLY OPENED
-C
-      KODE = 1
-C
-C     DETERMINE THE DBMS NAME
-C
-      iRet = fvsSQLGetInfo(ConnHndl,SQL_DBMS_NAME,DBMS,
-     -                   int(LEN(DBMS),SQLSMALLINT_KIND),
-     -                   LenDBMS)
-      DBMS(LenDBMS+1:)=' '
-C
-C     SET CONNECTION ATTRIBUTES TO ALLOW READ/WRITE
-C      (USUALLLY THIS IS SET BEFORE THE CONNECTION IS ESTABLISHED
-C      BUT THERE SEEMS TO BE A BUG IN THE EXCEL ODBC DRIVER THAT
-C      DOES NOT RECOGNIZE THIS SETTING IF DONE BEFORE CONNECTION)
-C
-      IF(DBMS.EQ.'EXCEL') THEN
-        iRet = fvsSQLSetConnectAttr (ConnHndl, SQL_ACCESS_MODE,
-     -     SQL_MODE_READ_WRITE,int(4,SQLINTEGER_KIND))
       ENDIF
 
+      IF (LCIN) THEN
+        I = fsql3_open(IINDBREF,trim(DSNIN)//C_NULL_CHAR)
+        IF (I.NE.0) THEN
+          KODE=1
+          RETURN
+        ENDIF
+      ENDIF
+      RETURN
       END
 

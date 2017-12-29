@@ -206,7 +206,6 @@
 ../common/COEFFS.F77
 ../common/CONTRL.F77
 ../common/CWDCOM.F77
-../common/DBSCOM.F77
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
 ../common/ECNCOMSAVES.F77
@@ -269,15 +268,12 @@
 ../cs/src/twigbf.f
 ../cs/src/twigcf.f
 ../cs/src/varmrt.f
+../dbsqlite/DBSCOM.F77
 ../dbsqlite/dbsatrtls.f
-../dbsqlite/dbsblkd.f
 ../dbsqlite/dbscase.f
-../dbsqlite/dbscknrows.f
 ../dbsqlite/dbsclose.f
 ../dbsqlite/dbscmpu.f
 ../dbsqlite/dbscuts.f
-../dbsqlite/dbsdiags.f
-../dbsqlite/dbsdriv.f
 ../dbsqlite/dbsecharv.f
 ../dbsqlite/dbsecsum.f
 ../dbsqlite/dbsevm.f

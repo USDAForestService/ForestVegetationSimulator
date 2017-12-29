@@ -286,6 +286,14 @@ int fsql3_addcolifabsent_(int *dbnum, char *tname, char *cname, char *cdef)
   return rc != SQLITE_OK;
 }
 
-
-
- 
+// check to see if a table exists.
+int fsql3_tableexists_(int *dbnum, char *tname)
+{
+  char sql[501];
+  snprintf(sql,500,"select _ROWID_ from sqlite_master where name = '%s';",tname);
+  sqlite3_prepare_v2(dbset[*dbnum], sql, -1, &stmtset[*dbnum], NULL);
+  int rtn = SQLITE_ROW == sqlite3_step(stmtset[*dbnum]);
+  sqlite3_finalize(stmtset[*dbnum]);
+  stmtset[*dbnum] = NULL;
+  return rtn;
+}

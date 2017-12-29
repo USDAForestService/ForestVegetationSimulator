@@ -3,7 +3,7 @@
 C
 C $Id: dbsclose.f 295 2012-05-31 18:52:14Z ncrookston.fs@gmail.com $
 C
-C     PURPOSE: TO CLOSE DATABASE CONNECTION
+C     PURPOSE: TO CLOSE DATABASE CONNECTIONS
 C
 COMMONS
 C
@@ -12,36 +12,15 @@ C
 C
 COMMONS
 C
+      INTEGER fsql3_close,IRT
       LOGICAL LCOUT,LCIN
-      IF(ConnHndlOut.NE.-1 .AND. LCOUT) THEN
-        !make sure transactions are committed
-        iRet = fvsSQLEndTran(SQL_HANDLE_DBC, ConnHndlOut, SQL_COMMIT)
-
-        !disconnect
-        iRet = fvsSQLDisconnect(ConnHndlOut)
-
-        !release connection handles
-        iRet = fvsSQLFreeHandle(SQL_HANDLE_DBC, ConnHndlOut)
-        ConnHndlOut = -1
-
-        !release environment handle
-        iRet = fvsSQLFreeHandle(SQL_HANDLE_ENV, EnvHndlOut)
-        EnvHndlOut = -1
+      IF(IOUTDBREF.NE.-1 .AND. LCOUT) THEN
+        IRT=fsql3_close(IOUTDBREF)
+        IOUTDBREF = -1
       ENDIF
-      IF(ConnHndlIn.NE.-1 .AND. LCIN) THEN
-        !make sure transactions are committed
-        iRet = fvsSQLEndTran(SQL_HANDLE_DBC, ConnHndlIn, SQL_COMMIT)
-
-        !disconnect
-        iRet = fvsSQLDisconnect(ConnHndlIn)
-
-        !release connection handles
-        iRet = fvsSQLFreeHandle(SQL_HANDLE_DBC, ConnHndlIn)
-        ConnHndlIn = -1
-
-        !release environment handle
-        iRet = fvsSQLFreeHandle(SQL_HANDLE_ENV, EnvHndlIn)
-        EnvHndlIn = -1
+      IF(IINDBREF.NE.-1 .AND. LCIN) THEN
+        IRT=fsql3_close(IINDBREF)
+        IINDBREF = -1
       ENDIF
 
       END

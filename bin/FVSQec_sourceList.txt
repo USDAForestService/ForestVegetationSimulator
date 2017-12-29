@@ -217,7 +217,6 @@
 ../common/CONTRL.F77
 ../common/CVCOM.F77
 ../common/CWDCOM.F77
-../common/DBSCOM.F77
 ../common/DBSTK.F77
 ../common/ECNCOM.F77
 ../common/ECNCOMSAVES.F77
@@ -271,16 +270,13 @@
 ../covr/src/cvscon.f
 ../covr/src/cvshap.f
 ../covr/src/cvsum.f
+../dbsqlite/DBSCOM.F77
 ../dbsqlite/dbsatrtls.f
-../dbsqlite/dbsblkd.f
 ../dbsqlite/dbscase.f
-../dbsqlite/dbscknrows.f
 ../dbsqlite/dbsclose.f
 ../dbsqlite/dbsclsum.f
 ../dbsqlite/dbscmpu.f
 ../dbsqlite/dbscuts.f
-../dbsqlite/dbsdiags.f
-../dbsqlite/dbsdriv.f
 ../dbsqlite/dbsecharv.f
 ../dbsqlite/dbsecsum.f
 ../dbsqlite/dbsevm.f

@@ -1,4 +1,5 @@
       SUBROUTINE DBSCASE(IFORSURE)
+      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 C $Id: dbscase.f 1968 2017-06-07 17:10:14Z lancedavid $
@@ -35,7 +36,8 @@ C
 COMMONS
 C---
 
-      INTEGER(SQLINTEGER_KIND),parameter:: MaxStringLen=255
+      INTEGER fsql3_tableexists,fsql3_exec
+      INTEGER,parameter:: MaxStringLen=255
 
       CHARACTER*2000 SQLStmtStr
       CHARACTER*10  DATO, REV
@@ -90,33 +92,16 @@ C-----
      -     IBMVOL.GE.1) IFORSR = 1
        ENDIF
        IF(IFORSR.EQ.0) RETURN
-
 C---------
 C     IF ALREADY HAVE A CURRENT CASE NUMBER, JUST BAIL
 C---------
       IF (CASEID.NE."") RETURN
-C---
-C     Initialize variables
-C     CREATE DATETIME
-      CALL GRDTIM(DATO,TIM)
-      TIMESTAMP = DATO(7:10)//'-'//DATO(1:5)//'-'//TIM
-C     STRIP 3-CHARACTER EXTENSION (IF PRESENT) FROM KEYFNAME
-      I = LEN_TRIM(KEYFNAME)
-
-      IF (KEYFNAME(I-3:I-3) .EQ. '.') THEN
-        KEYFNAME = KEYFNAME(1:I-4)
-      ENDIF
 
 C---------
 C     MAKE SURE WE HAVE AN OPEN CONNECTION
 C---------
-      IF(ConnHndlOut.EQ.-1) CALL DBSOPEN(DSNOUT,EnvHndlOut,
-     -                      ConnHndlOut,DBMSOUT,0,.FALSE.,KODE)
-C---------
-C     ALLOCATE A STATEMENT HANDLE
-C---------
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
+      IF (IOUTDBREF.EQ.-1) CALL DBSOPEN(.TRUE.,.FALSE.,KODE)
+      IF (KODE.EQ.1) THEN
         ICOMPUTE  = 0
         ISUMARY   = 0
         IATRTLIST = 0
@@ -144,60 +129,12 @@ C---------
         IBMBKP    = 0
         IBMTREE   = 0
         IBMVOL    = 0
-C
-        CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlOut,
-     -                 'DBSRun:Connecting to DSN')
-        GOTO 200
+        RETURN
       ENDIF
-
-C---------
-C     MAKE SURE WE HAVE AN OPEN CONNECTION
-C---------
-      IF(ConnHndlOut.EQ.-1) CALL DBSOPEN(DSNOUT,EnvHndlOut,
-     -                      ConnHndlOut,DBMSOUT,0,.FALSE.,KODE)
-C---------
-C     CHECK TO SEE IF THE FVS_Cases TABLE EXISTS IN DATBASE
-C---------
-      IF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-        TABLENAME = '[FVS_Cases$]'
-      ELSEIF(TRIM(DBMSOUT).EQ."ORACLE") THEN
-        TABLENAME = '"FVS_Cases"'
-      ELSE
-        TABLENAME = 'FVS_Cases'
-      ENDIF
-      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
-      IF(IRCODE.EQ.2) RETURN
-      IF(IRCODE.EQ.1) THEN
-        IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
-          SQLStmtStr="CREATE TABLE FVS_Cases("//
-     -              "CaseID Text primary key,"//
-     -              "Stand_CN Text null,"//
-     -              "StandID Text null,"//
-     -              "MgmtID Text null,"//
-     -              "RunTitle Text null,"//
-     -              "KeywordFile Text null,"//
-     -              "SamplingWt double null,"//
-     -              "Variant Text null,"//
-     -              "Version Text null,"//
-     -              "RV Text null,"//
-     -              "Groups Text null,"//
-     -              "RunDateTime Text null)"
-        ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-          SQLStmtStr="CREATE TABLE FVS_Cases("//
-     -              "CaseID Text,"//
-     -              "Stand_CN Text,"//
-     -              "StandID Text,"//
-     -              "MgmtID Text,"//
-     -              "RunTitle Text,"//
-     -              "KeywordFile Text,"//
-     -              "SamplingWt Number,"//
-     -              "Variant Text,"//
-     -              "Version Text,"//
-     -              "RV Text,"//
-     -              "Groups Text,"//
-     -              "RunDateTime Text);"
-        ELSE
-          SQLStmtStr="CREATE TABLE "//TABLENAME//
+      
+      IRCODE = fsql3_tableexists(IOUTDBREF,"FVS_Cases"//C_NULL_CHAR)
+      IF(IRCODE.EQ.0) THEN
+        SQLStmtStr="CREATE TABLE FVS_Cases"//
      -              " (CaseID char(36) primary key,"//
      -              "Stand_CN char(40),"//
      -              "StandID char(26),"//
@@ -209,21 +146,25 @@ C---------
      -              "Version char(10),"//
      -              "RV char(8),"//
      -              "Groups char(250),"//
-     -              "RunDateTime char(19))"
-        ENDIF
-
-        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -       'DBSCase:Creating Table: '//trim(SQLStmtStr))
-        !Close Cursor
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
-
+     -              "RunDateTime char(19))"//C_NULL_CHAR
+        IRCODE = fsql3_exec(IOUTDBREF,SQLStmtStr)
+        IF (IRCODE .NE. 0) RETURN
       ENDIF
 C---------
 C     CREATE ENTRY FROM DATA FOR FVSRUN TABLE
 C---------
       CALL UUIDGEN(CASEID)
+C     CREATE DATETIME
+
+      CALL GRDTIM(DATO,TIM)
+      TIMESTAMP = DATO(7:10)//'-'//DATO(1:5)//'-'//TIM
+
+C     STRIP 3-CHARACTER EXTENSION (IF PRESENT) FROM KEYFNAME
+
+      I = LEN_TRIM(KEYFNAME)
+      IF (KEYFNAME(I-3:I-3) .EQ. '.') THEN
+        KEYFNAME = KEYFNAME(1:I-4)
+      ENDIF    
 C----------
 C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 C----------
@@ -238,20 +179,9 @@ C----------
      - TRIM(ADJUSTL(KEYFNAME)),"',",SAMWT,",'",VAR,"',",
      - "'",SVN,"','",REV,"','",
      - TRIM(ADJUSTL(SLSET)),"','",TRIM(ADJUSTL(TIMESTAMP)),"')"
-      !Close Cursor
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
 
-      !Execute Query
-      iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-      CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     >              'DBSCase:Inserting Row: '//trim(SQLStmtStr))
-
-      !Release statement handle
-  200 CONTINUE
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
+      IRCODE = fsql3_exec(IOUTDBREF,SQLStmtStr)
       RETURN
-
 C
 C     CALLED BY FILOPN: ENTRY TO SAVE THE KEYWORD FILE NAME AND TO SET
 C                       THE DEFAULT DBS CONNECTIONS

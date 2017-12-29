@@ -1,9 +1,9 @@
       SUBROUTINE DBSCMPU
+      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 C $Id: dbscmpu.f 1934 2017-04-07 15:36:40Z lancedavid $
 C
-C     AUTH: D. GAMMEL -- SEM -- JUNE 2002
 C     PURPOSE: TO POPULATE A DATABASE WITH THE COMPUTE TABLE
 C              INFORMATION
 C
@@ -30,331 +30,180 @@ C
 C
 COMMONS
 C
+      INTEGER MXLEN
+      PARAMETER(MXLEN=2000)
+      CHARACTER(LEN=MXLEN) SQLStmt
+      CHARACTER(LEN=8),DIMENSION(MXTST5)::KWINSRT
+      DOUBLE PRECISION,DIMENSION(MXTST5)::CURVAL
+      LOGICAL LDUPKW
+      INTEGER I,II,IX,I3,iRet,THISYR,ICY,NSRTNUM
 
-      CHARACTER*10000 SQLStmtStr, TABLESTR
-      CHARACTER*20 TABLENAME,DTYPE
-      CHARACTER*20 COLNAME
-      CHARACTER*8 KEYWRD
-      CHARACTER(LEN=1) LWRAP,RWRAP
-      CHARACTER(LEN = 8),DIMENSION (MXTST5)::KWLIST,KWINSRT
-      REAL,DIMENSION(MXTST5)::KWVALS
-      INTEGER NUMKW,I,I1,I2,I3,I4,INSRTNUM,II,X,ICY,THISYR,IRCODE
-      LOGICAL KWINLIST,LDUPKW
-      INTEGER(SQLUSMALLINT_KIND)::ColNumber
-      INTEGER(SQLSMALLINT_KIND)::NameLen,ColumnCount,DTp,
-     -       NDecs, Nullable
-      INTEGER(SQLULEN_KIND) NColSz
-      NUMKW = ITST5
+      INTEGER fsql3_tableexists,fsql3_exec,fsql3_addcolifabsent
 C
 C     IF COMPUTE IS NOT TURNED ON OR THE NUMBER OF VARIABLES IS 0
 C     THEN RETURN
 C
-      IF(ICOMPUTE.EQ.0.OR.NUMKW.EQ.0) RETURN
+      IF(ICOMPUTE.EQ.0.OR.ITST5.EQ.0) RETURN
+C
+C     Do we need the table, or all all variables with a _
+C
+      II=0
+      DO I=1,ITST5
+          IF(.NOT.(CTSTV5(I)(1:1).EQ.'_'.AND.I_CMPU.LT.1)) THEN
+            II=1
+            EXIT
+          ENDIF
+      ENDDO
+      IF (II.EQ.0) RETURN
 C
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C
       CALL DBSCASE(1)
-
-      IF(TRIM(DBMSOUT).EQ.'EXCEL') THEN
-        TABLENAME = '[FVS_Compute$]'
-        DTYPE = 'Number'
-        LWRAP = '['
-        RWRAP = ']'
-      ELSEIF(TRIM(DBMSOUT).EQ.'ACCESS') THEN
-        TABLENAME = 'FVS_Compute'
-        DTYPE = 'Double'
-        LWRAP = '['
-        RWRAP = ']'
-      ELSEIF(TRIM(DBMSOUT).EQ.'ORACLE') THEN
-        TABLENAME = 'FVS_Compute'
-        DTYPE = 'real'
-        LWRAP = '"'
-        RWRAP = '"'
-      ELSE
-        TABLENAME = 'FVS_Compute'
-        DTYPE = 'real'
-        LWRAP = ' '
-        RWRAP = ' '
-      ENDIF
-C
-C     ALLOCATE A STATEMENT HANDLE
-C
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
-        ICOMPUTE = 0
-        PRINT *,'Error connecting to data source'
-        CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlOut,
-     -                 'DBSCMPU:Connecting to DSN')
-        GOTO 10
-      ENDIF
 C
 C     CHECK TO SEE IF THE COMPUTE TABLE EXISTS IN DATBASE
 C     IF IT DOES NOT THEN WE NEED TO CREATE IT
 C
-      CALL DBSCKNROWS(IRCODE,TABLENAME,NCYC,TRIM(DBMSOUT).EQ.'EXCEL')
-      IF(IRCODE.EQ.2) THEN
-        ICOMPUTE = 0
-        RETURN
-      ENDIF
-      IF(IRCODE.EQ.1) THEN
-        KWLIST = CTSTV5
-        IF(TRIM(DBMSOUT).EQ."EXCEL".OR.TRIM(DBMSOUT).EQ."ACCESS") THEN
-          TABLESTR='CREATE TABLE FVS_Compute('//
-     -             'CaseID Text,'//
-     -             'StandID Text null,'//
-     -             'Year INT null'
-
-          DO I=1,NUMKW
-            !CHECK TO SEE IF WE WANT TO SKIP UNDERSCORE COMPUTES
-            IF(.NOT.(KWLIST(I)(1:1).EQ.'_'.AND.I_CMPU.LT.1)) THEN
-              SQLStmtStr=TRIM(TABLESTR)//',['//
-     -               TRIM(KWLIST(I))//'] '//TRIM(DTYPE)//' null'
-              TABLESTR = SQLStmtStr
-            ENDIF
-          ENDDO
-        ELSE
-          TABLESTR='CREATE TABLE FVS_Compute('//
+      iRet = fsql3_tableexists(IOUTDBREF,"FVS_Compute"//C_NULL_CHAR)
+      IF(iRet.EQ.0) THEN
+        SQLStmt='CREATE TABLE FVS_Compute('//
      -             'CaseID char(36) ,'//
      -             'StandID char(26) null,'//
      -             'Year int null'
-          DO I=1,NUMKW
-            !CHECK TO SEE IF WE WANT TO SKIP UNDERSCORE COMPUTES
-            IF(.NOT.(KWLIST(I)(1:1).EQ.'_'.AND.I_CMPU.LT.1)) THEN
-             SQLStmtStr=TRIM(TABLESTR)//','//LWRAP//
-     -               TRIM(KWLIST(I))//RWRAP//' '//TRIM(DTYPE)//' null'
-             TABLESTR = SQLStmtStr
-            ENDIF
-          ENDDO
+        DO I=1,ITST5
+          IF(.NOT.(CTSTV5(I)(1:1).EQ.'_'.AND.I_CMPU.LT.1)) THEN
+            SQLStmt=TRIM(SQLStmt)//', '//
+     -                 TRIM(CTSTV5(I))//' real null'
+          ENDIF
+        ENDDO
+        SQLStmt = TRIM(SQLStmt)//C_NULL_CHAR
+        iRet = fsql3_exec(IOUTDBREF,SQLStmt)
+        IF (iRet .NE. 0) THEN
+          ICOMPUTE = 0
+          RETURN
         ENDIF
-
-        SQLStmtStr = TRIM(TABLESTR)//')'
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
-        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -       'DBSCMPU:Creating Table: '//trim(SQLStmtStr))
       ELSE
 C
-C       POPULATE THE KWLIST WITH THE CURRENT COLUMN NAMES
-C       FIRST, FETCH ALL THE COLS SO WE CAN GET THE NAMES
+C       MAKE SURE ALL THE NEEDED COLUMNS EXIST
 C
-        SQLStmtStr= 'SELECT * FROM FVS_Compute'
-        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     >            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-        iRet = fvsSQLNumResultCols(StmtHndlOut,ColumnCount)
-c*       print *,"iRet=",iRet," ColumnCount=",ColumnCount
-        DO ColNumber = 1,ColumnCount
-          iRet = fvsSQLDescribeCol (StmtHndlOut, ColNumber, ColName,
-     -         int(LEN(ColName),SQLSMALLINT_KIND), NameLen, DTp,
-     -         NColSz, NDecs, Nullable)     
-          ColName(NameLen+1:)=' '
-c*        print *,"ColNumber=",ColNumber," iRet=",iRet,
-c*     >   " NameLen=",NameLen," ColName=",ColName
-          IF (ColNumber.GT.3) KWLIST(ColNumber-3) = ColName(:NameLen)
+        DO I=1,ITST5
+          IF(.NOT.(CTSTV5(I)(1:1).EQ.'_'.AND.I_CMPU.LT.1)) THEN
+          iRet = fsql3_addcolifabsent(IOUTDBREF, 
+     >         "FVS_Compute"//C_NULL_CHAR, 
+     >         TRIM(CTSTV5(I))//C_NULL_CHAR, "real"//C_NULL_CHAR)
+          ENDIF
         ENDDO
-        NUMKW = ColumnCount - 3
       ENDIF
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
 C
-C     CREATE AND EXECUTE THE INSERT COMMANDS FOR EACH YEAR
+C     BUILD AND RUN THE INSERT COMMANDS
 C
-      THISYR = -1
-      INSRTNUM = 0
       DO ICY=1,NCYC
-        I1=IMGPTS(ICY,1)
-        I2=IMGPTS(ICY,2)
-        DO II=I1,I2
+C
+C     Make a list of variables and correspoinding values
+C     for the current cycle
+C
+        NSRTNUM = 0
+        THISYR = -1
+        DO II=IMGPTS(ICY,1),IMGPTS(ICY,2)
           I=IOPSRT(II)
-          !MAKE SURE WE ARE GRABBING ONLY THE COMPUTES
+          IF(.NOT. (IACT(I,1).EQ.33 .AND. IACT(I,4).GT.0)) CYCLE
+          IF(THISYR.EQ.-1) THISYR = IACT(I,4)
+          IF(IACT(I,4).NE.THISYR) THEN
+            IF(NSRTNUM.GT.0) THEN
 
-          IF(IACT(I,1).EQ.33 .AND. IACT(I,4).GT.0) THEN
-            IF(THISYR.EQ.-1) THISYR = IACT(I,4)
-            IF(IACT(I,4).NE.THISYR) THEN
-              !CHECK TO SEE IF WE HAVE SOMETHING TO INSERT
-              IF(INSRTNUM.GT.0) THEN
+C             Build and run an insert query
 
-                !BUILD THE INSERT QUERY
-                CALL INSERTCMPU(KWINSRT,KWVALS,THISYR,NPLT,INSRTNUM)
+              CALL INSERTCMPU(IOUTDBREF,KWINSRT,CURVAL,THISYR,NPLT,
+     >                        CASEID,NSRTNUM)
 
-              ENDIF
-              INSRTNUM = 0
+              NSRTNUM = 0
               THISYR = IACT(I,4)
             ENDIF
-            X=IFIX(PARMS(IACT(I,2)+1))
-            IF (X.GT.500) X=X-500
-            KEYWRD=CTSTV5(X)
-            !CHECK TO SEE IF WE WANT TO SKIP UNDERSCORE COMPUTES
-            IF(KEYWRD(1:1).EQ.'_'.AND.I_CMPU.LT.1) THEN
-              KWINLIST = .TRUE.
-            ELSE
-              KWINLIST=.FALSE.
-              !CHECK TO SEE IF KEYWORD IS IN LIST ALREADY
-              DO I3=1,NUMKW
-                !IF IT IS IN THE LIST THEN ADD THE VALUE TO THE ARRAYS
-                IF(TRIM(KWLIST(I3)).EQ.TRIM(KEYWRD)) THEN
-                  !NEED TO CHECK FOR DUPLICATES
-                  LDUPKW = .FALSE.
-                  DO I4=1,INSRTNUM
-                    IF(TRIM(KWINSRT(I4)).EQ.TRIM(KEYWRD)) THEN
-                      KWVALS(I4)=PARMS(IACT(I,2))
-                      LDUPKW =.TRUE.
-                    ENDIF
-                  ENDDO
-                  !IF NOT A DUPLICATE THEN ADD NEW ENTRY TO ARRAYS
-                  IF(.NOT.LDUPKW) THEN
-                    INSRTNUM = INSRTNUM + 1
-                    KWINSRT(INSRTNUM)=KEYWRD
-                    KWVALS(INSRTNUM)=PARMS(IACT(I,2))
-                  ENDIF
-                  KWINLIST=.TRUE.
-                  EXIT
-                ENDIF
-              ENDDO
-            ENDIF
-             
-            !IF KW NOT IN LIST THEN DETERMINE IF WE WANT TO ALTER TABLE
-            IF((.NOT.KWINLIST).AND.TRIM(DBMSOUT).NE.'EXCEL'
-     -          .AND.IADDCMPU.LT.1) THEN
-              SQLStmtStr='ALTER TABLE '//trim(TABLENAME)//' ADD '//
-     -          LWRAP//TRIM(KEYWRD)//RWRAP//' '//trim(DTYPE)//' null'
-              !Close Cursor
-              iRet = fvsSQLCloseCursor(StmtHndlOut)
-              iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-              CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -            'DBSCMPU:Alter Table: '//trim(SQLStmtStr))
-
-              !ADD NEW COLUMN TO MASTER LIST
-              NUMKW = NUMKW+1
-              KWLIST(NUMKW) = KEYWRD
-              !ADD THE KEYWORD AND VALUES TO THE SQL ARRAYS
-              KWINSRT(INSRTNUM+1)=KEYWRD
-              KWVALS(INSRTNUM+1)=PARMS(IACT(I,2))
-              INSRTNUM = INSRTNUM + 1
+          ENDIF
+          IX=IFIX(PARMS(IACT(I,2)+1))
+          IF (IX.GT.500) IX=IX-500
+C
+C         CHECK TO SEE IF WE WANT TO SKIP UNDERSCORE COMPUTES
+C
+          IF(CTSTV5(IX)(1:1).EQ.'_'.AND.I_CMPU.LT.1) CYCLE
+          IF (NSRTNUM.EQ.0) THEN
+            KWINSRT(1) = CTSTV5(IX)
+            CURVAL(1)=PARMS(IACT(I,2))
+            NSRTNUM = 1
+          ELSE
+            LDUPKW =.FALSE.
+            DO I3=1,NSRTNUM
+              IF(TRIM(KWINSRT(I3)).EQ.TRIM(CTSTV5(IX))) THEN
+                CURVAL(I3)=PARMS(IACT(I,2))
+                LDUPKW =.TRUE.
+                EXIT
+              ENDIF
+            ENDDO
+            IF(.NOT.LDUPKW) THEN
+              NSRTNUM = NSRTNUM + 1
+              KWINSRT(NSRTNUM)=CTSTV5(IX)
+              CURVAL(NSRTNUM)=PARMS(IACT(I,2))
             ENDIF
           ENDIF
         ENDDO
       ENDDO
-C
-C     CHECK TO SEE IF WE HAVE SOMETHING MORE TO INSERT
-C
-      IF(INSRTNUM.GT.0) THEN
+      
+C     More to insert?
 
-        !DO NOT INSERT 0 YEAR ENTRIES
-        IF(.NOT.THISYR.GT.0)GOTO 10
-
-        CALL INSERTCMPU(KWINSRT,KWVALS,THISYR,NPLT,INSRTNUM)
-
-      ENDIF
-   10 CONTINUE
-      !make sure transactions are committed
-      iRet = fvsSQLEndTran(SQL_HANDLE_DBC, ConnHndlOut, SQL_COMMIT)
-      !Close Cursor
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-      !Release statement handle
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
-
+      IF(NSRTNUM.GT.0) 
+     >    CALL INSERTCMPU(IOUTDBREF,KWINSRT,CURVAL,THISYR,NPLT,CASEID,
+     >                    NSRTNUM)
+      RETURN
       END
-
-
-
-      SUBROUTINE INSERTCMPU(KWINSRT,KWVALS,THISYR,STANDID,NUMCMPU)
+      
+      SUBROUTINE INSERTCMPU(IOUTDBREF,KWINSRT,CURVAL,THISYR,STANDID,
+     >                      CASEID,NSRTNUM)
+      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
-C     BUILDCMPUSQL
-C     AUTH: D. GAMMEL -- SEM -- JUNE 2002
-C     PURPOSE: TO POPULATE A DATABASE WITH THE COMPUTE TABLE
-C              INFORMATION
-C
 C     INPUT: KWINSRT - THE ARRAY OF COMPUTE VARS TO INSERT
-C            KWVALS  - THE ARRAY OF VALUES ASSOCIATED W/ THE VARS
-C            NUMCMPU - THE NUMBER OF COMPUTE VARS TO INSERT
+C            CURVAL  - THE ARRAY OF VALUES ASSOCIATED W/ THE VARS
+C            NSRTNUM - THE NUMBER OF COMPUTE VARS TO INSERT
 C
-C     RETURN:SQLStmtStr - THE QUERY STRING TO USE FOR THE INSERT
-C
-COMMONS
-C
-C
-      INCLUDE 'DBSCOM.F77'
-C
-C
-COMMONS
-C
-      INTEGER NUMCMPU,X,THISYR,ID
-      INTEGER(SQLSMALLINT_KIND)::ColNumber
-      CHARACTER*7000 SQLStmtStr,SQLStr1,SQLStr2
-      CHARACTER*20 TABLENAME,DTYPE
+      INTEGER I,THISYR,IOUTDBREF,IRT,NSRTNUM
+      CHARACTER(LEN=8) KWINSRT(NSRTNUM)
+      DOUBLE PRECISION CURVAL(NSRTNUM)
       CHARACTER(LEN=26) STANDID
-      CHARACTER(LEN=1) RWRAP,LWRAP
-      CHARACTER(LEN = 8),DIMENSION (NUMCMPU)::KWINSRT
-      REAL,DIMENSION(NUMCMPU)::KWVALS
-      DOUBLE PRECISION,DIMENSION(NUMCMPU)::CURVAL
-      SELECT CASE(TRIM(DBMSOUT))
-      CASE('EXCEL')
-        TABLENAME = '[FVS_Compute$]'
-        DTYPE = 'Number'
-        LWRAP = '['
-        RWRAP = ']'
-      CASE('ACCESS')
-        TABLENAME = 'FVS_Compute'
-        DTYPE = 'Double'
-        LWRAP = '['
-        RWRAP = ']'
-      CASE('ORACLE')
-        TABLENAME = 'FVS_Compute'
-        DTYPE = 'real'
-        LWRAP = '"'
-        RWRAP = '"'
-      CASE DEFAULT
-        TABLENAME = 'FVS_Compute'
-        DTYPE = 'real'
-        LWRAP = ' '
-        RWRAP = ' '
-      END SELECT
-
-      !BUILD THE EXECUTE QUERY
-      SQLStr1 = 'INSERT INTO '//TABLENAME//
-     -  '(CaseID,StandID,Year,'
-      DO X=1,NUMCMPU
-        SQLStr2 =TRIM(SQLStr1)//LWRAP//TRIM(KWINSRT(X))
-     -    //RWRAP//','
-        SQLStr1 = TRIM(SQLStr2)
-      ENDDO
-      SQLStr2 = SQLStr1(1:(LEN_TRIM(SQLStr1)-1))
-      WRITE(SQLStr1,*)TRIM(SQLStr2),') VALUES(''',
-     -      CASEID,''',''',TRIM(STANDID),''',?,'
-
-      DO X=1,NUMCMPU
-        SQLStr2 = TRIM(SQLStr1)//'?,'
-        SQLStr1 = TRIM(SQLStr2)
-      ENDDO
-      SQLStr2 = SQLStr1(1:(LEN(TRIM(SQLStr1))-1))
-      SQLStmtStr = TRIM(SQLStr2)//')'
-
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-      iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-
-      !BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
-      ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),THISYR,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      DO X=1,(NUMCMPU)
-        CURVAL(X)=KWVALS(X)
-        ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -           SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),CURVAL(X),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      CHARACTER(LEN=36) CASEID
+      CHARACTER(LEN=3000) SQLStmt
+      CHARACTER(LEN=200)  VALS
+      INTEGER fsql3_prepare,fsql3_bind_int,fsql3_bind_double,
+     >        fsql3_finalize,fsql3_errmsg
+      
+      SQLStmt=" "
+      IF(NSRTNUM.EQ.0) RETURN
+      DO I=1,NSRTNUM
+        SQLStmt = TRIM(SQLStmt) // "," // TRIM(KWINSRT(I))
+        VALS    = TRIM(VALS)    // ",?"      
       ENDDO
 
-      iRet = fvsSQLExecute(StmtHndlOut)
-      CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -              'DBSCMPU:Inserting Row, CMD='//trim(SQLStmtStr))
-
+      SQLStmt = "insert into FVS_Compute (CaseID,StandID,Year" //
+     >   trim(SQLStmt) // ") values (" // CASEID // "," // 
+     >   TRIM(STANDID) // ",?" // TRIM(VALS) // ");" // C_NULL_CHAR
+      
+      IRT = fsql3_prepare(IOUTDBREF,SQLStmt)
+      IF (IRT>0) THEN
+        IRT = fsql3_errmsg(VALS, 200)
+        PRINT *,"dbscmpu prepare error: ",TRIM(VALS)
+      endif
+      IRT = fsql3_bind_int(IOUTDBREF, 1, THISYR)
+      DO I=1,NSRTNUM 
+        IRT = fsql3_bind_double(IOUTDBREF,I+1,CURVAL(I))
+      ENDDO
+      IRT = fsql3_finalize(IOUTDBREF)
+      IF (IRT>0) THEN
+        IRT = fsql3_errmsg(VALS, 200)
+        PRINT *,"dbscmpu finalize error: ",TRIM(VALS)
+      endif
+      RETURN
       END
+      
+      
+      
+
+
+
