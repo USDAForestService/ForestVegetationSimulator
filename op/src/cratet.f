@@ -223,9 +223,9 @@ C-----------
         HT1OR(I)= HT(I)                ! TOTAL HEIGHT AT BEGINNING OF PERIOD
         IF(HT(I).GT.0. .AND. HT1OR(I).LT.4.6) HT1OR(I)=4.6
         CR1(I)= REAL(ICR(I)) / 100.0   ! MEASURED/PREDICTED CROWN RATIO
-        EXPAN1(I)= PROB(I)             ! EXPANSION FACTOR
+        EXPAN1(I)= PROB(I) * PI        ! POINT-LEVEL EXPANSION FACTOR
         RADGRO(I)= DG(I)/2.0           ! INSIDE BARK RADIAL GROWTH 
-        USER(I)= ISPECL(I)             ! USER CODE AT BEGINNING OF PERIOD   
+        USER(I)= KUTKOD(I)             ! USER CODE AT BEGINNING OF PERIOD   
         NLOAD = NLOAD + 1
         ITEM(NLOAD) = I
 C----------
