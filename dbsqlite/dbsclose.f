@@ -22,20 +22,22 @@ C
         I = fsql3_close(IoutDBref)
         IF (I.NE.0) THEN
           I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
-          print *,"DBS close error msg for DSNOUT=",Msg(:I)
+          print *," IoutDBref=",IinDBref,
+     >            "DBS close error msg for DSNOUT=",Msg(:I)
         ENDIF
+        IoutDBref = -1
       ENDIF
-      IoutDBref = -1
       
       IF(IinDBref.GE.0 .AND. LCIN) THEN
         I = fsql3_finalize(IinDBref)
         I = fsql3_close(IinDBref)
         IF (I.NE.0) THEN
           I = fsql3_errmsg(IinDBref,Msg,MxMsg)
-          print *,"DBS close error msg for DSNOUT=",Msg(:I)
+          print *," IinDBref=",IinDBref,
+     >            "DBS close error msg for DSNOUT=",Msg(:I)
         ENDIF
+        IinDBref = -1
       ENDIF
-      IinDBref = -1
 
       END
 

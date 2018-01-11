@@ -44,12 +44,11 @@ COMMONS
 C
       CHARACTER*8 TID,CSPECIES
       CHARACTER*2000 SQLStmtStr
-      CHARACTER*20 TABLENAME,DTYPE
       INTEGER IWHO,I,JYR,IP,ITPLAB,iRet,IDMR,ICDF,IBDF,IPTBAL,KODE
       INTEGER ISPC,I1,I2,I3
       INTEGER*4 IDCMP1,IDCMP2
       DATA IDCMP1,IDCMP2/10000000,20000000/
-      REAL CW,P,CCFT,DGI,DP,TEM,ESTHT,TREAGE
+      REAL CW,P,DGI,DP,TEM,ESTHT,TREAGE
       
       integer fsql3_tableexists,fsql3_exec      
 
@@ -66,7 +65,7 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
 
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_TreeList"//CHAR(0))
-      IF(iRet.EQ.1) THEN
+      IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_TreeList('//
      -             'CaseID char(36),'//
      -             'StandID char(26),'//
@@ -195,7 +194,7 @@ C
             IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
             IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
 
-            WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+            WRITE(SQLStmtStr,*)'INSERT INTO FVS_TreeList',
      -           ' (CaseID,StandID,Year,PrdLen,',
      -           'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
      -           'MortPA,DBH,DG,',
@@ -273,7 +272,7 @@ C
         IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
         IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
         
-        WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
+        WRITE(SQLStmtStr,*)'INSERT INTO FVS_TreeList',
      -       ' (CaseID,StandID,Year,PrdLen,',
      -       'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
      -       'MortPA,DBH,DG,',

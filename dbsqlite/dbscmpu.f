@@ -71,10 +71,10 @@ C
         DO I=1,ITST5
           IF(.NOT.(CTSTV5(I)(1:1).EQ.'_'.AND.I_CMPU.LT.1)) THEN
             SQLStmt=TRIM(SQLStmt)//', '//
-     -                 TRIM(CTSTV5(I))//' real null'
+     -              TRIM(CTSTV5(I))//' real null'
           ENDIF
         ENDDO
-        iRet = fsql3_exec(IoutDBref,TRIM(SQLStmt)//CHAR(0))
+        iRet = fsql3_exec(IoutDBref,TRIM(SQLStmt)//');'//CHAR(0))
         IF (iRet .NE. 0) THEN
           ICOMPUTE = 0
           RETURN
@@ -172,6 +172,7 @@ C
      >        fsql3_finalize,fsql3_errmsg,fsql3_step
       
       SQLStmt=" "
+      VALS=" "
       IF(NSRTNUM.EQ.0) RETURN
       DO I=1,NSRTNUM
         SQLStmt = TRIM(SQLStmt) // "," // TRIM(KWINSRT(I))
@@ -179,12 +180,12 @@ C
       ENDDO
 
       SQLStmt = "insert into FVS_Compute (CaseID,StandID,Year" //
-     >   trim(SQLStmt) // ") values (" // CASEID // "," // 
-     >   TRIM(STANDID) // ",?" // TRIM(VALS) // ");" // CHAR(0)
+     >   trim(SQLStmt) // ") values ('" // CASEID // "','" // 
+     >   TRIM(STANDID) // "',?" // TRIM(VALS) // ");" // CHAR(0)
       
       IRT = fsql3_prepare(IoutDBref,SQLStmt)
       IF (IRT>0) THEN
-        IRT = fsql3_errmsg(VALS, 200)
+        IRT = fsql3_errmsg(IoutDBref,VALS, 200)
         PRINT *,"dbscmpu prepare error: ",TRIM(VALS)
       endif
       IRT = fsql3_bind_int(IoutDBref, 1, THISYR)
@@ -192,6 +193,10 @@ C
         IRT = fsql3_bind_double(IoutDBref,I+1,CURVAL(I))
       ENDDO
       IRT = fsql3_step(IoutDBref)
+      IF (IRT>0) THEN
+        IRT = fsql3_errmsg(IoutDBref,VALS,200)
+        PRINT *,"dbscmpu step error: ",TRIM(VALS)
+      endif
       IRT = fsql3_finalize(IoutDBref)
       IF (IRT>0) THEN
         IRT = fsql3_errmsg(IoutDBref,VALS,200)

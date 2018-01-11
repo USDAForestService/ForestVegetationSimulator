@@ -30,7 +30,8 @@ C
         I = fsql3_open(IoutDBref,trim(DSNOUT)//CHAR(0))
         IF (I.NE.0) THEN
           I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
-          print *,"DBS open error msg for DSNOUT=",Msg(:I)
+          print *," IoutDBref=",IoutDBref,
+     >            "DBS close error msg for DSNOUT=",Msg(:I)
           KODE=1
           IF (.NOT.LCIN) RETURN
         ENDIF
@@ -39,8 +40,9 @@ C
       IF (LCIN) THEN
         I = fsql3_open(IinDBref,trim(DSNIN)//CHAR(0))
         IF (I.NE.0) THEN
-          I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
-          print *,"DBS open error msg for DSNIN=",Msg(:I)
+          I = fsql3_errmsg(IinDBref,Msg,MxMsg)
+          print *," IinDBref=",IinDBref,
+     >            " DBS open error msg for DSNIN=",Msg(:I)
           KODE=1
           RETURN
         ENDIF
