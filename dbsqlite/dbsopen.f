@@ -1,12 +1,11 @@
       SUBROUTINE DBSOPEN(LCOUT,LCIN,KODE)
-      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 C $Id: dbsopen.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
 C
 C     PURPOSE: TO OPEN BOTH THE INPUT AND OUTPUT DATABASE CONNECTIONS
 C            LCOUT and LCIN - passed in a TRUE if you want to open the
-C             correspoinding databases, 0 if you don't
+C             correspoinding databases, 0 if you do not
 C            KODE     - RETURN CODE 0: OPEN SUCCESSFUL
 C                                   1: OPEN NOT SUCCESSFUL
 C---
@@ -16,24 +15,32 @@ C
 C
 COMMONS
 C
-      INTEGER JOSTND,I,KODE
+      INTEGER, PARAMETER :: MxMsg=100
+      CHARACTER(LEN=MxMsg) Msg
+      INTEGER I,KODE,fsql3_open,fsql3_errmsg
       LOGICAL LCOUT,LCIN
 C
 C     CLOSE ANY OPEN CONNECTIONS
 C
       CALL DBSCLOSE(LCOUT,LCIN)
 
+      KODE=0
+      
       IF (LCOUT) THEN
-        I = fsql3_open(IOUTDBREF,trim(DSNOUT)//C_NULL_CHAR)
+        I = fsql3_open(IoutDBref,trim(DSNOUT)//CHAR(0))
         IF (I.NE.0) THEN
+          I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
+          print *,"DBS open error msg for DSNOUT=",Msg(:I)
           KODE=1
-          RETURN
+          IF (.NOT.LCIN) RETURN
         ENDIF
       ENDIF
 
       IF (LCIN) THEN
-        I = fsql3_open(IINDBREF,trim(DSNIN)//C_NULL_CHAR)
+        I = fsql3_open(IinDBref,trim(DSNIN)//CHAR(0))
         IF (I.NE.0) THEN
+          I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
+          print *,"DBS open error msg for DSNIN=",Msg(:I)
           KODE=1
           RETURN
         ENDIF

@@ -12,15 +12,30 @@ C
 C
 COMMONS
 C
-      INTEGER fsql3_close,IRT
+      INTEGER, PARAMETER :: MxMsg=100
+      CHARACTER(LEN=MxMsg) Msg
+      INTEGER fsql3_close,fsql3_errmsg,fsql3_finalize,I
       LOGICAL LCOUT,LCIN
-      IF(IOUTDBREF.NE.-1 .AND. LCOUT) THEN
-        IRT=fsql3_close(IOUTDBREF)
-        IOUTDBREF = -1
+
+      IF(IoutDBref.GE.0 .AND. LCOUT) THEN
+        I = fsql3_finalize(IoutDBref)
+        I = fsql3_close(IoutDBref)
+        IF (I.NE.0) THEN
+          I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
+          print *,"DBS close error msg for DSNOUT=",Msg(:I)
+        ENDIF
       ENDIF
-      IF(IINDBREF.NE.-1 .AND. LCIN) THEN
-        IRT=fsql3_close(IINDBREF)
-        IINDBREF = -1
+      IoutDBref = -1
+      
+      IF(IinDBref.GE.0 .AND. LCIN) THEN
+        I = fsql3_finalize(IinDBref)
+        I = fsql3_close(IinDBref)
+        IF (I.NE.0) THEN
+          I = fsql3_errmsg(IinDBref,Msg,MxMsg)
+          print *,"DBS close error msg for DSNOUT=",Msg(:I)
+        ENDIF
       ENDIF
+      IinDBref = -1
 
       END
+

@@ -12,7 +12,7 @@ C
 COMMONS
 C
 C
-      INTEGER MXI,I
+      INTEGER MXI
       PARAMETER (MXI=44)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
@@ -58,8 +58,8 @@ C
       INTS( 38) = IDWDCOV
       INTS( 39) = 0
       INTS( 40) = 0
-      IF (ConnHndlIn .NE.-1) INTS( 39)=1 ! The connection was openned
-      IF (ConnHndlOut.NE.-1) INTS( 40)=1
+      IF (IinDBref .NE.-1) INTS( 39)=1 ! The connection was openned
+      IF (IoutDBref.NE.-1) INTS( 40)=1
       INTS( 41) = ICLIM
       INTS( 42) = IRD1
       INTS( 43) = IRD2
@@ -91,7 +91,7 @@ C
 C
       INTEGER LNCBUF
       CHARACTER CBUFF(LNCBUF)
-      INTEGER K,J,I,IPNT
+      INTEGER J,IPNT
 
       IF (LENSTRINGS(1).GT.0) THEN
         DO J=1,LENSTRINGS(1)

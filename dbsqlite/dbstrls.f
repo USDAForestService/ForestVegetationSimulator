@@ -45,12 +45,14 @@ C
       CHARACTER*8 TID,CSPECIES
       CHARACTER*2000 SQLStmtStr
       CHARACTER*20 TABLENAME,DTYPE
-      INTEGER IWHO,I,JYR,IP,ITPLAB,IRCODE,IDMR,ICDF,IBDF,IPTBAL,KODE
+      INTEGER IWHO,I,JYR,IP,ITPLAB,iRet,IDMR,ICDF,IBDF,IPTBAL,KODE
       INTEGER ISPC,I1,I2,I3
       INTEGER*4 IDCMP1,IDCMP2
       DATA IDCMP1,IDCMP2/10000000,20000000/
       REAL CW,P,CCFT,DGI,DP,TEM,ESTHT,TREAGE
-C---------
+      
+      integer fsql3_tableexists,fsql3_exec      
+
 C     IF TREEOUT IS NOT TURNED ON OR THE IWHO VARIABLE IS NOT 1
 C     THEN JUST RETURN
 
@@ -60,111 +62,11 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
 
       IF(ITREELIST.EQ.2) KODE = 0
 
-C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
-
       CALL DBSCASE(1)
-      IF(TRIM(DBMSOUT).EQ.'EXCEL') THEN
-        TABLENAME = '[FVS_TreeList$]'
-        DTYPE = 'Number'
-      ELSEIF(TRIM(DBMSOUT).EQ.'ACCESS') THEN
-        TABLENAME = 'FVS_TreeList'
-        DTYPE = 'Double'
-      ELSE
-        TABLENAME = 'FVS_TreeList'
-        DTYPE = 'real'
-      ENDIF
 
-
-C     ALLOCATE A STATEMENT HANDLE
-
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
-        ITREELIST = 0
-        CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlOut,
-     -                 'DBSTRLS:Connecting to DSN')
-        GOTO 100
-      ENDIF
-
-
-C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
-C     IF NOT, THEN WE NEED TO CREATE IT
-
-      CALL DBSCKNROWS(IRCODE,TABLENAME,MAXTRE,TRIM(DBMSOUT).EQ.'EXCEL')
-      IF(IRCODE.EQ.2) THEN
-        ITREELIST = 0
-        RETURN
-      ENDIF
-      IF(IRCODE.EQ.1) THEN
-        IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
-          SQLStmtStr='CREATE TABLE FVS_TreeList('//
-     -             'CaseID Text not null,'//
-     -             'StandID Text null,'//
-     -             'Year int null,'//
-     -             'PrdLen int null,'//
-     -             'TreeId Text null,'//
-     -             'TreeIndex int null,'//
-     -             'Species Text null,'//
-     -             'TreeVal int null,'//
-     -             'SSCD int null,'//
-     -             'PtIndex int null,'//
-     -             'TPA double null,'//
-     -             'MortPA double null,'//
-     -             'DBH double null,'//
-     -             'DG double null,'//
-     -             'Ht double null,'//
-     -             'HtG double null,'//
-     -             'PctCr int null,'//
-     -             'CrWidth double null,'//
-     -             'MistCD int null,'//
-     -             'BAPctile double null,'//
-     -             'PtBAL double null,'//
-     -             'TCuFt double null,'//
-     -             'MCuFt double null,'//
-     -             'BdFt double null,'//
-     -             'MDefect int null,'//
-     -             'BDefect int null,'//
-     -             'TruncHt int null,'//
-     -             'EstHt double null,'//
-     -             'ActPt int null,'//
-     -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null,'//
-     -             'TreeAge double null)'
-
-        ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-          SQLStmtStr='CREATE TABLE FVS_TreeList('//
-     -             'CaseID Text null,'//
-     -             'StandID Text null,'//
-     -             'Year INT null,'//
-     -             'PrdLen int null,'//
-     -             'TreeId Text null,'//
-     -             'TreeIndex int null,'//
-     -             'Species Text null,'//
-     -             'TreeVal int null,'//
-     -             'SSCD int null,'//
-     -             'PtIndex int null,'//
-     -             'TPA Number null,'//
-     -             'MortPA Number null,'//
-     -             'DBH Number null,'//
-     -             'DG Number null,'//
-     -             'Ht Number null,'//
-     -             'HtG Number null,'//
-     -             'PctCr int null,'//
-     -             'CrWidth Number null,'//
-     -             'MistCD int null,'//
-     -             'BAPctile Number null,'//
-     -             'PtBAL Number null,'//
-     -             'TCuFt Number null,'//
-     -             'MCuFt Number null,'//
-     -             'BdFt Number null,'//
-     -             'MDefect int null,'//
-     -             'BDefect int null,'//
-     -             'TruncHt int null,'//
-     -             'EstHt Number null,'//
-     -             'ActPt int null,'//
-     -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null,'//
-     -             'TreeAge Number null)'
-        ELSE
+      iRet = fsql3_tableexists(IoutDBref,
+     >       "FVS_TreeList"//CHAR(0))
+      IF(iRet.EQ.1) THEN
           SQLStmtStr='CREATE TABLE FVS_TreeList('//
      -             'CaseID char(36),'//
      -             'StandID char(26),'//
@@ -197,13 +99,12 @@ C     IF NOT, THEN WE NEED TO CREATE IT
      -             'ActPt int null,'//
      -             'Ht2TDCF real null,'//
      -             'Ht2TDBF real null,'//
-     -             'TreeAge real null)'
-        ENDIF
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
-        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -       'DBSTRLS:Creating Table: '//trim(SQLStmtStr))
+     -             'TreeAge real null);'//CHAR(0)
+         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+         IF (iRet .NE. 0) THEN
+           ITREELIST = 0
+           RETURN
+         ENDIF
       ENDIF
 
 C     SET THE TREELIST TYPE FLAG (LET IP BE THE RECORD OUTPUT COUNT).
@@ -308,15 +209,12 @@ C
      -           ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
      -           CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
      -           ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
-     -           ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,')'
-
-            iRet = fvsSQLCloseCursor(StmtHndlOut)
-
-            iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-            IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
-            CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -                  'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
+     -           ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,');'
+            iRet = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))
+            IF (iRet .NE. 0) THEN
+              ITREELIST = 0
+              RETURN
+            ENDIF
           ENDDO
         ENDIF
       ENDDO
@@ -324,8 +222,8 @@ C
 C     FOR CYCLE 0 TREELIST, PRINT DEAD TREES WHICH WERE PRESENT IN
 C     THE INVENTORY DATA AT THE BOTTOM OF THE TREELIST.
 C
-      IF (ITREELIST .EQ. 0) GOTO 100
-      IF((IREC2.GE.MAXTP1).OR.(ITPLAB.EQ.3).OR.(ICYC.GE.1)) GO TO 100
+      IF (ITREELIST .EQ. 0) RETURN
+      IF((IREC2.GE.MAXTP1).OR.(ITPLAB.EQ.3).OR.(ICYC.GE.1)) RETURN
       DO I=IREC2,MAXTRE
         P =(PROB(I) / GROSPC) / (FINT/FINTM)
         WRITE(TID,'(I8)') IDTREE(I)
@@ -389,18 +287,12 @@ C
      -       ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
      -       CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
      -       ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
-     -       ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,')'
-        
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
-        
-        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-        
-        IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
-        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -              'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
-
+     -       ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,');'
+          iRet = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))
+          IF (iRet .NE. 0) THEN
+            ITREELIST = 0
+            RETURN
+          ENDIF
       ENDDO
-  100 CONTINUE          
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
+      RETURN
       END

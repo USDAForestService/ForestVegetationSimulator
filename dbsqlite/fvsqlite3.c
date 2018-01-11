@@ -55,8 +55,12 @@ int fsql3_open_(int *dbnum, char *dbname)
 // close the dbnum and clear the slot for another open
 int fsql3_close_(int *dbnum)
 {
-  int rc = sqlite3_close(dbset[*dbnum]);
-  dbset[*dbnum] = NULL;
+  int rc = 0;
+  if (dbset[*dbnum] != NULL) 
+  {
+    rc = sqlite3_close(dbset[*dbnum]);
+    dbset[*dbnum] = NULL;
+  }
   return rc;
 }
 // query without returned values
@@ -144,8 +148,12 @@ int fsql3_reset_(int *dbnum)
 // close the statement handle.
 int fsql3_finalize_(int *dbnum)
 {
-  int rc = sqlite3_finalize(stmtset[*dbnum]);
-  stmtset[*dbnum] = NULL;
+  int rc = 0;
+  if (stmtset[*dbnum] != NULL) 
+  {
+    rc = sqlite3_finalize(stmtset[*dbnum]);
+    stmtset[*dbnum] = NULL;
+  }
   return rc;
 }
 // get error current error message
@@ -190,7 +198,7 @@ int fsql3_colint_(int *dbnum, int *col, int *ifnull)
     case SQLITE_INTEGER : 
       return sqlite3_column_int(stmtset[*dbnum], *col);
     case SQLITE_FLOAT   :
-      rtn = sqlite3_column_double(stmtset[*dbnum], *col);
+      rtn = (int) sqlite3_column_double(stmtset[*dbnum], *col);
       return rtn;
     case SQLITE3_TEXT   :
       if (sscanf((const char *) sqlite3_column_text(stmtset[*dbnum], 
@@ -270,6 +278,11 @@ int fsql3_coltext_(int *dbnum, int *col, char *txt, int *mxlen, char *ifnull)
       strncpy(txt,ifnull,*mxlen);
   }
   return strlen(txt);
+}
+// is the column null
+int fsql3_colisnull_(int *dbnum, int *col)
+{
+  return sqlite3_column_type(stmtset[*dbnum], *col) == SQLITE_NULL;
 }
 
 // If a col does not exist, then add it via alter table.

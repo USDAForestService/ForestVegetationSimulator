@@ -36,7 +36,7 @@ C             15: ACCRETION (ANNUAL IN CU FT/ACRE)
 C             16: MORTALITY  (ANNUAL IN CU FT/ACRE)
 C             17: SAMPLE WEIGHT
 C             18: FOREST COVER TYPE CODE
-C	            19: SIZE CLASS
+C             19: SIZE CLASS
 C             20: STOCKING CLASS
 C
 COMMONS
@@ -47,8 +47,8 @@ COMMONS
 C
       INTEGER IYEAR,IAGE,IPRDLEN,IACC,IMORT,ITPA,IBA,ISDI,ICCF,
      -        ITOPHT,ITCUFT,IMCUFT,IBDFT,IRTPA,IRTCUFT,IRMCUFT,IRBDFT,
-     -        IATBA,IATSDI,IATCCF,IATTOPHT,IFORTP,ISZCL,ISTCL,IRCODE
-      INTEGER(SQLSMALLINT_KIND)::ColNumber
+     -        IATBA,IATSDI,IATCCF,IATTOPHT,IFORTP,ISZCL,ISTCL
+      INTEGER ColNumber,iRet
       DOUBLE PRECISION FQMDB,FATQMDB,YMAIB
       REAL FQMD,FATQMD,YMAI
       CHARACTER*2000 SQLStmtStr
@@ -58,263 +58,103 @@ C
 C
 C
 COMMONS END
-C---
-C     Initialize variables
-C
+
+      integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
+
       IF(ISUMARY.EQ.0) RETURN
 C
       CALL VARVER (VVER)
 
-C---------
-C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
-C---------
       CALL DBSCASE(1)
 
-C---------
-C     ALLOCATE A STATEMENT HANDLE
-C---------
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut,StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
-        ISUMARY = 0
-        PRINT *,'Error connecting to data source'
-        CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlOut,
-     -                  'DBSSUMRY:DSN Connection')
-        GOTO 200
-      ENDIF
-C---------
-C     CHECK TO SEE IF THE SUMMARY STATS TABLE EXISTS IN DATBASE
-C---------
-      IF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-        IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1      (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2      (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
+C     DEFINE TAABLENAME
 
-            TABLENAME = '[FVS_Summary_East$]'
-        ELSE
-            TABLENAME = '[FVS_Summary$]'
-        ENDIF
+      IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
+     >    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
+     >    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
+        iRet=fsql3_tableexists(IoutDBref,'FVS_Summary_East'//CHAR(0))
       ELSE
-        IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1      (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2      (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
-
-            TABLENAME = 'FVS_Summary_East'
-        ELSE
-            TABLENAME = 'FVS_Summary'
-        ENDIF
+        iRet=fsql3_tableexists(IoutDBref,'FVS_Summary'//CHAR(0))
       ENDIF
-      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
-      IF(IRCODE.EQ.2) THEN
-        ISUMARY = 0
-        RETURN
-      ENDIF
-      IF(IRCODE.EQ.1) THEN
+      IF(iRet.EQ.0) THEN
 C
-C  EASTERN VARIANT VOLUME NOMENCLATURE
+C       EASTERN VARIANT VOLUME NOMENCLATURE
 C
         IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
      1      (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
      2      (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
 C
-          IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
-            SQLStmtStr='CREATE TABLE FVS_Summary_East('//
-     -                 'CaseID text,'//
-     -                 'StandID text,'//
-     -                 'Year int null,'//
-     -                 'Age int null,'//
-     -                 'Tpa double null,'//
-     -                 'BA double null,'//
-     -                 'SDI double null,'//
-     -                 'CCF double null,'//
-     -                 'TopHt double null,'//
-     -                 'QMD double null,'//
-     -                 'MCuFt double null,'//
-     -                 'SCuFt double null,'//
-     -                 'SBdFt double null,'//
-     -                 'RTpa double null,'//
-     -                 'RMCuFt double null,'//
-     -                 'RSCuFt double null,'//
-     -                 'RSBdFt double null,'//
-     -                 'ATBA double null,'//
-     -                 'ATSDI double null,'//
-     -                 'ATCCF double null,'//
-     -                 'ATTopHt double null,'//
-     -                 'ATQMD double null,'//
-     -                 'PrdLen int null,'//
-     -                 'Acc double null,'//
-     -                 'Mort double null,'//
-     -                 'MAI double null,'//
-     -                 'ForTyp int null,'//
-     -                 'SizeCls int null,'//
-     -                 'StkCls int null)'
-          ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-            SQLStmtStr="CREATE TABLE FVS_Summary_East("//
-     -                 'CaseID text,'//
-     -                 'StandID Text,'//
-     -                 'Year int,'//
-     -                 'Age int,'//
-     -                 'Tpa NUMBER,'//
-     -                 'BA NUMBER,'//
-     -                 'SDI NUMBER,'//
-     -                 'CCF NUMBER,'//
-     -                 'TopHt NUMBER,'//
-     -                 'QMD NUMBER,'//
-     -                 'MCuFt NUMBER,'//
-     -                 'SCuFt NUMBER,'//
-     -                 'SBdFt NUMBER,'//
-     -                 'RTpa NUMBER,'//
-     -                 'RMCuFt NUMBER,'//
-     -                 'RSCuFt NUMBER,'//
-     -                 'RSBdFt NUMBER,'//
-     -                 'ATBA NUMBER,'//
-     -                 'ATSDI NUMBER,'//
-     -                 'ATCCF NUMBER,'//
-     -                 'ATTopHt NUMBER,'//
-     -                 'ATQMD NUMBER,'//
-     -                 'PrdLen int,'//
-     -                 'Acc NUMBER,'//
-     -                 'Mort NUMBER,'//
-     -                 'MAI NUMBER,'//
-     -                 'ForTyp int,'//
-     -                 'SizeCls int,'//
-     -                 'StkCls int)'
-C
-          ELSE
             SQLStmtStr='CREATE TABLE FVS_Summary_East('//
      -                 'CaseID char(36),'//
      -                 'StandID Char(26),'//
      -                 'Year int null,'//
      -                 'Age int null,'//
-     -                 'Tpa real null,'//
-     -                 'BA real null,'//
-     -                 'SDI real null,'//
-     -                 'CCF real null,'//
-     -                 'TopHt real null,'//
+     -                 'Tpa int null,'//
+     -                 'BA int null,'//
+     -                 'SDI int null,'//
+     -                 'CCF int null,'//
+     -                 'TopHt int null,'//
      -                 'QMD real null,'//
-     -                 'MCuFt real null,'//
-     -                 'SCuFt real null,'//
-     -                 'SBdFt real null,'//
-     -                 'RTpa real null,'//
-     -                 'RMCuFt real null,'//
-     -                 'RSCuFt real null,'//
-     -                 'RSBdFt real null,'//
-     -                 'ATBA real null,'//
-     -                 'ATSDI real null,'//
-     -                 'ATCCF real null,'//
-     -                 'ATTopHt real null,'//
+     -                 'MCuFt int null,'//
+     -                 'SCuFt int null,'//
+     -                 'SBdFt int null,'//
+     -                 'RTpa int null,'//
+     -                 'RMCuFt int null,'//
+     -                 'RSCuFt int null,'//
+     -                 'RSBdFt int null,'//
+     -                 'ATBA int null,'//
+     -                 'ATSDI int null,'//
+     -                 'ATCCF int null,'//
+     -                 'ATTopHt int null,'//
      -                 'ATQMD real null,'//
      -                 'PrdLen int null,'//
-     -                 'Acc real null,'//
-     -                 'Mort real null,'//
+     -                 'Acc int null,'//
+     -                 'Mort int null,'//
      -                 'MAI real null,'//
      -                 'ForTyp int null,'//
      -                 'SizeCls int null,'//
-     -                 'StkCls int null)'
-          ENDIF
+     -                 'StkCls int null);'//CHAR(0)
         ELSE
-C----------
-C  WESTERN VARIANT VOLUME NOMENCLATURE
-C----------
-          IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
-            SQLStmtStr='CREATE TABLE FVS_Summary('//
-     -                 'CaseID text,'//
-     -                 'StandID text,'//
-     -                 'Year int null,'//
-     -                 'Age int null,'//
-     -                 'Tpa double null,'//
-     -                 'BA double null,'//
-     -                 'SDI double null,'//
-     -                 'CCF double null,'//
-     -                 'TopHt double null,'//
-     -                 'QMD double null,'//
-     -                 'TCuFt double null,'//
-     -                 'MCuFt double null,'//
-     -                 'BdFt double null,'//
-     -                 'RTpa double null,'//
-     -                 'RTCuFt double null,'//
-     -                 'RMCuFt double null,'//
-     -                 'RBdFt double null,'//
-     -                 'ATBA double null,'//
-     -                 'ATSDI double null,'//
-     -                 'ATCCF double null,'//
-     -                 'ATTopHt double null,'//
-     -                 'ATQMD double null,'//
-     -                 'PrdLen int null,'//
-     -                 'Acc double null,'//
-     -                 'Mort double null,'//
-     -                 'MAI double null,'//
-     -                 'ForTyp int null,'//
-     -                 'SizeCls int null,'//
-     -                 'StkCls int null)'
-          ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-            SQLStmtStr="CREATE TABLE FVS_Summary("//
-     -                 'CaseID text,'//
-     -                 'StandID Text,'//
-     -                 'Year int,'//
-     -                 'Age int,'//
-     -                 'Tpa NUMBER,'//
-     -                 'BA NUMBER,'//
-     -                 'SDI NUMBER,'//
-     -                 'CCF NUMBER,'//
-     -                 'TopHt NUMBER,'//
-     -                 'QMD NUMBER,'//
-     -                 'TCuFt NUMBER,'//
-     -                 'MCuFt NUMBER,'//
-     -                 'BdFt NUMBER,'//
-     -                 'RTpa NUMBER,'//
-     -                 'RTCuFt NUMBER,'//
-     -                 'RMCuFt NUMBER,'//
-     -                 'RBdFt NUMBER,'//
-     -                 'ATBA NUMBER,'//
-     -                 'ATSDI NUMBER,'//
-     -                 'ATCCF NUMBER,'//
-     -                 'ATTopHt NUMBER,'//
-     -                 'ATQMD NUMBER,'//
-     -                 'PrdLen int,'//
-     -                 'Acc NUMBER,'//
-     -                 'Mort NUMBER,'//
-     -                 'MAI NUMBER,'//
-     -                 'ForTyp int,'//
-     -                 'SizeCls int,'//
-     -                 'StkCls int)'
-          ELSE
+C
+C       WESTERN VARIANT VOLUME NOMENCLATURE
+C
             SQLStmtStr='CREATE TABLE FVS_Summary('//
      -                 'CaseID char(36),'//
      -                 'StandID Char(26),'//
      -                 'Year int null,'//
      -                 'Age int null,'//
-     -                 'Tpa real null,'//
-     -                 'BA real null,'//
-     -                 'SDI real null,'//
-     -                 'CCF real null,'//
-     -                 'TopHt real null,'//
+     -                 'Tpa int null,'//
+     -                 'BA int null,'//
+     -                 'SDI int null,'//
+     -                 'CCF int null,'//
+     -                 'TopHt int null,'//
      -                 'QMD real null,'//
-     -                 'TCuFt real null,'//
-     -                 'MCuFt real null,'//
-     -                 'BdFt real null,'//
-     -                 'RTpa real null,'//
-     -                 'RTCuFt real null,'//
-     -                 'RMCuFt real null,'//
-     -                 'RBdFt real null,'//
-     -                 'ATBA real null,'//
-     -                 'ATSDI real null,'//
-     -                 'ATCCF real null,'//
-     -                 'ATTopHt real null,'//
+     -                 'TCuFt int null,'//
+     -                 'MCuFt int null,'//
+     -                 'BdFt int null,'//
+     -                 'RTpa int null,'//
+     -                 'RTCuFt int null,'//
+     -                 'RMCuFt int null,'//
+     -                 'RBdFt int null,'//
+     -                 'ATBA int null,'//
+     -                 'ATSDI int null,'//
+     -                 'ATCCF int null,'//
+     -                 'ATTopHt int null,'//
      -                 'ATQMD real null,'//
      -                 'PrdLen int null,'//
-     -                 'Acc real null,'//
-     -                 'Mort real null,'//
+     -                 'Acc int null,'//
+     -                 'Mort int null,'//
      -                 'MAI real null,'//
      -                 'ForTyp int null,'//
      -                 'SizeCls int null,'//
-     -                 'StkCls int null)'
-          ENDIF
+     -                 'StkCls int null);'//CHAR(0)
         ENDIF
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
-        iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -                 'DBSSumry:Creating Table')
+        iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+        IF (iRet .NE. 0) THEN
+          ISUMARY = 0
+          RETURN
+        ENDIF
       ENDIF
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
@@ -327,205 +167,115 @@ C
      1    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
      2    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
 C
-        WRITE(SQLStmtStr,*)'INSERT INTO ',
-     -          TABLENAME,' (CaseID,StandID,',
+        WRITE(SQLStmtStr,*)'INSERT INTO FVS_Summary_East',
+     -          ' (CaseID,StandID,',
      -          'Year,Age,Tpa,BA,SDI,CCF,TopHt,QMD,MCuFt,SCuFt,SBdFt,',
      -          'RTpa,RMCuFt,RSCuFt,RSBdFt,ATBA,ATSDI,ATCCF,ATTopHt,',
      -          'ATQMD,PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls)',
      -          'VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,?,?,',
-     -          '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -          '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
       ELSE
-        WRITE(SQLStmtStr,*)'INSERT INTO ',
-     -           TABLENAME,' (CaseID,StandID,',
+        WRITE(SQLStmtStr,*)'INSERT INTO FVS_Summary',
+     -           ' (CaseID,StandID,',
      -           'Year,Age,Tpa,BA,SDI,CCF,TopHt,QMD,TCuFt,MCuFt,BdFt,',
      -           'RTpa,RTCuFt,RMCuFt,RBdFt,ATBA,ATSDI,ATCCF,ATTopHt,',
      -           'ATQMD,PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls)',
      -           'VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,?,?,',
-     -           '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -           '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
       ENDIF
-C
-C     CLOSE CURSOR
-C
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-C
-C     PREPARE THE SQL QUERY
-C
-      iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-C
-C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
-C
+      iRet = fsql3_prepare(IoutDBref,trim(SQLStmtStr)//CHAR(0))
+      IF (iRet .NE. 0) THEN
+        ISUMARY = 0
+        RETURN
+      ENDIF
+      
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IAGE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IAGE)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ITPA,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,ITPA)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IBA,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IBA)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ISDI,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,ISDI)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ICCF,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,ICCF)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ITOPHT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,ITOPHT)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,FQMDB)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,ITCUFT)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IMCUFT)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IBDFT)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IRTPA)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IRTCUFT)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IRMCUFT)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IRBDFT)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IATBA)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IATSDI)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IATCCF)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IATTOPHT)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,FATQMDB)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IPRDLEN)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IACC)
+
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IMORT)
 
        ColNumber=ColNumber+1
-       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),FQMDB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+       iRet = fsql3_bind_int(IoutDBref,ColNumber,YMAIB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ITCUFT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IFORTP)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IMCUFT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,ISZCL)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IBDFT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,ISTCL)
 
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IRTPA,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IRTCUFT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IRMCUFT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IRBDFT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IATBA,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IATSDI,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IATCCF,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IATTOPHT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-       ColNumber=ColNumber+1
-       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),FATQMDB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IPRDLEN,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IACC,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IMORT,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-       ColNumber=ColNumber+1
-       iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),YMAIB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IFORTP,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ISZCL,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),ISTCL,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-      iRet = fvsSQLExecute(StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS) ISUMARY = 0
-      CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -              'DBSSumry:Inserting Row')
-  200 CONTINUE
-      !Release statement handle
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
-
+      iRet = fsql3_step(IoutDBref)
+      iRet = fsql3_finalize(IoutDBref)
+      if (iRet.ne.0) then
+         ISUMARY = 0
+      ENDIF
+      RETURN
       END
 
 

@@ -7,10 +7,6 @@ C
 C
 C
       CASEID    = ""
-      DSNOUT    = "FVSOut.db"
-      DSNIN     = "FVS_Data.db"
-      IOUTDBREF = -1
-      IINDBREF  = -1
       ISUMARY  = 0
       ICOMPUTE = 0
       IATRTLIST= 0
@@ -52,7 +48,7 @@ C
       IRD1     = 0
       IRD2     = 0
       IRD3     = 0
-
+      
       RETURN
       END
 

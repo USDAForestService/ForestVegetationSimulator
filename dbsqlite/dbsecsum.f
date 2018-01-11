@@ -7,115 +7,44 @@
 
 C $Id: dbsecsum.f 1968 2017-06-07 17:10:14Z lancedavid $
 
-
-      implicit none
+      IMPLICIT NONE
 
       include 'DBSCOM.F77'
 
       character(len=*), parameter :: tableName = 'FVS_EconSummary'
 
-      character(len=30)   :: decoratedTableName
       character(len=26)   :: STDID
       character(len=*)    :: pretend
       character(len=2000) :: SQLStmtStr
-        logical success
-        integer(SQLPOINTER_KIND) :: maybeNullNeg
-        integer(SQLPOINTER_KIND) :: maybeNullLog
 
       integer, parameter :: zero = 0
       integer :: beginAnalYear, endTime, status,
-     &           ft3Volume, bfVolume, IRCODE
+     &           ft3Volume, bfVolume, iRet
 
       logical :: sevCalculated, rrrCalculated,
      &           forestValueCalculated, reprodValueCalculated,
      &           irrCalculated, bcRatioCalculated, sevInputUsed
 
       real :: costUndisc, revUndisc, costDisc, revDisc, npv, irr,
-     &        bcRatio, rrr, sev, forestValue, reprodValue, discountRate,
-     &        sevInput
+     &        bcRatio, rrr, sev, forestValue, reprodValue, 
+     &        discountRate, sevInput
+      real*8 :: costUndisc8,revUndisc8,costDisc8,revDisc8,npv8,irr8,
+     &        bcRatio8, rrr8, sev8, forestValue8, reprodValue8, 
+     &        discountRate8, sevInput8
 
+      integer fsql3_bind_double,fsql3_finalize,fsql3_errmsg,
+     >  fsql3_bind_int,fsql3_bind_text,fsql3_exec,fsql3_tableexists,
+     >  fsql3_prepare,fsql3_step
+     
       if (IDBSECON == 0) return
-
+      
 !    Make sure we have an up-to-date case ID.
       call DBSCASE(1)
 
-!    Allocate a statement handle.
-      iRet = fvsSQLAllocHandle(
-     &      SQL_HANDLE_STMT,
-     &      ConnHndlOut,
-     &      StmtHndlOut)
-      if(.not. success(iRet)) then
-         IDBSECON = 0
-         print *, 'Error connnecting to data source'
-         call DBSDIAGS(
-     &         SQL_HANDLE_DBC,
-     &         ConnHndlOut,
-     &         'DBSECSUM:DSN Connection')
-         goto 100
-      end if
-
-!    Ensure that the FVS_EconSummary table exists in the DB.
-
-      if(trim(DBMSOUT) .eq. 'EXCEL') then
-        decoratedTableName = '[' // tableName // '$]'
-      else
-        decoratedTableName = tableName
-      end if
-      CALL DBSCKNROWS(IRCODE,decoratedTableName,1,
-     >                TRIM(DBMSOUT).EQ.'EXCEL')
-      IF(IRCODE.EQ.2) THEN
-        IDBSECON = 0
-        RETURN
-      ENDIF
-      IF(IRCODE.EQ.1) THEN
-        if(trim(DBMSOUT) .eq. 'ACCESS') then
-            SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
-     &          // 'CaseID text, '
-     &          // 'StandID text, '
-     &          // 'Year int null, '
-     &          // 'Period int null, '
-     &          // 'Pretend_Harvest text null, '
-     &          // 'Undiscounted_Cost double null, '
-     &          // 'Undiscounted_Revenue double null, '
-     &          // 'Discounted_Cost double null, '
-     &          // 'Discounted_Revenue double null, '
-     &          // 'PNV double null, '
-     &          // 'IRR double null, '
-     &          // 'BC_Ratio double null, '
-     &          // 'RRR double null, '
-     &          // 'SEV double null, '
-     &          // 'Value_of_Forest double null, '
-     &          // 'Value_of_Trees double null, '
-     &          // 'Mrch_Cubic_Volume int null, '
-     &          // 'Mrch_BoardFoot_Volume int null, '
-     &          // 'Discount_Rate double null, '
-     &          // 'Given_SEV double null, '
-     &          // 'CONSTRAINT ' // tableName // '_PK '
-     &          // 'PRIMARY KEY(CaseID, Year))'
-        elseif(trim(DBMSOUT) .eq. 'EXCEL') then
-            SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
-     &          // 'CaseID text, '
-     &          // 'StandID text, '
-     &          // 'Year Int, '
-     &          // 'Period Int, '
-     &          // 'Pretend_Harvest Text, '
-     &          // 'Undiscounted_Cost Number, '
-     &          // 'Undiscounted_Revenue Number, '
-     &          // 'Discounted_Cost Number, '
-     &          // 'Discounted_Revenue Number, '
-     &          // 'PNV Number, '
-     &          // 'IRR Number, '
-     &          // 'BC_Ratio Number, '
-     &          // 'RRR Number, '
-     &          // 'SEV Number, '
-     &          // 'Value_of_Forest Number, '
-     &          // 'Value_of_Trees Number, '
-     &          // 'Mrch_Cubic_Volume Int, '
-     &          // 'Mrch_BoardFoot_Volume Int, '
-     &          // 'Discount_Rate Number, '
-     &          // 'Given_SEV Number)'
-        else
-            SQLStmtStr = 'CREATE TABLE ' // tableName // ' ('
+!     Ensure that the FVS_EconSummary table exists in the DB.
+      iRet = fsql3_tableexists(IoutDBref,"FVS_EconSummary"//CHAR(0))
+      IF(iRet.EQ.0) THEN
+         SQLStmtStr = 'CREATE TABLE FVS_EconSummary ('
      &          // 'CaseID char(36), '
      &          // 'StandID char(26), '
      &          // 'Year int null, '
@@ -135,248 +64,82 @@ C $Id: dbsecsum.f 1968 2017-06-07 17:10:14Z lancedavid $
      &          // 'Mrch_Cubic_Volume int null, '
      &          // 'Mrch_BoardFoot_Volume int null, '
      &          // 'Discount_Rate real null, '
-     &          // 'Given_SEV real null, '
-     &          // 'CONSTRAINT ' // tableName // '_PK '
-     &          // 'PRIMARY KEY(CaseID, Year))'
-        end if
-
-         iRet = fvsSQLFreeStmt(StmtHndlOut, SQL_CLOSE)
-         iRet = fvsSQLExecDirect(
-     &         StmtHndlOut,
-     &         trim(SQLStmtStr),
-     -         int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-         call DBSDIAGS(
-     &         SQL_HANDLE_STMT,
-     &         StmtHndlOut,
-     &         'DBSECSUM:Creating Table: ' // trim(SQLStmtStr))
-      end if
+     &          // 'Given_SEV real null);' // CHAR(0)
+        iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+        IF (iRet .NE. 0) THEN
+          IDBSECON = 0
+          RETURN
+        ENDIF
+      ENDIF
 
       write(SQLStmtStr, *) 'INSERT INTO ',
-     &   decoratedTableName,'(CaseID, StandID, Year, Period,',
+     &   'FVS_EconSummary (CaseID, StandID, Year, Period,',
      &   'Pretend_Harvest, Undiscounted_Cost, Undiscounted_Revenue,',
      &   'Discounted_Cost, Discounted_Revenue, PNV, IRR, BC_Ratio,',
      &   'RRR, SEV, Value_of_Forest, Value_of_Trees,',
      &   'Mrch_Cubic_Volume, Mrch_BoardFoot_Volume, Discount_Rate,',
-     &   'Given_SEV)',
-     &   'VALUES (''',CASEID,''',''',STDID,''',?,?,?,?,?,?,?,?,?,?,',
-     &   '?,?,?,?,?,?,?,?)'
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-      iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-      call DBSDIAGS(
-     &   SQL_HANDLE_STMT,
-     &   StmtHndlOut,
-     &   'DBSECSUM:Preparing Statement: ' // trim(SQLStmtStr))
+     &   'Given_SEV)','VALUES (''',CASEID,''',''',TRIM(STDID),
+     &   ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);' // CHAR(0)
+      iRet = fsql3_prepare(IoutDBref,SQLStmtStr)
+      IF (iRet .NE. 0) THEN
+        iRet = fsql3_errmsg(SQLStmtStr, 200)
+        PRINT *,"dbsecsum prepare error: ",TRIM(SQLStmtStr)
+        IDBSECON = 0
+        RETURN
+      endif
+      costUndisc8    = costUndisc 
+      revUndisc8     = revUndisc 
+      costDisc8      = costDisc 
+      revDisc8       = revDisc 
+      npv8           = npv 
+      irr8           = irr
+      bcRatio8       = bcRatio 
+      rrr8           = rrr 
+      sev8           = sev 
+      forestValue8   = forestValue 
+      reprodValue8   = reprodValue 
+      discountRate8  = discountRate
+      sevInput8      = sevInput
 
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(1, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_INTEGER,
-     &         SQL_INTEGER,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         beginAnalYear,
-     &         SQL_NULL_PTR,
-     &         SQL_NULL_PTR)
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(2, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_INTEGER,
-     &         SQL_INTEGER,
-     &         int(2, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         endTime,
-     &         SQL_NULL_PTR,
-     &         SQL_NULL_PTR)
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(3, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_CHAR,
-     &         SQL_CHAR,
-     &         int(3, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         pretend,
-     &         int(len_trim(pretend), SQLLEN_KIND),
-     &         int(len_trim(pretend), SQLLEN_KIND))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(4, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(1, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         costUndisc,
-     &         SQL_NULL_PTR,
-     &         maybeNullNeg(costUndisc))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(5, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(1, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         revUndisc,
-     &         SQL_NULL_PTR,
-     &         maybeNullNeg(revUndisc))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(6, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(1, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         costDisc,
-     &         SQL_NULL_PTR,
-     &         maybeNullNeg(costDisc))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(7, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         revDisc,
-     &         SQL_NULL_PTR,
-     &         maybeNullNeg(revDisc))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(8, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         npv,
-     &         SQL_NULL_PTR,
-     &         SQL_NULL_PTR)
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(9, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         irr,
-     &         SQL_NULL_PTR,
-     &         maybeNullLog(irr, irrCalculated))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(10, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         bcRatio,
-     &         SQL_NULL_PTR,
-     &         maybeNullLog(bcRatio, bcRatioCalculated))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(11, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         rrr,
-     &         SQL_NULL_PTR,
-     &         maybeNullLog(rrr, rrrCalculated))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(12, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         sev,
-     &         SQL_NULL_PTR,
-     &         maybeNullLog(sev, sevCalculated))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(13, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         forestValue,
-     &         SQL_NULL_PTR,
-     &         maybeNullLog(forestValue, forestValueCalculated))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(14, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         reprodValue,
-     &         SQL_NULL_PTR,
-     &         maybeNullLog(reprodValue, reprodValueCalculated))
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(15, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_INTEGER,
-     &         SQL_INTEGER,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         ft3Volume,
-     &         SQL_NULL_PTR,
-     &         SQL_NULL_PTR)
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(16, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_INTEGER,
-     &         SQL_INTEGER,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         bfVolume,
-     &         SQL_NULL_PTR,
-     &         SQL_NULL_PTR)
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(17, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         discountRate,
-     &         SQL_NULL_PTR,
-     &         SQL_NULL_PTR)
-      iRet = fvsSQLBindParameter(
-     &         StmtHndlOut,
-     &         int(18, SQLSMALLINT_KIND),
-     &         SQL_PARAM_INPUT,
-     &         SQL_F_FLOAT,
-     &         SQL_REAL,
-     &         int(0, SQLUINTEGER_KIND),
-     &         int(0, SQLSMALLINT_KIND),
-     &         sevInput,
-     &         SQL_NULL_PTR,
-     &         maybeNullLog(sevInput, sevInputUsed))
-      iRet = fvsSQLFreeStmt(StmtHndlOut, SQL_CLOSE)
-      iRet = fvsSQLExecute(StmtHndlOut)
-      call DBSDIAGS(
-     &      SQL_HANDLE_STMT,
-     &      StmtHndlOut,
-     &      'DBSECSUM:Executing Prepared Statement')
+      iRet = fsql3_bind_int(IoutDBref,1, beginAnalYear)
+      iRet = fsql3_bind_int(IoutDBref,2, endTime)
+      iRet = fsql3_bind_text(IoutDBref,3, pretend, 3)
+      if (costUndisc >= 0) 
+     >  iRet = fsql3_bind_double(IoutDBref,4, costUndisc8)
+      if (revUndisc >= 0) 
+     >  iRet = fsql3_bind_double(IoutDBref,5, revUndisc8)
+      if (costDisc >= 0) 
+     >  iRet = fsql3_bind_double(IoutDBref,6, costDisc8)
+      if (revDisc >= 0) 
+     >  iRet = fsql3_bind_double(IoutDBref,7, revDisc8)
+      iRet = fsql3_bind_double(IoutDBref,8, npv8)
+      if (irrCalculated) 
+     >  iRet = fsql3_bind_double(IoutDBref,9, irr8)
+      if (bcRatioCalculated) 
+     >  iRet = fsql3_bind_double(IoutDBref,10, bcRatio8)
+      if (rrrCalculated) 
+     >  iRet = fsql3_bind_double(IoutDBref,11, rrr8)
+      if (sevCalculated) 
+     >  iRet = fsql3_bind_double(IoutDBref,12, sev8)
+      if (forestValueCalculated) 
+     >  iRet = fsql3_bind_double(IoutDBref,13, forestValue8)
+      if (reprodValueCalculated) 
+     >   iRet = fsql3_bind_double(IoutDBref,14, reprodValue8)
+      iRet = fsql3_bind_int(IoutDBref,15, ft3Volume)
+      iRet = fsql3_bind_int(IoutDBref,16, bfVolume)
+      iRet = fsql3_bind_double(IoutDBref,17, discountRate8)
+      if (sevInputUsed) 
+     >  iRet = fsql3_bind_double(IoutDBref,18, sevInput8)
 
-  100 continue
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
+      iRet = fsql3_step(IoutDBref)
+      iRet = fsql3_finalize(IoutDBref)
+      IF (iRet>0) THEN
+        iRet = fsql3_errmsg(SQLStmtStr, 200)
+        PRINT *,"dbsecsum finalize error: ",TRIM(SQLStmtStr)
+        IDBSECON = 0
+      endif
       return
-
+      
       entry getDbsEconStatus(status)
          if(IDBSECON == 0) then
             status = 0   !DB-FVS output not requested
@@ -386,5 +149,4 @@ C $Id: dbsecsum.f 1968 2017-06-07 17:10:14Z lancedavid $
             status = 2   ! Write to summary and harvest output to DB.
          end if
       return
-
       end

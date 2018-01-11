@@ -1,5 +1,6 @@
       SUBROUTINE DBSFMBURN(IYEAR,NPLT,ONEHR,TENHR,HUNDHR,THOUSHR,DUFF,
      -  LIVEW,LIVEH,MFWIND,SLOPE,FLAME,SCORCH,FTYPE,FM,WT,KODE)
+
       IMPLICIT NONE
 C
 C $Id: dbsfmburn.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
@@ -31,8 +32,8 @@ C
 C
 COMMONS
 
-      INTEGER IYEAR,IRCODE,KODE,FM,SLOPE
-      INTEGER(SQLSMALLINT_KIND)::ColNumber
+      INTEGER IYEAR,iRet,KODE,FM,SLOPE
+      INTEGER ColNumber
       REAL ONEHR, TENHR, HUNDHR, THOUSHR, DUFF, LIVEW, LIVEH, MFWIND,
      -     FLAME, SCORCH, WT
       DOUBLE PRECISION ONEHRB, TENHRB, HUNDHRB, THOUSHRB, DUFFB, LIVEWB,
@@ -40,102 +41,25 @@ COMMONS
       DIMENSION FM(4), WT(4)
       DOUBLE PRECISION,DIMENSION(4)::WTB
       CHARACTER*2000 SQLStmtStr
-      CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
       CHARACTER(len=8) FTYPE
+      
+      integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
 
 C     Initialize variables
 
       IF(IBURN.EQ.0) RETURN
-      IF(IBURN.EQ.2) KODE = 0
 
-C---------
-C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
-C---------
+      IF(IBURN.EQ.2) KODE = 0
       CALL DBSCASE(1)
 
-C---------
-C     ALLOCATE A STATEMENT HANDLE
-C---------
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
-        IBURN = 0
-        PRINT *,'Error connecting to data source'
-        CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlOut,
-     -                  'DBSFMBURN:DSN Connection')
-        GOTO 200
-      ENDIF
-C---------
-C     CHECK TO SEE IF THE FUEL CONSUMP. TABLE EXISTS IN DATBASE
-C---------
-      IF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-        TABLENAME = '[FVS_BurnReport$]'
-      ELSE
-        TABLENAME = 'FVS_BurnReport'
-      ENDIF
-      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
-      IF(IRCODE.EQ.2) THEN
-        IBURN = 0
-        RETURN
-      ENDIF
-      IF(IRCODE.EQ.1) THEN
-        IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
-          SQLStmtStr='CREATE TABLE FVS_BurnReport('//
-     -              'CaseID Text not null,'//
-     -              'StandID Text null,'//
-     -              'Year Int null,'//
-     -              'One_Hr_Moisture double null,'//
-     -              'Ten_Hr_Moisture double null,'//
-     -              'Hundred_Hr_Moisture double null,'//
-     -              'Thousand_Hr_Moisture double null,'//
-     -              'Duff_Moisture double null,'//
-     -              'Live_Woody_Moisture double null,'//
-     -              'Live_Herb_Moisture double null,'//
-     -              'Midflame_Wind double null,'//
-     -              'Slope double null,'//
-     -              'Flame_length double null,'//
-     -              'Scorch_height double null,'//
-     -              'Fire_Type Text null,'//
-     -              'FuelModl1 double null,'//
-     -              'Weight1 double null,'//
-     -              'FuelModl2 double null,'//
-     -              'Weight2 double null,'//
-     -              'FuelModl3 double null,'//
-     -              'Weight3 double null,'//
-     -              'FuelModl4 double null,'//
-     -              'Weight4 double null)'
-
-        ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-          SQLStmtStr='CREATE TABLE FVS_BurnReport('//
-     -              'CaseID Text,'//
-     -              'StandID Text,'//
-     -              'Year Int,'//
-     -              'One_Hr_Moisture Number,'//
-     -              'Ten_Hr_Moisture Number,'//
-     -              'Hundred_Hr_Moisture Number,'//
-     -              'Thousand_Hr_Moisture Number,'//
-     -              'Duff_Moisture Number,'//
-     -              'Live_Woody_Moisture Number,'//
-     -              'Live_Herb_Moisture Number,'//
-     -              'Midflame_Wind Number,'//
-     -              'Slope Number,'//
-     -              'Flame_length Number,'//
-     -              'Scorch_height Number,'//
-     -              'Fire_Type Text,'//
-     -              'FuelModl1 Number,'//
-     -              'Weight1 Number,'//
-     -              'FuelModl2 Number,'//
-     -              'Weight2 Number,'//
-     -              'FuelModl3 Number,'//
-     -              'Weight3 Number,'//
-     -              'FuelModl4 Number,'//
-     -              'Weight4 Number)'
-
-        ELSE
-          SQLStmtStr='CREATE TABLE FVS_BurnReport('//
+      iRet = fsql3_tableexists(IoutDBref,"FVS_BurnReport"//CHAR(0))
+      IF(iRet.EQ.0) THEN
+        SQLStmtStr='CREATE TABLE FVS_BurnReport ('//
      -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
-     -              'Year Int null,'//
+     -              'Year int null,'//
      -              'One_Hr_Moisture real null,'//
      -              'Ten_Hr_Moisture real null,'//
      -              'Hundred_Hr_Moisture real null,'//
@@ -144,26 +68,23 @@ C---------
      -              'Live_Woody_Moisture real null,'//
      -              'Live_Herb_Moisture real null,'//
      -              'Midflame_Wind real null,'//
-     -              'Slope real null,'//
+     -              'Slope int null,'//
      -              'Flame_length real null,'//
      -              'Scorch_height real null,'//
      -              'Fire_Type char(8) null,'//
-     -              'FuelModl1 real null,'//
+     -              'FuelModl1 int null,'//
      -              'Weight1 real null,'//
-     -              'FuelModl2 real null,'//
+     -              'FuelModl2 int null,'//
      -              'Weight2 real null,'//
-     -              'FuelModl3 real null,'//
+     -              'FuelModl3 int null,'//
      -              'Weight3 real null,'//
-     -              'FuelModl4 real null,'//
-     -              'Weight4 real null)'
-
+     -              'FuelModl4 int null,'//
+     -              'Weight4 real null);'//CHAR(0)
+        iRet = fsql3_exec(IoutDBref,trim(SQLStmtStr))
+        IF (iRet .NE. 0) THEN
+          IBURN = 0
+          RETURN
         ENDIF
-          iRet = fvsSQLCloseCursor(StmtHndlOut)
-
-          iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-          CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -           'DBSFMBURN:Creating Table: '//trim(SQLStmtStr))
       ENDIF
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
@@ -184,7 +105,7 @@ C
       WTB(3) = INT((WT(3)*100.)+0.5)
       WTB(4) = INT((WT(4)*100.)+0.5)
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_BurnReport (CaseID,',
      -  'StandID,Year,One_Hr_Moisture,Ten_Hr_Moisture,',
      -  'Hundred_Hr_Moisture,Thousand_Hr_Moisture,Duff_Moisture,',
      -  'Live_Woody_Moisture,Live_Herb_Moisture,Midflame_Wind,Slope,',
@@ -192,152 +113,76 @@ C
      -  'Weight1,FuelModl2,Weight2,FuelModl3,Weight3,',
      -  'FuelModl4,Weight4) VALUES(''',CASEID,''',''',
      -  TRIM(NPLT),''',?,?,?,?,?,?,?,?,?,?,?,?,''',
-     -  TRIM(FTYPE),''',?,?,?,?,?,?,?,?)'
+     -  TRIM(FTYPE),''',?,?,?,?,?,?,?,?);'//CHAR(0)
 
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-      iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+      iRet = fsql3_prepare(IoutDBref, trim(SQLStmtStr))
 C
 C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 C
-
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
-     -           SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),ONEHRB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,ONEHRB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),TENHRB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,TENHRB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),HUNDHRB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HUNDHRB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),THOUSHRB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,THOUSHRB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),DUFFB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,DUFFB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),LIVEWB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,LIVEWB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),LIVEHB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,LIVEHB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),MFWINDB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,MFWINDB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SLOPE,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,SLOPE)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),FLAMEB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,FLAMEB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SCORCHB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,SCORCHB)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),FM(1),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,FM(1))
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),WTB(1),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,WTB(1))
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),FM(2),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,FM(2))
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),WTB(2),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,WTB(2))
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
-     -         SQL_PARAM_INPUT,
-     -         SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -         INT(0,SQLSMALLINT_KIND),FM(3),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,FM(3))
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
-     -         SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(0,SQLSMALLINT_KIND),WTB(3),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,WTB(3))
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
-     -         SQL_PARAM_INPUT,
-     -         SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -         INT(0,SQLSMALLINT_KIND),FM(4),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,FM(4))
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
-     -         SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(0,SQLSMALLINT_KIND),WTB(4),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,WTB(4))
+      
+      iRet = fsql3_step(IoutDBref)
+      iRet = fsql3_finalize(IoutDBref)
 
-
-  100 CONTINUE
-
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-      iRet = fvsSQLExecute(StmtHndlOut)
-      CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -              'DBSFMBURN:Inserting Row')
-
-  200 CONTINUE
-      !Release statement handle
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
-
+      RETURN
       END
 
 

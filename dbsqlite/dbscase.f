@@ -1,5 +1,4 @@
       SUBROUTINE DBSCASE(IFORSURE)
-      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 C $Id: dbscase.f 1968 2017-06-07 17:10:14Z lancedavid $
@@ -46,8 +45,6 @@ C---
       CHARACTER(len=MaxStringLen) TIMESTAMP
       INTEGER IFORSURE, IFORSR, I, KODE, IRCODE
       CHARACTER(len=36) CID
-
-      CHARACTER*20 TABLENAME
 
       CHARACTER*7 VVER
 
@@ -100,7 +97,7 @@ C---------
 C---------
 C     MAKE SURE WE HAVE AN OPEN CONNECTION
 C---------
-      IF (IOUTDBREF.EQ.-1) CALL DBSOPEN(.TRUE.,.FALSE.,KODE)
+      IF (IoutDBref.EQ.-1) CALL DBSOPEN(.TRUE.,.FALSE.,KODE)
       IF (KODE.EQ.1) THEN
         ICOMPUTE  = 0
         ISUMARY   = 0
@@ -132,7 +129,7 @@ C---------
         RETURN
       ENDIF
       
-      IRCODE = fsql3_tableexists(IOUTDBREF,"FVS_Cases"//C_NULL_CHAR)
+      IRCODE = fsql3_tableexists(IoutDBref,"FVS_Cases"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr="CREATE TABLE FVS_Cases"//
      -              " (CaseID char(36) primary key,"//
@@ -146,8 +143,8 @@ C---------
      -              "Version char(10),"//
      -              "RV char(8),"//
      -              "Groups char(250),"//
-     -              "RunDateTime char(19))"//C_NULL_CHAR
-        IRCODE = fsql3_exec(IOUTDBREF,SQLStmtStr)
+     -              "RunDateTime char(19))"//CHAR(0)
+        IRCODE = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (IRCODE .NE. 0) RETURN
       ENDIF
 C---------
@@ -170,7 +167,7 @@ C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 C----------
       if (LENSLS.EQ.-1) SLSET =""
       IF (KEYFNAME.EQ.' ') KEYFNAME='Unknown'
-      WRITE(SQLStmtStr,*)"INSERT INTO ",trim(TABLENAME),
+      WRITE(SQLStmtStr,*)"INSERT INTO FVS_Cases",
      - " (CaseID,Stand_CN,StandID,MgmtID,RunTitle,KeywordFile,",
      - "SamplingWt,Variant,Version,RV,Groups,RunDateTime) ",
      - "VALUES('",CASEID,"','",
@@ -178,9 +175,10 @@ C----------
      - TRIM(ADJUSTL(MGMID)),"','",TRIM(ADJUSTL(ITITLE)),"','",
      - TRIM(ADJUSTL(KEYFNAME)),"',",SAMWT,",'",VAR,"',",
      - "'",SVN,"','",REV,"','",
-     - TRIM(ADJUSTL(SLSET)),"','",TRIM(ADJUSTL(TIMESTAMP)),"')"
+     - TRIM(ADJUSTL(SLSET)),"','",TRIM(ADJUSTL(TIMESTAMP)),"');"
 
-      IRCODE = fsql3_exec(IOUTDBREF,SQLStmtStr)
+      IRCODE = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))
+      
       RETURN
 C
 C     CALLED BY FILOPN: ENTRY TO SAVE THE KEYWORD FILE NAME AND TO SET

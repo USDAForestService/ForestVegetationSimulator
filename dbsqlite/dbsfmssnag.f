@@ -1,5 +1,6 @@
       SUBROUTINE DBSFMSSNAG(IYEAR,NPLT,HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,
      -  HCL7,SCL1,SCL2,SCL3,SCL4,SCL5,SCL6,SCL7,HDSF,KODE)
+ 
       IMPLICIT NONE
 C
 C $Id: dbsfmssnag.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
@@ -34,94 +35,26 @@ C
 C
 COMMONS
 
-      INTEGER IYEAR,KODE,IRCODE
-      INTEGER(SQLSMALLINT_KIND)::ColNumber
+      INTEGER IYEAR,KODE,iRet,ColNumber
       REAL HCL1,HCL2,HCL3,HCL4,HCL5,HCL6,HCL7,SCL1,SCL2,SCL3,SCL4,SCL5,
      -  SCL6,SCL7,HDSF
       DOUBLE PRECISION HCL1B,HCL2B,HCL3B,HCL4B,HCL5B,HCL6B,HCL7B,
      -  SCL1B,SCL2B,SCL3B,SCL4B,SCL5B,SCL6B,SCL7B,HDSFB
       CHARACTER*2000 SQLStmtStr
-      CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
+      
+      integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
 
-C     Initialize variables
 
       IF(ISSUM.EQ.0) RETURN
       IF(ISSUM.EQ.2) KODE = 0
 
-C---------
-C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
-C---------
       CALL DBSCASE(1)
 
-C---------
-C     ALLOCATE A STATEMENT HANDLE
-C---------
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
-        ISSUM = 0
-        PRINT *,'Error connecting to data source'
-        CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlOut,
-     -                  'DBSFMSSNAG:DSN Connection')
-        GOTO 200
-      ENDIF
-C---------
-C     CHECK TO SEE IF THE SUMMARY SNAG TABLE EXISTS IN DATBASE
-C---------
-      IF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-        TABLENAME = '[FVS_SnagSum$]'
-      ELSE
-        TABLENAME = 'FVS_SnagSum'
-      ENDIF
-      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
-      IF(IRCODE.EQ.2) THEN
-        ISSUM = 0
-        RETURN
-      ENDIF
-      IF(IRCODE.EQ.1) THEN
-        IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
-          SQLStmtStr='CREATE TABLE FVS_SnagSum('//
-     -              'CaseID Text not null,'//
-     -              'StandID Text null,'//
-     -              'Year Int null,'//
-     -              'Hard_snags_class1 double null,'//
-     -              'Hard_snags_class2 double null,'//
-     -              'Hard_snags_class3 double null,'//
-     -              'Hard_snags_class4 double null,'//
-     -              'Hard_snags_class5 double null,'//
-     -              'Hard_snags_class6 double null,'//
-     -              'Hard_snags_total  double null,'//
-     -              'Soft_snags_class1 double null,'//
-     -              'Soft_snags_class2 double null,'//
-     -              'Soft_snags_class3 double null,'//
-     -              'Soft_snags_class4 double null,'//
-     -              'Soft_snags_class5 double null,'//
-     -              'Soft_snags_class6 double null,'//   
-     -              'Soft_snags_total  double null,'//   
-     -              'Hard_soft_snags_total double null)'   
-
-        ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-          SQLStmtStr='CREATE TABLE FVS_SnagSum('//
-     -              'CaseID Text,'//
-     -              'StandID Text,'//
-     -              'Year Int,'//
-     -              'Hard_snags_class1 Number,'//
-     -              'Hard_snags_class2 Number,'//
-     -              'Hard_snags_class3 Number,'//
-     -              'Hard_snags_class4 Number,'//
-     -              'Hard_snags_class5 Number,'//
-     -              'Hard_snags_class6 Number,'//
-     -              'Hard_snags_total  Number,'//
-     -              'Soft_snags_class1 Number,'//
-     -              'Soft_snags_class2 Number,'//
-     -              'Soft_snags_class3 Number,'//
-     -              'Soft_snags_class4 Number,'//
-     -              'Soft_snags_class5 Number,'//
-     -              'Soft_snags_class6 Number,'//
-     -              'Soft_snags_total  Number,'//
-     -              'Hard_soft_snags_total Number)'
-
-        ELSE
+      iRet = fsql3_tableexists(IoutDBref,
+     >       "FVS_SnagSum"//CHAR(0))
+      IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
      -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
@@ -140,16 +73,13 @@ C---------
      -              'Soft_snags_class5 real null,'//
      -              'Soft_snags_class6 real null,'//
      -              'Soft_snags_total  real null,'//
-     -              'Hard_soft_snags_total real null)'
-        ENDIF
-
-            iRet = fvsSQLCloseCursor(StmtHndlOut)
-            iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-            CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -           'DBSFMSSNAG:Creating Table: '//trim(SQLStmtStr))
+     -              'Hard_soft_snags_total real null);'//CHAR(0)
+         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+         IF (iRet .NE. 0) THEN
+           ISSUM = 0
+           RETURN
+         ENDIF
       ENDIF
-
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
 C
@@ -169,137 +99,76 @@ C
       SCL7B = SCL7
       HDSFB = HDSF
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_SnagSum (CaseID,',
      -  'StandID,Year,Hard_snags_class1,Hard_snags_class2,',
      -  'Hard_snags_class3,Hard_snags_class4,Hard_snags_class5,',
      -  'Hard_snags_class6,Hard_snags_total,Soft_snags_class1,',
      -  'Soft_snags_class2,Soft_snags_class3,Soft_snags_class4,',
      -  'Soft_snags_class5,Soft_snags_class6,Soft_snags_total,',
      -  'Hard_soft_snags_total) VALUES(''',CASEID,''',''',TRIM(NPLT),
-     -  ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -  ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'//CHAR(0)
+     
+      iRet = fsql3_prepare(IoutDBref, SQLStmtStr)
 
-C
-C     CLOSE CURSOR
-C
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-C
-C     PREPARE THE SQL QUERY
-C
-      iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-C
-C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
-C
+      IF (iRet .NE. 0) THEN
+         ISSUM = 0
+         RETURN
+      ENDIF
 
       ColNumber=1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -           INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),HCL1B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HCL1B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),HCL2B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HCL2B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -           INT(5,SQLSMALLINT_KIND),HCL3B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HCL3B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),HCL4B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HCL4B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),HCL5B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HCL5B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),HCL6B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HCL6B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),HCL7B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HCL7B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SCL1B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,SCL1B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SCL2B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,SCL2B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SCL3B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,SCL3B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SCL4B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,SCL4B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SCL5B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,SCL5B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SCL6B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,SCL6B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),SCL7B,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,SCL7B)
 
       ColNumber=ColNumber+1
-      iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),HDSFB,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
-  100 CONTINUE
-      !Close Cursor
-      iRet = fvsSQLCloseCursor(StmtHndlOut)
-
-      iRet = fvsSQLExecute(StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS) ISSUM=0
-
-      CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -              'DBSFMSSNAG:Inserting Row')
-
-  200 CONTINUE
-      !Release statement handle
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,HDSFB)
+      
+      iRet = fsql3_step(IoutDBref)
+      iRet = fsql3_finalize(IoutDBref)
+      if (iRet.ne.0) then
+         ISSUM = 0
+      ENDIF
+      RETURN
 
       END
-
 

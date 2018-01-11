@@ -10,7 +10,6 @@ C            KODE  - FOR LETTING CALLING ROUTINE KNOW IF THIS IS A
 C                     REDIRECT OF THE FLAT FILE REPORT OR IN
 C                     ADDITION TO
 C
-      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 COMMONS
@@ -68,7 +67,7 @@ C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
 C     IF IT DOESNT THEN WE NEED TO CREATE IT
 
-      IRCODE = fsql3_tableexists(IOUTDBREF,"FVS_ATRTList"//C_NULL_CHAR)
+      IRCODE = fsql3_tableexists(IoutDBref,"FVS_ATRTList"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_ATRTList ('//
      -             'CaseID char(36) not null,'//
@@ -102,8 +101,8 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
      -             'ActPt int null,'//
      -             'Ht2TDCF real null,'//
      -             'Ht2TDBF real null,'//
-     -             'TreeAge real null);' // C_NULL_CHAR
-        IRCODE = fsql3_exec(IOUTDBREF,SQLStmtStr)
+     -             'TreeAge real null);' // CHAR(0)
+        IRCODE = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (IRCODE .NE. 0) THEN
           IATRTLIST = 0
           RETURN
@@ -213,7 +212,7 @@ C
      -         ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
      -         ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,');'
 
-           IRCODE = fsql3_exec(IOUTDBREF,trim(SQLStmtStr)//C_NULL_CHAR)
+           IRCODE = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))
            IF (IRCODE .NE. 0) THEN
              IATRTLIST = 0
              RETURN

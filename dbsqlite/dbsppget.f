@@ -57,12 +57,10 @@ C
       IRGIN        = INTS( 36)
       IDWDVOL      = INTS( 37)
       IDWDCOV      = INTS( 38)
-      ! note that ConnHndl[In,Out] could be long ints! If
-      ! the ConnHndlIn values are positive, then the data
-      ! bases are already opened. Make sure they are closed
+      ! Make sure the databases are closed
       CALL DBSCLOSE(.TRUE.,.TRUE.)
-      IF (INTS(39).EQ.1) ConnHndlIn = 0 ! signal to reopen
-      IF (INTS(40).EQ.1) ConnHndlOut= 0
+      IF (INTS(39).EQ.1) IinDBref = 0 ! signal to reopen
+      IF (INTS(40).EQ.1) IoutDBref= 0
       ICLIM        = INTS( 41)
       IRD1         = INTS( 42)
       IRD2         = INTS( 43)
@@ -91,7 +89,7 @@ C
 C
       INTEGER LNCBUF
       CHARACTER CBUFF(LNCBUF)
-      INTEGER K,J,I,IPNT,KODE
+      INTEGER J,IPNT,KODE
 
       IF (LENSTRINGS(1).GT.0) THEN
         DO J=1,LENSTRINGS(1)
@@ -117,21 +115,19 @@ C
 
       ! reopen connections that were in use.
 
-      IF (ConnHndlIn.EQ.0) THEN
-        ConnHndlIn = -1
-        CALL DBSOPEN(DSNIN,EnvHndlIn,ConnHndlIn,DBMSIN,0,
-     -     .FALSE.,KODE)
+      IF (IinDBref.EQ.0) THEN
+        IinDBref = -1
+        CALL DBSOPEN(.FALSE.,.TRUE.,KODE)
 
         IF (KODE.EQ.0) PRINT *,"Reopen DBSIN failed. DSNIN=",
-     -     DBMSIN(:LEN_TRIM(DBMSIN))
+     -     TRIM(DSNIN)
       ENDIF
-      IF (ConnHndlOut.EQ.0) THEN
-        ConnHndlOut = -1
-        CALL DBSOPEN(DSNOUT,EnvHndlOut,ConnHndlOut,DBMSOUT,0,
-     -     .FALSE.,KODE)
+      IF (IoutDBref.EQ.0) THEN
+        IoutDBref = -1
+        CALL DBSOPEN(.TRUE.,.FALSE.,KODE)
 
-        IF (KODE.EQ.0) PRINT *,"Reopen DBMSOUT failed. DSNOUT=",
-     -     DBMSOUT(:LEN_TRIM(DBMSOUT))
+        IF (KODE.EQ.0) PRINT *,"Reopen DSNOUT failed. DSNOUT=",
+     -     TRIM(DSNOUT)
       ENDIF
 
       RETURN

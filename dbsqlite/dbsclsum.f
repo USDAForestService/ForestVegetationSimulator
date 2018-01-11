@@ -1,7 +1,6 @@
       SUBROUTINE DBSCLSUM(NPLT,IYR,SP,SPVIAB,
      >          SPBA,SPTPA,SPMORT1,SPMORT2,SPGMULT,
      >          SPSITGM,MXDENMLT,POTESTAB)
-      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 C $Id: dbsclsum.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
@@ -24,7 +23,7 @@ C     MAKE SURE WE HAVE AN UP TO DATE CASEID
 
       CALL DBSCASE(1)
 
-      IRCODE = fsql3_tableexists(IOUTDBREF,"FVS_Climate"//C_NULL_CHAR)
+      IRCODE = fsql3_tableexists(IoutDBref,"FVS_Climate"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_Climate('//
      -              'CaseID int not null,'//
@@ -39,8 +38,8 @@ C     MAKE SURE WE HAVE AN UP TO DATE CASEID
      -              'GrowthMult real null,'//
      -              'SiteMult real null,'//
      -              'MxDenMult real null,'//
-     -              'AutoEstbTPA real null)'//C_NULL_CHAR
-        IRCODE = fsql3_exec(IOUTDBREF,SQLStmtStr)
+     -              'AutoEstbTPA real null)'//CHAR(0)
+        IRCODE = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (IRCODE .NE. 0) THEN
           ICLIM = 0
           RETURN
@@ -55,7 +54,7 @@ C     MAKE SURE WE HAVE AN UP TO DATE CASEID
      -   SPMORT1,',',SPMORT2,',',SPGMULT,',',
      -   SPSITGM,',',MXDENMLT,',',POTESTAB,')'
 
-      IRCODE = fsql3_exec(IOUTDBREF,trim(SQLStmtStr)//C_NULL_CHAR)
+      IRCODE = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))
       IF (IRCODE .NE. 0) ICLIM = 0
       RETURN
       END

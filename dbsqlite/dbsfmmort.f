@@ -30,8 +30,7 @@ COMMONS
 C---
       INTEGER MXSP1
       PARAMETER (MXSP1 = MAXSP + 1)
-      INTEGER IYEAR,IRCODE,KODE,I,J
-      INTEGER(SQLSMALLINT_KIND)::ColNumber
+      INTEGER IYEAR,iRet,KODE,I,J,ColNumber
       REAL KILLED,TOTAL,BAKILL,VOKILL
       DOUBLE PRECISION KILLEDB,TOTALB,BAKILLB,VOKILLB
       DIMENSION KILLED(MXSP1,8),TOTAL(MXSP1,8),KILLEDB(MXSP1,8),
@@ -39,97 +38,25 @@ C---
       DIMENSION BAKILL(MXSP1),VOKILL(MXSP1),BAKILLB(MXSP1),
      -          VOKILLB(MXSP1)
       CHARACTER*2000 SQLStmtStr
-      CHARACTER(len=20) TABLENAME
-      CHARACTER(len=3) CSP
       CHARACTER(LEN=8) CSPECIES
 
-C---
-C     Initialize variables
-C
+      integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
+     >        fsql3_step,fsql3_reset,fsql3_bind_text
+
+
       IF(IMORTF.EQ.0) RETURN
       IF(IMORTF.EQ.2) KODE = 0
-
-C---------
-C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
-C---------
+      
       CALL DBSCASE(1)
-
-C---------
-C     ALLOCATE A STATEMENT HANDLE
-C---------
-      iRet = fvsSQLAllocHandle(SQL_HANDLE_STMT,ConnHndlOut, StmtHndlOut)
-      IF (iRet.NE.SQL_SUCCESS .AND. iRet.NE. SQL_SUCCESS_WITH_INFO) THEN
-        IMORTF = 0
-        PRINT *,'Error connecting to data source'
-        CALL  DBSDIAGS(SQL_HANDLE_DBC,ConnHndlOut,
-     -                  'DBSFMMORT:DSN Connection')
-        GOTO 200
-      ENDIF
-C---------
-C     CHECK TO SEE IF THE MORTALITY TABLE EXISTS IN DATBASE
-C---------
-      IF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-        TABLENAME = '[FVS_Mortality$]'
-      ELSE
-        TABLENAME = 'FVS_Mortality'
-      ENDIF
-      CALL DBSCKNROWS(IRCODE,TABLENAME,1,TRIM(DBMSOUT).EQ.'EXCEL')
-      IF(IRCODE.EQ.2) THEN
-        IMORTF = 0
-        RETURN
-      ENDIF
-      IF(IRCODE.EQ.1) THEN
-        IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
-          SQLStmtStr='CREATE TABLE FVS_Mortality('//
-     -              'CaseID Text not null,'//
-     -              'StandID Text null,'//
-     -              'Year Int null,'//
-     -              'Species Text null,'//
-     -              'Killed_class1 double null,'//
-     -              'Total_class1 double null,'//
-     -              'Killed_class2 double null,'//
-     -              'Total_class2 double null,'//
-     -              'Killed_class3 double null,'//
-     -              'Total_class3 double null,'//
-     -              'Killed_class4 double null,'//
-     -              'Total_class4 double null,'//
-     -              'Killed_class5 double null,'//
-     -              'Total_class5 double null,'//
-     -              'Killed_class6 double null,'//
-     -              'Total_class6 double null,'//
-     -              'Killed_class7 double null,'//
-     -              'Total_class7 double null,'//
-     -              'Bakill double null,'//
-     -              'Volkill double null)'
-
-        ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-          SQLStmtStr='CREATE TABLE FVS_Mortality('//
-     -              'CaseID Text,'//
-     -              'StandID Text,'//
-     -              'Year Int,'//
-     -              'Species Text,'//
-     -              'Killed_class1 Number,'//
-     -              'Total_class1 Number,'//
-     -              'Killed_class2 Number,'//
-     -              'Total_class2 Number,'//
-     -              'Killed_class3 Number,'//
-     -              'Total_class3 Number,'//
-     -              'Killed_class4 Number,'//
-     -              'Total_class4 Number,'//
-     -              'Killed_class5 Number,'//
-     -              'Total_class5 Number,'//
-     -              'Killed_class6 Number,'//
-     -              'Total_class6 Number,'//
-     -              'Killed_class7 Number,'//
-     -              'Total_class7 Number,'//
-     -              'Bakill Number,'//
-     -              'Volkill Number)'
-        ELSE
-          SQLStmtStr='CREATE TABLE FVS_Mortality('//
+      iRet = fsql3_tableexists(IoutDBref,
+     >       "FVS_Mortality"//CHAR(0))
+      IF(iRet.EQ.0) THEN
+          SQLStmtStr='CREATE TABLE FVS_Mortality ('//
      -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
-     -              'Species char(3) null,'//
+     -              'Species char null,'//
      -              'Killed_class1 real null,'//
      -              'Total_class1 real null,'//
      -              'Killed_class2 real null,'//
@@ -145,39 +72,33 @@ C---------
      -              'Killed_class7 real null,'//
      -              'Total_class7 real null,'//
      -              'Bakill real null,'//
-     -              'Volkill real null)'
-        ENDIF
-        !PRINT*, SQLStmtStr
-
-            !Close Cursor
-            iRet = fvsSQLCloseCursor(StmtHndlOut)
-
-            iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
-     -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-            CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -           'FMMORT:Creating Table: '//trim(SQLStmtStr))
+     -              'Volkill real null);'//CHAR(0)
+         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+         IF (iRet .NE. 0) THEN
+           IMORTF = 0
+           RETURN
+         ENDIF
       ENDIF
-
-      DO 150 J = 1,MXSP1
-
-      !! this is where the defect occurs...
-        IF (J .EQ. MXSP1) THEN
-        	CSP = 'ALL'
+        SQLStmtStr ='INSERT INTO FVS_Mortality (CaseID,'//
+     -    'StandID,Year,Species,Killed_class1,Total_class1,'//
+     -    'Killed_class2,'//
+     -    'Total_class2,Killed_class3,Total_class3,Killed_class4,'//
+     -    'Total_class4,Killed_class5,Total_class5,Killed_class6,'//
+     -    'Total_class6,Killed_class7,Total_class7,Bakill,Volkill)'//
+     -    " VALUES ('"//CASEID//"','"//TRIM(NPLT)//
+     -    "',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"//CHAR(0)
+     
+      iRet = fsql3_prepare(IoutDBref, SQLStmtStr)
+      IF (iRet .NE. 0) THEN
+         IMORTF = 0
+         RETURN
+      ENDIF
+      
+      DO J = 1,MXSP1
+        IF (TOTAL(J,8) .LE. 0) CYCLE 
+        IF (J.EQ.MXSP1) THEN
+          CSPECIES='ALL'
         ELSE
-        	CSP = JSP(J)
-        ENDIF
-
-C       ONLY WRITE INFO FOR SPECIES IN THE STAND
-
-        IF (TOTAL(J,8) .LE. 0) GOTO 150
-C
-C       DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
-C       KEYWORD OVER RIDES
-C
-
-        !! write out individual species
-        if( J .LT. MXSP1 ) then
-
           IF(JSPIN(J).EQ.1)THEN
             CSPECIES=ADJUSTL(JSP(J))
           ELSEIF(JSPIN(J).EQ.2)THEN
@@ -192,13 +113,7 @@ C
           IF(ISPOUT21.EQ.2)CSPECIES=ADJUSTL(FIAJSP(J))
           IF(ISPOUT21.EQ.3)CSPECIES=ADJUSTL(PLNJSP(J))
 
-        else
-
-          IF(CSP.EQ.'ALL') then
-            CSPECIES='ALL'
-          end if
-
-        end if
+        ENDIF
 C
 C       ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
 C
@@ -206,165 +121,73 @@ C
         VOKILLB(J) = VOKILL(J)
 
         DO I = 1,8
-        KILLEDB(J,I) = KILLED(J,I)
-        TOTALB(J,I) = TOTAL(J,I)
+          KILLEDB(J,I) = KILLED(J,I)
+          TOTALB(J,I) = TOTAL(J,I)
         ENDDO
 
-        WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,' (CaseID,',
-     -    'StandID,Year,Species,Killed_class1,Total_class1,',
-     -    'Killed_class2,',
-     -    'Total_class2,Killed_class3,Total_class3,Killed_class4,',
-     -    'Total_class4,Killed_class5,Total_class5,Killed_class6,',
-     -    'Total_class6,Killed_class7,Total_class7,Bakill,Volkill)',
-     -    'VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,''',
-     -    TRIM(CSPECIES),''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
-
-        !PRINT*, SQLStmtStr
-C
-C       CLOSE CURSOR
-C
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
-C
-C       PREPARE THE SQL QUERY
-C
-        iRet = fvsSQLPrepare(StmtHndlOut, trim(SQLStmtStr),
-     -                int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-C
-C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
-C
-
         ColNumber=1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -
-     -             SQL_PARAM_INPUT,
-     -             SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
-     -             INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
+        
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIES,
+     >               len_trim(CSPECIES))              
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,1),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,KILLEDB(J,1))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),TOTALB(J,1),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,TOTALB(J,1))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,2),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,KILLEDB(J,2))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),TOTALB(J,2),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,TOTALB(J,2))
+     
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,3),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,KILLEDB(J,3))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),TOTALB(J,3),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,TOTALB(J,3))
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,4),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,KILLEDB(J,4))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),TOTALB(J,4),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,TOTALB(J,4))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,5),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,KILLEDB(J,5))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),TOTALB(J,5),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,TOTALB(J,5))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,6),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,KILLEDB(J,6))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),TOTALB(J,6),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,TOTALB(J,6))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -        INT(5,SQLSMALLINT_KIND),KILLEDB(J,7),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,KILLEDB(J,7))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -         INT(5,SQLSMALLINT_KIND),TOTALB(J,7),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,TOTALB(J,7))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -       SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -       INT(5,SQLSMALLINT_KIND),BAKILLB(J),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,BAKILLB(J))
 
         ColNumber=ColNumber+1
-        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
-     -             SQL_PARAM_INPUT,
-     -       SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
-     -       INT(0,SQLSMALLINT_KIND),VOKILLB(J),int(4,SQLLEN_KIND),
-     -           SQL_NULL_PTR)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,VOKILLB(J))
 
-  100   CONTINUE
-        !Close Cursor
-        iRet = fvsSQLCloseCursor(StmtHndlOut)
-
-        iRet = fvsSQLExecute(StmtHndlOut)
-        CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
-     -                'FMMORT:Inserting Row')
-
-
-  150 CONTINUE
-
-  200 CONTINUE
-      !Release statement handle
-      iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
+        iRet = fsql3_step(IoutDBref)
+        iRet = fsql3_reset(IoutDBref)
+  
+      ENDDO
+      iRet = fsql3_finalize(IoutDBref)
+      if (iRet.ne.0) then
+         IMORTF = 0
+      ENDIF
+      RETURN
 
       END
 

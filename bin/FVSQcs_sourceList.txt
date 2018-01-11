@@ -270,6 +270,7 @@
 ../cs/src/varmrt.f
 ../dbsqlite/DBSCOM.F77
 ../dbsqlite/dbsatrtls.f
+../dbsqlite/dbsblkd.f
 ../dbsqlite/dbscase.f
 ../dbsqlite/dbsclose.f
 ../dbsqlite/dbscmpu.f
@@ -291,7 +292,6 @@
 ../dbsqlite/dbsfmpf.f
 ../dbsqlite/dbsfmssnag.f
 ../dbsqlite/dbsfuels.f
-../dbsqlite/dbshelpers.f
 ../dbsqlite/dbsin.f
 ../dbsqlite/dbsinit.f
 ../dbsqlite/dbsmis.f
@@ -300,8 +300,6 @@
 ../dbsqlite/dbsppput.f
 ../dbsqlite/dbsprs.f
 ../dbsqlite/dbsprssql.f
-../dbsqlite/dbspusget.f
-../dbsqlite/dbspusput.f
 ../dbsqlite/dbsstandin.f
 ../dbsqlite/dbsstrclass.f
 ../dbsqlite/dbssumry.f

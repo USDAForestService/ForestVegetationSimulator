@@ -1,5 +1,4 @@
       SUBROUTINE DBSCMPU
-      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 C $Id: dbscmpu.f 1934 2017-04-07 15:36:40Z lancedavid $
@@ -63,7 +62,7 @@ C
 C     CHECK TO SEE IF THE COMPUTE TABLE EXISTS IN DATBASE
 C     IF IT DOES NOT THEN WE NEED TO CREATE IT
 C
-      iRet = fsql3_tableexists(IOUTDBREF,"FVS_Compute"//C_NULL_CHAR)
+      iRet = fsql3_tableexists(IoutDBref,"FVS_Compute"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmt='CREATE TABLE FVS_Compute('//
      -             'CaseID char(36) ,'//
@@ -75,8 +74,7 @@ C
      -                 TRIM(CTSTV5(I))//' real null'
           ENDIF
         ENDDO
-        SQLStmt = TRIM(SQLStmt)//C_NULL_CHAR
-        iRet = fsql3_exec(IOUTDBREF,SQLStmt)
+        iRet = fsql3_exec(IoutDBref,TRIM(SQLStmt)//CHAR(0))
         IF (iRet .NE. 0) THEN
           ICOMPUTE = 0
           RETURN
@@ -87,9 +85,9 @@ C       MAKE SURE ALL THE NEEDED COLUMNS EXIST
 C
         DO I=1,ITST5
           IF(.NOT.(CTSTV5(I)(1:1).EQ.'_'.AND.I_CMPU.LT.1)) THEN
-          iRet = fsql3_addcolifabsent(IOUTDBREF, 
-     >         "FVS_Compute"//C_NULL_CHAR, 
-     >         TRIM(CTSTV5(I))//C_NULL_CHAR, "real"//C_NULL_CHAR)
+          iRet = fsql3_addcolifabsent(IoutDBref, 
+     >         "FVS_Compute"//CHAR(0), 
+     >         TRIM(CTSTV5(I))//CHAR(0), "real"//CHAR(0))
           ENDIF
         ENDDO
       ENDIF
@@ -112,7 +110,7 @@ C
 
 C             Build and run an insert query
 
-              CALL INSERTCMPU(IOUTDBREF,KWINSRT,CURVAL,THISYR,NPLT,
+              CALL INSERTCMPU(IoutDBref,KWINSRT,CURVAL,THISYR,NPLT,
      >                        CASEID,NSRTNUM)
 
               NSRTNUM = 0
@@ -150,21 +148,20 @@ C
 C     More to insert?
 
       IF(NSRTNUM.GT.0) 
-     >    CALL INSERTCMPU(IOUTDBREF,KWINSRT,CURVAL,THISYR,NPLT,CASEID,
+     >    CALL INSERTCMPU(IoutDBref,KWINSRT,CURVAL,THISYR,NPLT,CASEID,
      >                    NSRTNUM)
       RETURN
       END
       
-      SUBROUTINE INSERTCMPU(IOUTDBREF,KWINSRT,CURVAL,THISYR,STANDID,
+      SUBROUTINE INSERTCMPU(IoutDBref,KWINSRT,CURVAL,THISYR,STANDID,
      >                      CASEID,NSRTNUM)
-      use iso_c_binding, only: C_NULL_CHAR
       IMPLICIT NONE
 C
 C     INPUT: KWINSRT - THE ARRAY OF COMPUTE VARS TO INSERT
 C            CURVAL  - THE ARRAY OF VALUES ASSOCIATED W/ THE VARS
 C            NSRTNUM - THE NUMBER OF COMPUTE VARS TO INSERT
 C
-      INTEGER I,THISYR,IOUTDBREF,IRT,NSRTNUM
+      INTEGER I,THISYR,IoutDBref,IRT,NSRTNUM
       CHARACTER(LEN=8) KWINSRT(NSRTNUM)
       DOUBLE PRECISION CURVAL(NSRTNUM)
       CHARACTER(LEN=26) STANDID
@@ -172,7 +169,7 @@ C
       CHARACTER(LEN=3000) SQLStmt
       CHARACTER(LEN=200)  VALS
       INTEGER fsql3_prepare,fsql3_bind_int,fsql3_bind_double,
-     >        fsql3_finalize,fsql3_errmsg
+     >        fsql3_finalize,fsql3_errmsg,fsql3_step
       
       SQLStmt=" "
       IF(NSRTNUM.EQ.0) RETURN
@@ -183,20 +180,21 @@ C
 
       SQLStmt = "insert into FVS_Compute (CaseID,StandID,Year" //
      >   trim(SQLStmt) // ") values (" // CASEID // "," // 
-     >   TRIM(STANDID) // ",?" // TRIM(VALS) // ");" // C_NULL_CHAR
+     >   TRIM(STANDID) // ",?" // TRIM(VALS) // ");" // CHAR(0)
       
-      IRT = fsql3_prepare(IOUTDBREF,SQLStmt)
+      IRT = fsql3_prepare(IoutDBref,SQLStmt)
       IF (IRT>0) THEN
         IRT = fsql3_errmsg(VALS, 200)
         PRINT *,"dbscmpu prepare error: ",TRIM(VALS)
       endif
-      IRT = fsql3_bind_int(IOUTDBREF, 1, THISYR)
+      IRT = fsql3_bind_int(IoutDBref, 1, THISYR)
       DO I=1,NSRTNUM 
-        IRT = fsql3_bind_double(IOUTDBREF,I+1,CURVAL(I))
+        IRT = fsql3_bind_double(IoutDBref,I+1,CURVAL(I))
       ENDDO
-      IRT = fsql3_finalize(IOUTDBREF)
+      IRT = fsql3_step(IoutDBref)
+      IRT = fsql3_finalize(IoutDBref)
       IF (IRT>0) THEN
-        IRT = fsql3_errmsg(VALS, 200)
+        IRT = fsql3_errmsg(IoutDBref,VALS,200)
         PRINT *,"dbscmpu finalize error: ",TRIM(VALS)
       endif
       RETURN
