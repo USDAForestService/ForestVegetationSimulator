@@ -27,11 +27,11 @@ COMMONS
       INTEGER SITEPREP,JOSTND
       REAL DBH,DG,HT,HTG,HTTOPK,RCOUNT,ABIRTH
       CHARACTER(LEN=*) SPECIES
-      INTEGER I,iRet
+      INTEGER iRet
       LOGICAL MATCHED,LKECHO,LBIRTH,DEBUG
       INTEGER ColNumber,ColumnCount
 
-      integer  fsql3_step,fsql3_finalize,
+      integer  fsql3_step,fsql3_finalize,fsql3_colisnull,
      >         fsql3_colname,fsql3_colcnt,fsql3_colint,fsql3_coltext
       real*4   fsql3_colreal
 
@@ -175,11 +175,11 @@ C
             MATCHED=.TRUE.
       
           CASE('AGE')
-            ABIRTH = fsql3_colreal(IinDBref,ColNumber,-987654.)
-            if (ABIRTH.eq.-987654) THEN
+            IF (fsql3_colisnull(IinDBref,ColNumber) .eq. 1) THEN
               ABIRTH = 0
               LBIRTH  =.FALSE.
             ELSE
+              ABIRTH = fsql3_colreal(IinDBref,ColNumber,0)
               LBIRTH  =.TRUE.    
             ENDIF
             MATCHED=.TRUE.

@@ -64,6 +64,8 @@ C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 
       CALL DBSCASE(1)
 
+      IRCODE = fsql3_exec (IoutDBref,"Begin;"//Char(0))
+
 C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
 C     IF IT DOESNT THEN WE NEED TO CREATE IT
 
@@ -220,5 +222,6 @@ C
           ENDDO
         ENDIF
       ENDDO
+      IRCODE = fsql3_exec (IoutDBref,"Commit;"//Char(0))
       RETURN
       END

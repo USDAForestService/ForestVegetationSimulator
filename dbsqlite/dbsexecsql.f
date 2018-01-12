@@ -29,7 +29,7 @@ C
 COMMONS
 
       integer fsql3_prepare,fsql3_step,fsql3_colcnt,fsql3_colname,
-     >        fsql3_coltype,fsql3_colreal,fsql3_colisnull
+     >        fsql3_colreal,fsql3_colisnull
       CHARACTER*(*) SQLCMD
       INTEGER IConn,ColumnCount,MxNameLen,ColNumber,NameLen
       PARAMETER (MxNameLen=50)

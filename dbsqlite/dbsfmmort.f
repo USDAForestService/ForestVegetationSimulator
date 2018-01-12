@@ -49,6 +49,7 @@ C---
       IF(IMORTF.EQ.2) KODE = 0
       
       CALL DBSCASE(1)
+      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_Mortality"//CHAR(0))
       IF(iRet.EQ.0) THEN
@@ -188,6 +189,7 @@ C
          IMORTF = 0
       ENDIF
       RETURN
+      iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
 
       END
 

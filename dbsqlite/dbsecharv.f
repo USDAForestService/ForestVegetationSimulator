@@ -6,7 +6,7 @@ C $Id$
 
         include 'DBSCOM.F77'
 
-        integer fsql3_tableexists,fsql3_exec,fsql3_prepare,fsql3_step
+        integer fsql3_tableexists,fsql3_exec,fsql3_prepare
         character(len=1000) :: SQLStmtStr
         integer iRet
         

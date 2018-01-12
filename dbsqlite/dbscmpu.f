@@ -13,7 +13,7 @@ C
 C
 C
       INCLUDE 'OPCOM.F77'
-C
+C                                    
 C
       INCLUDE 'CONTRL.F77'
 C
@@ -23,10 +23,10 @@ C
 C
       INCLUDE 'DBSCOM.F77'
 C
-C
+C                                                                                  
       INCLUDE 'PLOT.F77'
 C
-C
+C                                     
 COMMONS
 C
       INTEGER MXLEN
@@ -62,6 +62,7 @@ C
 C     CHECK TO SEE IF THE COMPUTE TABLE EXISTS IN DATBASE
 C     IF IT DOES NOT THEN WE NEED TO CREATE IT
 C
+      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
       iRet = fsql3_tableexists(IoutDBref,"FVS_Compute"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmt='CREATE TABLE FVS_Compute('//
@@ -73,7 +74,7 @@ C
             SQLStmt=TRIM(SQLStmt)//', '//
      -              TRIM(CTSTV5(I))//' real null'
           ENDIF
-        ENDDO
+        ENDDO           
         iRet = fsql3_exec(IoutDBref,TRIM(SQLStmt)//');'//CHAR(0))
         IF (iRet .NE. 0) THEN
           ICOMPUTE = 0
@@ -103,56 +104,58 @@ C
         THISYR = -1
         DO II=IMGPTS(ICY,1),IMGPTS(ICY,2)
           I=IOPSRT(II)
-          IF(.NOT. (IACT(I,1).EQ.33 .AND. IACT(I,4).GT.0)) CYCLE
-          IF(THISYR.EQ.-1) THISYR = IACT(I,4)
-          IF(IACT(I,4).NE.THISYR) THEN
-            IF(NSRTNUM.GT.0) THEN
+          IF(IACT(I,1).EQ.33 .AND. IACT(I,4).GT.0) THEN
+            IF(THISYR.EQ.-1) THISYR = IACT(I,4)
+            IF(IACT(I,4).NE.THISYR) THEN                                     
+              IF(NSRTNUM.GT.0) THEN
 
-C             Build and run an insert query
+C             Build and run an insert query                                        
+                 
+                CALL INSERTCMPU(IoutDBref,KWINSRT,CURVAL,THISYR,
+     >                          NPLT,CASEID,NSRTNUM)
 
-              CALL INSERTCMPU(IoutDBref,KWINSRT,CURVAL,THISYR,NPLT,
-     >                        CASEID,NSRTNUM)
-
+              ENDIF
               NSRTNUM = 0
               THISYR = IACT(I,4)
             ENDIF
-          ENDIF
-          IX=IFIX(PARMS(IACT(I,2)+1))
-          IF (IX.GT.500) IX=IX-500
-C
-C         CHECK TO SEE IF WE WANT TO SKIP UNDERSCORE COMPUTES
-C
-          IF(CTSTV5(IX)(1:1).EQ.'_'.AND.I_CMPU.LT.1) CYCLE
-          IF (NSRTNUM.EQ.0) THEN
-            KWINSRT(1) = CTSTV5(IX)
-            CURVAL(1)=PARMS(IACT(I,2))
-            NSRTNUM = 1
-          ELSE
-            LDUPKW =.FALSE.
-            DO I3=1,NSRTNUM
-              IF(TRIM(KWINSRT(I3)).EQ.TRIM(CTSTV5(IX))) THEN
-                CURVAL(I3)=PARMS(IACT(I,2))
-                LDUPKW =.TRUE.
-                EXIT
-              ENDIF
-            ENDDO
-            IF(.NOT.LDUPKW) THEN
-              NSRTNUM = NSRTNUM + 1
-              KWINSRT(NSRTNUM)=CTSTV5(IX)
-              CURVAL(NSRTNUM)=PARMS(IACT(I,2))
+            IX=IFIX(PARMS(IACT(I,2)+1))
+            IF (IX.GT.500) IX=IX-500
+C           
+C           CHECK TO SEE IF WE WANT TO SKIP UNDERSCORE COMPUTES
+C            
+            IF(CTSTV5(IX)(1:1).EQ.'_'.AND.I_CMPU.LT.1) CYCLE 
+            IF (NSRTNUM.EQ.0) THEN
+              KWINSRT(1) = CTSTV5(IX)
+              CURVAL(1)=PARMS(IACT(I,2))                                     
+              NSRTNUM = 1
+            ELSE
+              LDUPKW =.FALSE. 
+              DO I3=1,NSRTNUM
+                IF(TRIM(KWINSRT(I3)).EQ.TRIM(CTSTV5(IX))) THEN
+                  CURVAL(I3)=PARMS(IACT(I,2))
+                  LDUPKW =.TRUE.
+                  EXIT
+                ENDIF
+              ENDDO
+              IF(.NOT.LDUPKW) THEN
+                NSRTNUM = NSRTNUM + 1
+                KWINSRT(NSRTNUM)=CTSTV5(IX)
+                CURVAL(NSRTNUM)=PARMS(IACT(I,2))
+              ENDIF                                                        
             ENDIF
           ENDIF
-        ENDDO
-      ENDDO
+        ENDDO        
       
-C     More to insert?
+C       More to insert?
 
-      IF(NSRTNUM.GT.0) 
-     >    CALL INSERTCMPU(IoutDBref,KWINSRT,CURVAL,THISYR,NPLT,CASEID,
-     >                    NSRTNUM)
+        IF(NSRTNUM.GT.0) 
+     >      CALL INSERTCMPU(IoutDBref,KWINSRT,CURVAL,THISYR,NPLT,CASEID,
+     >                      NSRTNUM) 
+      ENDDO
+      iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))     
       RETURN
-      END
-      
+      END               
+                         
       SUBROUTINE INSERTCMPU(IoutDBref,KWINSRT,CURVAL,THISYR,STANDID,
      >                      CASEID,NSRTNUM)
       IMPLICIT NONE
@@ -182,7 +185,6 @@ C
       SQLStmt = "insert into FVS_Compute (CaseID,StandID,Year" //
      >   trim(SQLStmt) // ") values ('" // CASEID // "','" // 
      >   TRIM(STANDID) // "',?" // TRIM(VALS) // ");" // CHAR(0)
-      
       IRT = fsql3_prepare(IoutDBref,SQLStmt)
       IF (IRT>0) THEN
         IRT = fsql3_errmsg(IoutDBref,VALS, 200)

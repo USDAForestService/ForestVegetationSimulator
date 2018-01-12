@@ -51,6 +51,9 @@ COMMONS
       IF(ISDET.EQ.2) KODE = 0
 
       CALL DBSCASE(1)
+
+      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
+
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_SnagDet"//CHAR(0))
       IF(iRet.EQ.0) THEN 
@@ -175,6 +178,7 @@ C
       if (iRet.ne.0) then
          ISDET = 0
       ENDIF
+      iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
       RETURN
 
       END

@@ -42,6 +42,7 @@ COMMONS
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 
       CALL DBSCASE(1)
+      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_Hrv_Carbon"//CHAR(0))
       IF(iRet.EQ.0) THEN
@@ -86,6 +87,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
       if (iRet.ne.0) then
          ICHRPT = 0
       ENDIF
+      iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
       RETURN
       END
 

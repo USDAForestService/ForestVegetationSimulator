@@ -168,19 +168,19 @@ C
       iRet = fsql3_bind_double(IoutDBref,ColNumber,STANDLT3B)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,STANDGT3)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,STANDGT3)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,STANDTOTAL)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,STANDTOTAL)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,BIOMASS)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,BIOMASS)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,CONSUMED)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,CONSUMED)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,REMOVED)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,REMOVED)
 
       iRet = fsql3_step(IoutDBref)
       iRet = fsql3_finalize(IoutDBref)

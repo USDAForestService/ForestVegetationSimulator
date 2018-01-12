@@ -53,7 +53,7 @@ COMMONS
       IF(IDWDVOL.EQ.2) KODE = 0
 
       CALL DBSCASE(1)
-
+      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
 C     INSURE THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_Down_Wood_Vol"//CHAR(0))
@@ -110,10 +110,12 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,VARD(I))
       ENDDO
+
       iRet = fsql3_step(IoutDBref)
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
          IDWDVOL = 0
       ENDIF
+      iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
       RETURN
       END

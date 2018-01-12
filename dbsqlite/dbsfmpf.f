@@ -256,22 +256,22 @@ C---------
       ENDIF
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref, ColNumber,CNPYHT)
+      iRet = fsql3_bind_int(IoutDBref, ColNumber,CNPYHT)
 
       ColNumber=ColNumber+1
       iRet = fsql3_bind_double(IoutDBref,ColNumber,BCNPYDNST)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,SMORTBA)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,SMORTBA)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,MMORTBA)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,MMORTBA)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,SMORTVOL)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,SMORTVOL)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,MMORTVOL)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,MMORTVOL)
 
       ColNumber=ColNumber+1
       iRet = fsql3_bind_double(IoutDBref,ColNumber,BSPSMOKE)

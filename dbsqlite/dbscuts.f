@@ -68,6 +68,8 @@ C---------
 C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
 C     IF IT DOESNT THEN WE NEED TO CREATE IT
 
+      IRCODE = fsql3_exec (IoutDBref,"Begin;"//Char(0))
+
       IRCODE = fsql3_tableexists(IoutDBref,"FVS_CutList"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_CutList'//
@@ -220,5 +222,6 @@ C
           ENDDO
         ENDIF
       ENDDO
+      IRCODE = fsql3_exec (IoutDBref,"Commit;"//Char(0))
       RETURN
       END

@@ -52,11 +52,11 @@ COMMONS
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 
       CALL DBSCASE(1)
-
+      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
       iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_CanProfile"//CHAR(0))
-      IF(iRet.EQ.1) THEN
-        SQLStmtStr='CREATE TABLE FVS_Down_Wood_Cov('//
+     >       "FVS_Down_Wood_Cov"//CHAR(0))
+      IF(iRet.EQ.0) THEN
+        SQLStmtStr='CREATE TABLE FVS_Down_Wood_Cov ('//
      -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
@@ -112,6 +112,6 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
       if (iRet.ne.0) then
          IDWDCOV = 0
       ENDIF
+      iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
       RETURN
-
       END

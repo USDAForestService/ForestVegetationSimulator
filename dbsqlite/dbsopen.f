@@ -17,7 +17,7 @@ COMMONS
 C
       INTEGER, PARAMETER :: MxMsg=100
       CHARACTER(LEN=MxMsg) Msg
-      INTEGER I,KODE,fsql3_open,fsql3_errmsg
+      INTEGER I,KODE,fsql3_open,fsql3_errmsg,fsql3_exec
       LOGICAL LCOUT,LCIN
 C
 C     CLOSE ANY OPEN CONNECTIONS

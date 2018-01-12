@@ -45,7 +45,7 @@ C---
       if (iRet.eq.0) RETURN
      
       CALL DBSCASE(1)
-      
+      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))      
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_CanProfile"//CHAR(0))
       IF(iRet.EQ.0) THEN
@@ -102,6 +102,7 @@ C
       if (iRet.ne.0) then
          ICANPR = 0
       ENDIF
+      iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
       RETURN
       END
 
