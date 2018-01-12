@@ -5,7 +5,7 @@
      
       IMPLICIT NONE
 C
-C $Id: dbsfmpf.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
+C $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE FIRE MODELS POTENTIAL FIRE
 C              OUTPUT.
@@ -42,6 +42,8 @@ C
 C
 COMMONS
 
+      INTEGER, PARAMETER :: MxMsg = 500
+      CHARACTER(LEN=MxMsg) Msg
       INTEGER IYEAR,CNPYHT,SMORTBA,MMORTBA,SMORTVOL,MMORTVOL,KODE,iRet
       INTEGER FUELMOD,SFUELMOD,ColNumber
       REAL SFLMTO,MFLMTO,TORCHI,CROWNI,CNPYDNST,SPSMOKE,MPSMOKE
@@ -58,7 +60,7 @@ COMMONS
       CHARACTER(len=26) NPLT
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
-     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
+     >    fsql3_prepare,fsql3_bind_double,fsql3_finalize,fsql3_errmsg
 
 C     Initialize variables
 
@@ -105,12 +107,19 @@ C---------
      -              'Fuel_Wt2_Mod real null,'//
      -              'Fuel_Wt3_Mod real null,'//
      -              'Fuel_Wt4_Mod real null);'//CHAR(0)
+           iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+           IF (iRet.NE.0) THEN
+             iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
+             print *,"FVS_PotFire exec direct east error:",Msg(:iRet)
+             IPOTFIRE = 0
+             RETURN
+           ENDIF
          ENDIF 
       ELSE !NOT SN VARIANT
         iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_PotFire"//CHAR(0))
         IF(iRet.EQ.0) THEN   
-           SQLStmtStr='CREATE TABLE FVS_PotFire('//
+           SQLStmtStr='CREATE TABLE FVS_PotFire ('//
      -              'CaseID char(36) not null,'//
      -              'StandID char(26) null,'//
      -              'Year int null,'//
@@ -140,14 +149,16 @@ C---------
      -              'Fuel_Wt2 real null,'//
      -              'Fuel_Wt3 real null,'//
      -              'Fuel_Wt4 real null);'//CHAR(0)
+           iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+           IF (iRet.NE.0) THEN
+             iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
+             print *,"FVS_PotFire exec direct west error:",Msg(:iRet)
+             IPOTFIRE = 0
+             RETURN
+           ENDIF
          ENDIF
       ENDIF
-      iRet = fsql3_exec(IoutDBref,SQLStmtStr)
-      IF (iRet .NE. 0) THEN
-        IPOTFIRE = 0
-        RETURN
-      ENDIF
-
+ 
       BSFLMTO=0D0
       BMFLMTO=0D0
       BSFLMSU=0D0
@@ -208,7 +219,9 @@ C---------
 
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
 
-      IF (iRet .NE. 0) THEN
+      IF (iRet.NE.0) THEN
+         iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
+         print *,"FVS_PotFire prepare error:",Msg(:iRet)
          IPOTFIRE = 0
          RETURN
       ENDIF
@@ -318,8 +331,15 @@ C---------
       ENDIF
 
       iRet = fsql3_step(IoutDBref)
+      if (iRet.ne.0) then
+         iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
+         print *,"FVS_PotFire step error:",Msg(:iRet)
+         IPOTFIRE = 0
+      ENDIF   
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
+         iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
+         print *,"FVS_PotFire finalize error:",Msg(:iRet)
          IPOTFIRE = 0
       ENDIF
       RETURN

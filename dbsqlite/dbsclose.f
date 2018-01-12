@@ -1,7 +1,7 @@
       SUBROUTINE DBSCLOSE(LCOUT,LCIN)
       IMPLICIT NONE
 C
-C $Id: dbsclose.f 295 2012-05-31 18:52:14Z ncrookston.fs@gmail.com $
+C $Id$
 C
 C     PURPOSE: TO CLOSE DATABASE CONNECTIONS
 C

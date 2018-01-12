@@ -1,7 +1,7 @@
       SUBROUTINE DBSOPEN(LCOUT,LCIN,KODE)
       IMPLICIT NONE
 C
-C $Id: dbsopen.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
+C $Id$
 C
 C     PURPOSE: TO OPEN BOTH THE INPUT AND OUTPUT DATABASE CONNECTIONS
 C            LCOUT and LCIN - passed in a TRUE if you want to open the

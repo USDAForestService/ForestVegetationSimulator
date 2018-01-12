@@ -1,7 +1,7 @@
       SUBROUTINE DBSINIT
       IMPLICIT NONE
 C
-C $Id: dbsinit.f 1461 2015-03-27 21:12:28Z lance.david23@gmail.com $
+C $Id$
 C
       INCLUDE 'DBSCOM.F77'
 C

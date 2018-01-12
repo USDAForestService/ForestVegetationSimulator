@@ -1,6 +1,6 @@
       subroutine DBSECHARV_open()
 
-C $Id: dbsecharv.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
+C $Id$
 
         IMPLICIT NONE
 

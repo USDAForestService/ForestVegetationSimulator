@@ -1,7 +1,7 @@
       SUBROUTINE DBSEVM (ITODO,IACTK,IDT,JOSTND)
       IMPLICIT NONE
 C----------
-C $Id: dbsevm.f 968 2013-07-12 18:49:16Z rhavis@msn.com $
+C $Id$
 C----------
 C     PURPOSE: TO RUN SCHEDULED DBS COMMANDS
 C

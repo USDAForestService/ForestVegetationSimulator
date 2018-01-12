@@ -1,7 +1,7 @@
       SUBROUTINE DBSPPGET (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
 C
-C $Id: dbsppget.f 1577 2015-08-25 20:51:41Z lancedavid $
+C $Id$
 C
 COMMONS
 C

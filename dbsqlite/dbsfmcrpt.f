@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMCRPT(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C $Id: dbsfmcrpt.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
+C $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE MAIN CARBON REPORT
@@ -40,9 +40,8 @@ COMMONS
       DOUBLE PRECISION  VARD(VARDIM)
       INTEGER           iRet,I,ColNumber
       CHARACTER*2000    SQLStmtStr
-      CHARACTER(len=20) TABLENAME
 
-      integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,
+      integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
 
 C     Initialize variables
@@ -57,7 +56,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C     INSURE MAIN CARBON TABLE EXISTS IN DATBASE
 
       iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_CanProfile"//CHAR(0))
+     >       "FVS_Carbon"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_Carbon('//
      -         'CaseID char(36) not null,'//
@@ -85,7 +84,7 @@ C     COPY INPUT VECTOR TO DOUBLE-PRECISION
 
       VARD = VAR
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TRIM(TABLENAME),' (CaseID,',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_Carbon (CaseID,',
      >  'StandID,Year,Aboveground_Total_Live,Aboveground_Merch_Live,',
      >  'Belowground_Live,Belowground_Dead,Standing_Dead,',
      >  'Forest_Down_Dead_Wood,Forest_Floor,Forest_Shrub_Herb,',
@@ -111,6 +110,7 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,VARD(I))
       ENDDO
+      iRet = fsql3_step(IoutDBref)
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
          ICMRPT = 0

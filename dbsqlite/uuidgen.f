@@ -1,6 +1,6 @@
       Subroutine uuidgen(uuid)
 
-C $Id: uuidgen.f 1389 2014-12-19 21:46:29Z rhavis@msn.com $
+C $Id$
 
 
 C     Generates a version 4 uuid as 32 lowercase hexadecimal digits
