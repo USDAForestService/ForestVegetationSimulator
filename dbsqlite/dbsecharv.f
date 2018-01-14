@@ -34,8 +34,8 @@ C $Id$
      &              // 'Ft3_Value int null,'
      &              // 'Board_Ft_Removed int null,'
      &              // 'Board_Ft_Value int null,'
-     &              // 'Total_Value int null)'
-          iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+     &              // 'Total_Value int null);'
+          iRet = fsql3_exec(IoutDBref,SQLStmtStr//CHAR(0))
           IF (iRet .NE. 0) THEN
             IDBSECON = 0
             RETURN
@@ -68,7 +68,7 @@ C $Id$
          include 'DBSCOM.F77'
 
          integer fsql3_bind_int,fsql3_bind_text,fsql3_bind_double,
-     &           fsql3_step,fsql3_errmsg,iRet
+     &           fsql3_step,fsql3_errmsg,fsql3_reset,iRet
 
          character(len=8) :: species
          character(len=100) :: msg
@@ -98,7 +98,7 @@ C $Id$
                  species = adjustl(trim(PLNJSP(speciesId)))
               else
                  species = adjustl(trim(PLNJSP(speciesId)))
-               endif
+              endif
           end select                                      
           species = trim(species)
           minDia8 = minDia
@@ -132,6 +132,7 @@ C $Id$
          if (totalValue .ge.0)
      >     iRet = fsql3_bind_int    (IoutDBref,14, totalValue)
          iRet = fsql3_step(IoutDBref)
+         iRet = fsql3_reset(IoutDBref)
          IF (iRet>0) THEN
           iRet = fsql3_errmsg(IoutDBref, msg, 100)
           PRINT *,"FVS_EconHarvestValue step error: ",trim(msg)

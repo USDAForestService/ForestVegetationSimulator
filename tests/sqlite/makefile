@@ -13,7 +13,15 @@ ie2 :
 	-sqlite3 FVSieOut.db < sqliteTestFVSieOut.sql > ie2.db_dump.txt
 	-diff -w ie2.db_dump.txt ie2.db_dump.txt.save
 	@echo Test ie2 ended
-	
+
+econ :
+	@echo Test ie2 database read and write
+	rm -f TestDataBase.db
+	-../../bin/FVSQie --keywordfile=TestDataBase.key 
+	-sqlite3 TestDataBase.db "select Year,Species,Total_Value from FVS_EconHarvestValue;" > TestDataBase.dump
+	-sqlite3 TestDataBase.db "select pnv,Mrch_BoardFoot_Volume from FVS_EconSummary;" >> TestDataBase.dump	
+	-diff -w TestDataBase.dump TestDataBase.dump.save
+	@echo Test econ ended
 	
 ne : 
 	@echo Test ne database read

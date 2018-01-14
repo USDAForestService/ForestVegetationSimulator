@@ -6,12 +6,10 @@
      &      ft3Volume, bfVolume,discountRate, sevInput, sevInputUsed)
 
 C $Id$
-
+             
       IMPLICIT NONE
 
       include 'DBSCOM.F77'
-
-      character(len=*), parameter :: tableName = 'FVS_EconSummary'
 
       character(len=26)   :: STDID
       character(len=*)    :: pretend
@@ -39,6 +37,7 @@ C $Id$
       if (IDBSECON == 0) return
       
 !    Make sure we have an up-to-date case ID.
+  
       call DBSCASE(1)
 
 !     Ensure that the FVS_EconSummary table exists in the DB.
@@ -87,49 +86,60 @@ C $Id$
         IDBSECON = 0
         RETURN
       endif
-      costUndisc8    = costUndisc 
-      revUndisc8     = revUndisc 
-      costDisc8      = costDisc 
-      revDisc8       = revDisc 
-      npv8           = npv 
-      irr8           = irr
-      bcRatio8       = bcRatio 
-      rrr8           = rrr 
-      sev8           = sev 
-      forestValue8   = forestValue 
-      reprodValue8   = reprodValue 
-      discountRate8  = discountRate
-      sevInput8      = sevInput
 
       iRet = fsql3_bind_int(IoutDBref,1, beginAnalYear)
       iRet = fsql3_bind_int(IoutDBref,2, endTime)
       iRet = fsql3_bind_text(IoutDBref,3, pretend, 3)
-      if (costUndisc >= 0) 
-     >  iRet = fsql3_bind_double(IoutDBref,4, costUndisc8)
-      if (revUndisc >= 0) 
-     >  iRet = fsql3_bind_double(IoutDBref,5, revUndisc8)
-      if (costDisc >= 0) 
-     >  iRet = fsql3_bind_double(IoutDBref,6, costDisc8)
-      if (revDisc >= 0) 
-     >  iRet = fsql3_bind_double(IoutDBref,7, revDisc8)
+      if (costUndisc >= 0) then
+        costUndisc8 = costUndisc
+        iRet = fsql3_bind_double(IoutDBref,4, costUndisc8)
+      endif
+      if (revUndisc >= 0) then
+        revUndisc8 = revUndisc
+        iRet = fsql3_bind_double(IoutDBref,5, revUndisc8)
+      endif
+      if (costDisc >= 0) then
+        costDisc8 = costDisc
+        iRet = fsql3_bind_double(IoutDBref,6, costDisc8)
+      endif
+      if (revDisc >= 0) then
+        revDisc8 = revDisc
+        iRet = fsql3_bind_double(IoutDBref,7, revDisc8)
+      endif
+      npv8 = npv
       iRet = fsql3_bind_double(IoutDBref,8, npv8)
-      if (irrCalculated) 
-     >  iRet = fsql3_bind_double(IoutDBref,9, irr8)
-      if (bcRatioCalculated) 
-     >  iRet = fsql3_bind_double(IoutDBref,10, bcRatio8)
-      if (rrrCalculated) 
-     >  iRet = fsql3_bind_double(IoutDBref,11, rrr8)
-      if (sevCalculated) 
-     >  iRet = fsql3_bind_double(IoutDBref,12, sev8)
-      if (forestValueCalculated) 
-     >  iRet = fsql3_bind_double(IoutDBref,13, forestValue8)
-      if (reprodValueCalculated) 
-     >   iRet = fsql3_bind_double(IoutDBref,14, reprodValue8)
+      if (irrCalculated) then
+        irr8 = irr
+        iRet = fsql3_bind_double(IoutDBref,9, irr8)
+      endif
+      if (bcRatioCalculated) then
+        bcRatio8 = bcRatio
+        iRet = fsql3_bind_double(IoutDBref,10, bcRatio8)
+      endif
+      if (rrrCalculated) then
+        rrr8 = rrr
+        iRet = fsql3_bind_double(IoutDBref,11, rrr8)
+      endif
+      if (sevCalculated) then
+        sev8 = sev
+        iRet = fsql3_bind_double(IoutDBref,12, sev8)
+      endif
+      if (forestValueCalculated) then
+        forestValue8 = forestValue
+        iRet = fsql3_bind_double(IoutDBref,13, forestValue8)
+      endif
+      if (reprodValueCalculated) then
+         reprodValue8 = reprodValue
+         iRet = fsql3_bind_double(IoutDBref,14, reprodValue8)
+      endif
       iRet = fsql3_bind_int(IoutDBref,15, ft3Volume)
       iRet = fsql3_bind_int(IoutDBref,16, bfVolume)
+      discountRate8 = discountRate
       iRet = fsql3_bind_double(IoutDBref,17, discountRate8)
-      if (sevInputUsed) 
-     >  iRet = fsql3_bind_double(IoutDBref,18, sevInput8)
+      if (sevInputUsed) then
+        sevInput8 = sevInput
+        iRet = fsql3_bind_double(IoutDBref,18, sevInput8)
+      endif
 
       iRet = fsql3_step(IoutDBref)
       iRet = fsql3_finalize(IoutDBref)
@@ -138,15 +148,16 @@ C $Id$
         PRINT *,"dbsecsum finalize error: ",TRIM(SQLStmtStr)
         IDBSECON = 0
       endif
+      
       return
       
-      entry getDbsEconStatus(status)
+      entry getDbsEconStatus(status) 
          if(IDBSECON == 0) then
             status = 0   !DB-FVS output not requested
          else if(IDBSECON == 1) then
             status = 1   ! Write to summary output to DB.
          else
             status = 2   ! Write to summary and harvest output to DB.
-         end if
+         end if 
       return
       end

@@ -60,11 +60,11 @@ C
       CHARACTER*2000 SQLStmtStr
       CHARACTER*3 S1MS1,S1MS2,S2MS1,S2MS2,S3MS1,S3MS2
       CHARACTER*4 SCLASS
-      CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
-     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
+     >        fsql3_errmsg
 
       IF (ISTRCLAS .EQ. 0) RETURN
       IF (ISTRCLAS .EQ. 2) KODE = 0
@@ -73,7 +73,7 @@ C
       CALL DBSCASE(1)
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_StrClass"//CHAR(0))
-      IF(iRet.EQ.1) THEN
+      IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_StrClass ('//
      -              'CaseID char(36) not null,'//
      -              'StandID char(26) null,'//
@@ -121,7 +121,7 @@ C
       BS2DBH=S2DBH
       BS3DBH=S3DBH
 
-      WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(CaseID,',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_StrClass (CaseID,',
      -    'StandID,Year,Removal_Code,Stratum_1_DBH,Stratum_1_Nom_Ht,',
      -    'Stratum_1_Lg_Ht,Stratum_1_Sm_Ht,Stratum_1_Crown_Base,',
      -    'Stratum_1_Crown_Cover,Stratum_1_Species_1,',
