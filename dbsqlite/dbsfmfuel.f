@@ -72,7 +72,7 @@ COMMONS
      -       'Total_Consumption real null,'//
      -       'Percent_Consumption_Duff real null,'//
      -       'Percent_Consumption_ge3 real null,'//
-     -       'Percent_Trees_Crowning real null,'//
+     -       'Percent_Trees_Crowning int null,'//
      -       'Smoke_Production_25 real null,'//
      -       'Smoke_Production_10 real null);'//CHAR(0)
         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
@@ -158,7 +158,7 @@ C
       iRet = fsql3_bind_double(IoutDBref,ColNumber,PERCGT3B)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_double(IoutDBref,ColNumber,PERTRCR)
+      iRet = fsql3_bind_int(IoutDBref,ColNumber,PERTRCR)
 
       ColNumber=ColNumber+1
       iRet = fsql3_bind_double(IoutDBref,ColNumber,SM25B)

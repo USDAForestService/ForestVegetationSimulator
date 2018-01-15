@@ -34,8 +34,8 @@ COMMONS
 
       INTEGER IYEAR,iRet,KODE,YRDEAD,SVLH,SVLS,YRLAST,JYR,IDC,JCL
       INTEGER ColNumber
-      REAL SDBH, SHTH, SHTS, SDH, SDS, SVLHB, SVLSB, SVLTB
-      DOUBLE PRECISION SDBHB, SHTHB, SHTSB, SDHB, SDSB, SDTB
+      REAL SDBH, SHTH, SHTS, SDH, SDS, SVLHB, SVLSB
+      DOUBLE PRECISION SDBHB, SHTHB, SHTSB, SDHB, SDSB, SDTB, SVLTB
       DIMENSION SVLH(MAXSP,100,6), SVLS(MAXSP,100,6),
      -  SDBH(MAXSP,100,6), SHTH(MAXSP,100,6),SHTS(MAXSP,100,6),
      -  SDH(MAXSP,100,6), SDS(MAXSP,100,6)
@@ -86,9 +86,9 @@ COMMONS
      -          'Current_Ht_Hard,Current_Ht_Soft,Current_Vol_Hard,',
      -          'Current_Vol_Soft,Total_Volume,Year_Died,Density_Hard,',
      -          'Density_Soft,Density_Total) VALUES (''',
-     -          CASEID,''',''',TRIM(NPLT),''',?,?,',
-     -          ',?,?,?,?,?,?,?,?,?,?,?);'//CHAR(0)
-
+     -          CASEID,''',''',TRIM(NPLT),
+     -          ''',?,?,?,?,?,?,?,?,?,?,?,?,?);'//CHAR(0)
+      iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
       iRet = fsql3_prepare(IoutDBref,SQLStmtStr)
       IF (iRet .NE. 0) THEN
         ISDET = 0
@@ -98,11 +98,11 @@ COMMONS
       DO JYR= 1,YRLAST
          DO IDC= 1,MAXSP
             DO JCL= 1,6
+              SDTB   = SDH(IDC,JYR,JCL) + SDS(IDC,JYR,JCL)
+              IF (SDTB .LE. 0) CYCLE
               CSP = JSP(IDC)
               YRDEAD = IYEAR - JYR + 1
-              SDTB   = SDH(IDC,JYR,JCL) + SDS(IDC,JYR,JCL)
               SVLTB  = SVLH(IDC,JYR,JCL) + SVLS(IDC,JYR,JCL)
-              IF (SDTB .LE. 0) CYCLE
               SDBHB = SDBH(IDC,JYR,JCL)
               SHTHB = SHTH(IDC,JYR,JCL)
               SHTSB = SHTS(IDC,JYR,JCL)
@@ -174,11 +174,11 @@ C
             ENDDO
          ENDDO
       ENDDO
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
          ISDET = 0
       ENDIF
-      iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
       RETURN
 
       END

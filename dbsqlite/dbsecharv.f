@@ -48,6 +48,7 @@ C $Id$
      &      'Tons_Per_Acre,Ft3_Removed,Ft3_Value,Board_Ft_Removed,' //
      &      'Board_Ft_Value,Total_Value) VALUES (''' // CASEID //
      &      ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?);' // CHAR(0)
+         iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
          iRet = fsql3_prepare(IoutDBref,SQLStmtStr)
          IF (iRet .NE. 0) THEN
            IDBSECON = 0
@@ -143,9 +144,9 @@ C $Id$
       IMPLICIT NONE
 
       include 'DBSCOM.F77'
-      integer iRet,fsql3_finalize,fsql3_errmsg
+      integer iRet,fsql3_finalize,fsql3_errmsg,fsql3_exec
       character(len=101) msg
-      
+       iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))     
        iRet = fsql3_finalize (IoutDBref)
        IF (iRet>0) THEN
          iRet = fsql3_errmsg(IoutDBref, msg, 100)

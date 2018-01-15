@@ -76,7 +76,8 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -  ' (CaseID,StandID,Year,Spp,Mean_DMR,Mean_DMI,Inf_TPA,',
      -  'Mort_TPA,Inf_TPA_Pct,Mort_TPA_Pct,Stnd_TPA_Pct) ',
      -  ' VALUES (''',CASEID,''',''',TRIM(NPLT),
-     -  ''',?,?,?,?,?,?,?,?,?,?);'
+     -  ''',?,?,?,?,?,?,?,?,?);'
+      iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
          IDM1 = 0
@@ -139,7 +140,7 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         iRet = fsql3_reset(IoutDBref) 
       ENDDO
 
-      iRet = fsql3_step(IoutDBref)
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
          IDM1 = 0
@@ -418,13 +419,13 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -    char(39),'gt19in', char(39),') VALUES ',
      -    '(''',CASEID,''',''',TRIM(NPLT),
      -    ''',?,?,?,?,?,?,?,?,?,?,?,?);'//CHAR(0)
+      iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
          IDM3 = 0
          RETURN
       ENDIF
-        
-     
+            
 C     LOOP OVER 5 TYPES
 
       DO I = 1,5
@@ -474,7 +475,8 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         iRet = fsql3_reset(IoutDBref) 
 
       ENDDO
-
+      
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
          IDM3 = 0
