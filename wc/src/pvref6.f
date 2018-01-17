@@ -325,8 +325,8 @@ C
      &'CHF124    ','CHF124    ','CHF124    ','CHF124    ',
      &'CHF123    ','CHF123    ','CHF124    ','CHF124    ',
      &'CHF124    ','CHF124    ','CHF125    ','CHF125    ',
-     &'CHF125    ','CHF125    ','CHF125    ','CHF125    ',
-     &'CHF125    ','CHF125    ','CHF133    ','CHF133    '/
+     &'CHF125    ','CHF125    ','CHF125    ','CHF135    ',
+     &'CHF135    ','CHF135    ','CHF133    ','CHF133    '/
       DATA (HABPVR(I),I=1081,1140)/
      &'CHF134    ','CHF134    ','CHF135    ','          ',
      &'          ','          ','          ','CHF125    ',

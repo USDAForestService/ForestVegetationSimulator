@@ -65,6 +65,7 @@ export FC = gfortran
 export FFLAGS = $(PIC) -g -Wall -fbacktrace 
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace -fcheck=all -fcheck=bounds
+#export FFLAGS = $(PIC) -g -Wall -fbacktrace -fcheck=all -fcheck=bounds
 export CC = gcc
 export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
 export LD = gfortran
