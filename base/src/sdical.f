@@ -175,6 +175,8 @@ C
    50 CONTINUE
       IF(SPROB .EQ. 0.)THEN
         SDIC = 0.
+        A = 0.
+        B = 0.
       ELSE
         A = (10.0**(-1.605))*(1.-1.605/2.)*((SDSQ/SPROB)**(1.605/2.))
         B = (10.0**(-1.605))*(1.605/2.)*((SDSQ/SPROB)**(1.605/2. - 1.))
@@ -188,7 +190,7 @@ C----------
       SDIC = 0.
       SDIC2=0.
 C
-      IF(ITRN .LE. 0) GO TO 100
+      IF(ITRN .LE. 0 .OR. SPROB .LE. 0.) GO TO 100
       DO 70 I=1,ITRN
       IF(JPNUM.GT.0 .AND. ITRE(I).NE.JPNUM)GO TO 70
       IF(IWHO .EQ. 1) THEN

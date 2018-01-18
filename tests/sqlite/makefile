@@ -1,5 +1,5 @@
 
-all : ie econ fire
+all : ie econ fire clim
 	
 ie : 	
 	@echo Test ie database read and write
