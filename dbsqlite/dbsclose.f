@@ -19,6 +19,11 @@ C
 
       IF(IoutDBref.GE.0 .AND. LCOUT) THEN
         I = fsql3_finalize(IoutDBref)
+        IF (I.NE.0) THEN
+          I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
+          print *," IoutDBref=",IinDBref,
+     >            "DBS finalize error msg for DSNOUT=",Msg(:I)
+        ENDIF
         I = fsql3_close(IoutDBref)
         IF (I.NE.0) THEN
           I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
@@ -30,6 +35,11 @@ C
       
       IF(IinDBref.GE.0 .AND. LCIN) THEN
         I = fsql3_finalize(IinDBref)
+        IF (I.NE.0) THEN
+          I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
+          print *," IoutDBref=",IinDBref,
+     >            "DBS finalize error msg for DSNOUT=",Msg(:I)
+        ENDIF
         I = fsql3_close(IinDBref)
         IF (I.NE.0) THEN
           I = fsql3_errmsg(IinDBref,Msg,MxMsg)

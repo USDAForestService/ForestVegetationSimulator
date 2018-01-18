@@ -35,7 +35,7 @@ C
 COMMONS
 C---
 
-      INTEGER fsql3_tableexists,fsql3_exec
+      INTEGER fsql3_tableexists,fsql3_exec,fsql3_errmsg
       INTEGER,parameter:: MaxStringLen=255
 
       CHARACTER*2000 SQLStmtStr
@@ -56,7 +56,7 @@ C---
       CALL REVISE(VVER,REV)
       VAR=VVER(:2)
       IF(VAR.EQ.'BP' .OR. VAR.EQ.'LP' .OR. VAR.EQ.'SF' .OR.
-     & VAR.EQ.'SM' .OR. VAR.EQ.'SP')VAR='CR'
+     &   VAR.EQ.'SM' .OR. VAR.EQ.'SP') VAR='CR'
 
 C-----
 C     CHECK TO SEE IF WE ARE NEEDING TO CONTINUE
@@ -93,7 +93,7 @@ C---------
 C     IF ALREADY HAVE A CURRENT CASE NUMBER, JUST BAIL
 C---------
       IF (CASEID.NE."") RETURN
-
+      KODE=0
 C---------
 C     MAKE SURE WE HAVE AN OPEN CONNECTION
 C---------
@@ -165,20 +165,41 @@ C     STRIP 3-CHARACTER EXTENSION (IF PRESENT) FROM KEYFNAME
 C----------
 C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
 C----------
-      if (LENSLS.EQ.-1) SLSET =""
-      IF (KEYFNAME.EQ.' ') KEYFNAME='Unknown'
+      IF (LENSLS.EQ.-1) THEN
+        SLSET =""
+      ELSE
+        CALL REMOVEQUOTES(SLSET)
+      ENDIF
+      CALL REMOVEQUOTES(DBCN)
+      CALL REMOVEQUOTES(NPLT)
+      CALL REMOVEQUOTES(MGMID)
+      CALL REMOVEQUOTES(ITITLE)
+      CALL REMOVEQUOTES(KEYFNAME)      
+      IF (KEYFNAME.EQ.' ') THEN
+        KEYFNAME='Unknown'
+      ELSE
+        CALL REMOVEQUOTES(KEYFNAME)      
+      ENDIF   
+      
       WRITE(SQLStmtStr,*)"INSERT INTO FVS_Cases",
      - " (CaseID,Stand_CN,StandID,MgmtID,RunTitle,KeywordFile,",
      - "SamplingWt,Variant,Version,RV,Groups,RunDateTime) ",
      - "VALUES('",CASEID,"','",
-     - TRIM(ADJUSTL(DBCN)),"','",TRIM(ADJUSTL(NPLT)),"','",
-     - TRIM(ADJUSTL(MGMID)),"','",TRIM(ADJUSTL(ITITLE)),"','",
-     - TRIM(ADJUSTL(KEYFNAME)),"',",SAMWT,",'",VAR,"',",
-     - "'",SVN,"','",REV,"','",
-     - TRIM(ADJUSTL(SLSET)),"','",TRIM(ADJUSTL(TIMESTAMP)),"');"
+     - TRIM(ADJUSTL(DBCN)),"','",
+     - TRIM(ADJUSTL(NPLT)),"','",
+     - TRIM(ADJUSTL(MGMID)),"','",
+     - TRIM(ADJUSTL(ITITLE)),"','",
+     - TRIM(ADJUSTL(KEYFNAME)),"',",
+     - SAMWT,",'",VAR,"',","'",SVN,"','",REV,"','",
+     - TRIM(ADJUSTL(SLSET)),"','",
+     - TRIM(ADJUSTL(TIMESTAMP)),"');"
 
       IRCODE = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))
-      
+      IF (IRCODE.ne.0) then
+          IRCODE = fsql3_errmsg(IoutDBref,SQLStmtStr,LEN(SQLStmtStr)-1)
+          PRINT *," IoutDBref=",IinDBref,
+     >             " ErrMsg =",SQLStmtStr(:IRCODE)
+      ENDIF
       RETURN
 C
 C     CALLED BY FILOPN: ENTRY TO SAVE THE KEYWORD FILE NAME AND TO SET
@@ -204,3 +225,14 @@ C
 C======================================================================
       END
 
+      SUBROUTINE REMOVEQUOTES (CS)
+      IMPLICIT NONE
+      CHARACTER(LEN=*) CS
+      INTEGER I
+      IF (LEN_TRIM(CS).LE.0) RETURN
+      DO I=1,LEN_TRIM(CS)
+        IF (CS(I:I) .EQ. "'") CS(I:I)=' '
+      ENDDO
+      RETURN
+      END
+      

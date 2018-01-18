@@ -146,7 +146,7 @@ C $Id$
       include 'DBSCOM.F77'
       integer iRet,fsql3_finalize,fsql3_errmsg,fsql3_exec
       character(len=101) msg
-       iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))     
+       iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0)) 
        iRet = fsql3_finalize (IoutDBref)
        IF (iRet>0) THEN
          iRet = fsql3_errmsg(IoutDBref, msg, 100)
