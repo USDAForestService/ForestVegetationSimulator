@@ -27,6 +27,11 @@ fire :
 	-diff -w fireTest.db_dump.txt fireTest.db_dump.txt.save
 	@echo fireTest ended
 	
- 
- 
+clim : 
+	@echo climate database read and write
+	rm -f ClimOut.db
+	-../../bin/FVSQie --keywordfile=Clim.key  
+	-sqlite3 ClimOut.db "Select Species,Count(Species) from FVS_Climate group by Species;" > Clim.db.txt 
+	-diff -w Clim.db.txt Clim.db.txt.save
+	
 

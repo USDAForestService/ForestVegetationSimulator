@@ -68,7 +68,8 @@ $(info ODBC: $(ODBC))
 # LD is the linker
 
 export FC = gfortran 
-export FFLAGS = $(PIC) -g -Wall -fbacktrace -ffpe-trap=invalid,zero,overflow,denormal
+export FFLAGS = $(PIC) -g -Wall -fbacktrace 
+#export FFLAGS = $(PIC) -g -Wall -fbacktrace -ffpe-trap=invalid,zero,overflow,denormal
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace -fcheck=all -fcheck=bounds
 export CC = gcc
