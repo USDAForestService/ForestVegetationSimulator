@@ -16,9 +16,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 #include <ctype.h>
-#include "sqlite3.h"
+#include <sqlite3.h>
 
 sqlite3 *db = NULL;
 sqlite3_stmt *stmt = NULL;
@@ -34,15 +34,16 @@ sqlite3_stmt *stmtset[fsql3_MXDBS];
 // these values are 0 based. 
 int fsql3_open_(int *dbnum, char *dbname)
 {
+  int i,rc;
   *dbnum = -1;
   if (fsql3_dbsNum == -1) 
   {
-    for (int i=0; i<fsql3_MXDBS; i++) dbset[i] = NULL;
+    for (i=0; i<fsql3_MXDBS; i++) dbset[i] = NULL;
     fsql3_dbsNum=0;
     *dbnum = 0;
   } else {  
   // find an open slot if there is one.
-    for (int i=0; i<fsql3_MXDBS; i++) 
+    for (i=0; i<fsql3_MXDBS; i++) 
     {
       if (dbset[i] == NULL)
       {
@@ -51,7 +52,7 @@ int fsql3_open_(int *dbnum, char *dbname)
       }
     }
   }
-  int rc = -1;
+  rc = -1;
   if (*dbnum > -1) rc = sqlite3_open(dbname, &dbset[*dbnum]);
 	return rc;
 }
@@ -83,9 +84,10 @@ int dbexeccallback(void *cb,
     int argc, char **argv, char **azColName)
 {
   int rnt = 0;
+  int i;
   struct cbmsgstr *cbmsg = (struct cbmsgstr *) cb;
   char *ans = cbmsg->msg+cbmsg->len;
-  for(int i=0; i<argc; i++)
+  for(i=0; i<argc; i++)
   {
     if (fsql3_MXCBSTR-strlen(cbmsg->msg)-1 <= 0) break;
     snprintf(ans, fsql3_MXCBSTR-strlen(cbmsg->msg)-1, "%s = %s\n", 
@@ -108,7 +110,7 @@ int fsql3_exec2_(int *dbnum, char *sql, char *msg, int *txtlen)
            dbexeccallback,             /* Callback function */
            (void *) &cbmsg,            /* 1st argument to callback */
            &zErrMsg);                  /* Error msg written here */                           
-  if( rc!=SQLITE_OK )       
+  if(rc!=SQLITE_OK )       
   {
     fprintf(stderr, "SQL error: %s\n", zErrMsg);
     strncpy(msg,zErrMsg,*txtlen);
@@ -168,9 +170,10 @@ int fsql3_errmsg_(int *dbnum, char *msg, int *mxlen)
 // get a column name
 int fsql3_colname_(int *dbnum, int *col, char *txt, int *mxlen)
 {
+  char *c;
   strncpy(txt,(const char *) sqlite3_column_name(stmtset[*dbnum], *col),*mxlen);
   // return col names in upper case.
-  for(char *c=txt; *c != 0; ++c) *c=toupper(*c);
+  for(c=txt; *c != 0; ++c) *c=toupper(*c);
   return strlen(txt);
 }
 // get a column type
