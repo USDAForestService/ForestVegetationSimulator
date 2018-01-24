@@ -858,6 +858,15 @@ C     PRIVATE ROUTINE TO DBSIN, USED TO LOAD THE CMDBUF.
             GOTO 10
          ENDIF
       ELSE
+         I2 = 0
+         DO I1=1,LEN_TRIM(CMDBUF)
+           IF(CMDBUF(I1:I1) .EQ. ';') THEN
+             I2 = I1
+             EXIT
+           ENDIF
+         ENDDO
+         IF (I2.EQ.0) I2=LEN_TRIM(CMDBUF)+1
+         CMDBUF(I2:) = ';'
          KODE=0
       ENDIF
       RETURN

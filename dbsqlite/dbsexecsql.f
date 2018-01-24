@@ -29,7 +29,7 @@ C
 COMMONS
 
       integer fsql3_prepare,fsql3_step,fsql3_colcnt,fsql3_colname,
-     >        fsql3_colreal,fsql3_colisnull
+     >        fsql3_colreal,fsql3_colisnull,fsql3_finalize
       CHARACTER*(*) SQLCMD
       INTEGER IConn,ColumnCount,MxNameLen,ColNumber,NameLen
       PARAMETER (MxNameLen=50)
@@ -42,7 +42,9 @@ COMMONS
 
 C     MAKE SURE WE HAVE AN OPEN CONNECTION
 
-      IF(IConn.EQ.-1) RETURN
+      print *,"Iconn=",Iconn," SQLCMD=",trim(SQLCMD)
+
+      IF(IConn.EQ.-1) RETURN 
 
 C     PARSE OUT AND REPLACE WITH USER DEFINED AND EVENT MONITOR VAR VALS
       CALL DBSPRSSQL(SQLCMD,LSCHED,KODE)
@@ -54,9 +56,13 @@ C       THERE WAS A PROBLEM IN PARSING THE SQL STATEMENT
         CALL RCDSET(2,.TRUE.)
         RETURN
       ENDIF
-
-      iRet = fsql3_prepare(Iconn,trim(SQLCMD)//CHAR(0))
-      IF (iRet.NE.0) RETURN
+      
+      iRet = fsql3_prepare(Iconn,trim(SQLCMD)//CHAR(0))  
+      print *,"iRet for fsql3_prepare",Iconn," SQLCMD=",trim(SQLCMD)
+      IF (iRet.NE.0) THEN 
+        iRet = fsql3_finalize(Iconn)
+        RETURN 
+      ENDIF
       DO WHILE(fsql3_step(Iconn)==1)
         ColumnCount = fsql3_colcnt(Iconn)
         IF(ColumnCount.GT.0) THEN
@@ -90,6 +96,7 @@ C       THERE WAS A PROBLEM IN PARSING THE SQL STATEMENT
           ENDDO
         ENDIF
       ENDDO
+      iRet = fsql3_finalize(Iconn)
       IRC = 0
       RETURN
       END
