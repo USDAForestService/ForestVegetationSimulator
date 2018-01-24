@@ -54,6 +54,12 @@ int fsql3_open_(int *dbnum, char *dbname)
   }
   rc = -1;
   if (*dbnum > -1) rc = sqlite3_open(dbname, &dbset[*dbnum]);
+  if (rc == 0) 
+  {
+    sqlite3_exec(dbset[*dbnum],"PRAGMA synchronous=0;", NULL, NULL, NULL);
+    sqlite3_exec(dbset[*dbnum],"PRAGMA temp_store=2;", NULL, NULL, NULL);
+    sqlite3_exec(dbset[*dbnum],"PRAGMA journal_mode=MEMORY;", NULL, NULL, NULL);
+  }
 	return rc;
 }
 // close the dbnum and clear the slot for another open
@@ -295,7 +301,7 @@ int fsql3_colisnull_(int *dbnum, int *col)
 int fsql3_addcolifabsent_(int *dbnum, char *tname, char *cname, char *cdef)
 {
   char sql[501];
-  snprintf(sql,500,"select %s from %s limit 1;",cname,tname);
+  snprintf(sql,500,"select %s from %s limit 0;",cname,tname);
 	int rc = sqlite3_exec(dbset[*dbnum], sql, NULL, NULL, NULL);
 	if (rc!=SQLITE_OK)       
   {

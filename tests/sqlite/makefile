@@ -10,7 +10,7 @@ ie :
 	@echo Test ie ended
 
 econ :
-	@echo Test ie2 database read and write
+	@echo Test econ database read and write
 	rm -f TestDataBase.db
 	-../../bin/FVSQie --keywordfile=TestDataBase.key 
 	-sqlite3 TestDataBase.db "select Year,Species,Total_Value from FVS_EconHarvestValue;" > TestDataBase.dump
@@ -20,7 +20,7 @@ econ :
 	
 	 
 fire : 
-	@echo fireTest  database read and write
+	@echo fireTest database read and write
 	rm -f FVSieFireOutput.db
 	-../../bin/FVSQie --keywordfile=fireTest.key 
 	-sqlite3 FVSieFireOutput.db < sqliteTestFireOut.sql > fireTest.db_dump.txt
@@ -35,7 +35,7 @@ clim :
 	-diff -w Clim.db.txt Clim.db.txt.save
 	
 sn : 
-	@echo sn variant database read and write 
+	@echo sn variant database read and write, tests a lot of tables
 	rm -f snout.db
 	-../../bin/FVSQsn --keywordfile=sn.key  
 	-sqlite3 snout.db ".tables" > snout.txt
