@@ -8,12 +8,12 @@
 #     "w32" on Windows x86 (32 bit), 
 #     "osx" on MAC x86_64, and 
 #     "l64" on generic Linux x86_64.
-#  When FVSQ programs are built, the ODBC type defs are not used
+#  When FVSQ programs are built, the ODBC type defs and libraries are not used
 
 ifdef OS
  WIN = -DWINDOWS
  OSARCH = w32
- ODBC = odbc32
+ ODBC = -lodbc32
  SLIBSUFX = .dll
  PRGSUFX = .exe
  PIC =      # never use PIC on this OSARCH type
@@ -23,8 +23,7 @@ else
  WIN = -Dunix  
  SLIBSUFX = .so
  PRGSUFX = 
- ODBC = odbc 
- SQLITE3 = sqlite3
+ ODBC = -lodbc 
  ifdef OSTYPE
   ifeq ($(OSTYPE),linux)
     OSARCH = l64
@@ -43,11 +42,10 @@ else
  ifndef OSARCH
    OSARCH = osx
    PIC =      # never use PIC on this OSARCH type
-   ODBC = iodbc 
+   ODBC = -liodbc 
  endif
 endif                                                                               
 
-export SQLITE3
 export ODBC
 
 $(info OS: $(OS))
@@ -57,8 +55,6 @@ $(info ODBC: $(ODBC))
 $(info SLIBSUFX: $(SLIBSUFX))
 $(info OSARCH: $(OSARCH))
 $(info PIC: $(PIC))
-$(info SQLITE3: $(SQLITE3))
-$(info ODBC: $(ODBC))
 	
 # FC is the fortran compiler
 # FFLAGS are pasted to fortran
@@ -73,7 +69,9 @@ export FFLAGS = $(PIC) -g -Wall -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace -fcheck=all -fcheck=bounds
 export CC = gcc
-export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
+# Adding optimization (-O2 does not help execution speed much but slows compile time a lot
+# export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN) -O2
+export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN) 
 export LD = gfortran
 ifndef sourceFileList
 # TODO: See comment below regarding generl rules. We can change to this rule for all
@@ -93,8 +91,9 @@ ifdef sourceFileList
    export dbstypedefs = DBSTYPEDEFS.F77
    export DBLINK = $(ODBC)
   else
-   export DBLINK = $(SQLITE3)
+   export DBLINK = 
   endif
+  $(info DBLINK: $(DBLINK))
   export includes = $(notdir $(filter %.F77 %.INC %.h,$(sourceList))) $(dbstypedefs)
   export mods = $(notdir $(filter %_mod.f, $(sourceList)))
   export mods_mods = $(addsuffix .mod,$(basename $(mods)))
@@ -103,7 +102,7 @@ ifdef sourceFileList
  endif
 endif
 
-FVSQlite : $(addsuffix $(PRGSUFX),$(FVSQprgs))
+FVSQLite : $(addsuffix $(PRGSUFX),$(FVSQprgs))
 
 all : $(addsuffix $(SLIBSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSQprgs))
 
@@ -178,7 +177,7 @@ FVSwcc$(SLIBSUFX) FVSwcc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwcc) $(shel
 FVSwsc$(SLIBSUFX) FVSwsc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwsc) $(shell cat $(addsuffix _sourceList.txt,FVSwsc))
 	$(MAKE) --file=makefile FVSwsc.setup
 
-# the FVSQ group.
+# the FVSQ family, no odbc, just sqlite3.
 
 FVSQak$(SLIBSUFX) FVSQak$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSQak) $(shell cat $(addsuffix _sourceList.txt,FVSQak))
 	$(MAKE) --file=makefile FVSQak.setup
@@ -281,16 +280,14 @@ endif
  
 ifeq (${OSARCH},w32) 
 %.prg : $(object) 
-	$(CC) fvsSQL.o -shared -l $(ODBC) $(WIN) -o   ../libfvsSQL.dll 
+	$(CC) fvsSQL.o -shared $(DBLINK) $(WIN) -o   ../libfvsSQL.dll 
 	$(LD) -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX) ../libfvsSQL.dll  $(filter-out fvsSQL.o main.o,$(object))
 	$(LD)         -o $(basename ../$@)$(PRGSUFX)  ../libfvsSQL.dll  $(filter-out fvsSQL.o       ,$(object))
 else
 %.prg : $(object) 
-	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) -l$(DBLINK) 
-	$(LD)         -o $(basename ../$@)$(PRGSUFX)  $(object) -l$(DBLINK)    
+	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) $(DBLINK) 
+	$(LD)         -o $(basename ../$@)$(PRGSUFX)  $(object) $(DBLINK)    
 endif
-
-$(info DBLINK: $(DBLINK))
 
 %.mod : %.f $(includes)
 	$(FC) $(FFLAGS) -c $<

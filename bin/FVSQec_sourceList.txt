@@ -310,6 +310,8 @@
 ../dbsqlite/dbstreesin.f
 ../dbsqlite/dbstrls.f
 ../dbsqlite/fvsqlite3.c
+../dbsqlite/sqlite3.c
+../dbsqlite/sqlite3.h
 ../dbsqlite/uuidgen.f
 ../ec/common/ESPARM.F77
 ../ec/common/PRGPRM.F77

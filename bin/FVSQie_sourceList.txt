@@ -311,6 +311,8 @@
 ../dbsqlite/dbstrls.f
 ../dbsqlite/uuidgen.f
 ../dbsqlite/fvsqlite3.c
+../dbsqlite/sqlite3.c
+../dbsqlite/sqlite3.h
 ../econ/src/eccalc.f
 ../econ/src/echarv.f
 ../econ/src/ecin.f

@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <sqlite3.h>
+#include "sqlite3.h"
 
 sqlite3 *db = NULL;
 sqlite3_stmt *stmt = NULL;

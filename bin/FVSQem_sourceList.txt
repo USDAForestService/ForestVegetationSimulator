@@ -313,6 +313,8 @@
 ../dbsqlite/dbstreesin.f
 ../dbsqlite/dbstrls.f
 ../dbsqlite/fvsqlite3.c
+../dbsqlite/sqlite3.c
+../dbsqlite/sqlite3.h
 ../dbsqlite/uuidgen.f
 ../econ/src/eccalc.f
 ../econ/src/echarv.f

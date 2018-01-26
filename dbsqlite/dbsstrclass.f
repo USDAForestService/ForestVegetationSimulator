@@ -63,8 +63,7 @@ C
       CHARACTER(len=26) NPLT
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
-     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
-     >        fsql3_errmsg
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
 
       IF (ISTRCLAS .EQ. 0) RETURN
       IF (ISTRCLAS .EQ. 2) KODE = 0
