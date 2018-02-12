@@ -1,7 +1,7 @@
 
-all : ie econ fire clim sn
+all : iedb econdb firedb climdb sn
 	
-ie : 	
+iedb : 	
 	@echo Test ie database read and write
 	rm -f FVSieOut.db
 	-../../bin/qFVSie --keywordfile=ie.key 
@@ -9,17 +9,17 @@ ie :
 	-diff -w ie.db_dump.txt ie.db_dump.txt.save
 	@echo Test ie ended
 
-econ :
+econdb :
 	@echo Test econ database read and write
 	rm -f TestDataBase.db
 	-../../bin/qFVSie --keywordfile=TestDataBase.key 
 	-sqlite3 TestDataBase.db "select Year,Species,Total_Value from FVS_EconHarvestValue;" > TestDataBase.dump
-	-sqlite3 TestDataBase.db "select pnv,Mrch_BoardFoot_Volume from FVS_EconSummary;" >> TestDataBase.dump	
+	-sqlite3 TestDataBase.db "select round(pnv,1),Mrch_BoardFoot_Volume from FVS_EconSummary;" >> TestDataBase.dump	
 	-diff -w TestDataBase.dump TestDataBase.dump.save
 	@echo Test econ ended
 	
 	 
-fire : 
+firedb : 
 	@echo fireTest database read and write
 	rm -f FVSieFireOutput.db
 	-../../bin/qFVSie --keywordfile=fireTest.key 
@@ -27,7 +27,7 @@ fire :
 	-diff -w fireTest.db_dump.txt fireTest.db_dump.txt.save
 	@echo fireTest ended
 	
-clim : 
+climdb : 
 	@echo climate database read and write
 	rm -f ClimOut.db
 	-../../bin/qFVSie --keywordfile=Clim.key  
@@ -38,24 +38,7 @@ sn :
 	@echo sn variant database read and write, tests a lot of tables
 	rm -f snout.db
 	-../../bin/qFVSsn --keywordfile=sn.key  
-	-sqlite3 snout.db ".tables" > snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_ATRTList        ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Down_Wood_Cov   ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Mortality       ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_BurnReport      ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Down_Wood_Vol   ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_PotFire_East    ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Carbon          ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_EconHarvestValue;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_SnagSum         ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Cases           ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_EconSummary     ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Summary_East    ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Consumption     ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Fuels           ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_TreeList        ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_CutList         ;" >> snout.txt
-	-sqlite3 snout.db "select count(*) from FVS_Hrv_Carbon      ;" >> snout.txt
+	-sqlite3 snout.db < snTablesTest.sql > snout.txt
 	-diff -w snout.txt snout.txt.save
 	
 
