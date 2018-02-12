@@ -59,8 +59,8 @@ C
       IDWDCOV      = INTS( 38)
       ! Make sure the databases are closed
       CALL DBSCLOSE(.TRUE.,.TRUE.)
-      IF (INTS(39).EQ.1) IinDBref = 0 ! signal to reopen
-      IF (INTS(40).EQ.1) IoutDBref= 0
+      IF (INTS(39).EQ.1) IinDBref = -1 ! signal to reopen
+      IF (INTS(40).EQ.1) IoutDBref= -1
       ICLIM        = INTS( 41)
       IRD1         = INTS( 42)
       IRD2         = INTS( 43)

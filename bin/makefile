@@ -102,7 +102,7 @@ ifdef sourceFileList
  endif
 endif
 
-FVSLite : $(addsuffix $(PRGSUFX),$(qFVSprgs))
+FVSQLite : $(addsuffix $(PRGSUFX),$(qFVSprgs))
 
 all : $(addsuffix $(SLIBSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(qFVSprgs))
 
