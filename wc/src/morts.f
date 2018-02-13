@@ -325,7 +325,8 @@ C SMALL TREES USE EQUATIONS BY GOULD AND HARRINGTON
 C----------
       CR=ICR(I)*0.01
       BAL=(1.0 - (PCT(I)/100.)) * BA
-      CRADJ=1.0-EXP(-(25.0*CR)**2.0)
+      CRADJ = 1.0
+      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       XSITE2=SITEAR(19)
       XSITE1=SITEAR(16)
 C----------

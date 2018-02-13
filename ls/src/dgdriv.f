@@ -637,6 +637,11 @@ C  COMPUTE VARIANCE OF ANNUAL DG AND STORE.
 C----------
       VTEMP=EXP(SIGMA(ISPC)**2)
       VARDG(ISPC)=(VTEMP-1.0)*VTEMP/VMLT
+c****
+c temporary likely wrong fix for very low variance:
+c****
+      if (vardg(ispc).lt. .01) vardg(ispc) = .01
+
 C----------
 C  LOAD RECORD TRIPLING GROWTH MULTIPLIERS.
 C----------

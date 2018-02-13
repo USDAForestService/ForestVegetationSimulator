@@ -1619,7 +1619,8 @@ C     Shared variables
       REAL MINLENT, BTR, DBTBH,LMERCH, CFVOL, TLOGVOL
       INTEGER   TLOGS
       REAL NOLOGP,NOLOGS 
-
+      BTR = 0.
+      DBTBH = 0.
       READ(VOLEQ(3:3),'(I1)')EQN
       REGN = 8
       DO 102,I=1,20

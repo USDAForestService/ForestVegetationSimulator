@@ -129,7 +129,8 @@ C      ENDIF
             CR=TDATAR(I,3)
          ENDIF
 C         CRADJ=1.0-EXP(-(10.0*CR)**5.0)
-         CRADJ=1.0-EXP(-(25.0*CR)**2.0)
+         CRADJ = 1.0
+         IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
          XPM=1.0/(1.0+EXP(-PMK(I)))
          PS=(1.0-XPM)**POW(I)
          PM=1.0-PS*CRADJ
@@ -221,7 +222,8 @@ C
                       CR=TDATAR(I,3)
                    ENDIF
 C                   CRADJ=1.0-EXP(-(10.0*CR)**5.0)
-                   CRADJ=1.0-EXP(-(25.0*CR)**2.0)
+                   CRADJ = 1.0
+                   IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
                    XPM=1.0/(1.0+EXP(-PMK(I)))
                    PS=(1.0-XPM)**POW(I)
                    PM=1.0-PS*CRADJ
