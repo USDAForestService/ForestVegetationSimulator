@@ -135,7 +135,7 @@ C     IF(JSPR.EQ.5)THEN
 
 CELSE
       IF (HT2.GT.4.5) THEN
-         IF(DR.GT.0.0) THEN
+         IF(DR.GT.0.01) THEN
             PY = (DR * ((B2-1)/(B2-DR**B3))) - ((DR**B5 -1)/DBTBH)
          ELSE
             PY = 0.0

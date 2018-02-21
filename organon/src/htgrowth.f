@@ -468,8 +468,13 @@ C
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
       B1=EXP(P3*TCCH**P4)
-      MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
-      CRADJ=(1.0-EXP(-(25.0*CR)**2))
+      IF (FCR .LT. -20.) THEN
+        MODIFER=P8*B0
+      ELSE
+        MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
+      ENDIF
+      CRADJ = 1.0
+      IF (CR .LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)      
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END
@@ -514,8 +519,13 @@ C
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
       B1=EXP(P3*TCCH**P4)
-      MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
-      CRADJ=(1.0-EXP(-(25.0*CR)**2))
+      IF (FCR .LT. -20.) THEN
+        MODIFER=P8*B0
+      ELSE
+        MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
+      ENDIF
+      CRADJ = 1.0
+      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END
@@ -583,8 +593,13 @@ C
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
       B1=EXP(P3*TCCH**P4)
-      MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
-      CRADJ=(1.0-EXP(-(25.0*CR)**2))
+      IF (FCR .LT. -20.) THEN
+        MODIFER=P8*B0
+      ELSE
+        MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
+      ENDIF
+      CRADJ = 1.0
+      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END
@@ -651,8 +666,13 @@ CC
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
       B1=EXP(P3*TCCH**P4)
-      MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
-      CRADJ=(1.0-EXP(-(25.0*CR)**2))
+      IF (FCR .LT. -20.) THEN
+        MODIFER=P8*B0
+      ELSE
+        MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
+      ENDIF
+      CRADJ = 1.0
+      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END

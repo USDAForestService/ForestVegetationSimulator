@@ -2,15 +2,15 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-NI  DATE OF LAST REVISION: 11/30/09
+C FIRE_NI $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C
 C     SNAG FALL PREDICTION
 C
 C   Purpose:
 C     This routine calculates the base fall rates for snags, based
-C     on species, DBH (large vs small), and whether we're down to the
-C     last 5% of the snag's original stem/ac representation.
+C     on species, DBH (large vs small), and whether we are down to the
+C     last 5% of the snags original stem/ac representation.
 C
 C     The logic in this routine was extracted from its original
 C     location in FMSNAG, in order to generalize the logic for use
@@ -87,8 +87,9 @@ C     PBSOFT (or PBSMAL) of snags to have fallen after PBTIME (e.g.,
 C     28% of remaining snags must fall every year in order for 90% of
 C     the initial number to have fallen in 7 years:  (1-0.28)**7 = 0.1).
 C     This could be done outside the snag loop except when either PBSOFT
-C     of PBSMAL equals 1, which may often be the case.  So it's done here.
+C     of PBSMAL equals 1, which may often be the case.  So its done here.
 
+      DFALLN = 0.
       IF (DENTTL .LE. 0) RETURN
       IF ((IYR - BURNYR) .LT. PBTIME) THEN
         DZERO = NZERO / 50.0
