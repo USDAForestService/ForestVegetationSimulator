@@ -37,7 +37,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
       CALL DBSCASE(1)
       
       iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_CalibStatsm"//CHAR(0))
+     >       "FVS_CalibStats"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_CalibStats ('//
      -      'CaseID char(36) not null,'//
@@ -93,11 +93,11 @@ C         BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
           ColNumber=ColNumber+1       ! ScaleFactor
           iRet=fsql3_bind_double(IoutDBref,ColNumber,DCORTEM)
 
-          DSTDRAT = STDRAT(K)          
-          ColNumber=ColNumber+1       ! StdErrRatio
-          iRet=fsql3_bind_double(IoutDBref,ColNumber,DSTDRAT)
-          
           IF(ICFROM.EQ.1) THEN 
+            DSTDRAT = STDRAT(K)          
+            ColNumber=ColNumber+1       ! StdErrRatio
+            iRet=fsql3_bind_double(IoutDBref,ColNumber,DSTDRAT)
+          
             DWCI = WCI(K)            
             ColNumber=ColNumber+1      ! WeightToInput (LG TREES ONLY)
             iRet=fsql3_bind_double(IoutDBref,ColNumber,DWCI)
