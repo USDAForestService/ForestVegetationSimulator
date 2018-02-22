@@ -474,7 +474,7 @@ C
         MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
       ENDIF
       CRADJ = 1.0
-      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)      
+      IF (CR .LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)      
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END
@@ -585,10 +585,10 @@ C
       P1=HGPAR(ISPGRP,1)
       P2=HGPAR(ISPGRP,2)
       P3=HGPAR(ISPGRP,3)
-      P4=HGPAR(ISPGRP,4)                
+      P4=HGPAR(ISPGRP,4)
       P5=HGPAR(ISPGRP,5)
       P6=HGPAR(ISPGRP,6)
-      P7=HGPAR(ISPGRP,7)         
+      P7=HGPAR(ISPGRP,7)
       P8=HGPAR(ISPGRP,8)
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
@@ -683,7 +683,7 @@ CC
      1       PHT3,PHGR1,PHGR2
       INTEGER*4 VERSION,ISP,JSP
       JSP=ISP
-      IF(ISP .EQ. 263 .AND. VERSION .EQ. 1) JSP=2631
+      IF(ISP .EQ. 263 .AND. VERSION .EQ. 1) JSP=15
       SELECT CASE(JSP)
         CASE(202,263)
            A0=19.04942539

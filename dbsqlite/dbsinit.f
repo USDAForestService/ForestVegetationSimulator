@@ -6,37 +6,38 @@ C
       INCLUDE 'DBSCOM.F77'
 C
 C  Table name           Subroutine  Control Var  Organization
-C  ==================== =========== ===========  ============
-C  FVS_ATRTList         dbsatrtls   IATRTLIST    cycle, tree
-C  FVS_Cases            dbscase     CASEID       cycle 
-C  FVS_Climate          dbsclsum    ICLIM        cycle, species
-C  FVS_Compute          dbscmpu     ICOMPUTE     cycle 
-C  FVS_CutList          dbscuts     ICUTLIST     cycle, tree
-C  FVS_EconHarvestValue dbsecharv   IDBSECON     cycle 
-C  FVS_EconSummary      dbsecsum    IDBSECON     cycle 
-C  FVS_BurnReport       dbsfmburn   IBURN        cycle             
-C  FVS_CanProfile       dbsfmcanpr  ICANPR       cycle, height class
-C  FVS_Carbon           dbsfmcrpt   ICMRPT       cycle 
-C  FVS_SnagDet          dbsfmdsnag  ISDET        cycle, species, dbhclass
-C  FVS_Down_Wood_Cov    dbsfmdwcov  IDWDCOV      cycle 
-C  FVS_Down_Wood_Vol    dbsfmdwvol  IDWDVOL      cycle 
-C  FVS_Consumption      dbsfmfuel   IFUELC       cycle 
-C  FVS_Hrv_Carbon       dbsfmhrpt   ICHRPT       cycle 
-C  FVS_Mortality        dbsfmmort   IMORTF       cycle 
-C  FVS_PotFire_East     dbsfmpf     IPOTFIRE     cycle           
-C  FVS_PotFire          dbsfmpf     IPOTFIRE     cycle 
-C  FVS_SnagSum          dbsfmssnag  ISSUM        cycle 
-C  FVS_Fuels            dbsfuels    IFUELS       cycle 
-C  FVS_DM_Spp_Sum       dbsmis      IDM1         cycle, species
-C  FVS_DM_Stnd_Sum      dbsmis      IDM2         cycle 
-C  FVS_DM_Sz_Sum        dbsmis      IDM3         cycle 
-C  FVS_RD_Sum           dbsrd       IRD1         cycle 
-C  FVS_RD_Det           dbsrd       IRD2         cycle 
-C  FVS_RD_Beetle        dbsrd       IRD3         cycle 
-C  FVS_StrClass         dbsstrclass ISTRCLAS     cycle 
-C  FVS_Summary_East     dbssumry    ISUMARY      cycle 
-C  FVS_Summary          dbssumry    ISUMARY      cycle 
-C  FVS_TreeList         dbstrls     ITREELIST    cycle, tree  
+C  ==================== =========== ===========  =============================
+C  FVS_ATRTList         dbsatrtls   IATRTLIST    case, cycle, tree
+C  FVS_Cases            dbscase     CASEID       case 
+C  FVS_CalibStats       dbscalib    ICALIB       case, sizeclass, species 
+C  FVS_Climate          dbsclsum    ICLIM        case, cycle, species
+C  FVS_Compute          dbscmpu     ICOMPUTE     case, cycle 
+C  FVS_CutList          dbscuts     ICUTLIST     case, cycle, tree
+C  FVS_EconHarvestValue dbsecharv   IDBSECON     case, cycle 
+C  FVS_EconSummary      dbsecsum    IDBSECON     case, cycle 
+C  FVS_BurnReport       dbsfmburn   IBURN        case, cycle             
+C  FVS_CanProfile       dbsfmcanpr  ICANPR       case, cycle, height class
+C  FVS_Carbon           dbsfmcrpt   ICMRPT       case, cycle 
+C  FVS_SnagDet          dbsfmdsnag  ISDET        case, cycle, species, dbhclass
+C  FVS_Down_Wood_Cov    dbsfmdwcov  IDWDCOV      case, cycle 
+C  FVS_Down_Wood_Vol    dbsfmdwvol  IDWDVOL      case, cycle 
+C  FVS_Consumption      dbsfmfuel   IFUELC       case, cycle 
+C  FVS_Hrv_Carbon       dbsfmhrpt   ICHRPT       case, cycle 
+C  FVS_Mortality        dbsfmmort   IMORTF       case, cycle 
+C  FVS_PotFire_East     dbsfmpf     IPOTFIRE     case, cycle           
+C  FVS_PotFire          dbsfmpf     IPOTFIRE     case, cycle 
+C  FVS_SnagSum          dbsfmssnag  ISSUM        case, cycle 
+C  FVS_Fuels            dbsfuels    IFUELS       case, cycle 
+C  FVS_DM_Spp_Sum       dbsmis      IDM1         case, cycle, species
+C  FVS_DM_Stnd_Sum      dbsmis      IDM2         case, cycle 
+C  FVS_DM_Sz_Sum        dbsmis      IDM3         case, cycle 
+C  FVS_RD_Sum           dbsrd       IRD1         case, cycle 
+C  FVS_RD_Det           dbsrd       IRD2         case, cycle 
+C  FVS_RD_Beetle        dbsrd       IRD3         case, cycle 
+C  FVS_StrClass         dbsstrclass ISTRCLAS     case, cycle 
+C  FVS_Summary_East     dbssumry    ISUMARY      case, cycle 
+C  FVS_Summary          dbssumry    ISUMARY      case, cycle 
+C  FVS_TreeList         dbstrls     ITREELIST    case, cycle, tree  
 C
       CASEID    = ""
       ISUMARY  = 0

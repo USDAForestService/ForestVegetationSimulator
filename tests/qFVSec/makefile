@@ -3,7 +3,7 @@ all : ect01 ect02
 
 ect01 : 
 	@echo Test ect01, basic functionality 
-	-../../bin/qFVSec --keywordfile=ect01.key
+	-$(WINE) ../../bin/qFVSec --keywordfile=ect01.key
 	grep -v "\-999" ect01.sum      > ect01.tmp
 	grep -v "\-999" ect01.sum.save > ect01.tmp.save
 	-diff -w ect01.tmp ect01.tmp.save
@@ -12,8 +12,8 @@ ect01 :
 	
 ect02 : 
 	@echo Test ect02, stop/restart, output should match ect01
-	-../../bin/qFVSec --keywordfile=ect01.key --stoppoint=2,2040,ect.stop
-	-../../bin/qFVSec --restart=ect.stop
+	-$(WINE) ../../bin/qFVSec --keywordfile=ect01.key --stoppoint=2,2040,ect.stop
+	-$(WINE) ../../bin/qFVSec --restart=ect.stop
 	grep -v "\-999" ect01.sum      > ect01.tmp
 	grep -v "\-999" ect01.sum.save > ect01.tmp.save
 	-diff -w ect01.tmp ect01.tmp.save

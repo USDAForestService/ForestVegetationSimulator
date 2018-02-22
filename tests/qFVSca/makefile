@@ -3,7 +3,7 @@ all : cat01 cat02
 
 cat01 : 
 	@echo Test cat01, basic functionality 
-	-../../bin/qFVSca --keywordfile=cat01.key
+	-$(WINE) ../../bin/qFVSca --keywordfile=cat01.key
 	grep -v "\-999" cat01.sum      > cat01.tmp
 	grep -v "\-999" cat01.sum.save > cat01.tmp.save
 	-diff -w cat01.tmp cat01.tmp.save
@@ -12,8 +12,8 @@ cat01 :
 	
 cat02 : 
 	@echo Test cat02, stop/restart
-	-../../bin/qFVSca --keywordfile=cat01.key --stoppoint=2,2040,cat.stop
-	-../../bin/qFVSca --restart=cat.stop
+	-$(WINE) ../../bin/qFVSca --keywordfile=cat01.key --stoppoint=2,2040,cat.stop
+	-$(WINE) ../../bin/qFVSca --restart=cat.stop
 	grep -v "\-999" cat01.sum      > cat01.tmp
 	grep -v "\-999" cat01.sum.save > cat01.tmp.save
 	-diff -w cat01.tmp cat01.tmp.save

@@ -208,7 +208,7 @@ C
 C     CROWN RATIO ADJUSTMENT
 C
       CRADJ = 1.0
-      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
+      IF(CR .LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
 C
 C      FULL ADJUSTMENTS
 C
@@ -333,8 +333,7 @@ C
 C     CROWN RATIO ADJUSTMENT
 C
       CRADJ = 1.0
-      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
-      
+      IF(CR .LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       IF(ISPGRP .EQ. 1) THEN
          ADJ=0.7011014
       ELSEIF(ISPGRP .EQ. 2) THEN
@@ -449,7 +448,8 @@ C
 C
 C     CROWN RATIO ADJUSTMENT
 C
-      CRADJ=1.0-EXP(-(25.0*CR)**2)
+      CRADJ = 1.0
+      IF(CR .LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       IF(ISPGRP .EQ. 1) THEN
          ADJ=1.0
       ELSEIF(ISPGRP .EQ. 2) THEN
@@ -552,7 +552,8 @@ C
 C
 C     CROWN RATIO ADJUSTMENT
 C
-      CRADJ=1.0-EXP(-(25.0*CR)**2)
+      CRADJ = 1.0
+      IF(CR .LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       IF(ISPGRP .LE. 3) THEN
          ADJ=1.0
       ELSE

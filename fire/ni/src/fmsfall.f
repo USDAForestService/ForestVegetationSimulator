@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-NI  DATE OF LAST REVISION: 11/30/09
+C FIRE_NI $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C
 C     SNAG FALL PREDICTION

@@ -9,6 +9,8 @@ export qTestDirs = $(shell ls -d qFVS*)
 all : $(addsuffix .test,$(TestDirs))
 FVSQLite : $(addsuffix .test,$(qTestDirs))	
 
+export WINE
+
 %.test : 
 	cd $(basename $@); ${MAKE} --ignore-errors
 	

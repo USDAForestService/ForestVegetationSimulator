@@ -65,6 +65,7 @@ C-----
       IF(IFORSR.EQ.0) THEN
         IF(ISUMARY.GE.1.OR.
      -     ICOMPUTE.GE.1.OR.
+     -     ICALIB.GE.1.OR.
      -     IATRTLIST.GE.1.OR.
      -     ITREELIST.GE.1.OR.
      -     ICUTLIST.GE.1.OR.
@@ -100,6 +101,7 @@ C---------
       IF (IoutDBref.EQ.-1) CALL DBSOPEN(.TRUE.,.FALSE.,KODE)
       IF (KODE.EQ.1) THEN
         ICOMPUTE  = 0
+        ICALIB    = 0
         ISUMARY   = 0
         IATRTLIST = 0
         ITREELIST = 0

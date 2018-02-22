@@ -13,7 +13,7 @@ COMMONS
 C
 C
       INTEGER MXI
-      PARAMETER (MXI=44)
+      PARAMETER (MXI=45)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
@@ -64,6 +64,7 @@ C
       INTS( 42) = IRD1
       INTS( 43) = IRD2
       INTS( 44) = IRD3
+      INTS( 45) = ICALIB      
 C
       CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
       LENSTRINGS(1) = LEN_TRIM(DSNIN)

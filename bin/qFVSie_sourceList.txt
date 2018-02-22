@@ -273,6 +273,7 @@
 ../dbsqlite/DBSCOM.F77
 ../dbsqlite/dbsatrtls.f
 ../dbsqlite/dbsblkd.f
+../dbsqlite/dbscalib.f
 ../dbsqlite/dbscase.f
 ../dbsqlite/dbsclose.f
 ../dbsqlite/dbsclsum.f

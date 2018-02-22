@@ -9,52 +9,50 @@
 #     "osx" on MAC x86_64, and 
 #     "l64" on generic Linux x86_64.
 #  When qFVS programs are built, the ODBC type defs and libraries are not used
+# To build 64 bit windows, set OSARCH=w64 and OS=OS on the make command line.
+# To build using cross compilers, define mingw64 on the command line
 
 ifdef OS
- WIN = -DWINDOWS
- OSARCH = w32
- ODBC = -lodbc32
- SLIBSUFX = .dll
- PRGSUFX = .exe
- PIC =      # never use PIC on this OSARCH type
-#not 32 bit windows, assume 64 bit Linux or mac osx.
+ export WIN = -DWINDOWS
+ export SLIBSUFX = .dll
+ export PIC =      # never use PIC on this OSARCH type
+ export PRGSUFX = .exe 
+ ifndef OSARCH
+   export OSARCH = w32
+ endif 
+ ifeq ($(OSARCH), w32)
+   export ODBC = -lodbc32
+ else
+   export ODBC = -lodbc
+ endif  
 else
 #setting WIN as done below is to enable correct processing of fofem (fire) c code.
- WIN = -Dunix  
- SLIBSUFX = .so
- PRGSUFX = 
- ODBC = -lodbc 
+ export WIN = -Dunix  
+ export SLIBSUFX = .so
+ export PRGSUFX = 
+ export ODBC = -lodbc 
  ifdef OSTYPE
   ifeq ($(OSTYPE),linux)
-    OSARCH = l64
-    PIC = -fPIC  # always use PIC on this OSARCH type
+    export OSARCH = l64
+    export PIC = -fPIC  # always use PIC on this OSARCH type
   endif
   ifeq ($(OSTYPE),linux-gnu)
-    OSARCH = l64
-    PIC = -fPIC  # always use PIC on this OSARCH type
+    export OSARCH = l64
+    export PIC = -fPIC  # always use PIC on this OSARCH type
   endif
  else
   ifeq ($(shell uname),Linux)
-    OSARCH = l64
-    PIC = -fPIC
+    export OSARCH = l64
+    export PIC = -fPIC
   endif
  endif
  ifndef OSARCH
-   OSARCH = osx
-   PIC =      # never use PIC on this OSARCH type
-   ODBC = -liodbc 
+   export OSARCH = osx
+   export PIC =      # never use PIC on this OSARCH type
+   export ODBC = -liodbc 
  endif
 endif                                                                               
 
-export ODBC
-
-$(info OS: $(OS))
-$(info OSTYPE: $(OSTYPE))
-$(info WIN: $(WIN)) 
-$(info ODBC: $(ODBC))
-$(info SLIBSUFX: $(SLIBSUFX))
-$(info OSARCH: $(OSARCH))
-$(info PIC: $(PIC))
 	
 # FC is the fortran compiler
 # FFLAGS are pasted to fortran
@@ -62,6 +60,20 @@ $(info PIC: $(PIC))
 # CFLAGS are pased to C, of these CMPgcc is used by the fofem routines and WIN is used
 # by fvsSQL.c
 # LD is the linker
+
+ifdef mingw64
+ export FCprf = x86_64-w64-mingw32-
+ export CCprf = x86_64-w64-mingw32-
+else
+ export FCprf = 
+ export CCprf = 
+endif
+
+$(info OS: $(OS); OSTYPE: $(OSTYPE); WIN: $(WIN); OSARCH: $(OSARCH); SLIBSUFX: $(SLIBSUFX))
+$(info ODBC: $(ODBC); PIC: $(PIC); PRGSUFX: $(PRGSUFX))
+$(info mingw64: $(mingw64))
+$(info FCprf: $(FCprf))
+$(info CCprf: $(CCprf))
 
 export FC = gfortran 
 #export FFLAGS = $(PIC) -g -Wall -fbacktrace 
@@ -289,6 +301,18 @@ else
 	$(LD) -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX)  $(filter-out  main.o,$(object))
 	$(LD)         -o $(basename ../$@)$(PRGSUFX) $(object)
 endif
+endif
+ifeq (${OSARCH},w64) 
+ifeq ($(DBLINK),$(ODBC))
+%.prg : $(object)
+	$(CCprf)$(CC) fvsSQL.o -shared $(DBLINK) $(WIN) -o   ../libfvsSQL.dll 
+	$(FCprf)$(LD) -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX) ../libfvsSQL.dll  $(filter-out fvsSQL.o main.o,$(object))
+	$(FCprf)$(LD)         -o $(basename ../$@)$(PRGSUFX)  ../libfvsSQL.dll  $(filter-out fvsSQL.o       ,$(object))
+else
+%.prg : $(object) 
+	$(FCprf)$(LD) -static -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX)  $(filter-out  main.o,$(object))
+	$(FCprf)$(LD) -static -o $(basename ../$@)$(PRGSUFX) $(object)
+endif
 else
 %.prg : $(object) 
 	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) $(DBLINK) 
@@ -296,15 +320,15 @@ else
 endif
 
 %.mod : %.f $(includes)
-	$(FC) $(FFLAGS) -c $<
+	$(FCprf)$(FC) $(FFLAGS) -c $<
 
 %.o : %.f $(includes) $(mods_mods)
-	$(FC) $(FFLAGS) -c -o $@ $<
+	$(FCprf)$(FC) $(FFLAGS) -c -o $@ $<
 
 %.o : %.c $(includes) 
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CCprf)$(CC) $(CFLAGS) -c -o $@ $<
 	
 DBSTYPEDEFS.F77 : mkdbsTypeDefs.c
-	$(CC) mkdbsTypeDefs.c $(WIN) -o mkdbsTypeDefs$(PRGSUFX)
+	$(CCprf)$(CC) mkdbsTypeDefs.c $(WIN) -o mkdbsTypeDefs$(PRGSUFX)
 	./mkdbsTypeDefs$(PRGSUFX)
 	

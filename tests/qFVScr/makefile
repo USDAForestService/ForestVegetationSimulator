@@ -3,7 +3,7 @@ all : crt01 crt02
 
 crt01 : 
 	@echo Test crt01, basic functionality 
-	-../../bin/qFVScr --keywordfile=crt01.key
+	-$(WINE) ../../bin/qFVScr --keywordfile=crt01.key
 	grep -v "\-999" crt01.sum      > crt01.tmp
 	grep -v "\-999" crt01.sum.save > crt01.tmp.save
 	-diff -w crt01.tmp crt01.tmp.save
@@ -12,8 +12,8 @@ crt01 :
 
 crt02 : 
 	@echo Test crt02, stop/restart, output should match crt01
-	-../../bin/qFVScr --keywordfile=crt01.key --stoppoint=2,2040,crt.stop
-	-../../bin/qFVScr --restart=crt.stop
+	-$(WINE) ../../bin/qFVScr --keywordfile=crt01.key --stoppoint=2,2040,crt.stop
+	-$(WINE) ../../bin/qFVScr --restart=crt.stop
 	grep -v "\-999" crt01.sum      > crt01.tmp
 	grep -v "\-999" crt01.sum.save > crt01.tmp.save
 	-diff -w crt01.tmp crt01.tmp.save

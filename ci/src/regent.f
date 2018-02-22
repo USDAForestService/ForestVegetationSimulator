@@ -1,7 +1,7 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
 C----------
-C CI $ID$
+C CI $Id$
 C----------
 C  **REGENT** COMPUTES HEIGHT AND DIAMETER INCREMENTS FOR SMALL TREES.
 C
@@ -524,13 +524,13 @@ C
         TTVAR = .TRUE.
         SCALE=FLOAT(KPER(J))/REGYR
         IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
-      CASE(1:10,18)
-        CIVAR = .TRUE.
-        SCALE = FLOAT(NTYR)/REGYR
-        IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
       CASE(13,14,15,17,19)
         UTVAR = .TRUE.
         SCALE=FLOAT(NTYR)/YR
+        IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
+      CASE DEFAULT
+        CIVAR = .TRUE.
+        SCALE = FLOAT(NTYR)/REGYR
         IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
       END SELECT
 C
@@ -713,6 +713,7 @@ C----------
           SELECT CASE (ISPC)
           CASE(14)
             VIGOR=1.-((1.-VIGOR)/3.)
+          CASE DEFAULT
           END SELECT
 C
           HTGRL=POTHTG*PCTRED*VIGOR*CON
@@ -870,13 +871,13 @@ C----------
         TTVAR = .TRUE.
         SCALE=YR/FINT
         IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
-      CASE(1:10,18)
-        CIVAR = .TRUE.
-        SCALE = FLOAT(NTYR)/REGYR
-        IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
       CASE(13,14,15,17,19)
         UTVAR = .TRUE.
         SCALE=FLOAT(NTYR)/YR
+        IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
+      CASE DEFAULT
+        CIVAR = .TRUE.
+        SCALE = FLOAT(NTYR)/REGYR
         IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
       END SELECT
 C
@@ -931,6 +932,7 @@ C
      &             + 0.001711*CRI + 0.17023*HLESS4 + 0.3
            CASE(13)
              DK = -0.41227 + 0.16944*H + 0.003191*CRI - 0.00220*TPCCF
+           CASE DEFAULT
            END SELECT
 C        
            DK=DK*XRDGRO
@@ -985,6 +987,7 @@ C
             HTGR = (HTGR1 +ZZRAN*0.2*(FLOAT(NTYR)/10.))*WK4(I)
           CASE(15)
             HTGR = (HTGR1 +ZZRAN*0.1*(FLOAT(NTYR)/10.))
+          CASE DEFAULT
           END SELECT
           IF(DEBUG)WRITE(JOSTND,*)'UT SECTION K,ZZRAN,XRHGRO,',
      &    'HTGR= ',K,ZZRAN,XRHGRO,HTGR
@@ -1126,6 +1129,7 @@ C----------
      &        ' BARK,XRDGRO,DK,DKK= '/T12, F10.3,2X,F10.3,2X,I5,2X,
      &        5F10.3)
             ENDIF
+          CASE DEFAULT
           END SELECT
 C
         ELSEIF(TTVAR)THEN
@@ -1162,6 +1166,7 @@ C             DKK = -0.41227 + 0.16944*HT(I) + 0.003191*CRI - 0.00220*RD
      &                              XRDGRO,DK,DKK
  9786        FORMAT('IN REGENT 9986 FORMAT AX,BX,ISPC,HK',
      &       'BARK,XRDGRO,DK,DKK= '/T12, F10.3,2X,F10.3,2X,I5,2X,5F10.3)
+           CASE DEFAULT
            END SELECT
 C        
             IF(DEBUG)WRITE(JOSTND,*)'I,ISPC,HT,CRI,RD,DKK = ',
@@ -1260,6 +1265,7 @@ C
                 ENDIF
                 IF(DG(K).GT.DGMX)DG(K)=DGMX
                 IF(DEBUG)WRITE(JOSTND,*)'K,DK,DKK,DG= ',K,DK,DKK,DG(K)
+              CASE DEFAULT
               END SELECT
 C
             ENDIF
@@ -1342,7 +1348,6 @@ C----------
       IF (ITRN.LE.0) RETURN
       IF(IFINTH .EQ. 0)  GOTO 100
 C
-      
       SELECT CASE (ISPC)
 C
 C  SPECIES WITH REGYR=10: SPECIES FROM UT VARIANT
@@ -1354,7 +1359,6 @@ C  SPECIES WITH REGYR=5: ORIGINAL TT SPECIES, SPECIES FROM CI AND IE VARIANTS
 C
       CASE DEFAULT
         SCALE3 = REGYR/FINTH
-
       END SELECT
 C
 C----------
@@ -1417,10 +1421,10 @@ C----------
       SELECT CASE (ISPC)
       CASE(11,12,16)
         TTVAR = .TRUE.
-      CASE(1:10,18)
-        CIVAR = .TRUE.
       CASE(13,14,15,17,19)
         UTVAR = .TRUE.
+      CASE DEFAULT
+        CIVAR = .TRUE.
       END SELECT
 C
       CORNEW=1.0
@@ -1479,6 +1483,7 @@ C
           HLESS4 = HK - 4.5
           D2 = 0.000231*HLESS4*CRI - 0.00005*HLESS4*RD
      &         + 0.001711*CRI + 0.17023*HLESS4 + 0.3
+        CASE DEFAULT
         END SELECT
 C        
         IF(D2.LT.DIAM(ISPC)) D2=DIAM(ISPC)
@@ -1510,6 +1515,7 @@ C----------
         SELECT CASE (ISPC)
         CASE(14)
           VIGOR=1.-((1.-VIGOR)/3.)
+        CASE DEFAULT
         END SELECT
 C
         IF(ISPC .EQ. 13) THEN

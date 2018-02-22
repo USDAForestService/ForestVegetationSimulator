@@ -3,7 +3,7 @@ all : emt01 emt02
 
 emt01 : 
 	@echo Test emt01, basic functionality 
-	-../../bin/qFVSem --keywordfile=emt01.key
+	-$(WINE) ../../bin/qFVSem --keywordfile=emt01.key
 	grep -v "\-999" emt01.sum      > emt01.tmp
 	grep -v "\-999" emt01.sum.save > emt01.tmp.save
 	-diff -w emt01.tmp emt01.tmp.save
@@ -12,8 +12,8 @@ emt01 :
 
 emt02 : 
 	@echo Test emt02, stop/restart, output should match emt01
-	-../../bin/qFVSem --keywordfile=emt01.key --stoppoint=2,2040,emt.stop
-	-../../bin/qFVSem --restart=emt.stop
+	-$(WINE) ../../bin/qFVSem --keywordfile=emt01.key --stoppoint=2,2040,emt.stop
+	-$(WINE) ../../bin/qFVSem --restart=emt.stop
 	grep -v "\-999" emt01.sum      > emt01.tmp
 	grep -v "\-999" emt01.sum.save > emt01.tmp.save
 	-diff -w emt01.tmp emt01.tmp.save

@@ -3,7 +3,7 @@ all : wct01 wct02
 
 wct01 : 
 	@echo Test wct01, basic functionality 
-	-../../bin/qFVSwc --keywordfile=wct01.key
+	-$(WINE) ../../bin/qFVSwc --keywordfile=wct01.key
 	grep -v "\-999" wct01.sum      > wct01.tmp
 	grep -v "\-999" wct01.sum.save > wct01.tmp.save
 	-diff -w wct01.tmp wct01.tmp.save
@@ -12,8 +12,8 @@ wct01 :
 
 wct02 : 
 	@echo Test wct02, stop/restart, output should match wct01
-	-../../bin/qFVSwc --keywordfile=wct01.key --stoppoint=2,2040,wct.stop
-	-../../bin/qFVSwc --restart=wct.stop
+	-$(WINE) ../../bin/qFVSwc --keywordfile=wct01.key --stoppoint=2,2040,wct.stop
+	-$(WINE) ../../bin/qFVSwc --restart=wct.stop
 	grep -v "\-999" wct01.sum      > wct01.tmp
 	grep -v "\-999" wct01.sum.save > wct01.tmp.save
 	-diff -w wct01.tmp wct01.tmp.save

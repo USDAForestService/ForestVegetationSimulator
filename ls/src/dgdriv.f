@@ -394,7 +394,7 @@ C----------
       DX=0.0
       DO 155 I3=I1,I2
       I=IND1(I3)
-      IF(WK3(I).LT.3.0 .OR.DG(I).LE.0.0) GO TO 155
+      IF(WK3(I).LT.5.0 .OR.DG(I).LE.0.0) GO TO 155
       IF(WK3(I).LT.DN) THEN
         DN=WK3(I)
         PN=EXP(WK2(I))
@@ -406,7 +406,7 @@ C----------
   155 CONTINUE
 C----------
 C  BEGIN TREE LOOP WITHIN SPECIES.  IF MEASURED DIAMETER GROWTH
-C  IS LESS THAN ZERO, OR DBH IS LESS THAN 3.0 INCHES, THE RECORD
+C  IS LESS THAN ZERO, OR DBH IS LESS THAN 5.0 INCHES, THE RECORD
 C  WILL NOT BE INCLUDED IN THE CALIBRATION.
 C----------
       DO 160 I3=I1,I2
@@ -637,11 +637,6 @@ C  COMPUTE VARIANCE OF ANNUAL DG AND STORE.
 C----------
       VTEMP=EXP(SIGMA(ISPC)**2)
       VARDG(ISPC)=(VTEMP-1.0)*VTEMP/VMLT
-c****
-c temporary likely wrong fix for very low variance:
-c****
-      if (vardg(ispc).lt. .01) vardg(ispc) = .01
-
 C----------
 C  LOAD RECORD TRIPLING GROWTH MULTIPLIERS.
 C----------
