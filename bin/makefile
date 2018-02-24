@@ -77,8 +77,8 @@ $(info CCprf: $(CCprf))
 
 export FC = gfortran 
 #export FFLAGS = $(PIC) -g -Wall -fbacktrace 
-export FFLAGS = $(PIC) -g -Wall -fbacktrace -ffpe-trap=invalid,zero,denormal -fcheck=bounds
-#export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
+#export FFLAGS = $(PIC) -g -Wall -fbacktrace -ffpe-trap=invalid,zero,denormal -fcheck=bounds
+export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace -fcheck=all -fcheck=bounds
 export CC = gcc
 # Adding optimization (-O2 does not help execution speed much but slows compile time a lot

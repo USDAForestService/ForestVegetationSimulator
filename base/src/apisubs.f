@@ -768,12 +768,11 @@ c     indx    = species index
 
       integer :: ncsID,ncCN,ncmID
       character(len=26) sID
-      character(len=4)  mID
       character(len=40) sCN
-      
-      sID = NPLT
-      mID = MGMID
-      sCN = DBCN
+      character(len=4)  mID
+      sID = trim(NPLT)
+      sCN = trim(DBCN)
+      mID = trim(MGMID)
       ncsID = len_trim(NPLT)
       ncCN  = len_trim(DBCN)
       ncmID = len_trim(MGMID)

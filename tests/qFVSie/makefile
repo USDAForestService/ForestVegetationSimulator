@@ -48,7 +48,7 @@ calibStats :
 	-$(WINE) ../../bin/qFVSie --keywordfile=calibStats.key 
 	-sqlite3 calibStats.db ".header on" "select StandID,TreeSize,Species,NumTrees,round(ScaleFactor,3),round(StdErrRatio,2) from FVS_CalibStats" > calibStats_dump.txt
 	-diff -w calibStats_dump.txt calibStats_dump.txt.save
-	@echo Test ie ended
+	@echo Test calibStats ended
 
 econdb :
 	@echo Test econ database read and write
