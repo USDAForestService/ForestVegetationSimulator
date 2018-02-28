@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMDWVOL(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE DOWN WOOD VOLUME REPORT
@@ -191,7 +191,7 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -           SQL_NULL_PTR)
 
       DO I=1,VARDIM
-        ColNumber=ColNumber+1
+        ColNumber=INT(ColNumber+1)
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -    SQL_PARAM_INPUT,
      -    SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
@@ -199,7 +199,6 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -           SQL_NULL_PTR)
       ENDDO
 
-  100 CONTINUE
 
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)

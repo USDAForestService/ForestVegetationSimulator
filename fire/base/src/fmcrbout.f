@@ -1,7 +1,7 @@
       SUBROUTINE FMCRBOUT (IYR)
       IMPLICIT NONE
 C----------
-C  $Id: fmcrbout.f 709 2013-03-19 22:06:06Z drobinsonessa@gmail.com $
+C FIRE-BASE $Id: fmcrbout.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMMAIN
@@ -39,7 +39,7 @@ C     VARIABLE DECLARATIONS
       INTEGER   JS
       REAL      VT, X, H, D
       REAL      V(11)
-      REAL      ABIO, MBIO, RBIO, XDCAY
+      REAL      ABIO, MBIO, RBIO
 
 C     CHECK FOR DEBUG.
 

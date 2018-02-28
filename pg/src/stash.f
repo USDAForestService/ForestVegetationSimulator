@@ -1,7 +1,7 @@
       SUBROUTINE STASH (BUFFER,ILIMIT)
       IMPLICIT NONE
 C----------
-C	$Id$
+C PG $Id$
 C----------
 C
 C     STASH A BUFFER FULL OF DATA

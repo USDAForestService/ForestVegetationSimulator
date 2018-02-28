@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r8clkdib.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 C YW 2016/03/08 Modofied the DIB calculation for TOPHT less than 17.3 to avoid Nan vaue error.
       SUBROUTINE R8PREPCOEF(VOLEQ, COEFFS, ERRFLAG)
       USE CLKCOEF_MOD
@@ -14,11 +17,13 @@ C      *** LOCAL VARIABLES ***
       INCLUDE 'R8CLKCOEF.INC'
       INCLUDE 'R8DIB.INC'
 
-
+      SPECPR = 0
+      EQNPR = 0
+      GEOAPR = 0
 
       READ(VOLEQ(8:10),'(I3)')SPEC
       READ(VOLEQ(2:2),'(I1)')GEOA
-	
+
       IF (GEOA.LT.1 .OR. GEOA.GT.9 .OR. GEOA.EQ.8)THEN
          ERRFLAG = 1
          GO TO 999
@@ -63,32 +68,32 @@ C     BINARY SEARCH FOR CORRECT COEFFICIENTS
       LAST = 182
       DO 5, WHILE (DONEFLAG.EQ.0)
          IF(FIRST.EQ.LAST) LASTFLAG = 1
-	!DETERMINE WHERE TO CHECK
+C  DETERMINE WHERE TO CHECK
           HALF=((LAST-FIRST+1)/2) + FIRST   
 
-          CHECK=R8CF(HALF,1)*1000+R8CF(HALF,2)
-	!FOUND THE COEFFECIENTS
+          CHECK= INT(R8CF(HALF,1)*1000. + R8CF(HALF,2))
+C  FOUND THE COEFFECIENTS
           IF(GSPEC.EQ.CHECK)THEN      
              PTR = HALF
              DONEFLAG=1
-	!MOVE DOWN THE LIST
+C  MOVE DOWN THE LIST
           ELSEIF(GSPEC.GT.CHECK)THEN  
              FIRST = HALF
-	!MOVE UP THE LIST
+C  MOVE UP THE LIST
           ELSEIF(GSPEC.LT.CHECK)THEN   
              LAST = HALF - 1
           ENDIF
-	!DID NOT FIND A MATCH
+C  DID NOT FIND A MATCH
           IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0)THEN   
-	!END ROUTINE, NO MATCH
-	       IF(GEOA.EQ.9) THEN   
+C  END ROUTINE, NO MATCH
+             IF(GEOA.EQ.9) THEN   
                 SPECPR = 0
                 EQNPR = 0
                 GEOAPR = 0
                 ERRFLAG = 6
                 GO TO 999
-	!SET GEOAPR TO 9 AND RETRY THE SEARCH
-	       ELSE                  
+C  SET GEOAPR TO 9 AND RETRY THE SEARCH
+             ELSE                  
                 GEOA = 9
                 GSPEC = GEOA*1000 + SPEC
                 FIRST = 1
@@ -100,7 +105,7 @@ C     BINARY SEARCH FOR CORRECT COEFFICIENTS
 
 C     END BINARY SEARCH
 
-      SPGRP = R8CF(PTR,3) + .5                 
+      SPGRP = INT(R8CF(PTR,3) + .5)                
       IF (SPGRP.NE.100 .AND. SPGRP.NE.300 .AND. SPGRP.NE.500)THEN
         ERRFLAG = 6
         GO TO 999
@@ -115,21 +120,21 @@ C     END BINARY SEARCH
       LAST = 49
       DO 10, WHILE (DONEFLAG.EQ.0)
          IF(FIRST.EQ.LAST) LASTFLAG = 1
-	!DETERMINE WHERE TO CHECK
+C  DETERMINE WHERE TO CHECK
          HALF=((LAST-FIRST+1)/2) + FIRST   
           
-	!FOUND THE COEFFECIENTS
+C  FOUND THE COEFFECIENTS
          IF((INT(DIBMEN(HALF,1)+.5)).EQ.SPEC) THEN      
             DIBCNT = HALF
             DONEFLAG=1
-	!MOVE DOWN THE LIST
+C  MOVE DOWN THE LIST
          ELSEIF((INT(DIBMEN(HALF,1)+.5)).GT.SPEC)THEN  
             LAST = HALF -1
-	!MOVE UP THE LIST
+C  MOVE UP THE LIST
          ELSEIF((INT(DIBMEN(HALF,1)+.5)).LT.SPEC)THEN   
             FIRST = HALF
          ENDIF
-	!DID NOT FIND A MATCH
+C  DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -153,21 +158,21 @@ C***********************************************************************
          LAST = 49
          DO 20, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-	!DETERMINE WHERE TO CHECK
+C  DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST   
           
-	!FOUND THE COEFFECIENTS
+C  FOUND THE COEFFECIENTS
             IF((INT(TOTAL(HALF,1)+.5)) .EQ. SPEC)THEN      
                TOTCNT = HALF
                DONEFLAG=1
-	!MOVE DOWN THE LIST
+C  MOVE DOWN THE LIST
             ELSEIF((INT(TOTAL(HALF,1)+.5)).GT.SPEC)THEN  
                LAST = HALF -1
-	!MOVE UP THE LIST
+C  MOVE UP THE LIST
             ELSEIF((INT(TOTAL(HALF,1)+.5)).LT.SPEC)THEN   
                FIRST = HALF 
             ENDIF
-	!DID NOT FIND A MATCH
+C  DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0)THEN
                ERRFLAG = 6
                GO TO 999   
@@ -190,21 +195,21 @@ C***********************************************************************
          LAST = 49
          DO 40, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-	!DETERMINE WHERE TO CHECK
+C  DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST   
           
-	!FOUND THE COEFFECIENTS
+C  FOUND THE COEFFECIENTS
             IF((INT(FOUR(HALF,1)+.5)) .EQ. SPEC)THEN
                FOURCNT = HALF
                DONEFLAG=1
-	!MOVE DOWN THE LIST
+C  MOVE DOWN THE LIST
             ELSEIF((INT(FOUR(HALF,1)+.5)).GT.SPEC)THEN
                LAST = HALF -1
-	!MOVE UP THE LIST
+C  MOVE UP THE LIST
             ELSEIF((INT(FOUR(HALF,1)+.5)).LT.SPEC)THEN
                FIRST = HALF
             ENDIF
-	!DID NOT FIND A MATCH
+C  DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -247,21 +252,21 @@ C***********************************************************************
          LAST = 34
          DO 80, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-	!DETERMINE WHERE TO CHECK
+C  DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST
           
-	!FOUND THE COEFFECIENTS
+C  FOUND THE COEFFECIENTS
             IF((INT(NINE(HALF,1)+.5)) .EQ. SPEC)THEN
                NINECNT = HALF
                DONEFLAG=1
-	!MOVE DOWN THE LIST
+C  MOVE DOWN THE LIST
             ELSEIF((INT(NINE(HALF,1)+.5)).GT.SPEC)THEN
                LAST = HALF -1
-	!MOVE UP THE LIST
+C  MOVE UP THE LIST
             ELSEIF((INT(NINE(HALF,1)+.5)).LT.SPEC)THEN
                FIRST = HALF
             ENDIF
-	!DID NOT FIND A MATCH
+C  DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -296,7 +301,6 @@ C-------------------------------------------------------------------------------
       INTEGER ERRFLAG, EQN, IS, IB, IT, IM
       REAL DBHOB, HTTOT, HTUP, DIB, DIB17, DBHIB, TOPHT, HIGHHT,UPSHT1
       REAL R,C,E,P,B,A,Q, A17, B17, DX, AD, BD, VOLTMP(15)
-      INTEGER SI, BA
       REAL HTONE, HTTWO, MTOPP
 
 c      INCLUDE 'R8CLKCOEF.INC'

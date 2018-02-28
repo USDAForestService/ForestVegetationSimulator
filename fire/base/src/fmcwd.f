@@ -1,7 +1,7 @@
       SUBROUTINE FMCWD(IYR)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id: fmcwd.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C     CALLED FROM: FMSNAG
 C                  FMMAIN
@@ -36,19 +36,20 @@ C.... Common include files.
       INCLUDE 'CONTRL.F77'
 
 C.... Variable declarations.
+C
+C  SEE LINES 368-377
+C     LOGICAL LMERCH
 
-      LOGICAL LCUTS, DEBUG, LMERCH
+      LOGICAL LCUTS, DEBUG
       INTEGER I, J, K, L
       INTEGER SP, IDCL, IYR
       INTEGER ISNG, KSP
-      REAL    D, DIAM, HTD, XGET, AMT
-      REAL    DISIN, HTH, X, Y, Z, Q, ADD
+      REAL    D, DIAM, HTD, AMT
+      REAL    DISIN, HTH, X, Y, ADD
       REAL    TVOLI, R1, R1SQ, R2SQ, P1, P2, SDIFF, S2
       REAL    HIHT(2), LOHT(2), DIS, DIH, OLDHTH, OLDHTS
       REAL    VHI(2), VLO(2), RHRAT, DIF, HICUT, LOCUT
       REAL    BP(0:9), BPH(0:9), SCNV(2), TOSOFT
-      REAL    DIF3, SDIF3, BARK, VOL3, VOL4, BEHRE, BRATIO
-      LOGICAL LCONE
 
 
 C     Conventional breakpoints for fuel size categories.

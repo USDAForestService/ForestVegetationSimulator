@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: INTL78.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  03-29-2004
       SUBROUTINE INTL78 (DBHOB, HT1PRD, VOL,ERRFLAG)
 
@@ -54,7 +57,7 @@ C    PROGRAM INTERNATIONAL 1/4 FORM CLASS 78
         RETURN
       ENDIF
  
-      INDEX = ANINT(DBHOB) - 9
+      INDEX = INT(ANINT(DBHOB) - 9.)
       THT1 = HT1PRD / 10.0
 
       IF (INDEX.LE.0) THEN

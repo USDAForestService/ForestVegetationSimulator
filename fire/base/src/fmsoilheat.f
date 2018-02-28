@@ -51,12 +51,12 @@ C
       real smcat(4), duffcat(4), algslp
       real MOIS1(2,5), MOIS2(2,5), MOIS3(2,5), MOIS4(2,5), soilmois
 
-#if _WIN64
+C if _WIN64
       !DEC$ ATTRIBUTES DLLIMPORT :: FM_FOFEM
-#else
+C else
       !DEC$ ATTRIBUTES DLLIMPORT :: FM_FOFEM
       !DEC$ ATTRIBUTES ALIAS:'_FM_FOFEM' :: FM_FOFEM
-#endif
+C endif
 
       integer fm_fofem
       
@@ -156,12 +156,12 @@ C     use duff moisture to determine the soil moisture and moisture code
       IF (MOIS(1,5) .LE. ((MOIS1(1,5) + MOIS2(1,5))/2)) THEN
         moiscode = 1
       ELSEIF (MOIS(1,5) .LE. ((MOIS2(1,5) + MOIS3(1,5))/2)) THEN
-        moiscode = 2	
-      ELSEIF (MOIS(1,5) .LE. ((MOIS3(1,5) + MOIS4(1,5))/2)) THEN      		
+        moiscode = 2
+      ELSEIF (MOIS(1,5) .LE. ((MOIS3(1,5) + MOIS4(1,5))/2)) THEN
         moiscode = 3
       ELSE
-      	moiscode = 4	
-      ENDIF	
+        moiscode = 4
+      ENDIF
 
       ! Soil Moisture
       fofem_input ( 23 +1) = soilmois
@@ -173,11 +173,11 @@ C     use duff moisture to determine the soil moisture and moisture code
       fofem_input ( 26 +1) = 1
 
       IF (BURNSEAS .EQ. 4) THEN
-      	seasnum = 3
+        seasnum = 3
       ELSEIF (BURNSEAS .EQ. 3) THEN
         seasnum = 2
       ELSE
-      	seasnum = 1
+        seasnum = 1
       ENDIF
 
       ! Season, 1-Spring, 2-Summer, 3-Fall, 4-Winter

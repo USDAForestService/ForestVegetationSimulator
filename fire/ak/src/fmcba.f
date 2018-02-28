@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-AK-DATE OF LAST REVISION:  12/23/14
+C FIRE-AK $Id: fmcba.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -50,15 +50,15 @@ C     Variable declarations.
       REAL      BAMOST, TOTCRA, CWIDTH
       REAL FULIVE(2,MAXSP), FULIVI(2,MAXSP)
       REAL FUINI(MXFLCL,6)
-      REAL STFUEL(MXFLCL,2),XCOV(2),YLOAD(2),DCYMLT, FOTOVAL(MXFLCL)
+      REAL STFUEL(MXFLCL,2),XCOV(2),YLOAD(2),FOTOVAL(MXFLCL)
       REAL PRMS(12), FOTOVALS(9)
       LOGICAL DEBUG
 
       INTEGER MYACT(3), FTDEADFU
 
       INTEGER IYR,KSP,I,ISZ,J,NPRM,IACTK,ISWTCH,JYR,IDC
-      INTEGER ICT(MAXSP),IFGS,IWET
-      REAL    BIGDBH,TOTBA,XX,CAREA,ALGSLP,PRCL,ADD
+      INTEGER ICT(MAXSP)
+      REAL    BIGDBH,TOTBA,CAREA,ALGSLP,PRCL,ADD
 
 C     BREAKPOINTS (% CC) OF INTERPOLATION FUNCTION TO PROVIDE WEIGHTED
 C     ESTIMATE OF LIVE (EVERY TIMESTEP) AND DEAD (INITIAL) FUEL
@@ -71,16 +71,16 @@ C                  herbs, shrubs
       DATA FULIVE /
      >             0.30, 0.20, ! 1 = white spruce - use PN Engelmann spruce
      >             0.20, 0.20, ! 2 = western redcedar
-     >             0.15, 0.10, ! 3 = Pacific silver fir 
-     >             0.15, 0.20, ! 4 = mountain hemlock   
-     >             0.20, 0.20, ! 5 = western hemlock    
-     >             0.20, 0.20, ! 6 = Alaska cedar    
-     >             0.20, 0.10, ! 7 = lodgepole pine  
-     >             0.30, 0.20, ! 8 = Sitka spruce 
-     >             0.15, 0.10, ! 9 = subalpine fir      
-     >             0.20, 0.20, !10 = red alder    
-     >             0.25, 0.25, !11 = black cottonwood - use QA Ottmar and others 2000b   
-     >             0.25, 0.25, !12 = other hardwoods - use QA Ottmar and others 2000b             
+     >             0.15, 0.10, ! 3 = Pacific silver fir
+     >             0.15, 0.20, ! 4 = mountain hemlock
+     >             0.20, 0.20, ! 5 = western hemlock
+     >             0.20, 0.20, ! 6 = Alaska cedar
+     >             0.20, 0.10, ! 7 = lodgepole pine
+     >             0.30, 0.20, ! 8 = Sitka spruce
+     >             0.15, 0.10, ! 9 = subalpine fir
+     >             0.20, 0.20, !10 = red alder
+     >             0.25, 0.25, !11 = black cottonwood - use QA Ottmar and others 2000b
+     >             0.25, 0.25, !12 = other hardwoods - use QA Ottmar and others 2000b
      >             0.15, 0.10/ !13 = other softwoods (use PSF)
 
 
@@ -91,15 +91,15 @@ C                  herbs, shrubs
      >             0.30, 2.00, ! 1 = white spruce - use PN Engelmann spruce
      >             0.40, 2.00, ! 2 = western redcedar
      >             0.30, 2.00, ! 3 = Pacific silver fir
-     >             0.30, 2.00, ! 4 = mountain hemlock     
-     >             0.40, 2.00, ! 5 = western hemlock     
+     >             0.30, 2.00, ! 4 = mountain hemlock
+     >             0.40, 2.00, ! 5 = western hemlock
      >             0.40, 2.00, ! 6 = Alaska cedar
-     >             0.40, 1.00, ! 7 = lodgepole pine     
-     >             0.30, 2.00, ! 8 = Sitka spruce      
-     >             0.30, 2.00, ! 9 = subalpine fir 
+     >             0.40, 1.00, ! 7 = lodgepole pine
+     >             0.30, 2.00, ! 8 = Sitka spruce
+     >             0.30, 2.00, ! 9 = subalpine fir
      >             0.40, 2.00, !10 = red alder
-     >             0.18, 1.32, !11 = black cottonwood - use QA Ottmar and others 2000b     
-     >             0.18, 1.32, !12 = other hardwoods - use QA Ottmar and others 2000b      
+     >             0.18, 1.32, !11 = black cottonwood - use QA Ottmar and others 2000b
+     >             0.18, 1.32, !12 = other hardwoods - use QA Ottmar and others 2000b
      >             0.30, 2.00/ !13 = other softwoods (use PSF)
 
 C     INITIAL FUEL LOADING BASED ON FIA FOREST TYPE CODE
@@ -109,9 +109,9 @@ C     <.25 to1  1-3 3-6  6-12 12-20 20-35 35-50 >50 Lit Duf
      &0.12, 0.24, 0.56,0.27,1.00, 2.61, 0.0, 0.0, 0.0, 2.95, 39.20, ! 1 = mountain hemlock
      &0.12, 0.24, 0.42,0.46,1.54, 5.81, 0.0, 0.0, 0.0, 3.23, 62.46, ! 2 = Alaska yellow cedar
      &0.23, 0.46, 1.14,0.66,2.01,22.47, 0.0, 0.0, 0.0, 4.53, 50.75, ! 3 = western hemlock
-     &0.41, 0.72, 2.23,1.44,5.14,15.79, 0.0, 0.0, 0.0, 4.94, 30.62, ! 4 = sitka spruce 
-     &0.22, 0.56, 1.25,0.07,0.11, 0.02, 0.0, 0.0, 0.0, 3.01,  8.61, ! 5 = cottonwood       
-     &0.22, 0.47, 1.62,0.62,2.88, 7.99, 0.0, 0.0, 0.0, 5.35, 46.41/ ! 6 = others       
+     &0.41, 0.72, 2.23,1.44,5.14,15.79, 0.0, 0.0, 0.0, 4.94, 30.62, ! 4 = sitka spruce
+     &0.22, 0.56, 1.25,0.07,0.11, 0.02, 0.0, 0.0, 0.0, 3.01,  8.61, ! 5 = cottonwood
+     &0.22, 0.47, 1.62,0.62,2.88, 7.99, 0.0, 0.0, 0.0, 5.35, 46.41/ ! 6 = others
 
       DATA MYACT / 2521, 2548, 2553 /
 
@@ -230,15 +230,15 @@ C----------
 C  LOAD DEAD FUELS AS A FUNCTION OF FOREST TYPE.
 C----------
          SELECT CASE (IFORTP)
-         CASE(270)          
+         CASE(270)
            FTDEADFU = 1 !mountain hemlock
-         CASE(271)        
+         CASE(271)
            FTDEADFU = 2 !alaska yellow cedar
-         CASE(301)          
+         CASE(301)
            FTDEADFU = 3 !western hemlock
-         CASE(305)          
+         CASE(305)
            FTDEADFU = 4 !sitka spruce
-         CASE(703)          
+         CASE(703)
            FTDEADFU = 5 !cottonwood
          CASE DEFAULT
            FTDEADFU = 6 !others
@@ -255,7 +255,7 @@ C       CHANGE THE INITIAL FUEL LEVELS BASED ON PHOTO SERIES INFO INPUT
         IF (J .GT. 0) THEN
           CALL OPGET(J,2,JYR,IACTK,NPRM,PRMS)
           IF ((PRMS(1) .GE. 0) .AND. (PRMS(2) .GE. 0)) THEN
-            CALL FMPHOTOVAL(NINT(PRMS(1)), NINT(PRMS(2)), FOTOVAL, 
+            CALL FMPHOTOVAL(NINT(PRMS(1)), NINT(PRMS(2)), FOTOVAL,
      >                      FOTOVALS)
             DO I = 1, MXFLCL
               IF (FOTOVAL(I) .GE. 0) STFUEL(I,2) = FOTOVAL(I)
@@ -267,7 +267,7 @@ C           DON'T MARK EVENT DONE IF THIS IS A CALL FROM SVSTART--WILL
 C           NEED TO REPROCESS EVENT WHEN CALLED FROM FMMAIN.
 
             IF (FOTOVAL(1).GE.0 .AND. ISWTCH.NE.1) CALL OPDONE(J,IYR)
-          ELSE                       
+          ELSE
             WRITE (JOSTND,"(/1X,'*** FFE MODEL WARNING: INCORRECT ',
      &      'PHOTO REFERENCE OR PHOTO CODE ENTERED.  BOTH FIELDS ARE ',
      &      'REQUIRED.',/1X)")
@@ -287,23 +287,23 @@ C       FIRST DO FUELHARD (FUELINIT) THEN FUELSOFT
           IF (PRMS(5) .GE. 0) STFUEL(6,2) = PRMS(5)
           IF (PRMS(6) .GE. 0) STFUEL(10,2) = PRMS(6)
           IF (PRMS(7) .GE. 0) STFUEL(11,2) = PRMS(7)
-          IF (PRMS(8) .GE. 0) STFUEL(1,2) = PRMS(8)          
-          IF (PRMS(9) .GE. 0) STFUEL(2,2) = PRMS(9)           
+          IF (PRMS(8) .GE. 0) STFUEL(1,2) = PRMS(8)
+          IF (PRMS(9) .GE. 0) STFUEL(2,2) = PRMS(9)
           IF (PRMS(1) .GE. 0) THEN
             IF ((PRMS(8) .LT. 0) .AND. (PRMS(9) .LT. 0)) THEN
               STFUEL(1,2) = PRMS(1) * 0.5
               STFUEL(2,2) = PRMS(1) * 0.5
-            ENDIF                 
+            ENDIF
             IF ((PRMS(8) .LT. 0) .AND. (PRMS(9) .GE. 0)) THEN
               STFUEL(1,2) = MAX(PRMS(1) - PRMS(9),0.)
-            ENDIF  
+            ENDIF
             IF ((PRMS(8) .GE. 0) .AND. (PRMS(9) .LT. 0)) THEN
               STFUEL(2,2) = MAX(PRMS(1) - PRMS(8),0.)
-            ENDIF  
-          ENDIF                
-          IF (PRMS(10) .GE. 0) STFUEL(7,2) = PRMS(10) 
-          IF (PRMS(11) .GE. 0) STFUEL(8,2) = PRMS(11) 
-          IF (PRMS(12) .GE. 0) STFUEL(9,2) = PRMS(12)  
+            ENDIF
+          ENDIF
+          IF (PRMS(10) .GE. 0) STFUEL(7,2) = PRMS(10)
+          IF (PRMS(11) .GE. 0) STFUEL(8,2) = PRMS(11)
+          IF (PRMS(12) .GE. 0) STFUEL(9,2) = PRMS(12)
 
 C         DON'T MARK EVENT DONE IF THIS IS A CALL FROM SVSTART--WILL
 C         NEED TO REPROCESS EVENT WHEN CALLED FROM FMMAIN.
@@ -320,9 +320,9 @@ C         NEED TO REPROCESS EVENT WHEN CALLED FROM FMMAIN.
           IF (PRMS(4) .GE. 0) STFUEL(4,1) = PRMS(4)
           IF (PRMS(5) .GE. 0) STFUEL(5,1) = PRMS(5)
           IF (PRMS(6) .GE. 0) STFUEL(6,1) = PRMS(6)
-          IF (PRMS(7) .GE. 0) STFUEL(7,1) = PRMS(7)          
-          IF (PRMS(8) .GE. 0) STFUEL(8,1) = PRMS(8)                           
-          IF (PRMS(9) .GE. 0) STFUEL(9,1) = PRMS(9)           
+          IF (PRMS(7) .GE. 0) STFUEL(7,1) = PRMS(7)
+          IF (PRMS(8) .GE. 0) STFUEL(8,1) = PRMS(8)
+          IF (PRMS(9) .GE. 0) STFUEL(9,1) = PRMS(9)
 
 C         DON'T MARK EVENT DONE IF THIS IS A CALL FROM SVSTART--WILL
 C         NEED TO REPROCESS EVENT WHEN CALLED FROM FMMAIN.

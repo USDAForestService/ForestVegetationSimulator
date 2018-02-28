@@ -1,7 +1,7 @@
       SUBROUTINE FVSBRUCEDEMARS(VN,VM,VMAX,D,H,ISPC,BARK,LCONE,CTKFLG)
       IMPLICIT NONE
 C----------
-C VOLUME $Id
+C VOLUME $Id$
 C----------
 C  This routine calculates volumes for the AK variant using
 C  the Bruce and Demars method METHC = 8
@@ -21,7 +21,7 @@ C
       INCLUDE 'CONTRL.F77'
 C
 
-      REAL VMAX,BARK,H,D,BBFV,VM,VN,DBT,BBF,VVN,VOLT
+      REAL VMAX,BARK,H,D,VM,VN,BBF,VVN,VOLT
       REAL DMRCH,HTMRCH,VOLM,S3,STUMP
       REAL BEHRE
       INTEGER ISPC

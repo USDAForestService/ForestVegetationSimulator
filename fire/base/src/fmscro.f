@@ -1,7 +1,7 @@
       SUBROUTINE FMSCRO (I,SP,DEADYR,DSNAGS,ICALL)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMSADD
@@ -62,7 +62,7 @@ Cppe  INCLUDE 'PPCNTL.F77'
 C.... Variable declarations.
       INTEGER I, SP, DEADYR, SIZE, DKCL, IYR, ILIFE, YNEXTY,FALLYR
       REAL    DSNAGS, TSOFT, RLIFE, ANNUAL, NEWBOT, OLDBOT, X
-      INTEGER ICALL, JYRSOFT, JADJ, JSML
+      INTEGER ICALL
       REAL    YRSCYC
       CHARACTER VVER*7
       LOGICAL  DEBUG
@@ -168,7 +168,7 @@ C           where we need to put the stuff.
             IF (ICALL .NE. 4) THEN
                CWD2B2(DKCL,SIZE,FALLYR) = CWD2B2(DKCL,SIZE,FALLYR) 
      >                                   + ANNUAL
-	    ELSE
+      ELSE
                CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
      >                                   + ANNUAL
             ENDIF

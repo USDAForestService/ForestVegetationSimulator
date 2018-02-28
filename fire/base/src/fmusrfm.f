@@ -1,8 +1,7 @@
       SUBROUTINE FMUSRFM (IYR, FMD)
       IMPLICIT NONE
 C----------
-C  $Id$
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C     PROCESSES THE FUELMODL KEYWORD AND THE FUELTRET KEYWORD.
 C
@@ -55,8 +54,8 @@ C          IF (JYR .NE. IYR) GO TO 400
 
 C         SET THE FIRECALC PARAMETER VALUES.
 
-          IFLOGIC = PRMS(1)
-          IFMSET  = PRMS(2)
+          IFLOGIC = INT(PRMS(1))
+          IFMSET  = INT(PRMS(2))
           USAV(1) = PRMS(3)
           USAV(2) = PRMS(4)
           USAV(3) = PRMS(5)

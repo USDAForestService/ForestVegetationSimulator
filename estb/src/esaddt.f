@@ -1,7 +1,7 @@
       SUBROUTINE ESADDT(ICALL)
       IMPLICIT NONE
 C----------
-C  **ESADDT DATE OF LAST REVISION:  07/25/08
+C ESTB $Id: esaddt.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 
 C     ADD NEW TREES FROM A FILE OR EXTERNAL DATA BASE.
@@ -191,7 +191,7 @@ c             Data requirements for Blue Mountains estab model
                 CLOSE(FNO, STATUS = 'KEEP')
               ENDIF
           END SELECT
-  404   ENDDO
+        ENDDO
       ENDIF
 
       RETURN

@@ -1,7 +1,7 @@
       SUBROUTINE DBSCMPU
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     AUTH: D. GAMMEL -- SEM -- JUNE 2002
 C     PURPOSE: TO POPULATE A DATABASE WITH THE COMPUTE TABLE
@@ -281,7 +281,7 @@ C
 C
 COMMONS
 C
-      INTEGER NUMCMPU,X,THISYR,ID
+      INTEGER NUMCMPU,X,THISYR
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       CHARACTER*7000 SQLStmtStr,SQLStr1,SQLStr2
       CHARACTER*20 TABLENAME,DTYPE
@@ -345,7 +345,7 @@ C
 
       DO X=1,(NUMCMPU)
         CURVAL(X)=KWVALS(X)
-        ColNumber=ColNumber+1
+        ColNumber=INT(ColNumber+1)
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -           SQL_PARAM_INPUT,
      -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),

@@ -1,6 +1,9 @@
 !== last modified  12-3-2008
       SUBROUTINE R3D2HV(VOLEQU,UNT,HTTOT,HT1PRD,DBHOB,DRC,FCLASS,
      >                  HTTFLL,VOL,ERRFLAG)
+C----------
+C VOLUME $Id: r2d2hv.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 
 
 C--  THIS SUBROUTINE DETERMINES THE VOLUME OF A TREE
@@ -57,7 +60,7 @@ C----------------------- APACHE PINE
          IF (D2H.LE.31629.91964) THEN
             SCBDFT=-1.786+0.00098814*D2H
          ELSE
-	      IF(HTTFLL .LE. 0) HTTFLL = 25.0
+            IF(HTTFLL .LE. 0) HTTFLL = 25
 
             SCBDFT=-52.897+(0.12826*HTTFLL)+(0.0017678*D2H)
      >             +(879120.0 / D2H)

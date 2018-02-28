@@ -1,6 +1,6 @@
       REAL FUNCTION MISDGF(ITREE,ISPC)
 ***********************************************************************
-*  **MISDGF--MS  Date of last revision:  12/20/03
+C MISTOE $Id: misdgf.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Calculates the percentage of diameter growth lost periodically
@@ -164,8 +164,6 @@ C.... Force upper and lower bounds on diameter growth.
       IF(MISDGF.LT.0.0) MISDGF=0.0
 
 C.... Common return.
-
- 9000 CONTINUE
 
       IF(DEBUG) WRITE(JOSTND,9010) ICYC, ITREE, IMIST(ITREE), ISPC,
      &   MISDGF

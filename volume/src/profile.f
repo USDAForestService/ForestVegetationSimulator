@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: profile.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
       SUBROUTINE PROFILE (REGN,FORST,VOLEQ,MTOPP,MTOPS,STUMP,DBHOB,
      >   HTTYPE,HTTOT,HTLOG,HT1PRD,HT2PRD,UPSHT1,UPSHT2,UPSD1,UPSD2,
      >   AVGZ1,AVGZ2,HTREF,DBTBH,BTR,LOGDIA,BOLHT,LOGLEN,LOGVOL,VOL,
@@ -82,7 +85,7 @@ c      LOGST = 0      ! commented out for variable log cruising
       JSP = 0
       ERRFLAG = 0
       HTFLG = 0
-	LMERCH = 0
+      LMERCH = 0
       
       DO 102,I=1,20
         DO 103, J=1,7
@@ -116,9 +119,9 @@ c     MRULES IS EXTERNAL AND CONTAINS THE MERCHANDIZING RULES SETTINGS
        
         TOPD = MTOPP
         IF(HTTOT.LE.0) THEN
-	! no total height
+C  no total height
            HTFLG = 1  
-	!do not calc secondary product    
+C  do not calc secondary product    
            IF(HT2PRD.LE.0) MFLAG = 1    
            IF(HTTYPE.EQ.'l' .or. HTTYPE.EQ.'L') THEN
 C--           CHECK FOR VARIABLE LOG CRUISE
@@ -137,35 +140,35 @@ C--           CHECK FOR VARIABLE LOG CRUISE
                     GOTO 1000
                  ENDIF
                  IF(HTLOG .LE. 0)THEN
-	              IF(VOLEQ(1:3).EQ.'A32' .OR. VOLEQ(1:3).EQ.'a32')THEN
-	                  HTLOG = 32
-	              ELSE
-	                  HTLOG = 16
-	              ENDIF
+                   IF(VOLEQ(1:3).EQ.'A32' .OR. VOLEQ(1:3).EQ.'a32')THEN
+                     HTLOG = 32
+                   ELSE
+                     HTLOG = 16
+                   ENDIF
                  ENDIF
-	           IF(HTLOG .GE. 32) THEN
-                    TRM = TRIM * 2
-	           ELSE
-	              TRM = TRIM
-	           ENDIF
+                 IF(HTLOG .GE. 32) THEN
+                   TRM = TRIM * 2
+                 ELSE
+                   TRM = TRIM
+                 ENDIF
                  MHT = (LHT * (HTLOG + TRM)) + STUMP
               ENDIF
                
            ELSE
               if(ht2prd .gt. 0)then
-	          mht = ht2prd + stump
-	          topd = mtops
-    	          if(ht1prd .gt. 0) then
-	             UPSHT1 = ht1prd + stump
-	             UPSD1 = MTOPP
-            	 else
-	             UPSHT1 = 0
-	          endif
+                mht = ht2prd + stump
+                topd = mtops
+                if(ht1prd .gt. 0) then
+                UPSHT1 = ht1prd + stump
+                UPSD1 = MTOPP
+              else
+                UPSHT1 = 0
+              endif
 
-	        else
-                MHT = HT1PRD + STUMP
-	          topd = mtopp
-	        endif
+          else
+            MHT = HT1PRD + STUMP
+            topd = mtopp
+          endif
            ENDIF
         endif
         
@@ -181,10 +184,10 @@ C--   Initialize Flewelling model for this tree
            AVGZ2 = ZEX(2)
 
           IF(ERRFLAG .EQ. 1 .or. errflag.eq.6)  GO TO 1000
-	  
+  
           IF(ERRFLAG .EQ. 11)THEN
 C         USE ITERPOLATION ROUTINE 11/02
-	      CALL VOLINTRP(REGN,VOLEQ,DBHOB,LHT,MHT,MTOPP,HTTYPE,DBTBH,
+            CALL VOLINTRP(REGN,VOLEQ,DBHOB,LHT,MHT,MTOPP,HTTYPE,DBTBH,
      >           LOGVOL,LOGDIA,HTLOG,LOGLEN,LOGST,NOLOGP,VOL,CTYPE,PROD,
      >           ERRFLAG)
             GO TO 1000  
@@ -201,8 +204,8 @@ C           IF(HT1PRD.LE.0) HT1PRD = LMERCH + STUMP
       ELSEIF (VOLEQ(4:6).EQ.'CZ3' .OR. VOLEQ(4:6).EQ.'cz3') THEN
 C        initialize Czaplewski three point model
          IF(HTTOT.LE.4.5)THEN
-	      ERRFLAG = 4
-	      GOTO 1000
+           ERRFLAG = 4
+           GOTO 1000
          ENDIF
          UHT = HTTOT * 0.95
          if(UPSHT1.LE.0 .or. UPSD1.LE.0) THEN 
@@ -222,8 +225,8 @@ C        initialize Czaplewski three point model
 
 C       CHECK FOR TOTAL TREE HEIGHT
         IF(HTTOT.LE.4.5)THEN
-	     ERRFLAG = 4
-	     GOTO 1000
+          ERRFLAG = 4
+          GOTO 1000
         ENDIF
       ENDIF
 
@@ -238,9 +241,9 @@ C--   SUBROUTINE "TCUBIC" IS INTERNAL AND USES PROFILE MODEL
      >           MTOPP,HEX,DEX,ZEX,RHFW,RFLW,TAPCOE,F,FMOD,PINV_Z,TOP6,
      >           TCVOL,slope,errflag,VOL,MTOPS)
         VOL(1) = NINT(TCVOL * 10.0) * 1E-1       
-	  if(drcob.le.0 .and. ctype.eq.'F')then
-	      drcob = dex(2)
-	  endif
+        if(drcob.le.0 .and. ctype.eq.'F')then
+          drcob = dex(2)
+        endif
       ENDIF
 
       IF (DEBUG%MODEL) THEN
@@ -269,15 +272,15 @@ C--      CHECK FOR VARIABLE LOG CRUISE
                !MERCH HEIGHT ENTERED
               IF(HT1PRD.GT.0) THEN  
                  LMERCH = HT1PRD - STUMP
-	            ! TOTAL HEIGHT ENTERED, FIND TOP DIAMETER
+C                TOTAL HEIGHT ENTERED, FIND TOP DIAMETER
                  IF(HTFLG.EQ.0) THEN  
                    CALL TAPERMODEL(VOLEQ,FORST,JSP,NEXTRA,SETOPT,DBHOB,
      >              HTTOT,DBTBH,HEX,DEX,ZEX,RHFW,RFLW,TAPCOE,F,FMOD,
      >              PINV_Z,TOP6,HT1PRD,MTOPP,MFLG,CUVOL,DIB,DOB,errflag)
                   
                      MTOPP = DIB
-	           ENDIF
-	            !NO MERCH HT, TOTAL HEIGHT
+              ENDIF
+C             NO MERCH HT, TOTAL HEIGHT
               ELSE IF (HT1PRD.EQ.0 .AND. HTFLG.EQ.0) THEN  
 C--           SUBROUTINE "MERLEN" IS INTERNAL AND USES PROFILE MODEL
 C--           LMERCH IS THE MERCHANTABLE LENGTH FROM STUMP TO SPECIFIED TOP, INCLUDING TRIM.
@@ -294,9 +297,9 @@ C--   CHECK FOR REGION 5 FIREWOOD LOGIC
             CALL FIREWOOD (VOLEQ,FORST,JSP,NEXTRA,SETOPT,DBHOB,HTTOT,
      >           LMERCH,DBTBH,MTOPP,STUMP,HEX,DEX,ZEX,RHFW,RFLW,
      >           TAPCOE,F,FMOD,PINV_Z,TOP6,TCVOL,slope,errflag)
-	      VOL(4) = TCVOL
-	      GO TO 500
-	    ENDIF
+            VOL(4) = TCVOL
+            GO TO 500
+          ENDIF
           
 C--    CHECK FOR A MINIMUM MERCH STEM LENGTH - IF NOT MERCH DO NOT
 C--            CACULATE PRODUCT VOLUMES
@@ -406,64 +409,64 @@ c           truncate diameter for 32foot board 6/2001
             LENGTH = LOGLEN(I) + loglen(I-1)
             CALL SCRIB (DIB,LENGTH,COR,LOGV)
             LOGVOL32(LCNT) = LOGV
-	      LVOL32(1,LCNT) = LOGV*10
-	      LDIA32(LCNT,1)= DIB
-	      LDIA32(LCNT,2) = LOGDIA(I+1,2)
-	      LLEN32(LCNT) = LENGTH
+            LVOL32(1,LCNT) = LOGV*10
+            LDIA32(LCNT,1)= DIB
+            LDIA32(LCNT,2) = LOGDIA(I+1,2)
+            LLEN32(LCNT) = LENGTH
   260    CONTINUE
 C    check for a 16 foot top log
-	   IF(((NUMSEG+1)/2) .GT. (NUMSEG/2)) THEN
+         IF(((NUMSEG+1)/2) .GT. (NUMSEG/2)) THEN
             LCNT = LCNT + 1
             DIB = INT(LOGDIA(NUMSEG+1,2))
             LENGTH = LOGLEN(NUMSEG)
             IF(REGN.EQ.7 .AND. LENGTH.LT.16) THEN
-	         LOGV = 0
-	      ELSE
-               CALL SCRIB (DIB,LENGTH,COR,LOGV)
-	      ENDIF
+              LOGV = 0
+            ELSE
+              CALL SCRIB (DIB,LENGTH,COR,LOGV)
+            ENDIF
             LOGVOL32(LCNT) = LOGV
-	      LVOL32(1,LCNT) = LOGV*10
-	      LDIA32(LCNT,1)= DIB
-	      LDIA32(LCNT,2) = LOGDIA(NUMSEG+1,2)
-	      LLEN32(LCNT) = LENGTH
-         ENDIF	      
+            LVOL32(1,LCNT) = LOGV*10
+            LDIA32(LCNT,1)= DIB
+            LDIA32(LCNT,2) = LOGDIA(NUMSEG+1,2)
+            LLEN32(LCNT) = LENGTH
+         ENDIF      
             
          IF(REGN.EQ.10 .AND. HTLOG.EQ.32)THEN
-	      DO 263 I=1,NUMSEG
-	         LOGVOL(1,I) = 0
-  263 	   CONTINUE
+         DO 263 I=1,NUMSEG
+           LOGVOL(1,I) = 0
+  263      CONTINUE
             NLCNT = (NUMSEG + 1) / 2
-	      DO 264 I=1,NLCNT
-	         LOGVOL(1,I) = LVOL32(1,I)
+         DO 264 I=1,NLCNT
+            LOGVOL(1,I) = LVOL32(1,I)
   264       CONTINUE
-	   ELSE
+         ELSE
 c    prorate 32 volumes into 16 foot pieces
             LCNT = 0
              DO 261, i=2,numseg,2
-	         LCNT = LCNT + 1
-  	         if(regn .eq. 7) then
+             LCNT = LCNT + 1
+             if(regn .eq. 7) then
                   logvol(1,I-1) = ANINT(logvol32(lcnt)/2.0)
                   logvol(1,I) = logvol32(lcnt) - logvol(1,i-1) 
-	         else
+             else
                  topv16 = logvol(1,i)
                  botv16 = logvol(1,i-1)
                  R = TOPV16 / (TOPV16 + BOTV16)
-	           if(R .EQ. 0.5)THEN
+                 if(R .EQ. 0.5)THEN
                    logvol(1,I) = INT(logvol32(LCNT) * R)
-	           else
+                 else
                    logvol(1,I) = ANINT(logvol32(LCNT) * R)
-	           endif
-      	         IF(LOGVOL(1,I) .LE. 0) LOGVOL(1,I) = 1     
+                 endif
+                 IF(LOGVOL(1,I) .LE. 0) LOGVOL(1,I) = 1     
                  logvol(1,I-1) = ANINT(logvol32(LCNT) - logvol(1,i)) 
                  IF(cor.eq.'Y') THEN
                    logvol(1,I-1) = logvol(1,I-1) * 10
                    logvol(1,I) = logvol(1,I) * 10 
                  ENDIF
-	         endif
+             endif
   261        CONTINUE
 c     check for top log
-  	       IF(((NUMSEG+1)/2) .GT. (NUMSEG/2)) THEN
-	         LCNT = LCNT + 1
+             IF(((NUMSEG+1)/2) .GT. (NUMSEG/2)) THEN
+               LCNT = LCNT + 1
                LOGVOL(1,NUMSEG) = LOGVOL32(LCNT)
                IF(cor.eq.'Y') LOGVOL(1,NUMSEG) = LOGVOL(1,NUMSEG)*10
              ENDIF
@@ -527,26 +530,26 @@ C     CHECK FOR 32 FOOT LOGS
           LCNT = 0
           DO 351 I = 2, NUMSEG,2
             LCNT = LCNT + 1
-	      LVOL32(2,LCNT) = LOGVOL(4,I) + LOGVOL(4,I-1)
+            LVOL32(2,LCNT) = LOGVOL(4,I) + LOGVOL(4,I-1)
 C           if boardfoot flag is zero, need to compute the following
             IF(BFPFLG.EQ.0)THEN
                DIB = INT (LOGDIA(I+1,2))
                LENGTH = LOGLEN(I) + loglen(I-1)
-	         LDIA32(LCNT,1)= DIB
-	         LDIA32(LCNT,2) = LOGDIA(I+1,2)
-	         LLEN32(LCNT) = LENGTH
-	      ENDIF
+               LDIA32(LCNT,1)= DIB
+               LDIA32(LCNT,2) = LOGDIA(I+1,2)
+               LLEN32(LCNT) = LENGTH
+            ENDIF
   351     CONTINUE
 C    check for a 16 foot top log
-	    IF(((NUMSEG+1)/2) .GT. (NUMSEG/2)) THEN
+       IF(((NUMSEG+1)/2) .GT. (NUMSEG/2)) THEN
             LCNT = LCNT + 1
-	      LVOL32(2,LCNT) = LOGVOL(4,NUMSEG)
+            LVOL32(2,LCNT) = LOGVOL(4,NUMSEG)
             IF(BFPFLG.EQ.0)THEN
-      	      LDIA32(LCNT,1)= INT(LOGDIA(NUMSEG+1,1))
-	         LDIA32(LCNT,2) = LOGDIA(NUMSEG+1,2)
-	         LLEN32(LCNT) = LOGLEN(NUMSEG)
-	      ENDIF
-          ENDIF	      
+            LDIA32(LCNT,1)= INT(LOGDIA(NUMSEG+1,1))
+            LDIA32(LCNT,2) = LOGDIA(NUMSEG+1,2)
+            LLEN32(LCNT) = LOGLEN(NUMSEG)
+       ENDIF
+          ENDIF     
         ENDIF    
 
 C----- REGION 1 BYRNE CUBIC FOOT LOGIC
@@ -571,21 +574,21 @@ C     RETURN 32 FOOT LOGS
       IF(REGN.EQ.10 .AND. HTLOG.EQ.32 .and. (voleq(4:5).eq.'f3' .or. 
      >      voleq(4:5).eq.'F3' .or. voleq(2:3).eq.'61' .or. 
      >      voleq(2:3).eq.'62' .OR. voleq(2:3).eq.'32'))THEN
-      	DO 352 I = 1,NUMSEG
-	      LOGVOL(1,I) = 0
-      	   LOGVOL(4,I) = 0
-	      LOGDIA(I+1,1) = 0
-      	   LOGDIA(I+1,2) = 0
-	      LOGDIA(I+1,3) = 0
-      	   LOGLEN(I) = 0
-  352	   CONTINUE
-         NLCNT = (NUMSEG + 1) / 2
-         DO 353 J=1,NLCNT
+        DO 352 I = 1,NUMSEG
+          LOGVOL(1,I) = 0
+          LOGVOL(4,I) = 0
+          LOGDIA(I+1,1) = 0
+          LOGDIA(I+1,2) = 0
+          LOGDIA(I+1,3) = 0
+          LOGLEN(I) = 0
+  352     CONTINUE
+          NLCNT = (NUMSEG + 1) / 2
+          DO 353 J=1,NLCNT
             LOGVOL(1,J) = LVOL32(1,J)
-	      LOGVOL(4,J) = LVOL32(2,J)
+            LOGVOL(4,J) = LVOL32(2,J)
             LOGLEN(J) = LLEN32(J)
             LOGDIA(J+1,1) = LDIA32(J,1)
-     	      LOGDIA(J+1,2) = LDIA32(J,2)
+            LOGDIA(J+1,2) = LDIA32(J,2)
   353   CONTINUE
         NUMSEG = NLCNT
         NOLOGP = NLCNT
@@ -620,16 +623,16 @@ C--   MERCHANDISE THE UPPER TREE BOLE FOR SECONDARY PRODUCTS
 C--     LENMS IS THE LENGTH OF MAIN STEM FOR WHICH A
 C--        PRODUCT WAS DETERMINED.
         IF(REGN.EQ.5 .AND. PROD.EQ.'07') THEN
-	    LENMS = LMERCH
-	  ELSE
+        LENMS = LMERCH
+      ELSE
           LENMS = 0.0
           DO 400 I=1,NUMSEG
-	      !32 FOOT LOGS CONTAIN TWICE THE TRIM
-	      IF(LOGLEN(I) .GE. 32)THEN  
-	         LENMS = LENMS + TRIM + TRIM + LOGLEN(I)
-	      ELSE
-               LENMS=LENMS+TRIM+LOGLEN(I)
-	      ENDIF
+C         32 FOOT LOGS CONTAIN TWICE THE TRIM
+          IF(LOGLEN(I) .GE. 32)THEN  
+            LENMS = LENMS + TRIM + TRIM + LOGLEN(I)
+          ELSE
+            LENMS=LENMS+TRIM+LOGLEN(I)
+          ENDIF
   400     CONTINUE
         ENDIF
         
@@ -644,7 +647,7 @@ C--        PRODUCT WAS DETERMINED.
      >          PINV_Z,TOP6,HT2PRD,MTOPS,MFLG,CUVOL,DIB,DOB,errflag)
                   
               MTOPS = DIB
-	    ENDIF
+        ENDIF
           LMERCH = HT2PRD - LENMS 
         ELSE
 C--     SUBROUTINE "MERLEN" IS INTERNAL AND USES PROFILE MODEL
@@ -667,8 +670,8 @@ C--  SEE DEFINITION OF SUBROUTINE "NUMLOG" UNDER BDFT CACULATIONS
           CALL FIREWOOD (VOLEQ,FORST,JSP,NEXTRA,SETOPT,DBHOB,HTTOT,
      >         LMERCH,DBTBH,MTOPS,LENMS,HEX,DEX,ZEX,RHFW,RFLW,
      >         TAPCOE,F,FMOD,PINV_Z,TOP6,TCVOL,slope,errflag)
-	    VOL(7) = TCVOL
-	    GO TO 1000
+          VOL(7) = TCVOL
+          GO TO 1000
         ENDIF
 
 c       check for mainstem piece, if not, topwood must meet minimum merch length
@@ -676,7 +679,7 @@ c       check for mainstem piece, if not, topwood must meet minimum merch length
            IF (LMERCH.LT.MERCHL) THEN
               GO TO 1000
            ENDIF
-	  ENDIF
+        ENDIF
 
         CALL NUMLOG(OPT,EVOD,LMERCH,MAXLEN,MINLENT,TRIM,NUMSEG)
 
@@ -726,7 +729,7 @@ C************************************************************
                LOGVOL(4,I)=ANINT(LOGV*10.0)/10.0
            
                VOL(7)=VOL(7)+LOGVOL(4,I)
-	      ENDIF
+            ENDIF
             IF(BFPFLG.EQ.1)THEN
                CALL SCRIB (DIBS,LENGTH,COR,LOGV)
                if(cor.eq.'Y') then
@@ -735,7 +738,7 @@ C************************************************************
                  LOGVOL(1,I) = ANINT(LOGV)
                endif
                VOL(12) = VOL(12) + LOGVOL(1,I)
-	      ENDIF
+            ENDIF
 C           LOGGRS(I,3) = LOGV
             DIBL = DIBS
   450   CONTINUE
@@ -750,17 +753,17 @@ C----- REGION 1 BYRNE CUBIC FOOT LOGIC
 
                  VOL(7) = CUVOL - VOL(4)
               ENDIF
-	     ENDIF
-	     IF(BFPFLG.EQ.1)THEN
+           ENDIF
+           IF(BFPFLG.EQ.1)THEN
 C--            REGION 1 BYRNE BOARD FOOT LOGIC (bdft to cuft rato)
               IF (VOLEQ(8:10) .NE. '108') THEN
                  CALL VOLRATIO (VOLEQ,FORST,DBHOB,HTTOT,MTOPP,LOGDIA,
      >                          LOGLEN,LOGST,TCVOL1,VMER1)
-	           TLOGS = LOGST + NUMSEG
+                 TLOGS = LOGST + NUMSEG
                  CALL VOLRATIO (VOLEQ,FORST,DBHOB,HTTOT,MTOPS,LOGDIA,
      >                          LOGLEN,TLOGS,TCVOL2,VMER2)
-	           VMER = VMER2 - VMER1
-	           TCVOL = TCVOL2 - TCVOL1
+                 VMER = VMER2 - VMER1
+                 TCVOL = TCVOL2 - TCVOL1
                  TEMPVOL = VOL(12)
                  VOL(12) = VMER*(TEMPVOL/TCVOL)
               ENDIF
@@ -777,7 +780,7 @@ C--   PUT LOGIC HERE FOR CORDS  (SOURCE:  DON MARTINEZ)
         ENDIF
 C     UPDATE TOTAL LOGS        
         LOGST = LOGST + NUMSEG  
-	!ENDIF FOR TOP WOOD EQUATIONS
+C     ENDIF FOR TOP WOOD EQUATIONS
       ENDIF    
 
 1000  CONTINUE
@@ -861,7 +864,7 @@ C--   STUMP VOLUME IS VOLUME FOR A 1 FT HIGH CYLINDER
       TCVOL = (3.1416*R*R)/144.0
 C     Save stump vol to VOL(14) (YW 2015/08/19)
       VOL(14) = TCVOL      
-	dex(2) = dib
+      dex(2) = dib
       DO 10 I = 1,HTLOOP
          D2OLD = DIB
          HT2=HT2+4.0
@@ -1009,7 +1012,7 @@ C      geosub=voleq(2:3)
          WRITE  (LUDBG, 5)'DBHOB HTTOT  MTOPP  STUMP  NUMSEG 
      &    TRIM  LOGST'
   5      FORMAT (A)
-  		 WRITE  (LUDBG, 66)DBHOB,HTTOT,MTOPP,STUMP,NUMSEG,TRIM,
+         WRITE  (LUDBG, 66)DBHOB,HTTOT,MTOPP,STUMP,NUMSEG,TRIM,
      &           LOGST
  66      FORMAT(F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 2X, I4, 4X,
      &          F5.2, 4X, I6)
@@ -1095,7 +1098,7 @@ C--   NEED TO PUT LOG DIB IN PROPER DIAMETER CLASS
          DIBCLS=INT(LOGDIA(I,2))
          XXX=LOGDIA(I,2)-DIBCLS
 c          IF( XXX .GT. 0.55) DIBCLS=DIBCLS+1.0
-         IF( XXX .GT. 0.501) DIBCLS=DIBCLS+1.0
+         IF( XXX .GT. 0.501) DIBCLS=DIBCLS+1
          LOGDIA(I,1)=DIBCLS
   30  CONTINUE
 
@@ -1114,7 +1117,7 @@ C--   NEED TO CHECK TOP DIB
        DIBCLS=INT(LOGDIA(NUMSEG+LOGST+1,2))
        XXX=LOGDIA(NUMSEG+LOGST+1,2)-DIBCLS
 c       IF( XXX .GT. 0.55) DIBCLS=DIBCLS+1.0
-       IF( XXX .GT. 0.501) DIBCLS=DIBCLS+1.0
+       IF( XXX .GT. 0.501) DIBCLS=DIBCLS+1
        LOGDIA(NUMSEG+LOGST+1,1)=DIBCLS
 
       IF (DEBUG%MODEL) THEN
@@ -1130,7 +1133,7 @@ c       IF( XXX .GT. 0.55) DIBCLS=DIBCLS+1.0
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 1100) ' <--Exit GETDIB (profile.f)'
  1100    FORMAT (A)   
-   	END IF
+      END IF
        
       RETURN
       END
@@ -1236,7 +1239,7 @@ C--   USING A BDFT TO CUBIC FOOT RATIO BASED ON LODGEPOLE.
 
       DO 10 I=1,NUMSEG
          DIBS=LOGDIB(I+1,1)
-         LENGTH=LOGLEN(I)
+         LENGTH=INT(LOGLEN(I))
          LOGV = .00272708*(DIBL*DIBL+DIBS*DIBS)*LENGTH
          CUBV = CUBV + LOGV
          DIBL = DIBS
@@ -1374,19 +1377,19 @@ C********************************************************************
 C********************************************************************
 C********************************************************************
 C********************************************************************
-	SUBROUTINE VOLINTRP(REGN,VOLEQ,DBH,LHT,MHT,MTOPP,HTTYPE,DBTBH,
+      SUBROUTINE VOLINTRP(REGN,VOLEQ,DBH,LHT,MHT,MTOPP,HTTYPE,DBTBH,
      >        LOGVOL,LOGDIA,HTLOG,LOGLEN,LOGST,NOLOGP,VOL,CTYPE,PROD,
      >        ERRFLAG)  
 c     total height could not be predicted, interpolate the diameters for logs
 c     in the merch piece.      
       CHARACTER*1 HTTYPE,COR,CTYPE
       CHARACTER*2 FORST, PROD
-	CHARACTER*10 VOLEQ 
+      CHARACTER*10 VOLEQ 
       INTEGER LOGST,HTLOG,REGN,EVOD,OPT,I,LCNT,ERRFLAG
       REAL DBH, LHT, MTOPP, DBTBH, VOL(15),NOLOGP,MHT,HTUP
       REAL LOGLEN(20),LOGVOL(7,20),LOGDIA(21,3),D2,LEN,MINBFD
       REAL DBHIB,MAXLEN,MINLEN,MERCHL,MINLENT,MTOPS,STUMP,TRIM,BTR
-	REAL DIBL,DIBS,LENGTH,LOGV,LOGVOL32(20),TOPV16,BOTV16,R,LMERCH
+      REAL DIBL,DIBS,LENGTH,LOGV,LOGVOL32(20),TOPV16,BOTV16,R,LMERCH
 
       DBHIB = DBH-DBTBH
 c     check top diameter not greater than DBH inside bark. (YW 2014/07/02)      
@@ -1398,14 +1401,14 @@ c       MRULES IS EXTERNAL AND CONTAINS THE MERCHANDIZING RULES SETTINGS
       CALL MRULES(REGN,FORST,VOLEQ,DBH,COR,EVOD,OPT,MAXLEN,MINLEN,
      >           MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
      >           PROD)
-	IF(HTTYPE.EQ.'L' .OR. HTTYPE.EQ.'l')THEN
+      IF(HTTYPE.EQ.'L' .OR. HTTYPE.EQ.'l')THEN
           LOGDIA(1,1) = ANINT(DBHIB)
           LOGDIA(1,2) = DBHIB
 C         IF ONE LOG, SET DIAMETER AND LENGTH
           IF(LHT.EQ.1)then
             LOGST = 1
-	      NOLOGP = 1
-	      LOGDIA(2,1) = ANINT(MTOPP)
+            NOLOGP = 1
+            LOGDIA(2,1) = ANINT(MTOPP)
             LOGDIA(2,2) = MTOPP
             LOGLEN(1) = HTLOG
           ELSE
@@ -1432,16 +1435,16 @@ C         IF MULTIPLE LOGS, LOOP THROUGH, FIND DIAMETERS AND LENGTHS
             CALL NUMLOG(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,LOGST)
             CALL SEGMNT(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,LOGST,LOGLEN)
 C--     SET NOLOGP TO THE NUMBER OF 16 FOOT SEGMENTS
-	      NOLOGP = LOGST
+            NOLOGP = LOGST
 C           NOLOGP = LMERCH/16.0
-	   ELSE
-	      NOLOGP = LOGST
+         ELSE
+            NOLOGP = LOGST
          ENDIF
          LOGDIA(1,1) = ANINT(DBHIB)
          LOGDIA(1,2) = DBHIB
 C        CHECK FOR A ONE LOG TREE, SET DIAMETER AND LENGTH
          IF(LOGST.EQ.1)THEN
-	       LOGDIA(2,1) = ANINT(MTOPP)
+             LOGDIA(2,1) = ANINT(MTOPP)
              LOGDIA(2,2) = MTOPP
 C        IF MULTIPLE SEGMENTS, LOOP THROUGH, FIND DIAMETERS AND LENGTHS
          ELSE
@@ -1490,17 +1493,17 @@ c           truncate diameter for 32foot board 6/2001
             LOGVOL32(LCNT) = LOGV
   260    CONTINUE
 C    check for a 16 foot top log
-	   IF(((LOGST+1)/2) .GT. (LOGST/2)) THEN
+         IF(((LOGST+1)/2) .GT. (LOGST/2)) THEN
             LCNT = LCNT + 1
             DIBS = INT(LOGDIA(LOGST+1,2))
             LENGTH = LOGLEN(LOGST)
             CALL SCRIB (DIBS,LENGTH,COR,LOGV)
             LOGVOL32(LCNT) = LOGV
-	   ENDIF
+         ENDIF
 c    prorate 32 volumes into 16 foot pieces
          LCNT = 0
          DO 261, i=2,LOGST,2
-	      LCNT = LCNT + 1
+            LCNT = LCNT + 1
             topv16 = logvol(1,i)
             botv16 = logvol(1,i-1)
             R = TOPV16 / (TOPV16 + BOTV16)
@@ -1513,7 +1516,7 @@ c    prorate 32 volumes into 16 foot pieces
   261    CONTINUE
 c     check for top log
          IF(((LOGST+1)/2) .GT. (LOGST/2)) THEN
-	      LCNT = LCNT + 1
+            LCNT = LCNT + 1
             LOGVOL(1,LOGST) = LOGVOL32(LCNT)
             IF(cor.eq.'Y') LOGVOL(1,LOGST) = LOGVOL(1,LOGST)*10
          ENDIF
@@ -1674,11 +1677,11 @@ C///////////////////////////////////////////////////////////////////////
          I = 1
        
          IF(H.GE.0.01) THEN
-	      IF(ISP.EQ.IRA)THEN
-	         BK = 0
-	      ELSE
-               BK = BB(D,H)
-	      ENDIF
+         IF(ISP.EQ.IRA)THEN
+            BK = 0
+         ELSE
+            BK = REAL(BB(D,H))
+         ENDIF
 C            FV = 0.005454154*D**2*(H - 4.5)*BK
          ENDIF
          
@@ -1686,13 +1689,13 @@ C            FV = 0.005454154*D**2*(H - 4.5)*BK
        
          IF(H.LT.0.01)  HEST = HH(I)/XLL(I)
 
-         IF(HEST.GT.0.01) BK = BB(D,HEST)
+         IF(HEST.GT.0.01) BK = REAL(BB(D,HEST))
 
          IF(ISP.EQ.IRA)THEN
-	      DST(I) = (LIMD**2)/(D**2)
-	   ELSE
+            DST(I) = (LIMD**2)/(D**2)
+         ELSE
             DST(I) = (LIMD**2)/(BK*D**2)
-	   ENDIF
+         ENDIF
          
          DSLO(I) = DST(I) - 0.0001
          DSHI(I) = DST(I) + 0.0001
@@ -1707,44 +1710,44 @@ C----------
             IF(RH.LE.0.0)THEN
                RH = 0
                RH32 = 0
-	         RH40 = 0
+               RH40 = 0
             ELSEIF(RH .LT. 0.078) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= 0.078
             ELSEIF(RH .LT. 0.15) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= RH
             ELSE
-	         RH40 = RH
+               RH40 = RH
                RH32= RH
             ENDIF
             
-	      IF(ISP.EQ.IRA)THEN
-	         DS(I) = DVREDA(RH,RH32,RH40,HEST,D)
+            IF(ISP.EQ.IRA)THEN
+               DS(I) = REAL(DVREDA(RH,RH32,RH40,HEST,D))
             ELSE
-               DS(I) = DD2MI(RH,RH32,D,HEST)
-	      ENDIF
+               DS(I) = REAL(DD2MI(RH,RH32,D,HEST))
+            ENDIF
             if(ds(i).lt.0.0) ds(i) = 0.0
 
             RXL = 0.9*RH
             IF(RXL.LE.0.0)THEN
                RH32 = 0
-	         RH40 = 0
+               RH40 = 0
             ELSEIF(RXL .LT. 0.078) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= 0.078
             ELSEIF(RXL .LT. 0.15) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= RXL
             ELSE
-	         RH40 = RXL
+               RH40 = RXL
                RH32= RXL
             ENDIF
-	      IF(ISP.EQ.IRA)THEN
-	         DXL = DVREDA(RXL,RH32,RH40,HEST,D)
+            IF(ISP.EQ.IRA)THEN
+               DXL = REAL(DVREDA(RXL,RH32,RH40,HEST,D))
             ELSE
-               DXL = DD2MI(RXL,RH32,D,HEST)
-	      ENDIF
+               DXL = REAL(DD2MI(RXL,RH32,D,HEST))
+            ENDIF
             if(dxl.lt.0.0) dxl = 0.0
             TAPER = (DS(I) - DXL)/(.1*RH)
          ELSE
@@ -1753,44 +1756,44 @@ C----------
             IF(RH.LE.0.0)THEN
                RH = 0
                RH32 = 0
-	         RH40 = 0
+               RH40 = 0
             ELSEIF(RH .LT. 0.078) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= 0.078
             ELSEIF(RH .LT. 0.15) THEN
-	         RH40 = 0.13
+               RH40 = 0.13
                RH32= RH
             ELSE
-	         RH40 = RH
+               RH40 = RH
                RH32= RH
             ENDIF
-	      IF(ISP.EQ.IRA)THEN
-	         DS(I) = DVREDA(RH,RH32,RH40,H,D)
+            IF(ISP.EQ.IRA)THEN
+               DS(I) = REAL(DVREDA(RH,RH32,RH40,H,D))
             ELSE
-               DS(I) = DD2MI(RH,RH32,D,H)
-	      ENDIF
+               DS(I) = REAL(DD2MI(RH,RH32,D,H))
+            ENDIF
             if(ds(i).lt.0.0) ds(i) = 0.0
 
             RXL = 0.9*RH
             IF(RXL.LE.0.0)THEN
                RXL = 0
                RH32 = 0
-	         RH40 = 0
+               RH40 = 0
             ELSEIF(RXL .LT. 0.078) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= 0.078
             ELSEIF(RXL .LT. 0.15) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= RXL
             ELSE
-	         RH40 = RXL
+               RH40 = RXL
                RH32= RXL
             ENDIF
-	      IF(ISP.EQ.IRA)THEN
-	         DXL = DVREDA(RXL,RH32,RH40,H,D)
+            IF(ISP.EQ.IRA)THEN
+               DXL = REAL(DVREDA(RXL,RH32,RH40,H,D))
             ELSE
-               DXL = DD2MI(RXL,RH32,D,H)
-	      ENDIF
+               DXL = REAL(DD2MI(RXL,RH32,D,H))
+            ENDIF
 
             if(dxl.lt.0.0) dxl = 0.0
             TAPER = (DS(I) - DXL)/(.1*RH)
@@ -1807,31 +1810,31 @@ C----------
             IF(RH.LE.0.0)THEN
                RH = 0
                RH32 = 0
-	         RH40 = 0
+               RH40 = 0
             ELSEIF(RH .LT. 0.078) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= 0.078
             ELSEIF(RH .LT. 0.15) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= RH
             ELSE
-	         RH40 = RH
+               RH40 = RH
                RH32= RH
             ENDIF
             IF(H.LE.0.01) THEN
                HEST = (HH(I) - 4.5*RH)/(1.0 - RH)
-      	      IF(ISP.EQ.IRA)THEN
-	            DS(I) = DVREDA(RH,RH32,RH40,HEST,D)
-	         ELSE
-                  DS(I) = DD2MI(RH,RH32,D,HEST)
-	         ENDIF
+               IF(ISP.EQ.IRA)THEN
+                  DS(I) = REAL(DVREDA(RH,RH32,RH40,HEST,D))
+               ELSE
+                  DS(I) = REAL(DD2MI(RH,RH32,D,HEST))
+               ENDIF
                if(ds(i).lt.0.0) ds(i) = 0.0
             ELSE
-      	      IF(ISP.EQ.IRA)THEN
-	            DS(I) = DVREDA(RH,RH32,RH40,H,D)
-	         ELSE
-                  DS(I) = DD2MI(RH,RH32,D,H)
-	         ENDIF
+               IF(ISP.EQ.IRA)THEN
+                  DS(I) = REAL(DVREDA(RH,RH32,RH40,H,D))
+               ELSE
+                  DS(I) = REAL(DD2MI(RH,RH32,D,H))
+               ENDIF
                if(ds(i).lt.0.0) ds(i) = 0.0
             ENDIF 
  245     CONTINUE
@@ -1881,15 +1884,15 @@ C               HX(KNOL) = HITOP
 
 C  WESTERN REDCEDAR MERCHANTABLE LENGTH
                IF(ISP.EQ.IRC)  THEN
-                  DSX = DVR(RH,RH32,H,DBHOB)
-                  BKWRC = BKWR(DBHOB,H)
+                  DSX = REAL(DVR(RH,RH32,H,DBHOB))
+                  BKWRC = REAL(BKWR(DBHOB,H))
                   if(dsx.lt.0) dsx = 0
                   DSI = (DSX*BKWRC)**.5 * DBHOB
               
 C  ALASKA CEDAR MERCHANTABLE LENGTH
                ELSE IF(ISP.EQ.IAC) THEN 
-                  DSX = DVA(RH,RH32,H,DBHOB)
-                  BKAYC = BKAC(DBHOB,H)
+                  DSX = REAL(DVA(RH,RH32,H,DBHOB))
+                  BKAYC = REAL(BKAC(DBHOB,H))
                   if(dsx.lt.0) dsx = 0
                   DSI = (DSX*BKAYC)**.5 * DBHOB
                ELSE
@@ -1924,16 +1927,15 @@ C            HX(KNOL+2) = H
 C  WESTERN RED CEDAR TAPER EQUATION
             
             IF(ISP.EQ.IRC)  THEN
-               DSX = DVR(RH,RH32,H,DBHOB)
-               BKWRC = BKWR(DBHOB,H)
+               DSX = REAL(DVR(RH,RH32,H,DBHOB))
+               BKWRC = REAL(BKWR(DBHOB,H))
                if(dsx.lt.0) dsx = 0
                DSI = (DSX*BKWRC)**.5 * DBHOB
 
 C  ALASKA YELLOW CEDAR TAPER EQUATION
             ELSE
- 5546          CONTINUE
-               DSX = DVA(RH,RH32,H,DBHOB)   
-               BKAYC = BKAC(DBHOB,H)
+               DSX = REAL(DVA(RH,RH32,H,DBHOB))  
+               BKAYC = REAL(BKAC(DBHOB,H))
                if(dsx.lt.0) dsx = 0
                DSI = (DSX*BKAYC)**.5 * DBHOB
             ENDIF 
@@ -1979,15 +1981,15 @@ C
 
 C   WESTERN RED CEDAR TAPER EQUATION
             IF(ISP.EQ.IRC)  THEN
-               DSX = DVR(RH,RH32,H,DBHOB)
-               BKWRC = BKWR(DBHOB,H)
+               DSX = REAL(DVR(RH,RH32,H,DBHOB))
+               BKWRC = REAL(BKWR(DBHOB,H))
                if(dsx.lt.0) dsx = 0
                DSI = (DSX*BKWRC)**.5 * DBHOB
 
 C  ALASKA YELLOW CEDAR TAPER EQUATION
             ELSE
-               DSX = DVA(RH,RH32,H,DBHOB)
-               BKAYC = BKAC(DBHOB,H)
+               DSX = REAL(DVA(RH,RH32,H,DBHOB))
+               BKAYC = REAL(BKAC(DBHOB,H))
                if(dsx.lt.0) dsx = 0
                DSI = (DSX*BKAYC)**.5 * DBHOB
             ENDIF
@@ -2036,7 +2038,7 @@ C--                  DOES NOT INCLUDE THE LIMBS OR ROOTS.
 C     GET MERCH HEIGHT
 
       HTLOOP = INT((LMERCH + .5 - 1.0)/4.0)
-	    MERCHHT = LMERCH + STUMP
+      MERCHHT = LMERCH + STUMP
 
       HT2=STUMP
 C##########

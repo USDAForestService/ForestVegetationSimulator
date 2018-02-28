@@ -1,7 +1,7 @@
       SUBROUTINE UPDATE
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C  UPDATE:
 C     ADDS GROWTH INCREMENT
@@ -63,7 +63,8 @@ C----------
 C  ADD THE HEIGHT INCREMENT TO THE HEIGHTS
 C----------
       HT(I) = HT(I)+HTG(I)
-      IF (NORMHT(I).GT.0) NORMHT(I) = NORMHT(I)+(HTG(I)*100.+.5)
+      IF (NORMHT(I).GT.0) 
+     & NORMHT(I) = INT(REAL(NORMHT(I))+(HTG(I)*100.+.5))
 C----------
 C  DEDUCT THE MORTALITY FROM PROB AND PREPARE THE SUMMARY.
 C----------

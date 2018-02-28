@@ -1,7 +1,7 @@
       SUBROUTINE FMMAIN
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id: fmmain.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C
 C     THIS ROUTINE IS THE 'MAIN' FIRE ROUTINE. IT LOOPS OVER
@@ -34,7 +34,6 @@ C
 COMMONS
 C
       LOGICAL DEBUG
-      CHARACTER VVER*7
       INTEGER I,IYR,IL,ISZ,IDC,ITM,IRTNCD
       INTEGER FMD
 C     Variables that support the use of FMORTMLT       
@@ -141,12 +140,7 @@ C        that version will also need to only read it once too).
 C         NOTE: cycle-boundary version will no longer need to check
 C               version or year as this will be called every cycle.
 
-C         CALL VARVER(VVER)
-
-C         IF (IYR .EQ. IFMYR1 .OR. BURNYR .EQ. IYR-1 .OR.
-C     &   PBURNYR .EQ. IYR-1 .OR. (VVER(1:2) .EQ. 'SN')) THEN
-           CALL FMCBA (IYR,0)
-C         ENDIF
+         CALL FMCBA (IYR,0)
          
 C        This resets the value of cwdcut, which is based on salvage
 C        removal, back to zero in all but the first year of a cycle.

@@ -1,7 +1,7 @@
       SUBROUTINE DBSDIAGS(HndlType,Hndl,CallFrom)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C      THIS SUBROUTINE PRINTS ERROR DIAGNOSTICS FOR THE DBS
 C      CALLS TO THE SQL ODBC API
@@ -48,7 +48,7 @@ C----
 
          CALL RCDSET (2,.TRUE.)
 
-         iDiag=iDiag+1
+         iDiag=INT(iDiag+1)
 
       ENDDO
       RETURN

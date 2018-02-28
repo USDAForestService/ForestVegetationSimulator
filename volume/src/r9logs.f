@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r9logs.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 C  subroutine for calculating region log volumes
 C
 C  Created TDH 11/20/09 
@@ -50,7 +53,7 @@ C
 125      FORMAT (A)
          WRITE  (LUDBG, 150)SAWHT, PLPHT, MINLEN, MAXLEN, TRIM
 150      FORMAT (5F6.1)      
-   	END IF
+      END IF
 C     Check number of logs
       IF (SAWHT .GT. 0) THEN
         LMERCH = SAWHT-STUMP
@@ -71,9 +74,9 @@ C     Check number of logs
 !...saw portion
 
         LMERCH = SAWHT-STUMP     
-			  
+
         NOLOGP = INT(LMERCH/(MAXLEN+TRIM))
-			 
+
         LEFTOV=LMERCH-((MAXLEN+TRIM)*FLOAT(NOLOGP))-TRIM
 
 !check for saw logs
@@ -92,7 +95,7 @@ C     Check number of logs
                WRITE  (LUDBG, 220)LMERCH, NOLOGP, LOGLEN(1), 
      &                 LOGLEN(NOLOGP), LEFTOV
 220            FORMAT (F6.1,4X I2, 3F7.1)      
-   		    END IF
+            END IF
         
 !...TOP WOOD PORTION
 !first check to see if there's top wood
@@ -124,8 +127,8 @@ C     Check number of logs
            WRITE  (LUDBG, 320)LMERCH, NOLOGS, ilog, 
      &                      jlog,LEFTOV
 320        FORMAT (F6.1, 4X, I2, 2I4, 2X, F7.1)      
-   		  END IF
-	  END IF
+          END IF
+        END IF
      
 !---------------------------------------------------------------------    
 !------ non-saw timber segmentation----------------------------------
@@ -135,7 +138,7 @@ C     Check number of logs
         LMERCH = PLPHT-STUMP
         NOLOGP = 0
         NOLOGS = INT(LMERCH/(MAXLEN+TRIM))
-			 
+ 
         LEFTOV=LMERCH-((MAXLEN+TRIM)*FLOAT(NOLOGS))-TRIM
         
         !IF(LEFTOV .GT. (MINLEN+TRIM) .AND. NOLOGS .EQ. 0) NOLOGS = 1
@@ -217,7 +220,7 @@ C
 120      FORMAT (A)
          WRITE  (LUDBG, 130)ILOG, JLOG, numseg, MAXLEN,TRIM,LEFTOV
 130      FORMAT (3I5,F6.1, F7.1, 2X, F7.1)      
-   		  END IF
+      END IF
 
       IF(JLOG .GT. 0) THEN
         IF(JLOG .GT. 20) THEN
@@ -362,8 +365,8 @@ C
 125      FORMAT (A)
          WRITE  (LUDBG, 150)TLOGS, TLOGVOL, TCFVOL
 150      FORMAT (I4, 2F8.1)      
-	END IF
-   		
+      END IF
+   
       DO 200 I=1,TLOGS
         LOGVOL(4,I) = 0.00272708*(LOGDIA(I,2)**2 + LOGDIA(I+1,2)**2)
      &                * LOGLEN(I)
@@ -396,7 +399,7 @@ C
 450      FORMAT (I4, 2F8.1)
          WRITE  (LUDBG, 500) ' -->Exit R9LOGCUFT'
 500      FORMAT (A)      
-   	END IF
+      END IF
 
 
       END SUBROUTINE R9LGCFT

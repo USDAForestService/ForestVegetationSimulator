@@ -3,7 +3,7 @@
      -  KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE 1ST MISTLETOE REPORT INFORMATION
 C     AUTH: D. ROBINSON, ESSA - BASED ON D. GAMMEL (DBSFUELS)
@@ -171,43 +171,43 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -    INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1       ! MEAN DMR
+        ColNumber=INT(ColNumber+1)     ! MEAN DMR
         iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -    SQL_F_DOUBLE,SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -    INT(5,SQLSMALLINT_KIND),SPDMR4B,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1       ! MEAN DMI
+        ColNumber=INT(ColNumber+1)       ! MEAN DMI
         iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -    SQL_F_DOUBLE,SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -    INT(5,SQLSMALLINT_KIND),SPDMI4B,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1       ! TPA INFECTED
+        ColNumber=INT(ColNumber+1)       ! TPA INFECTED
         iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -    SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -    INT(0,SQLSMALLINT_KIND),ISPINF4,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1       ! TPA MORTALITY
+        ColNumber=INT(ColNumber+1)       ! TPA MORTALITY
         iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -    SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -    INT(0,SQLSMALLINT_KIND),ISPMRT4,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1       ! % TPA INFECTED
+        ColNumber=INT(ColNumber+1)       ! % TPA INFECTED
         iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -    SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -    INT(0,SQLSMALLINT_KIND),ISPPIN4,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1       ! % TPA MORTALITY
+        ColNumber=INT(ColNumber+1)       ! % TPA MORTALITY
         iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -    SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -    INT(0,SQLSMALLINT_KIND),ISPPMR4,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1       ! % STAND TPA
+        ColNumber=INT(ColNumber+1)       ! % STAND TPA
         iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -    SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -    INT(0,SQLSMALLINT_KIND),ISPPOC4,int(4,SQLLEN_KIND),
@@ -412,97 +412,97 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -  INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! AGE
+      ColNumber=INT(ColNumber+1)       ! AGE
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),NAGE,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! STAND TPA
+      ColNumber=INT(ColNumber+1)       ! STAND TPA
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTTPAT,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! STAND BA
+      ColNumber=INT(ColNumber+1)       ! STAND BA
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),IBA,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! STAND VOL
+      ColNumber=INT(ColNumber+1)       ! STAND VOL
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTVOL,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! INF TPA
+      ColNumber=INT(ColNumber+1)       ! INF TPA
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTTPAI,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! INF BA
+      ColNumber=INT(ColNumber+1)       ! INF BA
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTBAI,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! INF VOL
+      ColNumber=INT(ColNumber+1)      ! INF VOL
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTVOLI,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! MORT TPA
+      ColNumber=INT(ColNumber+1)       ! MORT TPA
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTTPAM,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! MORT BA
+      ColNumber=INT(ColNumber+1)       ! MORT BA
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTBAM,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! MORT VOL
+      ColNumber=INT(ColNumber+1)       ! MORT VOL
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTVOLM,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! INF TPA %
+      ColNumber=INT(ColNumber+1)       ! INF TPA %
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTPIT,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! INF VOL %
+      ColNumber=INT(ColNumber+1)       ! INF VOL %
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTPIV,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! 16 MORT TPA %
+      ColNumber=INT(ColNumber+1)       ! 16 MORT TPA %
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTPMT,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! MORT VOL %
+      ColNumber=INT(ColNumber+1)       ! MORT VOL %
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTPMV,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! MEAN DMR
+      ColNumber=INT(ColNumber+1)       ! MEAN DMR
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_DOUBLE,SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -  INT(5,SQLSMALLINT_KIND),STDMRB,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! MEAN DMI
+      ColNumber=INT(ColNumber+1)       ! MEAN DMI
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_DOUBLE,SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -  INT(5,SQLSMALLINT_KIND),STDMIB,int(4,SQLLEN_KIND),
@@ -727,7 +727,7 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -           SQL_NULL_PTR)
 
         DO J = 1,10
-          ColNumber=ColNumber+1     ! SIZE CLASSES 2-11
+          ColNumber=INT(ColNumber+1)     ! SIZE CLASSES 2-11
           iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -      SQL_PARAM_INPUT,SQL_F_DOUBLE,SQL_DOUBLE,
      -      INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),

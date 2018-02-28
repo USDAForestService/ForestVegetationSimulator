@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMHRPT(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE CARBON HARVEST
@@ -30,7 +30,7 @@ COMMONS
       DIMENSION VAR(VARDIM)
 
       DOUBLE PRECISION  VARD(VARDIM)
-      INTEGER           ID,I
+      INTEGER           I
       INTEGER(SQLSMALLINT_KIND)::ColNumber
       CHARACTER*2000    SQLStmtStr
       CHARACTER(len=20) TABLENAME
@@ -143,7 +143,7 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -           SQL_NULL_PTR)
 
       DO I=1,VARDIM
-        ColNumber=ColNumber+1
+        ColNumber=INT(ColNumber+1)
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -    SQL_PARAM_INPUT,
      -    SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
@@ -151,7 +151,6 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -           SQL_NULL_PTR)
       ENDDO
 
-  100 CONTINUE
 
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)

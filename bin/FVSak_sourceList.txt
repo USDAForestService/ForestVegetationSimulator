@@ -32,6 +32,7 @@
 ../ak/src/logs.f
 ../ak/src/maical.f
 ../ak/src/morts.f
+../ak/src/prof1.f
 ../ak/src/regent.f
 ../ak/src/sbb.f
 ../ak/src/seamrt.f

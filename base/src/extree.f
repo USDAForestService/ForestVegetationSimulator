@@ -1,7 +1,7 @@
       SUBROUTINE EXTREE
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     ASSIGNS THE EXAMPLE TREES TO THE OUTPUT ARRAYS.
@@ -37,7 +37,7 @@ C-------
       INS1=INS(I)
       IMCI=IMC(INS1)
       ISP1=ISP(INS1)
-      IONSP(I)=NSP(ISP1,IMCI)
+      IONSP(I)=NSP(ISP1,IMCI)(1:3)
       DBHIO(I)=DBH(INS1)
       HTIO(I)=HT(INS1)
       IOICR(I)=ICR(INS1)

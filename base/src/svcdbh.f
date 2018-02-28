@@ -1,7 +1,7 @@
       SUBROUTINE SVCDBH (REMOV,IST) 
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION
@@ -60,7 +60,7 @@ C
       DO II=1, MAXPLT
          WPP(II) = 0.
          PPP(II) = 0.
-         IPLCNT(II) = 0.
+         IPLCNT(II) = 0
          CDBH(II) = 0.
          CDBHOB(II) = 0.
          CPROB(II) = 0.

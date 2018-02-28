@@ -1,7 +1,7 @@
       SUBROUTINE CWCALC(ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND)
       IMPLICIT NONE
 C----------
-C  **CWCALC--NI   DATE OF LAST REVISION:   08/24/15
+C NI $Id: cwcalc.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 COMMONS
 C
@@ -838,7 +838,6 @@ C  COMPUTE HOPKINS INDEX
       HI = ((HIELEV-5449.)/100.)*1.0 + (HILAT-42.16)*4.0 +
      &      (-116.39 - HILONG)*1.25
 C
-   20 CONTINUE
       IF(DEBUG)WRITE(JOSTND,*)' IN CWCALC: ISPC,D,VVER,CWEQN= ',
      &ISPC,D,VVER(:2),CWEQN
 C----------

@@ -1,7 +1,7 @@
       SUBROUTINE EVMON (IPH,IPPCL)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     CALLED FROM TREGRO.
@@ -353,14 +353,14 @@ C
       IF (LPATV .AND. MAE.GT.0 .AND. IPPCL.NE.2)
      >  CALL PPEVMI(NOCCRD,IEVLST,MAELNK,MAE)
       
-C			IF CCADJ IS CONDITIONALLY SCHEDULED, CALL SSTAGE FROM HERE
-			CCCT=0  
-			DO ACTF=1,MAXACT
-	        IF((IACT(ACTF,1).EQ.444))THEN
-          	CCCT=CCCT+1  
-	        ENDIF
-       	END DO                  
+C     IF CCADJ IS CONDITIONALLY SCHEDULED, CALL SSTAGE FROM HERE
+      CCCT=0  
+      DO ACTF=1,MAXACT
+        IF((IACT(ACTF,1).EQ.444))THEN
+          CCCT=CCCT+1  
+        ENDIF
+      END DO                  
       IF(CCCT.GE.1)CALL SSTAGE(1,ICYC,.TRUE.)         
-      	      
+           
       RETURN
       END

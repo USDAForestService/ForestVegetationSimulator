@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMCANPR(IYEAR,CRFILL,NPLT)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH CANOPY PROFILE
 C              INFORMATION
@@ -142,35 +142,34 @@ C
      -    IYEAR,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1
+        ColNumber=INT(ColNumber+1)
         iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    HTM,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1
+        ColNumber=INT(ColNumber+1)
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    CRFILLKG(I),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1
+        ColNumber=INT(ColNumber+1)
         iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    HTFT,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1
+        ColNumber=INT(ColNumber+1)
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    CRFILLB(I),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-  100   CONTINUE
         !Close Cursor
         iRet = fvsSQLCloseCursor(StmtHndlOut)
 

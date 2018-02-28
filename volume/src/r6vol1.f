@@ -1,4 +1,7 @@
       SUBROUTINE R6VOL1(IAPZ,DBHOB,FCLASS,XLOGS,LOGDIA,LOGVOL,INTBF)
+C----------
+C VOLUME $Id: r6vol1.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 C== last modified  08-13-2003
 C ENTER WITH COMPUTED DIBS FOR 1 TO 20 LOGS IN A TREE.
 C RETURN WITH GROSS BD-FT AND CU-FT VOLUME FOR EACH LOG.
@@ -54,15 +57,15 @@ C     ***** CLEAR PREVIOUS TREE *****
 
          X = 0.0
 
-      LOGS = AINT(XLOGS)
+      LOGS = INT(AINT(XLOGS))
       IF(IAPZ.EQ.1) GO TO 40
 
 C     ***** (WESTSIDE) 32-FT LOG SCALE *****
       DO 20 I=1,LOGS,2
-      KD = LOGDIA(I,1)
+      KD = INT(LOGDIA(I,1))
       KBOT = KD+6
       IF (KD.LE.11) KBOT=KD
-      KD = LOGDIA(I+1,1)
+      KD = INT(LOGDIA(I+1,1))
       KTOP = KD+6
       IF (KD.LE.11) KTOP=KD
 
@@ -75,7 +78,7 @@ C     ***** GET 16-FT SCALE FOR BOTH HALFS OF LOG *****
       R = TOPV16 / (TOPV16 + BOTV16)
 
 C     ***** GET 32-FT SCALE FOR ENTIRE LOG *****
-      KD = LOGDIA(I+1,1)
+      KD = INT(LOGDIA(I+1,1))
       K = KTOP
       IF (KD.GE.6.AND.KD.LE.11) K=KD+6
       IV32 = (IFTR(K) * 32 + 500) / 1000
@@ -86,14 +89,14 @@ C  INTERNATIONAL BDFT
       INTBF(I) = BFINT
 
 C     ***** PROPORTIONATE 32-FT SCALE BY LOG HALFS *****
-      ITOPGV = IV32 * R + 0.5
+      ITOPGV = INT(REAL(IV32) * R + 0.5)
       IBOTGV = IV32 - ITOPGV
       LOGVOL(1,I+1) = ITOPGV
    20 LOGVOL(1,I) = IBOTGV
       GO TO 60
                     
 C     ***** SINGLE 16-FT LOG (TOP OR BUTT OF TREE) *****
-   30 IBOTGV = BOTV16
+   30 IBOTGV = INT(BOTV16)
       LOGVOL(1,I) = IBOTGV
 
 C  INTERNATIONAL BDFT
@@ -104,7 +107,7 @@ C  INTERNATIONAL BDFT
 
 C     ***** (EASTSIDE) 16-FT LOG SCALE *****
    40 DO 50 I=1,LOGS
-      KD = LOGDIA(I,1)
+      KD = INT(LOGDIA(I,1))
       K = KD+6
       IF (KD.LE.11) K=KD
       IG = (IFTR(K) * 16 + 500) / 1000
@@ -117,7 +120,7 @@ C  INTERNATIONAL BDFT
 
       X = XLOGS - LOGS
       IF (X.EQ.0.0) GO TO 60
-      KD = LOGDIA(LOGS+1,1)
+      KD = INT(LOGDIA(LOGS+1,1))
       IF (KD.LT.6) K=KD+0
       IF (KD.GE.6) K=KD+121
       IF (KD.GE.12) K=KD+6

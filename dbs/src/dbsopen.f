@@ -2,7 +2,7 @@
      -                   LKECHO,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO OPEN A DATABASE CONNECTION
 C     INPUT: CONNECT  - THE INPUT CONNECTION STRING (or file name)
@@ -152,7 +152,7 @@ C
         DriverComplete = SQL_DRIVER_NOPROMPT
       ENDIF
    10 CONTINUE
-      ConnStrLength = LEN_TRIM(ConnStr)
+      ConnStrLength = INT(LEN_TRIM(ConnStr))
       IF (ConnStrLength.GT.0) THEN
         iRet = fvsSQLDriverConnect(ConnHndl, SQL_NULL_PTR,
      -         ConnStr,ConnStrLength,ConnStrOut,LenConnStr,

@@ -1,7 +1,7 @@
       SUBROUTINE INTREE (RECORD,IRDPLV,ISDSP,SDLO,SDHI,LKECHO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     IRDPLV= 0 IF PLOT SPECIFIC SITE VARIABLES ARE NOT BEING READ,
@@ -89,6 +89,7 @@ C----------
          IMAX=MAXTP1
          LSTKNT = 1
          NSTKNT = 0
+         IOSTAT=0
 C---------
 C     INITIALIZE DAMAGE/SEVERITY ARRAY.
 C---------
@@ -171,7 +172,7 @@ C----------
           IF (.NOT.LCONN) GOTO 900
         ENDIF
         READ(ISTDAT,'(A)',IOSTAT=IOSTATUS)RECORD
-        IF(IOSTATUS.NE.0)GOTO 900
+        IF(IOSTAT.NE.0)GOTO 900
         IF (RECORD(1:1).EQ.'*') GOTO 31
         IF (INDEX(RECORD,'-999').GT. 0) GOTO 900
         READ (RECORD,TREFMT) ITREI,IDTREE(I),PROB(I),ITH,CSPI,
@@ -453,7 +454,7 @@ C
    82 CONTINUE
       NORMHT(I)=-1
       IF(THT.LE.0.0) GO TO 90
-      ITRUNC(I)=THT*100.0+0.5
+      ITRUNC(I)=INT(THT*100.0+0.5)
    90 CONTINUE
 C----------
 C  IF THE TREE HEIGHT IS ZERO (MISSING), THEN INSURE THAT THE HEIGHT
@@ -512,7 +513,7 @@ C----------
       ICR(I)=0
       ISP(I)=0
       ISPECL(I)=0
-      DEFECT(I)=0.
+      DEFECT(I)=0
       IDTREE(I)=0
       HTG(I)=0.
       ITRE(I)=0

@@ -1,7 +1,7 @@
       SUBROUTINE DAMCDS (II,ICODES)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     II    = TREE POINTER FOR LIVE TREES
@@ -14,7 +14,6 @@ C
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'ARRAYS.F77'
       INTEGER   I,II
-      INTEGER*4 IDD
       INTEGER ICODES(6)
 
 C----------

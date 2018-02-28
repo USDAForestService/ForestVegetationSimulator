@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r10vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  06-29-2004
       SUBROUTINE R10VOL(VOLEQ,MTOPP,MTOPS,HTTOT,HT1PRD,DBHOB,
      >           HTTYPE,VOL,NOLOGP,NOLOGS,TLOGS,LOGLEN,LOGDIA,LOGVOL,
@@ -7,13 +10,13 @@ C*********************************************************************
 C*                 LOCAL VARIABLES                                   *
 C*********************************************************************
 
-      CHARACTER*10 VOLEQ,tmpveq
+      CHARACTER*10 VOLEQ
       CHARACTER*1 HTTYPE
 
       INTEGER TLOGS,I,ERRFLAG
       INTEGER CUPFLG,BFPFLG,SPFLG
 
-      REAL MTOPP,MTOPS,tmpht2,holdv(2),holdlv(3,20)
+      REAL MTOPP,MTOPS
       REAL DBHOB,HTTOT,THT,LHT,HT1PRD
       REAL LOGDIA(21,3),LOGLEN(20)
       REAL NOLOGP,NOLOGS,CUBVOL
@@ -76,7 +79,7 @@ C--      USE D SQUARED H EQUATIONS FOR SMALL TREES
     
       CALL R10VOLO(VOLEQ,DBHOB,THT,LHT,HTTYPE,MTOPP,NOLOGP,VOL,
      >                LOGLEN,LOGDIA,logvol,BFPFLG,CUPFLG,ERRFLAG)
-      TLOGS = ANINT(NOLOGP)
+      TLOGS = INT(ANINT(NOLOGP))
       
  1000 RETURN
       END 

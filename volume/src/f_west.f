@@ -1,4 +1,6 @@
-!== last modified  4-9-2002
+C
+C VOLUME $Id: f_west.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 C  FILE CONTAINS THE FOLLOWING ROUTINES
 C        SHP_W3
 C        SHP_W4
@@ -29,8 +31,8 @@ c                       Copyright  J. W. Flewelling, 1994
       REAL*4 RFLW(6), RHFW(4) 
       REAL*8 U1,U2,U3,U4,U5,U6,U7,U8,U9,U9A
        
-      real*4 m1, m2, m3, R25(8), R34(8)   
-      real*8 f(50),FR25,FR34,DMEDIAN,DFORM
+      real*4 m1, m2, m3   
+      real*8 f(50),FR25,FR34,DMEDIAN,DFORM,R34(8),R25(8)
 
 c              common SF_A provides DBHOB(ob), Total height and DBHOB(ib)
 c                                                                Median     
@@ -116,20 +118,20 @@ c                                        U6=A3 (bounds: 1.005-100)
          if(U6 .gt. 100.0d0) U6=100.0d0
 
 c                                         Define geometric parameters
-      R1= dexp(U1)/ (1.0d0 + dexp(U1))                             
-      R2= dexp(U2)/ (1.0d0 + dexp(U2))                             
-      R3= dexp(U3)/ (1.0d0 + dexp(U3))                             
-      R4= dexp(U4)/ (1.0d0 + dexp(U4))                             
-      R5= 0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5))                        
+      R1= REAL(dexp(U1)/ (1.0d0 + dexp(U1)))                             
+      R2= REAL(dexp(U2)/ (1.0d0 + dexp(U2)))                             
+      R3= REAL(dexp(U3)/ (1.0d0 + dexp(U3)))                            
+      R4= REAL(dexp(U4)/ (1.0d0 + dexp(U4)))                             
+      R5= REAL(0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5)))                        
 
-      A3=U6
-      RHI1 =  dexp(U7) / ( 1.0d0 + dexp(U7) )
+      A3=REAL(U6)
+      RHI1 =  REAL(dexp(U7) / ( 1.0d0 + dexp(U7) ))
       if (RHI1.gt. 0.5) RHI1=0.5
 
-      RHLONGI= U9    
+      RHLONGI= REAL(U9)    
       RHI2 = RHI1 + RHLONGI
 
-      RHC = RHI2 + (1.0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8))
+      RHC = REAL(RHI2 + (1.0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8)))
 
 C     PUT COEFFICIENTS INTO AN ARRAY FOR EASIER PASSING
       RFLW(1) = R1
@@ -170,7 +172,7 @@ c                       Copyright  J. W. Flewelling, 1994
 c      real*4 m1, m2, m3   
       real*8 f(50),FR25,FR34,DMEDIAN,DFORM
       REAL*8 U1,U2,U3,U4,U5,U6,U7,U8,U9,U9A
-      REAL*4 r25(8), r34(8)
+      REAL*8 r25(8), r34(8)
       INTEGER ID
 
 
@@ -223,7 +225,7 @@ c                                                                RHI1
       U7 = F(13) + f(14)*( 1.0d0 - exp(F(15)*HTTOT))                     
       if (U7.lt. -7.0d0) U7=-7.0d0                               
       if (U7.gt.  7.0d0) U7= 7.0d0                
-      RHI1 =  dexp(U7) / ( 1.0d0 + dexp(U7) )
+      RHI1 =  REAL(dexp(U7) / ( 1.0d0 + dexp(U7) ))
       if (RHI1.gt. 0.5) RHI1=0.5
                              
 c                                                                RHLONGI
@@ -268,18 +270,18 @@ c                                        U6=A3 (bounds: 1.005-100)
          if(U6 .gt. 100.0d0) U6=100.0d0
 
 c                                         Define geometric parameters
-      R1= dexp(U1)/ (1.0d0 + dexp(U1))                             
-      R2= dexp(U2)/ (1.0d0 + dexp(U2))                             
-      R3= dexp(U3)/ (1.0d0 + dexp(U3))                             
-      R4= dexp(U4)/ (1.0d0 + dexp(U4))                             
-      R5= 0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5))                        
+      R1= REAL(dexp(U1)/ (1.0d0 + dexp(U1)))                             
+      R2= REAL(dexp(U2)/ (1.0d0 + dexp(U2)))                             
+      R3= REAL(dexp(U3)/ (1.0d0 + dexp(U3)))                            
+      R4= REAL(dexp(U4)/ (1.0d0 + dexp(U4)))                             
+      R5= REAL(0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5)))                        
 
-      A3=U6
+      A3=REAL(U6)
 
-      RHLONGI= U9    
+      RHLONGI= REAL(U9)    
       RHI2 = RHI1 + RHLONGI
 
-      RHC = RHI2 + (1.0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8))
+      RHC = REAL(RHI2 + (1.0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8)))
 
 C     PUT COEFFICIENTS INTO AN ARRAY FOR EASIER PASSING
       RFLW(1) = R1
@@ -344,7 +346,7 @@ c                                                                RHI1
       U7 = F(13)  +F(15)*DFORM                    
        if (U7.lt. -7.0d0) U7=-7.0d0                               
        if (U7.gt.  1.0d0) U7= 1.0d0                
-      RHI1 =  dexp(U7) / ( 1.0d0 + dexp(U7) )
+      RHI1 = REAL(dexp(U7) / ( 1.0d0 + dexp(U7) ))
                              
 c                                                                RHLONGI
       U9A = f(17) + f(18)*log(HTTOT) 
@@ -387,18 +389,18 @@ c                                        U6=A3 (bounds: 1.005-100)
          if(U6 .gt. 100.0d0) U6=100.0d0
 
 c                                         Define geometric parameters
-      R1= dexp(U1)/ (1.0d0 + dexp(U1))                             
-      R2= dexp(U2)/ (1.0d0 + dexp(U2))                             
-      R3= dexp(U3)/ (1.0d0 + dexp(U3))                             
-      R4= dexp(U4)/ (1.0d0 + dexp(U4))                             
-      R5= 0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5))                        
+      R1= REAL(dexp(U1)/ (1.0d0 + dexp(U1)))                             
+      R2= REAL(dexp(U2)/ (1.0d0 + dexp(U2)))                            
+      R3= REAL(dexp(U3)/ (1.0d0 + dexp(U3)))                            
+      R4= REAL(dexp(U4)/ (1.0d0 + dexp(U4)))                            
+      R5= REAL(0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5)))                        
 
-      A3=U6
+      A3=REAL(U6)
 
-      RHLONGI= U9    
+      RHLONGI= REAL(U9)    
       RHI2 = RHI1 + RHLONGI
 
-      RHC = RHI2 + (1.0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8))
+      RHC = REAL(RHI2 + (1.0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8)))
 
 C     PUT COEFFICIENTS INTO AN ARRAY FOR EASIER PASSING
       RFLW(1) = R1
@@ -469,8 +471,8 @@ c                             define heights h1 and h2 with h2 > h1
 c                                         both heights are above BH
        t3=(h1-bh)/(HTTOT-bh)
        t4=(h2-bh)/(HTTOT-bh)                                
-       CORR = exp( q1*(t4-t3) + q2*(t4*t4-t3*t3)/2.0D0
-     >                  +q3*(t4*t4*t4 - t3*t3*t3)/3.0D0)     
+       CORR = REAL(exp( q1*(t4-t3) + q2*(t4*t4-t3*t3)/2.0D0
+     >                  +q3*(t4*t4*t4 - t3*t3*t3)/3.0D0))     
        GO TO 100
       endif
 
@@ -478,8 +480,8 @@ c                                         both heights are above BH
 c                                              h1 < Bh  and h2 > BH
          t3=(h2-bh)/(HTTOT-bh)                             
          T2 = (BH-H1)/BH    
-         CORR = q5*exp( q4*t2 + q1*t3 +q2*t3*t3/2.0d0 
-     >                    +q3*t3**3 / 3.0d0 )       
+         CORR = REAL(q5*exp( q4*t2 + q1*t3 +q2*t3*t3/2.0d0 
+     >                    +q3*t3**3 / 3.0d0 ))       
          go to 100
         endif
 
@@ -617,7 +619,7 @@ c                                          EQN 2   Y
            Y=0.999999D0 
       ENDIF
 c                                          EQN 3  ZETA   
-      Z  = GAMMA + DELTA*LOG(Y/(1.0d0-Y))
+      Z  = REAL(GAMMA + DELTA*LOG(Y/(1.0d0-Y)))
 
       RETURN
 
@@ -643,7 +645,7 @@ c                                          reverses the Sb transform
        Y = exp(ylogit)/(1.0d0 + exp(ylogit))
                          
        X = MU + LAMDA*Y                                             
-       DIBact = X * DIBmod
+       DIBact = REAL(X * DIBmod)
 
       RETURN
       END             
@@ -739,7 +741,7 @@ c                                          EQN 2   Y
            Y=0.999999D0 
       ENDIF
 c                                          EQN 3  ZETA   
-      Z  = GAMMA + DELTA*LOG(Y/(1.0d0-Y))
+      Z  = REAL(GAMMA + DELTA*LOG(Y/(1.0d0-Y)))
 
       RETURN
 
@@ -752,6 +754,7 @@ c      DIBmod  In    Real*4    Base model prediction of dib (expectation)
 c      Z       In    Real*4    Standardized offset  
 c      DIBact  Out   Real*4    Actual dib
 
+       BH = 4.5
        IENTRY=2 
        if(abs(bh - h).lt. 1.0E-6) then
               DIBact=DIBmod
@@ -762,7 +765,7 @@ c                                          reverses the Sb transform
 120    YLOGIT = (Z - GAMMA)/DELTA
        Y = exp(ylogit)/(1.0D0 + exp(ylogit))           
        X = MU + LAMDA*Y                                             
-       DIBact = X * DIBmod
+       DIBact = REAL(X * DIBmod)
 
       RETURN
       END             
@@ -857,7 +860,7 @@ c                                          EQN 2   Y
            Y=0.999999D0 
       ENDIF
 c                                          EQN 3  ZETA   
-      Z  = GAMMA + DELTA*LOG(Y/(1.0d0-Y))
+      Z  = REAL(GAMMA + DELTA*LOG(Y/(1.0d0-Y)))
 
       RETURN
 
@@ -870,6 +873,7 @@ c      DIBmod  In    Real*4    Base model prediction of dib (expectation)
 c      Z       In    Real*4    Standardized offset  
 c      DIBact  Out   Real*4    Actual dib
 
+       BH = 4.5
        IENTRY=2 
        if(abs(bh - h).lt. 1.0E-6) then
               DIBact=DIBmod
@@ -880,7 +884,7 @@ c                                          reverses the Sb transform
 120    YLOGIT = (Z - GAMMA)/DELTA
        Y = exp(ylogit)/(1.0D0 + exp(ylogit))           
        X = MU + LAMDA*Y                                             
-       DIBact = X * DIBmod
+       DIBact = REAL(X * DIBmod)
 
       RETURN
       END             
@@ -923,7 +927,7 @@ c      note:   English-only on input and output
         DMEDIAN = .566*(HTTOT-4.5)**( .634 + .00074*HTTOT)
         DFORM = DBHOB/DMEDIAN -1.0                                  
 
-  40    if (GEOSUB.EQ.'00') then
+        if (GEOSUB.EQ.'00') then
            RATIO = exp( -2.4641 + .04393*log(DBHOB) -.2922*dform
      >                 +.05964 * DFORM*log(DBHOB))
         else
@@ -938,7 +942,7 @@ c      note:   English-only on input and output
         FDBT_C1 = RATIO*DBHOB
         RETURN
       ELSEIF(JSP.EQ.4) THEN
-  50    if (GEOSUB.EQ.'00') then
+        if (GEOSUB.EQ.'00') then
            RATIO = .04504*(1.0 +0.8307*exp(-.2048*DBHOB))  
         else                                           
           DO 200, ID=1,8

@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r10tap.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  03-20-2006
       SUBROUTINE R10TAP(TAPEQU,DBHOB,HTTOT,HTUP,D2)
 C----------
@@ -122,9 +125,9 @@ C----------
               RH32= RH
            ENDIF
 C
-           DSI=DVA(RH,RH32,H,DBHOB)
+           DSI=REAL(DVA(RH,RH32,H,DBHOB))
            if(dsi.lt.0.0) dsi = 0.0
-           BKAYC=BKAC(DBHOB,H)
+           BKAYC=REAL(BKAC(DBHOB,H))
            D2=(DSI*BKAYC)**0.5*DBHOB
 
 C  THIS IS THE WESTERN REDCEDAR PROFILE EQUATION CALCULATION
@@ -147,19 +150,19 @@ C----------
               RH32= RH
            ENDIF
 C
-           DSI=DVR(RH,RH32,H,DBHOB)
+           DSI=REAL(DVR(RH,RH32,H,DBHOB))
            if(dsi.lt.0.0) dsi = 0.0
-           BKWRC=BKWR(DBHOB,H)
+           BKWRC=REAL(BKWR(DBHOB,H))
            D2=(DSI*BKWRC)**.5*DBHOB
  
 C     THIS IS THE SPRUCE-HEMLOCK AND RED ALDER PROFILE EQUATION CALCULATION
 
         ELSE
-	     IF(ISP.EQ.IRA)THEN
-	        BK = 0
-	     ELSE
-              BK = BB(D,H)
-	     ENDIF
+          IF(ISP.EQ.IRA)THEN
+            BK = 0
+          ELSE
+            BK = REAL(BB(D,H))
+        ENDIF
            RH = (H - HTUP)/(H - 4.5)
 C----------
 C      IF R<0.078 (R^32<10^-38), R32 IS TRUNCATED AND USED IN
@@ -169,34 +172,34 @@ C----------
             IF(RH.LE.0.0)THEN
                RH = 0
                RH32 = 0
-	         RH40 = 0
-	         D2 = 0
-	         RETURN
+               RH40 = 0
+               D2 = 0
+               RETURN
             ELSEIF(RH .LT. 0.078) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= 0.078
             ELSEIF(RH .LT. 0.15) THEN
-	         RH40 = 0.15
+               RH40 = 0.15
                RH32= RH
             ELSE
-	         RH40 = RH
+               RH40 = RH
                RH32= RH
             ENDIF
 C
-	     IF(ISP.EQ.IRA)THEN
-	         D2=DVREDA(RH,RH32,RH40,H,D)
-	     ELSE
-               D2=DD2MI(RH,RH32,D,H)
-	     ENDIF
+            IF(ISP.EQ.IRA)THEN
+              D2=REAL(DVREDA(RH,RH32,RH40,H,D))
+            ELSE
+              D2=REAL(DD2MI(RH,RH32,D,H))
+            ENDIF
            if(d2.lt.0.0) d2 = 0.0
-	     IF(ISP.EQ.IRA)THEN
-	         D2=(D2)**.5*D
-	     ELSE
-               D2=(D2*BK)**.5*D
-	     ENDIF
+           IF(ISP.EQ.IRA)THEN
+             D2=(D2)**.5*D
+           ELSE
+             D2=(D2*BK)**.5*D
+           ENDIF
         ENDIF
 C
 C     THIS IS THE END OF THE DIAMETER CALCULATIONS
 C
-  900 RETURN
+      RETURN
       END 

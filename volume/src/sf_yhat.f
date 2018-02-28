@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: sf_yhat.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  12-08-2003
       FUNCTION SF_YHAT(JSP,RH,totalh,ineedsl,slope,RHFW,RFLW,TAPCOE,F)
 c                                        STEP 6 of the 2-pt application.
@@ -72,7 +75,7 @@ C                           Black Hills uses diff form
 
           RH_LENGTH= 1-rhc
           I_SEG=1
-          if(ineedsl.eq.1) DY_DX = C2 + X*(C1 - C1/2*X)
+          if(ineedsl.eq.1) DY_DX = REAL(C2 + X*(C1 - C1/2*X))
           GO TO 100
        end if                 
 c                                                     middle segment
@@ -126,7 +129,7 @@ C----------
                     SUS3= x**(b1+1)
                ENDIF             
 C             
-                 dy_dx   =b4 -b2/(b1+1.0d0)*SUS3 + b2/2.0d0*x*x
+                 dy_dx   =REAL(b4 -b2/(b1+1.0d0)*SUS3 + b2/2.0d0*x*x)
              else
                  dy_dx   = b4
              end if           
@@ -158,10 +161,10 @@ c                         Black Hills uses diff form
       if(ineedsl.eq.1) then
           RH_LENGTH=rhi1
           I_SEG=4
-          dy_dx = a4 + a2/a3 + a2/(a3*a3)*x + 3*a1*x*x - a2/(a3-x)
+          dy_dx =REAL(a4 + a2/a3 + a2/(a3*a3)*x + 3*a1*x*x - a2/(a3-x))
       end if
       
-100   SF_YHAT=F*Y
+100   SF_YHAT=REAL(F*Y)
         
       if (INEEDSL .eq. 1) then     
 c                   the derivatives were calculated based on y and x

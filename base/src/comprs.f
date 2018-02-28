@@ -1,7 +1,7 @@
       SUBROUTINE COMPRS (NCLAS,PN1)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     TREE LIST COMPRESSION ROUTINE FOR THE PROGNOSIS
@@ -76,7 +76,7 @@ C
 C
 COMMONS
 C
-C
+C----------
       INTEGER IDF44,IDF33,IDF22,IDF11,IDMR,II,ICL,IREC
       REAL CRWDI,DF44,DF33,DF22,DF11,PHTI,PDBHI,PMCVI,PCFVI,WK2I,WK1I
       REAL PMBVI,PROBI,PCTI,OLDPTI,HTGI,CFVI,BFVI,XNR,XIT,TXP,XP,DIV
@@ -291,22 +291,22 @@ C         ALSO, CREATE A NEW SCORE BASED ON THE SECOND PRINCIPAL
 C         COMPONENT.
 C
       DO 90 I=1,ITRN
-      HTI  =HT(I)-RMEANS(1)
-      XICRI=FLOAT(ICR(I))-RMEANS(2)
-      X    =FLOAT(IMC(I))-RMEANS(3)
-      DBHI =WK4(I)-RMEANS(4)
-      DGI  =DG (I)-RMEANS(5)
-      TERM1=  (HTI  *EIVECT(1)) +
+      HTI  =REAL(HT(I)-RMEANS(1))
+      XICRI=REAL(REAL(ICR(I))-RMEANS(2))
+      X    =REAL(REAL(IMC(I))-RMEANS(3))
+      DBHI =REAL(WK4(I)-RMEANS(4))
+      DGI  =REAL(DG(I)-RMEANS(5))
+      TERM1=  REAL((HTI  *EIVECT(1)) +
      >        (XICRI*EIVECT(2)) +
      >        (X    *EIVECT(3)) +
      >        (DBHI *EIVECT(4)) +
-     >        (DGI  *EIVECT(5)) + 4.
+     >        (DGI  *EIVECT(5)) + 4.)
       WK3(I)=  WK3(I) + TERM1
-      WK4(I)= (HTI  *EIVECT(6)) +
+      WK4(I)= REAL((HTI  *EIVECT(6)) +
      >        (XICRI*EIVECT(7)) +
      >        (X    *EIVECT(8)) +
      >        (DBHI *EIVECT(9)) +
-     >        (DGI  *EIVECT(10))
+     >        (DGI  *EIVECT(10)))
    90 CONTINUE
 C
 C     STEP4:  SORT 'IND' ON 'WK3' USING RDPSRT (DESCENDING ORDER)
@@ -334,7 +334,7 @@ C
 C
 C     (B)  CALCULATE THE NUMBER OF CLASSES FOUND BY METHOD 1.
 C
-      NCLS1 = NCLAS*PN1+.5
+      NCLS1 = INT(REAL(NCLAS)*PN1+.5)
       ISIG=ITRN-IZERS
       IF (ISIG.LT.NCLS1)  NCLS1=ISIG
       IF (NCLS1.LT.1) NCLS1=1

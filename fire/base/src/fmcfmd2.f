@@ -1,7 +1,7 @@
       SUBROUTINE FMCFMD2 (IYR, FMD)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id: fmcfmd2.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 *     CALLED FROM: FMBURN, FMPOFL
 *     PURPOSE:
@@ -72,10 +72,6 @@ C
 C
 C     ADDITIONAL VARIABLES REQUIRED FOR ENTRY FMCFMD3
 C
-      INTEGER  IFMD, INL, INDD
-      REAL     XSUR(2,3),XFML(2,3), XDEP, XEXT
-      REAL     BDavg
-      LOGICAL  LOK
 C      
 
 C     BEGIN ROUTINE
@@ -419,7 +415,6 @@ C     FIGURE OUT WHICH TWO FUEL MODELS HAVE THE LOWEST DEPARTURE INDEX
         ENDIF
       ENDDO          
             
-  590 CONTINUE
 
       IF (DEBUG) WRITE(JOSTND,5) (LFM(I),I=1,4), (LOWDI(I),I=1,4)      
     5 FORMAT(' FMCFMD2 LFM= ',4(1X,I4),' LOWDI=',4(1X,F8.2))
@@ -611,7 +606,7 @@ C----------
         IF (LOK) THEN
           DO I = 1,2
             DO J = 1,3
-              SURFVL(IFMD,I,J) = XSUR(I,J)
+              SURFVL(IFMD,I,J) = INT(XSUR(I,J))
               FMLOAD(IFMD,I,J) = XFML(I,J)
             ENDDO
           ENDDO

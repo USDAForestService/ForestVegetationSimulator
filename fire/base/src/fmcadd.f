@@ -1,7 +1,7 @@
       SUBROUTINE FMCADD
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C     CALLED FROM: FMMAIN
 C     CALLS        
@@ -50,14 +50,14 @@ C.... Variable declarations.
     
         INTEGER I, SIZE, SP, DKCL, IYR
         REAL    DOWN, PDOWN 
-      LOGICAL DEBUG	
+      LOGICAL DEBUG 
         REAL    AMT
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'FMCADD',6,ICYC)
       IF (DEBUG) WRITE(JOSTND,7) ICYC
-  7   FORMAT(' ENTERING FMCADD CYCLE = ',I2)	
+  7   FORMAT(' ENTERING FMCADD CYCLE = ',I2)  
     
 C.... Begin routine.
 

@@ -1,7 +1,7 @@
       PROGRAM MAIN
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
       INTEGER rtnCode,lenCL,i
 C
@@ -23,7 +23,7 @@ C     RUN ALL THE CYCLES and STANDS--unless there is a stop point!
    
       call fvsGetICCode(i)
 
-      IF (i .EQ. 0) STOP	
+      IF (i .EQ. 0) STOP
 
       GO TO (11,12,13,14,15), i 
    11 CONTINUE

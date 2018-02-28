@@ -1,6 +1,6 @@
       SUBROUTINE MISCNT(MSPCNT)
 ***********************************************************************
-*  **MISCNT--MS  Date of last revision:  12/26/91
+C MISTOE $Id: miscnt.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Counts the number of tree records with any mistletoe infection
@@ -74,8 +74,6 @@ C.... on occurance of species in species ordered sort list).
   200 CONTINUE
 
 C.... Common return.
-
- 9000 CONTINUE
 
       IF(DEBUG) WRITE(JOSTND,9010) ICYC
  9010 FORMAT(' End MISCNT: Cycle = ',I5)

@@ -1,6 +1,6 @@
       SUBROUTINE MISINF
 ***********************************************************************
-*  **MISINF--MS  Date of last revision:  03/10/08
+C MISTOE $Id: misinf.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     This routine adds dwarf mistletoe infections to a proportion of
@@ -142,16 +142,16 @@ C....        others will be set to 0.
             ISPC=IFIX(PRM(1))
             IF(ISPC.NE.0) THEN
                NEWPRP(ISPC)=PRM(2)*MISFIT(ISPC)
-               NEWLEV(ISPC)=PRM(3)*MISFIT(ISPC)
-               NEWTYP(ISPC)=PRM(4)*MISFIT(ISPC)
+               NEWLEV(ISPC)=INT(PRM(3))*MISFIT(ISPC)
+               NEWTYP(ISPC)=INT(PRM(4))*MISFIT(ISPC)
             ELSE
 
 C....          Otherwise defaults to all species.
 
                DO 120 ISPC=1,MAXSP
                   NEWPRP(ISPC)=PRM(2)*MISFIT(ISPC)
-                  NEWLEV(ISPC)=PRM(3)*MISFIT(ISPC)
-                  NEWTYP(ISPC)=PRM(4)*MISFIT(ISPC)
+                  NEWLEV(ISPC)=INT(PRM(3))*MISFIT(ISPC)
+                  NEWTYP(ISPC)=INT(PRM(4))*MISFIT(ISPC)
   120          CONTINUE
             ENDIF
   130    CONTINUE
