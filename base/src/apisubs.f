@@ -767,9 +767,11 @@ c     indx    = species index
 !DEC$ ATTRIBUTES REFERENCE :: SID, SCN, MID, NCSID, NCCN, NCMID
 
       integer :: ncsID,ncCN,ncmID
-      character(len=26) sID
-      character(len=40) sCN
-      character(len=4)  mID
+      
+      character(len=len(NPLT))  sID
+      character(len=len(DBCN))  sCN
+      character(len=len(MGMID)) mID
+
       sID = trim(NPLT)
       sCN = trim(DBCN)
       mID = trim(MGMID)

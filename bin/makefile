@@ -78,8 +78,9 @@ $(info CCprf: $(CCprf))
 export FC = gfortran 
 #export FFLAGS = $(PIC) -g -Wall -fbacktrace 
 #export FFLAGS = $(PIC) -g -Wall -fbacktrace -ffpe-trap=invalid,zero,denormal -fcheck=bounds
-export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
+#export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace -fcheck=all -fcheck=bounds
+export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace 
 export CC = gcc
 # Adding optimization (-O2 does not help execution speed much but slows compile time a lot
 # export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN) -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION -O2
@@ -306,16 +307,16 @@ ifeq (${OSARCH},w64)
 ifeq ($(DBLINK),$(ODBC))
 %.prg : $(object)
 	$(CCprf)$(CC) fvsSQL.o -shared $(DBLINK) $(WIN) -o   ../libfvsSQL.dll 
-	$(FCprf)$(LD) -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX) ../libfvsSQL.dll  $(filter-out fvsSQL.o main.o,$(object))
+	$(FCprf)$(LD) -shared -Wl, --export-all-symbols -o $(basename ../$@)$(SLIBSUFX) ../libfvsSQL.dll  $(filter-out fvsSQL.o main.o,$(object))
 	$(FCprf)$(LD)         -o $(basename ../$@)$(PRGSUFX)  ../libfvsSQL.dll  $(filter-out fvsSQL.o       ,$(object))
 else
 %.prg : $(object) 
-	$(FCprf)$(LD) -static -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX)  $(filter-out  main.o,$(object))
+	$(FCprf)$(LD) -static -shared -Wl, --export-all-symbols -o $(basename ../$@)$(SLIBSUFX)  $(filter-out  main.o,$(object))
 	$(FCprf)$(LD) -static -o $(basename ../$@)$(PRGSUFX) $(object)
 endif
 else
 %.prg : $(object) 
-	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) $(DBLINK) 
+	$(LD) -shared -rdynamic -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) $(DBLINK) 
 	$(LD)         -o $(basename ../$@)$(PRGSUFX)  $(object) $(DBLINK)    
 endif
 
