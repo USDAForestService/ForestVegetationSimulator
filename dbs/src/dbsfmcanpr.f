@@ -142,28 +142,28 @@ C
      -    IYEAR,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=INT(ColNumber+1)
+        ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    HTM,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=INT(ColNumber+1)
+        ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    CRFILLKG(I),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=INT(ColNumber+1)
+        ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut, ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
      -    HTFT,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=INT(ColNumber+1)
+        ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -    SQL_PARAM_INPUT, SQL_F_DOUBLE, SQL_DOUBLE,
      -    INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),

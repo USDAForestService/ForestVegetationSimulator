@@ -345,7 +345,7 @@ C
 
       DO X=1,(NUMCMPU)
         CURVAL(X)=KWVALS(X)
-        ColNumber=INT(ColNumber+1)
+        ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -           SQL_PARAM_INPUT,
      -           SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),

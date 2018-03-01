@@ -152,7 +152,7 @@ C
         DriverComplete = SQL_DRIVER_NOPROMPT
       ENDIF
    10 CONTINUE
-      ConnStrLength = INT(LEN_TRIM(ConnStr))
+      ConnStrLength = LEN_TRIM(ConnStr)
       IF (ConnStrLength.GT.0) THEN
         iRet = fvsSQLDriverConnect(ConnHndl, SQL_NULL_PTR,
      -         ConnStr,ConnStrLength,ConnStrOut,LenConnStr,

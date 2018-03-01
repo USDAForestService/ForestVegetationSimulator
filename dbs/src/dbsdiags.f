@@ -48,7 +48,7 @@ C----
 
          CALL RCDSET (2,.TRUE.)
 
-         iDiag=INT(iDiag+1)
+         iDiag=iDiag+1
 
       ENDDO
       RETURN
