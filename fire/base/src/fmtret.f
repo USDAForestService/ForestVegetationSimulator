@@ -1,7 +1,7 @@
       SUBROUTINE FMTRET (IYR)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id: fmtret.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -191,11 +191,11 @@ C     Comments below will help in that process.
 C.... Variable declarations.
 C         These are declared above
       LOGICAL DEBUG, LALTER
-      INTEGER I, J, K, L
-      INTEGER IDCL, IYR
+      INTEGER I, K, L
+      INTEGER IYR
       INTEGER J1, J2
       INTEGER MYACT(1), NTODO, JYR, IACTK, NPRM, IFROM, ITO
-      REAL    D, DIAM, HTD, XGET
+      REAL    XGET
       REAL    FTRG(0:MXFLCL), FSRC(0:MXFLCL), FORG(0:MXFLCL), PRMS(6)
       REAL    X, Y, Z, Q
 

@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r5tap.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  4-9-2002
       SUBROUTINE R5TAP(VOLEQ,DBHOB,HTTOT,HT2,D2,errflg)   
 C       (TAPEQU-INT  DBHOB-R  HTTOT-R  HT2-R  D2-R)
@@ -142,7 +145,7 @@ C
 
        ENDIF
         
-       D2 = DIBCOR
+       D2 = REAL(DIBCOR)
 C   
 C*****************************************************************
 C    THIS IS THE END OF THE MAIN LOGIC   

@@ -1,6 +1,6 @@
       REAL FUNCTION MISHGF(ITREE,ISPC)
 ***********************************************************************
-*  **MISHGF--MS  Date of last revision:  09/30/10
+C MISTOE $Id: mishgf.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Determines the proportion of height growth lost periodically
@@ -150,8 +150,6 @@ C.... Force upper and lower bounds on height growth.
       IF(MISHGF.LT.0.0) MISHGF=0.0
 
 C.... Common return.
-
- 9000 CONTINUE
 
       IF(DEBUG) WRITE(JOSTND,9010) ICYC, ITREE, IMIST(ITREE), ISPC,
      &   MISHGF

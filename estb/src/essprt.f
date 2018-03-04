@@ -1,7 +1,7 @@
       SUBROUTINE ESSPRT(VAR,ISPC,NSPT,PREM,DSTMP)
       IMPLICIT NONE
 C----------
-C  **ESSPRT--ESTB   DATE OF LAST REVISION:   08/24/15
+C ESTB $Id: essprt.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C
 C  SUBROUTINE CONTAINING ENTRY POINTS TO HANDLE COMPUTATIONS FOR
 C  VARIOUS STUMP SPROUTING FUNCTIONS WHICH VARY BY VARIANT AND 
@@ -18,7 +18,7 @@ COMMONS
 C
 C----------
       CHARACTER VAR*2
-      INTEGER IAG,INDXAS,ISHAG,ISPC,NASPRT,NMSPRC,NSPT
+      INTEGER IAG,INDXAS,ISHAG,ISPC,NMSPRC,NSPT
       REAL ASTPAR,ASBAR,HTSPRT,PREM,RSHAG,SI,SPA,TREES,DSTMP
 C----------
 C  VARIANT AND SPECIES SPECIFIC RULES FOR DETERMINING TPA A SPROUT
@@ -31,57 +31,57 @@ C----------
       CASE('AK')
         SELECT CASE(ISPC)
           CASE(10)
-        		IF(DSTMP.LT.25.9)THEN
-        			PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
-        		ELSE
-        			PREM = 0
-        		ENDIF
-        	CASE(11)
-        		PREM = PREM * 0.90	
-        	CASE DEFAULT
-        		PREM = PREM * 1	
-        END SELECT		        
+            IF(DSTMP.LT.25.9)THEN
+              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
+            ELSE
+              PREM = 0
+            ENDIF
+          CASE(11)
+            PREM = PREM * 0.90
+          CASE DEFAULT
+            PREM = PREM * 1
+        END SELECT
       CASE('IE')
-      SELECT CASE(ISPC)
-      	CASE(17)
-      		PREM = PREM * 0.40
-      	CASE(19)
-      		PREM = PREM * 0.90
-      	CASE(20,21)
-      		PREM = PREM * 0.70
-      	CASE DEFAULT
-      		PREM = PREM * 1	
-      	END SELECT	
+        SELECT CASE(ISPC)
+          CASE(17)
+            PREM = PREM * 0.40
+          CASE(19)
+            PREM = PREM * 0.90
+          CASE(20,21)
+            PREM = PREM * 0.70
+          CASE DEFAULT
+            PREM = PREM * 1
+          END SELECT
       CASE('CI')
-      SELECT CASE(ISPC)
-      	CASE(12)
-      		PREM = PREM * 0.40
-      	CASE(17)
-      		PREM = PREM * 0.90
-      	CASE DEFAULT
-        		PREM = PREM * 1
-        END SELECT		
+        SELECT CASE(ISPC)
+          CASE(12)
+            PREM = PREM * 0.40
+          CASE(17)
+            PREM = PREM * 0.90
+          CASE DEFAULT
+            PREM = PREM * 1
+        END SELECT
       CASE('EM')
-      SELECT CASE(ISPC)
-				CASE(11)
-      		IF(DSTMP.LE.12.0)THEN
-      			PREM = PREM * 0.80
-      		ELSE
-      			PREM = PREM * 0.50
-      		ENDIF
-      	CASE(13,15)
-      		PREM = PREM * 0.90
-      	CASE(14)
-      		IF(DSTMP.LE.25.0)THEN
-      			PREM = PREM * 0.80
-      		ELSE
-      			PREM = PREM * 0.50
-      		ENDIF
-      	CASE(16)
-      		PREM = PREM * 0.80			      
-      	CASE(17)
-      		PREM = PREM * 0.70      		            					  				
-      	END SELECT		 		
+        SELECT CASE(ISPC)
+          CASE(11)
+            IF(DSTMP.LE.12.0)THEN
+              PREM = PREM * 0.80
+            ELSE
+              PREM = PREM * 0.50
+            ENDIF
+          CASE(13,15)
+            PREM = PREM * 0.90
+          CASE(14)
+            IF(DSTMP.LE.25.0)THEN
+              PREM = PREM * 0.80
+            ELSE
+              PREM = PREM * 0.50
+            ENDIF
+          CASE(16)
+            PREM = PREM * 0.80
+          CASE(17)
+            PREM = PREM * 0.70
+        END SELECT
       END SELECT
       RETURN
 C
@@ -123,12 +123,12 @@ C----------
           NMSPRC = 2  
         CASE(17)
           IF(DSTMP.LT.5.0)THEN
-        		NMSPRC = 1
-        	ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-          	NMSPRC = -1.0 + 0.4 * DSTMP
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = INT(-1.0 + 0.4 * DSTMP)
           ELSE
-          	NMSPRC = 3 
-          ENDIF  
+            NMSPRC = 3 
+          ENDIF
         CASE DEFAULT
           NMSPRC = 1
         END SELECT
@@ -138,11 +138,11 @@ C----------
           NMSPRC = 2
         CASE(19)
           IF(DSTMP.LT.5.0)THEN
-        		NMSPRC = 1
-        	ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-          	NMSPRC = -1.0 + 0.4 * DSTMP
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = INT(-1.0 + 0.4 * DSTMP)
           ELSE
-          	NMSPRC = 3 
+            NMSPRC = 3 
           ENDIF
         CASE DEFAULT
           NMSPRC = 1
@@ -151,11 +151,11 @@ C----------
         SELECT CASE (ISPC)
         CASE(11)
           IF(DSTMP.LT.5.0)THEN
-        		NMSPRC = 1
-        	ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-          	NMSPRC = -1.0 + 0.4 * DSTMP
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = INT(-1.0 + 0.4 * DSTMP)
           ELSE
-          	NMSPRC = 3 
+            NMSPRC = 3 
           ENDIF
         CASE DEFAULT
           NMSPRC = 1
@@ -166,15 +166,15 @@ C----------
           NMSPRC = 2
         CASE(13:16)
           IF(DSTMP.LT.5.0)THEN
-        		NMSPRC = 1
-        	ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-          	NMSPRC = -1.0 + 0.4 * DSTMP
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = INT(-1.0 + 0.4 * DSTMP)
           ELSE
-          	NMSPRC = 3 
+            NMSPRC = 3 
           ENDIF
         CASE DEFAULT
           NMSPRC = 1
-        END SELECT   
+        END SELECT
 C----------
 C  ALL OTHER VARIANTS & SPECIES
 C----------

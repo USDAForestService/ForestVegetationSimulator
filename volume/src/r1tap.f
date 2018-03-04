@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r1tap.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  4-12-2004
 
       SUBROUTINE R1TAP(VOLEQ,FORST,DBHOB,HTTOT,TOPD,HTM,MFLAG,CVOL,D2)
@@ -124,8 +127,8 @@ C-- ZERO ALL VOLUMES TO BE CALCULATED SO THAT IF CALCULATION IS
 C-- UNWANTED AND SKIPPED MISLEADING VOLUMES WILL NOT BE RETURNED.
 C
       IF(FORST(2:2) .LT. '0') THEN
-	   FORST(2:2) = FORST(1:1)
-	   FORST(1:1) = '0'
+         FORST(2:2) = FORST(1:1)
+         FORST(1:1) = '0'
          IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
       ENDIF
 
@@ -175,8 +178,8 @@ C-- CALCULATE FORM-RELATED COEFFICIENTS.
 
 C-- CALCULATE CYLINDER FORM FACTOR FROM STEM PROFILE INTEGRAL.
 
-          CFF = B2/3.0 + B1/2.0 - B1 - B2 + (LPB3(NF)/3.0) * 
-     >          LPA1(NF)**3 + (LPB4(NF)/3.0) * LPA2(NF)**3
+          CFF = REAL(B2/3.0 + B1/2.0 - B1 - B2 + (LPB3(NF)/3.0) * 
+     >          LPA1(NF)**3 + (LPB4(NF)/3.0) * LPA2(NF)**3)
 
           CVOL = CFF
       
@@ -229,7 +232,7 @@ C-- HAPPEN, AND ONLY FOR VERY UNUSUAL TREES.
 
 C-- W IS FRACTION OF TOTAL HEIGHT AT WHICH MERCH. TOP DIA. IS LOCATED.
 
-                W = (HTTOT/(2.0*A)) * (-B - (DISC**0.5))
+                W = REAL((HTTOT/(2.0*A)) * (-B - (DISC**0.5)))
                 HTM = W
 
 C            ENDIF FOR NO MERCHANTABLE HEIGHT
@@ -247,9 +250,9 @@ C  CHECK TO SEE IF DIAMETERS NEED CALCULATING
               I2 = 0.0
               IF(HOVRH.LE.LPA2(NF))  I2 = 1.0
 
-              D2 = DBHOB*(B1*(HOVRH-1) + B2*(HOVRH**2-1) + LPB3(NF) *
+              D2 = REAL(DBHOB*(B1*(HOVRH-1)+B2*(HOVRH**2-1) + LPB3(NF)*
      >             I1*(LPA1(NF) - HOVRH)**2 + LPB4(NF) * I2*(LPA2(NF) - 
-     >             HOVRH)**2)**0.5
+     >             HOVRH)**2)**0.5)
 
 C          ENDIF FOR MFLAG CHECKS
 
@@ -261,22 +264,22 @@ C  ALL OTHER SPECIES
          TOTCUB = 0.0
          VMER = 0.0
  
-         TOTCUB = 0.01 * FA0(SP) * DBHOB**FA1(SP) * HTTOT**FA2(SP)
+         TOTCUB =REAL(0.01 * FA0(SP) * DBHOB**FA1(SP) * HTTOT**FA2(SP))
 C          WRITE(*,*)' TOTCUB = ',TOTCUB
          IF (MFLAG .EQ. 1) THEN
 C          WRITE(*,*)' TOPD = ',TOPD
             IF(TOPD.GT.0.0) THEN
                IF(TOPD.LT.DBHOB) THEN
-                  VMER = (1.0-(FB0(SP)*TOPD**FB1(SP)/DBHOB**FB2(SP))) 
-     >                    *TOTCUB
+                  VMER = REAL( 
+     >            (1.0-(FB0(SP)*TOPD**FB1(SP)/DBHOB**FB2(SP)))*TOTCUB)
                ELSE
                   VMER = 0.0
                ENDIF
             ELSE
                IF(HTM.GT.HTTOT)  HTM = HTTOT
                IF(HTM.GT.1.0) THEN
-                  VMER = (1.0 - (FC0(SP)*(HTTOT-HTM)**FC1(SP)/
-     >                    HTTOT**FC2(SP)))*TOTCUB
+                  VMER = REAL((1.0 - (FC0(SP)*(HTTOT-HTM)**FC1(SP)/
+     >                    HTTOT**FC2(SP)))*TOTCUB)
                ELSE
                   VMER = 0.0
                ENDIF

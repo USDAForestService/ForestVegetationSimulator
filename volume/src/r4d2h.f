@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r4d2h.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 C_______________________________________________________________________
 C
       SUBROUTINE R4D2H (VOLEQ,HTTOT,DBHOB,DRC,FCLASS,VOL,ERRFLAG)
@@ -23,7 +26,7 @@ C
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R4D2H'
    10    FORMAT (A)   
-   		END IF
+      END IF
       
 c     look for drc, if not use dbhob
       IF (DBHOB .LE. 0.0 .AND. DRC.LE.0.0) THEN

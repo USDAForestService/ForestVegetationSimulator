@@ -2,7 +2,7 @@
      -                   LKECHO,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO OPEN A DATABASE CONNECTION
 C     INPUT: CONNECT  - THE INPUT CONNECTION STRING (or file name)

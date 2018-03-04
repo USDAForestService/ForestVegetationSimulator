@@ -2,7 +2,7 @@
      >                   PRMS,KODE)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     OPTION PROCESSING ROUTINE - NL CROOKSTON - JUNE 1981 - MOSCOW
@@ -60,7 +60,6 @@ C
       ID=IDATE(I)
       IF (ID.LT.IYR1 .OR. ID.GT.IYR2 .OR. IACTK.NE.IACT(I,1)) GOTO 40
       IF (IACT(I,4).NE.0) GOTO 40
-   20 CONTINUE
       NTIMES=NTIMES+1
       IF (ISQNUM.GT.0) GOTO 30
       IFIND=I

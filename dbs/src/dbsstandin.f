@@ -1,7 +1,7 @@
       SUBROUTINE DBSSTANDIN(SQLSTR,LKECHO)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE FVS STAND LEVEL DATA FROM THE DATABASE
 C     AUTH: D. GAMMEL -- SEM -- AUGUST 2002
@@ -754,8 +754,8 @@ C
       IF (GROSPC.LT.0.) THEN
          XXG=1.0
          IF (IPTINV.GT.0 .AND. NONSTK.GT.0 .AND.
-     >       IPTINV-NONSTK.GT.0) XXG=(FLOAT(IPTINV)-FLOAT(NONSTK))/
-     >                                FLOAT(IPTINV)
+     >       IPTINV-NONSTK.GT.0) XXG=(REAL(IPTINV)-REAL(NONSTK))/
+     >                                REAL(IPTINV)
       ELSE
          XXG=GROSPC
       ENDIF
@@ -767,7 +767,7 @@ C
       ENDIF
       IF(DGM_LI.NE.SQL_NULL_DATA) THEN
          IF(ISTANDDATA(18).GT.0.)IFINT = ISTANDDATA(18)
-         FINT = FLOAT(IFINT)
+         FINT = REAL(IFINT)
          IF(LKECHO)WRITE(JOSTND,'(T12,''DG_MEASURE: '',T34,I6)') IFINT
       ENDIF
       IF(HTT_LI.NE.SQL_NULL_DATA) THEN
@@ -776,11 +776,11 @@ C
       ENDIF
       IF(HTM_LI.NE.SQL_NULL_DATA) THEN
          IF(ISTANDDATA(20).GT.0.)IFINTH = ISTANDDATA(20)
-         FINTH = FLOAT(IFINTH)
+         FINTH = REAL(IFINTH)
          IF(LKECHO)WRITE(JOSTND,'(T12,''HTG_MEASURE: '',T34,I6)') IFINTH
       ENDIF
       IF(Mort_LI.NE.SQL_NULL_DATA) THEN
-         FINTM = FLOAT(ISTANDDATA(21))
+         FINTM = REAL(ISTANDDATA(21))
          IF(FINTM.LE.0.)FINTM=5.
          IF(LKECHO)WRITE(JOSTND,'(T12,''MORT_MEASURE: '',T34,I6)')
      >   IFIX(FINTM)
@@ -889,10 +889,10 @@ C  CHARACTER INDICATES THAT THE USER SET THE FOREST TYPE TO BE
 C  CONSTANT FOR ALL CYCLES.  THE FIELD 3 INPUT IS DECODED
 C  AND LFLAGV IS SET TO TRUE TO INDICATE CONSTANT FOREST TYPE
 C----------
-          XTMP= FLOAT(IFORTP)
+          XTMP= REAL(IFORTP)
           XTMP= XTMP/1000. + 0.00001
-          IXTMP= XTMP
-          IFORTP= (XTMP-IXTMP)*1000
+          IXTMP= INT(XTMP)
+          IFORTP= INT((XTMP-REAL(IXTMP))*1000.)
           LFLAGV= .TRUE.
         ENDIF
 C----------
@@ -1073,7 +1073,7 @@ C     FUEL MODEL
          IF(LKECHO)WRITE(JOSTND,'(T12,''FUEL_MODEL: '',T34,I6)')
      >   ISTANDDATA(51)
       ELSE
-         ISTANDDATA(51) = -1.
+         ISTANDDATA(51) = -1
       ENDIF
 
 C     FUEL PHOTO REFERENCE
@@ -1095,7 +1095,7 @@ C     FUEL PHOTO REFERENCE
    55    FORMAT (T12,'PHOTO_REF: ',T34,I6, ' = ',A)
 
       ELSE
-         ISTANDDATA(52) = -1.
+         ISTANDDATA(52) = -1
       ENDIF
 
 C     FUEL PHOTO CODE
@@ -1149,7 +1149,7 @@ C     Schedule an activity that changes the initial fuel model. This mimics
 C     the method used in the fire model.
 
       IF (LFMLK.AND.LFMD) THEN
-        X(1) = FLOAT(ISTANDDATA(51))
+        X(1) = REAL(ISTANDDATA(51))
         CALL OPNEW(I,1,2538,1,X)
       ENDIF
 

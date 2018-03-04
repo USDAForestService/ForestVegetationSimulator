@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C  **FMVINIT  FIRE-AK-DATE OF LAST REVISION: 04/23/13
+C FIRE-AK $Id: fmvinit.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -328,7 +328,7 @@ C         black cottonwood / other hardwoods
 C       TIME-TO-FALL VALUES
 
         SELECT CASE (I)        
-        CASE (2,6) ! 	cedar
+        CASE (2,6) !  cedar
           TFALL(I,0) = 5
           TFALL(I,1) = 15
           TFALL(I,2) = 15

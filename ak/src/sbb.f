@@ -1,7 +1,7 @@
       SUBROUTINE SBB(ISPC,D,H,Z,IFLAG)
       IMPLICIT NONE
 C----------
-C  **SBB--AK   DATE OF LAST REVISION:   02/14/08
+C AK $Id: sbb.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C
 C THIS ROUTINE LOOKS UP A Z GIVEN SPECIES, DBH, AND HT.
@@ -42,7 +42,6 @@ C
       XI2=4.5
       XI1=0.1
       IF(IFLAG .EQ. 1)THEN
-  170    CONTINUE
          IF (H.LE. 4.5 .OR. D .LE. .1) RETURN
          IF((XI1 + COF(1,JSPC)) .LE. D) GO TO 180
          IF((XI2 + COF(2,JSPC)) .LE. H) GO TO 180
@@ -64,7 +63,6 @@ C
                     H=COF(2,JSPC)
                     RETURN
           END IF
-  185    CONTINUE
 C----------
 C  CALCULATE HEIGHT AFTER 10 YEARS
 C----------

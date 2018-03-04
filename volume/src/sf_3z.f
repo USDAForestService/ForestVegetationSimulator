@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: sf_3z.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  10-30-2003
       SUBROUTINE SF_3Z(JSP,GEOSUB,SETOPT,NEXTRA,DBH,TOTALH,HEX,ZEX,
      >                 RFLW,RHFW,TAPCOE,F,PINV_Z,FMOD)
@@ -76,8 +79,8 @@ c     1             ' Please correct the calling program. STOP. ')
                P_INV(2,1)=0.
            ENDIF
 c                              multiply inverse corr matrix by (z1 z2)'
-           PINV_Z(1) = p_inv(1,1)*z(1) + p_inv(1,2)*z(2)            
-           PINV_Z(2) = p_inv(2,1)*z(1) + p_inv(2,2)*z(2)            
+           PINV_Z(1) = REAL(p_inv(1,1)*z(1) + p_inv(1,2)*z(2))            
+           PINV_Z(2) = REAL(p_inv(2,1)*z(1) + p_inv(2,2)*z(2))            
       ENDIF
 c        IVSTAT_S = .false.
       Return

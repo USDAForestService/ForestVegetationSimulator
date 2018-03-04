@@ -1,6 +1,6 @@
       SUBROUTINE MISINT
 ***********************************************************************
-*  **MISINT--CR  Date of last revision:  07/12/11
+C MISTOE $Id: misint.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Mistletoe parameter initialization routine. This routine is
@@ -88,8 +88,8 @@ C.... Common include files.
       INCLUDE 'MISCOM.F77'
 C.... Variable declarations.
       LOGICAL DEBUG
-      INTEGER I,J,K,LTYPE
-      REAL AFIT(5,MAXSP),ADGP(5,MAXSP,7),AHGP(MAXSP,7),APMC(5,MAXSP,3)
+      INTEGER I,J,K,LTYPE,AFIT(5,MAXSP)
+      REAL ADGP(5,MAXSP,7),AHGP(MAXSP,7),APMC(5,MAXSP,3)
       CHARACTER*2 ACSP(MAXSP)
 C.... Data statements.
 C.... All the data for the 5 subvariants is stored in these data

@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r6dibs.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  08-13-2003
       SUBROUTINE R6DIBS (IAPZ,DBHOB,IBTR,FCLASS,MTOPP,TLH,TH,
      >                   XLOGS,LOGDIA,SL,XL,A)
@@ -39,7 +42,7 @@ C     ***** DBHOB-SIGHTING - COMPUTE LOGDIA(1,2) WITH FC *****
       GO TO 20
 
 C     ***** 16-FT SIGHTING - COMPUTE LOGDIA(1,2) WITH BTR *****
-   10 DOB16 = DBHOB
+      DOB16 = DBHOB
       LOGDIA(1,2) = DOB16 * IBTR
       DBHOB = LOGDIA(1,2) / FC16
 
@@ -59,7 +62,7 @@ c      IF (IBTR.GT.0) DBHOB=LOGDIA(1,2)/FC16
       GO TO 130
 
 C     ***** MORE THAN ONE LOG IN TREE *****
-   30 ILH = TLH
+   30 ILH = INT(TLH)
       S = TLH - ILH
       IF(S.EQ.0.0) GO TO 40
 
@@ -147,7 +150,7 @@ C     ***** ROUND ANY SHORT LENGTH AT TOP OF TREE *****
 
 C     ***** ROUND DIBS TO NEAREST INCH *****
   130 DO 140 I=1,20
-        ID = LOGDIA(I,2) + 0.5
+        ID = INT(LOGDIA(I,2) + 0.5)
         LOGDIA(I,1) = ID
   140   continue
       RETURN
@@ -167,7 +170,7 @@ C     ***** GET TAPER COEFFICIENT *****
   210 IF ( TLH .EQ. 0.0 ) GO TO 500
       IF ( IBTR .GT. 0 ) GO TO 400
       GO TO 300
-  220 IF ( IBTR .GT. 0 ) GO TO 600
+      IF ( IBTR .GT. 0 ) GO TO 600
       GO TO 500
 
 
@@ -188,7 +191,7 @@ C     ***** TWO 16'S *****
   320 IF (LOGS.GT.2) GO TO 330
       XLOGS = 2.0
       LOGDIA(2,2) = MTOPP
-      ID = LOGDIA(2,2) + 0.5
+      ID = INT(LOGDIA(2,2) + 0.5)
       LOGDIA(2,1) = ID
       SL(2) = 16.3
       LOGDIA(1,2) = IFIX( (LOGDIA(2,2)+DBHOB) / 2.0 + 0.5 )

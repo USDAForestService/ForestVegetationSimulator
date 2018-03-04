@@ -1,7 +1,7 @@
       SUBROUTINE PTGDECD(POINTNO,KARD,IFLAG)
       IMPLICIT NONE
 C----------
-C  $Id: ptgdecd.f 767 2013-04-10 22:29:22Z rhavis@msn.com $
+C BASE $Id: ptgdecd.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C
 C     DECODE THE POINT GROUP NAME CODE
@@ -43,12 +43,10 @@ C----------
         TEMP(J:J)=KARD(I+J-1:I+J-1)
         CALL UPCASE(TEMP(J:J))
     5   CONTINUE
-C        GOTO 20
         EXIT
       ENDIF
    10 CONTINUE
 C
-   20 CONTINUE
       DO 30 I=1,NPTGRP
       IF(TEMP .EQ. PTGNAME(I)) THEN
         POINTNO=-I

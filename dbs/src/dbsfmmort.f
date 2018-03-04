@@ -2,7 +2,7 @@
      -  VOKILL,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE MORTALITY REPORT
 C              INFORMATION
@@ -164,7 +164,7 @@ C---------
         IF (J .EQ. MXSP1) THEN
         	CSP = 'ALL'
         ELSE
-        	CSP = JSP(J)
+        	CSP = JSP(J)(1:3)
         ENDIF
 
 C       ONLY WRITE INFO FOR SPECIES IN THE STAND
@@ -268,6 +268,7 @@ C
      -        SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -        INT(5,SQLSMALLINT_KIND),TOTALB(J,2),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
@@ -281,6 +282,7 @@ C
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -         INT(5,SQLSMALLINT_KIND),TOTALB(J,3),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
+
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -             SQL_PARAM_INPUT,
@@ -351,7 +353,6 @@ C
      -       INT(0,SQLSMALLINT_KIND),VOKILLB(J),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-  100   CONTINUE
         !Close Cursor
         iRet = fvsSQLCloseCursor(StmtHndlOut)
 

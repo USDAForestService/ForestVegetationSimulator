@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r4vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  09-15-2016
 C 01/11/2013 added volume calculation for stump vol(14) and tip vol(15)
 C 11/06/2012 Changed errflag to 12 when NUMLOGS > 20
@@ -253,7 +256,7 @@ C  DETERMINE WHAT THE TOTAL NUMBER OF LOGS ACTUALLY IS
             LEN = 16.
 C  BUTT LOG CALCULATIONS, IF THERE IS MORE THAN 1 LOG IN THE TREE
 C  NUMLGS IS INTEGER VALUE OF TOTLGS
-            NUMLGS = TOTLGS
+            NUMLGS = INT(TOTLGS)
             IF(NUMLGS.GT.1)THEN
               NUM=1
 C  !1/94 BUTTCF NEW VAR. WAS STUMPD(M)
@@ -268,11 +271,11 @@ C     CUBIC VOLUME
 c                 LOGVOL(3,I) = CFVOL
                  LOGVOL(4,NUM) = CFVOL
                  VOLR4(M)=VOLR4(M)+CFVOL
-	        ENDIF
+              ENDIF
               
 C     BOARD FOOT VOLUME
               IF(M.EQ.1) THEN
-	           
+           
                  IF(REGN.EQ.7) THEN
                     CALL SCRIB (DSM(1),16.0,'N',BFSCR)
                     LOGVOL(1,NUM) = BFSCR
@@ -282,11 +285,11 @@ C     BOARD FOOT VOLUME
                       DO 555, J = 1,15
                         VOL(J) = 0.0
 555                   CONTINUE
-                     RETURN
+                      RETURN
                     ENDIF
                     BFSCR = SCRIBC(INT(DSM(1)-5.),INT((16./2.)))
                     LOGVOL(1,NUM) = BFSCR*10
-	           ENDIF
+                 ENDIF
 c                 LOGVOL(1,I) = BFSCR
                  VOLR4(M)=VOLR4(M) + BFSCR
 
@@ -371,7 +374,7 @@ C     CUBIC VOLUME
 c               LOGVOL(3,I) = CFVOL
                LOGVOL(4,NUM) = CFVOL
                VOLR4(M)=VOLR4(M)+CFVOL
-	      ENDIF
+            ENDIF
 C     BOARD FOOT VOLUME
             IF(M.EQ.1) THEN
                IF(REGN.EQ.7) THEN
@@ -387,7 +390,7 @@ C     BOARD FOOT VOLUME
                      ENDIF
                   BFSCR = SCRIBC(INT(DSM(NUMLGS)-5.),INT((LEN/2)))
                   LOGVOL(1,NUM) = BFSCR*10
-	         ENDIF
+               ENDIF
 c               LOGVOL(1,I) = BFSCR
                VOLR4(M)=VOLR4(M) + BFSCR
 
@@ -404,11 +407,11 @@ C  NOTE THAT CORDWOOD (M=2) ADDS TRIM INTO VOLR4
 C**********************************************************************
 C  CONVERT & STORE VOLUMES IN DESCRIPTIVE VARIABLES
       CFGRS=VOLR4(3)
-	IF(REGN .EQ. 7) THEN
-	   BFGRS = VOLR4(1)
-	ELSE
-	   BFGRS=VOLR4(1)*10
-	ENDIF
+      IF(REGN .EQ. 7) THEN
+        BFGRS = VOLR4(1)
+      ELSE
+        BFGRS=VOLR4(1)*10
+      ENDIF
       CORDS=VOLR4(2)/90
 C  CONVERT TO NAT CRUISE VOL STANDARDS
       IF(CUTFLG .EQ. 1) VOL(1) = CF0
@@ -433,14 +436,14 @@ C     IF(CUPFLG.EQ.1.OR.BFPFLG.EQ.1.OR.CDPFLG.EQ.1)NOLOGP = MERLEN/16.5
       IF(CUPFLG.EQ.1.OR.BFPFLG.EQ.1.OR.CDPFLG.EQ.1)NOLOGP = TOTLGS
       IF(SPFLG.EQ.1) NOLOGS = (THT-MERLEN)/16.5
       
-	LOGDIA(1,1) = DLG(1)
-	DO 100, I=1,NUMLGS
+      LOGDIA(1,1) = DLG(1)
+      DO 100, I=1,NUMLGS
          LOGDIA(I+1,1) = DSM(I)
-	   IF(I.EQ.NUMLGS)THEN
-	      LOGLEN(I) = TOPLEN - TRM
-	   ELSE
+         IF(I.EQ.NUMLGS)THEN
+            LOGLEN(I) = TOPLEN - TRM
+         ELSE
             LOGLEN(I) = 16.0      
-	   ENDIF
+         ENDIF
 
   100 CONTINUE
       RETURN

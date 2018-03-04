@@ -1,7 +1,7 @@
       SUBROUTINE FMCFIR (IYR,FMOIS,WMULT,SWIND,CFTMP,OINIT1,OACT1,HPA)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMPOFL
@@ -45,7 +45,7 @@ C     VARIABLE DECLARATIONS.
       INTEGER OLDND, OLDNL, IRTNCD
       REAL    OLDFWG(2,7), OLDMEX(3), OLDMPS(2,3), OLDEPT
       REAL    HPA, HPA2, HPA3, B, DIFF, BOUNDL, BOUNDU
-      REAL    INIT1, RACT, RACT1
+      REAL    INIT1, RACT
       REAL    OINIT1(3), OACT1(3)
       CHARACTER*8 CFTMP
       LOGICAL DEBUG
@@ -162,8 +162,8 @@ C     RESET THESE VALUES BACK SINCE THEY WERE RESET FOR USE OF FM 10.
       FWG(2,7) = OLDFWG(2,7)
 
       DO I = 1,3
-        MPS(1,I) = OLDMPS(1,I)
-        MPS(2,I) = OLDMPS(2,I)
+        MPS(1,I) = INT(OLDMPS(1,I))
+        MPS(2,I) = INT(OLDMPS(2,I))
         FWG(1,I) = OLDFWG(1,I)
         FWG(2,I) = OLDFWG(2,I)
         J = I + 3
@@ -256,7 +256,9 @@ C     A -1 TO INDICATE A NULL VALUE
       ENDIF
 
       FWIND = SAVWND
-
+C----------
+C  THIS BLOCK OF OLD CODE IS HERE FOR DOCUMENTATION
+C
 C     FIRE TYPE
 C
 C      RACT1 = 9.84249/CBD ! critical spread rate for active crown fire (ft/min)
@@ -282,6 +284,9 @@ C        CRBURN = 0.0
 C        FIRTYPE = 3
 C        RFINAL = SFRATE(FMOIS)
 C      ENDIF
+C
+C  END BLOCK OF OLD CODE
+C----------
 
       IF (OINIT1(FMOIS) .GT. SWIND) THEN
         IF (OACT1(FMOIS) .GT. SWIND) THEN

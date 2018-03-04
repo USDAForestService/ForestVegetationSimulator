@@ -2,7 +2,7 @@
      >                  PSBURN)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMBURN
@@ -291,15 +291,15 @@ C
                 PMORT = PMORT
             END SELECT           
             IF ((BURNSEAS .LE. 2) .AND. (KSP .GT. 14)) THEN
-            	SELECT CASE (KSP)
-            	  CASE (30:36)
-            	    IF (DBH(I) .GE. 2.5) THEN
-            	      PMORT=PMORT/2  
-            	    ELSE
-            	    	PMORT=PMORT*0.8  
-            	    ENDIF
-            	  CASE DEFAULT
-            	    PMORT=PMORT*0.8      
+              SELECT CASE (KSP)
+                CASE (30:36)
+                  IF (DBH(I) .GE. 2.5) THEN
+                    PMORT=PMORT/2  
+                  ELSE
+                    PMORT=PMORT*0.8  
+                  ENDIF
+                CASE DEFAULT
+                  PMORT=PMORT*0.8      
               END SELECT
             ENDIF
             IF ((KSP .GT. 14) .AND. (DBH(I) .LE. 1)) PMORT = 1.0 
@@ -317,15 +317,15 @@ C
                 PMORT = PMORT
             END SELECT           
             IF ((BURNSEAS .LE. 2) .AND. (KSP .GT. 25)) THEN
-            	SELECT CASE (KSP)
-            	  CASE (55:70,89)
-            	    IF (DBH(I) .GE. 2.5) THEN
-            	      PMORT=PMORT/2  
-            	    ELSE
-            	    	PMORT=PMORT*0.8  
-            	    ENDIF
-            	  CASE DEFAULT
-            	    PMORT=PMORT*0.8      
+              SELECT CASE (KSP)
+                CASE (55:70,89)
+                  IF (DBH(I) .GE. 2.5) THEN
+                    PMORT=PMORT/2  
+                  ELSE
+                    PMORT=PMORT*0.8  
+                  ENDIF
+                CASE DEFAULT
+                  PMORT=PMORT*0.8      
               END SELECT
             ENDIF
             IF ((KSP .GT. 25) .AND. (DBH(I) .LE. 1)) PMORT = 1.0 
@@ -492,7 +492,7 @@ C
                DTHISC = ((1.0-CRBURN) - (1-CRBURN)*PMORT) 
      &                 * FMPROB(I)
              ELSE ! MKODE .EQ. 0
-               DTHISC = FMPROB(I)           	
+               DTHISC = FMPROB(I)
              ENDIF
              CALL FMSCRO(I,ISP(I),IYR,DTHISC,1)  
 C

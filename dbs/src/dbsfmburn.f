@@ -2,7 +2,7 @@
      -  LIVEW,LIVEH,MFWIND,SLOPE,FLAME,SCORCH,FTYPE,FM,WT,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE BURN CONDITIONS REPORT
 C              INFORMATION
@@ -327,7 +327,6 @@ C
      -           SQL_NULL_PTR)
 
 
-  100 CONTINUE
 
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLExecute(StmtHndlOut)

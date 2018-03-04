@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: voleqdef.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  04-15-2014 reconciled Vol. Eq. No. output from FVS with Cruise software-RNH
 C 01/18/2013 added FIAVOLEQDEF, R5_PNWEQN and R6_PNWEQN for PNE FIA equations.
 C 03/25/2014 changed default equation for Region 3 (R3_EQN) Ponderosa pine in the forest Apache Sitgreaves, Coconino, Kaibab and Tonto to 300FW2W122.
@@ -50,7 +53,6 @@ C
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE GETVARIANT(REGN,FORST,DIST,VAR)
       CHARACTER*2 FORST,DIST,VAR
-      CHARACTER VVER*7
       INTEGER REGN,FORNUM,DISTNUM
  
       IF(FORST(2:2) .LT. '0') THEN 
@@ -2051,10 +2053,10 @@ C     FIND CORRECT SPECIES
       
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R9_EQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
-      CHARACTER*10 VOLEQ,VEQTEM
-      CHARACTER*2 GEOAREA,VAR, FORST,GEOCODES(6)
+      CHARACTER*10 VOLEQ
+      CHARACTER*2 VAR, FORST
       CHARACTER*3 LSSP(69),CSSP(97),NESP(108),SNSP(92),ASPEC
-      INTEGER SPEC,ERRFLAG,FORNUM,LSFIA(69),CSFIA(97),NEFIA(108),
+      INTEGER SPEC,ERRFLAG,LSFIA(69),CSFIA(97),NEFIA(108),
      &         SNFIA(92)
       INTEGER FIRST, HALF, LAST, DONE, I, J
             
@@ -2524,7 +2526,7 @@ c ------------------------------------------------------------------------
 
 C FIA DEFAULT VOLUME EQUATION FOR CA
       SUBROUTINE R5_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
-      CHARACTER*2 FORST,DIST,VAR
+      CHARACTER*2 FORST,VAR
       CHARACTER*10 VOLEQ, EQNUM(91)
       INTEGER ERRFLAG,SPEC,FIA(91)
       INTEGER DONE,HALF,FIRST,LAST
@@ -2609,7 +2611,7 @@ C     GET EQUATION FROM EQNUME ARRAY
       
 C FIA DEFAULT VOLUME EQUATION FOR WA AND OR
       SUBROUTINE R6_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
-      CHARACTER*2 FORST,DIST,VAR
+      CHARACTER*2 FORST,VAR
       CHARACTER*10 VOLEQ, EQNUMW(66), EQNUME(66)
       INTEGER ERRFLAG,SPEC,FIA(66)
       INTEGER DONE,HALF,FIRST,LAST

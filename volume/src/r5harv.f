@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r5harv.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  01-18-2013
 C 01/18/2013 Added calculation for stump VOL(14) and tip VOL(15)
       SUBROUTINE  R5HARV (VOLEQ,DBHOB,HTTOT,MTOPP,VOL,BFPFLG,CUPFLG,
@@ -100,7 +103,9 @@ C CHECK FOR VALID SPECIES AND IF NOT SET VOLUME TO -1 AND RETURN
       DO 10,I=1,15
         VOL(I) = 0
    10 CONTINUE
-
+C
+      CVTS = 0.
+C
       ERRFLAG = 0
       if(dbhob .lt. 1.0)then
          errflag = 3
@@ -157,7 +162,7 @@ C JUNIPER SPECIES
          IF(D.LT.5 .OR. HTTOT.LT.10) THEN
            CVTS = 0.00272708 * D * D * HTTOT
             V = 0
-        ELSE
+         ELSE
             F = 0.307 + 0.00086*HTTOT - 0.0037*D*HTTOT / (HTTOT - 4.5)
             BA = 0.005454154 * D * D
             CVTS = BA * F * HTTOT * (HTTOT / (HTTOT - 4.5))**2
@@ -167,7 +172,7 @@ C  IF TOP NOT EQUAL TO 0 THEN DEFAULT TO 4 INCH TOP
             ELSE
                V = CVTS
             ENDIF
-        ENDIF
+         ENDIF
          VOL(4) = ANINT(V*10 + 0.5)/10.0
          vol(1) = cvts
 C REDALDER SPECIES
@@ -292,8 +297,10 @@ C*******************************************
 
       ELSE IF (SPEC.EQ.14) THEN
 
-        VOL(2) = COEFSEQB(1)*(DBHOB**COEFSEQB(2))*HTTOT ** COEFSEQB(3)
-        VOL(4) = COEFSEQC(1)*(DBHOB**COEFSEQC(2))*HTTOT ** COEFSEQC(3)
+        VOL(2) = REAL(COEFSEQB(1)*(DBHOB**COEFSEQB(2))*
+     &           HTTOT ** COEFSEQB(3))
+        VOL(4) = REAL(COEFSEQC(1)*(DBHOB**COEFSEQC(2))*
+     &           HTTOT ** COEFSEQC(3))
         vol(1) = vol(4)
 C************************************************
 C--  MISC HARDWOOD SPECIES                   ****
@@ -303,17 +310,17 @@ C************************************************
         TOPC = MTOPP
         D = DBHOB
         BA = D**2 * 0.005454154
-        CV4 = COFA(SPEC,1) * DBHOB**COFA(SPEC,2)*HTTOT**COFA(SPEC,3) * 
-     >        IV**COFA(SPEC,4)
-        CV8 = COFB(SPEC,1) * DBHOB**COFB(SPEC,2)*HTTOT**COFB(SPEC,3) * 
-     >        IV**COFB(SPEC,4)
+        CV4 = REAL(COFA(SPEC,1) * DBHOB**COFA(SPEC,2)*
+     >        HTTOT**COFA(SPEC,3) * IV**COFA(SPEC,4))
+        CV8 = REAL(COFB(SPEC,1) * DBHOB**COFB(SPEC,2)* 
+     >        HTTOT**COFB(SPEC,3) *IV**COFB(SPEC,4))
         IF (CV4.GT.0.AND.CV8.GT.0) THEN
           CV6 = CV4-((CV4-CV8)*.4)
         ELSE
           CV6=0
         ENDIF
-        CVT = COFC(SPEC,1) * DBHOB**COFC(SPEC,2)*HTTOT**COFC(SPEC,3) *
-     >        IV**COFC(SPEC,4)
+        CVT = REAL(COFC(SPEC,1) * DBHOB**COFC(SPEC,2)*
+     >        HTTOT**COFC(SPEC,3) *IV**COFC(SPEC,4))
         IF (TOPC.ge.3 .and. topc.lt. 5) THEN
            CUFTGROS = CV4
         ELSEIF (TOPC.ge.5 .and. topc.lt.7) THEN

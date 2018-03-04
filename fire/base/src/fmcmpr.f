@@ -1,7 +1,7 @@
       SUBROUTINE FMCMPR (NCLAS)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C
 C  THIS SUBROUTINE IS USED TO COMPRESS THE TREE RECORDS ARRAYS FOR
@@ -34,7 +34,7 @@ C  CHECK FOR DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'FMCMPR',6,ICYC)
       IF (DEBUG) WRITE(JOSTND,7) ICYC,LFMON
- 7    FORMAT(' ENTERING ROUTINE FMCMPR CYCLE = ',I2,' LFMON=',L2)	
+ 7    FORMAT(' ENTERING ROUTINE FMCMPR CYCLE = ',I2,' LFMON=',L2)
       
 C     NO COMPRESSION IS REQUIRED IF THE FIRE/SNAG MODEL IS ABSENT
       
@@ -95,8 +95,8 @@ C        MOVE COMPRESSED VALUES TO THE 'IREC1' POSITION
                OLDCRW(IREC1, JJ) = TXP6(JJ) / TXP
                CROWNW(IREC1, JJ) = TXP7(JJ) / TXP
             ENDDO
-            GROW(IREC1)  = TXP8  / TXP
-            FMICR(IREC1)  = IFIX(TXP9  / TXP + 0.5)
+            GROW(IREC1)  = INT(TXP8  / TXP)
+            FMICR(IREC1)  = INT(TXP9  / TXP + 0.5)
          ELSE
             OLDHT(IREC1)  = 0.
             OLDCRL(IREC1) = 0.
@@ -104,7 +104,7 @@ C        MOVE COMPRESSED VALUES TO THE 'IREC1' POSITION
                OLDCRW(IREC1, JJ) = 0.
                CROWNW(IREC1, JJ) = 0.
             ENDDO
-            GROW(IREC1)   = 0.
+            GROW(IREC1)   = 0
             FMICR(IREC1)  = 0
          ENDIF
 

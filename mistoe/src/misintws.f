@@ -1,7 +1,7 @@
       SUBROUTINE MISINT
       IMPLICIT NONE
 ***********************************************************************
-*  **MISINT--WS  Date of last revision:  07/12/11
+C MISTOE $Id: misint.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Mistletoe parameter initialization routine. This routine is
@@ -55,8 +55,8 @@ C  DIMENSIONS FOR INTERNAL VARIABLES.
 C----------
       LOGICAL DEBUG
       CHARACTER*2 ACSP(MAXSP)
-      INTEGER I,J
-      REAL AFIT(MAXSP),ADGP(MAXSP,7),AHGP(MAXSP,7),APMC(MAXSP,3)
+      INTEGER I,J,AFIT(MAXSP)
+      REAL ADGP(MAXSP,7),AHGP(MAXSP,7),APMC(MAXSP,3)
 C----------
 C     SPECIES LIST FOR WESTERN SIERRAS VARIANT.
 C

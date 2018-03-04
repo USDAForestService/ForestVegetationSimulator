@@ -1,6 +1,6 @@
       SUBROUTINE MISIN0
 ***********************************************************************
-*  **MISIN0--MS  Date of last revision:  04/01/11
+C MISTOE $Id: misin0.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Mistletoe parameter initialization routine. This routine is
@@ -113,8 +113,6 @@ C.... Mistletoe model initializations.
       IMOUT4 = 0
 
 C.... Common return.
-
- 9000 CONTINUE
 
       RETURN
       END

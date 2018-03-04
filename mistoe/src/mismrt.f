@@ -1,6 +1,6 @@
       SUBROUTINE MISMRT(MFLAG)
 ***********************************************************************
-*  **MISMRT--MS  Date of last revision:  12/20/03
+C MISTOE $Id: mismrt.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *    Processes the MISTMORT keyword.  Calculates the periodic mortality
@@ -207,8 +207,6 @@ C.... End species loop.
   300 CONTINUE
 
 C.... Common return.
-
- 9000 CONTINUE
 
       IF(DEBUG) WRITE(JOSTND,9010)ICYC,COUNT,MRTSM1,MRTSM2,MRTSM3
  9010 FORMAT(' End MISMRT: Cycle, Count, dmmtpa, cfv, mrt =',

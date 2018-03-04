@@ -1,7 +1,7 @@
       SUBROUTINE FMSADD (YEAR,ITYP)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C PURPOSE:
 C     ADDS NEW SNAGS TO THE SNAG LIST, AVERAGING THE APPROPRIATE
@@ -371,7 +371,7 @@ C     see what can be done later.
       IF (ITYP .LT. 0) THEN
         J = -ITYP
         CALL OPGET(J,6,JYR,IACTK,NPRM,PRMS)
-        SPCL = PRMS(1)
+        SPCL = INT(PRMS(1))
         DO 162 DBHCL = 1,19
           DO 164 HTCL = 1,2
             X = RECORD(SPCL,DBHCL,HTCL)

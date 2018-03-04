@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: sf_3pt.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  04-02-2014
       SUBROUTINE SF_3pt(JSP,geosub,setopt,DBH,TOTALH,DBT_BH,NEXTRA,HEX,
      >                  DEX,ZEX,RHFW,RFLW,TAPCOE,F,PINV_Z,FMOD)
@@ -14,26 +17,27 @@ c     IDTYPE Input  I       1: DEX's are outside bark; 2: DEX's are inside bark.
 c     ZEX    Output  R*4()   Standardized errors at those heights. 
 c                                (These are Never adjusted for white noise).
 C  04/02/2014 YW Comment out a piece code which does not doing anything but causes problem for JSP > 25.
-      INTEGER NSP
+C      INTEGER NSP
       CHARACTER*2 GEOSUB
       INTEGER SETOPT(6),JSP,NEXTRA,IDTYPE,ineedsl,JX
 
       REAL DBH,TOTALH,DBT_BH,BH,slope 
       REAL*4 RFLW(6),RHFW(4),TAPCOE(12),ABS_CHNG
       REAL*4 HEX(2),DEX(2),ZEX(2),X,F,DIB,DBT,DIBMOD,DIBACT,SE_LNX
-      REAL SF_YHAT,BRK_UPB2,BRK_UPA2,BRK_WS,SF_CORR
+      REAL SF_YHAT,BRK_UPB2,BRK_WS,SF_CORR
+C      REAL BRK_UPA2
       REAL*8 p_inv(2,2)
       REAL FMODMAX ,HFIRSTUP, FMODMAXU, PINV_Z(2),FMOD(3)
       REAL hextra(2), dhatex(2), bark_r(2), dobex(2), z(2)       
      
       REAL*8 P12, P12sq
 
-      PARAMETER (NSP=25)
-      Real*4 whitenoise(NSP)/ 1.0, 1.0, 1.0, 1.0, 1.0,
-     &                        1.0, 1.0, 1.0, 1.0, 1.0,
-     &                        1.0, 1.0, 1.0, 1.0, 1.0,
-     &                        1.0, 1.0, 1.0, 1.0, 1.0,
-     &                        1.0, 1.0, 1.0, 1.0, 1.0/
+C      PARAMETER (NSP=25)
+C      Real*4 whitenoise(NSP)/ 1.0, 1.0, 1.0, 1.0, 1.0,
+C     &                        1.0, 1.0, 1.0, 1.0, 1.0,
+C     &                        1.0, 1.0, 1.0, 1.0, 1.0,
+C     &                        1.0, 1.0, 1.0, 1.0, 1.0,
+C     &                        1.0, 1.0, 1.0, 1.0, 1.0/
 
       BH=4.5
       IDTYPE = 1
@@ -157,8 +161,8 @@ c     1                            Z(jx) = Z(jx) * whitenoise(jsp)
               P_INV(2,1)=0.
           ENDIF
 c                              multiply inverse corr matrix by (Z1 Z2)'
-          PINV_Z(1) = p_inv(1,1)*Z(1) + p_inv(1,2)*Z(2)            
-          PINV_Z(2) = p_inv(2,1)*Z(1) + p_inv(2,2)*Z(2)
+          PINV_Z(1) = REAL(p_inv(1,1)*Z(1) + p_inv(1,2)*Z(2))           
+          PINV_Z(2) = REAL(p_inv(2,1)*Z(1) + p_inv(2,2)*Z(2))
       ENDIF
 
 C      IVSTAT_S= .false.

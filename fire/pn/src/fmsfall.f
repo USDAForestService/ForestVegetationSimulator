@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-PN  DATE OF LAST REVISION: 06/26/12
+C FIRE-PN $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -34,7 +34,6 @@ C     DFALLN:  Target density of snags to fall under normal conditions
 C              (where hard and soft snags fall at the same rate).
 C     DZERO:   Density level (#/acre), at which snag is considered
 C              equal to ZERO.
-C     FALLM2:  Rate-of-fall for last 5% of lrg snags in current record
 C     ISWTCH:  =1 if FMSNAG called this subroutine.
 C              =2 if SVSNAGE called this subroutine.
 C     KSP:     Species number for current snag pool/record.
@@ -76,8 +75,8 @@ COMMONS
 C
       INTEGER ISWTCH, IYR, JADJ, JSML, JYRSOFT, KSP
       LOGICAL DEBUG
-      REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
-     &        RSOFT, RSMAL, X
+      REAL    BASE, D, DENTTL, DFALLN, DZERO, ORIGDEN,
+     &        RSOFT, RSMAL
 C
 C----------
 C  Check for debug:

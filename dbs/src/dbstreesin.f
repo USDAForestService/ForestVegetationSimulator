@@ -4,7 +4,7 @@
      -    JOSTND,LKECHO,ABIRTH,LBIRTH)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     NOTE: ALL OF THE VARIABLE IN THIS ROUTINE ARE VOLITILE. THE GET RESET
 C           AT EVERY CALL. BE CAREFUL.
@@ -249,12 +249,12 @@ C     CATCH NULLS AND ASSIGN VALUES TO 0 INSTEAD
         IF(VAL_LI(1).EQ.SQL_NULL_DATA) THEN
           IPLOT   = 0
         ELSE
-          IPLOT   = RTREEDATA(1)
+          IPLOT   = INT(RTREEDATA(1))
         END IF
         IF(VAL_LI(2).EQ.SQL_NULL_DATA) THEN
           ITREE   = 0
         ELSE
-          ITREE   = RTREEDATA(2)
+          ITREE   = INT(RTREEDATA(2))
         END IF
         IF(VAL_LI(3).EQ.SQL_NULL_DATA) THEN
           RCOUNT  = 0
@@ -264,62 +264,62 @@ C     CATCH NULLS AND ASSIGN VALUES TO 0 INSTEAD
         IF(VAL_LI(4).EQ.SQL_NULL_DATA) THEN
           HISTORY = 0
         ELSE
-          HISTORY = RTREEDATA(4)
+          HISTORY = INT(RTREEDATA(4))
         END IF
         IF(VAL_LI(10).EQ.SQL_NULL_DATA) THEN
           CRWNR   = 0
         ELSE
-          CRWNR   = RTREEDATA(10)
+          CRWNR   = INT(RTREEDATA(10))
         END IF
         IF(VAL_LI(11).EQ.SQL_NULL_DATA) THEN
           DMG1    = 0
         ELSE
-          DMG1    = RTREEDATA(11)
+          DMG1    = INT(RTREEDATA(11))
         END IF
         IF(VAL_LI(12).EQ.SQL_NULL_DATA) THEN
           DMG2    = 0
         ELSE
-          DMG2    = RTREEDATA(12)
+          DMG2    = INT(RTREEDATA(12))
         END IF
         IF(VAL_LI(13).EQ.SQL_NULL_DATA) THEN
           DMG3    = 0
         ELSE
-          DMG3    = RTREEDATA(13)
+          DMG3    = INT(RTREEDATA(13))
         END IF
         IF(VAL_LI(14).EQ.SQL_NULL_DATA) THEN
           SVR1    = 0
         ELSE
-          SVR1    = RTREEDATA(14)
+          SVR1    = INT(RTREEDATA(14))
         END IF
         IF(VAL_LI(15).EQ.SQL_NULL_DATA) THEN
           SVR2    = 0
         ELSE
-          SVR2    = RTREEDATA(15)
+          SVR2    = INT(RTREEDATA(15))
         END IF
         IF(VAL_LI(16).EQ.SQL_NULL_DATA) THEN
           SVR3    = 0
         ELSE
-          SVR3    = RTREEDATA(16)
+          SVR3    = INT(RTREEDATA(16))
         END IF
         IF(VAL_LI(17).EQ.SQL_NULL_DATA) THEN
           TREEVAL = 0
         ELSE
-          TREEVAL = RTREEDATA(17)
+          TREEVAL = INT(RTREEDATA(17))
         END IF
         IF(VAL_LI(18).EQ.SQL_NULL_DATA) THEN
           PRESCRIPT = 0
         ELSE
-          PRESCRIPT = RTREEDATA(18)
+          PRESCRIPT = INT(RTREEDATA(18))
         END IF
         IF(VAL_LI(19).EQ.SQL_NULL_DATA) THEN
           SLOPE   = 0
         ELSE
-          SLOPE   = RTREEDATA(19)
+          SLOPE   = INT(RTREEDATA(19))
         END IF
         IF(VAL_LI(20).EQ.SQL_NULL_DATA) THEN
-          Aspect  = 0
+          ASPECT  = 0
         ELSE
-          Aspect  = RTREEDATA(20)
+          ASPECT  = INT(RTREEDATA(20))
         END IF
 
         HABITAT = 0
@@ -335,12 +335,12 @@ C     CATCH NULLS AND ASSIGN VALUES TO 0 INSTEAD
         IF(VAL_LI(22).EQ.SQL_NULL_DATA) THEN
           TOPOCODE = 0
         ELSE
-          TOPOCODE = RTREEDATA(22)
+          TOPOCODE = INT(RTREEDATA(22))
         END IF
         IF(VAL_LI(23).EQ.SQL_NULL_DATA) THEN
           SITEPREP = 0
         ELSE
-          SITEPREP = RTREEDATA(23)
+          SITEPREP = INT(RTREEDATA(23))
         END IF
         IF(VAL_LI(24).EQ.SQL_NULL_DATA) THEN
            SPECIES = ' '

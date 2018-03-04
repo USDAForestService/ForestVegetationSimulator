@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r9clark.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 C  Region 9 Profile Model Volume Calculation
 C  revised TDH 01/12/2010  Added code for calculating log volumes and
 C                          added the definfe type CLKCOEF for passing
@@ -73,9 +76,8 @@ C     Shared variables
       character*1 cType
 C     Internal variables
       integer   numSeg,spp,i,j
-      real      plpDib,sawDib,plpHt,sawHt,topHt,totHt,dbhIb,dib17
-      real      r,c,e,p,b,a,a4,b4,a17,b17,cfVol,tcfVol,shrtHt
-      real      cf1,cf2,cf3
+      real      plpDib,sawDib,plpHt,sawHt,topHt
+      real      cfVol,tcfVol,shrtHt
       REAL      TLOGVOL
       logical   short      
       
@@ -86,12 +88,12 @@ C     Internal variables
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R9CLARK'
    10    FORMAT (A)   
-   		END IF
+      END IF
 
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 100)'  STUMP HT1PRD HT2PRD'
 100      FORMAT (A)
-  			 WRITE  (LUDBG, 104)STUMP, HT1PRD, HT2PRD
+         WRITE  (LUDBG, 104)STUMP, HT1PRD, HT2PRD
 104      FORMAT(1X, F5.1, 2X, F5.1, F5.1)
       END IF
       
@@ -142,7 +144,7 @@ C-----Get DIBs at heights of 4.5' and 17.3'
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 200)'  DBHIB DIB17 SAWDIB PLPDIB'
   200    FORMAT (A)
-  			 WRITE  (LUDBG, 220)coeffs%DBHIB,coeffs%DIB17, SAWDIB, PLPDIB
+         WRITE  (LUDBG, 220)coeffs%DBHIB,coeffs%DIB17, SAWDIB, PLPDIB
   220    FORMAT(1X, F5.1, 2X, F5.1, F5.1, 2X, F5.1)
       END IF
 
@@ -155,7 +157,7 @@ C-----Get total height
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 300)'  TOTHT HTTOT TOPHT TOPDIB STUMP'
   300    FORMAT (A)
-  			 WRITE  (LUDBG, 320)coeffs%TOTHT, HTTOT, TOPHT, TOPDIB, STUMP
+         WRITE  (LUDBG, 320)coeffs%TOTHT, HTTOT, TOPHT, TOPDIB, STUMP
   320    FORMAT(1X, F5.1, 2X, F5.1, 1X, F5.1, 1X, F5.1, 1X, F5.1)
       END IF
       
@@ -174,7 +176,7 @@ C-----Get total volume to the tip
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 400)'  CFVOL '
   400    FORMAT (A)
-  			 WRITE  (LUDBG, 420)CFVOL
+         WRITE  (LUDBG, 420)CFVOL
   420    FORMAT(1X, F7.3)
       END IF
 !***********************************************************************
@@ -234,7 +236,7 @@ c         Saw height calc is requested by having 1 < ht1prd < 4.5'
         if(errFlg.ne.0) return
         if(topDib.le.sawDib .and. topHt.lt.sawHt) sawHt=topHt
         if(sawHt.lt.minLen+trim+stump) sawHt=0.0
-				!reassign sawHT to ht1prd 
+C       !reassign sawHT to ht1prd 
          ht1prd = sawHT
          
 C-----Get sawtimber cubic volumes
@@ -247,9 +249,7 @@ C-----Get sawtimber cubic volumes
           
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 400)'  CFVOL '
-  500    FORMAT (A)
-  			 WRITE  (LUDBG, 420)CFVOL
-  520    FORMAT(1X, F5.1)
+         WRITE  (LUDBG, 420)CFVOL
       END IF
 
 C-----Get topwood cubic volumes
@@ -342,22 +342,22 @@ c VOL(1) is the total volume from stump to tip
       ENDIF
 C-----Apply correction factors
       call r9cor(vol,logVol,spp,iProd)
-	
+
       if(vol(1).gt.0.0) vol(1)= nint(vol(1)*10.0)/10.0
-	    if(vol(2).gt.0) vol(2)=  nint(vol(2))
-	    if(vol(4).gt.0) vol(4)= nint(vol(4)*10.0)/10.0
-	    if(vol(6).gt.0) vol(6)=  nint(vol(6)*10.0)/10.0
-	    if(vol(7).gt.0) vol(7)=  nint(vol(7)*10.0)/10.0
-	    if(vol(9).gt.0) vol(9)=  nint(vol(9)*10.0)/10.0
-	    if(vol(10).gt.0) vol(10)=  nint(vol(10))
-	    if(vol(12).gt.0) vol(12)=  nint(vol(12))
-	
-	    IF (DEBUG%MODEL) THEN
+      if(vol(2).gt.0) vol(2)=  nint(vol(2))
+      if(vol(4).gt.0) vol(4)= nint(vol(4)*10.0)/10.0
+      if(vol(6).gt.0) vol(6)=  nint(vol(6)*10.0)/10.0
+      if(vol(7).gt.0) vol(7)=  nint(vol(7)*10.0)/10.0
+      if(vol(9).gt.0) vol(9)=  nint(vol(9)*10.0)/10.0
+      if(vol(10).gt.0) vol(10)=  nint(vol(10))
+      if(vol(12).gt.0) vol(12)=  nint(vol(12))
+
+      IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 700)'CRDVOLPP  CRDVOLSP'
   700    FORMAT (A)
          WRITE  (LUDBG, 710)VOL(6), VOL(9)
   710    FORMAT (F6.2, 2X, F6.2)    
-   		END IF
+      END IF
 
 
       IF (DEBUG%MODEL) THEN
@@ -387,8 +387,8 @@ C  merchantability rules for the specified species and product.
       INCLUDE 'R9COEFF.INC'
       
       integer   errFlg,spp,sppGrp,geog,iProd,k,sppIdx
-      real      dbhOb,topDib,topHt,sawHt,maxLen,minLen
-      real      dib17,upprHt,lowrHt,merchL,stump,upsHt1
+      real      dbhOb,topDib,topHt,maxLen,minLen
+      real      merchL,stump,upsHt1
       real      mTopP,mTopS,trim,minBfD,ht1Prd,ht2Prd,htTot
       TYPE(CLKCOEF):: COEFFS
       real      plpDib,sawDib,shrtHt
@@ -400,7 +400,7 @@ C  merchantability rules for the specified species and product.
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R9PREP'
    10    FORMAT (A)   
-   		END IF
+      END IF
 
       if(volEq(10:10).lt.'0' .or. volEq(10:10).gt.'9') then
         tmpStr=volEq(8:9)
@@ -652,15 +652,15 @@ C     total height, except a17 and b17, which correspond to the top DIB.
       IF (DEBUG%MODEL) THEN
          WRITE (LUDBG, 100)'  DBHOB TOPDIB TOPHT HT1PRD HT2PRD HTTOT'
   100    FORMAT(A)
-  			 WRITE (LUDBG, 120)DBHOB, TOPDIB, TOPHT, HT1PRD, HT2PRD, HTTOT
+         WRITE (LUDBG, 120)DBHOB, TOPDIB, TOPHT, HT1PRD, HT2PRD, HTTOT
   120    FORMAT(2X, F5.1, F5.1, 2X, F5.1, 2X, F5.1, 2X, F5.1, 2X,F5.1)
          WRITE (LUDBG, 140)'  SPP MAXLEN MINLEN MERCHL MTOPP  MTOPS'
   140    FORMAT(A)
-			   WRITE (LUDBG, 160)SPP, MAXLEN, MINLEN, MERCHL, MTOPP, MTOPS
+         WRITE (LUDBG, 160)SPP, MAXLEN, MINLEN, MERCHL, MTOPP, MTOPS
   160    FORMAT(2X, I3, F5.1, 2X, F5.1, 2X, F5.1, 2X, F5.1, 2X,F5.1)
          WRITE  (LUDBG, 200) ' <--Exit R9PREP'
   200    FORMAT (A)   
-   		END IF
+      END IF
 
       return
       end SUBROUTINE R9PREP
@@ -675,8 +675,8 @@ C  at 17.3' (dib17), given  species (spp), dbh (dbhOb), and height
 C  (topHt) to top diameter inside bark (topDib).  a17 and b17 are 
 C  inside-bark coefficients corresponding to the specified top diameter.
 
-			USE DEBUG_MOD
-			USE CLKCOEF_MOD
+      USE DEBUG_MOD
+      USE CLKCOEF_MOD
 
       IMPLICIT NONE
 !**********************************************************************
@@ -687,14 +687,13 @@ C  inside-bark coefficients corresponding to the specified top diameter.
       real      sawDib,plpDib
 
 !...  Local variables
-      INTEGER   I
       REAL      dbhIb,dib17,a4,b4,a17,b17
 !======================================================================
 
-			IF (DEBUG%MODEL) THEN
+      IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R9DIA417'
    10    FORMAT (A)   
-   		END IF
+      END IF
 
       A4 =  COEFFS%A4
       B4 =  COEFFS%B4
@@ -820,12 +819,12 @@ C  for inside-bark calculations.
       IMPLICIT NONE
 !**********************************************************************      
 !...  Parameters
-      integer   errFlg,i,j
+      integer   errFlg
       real      lowrHt,upprHt,cfVol
       TYPE(CLKCOEF)::COEFFS
       real      G,W,X,Y,Z,T,L1,L2,L3,U1,U2,U3
       real      I1,I2,I3,I4,I5,I6
-      real      vol(15)
+
 
 !...  Local variables     
       real      r,c,e,p,b,a,totHt,dbhIb,dib17
@@ -834,18 +833,18 @@ C  for inside-bark calculations.
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R9CUFT'
    10    FORMAT (A)   
-   		END IF
+      END IF
 
-!...  reassign the coefficients to local variables to keep things tidy   		
-   		r = COEFFS%R
-   		c = COEFFS%C
-   		e = COEFFS%E
-   		p = COEFFS%P
-   		b = COEFFS%B
-   		a = COEFFS%A
-   		totHt = COEFFS%TOTHT
-   		dbhIb = COEFFS%DBHIB
-   		dib17 = COEFFS%DIB17
+!...  reassign the coefficients to local variables to keep things tidy
+      r = COEFFS%R
+      c = COEFFS%C
+      e = COEFFS%E
+      p = COEFFS%P
+      b = COEFFS%B
+      a = COEFFS%A
+      totHt = COEFFS%TOTHT
+      dbhIb = COEFFS%DBHIB
+      dib17 = COEFFS%DIB17
 
       cfVol=0.0
       if(upprHt.le.0.0) return
@@ -915,13 +914,13 @@ C-----Calculate cubic volume between specified heights
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 400)'  CFVOL DBHIB TOTHT DIB17 LOWRHT UPPRHT'
   400    FORMAT (A)
-  		 WRITE  (LUDBG, 420)CFVOL, DBHIB, TOTHT, DIB17, LOWRHT, UPPRHT
+         WRITE  (LUDBG, 420)CFVOL, DBHIB, TOTHT, DIB17, LOWRHT, UPPRHT
   420  FORMAT(1X, F5.1, 1X, F5.1, 1X, F5.1, 1X, F5.1, 1X, F5.1, 1X,F5.1)
      
          WRITE  (LUDBG, 2000) ' <--Exit R9CUFT'
  2000    FORMAT (A)   
-   		END IF
-   		
+      END IF
+   
       return
       end SUBROUTINE R9CUFT
 C_______________________________________________________________________
@@ -946,22 +945,21 @@ C  for inside-bark calculations.
      
       
 !...  Local variables
-      integer   i
       real      r,c,e,p,b,a,totHt,dbhIb,dib17
       real      Is,Ib,It,Im,StTot
 !======================================================================      
 
-!...  reassign the coefficients to local variables to keep things tidy   		
-   		r = COEFFS%R
-   		c = COEFFS%C
-   		e = COEFFS%E
-   		p = COEFFS%P
-   		b = COEFFS%B
-   		a = COEFFS%A
-   		totHt = COEFFS%TOTHT
-   		dbhIb = COEFFS%DBHIB
-   		dib17 = COEFFS%DIB17
-   		
+!...  reassign the coefficients to local variables to keep things tidy
+      r = COEFFS%R
+      c = COEFFS%C
+      e = COEFFS%E
+      p = COEFFS%P
+      b = COEFFS%B
+      a = COEFFS%A
+      totHt = COEFFS%TOTHT
+      dbhIb = COEFFS%DBHIB
+      dib17 = COEFFS%DIB17
+   
       stmDib=0.0
 
 c--   Fix a potential problem when r coefficient is negative
@@ -1016,13 +1014,13 @@ C-----Get DIB at specified height
 !      IF (DEBUG%MODEL) THEN
 !         WRITE  (LUDBG, 400)'  r   c    e    p    b    a '
 !  400    FORMAT (A)
-!  		 WRITE  (LUDBG, 420)r, c, e,p,b,a
-!  420  FORMAT(6F7.2)
+!         WRITE  (LUDBG, 420)r, c, e,p,b,a
+!  420    FORMAT(6F7.2)
   
 !         WRITE  (LUDBG, 500)'  totht stmdDib dbhib dib17  stemht'
 !  500    FORMAT (A)
-!  		 WRITE (LUDBG, 520)totht,stmdib, dbhib,dib17,stemht
-!  520  FORMAT(6F6.1)
+!         WRITE (LUDBG, 520)totht,stmdib, dbhib,dib17,stemht
+!  520    FORMAT(6F6.1)
 !      endif
       
       return
@@ -1042,13 +1040,12 @@ C  and a are the coefficients for inside-bark calculations.
       IMPLICIT NONE
       
 !...  Parameters     
-      integer   errFlg,i
+      integer   errFlg
       real      stemHt
       TYPE(CLKCOEF)::COEFFS
       REAL      stmDib
       
 !... Local variables
-      logical  res
       REAL      totHt,dbhIb,dib17,xxx
       real      r,c,e,p,b,a,G,W,X,Y,Z,Qa,Qb,Qc,Is,Ib,It,Im
 !======================================================================
@@ -1172,7 +1169,7 @@ C  the coefficients for inside-bark calculations.
       
 !..   Local variables
       INTEGER   iDib,i
-      real      logV,dib
+      real      dib
       real      bdft,len
       REAL      logVol(7,20)
       real      scrbnr(120)

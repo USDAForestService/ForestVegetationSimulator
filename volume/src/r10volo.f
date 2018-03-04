@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r10volo.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  01-18-2013
 C 01/18/2013 Added stump and tip vol calculation
       SUBROUTINE R10VOLO(EQNUM,DBHOB,HTTOT,HT1PRD,HTYPE,MTOPP,TLOGS, 
@@ -101,7 +104,7 @@ c place values into logdia and loglen first
         CALL R10TAPO (DBHOB,THT,LTYPE,MTOPP,CHK,NLOG,HMERCH,CL,HTSEG,
      >                                                         DIB,VS,V)
 
-        NCNT = NLOG+4
+        NCNT = INT(NLOG+4.)
 
 c fill logdia array      
         HTSEG(1) = 1.0
@@ -123,7 +126,7 @@ C******************************************************************
            DO 100, I=1,INT(TLOGS)
    
               DI = LOGDIA(I+1,1)
-              DI1 = DI
+              DI1 = INT(DI)
               DI2 = DI1 + 1
               W2 = 10. * (DI - DI1)
               W1 = 10. - W2
@@ -140,7 +143,7 @@ C
                  NCHK = 2 * NCHK  
               ELSE
                  IF(I.EQ.INT(NLOG)) BF1(I) = 20. * CL/16.3
-                 JBF = BF1(I) +0.5
+                 JBF = INT(BF1(I) +0.5)
                  BF1(I) = JBF
                  BF16 = BF16 + BF1(I)   
                  CHK = I/2   
@@ -160,7 +163,7 @@ C  LOOK UP BD. FT. 32 FT. LOGS
                     BF32 = BF32 + BF2(I)  
                  ELSE
                     IF(I.EQ.INT(NLOG)) BF2(I) = 50. * (16.3 + CL)/32.6
-                    KBF = BF2(I) + 0.5
+                    KBF = INT(BF2(I) + 0.5)
                     BF2(I) = KBF
                     BF32 = BF32 + BF2(I)  
                  ENDIF
@@ -186,14 +189,14 @@ C    INTERNATIONAL LOGIC
 
   100      CONTINUE  
 
-           AJ = NLOG/2
-           KAJ = AJ
+           AJ = NLOG/2.
+           KAJ = INT(AJ)
            KAJ = KAJ * 2 
 
            DO 140, IKD = 2,KAJ,2
-              KBF2 = BF2(IKD) + 0.5  
-              KDBFF = DBF(IKD-1) + 0.50000001
-              KDBFS = DBF(IKD) + 0.50000001  
+              KBF2 = INT(BF2(IKD) + 0.5)
+              KDBFF = INT(DBF(IKD-1) + 0.50000001)
+              KDBFS = INT(DBF(IKD) + 0.50000001)
               KDBFC = KDBFF + KDBFS 
 
               IF(KDBFC.NE.KBF2) THEN
@@ -204,9 +207,9 @@ C    INTERNATIONAL LOGIC
   140      CONTINUE
   
            DO  150, I=1,INT(TLOGS)
-              ITEMP = BF1(I) + 0.5   
+              ITEMP = INT(BF1(I) + 0.5)   
               BF1(I) = ITEMP
-              ITEMP = DBF(I) + 0.5   
+              ITEMP = INT(DBF(I) + 0.5)  
               DBF(I) = ITEMP
 
               BFCHUG = BFCHUG + ANINT(BF1(I)*10.0)/10.0

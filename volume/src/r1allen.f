@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r1allen.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  12-12-2002
       SUBROUTINE R1ALLENC(VOLEQ,DBHOB,HTTOT,TOPD,BTR,CUVOL,TCVOL,CFSTMP,
      >                    ERRFLAG)
@@ -393,11 +396,11 @@ C----------
       VT=0.0
       IF(TOPD.EQ.8.0) GO TO 15
       HDRATA=HTTOT/DBHOB
-      ID = DBHOB - 0.5
+      ID = INT(DBHOB - 0.5)
 
       IF(ID.GT.100) ID = 100
 
-      ITD = TOPD - 0.5
+      ITD = INT(TOPD - 0.5)
       IF(ITD.GT.100) ITD = 100
 
       IF(D2H.GT.D2HBRK(ISPC)) GO TO 10
@@ -417,7 +420,7 @@ C----------
    10 DTOPK = 0.4*DBHOB
       IF(DTOPK.LT.4.0) DTOPK = 4.0
       IF(DTOPK.GT.8.0) DTOPK = 8.0
-      IVTD = DTOPK - 0.5
+      IVTD = INT(DTOPK - 0.5)
       VT = COFBVS(ISPC) * SQRT(HDRATA/HDRATM(ID)) * 
      >     (DTOPK**3*HDRATM(IVTD) - TOPD**3*HDRATM(ITD)) -
      >     (DTOPK**2-TOPD**2)*0.12153

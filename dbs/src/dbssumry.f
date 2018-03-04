@@ -4,7 +4,7 @@
      -  IFORTP,ISZCL,ISTCL)
       IMPLICIT NONE
 C----------
-C $Id$
+C DBS $Id$
 C----------
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE PROGNOSIS MODEL
@@ -36,7 +36,7 @@ C             15: ACCRETION (ANNUAL IN CU FT/ACRE)
 C             16: MORTALITY  (ANNUAL IN CU FT/ACRE)
 C             17: SAMPLE WEIGHT
 C             18: FOREST COVER TYPE CODE
-C	            19: SIZE CLASS
+C             19: SIZE CLASS
 C             20: STOCKING CLASS
 C
 COMMONS
