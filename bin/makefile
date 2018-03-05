@@ -316,7 +316,7 @@ else
 endif
 else
 %.prg : $(object) 
-	$(LD) -shared -rdynamic -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) $(DBLINK) 
+	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) $(DBLINK) 
 	$(LD)         -o $(basename ../$@)$(PRGSUFX)  $(object) $(DBLINK)    
 endif
 

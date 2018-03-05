@@ -1,7 +1,7 @@
       SUBROUTINE RDSPUP (I,ISL,IISP,TP,DIAM,RTD)
       IMPLICIT NONE
 C----------
-C  **RDSPUP      LAST REVISION:  09/03/14
+C RD $Id: rdspup.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C  Purpose :
@@ -125,7 +125,7 @@ C        (ACTIVITY CODE 2431)
 
             DO 23 IJ = 1, NTODO
                CALL OPGET (IJ,5,KDT,IACTK,NPS,PRMS)
-               JRRTYP = PRMS(5)
+               JRRTYP = INT(PRMS(5))
                SPINF(JRRTYP) = PRMS(1)
                SPDBH(JRRTYP) = PRMS(2) 
    23       CONTINUE

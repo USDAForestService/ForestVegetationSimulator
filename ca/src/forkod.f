@@ -57,7 +57,6 @@ C
       ENDIF
       IFOR=I
 C
-   29 CONTINUE
       IGL=KFOR(I)
    30 CONTINUE
       KODFOR=JFOR(IFOR)

@@ -445,12 +445,13 @@ C
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &        HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II) = INT(HT(II)*100.0)
+      IF(REAL(NORMHT(II)*0.01).LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
   125 CONTINUE
   130 CONTINUE
       KNT2(IPTR)=K4
