@@ -1,7 +1,7 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
 C----------
-C  **REGENT--CA  DATE OF LAST REVISION:  01/13/12
+C CA $Id: regent.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE COMPUTES HEIGHT AND DIAMETER INCREMENTS FOR
 C  SMALL TREES.  THE HEIGHT INCREMENT MODEL IS APPLIED TO TREES
@@ -168,7 +168,7 @@ C----------
         CR = CR + 0.07985 * RAN
         IF(CR .GT. .90) CR = .90
         IF(CR .LT. .20) CR = .20
-        ICR(I)=(CR*100.0)+0.5
+        ICR(I)=INT((CR*100.0)+0.5)
       ENDIF
       K=I
       L=0

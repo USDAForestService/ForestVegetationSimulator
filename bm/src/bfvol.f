@@ -2,7 +2,7 @@
      1                 BTKFLG)
       IMPLICIT NONE
 C----------
-C  **BFVOL--BM   DATE OF LAST REVISION:   04/28/09
+C BM $Id: bfvol.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 COMMONS
@@ -125,9 +125,9 @@ C  BYPASS ALLEN EQUATIONS FOR METHB = 2 OR 7 (USER DEFINED).
 C
         IF(METHB(ISPC).EQ.2 .OR. METHB(ISPC).EQ.7) GO TO 15
         HDRATA=H/D
-        ID=D-0.5
+        ID=INT(D-0.5)
         IF(ID.GT.100) ID = 100
-        ITD=BFTOPD(ISPC)-0.5
+        ITD=INT(BFTOPD(ISPC)-0.5)
         IF(ITD.GT.100) ITD = 100
         IF(D2H.GT.D2HBRK(ISPC)) GO TO 10
 C
@@ -146,7 +146,7 @@ C
    10   DTOPK=0.4*D
         IF(DTOPK.LT.4.0) DTOPK=4.0
         IF(DTOPK.GT.8.0) DTOPK=8.0
-        IVTD=DTOPK-0.5
+        IVTD=INT(DTOPK-0.5)
         VT=COFBVS(ISPC)*SQRT(HDRATA/HDRATM(ID))*(DTOPK**3*HDRATM(IVTD)
      &     -BFTOPD(ISPC)**3*HDRATM(ITD)) -
      &     (DTOPK**2-BFTOPD(ISPC)**2)*0.12153
@@ -295,7 +295,7 @@ C----------
 C  WESTERN SIERRA LOG RULES.
 C----------
   300 CONTINUE
-      ITD=BFTOPD(ISPC)+0.5
+      ITD=INT(BFTOPD(ISPC)+0.5)
       IF(ITD.GT.100) ITD=100
       CALL LOGS(D,H,ITD,BFMIND(ISPC),ISPC,BFSTMP(ISPC),BBFV)
       BTKFLG = .TRUE.

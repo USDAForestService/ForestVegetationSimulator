@@ -1,7 +1,7 @@
       SUBROUTINE RDINSD
       IMPLICIT NONE
 C----------
-C  **RDINSD      LAST REVISION:  08/28/14
+C RD $Id: rdinsd.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C  Purpose :
@@ -157,7 +157,7 @@ C....                yet inoculum.
      &                        1E-6)
                      IF (RRIMEN .EQ. 0.0) GOTO 85
 
-                     NUMTRE = IFIX(RRIMEN)
+                     NUMTRE = INT(RRIMEN)
                      PTRE = RRIMEN - NUMTRE
                      R = RDRANN(0)
 
@@ -203,7 +203,7 @@ C....          Estimate number of stumps in simulated area.
                RRIMEN = PROBD(IRRSP,I,J) * RRIARE /
      &                  (PAREA(IRRSP) + 1E-6)
                IF (RRIMEN .EQ. 0.0) GOTO 600
-               NUMTRE = IFIX(RRIMEN)
+               NUMTRE = INT(RRIMEN)
                PTRE = RRIMEN - NUMTRE
                R = RDRANN(0)
 
@@ -287,8 +287,8 @@ C....          Loop over uninfected trees in simulation.
 C....          IRINIT (=13500) seems to be used to set a possible 
 C....          maximum on the number of trees used in the simulation.
 
-               NUMTRE = FLOAT(IRINIT) / (FLOAT(ITRN) + 1E-6)
-               IF (NUMTRE .GT. PROBIU(I)) NUMTRE = PROBIU(I)
+               NUMTRE = INT(REAL(IRINIT) / (REAL(ITRN) + 1E-6))
+               IF (NUMTRE .GT. PROBIU(I)) NUMTRE = INT(PROBIU(I))
                IF (NUMTRE .LE. 0) GOTO 900
 
                NUMOLP = 0 
@@ -331,7 +331,7 @@ C....                       overlap (will be averaged).
 
 C....          Old way of calculating infection.
 C....
-C....          RRICON = FLOAT(IRIHIT) / (FLOAT(NUMTRE) + 1E-6)
+C....          RRICON = REAL(IRIHIT) / (REAL(NUMTRE) + 1E-6)
 C....          RRICON = RRICON * PNSP
 C....
 C....          Calculate total number of new infections for tree class.
@@ -343,7 +343,7 @@ C....          End of old way.
 C....          Calculate average probability of infection for tree
 C....          class.
             
-               AVGINF = 1 - (PNIOLP / (FLOAT(NUMTRE) + 1E-6))
+               AVGINF = 1 - (PNIOLP / (REAL(NUMTRE) + 1E-6))
             
                RRNINF(I) = RRNINF(I) + PROBIU(I) * AVGINF
                ANUINF(IRRSP,NSIMS) = ANUINF(IRRSP,NSIMS) + 
@@ -383,7 +383,7 @@ C....             end up with more trees infected then there were
 C....             uninfected. There is no reason why PROBI has to be
 C....             given integer numbers. (sb: nov 30/93)
 
-C....       NUMTRE = IFIX(RRIMEN)
+C....       NUMTRE = INT(RRIMEN)
 C....       PTRE = RRIMEN - NUMTRE
 C....       R = RDRANN(0)
 C....       IF (R .LT. PTRE) NUMTRE = NUMTRE + 1
@@ -401,8 +401,8 @@ C....       Find average of RRNINF and POLP
 
             IF (RRNINF(I) .LE. 1E-4) GOTO 1030
             
-            RRNINF(I) = RRNINF(I) / (FLOAT(NINSIM) + 1E-6)
-            POLP(I) = POLP(I) / (FLOAT(NINSIM) + 1E-6)
+            RRNINF(I) = RRNINF(I) / (REAL(NINSIM) + 1E-6)
+            POLP(I) = POLP(I) / (REAL(NINSIM) + 1E-6)
 
             PROBIU(I) = PROBIU(I) - RRNINF(I)
             IF (PROBIU(I) .LT. 0) PROBIU(I) = 0

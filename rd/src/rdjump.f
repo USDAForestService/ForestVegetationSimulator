@@ -1,7 +1,7 @@
       SUBROUTINE RDJUMP
       IMPLICIT NONE
 C----------
-C  **RDJUMP      LAST REVISION:  08/29/14
+C RD $Id: rdjump.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C  Purpose :
@@ -76,7 +76,6 @@ C....    present at the time of the cut (given by 2*RRJINC)
   700 CONTINUE
       SPPROP(IRRSP) = SPCEN / (TOTCEN + 1E-6)
 
-  710 CONTINUE
 
       CALL RDAREA
 
@@ -125,7 +124,6 @@ C              radii of centers next year)
   400    CONTINUE
   500 CONTINUE
 
-  600 CONTINUE
       RRJINC(IRRSP) = XJPINC / (XTRENU + 1E-6)
 
       RETURN
