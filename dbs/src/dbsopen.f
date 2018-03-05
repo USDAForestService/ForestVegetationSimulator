@@ -126,7 +126,7 @@ C
           CALL GETCWD(ConnStr)
           DSN = TRIM(ConnStr)//"/"//TRIM(DSN)
          ENDIF
-        IF(SUFFIX.EQ.'DB') THEN
+        IF(SUFFIX.EQ.'DB'.OR.SUFFIX.EQ.'SQLITE') THEN
           ConnStr='DRIVER=SQLite3 ODBC Driver'//
      -            ';Database='//TRIM(DSN)//
      -            ';Version=3;LongNames=0;Timeout=1000;NoTXN=0'//

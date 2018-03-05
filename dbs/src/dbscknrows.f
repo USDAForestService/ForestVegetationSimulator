@@ -52,7 +52,7 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
           iRet = fvsSQLBindCol (StmtHndlOut,1,SQL_F_INTEGER,
      >           IRCNT,int(4,SQLLEN_KIND),IRCNT_LI)
           iRet = fvsSQLFetch(StmtHndlOut) 
-          if (IRCNT .GE. 65535-NRESERV) then
+          if (IRCNT .GE. 1048576-NRESERV) then
             IRCODE = 2
             iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
             return
