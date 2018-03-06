@@ -30,7 +30,6 @@ else
  export WIN = -Dunix  
  export SLIBSUFX = .so
  export PRGSUFX = 
- export ODBC = -lodbc 
  ifdef OSTYPE
   ifeq ($(OSTYPE),linux)
     export OSARCH = l64
@@ -49,7 +48,11 @@ else
  ifndef OSARCH
    export OSARCH = osx
    export PIC =      # never use PIC on this OSARCH type
-   export ODBC = -liodbc 
+   export ODBC = -liodbc
+   $(info OSARCH: $(OSARCH); ODBC: $(ODBC))
+ endif
+ ifndef ODBC
+  export ODBC = -lodbc
  endif
 endif                                                                               
 
@@ -80,7 +83,7 @@ export FC = gfortran
 #export FFLAGS = $(PIC) -g -Wall -fbacktrace -ffpe-trap=invalid,zero,denormal -fcheck=bounds
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace -fcheck=all -fcheck=bounds
-export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace 
+export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fcheck=bounds -fbacktrace 
 export CC = gcc
 # Adding optimization (-O2 does not help execution speed much but slows compile time a lot
 # export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN) -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION -O2

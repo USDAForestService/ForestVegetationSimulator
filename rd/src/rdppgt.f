@@ -39,7 +39,7 @@
 
 C.... Parameter statements.
       INTEGER  MXL, MXR, MXI
-      PARAMETER (MXL=11,MXR=30,MXI=43)
+      PARAMETER (MXL=11,MXR=30,MXI=45)
 
 C.... Parameter include files.
 
@@ -149,6 +149,9 @@ C---- from common RDCOM ------------
       NTREES = INTS (41)
       NUMBB  = INTS (42)
       NUMTRE = INTS (43)
+      MINRR  = INTS (44) 
+      MAXRR  = INTS (45) 
+
 
 C.... Read real scalars from buffer.
 C
