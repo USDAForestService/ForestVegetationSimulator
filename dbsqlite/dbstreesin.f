@@ -50,6 +50,8 @@ C     CHECK TO MAKE SURE WE ARE PULLING TREE INFO FROM DATABASE
         RETURN
       ENDIF
 
+      ABIRTH = 0
+      LBIRTH  =.FALSE.
 
       ColumnCount = fsql3_colcnt(IinDBref)
       DO ColNumber = 0,ColumnCount-1
@@ -175,10 +177,7 @@ C
             MATCHED=.TRUE.
       
           CASE('AGE')
-            IF (fsql3_colisnull(IinDBref,ColNumber) .eq. 1) THEN
-              ABIRTH = 0
-              LBIRTH  =.FALSE.
-            ELSE
+            IF (fsql3_colisnull(IinDBref,ColNumber) .eq. 0) THEN
               ABIRTH = fsql3_colreal(IinDBref,ColNumber,0)
               LBIRTH  =.TRUE.    
             ENDIF

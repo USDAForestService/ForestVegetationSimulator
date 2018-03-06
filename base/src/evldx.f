@@ -62,17 +62,18 @@ C
       INTEGER JPT,JPTGRP
 C
       ITMPDX(1) = 0
-C
+
       CALL DBCHK (LDEB,'EVLDX',5,ICYC)
-      IF (LDEB) THEN
-        WRITE (JOSTND,5) INSTR,NXLDX
+      IF (LDEB) WRITE (JOSTND,5) INSTR,NXLDX
     5   FORMAT (/' IN EVLDX, INSTR=',I6,'; NXLDX=',I3)
-      ENDIF
+
 C----------
 C     DECODE THE INSTRUCTION AND EXECUTE: LOAD A CONSTANT.
 C----------
       IF (INSTR.GT.1000 .AND. INSTR.LT. 7000) THEN
         XLDREG(1)=PARMS(INSTR-1000)
+        IF (LDEB) WRITE (JOSTND,*)
+     &   'IN EVLDX, XLDREG(1)=PARMS(',INSTR-1000,')',PARMS(INSTR-1000)
         GOTO 1000
       ENDIF
 C----------
@@ -190,10 +191,10 @@ C----------
 C----------
 C       FIND THE DBH RANGE AND THE HT RANGE.
 C----------
-        CUT=0.
-        DEAD=0.
-        RES=0.
-        IDMI=0.
+        CUT=0.0
+        DEAD=0.0
+        RES=0.0
+        IDMI=0
         XLDBH=0.0
         XHDBH=1E30
         XLHT=0.0
@@ -242,6 +243,7 @@ C----------
 C
         SUMP=0.0
         NTREES=0
+
         IF(CUT.GT.0. .AND. IPHASE.LT.2) GO TO 1001
         IF(RES.GT.0. .AND. IPHASE.LT.2) GO TO 1001
         ILIM=ITRN
@@ -395,7 +397,7 @@ C
             ENDIF
           ELSEIF (L.EQ.7) THEN
             CALL COVOLP (LDEB,JOSTND,NTREES,ITMPDX,WORK1,XLDREG(1),
-     &      						 CCCOEF)
+     &                   CCCOEF)
           ELSEIF ((L.GE.1 .AND. L.LE.4) .OR. L.EQ.9) THEN
             XLDREG(1)=XLDREG(1)/GROSPC
           ENDIF
@@ -583,7 +585,7 @@ C----------
         IF (JARGS.GE.5) XHDBH = XLDREG(5)
         IF (JARGS.GE.6) XLHT  = XLDREG(6)
         IF (JARGS.GE.7) XHHT  = XLDREG(7)
-        IF (JARGS.GE.8) M     = XLDREG(8)
+        IF (JARGS.GE.8) M     = INT(XLDREG(8))
 
         IF ((M.EQ.1) .AND. (IPHASE.LT.2)) GOTO 1001
 

@@ -25,7 +25,7 @@ C
 C     ALL VARIABLES ARE IN THE ORGANON.F77 COMMON BLOCK
 C----------
       INTEGER ILIMIT,IPNT,MXL,MXI,MXR,I,II
-      PARAMETER (MXL=3,MXI=8,MXR=14)
+      PARAMETER (MXL=3,MXI=8,MXR=16)
       LOGICAL LOGICS(MXL)
       REAL WK3(MAXTRE)
       INTEGER*4 INTS(MXI)
@@ -113,6 +113,8 @@ C----------
       LOGTD  = REALS(12)
       LOGSH  = REALS(13)
       LOGTA  = REALS(14)
+      OCC    = REALS(15)
+      OAHT   = REALS(16)
 C----------
 C     GET THE REAL ARRAYS.
 C----------
