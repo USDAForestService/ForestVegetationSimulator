@@ -2,7 +2,7 @@
      &           JOSTND,DEBUG,IHT1,IHT2)
       IMPLICIT NONE
 C----------
-C  **NBOLT--SN   DATE OF LAST REVISION:  06/05/08
+C SN $Id: nbolt.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C THIS ROUTINE CALCULATES THE NUMBER OF 8' BOLTS TO SPECIFIED SAWTIMBER
 C TOP DIAMETER AND THE NUMBER OF 8' BOLTS TO A SPECIFIED PULPWOOD TOP
@@ -334,8 +334,8 @@ C----------
      &      C4,' C5=',C5,' C6=',C6,' D=',D,' H=',H,
      &      ' SINDX=',SINDX,' TOP/D=',TOPDOB/D,' BA=',BA,
      &      ' TOPDOB=',TOPDOB
-		PULBOL=ESTCHT*(H/ESTTHT)
-         IHT2=PULBOL/8.333333
+         PULBOL=ESTCHT*(H/ESTTHT)
+         IHT2=INT(PULBOL/8.333333)
          IF(DEBUG)WRITE(JOSTND,*)' No. PULPWOOD BOLTS (IHT2)= ',IHT2
        ENDIF
 C----------
@@ -355,8 +355,8 @@ C----------
      &     ' C3=',C3,' C4=',C4,' C5=',C5,' C6=',
      &     C6,' ISPC=',ISPC,' BA=',BA,' SINDX=',SINDX,
      &     ' BFT/D=',BFTDOB/D,' D=',D,' H=',H,' ESTSHT=',ESTSHT
-		SAWBOL=ESTSHT*(H/ESTTHT)
-         IHT1=SAWBOL/8.333333
+         SAWBOL=ESTSHT*(H/ESTTHT)
+         IHT1=INT(SAWBOL/8.333333)
          IF(DEBUG)WRITE(JOSTND,*)' No. SAWWOOD BOLTS (IHT1)= ',IHT1
       ENDIF
 100   CONTINUE

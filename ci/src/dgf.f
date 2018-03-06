@@ -1,7 +1,7 @@
       SUBROUTINE DGF(DIAM)
       IMPLICIT NONE
 C----------
-C  **DGF--CI    DATE OF LAST REVISION:  09/06/11
+C CI $Id: dgf.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE COMPUTES THE VALUE OF DDS (CHANGE IN SQUARED
 C  DIAMETER) FOR EACH TREE RECORD, AND LOADS IT INTO THE ARRAY
@@ -78,7 +78,7 @@ C  ICHBCL  -- MAPPING FUNCTION HABITAT TYPE --> HAB TYPE CONSTANT
 C----------
       LOGICAL DEBUG
       INTEGER MAPLOC(6,MAXSP),OBSERV(MAXSP),ICHBCL(130,MAXSP)
-      INTEGER I,I1,I2,I3,IPPCF,ISOC,IPCCF,MAPHAB,ISPC
+      INTEGER I,I1,I2,I3,IPCCF,MAPHAB,ISPC
       INTEGER IBSERV(6,3),LSI,ISIC,ICLS
       REAL DIAM(MAXTRE),DGLD(MAXSP),DGCR(MAXSP),DGCRSQ(MAXSP),
      &   DGDBAL(MAXSP),DGHAB(12,MAXSP),DGFOR(3,MAXSP),DGDS(MAXSP),
@@ -252,18 +252,18 @@ C----------
      & -0.199592,       0.0,       0.0,       0.0/
 C----------
       DATA  OBSERV/
-     &     8420.,     3091.,    16232.,    21277.,    21277.,
-     &     3091.,    20986.,     5517.,     6533.,     8420.,
-     &        0.,        0.,        0.,        0.,      220.,
-     &        0.,        0.,    20986.,        0./
+     &     8420,     3091,    16232,    21277,    21277,
+     &     3091,    20986,     5517,     6533,     8420,
+     &        0,        0,        0,        0,      220,
+     &        0,        0,    20986,        0/
 C----------
       DATA IBSERV/
 C ROW 1 USED FOR: 11=WB, 12=PY, 16=LM
-     &     27.,    70.,   123.,   101.,    33.,     0.,
+     &     27,    70,   123,   101,    33,     0,
 C ROW 2 USED FOR: 13=AS
-     &    184.,   429.,   356.,   162.,    74.,     0.,
+     &    184,   429,   356,   162,    74,     0,
 C ROW 3 USED FOR: 14=WJ, 17=CW AND 19=OH
-     &   1000.,  1000.,  1000.,  1000.,  1000.,  1000./
+     &   1000,  1000,  1000,  1000,  1000,  1000/
 C----------
 C  SPECIES 1
       DATA (DGHAB(I,1),I=1,12)/
@@ -550,7 +550,7 @@ C------------
 C  PUT SITE INTO ONE OF 5 CLASSES
 C----------
       XSITE = SITEAR(ISPC)
-      LSI=XSITE/10.
+      LSI=INT(XSITE/10.)
       IF(LSI.LT.2)ISIC=1
       IF(LSI.GE.5)ISIC=5
       IF(LSI.GE.3 .AND. LSI.LT.4)ISIC=3

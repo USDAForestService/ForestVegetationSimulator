@@ -1,7 +1,7 @@
       SUBROUTINE LOGS(DBH,HT,IBCD,BDMIN,ISP,STMP,BV)
       IMPLICIT NONE
 C----------
-C  **LOGS--CI   DATE OF LAST REVISION:  08/14/2012
+C CI $Id: logs.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  REGION 5 BOARD FOOT VOLUME MODELS.
 C  TAPER EQUATIONS BY G.S.BIGING
@@ -86,7 +86,7 @@ C----------
 C  NLOGS IS THE TOTAL NUMBER OF LOGS EXCLUDING THE TOP FULL LOG AND ANY 
 C  PARTIAL LOG ABOVE IT.
 C----------
-      NLOGS=HTM/SLN -1
+      NLOGS=INT(HTM/SLN -1.)
       IF(NLOGS.LE.0) GO TO 80
       S1=SLN
       AH=0.0
@@ -100,7 +100,7 @@ C----------
         DU = DIBAHI(HI,HT,TPCF1(JSP),TPCF2(JSP),DBH,XPS(JSP))
         FRAC=((S1-TRIM)/16.0)
         IF(DU.LE.9.0) THEN
-          IDU = DU+.5 -5
+          IDU = INT(DU + 0.5 - 5.)
           IF(IDU.LE.0) IDU=1
           N = 1
           IF(S1.LT.SLN)N=2

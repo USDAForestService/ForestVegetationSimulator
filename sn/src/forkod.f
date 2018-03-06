@@ -1,7 +1,7 @@
       SUBROUTINE FORKOD
       IMPLICIT NONE
 C----------
-C  **FORKOD--SN DATE OF LAST REVISION:  06/05/08
+C SN $Id: forkod.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     TRANSLATES FOREST CODE INTO A SUBSCRIPT, IFOR, AND IF
@@ -204,7 +204,6 @@ C----------
       GOTO 50
    20 CONTINUE
       IFOR=I
-   30 CONTINUE
 C----------
 C  DEFINE KODIST
 C----------

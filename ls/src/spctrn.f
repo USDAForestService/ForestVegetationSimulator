@@ -1,7 +1,7 @@
       SUBROUTINE SPCTRN (SPCIN, ISPC1)
       IMPLICIT NONE
 C----------
-C LS $ID$
+C LS $Id$
 C----------
 C  CALLED FROM INTREE, WHEN THE INPUT SPECIES CODE IS NOT RECONGIZED.
 C  THIS ROUTINE ASSIGNS THE MOST SIMILAR SPECIES SEQUENCE NUMBER TO THE
@@ -30,7 +30,7 @@ C
       CHARACTER*(*)SPCIN
       INTEGER MAXASPT, ISPC1, I, J, J2, IJSPIN
       PARAMETER (MAXASPT=466)
-      CHARACTER*4 SPCOUT
+      CHARACTER*3 SPCOUT
       CHARACTER*8 ASPT(MAXASPT,8)
       CHARACTER VAR*2
 C----------
@@ -651,7 +651,7 @@ C----------
       VAR=VVER(:2)
       IJSPIN=3
       ISPC1= 0
-      SPCOUT= 'XX  '
+      SPCOUT= 'XX '
 C----------
 C  TRANSLATE INCOMING SPECIES, SPCIN, TO VARIANT SPECIFIC RECOGNIZED
 C  SPECIES, SPCOUT.
@@ -661,45 +661,45 @@ C----------
         IJSPIN=1
         SELECT CASE (VAR)
           CASE('CS')
-            SPCOUT= ASPT(I,4)
+            SPCOUT= ASPT(I,4)(1:3)
           CASE('LS')
-            SPCOUT= ASPT(I,5)
+            SPCOUT= ASPT(I,5)(1:3)
           CASE('NE')
-            SPCOUT= ASPT(I,6)
+            SPCOUT= ASPT(I,6)(1:3)
           CASE('SE')
-            SPCOUT= ASPT(I,7)
+            SPCOUT= ASPT(I,7)(1:3)
           CASE('SN')
-            SPCOUT= ASPT(I,8)
+            SPCOUT= ASPT(I,8)(1:3)
         END SELECT 
         GO TO 150        
       ELSEIF (SPCIN .EQ. ASPT(I,2)) THEN
         IJSPIN=2
         SELECT CASE (VAR)
           CASE('CS')
-            SPCOUT= ASPT(I,4)
+            SPCOUT= ASPT(I,4)(1:3)
           CASE('LS')
-            SPCOUT= ASPT(I,5)
+            SPCOUT= ASPT(I,5)(1:3)
           CASE('NE')
-            SPCOUT= ASPT(I,6)
+            SPCOUT= ASPT(I,6)(1:3)
           CASE('SE')
-            SPCOUT= ASPT(I,7)
+            SPCOUT= ASPT(I,7)(1:3)
           CASE('SN')
-            SPCOUT= ASPT(I,8)
+            SPCOUT= ASPT(I,8)(1:3)
         END SELECT
         GO TO 150   
       ELSEIF (SPCIN .EQ. ASPT(I,3)) THEN
         IJSPIN=3
         SELECT CASE (VAR)
           CASE('CS')
-            SPCOUT= ASPT(I,4)
+            SPCOUT= ASPT(I,4)(1:3)
           CASE('LS')
-            SPCOUT= ASPT(I,5)
+            SPCOUT= ASPT(I,5)(1:3)
           CASE('NE')
-            SPCOUT= ASPT(I,6)
+            SPCOUT= ASPT(I,6)(1:3)
           CASE('SE')
-            SPCOUT= ASPT(I,7)
+            SPCOUT= ASPT(I,7)(1:3)
           CASE('SN')
-            SPCOUT= ASPT(I,8)
+            SPCOUT= ASPT(I,8)(1:3)
         END SELECT
         GO TO 150   
       ENDIF      
@@ -711,7 +711,7 @@ C  IF SPECIES CODE WAS NOT SET, RETURN NON COMMERCIAL (CS, LS, NE VARIANTS)
 C  OR OTHER TREE (SN VARIANT)
 C----------
       ISPC1= 0
-      IF (SPCOUT.EQ.'XX  ') THEN
+      IF (SPCOUT.EQ.'XX ') THEN
         IF(VAR.EQ.'CS') ISPC1=85
         IF(VAR.EQ.'LS') ISPC1=49
         IF(VAR.EQ.'NE') ISPC1=98
@@ -720,7 +720,7 @@ C----------
         GO to 300
       ENDIF
       DO 200 J2= 1,MAXSP
-      IF (SPCOUT.EQ.NSP(J2,1)(1:2)) THEN
+      IF (SPCOUT(1:2).EQ.NSP(J2,1)(1:2)) THEN
         ISPC1= J2
         GO TO 300
       ENDIF

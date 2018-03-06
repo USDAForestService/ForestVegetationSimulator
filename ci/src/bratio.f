@@ -1,7 +1,7 @@
       FUNCTION BRATIO(IS,D,H)
       IMPLICIT NONE
 C----------
-C  **BRATIO--CI  DATE OF LAST REVISION:  08/27/13
+C CI $Id: bratio.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C FUNCTION TO COMPUTE BARK RATIOS AS A FUNCTION OF DIAMETER AND SPECIES.
 C REPLACES ARRAY BKRAT IN BASE MODEL.
@@ -68,13 +68,13 @@ C
       SELECT CASE (IS)
 C
       CASE(3,5,9,10)
-      	DIB=BARK1(IS)*D**BARK2(IS)
+        DIB=BARK1(IS)*D**BARK2(IS)
         IF (D .GT. 0.) THEN
-      	  BRATIO=DIB/D
-      	ELSE
-       	  BRATIO=0.97 	
-      	ENDIF
-      	IF (BRATIO .GT. 0.97) BRATIO=0.97
+          BRATIO=DIB/D
+        ELSE
+          BRATIO=0.97
+        ENDIF
+        IF (BRATIO .GT. 0.97) BRATIO=0.97
 C
       CASE(14)
         TEMD=D

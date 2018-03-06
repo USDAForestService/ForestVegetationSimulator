@@ -2,7 +2,7 @@
      &  TRAGE)
       IMPLICIT NONE
 C----------
-C  **ESSUBH--SN   DATE OF LAST REVISION:  06/05/08
+C SN $Id: essubh.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 COMMONS
@@ -39,10 +39,10 @@ C
       CALL DBCHK (DEBUG,'ESSUBH',6,ICYC)
       HHT= 0.0
 C
-      N=DELAY+0.5
+      N=INT(DELAY+0.5)
       IF(N.LT.-3) N=-3
       DELAY=FLOAT(N)
-      ITIME=TIME+0.5
+      ITIME=INT(TIME+0.5)
       IF(N.GT.ITIME) DELAY=TIME
       AGE=TIME-DELAY-GENTIM+TRAGE
       IF(AGE.LT.1.0) AGE=1.0

@@ -1,7 +1,7 @@
       SUBROUTINE VARGET (WK3,IPNT,ILIMIT,REALS,LOGICS,INTS)
       IMPLICIT NONE
 C----------
-C  **VARGET--CI   DATE OF LAST REVISION:  09/18/08
+C CI $Id: varget.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     READ THE VARIANT SPECIFIC VARIABLES.
@@ -60,4 +60,4 @@ C
       ! Stub for variants which need to get/put character data
       ! See /bc/varget.f and /bc/varput.f for examples of VARCHGET and VARCHPUT
       RETURN
-      END	
+      END
