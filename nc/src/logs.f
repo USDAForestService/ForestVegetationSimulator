@@ -2,7 +2,7 @@
      &     (DBH,HT,ICCD,IBCD,CUMIN,BDMIN,ISP,CSTMP,BV,JOSTND)
       IMPLICIT NONE
 C----------
-C  **LOGS--NC   DATE OF LAST REVISION:  04/03/08
+C NC $Id: logs.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C  TAPER EQUATIONS BY G.S.BIGING
@@ -11,7 +11,7 @@ C----------
       REAL XPS(9),TPCF(2,9)
       INTEGER IPRGSP(11),IMAP(11)
       REAL SF(4,2),TBV,QTLN
-      INTEGER JOSTND,ISP,IBDC,ICCD,I,JSP,ILN,IMAX,NX,IH,J
+      INTEGER JOSTND,ISP,ICCD,I,JSP,ILN,IMAX,NX,IH,J
       INTEGER IBCD,M,IC,NLOGS,ITEM,IDU,N,LNGTH
       REAL BV,CSTMP,BDMIN,CUMIN,HT,DBH,X,D,B1,B2,HI,DIBAHI,TRIM
       REAL SLN,CTP,BTP,DTOP,Z1,HTM,DL,TV,DU,FRAC,QLOGS,S1,AH
@@ -102,7 +102,7 @@ C----------
         HTM = (Z1/(-XPS(JSP)))**3*HT
         IF(HTM.LE.(.5*SLN))GOTO 100
         IF(NX.EQ.2)GOTO 65
-        IH=HTM+.49999999
+        IH=INT(HTM+.49999999)
         DL = DIBAHI(CSTMP,HT,TPCF(1,JSP),TPCF(2,JSP),DBH,XPS(JSP))
         TV=0.0
         J=0
@@ -120,7 +120,7 @@ C----------
 24        CONTINUE
           IF(LNGTH.EQ.0)LNGTH=ILN
           FRAC=FLOAT(LNGTH)/FLOAT(ILN)
-25        IC=(DU-3)/2
+          IC=INT((DU-3.)/2.)
           IC=IC+1
           IF(IC.LT.1)IC=1
           IF(IC.GT.25)IC=25
@@ -136,19 +136,19 @@ C----------
         NX=2
         GOTO 20
 65      QLOGS=(HTM-1.)/SLN
-        NLOGS=QLOGS
+        NLOGS=INT(QLOGS)
         NLOGS=NLOGS-1
         IF(NLOGS.LE.0)GOTO 80
         S1=SLN
         AH=0.0
       BV=0.0
-        ITEM=1.
+        ITEM=1
 68      DO 70 J=1,NLOGS
           HI = FLOAT(J)*S1+AH
           DU = DIBAHI(HI,HT,TPCF(1,JSP),TPCF(2,JSP),DBH,XPS(JSP))
           FRAC=((S1-TRIM)/FLOAT(ILN))
           IF(DU.LE.9.0) THEN
-            IDU = DU + .5
+            IDU = INT(DU + .5)
             IDU = IDU - 5
             N = 1
             IF(S1.LT.SLN)N=2
@@ -157,13 +157,12 @@ C----------
             TBV=((.79*DU -2)*DU -4.)*FRAC
           ENDIF
           TBV = INT(TBV/10. + .5) * 10.
-          IC=(DU-3)/2
+          IC=INT((DU-3.)/2.)
           IC=IC+1
           IF(IC.LT.1)IC=1
           IF(IC.GT.25)IC=25
           IF(IC.GT.IMAX)IMAX=IC
-75        CONTINUE
-      BV=BV+TBV
+          BV=BV+TBV
 70      CONTINUE
         IF(ITEM.EQ.2)GOTO 100
 C----------

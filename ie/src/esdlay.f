@@ -1,7 +1,7 @@
       SUBROUTINE ESDLAY (ISPE,IAS,DRAW,DELAY)
       IMPLICIT NONE
 C----------
-C  **ESDLAY--NI23   DATE OF LAST REVISION:  04/01/08
+C IE $Id: esdlay.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 COMMONS
@@ -131,7 +131,7 @@ C
       IT=1
       IF(TIME.GT.7.5.AND.TIME.LT.12.5) IT=2
       IF(TIME.GT.12.5) IT=3
-      IBW=BWB4+BWAF+0.5
+      IBW=INT(BWB4+BWAF+0.5)
       IB=1
       IF(IBW.GT.2) IB=2
       IBAA=1

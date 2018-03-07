@@ -17,7 +17,7 @@ C
 C
       INCLUDE 'CONTRL.F77'
 C
-C		
+C
 COMMONS
 C
 C----------
@@ -40,4 +40,3 @@ C----------
 C
       RETURN
       END
-	
