@@ -1,7 +1,7 @@
       SUBROUTINE FMCFMD (IYR, FMD)
       IMPLICIT NONE
 C----------
-C  **FMCFMD FIRE-UT/CR/TT - DATE OF LAST REVISION: 06/30/10
+C FIRE-UT $Id: fmcfmd.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 *  SINGLE-STAND VERSION
 *  CALLED FROM: FMBURN
@@ -85,7 +85,7 @@ C----------
       INTEGER  IYR,I,J,J2,I1,I2
       INTEGER  IPTR(ICLSS), ITYP(ICLSS)
       INTEGER  HPOINT(MAXTRE), IDUM(1), IFMST
-      REAL     CTBA(ASCT), USBA(ASCT), STNDBA, XDUM, XW, CVR10, AFWT
+      REAL     CTBA(ASCT), USBA(ASCT), STNDBA, XW, CVR10, AFWT
       REAL     SSUMN, P, FMAVH, XWID(MAXTRE), SIBRK
       REAL     XPTS(ICLSS,2)
       REAL     X, Y, X3, Y1, Y2, Y3, Y4, Y5, Y6
@@ -769,7 +769,7 @@ C----------
 C----------
 C  LP SITE INDEX
 C----------
-          SIFM = SITEAR(7)
+          SIFM = INT(SITEAR(7))
           SIBRK = 20
 C
           IF (SIFM .LT. SIBRK) THEN
@@ -921,7 +921,7 @@ C
 C
           ELSE ! PERCOV > 50%
 C
-   67       IF (LPPDOM) THEN
+            IF (LPPDOM) THEN
               EQWT(9) = 1.0
             ELSE
               EQWT(8) = 1.0
