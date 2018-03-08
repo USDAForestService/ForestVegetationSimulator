@@ -336,7 +336,7 @@ C----------
       II=IND2(JJ)
       D=DBH(II)
       JCR=((ICR(II)-1)/10)+1
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
 C
       IF(D .LE. 0.1)THEN
         H=1.01
@@ -431,7 +431,7 @@ C----------
       IICR=ICR(II)
       IF(IICR.LE.0)IICR=40
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(HT(II).GT.0. .AND. TKILL) GO TO 142
       IF(HT(II).GT.0.) GO TO 146
 C

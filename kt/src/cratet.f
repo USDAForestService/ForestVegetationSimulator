@@ -358,7 +358,7 @@ C----------
       DO 130 JJ=1,K2
       II=IND2(JJ)
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(D .LE. 0.1)THEN
         H=1.01
         GO TO 117
@@ -454,7 +454,7 @@ C----------
       DO 145 II=IREC2,MAXTRE
       IF(ISP(II).NE.ISPC) GO TO 145
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(HT(II).GT.0. .AND. TKILL) GO TO 142
       IF(HT(II).GT.0.) GO TO 146
       IF(D .LE. 0.1) THEN

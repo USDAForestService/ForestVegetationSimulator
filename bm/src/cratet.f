@@ -360,7 +360,7 @@ C----------
         IF(JCR.LE.0)JCR=4
       ENDIF
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
 C
       IF(D .LE. 0.1)THEN
         H=1.01
@@ -464,7 +464,7 @@ C----------
         IF(JCR.LE.0)JCR=4
       ENDIF
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(HT(II).GT.0. .AND. TKILL) GO TO 142
       IF(HT(II).GT.0.) GO TO 146
 C
