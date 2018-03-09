@@ -116,7 +116,7 @@ C     TKILL = LTKIL
      1     CALL CFTOPK (ISPC,D,H,VN,VM,VMAX,LCONE,BARK,IHT)
 
 C     Give some small volume to very tiny trees.
-C     based on cone with D = 1"
+C     based on cone with D = 1 inch
       X = 0.005454154 * H
       VOL2HT = MAX(X,VN)
       

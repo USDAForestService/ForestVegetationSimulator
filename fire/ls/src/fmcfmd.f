@@ -1,7 +1,7 @@
       SUBROUTINE FMCFMD (IYR, FMD)
       IMPLICIT NONE
 C----------
-C  **FMCFMD FIRE-LS-DATE OF LAST REVISION:  02/28/08
+C FIRE-LS $Id: fmcfmd.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  SINGLE-STAND VERSION
 C  CALLED FROM: FMBURN
@@ -40,7 +40,7 @@ C
       INCLUDE 'ARRAYS.F77'
 C
 C
-      INCLUDE 'PLOT.F77'    
+      INCLUDE 'PLOT.F77'
 C
 C
 COMMONS
@@ -76,9 +76,9 @@ C
       INTEGER  J,I,K,L, FINDMOD
       REAL     CAREA, HEMCRA, CWIDTH, HEMCOV, CONCOV, OVERCOV, OVERCRA
       REAL     CONCRA, BIRBA, ASPBA, RPBA, WPBA, PINECRA, PINECOV
-      REAL     FMAVH, HARDBA, HPOINT(MAXTRE), BAMOST
+      REAL     FMAVH, HARDBA, BAMOST
       REAL     XPTS(ICLSS,2),EQWT(ICLSS), AFWT, BFWPCNT
-      REAL     X, Y, CTBA(ABCT),STNDBA, BFCOUNT, SMCOUNT, CONCOUNT
+      REAL     X, CTBA(ABCT),STNDBA, BFCOUNT, SMCOUNT, CONCOUNT
       REAL     MAPBASBA, OAKBA, ASBIBA, HEMBA, LT3
       LOGICAL  DEBUG, LBFUNDER, LSMTREES, LCNUNDER, LBFWPUND, LDRY
 C----------
@@ -111,19 +111,19 @@ C----------
      &   5., 15.,   ! FMD   7
      &   5., 15.,   ! FMD   8
      &   5., 15.,   ! FMD   9
-     &  15., 30.,   ! FMD  10 
+     &  15., 30.,   ! FMD  10
      &  15., 30.,   ! FMD  11
-     &  30., 60.,   ! FMD  12  
+     &  30., 60.,   ! FMD  12
      &  45.,100.,   ! FMD  13
      &   5., 15.,   ! FMD 105
-     &   5., 15.,   ! FMD 142       
-     &   5., 15.,   ! FMD 143    
-     &   5., 15.,   ! FMD 146   
-     &   5., 15.,   ! FMD 161   
-     &   5., 15.,   ! FMD 162   
-     &   5., 15.,   ! FMD 164   
-     &   5., 15.,   ! FMD 186   
-     &   5., 15./   ! FMD 189                                          
+     &   5., 15.,   ! FMD 142
+     &   5., 15.,   ! FMD 143
+     &   5., 15.,   ! FMD 146
+     &   5., 15.,   ! FMD 161
+     &   5., 15.,   ! FMD 162
+     &   5., 15.,   ! FMD 164
+     &   5., 15.,   ! FMD 186
+     &   5., 15./   ! FMD 189
     
 C----------
 C  INITIALLY SET ALL MODELS OFF; NO TWO CANDIDATE MODELS ARE
@@ -180,9 +180,9 @@ C----------
      &     (DBH(I) .LE. 3)) CONCOUNT = CONCOUNT + FMPROB(I) 
         IF ((ISP(I) .EQ. 8) .OR. (ISP(I) .EQ. 5)) THEN
           IF ((DBH(I) .GE. 1) .AND. (DBH(I) .LE. 3)) THEN
-          	BFWPCNT = BFWPCNT + FMPROB(I)      	
+            BFWPCNT = BFWPCNT + FMPROB(I)
           ENDIF
-        ENDIF   
+        ENDIF
       ENDDO
       IF (BFCOUNT .GE. 500) LBFUNDER = .TRUE.
       IF (SMCOUNT .GE. 500) LSMTREES = .TRUE.
@@ -192,7 +192,7 @@ C----------
 C  CHECK TO SEE IF THERE IS A DROUGHT
 C----------
       LDRY = .FALSE.
-      IF (IYR .GE. IDRYB .AND. IYR .LE. IDRYE) LDRY = .TRUE. 
+      IF (IYR .GE. IDRYB .AND. IYR .LE. IDRYE) LDRY = .TRUE.
       
       IF (DEBUG) WRITE (JOSTND,9) LDRY,LBFUNDER,LSMTREES
     9 FORMAT (' FMCFMD, LDRY=',L2,' LBFUNDER=',L2,' LSMTREES=',L2)
@@ -208,7 +208,7 @@ C----------
               ENDDO
             ENDDO
           ENDDO
-        ENDDO 
+        ENDDO
 C----------
 C  FIND THE BASAL AREA IN EACH COVER TYPE
 C----------
@@ -233,22 +233,22 @@ C----------
           CASE (24,40,41,43)  ! MIXED WOOD AND ASPEN BIRCH
             CTBA(MWCT) = CTBA(MWCT) + X
             CTBA(ABCT) = CTBA(ABCT) + X 
-            STNDBA = STNDBA + X           
+            STNDBA = STNDBA + X
           CASE (6,7,8,9)  ! MIXED WOOD HAS LARGE SPRUCE AND FIR
                           ! ASPEN BIRCH HAS SMALL SPRUCE AND FIR
             IF (DBH(I) .GE. 5) THEN
               CTBA(MWCT) = CTBA(MWCT) + X
             ELSE
-              CTBA(ABCT) = CTBA(ABCT) + X 
+              CTBA(ABCT) = CTBA(ABCT) + X
             ENDIF
             STNDBA = STNDBA + X
           CASE (30:33,35,36)  ! OAK
-            CTBA(OACT) = CTBA(OACT) + X    
-            STNDBA = STNDBA + X                   
+            CTBA(OACT) = CTBA(OACT) + X
+            STNDBA = STNDBA + X
           CASE (34)  ! RED OAK GOES IN BOTH OAK AND NORTHERN HARDWOODS
-            CTBA(NHCT) = CTBA(NHCT) + X           
-            CTBA(OACT) = CTBA(OACT) + X    
-            STNDBA = STNDBA + X         
+            CTBA(NHCT) = CTBA(NHCT) + X
+            CTBA(OACT) = CTBA(OACT) + X
+            STNDBA = STNDBA + X
         END SELECT
       ENDDO
 
@@ -260,17 +260,17 @@ C  THE PREVIOUS CYCLE, INITIALIZED TO *RPCT* IN **FMVINIT**
 C----------
       ICT = 0
       IF ((ITRN .GT. 0) .AND. (STNDBA.GT.0.001)) THEN
-     	  BAMOST = 0
-     	  DO I=1,ABCT
+        BAMOST = 0
+        DO I=1,ABCT
           IF (CTBA(I) .GT. BAMOST) THEN
-             BAMOST = CTBA(I)      
+             BAMOST = CTBA(I)
              ICT = I
-          ENDIF 
+          ENDIF
         ENDDO
         CTBA(POCT) = CTBA(OACT) + CTBA(RPCT)
         IF (CTBA(POCT) .GT. BAMOST) THEN
-     	    ICT = OACT
-     	    IF (CTBA(RPCT) .GT. CTBA(OACT)) ICT = RPCT
+          ICT = OACT
+          IF (CTBA(RPCT) .GT. CTBA(OACT)) ICT = RPCT
         ENDIF
       ELSE
         ICT = OLDICT
@@ -279,38 +279,38 @@ C----------
       
       SELECT CASE (ICT)
       CASE (JPCT) !  jack pine
-        IF (PERCOV .LE. 70) THEN      
-        	IF (FMAVH .LE. 25) THEN
-        	  EQWT(4) = 1.0
-        	ELSE ! stand height gt 25
-        	  IF (LBFUNDER) THEN ! balsam fir understory
-        	  	IF (BURNSEAS .LE. 2) THEN ! before greenup
-        	  		EQWT(10) = 1.0
-        	  	ELSE ! after greenup
-        	      EQWT(FINDMOD(162,IPTR,ICLSS)) = 1.0
-        	    ENDIF
-        	  ELSEIF ((ITYPE .EQ. 6) .OR. (ITYPE .EQ. 7)) THEN !grass understory, FDc12 or FDc23      	    
-        	    EQWT(2) = 1.0
-        	  ELSE ! must be deciduous shrubs
-        	  	IF (BURNSEAS .LE. 2) THEN ! before greenup
-        	  		EQWT(10) = 1.0
-        	  	ELSE ! after greenup
-        	      EQWT(FINDMOD(161,IPTR,ICLSS)) = 1.0
-        	    ENDIF        	    
-        	  ENDIF
-        	ENDIF       	
+        IF (PERCOV .LE. 70) THEN
+          IF (FMAVH .LE. 25) THEN
+            EQWT(4) = 1.0
+          ELSE ! stand height gt 25
+            IF (LBFUNDER) THEN ! balsam fir understory
+              IF (BURNSEAS .LE. 2) THEN ! before greenup
+                EQWT(10) = 1.0
+              ELSE ! after greenup
+                EQWT(FINDMOD(162,IPTR,ICLSS)) = 1.0
+              ENDIF
+            ELSEIF ((ITYPE .EQ. 6) .OR. (ITYPE .EQ. 7)) THEN !grass understory, FDc12 or FDc23
+              EQWT(2) = 1.0
+            ELSE ! must be deciduous shrubs
+              IF (BURNSEAS .LE. 2) THEN ! before greenup
+                EQWT(10) = 1.0
+              ELSE ! after greenup
+                EQWT(FINDMOD(161,IPTR,ICLSS)) = 1.0
+              ENDIF
+            ENDIF
+          ENDIF
         ELSE ! percov gt 70%
-         	IF (FMAVH .LE. 15) THEN
-         		EQWT(4) = 1.0
-         	ELSE !stand height gt 15
-         	  IF (FWIND .LE. 4) THEN
-         	    EQWT(8) = 1.0
-         	  ELSE
-         	    EQWT(10) = 1.0
-         	  ENDIF
-         	ENDIF	       	
-        ENDIF		
-        	
+          IF (FMAVH .LE. 15) THEN
+            EQWT(4) = 1.0
+          ELSE !stand height gt 15
+            IF (FWIND .LE. 4) THEN
+              EQWT(8) = 1.0
+            ELSE
+              EQWT(10) = 1.0
+            ENDIF
+          ENDIF
+        ENDIF
+ 
       CASE (NHCT) ! northern hardwoods
         STNDBA = 0.0
         MAPBASBA = 0.0
@@ -320,7 +320,7 @@ C----------
         HEMCRA = 0.0
         
         DO I = 1,ITRN
-          X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542    
+          X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542
           SELECT CASE (ISP(I))
             CASE (18,19,25,26,27) ! maple and basswood
               MAPBASBA = MAPBASBA + X
@@ -333,31 +333,31 @@ C----------
               STNDBA = STNDBA + X 
             CASE (12)  ! hemlock
               HEMBA = HEMBA + X
-              STNDBA = STNDBA + X                             
+              STNDBA = STNDBA + X
               CWIDTH=CRWDTH(I)
               CAREA = 3.1415927*CWIDTH*CWIDTH/4.0
               HEMCRA = HEMCRA + CAREA*FMPROB(I)   
             CASE (28)  ! beech
-              STNDBA = STNDBA + X                          
+              STNDBA = STNDBA + X
           END SELECT
-        ENDDO          
+        ENDDO
         HEMCOV = 1.0 - EXP(-HEMCRA/43560.)
-        HEMCOV = HEMCOV * 100.0     
+        HEMCOV = HEMCOV * 100.0
         IF ((HEMCOV .GE. 30) .OR. (ASBIBA .GT. 0)) THEN
           EQWT(8) = 1.0
         ELSEIF (STNDBA .GT. 0) THEN
-        	IF ((MAPBASBA/STNDBA) .GE. 0.5) THEN
-        	  EQWT(FINDMOD(186,IPTR,ICLSS)) = 1.0
+          IF ((MAPBASBA/STNDBA) .GE. 0.5) THEN
+            EQWT(FINDMOD(186,IPTR,ICLSS)) = 1.0
           ELSE
-        	  IF (BURNSEAS .EQ. 4) THEN ! FALL
-        	    EQWT(9) = 1.0
-        	  ELSE
-        	    EQWT(8) = 1.0
-        	  ENDIF
-        	ENDIF
+            IF (BURNSEAS .EQ. 4) THEN ! FALL
+              EQWT(9) = 1.0
+            ELSE
+              EQWT(8) = 1.0
+            ENDIF
+          ENDIF
         ELSE
-        	EQWT(8) = 1.0	
-        ENDIF    
+          EQWT(8) = 1.0
+        ENDIF
 
       CASE (RPCT) ! red and white pine (two slight difference for white pine)
         STNDBA = 0.0
@@ -367,38 +367,38 @@ C----------
         HARDBA = 0.0
         
         DO I = 1,ITRN
-          X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542    
+          X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542
           STNDBA = STNDBA + X
           IF ((ISP(I) .GE. 3) .AND. (ISP(I) .LE. 5)) THEN
               CWIDTH=CRWDTH(I)
               CAREA = 3.1415927*CWIDTH*CWIDTH/4.0
               PINECRA = PINECRA + CAREA*FMPROB(I)
-          ENDIF              	
+          ENDIF
           SELECT CASE (ISP(I))
             CASE (3,4) ! red pine
               RPBA = RPBA + X
             CASE (5)  ! white pine
-              WPBA = WPBA + X                                     
+              WPBA = WPBA + X
             CASE (15:68) ! hardwoods
               HARDBA = HARDBA + X
           END SELECT
         ENDDO
         PINECOV = 1.0 - EXP(-PINECRA/43560.)
-        PINECOV = PINECOV * 100.0   
+        PINECOV = PINECOV * 100.0
 
         IF (LT3 .GE. 5) THEN
-        	EQWT(10) = 1.0
+          EQWT(10) = 1.0
         ELSEIF (PERCOV .LE. 0) THEN
-        	EQWT(8) = 1.0
+          EQWT(8) = 1.0
         ELSEIF (((PINECOV/PERCOV) .LT. 0.5) .AND. (HARDBA .GT. 0)) THEN
-        	EQWT(8) = 1.0
-        ELSEIF ((ITYPE .EQ. 4) .OR. (ITYPE .EQ. 10)) THEN 
-          ! FDn33 or FDc34, hazel underbrush is present       
+          EQWT(8) = 1.0
+        ELSEIF ((ITYPE .EQ. 4) .OR. (ITYPE .EQ. 10)) THEN
+          ! FDn33 or FDc34, hazel underbrush is present
           IF (LDRY) EQWT(FINDMOD(146,IPTR,ICLSS)) = 1.0
           IF (.NOT. LDRY) EQWT(FINDMOD(143,IPTR,ICLSS)) = 1.0
         ELSEIF ((LBFUNDER) .OR. (LBFWPUND)) THEN
           IF (FWIND .LE. 4) THEN
-          	EQWT(10) = 1.0
+            EQWT(10) = 1.0
           ELSE
             EQWT(FINDMOD(146,IPTR,ICLSS)) = 1.0
           ENDIF
@@ -408,7 +408,7 @@ C----------
           EQWT(2) = 1.0 ! this grass type only occurs with young red pine
                         ! plantations or red pine savannas
         ELSE
-        	EQWT(9) = 1.0 ! not sure in this case
+          EQWT(9) = 1.0 ! not sure in this case
         ENDIF
 
       CASE (MWCT) ! mixed wood
@@ -418,40 +418,40 @@ C----------
         OVERCRA = 0.0
         
         DO I = 1,ITRN
-          X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542    
+          X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542
           IF (DBH(I) .GE. 5) THEN
               CWIDTH=CRWDTH(I)
               CAREA = 3.1415927*CWIDTH*CWIDTH/4.0
               OVERCRA = OVERCRA + CAREA*FMPROB(I)
-          ENDIF              	
+          ENDIF
           SELECT CASE (ISP(I))
             CASE (24,43) ! birch
               BIRBA = BIRBA + X
               STNDBA = STNDBA + X
             CASE (1:14)  ! conifers
-              STNDBA = STNDBA + X                             
-              IF (DBH(I) .GE. 5) THEN              
+              STNDBA = STNDBA + X
+              IF (DBH(I) .GE. 5) THEN
                 CWIDTH=CRWDTH(I)
                 CAREA = 3.1415927*CWIDTH*CWIDTH/4.0
-                CONCRA = CONCRA + CAREA*FMPROB(I)  
-              ENDIF  
-            CASE (40:41)  ! aspen    
-              STNDBA = STNDBA + X           
+                CONCRA = CONCRA + CAREA*FMPROB(I)
+              ENDIF
+            CASE (40:41)  ! aspen
+              STNDBA = STNDBA + X
           END SELECT
-        ENDDO    
+        ENDDO
         OVERCOV = 1.0 - EXP(-OVERCRA/43560.)
         OVERCOV = OVERCOV * 100.0
         CONCOV = 1.0 - EXP(-CONCRA/43560.)
         CONCOV = CONCOV * 100.0
         IF (STNDBA .LE. 0) THEN
-        	EQWT(8) = 1.0
+          EQWT(8) = 1.0
         ELSEIF ((BIRBA/STNDBA) .GE. 0.50) THEN
           EQWT(9) = 1.0
         ELSEIF (OVERCOV .GT. 0) THEN
-        	IF ((CONCOV/OVERCOV) .GE. 0.30) THEN
-        		EQWT(10) = 1.0
+          IF ((CONCOV/OVERCOV) .GE. 0.30) THEN
+            EQWT(10) = 1.0
           ELSE
-            EQWT(8) = 1.0        	
+            EQWT(8) = 1.0
           ENDIF
         ELSE
           EQWT(8) = 1.0
@@ -469,44 +469,44 @@ C----------
               CWIDTH=CRWDTH(I)
               CAREA = 3.1415927*CWIDTH*CWIDTH/4.0
               OVERCRA = OVERCRA + CAREA*FMPROB(I)
-          ENDIF              	
+          ENDIF
           IF ((ISP(I) .EQ. 30) .OR. (ISP(I) .EQ. 35)) THEN
              ! white oak and black oak
               OAKBA = OAKBA + X       
           ENDIF
-        ENDDO  
+        ENDDO
         OVERCOV = 1.0 - EXP(-OVERCRA/43560.)
         OVERCOV = OVERCOV * 100.0
       
         IF (OVERCOV .GE. 45) THEN
-        	IF (BURNSEAS .EQ. 1) THEN ! early spring
-        	  IF (MOIS(1,1) .LT. 0.08) THEN
-        	  	EQWT(FINDMOD(186,IPTR,ICLSS)) = 1.0
-        	  ELSE
-        	  	EQWT(8) = 1.0
-        	  ENDIF
-        	ELSE ! not early spring
-        	  IF (STNDBA .LE. 0) THEN
-        	  	EQWT(9) = 1.0
-        	  ELSEIF ((OAKBA/STNDBA) .GE. 0.30) THEN
-        	    EQWT(FINDMOD(189,IPTR,ICLSS)) = 1.0
-        	  ELSE
-        	  	EQWT(9) = 1.0
-        	  ENDIF
-        	ENDIF	
+          IF (BURNSEAS .EQ. 1) THEN ! early spring
+            IF (MOIS(1,1) .LT. 0.08) THEN
+              EQWT(FINDMOD(186,IPTR,ICLSS)) = 1.0
+            ELSE
+              EQWT(8) = 1.0
+            ENDIF
+          ELSE ! not early spring
+            IF (STNDBA .LE. 0) THEN
+              EQWT(9) = 1.0
+            ELSEIF ((OAKBA/STNDBA) .GE. 0.30) THEN
+              EQWT(FINDMOD(189,IPTR,ICLSS)) = 1.0
+            ELSE
+              EQWT(9) = 1.0
+            ENDIF
+          ENDIF
         ELSEIF (OVERCOV .GE. 15) THEN
-        	IF (.NOT. LSMTREES) EQWT(2) = 1.0
-        	IF (LSMTREES) EQWT(FINDMOD(142,IPTR,ICLSS)) = 1.0        	
+          IF (.NOT. LSMTREES) EQWT(2) = 1.0
+          IF (LSMTREES) EQWT(FINDMOD(142,IPTR,ICLSS)) = 1.0
         ELSE
-        	IF (.NOT. LSMTREES) EQWT(FINDMOD(105,IPTR,ICLSS)) = 1.0
-        	IF (LSMTREES) EQWT(FINDMOD(142,IPTR,ICLSS)) = 1.0
+          IF (.NOT. LSMTREES) EQWT(FINDMOD(105,IPTR,ICLSS)) = 1.0
+          IF (LSMTREES) EQWT(FINDMOD(142,IPTR,ICLSS)) = 1.0
         ENDIF
 
       CASE (ABCT) ! aspen birch
         ASPBA = 0.0
         BIRBA = 0.0
 
-        DO I = 1,ITRN              	
+        DO I = 1,ITRN
           X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542 
           IF ((ISP(I) .EQ. 40) .OR. (ISP(I) .EQ. 41)) ASPBA = ASPBA + X
           IF ((ISP(I) .EQ. 24) .OR. (ISP(I) .EQ. 43)) BIRBA = BIRBA + X 
@@ -515,23 +515,23 @@ C----------
         IF (LT3 .GE. 5) THEN
           EQWT(10) = 1.0
         ELSE
-        	IF (.NOT. LCNUNDER) THEN
-        	  IF (BIRBA .GT. ASPBA) THEN
-        	  	EQWT(9) = 1.0
-        	  ELSE
-        	  	EQWT(8) = 1.0
-        	  ENDIF
-        	ELSE
-        	  IF (FWIND .GT. 4) THEN
-        	  	EQWT(FINDMOD(164,IPTR,ICLSS)) = 1.0 
-        	  ELSE
-         	    IF (BIRBA .GT. ASPBA) THEN
-        	  	  EQWT(9) = 1.0
-        	    ELSE
-        	  	  EQWT(8) = 1.0
-        	    ENDIF       	    
-        	  ENDIF	
-        	ENDIF
+          IF (.NOT. LCNUNDER) THEN
+            IF (BIRBA .GT. ASPBA) THEN
+              EQWT(9) = 1.0
+            ELSE
+              EQWT(8) = 1.0
+            ENDIF
+          ELSE
+            IF (FWIND .GT. 4) THEN
+              EQWT(FINDMOD(164,IPTR,ICLSS)) = 1.0 
+            ELSE
+              IF (BIRBA .GT. ASPBA) THEN
+                EQWT(9) = 1.0
+              ELSE
+                EQWT(8) = 1.0
+              ENDIF
+            ENDIF
+          ENDIF
         ENDIF
       
       END SELECT
@@ -574,12 +574,12 @@ C----------
           IF (AFWT .LE. 0.0) LATFUEL = .FALSE.
         ENDIF
         
-        IF (LATFUEL) EQWT(11) = 1.0 
-        IF (.NOT. LATFUEL) EQWT(11) = 0.0 
+        IF (LATFUEL) EQWT(11) = 1.0
+        IF (.NOT. LATFUEL) EQWT(11) = 0.0
         
-        EQWT(10) = 0.0         
+        EQWT(10) = 0.0
         EQWT(12) = 0.0
-        EQWT(13) = 0.0  
+        EQWT(13) = 0.0
                
       CASE (RPCT) ! red and white pine 
         ! with natural fuels, fm 10,12,13 possible
@@ -589,21 +589,21 @@ C----------
           LATFUEL = .TRUE.
           IF ((IYR - HARVYR) .LE. 2) THEN
             EQWT(12) = 1.0
-            EQWT(11) = 0.0 
-            EQWT(10) = 0.0    
-            EQWT(13) = 0.0     
+            EQWT(11) = 0.0
+            EQWT(10) = 0.0
+            EQWT(13) = 0.0
           ELSEIF (((IYR - HARVYR) .GT. 2) 
-     &            .AND. ((IYR - HARVYR) .LE. 5)) THEN          	
+     &            .AND. ((IYR - HARVYR) .LE. 5)) THEN
             EQWT(11) = 1.0
-            EQWT(12) = 0.0 
-            EQWT(10) = 0.0 
-            EQWT(13) = 0.0                        
+            EQWT(12) = 0.0
+            EQWT(10) = 0.0
+            EQWT(13) = 0.0
           ELSE
             EQWT(10) = 1.0
             EQWT(11) = 0.0
-            EQWT(12) = 1.0 
-            EQWT(13) = 1.0          
-          ENDIF         
+            EQWT(12) = 1.0
+            EQWT(13) = 1.0
+          ENDIF
           IF (AFWT .LE. 0.0) LATFUEL = .FALSE.
         ELSE
           EQWT(10) = 1.0
@@ -613,10 +613,10 @@ C----------
         ENDIF
 
       CASE (ABCT) ! aspen birch never gets fm 11, 12, or 13
-        EQWT(10) = 1.0 
-        EQWT(11) = 0.0 
+        EQWT(10) = 1.0
+        EQWT(11) = 0.0
         EQWT(12) = 0.0
-        EQWT(13) = 0.0      
+        EQWT(13) = 0.0
       END SELECT
 C----------
 C  CALL FMDYN TO RESOLVE WEIGHTS, SORT THE WEIGHTED FUEL MODELS

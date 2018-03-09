@@ -2,7 +2,7 @@
      &           JOSTND,DEBUG,IHT1,IHT2)
       IMPLICIT NONE
 C----------
-C  **NBOLT--NE   DATE OF LAST REVISION:  07/11/08
+C NE $Id: nbolt.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C THIS ROUTINE CALCULATES THE NUMBER OF 8' BOLTS TO SPECIFIED SAWTIMBER
 C TOP DIAMETER AND THE NUMBER OF 8' BOLTS TO A SPECIFIED PULPWOOD TOP
@@ -73,12 +73,12 @@ C  SPRUCE.
 C----------
 C
       IF (ISPC .EQ. 4 .AND. SINDX .LT. 35) THEN
-    	   B1(4)=20.03800
-	   B2(4) = 0.18981
-	   B3(4) = 1.2909
-	   B4(4) = 0.17836
-	   B5(4) = 0.57343
-	   B6(4) = 0.10159
+        B1(4)=20.03800
+        B2(4) = 0.18981
+        B3(4) = 1.2909
+        B4(4) = 0.17836
+        B5(4) = 0.57343
+        B6(4) = 0.10159
       END IF
 C----------
 C  COMPUTE ESTIMATED TOTAL TREE HEIGHT.
@@ -116,8 +116,8 @@ C----------
      &      B4(ISPC),' B5=',B5(ISPC),' B6=',B6(ISPC),' D=',D,' H=',H,
      &      ' SINDX=',SINDX,' TOP/D=',TOPDOB/D,' BA=',BA,
      &      ' TOPDOB=',TOPDOB
-		PULBOL=ESTCHT*(H/ESTTHT)
-         IHT2=PULBOL/8.333333
+         PULBOL=ESTCHT*(H/ESTTHT)
+         IHT2=INT(PULBOL/8.333333)
          IF(DEBUG)WRITE(JOSTND,*)' No. PULPWOOD BOLTS (IHT2)= ',IHT2
        ENDIF
 C----------
@@ -137,8 +137,8 @@ C----------
      &     ' B3=',B3(ISPC),' B4=',B4(ISPC),' B5=',B5(ISPC),' B6=',
      &     B6(ISPC),' ISPC=',ISPC,' BA=',BA,' SINDX=',SINDX,
      &     ' BFT/D=',BFTDOB/D,' D=',D,' H=',H,' ESTSHT=',ESTSHT
-		SAWBOL=ESTSHT*(H/ESTTHT)
-         IHT1=SAWBOL/8.333333
+         SAWBOL=ESTSHT*(H/ESTTHT)
+         IHT1=INT(SAWBOL/8.333333)
          IF(DEBUG)WRITE(JOSTND,*)' No. SAWWOOD BOLTS (IHT1)= ',IHT1
       ENDIF
 100   CONTINUE

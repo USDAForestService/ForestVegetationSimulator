@@ -1,6 +1,6 @@
       SUBROUTINE MISINT
 ***********************************************************************
-C MISTOE $Id: misint.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C MISTOE $Id: misintcr.f 0000 2018-02-14 00:00:00Z gedixon $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Mistletoe parameter initialization routine. This routine is
@@ -736,7 +736,6 @@ C.... Prior to this time, DGPDMR(I,J)=1.0 was used.
   200 CONTINUE
 
 C.... Common return.
- 9000 CONTINUE
       IF(DEBUG) WRITE(JOSTND,9010)ICYC,LTYPE
  9010 FORMAT(' End MISINTCR: Cycle = ',I5,' LTYPE = ',I5)
       RETURN

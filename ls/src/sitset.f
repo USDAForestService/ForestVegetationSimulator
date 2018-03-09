@@ -1,7 +1,7 @@
       SUBROUTINE SITSET
       IMPLICIT NONE
 C----------
-C LS $Id: sitset.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C LS $Id: sitset.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C THIS SUBROUTINE LOADS THE SITELG ARRAY WITH A SITE INDEX FOR EACH
 C SPECIES WHICH WAS NOT ASSIGNED A SITE INDEX BY KEYWORD.
@@ -405,7 +405,6 @@ C     &VEQNNC(ISPC)
           METHB8=METHB8+1
       ENDIF
       ENDDO
-   50 CONTINUE
       DO 92 I=1,15
       J=(I-1)*10 + 1
       JJ=J+9

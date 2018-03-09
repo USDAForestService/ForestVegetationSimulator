@@ -369,7 +369,7 @@ C----------
       DO 130 JJ=1,K2
       II=IND2(JJ)
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(ICR(II).LE.0)THEN
         JCR=5
       ELSE
@@ -480,7 +480,7 @@ C----------
         IF(JCR.GT.9)JCR=9
         IF(JCR.LE.0)JCR=5
       ENDIF
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(HT(II).GT.0. .AND. TKILL) GO TO 142
       IF(HT(II).GT.0.) GO TO 146
 C

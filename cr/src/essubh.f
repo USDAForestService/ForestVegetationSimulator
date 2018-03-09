@@ -2,7 +2,7 @@
      &  TRAGE)
       IMPLICIT NONE
 C----------
-C CR $Id$
+C CR $Id: essubh.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     ASSIGNS HEIGHTS TO SUBSEQUENT AND PLANTED TREE RECORDS
@@ -45,10 +45,10 @@ C  PM,PD,AZ USE CR PI
 C  CI USES CR PP                              
 C----------
 C
-      N=DELAY+0.5
+      N=INT(DELAY+0.5)
       IF(N.LT.-3) N=-3
       DELAY=FLOAT(N)
-      ITIME=TIME+0.5
+      ITIME=INT(TIME+0.5)
       IF(N.GT.ITIME) DELAY=TIME
       AGE=TIME-DELAY-GENTIM+TRAGE
       IF(AGE.LT.1.0) AGE=1.0

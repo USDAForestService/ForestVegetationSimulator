@@ -1,7 +1,7 @@
       SUBROUTINE CRATET
       IMPLICIT NONE
 C----------
-C  **CRATET--NE   DATE OF LAST REVISION:  04/06/11
+C NE $Id: cratet.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE IS CALLED PRIOR TO PROJECTION.  IT HAS THE
 C  FOLLOWING FUNCTIONS:
@@ -63,10 +63,9 @@ C----------
       CHARACTER*4 UNDER
       INTEGER IMR,IM,IS,JJ,NH,K1,K2,K3,K4,I1,I2,I3,IPTR,ISPC,II,I,J
       INTEGER KNT2(MAXSP),KNT(MAXSP)
-      REAL SPCNT(MAXSP,3),B1(MAXSP)
-      REAL B2(MAXSP),B3(MAXSP),B4(MAXSP),B5(MAXSP),B6(MAXSP)
+      REAL SPCNT(MAXSP,3)
       REAL D2,SITAGE,SITHT,AGMAX,HTMAX,HTMAX2
-      REAL Q,BAT,BATREE,A1,A2,A3,A4,A5,A6,SUMX,H,D,BX,XX,YY,XN,HS,AX
+      REAL Q,SUMX,H,D,BX,XX,YY,XN,HS,AX
 C----------
 C  INITIALIZE INTERNAL VARIABLES:
 C----------
@@ -332,7 +331,7 @@ C----------
       DO 130 JJ=1,K2
       II=IND2(JJ)
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
 C
       IF(D .LE. 0.1)THEN
         H=1.01
@@ -363,22 +362,23 @@ C
       K4=K4+1
       GO TO 125
   120 CONTINUE
-      NORMHT(II)=H*100.0+0.5
+      NORMHT(II)=INT(H*100.0+0.5)
       IF(ITRUNC(II).EQ.0) THEN
          IF(HT(II).GT.0.0) THEN
-            ITRUNC(II)=80.0*HT(II)+0.5
+            ITRUNC(II)=INT(80.0*HT(II)+0.5)
          ELSE
-            ITRUNC(II)=80.0*H+0.5
+            ITRUNC(II)=INT(80.0*H+0.5)
             HT(II)=H
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &       HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II)=HT(II)*100.0
+      IF(REAL(NORMHT(II))*0.01.LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
   125 CONTINUE
   130 CONTINUE
       KNT2(IPTR)=K4
@@ -403,7 +403,7 @@ C----------
       BX=HT2(ISPC)
       IF (IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(HT(II).GT.0. .AND. TKILL) GO TO 142
       IF(HT(II).GT.0.) GO TO 146
 C
@@ -434,25 +434,26 @@ C
       GO TO 146
   142 CONTINUE
       IF(HT(II) .GT. 0.) THEN
-        NORMHT(II)=HT(II)*100.0+0.5
+        NORMHT(II)=INT(HT(II)*100.0+0.5)
       ELSE
-        NORMHT(II)=H*100.0+0.5
+        NORMHT(II)=INT(H*100.0+0.5)
       ENDIF
       IF(ITRUNC(II).EQ.0) THEN
          IF(HT(II).GT.0.0) THEN
-            ITRUNC(II)=80.0*HT(II)+0.5
+            ITRUNC(II)=INT(80.0*HT(II)+0.5)
          ELSE
-            ITRUNC(II)=80.0*H+0.5
+            ITRUNC(II)=INT(80.0*H+0.5)
             HT(II)=H
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &       HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II)=HT(II)*100.0
+      IF(REAL(NORMHT(II))*0.01.LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
 C----------
 C   CALL FIRE SNAG MODEL TO ADD THE DEAD TREES TO THE
 C   SNAG LIST; DEFLATE PROB(II), WHICH WAS TEMPORARILY
@@ -461,7 +462,7 @@ C   IN **NOTRE**
 C----------
   146 CONTINUE
       IF (TKILL) THEN
-        HS = ITRUNC(II) * 0.01
+        HS = REAL(ITRUNC(II)) * 0.01
       ELSE
         HS = HT(II)
       ENDIF
