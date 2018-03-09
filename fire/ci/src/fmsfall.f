@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-CI  DATE OF LAST REVISION: 11/30/09
+C FIRE_CI $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -91,6 +91,7 @@ C  This could be done outside the snag loop except when either PBSOFT
 C  or PBSMAL equals 1, which may often be the case.  So it's done here.
 C----------
 
+      DFALLN = 0.
       RSOFT = 0.0
       RSMAL = 0.0
       IF (DENTTL .LE. 0) RETURN

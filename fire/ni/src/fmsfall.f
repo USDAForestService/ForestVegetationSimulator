@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C FIRE_NI $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C FIRE_NI $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -90,11 +90,12 @@ C     This could be done outside the snag loop except when either PBSOFT
 C     of PBSMAL equals 1, which may often be the case.  So its done here.
 
       DFALLN = 0.
+      RSOFT = 0.0
+      RSMAL = 0.0
       IF (DENTTL .LE. 0) RETURN
       IF ((IYR - BURNYR) .LT. PBTIME) THEN
         DZERO = NZERO / 50.0
 
-        RSOFT = 0.0
         IF (PBSOFT .GT. 0.0) THEN
           IF (PBSOFT .LT. 1.0) THEN
             RSOFT = 1 - EXP( LOG(1-PBSOFT) / PBTIME )
@@ -103,7 +104,6 @@ C     of PBSMAL equals 1, which may often be the case.  So its done here.
           ENDIF
         ENDIF
 
-        RSMAL = 0.0
         IF (PBSMAL .GT. 0.0) THEN
           IF (PBSMAL .LT. 1.0) THEN
             RSMAL = 1 - EXP( LOG(1-PBSMAL) / PBTIME )

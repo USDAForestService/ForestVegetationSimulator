@@ -159,11 +159,11 @@ C            whether 5% are left.
         DENTTL = DENIH(I) + DENIS(I)
         CALL FMSFALL(IYR,JSP,DBHS(I),DEND(I),DENTTL,1,
      &               RSOFT,RSMAL,DFALLN)
-
+C
         IF (DEBUG) WRITE(JOSTND,*)' IN FMSNAG RSOFT=',RSOFT,
      &                            ' RSMAL=',RSMAL,' PBSOFT=',pbsoft,
      &                            ' PBSMAL=',PBSMAL
-
+C
 C     Now set PBFRIH and PBFRIS. Different rates apply to small snags and
 C     snags that are soft AT TIME OF FIRE (whether initially hard or soft):
 C     if both apply, use whichever rate is greater.  Fires do not affect
