@@ -1,3 +1,6 @@
+C
+C ORGANON $Id: start2.f 0000 2018-02-14 00:00:00Z gedixon $
+C
 C     ORGANON GROWTH AND YIELD MODEL
 C     SUBROUTINES INCLUDED:
 C        HDCALIB
@@ -47,7 +50,7 @@ C
 C     ROUTINE TO CALIBRATE HEIGHT/DIAMETER EQUATIONS
 C
       INTEGER*4    TAGE,BHAGE,ENTHT(18),ENTDBH(18),IB,NSPN,NTREES,NPTS,
-     1             TDATAI(2000,3),TNXT,VERSION
+     1             TDATAI(2000,3),VERSION
       REAL*4       CALIB(3,18),SI_1,SI_2,PTRHT(2000),TDATAR(2000,4)
       LOGICAL*2    EVEN
       INTEGER*4 I,ISPGRP
@@ -775,7 +778,7 @@ c                                                   R24 Coefficients
       b1 = 0.2 + 0.8/ ( 1 + exp(fp(3) + fp(4)*psi))
       c  =1.0 + fp(5)* psi
       alpha=fp(9)*psi
-      h1 = 1.3 + (b1*psi)/2.
+      h1 = INT(1.3 + (b1*psi)/2.)
       yk = h1 + psi * xk* ( 1.0 - (1.-b1)/(c+1))
 
       beta=psi/alpha
@@ -1014,10 +1017,10 @@ C
       IF(DBH .GT. 100.0) THEN
          CCFL=0.0
       ELSEIF(DBH .GT. 50.0)THEN
-         K=DBH-49.0
+         K=INT(DBH-49.0)
          CCFL=CCFLL1(K)
       ELSE
-         K=DBH*10.0+0.5
+         K=INT(DBH*10.0+0.5)
          CCFL=CCFL1(K)
       ENDIF
       RETURN

@@ -291,13 +291,13 @@ C
         IF((KODFOR.GT.0) .AND. IR5.EQ.1) THEN
           KARD2(1:8)=R5HABT(ITYPE)
           PCOM=KARD2(1:8)
-          IF(LSTART)WRITE(JOSTND,311) KARD2
+          IF(LSTART)WRITE(JOSTND,311) KARD2(1:8)
   311     FORMAT(/,T12,'HABITAT TYPE CODE USED IN THIS PROJECTION IS ',
      &    A8)
         ELSEIF(IR6 .EQ. 1)THEN
           KARD2(1:8)=PCOML(ITYPE)
           PCOM=KARD2(1:8)
-          IF(LSTART)WRITE(JOSTND,312) KARD2
+          IF(LSTART)WRITE(JOSTND,312) KARD2(1:8)
   312     FORMAT(/,T12,'PLANT COMMUNITY CODE USED IN THIS PROJECTION ', 
      &    'IS ',A8)
         ENDIF 
@@ -311,7 +311,7 @@ C----------
      &     CALL ERRGRO (.TRUE.,14)
         IF(KODFOR.EQ.0 .OR. IR5.EQ.1)THEN
           ITYPE=0
-          KARD2='UNKNOWN '
+          KARD2='UNKNOWN   '
           PCOM='UNKNOWN '
           PCOMX='2NDPASS '
           ICL5=0

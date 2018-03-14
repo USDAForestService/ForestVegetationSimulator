@@ -1,3 +1,6 @@
+C
+C ORGANON $Id: diamcal.f 0000 2018-02-14 00:00:00Z gedixon $
+C
 C      ORGANON GROWTH AND YIELD MODEL
 C     SUBROUTINES INCLUDED:
 C        DGCALIB
@@ -185,7 +188,7 @@ C
 C
 C     CALCULATES FIVE-YEAR DIAMETER GROWTH RATE OF THE K-TH TREE
 C
-      INTEGER*4 VERSION,K,TDATAI(2000,3),I,ISP,ISPGRP
+      INTEGER*4 VERSION,K,TDATAI(2000,3),ISP,ISPGRP
       REAL*4 XTDATAR(2000,4),SI_1,SI_2,SBA,BALL(51),BAL(500),
      1       PDG(2000),DBH,CR,DG,SBAL,SITE
 C
@@ -265,8 +268,8 @@ C**********************************************************************
 C
       IMPLICIT NONE
       INTEGER*4 VERSION,NPTS,NTREES,IB,TDATAI(2000,3),I,ISPGRP
-      REAL*4    TDATAR(2000,4),GROWTH(2000),BALL(51),OG,
-     1          BAL(500),SI_1,SI_2,XSI_1,XSI_2,PMK(2000),DBH,HT,SBAL,
+      REAL*4    TDATAR(2000,4),BALL(51),OG,
+     1          BAL(500),SI_1,SI_2,PMK(2000),DBH,HT,SBAL,
      2          CR,POW(2000)
       DO I=1,NTREES
          PMK(I)=0.0
@@ -528,7 +531,7 @@ C
          ENDSELECT
          CCF=0.001803*MCW**2*TDATAR(I,4)/NPTS
          IF(DBH .GT. 50.0)THEN
-            L=DBH-49.0
+            L=INT(DBH-49.0)
             IF(L.GT.52) L=52
             DO K=1,500
                CCFL(K)=CCFL(K)+CCF
@@ -539,7 +542,7 @@ C
                BALL(K)=BALL(K)+BA
             ENDDO
          ELSE
-            L=DBH*10+.5
+            L=INT(DBH*10.+.5)
             DO K=1,L-1
                CCFL(K)=CCFL(K)+CCF
                BAL(K)=BAL(K)+BA
@@ -612,10 +615,10 @@ C
       IF(DBH .GT. 100.0) THEN
          BAL=0.0
       ELSEIF(DBH .GT. 50.0)THEN
-         K=DBH-49.0
+         K=INT(DBH-49.0)
          BAL=BALL1(K)
       ELSE
-         K=DBH*10.0+0.5
+         K=INT(DBH*10.0+0.5)
          BAL=BAL1(K)
       ENDIF
       RETURN
