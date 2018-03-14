@@ -2,7 +2,7 @@
      1                 BTKFLG)
       IMPLICIT NONE
 C----------
-C  **BFVOL--UT   DATE OF LAST REVISION:   05/19/08
+C UT $Id: bfvol.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 COMMONS
@@ -229,7 +229,7 @@ C----------
 C  WESTERN SIERRA LOG RULES.
 C----------
   300 CONTINUE
-      ITD=BFTOPD(ISPC)+0.5
+      ITD=INT(BFTOPD(ISPC)+0.5)
       IF(ITD.GT.100) ITD=100
       CALL LOGS(D,H,ITD,BFMIND(ISPC),ISPC,BFSTMP(ISPC),BBFV)
       BTKFLG = .TRUE.

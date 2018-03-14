@@ -1,3 +1,6 @@
+C
+C ORGANON $Id: orgvol.f 0000 2018-02-14 00:00:00Z gedixon $
+C
       SUBROUTINE VOLCAL(VERSION,SPP,CFTD,CFSH,LOGLL,LOGML,LOGTD,LOGSH,
      1                  LOGTA,DBH,HT,CR,VERROR,TERROR,VWARNING,
      2                  TWARNING,IERROR,CFVOL,BFVOL)
@@ -50,7 +53,7 @@ C***********************************************************************
      2                TWARNING,ERROR)
       IMPLICIT NONE
       INTEGER*4 VERS,SPP
-      INTEGER*4 I,J,SPGRP,VERROR(5),TERROR(4),VWARNING(5),TWARNING,TEMP
+      INTEGER*4 I,SPGRP,VERROR(5),TERROR(4),VWARNING(5),TWARNING,TEMP
       REAL*4 CFTD,CFSH,LOGLL,LOGML,LOGTD,LOGSH,LOGTA,DBH,HT,CR
       REAL*4 B0,B1,PHT
       LOGICAL*2 ERROR
@@ -260,8 +263,8 @@ C***********************************************************************
      1        DOB,HT,CR,HCB,LOGTA
       INTEGER*4 VERSION,NTREES,SPP(2000)
       INTEGER*4 ISP,ISPGRP,LOGLL
-      INTEGER*4 II,SVOL,I,J,NW,NLG,NDI,NLOGTD
-      REAL*4    EX,MH,AA1,AA2,A3,A4,A5,A6,A,B,C,V,ALP,D,T,ROOT,HM1,HM2
+      INTEGER*4 II,SVOL,I,J,NW,NDI,NLOGTD
+      REAL*4    EX,MH,AA1,AA2,A3,A4,A,B,C,V,ALP,D,ROOT,HM1,HM2
 C
       LOGTA=XLOGTA/12.0
       LOGLL=INT(XLOGLL)
@@ -377,8 +380,8 @@ C
 
             CALL LOGVOL(4,SVOL,LOGLL,WLT,H,X,PP1,PP2,PDIB,D,TLL,EX,DI,
      1                  V,NL,LVOL,TOTS)
-            NDI=ANINT(DI*10.0)
-            NLOGTD=ANINT(LOGTD*10.0)
+            NDI=NINT(DI*10.0)
+            NLOGTD=NINT(LOGTD*10.0)
             IF(NDI .NE. NLOGTD) HM1=0.0
          ELSE
             HM1=0.0
@@ -388,8 +391,8 @@ C
             H=HM2+4.5
             CALL LOGVOL(4,SVOL,LOGLL,WLT,H,X,PP1,PP2,PDIB,D,TLL,EX,DI,
      1                  V,NL,LVOL,TOTS)
-            NDI=ANINT(DI*10.0)
-            NLOGTD=ANINT(LOGTD*10.0)
+            NDI=NINT(DI*10.0)
+            NLOGTD=NINT(LOGTD*10.0)
             IF(NDI .NE. NLOGTD) HM2=0.0
          ELSE
             HM2=0.0
@@ -411,7 +414,7 @@ C
 C
 C        CALCULATE LOG VOLUMES
 C
-         NW=AINT((MH-LOGSH)/(FLOAT(LOGLL)+LOGTA))
+         NW=INT((MH-LOGSH)/(FLOAT(LOGLL)+LOGTA))
          IF(NW .LT. 0) NW=0
          TLL=MH-LOGSH-FLOAT(NW)*(FLOAT(LOGLL)+LOGTA)
 C
@@ -431,7 +434,7 @@ C
 C        COMPUTE VOLUME OF TOP LOG
 C
          IF(TLL .GE. (LOGML+LOGTA))THEN
-            J=AINT(TLL-LOGTA)
+            J=INT(TLL-LOGTA)
             TLL=FLOAT(J)+LOGTA
             D=TLL/FLOAT(LOGLL)
             H=H+TLL

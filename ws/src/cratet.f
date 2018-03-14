@@ -1,7 +1,7 @@
       SUBROUTINE CRATET
       IMPLICIT NONE
 C----------
-C  **CRATET--WS   DATE OF LAST REVISION:  05/09/12
+C WS $Id: cratet.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE IS CALLED PRIOR TO PROJECTION.  IT HAS THE
 C  FOLLOWING FUNCTIONS:
@@ -403,7 +403,7 @@ C  THEN DUB HEIGHTS USING DEFAULT COEFFICIENTS FOR THIS SPECIES.
 C----------
       KNT(IPTR)=K3
       IF(K1.LT.3 .OR. .NOT.LHTDRG(ISPC)) GO TO 100
-      XN=FLOAT(K1)
+      XN=REAL(K1)
       AA(ISPC) = SUMX/XN
       IF(DEBUG)WRITE(JOSTND,*)'ISPC,AA,SUMX,XN= ',
      &ISPC,AA(ISPC),SUMX,XN
@@ -417,7 +417,6 @@ C----------
       AHATR5 = A(IFOR)
       BHATR5 = B(IFOR)
       CHATR5 = C(IFOR)
-  114 CONTINUE
       IF(DEBUG) WRITE(JOSTND,9114)AHATR5,BHATR5,CHATR5
  9114 FORMAT('IN CRATET 9114 AHATR5,BHATR5,CHATR5 =',3F11.5)
 C----------
@@ -433,7 +432,7 @@ C----------
       DO 130 JJ=1,K2
       II=IND2(JJ)
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
 C
       IF(D .LE. 0.1)THEN
         H=1.01
@@ -502,29 +501,30 @@ C
       K4=K4+1
       GO TO 125
   120 CONTINUE
-      NORMHT(II)=H*100.0+0.5
+      NORMHT(II)=INT(H*100.0+0.5)
       IF(ITRUNC(II).EQ.0) THEN
          IF(HT(II).GT.0.0) THEN
-            ITRUNC(II)=80.0*HT(II)+0.5
+            ITRUNC(II)=INT(80.0*HT(II)+0.5)
          ELSE
-            ITRUNC(II)=80.0*H+0.5
+            ITRUNC(II)=INT(80.0*H+0.5)
             HT(II)=H
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &       HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II)=HT(II)*100.0
+      IF(REAL(NORMHT(II))*0.01.LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
 C----------
 C  IF FOR SOME STRANGE REASON THE TRUNCATED HEIGHT IS GREATER THAN THE
 C  NORMAL HEIGHT, RELY ON THE DATA--RESET HT TO BE EQUAL TO ITRUNC AND
 C  SHUTOFF TRUNCATION LOGIC BY ASSIGNING NORMHT AND ITRUNC TO ZERO.
 C----------
       IF(NORMHT(II).LT.ITRUNC(II)) THEN
-        HT(II)=ITRUNC(II)*0.01
+        HT(II)=REAL(ITRUNC(II))*0.01
         NORMHT(II)=0
         ITRUNC(II)=0
       ENDIF
@@ -553,7 +553,7 @@ C----------
       BX=HT2(ISPC)
       IF(IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(HT(II).GT.0. .AND. TKILL) GO TO 142
       IF(HT(II).GT.0.) GO TO 146
 C
@@ -623,32 +623,33 @@ C
       GO TO 146
   142 CONTINUE
       IF(HT(II) .GT. 0.) THEN
-        NORMHT(II)=HT(II)*100.0+0.5
+        NORMHT(II)=INT(HT(II)*100.0+0.5)
       ELSE
-        NORMHT(II)=H*100.0+0.5
+        NORMHT(II)=INT(H*100.0+0.5)
       ENDIF
       IF(ITRUNC(II).EQ.0) THEN
          IF(HT(II).GT.0.0) THEN
-            ITRUNC(II)=80.0*HT(II)+0.5
+            ITRUNC(II)=INT(80.0*HT(II)+0.5)
          ELSE
-            ITRUNC(II)=80.0*H+0.5
+            ITRUNC(II)=INT(80.0*H+0.5)
             HT(II)=H
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &       HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II)=HT(II)*100.0
+      IF(REAL(NORMHT(II))*0.01.LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
 C----------
 C  IF FOR SOME STRANGE REASON THE TRUNCATED HEIGHT IS GREATER THAN THE
 C  NORMAL HEIGHT, RELY ON THE DATA--RESET HT TO BE EQUAL TO ITRUNC AND
 C  SHUTOFF TRUNCATION LOGIC BY ASSIGNING NORMHT AND ITRUNC TO ZERO.
 C----------
       IF(NORMHT(II).LT.ITRUNC(II)) THEN
-        HT(II)=ITRUNC(II)*0.01
+        HT(II)=REAL(ITRUNC(II))*0.01
         NORMHT(II)=0
         ITRUNC(II)=0
       ENDIF
@@ -660,7 +661,7 @@ C   IN **NOTRE**
 C----------
   146 CONTINUE
       IF (TKILL) THEN
-        HS = ITRUNC(II) * 0.01
+        HS = REAL(ITRUNC(II)) * 0.01
       ELSE
         HS = HT(II)
       ENDIF
