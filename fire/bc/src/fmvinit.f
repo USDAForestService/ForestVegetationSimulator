@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C
-C  $Id$
+C FIRE-BC $Id$
 C
 C----------
 C  **FMVINIT  FIRE-BC
@@ -96,7 +96,7 @@ C
 C     DUFF PRODUCTION RATES 'PRDUFF' ARE A PROPORTION OF THE OVERALL
 C     DECAY RATE: 'DKR'.
 C
-      DO I = 1,10
+      DO I = 1,MXFLCL
         DO J = 1,4
           PRDUFF(I,J) = 0.02
           TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)

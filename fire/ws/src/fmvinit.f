@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C  **FMVINIT  FIRE-WS-DATE OF LAST REVISION: 04/23/13
+C FIRE-WS $Id: fmvinit.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -143,7 +143,7 @@ C----------
 C     Duff production rates 'PRDUFF' are a proportion of the overall
 C     decay rate: 'DKR'.
 C----------
-      DO I = 1,10
+      DO I = 1,MXFLCL
         DO J = 1,4
           PRDUFF(I,J) = 0.02
           TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)
