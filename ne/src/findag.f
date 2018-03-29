@@ -2,7 +2,7 @@
      &                  DEBUG)
       IMPLICIT NONE
 C----------
-C  **FINDAG--NE  DATE OF LAST REVISION:  01/14/11
+C NE $Id: findag.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS ROUTINE FINDS EFFECTIVE TREE AGE
 C  CALLED FROM **COMCUP
@@ -30,6 +30,16 @@ C----------
       INTEGER I,ISPC,MODE0,IVAR
       REAL D1,D2,SITAGE,SITHT,AGMAX,HTMAX1,HTMAX2
       REAL HTG1,H,YRS,HTMAX,AGET
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = AGMAX
+      DANUW = D1
+      DANUW = D2
+      DANUW = HTMAX1
+      DANUW = HTMAX2
+      DANUW = SITHT
 C
       HTG1=0.
 C----------

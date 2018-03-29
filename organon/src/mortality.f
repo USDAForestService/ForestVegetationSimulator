@@ -1,3 +1,6 @@
+C
+C ORGANON $Id: mortality.f 0000 2018-02-14 00:00:00Z gedixon $
+C
 C     ORGANON GROWTH AND YIELD MODEL
 C     SUBROUTINES INCLUDED:
 C         MORTAL
@@ -335,6 +338,12 @@ C**********************************************************************
 C
       IMPLICIT NONE
       REAL*4 NI,NO,QUAD2,A1,A2,A3,A4,X,RDCC
+      REAL*4 DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = RDCC
+C
       A2=0.64
       A3=3.88
       A4=0.07

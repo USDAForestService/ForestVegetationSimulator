@@ -35,6 +35,7 @@ C----------
       REAL BCR0(MAXSP),BCR1(MAXSP),BCR2(MAXSP),BCR3(MAXSP),
      & CRSD(MAXSP),BCR5(MAXSP),BCR6(MAXSP),
      & BCR8(MAXSP),BCR9(MAXSP),BCR10(MAXSP)
+      REAL DANUW
 C----------
 C  SPECIES LIST FOR EAST CASCADES VARIANT.
 C
@@ -185,6 +186,10 @@ C
      &       0.5,       0.5,       0.5,       0.5,       0.5,
      &       0.5,       0.5,       0.5,       0.5,       0.5,
      &       0.2,       0.5/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = TPCT
 C-----------
 C  CHECK FOR DEBUG.
 C-----------

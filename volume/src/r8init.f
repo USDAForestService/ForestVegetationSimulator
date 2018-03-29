@@ -1,10 +1,10 @@
-C----------
-C VOLUME $Id: r8init.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
-C----------
-!== last modified  6-4-2014
       SUBROUTINE R8INIT(VOLEQ,DBHMIN,BFMIND,B,VFLAG,ERRFLAG)
+C----------
+C VOLUME $Id: r8init.f 0000 2018-02-14 00:00:00Z gedixon $
+C----------
 
 C CREATED  : 11-8-2002
+!== last modified  6-4-2014
 
 C PURPOSE  : THIS SUBROUTINE SETS VALUES USED TO CALC THE MERCH HT OF A TREE
 C Reversion history:
@@ -23,6 +23,7 @@ C*********************************
       REAL B(6),BFMIND,DBHMIN
       REAL S_B1(2,135),S_B2(2,135),S_B3(2,135),S_B4(2,135),S_B5(2,135)
       REAL S_B6(2,135),COEFB(26,6)
+      REAL DANUW
       INTEGER SPGRPCD(138)
 C      INTEGER SPCD
       REAL B1(MAXSP),B2(MAXSP),B3(MAXSP),B4(MAXSP),B5(MAXSP),B6(MAXSP)
@@ -748,6 +749,10 @@ C
      &  0.01618,  0.08228,  0.05841,  0.12594,  0.12594,
      &  0.12594,  0.12594,  0.23316,  0.10771,  0.10771/
 
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ERRFLAG)
 C----------------------------------------------------------------------
 C     MAIN LOGIC
       PTR = 0

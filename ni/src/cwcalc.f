@@ -1,7 +1,7 @@
       SUBROUTINE CWCALC(ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND)
       IMPLICIT NONE
 C----------
-C NI $Id: cwcalc.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C NI $Id: cwcalc.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 COMMONS
 C
@@ -70,14 +70,11 @@ C----------
       INTEGER ICYC
       REAL D, H, CW, HI, HILAT,HILONG,HIELEV,EL,MIND,CR,CL,BAREA
       REAL BF,P,OMIND
+      REAL DANUW
 C----------
 C  DATA STATEMENTS
 C----------
       DATA MIND/5./,OMIND/1./
-C-----------
-C  SEE IF WE NEED TO DO SOME DEBUG.
-C-----------
-      CALL DBCHK (DEBUG,'CWCALC',6,ICYC)
 C----------
 C  MAP EQUATION NUMBERS FOR VARIANT
 C----------
@@ -322,6 +319,16 @@ C             WO        J       LL       WB       KP       PY   DGtoRA
 C         HTtoRA   CHtoRA   WItoBM       --       OT
      &    '35106', '35106', '31206', '12205', '12205'/
 C
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(IICR)
+      DANUW = REAL(IWHO)
+      DANUW = P
+C-----------
+C  SEE IF WE NEED TO DO SOME DEBUG.
+C-----------
+      CALL DBCHK (DEBUG,'CWCALC',6,ICYC)
 C----------
 C  SET THE EQUATION NUMBER
 C  OR IF THIS IS AN R5 FOREST BRANCH TO THE R5CRWD ROUTINE

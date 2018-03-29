@@ -48,20 +48,23 @@ C----------
       INTEGER ICODE(6),MSPCNT(MAXSP),IARRAY(MAXTRE)
       CHARACTER*8 KEYWRD,NOMIS
       CHARACTER*1 CBUFF
+      REAL DANUW
+      CHARACTER*8 CDANUW
+      LOGICAL LDANUW
 C----------
 C  DATA STATEMENTS.
 C----------
       DATA NOMIS/'*NO MIST'/
 C----------
-C  MISCNT
-
+C  ENTRY MISCNT
+C----------
       ENTRY MISCNT(MSPCNT)
       DO 100 I=1,MAXSP
          MSPCNT(I)=0
   100 CONTINUE
       GO TO 9000
 C----------
-C  MISCPF
+C  ENTRY MISCPF
 C----------
       ENTRY MISCPF(PRFCUT)
       DO 150 I=1,MAXSP
@@ -69,89 +72,175 @@ C----------
   150 CONTINUE
       GO TO 9000
 C----------
-C  MISDAM
+C  ENTRY MISDAM
 C----------
       ENTRY MISDAM(ITREE,ICODE)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ITREE)
+      DANUW = ICODE(1)
+C
       GO TO 9000
 C----------
-C  MISGET
+C  ENTRY MISGET
 C----------
       ENTRY MISGET(ITREE,IDMR)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ITREE)
+C
       IDMR=0
       GO TO 9000
 C----------
-C  MISIN
+C  ENTRY MISIN
 C----------
       ENTRY MISIN(KEYWRD,ARRAY,LNOTBK,LKECHO)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW = KEYWRD
+      DANUW  = ARRAY(1)
+      LDANUW = LNOTBK(1)
+      LDANUW = LKECHO
+C
       CALL ERRGRO(.TRUE.,11)
       GO TO 9000
 C----------
-C  MISINF
+C  ENTRY MISINF
 C----------
       ENTRY MISINF(DMFLAG)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      LDANUW = DMFLAG
+C
       GO TO 9000
 C----------
-C  MISIN0
+C  ENTRY MISIN0
 C----------
       ENTRY MISIN0
       GO TO 9000
 C----------
-C  MISINT
+C  ENTRY MISINT
 C----------
       ENTRY MISINT
       GO TO 9000
 C----------
-C  MISKEY (ENTRY POINT IN MISIN)
+C  ENTRY MISKEY (ENTRY POINT IN MISIN)
 C----------
       ENTRY MISKEY(KEY,KEYWRD)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(KEY)
+C
       KEYWRD=NOMIS
       GO TO 9000
 C----------
-C  MISMRT
+C  ENTRY MISMRT
 C----------
       ENTRY MISMRT(MFLAG)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      LDANUW = MFLAG
+C
       GO TO 9000
 C----------
-C  MISPRT
+C  ENTRY MISPRT
 C----------
       ENTRY MISPRT
       GO TO 9000
 C----------
-C  MISPUT
+C  ENTRY MISPUT
 C----------
       ENTRY MISPUT(ITREE,IDMR)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ITREE)
+      DANUW = REAL(IDMR)
+C
       GO TO 9000
 C----------
-C  MISPUTZ
+C  ENTRY MISPUTZ
 C----------
       ENTRY MISPUTZ(ITREE,IDMR1)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ITREE)
+      DANUW = REAL(IDMR1)
+C
       GO TO 9000
 C----------
-C  MISRAN
+C  ENTRY MISRAN
 C----------
       ENTRY MISRAN(IARRAY,ISIZE)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ISIZE)
+      DANUW = REAL(IARRAY(1))
+C
       GO TO 9000
 C----------
-C  MISTOE
+C  ENTRY MISTOE
 C----------
       ENTRY MISTOE
       GO TO 9000
 C----------
-C  MSPPPT - PPE -
+C  ENTRY MSPPPT - PPE -
 C----------
       ENTRY MSPPPT (WK3,IPNT,ILIMIT)
-      GO TO 9000
-      ENTRY MSCHPUT (CBUFF, IPNT, ILIMIT)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = WK3(1)
+      DANUW = REAL(IPNT)
+      DANUW = REAL(ILIMIT)
+C
       GO TO 9000
 C----------
-C  MSPPGT - PPE -
+C  ENTRY MSCHPUT
+C----------
+      ENTRY MSCHPUT (CBUFF, IPNT, ILIMIT)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:1) = CBUFF(1)
+      DANUW = REAL(IPNT)
+      DANUW = REAL(ILIMIT)
+C
+      GO TO 9000
+C----------
+C  ENTRY MSPPGT - PPE -
 C----------
       ENTRY MSPPGT (WK3,IPNT,ILIMIT)
-      GO TO 9000
-      ENTRY MSCHGET (CBUFF, IPNT, ILIMIT)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = WK3(1)
+      DANUW = REAL(IPNT)
+      DANUW = REAL(ILIMIT)
+C
       GO TO 9000
 C----------
-C  MISACT
+C  ENTRY MSCHGET
+C----------
+      ENTRY MSCHGET (CBUFF, IPNT, ILIMIT)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:1) = CBUFF(1)
+      DANUW = REAL(IPNT)
+      DANUW = REAL(ILIMIT)
+C
+      GO TO 9000
+C----------
+C  ENTRY MISACT
 C----------
       ENTRY MISACT (NFLAG)
       NFLAG=.FALSE.
@@ -184,6 +273,11 @@ C
 C  Common block variables and parameters:
 C
 C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ITREE)
+      DANUW = REAL(ISPC)
+C
 
       MISDGF=1.0
 
@@ -192,7 +286,7 @@ C----------
 
       REAL FUNCTION MISHGF(ITREE,ISPC)
 C----------
-C  **MISDGF--MS  Date of last revision:  04/01/11
+C  **MISHGF--MS  Date of last revision:  04/01/11
 C----------
 C  Purpose:
 C     This is a dummy version of the mistletoe infection height
@@ -211,6 +305,11 @@ C
 C  Common block variables and parameters:
 C
 C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ITREE)
+      DANUW = REAL(ISPC)
+C
 
       MISHGF=1.0
 

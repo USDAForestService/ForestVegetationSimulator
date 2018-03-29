@@ -1,7 +1,7 @@
       SUBROUTINE VARGET (WK3,IPNT,ILIMIT,REALS,LOGICS,INTS)
       IMPLICIT NONE
 C----------
-C  $Id: varget.f 874 2013-05-16 19:44:36Z drobinsonessa@gmail.com $
+C ORGANON $Id: varget.f 874 2013-05-16 19:44:36Z drobinsonessa@gmail.com $
 C----------
 C
 C     READ THE VARIANT SPECIFIC VARIABLES.
@@ -185,7 +185,15 @@ C----------
       INTEGER LNCBUF
       CHARACTER CBUFF(LNCBUF)
       INTEGER IPNT
+      REAL DANUW
+      CHARACTER CDANUW
       ! Stub for variants which need to get/put character data
       ! See /bc/varget.f and /bc/varput.f for examples of VARCHGET and VARCHPUT
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(IPNT)
+      CDANUW = CBUFF(1)
+C
       RETURN
       END

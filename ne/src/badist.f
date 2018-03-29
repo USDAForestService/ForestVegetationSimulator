@@ -1,7 +1,7 @@
       SUBROUTINE BADIST(DEBUG)
       IMPLICIT NONE
 C----------
-C   **BADIST--NE   DATE OF LAST REVISION:  07/11/08
+C NE $Id: badist.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C COMMONS
@@ -23,6 +23,11 @@ C----------
 C
       INTEGER I,J,ICLS
       REAL TDBH,TREEBA
+      LOGICAL LDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      LDANUW = DEBUG
 C
 C----------
 C  INITIALIZE VARIABLES.

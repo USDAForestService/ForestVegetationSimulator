@@ -2,7 +2,7 @@
      &                  HTMAX2,DEBUG)
       IMPLICIT NONE
 C----------
-C  **FINDAG--WS  DATE OF LAST REVISION:  05/09/12
+C WS $Id: findag.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  CALLED FROM **COMCUP
 C  CALLED FROM **CRATET** AND **HTGF** 
@@ -29,6 +29,7 @@ C----------
       REAL D1,D2,H,SITAGE,SITHT,AGMAX,HTMAX1,HTMAX2,BAUTBA,SITE
       REAL AGEMAX(MAXSP),HTMAX(MAXSP),AG,DIFF,HGUESS,SINDX,TOLER
       REAL TOL,AP,AGETEM,HH,RATIO,TAGE,TSITE
+      REAL DANUW
 C----------
 C     SPECIES LIST FOR WESTERN SIERRAS VARIANT.
 C
@@ -116,6 +117,11 @@ C
      &   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0., 
      &   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0., 
      &  20.,   0.,   0./
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = D2
+      DANUW = HTMAX2
 C----------
 C  INITIALIZATIONS
 C----------

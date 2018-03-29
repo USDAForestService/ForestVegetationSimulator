@@ -51,6 +51,7 @@ C                                                  REALLY WC39=OT)
 C----------
       REAL BARK1(MAXSP),BARK2(MAXSP),H,D,BRATIO,DIB,TEMD
       INTEGER IS
+      REAL DANUW
 C----------
 C  DATA STATEMENTS
 C----------
@@ -64,6 +65,10 @@ C----------
      &       0.0,     0.0,     0.0, .989388,1.016866,
      &       0.0,     0.0,     0.0,     0.0,     0.0,
      &       0.0,  -0.086,     0.0,  -0.086/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = H
 C
       SELECT CASE (IS)
 C

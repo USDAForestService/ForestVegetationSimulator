@@ -2,7 +2,7 @@
      &                  DEBUG)
       IMPLICIT NONE
 C----------
-C CR $Id$
+C CR $Id: ccfcal.f 2121 2018-02-28 23:37:24Z gedixon $
 C----------
 C  THIS ROUTINE FINDS EFFECTIVE TREE AGE BASED ON INPUT VARIABLE(S)
 C  CALLED FROM **COMCUP
@@ -30,7 +30,17 @@ C----------
       INTEGER I,ISPC,ICLS
       REAL BAUTBA,SITE,EFFAGE
       REAL D1,D2,H,SITAGE,SITHT,AGMAX,HTMAX,HTMAX2
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = AGMAX
+      DANUW = D2
+      DANUW = HTMAX
+      DANUW = HTMAX2
+      DANUW = SITHT
 C
+C----------
       ICLS = IFIX(D1+1.0)
       IF(ICLS .GT. 41) ICLS = 41
       BAUTBA = BAU(ICLS)/BA

@@ -72,6 +72,8 @@ C----------
       REAL COFBVS(MAXSP),HDRATM(100),D2HBRK(MAXSP)
       REAL VMAX,BARK,BBFV,D2H,H,D,TSIZE,VT,HDRATA,DTOPK,HTRUNC,TD,DIB
       REAL FC,SMDOLD,TLOG,XLOG,SMD,PLEFT,D1SQ,FACTOR
+      REAL DANUW
+      LOGICAL LDANUW
 C----------
 C  SPECIES LIST FOR EAST CASCADES VARIANT.
 C
@@ -155,6 +157,12 @@ C
      &      0.0,      0.0,      0.0,      0.0,      0.0,
      &      0.0,      0.0,      0.0,      0.0,      0.0,
      & 0.009523,      0.0/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = VMAX
+      LDANUW = LCONE
+C
 C----------
 C  INITIALIZE VOLUME ESTIMATE.
 C----------

@@ -33,6 +33,7 @@ C----------
       REAL AGMAX(MAXSP),HTMAX(MAXSP)
       REAL AG,DIFF,H,HGUESS,SINDX,TOLER
       REAL SITAGE,SITHT,AGMAX1,HTMAX1,HTMAX2,D1,D2
+      REAL DANUW
 C----------
 C  DATA STATEMENTS
 C----------
@@ -47,6 +48,12 @@ C
      &  80., 165., 120., 165., 165.,  85., 175., 165., 165.,  50.,
      &  50., 100., 100.,  75., 125.,  30.,  75.,  30.,  30.,  20,
      &  25., 165., 100./
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = D1
+      DANUW = D2
+      DANUW = HTMAX2
 C----------
 C  INITIALIZATIONS
 C----------

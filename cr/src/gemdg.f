@@ -25,6 +25,7 @@ C----------
       INTEGER IS,IMODTY,IDDS
       REAL ASPECT,DF,CON1,CON2,DFMCPP,DFSWPP,ADJB,BAPP,BARAT,ADJR
       REAL ADJ,SIMINR,XSLOPE,DIAGR      
+      REAL DANUW
 C----------
 C  SPECIES ORDER:
 C   1=AF,  2=CB,  3=DF,  4=GF,  5=WF,  6=MH,  7=RC,  8=WL,  9=BC, 10=LM,
@@ -39,6 +40,10 @@ C  GO,AW,EM,BK,SO USE CR OA
 C  PB USES CR AS                              
 C  PM,PD,AZ USE CR PI
 C  CI USES CR PP                              
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = ELEV
 C----------
 C  SET APPROPRIATE BOUNDS BY MODEL TYPE.
 C----------

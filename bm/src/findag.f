@@ -2,7 +2,7 @@
      &                  HTMAX2,DEBUG)
       IMPLICIT NONE
 C----------
-C  **FINDAG--BM  DATE OF LAST REVISION:  01/13/11
+C BM $Id: findag.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS ROUTINE FINDS EFFECTIVE TREE AGE BASED ON INPUT VARIABLE(S)
 C  CALLED FROM ***COMCUP
@@ -32,6 +32,7 @@ C----------
       REAL AGMAX(MAXSP),AHMAX(MAXSP),AG,BHMAX(MAXSP)
       REAL D1,D2,H,HTMAX1,HTMAX2,AGMAX1,SITAGE,SITHT
       REAL DIFF,HGUESS,SINDX,TOLER
+      REAL DANUW
 C----------
 C  DATA STATEMENTS
 C----------
@@ -46,6 +47,12 @@ C----------
      &       2.39,      1.32,    1.54,      1.24,      1.14,        0.,
      &       1.75,       1.1,    1.24,      1.30,        0.,        0.,
      &         0.,        0.,      0.,        0.,      1.30,        0./
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = D1
+      DANUW = D2
+      DANUW = HTMAX2
 C----------
 C  INITIALIZATIONS
 C----------

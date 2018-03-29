@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r8clkdib.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id: r8clkdib.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C YW 2016/03/08 Modofied the DIB calculation for TOPHT less than 17.3 to avoid Nan vaue error.
       SUBROUTINE R8PREPCOEF(VOLEQ, COEFFS, ERRFLAG)
@@ -298,6 +298,7 @@ C-------------------------------------------------------------------------------
       CHARACTER*10 VOLEQ
       CHARACTER*2 FORST
       CHARACTER*1 CTYPE
+      CHARACTER*2 CDANUW
       INTEGER ERRFLAG, EQN, IS, IB, IT, IM
       REAL DBHOB, HTTOT, HTUP, DIB, DIB17, DBHIB, TOPHT, HIGHHT,UPSHT1
       REAL R,C,E,P,B,A,Q, A17, B17, DX, AD, BD, VOLTMP(15)
@@ -305,6 +306,11 @@ C-------------------------------------------------------------------------------
 
 c      INCLUDE 'R8CLKCOEF.INC'
 c      INCLUDE 'R8DIB.INC'
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:2) = FORST(1:2)
+C
 
       READ(VOLEQ(3:3),'(I1)')EQN
 C GET COEF FOR THE EQUATION

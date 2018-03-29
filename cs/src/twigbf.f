@@ -1,7 +1,7 @@
       SUBROUTINE TWIGBF(ISPC,H,D,VMAX,BBFV)
       IMPLICIT NONE
 C----------
-C  **TWIGBF---CS  DATE OF LAST REVISION:  05/19/08
+C CS $Id: twigbf.f 000 2018-03-27 00:00:00Z gedixon $
 C----------
 C
 COMMONS
@@ -29,6 +29,7 @@ C
 C----------
       REAL B1(MAXSP),B2(MAXSP),B3(MAXSP),B4(MAXSP),BBFV,VMAX,D,H
       INTEGER ISPC
+      REAL DANUW
 C----------
 C  COEFFICIENTS FOR NET BOARD FOOT VOLUME EQUATION FOR ACCEPTABLE
 C  TREES (TREE CLASS 1 & 2).
@@ -65,6 +66,11 @@ C       SI = SITE INDEX
 C      DBH = DIAMETER BREAST HEIGHT
 C    B1-B4 = SPECIES SPECIFIC COEFFICIENTS
 C------------------------------------------------------------------
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = H
+C
 C----------
 C  COMPUTE TOTAL BOARD FOOT VOLUME (VMAX)
 C----------

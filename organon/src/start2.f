@@ -404,6 +404,14 @@ C
      1            PCR(2000),CALIB(3,18)
       INTEGER*4   I,ISPGRP
       REAL*4      DBH,HT,XSI_1,XSI_2,SCCFL,PHCB
+      REAL*4 DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(IB)
+      DANUW = REAL(NPTS)
+      DANUW = REAL(NSPN)
+C
       ENT=0
       DO I=1,NTREES
          IF(TDATAR(I,3) .GT. 0.0) CYCLE

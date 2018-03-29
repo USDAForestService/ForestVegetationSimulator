@@ -38,10 +38,16 @@ C
 COMMONS
 C
       INTEGER J
-      
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(J)
+C
+C      
       S1 = DMOD(16807D0*S0,2147483647D0)
       RDRANN = REAL(S1 / 2147483648D0)
       S0 = S1
-
+C
       RETURN
       END

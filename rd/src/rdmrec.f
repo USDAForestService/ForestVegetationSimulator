@@ -1,7 +1,7 @@
       SUBROUTINE RDMREC (ITYP,I,KSP,OAMOVE)
       IMPLICIT NONE
 C----------
-C  **RDMREC      LAST REVISION:  08/29/14
+C RD $Id: rdmrec.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C  Purpose :
@@ -51,6 +51,7 @@ C.... Local variable declaraions.
 
       INTEGER  I, ISL, ITYP, KSP
       REAL     OAMOVE(3)
+      REAL DANUW
 
 C.... Make sure that OAKL continues to contain the right number of
 C.... killed trees. Assume that some proportion of those trees that
@@ -58,7 +59,11 @@ C.... were outside killed are now inside killed (either infected or
 C.... uninfected) (eg. If 10% of the outside trees were killed from
 C.... bark beetles or windthrow then 10% of those trees just becoming
 C.... inside trees were killed from bark beetles or windthrow).
-     
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ITYP)
+C     
       OAKL(DSO,I) = OAKL(DSO,I) - OAMOVE(DSO)
       OAKL(DSII,I) = OAKL(DSII,I) + OAMOVE(DSII)
       OAKL(DSIU,I) = OAKL(DSIU,I) + OAMOVE(DSIU)

@@ -8,52 +8,55 @@
 #     "w32" on Windows x86 (32 bit), 
 #     "osx" on MAC x86_64, and 
 #     "l64" on generic Linux x86_64.
+#  When qFVS programs are built, the ODBC type defs and libraries are not used
+# To build 64 bit windows, set OSARCH=w64 and OS=OS on the make command line.
+# To build using cross compilers, define mingw64 on the command line
 
 ifdef OS
- WIN = -DWINDOWS
- OSARCH = w32
- ODBC = odbc32
- SLIBSUFX = .dll
- PRGSUFX = .exe
- PIC =      # never use PIC on this OSARCH type
-#not 32 bit windows, assume 64 bit Linux or mac osx.
+ export WIN = -DWINDOWS
+ export SLIBSUFX = .dll
+ export PIC =      # never use PIC on this OSARCH type
+ export PRGSUFX = .exe 
+ ifndef OSARCH
+   export OSARCH = w32
+ endif 
+ ifeq ($(OSARCH), w32)
+   export ODBC = -lodbc32
+ else
+   export ODBC = -lodbc
+ endif  
 else
 #setting WIN as done below is to enable correct processing of fofem (fire) c code.
- WIN = -Dunix  
- SLIBSUFX = .so
- PRGSUFX = 
- ODBC = odbc 
+ export WIN = -Dunix  
+ export SLIBSUFX = .so
+ export PRGSUFX = 
  ifdef OSTYPE
   ifeq ($(OSTYPE),linux)
-    OSARCH = l64
-    PIC = -fPIC  # always use PIC on this OSARCH type
+    export OSARCH = l64
+    export PIC = -fPIC  # always use PIC on this OSARCH type
   endif
   ifeq ($(OSTYPE),linux-gnu)
-    OSARCH = l64
-    PIC = -fPIC  # always use PIC on this OSARCH type
+    export OSARCH = l64
+    export PIC = -fPIC  # always use PIC on this OSARCH type
   endif
  else
   ifeq ($(shell uname),Linux)
-    OSARCH = l64
-    PIC = -fPIC
+    export OSARCH = l64
+    export PIC = -fPIC
   endif
  endif
  ifndef OSARCH
-   OSARCH = osx
-   PIC =      # never use PIC on this OSARCH type
-   ODBC = iodbc 
+   export OSARCH = osx
+   export PIC =      # never use PIC on this OSARCH type
+   export ODBC = -liodbc
+   $(info OSARCH: $(OSARCH); ODBC: $(ODBC))
  endif
-endif
+ ifndef ODBC
+  export ODBC = -lodbc
+ endif
+endif                                                                               
 
-#.PHONY: printvars
-#printvars: 
-#	@echo OS: $(OS)
-#	@echo OSTYPE: $(OSTYPE)
-#	@echo WIN: $(WIN)
-#	@echo ODBC: $(ODBC)
-#	@echo SLIBSUFX: $(SLIBSUFX)
-#	@echo OSARCH: $(OSARCH)
-#	@echo PIC: $(PIC)
+	
 # FC is the fortran compiler
 # FFLAGS are pasted to fortran
 # CC is the c compiler
@@ -61,18 +64,36 @@ endif
 # by fvsSQL.c
 # LD is the linker
 
+ifdef mingw64
+ export FCprf = x86_64-w64-mingw32-
+ export CCprf = x86_64-w64-mingw32-
+else
+ export FCprf = 
+ export CCprf = 
+endif
+
+$(info OS: $(OS); OSTYPE: $(OSTYPE); WIN: $(WIN); OSARCH: $(OSARCH); SLIBSUFX: $(SLIBSUFX))
+$(info ODBC: $(ODBC); PIC: $(PIC); PRGSUFX: $(PRGSUFX))
+$(info mingw64: $(mingw64))
+$(info FCprf: $(FCprf))
+$(info CCprf: $(CCprf))
+
 export FC = gfortran 
-export FFLAGS = $(PIC) -g -Wall -fbacktrace 
+#export FFLAGS = $(PIC) -g -Wall -fbacktrace 
+#export FFLAGS = $(PIC) -g -Wall -fbacktrace -ffpe-trap=invalid,zero,denormal -fcheck=bounds
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace -fcheck=all -fcheck=bounds
-#export FFLAGS = $(PIC) -g -Wall -fbacktrace -fcheck=all -fcheck=bounds
+export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fcheck=bounds -fbacktrace 
 export CC = gcc
-export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN)
+# Adding optimization (-O2 does not help execution speed much but slows compile time a lot
+# export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN) -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION -O2
+export CFLAGS = $(PIC) -DANSI -DCMP${CC} -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION $(WIN) 
 export LD = gfortran
 ifndef sourceFileList
 # TODO: See comment below regarding generl rules. We can change to this rule for all
 # when we adopt a newer make on windows builds
-export FVSprgs = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
+export FVSprgs  = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
+export qFVSprgs = $(subst _sourceList.txt,,$(shell ls qFVS*_sourceList.txt))
 #  export FVSprgs = FVSbmc FVScrc FVSecc FVSiec FVSne FVSpnc FVSsn FVSwcc FVSwsc
 endif
 
@@ -82,7 +103,14 @@ ifdef sourceFileList
  ifndef sourceList
   export sourceFileList
   export sourceList = $(shell cat $(sourceFileList))
-  export includes = $(notdir $(filter %.F77 %.INC %.h,$(sourceList))) DBSTYPEDEFS.F77
+  ifeq (mkdbsTypeDefs,$(findstring mkdbsTypeDefs,$(sourceList)))
+   export dbstypedefs = DBSTYPEDEFS.F77
+   export DBLINK = $(ODBC)
+  else
+   export DBLINK = 
+  endif
+  $(info DBLINK: $(DBLINK))
+  export includes = $(notdir $(filter %.F77 %.INC %.h,$(sourceList))) $(dbstypedefs)
   export mods = $(notdir $(filter %_mod.f, $(sourceList)))
   export mods_mods = $(addsuffix .mod,$(basename $(mods)))
   export source = $(filter-out mkdbsTypeDefs.c, $(notdir $(filter %.c %.f, $(sourceList))))
@@ -90,10 +118,12 @@ ifdef sourceFileList
  endif
 endif
 
-all : $(addsuffix $(SLIBSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSprgs))
+FVSQLite : $(addsuffix $(PRGSUFX),$(qFVSprgs))
+
+all : $(addsuffix $(SLIBSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(qFVSprgs))
 
 clean :
-	rm -frv *_buildDir libfvsSQL.dll $(addsuffix $(SLIBSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSprgs))
+	rm -frv *_buildDir libfvsSQL.dll $(addsuffix $(SLIBSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(qFVSprgs))
 
 ifndef sourceFileList
 
@@ -163,8 +193,77 @@ FVSwcc$(SLIBSUFX) FVSwcc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwcc) $(shel
 FVSwsc$(SLIBSUFX) FVSwsc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSwsc) $(shell cat $(addsuffix _sourceList.txt,FVSwsc))
 	$(MAKE) --file=makefile FVSwsc.setup
 
+# the qFVS family, no odbc, just sqlite3.
+
+qFVSak$(SLIBSUFX) qFVSak$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSak) $(shell cat $(addsuffix _sourceList.txt,qFVSak))
+	$(MAKE) --file=makefile qFVSak.setup
+
+qFVSbm$(SLIBSUFX) qFVSbm$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSbm) $(shell cat $(addsuffix _sourceList.txt,qFVSbm))
+	$(MAKE) --file=makefile qFVSbm.setup
+
+qFVSca$(SLIBSUFX) qFVSca$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSca) $(shell cat $(addsuffix _sourceList.txt,qFVSca))
+	$(MAKE) --file=makefile qFVSca.setup
+
+qFVSci$(SLIBSUFX) qFVSci$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSci) $(shell cat $(addsuffix _sourceList.txt,qFVSci))
+	$(MAKE) --file=makefile qFVSci.setup
+	
+qFVScr$(SLIBSUFX) qFVScr$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVScr) $(shell cat $(addsuffix _sourceList.txt,qFVScr))
+	$(MAKE) --file=makefile qFVScr.setup
+
+qFVScs$(SLIBSUFX) qFVScs$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVScs) $(shell cat $(addsuffix _sourceList.txt,qFVScs))
+	$(MAKE) --file=makefile qFVScs.setup
+
+qFVSec$(SLIBSUFX) qFVSec$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSec) $(shell cat $(addsuffix _sourceList.txt,qFVSec))
+	$(MAKE) --file=makefile qFVSec.setup
+
+qFVSem$(SLIBSUFX) qFVSem$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSem) $(shell cat $(addsuffix _sourceList.txt,qFVSem))
+	$(MAKE) --file=makefile qFVSem.setup
+
+qFVSie$(SLIBSUFX) qFVSie$(PRGSUFX) : $(addsuffix _sourceList.txt,qFVSie) $(shell cat $(addsuffix _sourceList.txt,qFVSie))
+	$(MAKE) --file=makefile qFVSie.setup
+
+qFVSkt$(SLIBSUFX) qFVSkt$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSkt) $(shell cat $(addsuffix _sourceList.txt,qFVSkt))
+	$(MAKE) --file=makefile qFVSkt.setup
+
+qFVSls$(SLIBSUFX) qFVSls$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSls) $(shell cat $(addsuffix _sourceList.txt,qFVSls))
+	$(MAKE) --file=makefile qFVSls.setup
+
+qFVSnc$(SLIBSUFX) qFVSnc$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSnc) $(shell cat $(addsuffix _sourceList.txt,qFVSnc))
+	$(MAKE) --file=makefile qFVSnc.setup
+	
+qFVSne$(SLIBSUFX) qFVSne$(PRGSUFX) : $(addsuffix _sourceList.txt,qFVSne) $(shell cat $(addsuffix _sourceList.txt,qFVSne))
+	$(MAKE) --file=makefile qFVSne.setup
+
+qFVSoc$(SLIBSUFX) qFVSoc$(PRGSUFX) : $(addsuffix _sourceList.txt,qFVSoc) $(shell cat $(addsuffix _sourceList.txt,qFVSoc))
+	$(MAKE) --file=makefile qFVSoc.setup
+
+qFVSop$(SLIBSUFX) qFVSop$(PRGSUFX) : $(addsuffix _sourceList.txt,qFVSop) $(shell cat $(addsuffix _sourceList.txt,qFVSop))
+	$(MAKE) --file=makefile qFVSop.setup
+
+qFVSpn$(SLIBSUFX) qFVSpn$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSpn) $(shell cat $(addsuffix _sourceList.txt,qFVSpn))
+	$(MAKE) --file=makefile qFVSpn.setup
+
+qFVSsn$(SLIBSUFX) qFVSsn$(PRGSUFX) : $(addsuffix _sourceList.txt,qFVSsn) $(shell cat $(addsuffix _sourceList.txt,qFVSsn))
+	$(MAKE) --file=makefile qFVSsn.setup
+
+qFVSso$(SLIBSUFX) qFVSso$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSso) $(shell cat $(addsuffix _sourceList.txt,qFVSso))
+	$(MAKE) --file=makefile qFVSso.setup
+
+qFVStt$(SLIBSUFX) qFVStt$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVStt) $(shell cat $(addsuffix _sourceList.txt,qFVStt))
+	$(MAKE) --file=makefile qFVStt.setup
+
+qFVSut$(SLIBSUFX) qFVSut$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSut) $(shell cat $(addsuffix _sourceList.txt,qFVSut))
+	$(MAKE) --file=makefile qFVSut.setup
+
+qFVSwc$(SLIBSUFX) qFVSwc$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSwc) $(shell cat $(addsuffix _sourceList.txt,qFVSwc))
+	$(MAKE) --file=makefile qFVSwc.setup
+
+qFVSws$(SLIBSUFX) qFVSws$(PRGSUFX)  : $(addsuffix _sourceList.txt,qFVSws) $(shell cat $(addsuffix _sourceList.txt,qFVSws))
+	$(MAKE) --file=makefile qFVSws.setup
+
+	
 #FVSbcc$(SLIBSUFX) FVSbcc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSbcc) $(shell cat $(addsuffix _sourceList.txt,FVSbcc))
-#	$(MAKE) --file=makefile FVSbcc.setup
+#	$(MAKE) --file=makefile qFVSbcc.setup
 
 # TODO: These rules work in place of those listed above (they are generated), but only on Linux. 
 # when we adopt a newer make on windows builds
@@ -185,7 +284,7 @@ endif
 	cp -p `cat $(basename $@)_sourceList.txt` $(basename $@)_buildDir
 ifeq (${OSARCH},w32)
 	-icacls $(basename $@)_buildDir /reset /T /Q
-endif
+endif                     
 	$(MAKE) --file=../makefile --directory=$(basename $@)_buildDir \
 	               buildDir=$(basename $@)_buildDir \
                  sourceFileList=../$(basename $@)_sourceList.txt $(basename $@).prg
@@ -194,28 +293,46 @@ endif
 .SUFFIXES :
 
 .PRECIOUS : $(object) $(mods_mods) 
-
+ 
 ifeq (${OSARCH},w32) 
+ifeq ($(DBLINK),$(ODBC))
 %.prg : $(object) 
-	$(CC) fvsSQL.o -shared -l $(ODBC) $(WIN) -o   ../libfvsSQL.dll 
+	$(CC) fvsSQL.o -shared $(DBLINK) $(WIN) -o   ../libfvsSQL.dll 
 	$(LD) -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX) ../libfvsSQL.dll  $(filter-out fvsSQL.o main.o,$(object))
 	$(LD)         -o $(basename ../$@)$(PRGSUFX)  ../libfvsSQL.dll  $(filter-out fvsSQL.o       ,$(object))
 else
 %.prg : $(object) 
-	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) -l$(ODBC) 
-	$(LD)         -o $(basename ../$@)$(PRGSUFX)  $(object) -l$(ODBC)    
+	$(LD) -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX)  $(filter-out  main.o,$(object))
+	$(LD)         -o $(basename ../$@)$(PRGSUFX) $(object)
+endif
+endif
+ifeq (${OSARCH},w64) 
+ifeq ($(DBLINK),$(ODBC))
+%.prg : $(object)
+	$(CCprf)$(CC) fvsSQL.o -shared $(DBLINK) $(WIN) -o   ../libfvsSQL.dll 
+	$(FCprf)$(LD) -shared -Wl, --export-all-symbols -o $(basename ../$@)$(SLIBSUFX) ../libfvsSQL.dll  $(filter-out fvsSQL.o main.o,$(object))
+	$(FCprf)$(LD)         -o $(basename ../$@)$(PRGSUFX)  ../libfvsSQL.dll  $(filter-out fvsSQL.o       ,$(object))
+else
+%.prg : $(object) 
+	$(FCprf)$(LD) -static -shared -Wl, --export-all-symbols -o $(basename ../$@)$(SLIBSUFX)  $(filter-out  main.o,$(object))
+	$(FCprf)$(LD) -static -o $(basename ../$@)$(PRGSUFX) $(object)
+endif
+else
+%.prg : $(object) 
+	$(LD) -shared -o $(basename ../$@)$(SLIBSUFX) $(filter-out main.o,$(object)) $(DBLINK) 
+	$(LD)         -o $(basename ../$@)$(PRGSUFX)  $(object) $(DBLINK)    
 endif
 
-DBSTYPEDEFS.F77 : mkdbsTypeDefs.c
-	$(CC) mkdbsTypeDefs.c $(WIN) -o mkdbsTypeDefs$(PRGSUFX)
-	./mkdbsTypeDefs$(PRGSUFX)
-
 %.mod : %.f $(includes)
-	$(FC) $(FFLAGS) -c $<
+	$(FCprf)$(FC) $(FFLAGS) -c $<
 
 %.o : %.f $(includes) $(mods_mods)
-	$(FC) $(FFLAGS) -c -o $@ $<
+	$(FCprf)$(FC) $(FFLAGS) -c -o $@ $<
 
 %.o : %.c $(includes) 
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CCprf)$(CC) $(CFLAGS) -c -o $@ $<
+	
+DBSTYPEDEFS.F77 : mkdbsTypeDefs.c
+	$(CCprf)$(CC) mkdbsTypeDefs.c $(WIN) -o mkdbsTypeDefs$(PRGSUFX)
+	./mkdbsTypeDefs$(PRGSUFX)
 	

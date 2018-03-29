@@ -1,7 +1,7 @@
       FUNCTION BRATIO(IS,D,H)
       IMPLICIT NONE
 C----------
-C  **BRATIO--WC    DATE OF LAST REVISION:  09/09/13
+C WC $Id: bratio.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C  FUNCTION TO COMPUTE BARK RATIOS.  THIS ROUTINE IS VARIANT SPECIFIC
@@ -15,6 +15,8 @@ C  35=HT,36=CH,37=WI,38=---,39=OT
 C----------
       REAL BARKB(4,13),H,D,BRATIO,DIB
       INTEGER JBARK(39),IS
+      REAL DANUW
+C
       DATA JBARK/
      &  2,  2,  2,  2,  2,  2,  2,  5,  5,  10,
      & 10,  4,  4,  4,  3,  1,  5, 11, 12,  11,
@@ -51,6 +53,11 @@ C  1  DIB = a * DOB ** b
 C  2  DIB = a + bDOB
 C  3  DIB = a*DOB = a * DOB ** b, (eQ.1), WITH b= 1.0
 C  MODEL TYPE 1
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = H
+C
 C----------
       IF (D .GT. 0) THEN 
         IF(BARKB(4,JBARK(IS)) .EQ. 1.)THEN

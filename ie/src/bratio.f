@@ -1,7 +1,7 @@
       FUNCTION BRATIO(IS,D,H)
       IMPLICIT NONE
 C----------
-C  **BRATIO--NI23   DATE OF LAST REVISION:  05/20/11
+C IE $Id: bratio.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C FUNCTION TO COMPUTE BARK RATIOS AS A FUNCTION OF DIAMETER AND SPECIES.
 C REPLACES ARRAY BKRAT IN NI VARIANT. 
@@ -19,6 +19,7 @@ C  17=PY, 18=AS, 19=CO, 20=MM, 21=PB, 22=OH, 23=OS
 C----------
       REAL BARK1(MAXSP),BARK2(MAXSP),H,D,BRATIO,TEMD
       INTEGER IMAP(MAXSP),IS,IEQN
+      REAL DANUW
 
       DATA BARK1/0.964, 0.851, 0.867, 0.915, 0.934, 0.950, 0.969,
      &    0.956, 0.937, 0.890, 0.934, 0.851, 0.969, 0.937, 0.000,
@@ -29,6 +30,10 @@ C----------
       DATA IMAP/     2,     2,     2,     2,     2,     2,     2,
      &        2,     2,     2,     2,     2,     2,     2,     1,
      &        1,     2,     2,     3,     2,     2,     3,     2/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = H
 C----------
 C  PI, JU USE PP BARK EQUATION FROM CR VARIANT.
 C  WB USE COEFFICIENTS FOR WL

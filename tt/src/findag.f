@@ -35,6 +35,7 @@ C----------
       REAL D1,D2,H,SITAGE,SITHT,AGMAX1,HTMAX1,HTMAX2
       REAL AG,DIFF,HGUESS,SINDX,TOLER
       REAL AGMAX(MAXSP),HTMAX(MAXSP)
+      REAL DANUW
 C----------
 C SPECIES ORDER FOR TETONS VARIANT:
 C
@@ -61,6 +62,10 @@ C
       DATA HTMAX/
      &   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,   0.,
      &   0.,   0., 100.,   0.,   0.,  20.,   0.,   0./
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = HTMAX2
 C----------
 C  PRINT DEBUG INFORMATION
 C----------

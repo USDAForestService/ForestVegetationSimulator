@@ -29,6 +29,7 @@ C  DECLARATIONS
 C----------
       INTEGER I,N,ITIME,ISER
       REAL    AGE,HHT,EMSQR,DILATE,DELAY,ELEV,GENTIM,TRAGE
+      REAL DANUW
 C----------
 C  SPECIES ORDER:
 C   1=AF,  2=CB,  3=DF,  4=GF,  5=WF,  6=MH,  7=RC,  8=WL,  9=BC, 10=LM,
@@ -44,7 +45,14 @@ C  PB USES CR AS
 C  PM,PD,AZ USE CR PI
 C  CI USES CR PP                              
 C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = DILATE
+      DANUW = ELEV
+      DANUW = EMSQR
+      DANUW = REAL(ISER)
 C
+C----------
       N=INT(DELAY+0.5)
       IF(N.LT.-3) N=-3
       DELAY=FLOAT(N)

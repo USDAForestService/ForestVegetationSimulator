@@ -1,7 +1,7 @@
       SUBROUTINE CCFCAL(ISPC,D,H,JCR,P,LTHIN,CCFT,CRWDTH,MODE)
       IMPLICIT NONE
 C----------
-C  **CCFCAL--SO   DATE OF LAST REVISION:  08/19/15
+C SO $Id: ccfcal.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS ROUTINE COMPUTES CROWN WIDTH AND CCF FOR INDIVIDUAL TREES.
 C  CALLED FROM DENSE, REGENT (TT VARIANT), PRTRLS, AND SSTAGE.
@@ -106,6 +106,8 @@ C----------
       REAL RD1(MAXSP),RD2(MAXSP),RD3(MAXSP),RDA(MAXSP),RDB(MAXSP)
       REAL CRWDTH,CCFT,P,H,D
       INTEGER MODE,JCR,ISPC
+      REAL DANUW
+      LOGICAL LDANUW
 C
       DATA RD1/
      &     .0186,     .0392,     .0388,     .0690,       .03,
@@ -147,6 +149,12 @@ C
      &        .0,        .0,        .0,    1.7800,        .0,
      &        .0,        .0,        .0,        .0,        .0,
      &        .0,    1.5571,        .0/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(JCR)
+      LDANUW = LTHIN
+C
 C----------
 C  INITIALIZE RETURN VARIABLES.
 C----------
