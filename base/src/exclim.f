@@ -18,6 +18,8 @@ C
       REAL SDIDEF(MAXSP),XMAX,TREEMULT(MAXTRE),WK3(MAXTRE),VIA
       REAL DANUW
       LOGICAL LDANUW
+      REAL DANUW
+      LOGICAL LDANUW
 C
       DATA NOCLIM/'*NO CLIM'/
 C
@@ -138,5 +140,6 @@ C----------
       DANUW = VIA
       DANUW = REAL(ISP)
       RETURN
+C
 C
       END

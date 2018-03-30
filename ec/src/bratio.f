@@ -74,6 +74,7 @@ C      USE 37(WI) FOR 30(WI)
 C----------
       REAL BARK1(MAXSP),BARK2(MAXSP),H,D,BRATIO,DIB
       INTEGER IS
+      REAL DANUW
 C
       DATA BARK1/
      &    0.964,     0.851,     0.844,     0.903,     0.950,
@@ -92,6 +93,10 @@ C
      &  0.94782,   0.94967,   0.94782,   0.90182,   0.94967,
      &  0.94967,   0.94967,    1.0213,   0.94967,   0.94967,
      &       1.,   0.94967/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = H
 C----------
       SELECT CASE (IS)
 C----------

@@ -569,6 +569,11 @@ C**********************************************************************
       INTEGER*4 VERSION,SPGRP,INDSPG
       REAL*4  DBH,HT,DIB,DIB1FT,CFTD,CFSH,VALU,HCVPAR(10,2),
      1        HMVPAR(10,3),A1,A2,A3,B0,B1,CVTS,CVM,CVS,PI,DIBD,SDIB
+      REAL*4 DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(VERSION)
 C                                                                      !  WH,RC,PY
 C  CUBIC VOLUME - HARDWOODS (2 parameters)
 C
@@ -641,6 +646,11 @@ C**********************************************************************
       INTEGER*4 VERSION,SPGRP,INDSPG
       REAL*4  DBH,HT,DIB,DIB1FT,CFTD,CFSH,VALU,HCVPAR(6,2),
      1        HMVPAR(6,3),A1,A2,A3,B0,B1,CVTS,CVM,CVS,PI,DIBD,SDIB
+      REAL*4 DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(VERSION)
 C
 C  CUBIC VOLUME - HARDWOODS (2 parameters)
 C
@@ -711,6 +721,12 @@ C**********************************************************************
       INTEGER*4 VERSION,SPGRP,INDSPG
       REAL*4  DBH,HT,CR,DIB,DIB1FT,CFTD,CFSH,VALU,HCVPAR(3,2),
      1        HMVPAR(3,3),A1,A2,A3,B0,B1,CVTS,CVM,CVS,PI,DIBD,SDIB
+      REAL*4 DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(VERSION)
+      DANUW = CR
 C
 C  CUBIC VOLUME - HARDWOODS (2 parameters)
 C

@@ -1,4 +1,4 @@
-      SUBROUTINE RDTDEL(IVAC,IREC,IDUM)
+      SUBROUTINE RDTDEL(IVAC,IREC)
       IMPLICIT NONE
 C----------
 C RD $Id: rdtdel.f 0000 2018-02-14 00:00:00Z gedixon $
@@ -25,6 +25,10 @@ C   09/04/14 Lance R. David (FMSC)
 C     Added implicit none and declared variables.
 C   03/01/2016 Lance R. David (FMSC)
 C     Moved check to exit to top.
+C   03/21/2018 Lance R. David (FMSC)
+C     Added debug control.
+C     Added LGO (true if RD is active) to conditional exit.
+C     Removed unused 3rd subroutine parameter.
 C
 C----------------------------------------------------------------------
 C
@@ -39,14 +43,21 @@ C
 C
 COMMONS
 C
-      LOGICAL LGO, LTEE
-      INTEGER IDI, IDUM, IP, IREC, ITSTP, IVAC, J, JINF
+      LOGICAL DEBUG, LGO, LTEE
+      INTEGER IDI, IP, IREC, ITSTP, IVAC, J, JINF
       REAL    TPAREA
 
-      CALL RDATV (LGO,LTEE)
+C.... See if we need to do some debug.
 
-c      IF (.NOT. LTEE .AND. LSTART) RETURN
-      IF (.NOT. LTEE .OR.  LSTART) RETURN
+      CALL DBCHK (DEBUG,'RDTDEL',6,ICYC)
+      
+      IF (DEBUG) WRITE (JOSTND,*) 'ENTER RDTDEL'
+
+      CALL RDATV (LGO,LTEE)
+      IF (DEBUG) WRITE(JOSTND,*) 'IN RDTDEL: LGO, LTEE, LSTART=',
+     &   LGO,LTEE,LSTART
+
+      IF ((.NOT. LTEE .AND. LSTART) .OR. .NOT. LGO) RETURN
 
 C
 C     IF ROOT DISEASE NOT ACTIVE OR NO PATCH AREA THEN RETURN.  ALSO
@@ -57,7 +68,7 @@ C
       DO 700 IDI=MINRR,MAXRR
          TPAREA = TPAREA + PAREA(IDI)
   700 CONTINUE       
-      IF (.NOT. LGO .OR. TPAREA .EQ. 0.0) RETURN
+      IF (TPAREA .EQ. 0.0) RETURN
 
 C
 C     PACK THE OUTSIDE TREE DENSITY
@@ -68,7 +79,7 @@ C
       ITSTP = ISTEP
       IF (ISTEP .EQ. 0) ITSTP = 1
 
-C     WRITE(JOSTND,777) IVAC,IREC
+C     IF (DEBUG) WRITE(JOSTND,777) IVAC,IREC
 C777  FORMAT(' IN RDTDEL :  IVAC IREC', 2I5)
 
       WK22(IVAC) = WK22(IREC)
@@ -96,12 +107,13 @@ C777  FORMAT(' IN RDTDEL :  IVAC IREC', 2I5)
         DO 990 IP=1,2
           PROBI(IVAC,JINF,IP) = PROBI(IREC,JINF,IP)
           PROPI(IVAC,JINF,IP) = PROPI(IREC,JINF,IP)
-C         WRITE(JOSTND,881) PROBI(IVAC,JINF,IP)
+C         IF (DEBUG) WRITE(JOSTND,881) PROBI(IVAC,JINF,IP)
 C 881     FORMAT(' IN RDTDEL :  PROBI',E20.8)
   990   CONTINUE
   999 CONTINUE
 
-C     WRITE (JOSTND,888) PROBI(IVAC,1,1),PROBIU(IVAC),FPROB(IVAC)
+C     IF (DEBUG) WRITE (JOSTND,888) 
+C    &  PROBI(IVAC,1,1),PROBIU(IVAC),FPROB(IVAC)
 C 888 FORMAT (' IN RDTDEL :  CALC PROBI,PROBIU,FPROB',3E20.8)
 
       RETURN

@@ -1,5 +1,9 @@
+      subroutine r9clark (volEq,stump,mTopP,mTopS,dbhOb,
+     &                    ht1Prd,ht2Prd,htTot,logDia,bolHt,Loglen,
+     &                    logVol,vol,cutFlg,bfpFlg,cupFlg,cdpFlg,
+     &             spFlg,prod,errFlg,cType,upsHt1,TLOGS,NUMLOGP,NUMLOGS)
 C----------
-C VOLUME $Id: r9clark.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id: r9clark.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  Region 9 Profile Model Volume Calculation
 C  revised TDH 01/12/2010  Added code for calculating log volumes and
@@ -54,10 +58,6 @@ C
 C  Variable definitions are located at the end of this file.
 C_______________________________________________________________________
 C
-      subroutine r9clark (volEq,stump,mTopP,mTopS,dbhOb,
-     &                    ht1Prd,ht2Prd,htTot,logDia,bolHt,Loglen,
-     &                    logVol,vol,cutFlg,bfpFlg,cupFlg,cdpFlg,
-     &             spFlg,prod,errFlg,cType,upsHt1,TLOGS,NUMLOGP,NUMLOGS)
 C_______________________________________________________________________
 C
  
@@ -394,8 +394,16 @@ C  merchantability rules for the specified species and product.
       real      plpDib,sawDib,shrtHt
       character volEq*10,forst*2,prod*2,tmpStr*2
       logical   short
+      REAL DANUW
+      CHARACTER*2 CDANUW
 
 !      real      r,c,e,p,b,a,a4,b4,a17,b17
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:2) = FORST(1:2)
+      DANUW = MINBFD
+C
 
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R9PREP'
@@ -772,6 +780,13 @@ C  a and b are coefficients for inside-bark calculations.
       implicit none
       integer   errFlg
       real      totHt,htTot,dbhIb,dib17,topHt,topDib,a,b,Im,Qa,Qb,Qc
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ERRFLG)
+      DANUW = DBHIB
+C
 
       totHt=0.0
 
@@ -824,11 +839,17 @@ C  for inside-bark calculations.
       TYPE(CLKCOEF)::COEFFS
       real      G,W,X,Y,Z,T,L1,L2,L3,U1,U2,U3
       real      I1,I2,I3,I4,I5,I6
+      REAL DANUW
 
 
 !...  Local variables     
       real      r,c,e,p,b,a,totHt,dbhIb,dib17
 !======================================================================
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ERRFLG)
+C
 
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R9CUFT'
@@ -1044,11 +1065,17 @@ C  and a are the coefficients for inside-bark calculations.
       real      stemHt
       TYPE(CLKCOEF)::COEFFS
       REAL      stmDib
+      REAL DANUW
       
 !... Local variables
       REAL      totHt,dbhIb,dib17,xxx
       real      r,c,e,p,b,a,G,W,X,Y,Z,Qa,Qb,Qc,Is,Ib,It,Im
 !======================================================================
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ERRFLG)
+C
 
       totHt = COEFFS%TOTHT
       dbhIb = COEFFS%DBHIB
@@ -1165,7 +1192,7 @@ C  the coefficients for inside-bark calculations.
       INTEGER   NUMSEG
       REAL      LOGDIA(21,3) 
       INTEGER   ERRFLG
-      
+      REAL DANUW      
       
 !..   Local variables
       INTEGER   iDib,i
@@ -1198,6 +1225,11 @@ C  the coefficients for inside-bark calculations.
      &  636.660,648.380,660.000,671.700,683.330,695.011/
 
 !======================================================================
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ERRFLG)
+C
 
       vol(2)=0.0
       vol(10)=0.0

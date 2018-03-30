@@ -25,18 +25,18 @@ C
       REAL WK3(MAXTRE)
       INTEGER INTS(*)
       REAL REALS(*)
+      REAL DANUW
+      LOGICAL LDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ILIMIT)
+      DANUW = REAL(INTS(1))
+      DANUW = REAL(IPNT)
+      LDANUW = LOGICS(1)
+      DANUW = REALS(1)
+      DANUW = WK3(1)
 C
-C     GET THE INTEGER SCALARS.
-C
-C**   CALL IFWRIT (WK3, IPNT, ILIMIT, INTS, MXI, 2)
-C
-C     GET THE LOGICAL SCALARS.
-C
-C**   CALL LFWRIT (WK3, IPNT, ILIMIT, LOGICS, MXL, 2)
-C
-C     GET THE REAL SCALARS.
-C
-C**   CALL BFWRIT (WK3, IPNT, ILIMIT, REALS, MXR, 2)
       RETURN
       END
 
@@ -50,8 +50,17 @@ C----------
 
       INTEGER LNCBUF
       CHARACTER CBUFF(LNCBUF)
+      CHARACTER CDANUW
+      REAL DANUW
       INTEGER IPNT
       ! Stub for variants which need to get/put character data
       ! See /bc/varget.f and /bc/varput.f for examples of VARCHGET and VARCHPUT
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW = CBUFF(1)
+      DANUW = REAL(IPNT)
+      DANUW = REAL(LNCBUF)
+C
       RETURN
       END

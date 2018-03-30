@@ -21,7 +21,13 @@ C*********************************************************************
       REAL LOGDIA(21,3),LOGLEN(20)
       REAL NOLOGP,NOLOGS,CUBVOL
       REAL VOL(15),LOGVOL(7,20)
-     
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = NOLOGS
+      DANUW = REAL(SPFLG)
+C     
 
       DO 15 I = 1, 21
          LOGDIA(I,1)=0.0

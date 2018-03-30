@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: blmvol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id: blmvol.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C 01/18/2013 Added calculation for stump VOL(14) and tip VOL(15)
 C 09/18/2013 Correct XINT to sum all logs
@@ -668,6 +668,12 @@ C--                  DOES NOT INCLUDE THE LIMBS OR ROOTS.
       INTEGER HTLOOP, PROFILE,I
       REAL DBHOB, D2, D2OLD, TTH, HGT2, TCVOL, VOL, STUMPDIB
       REAL TLH, TLH1,D17,TOP,HTLOG,R
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = TLH
+C
 
       IF (TTH.GT.0.0) THEN
 

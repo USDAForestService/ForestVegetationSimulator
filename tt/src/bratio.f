@@ -1,7 +1,7 @@
       FUNCTION BRATIO(IS,D,H)
       IMPLICIT NONE
 C----------
-C  **BRATIO--TT   DATE OF LAST REVISION:  09/09/13
+C TT $Id: bratio.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C FUNCTION TO COMPUTE BARK RATIOS AS A FUNCTION OF DIAMETER AND SPECIES.
@@ -25,6 +25,7 @@ C OS USES OT (OTHER SP.) EQUATIONS FROM TT
 C----------
       REAL BARK1(18),BARK2(18),H,D,BRATIO,TEMD,DIB
       INTEGER IMAP(18),IS,IEQN
+      REAL DANUW
 C
       DATA BARK1/  0.969,   0.969,    0.867,       0.,    0.956,
      &             0.969,   0.969,    0.956,    0.937, 0.809427,
@@ -38,6 +39,11 @@ C
 C
       DATA IMAP/ 2, 2, 2, 1, 2, 2, 2, 2, 2, 4,
      &           1, 1, 3, 2, 3, 2, 2, 3/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = H
+C
 C----------
       IEQN=IMAP(IS)
       TEMD=D

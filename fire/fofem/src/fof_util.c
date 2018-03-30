@@ -163,7 +163,7 @@ int i_Len, iA;
      return; }
    else {
      memcpy (cr_Out, &cr_In[iA] , i_Len);
-     cr_Out[i_Len] = (char) NULL;  }
+     cr_Out[i_Len] = 0;  }
 
 }
 

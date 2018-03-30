@@ -69,6 +69,7 @@ int fsql3_close_(int *dbnum)
   if (dbset[*dbnum] != NULL) 
   {
     rc = sqlite3_close(dbset[*dbnum]);
+    //if (rc > 0) printf("Database error: %s\n",sqlite3_errmsg(dbset[*dbnum]));
     dbset[*dbnum] = NULL;
   }
   return rc;

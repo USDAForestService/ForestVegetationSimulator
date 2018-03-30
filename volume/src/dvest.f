@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: dvest.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id: dvest.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 !== last modified  01-18-2013
 C 01/18/2013 Added calculation for cordwood VOL(6) for region 1,2,4,5,10
@@ -18,7 +18,12 @@ C     SUBROUTINE FINDS VOLUMES USING DIRECT VOLUME ESTIMATORS
       integer HTTFLL,ERRFLAG
       REAL DBHOB,HTTOT,VOL(15),HT1PRD,HT2PRD,NOLOGP,BTR
       REAL MTOPP,STUMP,BDVOL,CUVOL,TCVOL,DRC
-
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(HTLOG)
+C
       DO 100, I=1,15
         VOL(I) = 0.0
  100  CONTINUE

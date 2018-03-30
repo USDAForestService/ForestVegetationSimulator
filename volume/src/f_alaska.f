@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: f_alaska.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id: f_alaska.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 !== last modified  09-14-2007
 c== Test for New Inside Bark Models
@@ -479,7 +479,12 @@ c     Note:  coefficients are from SF_SET2 (possibly file BARKBHC2.COE)
       INTEGER JSP,JSPR
       INTEGER setopt(6)
       REAL DBHIB,HTTOT,DBHOB
-
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(SETOPT(1))
+C
 c                                       Use Global or regional Lead coef ?
       JSPR = JSP - 30
 

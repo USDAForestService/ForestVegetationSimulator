@@ -1,11 +1,11 @@
-C----------
-C VOLUME $Id: r8vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
-C----------
-!== last modified  2-7-2014
       SUBROUTINE R8VOL(VOLEQ,DBHOB,HTTOT,UPSHT1,HT1PRD,MTOPP,PROD,VOL,
      >                 FORST,SI,BA,CTYPE,BFPFLG,CUPFLG,SPFLG,ERRFLAG)
+C----------
+C VOLUME $Id: r8vol.f 0000 2018-02-14 00:00:00Z gedixon $
+C----------
 
 C  CREATED:   06-03-91
+!== last modified  2-7-2014
 C  PURPOSE:   THIS ROUTINE IS THE DRIVER PROGRAM FOR CALCULATING
 C             R8 VOLUMES.
 C  10/11/2012 YW Changed to set VOL(7) to 0.5 if it is 0 for PROD 08 and for other prod set vol(4) to 0.5.
@@ -18,10 +18,17 @@ C  DECLARE VARIABLES
 
       INTEGER BFPFLG,CUPFLG,SPFLG
       INTEGER ERRFLAG,I,SI,BA,VOLSP
+      REAL DANUW
 
       REAL DBHOB, HT1PRD, UPSHT1, VOL(15), HTTOT, MTOPP,VOLTMP(15)
 
       LOGICAL VOL1, VOL2
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(BA)
+      DANUW = REAL(SI)
+C
 
       do 100, i=1,15
          vol(i) = 0

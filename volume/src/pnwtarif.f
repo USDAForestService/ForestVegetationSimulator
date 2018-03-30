@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: pnwtarif.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id: pnwtarif.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  12/17/2012
 C  The tarif volume equation used by FIA PNW
@@ -274,6 +274,12 @@ C     CALCULATE MERCH VOLUME
       REAL DBH,MTOPP,CV4,CVT,CV6,SV616,SV632,XINT6,TARIF,VOL(15)
       REAL RC6,CUBUS,B4,RS616L,RS616,RS632,RI6,SV816,XINT8
       INTEGER SPN,SCRBLOGL,ERRFLAG
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ERRFLAG)
+C
       CV6=0.0
       CV8=0.0
       SV616=0.0

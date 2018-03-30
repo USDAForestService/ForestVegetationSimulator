@@ -1,7 +1,7 @@
       SUBROUTINE FMSOILHEAT (IYR, LNMOUT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C
 C     CALLED FROM: FMBURN
@@ -50,6 +50,7 @@ C
       integer j,k,l,regnum,covnum,seasnum,moiscode
       real smcat(4), duffcat(4), algslp
       real MOIS1(2,5), MOIS2(2,5), MOIS3(2,5), MOIS4(2,5), soilmois
+      LOGICAL LDANUW
 
 C if _WIN64
       !DEC$ ATTRIBUTES DLLIMPORT :: FM_FOFEM
@@ -61,6 +62,12 @@ C endif
       integer fm_fofem
       
       data SMCAT /5,10,15,25/      
+C
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      LDANUW = LNMOUT
+C----------
 C     check for debug
 
       call dbchk (debug,'FMSOILHEAT',10,icyc)

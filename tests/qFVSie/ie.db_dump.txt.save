@@ -1,7 +1,7 @@
-FVS_CalibStats     FVS_DM_Spp_Sum     FVS_Fuels          FVS_TreeList     
-FVS_Carbon         FVS_DM_Stnd_Sum    FVS_Hrv_Carbon   
-FVS_Cases          FVS_Down_Wood_Cov  FVS_PotFire      
-FVS_Compute        FVS_Down_Wood_Vol  FVS_Summary      
+FVS_CalibStats     FVS_DM_Spp_Sum     FVS_Down_Wood_Vol  FVS_Summary      
+FVS_Carbon         FVS_DM_Stnd_Sum    FVS_Fuels          FVS_TreeList     
+FVS_Cases          FVS_DM_Sz_Sum      FVS_Hrv_Carbon   
+FVS_Compute        FVS_Down_Wood_Cov  FVS_PotFire      
 IE_BareGround,"Run 1",ie,140.0,IE
 01160805050012,"",ie,26.0,IE
 IE_BareGround,2016,0.0,0.0,0.0,,,

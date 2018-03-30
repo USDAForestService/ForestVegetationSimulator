@@ -348,6 +348,7 @@ C----------
       REAL D
       INTEGER COLVFC(11,5),FC,IFCDBH,ISPC,IFOR
       INTEGER DONEFLAG,LASTFLAG,FIRST,LAST,HALF
+      REAL DANUW
 C----------
 C  FOREST ORDER: (IFOR)
 C  5=COLVILLE(621)
@@ -366,6 +367,10 @@ C----------
      & 77,   74,   80,   80,   82,   80,   80,   75,   66,   80,  79, 
      & 76,   74,   80,   80,   80,   82,   82,   74,   66,   80,  79, 
      & 76,   74,   80,   81,   80,   80,   80,   74,   66,   82,  78/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(IFOR)
 C----------
 C  FOR REGION 6 FOREST, LOAD THE FORM CLASS USING TABLE VALUES.
 C  IF A FORM CLASS HAS BEEN ENTERED VIA KEYWORD, USE IT INSTEAD.

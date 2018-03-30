@@ -1,5 +1,7 @@
+      SUBROUTINE R8VOL2(VOLEQ,VOL,DBHOB,HTONE,HTTWO,MTOPP,HTTOT,CTYPE,
+     >                  ERRFLAG)
 C----------
-C VOLUME $Id: r8vol2.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id: r8vol2.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 !== last modified  03-12-2014
 !== tdh added httwo = httot before prod 08
@@ -10,8 +12,7 @@ C               Broken height is entered to the field HT1PRD
 C YW 02/26/2014 Modified TOTHT subrouine to have broken height less then HTTWO and also set HTTOT variable when 
 C               total height is passed in with UPSHT1(HTTWO) variable befor cal TOTHT subroutine.
 C YW 03/12/2014 Fixed HT479 for smal tree problem (HT2<17.3)
-      SUBROUTINE R8VOL2(VOLEQ,VOL,DBHOB,HTONE,HTTWO,MTOPP,HTTOT,CTYPE,
-     >                  ERRFLAG)
+C
 C      *** SUBROUTINE TO CALCULATE NEW VOLUMES ***
 C      ***          FOR REGION 8               ***
 C      This routine is used for calculating volumes using
@@ -1472,6 +1473,12 @@ C  volume calculation.
       real      r,c,e,p,b,a,q,g,w,x,y,z,t,jj,rr,n
       real      l1,l2,l3,u1,u2,u3
       character*1 topdob
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ERRFLG)
+C
 
       volume=0.0
 
@@ -1567,6 +1574,13 @@ C  are the coefficients for inside-bark diameter calculation.
       real      dib,topht,dbhib,dib17
       real      highht
       real      r,c,e,p,b,a,q
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(ERRFLG)
+      DANUW = Q
+C
 
       dib=0.0
 
@@ -1622,6 +1636,17 @@ C     Shared variables
       REAL MINLENT, BTR, DBTBH,LMERCH, CFVOL, TLOGVOL
       INTEGER   TLOGS
       REAL NOLOGP,NOLOGS 
+      REAL DANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(CDPFLG)
+      DANUW = REAL(CUPFLG)
+      DANUW = REAL(CUTFLG)
+      DANUW = HT2PRD
+      DANUW = NOLOGS
+      DANUW = REAL(SPFLG)
+C
 C
       BTR = 0.
       DBTBH = 0.

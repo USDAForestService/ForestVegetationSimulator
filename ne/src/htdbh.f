@@ -1,7 +1,7 @@
       SUBROUTINE HTDBH (IFOR,ISPC,D,H,MODE)
       IMPLICIT NONE
 C----------
-C  **HTDBH--NE  DATE OF LAST REVISION:  07/11/08
+C NE $Id: htdbh.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE CONTAINS THE DEFAULT HEIGHT-DIAMETER RELATIONSHIPS
 C  FROM THE INVENTORY DATA.  IT IS CALLED FROM CRATET TO DUB MISSING
@@ -44,6 +44,7 @@ C
       REAL SNALL(3,108), SNDBAL(108)
       INTEGER IWYKCA(108)
       LOGICAL DEBUG
+      REAL DANUW
 C
 C================================================
 C     SPECIES LIST FOR NORTHEASTERN UNITED STATES
@@ -423,6 +424,10 @@ C----------
      & 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
      & 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
      & 0, 0, 1, 0, 0, 0, 0, 0/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      DANUW = REAL(IFOR)
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------

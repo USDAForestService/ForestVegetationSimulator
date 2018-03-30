@@ -1,5 +1,5 @@
 C
-C VOLUME $Id: f_west.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id: f_west.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  FILE CONTAINS THE FOLLOWING ROUTINES
 C        SHP_W3
@@ -313,6 +313,7 @@ c                       Copyright  J. W. Flewelling, 1994
       IMPLICIT DOUBLE PRECISION (A-H, O-Z) 
 
       CHARACTER*2 GEOSUB
+      CHARACTER*2 CDANUW
       
       REAL*4 RHI1, RHI2, RHC, RHLONGI                                   
       REAL*4 DBHOB, HTTOT
@@ -335,8 +336,13 @@ c              common SF_A provides DBHOB(ob), Total height and D=DBHOB(ib)
       data (F(I),I=38,40)/.85305448D+01, -.83350599D+00 , .12100013D+02/ 
       data (F(I),I=42,43)/   .83021283D+01,  -150.0D0 /
       data (F(I),I=45,47)/ -.71594841D+01, .11263465D+00, .22396603D+02/ 
-
-
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:2) = GEOSUB(1:2)
+C
+C
+C
 c                               Region modifications to coefficients
 
       DMEDIAN = .11*(HTTOT-4.5)**( 1.08 + 0.0006*HTTOT)

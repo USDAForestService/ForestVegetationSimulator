@@ -31,7 +31,8 @@ C
         IF (I.NE.0) THEN
           I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
           print *," IoutDBref=",IoutDBref,
-     >            "DBS close error msg for DSNOUT=",Msg(:I)
+     >            "DBS open error msg for DSNOUT=",Msg(:I)
+          call abort
           KODE=1
           IF (.NOT.LCIN) RETURN
         ENDIF
@@ -43,6 +44,7 @@ C
           I = fsql3_errmsg(IinDBref,Msg,MxMsg)
           print *," IinDBref=",IinDBref,
      >            " DBS open error msg for DSNIN=",Msg(:I)
+          call abort
           KODE=1
           RETURN
         ENDIF

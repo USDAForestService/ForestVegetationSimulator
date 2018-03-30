@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C FIRE-AK $Id: fmvinit.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C FIRE-AK $Id: fmvinit.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -115,7 +115,7 @@ C     ASSUMING COLD/WET PN HABITAT TYPE.
 C     Duff production rates 'PRDUFF' are a proportion of the overall
 C     decay rate: 'DKR'.
 
-      DO I = 1,10
+      DO I = 1,MXFLCL
         DO J = 1,4
           PRDUFF(I,J) = 0.02
           TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)

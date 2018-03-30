@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C  **FMVINIT  FIRE-OC-DATE OF LAST REVISION: 06/15/15
+C FIRE-OC $Id: fmvinit.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model
@@ -71,10 +71,10 @@ C
           DKR(I,J)    = -1.
         ENDDO
       ENDDO
-      DO I = 1,10
+      DO I = 1,MXFLCL
         DO J = 1,4
           PRDUFF(I,J) = -1.
-          TODUFF(I,J) = -1.
+          TODUFF(I,J) =  0.
         ENDDO
       ENDDO
 
