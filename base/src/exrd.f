@@ -28,6 +28,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
+      IF (.TRUE.) RETURN
       DANUW = ARRAY(1)
       CDANUW(1:8) = KEYWRD(1:8)
       LDANUW = LNOTBK(1)
@@ -49,6 +50,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
+      IF (.TRUE.) RETURN
       DANUW = REAL(ITN1)
       DANUW = REAL(ITN2)
 C
@@ -65,6 +67,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
+      IF (.TRUE.) RETURN
       DANUW = REAL(II)
       DANUW = REAL(ICODES(1))
 C
@@ -91,6 +94,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
+      IF (.TRUE.) RETURN
       DANUW = REAL(I)
 C
       RETURN
@@ -111,6 +115,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
+      IF (.TRUE.) RETURN
       DANUW = REAL(I1)
       DANUW = REAL(I2(1))
       DANUW = REAL(I3(1))
@@ -124,6 +129,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
+      IF (.TRUE.) RETURN
       DANUW = REAL(II1)
       DANUW = RR1
       DANUW = RR2
@@ -178,6 +184,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
+      IF (.TRUE.) RETURN
       DANUW = REAL(II1)
       DANUW = REAL(III2)
       DANUW = RR1
@@ -186,13 +193,13 @@ C
 C----------
 C RDTDEL CALLED FROM TREDEL
 C----------
-      ENTRY RDTDEL (I1,II2,II3)
+      ENTRY RDTDEL (I1,II2)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
+      IF (.TRUE.) RETURN
       DANUW = REAL(II1)
       DANUW = REAL(II2)
-      DANUW = REAL(II3)
 C
       RETURN
 C----------

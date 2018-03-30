@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-/* #include <ctype.h> */
+#include <ctype.h>
 
 #include  "fof_gen.h"
 
@@ -788,7 +788,7 @@ char cr[200];
    strcpy (cr_ErrMes,"");
 
    if ( ntimes <= 0 ) {
-     sprintf(cr_ErrMes, "Burnup: Number of iterations invalid, %d, must be > 0",ntimes);
+     sprintf(cr_ErrMes, "Burnup: Number of iterations invalid, %d, must be > 0",(int) ntimes);
      return false; }
 
    for (i = 0; i < number; i++) {
