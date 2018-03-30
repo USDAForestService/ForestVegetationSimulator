@@ -20,7 +20,7 @@ COMMONS
       INTEGER ITREE,IPLOT,HISTORY,CRWNR,DMG1,DMG2,DMG3,SVR1,SVR2
       INTEGER SVR3,TREEVAL,PRESCRIPT,SLOPE,ASPECT,HABITAT,TOPOCODE,KODE
       INTEGER SITEPREP,JOSTND
-      REAL DBH,DG,HT,HTG,HTTOPK,RCOUNT,ABIRTH
+      REAL DBH,DG,HT,HTG,HTTOPK,RCOUNT,ABIRTH,DIAMETER
       CHARACTER(LEN=*) SPECIES
       INTEGER iRet
       LOGICAL MATCHED,LKECHO,LBIRTH,DEBUG
@@ -49,6 +49,8 @@ C     CHECK TO MAKE SURE WE ARE PULLING TREE INFO FROM DATABASE
 
       ABIRTH = 0
       LBIRTH  =.FALSE.
+      DIAMETER=0
+      DBH=0
 
       ColumnCount = fsql3_colcnt(IinDBref)
       DO ColNumber = 0,ColumnCount-1
@@ -99,6 +101,10 @@ C
       
           CASE('DBH')
            DBH = fsql3_colreal(IinDBref,ColNumber,0)
+           MATCHED=.TRUE.
+      
+          CASE('DIAMETER')
+           DIAMETER = fsql3_colreal(IinDBref,ColNumber,0)
            MATCHED=.TRUE.
       
           CASE('DG')
@@ -191,6 +197,7 @@ C
            ENDIF
          ENDIF            
       ENDDO
+      IF (DBH.EQ.0) DBH=DIAMETER
       ITREEIN = 2
       RETURN
       END

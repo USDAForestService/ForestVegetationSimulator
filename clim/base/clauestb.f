@@ -241,3 +241,43 @@ C     ADD PLANT ACTIVITIES, CODE IS  430
       IF (I2.GT.0) CALL OPINCR (IY,ICYC,NCYC)
       RETURN
       END
+
+      
+      
+      SUBROUTINE CLSPVIAB(ISP,VIA,IRC)
+      IMPLICIT NONE
+C
+C     CLIMATE EXTENSION--FETCH THE VIABILITY SCORE FOR SPECIES ISP
+C
+C     ISP is the FVS species number, VIA will be the viability score
+C     for that species. If ISP is out of range, or if there is no 
+C     score for the species, then IRC (the return code) is set to 1; 
+C     otherwise it is set to 0.
+C
+COMMONS
+C
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'CONTRL.F77'
+      INCLUDE 'CLIMATE.F77'
+C
+COMMONS
+
+      REAL ALGSLP,THISYR,VIA,FINT
+      INTEGER ISP,IRC
+
+      IF (ISP.LE.0 .OR. ISP.GT.MAXSP) THEN
+        IRC=1
+        RETURN
+      ENDIF
+      IF (INDXSPECIES(ISP).EQ.0) THEN
+        IRC=1
+        RETURN
+      ENDIF
+      THISYR=FLOAT(IY(ICYC))+(FINT/2)
+      VIA=ALGSLP(THISYR, FLOAT(YEARS), 
+     >            ATTRS(1,INDXSPECIES(ISP)),NYEARS)
+      IRC=0
+      RETURN
+      END
+
+

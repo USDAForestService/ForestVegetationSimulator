@@ -3,7 +3,7 @@ all : nct01 nct02
 
 nct01 : 
 	@echo Test nct01, basic functionality 
-	-../../bin/FVSncc --keywordfile=nct01.key
+	--$(WINE) ../../bin/qFVSnc --keywordfile=nct01.key
 	grep -v "\-999" nct01.sum      > nct01.tmp
 	grep -v "\-999" nct01.sum.save > nct01.tmp.save
 	-diff -w nct01.tmp nct01.tmp.save
@@ -12,8 +12,8 @@ nct01 :
 
 nct02 : 
 	@echo Test nct02, stop/restart, output should match nct01
-	-../../bin/FVSncc --keywordfile=nct01.key --stoppoint=2,2020,nct.stop
-	-../../bin/FVSncc --restart=nct.stop
+	--$(WINE) ../../bin/qFVSnc --keywordfile=nct01.key --stoppoint=2,2020,nct.stop
+	--$(WINE) ../../bin/qFVSnc --restart=nct.stop
 	grep -v "\-999" nct01.sum      > nct01.tmp
 	grep -v "\-999" nct01.sum.save > nct01.tmp.save
 	-diff -w nct01.tmp nct01.tmp.save
@@ -22,7 +22,7 @@ nct02 :
 		 
 ffe : 
 	@echo Test ffe
-	-../../bin/FVSncc --keywordfile=ffe.key 
+	--$(WINE) ../../bin/qFVSnc --keywordfile=ffe.key 
 	grep -v "\-999" ffe.sum      > ffe.tmp
 	grep -v "\-999" ffe.sum.save > ffe.tmp.save
 	-diff -w ffe.tmp ffe.tmp.save
