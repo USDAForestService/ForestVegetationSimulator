@@ -431,7 +431,7 @@ c***********************************************************************
 C********************************************************************
 c                                                               CORR
 c     given 2 heights (hi and hj), estimate the correlation of the
-c       Z errors in the corresponding dib's                                      
+c       Z errors in the corresponding dibs                                      
 c               NW Taper Coop  Western Hemlock (WH41194.coe)
 c                      Copyright, 1994  James W. Flewelling
       REAL COR_WS
@@ -946,7 +946,7 @@ c      note:   English-only on input and output
         ENDIF
         
         FDBT_C1 = RATIO*DBHOB
-        RETURN
+
       ELSEIF(JSP.EQ.4) THEN
         if (GEOSUB.EQ.'00') then
            RATIO = .04504*(1.0 +0.8307*exp(-.2048*DBHOB))  
@@ -960,7 +960,7 @@ c      note:   English-only on input and output
         ENDIF
 C        write(*,*)GEOSUB,DBHOB,ratio,DBHOB*ratio
         FDBT_C1 = RATIO*DBHOB
-        RETURN
+
       ELSEIF(JSP.EQ.5) THEN
        
         D_USE = MAX(DBHOB, 3.8)
@@ -968,7 +968,10 @@ C        write(*,*)GEOSUB,DBHOB,ratio,DBHOB*ratio
         RATIO = 0.01949*( 1.0 + 15.599/D_USE -29.212/D_USE**2)
         
         FDBT_C1 = RATIO*DBHOB
-        RETURN
+        
+      ELSE
+        FDBT_C1 = 0
+
       ENDIF
       
       RETURN
