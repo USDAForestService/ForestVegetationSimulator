@@ -28,7 +28,7 @@ C----------
       CHARACTER*10 KARD2
       INTEGER NIHMAP(130),I
       REAL ARRAY2
-      REAL DANUW
+      REAL RDANUW
 C-----------
 C  DATA STATEMENTS
 C----------
@@ -38,7 +38,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = ARRAY2
+      RDANUW = ARRAY2
 C----------
 C  INITIALIZATIONS
 C----------

@@ -10,7 +10,7 @@ C
 C----------
       REAL XPPDDS,BALO,CCFO,BAO,DBH,BCCF,BSBA,BDBL
       REAL XPPMLT,BRHT,BBAL
-      REAL DANUW
+      REAL RDANUW
 C----------
 C     CALLED TO COMPUTE THE DDS MODIFIER THAT ACCOUNTS FOR THE DENSITY
 C     OF NEIGHBORING STANDS (CALLED FROM DGF).
@@ -19,14 +19,14 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = XPPDDS
-      DANUW = BALO
-      DANUW = CCFO
-      DANUW = BAO
-      DANUW = DBH
-      DANUW = BCCF
-      DANUW = BSBA
-      DANUW = BDBL
+      RDANUW = XPPDDS
+      RDANUW = BALO
+      RDANUW = CCFO
+      RDANUW = BAO
+      RDANUW = DBH
+      RDANUW = BCCF
+      RDANUW = BSBA
+      RDANUW = BDBL
 C
       RETURN
 C----------
@@ -37,12 +37,12 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = XPPMLT
-      DANUW = BAO
-      DANUW = BALO
-      DANUW = BRHT
-      DANUW = BSBA
-      DANUW = BBAL
+      RDANUW = XPPMLT
+      RDANUW = BAO
+      RDANUW = BALO
+      RDANUW = BRHT
+      RDANUW = BSBA
+      RDANUW = BBAL
 C
       RETURN
 C

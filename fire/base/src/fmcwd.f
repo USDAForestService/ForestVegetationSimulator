@@ -50,7 +50,7 @@ C     LOGICAL LMERCH
       REAL    HIHT(2), LOHT(2), DIS, DIH, OLDHTH, OLDHTS
       REAL    VHI(2), VLO(2), RHRAT, DIF, HICUT, LOCUT
       REAL    BP(0:9), BPH(0:9), SCNV(2), TOSOFT
-      REAL DANUW
+      INTEGER IDANUW
 
 C     Conventional breakpoints for fuel size categories.
 
@@ -63,7 +63,7 @@ C     Totally data-free
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(IYR)
+      IDANUW = IYR
 C-----------
 C  CHECK FOR DEBUG.
 C-----------

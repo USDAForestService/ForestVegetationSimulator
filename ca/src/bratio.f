@@ -17,7 +17,7 @@ COMMONS
 C----------
       REAL BARKB(5,28),H,D,BRATIO,DIB
       INTEGER JBARK(MAXSP),IS,J,I
-      REAL DANUW
+      REAL RDANUW
 C
       DATA JBARK/
      & 12,  5, 12,  2,  2,  2,  1, 13, 13, 10,
@@ -87,7 +87,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C----------
 C  EQUATION TYPES:
 C  1  DIB = a * DOB ** b

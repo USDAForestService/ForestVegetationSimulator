@@ -14,7 +14,8 @@ C
       REAL BSBA,BBAL,BCCF2,BCCF,DBH,BAO,CCFO,BALO,XPPDDS,BLBA,ALBAO
       REAL XPPMLT
       INTEGER JSPC
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  ENTRY PPDGF
 C----------
@@ -23,16 +24,16 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = XPPDDS
-      DANUW = BALO
-      DANUW = CCFO
-      DANUW = BAO
-      DANUW = DBH
-      DANUW = BCCF
-      DANUW = BCCF2
-      DANUW = BBAL
-      DANUW = BSBA
-      DANUW = REAL(JSPC)
+      RDANUW = XPPDDS
+      RDANUW = BALO
+      RDANUW = CCFO
+      RDANUW = BAO
+      RDANUW = DBH
+      RDANUW = BCCF
+      RDANUW = BCCF2
+      RDANUW = BBAL
+      RDANUW = BSBA
+      IDANUW = JSPC
 C
       RETURN
 C----------
@@ -46,14 +47,14 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = XPPMLT
-      DANUW = CCFO
-      DANUW = BALO
-      DANUW = ALBAO
-      DANUW = BCCF
-      DANUW = BBAL
-      DANUW = BLBA
-      DANUW = REAL(JSPC)
+      RDANUW = XPPMLT
+      RDANUW = CCFO
+      RDANUW = BALO
+      RDANUW = ALBAO
+      RDANUW = BCCF
+      RDANUW = BBAL
+      RDANUW = BLBA
+      IDANUW = JSPC
 C
       RETURN
       END

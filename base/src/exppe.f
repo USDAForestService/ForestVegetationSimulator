@@ -11,7 +11,8 @@ C----------
       INTEGER IA(*), JA(*)
       INTEGER I,J,I2,I3
       REAL R,X,R2,X1,X2
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
       CHARACTER*8 CDANUW
 C----------
 C     CALLED BY INSCYC TO FIND OUT IF IS LEGAL TO INSERT A CYCLE AT
@@ -21,7 +22,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
+      IDANUW = I
 C
       L=.TRUE.
       RETURN
@@ -38,10 +39,10 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
-      DANUW = REAL(J)
-      DANUW = REAL(IA(1))
-      DANUW = REAL(JA(1))
+      IDANUW = I
+      IDANUW = J
+      IDANUW = IA(1)
+      IDANUW = JA(1)
 C
       RETURN
 C
@@ -57,8 +58,8 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
-      DANUW = R
+      IDANUW = I
+      RDANUW = R
 C
       I2=1
       RETURN
@@ -70,7 +71,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
+      IDANUW = I
       CDANUW(1:8) = C(1:8)
 C
       I2=1
@@ -110,7 +111,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
+      IDANUW = I
 C
       X=0.0
       RETURN
@@ -121,7 +122,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
+      IDANUW = I
 C
       RETURN
       ENTRY MSTRGT
@@ -132,11 +133,11 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
-      DANUW = REAL(I2)
-      DANUW = REAL(I3)
-      DANUW = R
-      DANUW = R2
+      IDANUW = I
+      IDANUW = I2
+      IDANUW = I3
+      RDANUW = R
+      RDANUW = R2
 C
       RETURN
       ENTRY GPCLOS
@@ -154,8 +155,8 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = X1
-      DANUW = X2
+      RDANUW = X1
+      RDANUW = X2
 C
       RETURN
       END

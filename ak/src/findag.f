@@ -34,7 +34,7 @@ C----------
       INTEGER I,ISPC
       REAL AGMAX(MAXSP),AG,DIFF,H,HGUESS,POTHTG,TOLER,XSITE
       REAL SITAGE,SITHT,AGMAX1,D1,D2,HTMAX1,HTMAX2
-      REAL DANUW
+      REAL RDANUW
 C----------
 C  DATA STATEMENTS
 C----------
@@ -42,10 +42,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = D1
-      DANUW = D2
-      DANUW = HTMAX1
-      DANUW = HTMAX2
+      RDANUW = D1
+      RDANUW = D2
+      RDANUW = HTMAX1
+      RDANUW = HTMAX2
 C----------
 C  INITIALIZATIONS
 C----------

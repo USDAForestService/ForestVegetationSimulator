@@ -25,7 +25,7 @@ C OS USES OT (OTHER SP.) EQUATIONS FROM TT
 C----------
       REAL BARK1(18),BARK2(18),H,D,BRATIO,TEMD,DIB
       INTEGER IMAP(18),IS,IEQN
-      REAL DANUW
+      REAL RDANUW
 C
       DATA BARK1/  0.969,   0.969,    0.867,       0.,    0.956,
      &             0.969,   0.969,    0.956,    0.937, 0.809427,
@@ -42,7 +42,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C
 C----------
       IEQN=IMAP(IS)

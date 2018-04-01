@@ -26,16 +26,17 @@ C
       INTEGER INTS(*)
       REAL REALS(*)
       LOGICAL LDANUW
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ILIMIT)
-      DANUW = REAL(INTS(1))
-      DANUW = REAL(IPNT)
+      IDANUW = ILIMIT
+      IDANUW = INTS(1)
+      IDANUW = IPNT
       LDANUW = LOGICS(1)
-      DANUW = REALS(1)
-      DANUW = WK3(1)
+      RDANUW = REALS(1)
+      RDANUW = WK3(1)
 C
       RETURN
       END
@@ -51,7 +52,7 @@ C----------
       INTEGER LNCBUF
       CHARACTER CBUFF(LNCBUF)
       CHARACTER CDANUW
-      REAL DANUW
+      INTEGER IDANUW
       INTEGER IPNT
       ! Stub for variants which need to get/put character data
       ! See /bc/varget.f and /bc/varput.f for examples of VARCHGET and VARCHPUT
@@ -59,8 +60,8 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       CDANUW = CBUFF(1)
-      DANUW = REAL(IPNT)
-      DANUW = REAL(LNCBUF)
+      IDANUW = IPNT
+      IDANUW = LNCBUF
 C
       RETURN
       END

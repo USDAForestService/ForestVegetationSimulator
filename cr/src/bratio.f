@@ -34,7 +34,7 @@ C  CI USES CR PP
 C----------
       INTEGER IMAP(MAXSP),IEQN,IS
       REAL H,D,BRATIO,TEMD
-      REAL DANUW
+      REAL RDANUW
 C
       DATA IMAP/ 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 
      &           3, 1, 1, 3, 2, 1, 3, 3, 3, 2,
@@ -43,7 +43,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C----------
 C  PI, PP, UJ, AJ, RM, OJ, ER AND OS USE PP BARK EQUATION.
 C  PP EQN IS DIFFERENT FOR BHPP, S-F, AND LP MODEL TYPES.

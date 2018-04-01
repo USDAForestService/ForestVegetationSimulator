@@ -10,16 +10,17 @@ C----------
 C
       REAL DBH,HT,BDMIN,STMP,BV
       INTEGER IBCD,ISP
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = BDMIN
-      DANUW = DBH
-      DANUW = HT
-      DANUW = REAL(IBCD)
-      DANUW = REAL(ISP)
-      DANUW = STMP
+      RDANUW = BDMIN
+      RDANUW = DBH
+      RDANUW = HT
+      IDANUW = IBCD
+      IDANUW = ISP
+      RDANUW = STMP
 C
 C
       BV=0.

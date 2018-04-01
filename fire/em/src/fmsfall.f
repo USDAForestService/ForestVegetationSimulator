@@ -80,7 +80,7 @@ C----------
       INTEGER ISWTCH, IYR, KSP
       REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
      &        RSOFT, RSMAL, X
-      REAL DANUW
+      INTEGER IDANUW
 C----------
 C  SPECIES ORDER:
 C   1=WB,  2=WL,  3=DF,  4=LM,  5=LL,  6=RM,  7=LP,  8=ES,
@@ -89,7 +89,7 @@ C  17=PB, 18=OS, 19=OH
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ISWTCH)
+      IDANUW = ISWTCH
 C----------
 C  In the first year after a fire, some work is required to determine
 C  what fall rates to use in the coming years.  First, calculate

@@ -479,11 +479,11 @@ c     Note:  coefficients are from SF_SET2 (possibly file BARKBHC2.COE)
       INTEGER JSP,JSPR
       INTEGER setopt(6)
       REAL DBHIB,HTTOT,DBHOB
-      REAL DANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(SETOPT(1))
+      IDANUW = SETOPT(1)
 C
 c                                       Use Global or regional Lead coef ?
       JSPR = JSP - 30

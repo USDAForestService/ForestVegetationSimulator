@@ -95,8 +95,9 @@ C----------
       REAL RD1(MAXSP),RD2(MAXSP),RD3(MAXSP),RDA(MAXSP),RDB(MAXSP)
       REAL CRWDTH,CCFT,P,H,D,BREAK
       INTEGER MODE,JCR,ISPC
-      REAL DANUW
+      REAL RDANUW
       LOGICAL LDANUW
+      INTEGER IDANUW
 C
       DATA RD1 / .01925, .01925,    .11,    .04,    .03,
      &              .03, .01925,    .03,    .03,    .03,
@@ -131,9 +132,9 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
-      DANUW = REAL(JCR)
-      DANUW = REAL(MODE)
+      RDANUW = H
+      IDANUW = JCR
+      IDANUW = MODE
       LDANUW = LTHIN
 C----------
 C  INITIALIZE VARIABLES.

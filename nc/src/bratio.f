@@ -12,7 +12,7 @@ C----------
 C
       REAL BRKRAT(4,11),H,D,BRATIO,DBT,DIB
       INTEGER IS,J,I
-      REAL DANUW
+      REAL RDANUW
 C
       DATA ((BRKRAT(I,J),I=1,4),J=1,11)/
      &  1.,  0.1429,  0.1137,    1.0,
@@ -29,7 +29,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C
 C-------
 C Equation Types:

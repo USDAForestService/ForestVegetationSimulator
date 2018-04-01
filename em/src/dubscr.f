@@ -37,7 +37,7 @@ C----------
       REAL BCR0(MAXSP),BCR1(MAXSP),BCR2(MAXSP),BCR3(MAXSP),
      & CRSD(MAXSP),BCR5(MAXSP),BCR6(MAXSP),
      & BCR8(MAXSP),BCR9(MAXSP),BCR10(MAXSP)
-      REAL DANUW
+      REAL RDANUW
 C----------
 C  SPECIES ORDER:
 C   1=WB,  2=WL,  3=DF,  4=LM,  5=LL,  6=RM,  7=LP,  8=ES,
@@ -114,7 +114,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = TPCT
+      RDANUW = TPCT
 C-----------
 C  CHECK FOR DEBUG.
 C-----------

@@ -19,12 +19,12 @@ C
 COMMONS
       INTEGER IS
       REAL H,D,BRATIO
-      REAL DANUW
+      REAL RDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
-      DANUW = D
+      RDANUW = H
+      RDANUW = D
 C
       BRATIO=BKRAT(IS)
       RETURN

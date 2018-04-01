@@ -14,7 +14,8 @@ C
       CHARACTER*8 NOBM,KEYWRD
       LOGICAL     LACTV,LKECHO,LTEE
       REAL R1(*),XBM1,XBM2
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C
       DATA NOBM/'**NO BM '/
 C----------
@@ -44,7 +45,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(IREAD)
+      IDANUW = IREAD
 C
       WRITE(JOPPRT,10) IRECNT,NOBM
       CALL ERRGRO (.TRUE.,11)
@@ -57,10 +58,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
-      DANUW = XBM1
-      DANUW = XBM2
+      IDANUW = I1
+      IDANUW = I2
+      RDANUW = XBM1
+      RDANUW = XBM2
 C
       RETURN
 C----------
@@ -70,9 +71,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
-      DANUW = XBM1
+      IDANUW = I1
+      IDANUW = I2
+      RDANUW = XBM1
 C
       RETURN
 C----------
@@ -82,7 +83,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(KEY)
+      IDANUW = KEY
 C
       KEYWRD=NOBM
       RETURN
@@ -93,8 +94,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
+      IDANUW = I1
+      IDANUW = I2
 C
       RETURN
 C----------
@@ -104,8 +105,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
+      IDANUW = I1
+      IDANUW = I2
 C
       RETURN
 C----------
@@ -115,8 +116,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I3(1))
+      IDANUW = I1
+      IDANUW = I3(1)
 C
       RETURN
 C
@@ -141,8 +142,8 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
-      DANUW = REAL(IOUT)
+      IDANUW = I
+      IDANUW = IOUT
 C
       RETURN
 C-----------
@@ -159,9 +160,9 @@ C-----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
-      DANUW = R1(1)
+      IDANUW = I1
+      IDANUW = I2
+      RDANUW = R1(1)
 C
       RETURN
 C-----------
@@ -171,9 +172,9 @@ C-----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
-      DANUW = R1(1)
+      IDANUW = I1
+      IDANUW = I2
+      RDANUW = R1(1)
 C
       RETURN
 C-----------

@@ -41,11 +41,11 @@ C
                                  
       INTEGER I
       REAL    A, ANS, EFFECT, F1, F2, HEI, SDINEW
-      REAL DANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
+      IDANUW = I
 C
 C
 C     CALCULATE THE EFFECT OF SDI (IF KEYWORD WAS NOT USED,

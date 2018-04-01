@@ -18,11 +18,11 @@ C----------
       CHARACTER*10 KARD2
       CHARACTER*8  CNHB(MAXHB),TEMP
       REAL   ARRAY2
-      REAL DANUW
+      REAL RDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = ARRAY2
+      RDANUW = ARRAY2
 C
       IHB=0
 C----------

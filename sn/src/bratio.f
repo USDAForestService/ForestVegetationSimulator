@@ -41,7 +41,7 @@ C
 COMMONS
       INTEGER IS,J,I
       REAL H,D,BRATIO,DIB,BARKC(2,90)
-      REAL DANUW
+      REAL RDANUW
 C
       DATA ((BARKC(I,J),I= 1,2),J= 1,15)/
      &  0.05119,0.89372,
@@ -142,7 +142,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C
 C----------
 C MODEL TYPE FROM CLARK

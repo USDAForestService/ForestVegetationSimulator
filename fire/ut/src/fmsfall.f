@@ -79,11 +79,11 @@ C
       LOGICAL LDFSP
       REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
      &        RSOFT, RSMAL, X
-      REAL DANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ISWTCH)
+      IDANUW = ISWTCH
 C----------
 C
 C     See if species is douglas-fir or spruce - special rules

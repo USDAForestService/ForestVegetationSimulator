@@ -77,13 +77,14 @@ C
       LOGICAL DEBUG
       REAL    BASE, D, DENTTL, DFALLN, DZERO, ORIGDEN,
      &        RSOFT, RSMAL
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ISWTCH)
-      DANUW = ORIGDEN
+      IDANUW = ISWTCH
+      RDANUW = ORIGDEN
 C----------
 C  Check for debug:
 C----------

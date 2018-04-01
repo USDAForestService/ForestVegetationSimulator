@@ -1331,11 +1331,11 @@ C     FIND TOTAL CUBIC VOLUME OF TREES BETWEEN 5 AND 15 FEET TALL
 
       REAL H1,H5,H15,HR_5,HR_15LO,HR_15HI,HRATIO,HR_MIN,HR_MAX
       REAL DR_MIN,DR,DIB1
-      REAL DANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ERRFLAG)
+      IDANUW = ERRFLAG
 C
 c              set the parameters of the special modifiers
       ineedsl = 0

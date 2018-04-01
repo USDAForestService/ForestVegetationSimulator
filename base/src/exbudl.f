@@ -10,7 +10,8 @@ C
       INTEGER     I1,I2,I3,KEY
       REAL        R1
       CHARACTER*8 KEYWRD,NOKEY
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
       LOGICAL LDANUW
 C
       DATA NOKEY/'*NO WSBE'/
@@ -58,7 +59,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(KEY)
+      IDANUW = KEY
 C
       KEYWRD=NOKEY
       RETURN
@@ -77,10 +78,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = R1
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
-      DANUW = REAL(I3)
+      RDANUW = R1
+      IDANUW = I1
+      IDANUW = I2
+      IDANUW = I3
 C
       RETURN
 C
@@ -91,10 +92,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = R1
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
-      DANUW = REAL(I3)
+      RDANUW = R1
+      IDANUW = I1
+      IDANUW = I2
+      IDANUW = I3
 C
       RETURN
 C

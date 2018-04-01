@@ -394,7 +394,7 @@ C  merchantability rules for the specified species and product.
       real      plpDib,sawDib,shrtHt
       character volEq*10,forst*2,prod*2,tmpStr*2
       logical   short
-      REAL DANUW
+      REAL RDANUW
       CHARACTER*2 CDANUW
 
 !      real      r,c,e,p,b,a,a4,b4,a17,b17
@@ -402,7 +402,7 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       CDANUW(1:2) = FORST(1:2)
-      DANUW = MINBFD
+      RDANUW = MINBFD
 C
 
       IF (DEBUG%MODEL) THEN
@@ -780,12 +780,13 @@ C  a and b are coefficients for inside-bark calculations.
       implicit none
       integer   errFlg
       real      totHt,htTot,dbhIb,dib17,topHt,topDib,a,b,Im,Qa,Qb,Qc
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ERRFLG)
-      DANUW = DBHIB
+      IDANUW = ERRFLG
+      RDANUW = DBHIB
 C
 
       totHt=0.0
@@ -839,7 +840,7 @@ C  for inside-bark calculations.
       TYPE(CLKCOEF)::COEFFS
       real      G,W,X,Y,Z,T,L1,L2,L3,U1,U2,U3
       real      I1,I2,I3,I4,I5,I6
-      REAL DANUW
+      INTEGER IDANUW
 
 
 !...  Local variables     
@@ -848,7 +849,7 @@ C  for inside-bark calculations.
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ERRFLG)
+      IDANUW = ERRFLG
 C
 
       IF (DEBUG%MODEL) THEN
@@ -1065,7 +1066,7 @@ C  and a are the coefficients for inside-bark calculations.
       real      stemHt
       TYPE(CLKCOEF)::COEFFS
       REAL      stmDib
-      REAL DANUW
+      INTEGER IDANUW
       
 !... Local variables
       REAL      totHt,dbhIb,dib17,xxx
@@ -1074,7 +1075,7 @@ C  and a are the coefficients for inside-bark calculations.
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ERRFLG)
+      IDANUW = ERRFLG
 C
 
       totHt = COEFFS%TOTHT
@@ -1192,7 +1193,7 @@ C  the coefficients for inside-bark calculations.
       INTEGER   NUMSEG
       REAL      LOGDIA(21,3) 
       INTEGER   ERRFLG
-      REAL DANUW      
+      INTEGER IDANUW      
       
 !..   Local variables
       INTEGER   iDib,i
@@ -1228,7 +1229,7 @@ C  the coefficients for inside-bark calculations.
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ERRFLG)
+      IDANUW = ERRFLG
 C
 
       vol(2)=0.0

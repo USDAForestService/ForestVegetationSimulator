@@ -43,7 +43,7 @@ C
       REAL BCR0(6),BCR1(6),BCR2(6),CRSD(6),TPCCF,TPCT,CR,H,D,SD,FCR
       REAL BACHLO
       INTEGER IMAP(39),ISPC,IISPC
-      REAL DANUW
+      REAL RDANUW
 C
       DATA IMAP/7*1,2*3,1,5*4,2*2,3*3,8*5,6,4*4,6*5/
 C
@@ -58,9 +58,9 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = D
-      DANUW = TPCCF
-      DANUW = TPCT
+      RDANUW = D
+      RDANUW = TPCCF
+      RDANUW = TPCT
 C-----------
 C  CHECK FOR DEBUG.
 C-----------

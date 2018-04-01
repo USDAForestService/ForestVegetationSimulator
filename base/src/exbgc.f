@@ -11,7 +11,8 @@ C----------
       REAL ARRAY(7)
       LOGICAL LNOTBK(7),L,LKECHO
       CHARACTER*8 KEYWRD
-      REAL DANUW
+      INTEGER IDANUW
+      REAL RDANUW
       CHARACTER*8 CDANUW
       LOGICAL LDANUW
 C----------
@@ -26,7 +27,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = ARRAY(1)
+      RDANUW = ARRAY(1)
       CDANUW(1:8) = KEYWRD(1:8)
       LDANUW = LKECHO
       LDANUW = LNOTBK(1)
@@ -46,8 +47,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
+      IDANUW = I1
+      IDANUW = I2
 C
       RETURN
 C----------
@@ -57,7 +58,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
+      IDANUW = I1
 C
       RETURN
 C
