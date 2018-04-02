@@ -12,11 +12,11 @@ C
 C
 C----------
       INTEGER ICODES(6),I3(*),I2(*),ITN1,ITN2,II,I,I1,II1
-      INTEGER ILIMIT,IPNT,II2,III2,KEY
+      INTEGER ILIMIT,IPNT,II2,III2,II3,KEY
       REAL ARRAY(7),R1(*),RR2,RR1,OLD,WK3
       LOGICAL L,LNOTBK(7),LTR,LTEE,LDUM,LKECHO
       CHARACTER*8 KEYWRD,NORR
-      REAL DANUW
+      REAL RDANUW
       INTEGER IDANUW
       CHARACTER*8 CDANUW
       LOGICAL LDANUW
@@ -29,7 +29,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = ARRAY(1)
+      RDANUW = ARRAY(1)
       CDANUW(1:8) = KEYWRD(1:8)
       LDANUW = LNOTBK(1)
       LDANUW = LKECHO
@@ -115,7 +115,7 @@ C----------
       IDANUW = I1
       IDANUW = I2(1)
       IDANUW = I3(1)
-      DANUW = R1(1)
+      RDANUW = R1(1)
 C
       RETURN
 C----------
@@ -126,8 +126,8 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       IDANUW = II1
-      DANUW = RR1
-      DANUW = RR2
+      RDANUW = RR1
+      RDANUW = RR2
 C
       RETURN
 C----------
@@ -144,7 +144,7 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       IDANUW = I1
-      DANUW = R1(1)
+      RDANUW = R1(1)
 C
       RETURN
 C----------
@@ -164,7 +164,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = OLD
+      RDANUW = OLD
 C
       RETURN
 C----------
@@ -181,17 +181,17 @@ C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       IDANUW = II1
       IDANUW = III2
-      DANUW = RR1
+      RDANUW = RR1
 C
       RETURN
 C----------
 C RDTDEL CALLED FROM TREDEL
 C----------
-      ENTRY RDTDEL (I1,II2)
+      ENTRY RDTDEL (II1,II2)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
+      IDANUW = II1
       IDANUW = II2
 C
       RETURN
@@ -203,6 +203,7 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       IDANUW = KEY
+C
       KEYWRD=NORR
       RETURN
 C----------
@@ -223,7 +224,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = WK3
+      RDANUW = WK3
       IDANUW = IPNT
       IDANUW = ILIMIT
 C
@@ -235,7 +236,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = WK3
+      RDANUW = WK3
       IDANUW = IPNT
       IDANUW = ILIMIT
 C

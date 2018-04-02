@@ -77,14 +77,14 @@ C
       INTEGER ISWTCH, IYR, KSP
       REAL    ALGSLP, BASE, D, DENTTL, DFALLN, DVALS(3), DZERO, FALLM2,
      &        FRATE(3), MODRATE, ORIGDEN, RSOFT, RSMAL, X
-      REAL DANUW
+      INTEGER IDANUW
 C
       DATA DVALS / 1.0, 5.0, 12.0 /
       DATA FRATE / 0.20, 0.0667, 0.04 /
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ISWTCH)
+      IDANUW = ISWTCH
 C
 C----------
 C  In the first year after a fire, some work is required to determine

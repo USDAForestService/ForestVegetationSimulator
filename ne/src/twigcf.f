@@ -78,7 +78,7 @@ C----------
      & SHB2(MAXSP),SHB3(MAXSP)
       REAL VM,VN,D,H,SH
       INTEGER I,ISPC
-      REAL DANUW
+      REAL RDANUW
 C
       DATA BHB1/
      &  17.394,23.357,25.540,4*24.180, 2.085,33.035, 2.085,12.054,
@@ -141,7 +141,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C----------
 C  CALCULATE BOLE HEIGHT
 C----------

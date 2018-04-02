@@ -21,12 +21,13 @@ C*********************************************************************
       REAL LOGDIA(21,3),LOGLEN(20)
       REAL NOLOGP,NOLOGS,CUBVOL
       REAL VOL(15),LOGVOL(7,20)
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = NOLOGS
-      DANUW = REAL(SPFLG)
+      RDANUW = NOLOGS
+      IDANUW = SPFLG
 C     
 
       DO 15 I = 1, 21

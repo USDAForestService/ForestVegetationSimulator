@@ -16,7 +16,8 @@ C
       INTEGER KEY,IPNT,ILIMIT,ISP,IRC
       CHARACTER*8 KEYWRD,NOCLIM 
       REAL SDIDEF(MAXSP),XMAX,TREEMULT(MAXTRE),WK3(MAXTRE),VIA
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
       LOGICAL LDANUW
 C
       DATA NOCLIM/'*NO CLIM'/
@@ -52,9 +53,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = WK3(1)
-      DANUW = REAL(IPNT)
-      DANUW = REAL(ILIMIT)
+      RDANUW = WK3(1)
+      IDANUW = IPNT
+      IDANUW = ILIMIT
 C
       RETURN
 C
@@ -65,9 +66,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = WK3(1)
-      DANUW = REAL(IPNT)
-      DANUW = REAL(ILIMIT)
+      RDANUW = WK3(1)
+      IDANUW = IPNT
+      IDANUW = ILIMIT
 C
       RETURN
 C
@@ -91,7 +92,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(KEY)
+      IDANUW = KEY
 C
       KEYWRD=NOCLIM 
       RETURN
@@ -116,8 +117,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = SDIDEF(1)
-      DANUW = XMAX
+      RDANUW = SDIDEF(1)
+      RDANUW = XMAX
 C
       RETURN 
 C
@@ -125,7 +126,7 @@ C----------
 C  ENTRY CLAUESTB
 C----------
       ENTRY CLAUESTB
-      RETURN
+      RETURN 
 C
 C----------
 C  ENTRY CLSPVIAB
@@ -135,8 +136,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = VIA
-      DANUW = REAL(ISP)
+      RDANUW = VIA
+      IDANUW = ISP
       RETURN
 C
 C

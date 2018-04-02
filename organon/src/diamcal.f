@@ -271,12 +271,12 @@ C
       REAL*4    TDATAR(2000,4),BALL(51),OG,
      1          BAL(500),SI_1,SI_2,PMK(2000),DBH,HT,SBAL,
      2          CR,POW(2000)
-      REAL DANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(IB)
-      DANUW = REAL(NPTS)
+      IDANUW = IB
+      IDANUW = NPTS
 C
       DO I=1,NTREES
          PMK(I)=0.0

@@ -20,7 +20,7 @@ C----------
 
       REAL BARKB(4,15),H,D,BRATIO,DIB
       INTEGER JBARK(39),IS
-      REAL DANUW
+      REAL RDANUW
 C
       DATA JBARK/
      &  2,  2,  2,  2,  2, 11,  2,  5,  5,  9,
@@ -70,7 +70,7 @@ C  3  DIB = a*DOB
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C
       IF (D .GT. 0) THEN
         IF(BARKB(4,JBARK(IS)) .EQ. 1.)THEN

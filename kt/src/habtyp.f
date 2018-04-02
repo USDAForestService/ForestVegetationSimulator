@@ -30,7 +30,7 @@ C----------
       CHARACTER*10 KARD2
       INTEGER KTYPE(95),MTYPE(30),K
       LOGICAL LPVCOD,LPVREF,LPVXXX
-      REAL DANUW
+      REAL RDANUW
 C----------      
       DATA KTYPE/
      &  5*1, 4*2, 4, 3*1, 3,4,5,6,7,8,9,8,8,9,7,3, 3*10, 4,11,20,29,11,
@@ -44,7 +44,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = ARRAY2
+      RDANUW = ARRAY2
 C
       LPVREF=.FALSE.
       LPVCOD=.FALSE.

@@ -12,11 +12,11 @@ COMMONS
 C
 C
       REAL SS
-      REAL DANUW
+      REAL RDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = SS
+      RDANUW = SS
 C
       RETURN
       END

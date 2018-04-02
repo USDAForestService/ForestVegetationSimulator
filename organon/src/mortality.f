@@ -338,11 +338,11 @@ C**********************************************************************
 C
       IMPLICIT NONE
       REAL*4 NI,NO,QUAD2,A1,A2,A3,A4,X,RDCC
-      REAL*4 DANUW
+      REAL*4 RDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = RDCC
+      RDANUW = RDCC
 C
       A2=0.64
       A3=3.88

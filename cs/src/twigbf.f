@@ -29,7 +29,7 @@ C
 C----------
       REAL B1(MAXSP),B2(MAXSP),B3(MAXSP),B4(MAXSP),BBFV,VMAX,D,H
       INTEGER ISPC
-      REAL DANUW
+      REAL RDANUW
 C----------
 C  COEFFICIENTS FOR NET BOARD FOOT VOLUME EQUATION FOR ACCEPTABLE
 C  TREES (TREE CLASS 1 & 2).
@@ -69,7 +69,7 @@ C------------------------------------------------------------------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C
 C----------
 C  COMPUTE TOTAL BOARD FOOT VOLUME (VMAX)

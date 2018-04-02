@@ -44,7 +44,7 @@ C
       INTEGER MODE,ISPC,IFOR,I,J
       REAL H,D,P2,P3,P4,DB,HAT3
       LOGICAL DEBUG
-      REAL DANUW
+      INTEGER IDANUW
 C
 C================================================
 C     SPECIES LIST FOR LAKE STATES
@@ -295,7 +295,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(IFOR)
+      IDANUW = IFOR
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------

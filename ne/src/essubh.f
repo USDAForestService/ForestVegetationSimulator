@@ -42,7 +42,8 @@ C
       REAL YRS,H,AGET,HTG1,HTMAX,AGE
       INTEGER LOSTND,IHTSER,I,IAGE,MODE0,IVAR,N,ITIME
       LOGICAL DEBUG
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C
       DATA MAPNE/
      &  20,   10,   15,   20,   15,   20,   20,   20,    5,   20,
@@ -59,10 +60,10 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = DILATE
-      DANUW = ELEV
-      DANUW = EMSQR
-      DANUW = REAL(IHTSER)
+      RDANUW = DILATE
+      RDANUW = ELEV
+      RDANUW = EMSQR
+      IDANUW = IHTSER
 C-----------
 C  CHECK FOR DEBUG.
 C-----------

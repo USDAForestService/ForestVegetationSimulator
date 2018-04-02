@@ -232,12 +232,12 @@ base/src
      update.f  The fortran INT and REAL functions were used to correct mixed-mode setting of array NORMHT(i). 
 
 bm/src       
-     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
-               warning.
-
       bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-
                mode setting of variables ID, ITD, and IVTD. Code was added to suppress unused dummy argument 
                warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
 
      bmtmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
 

@@ -1473,11 +1473,11 @@ C  volume calculation.
       real      r,c,e,p,b,a,q,g,w,x,y,z,t,jj,rr,n
       real      l1,l2,l3,u1,u2,u3
       character*1 topdob
-      REAL DANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ERRFLG)
+      IDANUW = ERRFLG
 C
 
       volume=0.0
@@ -1574,12 +1574,13 @@ C  are the coefficients for inside-bark diameter calculation.
       real      dib,topht,dbhib,dib17
       real      highht
       real      r,c,e,p,b,a,q
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ERRFLG)
-      DANUW = Q
+      IDANUW = ERRFLG
+      RDANUW = Q
 C
 
       dib=0.0
@@ -1636,16 +1637,17 @@ C     Shared variables
       REAL MINLENT, BTR, DBTBH,LMERCH, CFVOL, TLOGVOL
       INTEGER   TLOGS
       REAL NOLOGP,NOLOGS 
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(CDPFLG)
-      DANUW = REAL(CUPFLG)
-      DANUW = REAL(CUTFLG)
-      DANUW = HT2PRD
-      DANUW = NOLOGS
-      DANUW = REAL(SPFLG)
+      IDANUW = CDPFLG
+      IDANUW = CUPFLG
+      IDANUW = CUTFLG
+      RDANUW = HT2PRD
+      RDANUW = NOLOGS
+      IDANUW = SPFLG
 C
 C
       BTR = 0.

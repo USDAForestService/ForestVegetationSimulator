@@ -10,7 +10,8 @@ C----------
       INTEGER KEY,I,J,JJ,II
       LOGICAL LTHIN,LACTV,LNOTBK(7),LKECHO
       CHARACTER*8 KEYWRD,NOCOV
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
       CHARACTER*8 CDANUW
       LOGICAL LDANUW
 C
@@ -30,7 +31,7 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       CDANUW = KEYWRD
-      DANUW  = ARRAY(1)
+      RDANUW = ARRAY(1)
       LDANUW = LNOTBK(1)
       LDANUW = LKECHO
 C
@@ -80,7 +81,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(KEY)
+      IDANUW = KEY
 C
       KEYWRD=NOCOV
       RETURN
@@ -94,9 +95,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = XDUM(1)
-      DANUW = REAL(I)
-      DANUW = REAL(J)
+      RDANUW = XDUM(1)
+      IDANUW = I
+      IDANUW = J
 C
       RETURN
 C----------
@@ -106,11 +107,11 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = XDUM(1)
-      DANUW = REAL(I)
-      DANUW = REAL(J)
-      DANUW = REAL(II)
-      DANUW = REAL(JJ)
+      RDANUW = XDUM(1)
+      IDANUW = I
+      IDANUW = J
+      IDANUW = II
+      IDANUW = JJ
 C
       RETURN
 C----------

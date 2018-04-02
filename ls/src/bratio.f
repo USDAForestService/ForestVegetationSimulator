@@ -17,15 +17,15 @@ C
 C
       INTEGER IS
       REAL H,D,BRATIO
-      REAL DANUW
+      REAL RDANUW
 C
 COMMONS
 C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
-      DANUW = D
+      RDANUW = H
+      RDANUW = D
 C
       IF(IS .EQ. 0) THEN
         BRATIO=0.93

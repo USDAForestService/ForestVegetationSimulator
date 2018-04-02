@@ -23,7 +23,7 @@ C*********************************
       REAL B(6),BFMIND,DBHMIN
       REAL S_B1(2,135),S_B2(2,135),S_B3(2,135),S_B4(2,135),S_B5(2,135)
       REAL S_B6(2,135),COEFB(26,6)
-      REAL DANUW
+      INTEGER IDANUW
       INTEGER SPGRPCD(138)
 C      INTEGER SPCD
       REAL B1(MAXSP),B2(MAXSP),B3(MAXSP),B4(MAXSP),B5(MAXSP),B6(MAXSP)
@@ -752,7 +752,7 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ERRFLAG)
+      IDANUW = ERRFLAG
 C----------------------------------------------------------------------
 C     MAIN LOGIC
       PTR = 0

@@ -68,7 +68,8 @@ C
       CHARACTER CWEQ*5
       REAL D, CW, HI, HILAT, HILONG, HIELEV,MIND,CR,OMIND
       REAL P,H
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DATA STATEMENTS.
 C----------
@@ -76,10 +77,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
-      DANUW = P
-      DANUW = REAL(IICR)
-      DANUW = REAL(JOSTND)
+      RDANUW = H
+      RDANUW = P
+      IDANUW = IICR
+      IDANUW = JOSTND
 C----------
 C  INITIALIZE RETURN VARIABLES.
 C----------

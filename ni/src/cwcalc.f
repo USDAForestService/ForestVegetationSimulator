@@ -70,7 +70,8 @@ C----------
       INTEGER ICYC
       REAL D, H, CW, HI, HILAT,HILONG,HIELEV,EL,MIND,CR,CL,BAREA
       REAL BF,P,OMIND
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DATA STATEMENTS
 C----------
@@ -322,9 +323,9 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(IICR)
-      DANUW = REAL(IWHO)
-      DANUW = P
+      IDANUW = IICR
+      IDANUW = IWHO
+      RDANUW = P
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------

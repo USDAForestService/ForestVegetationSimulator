@@ -15,7 +15,8 @@ C
       REAL ARRAY(7),PROB(*),WEIGHT,TIME
       INTEGER IND(*),IND1(*)
       INTEGER I3(6),NCLAS,I1,I2,KEY,IREC,IVAC,I,ITFN
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
       CHARACTER*8 CDANUW
       LOGICAL LDANUW
 C
@@ -28,10 +29,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(NCLAS)
-      DANUW = PROB(1)
-      DANUW = REAL(IND(1))
-      DANUW = REAL(IND1(1))
+      IDANUW = NCLAS
+      RDANUW = PROB(1)
+      IDANUW = IND(1)
+      IDANUW = IND1(1)
 C
       RETURN
 C
@@ -42,8 +43,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I1)
-      DANUW = REAL(I3(1))
+      IDANUW = I1
+      IDANUW = I3(1)
 C
       RETURN
 C
@@ -54,9 +55,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = TIME
-      DANUW = REAL(I1)
-      DANUW = REAL(I2)
+      RDANUW = TIME
+      IDANUW = I1
+      IDANUW = I2
 C
       RETURN
 C
@@ -79,7 +80,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = ARRAY(1)
+      RDANUW = ARRAY(1)
       CDANUW(1:8) = KEYWRD(1:8)
       LDANUW = LNOTBK(1)
       LDANUW = LKECHO
@@ -112,7 +113,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(KEY)
+      IDANUW = KEY
 C
       KEYWRD=NOBR
       RETURN
@@ -124,8 +125,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(IVAC)
-      DANUW = REAL(IREC)
+      IDANUW = IVAC
+      IDANUW = IREC
 C
       RETURN
 C
@@ -142,9 +143,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ITFN)
-      DANUW = REAL(I)
-      DANUW = WEIGHT
+      IDANUW = ITFN
+      IDANUW = I
+      RDANUW = WEIGHT
 C
       RETURN
 C

@@ -15,7 +15,7 @@ C  35=HT,36=CH,37=WI,38=---,39=OT
 C----------
       REAL BARKB(4,13),H,D,BRATIO,DIB
       INTEGER JBARK(39),IS
-      REAL DANUW
+      REAL RDANUW
 C
       DATA JBARK/
      &  2,  2,  2,  2,  2,  2,  2,  5,  5,  10,
@@ -56,7 +56,7 @@ C  MODEL TYPE 1
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = H
+      RDANUW = H
 C
 C----------
       IF (D .GT. 0) THEN 

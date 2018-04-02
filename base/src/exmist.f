@@ -48,7 +48,8 @@ C----------
       INTEGER ICODE(6),MSPCNT(MAXSP),IARRAY(MAXTRE)
       CHARACTER*8 KEYWRD,NOMIS
       CHARACTER*1 CBUFF
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
       CHARACTER*8 CDANUW
       LOGICAL LDANUW
 C----------
@@ -78,8 +79,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ITREE)
-      DANUW = ICODE(1)
+      IDANUW = ITREE
+      RDANUW = ICODE(1)
 C
       GO TO 9000
 C----------
@@ -89,7 +90,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ITREE)
+      IDANUW = ITREE
 C
       IDMR=0
       GO TO 9000
@@ -101,7 +102,7 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       CDANUW = KEYWRD
-      DANUW  = ARRAY(1)
+      RDANUW = ARRAY(1)
       LDANUW = LNOTBK(1)
       LDANUW = LKECHO
 C
@@ -134,7 +135,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(KEY)
+      IDANUW = KEY
 C
       KEYWRD=NOMIS
       GO TO 9000
@@ -160,8 +161,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ITREE)
-      DANUW = REAL(IDMR)
+      IDANUW = ITREE
+      IDANUW = IDMR
 C
       GO TO 9000
 C----------
@@ -171,8 +172,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ITREE)
-      DANUW = REAL(IDMR1)
+      IDANUW = ITREE
+      IDANUW = IDMR1
 C
       GO TO 9000
 C----------
@@ -182,8 +183,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ISIZE)
-      DANUW = REAL(IARRAY(1))
+      IDANUW = ISIZE
+      IDANUW = IARRAY(1)
 C
       GO TO 9000
 C----------
@@ -198,9 +199,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = WK3(1)
-      DANUW = REAL(IPNT)
-      DANUW = REAL(ILIMIT)
+      RDANUW = WK3(1)
+      IDANUW = IPNT
+      IDANUW = ILIMIT
 C
       GO TO 9000
 C----------
@@ -211,8 +212,8 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       CDANUW(1:1) = CBUFF(1)
-      DANUW = REAL(IPNT)
-      DANUW = REAL(ILIMIT)
+      IDANUW = IPNT
+      IDANUW = ILIMIT
 C
       GO TO 9000
 C----------
@@ -222,9 +223,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = WK3(1)
-      DANUW = REAL(IPNT)
-      DANUW = REAL(ILIMIT)
+      RDANUW = WK3(1)
+      IDANUW = IPNT
+      IDANUW = ILIMIT
 C
       GO TO 9000
 C----------
@@ -235,8 +236,8 @@ C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       CDANUW(1:1) = CBUFF(1)
-      DANUW = REAL(IPNT)
-      DANUW = REAL(ILIMIT)
+      IDANUW = IPNT
+      IDANUW = ILIMIT
 C
       GO TO 9000
 C----------
@@ -275,8 +276,8 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ITREE)
-      DANUW = REAL(ISPC)
+      IDANUW = ITREE
+      IDANUW = ISPC
 C
 
       MISDGF=1.0
@@ -307,8 +308,8 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ITREE)
-      DANUW = REAL(ISPC)
+      IDANUW = ITREE
+      IDANUW = ISPC
 C
 
       MISHGF=1.0

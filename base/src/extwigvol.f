@@ -8,17 +8,18 @@ C  NON-R9 VARIANTS
 C----------
       INTEGER ISPC,I
       REAL    H,D,VMAX,BBFV,VN,VM
-      REAL DANUW
+      REAL RDANUW
+      INTEGER IDANUW
 C
-       ENTRY TWIGBF(ISPC,H,D,VMAX,BBFV)
+      ENTRY TWIGBF(ISPC,H,D,VMAX,BBFV)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ISPC)
-      DANUW = H
-      DANUW = D
-      DANUW = VMAX
-      DANUW = BBFV
+      IDANUW = ISPC
+      RDANUW = H
+      RDANUW = D
+      RDANUW = VMAX
+      RDANUW = BBFV
 C
        RETURN
 C
@@ -26,12 +27,12 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ISPC)
-      DANUW = H
-      DANUW = D
-      DANUW = VN
-      DANUW = VM
-      DANUW = REAL(I)
+      IDANUW = ISPC
+      RDANUW = H
+      RDANUW = D
+      RDANUW = VN
+      RDANUW = VM
+      IDANUW = I
 C
        RETURN
 C

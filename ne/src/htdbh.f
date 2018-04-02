@@ -44,7 +44,7 @@ C
       REAL SNALL(3,108), SNDBAL(108)
       INTEGER IWYKCA(108)
       LOGICAL DEBUG
-      REAL DANUW
+      INTEGER IDANUW
 C
 C================================================
 C     SPECIES LIST FOR NORTHEASTERN UNITED STATES
@@ -427,7 +427,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(IFOR)
+      IDANUW = IFOR
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------

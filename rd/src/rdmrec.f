@@ -51,7 +51,7 @@ C.... Local variable declaraions.
 
       INTEGER  I, ISL, ITYP, KSP
       REAL     OAMOVE(3)
-      REAL DANUW
+      INTEGER IDANUW
 
 C.... Make sure that OAKL continues to contain the right number of
 C.... killed trees. Assume that some proportion of those trees that
@@ -62,7 +62,7 @@ C.... inside trees were killed from bark beetles or windthrow).
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(ITYP)
+      IDANUW = ITYP
 C     
       OAKL(DSO,I) = OAKL(DSO,I) - OAMOVE(DSO)
       OAKL(DSII,I) = OAKL(DSII,I) + OAMOVE(DSII)

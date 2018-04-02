@@ -8,7 +8,7 @@ C----------
       LOGICAL DEBUG,LKECHO
       INTEGER I,ITFN,JOSTND,IMODTY
       REAL    VAL
-      REAL DANUW
+      INTEGER IDANUW
       LOGICAL LDANUW
 C----------
 C  ENTRY ORIN   CALLED FROM INITRE
@@ -28,8 +28,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
-      DANUW = REAL(ITFN)
+      IDANUW = I
+      IDANUW = ITFN
 C
       RETURN
 C----------
@@ -39,8 +39,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(JOSTND)
-      DANUW = REAL(IMODTY)
+      IDANUW = JOSTND
+      IDANUW = IMODTY
 C
       RETURN
 C----------
@@ -50,7 +50,7 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      DANUW = REAL(I)
+      IDANUW = I
 C
       VAL=0.
       RETURN
