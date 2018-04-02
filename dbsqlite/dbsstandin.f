@@ -995,7 +995,7 @@ C     FUEL MODEL
          IF(LKECHO)WRITE(JOSTND,'(T12,''FUEL_MODEL: '',T34,I6)')
      >   ISTANDDATA(51)
       ELSE
-         ISTANDDATA(51) = -1.
+         ISTANDDATA(51) = -1
       ENDIF
 
 C     FUEL PHOTO REFERENCE
@@ -1017,7 +1017,7 @@ C     FUEL PHOTO REFERENCE
    55    FORMAT (T12,'PHOTO_REF: ',T34,I6, ' = ',A)
 
       ELSE
-         ISTANDDATA(52) = -1.
+         ISTANDDATA(52) = -1
       ENDIF
 
 C     FUEL PHOTO CODE
