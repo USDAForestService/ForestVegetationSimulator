@@ -27,23 +27,22 @@ C----------
 C  ENTRY CVIN
 C----------
       ENTRY CVIN (KEYWRD,ARRAY,LNOTBK,LKECHO)
+        CALL ERRGRO (.TRUE.,11)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      CDANUW = KEYWRD
-      RDANUW = ARRAY(1)
-      LDANUW = LNOTBK(1)
-      LDANUW = LKECHO
-C
-      CALL ERRGRO (.TRUE.,11)
-C
+        IF(.TRUE.)RETURN
+        CDANUW = KEYWRD
+        RDANUW = ARRAY(1)
+        LDANUW = LNOTBK(1)
+        LDANUW = LKECHO
       RETURN
 C
 C----------
 C  ENTRY CVGO
 C----------
       ENTRY CVGO (LACTV)
-      LACTV=.FALSE.
+        LACTV=.FALSE.
       RETURN
 C
 C----------
@@ -53,8 +52,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      LDANUW = LTHIN
-C
+        IF(.TRUE.)RETURN
+        LDANUW = LTHIN
       RETURN
 C
 C----------
@@ -64,8 +63,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      LDANUW = LTHIN
-C
+        IF(.TRUE.)RETURN
+        LDANUW = LTHIN
       RETURN
 C
 C----------
@@ -78,12 +77,12 @@ C----------
 C  ENTRY CVKEY
 C----------
       ENTRY CVKEY(KEY,KEYWRD)
+        KEYWRD=NOCOV
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = KEY
-C
-      KEYWRD=NOCOV
+        IF(.TRUE.)RETURN
+        IDANUW = KEY
       RETURN
 C
 C     REFERENCES FOR THE PARALLEL PROCESSING SYSTEM.
@@ -95,10 +94,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = XDUM(1)
-      IDANUW = I
-      IDANUW = J
-C
+        IF(.TRUE.)RETURN
+        RDANUW = XDUM(1)
+        IDANUW = I
+        IDANUW = J
       RETURN
 C----------
 C  ENTRY CVPUT
@@ -107,18 +106,18 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = XDUM(1)
-      IDANUW = I
-      IDANUW = J
-      IDANUW = II
-      IDANUW = JJ
-C
+        IF(.TRUE.)RETURN
+        RDANUW = XDUM(1)
+        IDANUW = I
+        IDANUW = J
+        IDANUW = II
+        IDANUW = JJ
       RETURN
 C----------
 C  ENTRY CVACTV
 C----------
       ENTRY CVACTV (LACTV)
-      LACTV=.FALSE.
+        LACTV=.FALSE.
       RETURN
 C
       END

@@ -495,8 +495,8 @@ C----------
 C  IF ORGANON MORTALITY HAS BEEN ESTIMATED, USE IT
 C----------
       IF(LORGANON .AND. (SMORMT .GT. 0.))THEN
-        WK2(I) = MORTEXP(I)
-        WKI = MORTEXP(I)
+        WK2(I) = MORTEXP(I)*(FINT/5.)
+        WKI = MORTEXP(I)*(FINT/5.)
         IF(WKI.GT.P) WKI=P
         IF(DEBUG) WRITE(JOSTND,*) ' IN MORTS I,ISPC,D,WK2,IORG= ',
      *  I,ISPC,D,WK2(I),IORG(I) 

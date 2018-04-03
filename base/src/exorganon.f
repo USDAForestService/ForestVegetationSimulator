@@ -17,9 +17,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      LDANUW = DEBUG
-      LDANUW = LKECHO
-C
+        IF(.TRUE.)RETURN
+        LDANUW = DEBUG
+        LDANUW = LKECHO
       RETURN
 C----------
 C  ENTRY ORGTRIP   CALLED FROM TRIPLE
@@ -28,9 +28,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I
-      IDANUW = ITFN
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I
+        IDANUW = ITFN
       RETURN
 C----------
 C  ENTRY ORGTAB   CALLED FROM INITRE
@@ -39,20 +39,20 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = JOSTND
-      IDANUW = IMODTY
-C
+        IF(.TRUE.)RETURN
+        IDANUW = JOSTND
+        IDANUW = IMODTY
       RETURN
 C----------
 C  ENTRY GETORGV   CALLED FROM EVTSTV
 C----------
       ENTRY GETORGV(I,VAL)
+        VAL=0.
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I
-C
-      VAL=0.
+        IF(.TRUE.)RETURN
+        IDANUW = I
       RETURN
 C
       END

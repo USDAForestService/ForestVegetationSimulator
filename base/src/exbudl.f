@@ -26,7 +26,7 @@ C----------
 C  ENTRY BWEGO
 C----------
       ENTRY BWEGO (L)
-      L= .FALSE.
+        L= .FALSE.
       RETURN
 C
 C----------
@@ -42,8 +42,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      LDANUW = LKECHO
-C
+        IF(.TRUE.)RETURN
+        LDANUW = LKECHO
       RETURN
 C
 C----------
@@ -56,19 +56,19 @@ C----------
 C  ENTRY BWEKEY
 C----------
       ENTRY BWEKEY (KEY, KEYWRD)
+        KEYWRD=NOKEY
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = KEY
-C
-      KEYWRD=NOKEY
+        IF(.TRUE.)RETURN
+        IDANUW = KEY
       RETURN
 C
 C----------
 C  ENTRY BWEPPATV
 C----------
       ENTRY BWEPPATV (L)
-      L= .FALSE.
+        L= .FALSE.
       RETURN
 C
 C----------
@@ -78,11 +78,11 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = R1
-      IDANUW = I1
-      IDANUW = I2
-      IDANUW = I3
-C
+        IF(.TRUE.)RETURN
+        RDANUW = R1
+        IDANUW = I1
+        IDANUW = I2
+        IDANUW = I3
       RETURN
 C
 C----------
@@ -92,11 +92,11 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = R1
-      IDANUW = I1
-      IDANUW = I2
-      IDANUW = I3
-C
+        IF(.TRUE.)RETURN
+        RDANUW = R1
+        IDANUW = I1
+        IDANUW = I2
+        IDANUW = I3
       RETURN
 C
       END
