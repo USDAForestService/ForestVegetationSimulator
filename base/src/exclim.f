@@ -32,7 +32,7 @@ C----------
 C  ENTRY CLACTV
 C----------
       ENTRY CLACTV (L)
-      L=.FALSE.
+        L=.FALSE.
       RETURN
 C
 C----------
@@ -42,8 +42,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      LDANUW = L
-C
+        IF(.TRUE.)RETURN
+        LDANUW = L
       RETURN
 C
 C----------
@@ -53,10 +53,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = WK3(1)
-      IDANUW = IPNT
-      IDANUW = ILIMIT
-C
+        IF(.TRUE.)RETURN
+        RDANUW = WK3(1)
+        IDANUW = IPNT
+        IDANUW = ILIMIT
       RETURN
 C
 C----------
@@ -66,42 +66,42 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = WK3(1)
-      IDANUW = IPNT
-      IDANUW = ILIMIT
-C
+        IF(.TRUE.)RETURN
+        RDANUW = WK3(1)
+        IDANUW = IPNT
+        IDANUW = ILIMIT
       RETURN
 C
 C----------
 C  ENTRY CLIN
 C----------
       ENTRY CLIN  (DEBUG,LKECHO)
+        CALL ERRGRO (.TRUE.,11)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      LDANUW = DEBUG
-      LDANUW = LKECHO
-C
-      CALL ERRGRO (.TRUE.,11)
+        IF(.TRUE.)RETURN
+        LDANUW = DEBUG
+        LDANUW = LKECHO
       RETURN
 C
 C----------
 C  ENTRY CLKEY
 C----------
       ENTRY CLKEY(KEY,KEYWRD)
+        KEYWRD=NOCLIM 
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = KEY
-C
-      KEYWRD=NOCLIM 
+        IF(.TRUE.)RETURN
+        IDANUW = KEY
       RETURN
 C
 C----------
 C  ENTRY CLGMULT
 C----------
       ENTRY CLGMULT(TREEMULT)
-      TREEMULT=1.
+        TREEMULT=1.
       RETURN
 C
 C----------
@@ -117,9 +117,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = SDIDEF(1)
-      RDANUW = XMAX
-C
+        IF(.TRUE.)RETURN
+        RDANUW = SDIDEF(1)
+        RDANUW = XMAX
       RETURN 
 C
 C----------
@@ -132,12 +132,13 @@ C----------
 C  ENTRY CLSPVIAB
 C----------
       ENTRY CLSPVIAB (ISP,VIA,IRC)
-      IRC=1
+        IRC=1
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = VIA
-      IDANUW = ISP
+        IF(.TRUE.)RETURN
+        RDANUW = VIA
+        IDANUW = ISP
       RETURN
 C
 C

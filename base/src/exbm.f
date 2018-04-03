@@ -42,14 +42,14 @@ C----------
 C BMPPIN CALLED FROM PPIN
 C----------
       ENTRY BMPPIN(IREAD,IRECNT,JOPPRT)
+        WRITE(JOPPRT,10) IRECNT,NOBM
+        CALL ERRGRO (.TRUE.,11)
+   10   FORMAT (/1X,A8,'RECORD: ', I6, A8)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = IREAD
-C
-      WRITE(JOPPRT,10) IRECNT,NOBM
-      CALL ERRGRO (.TRUE.,11)
-   10 FORMAT (/1X,A8,'RECORD: ', I6, A8)
+        IF(.TRUE.)RETURN
+        IDANUW = IREAD
       RETURN
 C----------
 C BMSLSH CALLED FROM CUTS
@@ -58,11 +58,11 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I2
-      RDANUW = XBM1
-      RDANUW = XBM2
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I2
+        RDANUW = XBM1
+        RDANUW = XBM2
       RETURN
 C----------
 C BMTRIP CALLED FROM TRIPLE
@@ -71,21 +71,21 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I2
-      RDANUW = XBM1
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I2
+        RDANUW = XBM1
       RETURN
 C----------
 C BMKEY CALLED FROM OPLIST
 C----------
       ENTRY BMKEY (KEY,KEYWRD)
+        KEYWRD=NOBM
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = KEY
-C
-      KEYWRD=NOBM
+        IF(.TRUE.)RETURN
+        IDANUW = KEY
       RETURN
 C----------
 C BMPPPT CALLED FROM PUTSTD
@@ -94,9 +94,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I2
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I2
       RETURN
 C----------
 C BMPPGT CALLED FROM GETSTD
@@ -105,9 +105,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I2
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I2
       RETURN
 C----------
 C BMDAM  CALLED FROM DAMCDS
@@ -116,24 +116,24 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I3(1)
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I3(1)
       RETURN
 C
 C----------
 C BMIN  CALLED FROM INITRE
 C----------
       ENTRY BMIN(LKECHO)
-      IF(LKECHO)WRITE(JOPPRT,20) IRECNT,NOBM
-   20 FORMAT (/1X,A8,'RECORD: ', I6, A8)
-      CALL ERRGRO (.TRUE.,11)
+        IF(LKECHO)WRITE(JOPPRT,20) IRECNT,NOBM
+   20   FORMAT (/1X,A8,'RECORD: ', I6, A8)
+        CALL ERRGRO (.TRUE.,11)
       RETURN
 C----------
 C BMLNKD  CALLED FROM DBSIN
 C----------
       ENTRY BMLNKD(LACTV)
-      LACTV = .FALSE.
+        LACTV = .FALSE.
       RETURN
 C-----------
 C BMDBS--CALLED FROM DBSIN
@@ -142,16 +142,16 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I
-      IDANUW = IOUT
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I
+        IDANUW = IOUT
       RETURN
 C-----------
 C RRATV CALLED FROM GETSTD AND PUTSTD
 C-----------
       ENTRY RRATV(LACTV,LTEE)
-      LACTV=.FALSE.
-      LTEE=.FALSE.
+        LACTV=.FALSE.
+        LTEE=.FALSE.
       RETURN
 C-----------
 C RRPPPT CALLED FROM PUTSTD
@@ -160,10 +160,10 @@ C-----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I2
-      RDANUW = R1(1)
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I2
+        RDANUW = R1(1)
       RETURN
 C-----------
 C RRPPGT CALLED FROM GETSTD
@@ -172,10 +172,10 @@ C-----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I2
-      RDANUW = R1(1)
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I2
+        RDANUW = R1(1)
       RETURN
 C-----------
       END

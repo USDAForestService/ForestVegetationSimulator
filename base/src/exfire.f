@@ -27,164 +27,256 @@ C----------
       DATA NOFM/'*NO FIRE'/
 C----------
 C  ENTRY POINTS:
+C
+C  ENTRY FMIN
 C----------
       ENTRY FMIN (I1,NSP,LKECHO)
         CALL ERRGRO (.TRUE.,11)
       RETURN
-C
+C----------
+C  ENTRY FMINIT
+C----------
       ENTRY FMINIT
       RETURN
-C
+C----------
+C  ENTRY FMCMPR
+C----------
       ENTRY FMCMPR (NCLAS)
       RETURN
-C
+C----------
+C  ENTRY FMTDEL
+C----------
       ENTRY FMTDEL (IVAC,IREC)
       RETURN
-C
+C----------
+C  ENTRY FMSDIT
+C----------
       ENTRY FMSDIT
       RETURN
-C
+C----------
+C  ENTRY FMMAIN
+C----------
       ENTRY FMMAIN
       RETURN
-C
+C----------
+C  ENTRY FMKILL
+C----------
       ENTRY FMKILL(I)
       RETURN
-C
+C----------
+C  ENTRY FMSSEE
+C----------
       ENTRY FMSSEE (I,ISPC,D,H,P,IC,LDEB,J)
       RETURN
-C
+C----------
+C  ENTRY FMSCUT
+C----------
       ENTRY FMSCUT(XMXVOL,NR,NC,SSNG,DSNG,CTCRWN,TKCRWN)
       RETURN
-C
+C----------
+C  ENTRY FMSALV
+C----------
       ENTRY FMSALV(IYR,X1)
       RETURN
-C
+C----------
+C  ENTRY FMSVTREE
+C----------
       ENTRY FMSVTREE(I1,I2)
       RETURN
-C
+C----------
+C  ENTRY FMSVFL
+C----------
       ENTRY FMSVFL(I)
       RETURN
-C
+C----------
+C  ENTRY FMGETFL
+C----------
       ENTRY FMGETFL(I,FLNY)
       RETURN
-C
+C----------
+C  ENTRY FMKEY
+C----------
       ENTRY FMKEY(KEY,KEYWRD)
         KEYWRD=NOFM
       RETURN
-C
+C----------
+C  ENTRY FMOUT
+C----------
       ENTRY FMOUT
       RETURN
-C
+C----------
+C  ENTRY FMTRIP
+C----------
       ENTRY FMTRIP(ITFN,I,WEIGHT)
       RETURN
-C
+C----------
+C  ENTRY FMPRUN
+C----------
       ENTRY FMPRUN(CTCRWN)
       RETURN
-C
+C----------
+C  ENTRY FMATV
+C----------
       ENTRY FMATV(LACTV)
         LACTV = .FALSE.
       RETURN
-C
+C----------
+C  ENTRY FMLNKD
+C----------
       ENTRY FMLNKD(LACTV)
         LACTV = .FALSE.
       RETURN
-C
+C----------
+C  ENTRY FMEVSNG
+C----------
       ENTRY FMEVSNG(X, I, J, K, X1, X2, X3, X4, I4)
         I4=1
       RETURN
-C
+C----------
+C  ENTRY FMEVCWD
+C----------
       ENTRY FMEVCWD(X, I, J, I4)
         I4=1
       RETURN
-C
+C----------
+C  ENTRY FMEVFLM
+C----------
       ENTRY FMEVFLM(X, I, I4)
         I4=1
       RETURN
-C
+C----------
+C  ENTRY FMEVSAL
+C----------
       ENTRY FMEVSAL(X,I,I1,I2,I4)
         I4=1
       RETURN
-C
+C----------
+C  ENTRY FMEVMRT
+C----------
       ENTRY FMEVMRT(X,I,I4)
         I4=1
       RETURN
-C
+C----------
+C  ENTRY FMEVTYP
+C----------
       ENTRY FMEVTYP(X,I,I4)
         I4=1
       RETURN
-C
+C----------
+C  ENTRY FMEVCARB
+C----------
       ENTRY FMEVCARB(X,I,I4)
         I4=1
       RETURN      
-C
+C----------
+C  ENTRY FMDWD
+C----------
       ENTRY FMDWD(X,I,J,K,I2,I4)
         I4=1
       RETURN
-C
+C----------
+C  ENTRY FMEVSRT
+C----------
       ENTRY FMEVSRT(X,I,I4)
         I4=1
       RETURN 
-C
+C----------
+C  ENTRY FMEVRIN
+C----------
       ENTRY FMEVRIN(X,I,I4)
         I4=1
       RETURN                   
-C
+C----------
+C  ENTRY FMEVFMD
+C----------
       ENTRY FMEVFMD(X,I,J,I4)
         I4=1
       RETURN
-C
+C----------
+C  ENTRY FMSADD
+C----------
       ENTRY FMSADD (I,J)
       RETURN
-C
+C----------
+C  ENTRY FMSATV
+C----------
       ENTRY FMSATV(LFM)
       RETURN
-C
+C----------
+C  ENTRY FMPHOTOCODE
+C----------
       ENTRY FMPHOTOCODE(I,CFOTO,J,K)
       RETURN
-C
+C----------
+C  ENTRY FMTREM
+C----------
       ENTRY FMTREM(DSNG,SSNG,AX)
       RETURN
-C
+C----------
+C  ENTRY FMEVTBM
+C----------
       ENTRY FMEVTBM(X1,I,I1,I2,I3,X2,X3,X4,X5,I4)
       RETURN
-C
+C----------
+C  ENTRY FMEVMSN
+C----------
       ENTRY FMEVMSN(X)
         X=0.
       RETURN
-C
+C----------
+C  ENTRY FMEVLSF
+C----------
       ENTRY FMEVLSF(X, I, I4)
         X=0.
         I4=1
       RETURN
 C----------
-C     ENTRIES FOR THE PPE
+C     ENTRIES FOR THE PPE:
+C
+C  ENTRY FMPPHV
 C----------
       ENTRY FMPPHV(IYR,CRBSHT,CRBLKD,CANCOV,KFMS,FMWTS,
      &             POKL,POVK,FMLOADS)
       RETURN
-C
+C----------
+C  ENTRY FMPPGET
+C----------
       ENTRY FMPPGET (XXX,I1,I2)
       RETURN
-C
+C----------
+C  ENTRY FMPPPUT
+C----------
       ENTRY FMPPPUT (XXX,I1,I2)
       RETURN
-C
+C----------
+C  ENTRY FMSVL2
+C----------
       ENTRY FMSVL2(I1,X1,X2,X3,X4,L1,L2,I2)
       RETURN
-C
+C----------
+C  ENTRY FMSNGHT
+C----------
       ENTRY FMSNGHT(CH7,I1,X1,X2,I2,X3)
       RETURN
-C
+C----------
+C  ENTRY FMSNGDK
+C----------
       ENTRY FMSNGDK(CH7,I1,X1,X2)
       RETURN
-C
+C----------
+C  ENTRY FMSFALL
+C----------
       ENTRY FMSFALL(I1,I2,X1,X2,X3,I3,X4,X5,X6)
         X6 = 0.
       RETURN
-C
+C----------
+C  ENTRY SNGCOE
+C----------
       ENTRY SNGCOE
       RETURN
-C
+C----------
+C  ENTRY FMCBA
+C----------
       ENTRY FMCBA (I1,I2)
       RETURN
 C

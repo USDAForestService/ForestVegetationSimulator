@@ -15,25 +15,27 @@ C
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = ISPC
-      RDANUW = H
-      RDANUW = D
-      RDANUW = VMAX
-      RDANUW = BBFV
+        IF(.TRUE.)RETURN
+        IDANUW = ISPC
+        RDANUW = H
+        RDANUW = D
+        RDANUW = VMAX
+        RDANUW = BBFV
 C
-       RETURN
+      RETURN
 C
-       ENTRY TWIGCF(ISPC,H,D,VN,VM,I)
+      ENTRY TWIGCF(ISPC,H,D,VN,VM,I)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = ISPC
-      RDANUW = H
-      RDANUW = D
-      RDANUW = VN
-      RDANUW = VM
-      IDANUW = I
+        IF(.TRUE.)RETURN
+        IDANUW = ISPC
+        RDANUW = H
+        RDANUW = D
+        RDANUW = VN
+        RDANUW = VM
+        IDANUW = I
 C
-       RETURN
+      RETURN
 C
-       END
+      END

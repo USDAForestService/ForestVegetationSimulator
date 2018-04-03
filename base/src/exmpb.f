@@ -33,24 +33,24 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      CDANUW(1:8) = NPLT(1:8)
-      IDANUW = MGMID
-C
+        IF(.TRUE.)RETURN
+        CDANUW(1:8) = NPLT(1:8)
+        IDANUW = MGMID
       RETURN
 C
 C----------
 C  ENTRY MPBIN
 C----------
       ENTRY MPBIN (KEYWRD,ARRAY,LNOTBK,LKECHO)
+        CALL ERRGRO (.TRUE.,11)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      CDANUW(1:8) = KEYWRD(1:8)
-      RDANUW = ARRAY(1)
-      LDANUW = LNOTBK(1)
-      LDANUW = LKECHO
-C
-      CALL ERRGRO (.TRUE.,11)
+        IF(.TRUE.)RETURN
+        CDANUW(1:8) = KEYWRD(1:8)
+        RDANUW = ARRAY(1)
+        LDANUW = LNOTBK(1)
+        LDANUW = LKECHO
       RETURN
 C
 C----------
@@ -60,9 +60,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = II
-      IDANUW = ICODES(1)
-C
+        IF(.TRUE.)RETURN
+        IDANUW = II
+        IDANUW = ICODES(1)
       RETURN
 C
 C----------
@@ -81,7 +81,7 @@ C----------
 C  ENTRY MPBGO
 C----------
       ENTRY MPBGO (L)
-      L = .FALSE.
+        L = .FALSE.
       RETURN
 C
 C----------
@@ -100,12 +100,12 @@ C----------
 C  ENTRY MPKEY
 C----------
       ENTRY MPKEY(KEY,KEYWRD)
+        KEYWRD=NOMPB
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = KEY
-C
-      KEYWRD=NOMPB
+        IF(.TRUE.)RETURN
+        IDANUW = KEY
       RETURN
 C
       END

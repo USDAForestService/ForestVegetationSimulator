@@ -29,11 +29,11 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = NCLAS
-      RDANUW = PROB(1)
-      IDANUW = IND(1)
-      IDANUW = IND1(1)
-C
+        IF(.TRUE.)RETURN
+        IDANUW = NCLAS
+        RDANUW = PROB(1)
+        IDANUW = IND(1)
+        IDANUW = IND1(1)
       RETURN
 C
 C----------
@@ -43,9 +43,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I3(1)
-C
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I3(1)
       RETURN
 C
 C----------
@@ -55,10 +55,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = TIME
-      IDANUW = I1
-      IDANUW = I2
-C
+        IF(.TRUE.)RETURN
+        RDANUW = TIME
+        IDANUW = I1
+        IDANUW = I2
       RETURN
 C
 C----------
@@ -77,15 +77,15 @@ C----------
 C  ENTRY BRIN
 C----------
       ENTRY BRIN (KEYWRD,ARRAY,LNOTBK,LKECHO)
+        CALL ERRGRO (.TRUE.,11)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = ARRAY(1)
-      CDANUW(1:8) = KEYWRD(1:8)
-      LDANUW = LNOTBK(1)
-      LDANUW = LKECHO
-C
-      CALL ERRGRO (.TRUE.,11)
+        IF(.TRUE.)RETURN
+        RDANUW = ARRAY(1)
+        CDANUW(1:8) = KEYWRD(1:8)
+        LDANUW = LNOTBK(1)
+        LDANUW = LKECHO
       RETURN
 C
 C----------
@@ -110,12 +110,12 @@ C----------
 C  ENTRY BRKEY    CALLED FROM OPLIST
 C----------
       ENTRY BRKEY (KEY,KEYWRD)
+        KEYWRD=NOBR
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = KEY
-C
-      KEYWRD=NOBR
+        IF(.TRUE.)RETURN
+        IDANUW = KEY
       RETURN
 C
 C----------
@@ -125,9 +125,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = IVAC
-      IDANUW = IREC
-C
+        IF(.TRUE.)RETURN
+        IDANUW = IVAC
+        IDANUW = IREC
       RETURN
 C
 C----------
@@ -143,10 +143,10 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = ITFN
-      IDANUW = I
-      RDANUW = WEIGHT
-C
+        IF(.TRUE.)RETURN
+        IDANUW = ITFN
+        IDANUW = I
+        RDANUW = WEIGHT
       RETURN
 C
       END

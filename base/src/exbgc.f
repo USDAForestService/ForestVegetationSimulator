@@ -24,21 +24,23 @@ C----------
 C BGCIN CALLED FROM INITRE
 C----------
       ENTRY BGCIN(KEYWRD,ARRAY,LNOTBK,LKECHO)
+C
+        CALL ERRGRO (.TRUE.,11)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      RDANUW = ARRAY(1)
-      CDANUW(1:8) = KEYWRD(1:8)
-      LDANUW = LKECHO
-      LDANUW = LNOTBK(1)
+        IF(.TRUE.)RETURN
+        RDANUW = ARRAY(1)
+        CDANUW(1:8) = KEYWRD(1:8)
+        LDANUW = LKECHO
+        LDANUW = LNOTBK(1)
 C
-      CALL ERRGRO (.TRUE.,11)
       RETURN
 C----------
 C BGCGO CALLED FROM GRINCR
 C----------
       ENTRY BGCGO(L)
-      L=.FALSE.
+        L=.FALSE.
       RETURN
 C----------
 C BGCGRO CALLED FROM GRINCR
@@ -47,8 +49,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
-      IDANUW = I2
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I2
 C
       RETURN
 C----------
@@ -58,7 +61,8 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = I1
+        IF(.TRUE.)RETURN
+        IDANUW = I1
 C
       RETURN
 C

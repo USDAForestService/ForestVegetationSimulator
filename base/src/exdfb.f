@@ -28,15 +28,15 @@ C----------
 C  ENTRY DFBIN
 C----------
       ENTRY DFBIN (KEYWRD,ARRAY,LNOTBK,LKECHO)
+        CALL ERRGRO (.TRUE.,11)
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      CDANUW(1:8) = KEYWRD(1:8)
-      RDANUW = ARRAY(1)
-      LDANUW = LNOTBK(1)
-      LDANUW = LKECHO
-C
-      CALL ERRGRO (.TRUE.,11)
+        IF(.TRUE.)RETURN
+        CDANUW(1:8) = KEYWRD(1:8)
+        RDANUW = ARRAY(1)
+        LDANUW = LNOTBK(1)
+        LDANUW = LKECHO
       RETURN
 C
 C----------
@@ -46,9 +46,9 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = II
-      IDANUW = ICODES(1)
-C
+        IF(.TRUE.)RETURN
+        IDANUW = II
+        IDANUW = ICODES(1)
       RETURN
 C
 C----------
@@ -67,7 +67,7 @@ C----------
 C  ENTRY DFBBO
 C----------
       ENTRY DFBGO (L)
-      L = .FALSE.
+        L = .FALSE.
       RETURN
 C
 C----------
@@ -89,20 +89,20 @@ C----------
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      LDANUW = L
-C
+        IF(.TRUE.)RETURN
+        LDANUW = L
       RETURN
 C
 C----------
 C  ENTRY DFBKEY
 C----------
       ENTRY DFBKEY (KEY,KEYWRD)
+        KEYWRD=NODFB
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
-      IDANUW = KEY
-C
-      KEYWRD=NODFB
+        IF(.TRUE.)RETURN
+        IDANUW = KEY
       RETURN
 C
       END

@@ -138,13 +138,25 @@ base/src
                
       excov.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
                
+      exdbs.f  Some comment lines were added or edited.
+               
       exdfb.f  The unused variable NPLT was deleted. Code was added to suppress unused dummy argument 
                warnings. Some comment lines were added or edited.
 
      exdftm.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
                warnings. Some comment lines were added or edited.
                
+     execon.f  Some comment lines were added or edited.
+               
+     exestb.f  Some comment lines were added or edited.
+               
+     exfert.f  Some comment lines were added or edited.
+               
+     exfire.f  Some comment lines were added or edited.
+               
      exmist.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               The GO TO 9000 statements were changed to RETURN to be consistent with other subroutines of this
+               family.
 
       exmpb.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or
                edited.
@@ -157,6 +169,8 @@ base/src
 
        exrd.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or
                edited.
+               
+       exsv.f  Some comment lines were added or edited.
 
      extree.f  In the setting of array IONSP(i), NSP(ISPC,JMC) was changed to NSP(ISPC,JMC)(1:3) to avoid
                truncation of the character*4 NSP value.
