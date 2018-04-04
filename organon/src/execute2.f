@@ -274,7 +274,7 @@ C  Site index conversion equation from Nigh (1995, Forest Science 41:84-98)
         ENDIF
       ELSE
         IF(SITE_2 .LE. 0.0) THEN
-          SITE_2=4.776377*SI_1**0.763530587
+          SITE_2=4.776377*SITE_1**0.763530587
         ENDIF
       ENDIF
 C
@@ -1180,7 +1180,7 @@ C
         ENDIF
       ELSE
         IF(SITE_2 .LE. 0.0) THEN
-          SITE_2=4.776377*SI_1**0.763530587
+          SITE_2=4.776377*SITE_1**0.763530587
         ENDIF
       ENDIF
       SELECT CASE(VERSION)
