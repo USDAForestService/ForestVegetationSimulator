@@ -1,0 +1,1771 @@
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-30-2013  20:00:59
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+                                                 OPTIONS SELECTED BY INPUT
+
+ KEYWORD FILE NAME: TestIRR_Yearly.key
+ ----------------------------------------------------------------------------------------------------------------------------------
+ KEYWORD    PARAMETERS:
+ --------   -----------------------------------------------------------------------------------------------------------------------
+
+ STDIDENT
+            STAND ID= TestIRR_Yearly                                                                                            
+
+
+            *Pretend clearcut everything every year with volume computed by tree DBH.
+
+ SCREEN     SUMMARY TABLE WILL BE PRINTED TO DATA SET REFERENCE NUMBER     6 AS RUN PROGRESSES.
+
+ INVYEAR    INVENTORY YEAR= 2004
+
+            HABITAT TYPE WILL BE MAPPED TO 530 FOR THIS PROJECTION.
+
+ STDINFO    FOREST-LOCATION CODE=     118; HABITAT TYPE=530; AGE=    0; ASPECT AZIMUTH IN DEGREES=   0.; SLOPE=   0.%
+            ELEVATION(100'S FEET)= 30.0; REFERENCE CODE=     
+
+ DESIGN     BASAL AREA FACTOR=   40.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
+            NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
+            PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+            SEE "OPTIONS SELECTED BY DEFAULT" FOR FINAL DESIGN VALUES.
+
+ NUMCYCLE   NUMBER OF CYCLES= 40
+
+ TIMEINT    ALL CYCLES;  PERIOD LENGTH=  1
+
+
+            *Turn off any ingrowth and natural regeneration
+
+ ESTAB      REGENERATION ESTABLISHMENT OPTIONS:
+
+ NOAUTALY   TALLIES WILL NOT BE ADDED AUTOMATICALLY.
+
+ NOINGROW   INGROWTH WILL NOT BE ADDED AUTOMATICALLY.
+
+ END        END OF ESTABLISHMENT KEYWORDS
+
+ THINDBH    DATE/CYCLE=    0; MINIMUM DBH=     0.0; MAXIMUM DBH=   999.0; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+
+
+            *Begin ECON Extension keywords
+
+ ECON       ECONOMIC EXTENSION KEYWORDS:
+
+ STRTECON   ECON START YEAR/CYCLE:    1, DISCOUNT RATE:  4.0%, Known SEV: $ , SEV will be computed: FALSE
+
+
+            *Make all harvest "pretend" harvests
+
+ PRETEND    PRETEND MODE STARTS YEAR/CYCLE:    1, CONTINUING FOR 999 YEARS 
+
+ ANNUCST    ANNUAL COST OF $   3.00 WILL BE APPLIED FOR: Mgmt Cost.
+
+ ANNURVN    ANNUAL REVENUE OF $   1.00 WILL BE APPLIED FOR: .
+
+ HRVVRCST   HARVEST COST: $   9. PER 100 FT3-TREE, FOR TREES >=   0.0 AND < 999.0 INCHES DBH.
+
+ HRVRVN     HARVEST PRICE: $ 100. PER 100 FT3-TREE >=  0.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ END        END ECONOMIC EXTENSION KEYWORDS.
+
+
+            *End ECON Extension keywords
+             
+
+ TREEDATA   DATA SET REFERENCE NUMBER= 15
+
+ PROCESS    PROCESS THE STAND.
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+                                                 OPTIONS SELECTED BY DEFAULT
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ TREEFMT    (I4,T1,I7,F6.0,I1,A3,F4.1,F3.1,2F3.0,F4.1,I1,3(I2,I2),2I1,I2,2I3,2I1,F3.0)      
+                                                                                            
+
+ DESIGN     BASAL AREA FACTOR=   40.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
+            NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
+            PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+
+ STDINFO    FOREST-LOCATION CODE=     118; HABITAT TYPE=530; AGE=    0; ASPECT AZIMUTH IN DEGREES=   0.; SLOPE=   0.%
+            ELEVATION(100'S FEET)= 30.0;  REFERENCE CODE=     
+
+ SPECIES      WP      WL      DF      GF      WH      RC      LP      ES      AF      PP
+ SDI MAX     949.    949.    949.    949.    949.    949.    949.    949.    949.    949.
+
+ SPECIES      MH      WB      LM      LL      PI      RM      PY      AS      CO      MM
+ SDI MAX     949.    949.    949.    949.    949.    949.    949.    949.    949.    949.
+
+ SPECIES      PB      OH      OS
+ SDI MAX     949.    949.    949.
+
+                                   NATIONAL VOLUME ESTIMATOR LIBRARY EQUATION NUMBERS
+ SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT 
+ ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- 
+   WP    I00FW2W119 I00FW2W119   WL    I00FW2W073 I00FW2W073   DF    I00FW2W202 I00FW2W202   GF    I00FW2W017 I00FW2W017
+   WH    I00FW2W260 I00FW2W260   RC    I00FW2W242 I00FW2W242   LP    I00FW2W108 I00FW2W108   ES    I00FW2W093 I00FW2W093
+   AF    I00FW2W019 I00FW2W019   PP    I00FW2W122 I00FW2W122   MH    I00FW2W260 I00FW2W260   WB    I00FW2W119 I00FW2W119
+   LM    I00FW2W073 I00FW2W073   LL    I00FW2W019 I00FW2W019   PI    102DVEW106 102DVEW106   RM    102DVEW106 102DVEW106
+   PY    616BEHW231 616BEHW231   AS    200DVEW746 200DVEW746   CO    101DVEW740 101DVEW740   MM    200DVEW746 200DVEW746
+   PB    101DVEW375 101DVEW375   OH    200DVEW746 200DVEW746   OS    I00FW2W260 I00FW2W260
+
+ SITECODE   SITE INDEX INFORMATION:
+             WP=    0.;  WL=    0.;  DF=    0.;  GF=    0.;  WH=    0.;  RC=    0.;  LP=    0.;  ES=    0.; AF=    0.
+             PP=    0.;  MH=    0.;  WB=    0.;  LM=   41.;  LL=    0.;  PI=   15.;  RM=   12.;  PY=   41.; AS=   58.
+             CO=   93.;  MM=   58.;  PB=   58.;  OH=   93.;  OS=    0.
+            SITE SPECIES=DF CODE=    3
+
+ INVENTORY POINT CROSS REFERENCE (FVS SEQUENTIAL POINT NUMBER = POINT NUMBER AS ENTERED IN THE INPUT DATA):
+   1=       1
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+
+                                                      ACTIVITY SCHEDULE
+
+ STAND ID= TestIRR_Yearly                MGMT ID= NONE                                                                            
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ CYCLE  DATE  EXTENSION  KEYWORD   DATE  PARAMETERS:
+ -----  ----  ---------  --------  ----  ------------------------------------------------------------------------------------------
+
+    1   2004
+                ECON     STRTECON  2004        4.00      0.00      0.00
+                ECON     PRETEND   2004      999.00
+                BASE     THINDBH   2004        0.00    999.00      1.00      0.00      0.00      0.00
+
+    2   2005
+                BASE     THINDBH   2005        0.00    999.00      1.00      0.00      0.00      0.00
+
+    3   2006
+                BASE     THINDBH   2006        0.00    999.00      1.00      0.00      0.00      0.00
+
+    4   2007
+                BASE     THINDBH   2007        0.00    999.00      1.00      0.00      0.00      0.00
+
+    5   2008
+                BASE     THINDBH   2008        0.00    999.00      1.00      0.00      0.00      0.00
+
+    6   2009
+                BASE     THINDBH   2009        0.00    999.00      1.00      0.00      0.00      0.00
+
+    7   2010
+                BASE     THINDBH   2010        0.00    999.00      1.00      0.00      0.00      0.00
+
+    8   2011
+                BASE     THINDBH   2011        0.00    999.00      1.00      0.00      0.00      0.00
+
+    9   2012
+                BASE     THINDBH   2012        0.00    999.00      1.00      0.00      0.00      0.00
+
+   10   2013
+                BASE     THINDBH   2013        0.00    999.00      1.00      0.00      0.00      0.00
+
+   11   2014
+                BASE     THINDBH   2014        0.00    999.00      1.00      0.00      0.00      0.00
+
+   12   2015
+                BASE     THINDBH   2015        0.00    999.00      1.00      0.00      0.00      0.00
+
+   13   2016
+                BASE     THINDBH   2016        0.00    999.00      1.00      0.00      0.00      0.00
+
+   14   2017
+                BASE     THINDBH   2017        0.00    999.00      1.00      0.00      0.00      0.00
+
+   15   2018
+                BASE     THINDBH   2018        0.00    999.00      1.00      0.00      0.00      0.00
+
+   16   2019
+                BASE     THINDBH   2019        0.00    999.00      1.00      0.00      0.00      0.00
+
+   17   2020
+                BASE     THINDBH   2020        0.00    999.00      1.00      0.00      0.00      0.00
+
+   18   2021
+                BASE     THINDBH   2021        0.00    999.00      1.00      0.00      0.00      0.00
+
+   19   2022
+                BASE     THINDBH   2022        0.00    999.00      1.00      0.00      0.00      0.00
+
+   20   2023
+                BASE     THINDBH   2023        0.00    999.00      1.00      0.00      0.00      0.00
+
+   21   2024
+                BASE     THINDBH   2024        0.00    999.00      1.00      0.00      0.00      0.00
+
+   22   2025
+                BASE     THINDBH   2025        0.00    999.00      1.00      0.00      0.00      0.00
+
+   23   2026
+                BASE     THINDBH   2026        0.00    999.00      1.00      0.00      0.00      0.00
+
+   24   2027
+                BASE     THINDBH   2027        0.00    999.00      1.00      0.00      0.00      0.00
+
+   25   2028
+                BASE     THINDBH   2028        0.00    999.00      1.00      0.00      0.00      0.00
+
+   26   2029
+                BASE     THINDBH   2029        0.00    999.00      1.00      0.00      0.00      0.00
+
+   27   2030
+                BASE     THINDBH   2030        0.00    999.00      1.00      0.00      0.00      0.00
+
+   28   2031
+                BASE     THINDBH   2031        0.00    999.00      1.00      0.00      0.00      0.00
+
+   29   2032
+                BASE     THINDBH   2032        0.00    999.00      1.00      0.00      0.00      0.00
+
+   30   2033
+                BASE     THINDBH   2033        0.00    999.00      1.00      0.00      0.00      0.00
+
+   31   2034
+                BASE     THINDBH   2034        0.00    999.00      1.00      0.00      0.00      0.00
+
+   32   2035
+                BASE     THINDBH   2035        0.00    999.00      1.00      0.00      0.00      0.00
+
+   33   2036
+                BASE     THINDBH   2036        0.00    999.00      1.00      0.00      0.00      0.00
+
+   34   2037
+                BASE     THINDBH   2037        0.00    999.00      1.00      0.00      0.00      0.00
+
+   35   2038
+                BASE     THINDBH   2038        0.00    999.00      1.00      0.00      0.00      0.00
+
+   36   2039
+                BASE     THINDBH   2039        0.00    999.00      1.00      0.00      0.00      0.00
+
+   37   2040
+                BASE     THINDBH   2040        0.00    999.00      1.00      0.00      0.00      0.00
+
+   38   2041
+                BASE     THINDBH   2041        0.00    999.00      1.00      0.00      0.00      0.00
+
+   39   2042
+                BASE     THINDBH   2042        0.00    999.00      1.00      0.00      0.00      0.00
+
+   40   2043
+                BASE     THINDBH   2043        0.00    999.00      1.00      0.00      0.00      0.00
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+
+ CALIBRATION STATISTICS:
+
+
+                                                  DF
+                                                 ----
+
+ NUMBER OF RECORDS PER SPECIES                      4
+
+ NUMBER OF RECORDS WITH MISSING HEIGHTS             0
+
+ NUMBER OF RECORDS WITH BROKEN OR DEAD TOPS         0
+
+ NUMBER OF RECORDS WITH MISSING CROWN RATIOS        4
+
+ NUMBER OF RECORDS AVAILABLE FOR SCALING
+ THE DIAMETER INCREMENT MODEL                       0
+
+ RATIO OF STANDARD ERRORS
+ (INPUT DBH GROWTH DATA : MODEL)                 1.00
+
+ WEIGHT GIVEN TO THE INPUT GROWTH DATA WHEN
+ DBH GROWTH MODEL SCALE FACTORS WERE COMPUTED    0.00
+
+ INITIAL SCALE FACTORS FOR THE
+ DBH INCREMENT MODEL                             1.00
+
+ NUMBER OF RECORDS AVAILABLE FOR SCALING
+ THE SMALL TREE HEIGHT INCREMENT MODEL             0
+
+ INITIAL SCALE FACTORS FOR THE SMALL TREE
+ HEIGHT INCREMENT MODEL                          1.00
+
+ NUMBER OF RECORDS WITH MISTLETOE                   0
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-30-2013  20:00:59
+
+ STAND ID: TestIRR_Yearly                MGMT ID: NONE     
+
+
+                                         STAND COMPOSITION (BASED ON STOCKABLE AREA)
+ --------------------------------------------------------------------------------------------------------------------------
+                             PERCENTILE POINTS IN THE
+                      DISTRIBUTION OF STAND ATTRIBUTES BY DBH      TOTAL/ACRE
+         STAND       -----------------------------------------      OF STAND         DISTRIBUTION OF STAND ATTRIBUTES BY
+ YEAR  ATTRIBUTES      10     30     50     70     90    100       ATTRIBUTES       SPECIES AND 3 USER-DEFINED SUBCLASSES
+ ----  -----------   ------ ------ ------ ------ ------ ------   --------------  ------------------------------------------
+                                  (DBH IN INCHES)
+
+
+
+ 2004  TREES           0.1    1.0    1.0    2.0    2.0     3.0     530. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         2.0    2.0    2.0    3.0    3.0     3.0      27. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         3.0    3.0    3.0    3.0    3.0     3.0       0. CUFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+         MERCH         3.0    3.0    3.0    3.0    3.0     3.0       0. BDFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       2.0    3.0    3.0    3.0    3.0     3.0       8. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       2.0    2.0    2.0    2.0    2.0     3.0       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2005  TREES           0.1    1.2    1.2    2.1    2.3     3.7     523. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         2.1    2.2    3.6    3.6    3.7     3.7      35. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         3.7    3.7    3.7    3.7    3.7     3.7       0. CUFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+         MERCH         3.7    3.7    3.7    3.7    3.7     3.7       0. BDFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       1.2    1.2    1.3    2.2    3.6     3.7      43. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       2.1    2.2    2.2    2.2    2.2     3.7       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2006  TREES           0.1    1.3    1.4    2.3    2.5     4.4     517. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         1.4    2.3    2.4    4.2    4.3     4.4      78. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         4.4    4.4    4.4    4.4    4.4     4.4       0. CUFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+         MERCH         4.4    4.4    4.4    4.4    4.4     4.4       0. BDFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       1.3    4.2    4.2    4.3    4.4     4.4      11. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       1.3    1.3    1.4    2.3    2.4     4.4       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2007  TREES           0.1    1.6    1.6    2.5    2.6     5.0     512. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         1.6    2.5    2.6    4.8    4.9     5.0      89. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         5.0    5.0    5.0    5.0    5.0     5.0       0. CUFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+         MERCH         5.0    5.0    5.0    5.0    5.0     5.0       0. BDFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       2.6    2.6    2.8    4.8    5.0     5.0      23. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       1.5    1.6    2.5    2.6    2.6     5.0       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2008  TREES           0.1    1.8    1.8    2.7    2.8     5.6     506. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         1.8    2.8    2.8    5.4    5.6     5.6     113. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         5.6    5.6    5.6    5.6    5.6     5.6       0. CUFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+         MERCH         5.6    5.6    5.6    5.6    5.6     5.6       0. BDFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       1.8    1.8    2.8    3.0    5.5     5.6      45. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       1.7    1.8    2.6    2.8    2.8     5.6       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2009  TREES           0.1    2.0    2.0    2.9    3.1     6.2     501. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         2.0    2.9    3.0    5.8    6.1     6.2     158. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         6.2    6.2    6.2    6.2    6.2     6.2       0. CUFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+         MERCH         6.2    6.2    6.2    6.2    6.2     6.2       0. BDFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       1.9    3.0    3.2    5.8    6.1     6.2      35. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       1.9    2.0    2.0    3.0    3.0     6.2       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2010  TREES           0.2    2.1    2.2    3.1    3.5     6.7     496. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         2.1    3.1    3.5    6.3    6.7     6.7     192. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         6.7    6.7    6.7    6.7    6.7     6.7       0. CUFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+         MERCH         6.7    6.7    6.7    6.7    6.7     6.7       0. BDFT       0.% ---,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       2.3    3.5    3.5    6.3    6.6     6.7      47. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       2.0    2.1    2.1    2.3    3.5     6.7       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2011  TREES           0.3    2.4    2.4    3.5    3.9     7.3     492. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         2.4    3.5    3.9    6.8    7.2     7.3     238. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.1    7.2    7.2    7.2    7.3     7.3      17. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.1    7.2    7.2    7.2    7.3     7.3      86. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       2.4    2.5    3.9    4.5    7.0     7.3      62. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       2.4    2.4    2.5    3.9    6.9     7.3       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2012  TREES           0.5    2.6    2.7    3.9    4.3     7.8     490. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         2.6    3.8    4.2    7.3    7.5     7.8     301. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.2    7.3    7.3    7.7    7.8     7.8      67. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.2    7.3    7.3    7.5    7.8     7.8     300. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       2.6    2.8    4.2    4.3    7.5     7.8      73. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       2.6    2.6    2.7    4.2    7.3     7.8       0. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2013  TREES           0.6    2.9    2.9    4.3    4.6     8.3     488. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         2.9    4.2    4.5    7.6    8.0     8.3     373. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.6    7.8    7.8    7.9    8.2     8.3      84. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.6    7.8    7.8    7.9    8.2     8.3     299. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       2.9    4.3    4.5    5.2    7.9     8.3      64. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       2.8    2.9    3.1    4.5    7.8     8.3       1. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2014  TREES           0.8    3.0    3.2    4.6    5.0     8.7     486. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         3.0    4.4    4.9    8.0    8.5     8.7     437. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.1    8.2    8.2    8.5    8.7     8.7      92. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.0    8.2    8.2    8.7    8.7     8.7     396. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       3.0    3.4    4.8    4.9    8.2     8.7      87. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       2.9    3.0    3.2    4.9    8.2     8.7       1. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2015  TREES           0.9    3.4    3.6    5.0    5.3     9.1     484. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         3.4    4.7    5.2    8.4    8.9     9.1     523. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.5    8.7    8.7    8.9    9.1     9.1     114. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.5    8.7    8.7    8.9    9.1     9.1     598. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       3.4    3.6    5.1    5.2    8.7     9.1      97. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       3.4    4.0    5.2    5.2    8.7     9.1       1. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2016  TREES           1.1    3.7    3.9    5.3    5.6     9.6     482. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         3.7    4.5    5.6    6.2    9.3     9.6     619. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.9    9.1    9.1    9.3    9.5     9.6     131. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.9    9.1    9.1    9.3    9.5     9.6     597. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       3.7    3.9    5.0    5.6    9.1     9.6     103. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       3.7    4.3    5.6    5.6    9.1     9.6       1. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2017  TREES           1.2    4.0    4.3    5.6    5.9    10.0     481. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         4.0    4.6    5.9    6.4    9.7    10.0     720. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.3    9.5    9.5    9.7    9.9    10.0     154. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.3    9.5    9.5    9.8    9.9    10.0     660. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       4.0    4.6    5.7    5.9    9.5    10.0     106. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       4.0    4.6    5.9    5.9    9.5    10.0       2. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2018  TREES           1.5    4.4    4.7    5.9    6.2    10.4     479. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         4.4    5.0    6.2    6.5   10.1    10.4     825. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.7    9.9    9.9   10.1   10.3    10.4     181. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.7    9.9    9.9   10.1   10.3    10.4     893. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       4.4    4.7    6.0    6.2    9.9    10.4     112. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       4.4    4.9    6.0    6.2    9.9    10.4       2. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2019  TREES           1.6    4.7    5.0    6.2    6.5    10.8     477. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         4.7    5.4    6.5    6.8   10.5    10.8     935. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH        10.0   10.3   10.3   10.5   10.7    10.8     198. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH        10.0   10.3   10.3   10.5   10.7    10.8     946. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       4.7    5.0    6.2    6.5   10.3    10.8     118. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       4.7    5.2    6.5    6.5   10.3    10.8       3. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2020  TREES           1.7    5.0    5.3    6.4    6.8    11.2     475. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         5.0    5.7    6.7    7.0   10.8    11.2    1050. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.2   10.4   10.6   10.8   11.1    11.2     239. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.2   10.4   10.6   10.8   11.1    11.2    1067. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       5.0    5.3    6.6    6.8   10.6    11.2     127. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       5.0    5.7    6.7    6.8   10.6    11.2       4. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2021  TREES           1.8    5.2    5.6    6.7    7.1    11.5     473. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         5.2    6.1    7.0    7.3   11.2    11.5    1173. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.1    7.8   11.0   11.2   11.4    11.5     332. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.1    7.8   11.0   11.0   11.4    11.5    1333. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       5.2    5.6    6.4    7.0   11.0    11.5     127. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       5.2    5.6    6.7    7.1   11.0    11.5       5. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2022  TREES           1.9    5.5    5.9    7.0    7.5    11.9     470. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         5.5    6.4    7.2    7.4   11.5    11.9    1295. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.2    7.3   11.1   11.4   11.8    11.9     479. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.2    7.3    8.0   11.4   11.8    11.9    1928. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       5.5    5.9    7.0    7.3   11.4    11.9     125. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       5.5    5.9    7.0    7.3   11.4    11.9       6. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2023  TREES           2.0    5.7    6.2    7.2    7.8    12.2     466. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         5.7    6.6    7.5    7.7   11.9    12.2    1415. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.5    7.6    8.0   11.7   12.1    12.2     586. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.2    7.5    7.7   11.5   12.0    12.2    2413. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       5.7    6.2    6.8    7.5   11.7    12.2     143. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       5.7    6.2    7.2    7.5   11.7    12.2       7. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2024  TREES           2.4    6.0    6.5    7.4    8.0    12.6     463. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         6.0    6.6    7.5    7.9   12.2    12.6    1551. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.4    7.7    8.0   12.0   12.5    12.6     734. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.4    7.7    7.9    8.5   12.2    12.6    3328. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       6.0    6.5    7.4    7.9   12.0    12.6     137. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       6.0    6.5    7.4    7.9   12.0    12.6       8. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2025  TREES           2.6    6.2    6.8    7.7    8.2    12.9     460. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         6.2    6.9    7.7    8.1   12.5    12.9    1680. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.3    8.0    8.1   12.1   12.7    12.9     853. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.3    8.0    8.0    8.5   12.5    12.9    3825. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       6.2    6.8    7.3    8.0   12.4    12.9     151. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       6.2    6.8    7.7    8.1   12.4    12.9       9. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2026  TREES           2.6    6.4    7.0    7.9    8.4    13.2     456. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         6.4    7.1    8.0    8.4   12.8    13.2    1822. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.5    7.9    8.2   12.4   12.8    13.2    1026. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.1    7.5    8.2    8.4   12.8    13.2    5086. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       6.4    7.0    7.5    8.4   12.7    13.2     146. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       6.4    7.0    7.9    8.4   12.7    13.2      11. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2027  TREES           2.8    6.7    7.3    8.1    8.7    13.5     453. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         6.7    7.4    8.2    8.6   13.0    13.5    1957. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.7    8.1    8.5   12.7   13.3    13.5    1106. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.7    7.7    8.5    8.7   13.1    13.5    5294. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       6.7    7.3    8.2    8.6   13.0    13.5     139. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       6.7    7.3    7.8    8.5   13.0    13.5      13. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2028  TREES           2.9    6.9    7.5    8.3    8.9    13.8     449. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         6.9    7.6    8.4    8.8   13.3    13.8    2084. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.5    8.1    8.7    9.5   13.4    13.8    1307. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.5    8.0    8.7    8.9   13.4    13.8    5878. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       6.9    7.5    8.0    8.7   13.3    13.8     153. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       6.8    7.5    8.1    8.7   13.3    13.8      14. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2029  TREES           3.0    7.1    7.7    8.5    9.1    14.1     445. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         7.1    7.7    8.6    9.0   13.6    14.1    2222. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.1    8.1    8.9    9.1   13.7    14.1    1585. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.1    7.8    8.6    9.0   13.6    14.1    7375. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       7.1    7.7    8.3    9.0   13.6    14.1     158. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       7.1    7.7    8.3    8.9   13.6    14.1      16. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2030  TREES           3.1    7.3    8.0    8.7    9.3    14.4     441. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         7.3    8.0    8.9    9.2   13.9    14.4    2364. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.3    8.2    9.1    9.3   14.0    14.4    1688. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.3    8.0    8.9    9.2   13.9    14.4    7847. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       7.3    8.0    8.7    9.2   13.9    14.4     146. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       7.3    8.0    8.6    9.1   13.9    14.4      18. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2031  TREES           3.3    7.5    8.2    8.9    9.6    14.7     437. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         7.5    8.2    9.0    9.4   14.2    14.7    2492. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.5    8.4    9.3    9.6   14.3    14.7    1846. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.5    8.2    8.9    9.4   14.2    14.7    9139. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       7.5    8.2    8.9    9.3   14.2    14.7     160. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       7.5    8.2    8.7    9.3   14.2    14.7      20. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2032  TREES           3.8    7.7    8.4    9.2    9.8    15.0     432. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         7.7    8.4    9.2    9.6   14.4    15.0    2632. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.7    8.5    9.6    9.8   14.6    15.0    1977. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.7    8.4    9.1    9.6   14.6    15.0    9132. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       7.7    8.4    9.1    9.6   14.4    15.0     160. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       7.7    8.4    8.9    9.6   14.4    15.0      21. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2033  TREES           3.9    7.9    8.6    9.4   10.0    15.3     428. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         7.9    8.6    9.4    9.8   14.7    15.3    2771. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.9    8.7    9.8    9.8   14.8    15.3    2148. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         7.9    8.6    9.4    9.8   14.7    15.3    9957. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       7.9    8.1    9.1    9.8   14.7    15.3     161. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       7.9    8.6    9.3    9.8   14.7    15.3      24. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2034  TREES           4.0    8.1    8.8    9.6   10.2    15.6     423. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         8.1    8.8    9.6   10.0   15.0    15.6    2908. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.1    8.9   10.0   10.0   15.0    15.6    2265. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.1    8.8    9.6   10.0   15.0    15.6   10592. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       8.1    8.8    9.5   10.0   15.0    15.6     163. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       7.9    8.8    9.3   10.0   15.0    15.6      26. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2035  TREES           4.2    8.3    9.0    9.8   10.4    15.9     419. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         8.3    9.0    9.8   10.2   15.2    15.9    3046. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.3    9.0    9.8   10.2   15.2    15.9    2439. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.3    9.0    9.8   10.2   15.4    15.9   11237. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       8.3    9.0    9.7   10.1   15.2    15.9     165. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       8.3    9.0    9.7   10.1   15.2    15.9      28. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2036  TREES           4.3    8.4    9.2   10.0   10.6    16.1     414. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         8.4    9.2   10.0   10.4   15.5    16.1    3183. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.4    9.2   10.0   10.4   15.6    16.1    2516. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.4    9.2   10.0   10.4   15.6    16.1   11536. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       8.4    9.2    9.8   10.4   15.5    16.1     164. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       8.4    9.1    9.8   10.3   15.5    16.1      29. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2037  TREES           4.4    8.6    9.4   10.1   10.7    16.4     409. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         8.6    9.4   10.1   10.6   15.8    16.4    3317. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.6    9.5   10.2   10.6   15.8    16.4    2636. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.6    9.5   10.5   10.6   15.8    16.4   11991. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       8.6    9.5   10.0   10.6   15.8    16.4     165. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       8.6    9.3   10.0   10.5   15.8    16.4      32. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2038  TREES           4.5    8.8    9.7   10.3   11.0    16.7     405. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         8.8    9.6   10.3   10.8   16.0    16.7    3451. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.8    9.7   10.3   10.8   16.0    16.7    2776. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.8    9.7   10.4   10.8   16.0    16.7   12243. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       8.8    9.7   10.3   10.8   16.0    16.7     175. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       8.8    9.4   10.2   10.7   16.0    16.7      35. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2039  TREES           4.6    8.9    9.9   10.5   11.2    16.9     400. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         8.9    9.7   10.5   11.0   16.3    16.9    3591. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.9    9.9   10.5   11.0   16.3    16.9    2868. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         8.9    9.9   10.5   11.0   16.3    16.9   12503. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       8.9    9.7   10.5   11.0   16.3    16.9     179. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       8.9    9.5   10.5   10.9   16.3    16.9      36. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2040  TREES           4.8    9.1   10.1   10.7   11.4    17.2     395. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         9.1    9.9   10.7   11.2   16.5    17.2    3734. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.1   10.1   10.7   11.2   16.5    17.2    3051. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.1    9.9   10.7   11.2   16.5    17.2   13506. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       9.1    9.9   10.7   11.2   16.5    17.2     175. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       9.1    9.7   10.7   11.1   16.5    17.2      37. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2041  TREES           4.9    9.2   10.3   10.9   11.6    17.4     390. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         9.2   10.1   10.9   11.3   16.8    17.4    3872. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.2   10.3   11.3   11.3   16.8    17.4    3159. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.2   10.3   11.0   11.3   16.8    17.4   13080. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       9.2   10.1   10.9   11.3   16.8    17.4     179. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       9.2    9.8   10.9   11.3   16.8    17.4      40. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2042  TREES           5.0    9.4   10.5   11.1   11.8    17.7     386. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         9.4   10.2   11.1   11.5   17.0    17.7    4011. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.4   10.5   11.1   11.5   17.0    17.7    3362. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.4   10.2   11.1   11.5   17.0    17.7   14221. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       9.4   10.5   11.1   11.5   17.0    17.7     172. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       9.4    9.9   11.1   11.5   17.0    17.7      42. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2043  TREES           5.1    9.5   10.7   11.3   11.9    17.9     381. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         9.5   10.4   11.3   11.7   17.3    17.9    4141. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.5   10.7   11.3   11.7   17.3    17.9    3382. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.5   10.4   11.3   11.7   17.3    17.9   14957. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+       ACCRETION       9.5   10.1   11.3   11.6   17.3    17.9     179. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       MORTALITY       9.5   10.1   11.3   11.6   17.3    17.9      44. CUFT/YR  100.% DF1,   0.% ---,   0.% ---,   0.% ---
+
+
+
+ 2044  TREES           5.2    9.7   10.9   11.5   12.1    18.2     376. TREES    100.% DF1,   0.% ---,   0.% ---,   0.% ---
+       VOLUME:  
+         TOTAL         9.7   10.6   11.5   11.8   17.5    18.2    4277. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.7   10.9   11.5   11.8   17.5    18.2    3500. CUFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+         MERCH         9.7   10.6   11.5   11.8   17.5    18.2   15215. BDFT     100.% DF1,   0.% ---,   0.% ---,   0.% ---
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-30-2013  20:01:02
+
+ STAND ID: TestIRR_Yearly                MGMT ID: NONE    
+
+
+ ------------------------------------------------------------------------------------------------------------------------------
+                      ATTRIBUTES OF SELECTED SAMPLE TREES                 ADDITIONAL STAND ATTRIBUTES (BASED ON STOCKABLE AREA)
+       -----------------------------------------------------------------  -----------------------------------------------------
+       INITIAL                           LIVE   PAST DBH  BASAL   TREES          QUADRATIC   TREES    BASAL  TOP HEIGHT  CROWN
+       TREES/A            DBH    HEIGHT  CROWN   GROWTH   AREA     PER    STAND   MEAN DBH    PER     AREA     LARGEST   COMP
+ YEAR   %TILE  SPECIES (INCHES)  (FEET)  RATIO  (INCHES)  %TILE    ACRE   AGE     (INCHES)    ACRE   (SQFT/A) 40/A (FT)  FACTOR
+ ----  ------- ------- -------- -------- ------ --------- ------- ------  -----  ---------   ------ --------- --------- -------
+
+ 2004                                          ( 10 YRS)
+
+         10     DF1       0.10     1.00    84     0.00      0.1  100.00
+         30     DF1       1.00     5.00    69     0.87     22.4  250.00
+         50     DF1       1.00     5.00    69     0.87     22.4  250.00
+         70     DF1       2.00     7.00    57     1.73     75.9  150.00
+         90     DF1       2.00     7.00    57     1.73     75.9  150.00
+        100     DF1       3.00    15.00    95     2.52    100.0   30.00
+                                                                            0       1.5      530.       6.       13.0     14.9
+
+ 2005                                          (  1 YRS)
+
+         10     DF1       0.10     1.64    84     0.00      0.1   95.97
+         30     DF1       1.21     6.96    69     0.18     18.5  248.04
+         50     DF1       1.21     6.96    69     0.18     18.5  248.04
+         70     DF1       2.15     8.21    57     0.13     65.1  148.84
+         90     DF1       2.15     8.21    57     0.13     65.1  148.84
+        100     DF1       3.59    17.00    94     0.52     92.8   29.99
+                                                                            1       1.7      523.       8.       15.2     18.3
+
+ 2006                                          (  1 YRS)
+
+         10     DF1       0.11     2.28    84     0.00      0.0   92.04
+         30     DF1       1.44     8.80    69     0.20     21.6  247.31
+         50     DF1       1.44     8.80    69     0.20     21.6  247.31
+         70     DF1       2.47    10.65    57     0.28     68.3  148.01
+         90     DF1       2.47    10.65    57     0.28     68.3  148.01
+        100     DF1       4.20    18.71    93     0.52     86.9   29.99
+                                                                            2       1.9      517.      10.       17.0     22.3
+
+ 2007                                          (  1 YRS)
+
+         10     DF1       0.11     3.05    84     0.00      0.0   88.19
+         30     DF1       1.64    10.30    69     0.17     22.7  246.73
+         50     DF1       1.64    10.30    69     0.17     22.7  246.73
+         70     DF1       2.63    11.77    57     0.14     65.1  147.90
+         90     DF1       2.63    11.77    57     0.14     65.1  147.90
+        100     DF1       4.79    20.35    92     0.52     86.0   29.99
+                                                                            3       2.1      512.      13.       19.0     26.2
+
+ 2008                                          (  1 YRS)
+
+         10     DF1       0.11     3.61    84     0.00      0.0   84.44
+         30     DF1       1.82    11.58    69     0.16     27.8  245.86
+         50     DF1       1.82    11.58    69     0.16     27.8  245.86
+         70     DF1       2.80    12.90    57     0.15     58.8  147.15
+         90     DF1       2.80    12.90    57     0.15     58.8  147.15
+        100     DF1       5.35    22.77    91     0.49     85.5   29.99
+                                                                            4       2.4      506.      15.       21.2     30.3
+
+ 2009                                          (  1 YRS)
+
+         10     DF1       0.15     4.60    84     0.03      0.0   80.79
+         30     DF1       2.02    12.92    69     0.17     23.5  244.74
+         50     DF1       2.02    12.92    69     0.17     23.5  244.74
+         70     DF1       3.02    14.34    57     0.19     54.6  146.45
+         90     DF1       3.02    14.34    57     0.19     54.6  146.45
+        100     DF1       5.82    24.01    91     0.40     84.8   29.98
+                                                                            5       2.6      501.      18.       22.7     34.9
+
+ 2010                                          (  1 YRS)
+
+         10     DF1       0.24     5.65    84     0.08      0.1   77.25
+         30     DF1       2.15    13.74    69     0.11     16.4  243.78
+         50     DF1       2.15    13.74    69     0.11     16.4  243.78
+         70     DF1       3.50    15.45    58     0.41     63.0  146.04
+         90     DF1       3.50    15.45    58     0.41     63.0  146.04
+        100     DF1       6.34    25.69    90     0.45     85.9   29.97
+                                                                            6       2.9      496.      22.       24.5     40.7
+
+ 2011                                          (  1 YRS)
+
+         10     DF1       0.31     6.24    84     0.06      0.1   75.67
+         30     DF1       2.37    15.19    69     0.19     12.3  241.56
+         50     DF1       2.37    15.19    69     0.19     12.3  241.56
+         70     DF1       3.87    17.96    57     0.32     57.7  145.99
+         90     DF1       3.87    17.96    57     0.32     57.7  145.99
+        100     DF1       6.85    27.01    90     0.44     86.6   29.96
+                                                                            7       3.2      492.      27.       26.0     47.7
+
+ 2012                                          (  1 YRS)
+
+         10     DF1       0.41     7.11    84     0.09      0.1   72.83
+         30     DF1       2.58    16.49    69     0.18     14.9  240.80
+         50     DF1       2.58    16.49    69     0.18     14.9  240.80
+         70     DF1       4.21    19.65    56     0.29     56.9  145.88
+         90     DF1       4.21    19.65    56     0.29     56.9  145.88
+        100     DF1       7.28    28.88    89     0.37     87.0   29.95
+                                                                            8       3.5      490.      32.       27.8     54.4
+
+ 2013                                          (  1 YRS)
+
+         10     DF1       0.63     8.81    84     0.18      0.2   71.47
+         30     DF1       2.88    18.40    69     0.26     20.0  239.88
+         50     DF1       2.88    18.40    69     0.26     20.0  239.88
+         70     DF1       4.53    22.05    55     0.28     58.0  145.72
+         90     DF1       4.53    22.05    55     0.28     58.0  145.72
+        100     DF1       7.77    30.30    89     0.42     87.5   29.94
+                                                                            9       3.8      488.      38.       29.2     61.9
+
+ 2014                                          (  1 YRS)
+
+         10     DF1       0.80    10.09    84     0.15      0.3   71.26
+         30     DF1       3.05    19.36    69     0.14     13.1  239.49
+         50     DF1       3.05    19.36    69     0.14     13.1  239.49
+         70     DF1       4.90    23.24    55     0.32     58.9  145.53
+         90     DF1       4.90    23.24    55     0.32     58.9  145.53
+        100     DF1       8.22    31.44    89     0.40     87.9   29.92
+                                                                           10       4.0      486.      43.       30.5     69.3
+
+ 2015                                          (  1 YRS)
+
+         10     DF1       0.92    10.91    84     0.10      0.4   70.84
+         30     DF1       3.40    20.34    70     0.31     13.8  237.96
+         50     DF1       3.40    20.34    70     0.31     13.8  237.96
+         70     DF1       5.24    24.66    54     0.29     60.6  145.36
+         90     DF1       5.24    24.66    54     0.29     60.6  145.36
+        100     DF1       8.65    32.71    89     0.37     88.5   29.89
+                                                                           11       4.4      484.      50.       31.6     78.2
+
+ 2016                                          (  1 YRS)
+
+         10     DF1       1.03    11.66    84     0.10      0.4   69.82
+         30     DF1       3.72    21.69    70     0.28     14.6  237.60
+         50     DF1       3.72    21.69    70     0.28     14.6  237.60
+         70     DF1       5.55    25.72    54     0.28     62.0  145.11
+         90     DF1       5.55    25.72    54     0.28     62.0  145.11
+        100     DF1       9.07    33.80    89     0.36     89.0   29.86
+                                                                           12       4.7      482.      58.       32.7     87.3
+
+ 2017                                          (  1 YRS)
+
+         10     DF1       1.15    12.47    84     0.11      0.5   68.69
+         30     DF1       4.03    22.82    70     0.27     15.2  237.11
+         50     DF1       4.03    22.82    70     0.27     15.2  237.11
+         70     DF1       5.88    26.57    54     0.28     64.7  144.81
+         90     DF1       5.88    26.57    54     0.28     64.7  144.81
+        100     DF1       9.48    34.85    89     0.35     89.5   29.82
+                                                                           13       5.0      481.      65.       33.9     96.4
+
+ 2018                                          (  1 YRS)
+
+         10     DF1       1.30    13.41    84     0.13      0.5   67.73
+         30     DF1       4.36    23.58    71     0.28     15.8  236.53
+         50     DF1       4.36    23.58    71     0.28     15.8  236.53
+         70     DF1       6.20    27.48    54     0.28     65.7  144.48
+         90     DF1       6.20    27.48    54     0.28     65.7  144.48
+        100     DF1       9.88    35.89    89     0.35     89.8   29.77
+                                                                           14       5.3      479.      73.       34.9    106.7
+
+ 2019                                          (  1 YRS)
+
+         10     DF1       1.37    13.84    84     0.07      0.3   67.00
+         30     DF1       4.68    24.56    71     0.28     16.4  235.95
+         50     DF1       4.68    24.56    71     0.28     16.4  235.95
+         70     DF1       6.46    28.95    53     0.23     65.0  144.11
+         90     DF1       6.46    28.95    53     0.23     65.0  144.11
+        100     DF1      10.26    36.87    88     0.33     90.1   29.72
+                                                                           15       5.6      477.      81.       35.9    116.7
+
+ 2020                                          (  1 YRS)
+
+         10     DF1       1.55    14.94    84     0.15      0.4   65.20
+         30     DF1       4.98    25.81    70     0.26     17.0  235.31
+         50     DF1       4.98    25.81    70     0.26     17.0  235.31
+         70     DF1       6.70    30.32    52     0.20     65.6  143.58
+         90     DF1       6.70    30.32    52     0.20     65.6  143.58
+        100     DF1      10.64    37.83    87     0.32     90.4   29.65
+                                                                           16       5.9      475.      89.       36.9    125.3
+
+ 2021                                          (  1 YRS)
+
+         10     DF1       1.61    15.29    84     0.06      0.3   64.66
+         30     DF1       5.25    26.57    70     0.23     17.3  234.53
+         50     DF1       5.25    26.57    70     0.23     17.3  234.53
+         70     DF1       6.97    31.63    51     0.23     66.1  142.92
+         90     DF1       6.97    31.63    51     0.23     66.1  142.92
+        100     DF1      11.00    38.77    86     0.32     90.6   29.58
+                                                                           17       6.1      473.      96.       37.8    133.5
+
+ 2022                                          (  1 YRS)
+
+         10     DF1       1.68    15.61    84     0.05      0.3   62.71
+         30     DF1       5.48    27.79    69     0.21     17.5  233.50
+         50     DF1       5.48    27.79    69     0.21     17.5  233.50
+         70     DF1       7.24    32.54    50     0.23     66.6  142.34
+         90     DF1       7.24    32.54    50     0.23     66.6  142.34
+        100     DF1      11.36    39.69    85     0.31     90.7   29.50
+                                                                           18       6.4      470.     104.       38.7    141.4
+
+ 2023                                          (  1 YRS)
+
+         10     DF1       1.75    16.02    84     0.07      0.3   60.71
+         30     DF1       5.72    28.61    69     0.21     17.7  232.26
+         50     DF1       5.72    28.61    69     0.21     17.7  232.26
+         70     DF1       7.47    33.36    50     0.20     66.9  141.72
+         90     DF1       7.47    33.36    50     0.20     66.9  141.72
+        100     DF1      11.70    40.59    84     0.30     90.9   29.40
+                                                                           19       6.6      466.     112.       39.6    149.0
+
+ 2024                                          (  1 YRS)
+
+         10     DF1       1.90    16.89    84     0.13      0.4   59.05
+         30     DF1       5.96    29.76    68     0.21     17.9  230.98
+         50     DF1       5.96    29.76    68     0.21     17.9  230.98
+         70     DF1       7.71    34.17    50     0.21     67.3  140.96
+         90     DF1       7.71    34.17    50     0.21     67.3  140.96
+        100     DF1      12.03    41.47    83     0.29     91.0   29.30
+                                                                           20       6.9      463.     119.       40.5    156.7
+
+ 2025                                          (  1 YRS)
+
+         10     DF1       1.98    17.29    84     0.07      0.4   58.36
+         30     DF1       6.21    30.40    68     0.21     18.1  229.62
+         50     DF1       6.21    30.40    68     0.21     18.1  229.62
+         70     DF1       7.98    34.99    50     0.23     67.7  140.17
+         90     DF1       7.98    34.99    50     0.23     67.7  140.17
+        100     DF1      12.36    42.33    82     0.28     91.1   29.19
+                                                                           21       7.1      460.     127.       41.1    164.4
+
+ 2026                                          (  1 YRS)
+
+         10     DF1       2.11    18.06    84     0.12      0.4   56.82
+         30     DF1       6.45    31.45    67     0.21     18.3  228.23
+         50     DF1       6.45    31.45    67     0.21     18.3  228.23
+         70     DF1       8.25    36.11    50     0.24     68.0  139.43
+         90     DF1       8.25    36.11    50     0.24     68.0  139.43
+        100     DF1      12.68    43.18    81     0.27     91.3   29.06
+                                                                           22       7.4      456.     135.       41.9    171.8
+
+ 2027                                          (  1 YRS)
+
+         10     DF1       2.21    18.61    84     0.09      0.4   56.04
+         30     DF1       6.67    32.18    68     0.20     21.9  226.81
+         50     DF1       6.67    32.18    68     0.20     21.9  226.81
+         70     DF1       8.49    36.94    50     0.21     68.3  138.69
+         90     DF1       8.49    36.94    50     0.21     68.3  138.69
+        100     DF1      12.98    44.02    80     0.27     91.4   28.93
+                                                                           23       7.6      453.     142.       42.7    178.6
+
+ 2028                                          (  1 YRS)
+
+         10     DF1       2.27    18.88    84     0.05      0.4   54.93
+         30     DF1       6.90    32.86    68     0.19     22.0  225.26
+         50     DF1       6.90    32.86    68     0.19     22.0  225.26
+         70     DF1       8.71    37.76    50     0.19     68.5  137.83
+         90     DF1       8.71    37.76    50     0.19     68.5  137.83
+        100     DF1      13.28    44.84    80     0.26     91.4   28.79
+                                                                           24       7.8      449.     149.       43.5    185.1
+
+ 2029                                          (  1 YRS)
+
+         10     DF1       2.36    19.34    84     0.08      0.4   53.12
+         30     DF1       7.10    33.71    68     0.18     22.1  223.64
+         50     DF1       7.10    33.71    68     0.18     22.1  223.64
+         70     DF1       8.92    38.51    50     0.18     68.7  136.88
+         90     DF1       8.92    38.51    50     0.18     68.7  136.88
+        100     DF1      13.58    45.64    80     0.25     91.5   28.64
+                                                                           25       8.0      445.     156.       44.3    191.4
+
+ 2030                                          (  1 YRS)
+
+         10     DF1       2.46    19.85    84     0.09      0.4   51.87
+         30     DF1       7.33    34.48    68     0.19     22.3  221.86
+         50     DF1       7.33    34.48    68     0.19     22.3  221.86
+         70     DF1       9.12    39.31    50     0.18     68.8  135.84
+         90     DF1       9.12    39.31    50     0.18     68.8  135.84
+        100     DF1      13.87    46.44    80     0.25     91.6   28.49
+                                                                           26       8.2      441.     163.       45.0    197.6
+
+ 2031                                          (  1 YRS)
+
+         10     DF1       2.52    20.08    84     0.05      0.4   50.77
+         30     DF1       7.53    35.14    68     0.18     22.4  220.18
+         50     DF1       7.53    35.14    68     0.18     22.4  220.18
+         70     DF1       9.35    40.11    50     0.19     69.0  134.77
+         90     DF1       9.35    40.11    50     0.19     69.0  134.77
+        100     DF1      14.15    47.23    80     0.25     91.6   28.32
+                                                                           27       8.4      437.     169.       45.7    203.8
+
+ 2032                                          (  1 YRS)
+
+         10     DF1       2.61    20.55    84     0.08      0.4   48.99
+         30     DF1       7.72    35.76    68     0.16     22.5  218.33
+         50     DF1       7.72    35.76    68     0.16     22.5  218.33
+         70     DF1       9.58    40.98    50     0.20     69.1  133.76
+         90     DF1       9.58    40.98    50     0.20     69.1  133.76
+        100     DF1      14.43    48.01    80     0.25     91.7   28.15
+                                                                           28       8.6      432.     176.       46.5    209.8
+
+ 2033                                          (  1 YRS)
+
+         10     DF1       2.68    20.85    84     0.06      0.4   47.88
+         30     DF1       7.91    36.48    68     0.16     22.6  216.34
+         50     DF1       7.91    36.48    68     0.16     22.6  216.34
+         70     DF1       9.77    41.74    50     0.16     69.2  132.78
+         90     DF1       9.77    41.74    50     0.16     69.2  132.78
+        100     DF1      14.71    48.78    80     0.24     91.7   27.97
+                                                                           29       8.8      428.     182.       47.2    216.1
+
+ 2034                                          (  1 YRS)
+
+         10     DF1       2.73    21.08    84     0.05      0.4   46.40
+         30     DF1       8.09    37.29    68     0.16     22.6  214.34
+         50     DF1       8.09    37.29    68     0.16     22.6  214.34
+         70     DF1       9.96    42.49    50     0.17     69.3  131.58
+         90     DF1       9.96    42.49    50     0.17     69.3  131.58
+        100     DF1      14.98    49.54    80     0.24     91.7   27.79
+                                                                           30       9.0      423.     188.       47.8    222.6
+
+ 2035                                          (  1 YRS)
+
+         10     DF1       2.79    21.29    84     0.05      0.4   44.81
+         30     DF1       8.28    37.94    68     0.16     22.7  212.29
+         50     DF1       8.28    37.94    68     0.16     22.7  212.29
+         70     DF1      10.15    43.23    50     0.16     69.4  130.43
+         90     DF1      10.15    43.23    50     0.16     69.4  130.43
+        100     DF1      15.25    50.29    80     0.23     91.8   27.61
+                                                                           31       9.2      419.     194.       48.5    231.0
+
+ 2036                                          (  1 YRS)
+
+         10     DF1       2.87    21.64    84     0.07      0.3   43.21
+         30     DF1       8.45    38.61    68     0.15     22.7  210.23
+         50     DF1       8.45    38.61    68     0.15     22.7  210.23
+         70     DF1      10.35    43.98    50     0.17     69.5  129.23
+         90     DF1      10.35    43.98    50     0.17     69.5  129.23
+        100     DF1      15.51    51.03    80     0.23     91.8   27.41
+                                                                           32       9.4      414.     200.       49.2    235.5
+
+ 2037                                          (  1 YRS)
+
+         10     DF1       2.97    22.14    84     0.09      0.4   41.99
+         30     DF1       8.61    39.26    68     0.14     22.7  208.06
+         50     DF1       8.61    39.26    68     0.14     22.7  208.06
+         70     DF1      10.53    44.71    50     0.16     69.5  128.07
+         90     DF1      10.53    44.71    50     0.16     69.5  128.07
+        100     DF1      15.77    51.76    80     0.22     91.8   27.21
+                                                                           33       9.6      409.     206.       49.9    240.9
+
+ 2038                                          (  1 YRS)
+
+         10     DF1       3.03    22.40    84     0.05      0.4   41.09
+         30     DF1       8.75    39.89    68     0.13     22.6  205.80
+         50     DF1       8.75    39.89    68     0.13     22.6  205.80
+         70     DF1      10.70    45.40    50     0.14     69.5  126.87
+         90     DF1      10.70    45.40    50     0.14     69.5  126.87
+        100     DF1      16.03    52.49    80     0.22     91.8   27.01
+                                                                           34       9.8      405.     211.       50.6    248.1
+
+ 2039                                          (  1 YRS)
+
+         10     DF1       3.11    22.78    84     0.07      0.3   39.75
+         30     DF1       8.91    40.60    68     0.14     22.6  203.33
+         50     DF1       8.91    40.60    68     0.14     22.6  203.33
+         70     DF1      10.90    46.15    50     0.17     69.6  125.55
+         90     DF1      10.90    46.15    50     0.17     69.6  125.55
+        100     DF1      16.28    53.20    80     0.22     91.8   26.80
+                                                                           35      10.0      400.     217.       51.3    251.9
+
+ 2040                                          (  1 YRS)
+
+         10     DF1       3.18    23.13    84     0.06      0.3   38.64
+         30     DF1       9.08    41.30    68     0.15     22.6  201.05
+         50     DF1       9.08    41.30    68     0.15     22.6  201.05
+         70     DF1      11.09    46.86    50     0.16     69.6  124.35
+         90     DF1      11.09    46.86    50     0.16     69.6  124.35
+        100     DF1      16.53    53.92    80     0.22     91.9   26.59
+                                                                           36      10.2      395.     223.       51.9    258.0
+
+ 2041                                          (  1 YRS)
+
+         10     DF1       3.25    23.40    84     0.06      0.3   37.49
+         30     DF1       9.24    41.96    68     0.14     22.6  198.85
+         50     DF1       9.24    41.96    68     0.14     22.6  198.85
+         70     DF1      11.26    47.57    50     0.15     69.6  123.12
+         90     DF1      11.26    47.57    50     0.15     69.6  123.12
+        100     DF1      16.78    54.62    80     0.21     91.9   26.37
+                                                                           37      10.3      390.     228.       52.6    261.9
+
+ 2042                                          (  1 YRS)
+
+         10     DF1       3.31    23.80    84     0.05      0.3   36.38
+         30     DF1       9.41    42.64    68     0.14     22.6  196.58
+         50     DF1       9.41    42.64    68     0.14     22.6  196.58
+         70     DF1      11.45    48.28    50     0.16     69.7  121.85
+         90     DF1      11.45    48.28    50     0.16     69.7  121.85
+        100     DF1      17.02    55.31    80     0.21     91.9   26.15
+                                                                           38      10.5      386.     233.       53.3    265.1
+
+ 2043                                          (  1 YRS)
+
+         10     DF1       3.38    23.99    84     0.06      0.3   35.14
+         30     DF1       9.55    43.28    68     0.12     22.5  194.38
+         50     DF1       9.55    43.28    68     0.12     22.5  194.38
+         70     DF1      11.64    49.00    50     0.17     69.7  120.63
+         90     DF1      11.64    49.00    50     0.17     69.7  120.63
+        100     DF1      17.26    56.00    80     0.21     91.9   25.93
+                                                                           39      10.7      381.     238.       53.9    269.3
+
+ 2044                                          (  1 YRS)
+
+         10     DF1       3.44    24.23    84     0.06      0.3   33.99
+         30     DF1       9.68    43.93    68     0.12     22.4  192.00
+         50     DF1       9.68    43.93    68     0.12     22.4  192.00
+         70     DF1      11.84    49.73    50     0.17     69.7  119.43
+         90     DF1      11.84    49.73    50     0.17     69.7  119.43
+        100     DF1      17.50    56.69    80     0.21     91.9   25.71
+                                                                           40      10.9      376.     242.       54.6    272.0
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-30-2013  20:01:02
+
+ STAND ID: TestIRR_Yearly                MGMT ID: NONE    
+
+
+
+                                 SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL STAND AREA)
+ --------------------------------------------------------------------------------------------------------------------------------------
+                START OF SIMULATION PERIOD                     REMOVALS             AFTER TREATMENT    GROWTH THIS PERIOD
+          --------------------------------------------- ----------------------- ---------------------  ------------------   MAI  ------
+          NO OF              TOP      TOTAL MERCH MERCH NO OF TOTAL MERCH MERCH              TOP  RES  PERIOD ACCRE MORT   MERCH FOR SS
+ YEAR AGE TREES  BA  SDI CCF HT  QMD  CU FT CU FT BD FT TREES CU FT CU FT BD FT  BA  SDI CCF HT   QMD  YEARS   PER  YEAR   CU FT TYP ZT
+ ---- --- ----- --- ---- --- --- ---- ----- ----- ----- ----- ----- ----- ----- --- ---- --- --- ----  ------ ---- -----   ----- ------
+ 2004   0   530   6   24  15  13  1.5    27     0     0     0     0     0     0   6   24  15  13  1.5       1    8     0     0.0 201 34
+ 2005   1   523   8   30  18  15  1.7    35     0     0     0     0     0     0   8   30  18  15  1.7       1   43     0     0.0 201 34
+ 2006   2   517  10   36  22  17  1.9    78     0     0     0     0     0     0  10   36  22  17  1.9       1   11     0     0.0 201 34
+ 2007   3   512  13   43  26  19  2.1    89     0     0     0     0     0     0  13   43  26  19  2.1       1   23     0     0.0 201 34
+ 2008   4   506  15   50  30  21  2.4   113     0     0     0     0     0     0  15   50  30  21  2.4       1   45     0     0.0 201 34
+ 2009   5   501  18   57  35  23  2.6   158     0     0     0     0     0     0  18   57  35  23  2.6       1   35     0     0.0 201 34
+ 2010   6   496  22   67  41  25  2.9   192     0     0     0     0     0     0  22   67  41  25  2.9       1   47     0     0.0 201 34
+ 2011   7   492  27   79  48  26  3.2   238    17    86     0     0     0     0  27   79  48  26  3.2       1   62     0     0.0 201 34
+ 2012   8   490  32   90  54  28  3.5   301    67   300     0     0     0     0  32   90  54  28  3.5       1   73     0     0.0 201 34
+ 2013   9   488  38  102  62  29  3.8   373    84   299     0     0     0     0  38  102  62  29  3.8       1   64     1     0.0 201 34
+ 2014  10   486  43  114  69  30  4.0   437    92   396     0     0     0     0  43  114  69  30  4.0       1   87     1     0.0 201 34
+ 2015  11   484  50  128  78  32  4.4   523   114   598     0     0     0     0  50  128  78  32  4.4       1   97     1     0.0 201 33
+ 2016  12   482  58  143  87  33  4.7   619   131   597     0     0     0     0  58  143  87  33  4.7       1  103     1     0.0 201 24
+ 2017  13   481  65  158  96  34  5.0   720   154   660     0     0     0     0  65  158  96  34  5.0       1  106     2     0.0 201 23
+ 2018  14   479  73  173 107  35  5.3   825   181   893     0     0     0     0  73  173 107  35  5.3       1  112     2     0.0 201 23
+ 2019  15   477  81  187 117  36  5.6   935   198   946     0     0     0     0  81  187 117  36  5.6       1  118     3     0.0 201 23
+ 2020  16   475  89  201 125  37  5.9  1050   239  1067     0     0     0     0  89  201 125  37  5.9       1  127     4     0.0 201 23
+ 2021  17   473  96  215 133  38  6.1  1173   332  1333     0     0     0     0  96  215 133  38  6.1       1  127     5     0.0 201 23
+ 2022  18   470 104  228 141  39  6.4  1295   479  1928     0     0     0     0 104  228 141  39  6.4       1  125     6     0.0 201 23
+ 2023  19   466 112  241 149  40  6.6  1415   586  2413     0     0     0     0 112  241 149  40  6.6       1  143     7     0.0 201 22
+ 2024  20   463 119  253 157  40  6.9  1551   734  3328     0     0     0     0 119  253 157  40  6.9       1  137     8     0.0 201 22
+ 2025  21   460 127  266 164  41  7.1  1680   853  3825     0     0     0     0 127  266 164  41  7.1       1  151     9     0.0 201 22
+ 2026  22   456 135  279 172  42  7.4  1822  1026  5086     0     0     0     0 135  279 172  42  7.4       1  146    11     0.0 201 22
+ 2027  23   453 142  290 179  43  7.6  1957  1106  5294     0     0     0     0 142  290 179  43  7.6       1  139    13     0.0 201 22
+ 2028  24   449 149  301 185  44  7.8  2084  1307  5878     0     0     0     0 149  301 185  44  7.8       1  153    14     0.0 201 22
+ 2029  25   445 156  312 191  44  8.0  2222  1585  7375     0     0     0     0 156  312 191  44  8.0       1  158    16     0.0 201 22
+ 2030  26   441 163  322 198  45  8.2  2364  1688  7847     0     0     0     0 163  322 198  45  8.2       1  146    18     0.0 201 22
+ 2031  27   437 169  332 204  46  8.4  2492  1846  9139     0     0     0     0 169  332 204  46  8.4       1  160    20     0.0 201 22
+ 2032  28   432 176  342 210  46  8.6  2632  1977  9132     0     0     0     0 176  342 210  46  8.6       1  160    21     0.0 201 22
+ 2033  29   428 182  351 216  47  8.8  2771  2148  9957     0     0     0     0 182  351 216  47  8.8       1  161    24     0.0 201 12
+ 2034  30   423 188  360 223  48  9.0  2908  2265 10592     0     0     0     0 188  360 223  48  9.0       1  163    26     0.0 201 12
+ 2035  31   419 194  368 231  49  9.2  3046  2439 11237     0     0     0     0 194  368 231  49  9.2       1  165    28     0.0 201 12
+ 2036  32   414 200  376 236  49  9.4  3183  2516 11536     0     0     0     0 200  376 236  49  9.4       1  164    29     0.0 201 12
+ 2037  33   409 206  384 241  50  9.6  3317  2636 11991     0     0     0     0 206  384 241  50  9.6       1  165    32     0.0 201 12
+ 2038  34   405 211  391 248  51  9.8  3451  2776 12243     0     0     0     0 211  391 248  51  9.8       1  175    35     0.0 201 11
+ 2039  35   400 217  398 252  51 10.0  3591  2868 12503     0     0     0     0 217  398 252  51 10.0       1  179    36     0.0 201 11
+ 2040  36   395 223  405 258  52 10.2  3734  3051 13506     0     0     0     0 223  405 258  52 10.2       1  175    37     0.0 201 11
+ 2041  37   390 228  412 262  53 10.3  3872  3159 13080     0     0     0     0 228  412 262  53 10.3       1  179    40     0.0 201 11
+ 2042  38   386 233  418 265  53 10.5  4011  3362 14221     0     0     0     0 233  418 265  53 10.5       1  172    42     0.0 201 11
+ 2043  39   381 238  424 269  54 10.7  4141  3382 14957     0     0     0     0 238  424 269  54 10.7       1  179    44     0.0 201 11
+ 2044  40   376 242  430 272  55 10.9  4277  3500 15215     0     0     0     0 242  430 272  55 10.9       0    0     0     0.0 201 11
+ 
+ 
+
+
+                                                      ACTIVITY SUMMARY 
+
+ STAND ID= TestIRR_Yearly                MGMT ID= NONE                                                                            
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ CYCLE  DATE  EXTENSION  KEYWORD   DATE  ACTIVITY DISPOSITION  PARAMETERS:
+ -----  ----  ---------  --------  ----  --------------------  --------------------------------------------------------------------
+
+    1   2004
+                ECON     STRTECON  2004  DONE IN 2004                4.00      0.00      0.00
+                ECON     PRETEND   2004  DONE IN 2004              999.00
+                BASE     THINDBH   2004  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    2   2005
+                BASE     THINDBH   2005  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    3   2006
+                BASE     THINDBH   2006  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    4   2007
+                BASE     THINDBH   2007  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    5   2008
+                BASE     THINDBH   2008  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    6   2009
+                BASE     THINDBH   2009  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    7   2010
+                BASE     THINDBH   2010  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    8   2011
+                BASE     THINDBH   2011  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    9   2012
+                BASE     THINDBH   2012  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   10   2013
+                BASE     THINDBH   2013  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   11   2014
+                BASE     THINDBH   2014  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   12   2015
+                BASE     THINDBH   2015  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   13   2016
+                BASE     THINDBH   2016  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   14   2017
+                BASE     THINDBH   2017  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   15   2018
+                BASE     THINDBH   2018  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   16   2019
+                BASE     THINDBH   2019  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   17   2020
+                BASE     THINDBH   2020  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   18   2021
+                BASE     THINDBH   2021  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   19   2022
+                BASE     THINDBH   2022  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   20   2023
+                BASE     THINDBH   2023  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   21   2024
+                BASE     THINDBH   2024  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   22   2025
+                BASE     THINDBH   2025  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   23   2026
+                BASE     THINDBH   2026  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   24   2027
+                BASE     THINDBH   2027  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   25   2028
+                BASE     THINDBH   2028  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   26   2029
+                BASE     THINDBH   2029  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   27   2030
+                BASE     THINDBH   2030  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   28   2031
+                BASE     THINDBH   2031  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   29   2032
+                BASE     THINDBH   2032  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   30   2033
+                BASE     THINDBH   2033  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   31   2034
+                BASE     THINDBH   2034  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   32   2035
+                BASE     THINDBH   2035  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   33   2036
+                BASE     THINDBH   2036  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   34   2037
+                BASE     THINDBH   2037  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   35   2038
+                BASE     THINDBH   2038  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   36   2039
+                BASE     THINDBH   2039  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   37   2040
+                BASE     THINDBH   2040  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   38   2041
+                BASE     THINDBH   2041  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   39   2042
+                BASE     THINDBH   2042  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   40   2043
+                BASE     THINDBH   2043  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+ ----------------------------------------------------------------------------------------------------------------------------------
+ 
+ 
+ ------------------------------------------------------------------------------------------------------------------------------------
+                                                   FVS/ECON EXTENSION VERSION 1.0
+ STAND ID: TestIRR_Yearly              MANAGEMENT CODE: NONE
+ ------------------------------------------------------------------------------------------------------------------------------------
+ ECONOMIC ANALYSIS SUMMARY REPORT
+ ------------------------------------------------------------------------------------------------------------------------------------
+       INVEST PRETEND UNDISCNTED VALUE   PRESENT VALUE                                   VALUE  VALUE  MRCH   MRCH   DISC
+       -MENT  MODE IS ---------------- ----------------                B/C               OF     OF     CU FT  BD FT  RATE    SEV
+  YEAR PERIOD ACTIVE     COST  REVENUE    COST  REVENUE   PNV    IRR  RATIO   RRR   SEV  FORST  TREES  HARV   HARV   GIVEN  GIVEN
+ ------------------------------------------------------------------------------------------------------------------------------------
+  2004      1  YES          3        1       3        1    -2   <0.0    0.3 -66.7                          0      0   4.0
+  2005      2  YES          6        2       6        2    -4   <0.0    0.3 -41.1                          0      0   4.0
+  2006      3  YES          9        3       9        3    -6   <0.0    0.3 -28.8                          0      0   4.0
+  2007      4  YES         12        4      11        4    -8   <0.0    0.3 -21.7                          0      0   4.0
+  2008      5  YES         15        5      14        4    -9   <0.0    0.3 -17.2                          0      0   4.0
+  2009      6  YES         18        6      16        5   -11   <0.0    0.3 -14.0                          0      0   4.0
+  2010      7  YES         21        7      19        6   -13   <0.0    0.3 -11.6                          0      0   4.0
+  2011      8  YES         26       25      22       19    -3   <0.0    0.9   2.1                         17      0   4.0
+  2012      9  YES         33       76      28       54    27   21.8    2.0  12.2                         67      0   4.0
+  2013     10  YES         38       94      31       65    34   21.7    2.1  12.1                         84      0   4.0
+  2014     11  YES         41      103      33       69    36   19.8    2.1  11.2                         92      0   4.0
+  2015     12  YES         46      126      36       81    45   19.8    2.2  11.2                        114      0   4.0
+  2016     13  YES         51      144      39       89    50   19.1    2.3  10.9                        131      0   4.0
+  2017     14  YES         56      168      41       99    58   18.7    2.4  10.7                        154      0   4.0
+  2018     15  YES         61      196      44      111    67   18.4    2.5  10.6                        181      0   4.0
+  2019     16  YES         66      214      46      117    71   17.6    2.5  10.2                        198      0   4.0
+  2020     17  YES         73      256      49      135    86   17.7    2.7  10.3                        239      0   4.0
+  2021     18  YES         84      350      55      177   122   19.0    3.2  11.0                        332      0   4.0
+  2022     19  YES        100      498      62      241   178   20.5    3.9  11.7                        479      0   4.0
+  2023     20  YES        113      606      67      281   214   20.6    4.2  11.7                        586      0   4.0
+  2024     21  YES        129      755      74      336   262   20.8    4.5  11.8                        734      0   4.0
+  2025     22  YES        143      875      79      375   296   20.5    4.8  11.6                        853      0   4.0
+  2026     23  YES        161     1049      85      431   346   20.5    5.1  11.6                       1026      0   4.0
+  2027     24  YES        172     1130      88      447   359   19.8    5.1  11.3                       1106      0   4.0
+  2028     25  YES        193     1332      95      506   411   19.7    5.3  11.2                       1307      0   4.0
+  2029     26  YES        221     1611     103      588   484   19.8    5.7  11.2                       1585      0   4.0
+  2030     27  YES        233     1715     106      602   496   19.1    5.7  10.9                       1688      0   4.0
+  2031     28  YES        250     1874     110      632   523   18.7    5.8  10.7                       1846      0   4.0
+  2032     29  YES        265     2006     112      651   539   18.2    5.8  10.5                       1977      0   4.0
+  2033     30  YES        283     2178     116      679   564   17.8    5.9  10.3                       2148      0   4.0
+  2034     31  YES        297     2296     118      689   571   17.3    5.9  10.1                       2265      0   4.0
+  2035     32  YES        315     2471     121      713   592   16.9    5.9   9.9                       2439      0   4.0
+  2036     33  YES        325     2549     121      708   587   16.4    5.8   9.7                       2516      0   4.0
+  2037     34  YES        339     2670     122      713   591   15.9    5.8   9.5                       2636      0   4.0
+  2038     35  YES        355     2811     124      722   598   15.6    5.8   9.4                       2776      0   4.0
+  2039     36  YES        366     2904     124      718   593   15.1    5.8   9.2                       2868      0   4.0
+  2040     37  YES        386     3088     127      734   607   14.8    5.8   9.1                       3051      0   4.0
+  2041     38  YES        398     3197     127      731   604   14.5    5.8   8.9                       3159      0   4.0
+  2042     39  YES        420     3401     129      748   619   14.2    5.8   8.8                       3362      0   4.0
+  2043     40  YES        424     3422     128      724   597   13.8    5.7   8.6                       3382      0   4.0
+ 
+ 
+ HARVEST VOLUME AND GROSS VALUE REPORT
+ -------------------------------------------------------------------------------------------------------------------
+  YEAR = 2004 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                                                         0
+ 
+  YEAR = 2005 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                                                         0
+ 
+  YEAR = 2006 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                                                         0
+ 
+  YEAR = 2007 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                                                         0
+ 
+  YEAR = 2008 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                                                         0
+ 
+  YEAR = 2009 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                                                         0
+ 
+  YEAR = 2010 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                                                         0
+ 
+  YEAR = 2011 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                   17        17                           17
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                 17        17                           17
+ 
+  YEAR = 2012 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                   67        67                           67
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                 67        67                           67
+ 
+  YEAR = 2013 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                   84        84                           84
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                 84        84                           84
+ 
+  YEAR = 2014 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                   92        92                           92
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                 92        92                           92
+ 
+  YEAR = 2015 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  114       114                          114
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                114       114                          114
+ 
+  YEAR = 2016 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  131       131                          131
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                131       131                          131
+ 
+  YEAR = 2017 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  154       154                          154
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                154       154                          154
+ 
+  YEAR = 2018 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  181       181                          181
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                181       181                          181
+ 
+  YEAR = 2019 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  198       198                          198
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                198       198                          198
+ 
+  YEAR = 2020 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  239       239                          239
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                239       239                          239
+ 
+  YEAR = 2021 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  332       332                          332
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                332       332                          332
+ 
+  YEAR = 2022 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  479       479                          479
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                479       479                          479
+ 
+  YEAR = 2023 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  586       586                          586
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                586       586                          586
+ 
+  YEAR = 2024 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  734       734                          734
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                734       734                          734
+ 
+  YEAR = 2025 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                  853       853                          853
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                                853       853                          853
+ 
+  YEAR = 2026 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 1026      1026                         1026
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               1026      1026                         1026
+ 
+  YEAR = 2027 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 1106      1106                         1106
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               1106      1106                         1106
+ 
+  YEAR = 2028 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 1307      1307                         1307
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               1307      1307                         1307
+ 
+  YEAR = 2029 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 1585      1585                         1585
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               1585      1585                         1585
+ 
+  YEAR = 2030 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 1688      1688                         1688
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               1688      1688                         1688
+ 
+  YEAR = 2031 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 1846      1846                         1846
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               1846      1846                         1846
+ 
+  YEAR = 2032 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 1977      1977                         1977
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               1977      1977                         1977
+ 
+  YEAR = 2033 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 2148      2148                         2148
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               2148      2148                         2148
+ 
+  YEAR = 2034 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 2265      2265                         2265
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               2265      2265                         2265
+ 
+  YEAR = 2035 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 2439      2439                         2439
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               2439      2439                         2439
+ 
+  YEAR = 2036 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 2516      2516                         2516
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               2516      2516                         2516
+ 
+  YEAR = 2037 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 2636      2636                         2636
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               2636      2636                         2636
+ 
+  YEAR = 2038 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 2776      2776                         2776
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               2776      2776                         2776
+ 
+  YEAR = 2039 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 2868      2868                         2868
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               2868      2868                         2868
+ 
+  YEAR = 2040 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 3051      3051                         3051
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               3051      3051                         3051
+ 
+  YEAR = 2041 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 3159      3159                         3159
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               3159      3159                         3159
+ 
+  YEAR = 2042 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 3362      3362                         3362
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               3362      3362                         3362
+ 
+  YEAR = 2043 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9                                 3382      3382                         3382
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                                               3382      3382                         3382
+ 

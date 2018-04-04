@@ -1,0 +1,5 @@
+The MS Access database file (ClimBC.mdb) is provided "empty" so that runs will execute properly.
+It is not intended that this file be updated, since it will result in very large files.
+
+Don Robinson - ESSA
+15 April 2013

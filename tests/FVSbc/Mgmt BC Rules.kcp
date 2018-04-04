@@ -1,0 +1,401 @@
+SPGROUP       GRP_FD
+FD
+SPGROUP     GRP_PINE
+PL PW PY
+SPGROUP       GRP_OC
+LW BG HW CW SE BL OC
+SPGROUP    GRP_DECID
+EP AT AC OH
+
+* 
+* --------------------------------------------------------------------------------
+* calc BA 12.5 plus for each species group
+* pg 130  EssentialFVS.pdf  SPMCDBH 
+* 
+* calc total BA 12.5 cm plus
+* -------------------------------------------------------------------------------
+* SPMCDBH Returns the trees, ba, volume m3, merch vol, boardd foot vol, qmd, avg ht
+*   pct cover, avg mistletoe rating, stand density index ... etc
+* 
+* SPMCDBH(measurement, spp, tree-value class,low DBH,up DBH,low ht,up ht, tree status, point number)
+* 
+*--------1---------2---------3---------4---------5---------6---------7---------8
+COMPUTE            1
+* ------------
+MIN_HARV  = 60
+* ------------
+BA_RETN   = 16
+BA_THR    = 20
+* ------------
+TGT_075A  = 64.3
+TGT_125A  = 51.4
+TGT_175A  = 41.1
+TGT_225A  = 32.9
+TGT_275A  = 26.3
+TGT_325A  = 21.1
+TGT_375A  = 16.8
+TGT_425A  = 13.5
+TGT_475A  = 10.8
+TGT_525A  = 8.6 
+TGT_575A  = 6.9 
+TGT_625A  = 0.0
+* ----------------
+END
+
+*--------1---------2---------3---------4---------5---------6---------7---------8
+COMPUTE            0
+BA_000    = SPMCDBH(2,    ALL,    0,  0.0, 999.0 )
+* 
+BA_FD     = SPMCDBH(2, GRP_FD,    0, 12.5, 999.0 )
+BA_PINE   = SPMCDBH(2, GRP_PINE,  0, 12.5, 999.0 ) 
+BA_OC     = SPMCDBH(2, GRP_OC,    0, 12.5, 999.0 )
+BA_DECID  = SPMCDBH(2, GRP_DECID, 0, 12.5, 999.0 )
+*
+BA_125   = BA_FD + BA_PINE + BA_OC + BA_DECID
+BA_PRO   = BOUND(0, (BA_RETN / BA_125),  1.0)
+* 
+ST_075    = SPMCDBH(1,  ALL,      0,  7.5, 12.49 )
+ST_125    = SPMCDBH(1,  ALL,      0, 12.5, 17.49 )
+ST_175    = SPMCDBH(1,  ALL,      0, 17.5, 22.49 )
+ST_225    = SPMCDBH(1,  ALL,      0, 22.5, 27.49 )
+ST_275    = SPMCDBH(1,  ALL,      0, 27.5, 32.49 )
+ST_325    = SPMCDBH(1,  ALL,      0, 32.5, 37.49 )
+ST_375    = SPMCDBH(1,  ALL,      0, 37.5, 42.49 )
+ST_425    = SPMCDBH(1,  ALL,      0, 42.5, 47.49 )
+ST_475    = SPMCDBH(1,  ALL,      0, 47.5, 52.49 )
+ST_525    = SPMCDBH(1,  ALL,      0, 52.5, 57.49 )
+ST_575    = SPMCDBH(1,  ALL,      0, 57.5, 62.49 )
+ST_625    = SPMCDBH(1,  ALL,      0, 62.5, 999.9 )
+* 
+* 1 = trees per acre 
+* 2 = basal area per acre
+* 3 = total cubic foot volume/acre for western variants 
+* 4 = merchantable board foot volume/acre for western variants
+* 
+VOL3_000  = SPMCDBH(3,  ALL,      0,  0.0, 999.99 )
+VOL3_125  = SPMCDBH(3,  ALL,      0, 12.5, 999.99 )
+VOL3_275  = SPMCDBH(3,  ALL,      0, 27.5, 999.99 )
+* 
+VOL4_125  = SPMCDBH(4,  ALL,      0, 12.5, 999.99 )
+VOL4_275  = SPMCDBH(4,  ALL,      0, 27.5, 999.99 )
+* 
+VOL9_125  = SPMCDBH(9,  ALL,      0, 12.5, 999.99 )
+VOL9_275  = SPMCDBH(9,  ALL,      0, 27.5, 999.99 )
+*
+* 
+TGT_075B  = ST_075 * BA_PRO
+TGT_125B  = ST_125 * BA_PRO
+TGT_175B  = ST_175 * BA_PRO
+TGT_225B  = ST_225 * BA_PRO
+TGT_275B  = ST_275 * BA_PRO
+TGT_325B  = ST_325 * BA_PRO
+TGT_375B  = ST_375 * BA_PRO
+TGT_425B  = ST_425 * BA_PRO
+TGT_475B  = ST_475 * BA_PRO
+TGT_525B  = ST_525 * BA_PRO
+TGT_575B  = ST_575 * BA_PRO
+TGT_625B  = 0.0
+* 
+TGT_075C  = BOUND(TGT_075A, TGT_075B, 999999.9)
+TGT_125C  = BOUND(TGT_125A, TGT_125B, 999999.9)
+TGT_175C  = BOUND(TGT_175A, TGT_175B, 999999.9)
+TGT_225C  = BOUND(TGT_225A, TGT_225B, 999999.9)
+TGT_275C  = BOUND(TGT_275A, TGT_275B, 999999.9)
+TGT_325C  = BOUND(TGT_325A, TGT_325B, 999999.9)
+TGT_375C  = BOUND(TGT_375A, TGT_375B, 999999.9)
+TGT_425C  = BOUND(TGT_425A, TGT_425B, 999999.9)
+TGT_475C  = BOUND(TGT_475A, TGT_475B, 999999.9)
+TGT_525C  = BOUND(TGT_525A, TGT_525B, 999999.9)
+TGT_575C  = BOUND(TGT_575A, TGT_575B, 999999.9)
+TGT_625C  = 0.0
+
+END
+* 
+* ---------------------------------------------------------------
+* Preferential cut of GRP_OTH  GRP_PINE  GRP_DECID over GRP_FD
+* 
+* SPECPREF (SPECies removal PREFerence)  pg 65 EssentialFVS
+*   field 1: Year or cycle. Once in effect it stays until reassigned.Default = 1
+*   field 2: Spp code whose removal priority is to be changed. A valid code is required or the keyword is ignored.
+*   field 3: Preference value for removal of species identified in field 2. A positive value increases the chance for tree removal and a negative value increases the chance for tree retention. Default = 0
+* 
+*--------1---------2---------3---------4---------5---------6---------7---------8
+SPECPREF           1    GRP_FD         1
+SPECPREF           1  GRP_PINE         4
+SPECPREF           1    GRP_OC         4
+SPECPREF           1 GRP_DECID         4
+* 
+* -------------------------------------------------------------------------------
+* Build the .... BDQ prescription for UWR - Shallow Mod - Low
+* B m2/ha ge 12.5 cm .... 16 ......... 16.0
+* D cm    ............... 50.0         50.0 
+* q (5 cm classes ....... 1.25 - 1.4   1.25
+* BA retention gt D(cm) . 0-1.6 ...... 1.0 
+* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+* Q - What should threshold for harvest be? BA-based?
+*      assuming minimum BA eq 16 is retained after harvest
+* Q - Should there be a minimum volume for harvest
+* ------------------------------------------------------------------------------
+* THINBBA  (thin below to target BA )
+* *--------1---------2---------3---------4---------5---------6---------7---------8
+* THINBBA            8       5.0       1.0      17.5     999.0
+*    field 1: Year or cycle that thinning is scheduled.         Default = 1
+*    field 2: Target basal area
+*    field 3: Cutting efficiency parameter Range: 0.01-1.0,     Default = 1.0
+*    field 4: Smallest dbh in cm (to be considered) for removal Default = 0.0
+*    field 5: Largest  dbf in cm for removal (lt).              Default = 999.0
+*    field 6: Shortest tree m for removal (ge).                 Default = 0
+*    field 7: Tallest tree  m for removal (lt).                 Default = 999
+* 
+* 
+* THINBTA (THIN from Below to Trees per Acre target)
+*  similar fields as above except SPH
+* 
+* *--------1---------2---------3---------4---------5---------6---------7---------8
+* THINBTA            0     12345       1.0      12.5     15.49
+* -------------------------------------------------------
+* The total BA is used to schedule a thinning from below
+*       to a resid sph target within each 5 cm diam range
+* -------------------------------------------------------
+* ... Test .. CUT if BA 12.5 cm plus is gt 30 
+* -------------------------------------------------------
+
+* ------------------------------------------------------------
+* Original  THINBTA statements
+* *--------1---------2---------3---------4---------5---------6
+* THINBTA            0      64.3       1.0       7.5      12.5
+* THINBTA            0      51.4       1.0      12.5      17.5
+* THINBTA            0      41.1       1.0      17.5      22.5
+* THINBTA            0      32.9       1.0      22.5      27.5
+* THINBTA            0      26.3       1.0      27.5      32.5
+* THINBTA            0      21.1       1.0      32.5      37.5
+* THINBTA            0      16.8       1.0      37.5      42.5
+* THINBTA            0      13.5       1.0      42.5      47.5
+* THINBTA            0      10.8       1.0      47.5      52.5
+* THINBTA            0       8.6       1.0      52.5      57.5
+* THINBTA            0       6.9       1.0      57.5      62.5
+* -------------------------------------------------------------------------
+* THIN from below --- TESTING ... 
+*  calcs for each diam class target to leave residual target BA proportionate
+*  across all diam classes
+* -------------------------------------------------------------------------
+*  MINHARV test .... variable: MIN_HARV
+* 
+*--------1---------2---------3---------4---------5---------6---------7---------8
+MINHARV            1    PARMS(MIN_HARV, 0, 0, 0 )
+* 
+* -------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR)  AND (ST_075 GT TGT_075A) 
+THEN 
+* THINBTA            0    PARMS(TGT_075A, 1.0, 7.5, 12.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_075A, 1.0, 7.5, 12.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 7.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_125 GT TGT_125A) AND (TGT_125C GE TGT_125A)
+THEN 
+* THINBTA            0    PARMS(TGT_125C, 1.0, 12.5, 17.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_125C, 1.0, 12.5, 17.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 12.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_175 GT TGT_175A) AND (TGT_175C GE TGT_175A)
+THEN 
+* THINBTA            0    PARMS(TGT_175C, 1.0, 17.5, 22.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_175C, 1.0, 17.5, 22.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 17.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_225 GT TGT_225A) AND (TGT_225C GE TGT_225A)
+THEN 
+* THINBTA            0    PARMS(TGT_225C, 1.0, 22.5, 27.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_225C, 1.0, 22.5, 27.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 22.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_275 GT TGT_275A) AND (TGT_275C GE TGT_275A)
+THEN 
+* THINBTA            0    PARMS(TGT_275C, 1.0, 27.5, 32.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_275C, 1.0, 27.5, 32.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 27.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_325 GT TGT_325A) AND (TGT_325C GE TGT_325A)
+THEN 
+* THINBTA            0    PARMS(TGT_325C, 1.0, 32.5, 37.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_325C, 1.0, 32.5, 37.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 32.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_375 GT TGT_375A) AND (TGT_375C GE TGT_375A)
+THEN 
+* THINBTA            0    PARMS(TGT_375C, 1.0, 37.5, 42.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_375C, 1.0, 37.5, 42.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 37.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_425 GT TGT_425A) AND (TGT_425C GE TGT_425A)
+THEN 
+* THINBTA            0    PARMS(TGT_425C, 1.0, 42.5, 47.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_425C, 1.0, 42.5, 47.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 42.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_475 GT TGT_475A) AND (TGT_475C GE TGT_475A)
+THEN 
+* THINBTA            0    PARMS(TGT_475C, 1.0, 47.5, 52.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_475C, 1.0, 47.5, 52.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 47.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_525 GT TGT_525A) AND (TGT_525C GE TGT_525A)
+THEN 
+* THINBTA            0    PARMS(TGT_525C, 1.0, 52.5, 57.49,  0.0, 999.0 )
+THINATA            0    PARMS(TGT_525C, 1.0, 52.5, 57.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 52.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_575 GT TGT_575A) AND (TGT_575C GE TGT_575A)
+THEN 
+THINATA            0    PARMS(TGT_575C, 1.0, 57.5, 62.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 57.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE LE 10) AND (BA_125 GT BA_THR) AND (ST_625 GT TGT_625A)
+THEN 
+THINATA            0    PARMS(TGT_625A, 1.0, 62.5, 999.0,  0.0, 999.0 )
+ENDIF
+* ------------------------ 62.5 done
+* 
+* ==============================================================================
+*                                  START CYCLE GT 10
+* ============================================================================== 
+*
+* -------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR)  AND (ST_075 GT TGT_075A) 
+THEN 
+THINATA            0    PARMS(TGT_075A, 1.0, 7.5, 12.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 7.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_125 GT TGT_125A)
+THEN 
+THINATA            0    PARMS(TGT_125A, 1.0, 12.5, 17.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 12.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_175 GT TGT_175A)
+THEN 
+THINATA            0    PARMS(TGT_175A, 1.0, 17.5, 22.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 17.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_225 GT TGT_225A)
+THEN 
+THINATA            0    PARMS(TGT_225A, 1.0, 22.5, 27.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 22.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_275 GT TGT_275A)
+THEN 
+THINATA            0    PARMS(TGT_275A, 1.0, 27.5, 32.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 27.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_325 GT TGT_325A) 
+THEN 
+THINATA            0    PARMS(TGT_325A, 1.0, 32.5, 37.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 32.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_375 GT TGT_375A)
+THEN 
+THINATA            0    PARMS(TGT_375A, 1.0, 37.5, 42.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 37.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_425 GT TGT_425A)
+THEN 
+THINATA            0    PARMS(TGT_425A, 1.0, 42.5, 47.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 42.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_475 GT TGT_475A)
+THEN 
+THINATA            0    PARMS(TGT_475A, 1.0, 47.5, 52.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 47.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_525 GT TGT_525A)
+THEN 
+THINATA            0    PARMS(TGT_525A, 1.0, 52.5, 57.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 52.5 done
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_575 GT TGT_575A) 
+THEN 
+THINATA            0    PARMS(TGT_575A, 1.0, 57.5, 57.49,  0.0, 999.0 )
+ENDIF
+* ------------------------ 57.5 done
+
+* --------------------------------------------------------------------------
+IF 
+(CYCLE GT 10) AND (BA_125 GT BA_THR) AND (ST_625 GT TGT_625A) 
+THEN 
+THINATA            0    PARMS(TGT_625A, 1.0, 62.5, 999.0,  0.0, 999.0 )
+ENDIF
+* ========================================================================== END CYCLE GE 10
+
+* ------------------------------------------------------------------------------
+*  schedule cut for  gt 62.5 cm if any other CUT
+* IF
+* (CUT EQ 1.0) AND (ST_625 GT 0.0)
+* THEN
+* THINATA            0    PARMS(1.0, 1.0, 62.5, 999.0,  0.0, 999.0 )
+* ENDIF
+* ------------------------ 62.5 done
+* ----------------------------------------------------------------
+* REGEN event
+* - test code cut from the ProgBC Help file example ....
+* Q: BRSHPREP or what other keywords
+*     ... DOES NOT SEEM TO WORK 
+* *--------1---------2---------3---------4---------5---------6
+* ESTAB 
+* BRSHPREP 
+* *--------1---------2---------3---------4---------5---------6
+* ADDTREES           5         0         1
+* C:\Program Files\PrognosisBC\Regen\ibestab.exe
+* C:\Program Files\PrognosisBC\Regen\Regen.mdb
+* C:\Program Files\PrognosisBC\Regen\MSN.exe 1
+* END 
+*--------1---------2---------3---------4---------5---------6
+* -----------------------------------------------------------------
+* Essential FVS
+* It is possible when using the partial establishment model to 
+*   automatically include natural regeneration following significant 
+*   harvests and to simulate ingrowth. 
+*   These procedures will be discussed in section 6.2.
+* -----------------------------------------------------------------
