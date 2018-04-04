@@ -173,9 +173,6 @@ FVSoc$(SLIBSUFX) FVSoc$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSoc) $(shell ca
 FVSop$(SLIBSUFX) FVSop$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSop) $(shell cat $(addsuffix _sourceList.txt,FVSop))
 	$(MAKE) --file=makefile FVSop.setup
 
-FVSpc$(SLIBSUFX) FVSpc$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSpc) $(shell cat $(addsuffix _sourceList.txt,FVSpc))
-	$(MAKE) --file=makefile FVSpc.setup
-
 FVSsn$(SLIBSUFX) FVSsn$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSsn) $(shell cat $(addsuffix _sourceList.txt,FVSsn))
 	$(MAKE) --file=makefile FVSsn.setup
 
