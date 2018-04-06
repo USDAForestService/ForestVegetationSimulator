@@ -26,7 +26,7 @@ C     MAKE SURE WE HAVE AN UP TO DATE CASEID
       IRCODE = fsql3_tableexists(IoutDBref,"FVS_Climate"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_Climate('//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'Species char(3) null,'//
