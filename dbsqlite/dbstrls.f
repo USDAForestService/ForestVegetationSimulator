@@ -219,7 +219,7 @@ C
             iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
             ColNumber=ColNumber+1
             iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIES,
-     >                             LEN(CSPECIES))
+     >                             LEN_TRIM(CSPECIES))
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,IMC(I))
             ColNumber=ColNumber+1
@@ -352,7 +352,7 @@ C
         iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIES,
-     >                         LEN(CSPECIES))
+     >                         LEN_TRIM(CSPECIES))
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IMC(I))
         ColNumber=ColNumber+1
