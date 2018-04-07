@@ -246,7 +246,7 @@ C
       iRet = fsql3_bind_int(IoutDBref,ColNumber,IATTOPHT)
 
       ColNumber=ColNumber+1
-      iRet = fsql3_bind_int(IoutDBref,ColNumber,FATQMDB)
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,FATQMDB)
 
       ColNumber=ColNumber+1
       iRet = fsql3_bind_int(IoutDBref,ColNumber,IPRDLEN)
@@ -257,8 +257,8 @@ C
       ColNumber=ColNumber+1
       iRet = fsql3_bind_int(IoutDBref,ColNumber,IMORT)
 
-       ColNumber=ColNumber+1
-       iRet = fsql3_bind_int(IoutDBref,ColNumber,YMAIB)
+      ColNumber=ColNumber+1
+      iRet = fsql3_bind_double(IoutDBref,ColNumber,YMAIB)
 
       ColNumber=ColNumber+1
       iRet = fsql3_bind_int(IoutDBref,ColNumber,IFORTP)
