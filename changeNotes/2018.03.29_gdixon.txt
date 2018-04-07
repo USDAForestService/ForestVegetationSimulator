@@ -9,7 +9,7 @@ Description: As part of a code modernization effort, the FVS code is being clean
                   2) elimination of tab characters
                   3) elimination of unused statement labels
                   4) elimination of unused declared local variables and arrays
-                  5) correction of miss-matched character arrays and variables
+                  5) correction of mismatched character arrays and variables
                   6) elimination of unused dummy argument warnings
              
              Miscellaneous other corrections were made that pertained to uninitialized variables and other problems 
@@ -1929,6 +1929,143 @@ tests/fvswcc
 wct01.sum.save This file was updated after changes to the wct01.key file.
 
 tests/fvswsc
+     wst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+wst01.sum.save This file was updated after changes to the wst01.key file. The old file was not up to date anyway.
+
+tests/qfvsak
+     akt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+at01.sum.save This file was updated after changes to the akt01.key file.
+
+tests/qfvsbm
+     bmt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Duplicate Douglas-fir HRVRVN keywords were deleted.
+
+bmt01.sum.save This file was updated after changes to the bmt01.key file. The old file was not up to date anyway.
+
+tests/qfvsca
+     cat01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+cat01.sum.save This file was updated after changes to the cat01.key file.
+
+tests/qfvsci
+     cit01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Elevation was changed from 3400 feet to 5000 feet.
+
+cit01.sum.save This file was updated after changes to the cit01.key file.
+
+tests/qfvscr
+     crt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+crt01.sum.save This file was updated after changes to the crt01.key file.
+
+tests/qfvscs
+     cst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Elevation was changed from 3400 feet to 1000 feet.
+
+cst01.sum.save This file was updated after changes to the cst01.key file.
+
+tests/qfvsec
+     ect01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+ect01.sum.save This file was updated after changes to the ect01.key file. The old file was not up to date anyway.
+
+tests/qfvsem
+     emt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+emt01.sum.save This file was updated after changes to the emt01.key file. The old file was not up to date anyway.
+
+tests/qfvskt
+     ktt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. A forest code of 11406001 was entered on all STDINFO keywords.
+
+ktt01.sum.save This file was updated after changes to the ktt01.key file.
+
+tests/qfvsls
+     lst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. An NPV code of 1 was entered on all STDINFO keywords. Elevation was changed from 3400
+               feet to 1000 feet.
+
+lst01.sum.save This file was updated after changes to the lst01.key file.
+
+tests/qfvsnc
+       ffe.key The STDINFO keyword was changed to match this variant.
+
+  ffe.sum.save This file was updated after changes to the ffe.key file.
+
+     nct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+nct01.sum.save This file was updated after changes to the nct01.key file.
+
+tests/qfvsne
+     net01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Habitat type was taken off the STDINFO keyword. Elevation was changed from 3400
+               feet to 2000 feet.
+
+net01.sum.save This file was updated after changes to the net01.key file.
+
+tests/qfvsoc
+     oct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was changed from 610 to 711. Habitat type was specified as 452.
+
+oct01.sum.save This file was updated after changes to the oct01.key file.
+
+tests/qfvsop
+     opt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 708. Habitat type was specified as 40. Elevation was
+               changed from 3400 feet to 700 feet.
+
+opt01.sum.save This file was updated after changes to the opt01.key file.
+
+tests/qfvspn
+     pnt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 708. Habitat type was specified as 40. Elevation was
+               changed from 3400 feet to 700 feet.
+
+pnt01.sum.save This file was updated after changes to the pnt01.key file. The old file was not up to date anyway.
+
+tests/qfvssn
+     snt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 80106. Habitat type was changed from m9999 to 231Dd. 
+               Elevation was changed from 3400 feet to 700 feet. SDIMAX keyword was taken out of the shelterwood
+               and bare ground simulations. DESIGN keyword was changed from 11 points with 1 non-stockable to
+               10 points with 0 non-stockable to match the snt01.tre file.
+
+snt01.sum.save This file was updated after changes to the snt01.key file.
+
+tests/qfvsso
+     sot01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was changed from 620 to 601. Habitat type was specified as 49.
+
+sot01.sum.save This file was updated after changes to the sot01.key file.
+
+tests/qfvstt
+     ttt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+ttt01.sum.save This file was updated after changes to the ttt01.key file. The old file was not up to date anyway.
+
+tests/qfvsut
+     utt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+utt01.sum.save This file was updated after changes to the utt01.key file. The old file was not up to date anyway.
+
+tests/qfvswc
+     wct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Habitat type was specified as 52.
+
+wct01.sum.save This file was updated after changes to the wct01.key file.
+
+tests/qfvsws
      wst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
                plant test.
 
