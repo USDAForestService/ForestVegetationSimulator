@@ -5858,7 +5858,7 @@ C
       INUM=0                       ! initialize the number of codes in the group
       KARD=' '                     ! blank out and zero out kard and arrays
       ARRAY=0
-14504 CONTINUE
+14230 CONTINUE
       IRECNT=IRECNT+1
       READ(IREAD,'(A)',END=80) RECORD
       ILEN=LEN_TRIM(RECORD)
@@ -5868,7 +5868,7 @@ C
         IF (RECORD(I:I).EQ.' ') THEN ! hit a blank
           IF (J.EQ.0) CYCLE          ! if no token being built, go on to next char
         ENDIF
-        IF (RECORD(I:I).EQ.'&') GOTO 14504  ! read another record
+        IF (RECORD(I:I).EQ.'&') GOTO 14230  ! read another record
         IF (J.EQ.0) J=I
 C        CALL UPCASE(RECORD(I:I))
         IF (RECORD(I:I).EQ.' '.OR.I.EQ.ILEN) THEN ! end of token (a blank or end of record)
@@ -5884,8 +5884,8 @@ C
           ENDIF
           J=0
           ARRAY(1)=0.
-          READ(KARD(1),'(F10.0)',ERR=14505) ARRAY(1)  ! make a number, if we can.
-14505     CONTINUE
+          READ(KARD(1),'(F10.0)',ERR=14240) ARRAY(1)  ! make a number, if we can.
+14240     CONTINUE
           IF (ARRAY(1).EQ.0) THEN  ! zero is illegal
             INUM=INUM-1
             CYCLE
@@ -5908,9 +5908,9 @@ C
       ENDDO
       IPTGRP(NPTGRP,1)=INUM
 C
-      IF(LKECHO)WRITE(JOSTND,14535) KEYWRD,-NPTGRP,PTGNAME(NPTGRP),INUM,
+      IF(LKECHO)WRITE(JOSTND,14250) KEYWRD,-NPTGRP,PTGNAME(NPTGRP),INUM,
      &(IPTGRP(NPTGRP,J),J=2,INUM+1)
-14535 FORMAT(/A8,'   GROUP NUMBER:',I4,'  GROUP NAME: ',A10,
+14250 FORMAT(/A8,'   GROUP NUMBER:',I4,'  GROUP NAME: ',A10,
      &'  NUMBER OF POINTS IN THIS GROUP:',I3,'  POINTS:'/5(T12,10I10/))
       GO TO 10
 C
@@ -6016,24 +6016,27 @@ C
          GOTO 10
       ENDIF   
 C     
-C    IF THE FIRST PARAMETER IS NOT PRESENT;
-C    THEN: WRITE ERROR MSG AND SKIP PROCESSING KEYWORD CARD.
+C    IF THE FIRST PARAMETER IS NOT PRESENT THEN SET OR JUST OUTPUT
+C    THE CURRENT CORRECTION FACTOR. 
 C
       IF (.NOT.LNOTBK(1)) THEN
-        CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
-        CALL ERRGRO (.TRUE.,4)
-        GOTO 10
+        IF (.NOT.LNOTBK(2)) THEN
+          ARRAY(2) = CCCOEF
+        ELSE
+          CCCOEF = ARRAY(2)
+        ENDIF
+        IF(LKECHO)WRITE(JOSTND,14505) KEYWRD,ARRAY(2)
+14505   FORMAT (/A8,'   OVERLAP COEFICCIENT=',F8.6)                   
       ELSE
         PRMS(1)=ARRAY(2)
-      ENDIF                    
 C     
-C   SCHEDULE THE ACTIVITY
+C       SCHEDULE THE ACTIVITY
 C
-      CALL OPNEW (KODE,IDT,444,1,PRMS)
-      IF (KODE.GT.0) GOTO 10     
-      IF(LKECHO)WRITE(JOSTND,14510)KEYWRD,IDT,ARRAY(2)
-14510 FORMAT (/A8,'   DATE/CYCLE=',I5,'; OVERLAP COEFICCIENT=',F8.6)
-           
+        CALL OPNEW (KODE,IDT,444,1,PRMS)
+        IF (KODE.GT.0) GOTO 10     
+        IF(LKECHO)WRITE(JOSTND,14510)KEYWRD,IDT,ARRAY(2)
+14510   FORMAT (/A8,'   DATE/CYCLE=',I5,'; OVERLAP COEFICCIENT=',F8.6)
+      ENDIF     
       GOTO 10
 C
       END

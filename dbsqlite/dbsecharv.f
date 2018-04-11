@@ -80,7 +80,6 @@ C $Id$
          real*8  :: minDia8, maxDia8, minDbh8, maxDbh8
 
          if(IDBSECON < 2) return   !ECON harvest table was not requested
-         if(IDBSECON .eq. 0) return
 
          !Determine preferred species output format - keyword has precedence
          select case (ISPOUT30)
@@ -146,11 +145,18 @@ C $Id$
       include 'DBSCOM.F77'
       integer iRet,fsql3_finalize,fsql3_errmsg,fsql3_exec
       character(len=101) msg
-       iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0)) 
-       iRet = fsql3_finalize (IoutDBref)
-       IF (iRet>0) THEN
-         iRet = fsql3_errmsg(IoutDBref, msg, 100)
-         PRINT *,"FVS_EconHarvestValue finalize error: ",trim(msg)
-       endif
+      
+      if(IDBSECON < 2) return   !ECON harvest table was not requested
+
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0)) 
+      IF (iRet>0) THEN
+        iRet = fsql3_errmsg(IoutDBref, msg, 100)
+        PRINT *,"FVS_EconHarvestValue commit error: ",trim(msg)
+      endif
+      iRet = fsql3_finalize (IoutDBref)
+      IF (iRet>0) THEN
+        iRet = fsql3_errmsg(IoutDBref, msg, 100)
+        PRINT *,"FVS_EconHarvestValue finalize error: ",trim(msg)
+      endif
 
       end subroutine DBSECHARV_close
