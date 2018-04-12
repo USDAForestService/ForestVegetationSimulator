@@ -367,9 +367,9 @@ C----------
 C
       IF(DEBUG)THEN
         HTNEW=HT(I)+HTG(I)
-        WRITE (JOSTND,9000) HTG(I),CON,HTCON(ISPC),H2COF,D,
+        WRITE (JOSTND,9000) HTG(I),HTCON(ISPC),H2COF,D,
      &  WK1(I),HTNEW,HDGCOF,I,ISPC
- 9000   FORMAT(' 9000 HTGF, HTG=',F8.4,' CON=',F8.4,' HTCON=',F8.4,
+ 9000   FORMAT(' 9000 HTGF, HTG=',F8.4,' HTCON=',F8.4,
      &  ' H2COF=',F12.8,' D =',F8.4/' WK1=',F8.4,
      &  ' HTNEW=',F8.4,' HDGCOF=',F8.4,' I=',I4,' ISPC=',I2)
       ENDIF     

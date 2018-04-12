@@ -229,6 +229,7 @@ C----------
       H=HT(I)
       BARK=BRATIO(ISPC,D,H)
       IF(LSKIPH) THEN
+        DGR=0.0
         HTG(K)=0.0
         GO TO 4
       ENDIF

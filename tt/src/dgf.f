@@ -619,9 +619,9 @@ C----------
 C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 C----------
       IF(.NOT.DEBUG) GO TO 10
-      WRITE(JOSTND,9003) I,ISPC,D,BAL,CR,RELDEN,BA,DDS
+      WRITE(JOSTND,9003) I,ISPC,D,CR,RELDEN,BA,DDS
  9003 FORMAT(' IN DGF, I=',I4,',  ISPC=',I3,',  DBH=',F7.2,
-     &      ',  BAL=',F7.2,',  CR=',F7.4/
+     &      ',  CR=',F7.4/
      &      '       RELDEN=',F9.3,',  BA=',F9.3,',   LN(DDS)=',F7.4)
    10 CONTINUE
 C----------
