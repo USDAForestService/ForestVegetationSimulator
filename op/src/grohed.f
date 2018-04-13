@@ -1,7 +1,7 @@
       SUBROUTINE GROHED (IUNIT)
       IMPLICIT NONE
 C----------
-C $Id$ 
+C OP $Id$ 
 C----------
 C     WRITES HEADER FOR BASE MODEL PORTION OF PROGNOSIS SYSTEM
 C----------
