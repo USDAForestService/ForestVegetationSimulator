@@ -1,7 +1,7 @@
       REAL FUNCTION RDRANN(J)
       IMPLICIT NONE
 C----------
-C RD $Id: rdrann.f 0000 2018-02-14 00:00:00Z gedixon $
+C RD $Id$
 C----------
 C
 C  THIS FUNCTION RETURNS A UNIFORM RANDOM NUMBER TO THE
