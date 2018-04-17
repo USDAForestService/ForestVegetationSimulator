@@ -1,7 +1,7 @@
       REAL FUNCTION RDRANP(PROP)
       IMPLICIT NONE
 C----------
-C  $Id: rdranp.f 2190 2018-04-10 12:07:57Z nickcrookston $
+C  $Id: $
 C----------
 C
 C  THIS FUNCTION WILL RETURN A PROPORTION BASED ON A RANDOM DRAW GIVEN
