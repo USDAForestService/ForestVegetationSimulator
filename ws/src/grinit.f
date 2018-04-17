@@ -396,6 +396,12 @@ C----------
    74 CONTINUE
    75 CONTINUE
 C----------
+C  INITIALIZE VARCOM COMMON VARIABLES
+C----------
+      DO I=1,MAXSP
+        ISTAGF(I)=0
+      ENDDO
+C----------
 C     INITIALIZE VARIABLES CARRIED IN GGCOM.
 C----------
       DO I=1,MAXSP

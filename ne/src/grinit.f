@@ -313,9 +313,15 @@ C----------
       SITETR(I,J)=0.
    74 CONTINUE
    75 CONTINUE
-C
-C  BAU CARRIED IN TWIGCOM.F77
-C
+C----------
+C  INITIALIZE VARCOM COMMON VARIABLES
+C----------
+      DO I=1,MAXSP
+        ISTAGF(I)=0
+      ENDDO
+C----------
+C  INITIALIZE TWIGCOM COMMON VARIABLES
+C----------
       DO I=1,50
         BAU(I)=0.
       ENDDO

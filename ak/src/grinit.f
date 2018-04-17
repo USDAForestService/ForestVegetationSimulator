@@ -280,7 +280,7 @@ C----------
       LECBUG = .FALSE.
       LECON  = .FALSE.
 C----------
-C     INITIALIZE SUBROUTINE SPECIFIC DEBUG.
+C  INITIALIZE SUBROUTINE SPECIFIC DEBUG.
 C----------
       CALL DBINIT
 C----------
@@ -294,7 +294,7 @@ C----------
       BCYMAI(I) = 0.
    60 CONTINUE
 C----------
-C     INITIALIZE SPECIES AND POINT GROUPS VARIABLES.
+C  INITIALIZE SPECIES AND POINT GROUPS VARIABLES.
 C----------
       NPTGRP = 0
       NSPGRP = 0
@@ -310,7 +310,7 @@ C----------
       PTGNAME(I) ='PTGROUP'//TRIM(ADJUSTL(ANINDEX))
       ENDDO
 C----------
-C     INITIALIZE SITE TREE ARRAY AND COUNT
+C  INITIALIZE SITE TREE ARRAY AND COUNT
 C----------
       NSITET = 0
       DO 75 I=1,MAXSTR
@@ -318,6 +318,12 @@ C----------
       SITETR(I,J)=0.
    74 CONTINUE
    75 CONTINUE
+C----------
+C  INITIALIZE VARCOM COMMON VARIABLES
+C----------
+      DO I=1,MAXSP
+        ISTAGF(I)=0
+      ENDDO
 C
       RETURN
       END

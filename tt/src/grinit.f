@@ -115,7 +115,6 @@ C----------
       MAXSDI(I) = 0
       SITEAR(I) = 0.0
       IABFLG(I) = 1
-      ISTAGF(I) = 0
       LSPCWE(I) = .FALSE.
       CWDS0(I) = 0.
       CWDS1(I) = 0.
@@ -141,7 +140,6 @@ C
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
       LZEIDE = .FALSE.
-      DSTAG = 1.0
       BAINIT = 0.0
       CFMIN = 0.
       TCFMIN = 0.
@@ -298,7 +296,7 @@ C----------
       LECBUG = .FALSE.
       LECON  = .FALSE.
 C----------
-C     INITIALIZE SUBROUTINE SPECIFIC DEBUG.
+C  INITIALIZE SUBROUTINE SPECIFIC DEBUG.
 C----------
       CALL DBINIT
 C----------
@@ -312,7 +310,7 @@ C----------
       BCYMAI(I) = 0.
    60 CONTINUE
 C----------
-C     INITIALIZE SPECIES AND POINT GROUPS VARIABLES.
+C  INITIALIZE SPECIES AND POINT GROUPS VARIABLES.
 C----------
       NPTGRP = 0
       NSPGRP = 0
@@ -328,7 +326,7 @@ C----------
       PTGNAME(I) ='PTGROUP'//TRIM(ADJUSTL(ANINDEX))
       ENDDO
 C----------
-C     INITIALIZE SITE TREE ARRAY AND COUNT
+C  INITIALIZE SITE TREE ARRAY AND COUNT
 C----------
       NSITET = 0
       DO 75 I=1,MAXSTR
@@ -337,7 +335,13 @@ C----------
    74 CONTINUE
    75 CONTINUE
 C----------
-C     INITIALIZE VARIABLES CARRIED IN GGCOM.
+C  INITIALIZE VARCOM COMMON VARIABLES
+C----------
+      DO I=1,MAXSP
+        ISTAGF(I)=0
+      ENDDO
+C----------
+C  INITIALIZE VARIABLES CARRIED IN GGCOM.
 C----------
       DO I=1,MAXSP
       TBA(I) = 0.0
@@ -352,7 +356,7 @@ C----------
       BARK1=0.
       BARK2=0.
       TPAT=0.
-      DSTAG=0.
+      DSTAG=1.
 C
       RETURN
       END

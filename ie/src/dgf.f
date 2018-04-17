@@ -428,7 +428,7 @@ C
         AGERNG = ABS(AGERNG)
       ENDDO
 C
-      CALL SDICAL(SDIMAX)
+      CALL SDICAL(0,SDIMAX)
 C----------
 C  SCALE BASAL AREA.
 C----------

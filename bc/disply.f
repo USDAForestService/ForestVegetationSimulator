@@ -292,7 +292,7 @@ C----------
           ENDIF
     4     CONTINUE
         ENDIF
-      CALL SDICAL(SDIMAX)
+      CALL SDICAL(0,SDIMAX)
       BAMAX = SDIMAX*PMSDIU*0.5454154
       ENDIF
 C----------
