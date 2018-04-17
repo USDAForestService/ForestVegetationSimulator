@@ -1,7 +1,7 @@
       REAL FUNCTION RDRANP(PROP)
       IMPLICIT NONE
 C----------
-C  **RDRANP  DATE OF LAST REVISION:   09/09/14
+C  $Id: rdranp.f 2190 2018-04-10 12:07:57Z nickcrookston $
 C----------
 C
 C  THIS FUNCTION WILL RETURN A PROPORTION BASED ON A RANDOM DRAW GIVEN
@@ -141,8 +141,13 @@ C
 C        PDF(K|P,N) = PDF(K-1|P,N) * (P/(1-P)) * (N-K+1) / K
 C
          DO 200 K = 1,INTNUM
-            PDF = PDF * (PROPIN / (1.0-PROPIN) *
+
+            IF (PDF.GT. 1E-15) THEN
+              PDF = PDF * (PROPIN / (1.0-PROPIN) *
      &            REAL(INTNUM - K + 1)) / REAL(K)
+            ELSE
+              PDF = 0.
+            ENDIF
 C
 C           ADJUST CDF VALUE TO ACCOUNT FOR THE TRUNCATED RANGE
 C           0 < X <= 1
