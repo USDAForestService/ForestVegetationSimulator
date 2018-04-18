@@ -182,11 +182,16 @@ C---------
       BSPSMOKE=SPSMOKE
       BMPSMOKE=MPSMOKE
 
+      BFUELWT(1)=DBLE(INT((FUELWT(1)*100.)+0.5))
+      BFUELWT(2)=DBLE(INT((FUELWT(2)*100.)+0.5))
+      BFUELWT(3)=DBLE(INT((FUELWT(3)*100.)+0.5))
+      BFUELWT(4)=DBLE(INT((FUELWT(4)*100.)+0.5))
+
       IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
-        BSFUELWT(1)=INT((SFUELWT(1)*100.)+0.5)
-        BSFUELWT(2)=INT((SFUELWT(2)*100.)+0.5)
-        BSFUELWT(3)=INT((SFUELWT(3)*100.)+0.5)
-        BSFUELWT(4)=INT((SFUELWT(4)*100.)+0.5)
+        BSFUELWT(1)=DBLE(INT((SFUELWT(1)*100.)+0.5))
+        BSFUELWT(2)=DBLE(INT((SFUELWT(2)*100.)+0.5))
+        BSFUELWT(3)=DBLE(INT((SFUELWT(3)*100.)+0.5))
+        BSFUELWT(4)=DBLE(INT((SFUELWT(4)*100.)+0.5))
         WRITE(SQLStmtStr,*)'INSERT INTO FVS_PotFire_East (CaseID,',
      -     'StandID,Year,Flame_Len_Sev,Flame_Len_Mod,',
      -     'Canopy_Ht,Canopy_Density,Mortality_BA_Sev,',
@@ -200,10 +205,6 @@ C---------
      -     ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ',
      -     ',?,?,?,?);'
       ELSE
-        BFUELWT(1)=INT((FUELWT(1)*100.)+0.5)
-        BFUELWT(2)=INT((FUELWT(2)*100.)+0.5)
-        BFUELWT(3)=INT((FUELWT(3)*100.)+0.5)
-        BFUELWT(4)=INT((FUELWT(4)*100.)+0.5)
         WRITE(SQLStmtStr,*)'INSERT INTO FVS_PotFire (CaseID,',
      -     'StandID,Year,Surf_Flame_Sev,Surf_Flame_Mod,',
      -     'Tot_Flame_Sev,Tot_Flame_Mod,Fire_Type_Sev,Fire_Type_Mod,',
