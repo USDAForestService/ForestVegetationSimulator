@@ -224,7 +224,11 @@ C----------
       PTBAL2 = LOG(PTBAL + 2.71)
       PTBA2 = LOG(PTBA + 2.71)
       RELHT2 = SQRT(RELHT)
-      BOOST = 1/(1+EXP(-3.1 + 0.18*PTBA))
+      IF(PTBA .LT. 100.) THEN
+        BOOST = 1/(1+EXP(-3.1 + 0.18*PTBA))
+      ELSE
+        BOOST = 0.
+      ENDIF
 C
       HBH=H
       IF(H.GE.4.5)HBH=4.5
