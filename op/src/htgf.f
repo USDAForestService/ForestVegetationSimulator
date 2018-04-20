@@ -175,6 +175,7 @@ C----------
       H=HT(I)
       D=DBH(I)
 C
+      HGUESS = 0.0
       SITAGE = 0.0
       SITHT = 0.0
       AGMAX = 0.0
@@ -226,7 +227,6 @@ C----------
       IF(DEBUG)WRITE(JOSTND,*)' ISPC,I,HGUESS,AGP10= ',
      &ISPC,I,HGUESS,AGP10
 C
-      HGUESS = 0.0
       CALL HTCALC(SINDX,ISPC,AGP10,HGUESS,JOSTND,DEBUG) 
       POTHTG= HGUESS-SITHT
 C----------

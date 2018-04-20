@@ -75,7 +75,6 @@ C-----------
      *HTCON,'RMAI=',RMAI,'ELEV=',ELEV
 C
       AGP05=0.0
-      HGUESS=0.0
       SCALE=FINT/YR
 C----------
 C  GET THE HEIGHT GROWTH MULTIPLIERS.
@@ -112,6 +111,7 @@ C-----------
       IF(PROB(I) .LE. 0.0)GO TO 2600
       H=HT(I)
 C
+      HGUESS=0.0
       SITAGE = 0.0
       SITHT = 0.0
       AGMAX = 0.0

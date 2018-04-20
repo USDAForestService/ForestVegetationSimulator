@@ -1,0 +1,89 @@
+Subject: SN denormal error
+         SO height growth problem
+         Referencing undefined variables
+
+Name: Gary Dixon
+
+Date: 04/20/2018
+
+Variants affected: All variants
+
+Description: The SN variant, although running to completion, was showing a denormal error. This was traced to
+             variables in the volume logic that were being referenced without being defined in all cases. This 
+             problem has been fixed.
+             
+             The SO variant was blowing up in runs that had tree records taller than the height at which the
+             species site index curve topped out. This problem has been fixed.
+             
+             All variants contained one or more of the following subroutines in which undefined variable
+             references were fixed.
+
+Impact on users: All users should obtain a new executable.
+
+Files:
+ak/common
+     PRGPRM.F77  Added C $ID line.
+     ESPARM.F77  Added C $ID line.
+
+ak/src
+       findag.f  Added initialization of HGUESS before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+         htgf.f  Initialization of the variable HGUESS was moved to the tree loop since it is a tree-level variable.
+
+bm/src
+       findag.f  Added initialization of HGUESS before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+ca/src
+       findag.f  Moved the initialization of HGUESS to before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+ci/src
+       findag.f  Added initialization of HGUESS before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+ec/src
+       findag.f  Moved the initialization of HGUESS to before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+nc/src
+       findag.f  Added initialization of HGUESS before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+         htgf.f  Initialization of the variable HGUESS was moved to the tree loop since it is a tree-level variable.
+
+op/src
+         htgf.f  Initialized the variable HGUESS to 0.0 was moved because you could get to a debug write statement 
+                 using it without it being defined.
+
+so/src
+       findag.f  Moved the initialization of HGUESS to before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+         htgf.f  Initialized the variable HGUESS to 0.0 because you could get to a debug write statement using it
+                 without it being defined.
+
+tt/src
+       findag.f  Added initialization of HGUESS before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+ut/src
+       findag.f  Added initialization of HGUESS before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+volume/src
+     r8clkdib.f  Added code to initialize all coefficient variables to zero.
+
+wc/src
+       findag.f  Added initialization of HGUESS before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+         htgf.f  Initialized the variable HGUESS to 0.0 was moved because you could get to a debug write statement 
+                 using it without it being defined.
+
+ws/src
+       findag.f  Moved the initialization of HGUESS to before the iteration loop. Added code to stop iteration if
+                 the site index curve has flattened off.
+
+         htgf.f  Initialization of the variable HGUESS was moved to the tree loop so it is always defined.
