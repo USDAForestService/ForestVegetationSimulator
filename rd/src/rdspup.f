@@ -73,6 +73,10 @@ C.... Data statements.
       IF (MAXRR .LT. 3) IDI = IDITYP(IRTSPC(IISP))
       IS  = ISPS(IRTSPC(IISP))
       ADJBOR = 0.0
+      DENUIN = 0.0
+      DENOUT = 0.0
+      OUTTOT = 0.0
+      UINTOT = 0.0
 
 C.... Set flags to specify that a stand entry occurred and the year
 C.... in which it occured.
