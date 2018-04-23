@@ -64,7 +64,7 @@ C----------
       INTEGER KUTNOW,IT,IVAC,I
       LOGICAL LBAREA,LBELOW,LSPECL,LNOAUT,DEBUG,LPDBH,LNOCUT(MAXTRE)
       LOGICAL LSDI,LPRTND
-      REAL PRFMIS(MAXSP,6), LOSS, SALVTPA
+      REAL PRFMIS(MAXSP,6), LOSS, SALVTPA,CCC
       INTEGER ISHAG,QFATAR,JOSTND1,ICFLAGQFA,JPTGRP,JPT
       CHARACTER VVER*7
       LOGICAL LYARD,LINCL,LPTALL
@@ -794,21 +794,29 @@ C  IF CURRENT STOCKING EXCEEDS THE TARGET, SET TARGET RESIDUAL STOCKING,
 C  AMOUNT TO REMOVE, AND CUTTING EFFICIENCY.
 C
         IF(SDIC .GT. CSDI) THEN
-          IF (ICFLAG.EQ.11) THEN           
+          IF (ICFLAG.EQ.11) THEN
+          	CCC=1
+          	IF(CCCOEF.NE.1)CCC=CCCOEF
+          	IF(CCCOEF2.NE.1)CCC=CCCOEF2
+C Uncorrected PCC for the given target PCC
             CCCLC1 = 100.0*CSDI*0.785398/43560.
-            CCCLC21 = 100.0*(1.0-EXP(-CCCOEF*CCCLC1))
+C Corrected PCC adjusted using target PCC and CCC
+            CCCLC21 = 100.0*(1.0-EXP(-(CCC/100)*CCCLC1))
             IF(CCCLC21.GT.CCCLC1)CCCLC21=CCCLC1
+C Corrected PCC adjusted using target PCC and CCC assuming random            
             CCT=(100.0*(1.0-EXP(-0.01*(100.0*CSDI*0.785398/43560.))))
-            CCCSDI = ((ALOG(1+(-CCT/100)))/CCCOEF)*(-1)
+C Uncorrected PCC required to reach target using CCC
+            CCCSDI = ((ALOG(1+(-CCT/100)))/(CCC/100)*(-1))
+C Crown area difference between the adjusted and unadjusted
             CRADIF = ABS((((CCCSDI/100)/0.785398)*43560)-CSDI)
-            IF(DEBUG)WRITE(JOSTND,*) 'CCCOEF,CCCLC21,CCT,CCCSDI=',
+            IF(DEBUG)WRITE(JOSTND,*) 'CCC,CCCLC21,CCT,CCCSDI=',
      >         CCCOEF,CCCLC21,CCT,CCCSDI
-            IF(CCCOEF.LT.0.01)THEN
-              RSTOCK = CSDI+CRADIF
-              REMOVE = SDIC-RSTOCK
-            ELSEIF(CCCOEF.GT.0.01)THEN
-              RSTOCK = CSDI-CRADIF
-              REMOVE = SDIC-RSTOCK
+            IF(CCC.LT.1)THEN
+                RSTOCK = CSDI+CRADIF
+                REMOVE = SDIC-RSTOCK
+            ELSEIF(CCC.GT.1)THEN 
+                RSTOCK = CSDI-CRADIF
+                REMOVE = SDIC-RSTOCK
             ELSE
               RSTOCK = CSDI
               REMOVE = SDIC-CSDI

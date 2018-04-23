@@ -273,6 +273,7 @@ C----------
       DBHSDI=0.
       JSPINDEF=0
       CCCOEF=1.0 
+      CCCOEF2=1.0
 C
       DO 30 J=1,9
       DO 20 K=1,MAXSP
