@@ -111,3 +111,11 @@ maxActs:
 	rm maxActs.out 
 	@echo Test having many compute statements ended
 
+ccadj:
+	@echo Test the THINcc with a ccadj keyword
+	-$(WINE) ../../bin/qFVSie --keywordfile=ccadj.key
+	grep -v "\-999" ccadj.sum      > ccadj.tmp
+	grep -v "\-999" ccadj.sum.save > ccadj.tmp.save
+	-diff -w ccadj.tmp ccadj.tmp.save
+	rm ccadj.tmp ccadj.tmp.save
+	@echo Test THINcc ended
