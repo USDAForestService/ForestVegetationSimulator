@@ -876,7 +876,7 @@ C----------
         IF(ABS(AH-4.5).LT. 0.01) THEN
           RELH=0.0
         ELSE
-          RELH=(H1-4.5)/(AH-4.5)
+          RELH=(H-4.5)/(AH-4.5)
         ENDIF
         IF(RELH.GT.1.0) RELH=1.0
         IF(RELH.LT.0.0) RELH=0.0
