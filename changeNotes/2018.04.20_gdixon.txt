@@ -46,6 +46,8 @@ ci/src
 ec/src
        findag.f  Moved the initialization of HGUESS to before the iteration loop. Added code to stop iteration if
                  the site index curve has flattened off.
+ie/src
+       regent.f  Changed H1 to H at line 879 in the calculation of relative height.
 
 nc/src
        findag.f  Added initialization of HGUESS before the iteration loop. Added code to stop iteration if
