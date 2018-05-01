@@ -93,7 +93,7 @@ export LD = gfortran
 ifndef sourceFileList
 # TODO: See comment below regarding generl rules. We can change to this rule for all
 # when we adopt a newer make on windows builds
-export FVSprgs  = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
+export FVSprgs  = $(subst _sourceList.txt,,$(shell ls FVS??_sourceList.txt))
 export qFVSprgs = $(subst _sourceList.txt,,$(shell ls qFVS*_sourceList.txt))
 #  export FVSprgs = FVSbm FVScr FVSec FVSie FVSne FVSpn FVSsn FVSwc FVSws
 endif
