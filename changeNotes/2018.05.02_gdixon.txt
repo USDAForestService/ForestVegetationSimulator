@@ -1,0 +1,40 @@
+Subject: Undefined variable and mixed-mode variable settings
+
+Name: Gary Dixon
+
+Date: 05/02/2018
+
+Variants affected: BM, CA, EC, NC, OC, OP, PN, SO, WC
+
+Description: In the OP variant an undefined variable was being referenced in a write statement. The variable
+             was taken out.
+             In all these variants, initialization values for the maximum sdi and site index arrays were
+             changed from integer values to real values.
+
+Impact on users: None.
+
+Files:
+bm/src
+     ecocls.f  Initialization value for maximum sdi and site index were changed from integer to real values.
+
+ca/src
+     ecocls.f  Initialization value for maximum sdi and site index were changed from integer to real values.
+
+ec/src
+     ecocls.f  Initialization value for maximum sdi and site index were changed from integer to real values.
+
+nc/src
+     ecocls.f  Initialization value for maximum sdi and site index were changed from integer to real values.
+
+op/src
+       htgf.f  An undefined variable in a debug write statement was deleted.
+
+so/src
+     ecocls.f  Initialization value for maximum sdi and site index were changed from integer to real values.
+
+pn/src
+     ecocls.f  Initialization value for maximum sdi and site index were changed from integer to real values.
+
+wc/src
+     ecocls.f  Initialization value for maximum sdi and site index were changed from integer to real values.
+
