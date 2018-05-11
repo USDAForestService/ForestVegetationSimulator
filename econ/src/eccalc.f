@@ -738,7 +738,7 @@ C  ITITLE - STDIDENT title
          if (.not.(noLogStockTable) .or. dbOutput == 2) then            !Output table or database output requested
             if (harvest(TPA) > 0.0 .and. isHarvestPct) then             !Only a PCT was done - costs only, no harvested tree data
                if (.not. noLogStockTable)
-*TODO: Thought Nick fixed so " $#*%" not needed, but doesn't work without it
+*TODO: Thought Nick fixed so " $#*%" not needed, but doest work without it
      &              write (IOUT,'(1x, i5, " $#*%", /, t2, "YEAR = ",i4,
      &                   ", PCT or Non-Commerial Harvest", //, "$#*%")')
      &                   logTableId, beginAnalYear

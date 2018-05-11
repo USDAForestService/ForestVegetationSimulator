@@ -358,7 +358,7 @@ C     CHECK TO SEE IF THE DM TABLE EXISTS IN THE DATBASE
      -      'Mean_DMI Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_DM_Stnd_Sum ('//
-     -      'CaseID char(26) not null,'//
+     -      'CaseID char(36) not null,'//
      -      'StandID char(26) not null,'//
      -      'Year int null,'//
      -      'Age int null,'//

@@ -1,7 +1,7 @@
       SUBROUTINE RDINSD
       IMPLICIT NONE
 C----------
-C RD $Id: rdinsd.f 0000 2018-02-14 00:00:00Z gedixon $
+C RD $Id$
 C----------
 C
 C  Purpose :

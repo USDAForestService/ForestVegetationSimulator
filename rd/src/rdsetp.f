@@ -1,7 +1,7 @@
       SUBROUTINE RDSETP
       IMPLICIT NONE
 C----------
-C  **RDSETP      LAST REVISION:  09/03/14
+C RD $Id$
 C----------
 C
 C  SUBROUTINE FOR CALCULATING VALUES OF ROOT DISEASE VARIABLES
@@ -111,14 +111,18 @@ C.... See if we need to do some debug.
       IF (DEBUG) WRITE (JOSTND,100) ICYC,MINRR,MAXRR
   100 FORMAT(' ENTER RDSETP: CYCLE=',I4,' MINRR=',I1,' MAXRR=',I1)
 
+      TPROP = 0.0
+      DO IDI=1,ITOTRR
+         NDPLTS(IDI) = 0
+         TMP(IDI)    = 0.0
+      END DO
+
 C.... Calculate number of diseased sub-plots.  If user has specified
 C.... diseased and non-diseased sub-plots and number of diseased plots
 C.... equals the number of total plots in the inventory then stand is
 C.... considered as one center.
 
       DO 300 IDI=MINRR,MAXRR
-         NDPLTS(IDI) = 0
-
          DO 200 K = 1,50
             IF (IRDPLT(IDI,K) .NE. 0) THEN
                NDPLTS(IDI) = NDPLTS(IDI) + 1

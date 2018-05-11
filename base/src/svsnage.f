@@ -140,7 +140,7 @@ C----------
 C  Status codes will be negative for snags that have been flagged for
 C  salvage, but are being temporarily held for display in the post
 C  thinning/salvage SVS outputs. For such snags, temporarily reverse
-C  the sign on the status code--it'll be set back at the end of this
+C  the sign on the status code--it will be set back at the end of this
 C  routine.
 C----------
       IF ( ISTATUS(IDEAD) .LT. 0 ) THEN
@@ -175,7 +175,7 @@ C    2) Calculate the density of snags in this record that would fall
 C       under normal conditions. This depends on species, dbh and
 C       whether 5% are left.
 C
-C  If the snag has already fallen, and we're calling FMSFALL just to
+C  If the snag has already fallen, and we are calling FMSFALL just to
 C  update the SPROBS(IDEAD,3) value (the expected snag expansion factor
 C  if deterministic snagfall were used), then pass in 1 as the number
 C  of snags still standing.

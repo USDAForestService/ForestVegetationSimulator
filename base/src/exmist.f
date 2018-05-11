@@ -10,7 +10,7 @@ C----------
 C
 C  Call list definitions (for entry point routines):
 C     ARRAY:  (I)  Array containing keyword entries.
-C     DMFLAG: (IO) Logical flag; TRUE if there's any DM in the stand.
+C     DMFLAG: (IO) Logical flag; TRUE if theres any DM in the stand.
 C     IARRAY: (IO) Array containing random integers between 1 and ISIZE.
 C     ICODE:  (I)  Array of mistletoe damage codes.
 C     IDMR:   (IO) Current tree dwarf mistletoe rating.

@@ -446,6 +446,7 @@ C     SPLIT POINT TO THE MEDIAN.
 C
       IF (LEN.LE.2) THEN
          LEN=1
+         PRANG=0.
       ELSE
          X=XSMAL+(XRANG/2.)
          PRANG=XRANG/FLOAT(LEN-1)

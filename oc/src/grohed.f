@@ -1,11 +1,7 @@
       SUBROUTINE GROHED (IUNIT)
       IMPLICIT NONE
 C----------
-C  **GROHED -- OC   DATE OF LAST REVISION:  05/1/15
-C $Id: grohed.f 253 2012-10-09 22:20:37Z jdh $
-C $Revision: 253 $
-C $Date: 2012-10-09 15:20:37 -0700 (Tue, 09 Oct 2012) $
-C $HeadURL: https://www.forestinformatics.com/svn/fvs/trunk/cacor/src/grohed.f $
+C OC $Id$
 C----------
 C     WRITES HEADER FOR BASE MODEL PORTION OF PROGNOSIS SYSTEM
 C----------
@@ -35,7 +31,7 @@ C
 C
       WRITE (IUNIT,40) SVN,REV,DAT,TIM
    40 FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,' – ORGANON SWO',
+     >  5X,'VERSION ',A,' ORGANON SWO',
      >  T97,'RV:',A,T112,A,2X,A)
       RETURN
 C

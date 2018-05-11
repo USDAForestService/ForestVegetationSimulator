@@ -62,7 +62,6 @@ C
 C
       SCALE=FINT/YR
       AGP10=0.0
-      HGUESS=0.0
 C----------
 C  GET THE HEIGHT GROWTH MULTIPLIERS.
 C----------
@@ -87,6 +86,7 @@ C-----------
       IF(DG(I) .LE. 0.)DG(I)=0.0001
       IF (PROB(I).LE.0.) GO TO 161
 C
+      HGUESS=0.0
       SITAGE = 0.0
       SITHT = 0.0
       AGMAX = 0.0

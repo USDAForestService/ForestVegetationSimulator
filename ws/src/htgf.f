@@ -328,6 +328,7 @@ C-----------
         GO TO 30
       ENDIF
 C
+      HGUESS = 0.
       SELECT CASE (ISPC)
 C----------
 C  SPECIES USING EQUATIONS FROM THE UT VARIANT (21=GB)
@@ -631,7 +632,6 @@ C  14=KP, 15=FP, 16=CP, 17=LM, 19=GP, 20=WE, 25=WJ, 26=UT, 27=CJ)
 C----------
       CASE(9:10,12,14:17,19:20,25:27)
         AGP10=0.0
-        HGUESS=0.0
         H=HT(I)
 C
         SITAGE = 0.0

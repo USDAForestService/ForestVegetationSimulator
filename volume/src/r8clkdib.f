@@ -311,6 +311,24 @@ C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       CDANUW(1:2) = FORST(1:2)
 C
+C----------
+C  INITIALIZE ALL COEFFICIENTS TO ZERO.
+C----------
+      COEFFS%DBHIB = 0.0
+      COEFFS%DIB17 = 0.0
+      COEFFS%R     = 0.0
+      COEFFS%C     = 0.0
+      COEFFS%E     = 0.0
+      COEFFS%P     = 0.0
+      COEFFS%B     = 0.0
+      COEFFS%A     = 0.0
+      COEFFS%A4    = 0.0
+      COEFFS%B4    = 0.0
+      COEFFS%A17   = 0.0
+      COEFFS%B17   = 0.0
+      COEFFS%TOTHT = 0.0
+      COEFFS%Q     = 0.0
+      COEFFS%FIXDI = 0.0
 
       READ(VOLEQ(3:3),'(I1)')EQN
 C GET COEF FOR THE EQUATION
