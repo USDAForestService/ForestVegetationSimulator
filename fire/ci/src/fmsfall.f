@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-CI  DATE OF LAST REVISION: 11/30/09
+C FIRE_CI $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -77,8 +77,13 @@ C
       INTEGER ISWTCH, IYR, KSP
       REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
      &        RSOFT, RSMAL, X
+      INTEGER IDANUW
 C
 C
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = ISWTCH
 C----------
 C  In the first year after a fire, some work is required to determine
 C  what fall rates to use in the coming years.  First, calculate
@@ -91,6 +96,7 @@ C  This could be done outside the snag loop except when either PBSOFT
 C  or PBSMAL equals 1, which may often be the case.  So it's done here.
 C----------
 
+      DFALLN = 0.
       RSOFT = 0.0
       RSMAL = 0.0
       IF (DENTTL .LE. 0) RETURN

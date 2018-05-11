@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-EM  DATE OF LAST REVISION: 11/30/09
+C FIRE_EM $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -80,11 +80,16 @@ C----------
       INTEGER ISWTCH, IYR, KSP
       REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
      &        RSOFT, RSMAL, X
+      INTEGER IDANUW
 C----------
 C  SPECIES ORDER:
 C   1=WB,  2=WL,  3=DF,  4=LM,  5=LL,  6=RM,  7=LP,  8=ES,
 C   9=AF, 10=PP, 11=GA, 12=AS, 13=CW, 14=BA, 15=PW, 16=NC,
 C  17=PB, 18=OS, 19=OH
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = ISWTCH
 C----------
 C  In the first year after a fire, some work is required to determine
 C  what fall rates to use in the coming years.  First, calculate
@@ -96,10 +101,12 @@ C  the initial number to have fallen in 7 years:  (1-0.28)**7 = 0.1).
 C  This could be done outside the snag loop except when either PBSOFT
 C  of PBSMAL equals 1, which may often be the case.  So it's done here.
 C----------
+      DFALLN = 0.
+      RSOFT = 0.0
+      RSMAL = 0.0
       IF (DENTTL .LE. 0) RETURN
       IF ((IYR - BURNYR) .LT. PBTIME) THEN
         DZERO = NZERO / 50.0
-        RSOFT = 0.0
         IF (PBSOFT .GT. 0.0) THEN
           IF (PBSOFT .LT. 1.0) THEN
             RSOFT = 1 - EXP( LOG(1-PBSOFT) / PBTIME )
@@ -107,7 +114,6 @@ C----------
             RSOFT = 1 - EXP( LOG(DZERO/DENTTL) / PBTIME )
           ENDIF
         ENDIF
-        RSMAL = 0.0
         IF (PBSMAL .GT. 0.0) THEN
           IF (PBSMAL .LT. 1.0) THEN
             RSMAL = 1 - EXP( LOG(1-PBSMAL) / PBTIME )

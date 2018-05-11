@@ -1,7 +1,7 @@
       SUBROUTINE MISINT
       IMPLICIT NONE
 ***********************************************************************
-*  **MISINT--EC  Date of last revision:  02/24/12
+C MISTOE $Id: misint.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Mistletoe parameter initialization routine. This routine is
@@ -58,8 +58,8 @@ C  Variable declarations.
 C----------
       LOGICAL DEBUG
       CHARACTER*2 ACSP(MAXSP)
-      INTEGER I,J
-      REAL AFIT(MAXSP),ADGP(MAXSP,7),AHGP(MAXSP,7),APMC(MAXSP,3)
+      INTEGER I,J,AFIT(MAXSP)
+      REAL ADGP(MAXSP,7),AHGP(MAXSP,7),APMC(MAXSP,3)
 C----------
 C  Data statements.
 C

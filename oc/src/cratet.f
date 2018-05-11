@@ -1,7 +1,7 @@
       SUBROUTINE CRATET
       IMPLICIT NONE
 C----------
-C OC $Id: cratet.f $
+C OC $Id: cratet.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE IS CALLED PRIOR TO PROJECTION.  IT HAS THE
 C  FOLLOWING FUNCTIONS:
@@ -82,10 +82,9 @@ C                FROM **PREPARE** WHICH NEED TO BE PRINTED IN THE
 C                CALIBRATION STATISTICS TABLE
 C----------
       CHARACTER*21 LABEL(18)
-      INTEGER*4   ORGEDIT_STATUS ! STATUS VARIABLE FOR THE DLL      
       INTEGER*4   IEVEN          ! ORGANON::INDS(4)
       INTEGER*4   IRAD
-      INTEGER     NEWCAL(18),IHEAD,ITEM(2000),KG
+      INTEGER     NEWCAL(18),ITEM(2000),KG
       INTEGER     KNTOHT(MAXSP),KNTOCR(MAXSP)
       INTEGER     NBIG6,NVALID,NLOAD,NUNLOAD,ORGFIA,IHFLAG
       REAL*4      RADGRO(2000)   
@@ -357,7 +356,7 @@ C----------
           HT(I)= HT1OR(KG)
           IF(ICR(I).LE.0 .AND. CR1(KG).GT.0.0)
      &      KNTOCR(ISP(I))=KNTOCR(ISP(I))+1
-          ICR(I) = ANINT( CR1(KG) * 100.0 )
+          ICR(I) = NINT( CR1(KG) * 100.0 )
           IF(DEBUG)WRITE(JOSTND,*)
      &    ' KG,I,ITRE,ISP,DBH,HT,ICR,PROB,ISPECL,NUNLOAD,KNTOHT,',
      &    'KNTOCR= ',KG,I,ITRE(I),ISP(I),DBH(I),HT(I),ICR(I),PROB(I),
@@ -639,7 +638,7 @@ C   DUB HEIGHTS USING DEFAULT COEFFICIENTS FOR THIS SPECIES.
 C----------
       KNT(IPTR)=K3
       IF(K1 .LT.3 .OR. .NOT. LHTDRG(ISPC)) GO TO 100
-      XN=FLOAT(K1)
+      XN=REAL(K1)
       AA(ISPC)=SUMX/XN
 C----------
 C  IF THE INTERCEPT IS NEGATIVE, USE THE DEFAULT VALUE.
@@ -661,7 +660,7 @@ C----------
       DO 130 JJ=1,K2
       II=IND2(JJ)
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
 C
       IF(D .LE. 0.1)THEN
         H=1.01
@@ -691,22 +690,23 @@ C
       K4=K4+1
       GO TO 125
   120 CONTINUE
-      NORMHT(II)=H*100.0+0.5
+      NORMHT(II)=INT(H*100.0+0.5)
       IF(ITRUNC(II).EQ.0) THEN
          IF(HT(II).GT.0.0) THEN
-            ITRUNC(II)=80.0*HT(II)+0.5
+            ITRUNC(II)=INT(80.0*HT(II)+0.5)
          ELSE
-            ITRUNC(II)=80.0*H+0.5
+            ITRUNC(II)=INT(80.0*H+0.5)
             HT(II)=H
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &       HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II)=HT(II)*100.0
+      IF(REAL(NORMHT(II))*0.01.LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
   125 CONTINUE
   130 CONTINUE
   140 CONTINUE
@@ -734,7 +734,7 @@ C----------
       BX=HT2(ISPC)
       IF (IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
       D=DBH(II)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(HT(II).GT.0. .AND. TKILL) GO TO 142
       IF(HT(II).GT.0.) GO TO 146
 C
@@ -764,25 +764,26 @@ C
       GO TO 146
   142 CONTINUE
       IF(HT(II) .GT. 0.) THEN
-        NORMHT(II)=HT(II)*100.0+0.5
+        NORMHT(II)=INT(HT(II)*100.0+0.5)
       ELSE
-        NORMHT(II)=H*100.0+0.5
+        NORMHT(II)=INT(H*100.0+0.5)
       ENDIF
       IF(ITRUNC(II).EQ.0) THEN
          IF(HT(II).GT.0.0) THEN
-            ITRUNC(II)=80.0*HT(II)+0.5
+            ITRUNC(II)=INT(80.0*HT(II)+0.5)
          ELSE
-            ITRUNC(II)=80.0*H+0.5
+            ITRUNC(II)=INT(80.0*H+0.5)
             HT(II)=H
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &       HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II)=HT(II)*100.0
+      IF(REAL(NORMHT(II))*0.01.LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
 C----------
 C   CALL FIRE SNAG MODEL TO ADD THE DEAD TREES TO THE
 C   SNAG LIST; DEFLATE PROB(II), WHICH WAS TEMPORARILY
@@ -791,7 +792,7 @@ C   IN **NOTRE**
 C----------
   146 CONTINUE
       IF (TKILL) THEN
-        HS = ITRUNC(II) * 0.01
+        HS = REAL(ITRUNC(II)) * 0.01
       ELSE
         HS = HT(II)
       ENDIF
@@ -820,6 +821,7 @@ C  ADD THE NUMBER OF MISSING CROWN RATIOS DUBBED BY ORGANON TO THE
 C  NUMBER BEING DUBBED BY FVS.
 C----------
       DO ISPC=1,MAXSP
+      IF(IREF(ISPC) .EQ. 0) CYCLE
       IPTR = IREF(ISPC)
       KNT2(IPTR) = KNT2(IPTR) + KNTOCR(ISPC)
       IF(DEBUG)WRITE(JOSTND,*)' ISPC,IPTR,KNTOCR,KNT2= ',

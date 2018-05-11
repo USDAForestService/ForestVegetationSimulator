@@ -1,7 +1,7 @@
       SUBROUTINE HTDBH (IFOR,ISPC,D,H,MODE)
       IMPLICIT NONE
 C----------
-C  **HTDBH--CS  DATE OF LAST REVISION:  05/19/08
+C CS $Id: htdbh.f 000 2018-03-27 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE CONTAINS THE DEFAULT HEIGHT-DIAMETER RELATIONSHIPS
 C  FROM THE INVENTORY DATA.  IT IS CALLED FROM CRATET TO DUB MISSING
@@ -44,6 +44,7 @@ C
       INTEGER MODE,ISPC,IFOR,J,I
       REAL H,D,P2,P3,P4,DB,HAT3
       LOGICAL DEBUG
+      INTEGER IDANUW
 C
 C=====================================
 C     SPECIES LIST FOR CENTRAL STATES
@@ -383,6 +384,11 @@ C----------
      & 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
      & 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
      & 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = IFOR
+C
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------

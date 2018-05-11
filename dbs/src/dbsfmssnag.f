@@ -2,7 +2,7 @@
      -  HCL7,SCL1,SCL2,SCL3,SCL4,SCL5,SCL6,SCL7,HDSF,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE SUMMARY SNAG REPORT
 C              INFORMATION
@@ -286,7 +286,7 @@ C
      -         SQL_F_DOUBLE, SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -         INT(5,SQLSMALLINT_KIND),HDSFB,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
-  100 CONTINUE
+
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)
 

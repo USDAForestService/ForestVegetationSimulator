@@ -1,7 +1,7 @@
       SUBROUTINE EIGEN(A,R,N,MV)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     FROM: SYSTEM/360 SCIENTIFIC SUBROUTINE PACKAGE VERSION III
@@ -74,8 +74,10 @@ C        ...............................................................
 C
 C        GENERATE IDENTITY MATRIX
 C
-    5 RANGE=1.0D-12
-    6 DN=FLOAT(N)
+C   5
+      RANGE=1.0D-12
+C   6
+      DN=FLOAT(N)
       IF(MV-1) 10,25,10
    10 IQ=-N
       DO 20 J=1,N
@@ -113,17 +115,20 @@ C
    60 MQ=(M*M-M)/2
       LQ=(L*L-L)/2
       LM=L+MQ
-   62 IF(DABS(A(LM))-THR) 130,65,65
+C  62
+      IF(DABS(A(LM))-THR) 130,65,65
    65 IND=1
       LL=L+LQ
       MM=M+MQ
       X=(A(LL)-A(MM))/TWO
-   68 Y=-A(LM)/ DSQRT(A(LM)*A(LM)+X*X)
+C  68 
+      Y=-A(LM)/ DSQRT(A(LM)*A(LM)+X*X)
       IF(X) 70,75,75
    70 Y=-Y
    75 SINX=Y/ DSQRT(TWO*(ONE+( DSQRT(ONE-Y*Y))))
       SINX2=SINX*SINX
-   78 COSX= DSQRT(ONE-SINX2)
+C  78
+      COSX= DSQRT(ONE-SINX2)
       COSX2=COSX*COSX
       SINCS =SINX*COSX
 C

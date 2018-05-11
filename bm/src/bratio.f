@@ -1,7 +1,7 @@
       FUNCTION BRATIO(IS,D,H)
       IMPLICIT NONE
 C----------
-C  **BRATIO--BM   DATE OF LAST REVISION:  09/09/13
+C BM $Id: bratio.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C FUNCTION TO COMPUTE BARK RATIOS AS A FUNCTION OF DIAMETER AND SPECIES.
 C REPLACES ARRAY BKRAT IN BLKDAT. 
@@ -30,6 +30,7 @@ C  OH USES SO OH (ORIGINALLY FROM WC VARIANT)
 C----------
       REAL BARK1(MAXSP),BARK2(MAXSP),H,D,BRATIO,TEMD,DIB
       INTEGER IS
+      REAL RDANUW
 C
       DATA BARK1/
      & 0.859045,  0.859045,  0.903563,  0.904973,  0.903563,
@@ -42,6 +43,10 @@ C
      &       0.,        1.,        1.,        1.,  1.016866,
      &       0.,   -0.1141,        1.,        1.,        0.,
      & 0.949670,  1.016866,        1./
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      RDANUW = H
 C----------
       SELECT CASE (IS)
 C----------

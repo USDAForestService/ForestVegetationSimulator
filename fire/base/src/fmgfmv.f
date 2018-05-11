@@ -1,7 +1,7 @@
       SUBROUTINE FMGFMV(IYR, IFMD)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 *  PURPOSE:
 *     THIS SUBROUTINE LOADS THE FUEL MODEL PARAMETER VALUES FOR
@@ -89,7 +89,7 @@ C     PUT SOME OF THE LIVE HERBS INTO THE DEAD HERB CATEGORY (BASED ON
 C     MOISTURE) FOR THE DYNAMIC FUEL MODELS (not fm 2)
       IF ((FMLOAD(IFMD,2,2) .GT. 0) .AND. (IFMD .NE. 2) .AND.
      &     (MOIS(2,2) .LT. 1.2)) THEN
-    	  X(1) =  .30
+        X(1) =  .30
         X(2) =  1.2
         WT = ALGSLP(MOIS(2,2),X,Y,2)
         FWG(1,4) = (1 - WT)*FMLOAD(IFMD,2,2)

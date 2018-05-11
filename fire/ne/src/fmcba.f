@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-NE-DATE OF LAST REVISION:  01/03/11
+C FIRE-NE $Id: fmcba.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  SINGLE-STAND VERSION
 C  CALLED FROM: FMMAIN
@@ -52,7 +52,7 @@ C----------
       REAL  PRMS(12),TOTBA,STFUEL(MXFLCL,2),PRCL,ADD,BAMOST
       REAL  CAREA, TOTCRA, CWIDTH, FOTOVAL(MXFLCL), FOTOVALS(9)
       INTEGER IFFEFT,MYACT(3),IYR,KSP,I,J,ISZ,NPRM,IACTK,ISWTCH,IDC,JYR
-      INTEGER FTLIVEFU,FTDEADFU
+      INTEGER FTDEADFU
       LOGICAL DEBUG      
 C----------
 C  CURRENTLY THE HERB AND SHRUB VALUES ARE ESTIMATED VERY CRUDELY FROM 
@@ -110,7 +110,7 @@ C  CHECK FOR DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'FMCBA',5,ICYC)
       IF (DEBUG) WRITE(JOSTND,7) ICYC
- 7    FORMAT(' ENTERING FMCBA CYCLE = ',I2)	
+ 7    FORMAT(' ENTERING FMCBA CYCLE = ',I2)
 C-----------      
 C  ZERO OUT THE CUMMULATIVE VARIABLES
 C-----------
@@ -143,7 +143,7 @@ C  LOOP THROUGH THE TREE LIST
 C----------
          DO I=1,ITRN
             IF (FMPROB(I) .GT. 0.0) THEN
-               KSP = ISP(I)                
+               KSP = ISP(I)
                FMTBA(KSP) = FMTBA(KSP) +
      &                   FMPROB(I) * DBH(I) * DBH(I) * 0.0054542
             
@@ -154,8 +154,8 @@ C----------
                CWIDTH=CRWDTH(I)
 
                CAREA = 3.1415927*CWIDTH*CWIDTH/4.0
-               TOTCRA = TOTCRA + CAREA*FMPROB(I)               
-            ENDIF  
+               TOTCRA = TOTCRA + CAREA*FMPROB(I)
+            ENDIF
 C----------            
 C  USE THIS LOOP TO ZERO THIS VARIABLE, FOR LACK OF A BETTER PLACE.
 C----------
@@ -167,7 +167,7 @@ C  -> THAT WILL BE THE COVER TYPE
 C----------      
          DO KSP=1,MAXSP
             IF (FMTBA(KSP) .GT. BAMOST) THEN
-               BAMOST = FMTBA(KSP)      
+               BAMOST = FMTBA(KSP)
                COVTYP = KSP
             ENDIF 
             TOTBA = TOTBA + FMTBA(KSP)
@@ -180,8 +180,8 @@ C
 C  PERCOV = 100*(1-EXP(-TOTAL CROWN AREAS PER ACRE / SQFT IN AN ACRE))
 C----------
         PERCOV = 1.0 - EXP(-TOTCRA/43560.)
-        PERCOV = PERCOV * 100.0     
-      ENDIF 
+        PERCOV = PERCOV * 100.0
+      ENDIF
       IF (DEBUG) WRITE(JOSTND,*) 'PERCOV = ',PERCOV
 C----------
 C   IF THERE ARE NO TREES (COVTYP=0) IN CYCLE 1,
@@ -201,7 +201,7 @@ C----------
         ENDIF
       ENDIF
 C
-      OLDCOVTYP = COVTYP          
+      OLDCOVTYP = COVTYP
 C----------
 C  INITIALIZE THE DEAD FUELS ONLY FOR THE FIRST YEAR OF THE SIMULATION
 C----------
@@ -229,7 +229,7 @@ C----------
             DO I = 1, MXFLCL
               IF (FOTOVAL(I) .GE. 0) STFUEL(I,2) = FOTOVAL(I)
               IF (I .LE. 9) STFUEL(I,1) = FOTOVALS(I)
-            ENDDO                 
+            ENDDO
 C----------
 C  IF FOTOVAL(1) IS NEGATIVE, THEN AN INVALID CODE WAS ENTERED.
 C  DON'T MARK EVENT DONE IF THIS IS A CALL FROM SVSTART--WILL
@@ -257,23 +257,23 @@ C-----------
           IF (PRMS(5) .GE. 0) STFUEL(6,2) = PRMS(5)
           IF (PRMS(6) .GE. 0) STFUEL(10,2) = PRMS(6)
           IF (PRMS(7) .GE. 0) STFUEL(11,2) = PRMS(7)
-          IF (PRMS(8) .GE. 0) STFUEL(1,2) = PRMS(8)          
-          IF (PRMS(9) .GE. 0) STFUEL(2,2) = PRMS(9)           
+          IF (PRMS(8) .GE. 0) STFUEL(1,2) = PRMS(8)
+          IF (PRMS(9) .GE. 0) STFUEL(2,2) = PRMS(9)
           IF (PRMS(1) .GE. 0) THEN
             IF ((PRMS(8) .LT. 0) .AND. (PRMS(9) .LT. 0)) THEN
               STFUEL(1,2) = PRMS(1) * 0.5
               STFUEL(2,2) = PRMS(1) * 0.5
-            ENDIF                 
+            ENDIF
             IF ((PRMS(8) .LT. 0) .AND. (PRMS(9) .GE. 0)) THEN
               STFUEL(1,2) = MAX(PRMS(1) - PRMS(9),0.)
-            ENDIF  
+            ENDIF
             IF ((PRMS(8) .GE. 0) .AND. (PRMS(9) .LT. 0)) THEN
               STFUEL(2,2) = MAX(PRMS(1) - PRMS(8),0.)
-            ENDIF  
-          ENDIF                
-          IF (PRMS(10) .GE. 0) STFUEL(7,2) = PRMS(10) 
-          IF (PRMS(11) .GE. 0) STFUEL(8,2) = PRMS(11) 
-          IF (PRMS(12) .GE. 0) STFUEL(9,2) = PRMS(12)  
+            ENDIF
+          ENDIF
+          IF (PRMS(10) .GE. 0) STFUEL(7,2) = PRMS(10)
+          IF (PRMS(11) .GE. 0) STFUEL(8,2) = PRMS(11)
+          IF (PRMS(12) .GE. 0) STFUEL(9,2) = PRMS(12)
 C----------
 C  DON'T MARK EVENT DONE IF THIS IS A CALL FROM SVSTART--WILL
 C  NEED TO REPROCESS EVENT WHEN CALLED FROM FMMAIN.
@@ -290,9 +290,9 @@ C----------
           IF (PRMS(4) .GE. 0) STFUEL(4,1) = PRMS(4)
           IF (PRMS(5) .GE. 0) STFUEL(5,1) = PRMS(5)
           IF (PRMS(6) .GE. 0) STFUEL(6,1) = PRMS(6)
-          IF (PRMS(7) .GE. 0) STFUEL(7,1) = PRMS(7)          
-          IF (PRMS(8) .GE. 0) STFUEL(8,1) = PRMS(8)                           
-          IF (PRMS(9) .GE. 0) STFUEL(9,1) = PRMS(9)          
+          IF (PRMS(7) .GE. 0) STFUEL(7,1) = PRMS(7)
+          IF (PRMS(8) .GE. 0) STFUEL(8,1) = PRMS(8)
+          IF (PRMS(9) .GE. 0) STFUEL(9,1) = PRMS(9)
 
 C         DON'T MARK EVENT DONE IF THIS IS A CALL FROM SVSTART--WILL
 C         NEED TO REPROCESS EVENT WHEN CALLED FROM FMMAIN.

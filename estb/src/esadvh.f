@@ -2,7 +2,7 @@
      &  GENTIM,TRAGE)
       IMPLICIT NONE
 C----------
-C  **ESADVH--ESTB   DATE OF LAST REVISION:   07/25/08
+C ESTB $Id: esadvh.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 COMMONS
@@ -74,14 +74,14 @@ C
      9           5*0.0,
      O          -0.18689, 0.27119, 0.70375, 0.65555,  0.0 ,
      A           5*0.0/
-      N=DELAY+0.5
+      N=INT(DELAY+0.5)
       IF(N.GT.2) N=1
       DELAY=FLOAT(N)
       TRAGE=3.0-DELAY
       AGE=3.0-DELAY-GENTIM
       IF(AGE.LT.1.0) AGE=1.0
       AGELN=ALOG(AGE)
-      ITIME=TIME+0.5
+      ITIME=INT(TIME+0.5)
       BNORM=BNORML(ITIME)
       GO TO (10,20,30,40,50,60,70,80,90,100,110),I
    10 CONTINUE

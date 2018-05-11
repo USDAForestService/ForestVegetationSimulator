@@ -1,7 +1,7 @@
       SUBROUTINE HABTYP (KARD2,ARRAY2)
       IMPLICIT NONE
 C----------
-C  **HABTYP--CI   DATE OF LAST REVISION:  06/20/11
+C CI $Id: habtyp.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     TRANSLATES HABITAT TYPE  CODE INTO SUBSCRIPTS:
@@ -28,12 +28,17 @@ C----------
       CHARACTER*10 KARD2
       INTEGER NIHMAP(130),I
       REAL ARRAY2
+      REAL RDANUW
 C-----------
 C  DATA STATEMENTS
 C----------
       DATA NIHMAP/ 11*1, 3*2, 3*3, 2*2, 3, 4*4, 5, 6, 3*7, 4*8,
      & 24*9, 10, 2*11, 5*12, 13, 12, 2*13, 6*17, 2*18, 7*19, 7*20,
      & 4*21, 3*22, 3*23, 2*24, 2*25, 2*26, 11*27, 4*28, 7*29, 30/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      RDANUW = ARRAY2
 C----------
 C  INITIALIZATIONS
 C----------

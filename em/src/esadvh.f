@@ -2,7 +2,7 @@
      &  GENTIM,TRAGE)
       IMPLICIT NONE
 C----------
-C  **ESADVH--EM   DATE OF LAST REVISION:   03/26/09
+C EM $Id: esadv.f 0000 2018-02-14 00:00:00Z gedixon $
 C
 C     CALCULATES HEIGHTS OF ADVANCED TREES FOR REGENERATION MODEL
 C----------
@@ -94,14 +94,14 @@ C
      O          -0.18689, 0.27119, 0.70375, 0.65555,  0.0 ,
      1           5*0.0,
      &          40*0.0/
-      N=DELAY+0.5
+      N=INT(DELAY+0.5)
       IF(N.GT.2) N=1
-      DELAY=FLOAT(N)
+      DELAY=REAL(N)
       TRAGE=3.0-DELAY
       AGE=3.0-DELAY-GENTIM
       IF(AGE.LT.1.0) AGE=1.0
       AGELN=ALOG(AGE)
-      ITIME=TIME+0.5
+      ITIME=INT(TIME+0.5)
       BNORM=BNORML(ITIME)
       GO TO (10,20,30,40,50,60,70,80,90,100,110,
      &       120,130,140,150,160,170,180,190),I

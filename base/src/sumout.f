@@ -63,7 +63,7 @@ C
       INTEGER*4 IOSUM(I20,LENG),IPTINV
       REAL SAMWT
       INTEGER JOSUM,JOSTND,JOPRT,ICFLAG,I20,LENG,ISTLNB,I12,I,K,II
-      LOGICAL LNOR,LPRT,LDSK,LCONN
+      LOGICAL LPRT,LDSK,LCONN
 C
 C     **************************************************************
 C

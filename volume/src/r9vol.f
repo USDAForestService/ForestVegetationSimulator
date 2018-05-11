@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r9vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  12-17-2008
       SUBROUTINE R9VOL(VOLEQ,HTTOT,HT1PRD,HT2PRD,DBHOB,VOL,FORST,SI,BA,
      >            PROD,CTYPE,BFPFLG,CUPFLG,CDPFLG,SPFLG,HTTYPE,ERRFLAG)
@@ -32,8 +35,8 @@ C*********************************
       ENDIF
 
       IF(FORST(2:2) .LT. '0') THEN
-	   FORST(2:2) = FORST(1:1)
-	   FORST(1:1) = '0'
+        FORST(2:2) = FORST(1:1)
+        FORST(1:1) = '0'
         IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
       ENDIF
 
@@ -56,13 +59,13 @@ C*    CHECK FOR VALID HEIGHTS
 
 C     MAKE SURE MERCH HEIGHTS ARE IN LOGS
       IF(CTYPE.EQ.'F')THEN
-	   IF(HT1PRD.LE.0 .AND. HT2PRD.LE.0)THEN
+      IF(HT1PRD.LE.0 .AND. HT2PRD.LE.0)THEN
             CALL R9_MHTS(IFORST,VOLEQ,DBHOB,HTTOT,SI,BA,HT1PRD,HT2PRD,
      >                    PROD,ERRFLAG)
-	   ELSE IF (HTTYPE.NE.'L' .AND. HTTYPE.NE.'l')THEN
+      ELSE IF (HTTYPE.NE.'L' .AND. HTTYPE.NE.'l')THEN
             HT1PRD=INT((HT1PRD+3.0)/8.25)
             HT2PRD=INT((HT2PRD+3.0)/8.25)
-	   ENDIF
+      ENDIF
       ELSE
         HT1PRD=INT((HT1PRD+3.0)/8.25)
         IF(HT2PRD.GT.0) THEN
@@ -355,7 +358,7 @@ C*************** CUBIC VOLUME FOR A SAWTIMBER TREE
                   CF=1.16
                ELSEIF (VOLSPP.EQ.'316') THEN
                   CF=1.18
-	         ENDIF
+               ENDIF
             ELSE
                IF (VOLSPP.EQ.'746') THEN
                   CF=0.95
@@ -390,7 +393,7 @@ C*************** CUBIC VOLUME FOR A SAWTIMBER TREE
      >                HT1PRD**2)
             term3=-(0.00000057*DBHOB**3*HT1PRD**3)-
      >              (0.000000035*DBHOB**4*HT1PRD**2)
-            vol(4)=(term1+term2+term3)*cf
+            vol(4)=REAL((term1+term2+term3)*cf)
          ENDIF
       ENDIF
 C**********************************************************
@@ -433,7 +436,7 @@ C**********************************************************
          IF (VOL(9).LT.0.0) VOL(9)=0.0
       ENDIF
       
-  999 RETURN
+      RETURN
       END
 
 

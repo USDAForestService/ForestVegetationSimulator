@@ -2,7 +2,7 @@
      -  SDH,SDS,YRLAST,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE DETAILED SNAG REPORT
 C              INFORMATION
@@ -150,7 +150,7 @@ C---------
          DO IDC= 1,MAXSP
             DO JCL= 1,6
 
-              CSP = JSP(IDC)
+              CSP = JSP(IDC)(1:3)
               YRDEAD = IYEAR - JYR + 1
               SDT(IDC,JYR,JCL) = SDH(IDC,JYR,JCL) + SDS(IDC,JYR,JCL)
               SVLT(IDC,JYR,JCL) = SVLH(IDC,JYR,JCL) + SVLS(IDC,JYR,JCL)
@@ -289,7 +289,6 @@ C
      -          SDTB(IDC,JYR,JCL),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-  100         CONTINUE
 
               iRet = fvsSQLCloseCursor(StmtHndlOut)
 

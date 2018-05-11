@@ -26,6 +26,14 @@ C
       REAL WK3(MAXTRE)
       INTEGER INTS(*)
       REAL REALS(*)
+      REAL RDANUW
+      LOGICAL LDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      RDANUW = REALS(1)
+      LDANUW = LOGICS(1)
+C
 C
 C     STORE THE INTEGER SCALARS.
 C
@@ -53,7 +61,15 @@ C----------
       INTEGER LNCBUF
       CHARACTER CBUFF(LNCBUF)
       INTEGER IPNT
+      INTEGER IDANUW
+      CHARACTER CDANUW
       ! Stub for variants which need to get/put character data
       ! See /bc/varget.f and /bc/varput.f for examples of VARCHGET and VARCHPUT
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = IPNT
+      CDANUW = CBUFF(1)
+C
       RETURN
       END

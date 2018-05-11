@@ -1,7 +1,7 @@
       SUBROUTINE FMMOIS (FMOIS, MOIS)
       IMPLICIT NONE
 C----------
-C  **FMMOIS  FIRE--NI--DATE OF LAST REVISION:  06/22/05
+C FIRE-NI $Id: fmmois.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     CALLED FROM: FMBURN

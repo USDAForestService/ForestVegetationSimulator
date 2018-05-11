@@ -1,7 +1,6 @@
       SUBROUTINE MISIN(PASKEY,ARRAY,LNOTBK,LKECHO)
 ***********************************************************************
-*  **MISIN      Date of last revision:  05/23/13
-*               Interim Model
+C MISTOE $Id: misin.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Reads in mistletoe keywords and processes the ones that aren't
@@ -571,8 +570,6 @@ C.... Error messages.
      &       ' valid species ( 0 -',I3,' )')
  8100 FORMAT(/' *** Value specified,',F10.4,', negative; set to',
      &       ' 1.0.')
- 8200 FORMAT(/' *** Floor DMR specified,',I3,', outside range of',
-     &       ' valid values ( 0 - 6 )')
  8300 FORMAT(/' *** Proportion to be infected, ',F10.4,', outside',
      &       ' range of valid values ( 0.0 - 1.0 )')
  8400 FORMAT(/' *** DMR infection specified,',I3,', outside range',

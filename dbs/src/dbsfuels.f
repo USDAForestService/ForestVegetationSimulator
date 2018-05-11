@@ -4,7 +4,7 @@
      -  REMOVED,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE FUELS REPORT INFORMATION
 C     AUTH: D. GAMMEL -- RMRS -- NOVEMBER 2002
@@ -328,7 +328,6 @@ C
      -         INT(0,SQLSMALLINT_KIND),REMOVED,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-  100 CONTINUE
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)
       iRet = fvsSQLExecute(StmtHndlOut)

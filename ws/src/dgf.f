@@ -1,7 +1,7 @@
       SUBROUTINE DGF(DIAM)
       IMPLICIT NONE
 C----------
-C  **DGF--WS    DATE OF LAST REVISION:  05/09/12
+C WS $Id: dgf.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE COMPUTES THE VALUE OF DDS (CHANGE IN SQUARED
 C  DIAMETER) FOR EACH TREE RECORD, AND LOADS IT INTO THE ARRAY
@@ -90,7 +90,7 @@ C----------
      &   DGCASP(MAXSP),DGSASP(MAXSP),DGSLOP(MAXSP),DGSLSQ(MAXSP),
      &   DGLAT5(5),DGLAT9(5),DGDS(MAXSP)
       REAL FORCON,CONSJP,CONSPP,DGLDS,DGCRS,DGCRS2,SI
-      REAL DGSQS,DGDBLS,DGPCFS,DGHAHS,DGBAS,D,DPP,HOAVH,CR,ALD,CRID,BAL
+      REAL DGDBLS,DGPCFS,DGHAHS,DGBAS,D,DPP,HOAVH,CR,ALD,CRID,BAL
       REAL PBA,PBAL,ALBA,DDS,TDDS,XPPDDS,DDSMAX,TSITE,DGDSQS,DGBAL
       REAL BATEM,DF,DIAGR,BARK,SUMD2,SUMTRE,DGQMD,STDSDI,RELSDI
       REAL DDSMX1(MAXSP),DDSMX2(MAXSP),BRATIO,TEMEL
@@ -273,15 +273,15 @@ C  SPECIES FOR THE UNDERLYING MODEL.
 C  (THIS DATA IS ACTUALLY USED BY **DGDRIV** FOR CALIBRATION).
 C----------
       DATA  OBSERV/
-     &      650.,      480.,     3301.,     1762.,     1339.,
-     &     1114.,        9.,     1528.,      372.,      372.,
-     &      650.,       84.,     3301.,       84.,       84.,
-     &       84.,       84.,     1528.,       84.,       84.,
-     &     1000.,      480.,     1762.,      650.,       84.,
-     &       84.,       84.,      583.,      583.,      583.,
-     &      583.,      583.,      583.,     6504.,     6504.,
-     &     6504.,     6504.,     6504.,     6504.,      583.,
-     &      220.,      419.,      583./
+     &      650,      480,     3301,     1762,     1339,
+     &     1114,        9,     1528,      372,      372,
+     &      650,       84,     3301,       84,       84,
+     &       84,       84,     1528,       84,       84,
+     &     1000,      480,     1762,      650,       84,
+     &       84,       84,      583,      583,      583,
+     &      583,      583,      583,     6504,     6504,
+     &     6504,     6504,     6504,     6504,      583,
+     &      220,      419,      583/
 C
 C----------
 C DGLAT CONTAINS LATITUDE CONSTANTS FOR SPECIES 5 & 9.
@@ -521,7 +521,7 @@ C----------
           STDSDI=0.
         ENDIF
         RELSDI=0.
-        CALL SDICAL(SDIMAX)
+        CALL SDICAL(0,SDIMAX)
         IF(SDIMAX.GT.0.)RELSDI=STDSDI/SDIMAX
         IF(DEBUG)WRITE(JOSTND,*)' STDSDI,SDIMAX,RELSDI= ',
      &  STDSDI,SDIMAX,RELSDI
@@ -701,7 +701,7 @@ C
       DDS=DDS+XPPDDS
 C---------
       IF(DDS.LT.-9.21) DDS=-9.21
-  910 WK2(I)=DDS
+      WK2(I)=DDS
 C----------
 C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 C----------

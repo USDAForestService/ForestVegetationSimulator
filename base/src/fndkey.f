@@ -2,7 +2,7 @@
      >                   ISIZE,KODE,DEBUG,IOUT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C    FUNCTION TO FIND A KEYWORD IN A TABLE.
 C
@@ -22,6 +22,11 @@ C----------
       CHARACTER*8 KEYWRD,TABLE(ISIZE)
       LOGICAL DEBUG
       INTEGER IOUT,KODE,NUMBER,ISIZE,J
+      LOGICAL LDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      LDANUW = DEBUG
 C
       NUMBER=0
 C

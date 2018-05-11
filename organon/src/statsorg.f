@@ -1,3 +1,6 @@
+C
+C ORGANON $Id: statsorg.f 0000 2018-02-14 00:00:00Z gedixon $
+C
 C**********************************************************************
       SUBROUTINE SSTATS(VERSION,NTREES,TDATAI,TDATAR,SBA,TPA,SCCF,
      1                  BAL,BALL,CCFL,CCFLL)
@@ -42,7 +45,7 @@ C
          CCF=0.001803*MCW**2*EXPAN
          SCCF=SCCF+CCF
          IF(DBH .GT. 50.0)THEN
-            L=DBH-49.0
+            L=INT(DBH-49.0)
             IF(L.GT.52) L=52
             DO K=1,500
                CCFL(K)=CCFL(K)+CCF
@@ -53,7 +56,7 @@ C
                BALL(K)=BALL(K)+BA
             ENDDO
          ELSE
-            L=DBH*10+.5
+            L=INT(DBH*10.0+.5)
             DO K=1,L-1
                CCFL(K)=CCFL(K)+CCF
                BAL(K)=BAL(K)+BA

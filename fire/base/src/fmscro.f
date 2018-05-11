@@ -1,7 +1,7 @@
       SUBROUTINE FMSCRO (I,SP,DEADYR,DSNAGS,ICALL)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMSADD
@@ -62,7 +62,7 @@ Cppe  INCLUDE 'PPCNTL.F77'
 C.... Variable declarations.
       INTEGER I, SP, DEADYR, SIZE, DKCL, IYR, ILIFE, YNEXTY,FALLYR
       REAL    DSNAGS, TSOFT, RLIFE, ANNUAL, NEWBOT, OLDBOT, X
-      INTEGER ICALL, JYRSOFT, JADJ, JSML
+      INTEGER ICALL
       REAL    YRSCYC
       CHARACTER VVER*7
       LOGICAL  DEBUG
@@ -105,7 +105,7 @@ C     soft.
       CALL VARVER(VVER)
       CALL FMSNGDK(VVER,SP,DBH(I),TSOFT)
       IF (DEBUG) WRITE(JOSTND,7) ICYC, TSOFT, KODFOR, VVER(1:2)
-    7 FORMAT(' FMSCRO CYCLE=',I2,' TSOFT=',F6.1,' KODFOR=',I5,
+    7 FORMAT(' FMSCRO CYCLE=',I2,' TSOFT=',F10.1,' KODFOR=',I5,
      &       ' VVER=',A2)
       
 C     If called from CUTS, then OLDCRW will be holding last year's
@@ -156,24 +156,24 @@ C        SAR 11/20/12
 
          IF (ANNUAL .GT. 0.0) THEN
            FALLYR = 0
-         DO IYR=YNEXTY,ILIFE
+           DO IYR=YNEXTY,ILIFE
 
-            FALLYR = IYR + 1 - YNEXTY
+             FALLYR = IYR + 1 - YNEXTY
             
-C           Normally, we want to put the stuff into CWD2B2, but if this is 
-C           called during mortality reconciliation, CWD2B2 has already been 
-C           copied to CWD2B in preparation for the next cycle, so that is
-C           where we need to put the stuff.
+C            Normally, we want to put the stuff into CWD2B2, but if this is 
+C            called during mortality reconciliation, CWD2B2 has already been 
+C            copied to CWD2B in preparation for the next cycle, so that is
+C            where we need to put the stuff.
 
-            IF (ICALL .NE. 4) THEN
+             IF (ICALL .NE. 4) THEN
                CWD2B2(DKCL,SIZE,FALLYR) = CWD2B2(DKCL,SIZE,FALLYR) 
      >                                   + ANNUAL
-	    ELSE
+             ELSE
                CWD2B(DKCL,SIZE,FALLYR) = CWD2B(DKCL,SIZE,FALLYR) 
      >                                   + ANNUAL
-            ENDIF
+             ENDIF
 
-      ENDDO
+           ENDDO
         ENDIF
       ENDDO
 

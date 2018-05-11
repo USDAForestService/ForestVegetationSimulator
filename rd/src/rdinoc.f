@@ -1,7 +1,7 @@
       SUBROUTINE RDINOC(LICALL)
       IMPLICIT NONE
 C----------
-C  **RDINOC      LAST REVISION:  07/30/02 
+C RD $Id$
 C----------
 C
 C  Purpose :
@@ -72,7 +72,7 @@ C.... See if we need to do some debug.
   900    FORMAT (' Begin RDINOC, Cycle = ', I5,' LICALL=',L)
       ENDIF
       
-      JINT = FINT
+      JINT = INT(FINT)
       
       DO 600 IDI=MINRR,MAXRR
          DO 500 I=1, 2
@@ -205,7 +205,6 @@ C....                   enough time then it disappears.
       ENDIF
 
   910 FORMAT (' End RDINOC, Cycle = ', I5)
-  920 FORMAT (A5, 5F10.3)
 
       RETURN
       END

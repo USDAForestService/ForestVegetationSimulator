@@ -77,7 +77,7 @@ C     CHECK TO SEE IF THE Climate TABLE EXISTS IN DATBASE
      -              'AutoEstbTPA Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_Climate('//
-     -              'CaseID int not null,'//
+     -              'CaseID char(36) not null,'//
      -              'StandID char(26) not null,'//
      -              'Year Int null,'//
      -              'Species char(3) null,'//

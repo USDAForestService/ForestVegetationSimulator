@@ -1,7 +1,7 @@
       SUBROUTINE EXBGC
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     EXTERNAL REFERENCES FOR THE BGC MODEL (KELSEY MILNER)
@@ -11,6 +11,10 @@ C----------
       REAL ARRAY(7)
       LOGICAL LNOTBK(7),L,LKECHO
       CHARACTER*8 KEYWRD
+      INTEGER IDANUW
+      REAL RDANUW
+      CHARACTER*8 CDANUW
+      LOGICAL LDANUW
 C----------
 C BGCINT CALLED FROM INITRE
 C----------
@@ -20,23 +24,46 @@ C----------
 C BGCIN CALLED FROM INITRE
 C----------
       ENTRY BGCIN(KEYWRD,ARRAY,LNOTBK,LKECHO)
-      CALL ERRGRO (.TRUE.,11)
+C
+        CALL ERRGRO (.TRUE.,11)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        RDANUW = ARRAY(1)
+        CDANUW(1:8) = KEYWRD(1:8)
+        LDANUW = LKECHO
+        LDANUW = LNOTBK(1)
+C
       RETURN
 C----------
 C BGCGO CALLED FROM GRINCR
 C----------
       ENTRY BGCGO(L)
-      L=.FALSE.
+        L=.FALSE.
       RETURN
 C----------
 C BGCGRO CALLED FROM GRINCR
 C----------
       ENTRY BGCGRO(I1,I2)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+        IDANUW = I2
+C
       RETURN
 C----------
 C BGCFVS CALLED FROM GRADD
 C----------
       ENTRY BGCFVS(I1)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        IDANUW = I1
+C
       RETURN
 C
       END

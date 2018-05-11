@@ -1,7 +1,7 @@
       SUBROUTINE RDDOUT
       IMPLICIT NONE
 C----------
-C  **RDDOUT      LAST REVISION:  03/24/15
+C RD $Id$
 C----------
 C
 C  Purpose :
@@ -350,7 +350,6 @@ C        Zero out arrays.
 
   800 CONTINUE
 
-  805 CONTINUE
       IF (IRRSP .EQ. 1) WRITE(IOUNIT,2121)
       IF (IRRSP .EQ. 2) WRITE(IOUNIT,2120)
       RETURN
@@ -398,8 +397,5 @@ C.... Format statements for data values.
  2120 FORMAT(1X,I5,1X,130('-'))
  2121 FORMAT(1X,I5,1X,130(' '))
 
-C.... Format statements for no root disease area.
-
- 3100 FORMAT(1X,I5,1X,I4,46X,'*** NO AREA WITH ROOT DISEASE ***')
 
       END

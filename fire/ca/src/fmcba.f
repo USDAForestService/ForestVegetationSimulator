@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C  **FMCBA   FIRE-CA-DATE OF LAST REVISION:  12/29/14
+C FIRE-CA $Id: fmcba.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
@@ -685,7 +685,7 @@ C     THESE RATES ARE THE SAME FOR CA AND OR
         DO J = 1,4
           DKRT(10,J) = 0.5    ! litter loss/yr
           DKRT(11,J) = 0.002  !   duff loss/yr
-          DO I = 1,10
+          DO I = 1,MXFLCL
             PRDUFFT(I,J) = 0.02
           ENDDO
         ENDDO
@@ -710,7 +710,7 @@ C     IF FUELMULT WAS USED, USE THE MULTIPLIER WITH THE DEFAULT RATES.
               ENDIF
             ENDDO
           ENDDO
-          DO I = 1,10
+          DO I = 1,MXFLCL
             DO J = 1,4
               IF (PRDUFF(I,J) .LT. 0.0) PRDUFF(I,J) = PRDUFFT(I,J) 
               TODUFF(I,J) = DKR(I,J) * PRDUFF(I,J)

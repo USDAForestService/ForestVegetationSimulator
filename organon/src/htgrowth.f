@@ -1,3 +1,6 @@
+C
+C ORGANON $Id: htgrowth.f 0000 2018-02-14 00:00:00Z gedixon $
+C
 C     ORGANON GROWTH AND YIELD MODEL
 C     SUBROUTINES INCLUDED:
 C         HTGRO1
@@ -46,6 +49,11 @@ C        0 = DON'T TRIPLE THIS TREE
      1       BABT,BART(5),YT(5),OLD,GROWTH(2000,4),CR,DBH,H,XI,XXI,TCCH,
      2       SITE,GEAGE,GP,PHTGRO,IDXAGE,HG,FERTADJ,THINADJ,PDEN
 C      INTEGER*4 IANS,IYN
+      REAL*4 RDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      RDANUW = CALIB(1,1)
 C
 C     CALCULATE HEIGHT GROWTH
 C
@@ -468,8 +476,13 @@ C
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
       B1=EXP(P3*TCCH**P4)
-      MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
-      CRADJ=(1.0-EXP(-(25.0*CR)**2))
+      IF (FCR .LT. -20.) THEN
+        MODIFER=P8*B0
+      ELSE
+        MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
+      ENDIF
+      CRADJ = 1.0
+      IF (CR .LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)      
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END
@@ -514,8 +527,13 @@ C
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
       B1=EXP(P3*TCCH**P4)
-      MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
-      CRADJ=(1.0-EXP(-(25.0*CR)**2))
+      IF (FCR .LT. -20.) THEN
+        MODIFER=P8*B0
+      ELSE
+        MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
+      ENDIF
+      CRADJ = 1.0
+      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END
@@ -583,8 +601,13 @@ C
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
       B1=EXP(P3*TCCH**P4)
-      MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
-      CRADJ=(1.0-EXP(-(25.0*CR)**2))
+      IF (FCR .LT. -20.) THEN
+        MODIFER=P8*B0
+      ELSE
+        MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
+      ENDIF
+      CRADJ = 1.0
+      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END
@@ -651,8 +674,13 @@ CC
       FCR=(-P5*(1.0-CR)**P6)*EXP(P7*TCCH**0.5)
       B0=P1*EXP(P2*TCCH)
       B1=EXP(P3*TCCH**P4)
-      MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
-      CRADJ=(1.0-EXP(-(25.0*CR)**2))
+      IF (FCR .LT. -20.) THEN
+        MODIFER=P8*B0
+      ELSE
+        MODIFER=P8*(B0+(B1-B0)*EXP(FCR))
+      ENDIF
+      CRADJ = 1.0
+      IF (CR.LE. 0.17) CRADJ=1.0-EXP(-(25.0*CR)**2.0)
       HG=PHTGRO*MODIFER*CRADJ
       RETURN
       END

@@ -1,7 +1,7 @@
       SUBROUTINE FMBURN (IYR, FMD, LNMOUT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id: fmburn.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C
 C     CALLED FROM: FMMAIN
@@ -63,10 +63,10 @@ C----------
 C     VARIABLE DECLARATIONS.
 C----------
       CHARACTER VVER*7
-      INTEGER  FMOIS, FMD, IFMD, I, J, K, L, INL, INDD, IRTNCD
+      INTEGER  FMOIS, FMD, IFMD, I, J, INL, INDD, IRTNCD
       REAL     FLMULT
       REAL     OLDFL
-      REAL     FPRMS(4),CPRMS(6),MPRMS(7),DPRMS(1),PRMS(13),TPRMS(2)
+      REAL     FPRMS(4),CPRMS(6),MPRMS(7),DPRMS(1),PRMS(13)
       REAL     TMP2(3), TMP3(3)
       REAL     SUMPS, XSUR(2,3),XFML(2,3), XDEP, XEXT
       CHARACTER*8 CFTMP
@@ -77,8 +77,7 @@ C----------
      &         IFC,KTODO,JDO,IFIRE, MKODE
       REAL     SWIND,FLAME,WMULT,ALGSLP,BYRAM,CRRATE,CRTCBH,
      &         PSMOKE,PMRT,PVOLKL,HPA,FINTEN,FLB,FLT,TMPINT,TMPFLAME,
-     &         MAXINT,MININT,UCRBURN,PSBURN,
-     &         CURRCWD(MXFLCL), BDavg, WF, FDFL, FFL, HERB, WOODY
+     &         MAXINT,MININT,UCRBURN,PSBURN
 C----------
 C  CHECK FOR DEBUG.
 C----------
@@ -114,7 +113,7 @@ C----------
 C        IF (JYR .EQ. IYR) THEN
           CALL OPDONE(JDO,IYR)
           IDRYB = JYR
-          IDRYE = JYR + DPRMS(1) - 1
+          IDRYE = INT(REAL(JYR) + DPRMS(1) - 1.)
           GOTO 406
 C        ENDIF
       ENDDO
@@ -160,9 +159,9 @@ C
               XSUR(2,1) = PRMS(5)
             ENDIF
             IF (PRMS(12) .LT. 0.0) THEN
-            	XSUR(2,2) = SURFVL(IFMD,2,2)
+              XSUR(2,2) = SURFVL(IFMD,2,2)
             ELSE
-            	XSUR(2,2) = PRMS(12)
+              XSUR(2,2) = PRMS(12)
             ENDIF
 C
             DO I = 1,2
@@ -226,7 +225,7 @@ C----------
           IF (LOK) THEN
             DO I = 1,2
               DO J = 1,3
-                SURFVL(IFMD,I,J) = XSUR(I,J)
+                SURFVL(IFMD,I,J) = INT(XSUR(I,J))
                 FMLOAD(IFMD,I,J) = XFML(I,J)
               ENDDO
             ENDDO
@@ -284,8 +283,8 @@ C----------
 C  GET THE SIMFIRE PARAMETER VALUES.
 C----------
           SWIND = CPRMS(1)
-          FMOIS = CPRMS(2)
-          ATEMP = CPRMS(3)
+          FMOIS = INT(CPRMS(2))
+          ATEMP = INT(CPRMS(3))
           MKODE = NINT(CPRMS(4))
           PSBURN = CPRMS(5)
           BURNSEAS = NINT(CPRMS(6))

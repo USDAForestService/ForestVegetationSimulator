@@ -1,7 +1,7 @@
       SUBROUTINE RDSPOR
       IMPLICIT NONE
 C----------
-C  **RDSPOR      LAST REVISION:   09/03/14         
+C RD $Id$
 C----------
 C
 C  Purpose :
@@ -52,7 +52,7 @@ C.... Common include files.
 
       CALL DBCHK(DEBUG,'RDSPOR',6,ICYC)
       
-      IST = AMAX0(1,ISTEP)
+      IST = INT(AMAX0(1,ISTEP))
 
 C.... Calculate averages of infected root characteristics for each     
 C.... root disease type.

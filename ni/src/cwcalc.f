@@ -1,7 +1,7 @@
       SUBROUTINE CWCALC(ISPC,P,D,H,CR,IICR,CW,IWHO,JOSTND)
       IMPLICIT NONE
 C----------
-C  **CWCALC--NI   DATE OF LAST REVISION:   08/24/15
+C NI $Id: cwcalc.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 COMMONS
 C
@@ -70,14 +70,12 @@ C----------
       INTEGER ICYC
       REAL D, H, CW, HI, HILAT,HILONG,HIELEV,EL,MIND,CR,CL,BAREA
       REAL BF,P,OMIND
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  DATA STATEMENTS
 C----------
       DATA MIND/5./,OMIND/1./
-C-----------
-C  SEE IF WE NEED TO DO SOME DEBUG.
-C-----------
-      CALL DBCHK (DEBUG,'CWCALC',6,ICYC)
 C----------
 C  MAP EQUATION NUMBERS FOR VARIANT
 C----------
@@ -322,6 +320,16 @@ C             WO        J       LL       WB       KP       PY   DGtoRA
 C         HTtoRA   CHtoRA   WItoBM       --       OT
      &    '35106', '35106', '31206', '12205', '12205'/
 C
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = IICR
+      IDANUW = IWHO
+      RDANUW = P
+C-----------
+C  SEE IF WE NEED TO DO SOME DEBUG.
+C-----------
+      CALL DBCHK (DEBUG,'CWCALC',6,ICYC)
 C----------
 C  SET THE EQUATION NUMBER
 C  OR IF THIS IS AN R5 FOREST BRANCH TO THE R5CRWD ROUTINE
@@ -838,7 +846,6 @@ C  COMPUTE HOPKINS INDEX
       HI = ((HIELEV-5449.)/100.)*1.0 + (HILAT-42.16)*4.0 +
      &      (-116.39 - HILONG)*1.25
 C
-   20 CONTINUE
       IF(DEBUG)WRITE(JOSTND,*)' IN CWCALC: ISPC,D,VVER,CWEQN= ',
      &ISPC,D,VVER(:2),CWEQN
 C----------

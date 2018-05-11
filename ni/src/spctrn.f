@@ -1,7 +1,7 @@
       SUBROUTINE SPCTRN (SPCIN, ISPC1)
       IMPLICIT NONE
 C----------
-C NI $ID$
+C NI $Id$
 C----------
 C  CALLED FROM INTREE, WHEN THE INPUT SPECIES CODE IS NOT RECOGNIZED.
 C  THIS ROUTINE ASSIGNS THE MOST SIMILAR SPECIES SEQUENCE NUMBER TO THE
@@ -29,7 +29,7 @@ C----------
       CHARACTER*(*)SPCIN
       INTEGER MAXASPT, ISPC1, I, J, J2, IJSPIN
       PARAMETER (MAXASPT=517)
-      CHARACTER*4 SPCOUT
+      CHARACTER*3 SPCOUT
       CHARACTER*8 ASPT(MAXASPT,22)
       CHARACTER VAR*2
 C----------
@@ -2064,7 +2064,7 @@ C----------
      & VAR.EQ.'SM' .OR. VAR.EQ.'SP')VAR='CR'
       IJSPIN=3
       ISPC1= 0
-      SPCOUT= 'XX  '
+      SPCOUT= 'XX '
 C----------
 C  TRANSLATE INCOMING SPECIES, SPCIN, TO VARIANT SPECIFIC RECOGNIZED
 C  SPECIES, SPCOUT.
@@ -2074,129 +2074,129 @@ C----------
         IJSPIN=1
         SELECT CASE (VAR)
           CASE('AK')
-            SPCOUT= ASPT(I,4)
+            SPCOUT= ASPT(I,4)(1:3)
           CASE('BM')
-            SPCOUT= ASPT(I,5)
+            SPCOUT= ASPT(I,5)(1:3)
           CASE('CA')
-            SPCOUT= ASPT(I,6)
+            SPCOUT= ASPT(I,6)(1:3)
           CASE('CI')
-            SPCOUT= ASPT(I,7)
+            SPCOUT= ASPT(I,7)(1:3)
           CASE('CR')
-            SPCOUT= ASPT(I,8)
+            SPCOUT= ASPT(I,8)(1:3)
           CASE('EC')
-            SPCOUT= ASPT(I,9)
+            SPCOUT= ASPT(I,9)(1:3)
           CASE('EM')
-            SPCOUT= ASPT(I,10)
+            SPCOUT= ASPT(I,10)(1:3)
           CASE('IE')
-            SPCOUT= ASPT(I,11)
+            SPCOUT= ASPT(I,11)(1:3)
           CASE('KT')
-            SPCOUT= ASPT(I,12)
+            SPCOUT= ASPT(I,12)(1:3)
           CASE('NC')
-            SPCOUT= ASPT(I,13)
+            SPCOUT= ASPT(I,13)(1:3)
           CASE('NI')
-            SPCOUT= ASPT(I,14)
+            SPCOUT= ASPT(I,14)(1:3)
           CASE('PN')
-            SPCOUT= ASPT(I,15)
+            SPCOUT= ASPT(I,15)(1:3)
           CASE('SO')
-            SPCOUT= ASPT(I,16)
+            SPCOUT= ASPT(I,16)(1:3)
           CASE('TT')
-            SPCOUT= ASPT(I,17)
+            SPCOUT= ASPT(I,17)(1:3)
           CASE('UT')
-            SPCOUT= ASPT(I,18)
+            SPCOUT= ASPT(I,18)(1:3)
           CASE('WC')
-            SPCOUT= ASPT(I,19)
+            SPCOUT= ASPT(I,19)(1:3)
           CASE('WS')
-            SPCOUT= ASPT(I,20)
+            SPCOUT= ASPT(I,20)(1:3)
           CASE('OC')
-            SPCOUT= ASPT(I,21)
+            SPCOUT= ASPT(I,21)(1:3)
           CASE('OP')
-            SPCOUT= ASPT(I,22)
+            SPCOUT= ASPT(I,22)(1:3)
         END SELECT 
         GO TO 150        
       ELSEIF (SPCIN .EQ. ASPT(I,2)) THEN
         IJSPIN=2
         SELECT CASE (VAR)
           CASE('AK') 
-            SPCOUT= ASPT(I,4)
+            SPCOUT= ASPT(I,4)(1:3)
           CASE('BM') 
-            SPCOUT= ASPT(I,5)
+            SPCOUT= ASPT(I,5)(1:3)
           CASE('CA') 
-            SPCOUT= ASPT(I,6)
+            SPCOUT= ASPT(I,6)(1:3)
           CASE('CI') 
-            SPCOUT= ASPT(I,7)
+            SPCOUT= ASPT(I,7)(1:3)
           CASE('CR') 
-            SPCOUT= ASPT(I,8)
+            SPCOUT= ASPT(I,8)(1:3)
           CASE('EC') 
-            SPCOUT= ASPT(I,9)
+            SPCOUT= ASPT(I,9)(1:3)
           CASE('EM') 
-            SPCOUT= ASPT(I,10)
+            SPCOUT= ASPT(I,10)(1:3)
           CASE('IE') 
-            SPCOUT= ASPT(I,11)
+            SPCOUT= ASPT(I,11)(1:3)
           CASE('KT') 
-            SPCOUT= ASPT(I,12)
+            SPCOUT= ASPT(I,12)(1:3)
           CASE('NC') 
-            SPCOUT= ASPT(I,13)
+            SPCOUT= ASPT(I,13)(1:3)
           CASE('NI') 
-            SPCOUT= ASPT(I,14)
+            SPCOUT= ASPT(I,14)(1:3)
           CASE('PN') 
-            SPCOUT= ASPT(I,15)
+            SPCOUT= ASPT(I,15)(1:3)
           CASE('SO') 
-            SPCOUT= ASPT(I,16)
+            SPCOUT= ASPT(I,16)(1:3)
           CASE('TT') 
-            SPCOUT= ASPT(I,17)
+            SPCOUT= ASPT(I,17)(1:3)
           CASE('UT') 
-            SPCOUT= ASPT(I,18)
+            SPCOUT= ASPT(I,18)(1:3)
           CASE('WC') 
-            SPCOUT= ASPT(I,19)
+            SPCOUT= ASPT(I,19)(1:3)
           CASE('WS') 
-            SPCOUT= ASPT(I,20)
+            SPCOUT= ASPT(I,20)(1:3)
           CASE('OC')
-            SPCOUT= ASPT(I,21)
+            SPCOUT= ASPT(I,21)(1:3)
           CASE('OP')
-            SPCOUT= ASPT(I,22)
+            SPCOUT= ASPT(I,22)(1:3)
         END SELECT
         GO TO 150   
       ELSEIF (SPCIN .EQ. ASPT(I,3)) THEN
         IJSPIN=3
         SELECT CASE (VAR)
           CASE('AK') 
-            SPCOUT= ASPT(I,4)
+            SPCOUT= ASPT(I,4)(1:3)
           CASE('BM') 
-            SPCOUT= ASPT(I,5)
+            SPCOUT= ASPT(I,5)(1:3)
           CASE('CA') 
-            SPCOUT= ASPT(I,6)
+            SPCOUT= ASPT(I,6)(1:3)
           CASE('CI') 
-            SPCOUT= ASPT(I,7)
+            SPCOUT= ASPT(I,7)(1:3)
           CASE('CR') 
-            SPCOUT= ASPT(I,8)
+            SPCOUT= ASPT(I,8)(1:3)
           CASE('EC') 
-            SPCOUT= ASPT(I,9)
+            SPCOUT= ASPT(I,9)(1:3)
           CASE('EM') 
-            SPCOUT= ASPT(I,10)
+            SPCOUT= ASPT(I,10)(1:3)
           CASE('IE') 
-            SPCOUT= ASPT(I,11)
+            SPCOUT= ASPT(I,11)(1:3)
           CASE('KT') 
-            SPCOUT= ASPT(I,12)
+            SPCOUT= ASPT(I,12)(1:3)
           CASE('NC') 
-            SPCOUT= ASPT(I,13)
+            SPCOUT= ASPT(I,13)(1:3)
           CASE('NI') 
-            SPCOUT= ASPT(I,14)
+            SPCOUT= ASPT(I,14)(1:3)
           CASE('PN') 
-            SPCOUT= ASPT(I,15)
+            SPCOUT= ASPT(I,15)(1:3)
           CASE('SO') 
-            SPCOUT= ASPT(I,16)
+            SPCOUT= ASPT(I,16)(1:3)
           CASE('TT') 
-            SPCOUT= ASPT(I,17)
+            SPCOUT= ASPT(I,17)(1:3)
           CASE('UT') 
-            SPCOUT= ASPT(I,18)
+            SPCOUT= ASPT(I,18)(1:3)
           CASE('WC') 
-            SPCOUT= ASPT(I,19)
+            SPCOUT= ASPT(I,19)(1:3)
           CASE('WS') 
-            SPCOUT= ASPT(I,20)
+            SPCOUT= ASPT(I,20)(1:3)
           CASE('OC')
-            SPCOUT= ASPT(I,21)
+            SPCOUT= ASPT(I,21)(1:3)
           CASE('OP')
-            SPCOUT= ASPT(I,22)
+            SPCOUT= ASPT(I,22)(1:3)
         END SELECT
         GO TO 150   
       ENDIF      
@@ -2207,12 +2207,12 @@ C  FIND STANDARD SPECIES NUMBER FOR VARIANT TO RETURN TO INTREE.
 C  IF SPECIES CODE WAS NOT SET, RETURN MAXIMUM SPECIES NUMBER.
 C----------
       ISPC1= 0
-      IF(SPCOUT.EQ.'XX  ')THEN
+      IF(SPCOUT.EQ.'XX ')THEN
         ISPC1=MAXSP
         GO TO 300
       ENDIF
       DO 200 J2= 1,MAXSP
-      IF(SPCOUT.EQ.NSP(J2,1)(1:2)) THEN
+      IF(SPCOUT(1:2) .EQ. NSP(J2,1)(1:2)) THEN
         ISPC1= J2
         GO TO 300
       ENDIF

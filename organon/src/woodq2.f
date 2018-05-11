@@ -1,3 +1,6 @@
+C
+C ORGANON $Id: woodq2.f 0000 2018-02-14 00:00:00Z gedixon $
+C
       SUBROUTINE WQ_FILL(JCALC,EVEN,BHAGE,STAGE,IB2,NTREES,NWQT,TDATAI,
      1                   VERSION,WQINIT,SI_1,SI_2,PDEN,TDATAR,SCR,BRCNT,
      2                   BRDIA,BRHT,JCORE)
@@ -349,7 +352,7 @@ C*********************************************************************
      1          BRCNT(2000,3),BRDIA(2000,40),BRHT(2000,40),
      2          JCORE(2000,40),GP
       LOGICAL*2 JCALC,EVEN
-      INTEGER*4 II,III,JCOR1,JCOR2,WQAGE,II1,JLAG,LL
+      INTEGER*4 II,III,JCOR1,JCOR2,WQAGE,JLAG,LL
       REAL*4      DINC,TOHT,HTCB,BDBH,FHCB,UD,UBH,UHC,SCALE,BHITE,UH
 C
 C---------------------------
@@ -758,7 +761,7 @@ C
          C=PX2*I2*((RH**2)+I1*(JP1*WLTX*(2.0*RH-WLTX+WLTX*JP2)-RH**2))
          DCB=DIB*(A+B+C)
       ENDIF
-   10 ICR=ANINT(100.0*DCB)
+   10 ICR=NINT(100.0*DCB)
       RETURN
       END
 C*********************************************************************

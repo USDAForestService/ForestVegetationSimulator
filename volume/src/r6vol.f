@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r6vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  01-18-2013
 C 01/18/2013 added calculation for stump vol(14 and tip VOL(15)
       SUBROUTINE R6VOL(VOLEQ,FORST,DBHOB,BTR,FCLASS,MTOPP,HT1,HTTYPE,
@@ -27,7 +30,7 @@ C      INITIALIZE VARIABLES
 
       DO 30 I=1,20
         VDEF(I)=0.0
-        lggrd(i) = 0.0 
+        lggrd(i) = 0 
 C        IF (I.LE.11) VOL(I)=0
   30  CONTINUE
    
@@ -52,10 +55,10 @@ C ADD DECIMAL IF HT IS IN LOGS
       IF (HTTYPE.EQ.'L' .OR. HTTYPE.EQ.'l') THEN
          HT1=HT1/10
          IF(HT1.GT.20)THEN
-	      ERRFLAG = 7
-	      RETURN
-	   ENDIF
-	ENDIF
+           ERRFLAG = 7
+           RETURN
+         ENDIF
+      ENDIF
 
       IF(FCLASS .LE. 0) THEN
         IF(CTYPE .EQ. 'F') THEN
@@ -201,20 +204,20 @@ c***********************************************************************
       SUBROUTINE GETFCLASS(VOLEQ,FORST,DBHOB,FCLASS)
       
       CHARACTER*2 FORST
-	CHARACTER*3 SPEC
-	CHARACTER*10 VOLEQ
-	REAL DBHOB
-	INTEGER IFORST,FCLASS
+      CHARACTER*3 SPEC
+      CHARACTER*10 VOLEQ
+      REAL DBHOB
+      INTEGER IFORST,FCLASS
 
-	SPEC = VOLEQ(8:10)
-	IF(SPEC .EQ. '000') THEN
-	   FCLASS = 80
-	   RETURN
-	ENDIF
+      SPEC = VOLEQ(8:10)
+      IF(SPEC .EQ. '000') THEN
+        FCLASS = 80
+        RETURN
+      ENDIF
 
       IF(FORST(2:2) .LT. '0') THEN
-	   FORST(2:2) = FORST(1:1)
-	   FORST(1:1) = '0'
+         FORST(2:2) = FORST(1:1)
+         FORST(1:1) = '0'
          IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
       ENDIF
 
@@ -223,25 +226,25 @@ c***********************************************************************
       IF(IFORST.EQ.4 .OR. IFORST.EQ.7 .OR. IFORST.EQ.14 .OR. 
      >                                               IFORST.EQ.16)THEN
          CALL FORMCL_BM(SPEC,IFORST,DBHOB,FCLASS)
-	ELSE IF(IFORST.EQ.10  .OR. IFORST.EQ.11)THEN
+      ELSE IF(IFORST.EQ.10  .OR. IFORST.EQ.11)THEN
          CALL FORMCL_CA(SPEC,IFORST,DBHOB,FCLASS)
-	ELSE IF(IFORST.EQ.8 .OR. IFORST.EQ.17 )THEN
+      ELSE IF(IFORST.EQ.8 .OR. IFORST.EQ.17 )THEN
          CALL FORMCL_EC (SPEC,IFORST,DBHOB,FCLASS)
-	ELSE IF(IFORST.EQ.21)THEN
+      ELSE IF(IFORST.EQ.21)THEN
          CALL FORMCL_NI (SPEC,IFORST,DBHOB,FCLASS)
-	ELSE IF(IFORST.EQ.12  .OR. IFORST.EQ.9)THEN
+      ELSE IF(IFORST.EQ.12  .OR. IFORST.EQ.9)THEN
          CALL FORMCL_PN (SPEC,IFORST,DBHOB,FCLASS)
-	ELSE IF(IFORST.EQ.1 .OR. IFORST.EQ.2 .OR. IFORST.EQ.20)THEN
+      ELSE IF(IFORST.EQ.1 .OR. IFORST.EQ.2 .OR. IFORST.EQ.20)THEN
          CALL FORMCL_SO (SPEC,IFORST,DBHOB,FCLASS)
-	ELSE IF(IFORST.EQ.6 .OR. IFORST.EQ.15 .OR. IFORST.EQ.18 .OR.
+      ELSE IF(IFORST.EQ.6 .OR. IFORST.EQ.15 .OR. IFORST.EQ.18 .OR.
      >                                IFORST.EQ.3 .OR. IFORST.EQ.5)THEN
          CALL FORMCL_WC (SPEC,IFORST,DBHOB,FCLASS)
-	ELSE 
-          FCLASS = 80.
+      ELSE 
+          FCLASS = 80
       ENDIF
-	
+
       RETURN
-	END
+      END
 
 c VARIABLES DEFINED IN THE CALL LIST
 c      VOLEQ - Volume equation number (10 digits)

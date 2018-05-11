@@ -1,9 +1,7 @@
       SUBROUTINE DGF(DIAM)
       IMPLICIT NONE
-C
-C $Id: dgf.f 2001 2017-10-12 14:53:05Z lancedavid $
 C----------
-C  **DGF--CS    DATE OF LAST REVISION:  10/12/2017
+C CS $Id: dgf.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C  THIS SUBROUTINE COMPUTES THE VALUE OF DDS (CHANGE IN SQUARED
 C  DIAMETER) FOR EACH TREE RECORD, AND LOADS IT INTO THE ARRAY
@@ -26,10 +24,10 @@ C
       INCLUDE 'PRGPRM.F77'
 C
 C
-      INCLUDE 'CALCOM.F77'
-C
-C
       INCLUDE 'ARRAYS.F77'
+C
+C
+      INCLUDE 'CALCOM.F77'
 C
 C
       INCLUDE 'COEFFS.F77'
@@ -41,41 +39,60 @@ C
       INCLUDE 'OUTCOM.F77'
 C
 C
-      INCLUDE 'PLOT.F77'
-C
-C
       INCLUDE 'PDEN.F77'
 C
 C
-      INCLUDE 'TWIGCOM.F77'
+      INCLUDE 'PLOT.F77'
 C
 C
 COMMONS
 C-----------
 C  DEFINITIONS OF LOCAL VARIABLES.
 C
-C     DIAM -- ARRAY LOADED WITH TREE DIAMETERS
-C   INTERC -- DDS REGRESSION EQUATION INTERCEPT
+C    BAGE5 -- STAND BASAL AREA IN TREES 5.0" DBH AND LARGER.
+C      BAL -- STAND BASAL AREA IN TREES WITH DIAMETER >= THE DIAMETER
+C             OF THE SUBJECT TREE.
+C     BALC -- ARRAY CONTAINING COEFFICIENTS FOR THE BASAL AREA IN
+C             LARGER TREES TERM IN THE DDS MODEL.
+C     BARK -- BARK RATIO
+C   BRATIO -- BARK RATIO FUNCTION CONTAINED IN BRATIO.F
+C   CONSPP -- CONSTANT TERM IN THE DIAMETER GROWTH EQUATION.
+C       CR -- PERCENT CROWN RATIO FOR A TREE
+C    CRSQC -- ARRAY CONTAINING THE COEFFICIENTS FOR THE PERCENT CROWN
+C             RATIO SQUARED TERM IN THE DDS MODEL.
+C    CRWNC -- ARRAY CONTAINING THE COEFFICIENTS FOR THE PERCENT CROWN
+C             RATIO TERM IN THE DDS MODEL.
+C        D -- DIAMETER AT BREAST HEIGHT FOR A TREE
 C     DBHC -- ARRAY CONTAINING COEFFICIENTS FOR THE DIAMETER TERM IN
 C             THE DDS MODEL
 C    DBH2C -- ARRAY CONTAINING COEFFICIENTS FOR THE DIAMETER SQUARED
 C             TERM IN THE DDS MODEL
+C      DDS -- PREDICTED INSIDE-BARK BASAL AREA INCREMENT FOR A TREE
+C    DEBUG -- LOGICAL VARIABLE USED TO CONTROL DEBUG OUTPUT
+C   DIAGRI -- PREDICTED INSIDE-BARK DIAMETER GROWTH FOR A TREE
+C   DIAGRO -- PREDICTED OUTSIDE-BARK DIAMETER GROWTH FOR A TREE
+C     DIAM -- ARRAY LOADED WITH TREE DIAMETERS
+C D1 - D11 -- EQUATION COEFFICIENTS FOR A DEBUG WRITE STATEMENT
+C     I,IK -- ARRAY INDICIES
+C   INTERC -- DDS REGRESSION EQUATION INTERCEPT
+C     ISPC -- FVS SPECIES SEQUENCE NUMBER
+C I1,I2,I3 -- ARRAY INDICIES
+C   OBSERV -- SAMPLE SIZE USED TO FIT THE EQUATION
+C        P -- TREES-PER-ACRE FOR A TREE RECORD
+C   QMDGE5 -- QUADRATIC MEAN DIAMETER FOR TREES 5.0" DBH AND LARGER
+C    RDBHC -- ARRAY CONTAINING COEFFICIENTS FOR DIAM/QMDGE5
+C             TERM IN THE DDS MODEL.
+C  RDBHSQC -- ARRAY CONTAINING COEFFICIENTS FOR THE DIAM*DIAM/QMDGE5
+C             TERM IN THE DDS MODEL.
+C   RELDBH -- RELATIVE TREE DIAMETER (D/QMDGE5)
+C RELDBHSQ -- RELATIVE TREE DIAMTER SQUARED ((D**2)/QMDGE5)
+C     SBAC -- ARRAY CONTAINING THE COEFFICIENTS FOR STAND BASAL AREA
+C             IN TREES 5.0" DBH AND LARGER TERM IN THE DDS MODEL.
+C   SDQGE5 -- SUM OF TREE DIAMETERS SQUARED FOR THE STAND
+C    SITEC -- ARRAY CONTAINING COEFFICIENTS FOR SITE INDEX IN THE DDS MODEL.
+C        T -- TOTAL STAND TREES-PER-ACRE
 C    VDBHC -- ARRAY CONTAINING COEFFICIENTS FOR THE INVERSE OF DIAMETER
 C             TERM IN THE DDS MODEL.
-C    RDBHC -- ARRAY CONTAINING COEFFICIENTS FOR DIAM/QMD**
-C             TERM IN THE DDS MODEL.
-C  RDBHSQC --ARRAY CONTAINING COEFFICIENTS FOR THE DIAM*DIAM/QMD**
-C             TERM IN THE DDS MODEL.
-C    CRWNC -- ARRAY CONTAINING THE COEFFICIENTS FOR THE PERCENT CROWN
-C             RATIO TERM IN THE DDS MODEL.
-C    CRSQC -- ARRAY CONTAINING THE COEFFICIENTS FOR THE PERCENT CROWN
-C             RATIO SQUARED TERM IN THE DDS MODEL.
-C     SBAC -- ARRAY CONTAINING THE COEFFICIENTS FOR STAND BASAL AREA**
-C             TERM IN THE DDS MODEL
-C     BALC -- ARRAY CONTAINING COEFFICIENTS FOR THE BASAL AREA IN
-C             LARGER TREES** TERM IN THE DDS MODEL.
-C    SITEC -- ARRAY CONTAINING COEFFICIENTS FOR SITE INDEX IN THE DDS MODEL.
-C            ** CALCULATION OF QMD, SBA AND BAL, ALL EXCLUDE TREES LESS THAN 5" DBH
 C----------
 C  SPECIES AND COEFFICIENT ORDER
 C----------
@@ -103,25 +120,25 @@ C   86=AH  87=RD   88=DW  89=HT  90=KC
 C   91=OO  92=CT   93=MV  94=MB  95=HH
 C   96=SD
 C-----------
-C  DECLARATIONS
-C-----------
+C
       LOGICAL DEBUG
-      REAL DIAM(MAXTRE),INTERC(MAXSP),DBHC(MAXSP),
-     &   DBH2C(MAXSP),VDBHC(MAXSP),RDBHC(MAXSP),
-     &   RDBHSQC(MAXSP),CRWNC(MAXSP),CRSQC(MAXSP),
-     &   SBAC(MAXSP),BALC(MAXSP),SITEC(MAXSP),OBSERV(MAXSP)
-      REAL XPPDDS,D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11
-      REAL DDS,D,BAL,CR,CONSPP,BARK,DIAGRO,DIAGRI,BRATIO
-      INTEGER ISPC,I1,I2,I3,I,IK
-      REAL RELDBH,RELDBHSQ
-      INTEGER  IGE5IND(MAXTRE),IGE5DUM(MAXTRE)
-      REAL     GE5DDP(MAXTRE),PCTGE5(MAXTRE),PCTLS(MAXTRE),
-     &         GE5DBH(MAXTRE)
-      REAL     SDQGE5,T,BAGE5,P,TOTAL,QMDGE5
-      INTEGER  IGE5,IS
+C
+      INTEGER I,IK,ISPC,I1,I2,I3
+C
+      REAL BAGE5,BAL,BARK,BRATIO,CONSPP,CR,D,DDS,DIAGRO,DIAGRI
+      REAL D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11
+      REAL P,QMDGE5,RELDBH,RELDBHSQ,SDQGE5,T
+C
+      REAL BALC(MAXSP),CRSQC(MAXSP),CRWNC(MAXSP),DBHC(MAXSP),
+     &     DBH2C(MAXSP),DIAM(MAXTRE),INTERC(MAXSP),
+     &     OBSERV(MAXSP),RDBHC(MAXSP),
+     &     RDBHSQC(MAXSP),SBAC(MAXSP),SITEC(MAXSP),
+     &     VDBHC(MAXSP)
+C----------
+C  DATA STATEMENTS:
 C
 C  COEFFICIENTS FOR DDS MODEL
-C
+C----------
       DATA INTERC/
      &  3.09820,  3.09820,  0.64882,  2.76330,  2.76330,
      &  -0.7079,  -0.7079,  2.95910,  2.95910, -0.28233,
@@ -131,9 +148,9 @@ C
      &  0.89302,  0.89302,  1.81510,  2.23020,  2.23020,
      &  2.23020,  3.23650,  1.23520,  1.23520,  1.23520,
      &  1.23520,  1.23520,  1.23520,  1.23520,  1.23520,
-     &  3.4264,   3.71790,  2.97130, -0.29734, -0.29734,
+     &   3.4264,  3.71790,  2.97130, -0.29734, -0.29734,
      & -0.29734,  1.09010,  0.02098,  0.02098,  1.89700,
-     &  2.0352,   3.86780,  0.93769,  0.93769,  0.93769,
+     &   2.0352,  3.86780,  0.93769,  0.93769,  0.93769,
      &  0.93769,  1.36920,  1.36920, -1.73610,  3.98500,
      &  3.98500,  3.98500,  0.93769,  3.98500,  3.98500,
      &  3.98500,  3.98500,  3.02200,  3.38410,  3.02200,
@@ -143,168 +160,168 @@ C
      &  3.03080,  3.03080,  3.03080,  3.03080,  2.95910,
      & -0.18599,  3.03080,  3.03080,  3.03080,  3.03080,
      &  3.03080/
-
+C
       DATA VDBHC/
-     &  -8.58440,  -8.58440,   0.00000, -10.45000, -10.45000,
-     &   0.00000,   0.00000,  -9.51990,  -9.51990,   0.00000,
-     &   0.00000,   0.00000,   0.00000,  -5.46950,  -5.46950,
-     &  -5.46950,  -5.46950,   0.00000,   0.00000,   0.00000,
-     &   0.00000,   0.00000,   0.00000,   0.00000, -14.16700,
-     & -14.16700, -14.16700,   0.00000,  -6.99620,  -6.99620,
+     &  -8.58440,  -8.58440,       0.0, -10.45000, -10.45000,
+     &       0.0,       0.0,  -9.51990,  -9.51990,       0.0,
+     &       0.0,       0.0,       0.0,  -5.46950,  -5.46950,
+     &  -5.46950,  -5.46950,       0.0,       0.0,       0.0,
+     &       0.0,       0.0,       0.0,       0.0, -14.16700,
+     & -14.16700, -14.16700,       0.0,  -6.99620,  -6.99620,
      &  -6.99620, -10.26800,  -5.21440,  -5.21440,  -5.21440,
      &  -5.21440,  -5.21440,  -5.21440,  -5.21440,  -5.21440,
-     &  -7.8659,   -8.96970, -10.11500,   0.00000,   0.00000,
-     &   0.00000,  -3.68390,   0.00000,   0.00000,  -5.72030,
-     &  -5.2884,  -11.27600,  -5.11930,  -5.11930,  -5.11930,
-     &  -5.11930,  -5.03520,  -5.03520,   0.00000, -13.51900,
+     &   -7.8659,  -8.96970, -10.11500,       0.0,       0.0,
+     &       0.0,  -3.68390,       0.0,       0.0,  -5.72030,
+     &   -5.2884, -11.27600,  -5.11930,  -5.11930,  -5.11930,
+     &  -5.11930,  -5.03520,  -5.03520,       0.0, -13.51900,
      & -13.51900, -13.51900,  -5.11930, -13.51900, -13.51900,
      & -13.51900, -13.51900, -13.62700, -10.28200, -13.62700,
      & -13.62700, -13.62700,  -8.59700, -13.62700, -13.62700,
      & -13.62700 ,-13.62700,  -8.87037,  -8.87037,  -8.87037,
      &  -8.87037,  -8.87037,  -8.87037,  -8.87037,  -8.10590,
      &  -8.10590,  -8.10590,  -8.10590,  -8.10590,  -9.51990,
-     &   0.00000,  -8.10590,  -8.10590,  -8.10590,  -8.10590,
-     &  -8.10590 /
-
+     &       0.0,  -8.10590,  -8.10590,  -8.10590,  -8.10590,
+     &  -8.10590/
+C
       DATA DBHC/
-     & 0.00000, 0.00000, 0.00000, 0.00000,  0.00000,
-     & 0.07533, 0.07533, 0.00000, 0.00000,  0.00000,
-     & 0.00000, 0.00000, 0.00000, 0.12337,  0.12337,
-     & 0.12337, 0.12337, 0.26917, 0.26917,  0.26917,
-     & 0.26917, 0.26917, 0.26917, 0.14458,  0.00000,
-     & 0.00000, 0.00000, 0.09153, 0.11324,  0.11324,
-     & 0.11324, 0.00000, 0.18300, 0.18300,  0.18300,
-     & 0.18300, 0.18300, 0.18300, 0.18300,  0.18300,
-     & 0.057705,0.00000, 0.00000, 0.20494,  0.20494,
-     & 0.20494, 0.11623, 0.14061, 0.14061,  0.00000,
-     & 0.00000, 0.00000, 0.09743, 0.09743,  0.09743,
-     & 0.09743, 0.12165, 0.12165, 0.26087,  0.00000,
-     & 0.00000, 0.00000, 0.09743, 0.00000,  0.00000,
-     & 0.00000, 0.00000, 0.00000, 0.00000,  0.00000,
-     & 0.00000, 0.00000, 0.00000, 0.00000,  0.00000,
-     & 0.00000, 0.00000, 0.00000, 0.00000,  0.00000,
-     & 0.00000, 0.00000, 0.00000, 0.00000,  0.00000,
-     & 0.00000, 0.00000, 0.00000, 0.00000,  0.00000,
-     & 0.20178, 0.00000, 0.00000, 0.00000,  0.00000,
-     & 0.00000/
-
+     &      0.0,     0.0,     0.0,     0.0,      0.0,
+     &  0.07533, 0.07533,     0.0,     0.0,      0.0,
+     &      0.0,     0.0,     0.0, 0.12337,  0.12337,
+     &  0.12337, 0.12337, 0.26917, 0.26917,  0.26917,
+     &  0.26917, 0.26917, 0.26917, 0.14458,      0.0,
+     &      0.0,     0.0, 0.09153, 0.11324,  0.11324,
+     &  0.11324,     0.0, 0.18300, 0.18300,  0.18300,
+     &  0.18300, 0.18300, 0.18300, 0.18300,  0.18300,
+     & 0.057705,     0.0,     0.0, 0.20494,  0.20494,
+     &  0.20494, 0.11623, 0.14061, 0.14061,      0.0,
+     &      0.0,     0.0, 0.09743, 0.09743,  0.09743,
+     &  0.09743, 0.12165, 0.12165, 0.26087,      0.0,
+     &      0.0,     0.0, 0.09743,     0.0,      0.0,
+     &      0.0,     0.0,     0.0,     0.0,      0.0,
+     &      0.0,     0.0,     0.0,     0.0,      0.0,
+     &      0.0,     0.0,     0.0,     0.0,      0.0,
+     &      0.0,     0.0,     0.0,     0.0,      0.0,
+     &      0.0,     0.0,     0.0,     0.0,      0.0,
+     &  0.20178,     0.0,     0.0,     0.0,      0.0,
+     &      0.0/
+C
       DATA DBH2C/
-     &  0.00000,   0.00000,  0.01234,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.01581,
-     &  0.01581,   0.01581,  0.01581,  0.00000,  0.00000,
-     &  0.00000,   0.00000, -0.00342, -0.00342, -0.00342,
-     & -0.00342,  -0.00342, -0.00342,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000, -0.00186, -0.00186,
-     & -0.00186,   0.00000, -0.00314, -0.00314, -0.00314,
-     & -0.00314,  -0.00314, -0.00314, -0.00314, -0.00314,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00346,
-     &  0.0051307, 0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000,   0.00000,  0.00000,  0.00000,  0.00000,
-     &  0.00000/
-
+     &       0.0,       0.0,  0.01234,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,  0.01581,
+     &   0.01581,   0.01581,  0.01581,      0.0,      0.0,
+     &       0.0,       0.0, -0.00342, -0.00342, -0.00342,
+     &  -0.00342,  -0.00342, -0.00342,      0.0,      0.0,
+     &       0.0,       0.0,      0.0, -0.00186, -0.00186,
+     &  -0.00186,       0.0, -0.00314, -0.00314, -0.00314,
+     &  -0.00314,  -0.00314, -0.00314, -0.00314, -0.00314,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,  0.00346,
+     & 0.0051307,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0,       0.0,      0.0,      0.0,      0.0,
+     &       0.0/
+C
       DATA RDBHC/
-     & 0.00000, 0.00000,  2.87386,  0.00000,  0.00000,
-     & 2.12877, 2.12877,  0.00000,  0.00000,  3.37463,
+     &     0.0,     0.0,  2.87386,      0.0,      0.0,
+     & 2.12877, 2.12877,      0.0,      0.0,  3.37463,
      & 3.37463, 3.37463,  3.37463,  0.40029,  0.40029,
      & 0.40029, 0.40029,  0.48856,  0.48856,  0.48856,
-     & 0.48856, 0.48856,  0.48856,  1.85880,  0.00000,
-     & 0.00000, 0.00000,  1.02090,  0.00000,  0.00000,
-     & 0.00000, 0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000, 0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000, 0.00000,  0.00000,  1.03840,  1.03840,
+     & 0.48856, 0.48856,  0.48856,  1.85880,      0.0,
+     &     0.0,     0.0,  1.02090,      0.0,      0.0,
+     &     0.0,     0.0,      0.0,      0.0,      0.0,
+     &     0.0,     0.0,      0.0,      0.0,      0.0,
+     &     0.0,     0.0,      0.0,  1.03840,  1.03840,
      & 1.03840, 0.70038,  1.21010,  1.21010,  0.93903,
-     & 1.1685,  0.00000,  0.47749,  0.47749,  0.47749,
-     & 0.47749, 0.00000,  0.00000,  1.76660,  0.00000,
-     & 0.00000, 0.00000,  0.47749,  0.00000,  0.00000,
-     & 0.00000, 0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000, 0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000, 0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000, 0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000, 0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.54649, 0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000/
-
+     &  1.1685,     0.0,  0.47749,  0.47749,  0.47749,
+     & 0.47749,     0.0,      0.0,  1.76660,      0.0,
+     &     0.0,     0.0,  0.47749,      0.0,      0.0,
+     &     0.0,     0.0,      0.0,      0.0,      0.0,
+     &     0.0,     0.0,      0.0,      0.0,      0.0,
+     &     0.0,     0.0,      0.0,      0.0,      0.0,
+     &     0.0,     0.0,      0.0,      0.0,      0.0,
+     &     0.0,     0.0,      0.0,      0.0,      0.0,
+     & 0.54649,     0.0,      0.0,      0.0,      0.0,
+     &     0.0/
+C
       DATA RDBHSQC/
-     &   0.00000,   0.00000,  -0.20916,  0.00000,  0.00000,
-     &  -0.05909,  -0.05909,   0.00000,  0.00000, -0.26631,
+     &       0.0,       0.0,  -0.20916,      0.0,      0.0,
+     &  -0.05909,  -0.05909,       0.0,      0.0, -0.26631,
      &  -0.26631,  -0.26631,  -0.26631, -0.03136, -0.03136,
      &  -0.03136,  -0.03136,  -0.03745, -0.03745, -0.03745,
-     &  -0.03745,  -0.03745,  -0.03745, -0.08029,  0.00000,
-     &   0.00000,   0.00000,  -0.03235,  0.00000,  0.00000,
-     &   0.00000,   0.00000,   0.00000,  0.00000,  0.00000,
-     &   0.00000,   0.00000,   0.00000,  0.00000,  0.00000,
-     &  -0.019995,  0.00000,   0.00000, -0.08002, -0.08002,
+     &  -0.03745,  -0.03745,  -0.03745, -0.08029,      0.0,
+     &       0.0,       0.0,  -0.03235,      0.0,      0.0,
+     &       0.0,       0.0,       0.0,      0.0,      0.0,
+     &       0.0,       0.0,       0.0,      0.0,      0.0,
+     & -0.019995,       0.0,       0.0, -0.08002, -0.08002,
      &  -0.08002,  -0.04289,  -0.05494, -0.05494, -0.05092,
-     &  -0.071643,  0.00000,  -0.02443, -0.02443, -0.02443,
-     &  -0.02443,  -0.03038,  -0.03038, -0.11006,  0.00000,
-     &   0.00000,   0.00000,  -0.02443,  0.00000,  0.00000,
-     &   0.00000,   0.00000,   0.00000,  0.00000,  0.00000,
-     &   0.00000,   0.00000,   0.00000,  0.00000,  0.00000,
-     &   0.00000,   0.00000,   0.00000,  0.00000,  0.00000,
-     &   0.00000,   0.00000,   0.00000,  0.00000,  0.00000,
-     &   0.00000,   0.00000,   0.00000,  0.00000,  0.00000,
-     &  -0.04667,   0.00000,   0.00000,  0.00000,  0.00000,
-     &   0.00000/
-
+     & -0.071643,       0.0,  -0.02443, -0.02443, -0.02443,
+     &  -0.02443,  -0.03038,  -0.03038, -0.11006,      0.0,
+     &       0.0,       0.0,  -0.02443,      0.0,      0.0,
+     &       0.0,       0.0,       0.0,      0.0,      0.0,
+     &       0.0,       0.0,       0.0,      0.0,      0.0,
+     &       0.0,       0.0,       0.0,      0.0,      0.0,
+     &       0.0,       0.0,       0.0,      0.0,      0.0,
+     &       0.0,       0.0,       0.0,      0.0,      0.0,
+     &  -0.04667,       0.0,       0.0,      0.0,      0.0,
+     &       0.0/
+C
       DATA SBAC/
      & -0.00386,  -0.00386, -0.00162,  -0.00324,  -0.00324,
-     &  0.00000,   0.00000,  0.00000,   0.00000,   0.00000,
-     &  0.00000,   0.00000,  0.00000,  -0.00160,  -0.00160,
+     &      0.0,       0.0,      0.0,       0.0,       0.0,
+     &      0.0,       0.0,      0.0,  -0.00160,  -0.00160,
      & -0.00160,  -0.00160, -0.00230,  -0.00230,  -0.00230,
-     & -0.00230,  -0.00230, -0.00230,   0.00000,   0.00000,
-     &  0.00000,   0.00000,  0.00000,   0.00000,   0.00000,
-     &  0.00000,   0.00000, -0.00439,  -0.00439,  -0.00439,
+     & -0.00230,  -0.00230, -0.00230,       0.0,       0.0,
+     &      0.0,       0.0,      0.0,       0.0,       0.0,
+     &      0.0,       0.0, -0.00439,  -0.00439,  -0.00439,
      & -0.00439,  -0.00439, -0.00439,  -0.00439,  -0.00439,
-     &  0.00000,   0.00000,  0.00000,   0.00000,   0.00000,
-     &  0.00000,   0.00000,  0.00000,   0.00000,  -0.00176,
-     &  0.00240,  -0.00537,  0.00000,   0.00000,   0.00000,
-     &  0.00000,   0.00000,  0.00000,   0.00000,   0.00000,
-     &  0.00000,   0.00000,  0.00000,   0.00000,   0.00000,
-     &  0.00000,   0.00000, -0.00288,   0.00000,  -0.00288,
-     & -0.00288,  -0.00288,  0.00000,  -0.00288,  -0.00288,
-     & -0.00288,  -0.00288,  0.00000,   0.00000,   0.00000,
-     &  0.00000,   0.00000,  0.00000,   0.00000,  -0.00179,
-     & -0.00179,  -0.00179, -0.00179,  -0.00179,   0.00000,
+     &      0.0,       0.0,      0.0,       0.0,       0.0,
+     &      0.0,       0.0,      0.0,       0.0,  -0.00176,
+     &  0.00240,  -0.00537,      0.0,       0.0,       0.0,
+     &      0.0,       0.0,      0.0,       0.0,       0.0,
+     &      0.0,       0.0,      0.0,       0.0,       0.0,
+     &      0.0,       0.0, -0.00288,       0.0,  -0.00288,
+     & -0.00288,  -0.00288,      0.0,  -0.00288,  -0.00288,
+     & -0.00288,  -0.00288,      0.0,       0.0,       0.0,
+     &      0.0,       0.0,      0.0,       0.0,  -0.00179,
+     & -0.00179,  -0.00179, -0.00179,  -0.00179,       0.0,
      & -0.00704,  -0.00179, -0.00179,  -0.00179,  -0.00179,
      & -0.00179/
-
+C
       DATA BALC/
-     &   0.00000,    0.00000,  -0.00318,   0.00000,   0.00000,
-     &   0.00000,    0.00000,  -0.00169,  -0.00169,   0.00000,
-     &   0.00000,    0.00000,   0.00000,   0.00000,   0.00000,
-     &   0.00000,    0.00000,   0.00000,   0.00000,   0.00000,
-     &   0.00000,    0.00000,   0.00000,   0.00000,   0.00000,
-     &   0.00000,    0.00000,  -0.00428,  -0.00171,  -0.00171,
-     &  -0.00171,   -0.00150,   0.00331,   0.00331,   0.00331,
-     &   0.00331,    0.00331,   0.00331,   0.00331,   0.00331,
-     &  -0.0052144, -0.00278,  -0.00303,  -0.00195,  -0.00195,
-     &  -0.00195,   -0.00302,   0.00000,   0.00000,   0.00000,
-     &  -0.0013941,  0.00000,  -0.00092,  -0.00092,  -0.00092,
-     &  -0.00092,   -0.00351,  -0.00351,   0.00000,  -0.00233,
-     &  -0.00233,   -0.00233,  -0.00092,  -0.00233,  -0.00233,
-     &  -0.00233,   -0.00233,   0.00000,  -0.00170,   0.00000,
-     &   0.00000,    0.00000,  -0.00261,   0.00000,   0.00000,
-     &   0.00000,    0.00000,  -0.00535,  -0.00535,  -0.00535,
-     &  -0.00535,   -0.00535,  -0.00535,  -0.00535,   0.00000,
-     &   0.00000,    0.00000,   0.00000,   0.00000,  -0.00169,
-     &   0.00554,    0.00000,   0.00000,   0.00000,   0.00000,
-     &   0.00000/
-
+     &        0.0,        0.0,  -0.00318,       0.0,       0.0,
+     &        0.0,        0.0,  -0.00169,  -0.00169,       0.0,
+     &        0.0,        0.0,       0.0,       0.0,       0.0,
+     &        0.0,        0.0,       0.0,       0.0,       0.0,
+     &        0.0,        0.0,       0.0,       0.0,       0.0,
+     &        0.0,        0.0,  -0.00428,  -0.00171,  -0.00171,
+     &   -0.00171,   -0.00150,   0.00331,   0.00331,   0.00331,
+     &    0.00331,    0.00331,   0.00331,   0.00331,   0.00331,
+     & -0.0052144,   -0.00278,  -0.00303,  -0.00195,  -0.00195,
+     &   -0.00195,   -0.00302,       0.0,       0.0,       0.0,
+     & -0.0013941,        0.0,  -0.00092,  -0.00092,  -0.00092,
+     &   -0.00092,   -0.00351,  -0.00351,       0.0,  -0.00233,
+     &   -0.00233,   -0.00233,  -0.00092,  -0.00233,  -0.00233,
+     &   -0.00233,   -0.00233,       0.0,  -0.00170,       0.0,
+     &        0.0,        0.0,  -0.00261,       0.0,       0.0,
+     &        0.0,        0.0,  -0.00535,  -0.00535,  -0.00535,
+     &   -0.00535,   -0.00535,  -0.00535,  -0.00535,       0.0,
+     &        0.0,        0.0,       0.0,       0.0,  -0.00169,
+     &    0.00554,        0.0,       0.0,       0.0,       0.0,
+     &        0.0/
+C
       DATA CRWNC/
      & 0.01628, 0.01628,  0.02252,  0.05754,  0.05754,
      & 0.06590, 0.06590,  0.03012,  0.03012,  0.01650,
      & 0.01650, 0.01650,  0.01650,  0.02491,  0.02491,
      & 0.02491, 0.02491,  0.02673,  0.02673,  0.02673,
      & 0.02673, 0.02673,  0.02673,  0.01373,  0.15110,
-     & 0.15110, 0.15110,  0.00000,  0.03114,  0.03114,
+     & 0.15110, 0.15110,      0.0,  0.03114,  0.03114,
      & 0.03114, 0.02457,  0.02814,  0.02814,  0.02814,
      & 0.02814, 0.02814,  0.02814,  0.02814,  0.02814,
      & 0.04625, 0.01517,  0.02898,  0.02569,  0.02569,
@@ -319,52 +336,52 @@ C
      & 0.00489, 0.00489,  0.00489,  0.00489,  0.03012,
      & 0.04276, 0.00489,  0.00489,  0.00489,  0.00489,
      & 0.00489/
-
+C
       DATA CRSQC/
-     &   0.00000,  0.00000,  0.00000, -0.00041, -0.00041,
-     &  -0.00046, -0.00046,  0.00000,  0.00000,  0.00000,
-     &   0.00000,  0.00000,  0.00000, -0.00017, -0.00017,
+     &       0.0,      0.0,      0.0, -0.00041, -0.00041,
+     &  -0.00046, -0.00046,      0.0,      0.0,      0.0,
+     &       0.0,      0.0,      0.0, -0.00017, -0.00017,
      &  -0.00017, -0.00017, -0.00021, -0.00021, -0.00021,
-     &  -0.00021, -0.00021, -0.00021,  0.00000, -0.00141,
+     &  -0.00021, -0.00021, -0.00021,      0.0, -0.00141,
      &  -0.00141, -0.00141,  0.00031, -0.00014, -0.00014,
-     &  -0.00014,  0.00000, -0.00011, -0.00011, -0.00011,
+     &  -0.00014,      0.0, -0.00011, -0.00011, -0.00011,
      &  -0.00011, -0.00011, -0.00011, -0.00011, -0.00011,
-     & -0.000227,  0.00000, -0.00013,  0.00000,  0.00000,
-     &   0.00000, -0.00021,  0.00000,  0.00000, -0.00016,
-     & -0.000312,  0.00000,  0.00000,  0.00000,  0.00000,
-     &   0.00000,  0.00000,  0.00000,  0.00000, -0.00019,
-     &  -0.00019, -0.00019,  0.00000, -0.00019, -0.00019,
+     & -0.000227,      0.0, -0.00013,      0.0,      0.0,
+     &       0.0, -0.00021,      0.0,      0.0, -0.00016,
+     & -0.000312,      0.0,      0.0,      0.0,      0.0,
+     &       0.0,      0.0,      0.0,      0.0, -0.00019,
+     &  -0.00019, -0.00019,      0.0, -0.00019, -0.00019,
      &  -0.00019, -0.00019, -0.00037, -0.00026, -0.00037,
-     &  -0.00037, -0.00037,  0.00000, -0.00037, -0.00037,
-     &  -0.00037, -0.00037,  0.00000,  0.00000,  0.00000,
-     &   0.00000,  0.00000,  0.00000,  0.00000,  0.00000,
-     &   0.00000,  0.00000,  0.00000,  0.00000,  0.00000,
-     &  -0.00024,  0.00000,  0.00000,  0.00000,  0.00000,
-     &   0.00000/
-
+     &  -0.00037, -0.00037,      0.0, -0.00037, -0.00037,
+     &  -0.00037, -0.00037,      0.0,      0.0,      0.0,
+     &       0.0,      0.0,      0.0,      0.0,      0.0,
+     &       0.0,      0.0,      0.0,      0.0,      0.0,
+     &  -0.00024,      0.0,      0.0,      0.0,      0.0,
+     &       0.0/
+C
       DATA SITEC/
-     & 0.00000,  0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000,  0.00000,  0.00356,  0.00356,  0.00000,
-     & 0.00000,  0.00000,  0.00000,  0.00543,  0.00543,
+     &     0.0,      0.0,      0.0,      0.0,      0.0,
+     &     0.0,      0.0,  0.00356,  0.00356,      0.0,
+     &     0.0,      0.0,      0.0,  0.00543,  0.00543,
      & 0.00543,  0.00543,  0.00744,  0.00744,  0.00744,
-     & 0.00744,  0.00744,  0.00744,  0.00000,  0.00000,
-     & 0.00000,  0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000,  0.00235,  0.00447,  0.00447,  0.00447,
+     & 0.00744,  0.00744,  0.00744,      0.0,      0.0,
+     &     0.0,      0.0,      0.0,      0.0,      0.0,
+     &     0.0,  0.00235,  0.00447,  0.00447,  0.00447,
      & 0.00447,  0.00447,  0.00447,  0.00447,  0.00447,
-     & -0.00431, 0.00000,  0.00383,  0.00424,  0.00424,
+     & -0.00431,     0.0,  0.00383,  0.00424,  0.00424,
      & 0.00424,  0.00351,  0.00955,  0.00955,  0.00540,
-     & 0.00000,  0.00000,  0.01240,  0.01240,  0.01240,
-     & 0.01240,  0.00915,  0.00915,  0.00774,  0.00000,
-     & 0.00000,  0.00000,  0.01240,  0.00000,  0.00000,
-     & 0.00000,  0.00000,  0.00766,  0.00000,  0.00766,
+     &     0.0,      0.0,  0.01240,  0.01240,  0.01240,
+     & 0.01240,  0.00915,  0.00915,  0.00774,      0.0,
+     &     0.0,      0.0,  0.01240,      0.0,      0.0,
+     &     0.0,      0.0,  0.00766,      0.0,  0.00766,
      & 0.00766,  0.00766,  0.00599,  0.00766,  0.00766,
-     & 0.00766,  0.00766,  0.00000,  0.00000,  0.00000,
-     & 0.00000,  0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000,  0.00000,  0.00000,  0.00000,  0.00356,
-     & 0.00000,  0.00000,  0.00000,  0.00000,  0.00000,
-     & 0.00000/
-
-      DATA OBSERV /
+     & 0.00766,  0.00766,      0.0,      0.0,      0.0,
+     &     0.0,      0.0,      0.0,      0.0,      0.0,
+     &     0.0,      0.0,      0.0,      0.0,  0.00356,
+     &     0.0,      0.0,      0.0,      0.0,      0.0,
+     &     0.0/
+C
+      DATA OBSERV/
      & 4111.0,  4111.0, 2864.0,  216.0,  216.0,
      &  283.0,   283.0, 2298.0, 2298.0,  677.0,
      &  677.0,   677.0,  677.0, 3872.0, 3872.0,
@@ -389,117 +406,91 @@ C-----------
 C  CHECK FOR DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'DGF',3,ICYC)
-      IF(DEBUG) WRITE(JOSTND,3)ICYC
-    3 FORMAT(' ENTERING SUBROUTINE DGF  CYCLE =',I5)
+      IF(DEBUG) WRITE(JOSTND,5)ICYC
+    5 FORMAT(' ENTERING SUBROUTINE DGF  CYCLE =',I5)
 C-----------
-C  CALCULATE VARAIBES FOR DBH >= 5 IN
+C  INITIALIZE VARIABLES FOR DBH >= 5 IN
 C-----------
       SDQGE5=0.
       T=0.
       BAGE5=0.
-      IGE5=0
-      IGE5IND=0
-      IGE5DUM=0
-      GE5DBH=0.
       QMDGE5=0.
-C
-      DO 2 ISPC=1,MAXSP
-      I1=ISCT(ISPC,1)
-      IF(I1 .LE. 0)GO TO 2
-      I2=ISCT(ISPC,2)
-      DO 1 I3=I1,I2
-      I=IND1(I3)
-      P=PROB(I)
-      IS=ISP(I)
-      D=DIAM(I)
-      IF(D.LT.5.)GO TO 1                      ! BRANCH IF D IS LT 5. IN
-      SDQGE5=SDQGE5+P*(D)**2.
-      T=T+P
-C-----------
-C  CALCULATE BA FOR TREES GE 5
-C-----------
-      BAGE5=BAGE5+D*D*P*0.005454154
-C-----------
-C  SET UP VARIABLES TO CALCUALTE BA PERCENTILES
-C  IGE5= INDEX FOR TREES GE 5 IN
-C  IGE5IND ARRAY CONTAINS INDEXES FROM THE IND ARRAY FOR TREES GE 5 IN.
-C  GE5DDP CONTAINS THE BA VALUES FOR EACH TREE
-C  IGE5DUM IS USED TO INDEX THE SORT OF GE5DBH
-C-----------
-      IGE5=IGE5+1
-      IGE5IND(IGE5)=I
-      GE5DDP(IGE5)=D*D*P*.005454
-      GE5DBH(IGE5)=DIAM(I)
-      IGE5DUM(IGE5)=IGE5
-C
-   1  CONTINUE
-   2  CONTINUE
-      IF(SDQGE5.GT.0.)QMDGE5=SQRT(SDQGE5/T)
-C-----------
-C  CALCUILATE BA PERCENTILES FOR TREES >= 5 IN
-C-----------
-      CALL RDPSRT(IGE5,GE5DBH,IGE5DUM,.FALSE.)
-      CALL PCTILE(IGE5,IGE5DUM,GE5DDP,PCTGE5,TOTAL)
 C----------
-C  REINDEX ARRAYS SO THEY ARE CONSISTENT WITH FVS TREE LIST
-C----------
-      DO I=1,IGE5
-      PCTLS(IGE5IND(I))=PCTGE5(I)
-      ENDDO
-C----------
-C  BEGIN SPECIES LOOP.  ASSIGN VARIABLES WHICH ARE SPECIES
-C  DEPENDENT
+C  COMPUTE BASAL AREA IN TREES >= 5.0" DBH, 
+C  AND QMD FOR TREES >= 5.0" DBH
 C----------
       DO 20 ISPC=1,MAXSP
       I1=ISCT(ISPC,1)
-      IF(I1.EQ.0) GO TO 20
+      IF(I1 .LE. 0)GO TO 20
+      I2=ISCT(ISPC,2)
+      DO 10 I3=I1,I2
+      I=IND1(I3)
+      P=PROB(I)
+      D=DIAM(I)
+      IF(D.LT.5.)GO TO 10
+      SDQGE5=SDQGE5+P*(D)**2.
+      T=T+P
+      BAGE5=BAGE5+D*D*P*0.005454154
+  10  CONTINUE
+  20  CONTINUE
+      IF(SDQGE5.GT.0.)QMDGE5=SQRT(SDQGE5/T)
+      IF(BAGE5 .LE. 0.) BAGE5 = 10.
+C----------
+C  BEGIN SPECIES LOOP.
+C----------
+      DO 200 ISPC=1,MAXSP
+      I1=ISCT(ISPC,1)
+      IF(I1.EQ.0) GO TO 200
       I2=ISCT(ISPC,2)
       CONSPP= DGCON(ISPC) + COR(ISPC)
 C----------
 C  BEGIN TREE LOOP WITHIN SPECIES ISPC.
 C----------
-      DO 10 I3=I1,I2
+      DO 100 I3=I1,I2
       I=IND1(I3)
       D=DIAM(I)
       CR=ICR(I)
+      IF(CR .LE. 0.) CR= 10.
+      BAL = (1.0 - (PCT(I)/100.)) * BA
 C
-      IF (D.LE.0.0) GO TO 10
-      IF(D.LT.5.)PCTLS(I)=PCT(I)
+      IF (D.LE.0.0) GO TO 100
 C----------
 C  BOUND QMD FOR SOME SPECIES
 C----------
       SELECT CASE (ISPC)
-      CASE(50)                                ! BO
-        IF(QMDGE5.GT.12)QMDGE5=12
-      CASE(3,10:13)                           ! SP,TL,TS,WT,BG
-        IF(QMDGE5.GT.13)QMDGE5=13
-      CASE(14:17,28,53:56)                    ! HS,SH,SL,MH,EC,CK,SW,BR,SN
-        IF(QMDGE5.GT.25)QMDGE5=25
-      CASE(24)                                ! AB
-        IF(QMDGE5.GT.40)QMDGE5=40
-      CASE(51)                                ! SO
-        IF(QMDGE5.GT.11)QMDGE5=11
-      CASE(44:46, 59)                         ! AS,WA,GA,CO
-        IF(QMDGE5.GT.20)QMDGE5=20
-      CASE(48:49)                             ! RO,SK
-        IF(QMDGE5.GT.30)QMDGE5=30
-      CASE(91)                                ! OO
-        IF(QMDGE5.GT.17)QMDGE5=17
+        CASE(50)                                ! BO
+          IF(QMDGE5 .GT. 12.) QMDGE5=12.
+        CASE(3,10:13)                           ! SP,TL,TS,WT,BG
+          IF(QMDGE5 .GT. 13.) QMDGE5=13.
+        CASE(14:17,28,53:56)                    ! HS,SH,SL,MH,EC,CK,SW,BR,SN
+          IF(QMDGE5 .GT. 25.) QMDGE5=25.
+        CASE(24)                                ! AB
+          IF(QMDGE5 .GT. 40.) QMDGE5=40.
+        CASE(51)                                ! SO
+          IF(QMDGE5 .GT. 11.) QMDGE5=11.
+        CASE(44:46, 59)                         ! AS,WA,GA,CO
+          IF(QMDGE5 .GT. 20.) QMDGE5=20.
+        CASE(48:49)                             ! RO,SK
+          IF(QMDGE5 .GT. 30.) QMDGE5=30.
+        CASE(91)                                ! OO
+          IF(QMDGE5 .GT. 17.) QMDGE5=17.
+        CASE DEFAULT
       END SELECT
 C----------
 C  BOUND CROWN RATIO FOR SOME SPECIES
 C----------
       SELECT CASE (ISPC)
-      CASE(7)                                ! WP
-        IF(CR.GT.50)CR=50
-      CASE(8:10)                             ! WN,BN,TL
-        IF(CR.GT.75)CR=75
-      CASE(28,41)                            ! EC,YP
-        IF(CR.GT.60)CR=60
-      CASE(44:46)                            ! AS,WA,GA
-        IF(CR.GT.80)CR=80
-      CASE(32,78:84)                         ! BC,SY,BY,RB,SU,WI,BL
-        IF(CR.GT.85)CR=85
+        CASE(7)                                ! WP
+          IF(CR .GT. 50.) CR=50.
+        CASE(8:10)                             ! WN,BN,TL
+          IF(CR. GT. 75.) CR=75.
+        CASE(28,41)                            ! EC,YP
+          IF(CR .GT. 60.) CR=60.
+        CASE(44:46)                            ! AS,WA,GA
+          IF(CR .GT. 80.) CR=80.
+        CASE(32,78:84)                         ! BC,SY,BY,RB,SU,WI,BL
+          IF(CR .GT. 85.) CR=85.
+        CASE DEFAULT
       END SELECT
 C----------
 C  RELATIVE DBH
@@ -508,12 +499,6 @@ C----------
       RELDBHSQ = 0.0
       IF(QMDGE5.GT.0.0) RELDBH=D/QMDGE5
       IF(QMDGE5.GT.0.0) RELDBHSQ=D*D/QMDGE5
-C----------
-C  SET BA, CR, BAL
-C----------
-      IF(BAGE5 .LE. 0.) BAGE5= 10.
-      IF(CR.LE. 0) CR= 10.
-      BAL = (1.0 - (PCTLS(I)/100.)) *BAGE5
 C
       IF(DEBUG) WRITE(JOSTND,*) 'IN DGF-I= ',I,' D=',D,
      &' RELDBH= ',RELDBH,' SI= ',SITEAR(ISPC),
@@ -534,8 +519,9 @@ C----------
      &   + SBAC(ISPC) * BAGE5
      &   + BALC(ISPC) * BAL
      &   + SITEC(ISPC) * SITEAR(ISPC)
-C
-C
+C----------
+C  IF DEBUGGING, OUTPUT TERMS IN THE EQUATION
+C----------
       IF(DEBUG) THEN
         D1= INTERC(ISPC)
         D2= VDBHC(ISPC) * 1./D
@@ -549,11 +535,10 @@ C
         D10=BALC(ISPC) * BAL
         D11=SITEC(ISPC) * SITEAR(ISPC)
 C
-        WRITE(JOSTND,222)D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11,DDS
-  222   FORMAT(' IN DGF ,D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11,DDSO=',
+        WRITE(JOSTND,9090)D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11,DDS
+ 9090   FORMAT(' IN DGF ,D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11,DDSO=',
      &  /,15F9.3)
       ENDIF
-
 C----------
 C  CALCULATION OF DDS FOR CENTRAL STATES VARIANT WAS BUILT
 C  DDS OUTSIDE BARK, CONVERT TO INSIDE BARK
@@ -562,17 +547,10 @@ C----------
       DIAGRO= SQRT(DBH(I)*DBH(I)+EXP(DDS))-DBH(I)
       BARK=BRATIO(ISPC,DBH(I),HT(I))
       DIAGRI= DIAGRO*BARK
-      DDS=ALOG(((DBH(I)*BARK+DIAGRI)**2)-(DBH(I)*BARK)**2)
+      DDS=ALOG(((DBH(I)*BARK+DIAGRI)**2.0)-(DBH(I)*BARK)**2.0)
       IF(DEBUG) WRITE(JOSTND,*) 'IN DGF-I= ',I,' D=',D,
      &' DIAGRO= ',DIAGRO,' DIAGRI= ',DIAGRI,' BARK= ',BARK,
      &' DDS= ',DDS
-C---------
-C     CALL PPDGF TO GET A MODIFICATION VALUE FOR DDS THAT ACCOUNTS
-C     FOR THE DENSITY OF NEIGHBORING STANDS.
-C
-      XPPDDS=0.
-      CALL PPDGF (XPPDDS)
-      DDS=DDS+XPPDDS
 C
       IF(DDS.LT.-9.21) DDS=-9.21
       WK2(I)=DDS
@@ -580,33 +558,43 @@ C----------
 C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 C----------
       IF(DEBUG)THEN
-        WRITE(JOSTND,9001) I,ISPC,DDS
- 9001   FORMAT(' IN DGF, I=',I4,',  ISPC=',I3,',  DDS=',F7.4)
+        WRITE(JOSTND,9095) I,ISPC,DDS
+ 9095   FORMAT(' IN DGF, I=',I4,',  ISPC=',I3,',  DDS=',F7.4)
         WRITE(JOSTND,*)' IN DGF, DG= ',(DG(IK), IK= 1,50)
       ENDIF
 C
-   10 CONTINUE
+  100 CONTINUE
 C----------
 C  END OF SPECIES LOOP.
 C----------
-   20 CONTINUE
-      IF(DEBUG)WRITE(JOSTND,100)ICYC
-  100 FORMAT(' LEAVING SUBROUTINE DGF  CYCLE =',I5)
+  200 CONTINUE
+      IF(DEBUG) WRITE(JOSTND,9100)ICYC
+ 9100 FORMAT(' LEAVING SUBROUTINE DGF  CYCLE =',I5)
+C
       RETURN
+C
+C
       ENTRY DGCONS
+C----------
+C  ENTRY POINT FOR LOADING COEFFICIENTS OF THE DIAMETER INCREMENT
+C  MODEL THAT ARE SITE SPECIFIC AND NEED ONLY BE RESOLVED ONCE.
+C  OBSERV CONTAINS THE NUMBER OF
+C  OBSERVATIONS BY SPECIES FOR THE UNDERLYING MODEL 
+C  (THIS DATA IS USED BY **DGDRIV** FOR CALIBRATION).
+C
 C----------
 C  ENTER LOOP TO LOAD SPECIES DEPENDENT VECTORS.
 C----------
       DO ISPC=1,MAXSP
-      DGCON(ISPC)=0.
-      ATTEN(ISPC)=OBSERV(ISPC)
-      SMCON(ISPC)=0.
+        DGCON(ISPC)=0.
+        ATTEN(ISPC)=OBSERV(ISPC)
+        SMCON(ISPC)=0.
 C----------
 C  IF READCORD OR REUSCORD WAS SPECIFIED (LDCOR2 IS TRUE) ADD
 C  LN(COR2) TO THE BAI MODEL CONSTANT TERM (DGCON).  COR2 IS
 C  INITIALIZED TO 1.0 IN BLKDATA.
 C----------
-      IF (LDCOR2.AND.COR2(ISPC).GT.0.0) DGCON(ISPC)=DGCON(ISPC)
+        IF (LDCOR2.AND.COR2(ISPC).GT.0.0) DGCON(ISPC)=DGCON(ISPC)
      &  + ALOG(COR2(ISPC))
       ENDDO
 C

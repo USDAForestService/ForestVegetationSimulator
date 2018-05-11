@@ -3,7 +3,7 @@
      -  PERTRCR,SM25,SM10,KODE)
       IMPLICIT NONE
 C----------
-C $Id$
+C DBS $Id$
 C----------
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE FUELS CONSUMPTION REPORT
@@ -292,7 +292,6 @@ C
      -         INT(0,SQLSMALLINT_KIND),SM10B,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-  100 CONTINUE
       !Close Cursor
       iRet = fvsSQLCloseCursor(StmtHndlOut)
 

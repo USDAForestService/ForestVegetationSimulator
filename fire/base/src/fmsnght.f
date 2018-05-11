@@ -1,7 +1,7 @@
       SUBROUTINE FMSNGHT(VVER,KSP,HTD,HTCURR,IHRD,HTSNEW)
       IMPLICIT NONE
 C----------
-C  $Id: fmsnght.f 709 2015-08-23 22:06:06Z drobinsonessa@gmail.com $
+C FIRE-BASE $Id: fmsnght.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C
 C     SNAG HEIGHT PREDICTION
@@ -99,7 +99,7 @@ C       you use their values.
      &          (HTX(KSP,HTINDX1) .LT. 0.99)) THEN
               HTSNEW = HTCURR * 
      &                   (1.0 - HTR1 * HTX(KSP,HTINDX1)*SFTMULT)**NYRS
-            ELSE	 
+            ELSE
               HTSNEW = HTCURR * (1.0 - X2)**NYRS
             ENDIF
           ELSE
@@ -107,7 +107,7 @@ C       you use their values.
      &          (HTX(KSP,HTINDX2) .LT. 0.99)) THEN
               HTSNEW = HTCURR * 
      &                   (1.0 - HTR2 * HTX(KSP,HTINDX2)*SFTMULT)**NYRS
-            ELSE	 
+            ELSE
               HTSNEW = HTCURR * (1.0 - X2)**NYRS
             ENDIF
           ENDIF

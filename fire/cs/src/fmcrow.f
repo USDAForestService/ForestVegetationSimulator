@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C  **FMCROW  FIRE-CS DATE OF LAST REVISION:  01/10/12
+C FIRE-CS $Id: fmcrow.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS:
@@ -79,19 +79,19 @@ C----------
 C----------        
 C  ARGUMENTS TO PASS
 C----------
-	      SPI = ISPMAP(ISP(I))
+        SPI = ISPMAP(ISP(I))
         D   = DBH(I)
         H   = HT(I)
         IC  = ICR(I)
-	      SG  = V2T(ISP(I))
+        SG  = V2T(ISP(I))
         IF (DEBUG) WRITE(JOSTND,8) ISP(I),SPI
-    8   FORMAT(' FMCROW ISP(I) = ',I2,' SPI=',I5)	
+    8   FORMAT(' FMCROW ISP(I) = ',I2,' SPI=',I5)
 C----------
 C  INITIALIZE ALL THE CANOPY COMPONENTS TO ZERO, AND SKIP THE REST
 C  OF THIS LOOP IF THE TREE HAS NO DIAMETER, HEIGHT, OR LIVE CROWN.
 C----------
         DO J = 0,5
-	        XV(J) = 0.0
+          XV(J) = 0.0
         ENDDO
 C
         CALL FMCROWE(SPI,ISP(I),D,H,IC,SG,XV)

@@ -1,8 +1,7 @@
       SUBROUTINE FMFOUT(IYR, FLAME, FMD, IFIRE, CFTMP)
       IMPLICIT NONE
 C----------
-C  $Id$
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMBURN
@@ -371,7 +370,6 @@ C
   317     FORMAT(1X,I5,33X,'******  FIRE MODEL VERSION 1.0 ******')
   318     FORMAT (1X,I5,43X,'MORTALITY REPORT '
      &                      '(BASED ON STOCKABLE AREA)')
-  319     FORMAT (1X,I5)
   320     FORMAT (1X,I5,21X,
      &      'NUMBER KILLED / NUMBER BEFORE ',
      &      '(BY DIAMETER CLASS IN INCHES)',T111,'BASAL    TOTAL')

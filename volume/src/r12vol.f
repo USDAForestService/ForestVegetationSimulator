@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r12vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  1-18-2013
 C 01/18/2013 Added calculation for tip volume VOL(15)
       SUBROUTINE R12VOL(EQNUM,MTOPP,HT1PRD,DBHOB,VOL,NOLOGP,
@@ -60,7 +63,7 @@ C--   DETERMINE IF A BOARD FOOT PRODUCT REPRESTNTATION IS NEEDED
 C--*************** USE STEM PROFILE MODEL TO DETERMINE VOLUME
           IF(BFPFLG.EQ.1) THEN
                VTYPE = 2
-               SEGNUM = HT1PRD/8.15
+               SEGNUM = INT(HT1PRD/8.15)
                NOLOGP = SEGNUM
                DO 100, I=1,SEGNUM
                     HT2 = I
@@ -90,7 +93,7 @@ C**************************************************************
 C--*************** USE STEM PROFILE MODEL TO DETERMINE VOLUME
           IF(DBHOB.GE.7.0) THEN
                VTYPE = 3
-               SEGNUM = HT1PRD/8.15
+               SEGNUM = INT(HT1PRD/8.15)
                DO 200, I=1,SEGNUM
                   HT2 = I
                   CALL R12TAP(EQNUM,DBHOB,HT1PRD,HT2,MTOPP,FCLASS,

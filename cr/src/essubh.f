@@ -2,7 +2,7 @@
      &  TRAGE)
       IMPLICIT NONE
 C----------
-C CR $Id$
+C CR $Id: essubh.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     ASSIGNS HEIGHTS TO SUBSEQUENT AND PLANTED TREE RECORDS
@@ -29,6 +29,8 @@ C  DECLARATIONS
 C----------
       INTEGER I,N,ITIME,ISER
       REAL    AGE,HHT,EMSQR,DILATE,DELAY,ELEV,GENTIM,TRAGE
+      REAL RDANUW
+      INTEGER IDANUW
 C----------
 C  SPECIES ORDER:
 C   1=AF,  2=CB,  3=DF,  4=GF,  5=WF,  6=MH,  7=RC,  8=WL,  9=BC, 10=LM,
@@ -44,11 +46,18 @@ C  PB USES CR AS
 C  PM,PD,AZ USE CR PI
 C  CI USES CR PP                              
 C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      RDANUW = DILATE
+      RDANUW = ELEV
+      RDANUW = EMSQR
+      IDANUW = ISER
 C
-      N=DELAY+0.5
+C----------
+      N=INT(DELAY+0.5)
       IF(N.LT.-3) N=-3
       DELAY=FLOAT(N)
-      ITIME=TIME+0.5
+      ITIME=INT(TIME+0.5)
       IF(N.GT.ITIME) DELAY=TIME
       AGE=TIME-DELAY-GENTIM+TRAGE
       IF(AGE.LT.1.0) AGE=1.0

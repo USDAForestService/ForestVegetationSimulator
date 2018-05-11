@@ -1,7 +1,7 @@
       SUBROUTINE RDSPUP (I,ISL,IISP,TP,DIAM,RTD)
       IMPLICIT NONE
 C----------
-C  **RDSPUP      LAST REVISION:  09/03/14
+C RD $Id$
 C----------
 C
 C  Purpose :
@@ -73,6 +73,10 @@ C.... Data statements.
       IF (MAXRR .LT. 3) IDI = IDITYP(IRTSPC(IISP))
       IS  = ISPS(IRTSPC(IISP))
       ADJBOR = 0.0
+      DENUIN = 0.0
+      DENOUT = 0.0
+      OUTTOT = 0.0
+      UINTOT = 0.0
 
 C.... Set flags to specify that a stand entry occurred and the year
 C.... in which it occured.
@@ -125,7 +129,7 @@ C        (ACTIVITY CODE 2431)
 
             DO 23 IJ = 1, NTODO
                CALL OPGET (IJ,5,KDT,IACTK,NPS,PRMS)
-               JRRTYP = PRMS(5)
+               JRRTYP = INT(PRMS(5))
                SPINF(JRRTYP) = PRMS(1)
                SPDBH(JRRTYP) = PRMS(2) 
    23       CONTINUE

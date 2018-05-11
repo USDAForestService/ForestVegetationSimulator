@@ -3,7 +3,7 @@
      -  KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE 1ST MISTLETOE REPORT INFORMATION
 C     AUTH: D. ROBINSON, ESSA - BASED ON D. GAMMEL (DBSFUELS)
@@ -171,7 +171,7 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -    INT(0,SQLSMALLINT_KIND),IYEAR,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-        ColNumber=ColNumber+1       ! MEAN DMR
+        ColNumber=ColNumber+1     ! MEAN DMR
         iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -    SQL_F_DOUBLE,SQL_DOUBLE,INT(15,SQLUINTEGER_KIND),
      -    INT(5,SQLSMALLINT_KIND),SPDMR4B,int(4,SQLLEN_KIND),
@@ -358,7 +358,7 @@ C     CHECK TO SEE IF THE DM TABLE EXISTS IN THE DATBASE
      -      'Mean_DMI Number)'
         ELSE
           SQLStmtStr='CREATE TABLE FVS_DM_Stnd_Sum ('//
-     -      'CaseID char(26) not null,'//
+     -      'CaseID char(36) not null,'//
      -      'StandID char(26) not null,'//
      -      'Year int null,'//
      -      'Age int null,'//
@@ -448,7 +448,7 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -  INT(0,SQLSMALLINT_KIND),ISTBAI,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      ColNumber=ColNumber+1       ! INF VOL
+      ColNumber=ColNumber+1      ! INF VOL
       iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -  SQL_F_INTEGER,SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
      -  INT(0,SQLSMALLINT_KIND),ISTVOLI,int(4,SQLLEN_KIND),

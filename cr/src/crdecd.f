@@ -1,7 +1,7 @@
       SUBROUTINE CRDECD (IHB,CNHB,MAXHB,ARRAY2,KARD2)
       IMPLICIT NONE
 C----------
-C CR $Id$
+C CR $Id: crdecd.f 0000 2018-02-14 00:00:00Z gedixon $
 C
 C  CALLED FROM SUBROUTINE **HABTYP**.
 C----------
@@ -18,6 +18,11 @@ C----------
       CHARACTER*10 KARD2
       CHARACTER*8  CNHB(MAXHB),TEMP
       REAL   ARRAY2
+      REAL RDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      RDANUW = ARRAY2
 C
       IHB=0
 C----------

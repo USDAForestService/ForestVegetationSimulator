@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-SO  DATE OF LAST REVISION: 08/24/15
+C FIRE-SO $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -81,6 +81,11 @@ C
       LOGICAL DEBUG
       REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
      &        RSOFT, RSMAL, X
+      INTEGER IDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = ISWTCH
 C
 C
 C----------
@@ -106,11 +111,13 @@ C  the initial number to have fallen in 7 years:  (1-0.28)**7 = 0.1).
 C  This could be done outside the snag loop except when either PBSOFT
 C  of PBSMAL equals 1, which may often be the case.  So it's done here.
 C----------
+      DFALLN = 0.
+      RSOFT = 0.0
+      RSMAL = 0.0
       IF (DENTTL .LE. 0) RETURN
       IF ((IYR - BURNYR) .LT. PBTIME) THEN
         DZERO = NZERO / 50.0
 
-        RSOFT = 0.0
         IF (PBSOFT .GT. 0.0) THEN
           IF (PBSOFT .LT. 1.0) THEN
             RSOFT = 1 - EXP( LOG(1-PBSOFT) / PBTIME )
@@ -119,7 +126,6 @@ C----------
           ENDIF
         ENDIF
 
-        RSMAL = 0.0
         IF (PBSMAL .GT. 0.0) THEN
           IF (PBSMAL .LT. 1.0) THEN
             RSMAL = 1 - EXP( LOG(1-PBSMAL) / PBTIME )
@@ -137,7 +143,7 @@ C----------
 
       IF ((KODFOR .GE. 500 .AND. KODFOR .LT. 600)
      &     .OR. KODFOR .EQ. 701) THEN   ! CALIFORNIA
-     	
+     
         BASE = -0.001679 * D + 0.064311
         IF (BASE .LT. 0.01) BASE = 0.01
           
@@ -183,7 +189,7 @@ C----------
           ENDIF
         ENDIF
       ELSE   ! OREGON
-        	
+        
 C----------
 C  Call fmr6sdcy now because snag decay affects the snag fall rate through
 C  an adjustment factor.  Also, fmr6sdcy holds the dbh breakpoints used

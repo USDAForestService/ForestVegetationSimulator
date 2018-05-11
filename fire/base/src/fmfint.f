@@ -1,7 +1,7 @@
       SUBROUTINE FMFINT (IYR, BYRAM, FLAME, FTYP, HPA, ICALL)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 *     CALLED FROM FMBURN
 *                 FMPOFL
@@ -183,9 +183,9 @@ C
         SIGMA=0.0
         AT=0.0
         LHV1=0.0
-        FLAG(1)=0.0
-        FLAG(2)=0.0
-        FLAG(3)=0.0
+        FLAG(1)=0
+        FLAG(2)=0
+        FLAG(3)=0
         SUM1=0.0
         SUM2=0.0
         SUM3=0.0
@@ -194,7 +194,7 @@ C
 C       SORT FUEL COMPONENTS BY SIZE, FINEST FUELS FIRST
 C
         DO I=1,2
-          JMAX = NOCLAS(I)
+          JMAX = INT(NOCLAS(I))
 
           IF (JMAX .GT. 1) THEN
             JMM = JMAX - 1
@@ -244,7 +244,7 @@ C
 C       DELETE LARGE LOGS FROM FIRESPREAD CONSIDERATIONS
 C
         DO 205 I=1,2
-          KMAX = NOCLAS(I)
+          KMAX = INT(NOCLAS(I))
           IF (KMAX .LT. 1) GOTO 205
           DO 202 K=1,KMAX
             J= ISIZE(I,K)
@@ -256,8 +256,8 @@ C
 C
 C       CALCULATE WEIGHTING FACTORS FIRST FOR DEAD FUELS, THEN FOR LIVE FUELS
 C
-        N1 = NOCLAS(1)
-        N2 = NOCLAS(2)
+        N1 = INT(NOCLAS(1))
+        N2 = INT(NOCLAS(2))
         NOCLAS(1) = MIN0(LARGE1,N1)
         NOCLAS(2) = MIN0(LARGE2,N2)
 
@@ -274,7 +274,7 @@ C
 
         DO 300 I=1,2
           KMIN = IFINES(I)
-          KMAX = NOCLAS(I)
+          KMAX = INT(NOCLAS(I))
           IF ((KMAX .NE. 0) .AND. (KMIN .LE. KMAX)) THEN
             DO 310 K=KMIN,KMAX
               J = ISIZE(I, K)
@@ -311,7 +311,7 @@ C
         FINDM = 0.0
         DO 400 I=1,2
           N = IFINES(I)
-          JM = NOCLAS(I)
+          JM = INT(NOCLAS(I))
           IF ((JM .GT. 0) .AND. (N .LE. JM)) THEN
             IF (I .EQ. 1) THEN
               DO 410 J=N,JM
@@ -367,7 +367,7 @@ C
           AA4 = 0.0
           AA5 = 0.0
           LHV1 = 0.0
-          JM = NOCLAS(I)
+          JM = INT(NOCLAS(I))
           N = IFINES(I)
           IF ((JM .NE. 0) .AND. (N .LE. JM)) THEN
             DO 510 K=N,JM

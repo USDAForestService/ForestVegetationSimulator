@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: r10tapo.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 !== last modified  4-9-2002
       SUBROUTINE R10TAPO(DBHOB,HT2,LTYPE,MTOPP,CHK,NLOG,HMERCH,CL,SH,
      >                                                    DIB,VS,V)
@@ -397,7 +400,7 @@ C ***   NEXT, GET LOG AND TREE VOLUMES
 
       ENDIF
 
-  900 RETURN
+      RETURN
       END   
 
 

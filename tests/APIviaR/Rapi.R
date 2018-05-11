@@ -15,7 +15,7 @@ for (rf in dir ()) source (rf)
 setwd(cwd)
 
 # load the FVS library
-fvsLoad("FVSiec","../../bin")
+fvsLoad("qFVSie","../../bin")
 
 # define tree attribute list names
 treeAttrs = c("id","species","mort","tpa","dbh","dg","ht",

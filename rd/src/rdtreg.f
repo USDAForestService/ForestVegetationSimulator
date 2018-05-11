@@ -1,7 +1,7 @@
       SUBROUTINE RDTREG
       IMPLICIT NONE
 C----------
-C  **RDTREG      LAST REVISION:  03/01/16
+C RD $Id$
 C----------
 C
 C  Purpose :
@@ -223,7 +223,6 @@ C.... Update growing space factor based on root disease patches.
       IF (INFLAG .GT. 1) GOTO 260
       INFLAG = 2
 
-  202 CONTINUE
       DO 212 IDI=MINRR,MAXRR
          DO 210 I = 1,2
             DO 205 J = 1,5

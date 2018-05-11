@@ -1,7 +1,7 @@
       SUBROUTINE COVOLP (DEBUG,JOSTND,NTREES,INDEX,CRAREA,COVER,CCCOEF)
       IMPLICIT NONE
 C----------
-C  $Id$
+C  $Id: covolp.f 1930 2017-04-03 19:53:50Z mshettles521 $
 C----------
 C
 C     N.L.CROOKSTON - RMRS MOSCOW - OCTOBER 1997
@@ -44,12 +44,12 @@ C       OF THE TREE RECORDS %CC IS BEING CALCULATED FOR.
          ENDDO
       ENDIF
       
-      PCCU = ((SUM/43560)*100) 
+      PCCU = CCCOEF*(SUM/43560.0)
       
-      IF (PCCU.GT.229567) THEN
+      IF (PCCU.GT.5.) THEN
          COVER=100.
       ELSE
-         COVER = (1-EXP(-CCCOEF*PCCU))*100
+         COVER = (1.0-EXP(-PCCU))*100.0
       ENDIF
       
 C      IF(COVER.GT.PCCU)COVER=PCCU

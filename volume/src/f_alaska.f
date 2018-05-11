@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id: f_alaska.f 0000 2018-02-14 00:00:00Z gedixon $
+C----------
 !== last modified  09-14-2007
 c== Test for New Inside Bark Models
 C     FILE CONTAINS THE FOLLOWING ROUTINES:
@@ -99,19 +102,19 @@ c     second growth submodel
 c                                            Set counter for regional adjs
 c                               Check for regional modifications requested
       JRSP=JSP - 30
-	!SPRUCE AND HEMLOCK USE SAME MODEL FORM
-	IF(JRSP .EQ. 4) JRSP = 3  
-	IF(JRSP .EQ. 5 .OR. JRSP.EQ.6) JRSP = 4  
+C !SPRUCE AND HEMLOCK USE SAME MODEL FORM
+      IF(JRSP .EQ. 4) JRSP = 3  
+      IF(JRSP .EQ. 5 .OR. JRSP.EQ.6) JRSP = 4  
 
 c     Check for spruce hemlock second growth sub-model
-	IF(JRSP.EQ.3 .AND. GEOCODE.EQ.'01') THEN
+      IF(JRSP.EQ.3 .AND. GEOCODE.EQ.'01') THEN
          F(25,JRSP) = SUBF(1)
-	   F(34,JRSP) = SUBF(2)
-	   F(42,JRSP) = SUBF(3)
-	ENDIF
+         F(34,JRSP) = SUBF(2)
+         F(42,JRSP) = SUBF(3)
+      ENDIF
 
-      DMEDIAN = f(10,JRSP) *(HT-4.5)**(f(11,JRSP)+f(12,JRSP)*HT)
-      DFORM = DBHIB/DMEDIAN -1.0d0
+      DMEDIAN = REAL(f(10,JRSP) *(HT-4.5)**(f(11,JRSP)+f(12,JRSP)*HT))
+      DFORM = REAL(DBHIB/DMEDIAN -1.0d0)
 c                                                                RHI1
       U7 = F(13,JRSP) + f(14,JRSP)*log(ht) + f(15,JRSP)*DFORM 
 c                                                                RHLONGI
@@ -160,25 +163,25 @@ c                                              limits on U1 to U5
       if (u9.lt. 0.0d0) u9=0.0d0
 c                                         Define geometric parameters
 c                                        (These outcomes are SINGLE precision)
-      R1= dexp(U1)/ (1.0d0 + dexp(U1))                             
-      R2= dexp(U2)/ (1.0d0 + dexp(U2))                             
-      R3= dexp(U3)/ (1.0d0 + dexp(U3))                             
-      R4= dexp(U4)/ (1.0d0 + dexp(U4))                             
+      R1= REAL(dexp(U1)/ (1.0d0 + dexp(U1)))                           
+      R2= REAL(dexp(U2)/ (1.0d0 + dexp(U2)))                            
+      R3= REAL(dexp(U3)/ (1.0d0 + dexp(U3)))                            
+      R4= REAL(dexp(U4)/ (1.0d0 + dexp(U4)))                             
       IF (U5 .le. 7.0d0) then
-          R5= 0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5))                        
+          R5= REAL(0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5)))                        
       else
           R5=1.0
       end if
-      A3=U6
-      RHI1 =  dexp(U7) / ( 1.0d0 + dexp(U7) )
+      A3=REAL(U6)
+      RHI1 =  REAL(dexp(U7) / ( 1.0d0 + dexp(U7) ))
       if (RHI1.gt. 0.5 ) RHI1=0.5 
-      RHLONGI= U9    
+      RHLONGI= REAL(U9)  
       RHI2 = RHI1 + RHLONGI
 c      RHC = RHI2 + (1.0D0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8))
 c      If (RHC .lt. RHI2 +0.01) then
 c          RHC = MIN( RHI2+0.01, (RHI2+1.0)/2.0 )
 c        end if
-      RHC=U8 
+      RHC=REAL(U8) 
       if (RHC .lt. RHI2+.01) RHC= min( RHI2+.01, (RHI2+1.)/2.0 )
 C     PUT COEFFICIENTS INTO AN ARRAY FOR EASIER PASSING
       RFLW(1) = R1
@@ -230,8 +233,8 @@ C     SPRUCE HEMLOCK SECOND GROWTH
 
       BH = 4.5
       JSPR = JSP - 30
-	IF(JSPR .EQ. 4) JSPR = 3
-	IF(JSPR .EQ. 5 .OR. JSPR.EQ.6) JSPR = 4  
+      IF(JSPR .EQ. 4) JSPR = 3
+      IF(JSPR .EQ. 5 .OR. JSPR.EQ.6) JSPR = 4  
       
       Q1=V(1, JSPR)
       Q2=V(2, JSPR)
@@ -283,7 +286,7 @@ C100    IF (  abs(CORR) .gt. 1.0  .and.  ier_UNIT.ne.0)
 C     1     write(IER_UNIT,102) JSP, H1,H2, CORR
 C102        FORMAT(' CORRC2 ERROR on JSP=',i3,'  H1,H2, corr =',3f8.2)
 
-100   COR_AK = CORR
+100   COR_AK = REAL(CORR)
 
       RETURN
       END
@@ -365,32 +368,32 @@ C     SPRUCE HEMLOCK SECOND GROWTH
 
 
       JSPR = JSP - 30
-	IF(JSPR .EQ. 4) JSPR = 3
-	IF(JSPR .EQ. 5 .OR. JSPR.EQ.6) JSPR = 4  
+      IF(JSPR .EQ. 4) JSPR = 3
+      IF(JSPR .EQ. 5 .OR. JSPR.EQ.6) JSPR = 4  
 
 c     coef 1-16 are coef 61 to 76 in coef file
-      VA00 = V(1, JSPR)
-      VA01 = V(2, JSPR)
-      VA02 = V(3, JSPR)
-      VB00 = V(4, JSPR)
-      VB01 = V(5, JSPR)
-      VC0  = V(6, JSPR)
+      VA00 = REAL(V(1, JSPR))
+      VA01 = REAL(V(2, JSPR))
+      VA02 = REAL(V(3, JSPR))
+      VB00 = REAL(V(4, JSPR))
+      VB01 = REAL(V(5, JSPR))
+      VC0  = REAL(V(6, JSPR))
 
-      VX1 = V(7,JSPR)
-      VX2 = V(8,JSPR)
-      VX3 = V(9,JSPR)
+      VX1 = REAL(V(7,JSPR))
+      VX2 = REAL(V(8,JSPR))
+      VX3 = REAL(V(9,JSPR))
 
-      VA03 = V(10, JSPR)
-      VE00 = V(11, JSPR)
-      VE01 = V(12, JSPR)
-      VE02 = V(13, JSPR)
-      VF00 = V(14, JSPR)
-      VF01 = V(15, JSPR)
-      VG0  = V(16, JSPR) 
+      VA03 = REAL(V(10, JSPR))
+      VE00 = REAL(V(11, JSPR))
+      VE01 = REAL(V(12, JSPR))
+      VE02 = REAL(V(13, JSPR))
+      VF00 = REAL(V(14, JSPR))
+      VF01 = REAL(V(15, JSPR))
+      VG0  = REAL(V(16, JSPR))
       
       BH = 4.5
       
-      DMEDIAN = F(10,JSPR) *(HT - BH)**(F(11,JSPR)+F(12,JSPR)*HT)
+      DMEDIAN = REAL(F(10,JSPR) *(HT - BH)**(F(11,JSPR)+F(12,JSPR)*HT))
       DRATIO = DBH/DMEDIAN 
       LOGHT = log(HT)
 
@@ -476,7 +479,12 @@ c     Note:  coefficients are from SF_SET2 (possibly file BARKBHC2.COE)
       INTEGER JSP,JSPR
       INTEGER setopt(6)
       REAL DBHIB,HTTOT,DBHOB
-
+      INTEGER IDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = SETOPT(1)
+C
 c                                       Use Global or regional Lead coef ?
       JSPR = JSP - 30
 

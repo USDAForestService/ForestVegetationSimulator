@@ -1,7 +1,7 @@
       SUBROUTINE FMPOFL (IYR, FMD, LNMOUT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id: fmpofl.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 C----------
 C  SINGLE-STAND VERSION
 C  CALLED FROM: FMBURN
@@ -113,7 +113,7 @@ C       FOR THE WIND AND TEMPERATURE VALUES
 
         IDPL=1
         IF (FMOIS.EQ.3) IDPL=2
-        SWIND(FMOIS) = PREWND(IDPL)
+        SWIND(FMOIS) = INT(PREWND(IDPL))
 
         IF (PRESVL(IDPL,1) .EQ. 1) THEN
           MOIS(1,1) = PRESVL(IDPL,2)
@@ -607,7 +607,7 @@ C     FIND THE PROBABILITY OF TORCHING FOR BOTH IGNITION HEIGHTS.
             Z=(MINCB(J)-MXNT1)/.25 ! STD DEV IS SET TO .25 (LOG SCALE)
             CALL FMPOFL_NPROB(Z,Q,PT1,PDF)
             IF (PT1.LT.1D-7) PT1=0D0
-            PTR1=PTR1+(PT1*P)
+            PTR1=REAL(PTR1+(PT1*P))
          ENDDO
       ENDIF
 
@@ -619,7 +619,7 @@ C     FIND THE PROBABILITY OF TORCHING FOR BOTH IGNITION HEIGHTS.
             Z=(MINCB(J)-MXNT2)/.25
             CALL FMPOFL_NPROB(Z,Q,PT2,PDF)
             IF (PT2.LT.1D-7) PT2=0D0
-            PTR2=PTR2+(PT2*P)
+            PTR2=REAL(PTR2+(PT2*P))
          ENDDO
       ENDIF
 

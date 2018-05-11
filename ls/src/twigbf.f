@@ -1,8 +1,22 @@
       SUBROUTINE TWIGBF(ISPC,H,D,VMAX,BBFV)
       IMPLICIT NONE
 C----------
-C  **TWIGBF---LS    DATE OF LAST REVISION:   07/11/08
+C LS $Id: twigbf.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
+C-----------------------------------------------------------------
+C  LAKE STATES ACCEPTABLE TREE CLASS VOLUME EQUATION:
+C  --RAILLE, GERHARD K., W.B. SMITH, C.A. WEIST. 1982. A NET VOLUME
+C    EQUATION FOR MICHIGAN'S UPPER AND LOWER PENINSULAS. 12 P.
+C    USDA FOREST SERVICE GEN TECH REPORT NC-80.
+C
+C          V = B1*SI**B2*[1-EXP(-B3*DBH)]**B4
+C
+C  WHERE:
+C        V = VOLUME
+C       SI = SITE INDEX
+C      DBH = DIAMETER BREAST HEIGHT
+C    B1-B4 = SPECIES SPECIFIC COEFFICIENTS
+C------------------------------------------------------------------
 C
 COMMONS
 C
@@ -31,6 +45,7 @@ C
 C----------
       REAL B1(MAXSP),B2(MAXSP),B3(MAXSP),B4(MAXSP),BBFV,VMAX,D,H
       INTEGER ISPC
+      REAL RDANUW
 C----------
 C  COEFFICIENTS FOR NET BOARD FOOT VOLUME EQUATION FOR ACCEPTABLE
 C  TREES (TREE CLASS 1 & 2).
@@ -67,20 +82,10 @@ C----------
      &  2.5637377,
      &  7*4.3821328,3*1.3461604,3*3.6809576,1.882183,
      &  25*1.3461604/
-C-----------------------------------------------------------------
-C  LAKE STATES ACCEPTABLE TREE CLASS VOLUME EQUATION:
-C  --RAILLE, GERHARD K., W.B. SMITH, C.A. WEIST. 1982. A NET VOLUME
-C    EQUATION FOR MICHIGAN'S UPPER AND LOWER PENINSULAS. 12 P.
-C    USDA FOREST SERVICE GEN TECH REPORT NC-80.
-C
-C          V = B1*SI**B2*[1-EXP(-B3*DBH)]**B4
-C
-C  WHERE:
-C        V = VOLUME
-C       SI = SITE INDEX
-C      DBH = DIAMETER BREAST HEIGHT
-C    B1-B4 = SPECIES SPECIFIC COEFFICIENTS
-C------------------------------------------------------------------
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      RDANUW = H
 C----------
 C  COMPUTE TOTAL BOARD FOOT VOLUME (VMAX)
 C----------

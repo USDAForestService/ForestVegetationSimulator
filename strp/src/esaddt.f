@@ -1,7 +1,7 @@
       SUBROUTINE ESADDT(ICALL)
       IMPLICIT NONE
 C----------
-C  **ESADDT DATE OF LAST REVISION:  08/06/04
+C STRP $Id: esaddt.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 
 C     ADD NEW TREES FROM A FILE OR EXTERNAL DATA BASE.
@@ -28,12 +28,18 @@ C     COMMONS
       INTEGER       MYACT(1),NTODO,ITODO,NP,IACTK,IDT,KDT,IMETH
       INTEGER       FNO
       REAL          PRMS(2),SUM,SUMSP(8)
+      INTEGER IDANUW
 
 C     ADDTREES CODE = 432
 
       DATA MYACT/432/
       DATA FNO  /101/
 
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = ICALL
+C
 C     SET THE DEBUG OPTION
 
       CALL DBCHK (DEBUG,'ESADDT',6,ICYC)
@@ -191,7 +197,7 @@ c             Data requirements for Blue Mountains estab model
                 CLOSE(FNO, STATUS = 'KEEP')
               ENDIF
           END SELECT
-  404   ENDDO
+        ENDDO
       ENDIF
 
       RETURN

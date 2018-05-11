@@ -1,3 +1,14 @@
+      SUBROUTINE MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,
+     >   MINLEN,MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
+     >   PROD)
+C----------
+C VOLUME $Id: mrules.f 0000 2018-02-14 00:00:00Z gedixon $
+C----------
+c     program assigns regional merchandizing rules to be used with
+c      profile models
+C
+C     SETS MERCHANDIZING STANDARDS AND SOME ERROR CHECKNING
+C
 !== last modified  08-25-2015
 !REV  Revised TDH 12/15/10 accidentally had set trim to 0
 !     for region 5 for testing and forgot to revert.  fixed.
@@ -6,13 +17,6 @@ C                added merch rule for DOD (region 11) using R6 rules
 C     YW 04/15/14 Added region 9 Clark merch rule.
 C     YW 02/13/15 Changed the merch rule for Region 3 MINLEN and MINLENT to 2'
 C     YW 08/25/15 Added merch rule for Region 8 Clark equation
-      SUBROUTINE MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,
-     >   MINLEN,MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
-     >   PROD)
-c     program assigns regional merchandizing rules to be used with
-c      profile models
-C
-C     SETS MERCHANDIZING STANDARDS AND SOME ERROR CHECKNING
 C
       CHARACTER*1 COR 
       CHARACTER*2 FORST, PROD                 
@@ -21,6 +25,12 @@ C
       INTEGER EVOD,OPT,REGN,spp
       REAL MAXLEN,MINLEN,MERCHL,MTOPP,MTOPS,STUMP,TRIM
       REAL MINLENT,MINBFD,BTR,DBTBH,DBHOB
+      CHARACTER*2 CDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:2) = FORST(1:2)
+C
                   
       IF(BTR.GT.0.0 .AND. DBTBH.LE.0) DBTBH = DBHOB-(DBHOB*BTR/100.0)
       

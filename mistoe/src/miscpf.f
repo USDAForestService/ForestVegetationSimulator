@@ -1,6 +1,6 @@
       SUBROUTINE MISCPF(PRFCUT)
 ***********************************************************************
-*  **MISCPF--MS  Date of last revision:  08/02/99
+C MISTOE $Id: miscpf.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *----------------------------------------------------------------------
 *  Purpose:
 *     Processes the MISTPREF mistletoe cutting preference keyword.
@@ -118,8 +118,6 @@ C.... subroutine CUTS can use PRFCUT for every cycle.
   170 CONTINUE
 
 C.... Common return.
-
- 9000 CONTINUE
 
       IF(DEBUG) WRITE(JOSTND,9040) ICYC
  9040 FORMAT(' End MISCPF: Cycle = ',I5)

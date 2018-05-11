@@ -1,8 +1,11 @@
+      SUBROUTINE VOLEQDEF (VAR,REGN,FORST,DIST,SPEC,PROD,VOLEQ,ERRFLAG)
+C----------
+C VOLUME $Id: voleqdef.f 0000 2018-02-14 00:00:00Z gedixon $
+C----------
 !== last modified  04-15-2014 reconciled Vol. Eq. No. output from FVS with Cruise software-RNH
 C 01/18/2013 added FIAVOLEQDEF, R5_PNWEQN and R6_PNWEQN for PNE FIA equations.
 C 03/25/2014 changed default equation for Region 3 (R3_EQN) Ponderosa pine in the forest Apache Sitgreaves, Coconino, Kaibab and Tonto to 300FW2W122.
 C
-      SUBROUTINE VOLEQDEF (VAR,REGN,FORST,DIST,SPEC,PROD,VOLEQ,ERRFLAG)
 C
 C    SUBROUTINE WILL RETURN THE DEFAULT VOLUME EQUATION NUMBER
 C        SPEC = 3 DIGIT FIA SPECIES CODE
@@ -50,7 +53,6 @@ C
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE GETVARIANT(REGN,FORST,DIST,VAR)
       CHARACTER*2 FORST,DIST,VAR
-      CHARACTER VVER*7
       INTEGER REGN,FORNUM,DISTNUM
  
       IF(FORST(2:2) .LT. '0') THEN 
@@ -1661,6 +1663,7 @@ C//////////////////////////////////////////////////////////////////
       INTEGER SPEC,ERRFLAG,FORNUM,DISTNUM,FIRST,HALF,LAST,DONE,I,J
       CHARACTER*3 SNSP(92)
       INTEGER SNFIA(92)
+      CHARACTER*2 CDANUW
 
 c     match species to valid species equation code
       DATA (SNFIA(I),I=1,92)/
@@ -1692,6 +1695,12 @@ c     match species to valid species equation code
      >  '31','32','33'/
 C
       DATA TOPCODE / '4','7','8','9' /
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:2) = PROD(1:2)
+      CDANUW(1:2) = VAR(1:2)
+C
 C
 C  SEARCH FOR VALID EQUATION NUMBER
 C
@@ -1884,6 +1893,7 @@ C//////////////////////////////////////////////////////////////////
       CHARACTER*3 SNSP(92)
       INTEGER SNFIA(92)
       INTEGER SPEC,ERRFLAG,FORNUM,DISTNUM,FIRST,HALF,LAST,DONE,I,J,K
+      CHARACTER*2 CDANUW
 
 c     match species to valid species equation code
       DATA (SNFIA(I),I=1,92)/
@@ -1909,6 +1919,11 @@ c     match species to valid species equation code
      &'901','300','300','300','970','970','970','970','300','300'/
 C
       DATA TOPCODE / '4','7','8','9' /
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:2) = VAR(1:2)
+C
 C
 C  SEARCH FOR VALID EQUATION NUMBER
 C
@@ -2051,12 +2066,13 @@ C     FIND CORRECT SPECIES
       
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R9_EQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
-      CHARACTER*10 VOLEQ,VEQTEM
-      CHARACTER*2 GEOAREA,VAR, FORST,GEOCODES(6)
+      CHARACTER*10 VOLEQ
+      CHARACTER*2 VAR, FORST
       CHARACTER*3 LSSP(69),CSSP(97),NESP(108),SNSP(92),ASPEC
-      INTEGER SPEC,ERRFLAG,FORNUM,LSFIA(69),CSFIA(97),NEFIA(108),
+      INTEGER SPEC,ERRFLAG,LSFIA(69),CSFIA(97),NEFIA(108),
      &         SNFIA(92)
       INTEGER FIRST, HALF, LAST, DONE, I, J
+      CHARACTER*2 CDANUW
             
       DATA (LSSP(I), I=1,69)/
      >'012','068','071','091','094','095','105','125','125','129',
@@ -2148,6 +2164,11 @@ C//////////////////////////////////////////////////////////////////
      > 740, 743, 762, 802, 806, 812, 813, 819, 820, 822, 
      > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838, 
      > 901, 920, 931, 950, 970, 971, 972, 975, 998, 999/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:2) = FORST(1:2)
+C
 C
 C  SEARCH FOR VALID EQUATION NUMBER
 C  FIRST, SEARCH FOR CLKE OR DVEE
@@ -2524,10 +2545,11 @@ c ------------------------------------------------------------------------
 
 C FIA DEFAULT VOLUME EQUATION FOR CA
       SUBROUTINE R5_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
-      CHARACTER*2 FORST,DIST,VAR
+      CHARACTER*2 FORST,VAR
       CHARACTER*10 VOLEQ, EQNUM(91)
       INTEGER ERRFLAG,SPEC,FIA(91)
       INTEGER DONE,HALF,FIRST,LAST
+      CHARACTER*2 CDANUW
 
       DATA (FIA(I),I=1,91)/  
      &  11, 14, 15, 17, 19, 20, 21, 22, 41, 42,
@@ -2579,6 +2601,12 @@ c       839,901,920,981,998,
      & '500DVEW839','500DVEW815','500DVEW361','500DVEW981','500DVEW815',
 c       999
      & '500DVEW815'/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      CDANUW(1:2) = FORST(1:2)
+      CDANUW(1:2) = VAR(1:2)
+C
 
 C     GET EQUATION FROM EQNUME ARRAY
           DONE=0
@@ -2609,7 +2637,7 @@ C     GET EQUATION FROM EQNUME ARRAY
       
 C FIA DEFAULT VOLUME EQUATION FOR WA AND OR
       SUBROUTINE R6_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
-      CHARACTER*2 FORST,DIST,VAR
+      CHARACTER*2 FORST,VAR
       CHARACTER*10 VOLEQ, EQNUMW(66), EQNUME(66)
       INTEGER ERRFLAG,SPEC,FIA(66)
       INTEGER DONE,HALF,FIRST,LAST

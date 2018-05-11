@@ -358,7 +358,7 @@ C----------
         IF(ISISP .LE. 0)THEN
           ISI=0
         ELSE
-          ISI=SITEAR(ISISP)
+          ISI=INT(SITEAR(ISISP))
         ENDIF
         WRITE(JOCALB,1000)VVER,DAT,TIM,NPLT,MGMID,KODTYP,
      &  ISISP,ISI,IAGE,REV

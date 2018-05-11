@@ -1,7 +1,7 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
 C----------
-C  **REGENT--WS   DATE OF LAST REVISION:  05/09/12
+C WS $Id: regent.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE COMPUTES HEIGHT AND DIAMETER INCREMENTS FOR
 C  SMALL TREES.  THE HEIGHT INCREMENT MODEL IS APPLIED TO TREES
@@ -86,7 +86,7 @@ C----------
       REAL REGYR,FNT,BACHLO,BRATIO,DGSM,DDS,HTNEW,SCALE3,CORNEW
       REAL SNP,SNX,SNY,EDH,P,TERM,X,VIGOR,DGMX,BKPT,CCF,AVHT,PCTRED
       REAL SCALE,SCALE2,XRHGRO,XRDGRO,CON,XMX,XMN,SI,D,CR,RAN,BAL,H
-      REAL RELHT,BARK,HTGRR,HTGR,ZZRAN,XPPMLT,XWT,HK,BX,AX,DK,DKK,XDWT
+      REAL BARK,HTGRR,HTGR,ZZRAN,XPPMLT,XWT,HK,BX,AX,DK,DKK,XDWT
       REAL POTHTG,DAT45
 C----------
 C     SPECIES LIST FOR WESTERN SIERRAS VARIANT.
@@ -293,11 +293,11 @@ C----------
         CR = CR + 0.07985 * RAN
         IF(CR .GT. .90) CR = .90
         IF(CR .LT. .20) CR = .20
-        ICR(I)=(CR*100.0)+0.5
+        ICR(I)=INT((CR*100.0)+0.5)
       ENDIF
       K=I
       L=0
-      CR=FLOAT(ICR(I))/10.
+      CR=REAL(ICR(I))/10.
       BAL=((100.0-PCT(I))/100.0)*BA
       H=HT(I)
       BARK=BRATIO(ISPC,D,H)
@@ -311,7 +311,7 @@ C----------
 C  SPECIES USING EQUATIONS FROM THE SO VARIANT: 41=MC
 C----------
       CASE(41)
-        X=FLOAT(ICR(I))/100.
+        X=REAL(ICR(I))/100.
         VIGOR = (150.0 * (X**3.0)*EXP(-6.0*X))+0.3
         IF(VIGOR .GT. 1.0)VIGOR=1.0
         POTHTG = ((1.47043 + 0.23317*SI)/(31.56252 - 0.05586*SI))*10.
@@ -322,7 +322,7 @@ C----------
 C  SPECIES USING EQUATIONS FROM THE CR VARIANT (VIA UT): 21=GB
 C----------
       CASE(21)
-        X=FLOAT(ICR(I))/100.
+        X=REAL(ICR(I))/100.
         VIGOR = (150.0 * (X**3.0)*EXP(-6.0*X))+0.3
         IF(VIGOR .GT. 1.0)VIGOR=1.0
         VIGOR=1.-((1.-VIGOR)/3.)
@@ -725,7 +725,7 @@ C----------
       D=DBH(I)
       H=HT(I)
       BAL=((100.0-PCT(I))/100.0)*BA
-      CR=FLOAT(ICR(I))/10.0
+      CR=REAL(ICR(I))/10.0
 C----------
 C  DIA GT 3 INCHES INCLUDED IN OVERALL MEAN
 C----------
@@ -734,7 +734,7 @@ C----------
 C----------
 C  COMPUTE VIGOR MODIFIER FROM CROWN RATIO.
 C----------
-      X=FLOAT(ICR(I))/100.
+      X=REAL(ICR(I))/100.
       VIGOR = (150.0 * (X**3.0)*EXP(-6.0*X))+0.3
       IF(VIGOR .GT. 1.0)VIGOR=1.0
       VIGOR=1.-((1.-VIGOR)/3.)
@@ -744,7 +744,7 @@ C----------
 C  SPECIES USING EQUATIONS FROM THE SO VARIANT: 41=MC
 C----------
       CASE(41)
-        X=FLOAT(ICR(I))/100.
+        X=REAL(ICR(I))/100.
         VIGOR = (150.0 * (X**3.0)*EXP(-6.0*X))+0.3
         IF(VIGOR .GT. 1.0)VIGOR=1.0
         POTHTG = ((1.47043 + 0.23317*SI)/(31.56252 - 0.05586*SI))*10.

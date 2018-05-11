@@ -37,7 +37,7 @@ C
 COMMONS
 C
       LOGICAL L, LTREE
-
+      
       L = RRTINV .OR. RRMAN
       LTREE = RRTINV
 

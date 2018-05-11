@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMCANPR(IYEAR,CRFILL,NPLT)
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH CANOPY PROFILE
 C              INFORMATION
@@ -170,7 +170,6 @@ C
      -    CRFILLB(I),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-  100   CONTINUE
         !Close Cursor
         iRet = fvsSQLCloseCursor(StmtHndlOut)
 

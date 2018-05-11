@@ -1,7 +1,7 @@
       SUBROUTINE CRATET
       IMPLICIT NONE
 C----------
-C  **CRATET--SO   DATE OF LAST REVISION:  04/18/11
+C SO $Id: cratet.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE IS CALLED PRIOR TO PROJECTION.  IT HAS THE
 C  FOLLOWING FUNCTIONS:
@@ -326,7 +326,7 @@ C   DUB HEIGHTS USING DEFAULT COEFFICIENTS FOR THIS SPECIES.
 C----------
       KNT(IPTR)=K3
       IF(K1 .LT.3 .OR. .NOT. LHTDRG(ISPC)) GO TO 100
-      XN=FLOAT(K1)
+      XN=REAL(K1)
       AA(ISPC)=SUMX/XN
 C----------
 C  IF THE INTERCEPT IS NEGATIVE, USE DEFAULTS.
@@ -364,7 +364,7 @@ C
         BX=HT2(ISPC)
       END SELECT
       IF (IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(DEBUG)WRITE(JOSTND,9005) ISPC,AX,BX,IABFLG(ISPC)
  9005 FORMAT('HEIGHT-DIAMETER COEFFICIENTS FOR SPECIES ',I2,
      &      ':  INTERCEPT=',F10.6,'  SLOPE=',F10.6,'  FLAG=',I3,
@@ -383,7 +383,7 @@ C
           IICR=ICR(II)
           IF(IICR.LE.0)IICR=40
           H = HTT1(ISPC,1) + HTT1(ISPC,2)*D
-     &      + HTT1(ISPC,3)*FLOAT(IICR) + HTT1(ISPC,4)*D*D
+     &      + HTT1(ISPC,3)*REAL(IICR) + HTT1(ISPC,4)*D*D
      &      + HTT1(ISPC,5)
           IF(ISPC.EQ.19.OR.ISPC.EQ.20)
      &    H=EXP(H)
@@ -428,22 +428,23 @@ C
       K4=K4+1
       GO TO 125
   120 CONTINUE
-      NORMHT(II)=H*100.0+0.5
+      NORMHT(II)=INT(H*100.0+0.5)
       IF(ITRUNC(II).EQ.0) THEN
          IF(HT(II).GT.0.0) THEN
-            ITRUNC(II)=80.0*HT(II)+0.5
+            ITRUNC(II)=INT(80.0*HT(II)+0.5)
          ELSE
-            ITRUNC(II)=80.0*H+0.5
+            ITRUNC(II)=INT(80.0*H+0.5)
             HT(II)=H
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &       HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II)=HT(II)*100.0
+      IF(REAL(NORMHT(II))*0.01.LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
   125 CONTINUE
   130 CONTINUE
       KNT2(IPTR)=K4
@@ -483,7 +484,7 @@ C
       END SELECT
 C
       IF (IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
-      TKILL = NORMHT(II) .LT. 0.
+      TKILL = NORMHT(II) .LT. 0
       IF(HT(II).GT.0. .AND. TKILL) GO TO 142
       IF(HT(II).GT.0.) GO TO 146
 C
@@ -500,7 +501,7 @@ C
           IICR=ICR(II)
           IF(IICR.LE.0)IICR=40
           H = HTT1(ISPC,1) + HTT1(ISPC,2)*D
-     &      + HTT1(ISPC,3)*FLOAT(IICR) + HTT1(ISPC,4)*D*D
+     &      + HTT1(ISPC,3)*REAL(IICR) + HTT1(ISPC,4)*D*D
      &      + HTT1(ISPC,5)
           IF(ISPC .LE. 15
      &     .OR. (ISPC.GE.17 .AND. ISPC.LE.20)
@@ -543,25 +544,26 @@ C
       GO TO 146
   142 CONTINUE
       IF(HT(II) .GT. 0.) THEN
-        NORMHT(II)=HT(II)*100.0+0.5
+        NORMHT(II)=INT(HT(II)*100.0+0.5)
       ELSE
-        NORMHT(II)=H*100.0+0.5
+        NORMHT(II)=INT(H*100.0+0.5)
       ENDIF
       IF(ITRUNC(II).EQ.0) THEN
          IF(HT(II).GT.0.0) THEN
-            ITRUNC(II)=80.0*HT(II)+0.5
+            ITRUNC(II)=INT(80.0*HT(II)+0.5)
          ELSE
-            ITRUNC(II)=80.0*H+0.5
+            ITRUNC(II)=INT(80.0*H+0.5)
             HT(II)=H
          ENDIF
       ELSE
          IF(HT(II).GT.0.0) THEN
-            IF(HT(II).LT.(ITRUNC(II)*0.01)) HT(II)=ITRUNC(II)*0.01
+            IF(HT(II).LT.(REAL(ITRUNC(II))*0.01)) 
+     &       HT(II)=REAL(ITRUNC(II))*0.01
          ELSE
-            HT(II)=ITRUNC(II)*0.01
+            HT(II)=REAL(ITRUNC(II))*0.01
          ENDIF
       ENDIF
-      IF(NORMHT(II)*0.01.LT.HT(II)) NORMHT(II)=HT(II)*100.0
+      IF(REAL(NORMHT(II))*0.01.LT.HT(II)) NORMHT(II)=INT(HT(II)*100.0)
 C----------
 C   CALL FIRE SNAG MODEL TO ADD THE DEAD TREES TO THE
 C   SNAG LIST; DEFLATE PROB(II), WHICH WAS TEMPORARILY
@@ -570,7 +572,7 @@ C   IN **NOTRE**
 C----------
   146 CONTINUE
       IF (TKILL) THEN
-        HS = ITRUNC(II) * 0.01
+        HS = REAL(ITRUNC(II)) * 0.01
       ELSE
         HS = HT(II)
       ENDIF

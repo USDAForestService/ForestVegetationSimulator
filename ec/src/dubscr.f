@@ -1,7 +1,7 @@
       SUBROUTINE DUBSCR(ISPC,D,H,CR,TPCT,TPCCF)
       IMPLICIT NONE
 C----------
-C  **DUBSCR--EC   DATE OF LAST REVISION:  05/09/12
+C EC $Id: dubscr.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE CALCULATES CROWN RATIOS FOR TREES INSERTED BY
 C  THE REGENERATION ESTABLISHMENT MODEL.  IT ALSO DUBS CROWN RATIOS
@@ -35,6 +35,7 @@ C----------
       REAL BCR0(MAXSP),BCR1(MAXSP),BCR2(MAXSP),BCR3(MAXSP),
      & CRSD(MAXSP),BCR5(MAXSP),BCR6(MAXSP),
      & BCR8(MAXSP),BCR9(MAXSP),BCR10(MAXSP)
+      REAL RDANUW
 C----------
 C  SPECIES LIST FOR EAST CASCADES VARIANT.
 C
@@ -185,10 +186,14 @@ C
      &       0.5,       0.5,       0.5,       0.5,       0.5,
      &       0.5,       0.5,       0.5,       0.5,       0.5,
      &       0.2,       0.5/
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      RDANUW = TPCT
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
-C     CALL DBCHK (DEBUG,'DUBSCR',6,ICYC)
+      CALL DBCHK (DEBUG,'DUBSCR',6,ICYC)
 C----------
       SELECT CASE (ISPC)
 C-----------

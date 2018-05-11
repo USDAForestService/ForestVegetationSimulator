@@ -4,12 +4,15 @@
      +    VOL,LOGVOL,LOGDIA,LOGLEN,BOLHT,TLOGS,NOLOGP,NOLOGS,CUTFLG,
      +    BFPFLG,CUPFLG,CDPFLG,SPFLG,CONSPEC,PROD,HTTFLL,LIVE,
      +    BA,SI,CTYPE,ERRFLAG,IDIST)
+C----------
+C VOLUME $Id: volinit.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C----------
 
 !...  Prepare parameters and data for call to appropriate volume
 !...  equations. 
 
-			USE CHARMOD
-			USE DEBUG_MOD
+      USE CHARMOD
+      USE DEBUG_MOD
             USE VOLINPUT_MOD
       IMPLICIT NONE
 
@@ -41,16 +44,16 @@ C     YW 04/19/2016 Added input variable DIST.
       INTEGER        REGN,HTTFLL,BA,SI
       REAL           STUMP,MTOPP,MTOPS,THT1,MAXLEN
       INTEGER        CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG,ERRFLAG
-      REAL         TIPDIB,TIPLEN
       
 !   Tree variables
-      REAL 			HTTOT,HT1PRD,HT2PRD,LEFTOV 
-      REAL 			DBHOB,DRCOB,DBTBH,BTR,CR,TRIM
-      INTEGER        FCLASS,HTLOG,SPCODE, WHOLELOGS
+      REAL      HTTOT,HT1PRD,HT2PRD,LEFTOV 
+      REAL      DBHOB,DRCOB,DBTBH,BTR,TRIM
+C      REAL      CR
+      INTEGER   FCLASS,HTLOG,SPCODE, WHOLELOGS
     
-!	3RD POINT VARIABLES
-      REAL           UPSD1,UPSD2,UPSHT1,UPSHT2,AVGZ1,AVGZ2    
-      INTEGER 			 HTREF
+C  !3RD POINT VARIABLES
+      REAL      UPSD1,UPSD2,UPSHT1,UPSHT2,AVGZ1,AVGZ2    
+      INTEGER   HTREF
     
 !   OUTPUTS
       REAL           NOLOGP,NOLOGS
@@ -58,16 +61,16 @@ C     YW 04/19/2016 Added input variable DIST.
     
 !   ARRAYS
       INTEGER        I15,I21,I20,I7,I3,I,J
-      REAL 					 VOL(I15),LOGVOL(I7,I20)
-      REAL				   LOGDIA(I21,I3),LOGLEN(I20),BOLHT(I21)
+      REAL           VOL(I15),LOGVOL(I7,I20)
+      REAL           LOGDIA(I21,I3),LOGLEN(I20),BOLHT(I21)
 C  variables for stump dia and vol
-      INTEGER SPN
-      REAL STUMPDIB, STUMPDOB, VOLIB, VOLOB    
-      REAL DIB,DOB,HTUP  
+      REAL VOLIB, VOLOB    
+      REAL HTUP  
       
 c  test biomass calc variable
-      REAL WF(3), BMS(8)
-      INTEGER SPCD, FOREST      
+C      REAL WF(3)
+C     REAL  BMS(8)
+C      INTEGER SPCD,FOREST      
  !********************************************************************
 
 !=====================================================================
@@ -94,8 +97,8 @@ c  test biomass calc variable
  !     ANY_DEBUG = .TRUE.
  !     DEBUG%MODEL = .TRUE.
       IF (ANY_DEBUG) THEN
-	       OPEN (UNIT=LUDBG, FILE='Debug.txt', STATUS='UNKNOWN')
-	       WRITE (LUDBG,1)'Debugging NVEL'
+         OPEN (UNIT=LUDBG, FILE='Debug.txt', STATUS='UNKNOWN')
+         WRITE (LUDBG,1)'Debugging NVEL'
    1     FORMAT(A)
       END IF
       
@@ -105,7 +108,7 @@ c  test biomass calc variable
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 2) ' -->Enter VOLINIT'
     2    FORMAT (A)   
-   		END IF
+      END IF
   
   
   
@@ -115,11 +118,11 @@ c  test biomass calc variable
   
   
   
-   		IF (DEBUG%MODEL) THEN
+      IF (DEBUG%MODEL) THEN
         WRITE  (LUDBG, 100)'FORST VOLEQ     MTOPP HTTOT HT1PRD DBHOB 
      &   HTTYPE FCLASS'
 100     FORMAT (A)
-  		  WRITE  (LUDBG, 104)FORST,VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
+        WRITE  (LUDBG, 104)FORST,VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
      +    FCLASS
 104     FORMAT(A,2X,A, 1X, F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 5X,
      &    A, 1X, I5)
@@ -128,7 +131,7 @@ c  test biomass calc variable
         WRITE (LUDBG, 300)'TLOGS NOLOGP NOLOGS CONSPEC 
      &    BFPFLG CUPFLG ERRFLAG'
   300   FORMAT (A)
-  		  WRITE (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,CONSPEC,BFPFLG,CUPFLG,
+        WRITE (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,CONSPEC,BFPFLG,CUPFLG,
      +    ERRFLAG
   320   FORMAT(1X, I2, 2X, F5.1, 2X, F5.1, 5X, A,1X, I5, I5, 1X,I5)
        ENDIF
@@ -163,7 +166,7 @@ c  save FCLASS value
       
       IF(FORST(2:2) .LT. '0') THEN
         FORST(2:2) = FORST(1:1)
-	    FORST(1:1) = '0'
+        FORST(1:1) = '0'
         IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
       ENDIF
       READ(FORST,'(i2)') IFORST
@@ -213,7 +216,7 @@ c      ENDIF
         CALL R4VOL(REGN,VOLEQ,MTOPP,HTTOT,DBHOB,HT1PRD,VOL,NOLOGP,
      +             NOLOGS,LOGDIA,LOGLEN,LOGVOL, 
      +             CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG,ERRFLAG)
-        TLOGS = ANINT(NOLOGP + NOLOGS)
+        TLOGS = INT(ANINT(NOLOGP + NOLOGS))
 
       ELSEIF (MDL.EQ.'TRF' .OR. MDL.EQ.'trf')THEN
 C********************************
@@ -272,7 +275,7 @@ C ADDED ON 07/30/2014 ROUND LOGS BASED ON JEFF PENMAN LOG RULES
              CALL R6VOL(VOLEQ,FORST,DBHOB,BTR,FCLASS,MTOPP,THT1,
      +            HTTYPE,VOL,LOGVOL,NOLOGP,LOGDIA,LOGLEN,DBTBH,
      +            HT1PRD,CTYPE,errflag)
-             TLOGS = ANINT(NOLOGP)
+             TLOGS = INT(ANINT(NOLOGP))
           ELSEIF((MDL.EQ.'DVE'.OR.MDL.EQ.'dve').AND.BFPFLG.EQ.1)THEN
              call R6VOL2(VOLEQ,DBHOB,HTTOT,VOL,errflag)
           ELSE
@@ -360,7 +363,7 @@ C AND ALL OTHER RD (EXCEPT ANDREW PICKENS(02)) OF FRANCIS MARION & SUTTER(12)
         else
           call R12VOL(VOLEQ,MTOPP,HT1PRD,DBHOB,VOL,NOLOGP,
      &                NOLOGS,FCLASS,CUTFLG,BFPFLG,CUPFLG,errflag)
-          TLOGS = ANINT(NOLOGP + NOLOGS)
+          TLOGS = INT(ANINT(NOLOGP + NOLOGS))
         endif
 
       ELSEIF (MDL.EQ.'DVE' .OR. MDL.EQ.'dve') THEN
@@ -446,19 +449,14 @@ C      CALL CRZBIOMASS(REGN,FORST,SPCD,DBHOB,HTTOT,VOL,WF,BMS,ERRFLAG)
       IF (DEBUG%MODEL) THEN
         WRITE  (LUDBG, 100)'FORST VOLEQ     MTOPP HTTOT HT1PRD DBHOB 
      &   HTTYPE FCLASS'
-500     FORMAT (A)
-  		  WRITE  (LUDBG, 104)FORST,VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
+        WRITE  (LUDBG, 104)FORST,VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
      +    FCLASS
-504     FORMAT(A,2X,A, 1X, F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 5X,
-     &    A, 1X, I5)
       
       
         WRITE (LUDBG, 300)'TLOGS NOLOGP NOLOGS CONSPEC 
      &    BFPFLG CUPFLG ERRFLAG'
-  508   FORMAT (A)
-  		  WRITE (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,CONSPEC,BFPFLG,CUPFLG,
+        WRITE (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,CONSPEC,BFPFLG,CUPFLG,
      +    ERRFLAG
-  520   FORMAT(1X, I2, 2X, F5.1, 2X, F5.1, 5X, A,1X, I5, I5, 1X,I5)
        ENDIF
       
       IF (DEBUG%MODEL) THEN
@@ -472,7 +470,7 @@ C      CALL CRZBIOMASS(REGN,FORST,SPCD,DBHOB,HTTOT,VOL,WF,BMS,ERRFLAG)
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 20) ' <--Exit VOLINIT'
    20    FORMAT (A//)   
-   		END IF
+      END IF
 
 !--------manual debugging code-----------------------------------------     
 

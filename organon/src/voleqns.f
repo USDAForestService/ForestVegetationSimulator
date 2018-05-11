@@ -1,3 +1,6 @@
+C
+C ORGANON $Id: voleqns.f 0000 2018-02-14 00:00:00Z gedixon $
+C
       SUBROUTINE CF(VERSION,SPP,SPGRP,DBH,HT,CR,CFTD,CFSH,VALU)
 C     CALCULATE ENDING OR STARTING CF VOLUME
 C
@@ -564,8 +567,13 @@ C**********************************************************************
      1                    VALU)
       IMPLICIT NONE
       INTEGER*4 VERSION,SPGRP,INDSPG
-      REAL*4  DBH,HT,CR,DIB,DIB1FT,CFTD,CFSH,VALU,HCVPAR(10,2),
+      REAL*4  DBH,HT,DIB,DIB1FT,CFTD,CFSH,VALU,HCVPAR(10,2),
      1        HMVPAR(10,3),A1,A2,A3,B0,B1,CVTS,CVM,CVS,PI,DIBD,SDIB
+      INTEGER*4 IDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = VERSION
 C                                                                      !  WH,RC,PY
 C  CUBIC VOLUME - HARDWOODS (2 parameters)
 C
@@ -636,8 +644,13 @@ C**********************************************************************
      1                    VALU)
       IMPLICIT NONE
       INTEGER*4 VERSION,SPGRP,INDSPG
-      REAL*4  DBH,HT,CR,DIB,DIB1FT,CFTD,CFSH,VALU,HCVPAR(6,2),
+      REAL*4  DBH,HT,DIB,DIB1FT,CFTD,CFSH,VALU,HCVPAR(6,2),
      1        HMVPAR(6,3),A1,A2,A3,B0,B1,CVTS,CVM,CVS,PI,DIBD,SDIB
+      INTEGER*4 IDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = VERSION
 C
 C  CUBIC VOLUME - HARDWOODS (2 parameters)
 C
@@ -707,7 +720,14 @@ C**********************************************************************
       IMPLICIT NONE
       INTEGER*4 VERSION,SPGRP,INDSPG
       REAL*4  DBH,HT,CR,DIB,DIB1FT,CFTD,CFSH,VALU,HCVPAR(3,2),
-     1        HMVPAR(3,3),A1,A2,A3,B0,B1,CVTS,CVM,CVS,PI,DIBD,SDIB,MH
+     1        HMVPAR(3,3),A1,A2,A3,B0,B1,CVTS,CVM,CVS,PI,DIBD,SDIB
+      REAL*4 RDANUW
+      INTEGER*4 IDANUW
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = VERSION
+      RDANUW = CR
 C
 C  CUBIC VOLUME - HARDWOODS (2 parameters)
 C
@@ -856,8 +876,8 @@ C
          H=HM1+4.5
          CALL LOGVOL(4,SVOL,LOGLL,WLT,H,HABH,PP1,PP2,PDIB,D,TLL,EX,DI,
      1               VOLG,NL,LVOL,TOTS)
-         NDI=ANINT(DI*10.0)
-         NLOGTD=ANINT(LOGTD*10.0)
+         NDI=NINT(DI*10.0)
+         NLOGTD=NINT(LOGTD*10.0)
          IF(NDI .NE. NLOGTD) HM1=0.0
       ELSE
          HM1=0.0
@@ -866,8 +886,8 @@ C
          H=HM2+4.5
          CALL LOGVOL(4,SVOL,LOGLL,WLT,H,HABH,PP1,PP2,PDIB,D,TLL,EX,DI,
      1               VOLG,NL,LVOL,TOTS)
-         NDI=ANINT(DI*10.0)
-         NLOGTD=ANINT(LOGTD*10.0)
+         NDI=NINT(DI*10.0)
+         NLOGTD=NINT(LOGTD*10.0)
          IF(NDI .NE. NLOGTD) HM2=0.0
       ELSE
          HM2=0.0
@@ -889,7 +909,7 @@ C
 C
 C     CALCULATE LOG VOLUMES
 C
-      NW=AINT((MH-LOGSH)/(FLOAT(LOGLL)+LOGTA))
+      NW=INT((MH-LOGSH)/(FLOAT(LOGLL)+LOGTA))
       IF(NW .LT. 0) NW=0
       TLL=MH-LOGSH-FLOAT(NW)*(FLOAT(LOGLL)+LOGTA)
 C
@@ -904,7 +924,7 @@ C
 C     COMPUTE VOLUME OF TOP LOG
 C
       IF(TLL .GE. (LOGML+LOGTA))THEN
-         J=AINT(TLL-LOGTA)
+         J=INT(TLL-LOGTA)
          TLL=FLOAT(J)+LOGTA
          D=TLL/FLOAT(LOGLL)
          H=H+TLL
@@ -985,11 +1005,11 @@ C
 C     EXTRACT VOLUME FROM VOLUME TABLES
 C
       IF(D .LT. 1.0 .OR. D .GT. 1.0)THEN
-         LEN=AINT(TLL)
+         LEN=INT(TLL)
       ELSE
          LEN=LOGLL
       ENDIF
-      DII=AINT(DI)
+      DII=INT(DI)
       IF(DII .GE. 6 .AND. DII .LE. 11)THEN
          IF(LEN .GE. 16 .AND. LEN .LE. 31)THEN
             V=(SVTBL16(DII-5)*FLOAT(LEN))*EX
@@ -1141,7 +1161,7 @@ C**********************************************************************
 C**********************************************************************
       SUBROUTINE RA_CFV(DBH,HT,CR,MH,SH,TD,CFV)
       IMPLICIT NONE
-      INTEGER*4 IMH,ISH,NSEC,NSECDIFF,NSEC2,I
+      INTEGER*4 NSEC,NSECDIFF,NSEC2,I
       REAL*4 DBH,HT,CR,MH,SH,TD,FC,HI,D1,D2,D3,LOGV,CFV,DIFF,REMAIN,LOGL
       FC=0.005454154
       IF(TD .LE. 0.0) THEN
@@ -1208,8 +1228,8 @@ C     VALUE = SCRIBNER VOLUME CALCULATED
 C
 C
       IMPLICIT NONE
-      INTEGER*4  VERSION,SVOL,LOGLL
-      INTEGER*4  NDI,NLOGTD,NW,I,J,II
+      INTEGER*4  SVOL,LOGLL
+      INTEGER*4  NW,I,J,II
       REAL*4  LOGTD,LOGSH,LOGTA,LOGML,DOB,HT,CR,VALU
       REAL*4  D,TLL,EX,H,DI,VOLG,NL(40,4),LVOL(40,4),TOTS(2,4),MH
 C
@@ -1237,7 +1257,7 @@ C
 C
 C     CALCULATE LOG VOLUMES
 C
-      NW=AINT((MH-LOGSH)/(FLOAT(LOGLL)+LOGTA))
+      NW=INT((MH-LOGSH)/(FLOAT(LOGLL)+LOGTA))
       IF(NW .LT. 0) NW=0
       TLL=MH-LOGSH-FLOAT(NW)*(FLOAT(LOGLL)+LOGTA)
       D=1.0
@@ -1254,7 +1274,7 @@ C
 C     COMPUTE VOLUME OF TOP LOG
 C
       IF(TLL .GE. (LOGML+LOGTA))THEN
-         J=AINT(TLL-LOGTA)
+         J=INT(TLL-LOGTA)
          TLL=FLOAT(J)+LOGTA
          D=TLL/FLOAT(LOGLL)
          H=H+TLL
@@ -1263,7 +1283,6 @@ C
 C         CALL RA_LOGVOL(3,DOB,HT,LOGLL,H,D,TLL,EX,DI,VOLG,NL,LVOL,TOTS)
          VALU=VALU+VOLG
       ENDIF
-   10 CONTINUE
       IF(VALU .LT. 0.)VALU=0.
       RETURN
       END
@@ -1291,7 +1310,7 @@ C
       INTEGER*4  DII,LEN
       REAL*4     DBH,HT,CR,HI,D,TLL,EX,DI,V,NL(40,4),LVOL(40,4),
      1           TOTS(2,4)
-      REAL*4     I1,I2,RH,JP1,JP2,A,B,C,SVTBL(80),SVTBL16(6),SVTBL32(6)
+      REAL*4     SVTBL(80),SVTBL16(6),SVTBL32(6)
       DATA SVTBL/0., .143, .39, .676, 1.07, 1.160, 1.4, 1.501, 2.084,
      1           3.126, 3.749, 4.9, 6.043, 7.14, 8.88, 10., 11.528,
      2           13.29, 14.99, 17.499, 18.99, 20.88, 23.51, 25.218,
@@ -1317,11 +1336,11 @@ C
 C     EXTRACT VOLUME FROM VOLUME TABLES
 C
       IF(D .LT. 1.0 .OR. D .GT. 1.0)THEN
-         LEN=AINT(TLL)
+         LEN=INT(TLL)
       ELSE
          LEN=LOGLL
       ENDIF
-      DII=AINT(DI)
+      DII=INT(DI)
       IF(DII .GE. 6 .AND. DII .LE. 11)THEN
          IF(LEN .GE. 16 .AND. LEN .LE. 31)THEN
             V=(SVTBL16(DII-5)*FLOAT(LEN))*EX

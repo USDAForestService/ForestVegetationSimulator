@@ -1,7 +1,7 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
       IMPLICIT NONE
 C----------
-C OC $Id: regent.f $
+C OC $Id: regent.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C  THIS SUBROUTINE COMPUTES 5-YR HEIGHT AND DIAMETER INCREMENTS FOR
 C  SMALL TREES.  
@@ -193,11 +193,11 @@ C----------
         CR = CR + 0.07985 * RAN
         IF(CR .GT. .90) CR = .90
         IF(CR .LT. .20) CR = .20
-        ICR(I)=(CR*100.0)+0.5
+        ICR(I)=INT((CR*100.0)+0.5)
       ENDIF
       K=I
       L=0
-      CR=FLOAT(ICR(I))/10.
+      CR=REAL(ICR(I))/10.
       BAL=((100.0-PCT(I))/100.0)*BA
       H=HT(I)
 C
@@ -422,7 +422,7 @@ C----------
       D=DBH(I)
       H=HT(I)
       BAL=((100.0-PCT(I))/100.0)*BA
-      CR=FLOAT(ICR(I))/10.0
+      CR=REAL(ICR(I))/10.0
       RELHT=H/AVH
 C----------
 C  DIA GT 3 INCHES INCLUDED IN OVERALL MEAN

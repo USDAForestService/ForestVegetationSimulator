@@ -1,7 +1,7 @@
       SUBROUTINE FMR6SDCY (KSP, DBH, X, Y, SML)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C     CALLED FROM: FMSNAG
 C
@@ -142,34 +142,34 @@ C----------
         IF (WSDBH1(I) .EQ. 20) THEN
           WSDBH2(I) = 50
         ELSE
-          WSDBH2(I) = 75        	
+          WSDBH2(I) = 75
         ENDIF
         IF (I .LE. 33) THEN
           IF (SODBH1(I) .EQ. 20) THEN
             SODBH2(I) = 50
           ELSE
-            SODBH2(I) = 75        	
+            SODBH2(I) = 75
           ENDIF
         ENDIF
         IF (I .LE. 18) THEN
           IF (BMDBH1(I) .EQ. 20) THEN
             BMDBH2(I) = 50
           ELSE
-            BMDBH2(I) = 75        	
+            BMDBH2(I) = 75
           ENDIF
         ENDIF
         IF (I .LE. 13) THEN
           IF (AKDBH1(I) .EQ. 20) THEN
             AKDBH2(I) = 50
           ELSE
-            AKDBH2(I) = 75        	
+            AKDBH2(I) = 75
           ENDIF
         ENDIF
         IF (I .LE. 32) THEN
           IF (ECDBH1(I) .EQ. 20) THEN
             ECDBH2(I) = 50
           ELSE
-            ECDBH2(I) = 75        	
+            ECDBH2(I) = 75
           ENDIF
         ENDIF
       ENDDO

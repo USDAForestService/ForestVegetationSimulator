@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C  **FMSFALL--FIRE-PN  DATE OF LAST REVISION: 06/26/12
+C FIRE-PN $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     SNAG FALL PREDICTION
@@ -34,7 +34,6 @@ C     DFALLN:  Target density of snags to fall under normal conditions
 C              (where hard and soft snags fall at the same rate).
 C     DZERO:   Density level (#/acre), at which snag is considered
 C              equal to ZERO.
-C     FALLM2:  Rate-of-fall for last 5% of lrg snags in current record
 C     ISWTCH:  =1 if FMSNAG called this subroutine.
 C              =2 if SVSNAGE called this subroutine.
 C     KSP:     Species number for current snag pool/record.
@@ -76,9 +75,16 @@ COMMONS
 C
       INTEGER ISWTCH, IYR, JADJ, JSML, JYRSOFT, KSP
       LOGICAL DEBUG
-      REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
-     &        RSOFT, RSMAL, X
+      REAL    BASE, D, DENTTL, DFALLN, DZERO, ORIGDEN,
+     &        RSOFT, RSMAL
+      REAL RDANUW
+      INTEGER IDANUW
 C
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IDANUW = ISWTCH
+      RDANUW = ORIGDEN
 C----------
 C  Check for debug:
 C----------
@@ -94,11 +100,13 @@ C  the initial number to have fallen in 7 years:  (1-0.28)**7 = 0.1).
 C  This could be done outside the snag loop except when either PBSOFT
 C  of PBSMAL equals 1, which may often be the case.  So it's done here.
 C----------
+      DFALLN = 0.
+      RSOFT = 0.0
+      RSMAL = 0.0
       IF (DENTTL .LE. 0) RETURN
       IF ((IYR - BURNYR) .LT. PBTIME) THEN
         DZERO = NZERO / 50.0
 
-        RSOFT = 0.0
         IF (PBSOFT .GT. 0.0) THEN
           IF (PBSOFT .LT. 1.0) THEN
             RSOFT = 1 - EXP( LOG(1-PBSOFT) / PBTIME )
@@ -107,7 +115,6 @@ C----------
           ENDIF
         ENDIF
 
-        RSMAL = 0.0
         IF (PBSMAL .GT. 0.0) THEN
           IF (PBSMAL .LT. 1.0) THEN
             RSMAL = 1 - EXP( LOG(1-PBSMAL) / PBTIME )

@@ -1,8 +1,7 @@
       SUBROUTINE FMSNAG (IYR, YR1)
       IMPLICIT NONE
 C----------
-C  $Id$
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C     CALLED FROM: FMMAIN
 C     CALLS   FMSSEE
@@ -36,8 +35,6 @@ C
 *----------------------------------------------------------------------
 *
 *  Local variable definitions:
-*     BASE:   base rate-of-fall for snags of this size (i.e., rate for
-*             snags with FALLX=1)
 *     DFIS:   density of initially-soft snags to fall / fallen.
 *     DFIH:   density of initially-hard snags to fall / fallen.
 *     DFALLN: target density of snags to fall under normal conditions
@@ -66,8 +63,8 @@ C.... Variable declarations.
       CHARACTER VVER*7
       INTEGER I, JSP, YR1, YEAR
       INTEGER IYR,NTODO,JDO,NPRM,IACTK,JYR
-      REAL    BASE, DENTTL, DFIS, DFIH, DFALLN, DZERO, HTSNEW
-      REAL    OLDHTH, OLDHTS, X, XS, XH
+      REAL    DENTTL, DFIS, DFIH, DFALLN, DZERO, HTSNEW
+      REAL    OLDHTH, OLDHTS, XS, XH
       REAL    D,DKTIME,HTD,AGE,SNUM,RSOFT,RSMAL
       LOGICAL DEBUG, LASCO
 
@@ -92,11 +89,11 @@ C     initialized some snags.  These need to be added to the snag lists.
         CALL OPFIND(1,MYACT,NTODO)
         DO 5 JDO = 1,NTODO
           CALL OPGET(JDO,6,JYR,IACTK,NPRM,PRMS)
-          JSP = PRMS(1)
+          JSP = INT(PRMS(1))
             D = PRMS(2)
           HTD = PRMS(3)
           AGE = PRMS(5)
-          YEAR = IYR - AGE
+          YEAR = INT(REAL(IYR) - AGE)
           SNUM = PRMS(6)
           IF (DEBUG) WRITE(JOSTND,*)' IN FMSNAG JDO=',JDO,' JSP=',JSP
           CALL FMSSEE (1,JSP,D,HTD,SNUM,4,DEBUG,JOSTND)
@@ -162,11 +159,12 @@ C            whether 5% are left.
         DENTTL = DENIH(I) + DENIS(I)
         CALL FMSFALL(IYR,JSP,DBHS(I),DEND(I),DENTTL,1,
      &               RSOFT,RSMAL,DFALLN)
-
-        IF (DEBUG) WRITE(JOSTND,*)' IN FMSNAG RSOFT=',RSOFT,
-     &                            ' RSMAL=',RSMAL,' PBSOFT=',pbsoft,
-     &                            ' PBSMAL=',PBSMAL
-
+C
+c* some of these values can be undefined at this point.
+c*        IF (DEBUG) WRITE(JOSTND,*)' IN FMSNAG RSOFT=',RSOFT,
+c*     &                            ' RSMAL=',RSMAL,' PBSOFT=',pbsoft,
+c*     &                            ' PBSMAL=',PBSMAL
+C
 C     Now set PBFRIH and PBFRIS. Different rates apply to small snags and
 C     snags that are soft AT TIME OF FIRE (whether initially hard or soft):
 C     if both apply, use whichever rate is greater.  Fires do not affect

@@ -311,8 +311,8 @@ C----------
       DR016=0.
       DBHSDI=0.
       JSPINDEF=0
-      GLOCCC=0
-      CCCOEF=0.01 
+      CCCOEF=1.0 
+      CCCOEF2=1.0
 C
       DO 30 J=1,9
       DO 20 K=1,MAXSP
@@ -374,6 +374,12 @@ C----------
       SITETR(I,J)=0.
    74 CONTINUE
    75 CONTINUE
+C----------
+C  INITIALIZE VARCOM COMMON VARIABLES
+C----------
+      DO I=1,MAXSP
+        ISTAGF(I)=0
+      ENDDO
 C
       RETURN
       END

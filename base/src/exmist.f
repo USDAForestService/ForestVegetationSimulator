@@ -10,7 +10,7 @@ C----------
 C
 C  Call list definitions (for entry point routines):
 C     ARRAY:  (I)  Array containing keyword entries.
-C     DMFLAG: (IO) Logical flag; TRUE if there's any DM in the stand.
+C     DMFLAG: (IO) Logical flag; TRUE if theres any DM in the stand.
 C     IARRAY: (IO) Array containing random integers between 1 and ISIZE.
 C     ICODE:  (I)  Array of mistletoe damage codes.
 C     IDMR:   (IO) Current tree dwarf mistletoe rating.
@@ -48,119 +48,205 @@ C----------
       INTEGER ICODE(6),MSPCNT(MAXSP),IARRAY(MAXTRE)
       CHARACTER*8 KEYWRD,NOMIS
       CHARACTER*1 CBUFF
+      REAL RDANUW
+      INTEGER IDANUW
+      CHARACTER*8 CDANUW
+      LOGICAL LDANUW
 C----------
 C  DATA STATEMENTS.
 C----------
       DATA NOMIS/'*NO MIST'/
 C----------
-C  MISCNT
-
-      ENTRY MISCNT(MSPCNT)
-      DO 100 I=1,MAXSP
-         MSPCNT(I)=0
-  100 CONTINUE
-      GO TO 9000
+C  ENTRY MISCNT
 C----------
-C  MISCPF
+      ENTRY MISCNT(MSPCNT)
+        DO 100 I=1,MAXSP
+          MSPCNT(I)=0
+  100   CONTINUE
+      RETURN
+C----------
+C  ENTRY MISCPF
 C----------
       ENTRY MISCPF(PRFCUT)
-      DO 150 I=1,MAXSP
-         PRFCUT(I)=0.0
-  150 CONTINUE
-      GO TO 9000
+        DO 150 I=1,MAXSP
+          PRFCUT(I)=0.0
+  150   CONTINUE
+      RETURN
 C----------
-C  MISDAM
+C  ENTRY MISDAM
 C----------
       ENTRY MISDAM(ITREE,ICODE)
-      GO TO 9000
 C----------
-C  MISGET
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        IDANUW = ITREE
+        RDANUW = ICODE(1)
+      RETURN
+C----------
+C  ENTRY MISGET
 C----------
       ENTRY MISGET(ITREE,IDMR)
-      IDMR=0
-      GO TO 9000
+        IDMR=0
 C----------
-C  MISIN
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        IDANUW = ITREE
+      RETURN
+C----------
+C  ENTRY MISIN
 C----------
       ENTRY MISIN(KEYWRD,ARRAY,LNOTBK,LKECHO)
-      CALL ERRGRO(.TRUE.,11)
-      GO TO 9000
+        CALL ERRGRO(.TRUE.,11)
 C----------
-C  MISINF
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        CDANUW = KEYWRD
+        RDANUW = ARRAY(1)
+        LDANUW = LNOTBK(1)
+        LDANUW = LKECHO
+      RETURN
+C----------
+C  ENTRY MISINF
 C----------
       ENTRY MISINF(DMFLAG)
-      GO TO 9000
 C----------
-C  MISIN0
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        LDANUW = DMFLAG
+      RETURN
+C----------
+C  ENTRY MISIN0
 C----------
       ENTRY MISIN0
-      GO TO 9000
+      RETURN
 C----------
-C  MISINT
+C  ENTRY MISINT
 C----------
       ENTRY MISINT
-      GO TO 9000
+      RETURN
 C----------
-C  MISKEY (ENTRY POINT IN MISIN)
+C  ENTRY MISKEY (ENTRY POINT IN MISIN)
 C----------
       ENTRY MISKEY(KEY,KEYWRD)
-      KEYWRD=NOMIS
-      GO TO 9000
+        KEYWRD=NOMIS
 C----------
-C  MISMRT
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        IDANUW = KEY
+      RETURN
+C----------
+C  ENTRY MISMRT
 C----------
       ENTRY MISMRT(MFLAG)
-      GO TO 9000
 C----------
-C  MISPRT
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        LDANUW = MFLAG
+      RETURN
+C----------
+C  ENTRY MISPRT
 C----------
       ENTRY MISPRT
-      GO TO 9000
+      RETURN
 C----------
-C  MISPUT
+C  ENTRY MISPUT
 C----------
       ENTRY MISPUT(ITREE,IDMR)
-      GO TO 9000
 C----------
-C  MISPUTZ
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        IDANUW = ITREE
+        IDANUW = IDMR
+      RETURN
+C----------
+C  ENTRY MISPUTZ
 C----------
       ENTRY MISPUTZ(ITREE,IDMR1)
-      GO TO 9000
 C----------
-C  MISRAN
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        IDANUW = ITREE
+        IDANUW = IDMR1
+      RETURN
+C----------
+C  ENTRY MISRAN
 C----------
       ENTRY MISRAN(IARRAY,ISIZE)
-      GO TO 9000
 C----------
-C  MISTOE
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        IDANUW = ISIZE
+        IDANUW = IARRAY(1)
+      RETURN
+C----------
+C  ENTRY MISTOE
 C----------
       ENTRY MISTOE
-      GO TO 9000
+      RETURN
 C----------
-C  MSPPPT - PPE -
+C  ENTRY MSPPPT - PPE -
 C----------
       ENTRY MSPPPT (WK3,IPNT,ILIMIT)
-      GO TO 9000
-      ENTRY MSCHPUT (CBUFF, IPNT, ILIMIT)
-      GO TO 9000
 C----------
-C  MSPPGT - PPE -
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        RDANUW = WK3(1)
+        IDANUW = IPNT
+        IDANUW = ILIMIT
+      RETURN
+C----------
+C  ENTRY MSCHPUT
+C----------
+      ENTRY MSCHPUT (CBUFF, IPNT, ILIMIT)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        CDANUW(1:1) = CBUFF(1)
+        IDANUW = IPNT
+        IDANUW = ILIMIT
+      RETURN
+C----------
+C  ENTRY MSPPGT - PPE -
 C----------
       ENTRY MSPPGT (WK3,IPNT,ILIMIT)
-      GO TO 9000
-      ENTRY MSCHGET (CBUFF, IPNT, ILIMIT)
-      GO TO 9000
 C----------
-C  MISACT
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        RDANUW = WK3(1)
+        IDANUW = IPNT
+        IDANUW = ILIMIT
+      RETURN
+C----------
+C  ENTRY MSCHGET
+C----------
+      ENTRY MSCHGET (CBUFF, IPNT, ILIMIT)
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+        IF(.TRUE.)RETURN
+        CDANUW(1:1) = CBUFF(1)
+        IDANUW = IPNT
+        IDANUW = ILIMIT
+      RETURN
+C----------
+C  ENTRY MISACT
 C----------
       ENTRY MISACT (NFLAG)
-      NFLAG=.FALSE.
-      GOTO 9000
-C----------
-C  COMMON RETURN.
-C----------
- 9000 CONTINUE
+        NFLAG=.FALSE.
       RETURN
+C
       END
 
       REAL FUNCTION MISDGF(ITREE,ISPC)
@@ -179,20 +265,21 @@ C     ITREE:  (I) Current tree record number.
 C     MISDGF: (O) Returns the 10 year proportion of potential diameter
 C                growth due to mistletoe infection.
 C
-C  Local variable definitions:
-C
-C  Common block variables and parameters:
-C
 C----------
-
       MISDGF=1.0
-
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IF(.TRUE.)RETURN
+      IDANUW = ITREE
+      IDANUW = ISPC
       RETURN
+C
       END
 
       REAL FUNCTION MISHGF(ITREE,ISPC)
 C----------
-C  **MISDGF--MS  Date of last revision:  04/01/11
+C  **MISHGF--MS  Date of last revision:  04/01/11
 C----------
 C  Purpose:
 C     This is a dummy version of the mistletoe infection height
@@ -206,13 +293,14 @@ C     ITREE:  (I) Current tree record number.
 C     MISHGF: (O) Returns the 10 year proportion of potential height
 C                growth due to mistletoe infection.
 C
-C  Local variable definitions:
-C
-C  Common block variables and parameters:
-C
 C----------
-
       MISHGF=1.0
-
+C----------
+C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
+C----------
+      IF(.TRUE.)RETURN
+      IDANUW = ITREE
+      IDANUW = ISPC
       RETURN
+C
       END

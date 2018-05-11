@@ -2,7 +2,7 @@
      >                   ARRAY,KARD)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     PROCESSES THE OPEN KEYWORD.
@@ -38,7 +38,7 @@ C
          IZNUL=1
          CFOUR='NULL'
       ENDIF
-      IS=ARRAY(3)+1
+      IS=INT(ARRAY(3)+1.)
       IF (IS.LE.0.OR.IS.GT.4) THEN
          CALL KEYDMP(JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
          CALL ERRGRO(.TRUE.,4)
@@ -51,7 +51,7 @@ C
          CSTAT='FRESH'
          IS=5
       ENDIF
-      IF (ARRAY(4).GT.0) IM=ARRAY(4)
+      IF (ARRAY(4).GT.0) IM=INT(ARRAY(4))
       IFORM=1
       IF (ARRAY(5).GT.0) IFORM=2
       IF(IFORM .EQ. 1 .AND. IM .LT. 150) IM=150
