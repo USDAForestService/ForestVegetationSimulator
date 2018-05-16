@@ -443,8 +443,28 @@ Files:
                             10) fmcons.f  now comes from fire/ie/src instead of fire/ni/src
                             11) fmsfall.f now comes from fire/ie/src instead of fire/ni/src
 
+/archive      New subdirectory to hold obsolete and/or unused code.
+
+/bgc          This subdirectory was moved to the new /archive subdirectory.              
+
+/ni/src       This subdirectory was moved to the new /archive subdirectory. Copies of subroutines used by
+              other variants were copied as follows:
+              To base/src bftopk.f
+              To ie/src   cftopk.f, cfvol.f, cutstk.f, cwcalc.f, dgbnd.f, dunn.f, exppnb.f, forkod.f, habtyp.f,
+                          pvref1.f, rcon.f, spctrn.f, vols.f
+              To kt/src   bfvol.f, bratio.f, ccfcal.f, crown.f, dgdriv.f, dubscr.f, findag.f, htgf.f, logs.f,
+                          maical.f, morts.f, sitset.f
+              To nc/src   cubrds.f
+
 /fire/kt/src  New subdirectory that contains subroutines fmbrkt.f, fmcba.f, fmcblk.f, fmcrow.f and fmvinit.f
               that were previously in the fire/ni/src subdirectory.
+
+/fire/ni/src  This subdirectory was moved to the new /archive subdirectory. Copies of subroutines used by
+              other variants were copied as follows:
+              To fire/kt/src fmbrkt.f, fmcba.f, fmcblk.f, fmcrow.f, fmvinit.f
+              To fire/ie/src fmcfmd.f, fmcons.f, fmmois.f, fmsfall.f
+
+/oz           This subdirectory was moved to the new /archive subdirectory.              
 
 /tests/FVSne
               net01.key Line endings were standardized.
