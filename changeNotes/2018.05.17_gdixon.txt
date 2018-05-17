@@ -171,6 +171,7 @@ fire/ak/src             All subroutines were moved to the fire/ak level, and the
 fire/base/src           All subroutines were moved to the fire/base level, and the /src subdirectory was deleted.
 
 fire/bc/src             All subroutines were moved to the fire/bc level, and the /src subdirectory was deleted.
+                        The subdirectory fire/bc was then moved to the /canada subdirectory.
 
 fire/bm/src             All subroutines were moved to the fire/bm level, and the /src subdirectory was deleted.
 
