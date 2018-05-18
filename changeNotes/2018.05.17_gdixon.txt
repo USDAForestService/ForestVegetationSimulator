@@ -1,0 +1,315 @@
+Subject: Directory structure changes
+
+Name: Gary Dixon
+
+Date: 05/17/2018
+
+Variants affected: All variants
+
+Description: These changes are part of a code modernization effort undertaken by the Forest Management Service
+             Center and follow guidelines suggested in the "FVS Code Modernization: Considerations and
+             Recommendations" (Gary Dixon, Final Report, 05/25/2017). Changes included in this bulletin are
+             to improve the code repository directory structure, eliminate unused or obsolete subroutines, and
+             make the source list files more intuitive and easier to work with.
+
+             Specifically:
+             1. All /src subdirectories were eliminated. Subroutines located in each of the /src subdirectories
+                were moved up one level in the directory structure. All source list files were modified to
+                account for these changes.
+             2. A new subdirectory, /canada, was created and subdirectories/files related to the Canadian 
+                variantswere moved into this new subdirectory.
+
+Impact on users: These changes only affect FVS developers; there is no impact on users.
+
+Files:
+acd/src                 All subroutines were moved to the /acd level, and the /src subdirectory was deleted.
+
+ak/src                  All subroutines were moved to the /ak level, and the /src subdirectory was deleted.
+
+bc/                     Subdirectory containing subroutines for the BC variant. This was moved to the new
+                        /canada subdirectory.
+
+base/src                All subroutines were moved to the /base level, and the /src subdirectory was deleted.
+
+/bin
+   FVSak_sourceList.txt
+  qFVSak_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories). 
+
+   FVSbm_sourceList.txt
+  FVSbmx_sourceList.txt
+  qFVSbm_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSca_sourceList.txt
+  qFVSca_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSci_sourceList.txt
+  FVScix_sourceList.txt
+  qFVSci_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+                        
+   FVScr_sourceList.txt
+  FVScrx_sourceList.txt
+  qFVScr_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVScs_sourceList.txt
+  qFVScs_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSec_sourceList.txt
+  FVSecx_sourceList.txt
+  qFVSec_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSem_sourceList.txt
+  FVSemx_sourceList.txt
+  qFVSem_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSie_sourceList.txt
+  FVSiex_sourceList.txt
+  qFVSie_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSkt_sourceList.txt
+  FVSktx_sourceList.txt
+  qFVSkt_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSls_sourceList.txt
+  qFVSls_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSnc_sourceList.txt
+  qFVSnc_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSne_sourceList.txt
+  qFVSne_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSoc_sourceList.txt
+  qFVSoc_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSop_sourceList.txt
+  qFVSop_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSpn_sourceList.txt
+  FVSpnx_sourceList.txt
+  qFVSpn_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSsn_sourceList.txt
+  qFVSsn_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSso_sourceList.txt
+  FVSsox_sourceList.txt
+  qFVSso_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVStt_sourceList.txt
+  FVSttx_sourceList.txt
+  qFVStt_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSut_sourceList.txt
+  FVSutx_sourceList.txt
+  qFVSut_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSwc_sourceList.txt
+  qFVSwc_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSws_sourceList.txt
+  qFVSws_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure (deletion of
+                        the /src subdirectories).
+
+   FVSbcc_notReady.txt  Old sourcelist file for the Canadian BC variant. This file was deleted and an
+                        updated version is stored in /canada/bin.
+
+bm/src                  All subroutines were moved to the /bm level, and the /src subdirectory was deleted.
+
+ca/src                  All subroutines were moved to the /ca level, and the /src subdirectory was deleted.
+
+canada/                 A new subdirectory created for the Canadian variants.
+
+canada/bin              A new subdirectory created for the Canadian variants.
+   FVSbcc_notReady.txt  New sourcelist file for the Canadian BC variant.
+  FVSon_sourceList.txt  New sourcelist file for the Canadian ON variant.
+
+ci/src                  All subroutines were moved to the /ci level, and the /src subdirectory was deleted.
+
+covr/src                All subroutines were moved to the /covr level, and the /src subdirectory was deleted.
+
+cr/src                  All subroutines were moved to the /cr level, and the /src subdirectory was deleted.
+
+cs/src                  All subroutines were moved to the /cs level, and the /src subdirectory was deleted.
+
+dbs/src                 All subroutines were moved to the /dbs level, and the /src subdirectory was deleted.
+
+dfb/src                 All subroutines were moved to the /dfb level, and the /src subdirectory was deleted.
+
+dftm/src                All subroutines were moved to the /dftm level, and the /src subdirectory was deleted.
+
+ec/src                  All subroutines were moved to the /ec level, and the /src subdirectory was deleted.
+
+econ/src                All subroutines were moved to the /econ level, and the /src subdirectory was deleted.
+
+em/src                  All subroutines were moved to the /em level, and the /src subdirectory was deleted.
+
+estb/src                All subroutines were moved to the /estb level, and the /src subdirectory was deleted.
+
+fire/ak/src             All subroutines were moved to the fire/ak level, and the /src subdirectory was deleted.
+
+fire/base/src           All subroutines were moved to the fire/base level, and the /src subdirectory was deleted.
+
+fire/bc/src             All subroutines were moved to the fire/bc level, and the /src subdirectory was deleted.
+                        The subdirectory fire/bc was then moved to the /canada subdirectory.
+
+fire/bm/src             All subroutines were moved to the fire/bm level, and the /src subdirectory was deleted.
+
+fire/ca/src             All subroutines were moved to the fire/ca level, and the /src subdirectory was deleted.
+
+fire/ci/src             All subroutines were moved to the fire/ci level, and the /src subdirectory was deleted.
+
+fire/cr/src             All subroutines were moved to the fire/cr level, and the /src subdirectory was deleted.
+
+fire/cs/src             All subroutines were moved to the fire/cs level, and the /src subdirectory was deleted.
+
+fire/ec/src             All subroutines were moved to the fire/ec level, and the /src subdirectory was deleted.
+
+fire/em/src             All subroutines were moved to the fire/em level, and the /src subdirectory was deleted.
+
+fire/fofem/src          All subroutines were moved to the fire/fofem level, and the /src subdirectory was deleted.
+
+fire/ie/src             All subroutines were moved to the fire/ie level, and the /src subdirectory was deleted.
+
+fire/kt/src             All subroutines were moved to the fire/kt level, and the /src subdirectory was deleted.
+
+fire/ls/src             All subroutines were moved to the fire/ls level, and the /src subdirectory was deleted.
+
+fire/nc/src             All subroutines were moved to the fire/nc level, and the /src subdirectory was deleted.
+
+fire/ne/src             All subroutines were moved to the fire/ne level, and the /src subdirectory was deleted.
+
+fire/oc/src             All subroutines were moved to the fire/oc level, and the /src subdirectory was deleted.
+
+fire/op/src             All subroutines were moved to the fire/op level, and the /src subdirectory was deleted.
+
+fire/pn/src             All subroutines were moved to the fire/pn level, and the /src subdirectory was deleted.
+
+fire/sn/src             All subroutines were moved to the fire/sn level, and the /src subdirectory was deleted.
+
+fire/so/src             All subroutines were moved to the fire/so level, and the /src subdirectory was deleted.
+
+fire/tt/src             All subroutines were moved to the fire/tt level, and the /src subdirectory was deleted.
+
+fire/ut/src             All subroutines were moved to the fire/ut level, and the /src subdirectory was deleted.
+
+fire/wc/src             All subroutines were moved to the fire/wc level, and the /src subdirectory was deleted.
+
+fire/ws/src             All subroutines were moved to the fire/ws level, and the /src subdirectory was deleted.
+
+ie/src                  All subroutines were moved to the /ie level, and the /src subdirectory was deleted.
+
+kt/src                  All subroutines were moved to the /kt level, and the /src subdirectory was deleted.
+
+lpmpb/src               All subroutines were moved to the /lpmpb level, and the /src subdirectory was deleted.
+
+ls/src                  All subroutines were moved to the /ls level, and the /src subdirectory was deleted.
+
+metric/ak/src           All subroutines were moved to the metric/ak level, and the /src subdirectory was deleted.
+
+metric/base/src         All subroutines were moved to the metric/base level, and the /src subdirectory was deleted.
+
+metric/clim/src         All subroutines were moved to the metric/clim level, and the /src subdirectory was deleted.
+
+metric/cr/src           All subroutines were moved to the metric/cr level, and the /src subdirectory was deleted.
+
+metric/dbs/src          All subroutines were moved to the metric/dbs level, and the /src subdirectory was deleted.
+
+metric/dfb/src          All subroutines were moved to the metric/dfb level, and the /src subdirectory was deleted.
+
+metric/estb/src         All subroutines were moved to the metric/estb level, and the /src subdirectory was deleted.
+
+metric/fire/cr          This empty subdirectory was deleted.
+
+metric/ls/src           All subroutines were moved to the metric/ls level, and the /src subdirectory was deleted.
+
+metric/mistoe/src       All subroutines were moved to the metric/mistoe level, and the /src subdirectory was deleted.
+
+metric/ne/src           All subroutines were moved to the metric/ne level, and the /src subdirectory was deleted.
+
+metric/newmist/src      All subroutines were moved to the metric/newmist level, and the /src subdirectory was deleted.
+
+metric/ni/src           All subroutines were moved to the metric/ni level, and the /src subdirectory was deleted.
+
+metric/ppbase/src       All subroutines were moved to the metric/ppbase level, and the /src subdirectory was deleted.
+
+metric/rd/src           All subroutines were moved to the metric/rd level, and the /src subdirectory was deleted.
+
+metric/so/src           All subroutines were moved to the metric/so level, and the /src subdirectory was deleted.
+
+metric/strp/src         All subroutines were moved to the metric/strp level, and the /src subdirectory was deleted.
+
+metric/ut/src           All subroutines were moved to the metric/ut level, and the /src subdirectory was deleted.
+
+metric/wc/src           All subroutines were moved to the metric/wc level, and the /src subdirectory was deleted.
+
+metric/wwpb/src         All subroutines were moved to the metric/wwpb level, and the /src subdirectory was deleted.
+
+mistoe/src              All subroutines were moved to the /mistoe level, and the /src subdirectory was deleted.
+
+nc/src                  All subroutines were moved to the /nc level, and the /src subdirectory was deleted.
+
+ne/src                  All subroutines were moved to the /ne level, and the /src subdirectory was deleted.
+
+newmist/src             All subroutines were moved to the /newmist level, and the /src subdirectory was deleted.
+                        Subdirectory containing subroutines for the Canadian mistletoe model. This was moved 
+                        to the new /canada subdirectory.
+
+oc/src                  All subroutines were moved to the /oc level, and the /src subdirectory was deleted.
+
+on/src                  All subroutines were moved to the /on level, and the /src subdirectory was deleted.
+                        Subdirectory containing subroutines for the ON variant. This was moved to the new
+                        /canada subdirectory.
+
+op/src                  All subroutines were moved to the /op level, and the /src subdirectory was deleted.
+
+organon/src             All subroutines were moved to the /organon level, and the /src subdirectory was deleted.
+
+pg/src                  All subroutines were moved to the /pg level, and the /src subdirectory was deleted.
+
+pn/src                  All subroutines were moved to the /pn level, and the /src subdirectory was deleted.
+
+rd/src                  All subroutines were moved to the /rd level, and the /src subdirectory was deleted.
+
+sn/src                  All subroutines were moved to the /sn level, and the /src subdirectory was deleted.
+
+so/src                  All subroutines were moved to the /so level, and the /src subdirectory was deleted.
+
+strp/src                All subroutines were moved to the /strp level, and the /src subdirectory was deleted.
+
+tt/src                  All subroutines were moved to the /tt level, and the /src subdirectory was deleted.
+
+ut/src                  All subroutines were moved to the /ut level, and the /src subdirectory was deleted.
+
+volume/src              All subroutines were moved to the /volume level, and the /src subdirectory was deleted.
+
+wc/src                  All subroutines were moved to the /wc level, and the /src subdirectory was deleted.
+
+wpbr/src                All subroutines were moved to the /wpbr level, and the /src subdirectory was deleted.
+
+ws/src                  All subroutines were moved to the /ws level, and the /src subdirectory was deleted.
+
+wsbwe/src               All subroutines were moved to the /wsbwe level, and the /src subdirectory was deleted.
+
+wwpb/src                All subroutines were moved to the /wwpb level, and the /src subdirectory was deleted.
+
