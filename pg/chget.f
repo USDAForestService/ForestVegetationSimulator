@@ -158,14 +158,19 @@ C
       CALL CHREAD(CBUFF,IPNT,LNCBUF,PTGNAME(J)(I:I),2)
   111 CONTINUE
   112 CONTINUE
-
+C
+      DO 114 I=1,2
+      CALL CHREAD(CBUFF,IPNT,LNCBUF,VARIANT(I:I),2)
+  114 CONTINUE
+C
       CALL DBSCHGET(CBUFF,IPNT,LNCBUF)
       CALL VARCHGET(CBUFF,IPNT,LNCBUF)
       CALL MSCHGET(CBUFF,IPNT,LNCBUF)
-
+C
 C     Read dummy character as last read and finalize character 
 C     variable retrieval, last parameter is 3 to specify.
+C
       CALL CHREAD(CBUFF,IPNT,LNCBUF,CDMB,3)
-
+C
       RETURN
       END

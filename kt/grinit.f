@@ -63,6 +63,7 @@ C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
+      VARIANT = 'KT'
       CALL LNKINT
       DO 5 I=1,MAXSP
       IORDER(I) = 0

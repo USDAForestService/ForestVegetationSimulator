@@ -157,15 +157,20 @@ C
       CALL CHWRIT(CBUFF,IPNT,LNCBUF,PTGNAME(J)(I:I),2)
   111 CONTINUE
   112 CONTINUE
-
+C
+      DO 114 I=1,2
+      CALL CHWRIT(CBUFF,IPNT,LNCBUF,VARIANT(I:I),2)
+  114 CONTINUE
+C
       CALL DBSCHPUT(CBUFF,IPNT,LNCBUF)
       CALL VARCHPUT(CBUFF,IPNT,LNCBUF)
       CALL MSCHPUT(CBUFF,IPNT,LNCBUF)
-
+C
 C     Store dummy character as last write and finalize character 
 C     variable storage, last parameter is 3 to specify.
+C
       CDMB='X'
       CALL CHWRIT(CBUFF,IPNT,LNCBUF,CDMB,3)
-
+C
       RETURN
       END

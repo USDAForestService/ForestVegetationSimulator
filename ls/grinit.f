@@ -63,6 +63,7 @@ C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
+      VARIANT = 'LS'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.
