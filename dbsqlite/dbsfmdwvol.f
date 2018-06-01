@@ -59,8 +59,8 @@ C     INSURE THE DOWN WOOD VOLUME TABLE EXISTS IN DATBASE
      >       "FVS_Down_Wood_Vol"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_Down_Wood_Vol('//
-     -        'CaseID char(36) not null,'//
-     -        'StandID char(26) not null,'//
+     -        'CaseID text not null,'//
+     -        'StandID text not null,'//
      -        'Year Int null,'//
      -        'DWD_Volume_0to3_Hard real null,'//
      -        'DWD_Volume_3to6_Hard real null,'//

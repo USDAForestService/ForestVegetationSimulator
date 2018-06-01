@@ -85,8 +85,8 @@ C
      2      (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
 C
             SQLStmtStr='CREATE TABLE FVS_Summary_East('//
-     -                 'CaseID char(36),'//
-     -                 'StandID Char(26),'//
+     -                 'CaseID text,'//
+     -                 'StandID Text,'//
      -                 'Year int null,'//
      -                 'Age int null,'//
      -                 'Tpa int null,'//
@@ -119,8 +119,8 @@ C
 C       WESTERN VARIANT VOLUME NOMENCLATURE
 C
             SQLStmtStr='CREATE TABLE FVS_Summary('//
-     -                 'CaseID char(36),'//
-     -                 'StandID Char(26),'//
+     -                 'CaseID text,'//
+     -                 'StandID Text,'//
      -                 'Year int null,'//
      -                 'Age int null,'//
      -                 'Tpa int null,'//

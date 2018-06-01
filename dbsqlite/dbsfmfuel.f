@@ -56,8 +56,8 @@ COMMONS
      >       "FVS_Consumption"//CHAR(0))
       IF(iRet.EQ.0) THEN
          SQLStmtStr='CREATE TABLE FVS_Consumption('//
-     -       'CaseID char(36) not null,'//
-     -       'StandID char(26) not null,'//
+     -       'CaseID text not null,'//
+     -       'StandID text not null,'//
      -       'Year Int null,'//
      -       'Min_Soil_Exp real null,'//
      -       'Litter_Consumption real null,'//

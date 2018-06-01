@@ -72,8 +72,8 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_RD_Sum"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_RD_Sum ('//
-     -      'CaseID char(36) not null,'//
-     -      'StandID char(26) not null,'//
+     -      'CaseID text not null,'//
+     -      'StandID text not null,'//
      -      'Year Int null,'//
      -      'Age Int null,'//
      -      'RD_Type char(1) null,'//
@@ -258,12 +258,12 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_RD_Det"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_RD_Det ('//
-     -      'CaseID char(36) not null,'//
-     -      'StandID char(26) not null,'//
+     -      'CaseID text not null,'//
+     -      'StandID text not null,'//
      -      'Year Int null,'//
      -      'RD_Type char(1) not null,'//
      -      'RD_Area real null,'//
-     -      'Species char(2) not null,'//
+     -      'Species text not null,'//
      -      'Mort_10Pctile_DBH real null,'//
      -      'Mort_30Pctile_DBH real null,'//
      -      'Mort_50Pctile_DBH real null,'//
@@ -451,10 +451,10 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_RD_Beetle"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_RD_Beetle ('//
-     -      'CaseID char(36) not null,'//
-     -      'StandID char(26) not null,'//
+     -      'CaseID text not null,'//
+     -      'StandID text not null,'//
      -      'Year Int null,'//
-     -      'Species char(2) not null,'//
+     -      'Species text not null,'//
      -      'In_Inf_0_5_DBH       real null,'//
      -      'In_Inf_5_10_DBH      real null,'//
      -      'In_Inf_10_15_DBH     real null,'//

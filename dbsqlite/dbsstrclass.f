@@ -74,8 +74,8 @@ C
      >       "FVS_StrClass"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_StrClass ('//
-     -              'CaseID char(36) not null,'//
-     -              'StandID char(26) null,'//
+     -              'CaseID text not null,'//
+     -              'StandID text null,'//
      -              'Year int null,'//
      -              'Removal_Code int null,'//
      -              'Stratum_1_DBH real null,'//
@@ -84,8 +84,8 @@ C
      -              'Stratum_1_Sm_Ht int null,'//
      -              'Stratum_1_Crown_Base int null,'//
      -              'Stratum_1_Crown_Cover int null,'//
-     -              'Stratum_1_Species_1 char(3) null,'//
-     -              'Stratum_1_Species_2 char(3) null,'//
+     -              'Stratum_1_Species_1 text null,'//
+     -              'Stratum_1_Species_2 text null,'//
      -              'Stratum_1_Status_Code int null,'//
      -              'Stratum_2_DBH real null,'//
      -              'Stratum_2_Nom_Ht int null,'//
@@ -93,8 +93,8 @@ C
      -              'Stratum_2_Sm_Ht int null,'//
      -              'Stratum_2_Crown_Base int null,'//
      -              'Stratum_2_Crown_Cover int null,'//
-     -              'Stratum_2_Species_1 char(3) null,'//
-     -              'Stratum_2_Species_2 char(3) null,'//
+     -              'Stratum_2_Species_1 text null,'//
+     -              'Stratum_2_Species_2 text null,'//
      -              'Stratum_2_Status_Code int null,'//
      -              'Stratum_3_DBH real null,'//
      -              'Stratum_3_Nom_Ht int null,'//
@@ -102,12 +102,12 @@ C
      -              'Stratum_3_Sm_Ht int null,'//
      -              'Stratum_3_Crown_Base int null,'//
      -              'Stratum_3_Crown_Cover int null,'//
-     -              'Stratum_3_Species_1 char(3) null,'//
-     -              'Stratum_3_Species_2 char(3) null,'//
+     -              'Stratum_3_Species_1 text null,'//
+     -              'Stratum_3_Species_2 text null,'//
      -              'Stratum_3_Status_Code int null,'//
      -              'Number_of_Strata int null,'//
      -              'Total_Cover int null,'//
-     -              'Structure_Class char(4) null);'//CHAR(0)
+     -              'Structure_Class text null);'//CHAR(0)
 
         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (iRet .NE. 0) THEN
