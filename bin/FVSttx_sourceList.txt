@@ -74,8 +74,8 @@
 ../tt/smhtgf.f
 ../tt/ttmrt.f
 
-../ci/src/varget.f
-../ci/src/varput.f
+../ci/varget.f
+../ci/varput.f
 ../cr/badist.f
 ../cr/crdecd.f
 ../em/logs.f
