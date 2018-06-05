@@ -1,4 +1,4 @@
-      SUBROUTINE FMSNGHT(VVER,KSP,HTD,HTCURR,IHRD,HTSNEW)
+      SUBROUTINE FMSNGHT(VAR,KSP,HTD,HTCURR,IHRD,HTSNEW)
       IMPLICIT NONE
 C----------
 C FIRE-BASE $Id: fmsnght.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
@@ -41,7 +41,7 @@ C
 C
 COMMONS
 C
-      CHARACTER VVER*7
+      CHARACTER VAR*2
       INTEGER HTINDX1, HTINDX2, IHRD, KSP
       REAL    HTCURR, HTD, HTSNEW, SFTMULT, X2
 C
@@ -66,7 +66,7 @@ C  be less than 1.5 foot, call it 0 (the 'snag' is considered to be
 C  'fuel' now instead).
 C----------
 C
-      SELECT CASE (VVER(1:2))
+      SELECT CASE (VAR)
         CASE('CI')
 C       CI variant has special rules for WP & RC
 

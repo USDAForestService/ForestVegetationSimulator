@@ -38,11 +38,9 @@ C
 
       LOGICAL DEBUG
       INTEGER I, ID, IFC, IH, ISVOBJ, J, K, L
-      CHARACTER VVER*7
-C
 C
       CALL DBCHK (DEBUG,'SVSTART',7,ICYC)
-
+C
       IF (JSVOUT.EQ.0) RETURN
 C
 C     START THE SVRANN GENERATOR AT THE SAME PLACE AS THE
@@ -131,8 +129,7 @@ C  FMCBA routine), to assign the missing snagfall/decay coefficients
 C  when FFE is not active
 
       IF ( .NOT. LFMON ) THEN
-        CALL VARVER(VVER)
-        IF ( VVER(1:2) .EQ. 'SO' ) THEN
+        IF (VARIANT .EQ. 'SO' ) THEN
           CALL SNGCOE
         ENDIF
       ENDIF

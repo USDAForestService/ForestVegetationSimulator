@@ -58,7 +58,7 @@ C
       INTEGER NPRMS,ITODO,NTODO,IOPEN,IWHO,KDST
       INTEGER MYACT(1)
       REAL TEM(6),XXWT,TEMBA,P,DP,HTLL,TDIBB,TDIBC,FC,BKRAT,BRATIO
-      CHARACTER CISN*11,TIM*8,DAT*10,VVER*7,TID*8,CLAB1(2)*4
+      CHARACTER CISN*11,TIM*8,DAT*10,TID*8,CLAB1(2)*4
       CHARACTER REV*10,EQNC*10,EQNB*10
       INTEGER*4 IDCMP1,IDCMP2
       LOGICAL LPPACT
@@ -141,23 +141,24 @@ C----------
       XXWT=SAMWT
       CALL PPEATV (LPPACT)
       IF (LPPACT) CALL PPWEIG (0,XXWT)
-      CALL VARVER (VVER)
-      CALL REVISE (VVER,REV)
+      CALL REVISE (VARIANT,REV)
       CALL GRDTIM (DAT,TIM)
-      IF(VVER(:2) .EQ. 'KT') THEN
-        ITMFOR=KODFOR/100000
-      ELSEIF(VVER(:2) .EQ. 'SN') THEN
-        ITMFOR=KODFOR/100
-      ELSE
-        ITMFOR=KODFOR
-      ENDIF
+      SELECT CASE (VARIANT)
+        CASE ('KT')
+          ITMFOR=KODFOR/100000
+        CASE ('SN')
+          ITMFOR=KODFOR/100
+        CASE DEFAULT
+          ITMFOR=KODFOR
+      END SELECT
       KREG=ITMFOR/100
       KFOR=ITMFOR-KREG*100
-      IF(VVER(:2) .EQ. 'SN') THEN
-        KDST=KODFOR-ITMFOR*100
-      ELSE
-        KDST=0
-      ENDIF
+      SELECT CASE (VARIANT)
+        CASE ('SN')
+          KDST=KODFOR-ITMFOR*100
+        CASE DEFAULT
+          KDST=0
+      END SELECT
       IBA=NINT(BA/GROSPC)
       IF(IWHO.NE.1)THEN
         TEMBA=0.
@@ -167,7 +168,7 @@ C----------
         IBA=NINT(TEMBA/GROSPC)
       ENDIF
       ISITE=IFIX(SITEAR(ISISP))
-      WRITE (KOLIST,2) IP,ICYC,JYR,NPLT,MGMID,VVER,DAT,TIM,
+      WRITE (KOLIST,2) IP,ICYC,JYR,NPLT,MGMID,VARIANT,DAT,TIM,
      &CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN,FIAJSP(ISISP),ISITE,IBA
     2 FORMAT (' -999',3I5,6(1X,A),I3,E14.7,2(1X,A),1X,A3,I5,I5)
 C----------
@@ -221,47 +222,48 @@ C  GET THE BARK RATIO FOR THIS TREE
 C----------
       BKRAT=BRATIO(ISPC,DBH(I),HT(I))
 C
-      IF(VVER(:2) .EQ. 'SN') THEN
-        IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
-          WRITE(KOLIST,21) KREG,KFOR,KDST,ICYC,TID,I,FIAJSP(ISPC),
-     >    ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,EQNC,
-     >    EQNB,TDIBC,TDIBB,BKRAT
-   21     FORMAT(1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,', 01,',1X,A8,
-     >    ',',1X,I4,',',1X,A4,',',1X,I4,',',1X,F7.2,',',1X,F7.2,',',
-     >    1X,F5.1,',',1X,F5.1,',',1X,I2,',',1X,I2,',',1X,I2,',',1X,
-     >    I2,',',1X,F5.1,',',1X,A10,',',1X,A10,',',1X,F5.2,',',1X,
-     >    F5.2,',',1X,F6.4)
-        ELSE
-          WRITE(KOLIST,20) KREG,KFOR,KDST,ICYC,TID,I,FIAJSP(ISPC),
-     >    ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,
-     >    EQNC,EQNB,TDIBC,TDIBB,BKRAT
-   20     FORMAT(1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,', 01,',1X,A8,
-     >    ',',1X,I4,',',1X,A4,',',1X,I4,',',1X,F7.1,',',1X,F7.1,',',
-     >    1X,F5.1,',',1X,F5.1,',',1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,
-     >    ',',1X,F5.1,',',1X,A10,',',1X,A10,',',1X,F5.2,',',1X,F5.2,
-     >    ',',1X,F6.4)
-        ENDIF  
-      ELSE
-        IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
-          WRITE(KOLIST,31) KREG,KFOR,KDST,ICYC,TID,I,NSP(ISP(I),1)(1:2),
-     >    ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,
-     >    EQNC,EQNB,TDIBC,TDIBB,BKRAT
-   31     FORMAT(1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,', 01,',1X,A8,
-     >    ',',1X,I4,',',1X,A2,',',1X,I4,',',1X,F7.2,',',1X,F7.2,',',
-     >    1X,F5.1,',',1X,F5.1,',',1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,
-     >    ',',1X,F5.1,',',1X,A10,',',1X,A10,',',1X,F5.2,',',1X,F5.2,
-     >    ',',1X,F6.4)
-        ELSE
-          WRITE(KOLIST,30) KREG,KFOR,KDST,ICYC,TID,I,NSP(ISP(I),1)(1:2),
-     >    ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,
-     >    EQNC,EQNB,TDIBC,TDIBB,BKRAT
-   30     FORMAT(1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,', 01,',1X,A8,
-     >    ',',1X,I4,',',1X,A2,',',1X,I4,',',1X,F7.1,',',1X,F7.1,',',
-     >    1X,F5.1,',',1X,F5.1,',',1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,
-     >    ',',1X,F5.1,',',1X,A10,',',1X,A10,',',1X,F5.2,',',1X,F5.2,
-     >    ',',1X,F6.4)
-        ENDIF
-      ENDIF
+      SELECT CASE (VARIANT)
+        CASE ('SN')
+          IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
+            WRITE(KOLIST,21) KREG,KFOR,KDST,ICYC,TID,I,FIAJSP(ISPC),
+     >      ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,EQNC,
+     >      EQNB,TDIBC,TDIBB,BKRAT
+   21       FORMAT(1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,', 01,',1X,A8,
+     >      ',',1X,I4,',',1X,A4,',',1X,I4,',',1X,F7.2,',',1X,F7.2,',',
+     >      1X,F5.1,',',1X,F5.1,',',1X,I2,',',1X,I2,',',1X,I2,',',1X,
+     >      I2,',',1X,F5.1,',',1X,A10,',',1X,A10,',',1X,F5.2,',',1X,
+     >      F5.2,',',1X,F6.4)
+          ELSE
+            WRITE(KOLIST,20) KREG,KFOR,KDST,ICYC,TID,I,FIAJSP(ISPC),
+     >      ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,
+     >      EQNC,EQNB,TDIBC,TDIBB,BKRAT
+   20       FORMAT(1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,', 01,',1X,A8,
+     >      ',',1X,I4,',',1X,A4,',',1X,I4,',',1X,F7.1,',',1X,F7.1,',',
+     >      1X,F5.1,',',1X,F5.1,',',1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,
+     >      ',',1X,F5.1,',',1X,A10,',',1X,A10,',',1X,F5.2,',',1X,F5.2,
+     >      ',',1X,F6.4)
+          ENDIF  
+        CASE DEFAULT
+          IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
+            WRITE(KOLIST,31) KREG,KFOR,KDST,ICYC,TID,I,
+     >      NSP(ISP(I),1)(1:2),ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,
+     >      IBDF,IFC,HTLL,EQNC,EQNB,TDIBC,TDIBB,BKRAT
+   31       FORMAT(1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,', 01,',1X,A8,
+     >      ',',1X,I4,',',1X,A2,',',1X,I4,',',1X,F7.2,',',1X,F7.2,',',
+     >      1X,F5.1,',',1X,F5.1,',',1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,
+     >      ',',1X,F5.1,',',1X,A10,',',1X,A10,',',1X,F5.2,',',1X,F5.2,
+     >      ',',1X,F6.4)
+          ELSE
+            WRITE(KOLIST,30) KREG,KFOR,KDST,ICYC,TID,I,
+     >      NSP(ISP(I),1)(1:2),ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,
+     >      IBDF,IFC,HTLL,EQNC,EQNB,TDIBC,TDIBB,BKRAT
+   30       FORMAT(1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,', 01,',1X,A8,
+     >      ',',1X,I4,',',1X,A2,',',1X,I4,',',1X,F7.1,',',1X,F7.1,',',
+     >      1X,F5.1,',',1X,F5.1,',',1X,I2,',',1X,I2,',',1X,I2,',',1X,I2,
+     >      ',',1X,F5.1,',',1X,A10,',',1X,A10,',',1X,F5.2,',',1X,F5.2,
+     >      ',',1X,F6.4)
+          ENDIF
+      END SELECT
 C    
    50 CONTINUE
    60 CONTINUE
@@ -295,30 +297,31 @@ C  GET THE BARK RATIO FOR THIS TREE
 C----------
       BKRAT=BRATIO(ISP(I),DBH(I),HT(I))
 C
-      IF(VVER(:2) .EQ. 'SN')THEN
+      SELECT CASE (VARIANT)
+        CASE ('SN')
 C
-        IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
-          WRITE(KOLIST,21) KREG,KFOR,KDST,ICYC,TID,I,FIAJSP(ISP(I)),
-     >    ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,EQNC,
-     >    EQNB,TDIBC,TDIBB,BKRAT
-        ELSE
-          WRITE(KOLIST,20) KREG,KFOR,KDST,ICYC,TID,I,FIAJSP(ISP(I)),
-     >    ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,EQNC,
-     >    EQNB,TDIBC,TDIBB,BKRAT
-        ENDIF
+          IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
+            WRITE(KOLIST,21) KREG,KFOR,KDST,ICYC,TID,I,FIAJSP(ISP(I)),
+     >      ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,EQNC,
+     >      EQNB,TDIBC,TDIBB,BKRAT
+          ELSE
+            WRITE(KOLIST,20) KREG,KFOR,KDST,ICYC,TID,I,FIAJSP(ISP(I)),
+     >      ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,EQNC,
+     >      EQNB,TDIBC,TDIBB,BKRAT
+          ENDIF
 C
-      ELSE
+        CASE DEFAULT
 C
-        IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
-          WRITE(KOLIST,31) KREG,KFOR,KDST,ICYC,TID,I,NSP(ISP(I),1)(1:2),
-     >    ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,EQNC,EQNB,
-     >    TDIBC,TDIBB,BKRAT
-        ELSE
-          WRITE(KOLIST,30) KREG,KFOR,KDST,ICYC,TID,I,NSP(ISP(I),1)(1:2),
-     >    ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,IBDF,IFC,HTLL,EQNC,EQNB,
-     >    TDIBC,TDIBB,BKRAT
-        ENDIF
-      ENDIF
+          IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
+            WRITE(KOLIST,31) KREG,KFOR,KDST,ICYC,TID,I,
+     >      NSP(ISP(I),1)(1:2),ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,
+     >      IBDF,IFC,HTLL,EQNC,EQNB,TDIBC,TDIBB,BKRAT
+          ELSE
+            WRITE(KOLIST,30) KREG,KFOR,KDST,ICYC,TID,I,
+     >      NSP(ISP(I),1)(1:2),ITRE(I),P,DP,DBH(I),HT(I),ICR(I),ICDF,
+     >      IBDF,IFC,HTLL,EQNC,EQNB,TDIBC,TDIBB,BKRAT
+          ENDIF
+      END SELECT
 C
   150 CONTINUE
 C

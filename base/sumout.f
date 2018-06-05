@@ -54,11 +54,14 @@ C
       INCLUDE 'PRGPRM.F77'
 C
 C
+      INCLUDE 'CONTRL.F77'
+C
+C
       INCLUDE 'SUMTAB.F77'
 C
 COMMONS
 C
-      CHARACTER CISN*11,NPLT*26,TIM*8,DAT*10,MGMID*4,VVER*7,REV*10
+      CHARACTER CISN*11,NPLT*26,TIM*8,DAT*10,MGMID*4,REV*10
       CHARACTER ITITLE*72,RECORD*250
       INTEGER*4 IOSUM(I20,LENG),IPTINV
       REAL SAMWT
@@ -74,8 +77,7 @@ C
       IF (.NOT. (LPRT.OR.LDSK)) RETURN
 C
       CALL PPISN (CISN)
-      CALL VARVER (VVER)
-      CALL REVISE (VVER,REV)
+      CALL REVISE (VARIANT,REV)
       CALL GRDTIM (DAT,TIM)
       
       IF(LDSK) THEN
@@ -90,7 +92,7 @@ C
             OPEN(UNIT=JOSUM,FILE=TRIM(RECORD),STATUS='replace')
           ENDIF
         ENDIF
-        WRITE (JOSUM,2) LENG,NPLT,MGMID,SAMWT,VVER,DAT,TIM,
+        WRITE (JOSUM,2) LENG,NPLT,MGMID,SAMWT,VARIANT,DAT,TIM,
      &                  REV,CISN,IPTINV
     2   FORMAT ('-999',I5,1X,A26,1X,A4,E15.7,5(1X,A),I3)
       ENDIF
@@ -102,12 +104,11 @@ C
       WRITE (JOSTND,5) NPLT,MGMID,ITITLE(1:ISTLNB(ITITLE))
     5 FORMAT(/'STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A/)
 C
-      IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
+      SELECT CASE (VARIANT)
 C----------
-C  WRITE HEADER FOR CS, LS, NE, OZ, SE, SN
+C  WRITE HEADER FOR CS, LS, NE, SN
 C----------
+      CASE ('CS','LS','NE','SN')
       WRITE (JOSTND,12)
   12  FORMAT(//32X,'SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL
      & STAND AREA)',/,
@@ -123,11 +124,10 @@ C----------
      &  /'---- --- ----- ',
      &  '--- ---- --- --- ---- ',7('----- '),'--- ---- --- --- ----  ',
      &  '------ ---- -----   ----- ------')
-C
-      ELSE
 C----------
 C  WRITE HEADER FOR ALL OTHER VARIANTS
 C----------
+      CASE DEFAULT
       WRITE (JOSTND,14)
    14 FORMAT(//32X,'SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL
      & STAND AREA)',/,
@@ -143,7 +143,7 @@ C----------
      &  /'---- --- ----- ',
      &  '--- ---- --- --- ---- ',7('----- '),'--- ---- --- --- ----  ',
      &  '------ ---- -----   ----- ------')
-      ENDIF
+      END SELECT
       ENDIF
 C----------
 C     STEP3: LOOP THRU ALL ROWS IN IOSUM...WRITE OUTPUT.
@@ -152,9 +152,10 @@ C  THIS STEP TAKES JUST THE FIRST 12 ITEMS IN THE IOSUM ARRAY
 C----------
       I12=I20-8
       DO 50 I=1,LENG
-      IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     &    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     &    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
+C
+      SELECT CASE (VARIANT)
+C
+      CASE ('CS','LS','NE','SN')
 C
         IF(LPRT)
      &    WRITE(JOSTND,20) (IOSUM(K,I),K=1,3),IOLDBA(I),ISDI(I),
@@ -168,7 +169,7 @@ C
      &      ISDIAT(I),IOSUM(12,I),IOSUM(13,I),QDBHAT(I),
      &      (IOSUM(K,I),K=14,16),BCYMAI(I),(IOSUM(K,I),K=18,20)
 C
-      ELSE
+      CASE DEFAULT
 C
         IF(LPRT)
      &    WRITE(JOSTND,20) (IOSUM(K,I),K=1,3),IOLDBA(I),ISDI(I),
@@ -182,7 +183,7 @@ C
      &      ISDIAT(I),IOSUM(12,I),IOSUM(13,I),QDBHAT(I),
      &      (IOSUM(K,I),K=14,16),BCYMAI(I),(IOSUM(K,I),K=18,20)
 
-      ENDIF
+      END SELECT
 
 C
 C      CALL THE DBSSUMRY FOR POPULATING THE DATABASE WITH

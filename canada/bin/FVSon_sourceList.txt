@@ -178,7 +178,6 @@
 ../base/trnasp.f
 ../base/trnslo.f
 ../base/tvalue.f
-../base/unblnk.f
 ../base/upcase.f
 ../base/upkey.f
 ../base/volkey.f
@@ -475,6 +474,7 @@
 ../on/spctrn.f
 ../on/sumhed.f
 ../on/sumout.f
+../on/unblnk.f
 ../on/update.f
 ../on/varmrt.f
 ../on/varvol.f

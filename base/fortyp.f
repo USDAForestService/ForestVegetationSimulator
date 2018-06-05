@@ -49,7 +49,6 @@ C  DECLARATIONS
 C----------
       LOGICAL DEBUG
       LOGICAL LFORVP
-      CHARACTER VVER*7
       INTEGER IRGN,NINTY5,NINETY
       INTEGER IXF,J,I,IFT,JFT,ISNVAR
       REAL S(210)
@@ -147,9 +146,12 @@ C
 C-----------
 C  ESTABLISH FLAG FOR SN VARIANT
 C-----------
-      ISNVAR=0
-      CALL VARVER(VVER)
-      IF (VVER(:2).EQ.'SN') ISNVAR=1
+      SELECT CASE (VARIANT)
+        CASE ('SN')
+          ISNVAR=1
+        CASE DEFAULT
+          ISNVAR=0
+      END SELECT
 C-----------
 C  CHECK FOR VALID INPUT FOREST TYPE
 C-----------
@@ -846,9 +848,12 @@ C----------
           END IF
           IF (UPLAND.EQ.1.0) THEN
             OAKHCK=OAKHCK+SWEETGUM+UPLOOAK+AELM+WCELM+HOLLY+BLKGUM
-            SOUTH=0.0                                                           ! SET FLAG FOR SOUTHERN REGION
-            CALL VARVER(VVER)
-            IF (VVER(:2).EQ.'SN'.OR.VVER(:2).EQ.'SE') SOUTH=1.0
+            SELECT CASE (VARIANT)
+              CASE ('SN')
+                SOUTH=1.0
+              CASE DEFAULT
+                SOUTH=0.0
+            END SELECT
             IF (SOUTH.EQ.1.0) THEN
               OAKHCK=OAKHCK+UPLOHWD+BEECH+BLCH
             ELSE

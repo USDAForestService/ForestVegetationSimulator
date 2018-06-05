@@ -2,7 +2,7 @@
       IMPLICIT NONE
 C  $Id$
 C----------
-C  **REVISE--BASE  DATE OF LAST REVISION:  01/15/15
+C  **REVISE--BASE  DATE OF LAST REVISION:  06/01/18
 C  (DON'T CHANGE THIS DATE UNLESS THE SUBROUTINE LOGIC CHANGES.)
 C----------
 C  THIS ROUTINE PROVIDES THE LATEST REVISION DATE FOR EACH VARIANT
@@ -10,170 +10,126 @@ C  WHICH GETS PRINTED IN THE MAIN HEADER ON THE OUTPUT.
 C  CALLED FROM GROHED, FILOPN, SUMHED, SUMOUT, ECVOLS, PRTRLS,
 C  AND DGDRIV.
 C----------
-      CHARACTER VAR*7,REV*10
+      CHARACTER VAR*2,REV*10
+C
+      SELECT CASE (VAR)
 C----------
 C SOUTHEAST ALASKA / COASTAL BRITISH COLUMBIA
 C----------
-      IF(VAR(:2).EQ.'AK') THEN
+        CASE('AK')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C BLUE MOUNTAINS
 C----------
-      IF(VAR(:2).EQ.'BM') THEN
+        CASE('BM')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C INLAND CALIFORNIA / SOUTHERN CASCADES
 C----------
-      IF(VAR(:2).EQ.'CA') THEN
+        CASE('CA')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C CENTRAL IDAHO
 C----------
-      IF(VAR(:2).EQ.'CI') THEN
+        CASE('CI')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C CENTRAL ROCKIES
 C----------
-      IF(VAR(:2).EQ.'SM' .OR. VAR(:2).EQ.'SP' .OR. VAR(:2).EQ.'BP'
-     & .OR. VAR(:2).EQ.'SF' .OR. VAR(:2).EQ.'LP') THEN
+        CASE('CR')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C CENTRAL STATES
 C----------
-      IF(VAR(:7).EQ.'CS') THEN
+        CASE('CS')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C EAST CASCADES
 C----------
-      IF(VAR(:2).EQ.'EC') THEN
+        CASE('EC')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C EASTERN MONTANA
 C----------
-      IF(VAR(:2).EQ.'EM') THEN
+        CASE('EM')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C INLAND EMPIRE (AKA NI23)
 C----------
-      IF(VAR(:2).EQ.'IE') THEN
+        CASE('IE')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C KOOTENAI / KANIKSU / TALLY LAKE
 C----------
-      IF(VAR(:2).EQ.'KT') THEN
+        CASE('KT')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C LAKE STATES
 C----------
-      IF(VAR(:7).EQ.'LS') THEN
+        CASE('LS')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C KLAMATH MOUNTAINS
 C----------
-      IF(VAR(:2).EQ.'NC') THEN
+        CASE('NC')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C NORTHEAST STATES
 C----------
-      IF(VAR(:7).EQ.'NE') THEN
+        CASE('NE')
         REV = '20180510'
-        GO TO 100
-      ENDIF
-C----------
-C NORTH IDAHO
-C----------
-      IF(VAR(:2).EQ.'NI') THEN
-        REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C SOUTHWEST OREGON ORGANON
 C----------
-      IF(VAR(:2).EQ.'OC') THEN
+        CASE('OC')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C NORTHWEST OREGON ORGANON
 C----------
-      IF(VAR(:2).EQ.'OP') THEN
+        CASE('OP')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C PACIFIC NORTHWEST
 C----------
-      IF(VAR(:2).EQ.'PN') THEN
+        CASE('PN')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C SOUTHERN
 C----------
-      IF(VAR(:2).EQ.'SN') THEN
+        CASE('SN')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C SOUTH CENTRAL OREGON / NORTHEAST CALIFORNIA
 C----------
-      IF(VAR(:2).EQ.'SO') THEN
+        CASE('SO')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C TETONS
 C----------
-      IF(VAR(:2).EQ.'TT') THEN
+        CASE('TT')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C UTAH
 C----------
-      IF(VAR(:2).EQ.'UT') THEN
+        CASE('UT')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C WEST CASCADES
 C----------
-      IF(VAR(:2).EQ.'WC') THEN
+        CASE('WC')
         REV = '20180510'
-        GO TO 100
-      ENDIF
 C----------
 C WESTERN SIERRA NEVADA
 C----------
-      IF(VAR(:2).EQ.'WS') THEN
+        CASE('WS')
         REV = '20180510'
-        GO TO 100
-      ENDIF
+C----------
+C ANY OTHER VARIANT
+C----------
+        CASE DEFAULT
+        REV = 'UNKNOWN '
 C
-  100 CONTINUE
+      END SELECT
+C
       RETURN
       END

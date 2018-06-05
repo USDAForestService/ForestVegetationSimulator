@@ -1,7 +1,7 @@
       SUBROUTINE UNBLNK (RECORD,IRLEN)
       IMPLICIT NONE
 C----------
-C  $Id$
+C  $Id: unblnk.f 2355 2018-05-18 17:21:33Z lancedavid $
 C----------
 C
 C     THIS SUBROUTINE REMOVES ALL BLANKS FROM A CHARACTER
@@ -14,14 +14,11 @@ C
       
       IRLEN=0
 
-      LENREC=LEN(RECORD)
-      DO I=1,LENREC
-         IF (RECORD(I:I).NE.' ') THEN
-            IRLEN=IRLEN+1
-            IF (IRLEN.LT.I) RECORD(IRLEN:IRLEN)=RECORD(I:I)
-         ENDIF
-      ENDDO
-      IF (IRLEN.LT.LENREC) RECORD(IRLEN+1:LENREC)=' '
+      ! if ON or BC then allow embedded spaces with path/file names
+      ! could also strip CHR(33) quotation marks with this sub.
+C
+         RECORD = ADJUSTL(RECORD)
+         IRLEN = LEN_TRIM(RECORD)
 C
       RETURN
       END

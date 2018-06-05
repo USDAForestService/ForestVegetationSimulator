@@ -1,4 +1,4 @@
-      SUBROUTINE FMSNGDK(VVER,KSP,D,DKTIME)
+      SUBROUTINE FMSNGDK(VAR,KSP,D,DKTIME)
       IMPLICIT NONE
 C----------
 C  $Id$
@@ -40,7 +40,7 @@ C
 C
 COMMONS
 C
-      CHARACTER VVER*7
+      CHARACTER VAR*2
       INTEGER JADJ, JSML, JYRSOFT, KSP
       REAL    D, DKTIME, XMOD
 
@@ -60,7 +60,7 @@ C----------
 C  Calculate years, since death, for snag to become soft.
 C----------
 
-      SELECT CASE (VVER(1:2))
+      SELECT CASE (VAR)
         CASE('LS')
           DKTIME = 0.65 * DECAYX(KSP) * D
           DKTIME = DKTIME * XMOD

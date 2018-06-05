@@ -52,12 +52,11 @@ C
 C----------
 C  DECLARATIONS
 C----------
-      INTEGER IS,IFIA,I3,I2,I1,ISPC,IWEST
+      INTEGER IS,IFIA,I3,I2,I1,ISPC
       REAL PRE,PRA,PRG,UE,UA,EI,AI,GI,UG,STKTR2,CF,Q,D,B1,B0
       REAL DMXSS,DMXSTD,TOTST1,TOTST3,TOTST5,TTST52,TTST51,TOTSTK,DMAX
       REAL STKTR1
       INTEGER I,J
-      CHARACTER VVER*7
       REAL TAB2(36,2)
       INTEGER TAB3(1000,2)
       REAL SZCL(3)
@@ -325,18 +324,17 @@ C----------
      &  36,  36,  36,  36,  36,  36,  36,   0,   0,   0,
      &  29,   0,   0,   0,   0,   0,   0,   0,  25,  10,
      &  25,   1,  33,  25,  25,  25,  25,  25,  25,   0/
+C----------
+C REDEFINE TAB3 STOCK EQ. COEF. FOR WESTERN VARIANTS
+C----------
+      SELECT CASE (VARIANT)
+        CASE ('CS','LS','NE','SN')
 C
-C --- REDEFINE TAB3 STOCK EQ. COEF. FOR WESTERN VARIANTS
-      IWEST=0                                                                   ! SET FLAG FOR WESTERN VARIANT
-      CALL VARVER(VVER)
-      IF (.NOT.(VVER(:2).EQ.'LS'.OR.VVER(:2).EQ.'NE'.OR.
-     &          VVER(:2).EQ.'SN'.OR.VVER(:2).EQ.'SE'.OR.
-     &          VVER(:2).EQ.'OZ'.OR.VVER(:2).EQ.'CS')) IWEST=1
-      IF (IWEST.EQ.1) THEN
-         TAB3(298,2)=08                                                         ! WEST OTHER SOFTWOOD
-         TAB3(998,2)=26                                                         ! WEST OTHER HARDWOOD
-         TAB3(999,2)=26                                                         ! WEST OTHER UNKNOWN
-      END IF
+        CASE DEFAULT
+         TAB3(298,2)=08                         ! WEST OTHER SOFTWOOD
+         TAB3(998,2)=26                         ! WEST OTHER HARDWOOD
+         TAB3(999,2)=26                         ! WEST OTHER UNKNOWN
+      END SELECT
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
