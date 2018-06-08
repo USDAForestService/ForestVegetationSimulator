@@ -51,7 +51,6 @@ C
 COMMONS
 C----------
       LOGICAL LTHIN,DEBUG
-      CHARACTER VVER*7
       INTEGER I,ISPI,J
       INTEGER MAPISP(49),MAPAK(49),MAPCA(49),MAPBM(49),MAPCI(49),
      &        MAPCR(49),MAPEC(49),MAPEM(49),MAPIE(49),MAPNI(49),
@@ -285,11 +284,10 @@ C     MC=WL,OS=MH,OH=WL
      &    2,   11,    2,  6*0/
 C
 C----------
-      CALL VARVER(VVER)
 C    
-      SELECT CASE (VVER(:2))
+      SELECT CASE (VARIANT)
 C  ORIGINAL 11 SPECIES VARIANTS
-      CASE('KT','NC','NI')
+      CASE('KT','NC')
         MAPISP=MAPNI
       CASE('AK')
         MAPISP=MAPAK
@@ -302,7 +300,7 @@ C
         MAPISP=MAPCA
       CASE('CI')
         MAPISP=MAPCI
-      CASE('SM','SP','BP','SF','LP')
+      CASE('CR')
         MAPISP=MAPCR
       CASE('EC')
         MAPISP=MAPEC
@@ -324,6 +322,8 @@ C
         MAPISP=MAPWC
       CASE('WS')
         MAPISP=MAPWS
+      CASE DEFAULT
+        MAPISP=1
       END SELECT
 C----------
 C  CHECK FOR DEBUG.
