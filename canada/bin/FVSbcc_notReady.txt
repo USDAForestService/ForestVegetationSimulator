@@ -1,3 +1,13 @@
+
+../vbase/cuts.f
+../vbase/evpred.f
+../vbase/evtstv.f
+../vbase/fortyp.f
+../vbase/sdical.f
+../vbase/stkval.f
+../vbase/svout.f
+../vbase/svstart.f
+
 ../base/algcmp.f
 ../base/algevl.f
 ../base/algexp.f
@@ -21,7 +31,6 @@
 ../base/comprs.f
 ../base/covolp.f
 ../base/cutqfa.f
-../base/cuts.f
 ../base/damcds.f
 ../base/dampro.f
 ../base/dbadd.f
@@ -44,9 +53,7 @@
 ../base/evmkv.f
 ../base/evmon.f
 ../base/evpost.f
-../base/evpred.f
 ../base/evtact.f
-../base/evtstv.f
 ../base/evusrv.f
 ../base/exbgc.f
 ../base/exbm.f
@@ -59,7 +66,6 @@
 ../base/extree.f
 ../base/filopn.f
 ../base/fndkey.f
-../base/fortyp.f
 ../base/fvs.f
 ../base/genrpt.f
 ../base/getsed.f
@@ -119,12 +125,10 @@
 ../base/scalef.f
 ../base/sdefet.f
 ../base/sdefln.f
-../base/sdical.f
 ../base/setup.f
 ../base/sgdecd.f
 ../base/spdecd.f
 ../base/spesrt.f
-../base/stkval.f
 ../base/svblkd.f
 ../base/svcdbh.f
 ../base/svcmp1.f
@@ -148,13 +152,11 @@
 ../base/svntr.f
 ../base/svobol.f
 ../base/svonln.f
-../base/svout.f
 ../base/svrann.f
 ../base/svrmov.f
 ../base/svsalv.f
 ../base/svsnad.f
 ../base/svsnage.f
-../base/svstart.f
 ../base/svtdel.f
 ../base/svtrip.f
 ../base/tredel.f
@@ -347,6 +349,8 @@
 ../fire/base/common/FMPROP.F77
 ../fire/base/common/FMSNGL.F77
 ../fire/base/common/FMSVCM.F77
+../fire/vbase/fmsngdk.f
+../fire/vbase/fmsnght.f
 ../fire/base/fmcadd.f
 ../fire/base/fmcbio.f
 ../fire/base/fmcfir.f
@@ -380,8 +384,6 @@
 ../fire/base/fmscut.f
 ../fire/base/fmsdit.f
 ../fire/base/fmsnag.f
-../fire/base/fmsngdk.f
-../fire/base/fmsnght.f
 ../fire/base/fmsoilheat.f
 ../fire/base/fmssee.f
 ../fire/base/fmsvfl.f

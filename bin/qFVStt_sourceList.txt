@@ -96,6 +96,22 @@
 ../ws/exppnb.f
 ../ws/r5crwd.f
 
+../vbase/cuts.f
+../vbase/disply.f
+../vbase/evpred.f
+../vbase/evtstv.f
+../vbase/fortyp.f
+../vbase/fvsstd.f
+../vbase/initre.f
+../vbase/natcrz.f
+../vbase/revise.f
+../vbase/sdical.f
+../vbase/stkval.f
+../vbase/sumhed.f
+../vbase/sumout.f
+../vbase/svout.f
+../vbase/svstart.f
+
 ../base/algcmp.f
 ../base/algevl.f
 ../base/algexp.f
@@ -120,7 +136,6 @@
 ../base/comprs.f
 ../base/covolp.f
 ../base/cutqfa.f
-../base/cuts.f
 ../base/cwidth.f
 ../base/damcds.f
 ../base/dampro.f
@@ -132,7 +147,6 @@
 ../base/dbscan.f
 ../base/dense.f
 ../base/dgscor.f
-../base/disply.f
 ../base/dist.f
 ../base/ecopls.f
 ../base/ecvols.f
@@ -147,9 +161,7 @@
 ../base/evmkv.f
 ../base/evmon.f
 ../base/evpost.f
-../base/evpred.f
 ../base/evtact.f
-../base/evtstv.f
 ../base/evusrv.f
 ../base/exbgc.f
 ../base/exbm.f
@@ -167,9 +179,7 @@
 ../base/filopn.f
 ../base/fndkey.f
 ../base/formcl.f
-../base/fortyp.f
 ../base/fvs.f
-../base/fvsstd.f
 ../base/genrpt.f
 ../base/getsed.f
 ../base/gheads.f
@@ -179,7 +189,6 @@
 ../base/hbdecd.f
 ../base/htgstp.f
 ../base/iapsrt.f
-../base/initre.f
 ../base/intree.f
 ../base/iqrsrt.f
 ../base/isstag.f
@@ -209,7 +218,6 @@
 ../base/msbmrt.f
 ../base/mults.f
 ../base/myopen.f
-../base/natcrz.f
 ../base/notre.f
 ../base/opadd.f
 ../base/opbisr.f
@@ -241,12 +249,10 @@
 ../base/rdpsrt.f
 ../base/reass.f
 ../base/resage.f
-../base/revise.f
 ../base/rxdibs.f
 ../base/scalef.f
 ../base/sdefet.f
 ../base/sdefln.f
-../base/sdical.f
 ../base/sdichk.f
 ../base/setup.f
 ../base/sgdecd.f
@@ -254,9 +260,6 @@
 ../base/spesrt.f
 ../base/sstage.f
 ../base/stats.f
-../base/stkval.f
-../base/sumhed.f
-../base/sumout.f
 ../base/svblkd.f
 ../base/svcdbh.f
 ../base/svcmp1.f
@@ -280,13 +283,11 @@
 ../base/svntr.f
 ../base/svobol.f
 ../base/svonln.f
-../base/svout.f
 ../base/svrann.f
 ../base/svrmov.f
 ../base/svsalv.f
 ../base/svsnad.f
 ../base/svsnage.f
-../base/svstart.f
 ../base/svtdel.f
 ../base/svtrip.f
 ../base/tredel.f
@@ -513,6 +514,9 @@
 ../fire/ut/fmmois.f
 ../fire/ut/fmsfall.f
 
+../fire/vbase/fmsngdk.f
+../fire/vbase/fmsnght.f
+
 ../fire/base/excfim.f
 ../fire/base/fmburn.f
 ../fire/base/fmcadd.f
@@ -552,8 +556,6 @@
 ../fire/base/fmscut.f
 ../fire/base/fmsdit.f
 ../fire/base/fmsnag.f
-../fire/base/fmsngdk.f
-../fire/base/fmsnght.f
 ../fire/base/fmsoilheat.f
 ../fire/base/fmsout.f
 ../fire/base/fmssee.f
