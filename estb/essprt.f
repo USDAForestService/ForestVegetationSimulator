@@ -7,7 +7,7 @@ C  SUBROUTINE CONTAINING ENTRY POINTS TO HANDLE COMPUTATIONS FOR
 C  VARIOUS STUMP SPROUTING FUNCTIONS WHICH VARY BY VARIANT AND 
 C  SPECIES.
 C
-C  VARIANTS USING THE ESTB VERSION: AK, AN, CI, EM, IE, KT, NI
+C  VARIANTS USING THE ESTB VERSION: AK, AC, CI, EM, IE, KT, NI
 C----------
 C
 COMMONS
@@ -30,22 +30,21 @@ C  VARIANT AND SPECIES SPECIFIC RULES FOR DETERMINING TPA A SPROUT
 C  RECORD WILL REPRESENT. ASPEN IS HANDLED SEPERATELY IN ENTRY ASSPTN
 C----------
       SELECT CASE (VAR)
-C----------
 C  
-C----------
       CASE('AK')
         SELECT CASE(ISPC)
           CASE(10)
             IF(DSTMP.LT.25.9)THEN
               PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
             ELSE
-              PREM = 0
+              PREM = 0.
             ENDIF
           CASE(11)
             PREM = PREM * 0.90
           CASE DEFAULT
-            PREM = PREM * 1
+            PREM = PREM * 1.
         END SELECT
+C
       CASE('IE')
         SELECT CASE(ISPC)
           CASE(17)
@@ -55,8 +54,9 @@ C----------
           CASE(20,21)
             PREM = PREM * 0.70
           CASE DEFAULT
-            PREM = PREM * 1
+            PREM = PREM * 1.
           END SELECT
+C
       CASE('CI')
         SELECT CASE(ISPC)
           CASE(12)
@@ -64,8 +64,9 @@ C----------
           CASE(17)
             PREM = PREM * 0.90
           CASE DEFAULT
-            PREM = PREM * 1
+            PREM = PREM * 1.
         END SELECT
+C
       CASE('EM')
         SELECT CASE(ISPC)
           CASE(11)
@@ -87,6 +88,12 @@ C----------
           CASE(17)
             PREM = PREM * 0.70
         END SELECT
+C----------
+C  ALL OTHER VARIANTS & SPECIES
+C----------
+      CASE DEFAULT
+        PREM = PREM * 1.
+C
       END SELECT
       RETURN
 C
@@ -97,14 +104,19 @@ C  DETERMINE IF QUAKING ASPEN IS IN THIS VARIANT; IF SO, RETURN THE
 C  FVS SPECIES INDEX FOR ASPEN IN THIS VARIANT; OTHERWISE RETURN 9999.
 C----------
       SELECT CASE (VAR)
+C
       CASE('CI')
         INDXAS = 13
+C
       CASE('EM')
         INDXAS = 12
+C
       CASE('IE')
         INDXAS = 18
+C
       CASE DEFAULT
         INDXAS = 9999
+C
       END SELECT
       RETURN
 C
@@ -137,6 +149,7 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT
+C
       CASE('IE')
         SELECT CASE (ISPC)
         CASE(18)
@@ -152,6 +165,7 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT
+C
       CASE('AK')
         SELECT CASE (ISPC)
         CASE(11)
@@ -165,6 +179,7 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT 
+C
       CASE('EM')
         SELECT CASE (ISPC)
         CASE(12)
@@ -223,7 +238,7 @@ C AK: SOUTHEAST ALASKA / COASTAL BC
 C AN: INTERIOR ALASKA
 C     SPROUTING SPECIES: 10=RA, 11=CW
 C----------
-      CASE('AK','AN')
+      CASE('AK','AC')
         SELECT CASE (ISPC)
         CASE(10,11)
           HTSPRT = (0.1 + SI/50.)*IAG
