@@ -357,6 +357,9 @@
 ../em/espxcs.f
 ../em/essubh.f
 ../em/esxcsh.f
+
+../vestb/essprt.f
+
 ../estb/esaddt.f
 ../estb/esblkd.f
 ../estb/escprs.f
@@ -374,7 +377,6 @@
 ../estb/esprep.f
 ../estb/esprin.f
 ../estb/esrann.f
-../estb/essprt.f
 ../estb/estab.f
 ../estb/estime.f
 ../estb/estock.f

@@ -345,6 +345,8 @@
 ../dbs/mkdbsTypeDefs.c
 ../dbs/uuidgen.f
 
+../vestb/essprt.f
+
 ../estb/esaddt.f
 ../estb/esadvh.f
 ../estb/esblkd.f
@@ -367,7 +369,6 @@
 ../estb/espsub.f
 ../estb/espxcs.f
 ../estb/esrann.f
-../estb/essprt.f
 ../estb/essubh.f
 ../estb/estab.f
 ../estb/estime.f
