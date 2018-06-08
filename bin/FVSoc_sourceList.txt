@@ -505,9 +505,11 @@
 ../clim/base/clmorts.f
 ../clim/base/clputget.f
 
+../vcovr/cvbrow.f
+../vcovr/cvcbms.f
+../vcovr/cvshap.f
+
 ../covr/cvbcal.f
-../covr/cvbrow.f
-../covr/cvcbms.f
 ../covr/cvclas.f
 ../covr/cvcnop.f
 ../covr/cvcw.f
@@ -517,7 +519,6 @@
 ../covr/cvnohd.f
 ../covr/cvout.f
 ../covr/cvscon.f
-../covr/cvshap.f
 ../covr/cvsum.f
 
 ../econ/eccalc.f
