@@ -654,6 +654,7 @@
 ../rd/rdtrip.f
 ../rd/rdtrp.f
 ../rd/rdzero.f
+../vstrp/essprt.f
 ../strp/esblkd.f
 ../strp/escprs.f
 ../strp/esfltr.f
@@ -666,7 +667,6 @@
 ../strp/esprep.f
 ../strp/esprin.f
 ../strp/esrann.f
-../strp/essprt.f
 ../strp/essubh.f
 ../strp/estime.f
 ../strp/estump.f

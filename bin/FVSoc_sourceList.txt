@@ -392,6 +392,9 @@
 ../pg/stash.f
 
 ../ca/essubh.f
+
+../vstrp/essprt.f
+
 ../strp/esaddt.f
 ../strp/esblkd.f
 ../strp/escprs.f
@@ -408,7 +411,6 @@
 ../strp/esprep.f
 ../strp/esprin.f
 ../strp/esrann.f
-../strp/essprt.f
 ../strp/estab.f
 ../strp/estime.f
 ../strp/estump.f
