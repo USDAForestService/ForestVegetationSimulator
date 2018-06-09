@@ -1,14 +1,14 @@
       SUBROUTINE ESSPRT(VAR,ISPC,PREM,DSTMP)
       IMPLICIT NONE
 C----------
-C  **ESSPRT--STRP   DATE OF LAST REVISION:   8/24/2015
-C
+C STRP $Id: esaddt.f 0000 2018-06-09 00:00:00Z gedixon $
+C----------
 C  SUBROUTINE CONTAINING ENTRY POINTS TO HANDLE COMPUTATIONS FOR
 C  VARIOUS STUMP SPROUTING FUNCTIONS WHICH VARY BY VARIANT, SPECIES,
 C  AND PARENT-TREE DIAMETER.
 C
 C  VARIANTS USING THE STRP VERSION: BM, CA, CR, CS, EC, LS, NC, NE,
-C  PN, SN, SO, TT, UT, WC, WS
+C  OC, OP, PN, SN, SO, TT, UT, WC, WS
 C----------
 C 
 COMMONS
@@ -39,61 +39,8 @@ C  ALL OTHER VARIANTS:
 C     ESTIMATES OF SPROUTS/AC REPRESENTED BY EACH SPROUT RECORD COME 
 C     FROM VARIOUS LITERATURE SOURCES 
 C----------
-C CR Variant
-      CASE('SM','SP','BP','SF','LP')
-        SELECT CASE(ISPC)
-          CASE(24,28)
-            PREM = PREM * 0.70
-          CASE(21,23,25,26)
-            PREM = PREM * 0.80
-          CASE(22,27)
-            PREM = PREM * 0.90
-          CASE(29)
-          IF(DSTMP.LT.41.4)THEN
-              PREM = PREM * ((97.4603-2.3492 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF
-          CASE(36)
-            PREM = PREM * 0.30
-          CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT
-      CASE('TT')
-        SELECT CASE(ISPC)
-          CASE(13,14)
-            PREM = PREM * 0.70
-          CASE(15)
-            PREM = PREM * 0.90          
-          CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT 
-      CASE('UT')
-        SELECT CASE(ISPC)
-          CASE(22)
-            PREM = PREM * 0.50
-          CASE(21)
-            PREM = PREM * 0.70
-          CASE(13,18,19)
-            PREM = PREM * 0.80                      
-          CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT
-      CASE('EC')
-        SELECT CASE(ISPC)
-          CASE(22)
-            IF(DSTMP.LT.25.9)THEN
-              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF
-          CASE(23,29)
-            PREM = PREM * 0.70
-          CASE(20,21,24,25,27,28,30)
-            PREM = PREM * 0.90                               
-          CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT
+C BM Variant
+C----------
       CASE('BM')
         SELECT CASE(ISPC)
           CASE(13)
@@ -101,46 +48,11 @@ C CR Variant
           CASE(16)
             PREM = PREM * 0.90                               
           CASE DEFAULT
-            PREM = PREM * 1  
+            PREM = PREM * 1.  
         END SELECT
-      CASE('SO')
-        SELECT CASE(ISPC)
-          CASE(20)
-            PREM = PREM * 0.40
-          CASE(21,22)
-            IF(DSTMP.LT.25.9)THEN
-              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF
-          CASE(31)
-            PREM = PREM * 0.70
-          CASE(23,25:29)
-            PREM = PREM * 0.90                               
-          CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT
-      CASE('WS')
-        SELECT CASE(ISPC)
-          CASE(23)
-            IF(DSTMP.LT.216.7)THEN
-              PREM = PREM * ((93.2669-0.4303 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF       
-          CASE(28,29,33)
-            PREM = PREM * 0.50
-          CASE(30)
-            IF(DSTMP.LT.27.1)THEN
-              PREM = PREM * ((70.7857-2.6071 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF 
-          CASE(31,32,34,35,37:40)
-            PREM = PREM * 0.90                                          
-          CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT  
+C----------
+C CA and OC Variants
+C----------
       CASE('CA','OC')
         SELECT CASE(ISPC)
           CASE(24)
@@ -149,9 +61,9 @@ C CR Variant
             PREM = PREM * 0.50
           CASE(28)
             IF(DSTMP.LT.27.1)THEN
-              PREM = PREM * ((70.7857-2.6071 * DSTMP)/100)
+              PREM = PREM * ((70.7857-2.6071 * DSTMP)/100.)
             ELSE
-              PREM = 0
+              PREM = 0.
             ENDIF
           CASE(29:32,34,37:39,42,45,46,48)
             PREM = PREM * 0.90
@@ -159,9 +71,9 @@ C CR Variant
             PREM = PREM * 0.80
           CASE(36)
             IF(DSTMP.LT.25.9)THEN
-              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
+              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100.)
             ELSE
-              PREM = 0
+              PREM = 0.
             ENDIF
           CASE(41)
             IF(DSTMP.LT.8.0)THEN
@@ -172,139 +84,33 @@ C CR Variant
           CASE(43)
             PREM = PREM * 0.70                                                          
           CASE DEFAULT
-            PREM = PREM * 1  
+            PREM = PREM * 1.  
         END SELECT
-      CASE('NC')
+C----------
+C CR Variant
+C----------
+      CASE('CR')
         SELECT CASE(ISPC)
-          CASE(5,7,8)
-            PREM = PREM * 0.90                                       
-          CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT 
-      CASE('PN','WC')
-        SELECT CASE(ISPC)
-          CASE(17)
-            IF(DSTMP.LT.216.7)THEN
-              PREM = PREM * ((93.2669-0.4303 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF
-          CASE(21,23,25,27,28,34,36,37)
-            PREM = PREM * 0.90
-          CASE(22)
-            IF(DSTMP.LT.25.9)THEN
-              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF
-          CASE(24,35)
+          CASE(24,28)
             PREM = PREM * 0.70
-          CASE(33)
-            PREM = PREM * 0.40                                               
-          CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT  
-      CASE('OP')
-        SELECT CASE(ISPC)
-          CASE(17)
-            IF(DSTMP.LT.216.7)THEN
-              PREM = PREM * ((93.2669-0.4303 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF
-          CASE(21,23,24,25,27,28,34,36,37)
+          CASE(21,23,25,26)
+            PREM = PREM * 0.80
+          CASE(22,27)
             PREM = PREM * 0.90
-          CASE(22)
-            IF(DSTMP.LT.25.9)THEN
-              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100)
+          CASE(29)
+          IF(DSTMP.LT.41.4)THEN
+              PREM = PREM * ((97.4603-2.3492 * DSTMP)/100.)
             ELSE
-              PREM = 0
+              PREM = 0.
             ENDIF
-          CASE(35)
-            PREM = PREM * 0.70
-          CASE(33)
-            PREM = PREM * 0.40                                               
+          CASE(36)
+            PREM = PREM * 0.30
           CASE DEFAULT
-            PREM = PREM * 1  
-        END SELECT             
-      CASE('SN')
-        SELECT CASE(ISPC)
-          CASE(5)
-            PREM = PREM * 0.42
-          CASE(18,19,26,30:32,41,51,52,56,82)
-            PREM = PREM * 0.94
-          CASE(20)
-            PREM = PREM * 1 / (1 + EXP(-(4.1975 + (-0.1821 * DSTMP))))
-          CASE(22)
-            PREM = PREM * 0.73
-          CASE(23)
-            PREM = PREM * 0.96
-          CASE(24,25)
-            PREM = PREM * 1 / (1 + EXP(-(3.3670 + (-0.5159 * DSTMP))))
-          CASE(27)
-            PREM = PREM * 0.95
-          CASE(33)
-            PREM = PREM * 0.93
-          CASE(45)
-            PREM = PREM * 0.79
-          CASE(46)
-            PREM = PREM * 0.95
-          CASE(47)
-            PREM = PREM * 0.69           
-          CASE(54)
-            PREM = PREM * 0.72
-          CASE(57)
-            PREM = PREM * 0.97
-          CASE(63)          
-            PREM = PREM * 1 / (1 + EXP(-(2.4608 + (-0.3093 * DSTMP))))            
-          CASE(64)
-            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
-     &      ISEFOR.EQ.908)THEN
-              PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100)
-            ELSE
-              PREM = PREM * 1 / (1 + EXP(-(3.8897 + (-0.2260 * DSTMP))))
-            ENDIF
-          CASE(66)
-            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
-     &      ISEFOR.EQ.908)THEN
-              PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100)
-            ELSE
-              PREM = PREM * 1 / (1 + EXP(-(2.7386 + (-0.1076 * DSTMP))))
-            ENDIF
-          CASE(70)
-            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
-     &      ISEFOR.EQ.908)THEN
-              PREM = PREM * 1 / (1 + EXP(-(2.3656 + 
-     &             (-0.2781 * (DSTMP/0.7801)))))
-            ELSE
-              PREM = PREM * 1 / (1 + EXP(-(2.7386 + (-0.1076 * DSTMP))))
-            ENDIF     
-          CASE(74)
-            PREM = PREM * 0.78
-          CASE(75)
-            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
-     &      ISEFOR.EQ.908)THEN
-              PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100)
-            ELSE
-              PREM = PREM * 1 / (1 + EXP(-(3.2586 + (-0.1120 * DSTMP))))
-            ENDIF
-          CASE(77)
-            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
-     &      ISEFOR.EQ.908)THEN
-              PREM = PREM * (1 / (1 + EXP(-(-2.8058 + 
-     &        22.6839 * (1/((DSTMP/0.7788)-0.4403))))))
-            ELSE
-              PREM = PREM * 1 / (1 + EXP(-(2.7386 + (-0.1076 * DSTMP))))
-            ENDIF   
-          CASE(78)
-            PREM = PREM * 1 / (1 + EXP(-(3.1070 + (-0.2128 * DSTMP))))
-          CASE(80)
-            PREM = PREM * 0.86
-          CASE(83)
-            PREM = PREM * 0.99
-          CASE DEFAULT
-            PREM = PREM * 1 / (1 + EXP(-(2.7386 + (-0.1076 * DSTMP))))
+            PREM = PREM * 1.  
         END SELECT
+C----------
+C CS Variant
+C----------
       CASE('CS')
         SELECT CASE(ISPC)
           CASE(3)
@@ -370,14 +176,14 @@ C CR Variant
               PREM = PREM * 0.50  
             ENDIF
           CASE(43)          
-              PREM = PREM * ((89.191-2.611 * DSTMP)/100)
+              PREM = PREM * ((89.191-2.611 * DSTMP)/100.)
           CASE(47)
             PREM = PREM * (EXP(1.6134 + (-0.0184 * 
      &      (((DSTMP/0.7788)-0.4403) * 2.54)))/ 
-     &      (1 + EXP(1.6134 + (-0.0184 * 
+     &      (1. + EXP(1.6134 + (-0.0184 * 
      &      (((DSTMP/0.7788)-0.4403) * 2.54))))) 
           CASE(48,51,61,62)
-            PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100) 
+            PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100.) 
           CASE(49,65,66)
             IF(DSTMP.LT.10.0)THEN
               PREM = PREM * 0.80
@@ -386,23 +192,23 @@ C CR Variant
             ENDIF
           CASE(50)
             PREM = PREM * (EXP(6.0065 + (-0.0777 * 
-     &      ((DSTMP/0.7801) *2.54)))/(1 + EXP(6.0065 + 
+     &      ((DSTMP/0.7801) *2.54)))/(1. + EXP(6.0065 + 
      &      (-0.0777 * ((DSTMP/0.7801) * 2.54))))) 
           CASE(52)
-            PREM = PREM * 1 / (1 + EXP(-(2.3656 + 
+            PREM = PREM * 1. / (1. + EXP(-(2.3656 + 
      &             (-0.2781 * (DSTMP/0.7801)))))
           CASE(54)
             PREM = 0.9 * (PREM * (EXP(1.6134 + (-0.0184 * 
      &      (((DSTMP/0.7788)-0.4403) *2.54)))/ 
-     &      (1 + EXP(1.6134 + (-0.0184 * 
+     &      (1. + EXP(1.6134 + (-0.0184 * 
      &      (((DSTMP/0.7788)-0.4403) * 2.54))))))
           CASE(56,59)
             PREM = PREM * (EXP(6.4205 + (-0.1097 * 
-     &      (((DSTMP/0.8188)-0.23065) *2.54)))/(1 + EXP(6.4205 + 
+     &      (((DSTMP/0.8188)-0.23065) *2.54)))/(1. + EXP(6.4205 + 
      &      (-0.1097 * (((DSTMP/0.8188)-0.23065) * 2.54)))))
           CASE(57,58)
-            PREM = PREM * (1 / (1 + EXP(-(-2.8058 + 
-     &        22.6839 * (1/((DSTMP/0.7788)-0.4403)))))) 
+            PREM = PREM * (1. / (1. + EXP(-(-2.8058 + 
+     &        22.6839 * (1./((DSTMP/0.7788)-0.4403)))))) 
           CASE(63,70)
             PREM = PREM * 0.40 
           CASE(67)
@@ -418,106 +224,30 @@ C CR Variant
               PREM = PREM * 0.90  
             ENDIF     
           CASE DEFAULT
-            PREM = PREM * 1
+            PREM = PREM * 1.
         END SELECT
-      CASE('NE')
+C----------
+C EC Variant
+C----------
+      CASE('EC')
         SELECT CASE(ISPC)
-          CASE(26,29,41,42,43,44,45,46,54)
-            IF(DSTMP.LT.12.0)THEN
-              PREM = PREM * 0.80
+          CASE(22)
+            IF(DSTMP.LT.25.9)THEN
+              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100.)
             ELSE
-              PREM = PREM * 0.50  
+              PREM = 0.
             ENDIF
-          CASE(27,28) 
-            IF(DSTMP.LT.34.1)THEN         
-              PREM = PREM * ((89.191-2.611 * DSTMP)/100)
-            ELSE
-              PREM = 0
-            ENDIF                         
-          CASE(30,78,100)
-            PREM = PREM * 0.3
-          CASE(31,32,34,47,48,57,62,76,88,95,96,97,102,103,105,107,108)
+          CASE(23,29)
             PREM = PREM * 0.70
-          CASE(33,84,85,86,90,91)
-            PREM = PREM * 0.90
-          CASE(35,38,39)
-            IF(DSTMP.LT.24.0)THEN
-              PREM = PREM * 0.95
-            ELSE
-              PREM = PREM * 0.60  
-            ENDIF
-          CASE(36,37)
-            IF(DSTMP.LT.24.0)THEN
-              PREM = PREM * 0.75
-            ELSE
-              PREM = PREM * 0.50  
-            ENDIF
-          CASE(40)            
-            PREM = PREM * 0.93             
-          CASE(50)          
-            IF(DSTMP.LT.25.0)THEN
-              PREM = PREM * 0.80
-            ELSE
-              PREM = PREM * 0.50  
-            ENDIF
-          CASE(51)          
-            PREM = PREM * 0.40  
-          CASE(52,56,63,80,82,87,92,93,94,101,106)
-            PREM = PREM * 0.80
-          CASE(53)          
-            PREM = PREM * 0.40        
-          CASE(55)
-            PREM = PREM * (EXP(1.6134 + (-0.0184 * 
-     &      (((DSTMP/0.7788)-0.4403) * 2.54)))/ 
-     &      (1 + EXP(1.6134 + (-0.0184 * 
-     &      (((DSTMP/0.7788)-0.4403) * 2.54))))) 
-          CASE(58)
-            PREM = PREM * (1 / (1 + EXP(-(-2.8058 + 
-     &        22.6839 * (1/((DSTMP/0.7788)-0.4403)))))) 
-          CASE(59,60,61,67,70)
-            PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100)
-          CASE(64,66)
-            PREM = PREM * (EXP(6.4205 + (-0.1097 * 
-     &      (((DSTMP/0.8188)-0.23065) *2.54)))/(1 + EXP(6.4205 + 
-     &      (-0.1097 * (((DSTMP/0.8188)-0.23065) * 2.54)))))  
-          CASE(68,89)          
-            IF(DSTMP.LT.10.0)THEN
-              PREM = PREM * 0.80
-            ELSE
-              PREM = PREM * 0.50  
-            ENDIF            
-          CASE(69)
-            PREM = PREM * (EXP(6.0065 + (-0.0777 * 
-     &      ((DSTMP/0.7801) *2.54)))/(1 + EXP(6.0065 + 
-     &      (-0.0777 * ((DSTMP/0.7801) * 2.54)))))
-          CASE(72,73,75)          
-            PREM = PREM * 0.40     
-          CASE(74,77,83)
-            PREM = PREM * 0.50
-          CASE(79)
-            IF(DSTMP.LT.8.0)THEN
-              PREM = PREM * 0.80
-            ELSE
-              PREM = PREM * 0.50  
-            ENDIF   
-          CASE(81)
-            PREM = PREM * 1 / (1 + EXP(-(2.7386 + (-0.1076 * DSTMP)))) 
-          CASE(99)
-            IF(DSTMP.LT.15.0)THEN
-              PREM = PREM * 0.60
-            ELSE
-              PREM = PREM * 0.30  
-            ENDIF 
-          CASE(104)
-            IF(DSTMP.LT.8.0)THEN
-              PREM = PREM * 0.70
-            ELSE
-              PREM = PREM * 0.90  
-            ENDIF     
+          CASE(20,21,24,25,27,28,30)
+            PREM = PREM * 0.90                               
           CASE DEFAULT
-            PREM = PREM * 1
+            PREM = PREM * 1.  
         END SELECT
-      CASE('LS')
+C----------
+C LS and ON Variants
+C----------
+      CASE('LS', 'ON')
         SELECT CASE(ISPC)
           CASE(15,16,18,19,20,29)
             IF(DSTMP.LT.12.0)THEN
@@ -535,24 +265,24 @@ C CR Variant
             PREM = PREM * 0.80        
           CASE(26,27)
             IF(DSTMP.LT.34.1)THEN           
-              PREM = PREM * ((89.191-2.611 * DSTMP)/100)
+              PREM = PREM * ((89.191-2.611 * DSTMP)/100.)
             ELSE
-              PREM = 0
+              PREM = 0.
             ENDIF                      
           CASE(28,58)
             PREM = PREM * 0.50
           CASE(30)
             PREM = PREM * (EXP(1.6134 + (-0.0184 * 
      &      (((DSTMP/0.7788)-0.4403) * 2.54)))/ 
-     &      (1 + EXP(1.6134 + (-0.0184 * 
+     &      (1. + EXP(1.6134 + (-0.0184 * 
      &      (((DSTMP/0.7788)-0.4403) * 2.54)))))  
           CASE(31)
             PREM = 0.9 * (PREM * (EXP(1.6134 + (-0.0184 * 
      &      (((DSTMP/0.7788)-0.4403) *2.54)))/ 
-     &      (1 + EXP(1.6134 + (-0.0184 * 
+     &      (1. + EXP(1.6134 + (-0.0184 * 
      &      (((DSTMP/0.7788)-0.4403) * 2.54))))))
           CASE(34)
-            PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100)
+            PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100.)
           CASE(35)
             PREM = PREM * (EXP(6.0065 + (-0.0777 * 
      &      ((DSTMP/0.7801) *2.54)))/(1 + EXP(6.0065 + 
@@ -602,8 +332,327 @@ C CR Variant
               PREM = PREM * 0.90  
             ENDIF     
           CASE DEFAULT
-            PREM = PREM * 1
+            PREM = PREM * 1.
         END SELECT          
+C----------
+C NC Variant
+C----------
+      CASE('NC')
+        SELECT CASE(ISPC)
+          CASE(5,7,8)
+            PREM = PREM * 0.90                                       
+          CASE DEFAULT
+            PREM = PREM * 1.  
+        END SELECT 
+C----------
+C NE Variant
+C----------
+      CASE('NE')
+        SELECT CASE(ISPC)
+          CASE(26,29,41,42,43,44,45,46,54)
+            IF(DSTMP.LT.12.0)THEN
+              PREM = PREM * 0.80
+            ELSE
+              PREM = PREM * 0.50  
+            ENDIF
+          CASE(27,28) 
+            IF(DSTMP.LT.34.1)THEN         
+              PREM = PREM * ((89.191-2.611 * DSTMP)/100.)
+            ELSE
+              PREM = 0.
+            ENDIF                         
+          CASE(30,78,100)
+            PREM = PREM * 0.3
+          CASE(31,32,34,47,48,57,62,76,88,95,96,97,102,103,105,107,108)
+            PREM = PREM * 0.70
+          CASE(33,84,85,86,90,91)
+            PREM = PREM * 0.90
+          CASE(35,38,39)
+            IF(DSTMP.LT.24.0)THEN
+              PREM = PREM * 0.95
+            ELSE
+              PREM = PREM * 0.60  
+            ENDIF
+          CASE(36,37)
+            IF(DSTMP.LT.24.0)THEN
+              PREM = PREM * 0.75
+            ELSE
+              PREM = PREM * 0.50  
+            ENDIF
+          CASE(40)            
+            PREM = PREM * 0.93             
+          CASE(50)          
+            IF(DSTMP.LT.25.0)THEN
+              PREM = PREM * 0.80
+            ELSE
+              PREM = PREM * 0.50  
+            ENDIF
+          CASE(51)          
+            PREM = PREM * 0.40  
+          CASE(52,56,63,80,82,87,92,93,94,101,106)
+            PREM = PREM * 0.80
+          CASE(53)          
+            PREM = PREM * 0.40        
+          CASE(55)
+            PREM = PREM * (EXP(1.6134 + (-0.0184 * 
+     &      (((DSTMP/0.7788)-0.4403) * 2.54)))/ 
+     &      (1. + EXP(1.6134 + (-0.0184 * 
+     &      (((DSTMP/0.7788)-0.4403) * 2.54))))) 
+          CASE(58)
+            PREM = PREM * (1. / (1. + EXP(-(-2.8058 + 
+     &        22.6839 * (1./((DSTMP/0.7788)-0.4403)))))) 
+          CASE(59,60,61,67,70)
+            PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100.)
+          CASE(64,66)
+            PREM = PREM * (EXP(6.4205 + (-0.1097 * 
+     &      (((DSTMP/0.8188)-0.23065) *2.54)))/(1. + EXP(6.4205 + 
+     &      (-0.1097 * (((DSTMP/0.8188)-0.23065) * 2.54)))))  
+          CASE(68,89)          
+            IF(DSTMP.LT.10.0)THEN
+              PREM = PREM * 0.80
+            ELSE
+              PREM = PREM * 0.50  
+            ENDIF            
+          CASE(69)
+            PREM = PREM * (EXP(6.0065 + (-0.0777 * 
+     &      ((DSTMP/0.7801) *2.54)))/(1. + EXP(6.0065 + 
+     &      (-0.0777 * ((DSTMP/0.7801) * 2.54)))))
+          CASE(72,73,75)          
+            PREM = PREM * 0.40     
+          CASE(74,77,83)
+            PREM = PREM * 0.50
+          CASE(79)
+            IF(DSTMP.LT.8.0)THEN
+              PREM = PREM * 0.80
+            ELSE
+              PREM = PREM * 0.50  
+            ENDIF   
+          CASE(81)
+            PREM = PREM * 1. / (1. + EXP(-(2.7386 + (-0.1076 * DSTMP)))) 
+          CASE(99)
+            IF(DSTMP.LT.15.0)THEN
+              PREM = PREM * 0.60
+            ELSE
+              PREM = PREM * 0.30  
+            ENDIF 
+          CASE(104)
+            IF(DSTMP.LT.8.0)THEN
+              PREM = PREM * 0.70
+            ELSE
+              PREM = PREM * 0.90  
+            ENDIF     
+          CASE DEFAULT
+            PREM = PREM * 1.
+        END SELECT
+C----------
+C OP Variant
+C----------
+      CASE('OP')
+        SELECT CASE(ISPC)
+          CASE(17)
+            IF(DSTMP.LT.216.7)THEN
+              PREM = PREM * ((93.2669-0.4303 * DSTMP)/100.)
+            ELSE
+              PREM = 0.
+            ENDIF
+          CASE(21,23,24,25,27,28,34,36,37)
+            PREM = PREM * 0.90
+          CASE(22)
+            IF(DSTMP.LT.25.9)THEN
+              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100.)
+            ELSE
+              PREM = 0.
+            ENDIF
+          CASE(35)
+            PREM = PREM * 0.70
+          CASE(33)
+            PREM = PREM * 0.40                                               
+          CASE DEFAULT
+            PREM = PREM * 1.  
+        END SELECT             
+C----------
+C PN and WC Variants
+C----------
+      CASE('PN','WC')
+        SELECT CASE(ISPC)
+          CASE(17)
+            IF(DSTMP.LT.216.7)THEN
+              PREM = PREM * ((93.2669-0.4303 * DSTMP)/100.)
+            ELSE
+              PREM = 0.
+            ENDIF
+          CASE(21,23,25,27,28,34,36,37)
+            PREM = PREM * 0.90
+          CASE(22)
+            IF(DSTMP.LT.25.9)THEN
+              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100.)
+            ELSE
+              PREM = 0.
+            ENDIF
+          CASE(24,35)
+            PREM = PREM * 0.70
+          CASE(33)
+            PREM = PREM * 0.40                                               
+          CASE DEFAULT
+            PREM = PREM * 1.  
+        END SELECT  
+C----------
+C SN Variant
+C----------
+      CASE('SN')
+        SELECT CASE(ISPC)
+          CASE(5)
+            PREM = PREM * 0.42
+          CASE(18,19,26,30:32,41,51,52,56,82)
+            PREM = PREM * 0.94
+          CASE(20)
+            PREM = PREM * 1. / (1. + EXP(-(4.1975 + (-0.1821 * DSTMP))))
+          CASE(22)
+            PREM = PREM * 0.73
+          CASE(23)
+            PREM = PREM * 0.96
+          CASE(24,25)
+            PREM = PREM * 1. / (1. + EXP(-(3.3670 + (-0.5159 * DSTMP))))
+          CASE(27)
+            PREM = PREM * 0.95
+          CASE(33)
+            PREM = PREM * 0.93
+          CASE(45)
+            PREM = PREM * 0.79
+          CASE(46)
+            PREM = PREM * 0.95
+          CASE(47)
+            PREM = PREM * 0.69           
+          CASE(54)
+            PREM = PREM * 0.72
+          CASE(57)
+            PREM = PREM * 0.97
+          CASE(63)          
+            PREM = PREM * 1. / (1. + EXP(-(2.4608 + (-0.3093 * DSTMP))))            
+          CASE(64)
+            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
+     &      ISEFOR.EQ.908)THEN
+              PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100.)
+            ELSE
+              PREM = PREM * 1./(1. + EXP(-(3.8897 + (-0.2260 * DSTMP))))
+            ENDIF
+          CASE(66)
+            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
+     &      ISEFOR.EQ.908)THEN
+              PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100.)
+            ELSE
+              PREM = PREM * 1./(1. + EXP(-(2.7386 + (-0.1076 * DSTMP))))
+            ENDIF
+          CASE(70)
+            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
+     &      ISEFOR.EQ.908)THEN
+              PREM = PREM * 1. / (1. + EXP(-(2.3656 + 
+     &             (-0.2781 * (DSTMP/0.7801)))))
+            ELSE
+              PREM = PREM * 1./(1. + EXP(-(2.7386 + (-0.1076 * DSTMP))))
+            ENDIF     
+          CASE(74)
+            PREM = PREM * 0.78
+          CASE(75)
+            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
+     &      ISEFOR.EQ.908)THEN
+              PREM = PREM * ((57.3-0.0032 * DSTMP**3)/100.)
+            ELSE
+              PREM = PREM * 1./(1. + EXP(-(3.2586 + (-0.1120 * DSTMP))))
+            ENDIF
+          CASE(77)
+            IF(ISEFOR.EQ.809 .OR. ISEFOR.EQ.810 .OR. ISEFOR.EQ.905 .OR.
+     &      ISEFOR.EQ.908)THEN
+              PREM = PREM * (1. / (1. + EXP(-(-2.8058 + 
+     &        22.6839 * (1./((DSTMP/0.7788)-0.4403))))))
+            ELSE
+              PREM = PREM * 1./(1. + EXP(-(2.7386 + (-0.1076 * DSTMP))))
+            ENDIF   
+          CASE(78)
+            PREM = PREM * 1. / (1. + EXP(-(3.1070 + (-0.2128 * DSTMP))))
+          CASE(80)
+            PREM = PREM * 0.86
+          CASE(83)
+            PREM = PREM * 0.99
+          CASE DEFAULT
+            PREM = PREM * 1. / (1. + EXP(-(2.7386 + (-0.1076 * DSTMP))))
+        END SELECT
+C----------
+C SO Variant
+C----------
+      CASE('SO')
+        SELECT CASE(ISPC)
+          CASE(20)
+            PREM = PREM * 0.40
+          CASE(21,22)
+            IF(DSTMP.LT.25.9)THEN
+              PREM = PREM * ((99.9999-3.8462 * DSTMP)/100.)
+            ELSE
+              PREM = 0.
+            ENDIF
+          CASE(31)
+            PREM = PREM * 0.70
+          CASE(23,25:29)
+            PREM = PREM * 0.90                               
+          CASE DEFAULT
+            PREM = PREM * 1.  
+        END SELECT
+C----------
+C TT Variant
+C----------
+      CASE('TT')
+        SELECT CASE(ISPC)
+          CASE(13,14)
+            PREM = PREM * 0.70
+          CASE(15)
+            PREM = PREM * 0.90          
+          CASE DEFAULT
+            PREM = PREM * 1.  
+        END SELECT 
+C----------
+C UT Variant
+C----------
+      CASE('UT')
+        SELECT CASE(ISPC)
+          CASE(22)
+            PREM = PREM * 0.50
+          CASE(21)
+            PREM = PREM * 0.70
+          CASE(13,18,19)
+            PREM = PREM * 0.80                      
+          CASE DEFAULT
+            PREM = PREM * 1.  
+        END SELECT
+C----------
+C WS Variant
+C----------
+      CASE('WS')
+        SELECT CASE(ISPC)
+          CASE(23)
+            IF(DSTMP.LT.216.7)THEN
+              PREM = PREM * ((93.2669-0.4303 * DSTMP)/100.)
+            ELSE
+              PREM = 0.
+            ENDIF       
+          CASE(28,29,33)
+            PREM = PREM * 0.50
+          CASE(30)
+            IF(DSTMP.LT.27.1)THEN
+              PREM = PREM * ((70.7857-2.6071 * DSTMP)/100.)
+            ELSE
+              PREM = 0.
+            ENDIF 
+          CASE(31,32,34,35,37:40)
+            PREM = PREM * 0.90                                          
+          CASE DEFAULT
+            PREM = PREM * 1.  
+        END SELECT  
+C----------
+C XX Variant including AC. All species.
+C----------
+      CASE DEFAULT
+        PREM = PREM * 1.  
+C
       END SELECT
       RETURN
 C
@@ -614,36 +663,82 @@ C  DETERMINE IF QUAKING ASPEN IS IN THIS VARIANT; IF SO, RETURN THE
 C  FVS SPECIES INDEX FOR ASPEN IN THIS VARIANT; OTHERWISE RETURN 9999.
 C----------
       SELECT CASE (VAR)
-      CASE('BM')
-        INDXAS = 15
-      CASE('CA')
-        INDXAS = 44
-      CASE('CR')
-        INDXAS = 20
-      CASE('CS')
-        INDXAS = 76
-      CASE('LS', 'ON')
-        INDXAS = 41
-      CASE('NE')
-        INDXAS = 49
-      CASE('SO')
-        INDXAS = 24
-      CASE('TT','UT')
-        INDXAS = 6
-      CASE('WC','PN')
-        INDXAS = 26
-      CASE('WS')
-        INDXAS = 36
+C----------
+C BC Variant
+C----------
       CASE('BC')
         INDXAS = 12
+C----------
+C BM Variant
+C----------
+      CASE('BM')
+        INDXAS = 15
+C----------
+C CA Variant
+C----------
+      CASE('CA')
+        INDXAS = 44
+C----------
+C CR Variant
+C----------
+      CASE('CR')
+        INDXAS = 20
+C----------
+C CS Variant
+C----------
+      CASE('CS')
+        INDXAS = 76
+C----------
+C EC Variant
+C----------
       CASE('EC')
         INDXAS = 26
-      CASE('OP')
-        INDXAS = 26
+C----------
+C LS and ON Variants
+C----------
+      CASE('LS', 'ON')
+        INDXAS = 41
+C----------
+C NE Variant
+C----------
+      CASE('NE')
+        INDXAS = 49
+C----------
+C OC Variant
+C----------
       CASE('OC')
         INDXAS = 44      
+C----------
+C OP Variant
+C----------
+      CASE('OP')
+        INDXAS = 26
+C----------
+C PN and WC Variants
+C----------
+      CASE('PN', 'WC')
+        INDXAS = 26
+C----------
+C SO Variant
+C----------
+      CASE('SO')
+        INDXAS = 24
+C----------
+C TT and UT Variants
+C----------
+      CASE('TT','UT')
+        INDXAS = 6
+C----------
+C WS Variant
+C----------
+      CASE('WS')
+        INDXAS = 36
+C----------
+C XX Variant
+C----------
       CASE DEFAULT
         INDXAS = 9999
+C
       END SELECT
       RETURN
 C
@@ -651,8 +746,7 @@ C
       ENTRY NSPREC (VAR,ISPC,NMSPRC,DSTMP)
 C----------
 C  DETERMINE NUMBER OF SPROUT RECORDS TO CREATE
-C----------
-      SELECT CASE (VAR)
+C
 C----------
 C  SET TO 1 FOR: BM - PACIFIC YEW (13) 
 C                CA - PACIFIC YEW (24) AND CALIFORNIA NUTMEG (47)
@@ -678,6 +772,11 @@ C  SIMILAR LOGIC APPLIES TO SPECIES IN OTHER VARIANTS
 C                                    
 C  OTHERWISE SET TO 2
 C----------
+C
+      SELECT CASE (VAR)
+C----------
+C BM Variant
+C----------
       CASE('BM')
         SELECT CASE (ISPC)
         CASE(15)
@@ -693,6 +792,9 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT
+C----------
+C CA and OC Variants
+C----------
       CASE('CA','OC')
         SELECT CASE (ISPC)
         CASE(26:33,35,39,40)
@@ -716,71 +818,35 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT      
-      CASE('SO')
+C----------
+C CR Variant
+C----------
+      CASE('CR')
         SELECT CASE (ISPC)
-        CASE(24)
-          NMSPRC = 2
-        CASE(27)
+        CASE(15)
+          NMSPRC = 2        
+        CASE(23:27)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
           ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
             NMSPRC = NINT(0.2 * DSTMP)
           ELSE
             NMSPRC = 2
-          ENDIF
-        CASE(23,25,26,29)
+          ENDIF              
+        CASE(21,22)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
           ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
             NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
           ELSE
             NMSPRC = 3 
-          ENDIF
+          ENDIF             
         CASE DEFAULT
           NMSPRC = 1
         END SELECT
-      CASE('WS')
-        SELECT CASE (ISPC)
-        CASE(36)
-          NMSPRC = 2
-        CASE(28:33,39)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(0.2 * DSTMP)
-          ELSE
-            NMSPRC = 2
-          ENDIF
-        CASE(23,34,35,37,38,40)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
-          ELSE
-            NMSPRC = 3 
-          ENDIF
-        CASE DEFAULT
-          NMSPRC = 1
-        END SELECT  
-      CASE('SN')
-        SELECT CASE (ISPC)
-        CASE(5)
-          IF(DSTMP.LT.7.0)THEN
-            NMSPRC = 1
-          ELSE
-            NMSPRC = 0
-          ENDIF
-        CASE(33,61,80,82)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
-          ELSE
-            NMSPRC = 3 
-          ENDIF
-        CASE DEFAULT
-          NMSPRC = 1
-        END SELECT
+C----------
+C CS Variant
+C----------
       CASE('CS')
         SELECT CASE (ISPC)
         CASE(3)
@@ -828,47 +894,35 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT
-      CASE('NE')
-        SELECT CASE (ISPC)
-        CASE(49)
-          NMSPRC = 2    
-        CASE(51)
-          IF(DSTMP.LT.25.0)THEN
-            NMSPRC = 1
-          ELSE
-            NMSPRC = 0
-          ENDIF
-        CASE(53)
-          IF(DSTMP.LT.12.0)THEN
-            NMSPRC = 1
-          ELSE
-            NMSPRC = 0
-          ENDIF
-        CASE(72,73,75,78)
-          IF(DSTMP.LT.8.0)THEN
-            NMSPRC = 1
-          ELSE
-            NMSPRC = 0
-          ENDIF    
-        CASE(26,27,28,29,43,45,59,60,61,67,68,70,86,90,102,104)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(0.2 * DSTMP)
-          ELSE
-            NMSPRC = 2
-          ENDIF              
-        CASE(40,46,50,52,82,87,92,93,94,101)
+C----------
+C EC Variant
+C----------
+      CASE('EC')
+        SELECT CASE (ISPC)                                  
+        CASE(20,21,24,27)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
           ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
             NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
           ELSE
             NMSPRC = 3 
-          ENDIF    
+          ENDIF 
+        CASE(25,28)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(0.2 * DSTMP)
+          ELSE
+            NMSPRC = 2
+          ENDIF
+        CASE(26)
+          NMSPRC = 2                
         CASE DEFAULT
           NMSPRC = 1
         END SELECT
+C----------
+C LS Variant
+C----------
       CASE('LS')
         SELECT CASE (ISPC)
         CASE(17)
@@ -910,90 +964,9 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT  
-      CASE('SM','SP','BP','SF','LP')
-        SELECT CASE (ISPC)
-        CASE(15)
-          NMSPRC = 2        
-        CASE(23:27)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(0.2 * DSTMP)
-          ELSE
-            NMSPRC = 2
-          ENDIF              
-        CASE(21,22)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
-          ELSE
-            NMSPRC = 3 
-          ENDIF             
-        CASE DEFAULT
-          NMSPRC = 1
-        END SELECT
-      CASE('TT')
-        SELECT CASE (ISPC)
-        CASE(6)
-          NMSPRC = 2                          
-        CASE(15)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
-          ELSE
-            NMSPRC = 3 
-          ENDIF             
-        CASE DEFAULT
-          NMSPRC = 1
-        END SELECT   
-      CASE('UT')
-        SELECT CASE (ISPC)
-        CASE(6)
-          NMSPRC = 2
-        CASE(13,22)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(0.2 * DSTMP)
-          ELSE
-            NMSPRC = 2
-          ENDIF                          
-        CASE(18,19)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
-          ELSE
-            NMSPRC = 3 
-          ENDIF             
-        CASE DEFAULT
-          NMSPRC = 1
-        END SELECT 
-      CASE('EC')
-        SELECT CASE (ISPC)                                  
-        CASE(20,21,24,27)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
-          ELSE
-            NMSPRC = 3 
-          ENDIF 
-        CASE(25,28)
-          IF(DSTMP.LT.5.0)THEN
-            NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
-            NMSPRC = NINT(0.2 * DSTMP)
-          ELSE
-            NMSPRC = 2
-          ENDIF
-        CASE(26)
-          NMSPRC = 2                
-        CASE DEFAULT
-          NMSPRC = 1
-        END SELECT
+C----------
+C NC Variant
+C----------
       CASE('NC')
         SELECT CASE (ISPC)
         CASE(7)
@@ -1015,29 +988,53 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT 
-      CASE('PN','WC')
+C----------
+C NE Variant
+C----------
+      CASE('NE')
         SELECT CASE (ISPC)
-        CASE(26)
-          NMSPRC = 2
-        CASE(28,34)
+        CASE(49)
+          NMSPRC = 2    
+        CASE(51)
+          IF(DSTMP.LT.25.0)THEN
+            NMSPRC = 1
+          ELSE
+            NMSPRC = 0
+          ENDIF
+        CASE(53)
+          IF(DSTMP.LT.12.0)THEN
+            NMSPRC = 1
+          ELSE
+            NMSPRC = 0
+          ENDIF
+        CASE(72,73,75,78)
+          IF(DSTMP.LT.8.0)THEN
+            NMSPRC = 1
+          ELSE
+            NMSPRC = 0
+          ENDIF    
+        CASE(26,27,28,29,43,45,59,60,61,67,68,70,86,90,102,104)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
           ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
             NMSPRC = NINT(0.2 * DSTMP)
           ELSE
             NMSPRC = 2
-          ENDIF
-        CASE(17,21,23,25,27,36)
+          ENDIF              
+        CASE(40,46,50,52,82,87,92,93,94,101)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
           ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
             NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
           ELSE
             NMSPRC = 3 
-          ENDIF
+          ENDIF    
         CASE DEFAULT
           NMSPRC = 1
-        END SELECT 
+        END SELECT
+C----------
+C OP Variant
+C----------
       CASE('OP')
         SELECT CASE (ISPC)
         CASE(26)
@@ -1061,6 +1058,150 @@ C----------
         CASE DEFAULT
           NMSPRC = 1
         END SELECT            
+C----------
+C PN and WC Variants
+C----------
+      CASE('PN','WC')
+        SELECT CASE (ISPC)
+        CASE(26)
+          NMSPRC = 2
+        CASE(28,34)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(0.2 * DSTMP)
+          ELSE
+            NMSPRC = 2
+          ENDIF
+        CASE(17,21,23,25,27,36)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
+          ELSE
+            NMSPRC = 3 
+          ENDIF
+        CASE DEFAULT
+          NMSPRC = 1
+        END SELECT 
+C----------
+C SN Variant
+C----------
+      CASE('SN')
+        SELECT CASE (ISPC)
+        CASE(5)
+          IF(DSTMP.LT.7.0)THEN
+            NMSPRC = 1
+          ELSE
+            NMSPRC = 0
+          ENDIF
+        CASE(33,61,80,82)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
+          ELSE
+            NMSPRC = 3 
+          ENDIF
+        CASE DEFAULT
+          NMSPRC = 1
+        END SELECT
+C----------
+C SO Variant
+C----------
+      CASE('SO')
+        SELECT CASE (ISPC)
+        CASE(24)
+          NMSPRC = 2
+        CASE(27)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(0.2 * DSTMP)
+          ELSE
+            NMSPRC = 2
+          ENDIF
+        CASE(23,25,26,29)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
+          ELSE
+            NMSPRC = 3 
+          ENDIF
+        CASE DEFAULT
+          NMSPRC = 1
+        END SELECT
+C----------
+C TT Variant
+C----------
+      CASE('TT')
+        SELECT CASE (ISPC)
+        CASE(6)
+          NMSPRC = 2                          
+        CASE(15)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
+          ELSE
+            NMSPRC = 3 
+          ENDIF             
+        CASE DEFAULT
+          NMSPRC = 1
+        END SELECT   
+C----------
+C UT Variant
+C----------
+      CASE('UT')
+        SELECT CASE (ISPC)
+        CASE(6)
+          NMSPRC = 2
+        CASE(13,22)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(0.2 * DSTMP)
+          ELSE
+            NMSPRC = 2
+          ENDIF                          
+        CASE(18,19)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
+          ELSE
+            NMSPRC = 3 
+          ENDIF             
+        CASE DEFAULT
+          NMSPRC = 1
+        END SELECT 
+C----------
+C WS Variant
+C----------
+      CASE('WS')
+        SELECT CASE (ISPC)
+        CASE(36)
+          NMSPRC = 2
+        CASE(28:33,39)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(0.2 * DSTMP)
+          ELSE
+            NMSPRC = 2
+          ENDIF
+        CASE(23,34,35,37,38,40)
+          IF(DSTMP.LT.5.0)THEN
+            NMSPRC = 1
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+            NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
+          ELSE
+            NMSPRC = 3 
+          ENDIF
+        CASE DEFAULT
+          NMSPRC = 1
+        END SELECT  
 C----------
 C  ALL OTHER VARIANTS & SPECIES
 C----------
@@ -1114,11 +1255,12 @@ C----------
         END SELECT
 C----------
 C CA: INLAND CALIFORNIA / SOUTHERN CASCADES
+C OC: ORGANON SOUTHWEST 
 C     SPROUTING SPECIES:   24=PY, 26=LO, 27=CY, 28=BL, 29=EO, 30=WO,
 C     31=BO, 32=VO, 33=IO, 34=BM, 35=BU, 36=RA, 37=MA, 38=GC, 39=DG,
 C     40=FL, 41=WN, 42=TO, 43=SY, 44=AS, 45=CW, 46=WI, 47=CN, 48=CL
 C----------
-      CASE('CA')
+      CASE('CA','OC')
         SELECT CASE (ISPC)
         CASE(24,26:48)
           HTSPRT = (0.1 + SI/50.)*IAG
@@ -1284,10 +1426,11 @@ C----------
 C----------
 C WC: WEST CASCADES
 C PN: PACIFIC NORTHWEST
+C OP: ORGANON PACIFIC NORTHWEST (SP 24 = TO IN THIS VARIANT)
 C     SPROUTING SPECIES:   17=RW, 21=BM, 22=RA, 23=WA, 24=PB, 25=GC,
 C     26=AS, 27=CW, 28=WO, 33=PY, 34=DG, 35=HT, 36=CH, 37=WI
 C----------
-      CASE('WC','PN')
+      CASE('WC','PN', 'OP')
         SELECT CASE (ISPC)
         CASE(17,21,23:27,33:37)
           HTSPRT = (0.1 + SI/100.)*IAG
