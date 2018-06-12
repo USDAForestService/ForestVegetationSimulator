@@ -124,7 +124,7 @@ C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
-      VARIANT = 'EC'
+      VARACD = 'EC'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.0

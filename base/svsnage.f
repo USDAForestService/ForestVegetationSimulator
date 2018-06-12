@@ -331,10 +331,10 @@ C----------
         CALL RANNGET(SAVESO)
         DO ICURYR=MAX(ILYEAR+1,IYRCOD(IDEAD)+1),IYEAR
           IF ( ISTATUS(IDEAD) .EQ. 4 ) THEN
-            CALL FMSNGHT(VARIANT,KSP,OLEN(IDEAD),SNGLEN(IDEAD),
+            CALL FMSNGHT(VARACD,KSP,OLEN(IDEAD),SNGLEN(IDEAD),
      &                   0,HTSNEW)
           ELSE
-            CALL FMSNGHT(VARIANT,KSP,OLEN(IDEAD),SNGLEN(IDEAD),
+            CALL FMSNGHT(VARACD,KSP,OLEN(IDEAD),SNGLEN(IDEAD),
      &                   1,HTSNEW)
           ENDIF
           SNHT = HTSNEW
@@ -396,7 +396,7 @@ C  (Includes beetle-caused and fire-caused snags)
 C----------
 
           IF ( ISTATUS(IDEAD) .NE. 4 ) THEN
-            CALL FMSNGDK(VARIANT,KSP,SNGDIA(IDEAD),DKTIME)
+            CALL FMSNGDK(VARACD,KSP,SNGDIA(IDEAD),DKTIME)
             IF ((ICURYR - IYRCOD(IDEAD)) .GE. DKTIME) THEN
               ISTATUS(IDEAD) = 4
             ENDIF

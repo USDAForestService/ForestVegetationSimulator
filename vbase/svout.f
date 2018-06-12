@@ -229,7 +229,7 @@ C       SETTING JSVOUT TO ZERO TURNS OFF SVS...WE'RE DONE.
         NOUT=JSVOUT
       ENDIF
 C      
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
         CASE ('CS','LS','NE','SN')
           SFILE='EAST'
         CASE ('BC')

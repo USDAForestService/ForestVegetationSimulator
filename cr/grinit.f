@@ -66,7 +66,7 @@ C----------
       DATA NONE/'NONE'/
       INTEGER I,J,K
 C----------
-      VARIANT = 'CR'
+      VARACD = 'CR'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.0

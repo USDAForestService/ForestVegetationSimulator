@@ -327,7 +327,7 @@ C----------
 C----------
 C REDEFINE TAB3 STOCK EQ. COEF. FOR WESTERN VARIANTS
 C----------
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
         CASE ('CS','LS','NE','SN')
 C
         CASE DEFAULT

@@ -100,9 +100,9 @@ c             Construct input filename: Keyfile_StandID_Year_BM.ES1
               J = J+1
               FNAM(J:J) = '_'
               DO I = 1,2
-                IF (VARIANT(I:I) .NE. ' ') THEN
+                IF (VARACD(I:I) .NE. ' ') THEN
                   J = J+1
-                  FNAM(J:J) = VARIANT(I:I)
+                  FNAM(J:J) = VARACD(I:I)
                 ENDIF
               ENDDO
               FNAM(J+1:J+5) = ".es1"

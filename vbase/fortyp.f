@@ -146,7 +146,7 @@ C
 C-----------
 C  ESTABLISH FLAG FOR SN VARIANT
 C-----------
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
         CASE ('SN')
           ISNVAR=1
         CASE DEFAULT
@@ -848,7 +848,7 @@ C----------
           END IF
           IF (UPLAND.EQ.1.0) THEN
             OAKHCK=OAKHCK+SWEETGUM+UPLOOAK+AELM+WCELM+HOLLY+BLKGUM
-            SELECT CASE (VARIANT)
+            SELECT CASE (VARACD)
               CASE ('SN')
                 SOUTH=1.0
               CASE DEFAULT

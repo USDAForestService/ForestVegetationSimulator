@@ -367,7 +367,7 @@ C
         CALL HABTYP (KARD(2),ARRAY(2))
       ENDIF
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CR','UT','TT','WS')
           WRITE (JOSTND,139) KODFOR,KARD(2),KODTYP,IAGE,
@@ -444,7 +444,7 @@ C----------
            WRITE(JOSTND,213) ISISP
  213       FORMAT(T12,'SITE SPECIES NOT SPECIFIED.  CODE=',I5)
         ENDIF
-        IF(VARIANT.EQ.'NI' .OR. VARIANT.EQ.'KT') THEN
+        IF(VARACD.EQ.'NI' .OR. VARACD.EQ.'KT') THEN
           WRITE(JOSTND,214)
  214      FORMAT(T12,'NOTE: SITE INDEX IS NOT USED IN THIS VARIANT.',
      &    '  VALUES ARE PRINTED FOR INFORMATIONAL PURPOSES.' )
@@ -832,7 +832,7 @@ C
       IF ( LNOTBK(5) ) SLOPE = ARRAY(5)
       IF ( LNOTBK(6) .AND. ARRAY(6).GT.0) ELEV = ARRAY(6)
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CR','UT','TT','WS')
           IF(LKECHO)WRITE (JOSTND,2411) KEYWRD,KODFOR,KARD(2),KODTYP,
@@ -1345,7 +1345,7 @@ C
       CALL SDEFLN(LNOTBK,ARRAY,KEYWRD,CFLA0,CFLA1,KARD,IS)
       IF(IS .EQ. -999) GO TO 10
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           IF(LKECHO)WRITE(JOSTND,4110)
@@ -1367,7 +1367,7 @@ C
       CALL SDEFLN(LNOTBK,ARRAY,KEYWRD,BFLA0,BFLA1,KARD,IS)
       IF(IS .EQ. -999) GO TO 10
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           IF(LKECHO)WRITE(JOSTND,4210)
@@ -1419,7 +1419,7 @@ C----------
  4321   CONTINUE
         ILEN=ISPGRP(-IS,52)
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           IF(LKECHO)WRITE(JOSTND,4332) KEYWRD,KARD(2)(1:ILEN),IS,
@@ -1448,7 +1448,7 @@ C----------
         ENDIF
  4310   CONTINUE
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           IF(LKECHO)WRITE(JOSTND,4312) KEYWRD,(ARRAY(I),I=3,7)
@@ -1483,7 +1483,7 @@ C----------
           CFDEFT(9,IS)=ARRAY(7)
         ENDIF
 C
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           ILEN=3
@@ -1554,7 +1554,7 @@ C----------
  4021   CONTINUE
         ILEN=ISPGRP(-IS,52)
 C
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           IF(LKECHO)WRITE(JOSTND,4432) KEYWRD,KARD(2)(1:ILEN),IS,
@@ -1583,7 +1583,7 @@ C----------
         ENDIF
  4410   CONTINUE
 C
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           IF(LKECHO)WRITE(JOSTND,4412) KEYWRD,(ARRAY(I),I=3,7)
@@ -1618,7 +1618,7 @@ C----------
           BFDEFT(9,IS)=ARRAY(7)
         ENDIF
 C
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           ILEN=3
@@ -1660,7 +1660,7 @@ C
 C  SET ITOPD8=1 TO DISSALLOW MODIFICATION OF TOP MERCH. SPEC.
 C  IN R8 VARIANTS
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('SN')
           ITOPD8=1
@@ -1697,7 +1697,7 @@ C----------
         IF (LNOTBK(6)) FRMCLS(IGSP)=ARRAY(6)
         IF (LNOTBK(7)) METHC(IGSP) =INT(ARRAY(7))
         ILEN=ISPGRP(IGRP,52)
-        IF (VARIANT .EQ. 'AK') THEN
+        IF (VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4534) KEYWRD,KARD(2)(1:ILEN),
      &      IGSP,DBHMIN(IGSP),TOPD(IGSP),STMP(IGSP),FRMCLS(IGSP)
         ELSEIF(ITOPD8.GT.0)THEN
@@ -1733,7 +1733,7 @@ C----------
         IF (LNOTBK(5).AND.LKECHO)WRITE(JOSTND,4523) ARRAY(5)
         IF (LNOTBK(6)) THEN
 C
-          SELECT CASE (VARIANT)
+          SELECT CASE (VARACD)
 C
             CASE ('AK')
               IF(LKECHO)WRITE(JOSTND,4526)ARRAY(6)
@@ -1765,7 +1765,7 @@ C----------
         IF (LNOTBK(6)) FRMCLS(IS)=ARRAY(6)
         IF (LNOTBK(7)) METHC(IS) =INT(ARRAY(7))
         ILEN=3
-        IF (VARIANT .EQ. 'AK') THEN
+        IF (VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4534) KEYWRD,KARD(2)(1:ILEN),IS,
      &      DBHMIN(IS),TOPD(IS),STMP(IS),FRMCLS(IS)
  4534     FORMAT (/A8,'   MERCHANTABILITY STANDARDS FOR ',
@@ -1816,7 +1816,7 @@ C----------
         CALL OPNEW(KODE,IDT,217,6,ARRAY(2))
         IF (KODE.GT.0) GOTO 10
         ILEN=ISPGRP(IGRP,52)
-        IF(VARIANT .EQ. 'AK') THEN
+        IF(VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4544) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >                    (ARRAY(I),I=3,7)
         ELSEIF(ITOPD8.GT.0)THEN
@@ -1843,7 +1843,7 @@ C----------
         ARRAY(2)=0.
         CALL OPNEW(KODE,IDT,217,6,ARRAY(2))
         IF (KODE.GT.0) GOTO 10
-        IF(VARIANT.EQ.'AK')THEN
+        IF(VARACD.EQ.'AK')THEN
           IF(LKECHO)WRITE(JOSTND,4574) KEYWRD,IDT,(ARRAY(I),I=3,7)
  4574     FORMAT(/A8,'   DATE/CYCLE=',I5,'; ALL SPECIES (CODE= 0)',
      >       '; MINIMUM DBH=',F6.2,'; TOP DIAMETER=',F6.2,
@@ -1873,7 +1873,7 @@ C----------
         CALL OPNEW(KODE,IDT,217,6,ARRAY(2))
         IF (KODE.GT.0) GOTO 10
         ILEN=3
-        IF(VARIANT .EQ. 'AK') THEN
+        IF(VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4544) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >                    (ARRAY(I),I=3,7)
  4544     FORMAT(/A8,'   DATE/CYCLE=',I5,'; SPECIES= ',A,
@@ -1911,7 +1911,7 @@ C
 C  SET ITOPD8=1 TO DISSALLOW MODIFICATION OF TOP MERCH. SPEC.
 C  IN R8 VARIANTS RESPECTIVELY
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('SN')
           ITOPD8=1
@@ -1948,7 +1948,7 @@ C----------
         IF (LNOTBK(6)) FRMCLS(IGSP)=ARRAY(6)
         IF (LNOTBK(7)) METHB(IGSP) =INT(ARRAY(7))
         ILEN=ISPGRP(IGRP,52)
-        IF (VARIANT .EQ. 'AK') THEN
+        IF (VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4634) KEYWRD,KARD(2)(1:ILEN),IGSP,
      &       BFMIND(IGSP),BFTOPD(IGSP),BFSTMP(IGSP),FRMCLS(IGSP)
         ELSEIF(ITOPD8.GT.0)THEN
@@ -1984,7 +1984,7 @@ C----------
         ENDIF
         IF (LNOTBK(5).AND.LKECHO)WRITE(JOSTND,4623) ARRAY(5)
         IF (LNOTBK(6)) THEN
-          IF(VARIANT .EQ. 'AK') THEN
+          IF(VARACD .EQ. 'AK') THEN
             IF(LKECHO)WRITE(JOSTND,4626) ARRAY(6)
           ELSE
             IF(LKECHO)WRITE(JOSTND,4624) ARRAY(6)
@@ -2009,7 +2009,7 @@ C----------
         IF (LNOTBK(6)) FRMCLS(IS)=ARRAY(6)
         IF (LNOTBK(7)) METHB(IS) =INT(ARRAY(7))
         ILEN=3
-        IF (VARIANT .EQ. 'AK') THEN
+        IF (VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4634) KEYWRD,KARD(2)(1:ILEN),IS,
      &       BFMIND(IS),BFTOPD(IS),BFSTMP(IS),FRMCLS(IS)
  4634     FORMAT (/A8,'   MERCHANTABILITY STANDARDS FOR ',
@@ -2054,7 +2054,7 @@ C----------
         CALL OPNEW(KODE,IDT,218,6,ARRAY(2))
         IF (KODE.GT.0) GOTO 10
         ILEN=ISPGRP(IGRP,52)
-        IF(VARIANT.EQ.'AK')THEN
+        IF(VARACD.EQ.'AK')THEN
           IF(LKECHO)WRITE(JOSTND,4645) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >                    (ARRAY(I),I=3,7)
         ELSEIF(ITOPD8.GT.0)THEN
@@ -2081,7 +2081,7 @@ C----------
         ARRAY(2)=0.
         CALL OPNEW(KODE,IDT,218,6,ARRAY(2))
         IF (KODE.GT.0) GOTO 10
-        IF(VARIANT.EQ.'AK')THEN
+        IF(VARACD.EQ.'AK')THEN
           IF(LKECHO)WRITE(JOSTND,4674) KEYWRD,IDT,(ARRAY(I),I=3,7)
  4674     FORMAT(/A8,'   DATE/CYCLE=',I5,'; ALL SPECIES (CODE= 0)',
      >       '; MINIMUM DBH=',F6.2,'; TOP DIAMETER=',F6.2,
@@ -2111,7 +2111,7 @@ C----------
         CALL OPNEW(KODE,IDT,218,6,ARRAY(2))
         IF (KODE.GT.0) GOTO 10
         ILEN=3
-        IF(VARIANT.EQ.'AK')THEN
+        IF(VARACD.EQ.'AK')THEN
           IF(LKECHO)WRITE(JOSTND,4645) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >                    (ARRAY(I),I=3,7)
  4645     FORMAT(/A8,'   DATE/CYCLE=',I5,'; SPECIES= ',A,
@@ -2182,7 +2182,7 @@ C
       CALL OPNEW(KODE,IDT,200,4,ARRAY(2))
       IF (KODE.GT.0) GOTO 10
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CS','LS','NE','SN')
           IF(LKECHO)WRITE(JOSTND,5010) KEYWRD,IDT,(ARRAY(I),I=2,5)
@@ -3013,7 +3013,7 @@ C
 C
 C   PROCESS STAGNATION INDICATOR (CENTRAL ROCKIES VARIANT)
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CR','TT','UT')
 C
@@ -3238,7 +3238,7 @@ C     CALL DUNN TO PROCESS ANY DUNNING SITE CODE INFORMATION.
 C
       IF(LNOTBK(2) .AND. ARRAY(2) .LE. 7)THEN
 C
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
 C
           CASE('CA','NC','SO','WS','OC')
             IF(LKECHO)WRITE(JOSTND,9620)
@@ -3582,7 +3582,7 @@ C  FOR CENTRAL ROCKIES VARIANT, ONLY DEAL WITH MODEL TYPE
 C  OTHER PARAMETERS HAVE NO EFFECT.
 C----------
 C
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('CR','OC','OP')
           IF(LNOTBK(1)) IMODTY=IFIX(ARRAY(1))
@@ -4113,7 +4113,7 @@ C----------
 11901   CONTINUE
         ILEN=ISPGRP(-IS,52)
 C
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
 C
           CASE ('CS','LS','NE','SN')
             IF(IDTYPE.EQ.0 .OR. IDTYPE.EQ.1)THEN
@@ -4163,7 +4163,7 @@ C----------
         ENDIF
 11910   CONTINUE
 C
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
 C
           CASE ('CS','LS','NE','SN')
             IF(IDTYPE.EQ.0 .OR. IDTYPE.EQ.1)THEN
@@ -4238,7 +4238,7 @@ C----------
         ENDIF
         ILEN=3
 C
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
 C
           CASE ('CS','LS','NE','SN')
             IF(IDTYPE.EQ.0 .OR. IDTYPE.EQ.1)THEN
@@ -4895,10 +4895,10 @@ C  ==========  OPTION NUMBER 130: VOLEQNUM ========================VOLEQNUM
 C
 13000 CONTINUE
 C
-C  IF WE DONT HAVE A KODFOR VALUE YET SET REGION BASED ON VARIANT 'VAR'
+C  IF WE DONT HAVE A KODFOR VALUE YET SET REGION BASED ON VARIANT
 C
       IF(KODFOR.LE.0)THEN
-        SELECT CASE (VARIANT)
+        SELECT CASE (VARACD)
           CASE('EM','KT','NI','IE')
             IRDUM=1
           CASE( 'CR')
@@ -4922,7 +4922,7 @@ C
 C
 C   FOREST CODE PROCESSING
 C
-        IF((VARIANT.EQ.'SN').AND.
+        IF((VARACD.EQ.'SN').AND.
      &     (KODFOR.GE.1000))THEN
           IREGN = KODFOR/10000
           IRDUM=IREGN
@@ -4946,7 +4946,7 @@ C  NC SIMPSOM TIMBER (FC=800 USES R5 SAY 510)
 C  SO INDUSTRY LANDS (FC=701 USES R5 SAY 505)
 C  SO WARM SPRINGS (FC=799 USES R6 FC=601)
 C
-        IF(VARIANT.EQ.'PN' .OR. VARIANT.EQ.'OP')THEN
+        IF(VARACD.EQ.'PN' .OR. VARACD.EQ.'OP')THEN
           IF(IREGN.EQ.8)THEN
             IRDUM=6
             FORDUM='09'
@@ -4954,7 +4954,7 @@ C
             IRDUM=IREGN
             FORDUM=FORST
           ENDIF
-        ELSEIF(VARIANT.EQ.'NC')THEN
+        ELSEIF(VARACD.EQ.'NC')THEN
           IF(IREGN.EQ.8)THEN
             IRDUM=5
             FORDUM='10'
@@ -4962,7 +4962,7 @@ C
             IRDUM=IREGN
             FORDUM=FORST
           ENDIF
-        ELSEIF(VARIANT.EQ.'SO')THEN
+        ELSEIF(VARACD.EQ.'SO')THEN
           IF(IREGN.EQ.7)THEN
             SELECT CASE (KODFOR)
             CASE (701)
@@ -5003,7 +5003,7 @@ C  CHECK FOR VALID CUBIC FT EQUATION NUMBER
 C----------
           ISPEC=9999
           PROD='02'
-          CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+          CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                  VEQNNC(IGSP),ERRFLAG)
 C
 C  CHECK FOR CASES WHERE VARIANTS CROSS REGIONAL BOUNDARIES
@@ -5011,32 +5011,32 @@ C
           IF((KODFOR.LE.0).AND.(ISPEC.NE.8888))THEN
             SELECT CASE(IRDUM)
             CASE(1)
-              IF(VARIANT.EQ.'IE')THEN
+              IF(VARACD.EQ.'IE')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IGSP),ERRFLAG)
               ENDIF
             CASE(2)
-              IF(VARIANT.EQ.'CR')THEN
+              IF(VARACD.EQ.'CR')THEN
                 IRDUM=3
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IGSP),ERRFLAG)
               ENDIF
             CASE(5)
-              IF((VARIANT.EQ.'CA').OR.(VARIANT.EQ.'NC').OR.
-     &           (VARIANT.EQ.'SO').OR.(VARIANT.EQ.'OC'))THEN
+              IF((VARACD.EQ.'CA').OR.(VARACD.EQ.'NC').OR.
+     &           (VARACD.EQ.'SO').OR.(VARACD.EQ.'OC'))THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IGSP),ERRFLAG)
               ENDIF
             CASE(7)
-              IF(VARIANT.EQ.'OC')THEN
+              IF(VARACD.EQ.'OC')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IGSP),ERRFLAG)
                 IF(ISPEC.NE.8888)THEN
                   IRDUM=5
-                  CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                  CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IGSP),ERRFLAG)
                 ENDIF
               ENDIF
@@ -5065,7 +5065,7 @@ C  CHECK FOR VALID BOARD FT EQUATION NUMBER
 C----------
           ISPEC=9999
           PROD='01'
-          CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+          CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                  VEQNNB(IGSP),ERRFLAG)
 C
 C  CHECK FOR CASES WHERE VARIANTS CROSS REGIONAL BOUNDARIES
@@ -5073,32 +5073,32 @@ C
           IF((KODFOR.LE.0).AND.(ISPEC.NE.8888))THEN
             SELECT CASE(IRDUM)
             CASE(1)
-              IF(VARIANT.EQ.'IE')THEN
+              IF(VARACD.EQ.'IE')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             CASE(2)
-              IF(VARIANT.EQ.'CR')THEN
+              IF(VARACD.EQ.'CR')THEN
                 IRDUM=3
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             CASE(5)
-              IF((VARIANT.EQ.'CA').OR.(VARIANT.EQ.'NC').OR.
-     &           (VARIANT.EQ.'SO').OR.(VARIANT.EQ.'OC'))THEN
+              IF((VARACD.EQ.'CA').OR.(VARACD.EQ.'NC').OR.
+     &           (VARACD.EQ.'SO').OR.(VARACD.EQ.'OC'))THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IGSP),ERRFLAG)
               ENDIF
             CASE(7)
-              IF(VARIANT.EQ.'OC')THEN
+              IF(VARACD.EQ.'OC')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IGSP),ERRFLAG)
                 IF(ISPEC.NE.8888)THEN
                   IRDUM=5
-                  CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                  CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IGSP),ERRFLAG)
                 ENDIF
               ENDIF
@@ -5143,7 +5143,7 @@ C  CHECK FOR VALID CUBIC FT EQUATION NUMBER
 C----------
           ISPEC=9999
           PROD='02'
-          CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+          CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                  VEQNNC(1),ERRFLAG)
 C
 C  CHECK FOR CASES WHERE VARIANTS CROSS REGIONAL BOUNDARIES
@@ -5151,32 +5151,32 @@ C
           IF((KODFOR.LE.0).AND.(ISPEC.NE.8888))THEN
             SELECT CASE(IRDUM)
             CASE(1)
-              IF(VARIANT.EQ.'IE')THEN
+              IF(VARACD.EQ.'IE')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(1),ERRFLAG)
               ENDIF
             CASE(2)
-              IF(VARIANT.EQ.'CR')THEN
+              IF(VARACD.EQ.'CR')THEN
                 IRDUM=3
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(1),ERRFLAG)
               ENDIF
             CASE(5)
-              IF((VARIANT.EQ.'CA').OR.(VARIANT.EQ.'NC').OR.
-     &           (VARIANT.EQ.'SO').OR.(VARIANT.EQ.'OC'))THEN
+              IF((VARACD.EQ.'CA').OR.(VARACD.EQ.'NC').OR.
+     &           (VARACD.EQ.'SO').OR.(VARACD.EQ.'OC'))THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(1),ERRFLAG)
               ENDIF
             CASE(7)
-              IF(VARIANT.EQ.'OC')THEN
+              IF(VARACD.EQ.'OC')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(1),ERRFLAG)
                 IF(ISPEC.NE.8888)THEN
                   IRDUM=5
-                  CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                  CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(1),ERRFLAG)
                 ENDIF
               ENDIF
@@ -5201,7 +5201,7 @@ C  CHECK FOR VALID BOARD FT EQUATION NUMBER
 C----------
           ISPEC=9999
           PROD='01'
-          CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+          CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                  VEQNNB(1),ERRFLAG)
 C
 C  CHECK FOR CASES WHERE VARIANTS CROSS REGIONAL BOUNDARIES
@@ -5209,32 +5209,32 @@ C
           IF((KODFOR.LE.0).AND.(ISPEC.NE.8888))THEN
             SELECT CASE(IRDUM)
             CASE(1)
-              IF(VARIANT.EQ.'IE')THEN
+              IF(VARACD.EQ.'IE')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(1),ERRFLAG)
               ENDIF
             CASE(2)
-              IF(VARIANT.EQ.'CR')THEN
+              IF(VARACD.EQ.'CR')THEN
                 IRDUM=3
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(1),ERRFLAG)
               ENDIF
             CASE(5)
-              IF((VARIANT.EQ.'CA').OR.(VARIANT.EQ.'NC').OR.
-     &           (VARIANT.EQ.'SO').OR.(VARIANT.EQ.'OC'))THEN
+              IF((VARACD.EQ.'CA').OR.(VARACD.EQ.'NC').OR.
+     &           (VARACD.EQ.'SO').OR.(VARACD.EQ.'OC'))THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(1),ERRFLAG)
               ENDIF
             CASE(7)
-              IF(VARIANT.EQ.'OC')THEN
+              IF(VARACD.EQ.'OC')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(1),ERRFLAG)
                 IF(ISPEC.NE.8888)THEN
                   IRDUM=5
-                  CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                  CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(1),ERRFLAG)
                 ENDIF
               ENDIF
@@ -5276,7 +5276,7 @@ C----------
           VEQNNC(IS)=KARD(2)
           ISPEC=9999
           PROD='02'
-          CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+          CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                  VEQNNC(IS),ERRFLAG)
 C
 C  CHECK FOR CASES WHERE VARIANTS CROSS REGIONAL BOUNDARIES
@@ -5284,32 +5284,32 @@ C
           IF((KODFOR.LE.0).AND.(ISPEC.NE.8888))THEN
             SELECT CASE(IRDUM)
             CASE(1)
-              IF(VARIANT.EQ.'IE')THEN
+              IF(VARACD.EQ.'IE')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IS),ERRFLAG)
               ENDIF
             CASE(2)
-              IF(VARIANT.EQ.'CR')THEN
+              IF(VARACD.EQ.'CR')THEN
                 IRDUM=3
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IS),ERRFLAG)
               ENDIF
             CASE(5)
-              IF((VARIANT.EQ.'CA').OR.(VARIANT.EQ.'NC').OR.
-     &           (VARIANT.EQ.'SO').OR.(VARIANT.EQ.'OC'))THEN
+              IF((VARACD.EQ.'CA').OR.(VARACD.EQ.'NC').OR.
+     &           (VARACD.EQ.'SO').OR.(VARACD.EQ.'OC'))THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IS),ERRFLAG)
               ENDIF
             CASE(7)
-              IF(VARIANT.EQ.'OC')THEN
+              IF(VARACD.EQ.'OC')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IS),ERRFLAG)
                 IF(ISPEC.NE.8888)THEN
                   IRDUM=5
-                  CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                  CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNC(IS),ERRFLAG)
                 ENDIF
               ENDIF
@@ -5331,7 +5331,7 @@ C----------
           VEQNNB(IS)=KARD(3)
           ISPEC=9999
           PROD='01'
-          CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+          CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                  VEQNNB(IS),ERRFLAG)
 C
 C  CHECK FOR CASES WHERE VARIANTS CROSS REGIONAL BOUNDARIES
@@ -5339,32 +5339,32 @@ C
           IF((KODFOR.LE.0).AND.(ISPEC.NE.8888))THEN
             SELECT CASE(IRDUM)
             CASE(1)
-              IF(VARIANT.EQ.'IE')THEN
+              IF(VARACD.EQ.'IE')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IS),ERRFLAG)
               ENDIF
             CASE(2)
-              IF(VARIANT.EQ.'CR')THEN
+              IF(VARACD.EQ.'CR')THEN
                 IRDUM=3
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IS),ERRFLAG)
               ENDIF
             CASE(5)
-              IF((VARIANT.EQ.'CA').OR.(VARIANT.EQ.'NC').OR.
-     &           (VARIANT.EQ.'SO').OR.(VARIANT.EQ.'OC'))THEN
+              IF((VARACD.EQ.'CA').OR.(VARACD.EQ.'NC').OR.
+     &           (VARACD.EQ.'SO').OR.(VARACD.EQ.'OC'))THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IS),ERRFLAG)
               ENDIF
             CASE(7)
-              IF(VARIANT.EQ.'OC')THEN
+              IF(VARACD.EQ.'OC')THEN
                 IRDUM=6
-                CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IS),ERRFLAG)
                 IF(ISPEC.NE.8888)THEN
                   IRDUM=5
-                  CALL VOLEQDEF(VARIANT,IRDUM,FORDUM,DIST,ISPEC,PROD,
+                  CALL VOLEQDEF(VARACD,IRDUM,FORDUM,DIST,ISPEC,PROD,
      &                VEQNNB(IS),ERRFLAG)
                 ENDIF
               ENDIF
@@ -5495,7 +5495,7 @@ C
 C  ==========  OPTION NUMBER 136: THINRDSL ==========================THINRDSL
 C
 13600 CONTINUE
-      IF(VARIANT.NE.'NE') THEN
+      IF(VARACD.NE.'NE') THEN
          CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
          WRITE(JOSTND,13601)
 13601    FORMAT(/'********   ','THIS KEYWORD IS NOT VALID FOR THIS ',
@@ -5982,7 +5982,7 @@ C----------
 C  CALL THE SUBROUTINE THAT READS ORGANON CONTROL PARAMETERS FROM THE
 C  KEYWORD FILE
 C----------
-      SELECT CASE (VARIANT)
+      SELECT CASE (VARACD)
 C
         CASE ('OC','OP')
           IF(LKECHO)WRITE(JOSTND,14310) KEYWRD

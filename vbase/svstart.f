@@ -129,7 +129,7 @@ C  FMCBA routine), to assign the missing snagfall/decay coefficients
 C  when FFE is not active
 
       IF ( .NOT. LFMON ) THEN
-        IF (VARIANT .EQ. 'SO' ) THEN
+        IF (VARACD .EQ. 'SO' ) THEN
           CALL SNGCOE
         ENDIF
       ENDIF
