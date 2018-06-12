@@ -386,6 +386,9 @@
 ../volume/R8DIB.INC
 ../volume/R8VLIST.INC
 ../volume/R9COEFF.INC
+
+../vvolume/fvsvol.f
+
 ../volume/blmtap.f
 ../volume/blmvol.f
 ../volume/brk_up.f
@@ -405,7 +408,6 @@
 ../volume/fvsoldgro.f
 ../volume/fvsoldsec.f
 ../volume/fvssierralog.f
-../volume/fvsvol.f
 ../volume/fwinit.f
 ../volume/intl78.f
 ../volume/mrules.f
