@@ -305,6 +305,11 @@
 ../base/volkey.f
 
 ../dbsqlite/DBSCOM.F77
+
+../vdbsqlite/dbsfmpf.f
+../vdbsqlite/dbsstandin.f
+../vdbsqlite/dbssumry.f
+
 ../dbsqlite/dbsatrtls.f
 ../dbsqlite/dbsblkd.f
 ../dbsqlite/dbscase.f
@@ -326,7 +331,6 @@
 ../dbsqlite/dbsfmhrpt.f
 ../dbsqlite/dbsfmlink.f
 ../dbsqlite/dbsfmmort.f
-../dbsqlite/dbsfmpf.f
 ../dbsqlite/dbsfmssnag.f
 ../dbsqlite/dbsfuels.f
 ../dbsqlite/dbsin.f
@@ -338,9 +342,7 @@
 ../dbsqlite/dbsprs.f
 ../dbsqlite/dbsprssql.f
 ../dbsqlite/dbsrd.f
-../dbsqlite/dbsstandin.f
 ../dbsqlite/dbsstrclass.f
-../dbsqlite/dbssumry.f
 ../dbsqlite/dbstreesin.f
 ../dbsqlite/dbstrls.f
 ../dbsqlite/fvsqlite3.c
