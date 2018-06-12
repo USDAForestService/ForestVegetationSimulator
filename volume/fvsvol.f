@@ -26,7 +26,6 @@ C----------
       CHARACTER*1 BFTOP,CFTOP,CTYPE,HTTYPE,LIVEDUM
       CHARACTER*2 FORST,PROD
       CHARACTER*4 CONSPEC,FIASP
-      CHARACTER*7 VVER
       CHARACTER*10 EQNC,EQNB,VOLEQ
       INTEGER CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG
       INTEGER IT,ITRNC,ISPC,INTFOR,IERR,IZERO
@@ -56,7 +55,6 @@ C-----------
      &'ITRNC,CTKFLG,BTKFLG,IT= ',ISPC,D,H,TKILL,BARK,ITRNC,CTKFLG,
      & BTKFLG,IT
 
-      CALL VARVER(VVER)
       IDIST=1
       IF(KODFOR.GT.10000)THEN
         IREGN = KODFOR/10000
@@ -65,7 +63,7 @@ C-----------
         IREGN = KODFOR/100
         INTFOR = KODFOR - (KODFOR/100)*100
       ENDIF
-      IF(VVER(:2).EQ.'SN')IDIST=KODFOR-(KODFOR/100)*100
+      IF(VARACD.EQ.'SN')IDIST=KODFOR-(KODFOR/100)*100
       WRITE(FORST,'(I2)')INTFOR
       IF(INTFOR.LT.10)FORST(1:1)='0'
       WRITE(FIASP,('(A)'))JSP(ISPC)
@@ -587,28 +585,31 @@ C----------
 
       VVN=0.0
       BBF=0.0
-      CALL VARVER(VVER)
-      IF(VVER(:2).EQ.'AK')THEN
-        CALL FVSBRUCEDEMARS(VN,VM,VMAX,D,H,ISPC,BARK,LCONE,CTKFLG)
-      ELSEIF((VVER(:2).EQ.'SM').OR.(VVER(:2).EQ.'SP').OR.
-     &       (VVER(:2).EQ.'BP').OR.(VVER(:2).EQ.'SF').OR.
-     &       (VVER(:2).EQ.'LP'))THEN
-        CALL FVSHANNBARE(VN,VM,VMAX,ISPC,D,H,CTKFLG)
-      ELSEIF(VVER(:2).EQ.'NC')THEN
-        CALL FVSSIERRALOG(VN,VM,VMAX,ISPC,D,H,BARK,LCONE,CTKFLG)
-      ELSEIF((VVER(:2).EQ.'CS').OR.(VVER(:2).EQ.'LS').OR.
-     &        (VVER(:2).EQ.'NE'))THEN
-        VN=0.
-        VM=0.
-        IF (IMC(IT) .GE. 3 .OR. D .LT. DBHMIN(ISPC))GOTO 600
-        CALL TWIGCF(ISPC,H,D,VN,VM,IT)
-  600 CONTINUE
-      ELSE
-        VN=0.
-        VMAX=0.
-        VM=0.
-        CTKFLG = .FALSE.
-      ENDIF
+C
+      SELECT CASE (VARACD)
+        CASE ('AK')
+          CALL FVSBRUCEDEMARS(VN,VM,VMAX,D,H,ISPC,BARK,LCONE,CTKFLG)
+C
+        CASE ('CR')
+          CALL FVSHANNBARE(VN,VM,VMAX,ISPC,D,H,CTKFLG)
+C
+        CASE ('NC')
+          CALL FVSSIERRALOG(VN,VM,VMAX,ISPC,D,H,BARK,LCONE,CTKFLG)
+C
+        CASE ('CS','LS','NE')
+          VN=0.
+          VM=0.
+          IF (IMC(IT) .GE. 3 .OR. D .LT. DBHMIN(ISPC))GOTO 600
+          CALL TWIGCF(ISPC,H,D,VN,VM,IT)
+  600     CONTINUE
+C
+        CASE DEFAULT
+          VN=0.
+          VMAX=0.
+          VM=0.
+          CTKFLG = .FALSE.
+C
+      END SELECT
 C----------
 C  SET RETURN VALUES HERE
 C----------
@@ -638,33 +639,36 @@ C----------
      &'BBFV,ISPC,D,H,TKILL,BARK,ITRNC,VMAX,LCONE,BTKFLG,IT'
       IF(DEBUG)WRITE(JOSTND,*)'  OBFVOL IN:  ',
      & BBFV,ISPC,D,H,TKILL,BARK,ITRNC,VMAX,LCONE,BTKFLG,IT
-
-      CALL VARVER(VVER)
-      IF(VVER(:2).EQ.'AK')THEN      
-        VVN=0.0
-        BBF=0.0
-        IF(D .GE. 9.0 .AND. H .GT. 40.0)
-     &  CALL FVSOLDGRO(ISPC,VVN,D,H,BBF)
-        BBFV=BBF
-      ELSEIF((VVER(:2).EQ.'SM').OR.(VVER(:2).EQ.'SP').OR.
-     &       (VVER(:2).EQ.'BP').OR.(VVER(:2).EQ.'SF').OR.
-     &       (VVER(:2).EQ.'LP'))THEN
-        CALL HANNBAREBF(BBFV,ISPC,D,H,VMAX,BTKFLG)
-      ELSEIF(VVER(:2).EQ.'NC')THEN
-        ITD=INT(BFTOPD(ISPC)+0.5)
-        IF(ITD.GT.100) ITD = 100
-        CALL LOGS(D,H,ITD,ITD,DBHMIN(ISPC),BFMIND(ISPC),ISPC,
+C
+      SELECT CASE (VARACD)
+        CASE ('AK')      
+          VVN=0.0
+          BBF=0.0
+          IF(D .GE. 9.0 .AND. H .GT. 40.0)
+     &    CALL FVSOLDGRO(ISPC,VVN,D,H,BBF)
+          BBFV=BBF
+C
+        CASE ('CR')
+          CALL HANNBAREBF(BBFV,ISPC,D,H,VMAX,BTKFLG)
+C
+        CASE ('NC')
+          ITD=INT(BFTOPD(ISPC)+0.5)
+          IF(ITD.GT.100) ITD = 100
+          CALL LOGS(D,H,ITD,ITD,DBHMIN(ISPC),BFMIND(ISPC),ISPC,
      &            BFSTMP(ISPC),BV,JOSTND)
-        BBFV=BV
-      ELSEIF((VVER(:2).EQ.'CS').OR.(VVER(:2).EQ.'LS').OR.
-     &        (VVER(:2).EQ.'NE'))THEN
-        BBFV=0.
-        IF(D .LT. BFMIND(ISPC) .OR. IMC(IT) .GT. 1)GOTO 700
-        CALL TWIGBF(ISPC,H,D,VMAX,BBFV)
-  700   CONTINUE
-      ELSE
-        BBFV=0.
-      ENDIF
+          BBFV=BV
+C
+        CASE ('CS','LS','NE')
+          BBFV=0.
+          IF(D .LT. BFMIND(ISPC) .OR. IMC(IT) .GT. 1)GOTO 700
+          CALL TWIGBF(ISPC,H,D,VMAX,BBFV)
+  700     CONTINUE
+C
+        CASE DEFAULT
+          BBFV=0.
+C
+      END SELECT
+C
       BTKFLG = .TRUE.
       IF(BBFV .LE. 0.) THEN
         BBFV=0.

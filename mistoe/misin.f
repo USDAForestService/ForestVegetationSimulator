@@ -23,7 +23,6 @@ C MISTOE $Id: misin.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
 *     KODE:   Error code passed back from keyword reading routines.
 *     NUMBR:  Keyword number passed back from FNDKEY.
 *     TABLE:  Character array of possible keywords.
-*     VVER:   Character buffer for variant version.
 *
 *  Common block variables and parameters:
 *
@@ -106,7 +105,6 @@ C.... Variable declarations.
       INTEGER I,IDT,ISPL,KEY,KODE,NUMBR,IRTNCD
       CHARACTER*8 TABLE(ISIZE),KEYWRD,PASKEY
       CHARACTER*10 KARD(7)
-      CHARACTER*7 VVER
 
 C.... Data statements.
 
@@ -121,10 +119,6 @@ C.... Check for debug.
 
       IF(DEBUG)WRITE(JOSTND,10)ICYC,ITYPE
    10 FORMAT(' Begin MISIN: Cycle, ITYPE = ',I5,I5)
-
-C.... Check for variant version.
-
-      CALL VARVER(VVER)
 
 C.... Load the passed keyword into KEYWRD.
 
