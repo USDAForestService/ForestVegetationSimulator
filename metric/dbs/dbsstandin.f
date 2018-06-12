@@ -33,7 +33,6 @@ COMMONS
       CHARACTER(LEN=14) CFotoCode
       CHARACTER(LEN=LEN(DBCN)+1) TMP_DBCN
       CHARACTER(LEN=LEN(NPLT)+1) CSTAND
-      CHARACTER*7 VVER
       CHARACTER*9 CSITECODE
       CHARACTER*40 PHOTOREF(32), REF
       REAL      ARRAY2
@@ -486,10 +485,6 @@ C     Fetch the Row Data
 
       iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlIn)
 
-C     DEFINE VVER IN CASE IT IS NEEDED.
-
-      CALL VARVER(VVER)
-
 C     CHECK FOR NULLS AND ASSIGN VALUES THAT WERE NOT NULL
 
 C     PROCESS STAND IDENTIFICATION CODE.
@@ -548,15 +543,14 @@ C     FOLLOWING VARIANT-SPECIFIC RULES.
       IF(Region_LI.NE.SQL_NULL_DATA .AND.   ! Start with RFF
      >   Forest_LI.NE.SQL_NULL_DATA) THEN
          KODFOR = ISTANDDATA(29) * 100 + ISTANDDATA(30)
-         IF(VVER(:2).EQ.'KT' .OR.            ! Convert to RFFDD
-     >      VVER(:2).EQ.'WS' .OR.
-     >      VVER(:2).EQ.'SE' .OR.
-     >      VVER(:2).EQ.'SN') THEN
+         IF(VARACD.EQ.'KT' .OR.            ! Convert to RFFDD
+     >      VARACD.EQ.'WS' .OR.
+     >      VARACD.EQ.'SN') THEN
             KODFOR = KODFOR * 100
             IF (District_LI.NE.SQL_NULL_DATA)
      >          KODFOR=KODFOR + ISTANDDATA(31)
          ENDIF
-         IF(VVER(:2).EQ.'KT') THEN           ! Convert to RFFDDCCC
+         IF(VARACD.EQ.'KT') THEN           ! Convert to RFFDDCCC
             KODFOR = KODFOR * 1000
             IF (Compartment_LI.NE.SQL_NULL_DATA)
      >          KODFOR=KODFOR + ISTANDDATA(32)
@@ -608,7 +602,7 @@ C
    45    CONTINUE
          KARD12  = ADJUSTL(CHAB(1:20))
          ARRAY2 = ISTANDDATA(5)
-         IF(VVER(:2).EQ.'SE' .OR. (VVER(:2).EQ.'SN' .AND.
+         IF((VARACD.EQ.'SN' .AND.
      >   Ecoregion_LI.NE.SQL_NULL_DATA)) THEN
            KODTYP=0
            ICL5=0
@@ -632,7 +626,7 @@ C
       ENDIF
 
       IF(Ecoregion_LI.NE.SQL_NULL_DATA) THEN
-        IF (VVER(:2).EQ.'SN') THEN
+        IF (VARACD.EQ.'SN') THEN
           IF (LECOISNUM) THEN   ! ECOREGION CODE IS NUMBER.
             WRITE (CECOREG,*) ISTANDDATA(54)
             GOTO 46
@@ -682,7 +676,7 @@ C
      &     ELEV*100./MtoFt
       ENDIF
       IF(ElevFT_LI.NE.SQL_NULL_DATA ) THEN
-         IF (VVER(1:2).EQ.'AK') THEN
+         IF (VARACD.EQ.'AK') THEN
             IF(RSTANDDATA(33).GT.0.)ELEV = RSTANDDATA(33)*MtoFt/10.
             IF(LKECHO)WRITE(JOSTND,10) RSTANDDATA(33),ELEV*10./MtoFt
          ELSE
@@ -801,7 +795,7 @@ C     SITE INDEX PROCESSING
 
       IF(SiteIndx_LI.NE.SQL_NULL_DATA) THEN
          IF (RSTANDDATA(35).LE. 7.) THEN   ! DUNNING CODE.
-            SELECT CASE (VVER(:2))
+            SELECT CASE (VARACD)
             CASE('CA','NC','SO','WS')
                IF(LKECHO)WRITE(JOSTND,27)
    27          FORMAT(38X,'   SITE INDEX IS THAN 8 AND ',

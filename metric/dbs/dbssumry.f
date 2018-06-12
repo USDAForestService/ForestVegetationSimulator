@@ -39,6 +39,8 @@ C     ICASE - CASE NUMBER FROM THE FVSRUN TABLE
 COMMONS
 
 C
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'CONTRL.F77'
       INCLUDE 'DBSCOM.F77'
 C
 COMMONS
@@ -51,7 +53,6 @@ C
       DOUBLE PRECISION FQMDB,FATQMDB,YMAIB,TOPHTB,ATTOPHTB
 
       CHARACTER*2000 SQLStmtStr
-      CHARACTER*7   VVER
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=*) NPLT
 C
@@ -61,8 +62,6 @@ C     Initialize variables
 C
       IF(ISUMARY.EQ.0) RETURN
 C
-      CALL VARVER (VVER)
-
 C---------
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C---------
@@ -83,20 +82,18 @@ C---------
 C     CHECK TO SEE IF THE SUMMARY STATS TABLE EXISTS IN DATBASE
 C---------
       IF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-        IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1      (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2      (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN') .OR.
-     3      (VVER(:2) .EQ. 'ON')) THEN
+        IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     1      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN') .OR.
+     3      (VARACD .EQ. 'ON')) THEN
 
             TABLENAME = '[FVS_Summary_East$]'
         ELSE
             TABLENAME = '[FVS_Summary$]'
         ENDIF
       ELSE
-        IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1      (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2      (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN') .OR.
-     3      (VVER(:2) .EQ. 'ON')) THEN
+        IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     1      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN') .OR.
+     3      (VARACD .EQ. 'ON')) THEN
 
             TABLENAME = 'FVS_Summary_East'
         ELSE
@@ -113,10 +110,9 @@ C
 C
 C  EASTERN VARIANT VOLUME NOMENCLATURE
 C
-        IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1      (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2      (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN') .OR.
-     3      (VVER(:2) .EQ. 'ON')) THEN
+        IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     1      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN') .OR.
+     3      (VARACD .EQ. 'ON')) THEN
 C
           IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
             SQLStmtStr='CREATE TABLE FVS_Summary_East('//
@@ -348,10 +344,9 @@ C
       TOPHTB=TOPHT
       ATTOPHTB=ATTOPHT
 
-      IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN') .OR.
-     3    (VVER(:2) .EQ. 'ON')) THEN
+      IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     1    (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN') .OR.
+     3    (VARACD .EQ. 'ON')) THEN
 C
         WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,'(Id,CaseID,StandID,
      -              Year,Age,TPH,BA,SDI,CCF,TopHt,QMD,GTV,GMV,NMV,
