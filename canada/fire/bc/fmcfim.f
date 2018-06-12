@@ -35,7 +35,6 @@ COMMONS
 C
       integer iyr, RC
       integer FMD
-      character VVER*7
       real CFIM_OUTPUT(10)
       REAL FMINFO(13), LHV
       logical debug

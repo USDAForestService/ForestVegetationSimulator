@@ -52,6 +52,7 @@ COMMONS
 C
 C
       INCLUDE 'PRGPRM.F77'
+      INCLUDE 'CONTRL.F77'
 C
 C
       INCLUDE 'SUMTAB.F77'
@@ -59,7 +60,7 @@ C
 C
 COMMONS
 C
-      CHARACTER CISN*11,NPLT*26,TIM*8,DAT*10,MGMID*4,VVER*7,REV*10
+      CHARACTER CISN*11,NPLT*26,TIM*8,DAT*10,MGMID*4,REV*10
       CHARACTER ITITLE*72,RECORD*250
       INTEGER*4 IOSUM(I20,LENG),IPTINV
       REAL SAMWT
@@ -76,8 +77,7 @@ C
       IF (.NOT. (LPRT.OR.LDSK)) RETURN
 C
       CALL PPISN (CISN)
-      CALL VARVER (VVER)
-      CALL REVISE (VVER,REV)
+      CALL REVISE (VARACD,REV)
       CALL GRDTIM (DAT,TIM)
       
       IF(LDSK) THEN
@@ -92,7 +92,7 @@ C
             OPEN(UNIT=JOSUM,FILE=TRIM(RECORD),STATUS='replace')
           ENDIF
         ENDIF
-        WRITE (JOSUM,2) LENG,NPLT,MGMID,SAMWT,VVER,DAT,TIM,
+        WRITE (JOSUM,2) LENG,NPLT,MGMID,SAMWT,VARACD,DAT,TIM,
      &                  REV,CISN,IPTINV
     2   FORMAT ('-999',I5,1X,A26,1X,A4,E15.7,5(1X,A),I3)
       ENDIF
@@ -104,9 +104,8 @@ C
       WRITE (JOSTND,5) NPLT,MGMID,ITITLE(1:ISTLNB(ITITLE))
     5 FORMAT(/' STAND ID: ',A26,4X,'MGMT ID: ',A4,4X,A/)
 C
-      IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
+      IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     1    (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
 
 C----------
 C  WRITE HEADER FOR CS, LS, NE, OZ, SE, SN
@@ -157,10 +156,9 @@ C  THIS STEP TAKES JUST THE FIRST 12 ITEMS IN THE IOSUM ARRAY
 C----------
       I12=I20-8
       DO 50 I=1,LENG
-      IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     &    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     &    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN') .OR.
-     &    (VVER(:2) .EQ. 'ON')) THEN
+      IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     &    (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN') .OR.
+     &    (VARACD .EQ. 'ON')) THEN
 C
         IF(LPRT)
      &  WRITE(JOSTND,20) IOSUM(1,I),IOSUM(2,I),
@@ -320,7 +318,7 @@ C
 C
 C     SPECIAL REPORTING FOR BC VARIANTS
 C
-      IF (VVER(:2) .EQ. 'BC') THEN
+      IF (VARACD .EQ. 'BC') THEN
         WRITE(JOPRT,56)
         IF (LCVOLS) THEN
           WRITE(JOPRT,58)

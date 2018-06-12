@@ -49,7 +49,7 @@ C     INITIAL VALUES FOR "Version 2" active and processed; respectively
       LV2ATV = .FALSE.
       LV2HDR = .FALSE.
 
-      VARIANT = 'BC'
+      VARACD = 'BC'
       CALL LNKINT
       DO 5 I=1,MAXSP
       IORDER(I) = 0

@@ -27,7 +27,6 @@ C     COMMONS
       CHARACTER*250 CMDLN
       CHARACTER*250 FNAM
       CHARACTER*4   CYR
-      CHARACTER*7   VVER
 	CHARACTER*6   SLPOSN(3),DISTRB(5),DSTR
       INTEGER       I,J,KODE,IKEEP,IPYR
       INTEGER       MYACT(1),MYACT2(3),NTODO,ITODO,NP,IACTK,IDT
@@ -118,11 +117,10 @@ c         Construct input filename: Keyfile_StandID_Year_BC.ES1
           ENDDO
           J = J+1
           FNAM(J:J) = '_'
-          CALL VARVER(VVER)
           DO I = 1,2
-              IF (VVER(I:I) .NE. ' ') THEN
+              IF (VARACD(I:I) .NE. ' ') THEN
                   J = J+1
-                  FNAM(J:J) = VVER(I:I)
+                  FNAM(J:J) = VARACD(I:I)
               ENDIF
           ENDDO
           FNAM(J+1:J+5) = ".ES1"

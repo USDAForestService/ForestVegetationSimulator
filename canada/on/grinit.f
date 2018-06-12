@@ -127,7 +127,7 @@ C     >  10., 10. /
 	DATA ONMTD / MAXSP * 0.0 /
 C
 C----------
-      VARIANT = 'ON'
+      VARACD = 'ON'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.
