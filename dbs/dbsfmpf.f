@@ -37,6 +37,8 @@ C             23: KODE FOR WHETHER OR NOT THE REPORT ALSO DUMPS TO FILE
 C
 COMMONS
 C
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'CONTRL.F77'
       INCLUDE 'DBSCOM.F77'
 C
 COMMONS
@@ -54,7 +56,6 @@ COMMONS
         DIMENSION FUELMOD(4),FUELWT(4),SFUELMOD(4),SFUELWT(4)
       CHARACTER*2000 SQLStmtStr
       CHARACTER*8 SFTYPE,MFTYPE
-      CHARACTER VVER*7
       CHARACTER(len=20) TABLENAME
       CHARACTER(len=26) NPLT
 
@@ -63,7 +64,6 @@ C     Initialize variables
       IF(IPOTFIRE.EQ.0) RETURN
       IF(IPOTFIRE.EQ.2) KODE = 0
 
-      CALL VARVER(VVER)
 C---------
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C---------
@@ -84,13 +84,13 @@ C---------
 C     CHECK TO SEE IF THE POTFIRE TABLE EXISTS IN DATBASE
 C---------
       IF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-        IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
+        IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
           TABLENAME = '[FVS_PotFire_East$]'
         ELSE
           TABLENAME = '[FVS_PotFire$]'
         ENDIF
       ELSE
-        IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
+        IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
           TABLENAME = 'FVS_PotFire_East'
         ELSE
           TABLENAME = 'FVS_PotFire'
@@ -102,7 +102,7 @@ C---------
         RETURN
       ENDIF
       IF(IRCODE.EQ.1) THEN
-        IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
+        IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
 C
           IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
           SQLStmtStr='CREATE TABLE FVS_PotFire_East('//
@@ -331,7 +331,7 @@ C
       BFUELWT(3)=INT((FUELWT(3)*100.)+0.5)
       BFUELWT(4)=INT((FUELWT(4)*100.)+0.5)
 C
-      IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD) .EQ. 'CS')) THEN
        BSFUELWT(1)=INT((SFUELWT(1)*100.)+0.5)
        BSFUELWT(2)=INT((SFUELWT(2)*100.)+0.5)
        BSFUELWT(3)=INT((SFUELWT(3)*100.)+0.5)
@@ -383,7 +383,7 @@ C
      -          INT(5,SQLSMALLINT_KIND),BMFLMSU,int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      IF ((VVER(:2) .NE. 'SN') .AND. (VVER(:2) .NE. 'CS')) THEN
+      IF ((VARACD .NE. 'SN') .AND. (VARACD .NE. 'CS')) THEN
         ColNumber=ColNumber+1
         iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -            SQL_PARAM_INPUT,
@@ -523,7 +523,7 @@ C
      -         INT(5,SQLSMALLINT_KIND),BFUELWT(4),int(4,SQLLEN_KIND),
      -           SQL_NULL_PTR)
 
-      IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
        ColNumber=ColNumber+1
        iRet = fvsSQLBindParameter(StmtHndlOut,ColNumber,SQL_PARAM_INPUT,
      -         SQL_F_INTEGER, SQL_INTEGER,INT(15,SQLUINTEGER_KIND),
