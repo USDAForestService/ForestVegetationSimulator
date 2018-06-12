@@ -38,6 +38,8 @@ C             23: KODE FOR WHETHER OR NOT THE REPORT ALSO DUMPS TO FILE
 C
 COMMONS
 C
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'CONTRL.F77'
       INCLUDE 'DBSCOM.F77'
 C
 COMMONS
@@ -56,7 +58,6 @@ COMMONS
       DIMENSION FUELMOD(4),FUELWT(4),SFUELMOD(4),SFUELWT(4)
       CHARACTER*2000 SQLStmtStr
       CHARACTER*8 SFTYPE,MFTYPE
-      CHARACTER VVER*7
       CHARACTER(len=26) NPLT
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
@@ -67,13 +68,12 @@ C     Initialize variables
       IF(IPOTFIRE.EQ.0) RETURN
       IF(IPOTFIRE.EQ.2) KODE = 0
 
-      CALL VARVER(VVER)
 C---------
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C---------
       CALL DBSCASE(1)
       
-      IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
         iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_PotFire_East"//CHAR(0))
         IF(iRet.EQ.0) THEN
@@ -187,7 +187,7 @@ C---------
       BFUELWT(3)=DBLE(INT((FUELWT(3)*100.)+0.5))
       BFUELWT(4)=DBLE(INT((FUELWT(4)*100.)+0.5))
 
-      IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
         BSFUELWT(1)=DBLE(INT((SFUELWT(1)*100.)+0.5))
         BSFUELWT(2)=DBLE(INT((SFUELWT(2)*100.)+0.5))
         BSFUELWT(3)=DBLE(INT((SFUELWT(3)*100.)+0.5))
@@ -236,7 +236,7 @@ C---------
       ColNumber=ColNumber+1
       iRet = fsql3_bind_double(IoutDBref,ColNumber,BMFLMSU)
 
-      IF ((VVER(:2) .NE. 'SN') .AND. (VVER(:2) .NE. 'CS')) THEN
+      IF ((VARACD .NE. 'SN') .AND. (VARACD .NE. 'CS')) THEN
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,BSFLMTO)
 
@@ -304,7 +304,7 @@ C---------
       ColNumber=ColNumber+1
       iRet = fsql3_bind_double(IoutDBref,ColNumber,BFUELWT(4))
 
-      IF ((VVER(:2) .EQ. 'SN') .OR. (VVER(:2) .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
        ColNumber=ColNumber+1
        iRet = fsql3_bind_int(IoutDBref,ColNumber,SFUELMOD(1))
 

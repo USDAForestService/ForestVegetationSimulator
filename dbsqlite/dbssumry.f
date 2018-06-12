@@ -41,6 +41,8 @@ C             20: STOCKING CLASS
 C
 COMMONS
 C
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'CONTRL.F77'
       INCLUDE 'DBSCOM.F77'
 C
 COMMONS
@@ -52,7 +54,6 @@ C
       DOUBLE PRECISION FQMDB,FATQMDB,YMAIB
       REAL FQMD,FATQMD,YMAI
       CHARACTER*2000 SQLStmtStr
-      CHARACTER*7   VVER
       CHARACTER(len=*) NPLT
 C
 C
@@ -63,15 +64,12 @@ COMMONS END
 
       IF(ISUMARY.EQ.0) RETURN
 C
-      CALL VARVER (VVER)
-
       CALL DBSCASE(1)
 
 C     DEFINE TAABLENAME
 
-      IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     >    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     >    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
+      IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     >    (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
         iRet=fsql3_tableexists(IoutDBref,'FVS_Summary_East'//CHAR(0))
       ELSE
         iRet=fsql3_tableexists(IoutDBref,'FVS_Summary'//CHAR(0))
@@ -80,9 +78,8 @@ C     DEFINE TAABLENAME
 C
 C       EASTERN VARIANT VOLUME NOMENCLATURE
 C
-        IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1      (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2      (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
+        IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     1      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
 C
             SQLStmtStr='CREATE TABLE FVS_Summary_East('//
      -                 'CaseID char(36),'//
@@ -162,9 +159,8 @@ C
       FATQMDB=FATQMD
       YMAIB=YMAI
 
-      IF ((VVER(:2) .EQ. 'CS') .OR. (VVER(:2) .EQ. 'LS') .OR.
-     1    (VVER(:2) .EQ. 'NE') .OR. (VVER(:2) .EQ. 'OZ') .OR.
-     2    (VVER(:2) .EQ. 'SE') .OR. (VVER(:2) .EQ. 'SN')) THEN
+      IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     1    (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
 C
         WRITE(SQLStmtStr,*)'INSERT INTO FVS_Summary_East',
      -          ' (CaseID,StandID,',
