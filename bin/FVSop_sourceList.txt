@@ -300,6 +300,10 @@
 ../base/upkey.f
 ../base/volkey.f
 
+../vdbs/dbsfmpf.f
+../vdbs/dbsstandin.f
+../vdbs/dbssumry.f
+
 ../dbs/dbsatrtls.f
 ../dbs/dbsblkd.f
 ../dbs/dbscase.f
@@ -324,7 +328,6 @@
 ../dbs/dbsfmhrpt.f
 ../dbs/dbsfmlink.f
 ../dbs/dbsfmmort.f
-../dbs/dbsfmpf.f
 ../dbs/dbsfmssnag.f
 ../dbs/dbsfuels.f
 ../dbs/dbshelpers.f
@@ -338,9 +341,7 @@
 ../dbs/dbsprssql.f
 ../dbs/dbspusget.f
 ../dbs/dbspusput.f
-../dbs/dbsstandin.f
 ../dbs/dbsstrclass.f
-../dbs/dbssumry.f
 ../dbs/dbstreesin.f
 ../dbs/dbstrls.f
 ../dbs/fvsSQL.c

@@ -225,6 +225,7 @@
 ../common/VARCOM.F77
 ../common/VOLSTD.F77
 ../common/WORKCM.F77
+../vdbs/dbsfmpf.f
 ../dbs/dbsblkd.f
 ../dbs/dbscase.f
 ../dbs/dbscknrows.f
@@ -246,7 +247,6 @@
 ../dbs/dbsfmhrpt.f
 ../dbs/dbsfmlink.f
 ../dbs/dbsfmmort.f
-../dbs/dbsfmpf.f
 ../dbs/dbsfmssnag.f
 ../dbs/dbshelpers.f
 ../dbs/dbsin.f
@@ -401,6 +401,8 @@
 ../ls/gvrvol.f
 ../ls/maical.f
 ../ls/ptbal.f
+../metric/vdbs/dbsstandin.f
+../metric/vdbs/dbssumry.f
 ../metric/base/cwidth.f
 ../metric/base/dense.f
 ../metric/base/disply.f
@@ -421,8 +423,6 @@
 ../metric/dbs/dbscuts.f
 ../metric/dbs/dbsfmfuel.f
 ../metric/dbs/dbsfuels.f
-../metric/dbs/dbsstandin.f
-../metric/dbs/dbssumry.f
 ../metric/dbs/dbstrls.f
 ../metric/fire/base/fmdout.f
 ../metric/fire/base/fmfout.f

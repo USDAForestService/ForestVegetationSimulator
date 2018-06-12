@@ -284,6 +284,7 @@
 ../covr/cvout.f
 ../covr/cvscon.f
 ../covr/cvsum.f
+../vdbs/dbsfmpf.f
 ../dbs/dbsblkd.f
 ../dbs/dbscase.f
 ../dbs/dbscknrows.f
@@ -306,7 +307,6 @@
 ../dbs/dbsfmhrpt.f
 ../dbs/dbsfmlink.f
 ../dbs/dbsfmmort.f
-../dbs/dbsfmpf.f
 ../dbs/dbsfmssnag.f
 ../dbs/dbsgetid.f
 ../dbs/dbshelpers.f
@@ -488,12 +488,12 @@
 ../metric/base/sstage.f
 ../metric/base/stats.f
 ../metric/clim/clin.f
+../metric/vdbs/dbsstandin.f
+../metric/vdbs/dbssumry.f
 ../metric/dbs/dbsatrtls.f
 ../metric/dbs/dbscuts.f
 ../metric/dbs/dbsfmfuel.f
 ../metric/dbs/dbsfuels.f
-../metric/dbs/dbsstandin.f
-../metric/dbs/dbssumry.f
 ../metric/dbs/dbstrls.f
 ../metric/dfb/dfbin.f
 ../metric/fire/base/fmdout.f
