@@ -26,13 +26,7 @@ COMMONS
 C----------
 C VARIABLE DECLARATIONS:
 C----------
-      CHARACTER VVER*7
-C
       INTEGER I,J
-C
-C----------
-C
-      CALL VARVER(VVER)
 C----------
 C     WRITE THE START DELIMITER TO THE ORGANON TABLE
 C----------
@@ -41,12 +35,14 @@ C----------
 C----------
 C  HEADER, TREE DATA AND PARAMETER SETTING INFORMATION
 C----------
-      SELECT CASE (VVER(:2))
-      CASE ('OC')
+      SELECT CASE (VARACD)
+C
+        CASE ('OC')
         WRITE(JOSTND,100)
  100    FORMAT(/,'PARAMETER SETTINGS FOR FVS-ORGANON ',
      &  'SOUTHWEST OREGON MODEL TYPE:')
-      CASE DEFAULT
+C
+        CASE DEFAULT
         IF(IMODTY .EQ. 2) THEN
           WRITE(JOSTND,101)
  101      FORMAT(/,'PARAMETER SETTINGS FOR FVS-ORGANON ',
@@ -56,6 +52,7 @@ C----------
  102      FORMAT(/,'PARAMETER SETTINGS FOR FVS-ORGANON ',
      &    'STAND MANAGEMENT COOP MODEL TYPE:')
         ENDIF
+C
       END SELECT
 C----------
 C WRITE ORGANON TYPE HEADINGS:
@@ -64,12 +61,15 @@ C----------
   120 FORMAT(/T30,'O R G A N O N',
      &/T15,'ORegon Growth ANalysis and projectiON system',
      &/T25,'Growth & Yield Model for')
-      SELECT CASE (VVER(:2))
-      CASE ('OC')
+C----------
+      SELECT CASE (VARACD)
+C
+        CASE ('OC')
         WRITE(JOSTND,125)
   125   FORMAT(T17,'Southwest Oregon Mixed Conifer Forests',
      &  //T22,'SW OREGON VERSION, EDITION 9.1')
-      CASE DEFAULT
+C
+        CASE DEFAULT
         IF(IMODTY .EQ. 2) THEN
           WRITE(JOSTND,126)
   126     FORMAT(T24,'Northwest Oregon Forests',
@@ -79,9 +79,12 @@ C----------
   127     FORMAT(T20,'Stand Management Coop Conifer Forests',
      &    //T19,'STAND MANAGEMENT COOP VERSION, EDITION 9.1')
         ENDIF
+C
       END SELECT
-      SELECT CASE (VVER(:2))
-      CASE ('OC')
+C----------
+      SELECT CASE (VARACD)
+C
+        CASE ('OC')
           WRITE(JOSTND,130)
   130     FORMAT(T28,'by David W. Hann',
      &/T27,'and Mark Hanus',
@@ -89,7 +92,8 @@ C----------
      &/T25,'Oregon State University',
      &//T24,'This model was funded by:',
      &/T11,'Forestry Intensified Research (FIR) and the USDI BLM')
-      CASE DEFAULT
+C
+        CASE DEFAULT
         IF(IMODTY .EQ. 2) THEN
           WRITE(JOSTND,131)
   131     FORMAT(T28,'by David W. Hann',
@@ -107,12 +111,14 @@ C----------
      &//T24,'This model was funded by:',
      &/T18,'The Stand Management Cooperative (SMC)')
         ENDIF
+C
       END SELECT
 C----------
 C  IMPORTANT SITE INDEX VALUES; SDI; STAND AGE
 C----------
-      SELECT CASE (VVER(:2))
-      CASE ('OC')
+      SELECT CASE (VARACD)
+C
+        CASE ('OC')
         WRITE(JOSTND,200) RVARS(1),RVARS(2)                !DF, PP     
  200    FORMAT(//,'                Douglas-fir Site Index: ',F6.2,/,
      &  '             Ponderosa Pine Site Index: ',F6.2)
@@ -120,7 +126,8 @@ C----------
  201    FORMAT(/,'                   Douglas-fir Max SDI: ',F6.2,/,
      &  '               Grand/White Fir Max SDI: ',F6.2,/,
      &  '                Ponderosa Pine Max SDI: ',F6.2)
-      CASE DEFAULT                                            
+C
+        CASE DEFAULT                                            
         WRITE(JOSTND,210) RVARS(1),RVARS(2)                !DF, WH
  210    FORMAT(//,'                Douglas-fir Site Index: ',F6.2,/,
      &           '            Western Hemlock Site Index: ',F6.2)
@@ -128,6 +135,7 @@ C----------
  211    FORMAT(/,'                   Douglas-fir Max SDI: ',F6.2,/,
      &           '                     Grand Fir Max SDI: ',F6.2,/,
      &           '               Western Hemlock Max SDI: ',F6.2)
+C
       END SELECT
 C----------
 C  SELECTED INITIAL INDS(i) ARRAY VALUES
@@ -190,8 +198,9 @@ C
 C----------
 C  INITIAL ORGANON CALIBRATION VALUES
 C----------
-      SELECT CASE (VVER(:2))
-      CASE ('OC')
+      SELECT CASE (VARACD)
+C
+        CASE ('OC')
         WRITE(JOSTND,400) ((ACALIB(I,J),I=1,3),J=1,18)
  400    FORMAT(/T3,'CALIBRATION RATIOS USED FOR THIS RUN:',
      &  /T42,'HT/DBH    HTCB    DIAM',
@@ -213,7 +222,8 @@ C----------
      &  /T30,'RED ALDER:',3F8.2,
      &  /T24,'PACIFIC DOGWOOD:',3F8.2,
      &  /T25,'WILLOW SPECIES:',3F8.2)
-      CASE DEFAULT
+C
+        CASE DEFAULT
         WRITE(JOSTND,410) ((ACALIB(I,J),I=1,3),J=1,11)
  410    FORMAT(/T3,'CALIBRATION RATIOS USED FOR THIS RUN:',
      &  /T42,'HT/DBH    HTCB    DIAM',
@@ -228,6 +238,7 @@ C----------
      &  /T30,'RED ALDER:',3F8.2,
      &  /T24,'PACIFIC DOGWOOD:',3F8.2,
      &  /T25,'WILLOW SPECIES:',3F8.2)
+C
       END SELECT
 C----------
 C  VOLUME SPECIFICATIONS

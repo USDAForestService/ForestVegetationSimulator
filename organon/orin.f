@@ -36,7 +36,7 @@ C
       CHARACTER*8  TABLE(KWCNT)
       CHARACTER*8  KEYWRD
       CHARACTER*10 KARD(7)
-      CHARACTER    VVER*7,FNAME*80
+      CHARACTER    FNAME*80
       INTEGER      KODE,IPRMPT,NUMBER
       INTEGER      ORGINP
 C
@@ -57,7 +57,6 @@ C
 C----------
 C     **********          EXECUTION BEGINS          **********
 C----------
-      CALL VARVER(VVER)
 C
  10   CONTINUE
 C----------
@@ -131,7 +130,9 @@ C  1 OR 2 DEPENDING ON VARIANT IN **SITSET** IF IT ISN'T SET HERE
 C
       IF (LNOTBK(1)) THEN 
         IMODTY = IFIX(ARRAY(1))
-        SELECT CASE (VVER(:2))
+C
+        SELECT CASE (VARACD)
+C
           CASE ('OC')
             IF(IMODTY .NE. 1) THEN
               IF(LKECHO ) WRITE(JOSTND,202) KEYWRD
@@ -139,6 +140,7 @@ C
      &        )
               IMODTY = 1
             ENDIF
+C
           CASE DEFAULT
             IF((IMODTY .LT. 2) .OR. (IMODTY .GT. 3)) THEN
               IF(LKECHO ) WRITE(JOSTND,204) KEYWRD
@@ -146,6 +148,7 @@ C
      &        )
               IMODTY = 2
             ENDIF
+C
         END SELECT
       ENDIF
 C
@@ -300,7 +303,7 @@ C
   404   FORMAT(/A8,'   FILE NAME = ',A80)
       ENDIF
 C
-      CALL ORG_INTREE(ORGINP,LKECHO,VVER)
+      CALL ORG_INTREE(ORGINP,LKECHO)
 C
       BAF = -1.0
       BRK = 0.0

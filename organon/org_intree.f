@@ -1,4 +1,4 @@
-      SUBROUTINE ORG_INTREE (ORGINP,LKECHO,VER)
+      SUBROUTINE ORG_INTREE (ORGINP,LKECHO)
       IMPLICIT NONE
 C----------
 C ORGANON $Id: org_intree.f 0000 2018-02-14 00:00:00Z gedixon $
@@ -39,7 +39,7 @@ C
 C
 COMMONS
 C----------
-      CHARACTER TITLE*20,EVEN,RAD,TYPE(5),VER*7
+      CHARACTER TITLE*20,EVEN,RAD,TYPE(5)
       INTEGER  ORGINP,ONPTS,NTREES,OSTAGE,OBHAGE,MAJOR,MINOR,MEXP,NEST,
      &         OVER,EDITION,FTYPE(5),OSPP,OSPGP,OUSER,OPOINT,
      &         KG
@@ -108,23 +108,28 @@ C
      &OBHAGE,MAJOR,MINOR,MEXP,NEST,OVER,EDITION,OMSDI_1,OMSDI_2,
      &OMSDI_3,OPDEN
   404 FORMAT(A20,2I4,2F5.1,2A1,2I3,3I4,3I1,19X,3F5.0,F6.0)    
-      SELECT CASE (VER)
-      CASE ('OC')
-        SITEAR(7) = SITE1       ! DOUGLAS-FIR SITE INDEX
-        SITEAR(18) = SITE2      ! PONDEROSA PINE SITE INDEX
-        IF(OMSDI_1 .GT. 0.) SDIDEF( 7) = OMSDI_1     !DF MAX SDI
-        IF(OMSDI_2 .GT. 0.) SDIDEF(18) = OMSDI_2     !PP MAX SDI
-        IF(OMSDI_3 .GT. 0.) SDIDEF( 4) = OMSDI_3     !GF MAX SDI
-      CASE ('OP')
-        SITEAR(16) = SITE1      ! DOUGLAS-FIR SITE INDEX
-        SITEAR(19) = SITE2      ! WESTERN HEMLOCK SITE INDEX
-        IF(OMSDI_1 .GT. 0.) SDIDEF(16) = OMSDI_1     !DF MAX SDI
-        IF(OMSDI_2 .GT. 0.) SDIDEF(15) = OMSDI_2     !PP MAX SDI
-        IF(OMSDI_3 .GT. 0.) THEN
-          SDIDEF( 2) = OMSDI_3     !WF MAX SDI
-          SDIDEF( 3) = OMSDI_3     !GF MAX SDI
-        ENDIF
+C
+      SELECT CASE (VARACD)
+C
+        CASE ('OC')
+          SITEAR(7) = SITE1                          ! DOUGLAS-FIR SITE INDEX
+          SITEAR(18) = SITE2                         ! PONDEROSA PINE SITE INDEX
+          IF(OMSDI_1 .GT. 0.) SDIDEF( 7) = OMSDI_1   !DF MAX SDI
+          IF(OMSDI_2 .GT. 0.) SDIDEF(18) = OMSDI_2   !PP MAX SDI
+          IF(OMSDI_3 .GT. 0.) SDIDEF( 4) = OMSDI_3   !GF MAX SDI
+C
+        CASE ('OP')
+          SITEAR(16) = SITE1                         ! DOUGLAS-FIR SITE INDEX
+          SITEAR(19) = SITE2                         ! WESTERN HEMLOCK SITE INDEX
+          IF(OMSDI_1 .GT. 0.) SDIDEF(16) = OMSDI_1   !DF MAX SDI
+          IF(OMSDI_2 .GT. 0.) SDIDEF(15) = OMSDI_2   !PP MAX SDI
+          IF(OMSDI_3 .GT. 0.) THEN
+            SDIDEF( 2) = OMSDI_3     !WF MAX SDI
+            SDIDEF( 3) = OMSDI_3     !GF MAX SDI
+          ENDIF
+C
       END SELECT
+C
       IF(EVEN .EQ. 'F')INDS(4) = 0    !DEFAULT IS 1=.TRUE. IN GRINIT
       IF(RAD  .EQ. 'F')INDS(3) = 0    !DEFAULT IS 1=.TRUE. IN GRINIT
       IF(OSTAGE .GT. 0.)IAGE = OSTAGE
