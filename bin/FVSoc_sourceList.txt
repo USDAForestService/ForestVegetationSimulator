@@ -352,6 +352,10 @@
 ../dbs/mkdbsTypeDefs.c
 ../dbs/uuidgen.f
 
+../vorganon/org_intree.f
+../vorganon/orgtab.f
+../vorganon/orin.f
+
 ../organon/crngrow.f
 ../organon/diagro.f
 ../organon/diamcal.f
@@ -361,11 +365,8 @@
 ../organon/growth_mods.f
 ../organon/htgrowth.f
 ../organon/mortality.f
-../organon/org_intree.f
-../organon/orgtab.f
 ../organon/orgtrip.f
 ../organon/orgvol.f
-../organon/orin.f
 ../organon/prepare.f
 ../organon/start2.f
 ../organon/statsorg.f
