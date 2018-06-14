@@ -1,7 +1,7 @@
       SUBROUTINE R6CRWD(ISPC,D,H,CRWDTH)
       IMPLICIT NONE
 C----------
-C  **R6CRWD--SO   DATE OF LAST REVISION:  06/16/15
+C SO $Id: r6crwd.f 0000 2018-06-14 00:00:00Z gedixon $
 C----------
 C  THIS ROUTINE COMPUTES CROWN WIDTH FOR INDIVIDUAL TREES.
 C  CALLED FROM CCFCAL IN ALL REGION 6 VARIANTS, AND FOR THE
@@ -75,7 +75,16 @@ C  28 = PAPER BIRCH                     BETULA PAPYRIFERA
 C  29 = QUAKING ASPEN                   POPULUS TREMULOIDES
 C  30 = OREGON WHITE OAK                QUERCUS GARRYANA
 C----------
-      CHARACTER VVER*7
+COMMONS
+C
+C
+      INCLUDE 'PRGPRM.F77'
+C
+C
+      INCLUDE 'CONTRL.F77'
+C
+COMMONS
+C----------
       REAL BG1(30),BG2(30),SM(30),CRWDTH,H,D
       INTEGER ISPC,INDX
       INTEGER MAPSO(33),MAPEC(32),MAPBM(18),MAPNC(11),MAPWC(39),
@@ -249,32 +258,45 @@ C----------
 C----------
 C ASSIGN THE APPROPRIATE EQUATION NUMBER BASED ON THE VARIANT.
 C----------
-      CALL VARVER(VVER)
-      IF (VVER(:2).EQ.'SO') THEN
-        INDX=MAPSO(ISPC)
-      ELSEIF (VVER(:2).EQ.'EC') THEN
-        INDX=MAPEC(ISPC)
-      ELSEIF (VVER(:2).EQ.'BM') THEN
-        INDX=MAPBM(ISPC)
-      ELSEIF (VVER(:2).EQ.'IE') THEN
-        INDX=MAPIE(ISPC)
-      ELSEIF (VVER(:2).EQ.'NC') THEN
-        INDX=MAPNC(ISPC)
-      ELSEIF (VVER(:2).EQ.'WC' .OR. VVER(:2).EQ.'PN') THEN
-        INDX=MAPWC(ISPC)
-      ELSEIF (VVER(:2).EQ.'NI' .OR. VVER(:2).EQ.'KT') THEN
-        INDX=MAPNI(ISPC)
-      ELSEIF (VVER(:2).EQ.'CA') THEN
-        INDX=MAPCA(ISPC)
-      ELSEIF (VVER(:2).EQ.'AK') THEN
-        INDX=MAPAK(ISPC)
-      ELSEIF (VVER(:2).EQ.'OC') THEN
-        INDX=MAPOC(ISPC)
-      ELSEIF (VVER(:2).EQ.'OP') THEN
-        INDX=MAPOP(ISPC)
-      ELSE
-        INDX=99
-      ENDIF
+      SELECT CASE (VARACD)
+C
+        CASE ('AK')
+          INDX=MAPAK(ISPC)
+C
+        CASE ('BM')
+          INDX=MAPBM(ISPC)
+C
+        CASE ('CA')
+          INDX=MAPCA(ISPC)
+C
+        CASE ('EC')
+          INDX=MAPEC(ISPC)
+C
+        CASE ('IE')
+          INDX=MAPIE(ISPC)
+C
+        CASE ('KT')
+          INDX=MAPNI(ISPC)
+C
+        CASE ('NC')
+          INDX=MAPNC(ISPC)
+C
+        CASE ('OC')
+          INDX=MAPOC(ISPC)
+C
+        CASE ('OP')
+          INDX=MAPOP(ISPC)
+C
+        CASE ('SO')
+          INDX=MAPSO(ISPC)
+C
+        CASE ('WC','PN')
+          INDX=MAPWC(ISPC)
+C
+        CASE DEFAULT
+          INDX=99
+C
+      END SELECT
 C----------
 C COMPUTE CROWN WIDTH
 C----------
