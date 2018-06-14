@@ -26,7 +26,6 @@ C
 C
 COMMONS
 C
-      CHARACTER VVER*7
       CHARACTER*(*)SPCIN
       INTEGER MAXASPT, ISPC1, I, J, J2, IJSPIN
       PARAMETER (MAXASPT=466)
@@ -35,6 +34,8 @@ C
       CHARACTER VAR*2
 C----------
 C  DATA STATEMENT
+C  NOTE: COLUMN 7 WAS FOR THE OBSOLETE SE VARIANT; THIS COLUMN 
+C  CAN BE REUSED FOR ANOTHER EASTERN VARIANT IF THERE IS ONE.
 C----------
 C
       DATA ((ASPT(I,J),J=1,8),I=1,10) /
@@ -647,8 +648,7 @@ C
 C----------
 C  INITIALIZATIONS
 C----------
-      CALL VARVER(VVER)
-      VAR=VVER(:2)
+      VAR=VARACD
       IJSPIN=3
       ISPC1= 0
       SPCOUT= 'XX '
@@ -659,48 +659,63 @@ C----------
       DO 100 I= 1,MAXASPT
       IF (SPCIN .EQ. ASPT(I,1)) THEN
         IJSPIN=1
+C
         SELECT CASE (VAR)
+C
           CASE('CS')
             SPCOUT= ASPT(I,4)(1:3)
+C
           CASE('LS')
             SPCOUT= ASPT(I,5)(1:3)
+C
           CASE('NE')
             SPCOUT= ASPT(I,6)(1:3)
-          CASE('SE')
-            SPCOUT= ASPT(I,7)(1:3)
+C
           CASE('SN')
             SPCOUT= ASPT(I,8)(1:3)
+C
         END SELECT 
+C
         GO TO 150        
       ELSEIF (SPCIN .EQ. ASPT(I,2)) THEN
         IJSPIN=2
+C
         SELECT CASE (VAR)
+C
           CASE('CS')
             SPCOUT= ASPT(I,4)(1:3)
+C
           CASE('LS')
             SPCOUT= ASPT(I,5)(1:3)
+C
           CASE('NE')
             SPCOUT= ASPT(I,6)(1:3)
-          CASE('SE')
-            SPCOUT= ASPT(I,7)(1:3)
+C
           CASE('SN')
             SPCOUT= ASPT(I,8)(1:3)
+C
         END SELECT
+C
         GO TO 150   
       ELSEIF (SPCIN .EQ. ASPT(I,3)) THEN
         IJSPIN=3
+C
         SELECT CASE (VAR)
+C
           CASE('CS')
             SPCOUT= ASPT(I,4)(1:3)
+C
           CASE('LS')
             SPCOUT= ASPT(I,5)(1:3)
+C
           CASE('NE')
             SPCOUT= ASPT(I,6)(1:3)
-          CASE('SE')
-            SPCOUT= ASPT(I,7)(1:3)
+C
           CASE('SN')
             SPCOUT= ASPT(I,8)(1:3)
+C
         END SELECT
+C
         GO TO 150   
       ENDIF      
   100 CONTINUE 
@@ -715,7 +730,6 @@ C----------
         IF(VAR.EQ.'CS') ISPC1=85
         IF(VAR.EQ.'LS') ISPC1=49
         IF(VAR.EQ.'NE') ISPC1=98
-        IF(VAR.EQ.'SE') ISPC1=118
         IF(VAR.EQ.'SN') ISPC1=90
         GO to 300
       ENDIF

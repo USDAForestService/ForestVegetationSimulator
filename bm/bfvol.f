@@ -118,8 +118,6 @@ C
 C
 C
 C--------------------------------------------------
-C  THIS SECTION OF CODE ONLY APPLIES TO CERTAIN VARIANTS.
-C
       VT=0.0
 C
 C  BYPASS ALLEN EQUATIONS FOR METHB = 2 OR 7 (USER DEFINED).
