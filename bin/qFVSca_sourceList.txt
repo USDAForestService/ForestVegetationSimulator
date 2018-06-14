@@ -89,7 +89,7 @@
 ../ie/vols.f
 ../kt/maical.f
 ../so/avht40.f
-../so/r6crwd.f
+../vso/r6crwd.f
 ../wc/bfvol.f
 ../wc/logs.f
 ../ws/exppnb.f

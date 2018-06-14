@@ -70,10 +70,6 @@
 ../ne/twigcf.f
 ../ne/varmrt.f
 
-../vls/morts.f
-../vls/spctrn.f
-../vls/vols.f
-
 ../ak/habtyp.f
 ../ie/cftopk.f
 ../ie/dgbnd.f
@@ -96,6 +92,9 @@
 ../ls/sumhed.f
 ../so/adjmai.f
 ../so/avht40.f
+../vls/morts.f
+../vls/spctrn.f
+../vls/vols.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

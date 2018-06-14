@@ -77,7 +77,6 @@
 ../so/maical.f
 ../so/morts.f
 ../so/pvref6.f
-../so/r6crwd.f
 ../so/regent.f
 ../so/scomrt.f
 ../so/sichg.f
@@ -94,6 +93,7 @@
 ../ie/spctrn.f
 ../ie/vols.f
 ../ut/dgfasp.f
+../vso/r6crwd.f
 ../ws/pvref5.f
 ../ws/r5crwd.f
 

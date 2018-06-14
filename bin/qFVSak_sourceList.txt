@@ -86,7 +86,7 @@
 ../pn/htdbh.f
 ../so/adjmai.f
 ../so/avht40.f
-../so/r6crwd.f
+../vso/r6crwd.f
 ../ws/exppnb.f
 ../ws/r5crwd.f
 

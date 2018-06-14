@@ -84,7 +84,7 @@
 ../pn/pvref6.f
 ../pn/sichg.f
 ../so/avht40.f
-../so/r6crwd.f
+../vso/r6crwd.f
 ../wc/bfvol.f
 ../wc/cubrds.f
 ../wc/dgbnd.f

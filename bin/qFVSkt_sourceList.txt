@@ -87,7 +87,7 @@
 ../ie/rcon.f
 ../ie/spctrn.f
 ../ie/vols.f
-../so/r6crwd.f
+../vso/r6crwd.f
 ../ws/r5crwd.f
 
 ../vbase/cuts.f

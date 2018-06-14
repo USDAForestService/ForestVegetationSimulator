@@ -69,10 +69,6 @@
 ../cs/twigcf.f
 ../cs/varmrt.f
 
-../vls/morts.f
-../vls/spctrn.f
-../vls/vols.f
-
 ../ak/habtyp.f
 ../ie/cftopk.f
 ../ie/dgbnd.f
@@ -94,6 +90,9 @@
 ../nc/logs.f
 ../so/adjmai.f
 ../so/avht40.f
+../vls/morts.f
+../vls/spctrn.f
+../vls/vols.f
 ../ws/exppnb.f
 
 ../vbase/cuts.f

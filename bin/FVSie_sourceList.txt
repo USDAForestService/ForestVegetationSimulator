@@ -86,8 +86,8 @@
 
 ../cr/badist.f
 ../so/adjmai.f
-../so/r6crwd.f
 ../ut/dgfasp.f
+../vso/r6crwd.f
 ../ws/r5crwd.f
 
 ../vbase/cuts.f

@@ -73,9 +73,6 @@
 ../sn/varput.f
 ../so/avht40.f
 
-../vls/spctrn.f
-../vls/vols.f
-
 ../ie/cftopk.f
 ../ie/cutstk.f
 ../ie/dunn.f
@@ -88,6 +85,8 @@
 ../ls/prtrls.f
 ../ls/sumhed.f
 ../nc/logs.f
+../vls/spctrn.f
+../vls/vols.f
 ../ws/exppnb.f
 
 ../vbase/cuts.f

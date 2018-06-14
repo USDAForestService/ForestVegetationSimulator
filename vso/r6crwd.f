@@ -87,7 +87,7 @@ COMMONS
 C----------
       REAL BG1(30),BG2(30),SM(30),CRWDTH,H,D
       INTEGER ISPC,INDX
-      INTEGER MAPSO(33),MAPEC(32),MAPBM(18),MAPNC(11),MAPWC(39),
+      INTEGER MAPSO(33),MAPEC(32),MAPNC(11),MAPWC(39),
      &        MAPNI(11),MAPCA(49),MAPIE(23),MAPAK(13),MAPOC(49),
      &        MAPOP(39)
 C
@@ -138,19 +138,6 @@ C
      & 14, 11, 16, 17,  7,  3, 12, 10, 19, 26,
      & 26, 27, 28, 30, 30, 29, 26, 30, 16, 16,
      & 11, 29/
-C----------
-C MAPPING FUNCTION FOR SPECIES IN THE --BM-- VARIANT
-C  1=WP,  2=WL,  3=DF,  4=GF,  5=MH,  6=WJ,  7=LP,  8=ES,  9=AF, 10=PP,
-C 11=WB, 12=LM, 13=PY, 14=YC, 15=AS, 16=CW, 17=OS, 18=OH
-C
-C SURROGATES:
-C   OS USES THE PONDEROSA PINE EQN
-C   WJ AND LM USE THE LODGEPOLE PINE EQN
-C   CW AND OH USE THE BIG LEAF MAPLE EQN
-C
-      DATA MAPBM/
-     & 22, 13,  1,  4, 15, 19, 19, 24,  5, 23,
-     & 17, 19, 16, 10, 29, 26, 23, 26/
 C----------
 C MAPPING FUNCTION FOR SPECIES IN THE --IE-- VARIANT
 C  1=WP, 2=L , 3=DF, 4=GF, 5=WH, 6=C , 7=LP, 8=S , 9=AF, 10=PP, 11=OT,
@@ -262,9 +249,6 @@ C----------
 C
         CASE ('AK')
           INDX=MAPAK(ISPC)
-C
-        CASE ('BM')
-          INDX=MAPBM(ISPC)
 C
         CASE ('CA')
           INDX=MAPCA(ISPC)
