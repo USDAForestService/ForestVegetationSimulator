@@ -68,6 +68,10 @@
 ../cs/twigcf.f
 ../cs/varmrt.f
 
+../vls/morts.f
+../vls/spctrn.f
+../vls/vols.f
+
 ../ak/habtyp.f
 ../ie/cftopk.f
 ../ie/dgbnd.f
@@ -82,13 +86,10 @@
 ../ls/gheads.f
 ../ls/gvrvol.f
 ../ls/htcalc.f
-../ls/morts.f
 ../ls/prtexm.f
 ../ls/prtrls.f
 ../ls/ptbal.f
-../ls/spctrn.f
 ../ls/sumhed.f
-../ls/vols.f
 ../nc/logs.f
 ../so/adjmai.f
 ../so/avht40.f

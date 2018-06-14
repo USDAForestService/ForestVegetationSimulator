@@ -72,7 +72,6 @@
 ../ls/htcalc.f
 ../ls/htdbh.f
 ../ls/htgf.f
-../ls/morts.f
 ../ls/nbolt.f
 ../ls/prtexm.f
 ../ls/prtrls.f
@@ -80,12 +79,14 @@
 ../ls/pvref9.f
 ../ls/regent.f
 ../ls/sitset.f
-../ls/spctrn.f
 ../ls/sumhed.f
 ../ls/twigbf.f
 ../ls/twigcf.f
 ../ls/varmrt.f
-../ls/vols.f
+
+../vls/morts.f
+../vls/spctrn.f
+../vls/vols.f
 
 ../ie/cftopk.f
 ../ie/dgbnd.f
