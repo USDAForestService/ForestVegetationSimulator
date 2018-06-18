@@ -428,11 +428,11 @@
 ../metric/dbs/dbsfuels.f
 ../metric/dbs/dbstrls.f
 ../metric/fire/base/fmdout.f
-../metric/fire/base/fmfout.f
 ../metric/fire/base/fmin.f
-../metric/fire/base/fmpofl.f
 ../metric/fire/base/fmsout.f
 ../metric/fire/base/fmssum.f
+../metric/fire/vbase/fmfout.f
+../metric/fire/vbase/fmpofl.f
 ../metric/ls/gheads.f
 ../metric/ls/prtrls.f
 ../metric/so/avht40.f
