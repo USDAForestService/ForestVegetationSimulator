@@ -80,7 +80,6 @@ C----------
 C----------
 C  LOCAL VARIABLE DECLARATIONS:
 C----------
-      CHARACTER VVER*7
       INTEGER  FMD, ICT, USCT, SIFM, IS, II
       INTEGER  IYR,I,J,J2,I1,I2
       INTEGER  IPTR(ICLSS), ITYP(ICLSS)
@@ -194,11 +193,11 @@ C----------
         USBA(I) = 0.
       ENDDO
 C
-      CALL VARVER(VVER)
+      SELECT CASE (VARACD)
 C----------
 C  TETONS VARIANT
 C----------
-      IF (VVER(1:2) .EQ. 'TT') THEN
+        CASE ('TT')
         DO I = 1,ITRN
           X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542
           LUNDER = HT(I) .LE. USHT
@@ -234,7 +233,7 @@ C
 C----------
 C  UTAH VARIANT
 C----------
-      ELSEIF (VVER(1:2) .EQ. 'UT') THEN
+        CASE ('UT')
         DO I = 1,ITRN
           X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542
           LUNDER = HT(I) .LE. USHT
@@ -274,7 +273,7 @@ C
 C----------
 C  CENTRAL ROCKIES (CR) VARIANT
 C----------
-      ELSE                       
+        CASE ('CR')
         DO I = 1,ITRN
           X = FMPROB(I) * DBH(I) * DBH(I) * 0.0054542
           LUNDER = HT(I) .LE. USHT
@@ -315,7 +314,10 @@ C
 C
           END SELECT
         ENDDO
-      ENDIF
+C
+        CASE DEFAULT
+C
+      END SELECT  
 C----------
 C  2 - FIND COVER TYPE METAGROUP *ICT* - FIRST LOOK FOR >50% OF
 C      BASAL AREA IN METAGROUP; FAILING THAT ASSIGN AS MIXED
@@ -376,7 +378,7 @@ C      FOR THE CR VARIANT (VALIDATION WORKSHOP OCT. 04).
 C
 C  UTAH AND TETONS VARIANTS
 C----------
-      IF ((VVER(1:2) .EQ. 'UT') .OR. (VVER(1:2) .EQ. 'TT')) THEN
+      IF ((VARACD .EQ. 'UT') .OR. (VARACD .EQ. 'TT')) THEN
         CALL FMSSTAGE(TPAMIN,CCMIN,PCTSMX,SAWDBH,SSDBH,GAPPCT,IFMST,X3,
      &                FMPROB,FMICR)
 C----------
@@ -413,8 +415,8 @@ C----------
           EQWT(8) = 1.0
         ELSE
           IS = MAXSP
-          IF (VVER(1:2) .EQ. 'UT') IS = 13
-          IF ((VVER(1:2).NE.'UT') .AND. (VVER(1:2).NE.'TT')) IS = 23
+          IF (VARACD .EQ. 'UT') IS = 13
+          IF ((VARACD.NE.'UT') .AND. (VARACD.NE.'TT')) IS = 23
           IF (CTBA(OBCT) .EQ. 0) THEN
             EQWT(5) = 1.0
           ELSE
@@ -426,7 +428,7 @@ C----------
 C----------
 C  UTAH VARIANT
 C----------
-            IF(VVER(1:2) .EQ. 'UT') THEN
+            IF(VARACD .EQ. 'UT') THEN
               IS=13
               IF (ISCT(IS,1) .GT. 0) THEN
                 DO J=ISCT(IS,1), ISCT(IS,2)
@@ -438,7 +440,7 @@ C----------
 C----------
 C  CENTRAL ROCKIES VARIANT
 C----------
-            ELSEIF(VVER(1:2) .EQ. 'CR') THEN
+            ELSEIF(VARACD .EQ. 'CR') THEN
               DO 59 J=1,MAXSP
               I1=ISCT(J,1)
               IF(I1 .EQ. 0) GO TO 59
@@ -525,7 +527,7 @@ C----------
 C----------
 C  CENTRAL ROCKIES VARIANT
 C----------
-        IF ((VVER(1:2).NE.'TT') .AND. (VVER(1:2).NE.'UT')) THEN
+        IF ((VARACD.NE.'TT') .AND. (VARACD.NE.'UT')) THEN
           IF (PERCOV .LE. 25) THEN
             EQWT(2) = 1.0
           ELSEIF (PERCOV .LE. 35) THEN
@@ -627,8 +629,8 @@ C----------
                 EQWT(6) = 1.0
               ENDIF
             ELSE
-              IF ((VVER(1:2) .EQ. 'UT') .OR.
-     &            (VVER(1:2) .EQ. 'TT')) THEN
+              IF ((VARACD .EQ. 'UT') .OR.
+     &            (VARACD .EQ. 'TT')) THEN
                  EQWT(8) = 1.0
                ELSE
                 EQWT(5) = 1.0
@@ -694,7 +696,7 @@ C----------
 C----------
 C  CENTRAL ROCKIES VARIANT
 C----------
-        IF ((VVER(1:2).NE.'TT') .AND. (VVER(1:2).NE.'UT')) THEN
+        IF ((VARACD.NE.'TT') .AND. (VARACD.NE.'UT')) THEN
 C
           SELECT CASE (IFMST)
 C
@@ -741,7 +743,7 @@ C----------
 C----------
 C  CENTRAL ROCKIES VARIANT
 C----------
-        IF ((VVER(1:2) .NE. 'TT') .AND. (VVER(1:2) .NE. 'UT')) THEN
+        IF ((VARACD .NE. 'TT') .AND. (VARACD .NE. 'UT')) THEN
 C
           SELECT CASE (IFMST)
 C
@@ -798,7 +800,7 @@ C----------
 C----------
 C  DETERMINE IF PP IS HIGHEST RANK SPECIES WRT BA.
 C----------
-        IF (VVER(1:2) .EQ. 'TT') THEN
+        IF (VARACD .EQ. 'TT') THEN
           LPPDOM = .TRUE.
           J = 10
           DO I = 1, MAXSP
@@ -808,7 +810,7 @@ C----------
           ENDDO
         ELSE
           LPPDOM = .TRUE.
-          IF (VVER(1:2) .EQ. 'UT') THEN
+          IF (VARACD .EQ. 'UT') THEN
             J = 10
           ELSE
             J = 13
@@ -822,7 +824,7 @@ C----------
 C----------
 C  CENTRAL ROCKIES VARIANT
 C----------
-        IF ((VVER(1:2).NE.'TT') .AND. (VVER(1:2).NE.'UT')) THEN
+        IF ((VARACD.NE.'TT') .AND. (VARACD.NE.'UT')) THEN
           IF (LPPDOM) THEN
             EQWT(9) = 1.0
           ELSE
@@ -875,7 +877,7 @@ C  WHITE FIR IS NOT A VALID SPECIES IN TT VARIANT
 C----------
           LWFOK = .FALSE.
           PSUM = 0.0
-          IF (VVER(1:2).EQ.'UT' .AND. ISCT(4,1).GT.0) THEN
+          IF (VARACD.EQ.'UT' .AND. ISCT(4,1).GT.0) THEN
             DO J=ISCT(4,1), ISCT(4,2)
               PSUM = PSUM + FMPROB(IND1(J))
             ENDDO
@@ -902,7 +904,7 @@ C
                 ENDIF
               ENDIF
             ELSE  ! < 1000
-              IF ((VVER(1:2) .EQ. 'UT') .AND.
+              IF ((VARACD .EQ. 'UT') .AND.
      &           (CTBA(PJCT) .GT. 0.0) .AND.
      &           ((CTBA(SFCT) .GT. 0.0) .OR. LWFOK)) THEN
                 IF (LDRY) THEN
@@ -934,8 +936,8 @@ C  ASPEN COVER TYPE
 C----------
       CASE(ASCT)
         IF ((CTBA(ASCT)/MAX(1.0E-3,STNDBA)) .GT. 0.80) THEN
-          IF ((VVER(1:2) .NE. 'UT') .AND.
-     &        (VVER(1:2) .NE. 'TT') .AND. (IMODTY .EQ. 1)) THEN
+          IF ((VARACD .NE. 'UT') .AND.
+     &        (VARACD .NE. 'TT') .AND. (IMODTY .EQ. 1)) THEN
             EQWT(2) = 1.0
           ELSE
             EQWT(5) = 1.0
@@ -943,7 +945,7 @@ C----------
 C
         ELSEIF (LCUNDR) THEN
           J = 0
-          IF (VVER(1:2) .EQ. 'UT') THEN
+          IF (VARACD .EQ. 'UT') THEN
             DO I = 1,ITRN
 C
               SELECT CASE (ISP(I))
@@ -963,7 +965,7 @@ C
 C----------
 C  TETONS VARIANT
 C----------
-          ELSE IF (VVER(1:2) .EQ. 'TT') THEN
+          ELSE IF (VARACD .EQ. 'TT') THEN
             DO I = 1,ITRN
 C
               SELECT CASE (ISP(I))

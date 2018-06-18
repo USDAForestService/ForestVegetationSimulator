@@ -74,7 +74,6 @@ C
 C
 COMMONS
 C
-      CHARACTER*7 VVER
       INTEGER ISWTCH, IYR, KSP
       LOGICAL LDFSP
       REAL    BASE, D, DENTTL, DFALLN, DZERO, FALLM2, ORIGDEN,
@@ -88,18 +87,23 @@ C----------
 C
 C     See if species is douglas-fir or spruce - special rules
 C
-      CALL VARVER(VVER)
       LDFSP = .FALSE.
-      IF (VVER(1:2) .EQ. 'UT') THEN
-        IF ((KSP .EQ. 3) .OR. (KSP .EQ. 5) .OR. (KSP .EQ. 8))
+C
+      SELECT CASE (VARACD)
+C
+        CASE ('UT')
+          IF ((KSP .EQ. 3) .OR. (KSP .EQ. 5) .OR. (KSP .EQ. 8))
      &    LDFSP = .TRUE.
-      ELSE IF (VVER(1:2) .EQ. 'TT') THEN
-        IF ((KSP .EQ. 3) .OR. (KSP .EQ. 8))
+C
+        CASE ('TT')
+          IF ((KSP .EQ. 3) .OR. (KSP .EQ. 8))
      &    LDFSP = .TRUE.
-      ELSE
-        IF ((KSP .EQ. 3) .OR. ((KSP .GE. 17) .AND. (KSP .LE. 19)))
+C
+        CASE DEFAULT
+          IF ((KSP .EQ. 3) .OR. ((KSP .GE. 17) .AND. (KSP .LE. 19)))
      &    LDFSP = .TRUE.
-      ENDIF
+C
+      END SELECT
 
 C     In the first year after a fire, some work is required to determine
 C     what fall rates to use in the coming years.  First, calculate
