@@ -525,15 +525,24 @@
 ../fire/ie/fmsfall.f
 ../fire/ie/fmcfmd.f
 
+../fire/vbase/fmburn.f
+../fire/vbase/fmcfmd2.f
+../fire/vbase/fmeff.f
+../fire/vbase/fmfout.f
+../fire/vbase/fmpocr.f
+../fire/vbase/fmpofl.f
+../fire/vbase/fmr6fall.f
+../fire/vbase/fmr6htls.f
+../fire/vbase/fmr6sdcy.f
+../fire/vbase/fmsnag.f
 ../fire/vbase/fmsngdk.f
 ../fire/vbase/fmsnght.f
+../fire/vbase/fmsoilheat.f
 
 ../fire/base/excfim.f
-../fire/base/fmburn.f
 ../fire/base/fmcadd.f
 ../fire/base/fmcbio.f
 ../fire/base/fmcfir.f
-../fire/base/fmcfmd2.f
 ../fire/base/fmchkfwt.f
 ../fire/base/fmchrvout.f
 ../fire/base/fmcmpr.f
@@ -542,10 +551,8 @@
 ../fire/base/fmcwd.f
 ../fire/base/fmdout.f
 ../fire/base/fmdyn.f
-../fire/base/fmeff.f
 ../fire/base/fmevmon.f
 ../fire/base/fmfint.f
-../fire/base/fmfout.f
 ../fire/base/fmgfmv.f
 ../fire/base/fmhide.f
 ../fire/base/fmin.f
@@ -555,19 +562,12 @@
 ../fire/base/fmoldc.f
 ../fire/base/fmphotocode.f
 ../fire/base/fmphotoval.f
-../fire/base/fmpocr.f
-../fire/base/fmpofl.f
 ../fire/base/fmprun.f
-../fire/base/fmr6fall.f
-../fire/base/fmr6htls.f
-../fire/base/fmr6sdcy.f
 ../fire/base/fmsadd.f
 ../fire/base/fmsalv.f
 ../fire/base/fmscro.f
 ../fire/base/fmscut.f
 ../fire/base/fmsdit.f
-../fire/base/fmsnag.f
-../fire/base/fmsoilheat.f
 ../fire/base/fmsout.f
 ../fire/base/fmssee.f
 ../fire/base/fmssum.f
