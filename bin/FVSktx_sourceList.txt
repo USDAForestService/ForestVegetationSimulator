@@ -89,7 +89,7 @@
 ../ie/spctrn.f
 ../ie/vols.f
 ../vso/r6crwd.f
-../ws/r5crwd.f
+../vws/r5crwd.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

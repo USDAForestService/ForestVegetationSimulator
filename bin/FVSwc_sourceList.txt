@@ -72,12 +72,10 @@
 ../wc/htdbh.f
 ../wc/htgf.f
 ../wc/logs.f
-../wc/morts.f
 ../wc/pvref6.f
 ../wc/regent.f
 ../wc/sichg.f
 ../wc/sitset.f
-../wc/smhgdg.f
 
 ../ie/cftopk.f
 ../ie/cfvol.f
@@ -91,7 +89,9 @@
 ../kt/maical.f
 ../so/avht40.f
 ../vso/r6crwd.f
-../ws/r5crwd.f
+../vwc/morts.f
+../vwc/smhgdg.f
+../vws/r5crwd.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

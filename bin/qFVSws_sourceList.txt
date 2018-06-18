@@ -73,7 +73,6 @@
 ../ws/logs.f
 ../ws/morts.f
 ../ws/pvref5.f
-../ws/r5crwd.f
 ../ws/regent.f
 ../ws/sichg.f
 ../ws/sitset.f
@@ -90,6 +89,7 @@
 ../ie/vols.f
 ../kt/maical.f
 ../so/avht40.f
+../vws/r5crwd.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

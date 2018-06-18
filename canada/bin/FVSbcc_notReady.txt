@@ -671,7 +671,7 @@
 ../strp/estime.f
 ../strp/estump.f
 ../volume/voleqdef.f
-../ws/r5crwd.f
+../vws/r5crwd.f
 ../wsbwe/bweadv.f
 ../wsbwe/bweage.f
 ../wsbwe/bwebet.f

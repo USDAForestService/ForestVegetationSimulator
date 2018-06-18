@@ -87,8 +87,8 @@
 ../so/adjmai.f
 ../so/avht40.f
 ../vso/r6crwd.f
+../vws/r5crwd.f
 ../ws/exppnb.f
-../ws/r5crwd.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

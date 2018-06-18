@@ -84,14 +84,14 @@
 ../pn/sichg.f
 ../so/avht40.f
 ../vso/r6crwd.f
+../vwc/smhgdg.f
+../vws/r5crwd.f
 ../wc/bfvol.f
 ../wc/cubrds.f
 ../wc/dgbnd.f
 ../wc/dubscr.f
 ../wc/findag.f
 ../wc/logs.f
-../wc/smhgdg.f
-../ws/r5crwd.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

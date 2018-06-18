@@ -94,8 +94,8 @@
 ../ut/fndag.f
 ../ut/habtyp.f
 ../ut/pvref4.f
+../vws/r5crwd.f
 ../ws/exppnb.f
-../ws/r5crwd.f
 
 ../vbase/cuts.f
 ../vbase/disply.f
