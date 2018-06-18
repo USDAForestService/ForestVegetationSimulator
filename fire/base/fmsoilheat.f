@@ -42,7 +42,7 @@ COMMONS
 C
       integer iyr
       logical lnmout
-      character fofem_msg(101), VVER*7
+      character fofem_msg(101)
       real fofem_input(32),fofem_output(30)
       integer fofem_rc
       logical debug
@@ -190,34 +190,39 @@ C     use duff moisture to determine the soil moisture and moisture code
       ! Season, 1-Spring, 2-Summer, 3-Fall, 4-Winter
       fofem_input ( 27 +1) = seasnum
 
-      CALL VARVER(VVER)
-      IF (VVER(1:2) .EQ. 'NE' .OR.
-     &    VVER(1:2) .EQ. 'LS' .OR.
-     &    VVER(1:2) .EQ. 'CS') THEN
-         regnum = 4
-      ELSEIF (VVER(1:2) .EQ. 'SN') THEN
-         regnum = 3
-      ELSEIF (VVER(1:2) .EQ. 'PN' .OR.
-     &        VVER(1:2) .EQ. 'WC' .OR.
-     &        VVER(1:2) .EQ. 'OP' .OR.
-     &        VVER(1:2) .EQ. 'NC') THEN
-         regnum = 2
-      ELSE
-         regnum = 1
-      ENDIF
+      SELECT CASE (VARACD)
+C
+        CASE ('CS','LS','NE')
+          regnum = 4
+C
+        CASE ('SN')
+          regnum = 3
+C
+        CASE ('NC','OP','PN','WC')
+          regnum = 2
+C
+        CASE DEFAULT
+          regnum = 1
+C
+      END SELECT
 
       ! Region, 1-InteriorWest, 2-Pacific, 3-SE, 4-NE
       fofem_input ( 28 +1) = regnum
       ! Fuel Category, 1-Natural, 2-Pile, 3-Slash
       fofem_input ( 29 +1) = 1
       
-      IF (VVER(1:2) .EQ. 'NE') THEN
-         covnum = 8
-      ELSEIF (VVER(1:2) .EQ. 'LS') THEN
-         covnum = 7
-      ELSE
-         covnum = 5
-      ENDIF
+      SELECT CASE (VARACD)
+C
+        CASE ('NE')
+          covnum = 8
+C
+        CASE ('LS')
+          covnum = 7
+C
+        CASE DEFAULT
+          covnum = 5
+C
+      END SELECT
 
       ! Cover Group:
       ! 0-None, 1-Grass, 2-Sage, 3-Shrub,  4-Pocosin,

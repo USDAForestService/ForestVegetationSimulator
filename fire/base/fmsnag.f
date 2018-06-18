@@ -60,7 +60,6 @@ C.... Common include files.
 
 C.... Variable declarations.
 
-      CHARACTER VVER*7
       INTEGER I, JSP, YR1, YEAR
       INTEGER IYR,NTODO,JDO,NPRM,IACTK,JYR
       REAL    DENTTL, DFIS, DFIH, DFALLN, DZERO, HTSNEW
@@ -105,20 +104,19 @@ C     initialized some snags.  These need to be added to the snag lists.
 C     Initialize variables.
 
       DZERO = NZERO / 50.0
-      CALL VARVER(VVER)
 
 C     Loop over all snag records that are in use.
 
       IF (NSNAG.LE.0) RETURN
 
-      IF (VVER(1:2) .EQ. 'PN' .OR.
-     &    VVER(1:2) .EQ. 'WC' .OR.
-     &    VVER(1:2) .EQ. 'OP' .OR.
-     &    VVER(1:2) .EQ. 'SO' .OR.
-     &    VVER(1:2) .EQ. 'BM' .OR.
-     &    VVER(1:2) .EQ. 'EC') THEN
+      SELECT CASE (VARACD)
+C
+        CASE ('BM','EC','OP','PN','SO','WC')
           CALL RANNGET(SAVESO)
-      ENDIF
+C
+        CASE DEFAULT
+C
+      END SELECT
 
       DO 100 I = 1, NSNAG
 
@@ -135,19 +133,22 @@ C       SEE IF SPECIES IS ASPEN OR COTTONWOOD OR PAPER BIRCH -
 C       SPECIAL RULES IN UT/TT/CR
 C
         LASCO = .FALSE.
-        IF (VVER(1:2) .EQ. 'UT') THEN
-          IF (JSP.EQ.6 .OR. JSP.EQ.18 .OR. JSP.EQ.19) LASCO = .TRUE.
-        ELSE IF (VVER(1:2) .EQ. 'TT') THEN
-          IF (JSP.EQ.6 .OR. JSP.EQ.15)   LASCO = .TRUE.
-        ELSE IF (VVER(1:2) .EQ. 'CR' .OR.
-     &        VVER(1:2) .EQ. 'SM' .OR.
-     &        VVER(1:2) .EQ. 'SP' .OR.
-     &        VVER(1:2) .EQ. 'BP' .OR.
-     &        VVER(1:2) .EQ. 'LP' .OR.     
-     &        VVER(1:2) .EQ. 'SF') THEN 
-          IF (JSP.EQ.20 .OR. JSP.EQ.21 .OR. JSP.EQ.22 .OR. JSP.EQ.28)
+
+        SELECT CASE (VARACD)
+C
+          CASE ('UT')
+            IF (JSP.EQ.6 .OR. JSP.EQ.18 .OR. JSP.EQ.19) LASCO = .TRUE.
+C
+          CASE ('TT')
+            IF (JSP.EQ.6 .OR. JSP.EQ.15)   LASCO = .TRUE.
+C
+          CASE ('CR')
+            IF (JSP.EQ.20 .OR. JSP.EQ.21 .OR. JSP.EQ.22 .OR. JSP.EQ.28)
      &        LASCO = .TRUE.
-        ENDIF
+C
+          CASE DEFAULT
+C
+        END SELECT
 
 C       Call FMSFALL to:
 C         1) Compute special fall rates if this after a fire.
@@ -238,12 +239,12 @@ C       had before adjustment for breakage during the preceding timestep.
 
         IF (DENIH(I) .GT. 0.0) THEN
           OLDHTH = HTIH(I)
-          CALL FMSNGHT(VVER,JSP,HTDEAD(I),HTIH(I),1,HTSNEW)
+          CALL FMSNGHT(VARACD,JSP,HTDEAD(I),HTIH(I),1,HTSNEW)
           HTIH(I) = HTSNEW
         ENDIF
         IF (DENIS(I) .GT. 0.0) THEN
           OLDHTS = HTIS(I)
-          CALL FMSNGHT(VVER,JSP,HTDEAD(I),HTIS(I),0,HTSNEW)
+          CALL FMSNGHT(VARACD,JSP,HTDEAD(I),HTIS(I),0,HTSNEW)
           HTIS(I) = HTSNEW
         ENDIF
 
@@ -253,24 +254,21 @@ C     If all the init-hard or init-soft snags in this record have zero
 C     height, set their density to zero.  Skip the rest of the loop if
 C     this means there are no snags of either type left in the record.
 
-        IF (VVER(1:2) .EQ. 'TT' .OR.
-     &      VVER(1:2) .EQ. 'UT' .OR.
-     &      VVER(1:2) .EQ. 'CR' .OR.
-     &      VVER(1:2) .EQ. 'LP' .OR.
-     &      VVER(1:2) .EQ. 'BP' .OR.
-     &      VVER(1:2) .EQ. 'SP' .OR.     
-     &      VVER(1:2) .EQ. 'SF' .OR.
-     &      VVER(1:2) .EQ. 'SM') THEN
-          IF ((DENIH(I) .GT. 0.0) .AND. (HTIH(I) .LT. 1.5)) 
+        SELECT CASE (VARACD)
+C
+          CASE ('CR','TT','UT')
+            IF ((DENIH(I) .GT. 0.0) .AND. (HTIH(I) .LT. 1.5)) 
      &      DENIH(I) = 0.0
-          IF ((DENIS(I) .GT. 0.0) .AND. (HTIS(I) .LT. 1.5))
+            IF ((DENIS(I) .GT. 0.0) .AND. (HTIS(I) .LT. 1.5))
      &      DENIS(I) = 0.0
-        ELSE
-          IF ((DENIH(I) .GT. 0.0) .AND. (HTIH(I) .LT. 1.0)) 
+C
+          CASE DEFAULT
+            IF ((DENIH(I) .GT. 0.0) .AND. (HTIH(I) .LT. 1.0)) 
      &      DENIH(I) = 0.0
-          IF ((DENIS(I) .GT. 0.0) .AND. (HTIS(I) .LT. 1.0))
+            IF ((DENIS(I) .GT. 0.0) .AND. (HTIS(I) .LT. 1.0))
      &      DENIS(I) = 0.0
-        ENDIF
+C
+        END SELECT
 
         IF ((DENIS(I) + DENIH(I)) .LE. 0.0) GOTO 100
 
@@ -278,20 +276,20 @@ C       Call FMSNGDK to predict years, since death, for snag to become
 C       soft. Update hard/soft status accordingly.
 
         IF ((DENIH(I) .GT. 0.0) .AND. (HARD(I))) THEN
-          CALL FMSNGDK(VVER,JSP,DBHS(I),DKTIME)
+          CALL FMSNGDK(VARACD,JSP,DBHS(I),DKTIME)
           IF ((IYR - YRDEAD(I)) .GE. DKTIME) HARD(I) = .FALSE.
         ENDIF
 
   100 CONTINUE
 
-      IF (VVER(1:2) .EQ. 'PN' .OR.
-     &    VVER(1:2) .EQ. 'WC' .OR.
-     &    VVER(1:2) .EQ. 'OP' .OR.
-     &    VVER(1:2) .EQ. 'SO' .OR.
-     &    VVER(1:2) .EQ. 'BM' .OR.
-     &    VVER(1:2) .EQ. 'EC') THEN
+      SELECT CASE (VARACD)
+C
+        CASE ('BM','EC','OP','PN','SO','WC')
           CALL RANNPUT(SAVESO)
-      ENDIF
+C
+        CASE DEFAULT
+C
+      END SELECT
 
       RETURN
       END

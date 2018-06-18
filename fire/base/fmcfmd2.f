@@ -60,7 +60,6 @@ C
 C
 C     LOCAL VARIABLE DECLARATIONS
 C
-      CHARACTER VVER*7
       INTEGER IYR,FMD,IFCFT, MYACT(1),NTODO,ITODO,NPRM,IACTK,JYR
       INTEGER I,J,K,L,IFM(MXDFMD), LFM(MXDFMD)
       REAL    LIVEFRAC, HERBFRAC, HERBRAT, LOWDI(MXDFMD), BOT, SUMWT
@@ -189,19 +188,15 @@ C     IFCFT:   FIRE CARRYING FUEL TYPE (1=GR, 2=GS, 3=SH/TU, 4=TL/SB)
 
 C     CALCULATE WHETHER YOU ARE IN AN ARID OR HUMID VARIANT
 
-      CALL VARVER(VVER)
-      IF (VVER(1:2) .EQ. 'AK' .OR.
-     &    VVER(1:2) .EQ. 'OP' .OR.
-     &    VVER(1:2) .EQ. 'PN' .OR.
-     &    VVER(1:2) .EQ. 'WC' .OR.
-     &    VVER(1:2) .EQ. 'NE' .OR.
-     &    VVER(1:2) .EQ. 'LS' .OR.
-     &    VVER(1:2) .EQ. 'CS' .OR.
-     &    VVER(1:2) .EQ. 'SN') THEN
-        LARID = .FALSE.
-      ELSE
-        LARID = .TRUE.
-      ENDIF
+      SELECT CASE (VARACD)
+C
+        CASE ('AK','CS','LS','NE','OP','PN','SN','WC')
+          LARID = .FALSE.
+C
+        CASE DEFAULT
+          LARID = .TRUE.
+C
+      END SELECT
 
 C     SET THE FUEL MODEL PICK LIST BASED ON ARID/HUMID AND FIRE CARRYING FUEL TYPE
 C     (GR, GS, SH/TU, OR TL/SB).  MAKE SURE THE RIGHT FUEL MODEL SET (13, 40, OR 53)
@@ -516,7 +511,6 @@ COMMONS: For use if turned into its own file.
 C----------
 C     VARIABLE DECLARATIONS: for use if turned into its own file
 C----------
-      CHARACTER VVER*7
       INTEGER   IFMD, FMD, I, J, K, L, INL, INDD
       REAL     XSUR(2,3),XFML(2,3), XDEP, XEXT
       LOGICAL  DEBUG,LOK
@@ -658,18 +652,13 @@ C  TT VARIANT ADDED TO THIS CR/UT LOGIC SINCE THE EXPANDED VARIANT MODELS
 C  TWO SPECIES OF JUNIPER. 06/03/10.
 C----------
       IF (IFLOGIC .EQ. 0) THEN
-        CALL VARVER(VVER)
         IF (.NOT.(
-     &    VVER(1:2) .EQ. 'UT' .OR.
-     &    VVER(1:2) .EQ. 'TT' .OR.
-     &    VVER(1:2) .EQ. 'SM' .OR.
-     &    VVER(1:2) .EQ. 'SP' .OR.
-     &    VVER(1:2) .EQ. 'BP' .OR.
-     &    VVER(1:2) .EQ. 'SF' .OR.
-     &    VVER(1:2) .EQ. 'LP' .OR.
-     &    VVER(1:2) .EQ. 'LS' .OR.
-     &    VVER(1:2) .EQ. 'CS' .OR.
-     &    VVER(1:2) .EQ. 'SN')) CALL FMCFMD (IYR, FMD)
+     &    VARACD .EQ. 'UT' .OR.
+     &    VARACD .EQ. 'TT' .OR.
+     &    VARACD .EQ. 'CR' .OR.
+     &    VARACD .EQ. 'LS' .OR.
+     &    VARACD .EQ. 'CS' .OR.
+     &    VARACD .EQ. 'SN')) CALL FMCFMD (IYR, FMD)
       ELSEIF (IFLOGIC .EQ. 1) THEN
         CALL FMCFMD2 (IYR, FMD)        
       ENDIF

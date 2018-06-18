@@ -36,7 +36,6 @@ C     COMMON INCLUDE FILES.
 
 C     VARIABLE DECLARATIONS.
 
-      CHARACTER VVER*7
       LOGICAL DEBUG, LBHPP
       INTEGER J,I,I1,I2,J1,J2,MXJ,IYR,K,ICALL
       REAL    CRBOT, CRFILL(400), ABOT, ABOTMX
@@ -81,13 +80,12 @@ C----------
      >      FMICR(I) .GT. 0 .AND.
      >      HT(I)    .GT. CANMHT) THEN
 
-          CALL VARVER(VVER)
           LBHPP = .FALSE.
-          SELECT CASE (VVER(1:2))
-          CASE ('SM','SP','BP','SF','LP','CR')
+          SELECT CASE (VARACD)
+          CASE ('CR')
             IF ((KODFOR .EQ. 203 .OR. KODFOR .EQ. 207) .AND. 
      &          (ISP(I) .EQ. 13)) LBHPP = .TRUE.                    
-          CASE ('NI','IE','EM','KT')
+          CASE ('IE','EM','KT')
             IF (ISP(I) .EQ. 10) LBHPP = .TRUE.                      
           END SELECT
         

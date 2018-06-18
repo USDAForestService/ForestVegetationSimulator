@@ -53,20 +53,15 @@ C----------
 C  Variable declarations.
 C----------
       LOGICAL DEBUG
-      CHARACTER VVER*7
       INTEGER KSP, SPG, I
       INTEGER WSSPEC(39),BMSPEC(18),ECSPEC(32), SOSPEC(33) 
       REAL    X, Y, SNHTLS(15), PRHTLS(15)
 C----------
-C  DETERMINE WHICH VARIANT IS BEING USED.
-C----------
-      CALL VARVER(VVER)
-C----------
 C  CHECK FOR DEBUG.
 C----------
       CALL DBCHK (DEBUG,'FMR6HTLS',8,ICYC)
-      IF (DEBUG) WRITE(JOSTND,7) ICYC, KSP, VVER(1:2)
-    7 FORMAT(' FMR6HTLS CYCLE=',I2,' KSP=',I5,' VVER=',A2)
+      IF (DEBUG) WRITE(JOSTND,7) ICYC, KSP, VARACD
+    7 FORMAT(' FMR6HTLS CYCLE=',I2,' KSP=',I5,' VARACD=',A2)
 C----------
 C  THESE ARE THE WESTSIDE (PN/WC) SPECIES GROUPS (1 - 15) TO USE FOR SNAG HEIGHT LOSS
 C----------
@@ -112,7 +107,7 @@ C----------
 C----------
 C  DETERMINE THE SPECIES GROUP. 
 C----------
-      SELECT CASE (VVER(1:2))
+      SELECT CASE (VARACD)
         CASE('EC')
           SPG = ECSPEC(KSP)      
         CASE('BM')

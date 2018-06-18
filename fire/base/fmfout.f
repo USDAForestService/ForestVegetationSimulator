@@ -62,7 +62,6 @@ C
       REAL     CLSKIL(MXSP1,MAXCL1), TOTCLS(MXSP1,MAXCL1),
      &         TOTBAK(MXSP1),TOTVOLK(MXSP1), BurnG12
 
-      CHARACTER VVER*7
       CHARACTER*(*) CFTMP
       CHARACTER*90 ALLINE
       INTEGER  WPOS1, WPOS2
@@ -346,7 +345,6 @@ C
 C
 C       WRITE HEADER IF REQUESTED.
 C
-        CALL VARVER(VVER)
         IF (IMRPAS .EQ. 1) THEN
           WRITE (JROUT,315) IDMRT, IDMRT
           WRITE (JROUT,316) IDMRT
@@ -354,8 +352,8 @@ C
           WRITE (JROUT,318) IDMRT
           WRITE (JROUT,44) IDMRT,NPLT,MGMID
           WRITE (JROUT,316) IDMRT
-          IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'LS') .OR.
-     &        (VVER(1:2) .EQ. 'NE') .OR. (VVER(1:2) .EQ. 'CS')) THEN
+          IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'LS') .OR.
+     &        (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'CS')) THEN
             WRITE (JROUT,420) IDMRT
           ELSE
             WRITE (JROUT,320) IDMRT

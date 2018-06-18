@@ -62,7 +62,6 @@ COMMONS
 C----------
 C     VARIABLE DECLARATIONS.
 C----------
-      CHARACTER VVER*7
       INTEGER  FMOIS, FMD, IFMD, I, J, INL, INDD, IRTNCD
       REAL     FLMULT
       REAL     OLDFL
@@ -259,7 +258,7 @@ csb: moved to fmcfmd3
 C      CALL FMPOCR(IYR)
 
 csb: moved to fmcfmd3
-c     &    VVER(1:2) .EQ. 'SN')) CALL FMCFMD (IYR, FMD)
+c     &    VARACD .EQ. 'SN')) CALL FMCFMD (IYR, FMD)
 c        CALL FMCFMD2 (IYR, FMD)        
 
 C----------
@@ -396,17 +395,11 @@ C  MOISTURES ARE KNOWN.
 C  TT ADDED TO THIS SINCE THE EXPANDED VARIANT NOW MODELS JUNIPER. 06/03/10
 C----------
       IF (IFLOGIC .EQ. 0) THEN
-        CALL VARVER(VVER)
-        IF (VVER(1:2) .EQ. 'UT' .OR.
-     &      VVER(1:2) .EQ. 'TT' .OR.
-     &      VVER(1:2) .EQ. 'SM' .OR.
-     &      VVER(1:2) .EQ. 'SP' .OR.
-     &      VVER(1:2) .EQ. 'BP' .OR.
-     &      VVER(1:2) .EQ. 'SF' .OR.
-     &      VVER(1:2) .EQ. 'LP' .OR.
-     &      VVER(1:2) .EQ. 'LS' .OR.
-     &      VVER(1:2) .EQ. 'CS' .OR.
-     &      VVER(1:2) .EQ. 'SN') CALL FMCFMD (IYR, FMD)
+        SELECT CASE (VARACD)
+          CASE ('CR','CS','LS','SN','TT','UT')
+     &      CALL FMCFMD (IYR, FMD)
+          CASE DEFAULT
+        END SELECT
       ENDIF
 C
       IF (DEBUG) WRITE (JOSTND,60) SWIND,FWIND,WMULT,PERCOV
@@ -499,7 +492,7 @@ C----------
 C  DON'T NEED TO DO CROWN FIRE CALCS IN THE SN/CS FFE.  JUST NEED TO SET
 C  CRBURN AND FIRTYPE TO CORRESPOND TO A SURFACE FIRE
 C----------
-      IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
         FIRTYPE = 3
         CRBURN = 0
         CFTMP = 'SURFACE'
@@ -537,7 +530,7 @@ C--------
           ENDIF
 C
         ENDIF
-      ENDIF ! vver eq sn / cs
+      ENDIF ! VARACD eq sn / cs
 C----------
 C  MODIFY FLAME LENGTH AND SCORCH HEIGHT TO ACCOUNT FOR
 C  CROWN FIRE BEHAVIOR.
@@ -592,7 +585,7 @@ C  CALL FMCBA IF A FIRE OCCURED AND USING THE SN VARIANT SO THAT LIVE FUELS
 C  (HERB AND SHRUB) VALUES CAN BE UPDATED SINCE THEY ARE BASED ON TIME
 C  SINCE LAST FIRE.
 C----------
-      IF (BURNYR .EQ. IYR .AND. VVER(1:2) .EQ. 'SN') THEN
+      IF (BURNYR .EQ. IYR .AND. VARACD .EQ. 'SN') THEN
         CALL FMCBA (IYR,0)
       ENDIF
 C----------

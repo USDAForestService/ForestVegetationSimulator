@@ -139,16 +139,11 @@ C  VARIABLE DECLARATIONS
       REAL LILPCE, DIB, DOBF, HTLP, TEMPD, BRATIO, VT, VT1, VT2
       REAL DX,HX
       LOGICAL DEBUG, LMERCH
-      CHARACTER VVER*7
 
       DATA MYPI/3.14159/
 
       CALL DBCHK (DEBUG,'FMCROWE',7,ICYC)
       IF (DEBUG) WRITE(JOSTND,'('' ENTERING FMCROWE'')')
-
-C     FIND VARIANT - ROUTINES VARY FOR HT/DBH AND HT-AT-DIAMETER CALCULATIONS
-
-      CALL VARVER(VVER)
 
 C     GET SOME VARIABLES YOU'LL NEED.
 
@@ -260,8 +255,8 @@ C     CREATE AN ADJUSTMENT FACTOR.
 
       TEMP = 0.0       
       IF  ((DX .LT. DBHMIN(SPIYV)) .AND. 
-     >    ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'LS') .OR. 
-     >     (VVER(1:2) .EQ. 'NE') .OR. (VVER(1:2) .EQ. 'CS'))) THEN 
+     >    ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'LS') .OR. 
+     >     (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'CS'))) THEN 
       
         D = DBHMIN(SPIYV)
 
@@ -398,8 +393,8 @@ C       THIS LILPCE NEEDS TO BE SUBRACTED FROM UMBTW, SINCE NOT INCLUDED IN THE
 C       TTOPW CALCULATION. LATER IT WILL
 C       BE ADDED BACK INTO CROWNW, SO THE PIECE IS NOT EXCLUDED.
 
-        IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'LS') .OR. 
-     >      (VVER(1:2) .EQ. 'NE') .OR. (VVER(1:2) .EQ. 'CS')) THEN 
+        IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'LS') .OR. 
+     >      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'CS')) THEN 
           DIB = 4 * BRATIO(SPIYV,D,H)
           HTLP = 4.5 + (H - 4.5)/D*(D - 4.0)  !assumes constant taper      
           IF ((HTLP - HTF) .GT. 0) THEN

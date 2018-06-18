@@ -72,7 +72,6 @@ Cppe  INCLUDE 'PPCNTL.F77'
 C.... VARIABLE DECLARATIONS.
 
       LOGICAL   DEBUG, LPSBURN
-      CHARACTER VVER*7
       INTEGER   I, FM, KSP, ICALL, IYR, ISZ, IDC, ITM, MORTGP, MKODE
       INTEGER   P, H, D
       REAL      CRW1BN, CRBNL, CRL, CSV, DTHISC, PROPCR, TCROWN
@@ -110,8 +109,6 @@ Csng  YRSCYC = FLOAT( IY(ICYC+1)-IYR )
       TOTBA  = 0.0
       POMORT = 0.0
       PVOLKL = 0.0
-
-      CALL VARVER(VVER)
 
 C
 C     Burn the entire crown of pre-existing snags caught in the area with
@@ -199,7 +196,7 @@ C
 C         ADJUST MORTALITY FOR SOME SOUTHERN SPECIES BASED ON
 C         EQUATIONS IN REGELBRUGGE AND SMITH (NJAF 11(3) 1994)
        
-          IF ((VVER(1:2) .EQ. 'SN') .OR. (VVER(1:2) .EQ. 'CS')) THEN
+          IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
             
 C           THESE EQUATIONS USE MAX (UPHILL) CHAR HT.  OPINION AT 
 C           MISSOULA FIRE LAB IS THAT DOWNHILL CHAR HT IS 70% OF FLAME
@@ -210,7 +207,7 @@ C           WENT IN BETWEEN WITH THE ASSUMPTION BELOW.
            
             CHARHT = FLAME*.7
             
-            IF (VVER(1:2) .EQ. 'SN') THEN
+            IF (VARACD .EQ. 'SN') THEN
               SELECT CASE (KSP)
                 CASE (63,74)      ! white oak and chestnut oak
                   MORTGP = 1
@@ -225,7 +222,7 @@ C           WENT IN BETWEEN WITH THE ASSUMPTION BELOW.
                 CASE DEFAULT         
                   MORTGP = 6               
               END SELECT  
-            ELSE    !vver = cs
+            ELSE    !VARACD = cs
               SELECT CASE (KSP)
                 CASE (47,59)      ! white oak and chestnut oak
                   MORTGP = 1
@@ -264,8 +261,8 @@ C           WENT IN BETWEEN WITH THE ASSUMPTION BELOW.
 C
 C         ENGELMANN SPRUCE HAS MINIMUM MORTALITY OF 0.8
 C
-          SELECT CASE (VVER(1:2))
-            CASE ('NI','IE','EM','KT')
+          SELECT CASE (VARACD)
+            CASE ('IE','EM','KT')
               IF (KSP .EQ. 8) PMORT = MAX(0.8, PMORT)
             CASE DEFAULT
               PMORT = PMORT
@@ -281,7 +278,7 @@ C         BEFORE GREENUP.  OAKS 2.5"+ GET THEIR MORTALITY REDUCED BY
 C         HALF BEFORE GREENUP SINCE THEY ARE ESPECIALLY RESISTANT.
 C         ALL HARDWOODS LESS THAN 1" DIE
 C
-          IF (VVER(1:2) .EQ. 'LS') THEN
+          IF (VARACD .EQ. 'LS') THEN
             IF ((BURNSEAS .LE. 2) .AND. (KSP .LE. 14)) PMORT = PMORT/2 
             IF (KSP .EQ. 8) PMORT = MAX(0.7, PMORT)            
             SELECT CASE (KSP)
@@ -307,7 +304,7 @@ C
 C
 C         MAKE THE SAME ADJUSTMENTS FOR THE NE VARIANT
 C
-          IF (VVER(1:2) .EQ. 'NE') THEN
+          IF (VARACD .EQ. 'NE') THEN
             IF ((BURNSEAS .LE. 2) .AND. (KSP .LE. 25)) PMORT = PMORT/2 
             IF (KSP .EQ. 1) PMORT = MAX(0.7, PMORT)            
             SELECT CASE (KSP)
