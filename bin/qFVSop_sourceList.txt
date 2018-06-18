@@ -536,12 +536,12 @@
 ../fire/op/fmbrkt.f
 ../fire/op/fmcba.f
 ../fire/op/fmcblk.f
-../fire/op/fmcfmd.f
 ../fire/op/fmcrow.f
 ../fire/op/fmvinit.f
 ../fire/ie/fmcons.f
 ../fire/ie/fmmois.f
 ../fire/pn/fmsfall.f
+../fire/vop/fmcfmd.f
 
 ../fire/vbase/fmburn.f
 ../fire/vbase/fmcfmd2.f

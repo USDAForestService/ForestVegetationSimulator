@@ -514,8 +514,8 @@
 ../fire/wc/fmvinit.f
 ../fire/ie/fmcons.f
 ../fire/ie/fmmois.f
-../fire/pn/fmcfmd.f
 ../fire/pn/fmsfall.f
+../fire/vpn/fmcfmd.f
 
 ../fire/vbase/fmburn.f
 ../fire/vbase/fmcfmd2.f

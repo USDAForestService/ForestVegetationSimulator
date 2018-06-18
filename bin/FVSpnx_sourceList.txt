@@ -513,12 +513,12 @@
 ../fire/pn/fmbrkt.f
 ../fire/pn/fmcba.f
 ../fire/pn/fmcblk.f
-../fire/pn/fmcfmd.f
 ../fire/pn/fmcrow.f
 ../fire/pn/fmsfall.f
 ../fire/pn/fmvinit.f
 ../fire/ie/fmcons.f
 ../fire/ie/fmmois.f
+../fire/vpn/fmcfmd.f
 
 ../fire/vbase/fmburn.f
 ../fire/vbase/fmcfmd2.f

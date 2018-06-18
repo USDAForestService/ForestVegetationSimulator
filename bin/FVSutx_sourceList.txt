@@ -512,12 +512,12 @@
 ../fire/ut/fmbrkt.f
 ../fire/ut/fmcba.f
 ../fire/ut/fmcblk.f
-../fire/ut/fmcfmd.f
 ../fire/ut/fmcrow.f
 ../fire/ut/fmmois.f
-../fire/ut/fmsfall.f
 ../fire/ut/fmvinit.f
 ../fire/ie/fmcons.f
+../fire/vut/fmcfmd.f
+../fire/vut/fmsfall.f
 
 ../fire/vbase/fmburn.f
 ../fire/vbase/fmcfmd2.f

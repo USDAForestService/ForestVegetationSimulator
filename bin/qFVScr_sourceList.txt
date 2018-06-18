@@ -515,9 +515,9 @@
 ../fire/cr/fmcrow.f
 ../fire/cr/fmvinit.f
 ../fire/ie/fmcons.f
-../fire/ut/fmcfmd.f
 ../fire/ut/fmmois.f
-../fire/ut/fmsfall.f
+../fire/vut/fmcfmd.f
+../fire/vut/fmsfall.f
 
 ../fire/vbase/fmburn.f
 ../fire/vbase/fmcfmd2.f
