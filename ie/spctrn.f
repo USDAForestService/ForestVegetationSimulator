@@ -25,7 +25,6 @@ C
 C
 COMMONS
 C----------
-      CHARACTER VVER*7
       CHARACTER*(*)SPCIN
       INTEGER MAXASPT, ISPC1, I, J, J2, IJSPIN
       PARAMETER (MAXASPT=517)
@@ -2058,10 +2057,7 @@ C
 C----------
 C  INITIALIZATIONS
 C----------
-      CALL VARVER(VVER)
-      VAR=VVER(:2)
-      IF(VAR.EQ.'BP' .OR. VAR.EQ.'LP' .OR. VAR.EQ.'SF' .OR. 
-     & VAR.EQ.'SM' .OR. VAR.EQ.'SP')VAR='CR'
+      VAR=VARACD
       IJSPIN=3
       ISPC1= 0
       SPCOUT= 'XX '

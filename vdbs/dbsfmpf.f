@@ -331,7 +331,7 @@ C
       BFUELWT(3)=INT((FUELWT(3)*100.)+0.5)
       BFUELWT(4)=INT((FUELWT(4)*100.)+0.5)
 C
-      IF ((VARACD .EQ. 'SN') .OR. (VARACD) .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
        BSFUELWT(1)=INT((SFUELWT(1)*100.)+0.5)
        BSFUELWT(2)=INT((SFUELWT(2)*100.)+0.5)
        BSFUELWT(3)=INT((SFUELWT(3)*100.)+0.5)

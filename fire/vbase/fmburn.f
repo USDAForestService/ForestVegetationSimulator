@@ -397,7 +397,7 @@ C----------
       IF (IFLOGIC .EQ. 0) THEN
         SELECT CASE (VARACD)
           CASE ('CR','CS','LS','SN','TT','UT')
-     &      CALL FMCFMD (IYR, FMD)
+            CALL FMCFMD (IYR, FMD)
           CASE DEFAULT
         END SELECT
       ENDIF

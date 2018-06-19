@@ -37,7 +37,7 @@ C     CRMT -- CENTRAL ROCKIES ALPHABETIC MODEL TYPE DESIGNATOR
 C----------
 C  DATA STATEMENTS
 C----------
-      DATA CRMT('SM','SP','BP','SF','LP')
+      DATA CRMT/'SM','SP','BP','SF','LP'/
 C----------
       IF (.NOT.LSCRN) GOTO 1000
 C----------
