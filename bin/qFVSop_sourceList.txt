@@ -66,11 +66,9 @@
 ../ie/cftopk.f
 ../ie/cfvol.f
 ../ie/cutstk.f
-../ie/cwcalc.f
 ../ie/dunn.f
 ../ie/exppnb.f
 ../ie/rcon.f
-../ie/spctrn.f
 ../kt/maical.f
 ../pn/bratio.f
 ../pn/ccfcal.f
@@ -83,6 +81,8 @@
 ../pn/pvref6.f
 ../pn/sichg.f
 ../so/avht40.f
+../vie/cwcalc.f
+../vie/spctrn.f
 ../vso/r6crwd.f
 ../vwc/smhgdg.f
 ../vws/r5crwd.f

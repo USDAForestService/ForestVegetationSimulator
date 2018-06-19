@@ -70,14 +70,14 @@
 ../ie/cftopk.f
 ../ie/cfvol.f
 ../ie/cutstk.f
-../ie/cwcalc.f
 ../ie/dunn.f
 ../ie/exppnb.f
 ../ie/rcon.f
-../ie/spctrn.f
 ../ie/vols.f
 ../kt/maical.f
 ../so/avht40.f
+../vie/cwcalc.f
+../vie/spctrn.f
 ../vso/r6crwd.f
 ../vwc/morts.f
 ../vwc/smhgdg.f

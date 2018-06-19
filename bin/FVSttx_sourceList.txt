@@ -82,11 +82,9 @@
 ../ie/cftopk.f
 ../ie/cfvol.f
 ../ie/cutstk.f
-../ie/cwcalc.f
 ../ie/dgbnd.f
 ../ie/dunn.f
 ../ie/rcon.f
-../ie/spctrn.f
 ../ie/vols.f
 ../so/adjmai.f
 ../so/avht40.f
@@ -94,6 +92,8 @@
 ../ut/fndag.f
 ../ut/habtyp.f
 ../ut/pvref4.f
+../vie/cwcalc.f
+../vie/spctrn.f
 ../vws/r5crwd.f
 ../ws/exppnb.f
 

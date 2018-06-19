@@ -80,15 +80,15 @@
 ../ie/cftopk.f
 ../ie/cfvol.f
 ../ie/cutstk.f
-../ie/cwcalc.f
 ../ie/dgbnd.f
 ../ie/dunn.f
 ../ie/rcon.f
-../ie/spctrn.f
 ../ie/vols.f
 ../kt/maical.f
 ../so/adjmai.f
 ../ut/dgfasp.f
+../vie/cwcalc.f
+../vie/spctrn.f
 ../ws/r5crwd.f
 
 ../vbase/cuts.f

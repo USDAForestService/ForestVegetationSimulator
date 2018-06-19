@@ -50,6 +50,9 @@
 ../common/VOLSTD.F77
 ../common/WORKCM.F77
 
+../vie/cwcalc.f
+../vie/spctrn.f
+
 ../ie/bfvol.f
 ../ie/blkdat.f
 ../ie/bratio.f
@@ -60,7 +63,6 @@
 ../ie/crown.f
 ../ie/cubrds.f
 ../ie/cutstk.f
-../ie/cwcalc.f
 ../ie/dgbnd.f
 ../ie/dgdriv.f
 ../ie/dgf.f
@@ -81,7 +83,6 @@
 ../ie/rcon.f
 ../ie/regent.f
 ../ie/sitset.f
-../ie/spctrn.f
 ../ie/vols.f
 
 ../cr/badist.f

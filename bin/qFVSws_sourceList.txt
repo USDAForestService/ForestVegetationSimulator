@@ -83,12 +83,12 @@
 ../ie/cftopk.f
 ../ie/cfvol.f
 ../ie/cutstk.f
-../ie/cwcalc.f
 ../ie/rcon.f
-../ie/spctrn.f
 ../ie/vols.f
 ../kt/maical.f
 ../so/avht40.f
+../vie/cwcalc.f
+../vie/spctrn.f
 ../vws/r5crwd.f
 
 ../vbase/cuts.f
