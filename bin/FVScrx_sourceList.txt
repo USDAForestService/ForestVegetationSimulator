@@ -93,8 +93,8 @@
 ../so/adjmai.f
 ../vie/cwcalc.f
 ../vie/spctrn.f
+../vws/r5crwd.f
 ../wc/logs.f
-../ws/r5crwd.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

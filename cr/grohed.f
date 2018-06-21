@@ -46,7 +46,7 @@ C
         CASE (1)
         WRITE (IUNIT,140) SVN,REV,DAT,TIM
   140   FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,' -- CENTRAL ROCKIES SW MIXED CONIFERS GENGYM',
+     >  5X,'VERSION ',A,' -- CEN. ROCKIES SW MIXED CONIFERS GENGYM',
      >  T97,'RV:',A,T112,A,2X,A)
 C
 C**********************************************
@@ -56,7 +56,7 @@ C
         CASE (2)
         WRITE (IUNIT,240) SVN,REV,DAT,TIM
   240   FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,' -- CENTRAL ROCKIES SW PONDEROSA PINE GENGYM',
+     >  5X,'VERSION ',A,' -- CEN. ROCKIES SW PONDEROSA PINE GENGYM',
      >  T97,'RV:',A,T112,A,2X,A)
 C
 C*********************************************
@@ -66,7 +66,7 @@ C
         CASE (3)
         WRITE (IUNIT,340) SVN,REV,DAT,TIM
   340   FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,' -- CENTRAL ROCKIES BLACK HILLS/NEBR GENGYM',
+     >  5X,'VERSION ',A,' -- CEN. ROCKIES BLACK HILLS/NEBR GENGYM',
      >  T97,'RV:',A,T112,A,2X,A)
 C
 C*******************************************
@@ -76,7 +76,7 @@ C
         CASE (4)
         WRITE (IUNIT,440) SVN,REV,DAT,TIM
   440   FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,' -- CENTRAL ROCKIES SPRUCE-FIR GENGYM        ',
+     >  5X,'VERSION ',A,' -- CEN. ROCKIES SPRUCE-FIR GENGYM        ',
      >  T97,'RV:',A,T112,A,2X,A)
 C
 C*******************************************
@@ -86,7 +86,7 @@ C
         CASE (5)
         WRITE (IUNIT,540) SVN,REV,DAT,TIM
   540   FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,' -- CENTRAL ROCKIES LODGEPOLE PINE GENGYM    ',
+     >  5X,'VERSION ',A,' -- CEN. ROCKIES LODGEPOLE PINE GENGYM    ',
      >  T97,'RV:',A,T112,A,2X,A)
 C
 C****************************************************

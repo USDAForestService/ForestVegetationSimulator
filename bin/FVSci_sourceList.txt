@@ -89,7 +89,7 @@
 ../ut/dgfasp.f
 ../vie/cwcalc.f
 ../vie/spctrn.f
-../ws/r5crwd.f
+../vws/r5crwd.f
 
 ../vbase/cuts.f
 ../vbase/disply.f
