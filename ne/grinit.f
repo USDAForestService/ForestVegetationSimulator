@@ -325,7 +325,7 @@ C----------
 C  INITIALIZE TWIGCOM COMMON VARIABLES
 C----------
       DO I=1,50
-        BAU(I)=0.
+        EBAU(I)=0.
       ENDDO
 C
       RETURN
