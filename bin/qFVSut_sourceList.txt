@@ -72,6 +72,7 @@
 ../ut/morts.f
 ../ut/pvref4.f
 ../ut/regent.f
+../ut/siterange.f
 ../ut/sitset.f
 ../ut/utmrt.f
 

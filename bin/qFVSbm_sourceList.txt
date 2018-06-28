@@ -76,6 +76,7 @@
 ../bm/pvref6.f
 ../bm/regent.f
 ../bm/sichg.f
+../bm/siterange.f
 ../bm/sitset.f
 ../bm/smhtgf.f
 

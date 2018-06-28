@@ -69,6 +69,7 @@
 ../tt/maical.f
 ../tt/morts.f
 ../tt/regent.f
+../tt/siterange.f
 ../tt/sitset.f
 ../tt/smdgf.f
 ../tt/smhtgf.f

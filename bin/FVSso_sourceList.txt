@@ -81,6 +81,7 @@
 ../so/regent.f
 ../so/scomrt.f
 ../so/sichg.f
+../so/siterange.f
 ../so/sitset.f
 ../so/smhtgf.f
 

@@ -41,7 +41,7 @@ C----------
       INTEGER IFIASP, ERRFLAG
       INTEGER NTOHI,NSISET,NSDSET,I,JSISP,INDEX,KNTECO,ISEQ,NUM,ISFLAG
       INTEGER ITOHI,ISPC,K,J,JJ,INTFOR,IREGN,IRDUM
-      REAL SIAGE(MAXSP),SI(MAXSP),SILO(MAXSP),SIHI(MAXSP)
+      REAL SIAGE(MAXSP),SI(MAXSP),SLO,SHI,SLOSSP,SHISSP
       REAL C6(MAXSP),C5(MAXSP)
       REAL FORMAX,RSI,RSDI,TEM,SINDX,AG
 C
@@ -58,20 +58,6 @@ C
      & 100., 447., 250./
 C
       DATA FORMAX/850./
-C----------
-C  IF SILO AND/OR SIHI, ALSO CHANGE THEM IN **REGENT**
-C----------
-      DATA SILO/
-     &  13.,  27.,  21.,   5.,   5.,   5.,   5.,  12.,  10.,   7.,
-     &   5.,   9.,   6.,   4.,   7.,  20.,  60.,  29.,   6.,   5.,
-     &   5.,  56., 108.,  30.,  10.,  10.,  21.,  20.,   5.,   5.,
-     &   5.,   5.,   5./
-C
-      DATA SIHI/
-     & 137., 178., 148., 195., 133., 169., 140., 227., 134., 176.,
-     &  40., 173., 127., 221., 210.,  65., 147., 152., 203.,  75.,
-     & 100., 192., 142.,  66., 191., 104.,  85.,  93., 100.,  75.,
-     &  75., 175., 125./
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------
@@ -151,6 +137,13 @@ C----------
         IF(SITEAR(ISISP) .LE. 0.0) SITEAR(ISISP) = 70.
       ENDIF
 C----------
+C  GET THE APPROPRIATE SITE INDEX RANGE VALUES FOR THE SITE SPECIES.
+C----------
+      SLOSSP = 0.
+      SHISSP = 999.
+      CALL SITERANGE (1,ISISP,SLOSSP,SHISSP)
+C
+C----------
 C  TRANSLATE THE SITES AND KEEP
 C
 C  SITE SPECIES 11(UT), 16(TT) AND 24(UT) USE THE FOLLOWING SITE
@@ -159,13 +152,22 @@ C----------
 C
 C  SET SITE FOR UT VARIANT SPECIES 11 16, AND 24
 C
+      SLO = 0.
+      SHI = 999.
       IF(ISISP.EQ.11 .OR. ISISP.EQ.16 .OR. ISISP.EQ.24)THEN
         TEM = 30.
         IF(ISISP .GT. 0 .AND. SITEAR(ISISP) .GT. 0.0)TEM=SITEAR(ISISP)
-        IF(TEM.LT.SILO(ISISP))TEM=SILO(ISISP)
+        IF(TEM.LT.SLOSSP)TEM=SLOSSP
         DO 20 I=1,MAXSP
-        SI(I)=SILO(I)+(TEM-SILO(ISISP))/(SIHI(ISISP)-SILO(ISISP))
-     &  *(SIHI(I)-SILO(I))
+C----------
+C  GET THE APPROPRIATE SITE INDEX RANGE VALUES FOR THIS SPECIES.
+C----------
+          SLO = 0.
+          SHI = 999.
+          CALL SITERANGE (1,I,SLO,SHI)
+C
+        SI(I)=SLO + (TEM-SLOSSP)/(SHISSP-SLOSSP)
+     &  *(SHI-SLO)
         IF(I .EQ. 5 )THEN
           SI(I)=SI(I)/3.281
           IF(SI(I).GT.28.)SI(I)=28.
@@ -195,11 +197,18 @@ C----------
         IF(SI(ISPC).GT.28.)SI(ISPC)=28.
       ENDIF
       IF(ISPC.EQ.11 .OR. ISPC.EQ.16 .OR. ISPC.EQ.24)THEN
+C----------
+C  GET THE APPROPRIATE SITE INDEX RANGE VALUES FOR THIS SPECIES.
+C----------
+        SLO = 0.
+        SHI = 999.
+        CALL SITERANGE (1,ISPC,SLO,SHI)
+C
         TEM=SITEAR(ISISP)
-        IF(TEM.LT.SILO(ISISP))TEM=SILO(ISISP)
+        IF(TEM.LT.SLOSSP)TEM=SLOSSP
         IF(SITEAR(ISPC).LE.0.0)
-     &  SI(ISPC)=SILO(ISPC)+(TEM-SILO(ISISP))/(SIHI(ISISP)-SILO(ISISP))
-     &  *(SIHI(ISPC)-SILO(ISPC))
+     &  SI(ISPC)=SLO + (TEM-SLOSSP)/(SHISSP-SLOSSP)
+     &  *(SHI-SLO)
       ENDIF
 C
 C DELETED A REFERENCE TO SPECIES 6 AS WELL AS 5 SO HTCALC IS CONSISTENT

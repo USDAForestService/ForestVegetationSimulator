@@ -682,7 +682,7 @@ Files:
               esuckr.f  Deleted the VVER variable and replaced usage of VVER with VARACD.
 
 /tests/FVScr
-              sum.save  Updated with the change to Central Rockies sprouting logic.
+        crt01.sum.save  Updated with the change to Central Rockies sprouting logic.
 
 /tt
               dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.

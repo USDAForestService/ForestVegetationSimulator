@@ -51,21 +51,13 @@ C----------
       REAL ZTEST,ZADJ,CLOSUR
       REAL RHR(MAXSP),RHYXS(MAXSP),RHM(MAXSP),RHB(MAXSP)
       REAL SITAGE,SITHT,AGMAX,HTMAX,HTMAX2,D1,D2
-      REAL SLO(MAXSP),SHI(MAXSP),XI1,XI2,HTI,BARK,BRATIO
+      REAL SLO,SHI,XI1,XI2,HTI,BARK,BRATIO
       REAL BASM(MAXSP),AASM(MAXSP),Y1,Y2,FBY1,FBY2,Z,ZBIAS
       REAL COF(9,5),COF1(9,3),COF6(9,5),AZBIAS,BZBIAS,DIA,PSI,HHT
       REAL MISHGF
-C
 C----------
-C  IF THESE SITE INDEX RANGES CHANGE, ALSO CHANGE THEM IN **REGENT**
-C  AND **SITSET**
+C  DATA STATEMENTS
 C----------
-      DATA SLO/ 20., 50., 50., 50., 15.,  5., 30., 40., 50., 70., 
-     &          20., 20.,  5., 50., 30., 10., 70.,  5./
-C
-      DATA SHI/ 80.,110.,110.,110., 30., 40., 70.,120.,150.,140.,
-     &          65., 50., 75.,110., 66.,191.,140.,125./
-C
       DATA AASM/    1.5,    2.0,     0.4,   2.1,    0.0,
      &               0.,    1.5,     1.5,   1.5,    1.3,
      &               0.,     0.,      0.,    0.,     0.,
@@ -168,6 +160,13 @@ C----------
 C   BEGIN SPECIES LOOP.
 C----------
       DO 40 ISPC=1,MAXSP
+C----------
+C  GET THE APPROPRIATE SITE INDEX RANGE VALUES FOR THIS SPECIES.
+C----------
+        SLO = 0.
+        SHI = 999.
+        CALL SITERANGE (3,ISPC,SLO,SHI)
+C
       I1 = ISCT(ISPC,1)
       IF (I1 .EQ. 0) GO TO 40
       I2 = ISCT(ISPC,2)
@@ -196,9 +195,9 @@ C
 C
       IF(H .GE. HTMAX) THEN
         SI=SITEAR(ISPC)
-        IF(SI .GT. SHI(ISPC))SI=SHI(ISPC)
-        IF(SI .LE. SLO(ISPC))SI=SLO(ISPC) + 0.5
-        RELSI = (SI -SLO(ISPC))/(SHI(ISPC) - SLO(ISPC))
+        IF(SI .GT. SHI)SI=SHI
+        IF(SI .LE. SLO)SI=SLO + 0.5
+        RELSI = (SI -SLO)/(SHI - SLO)
         HTG(I)=AASM(ISPC) + BASM(ISPC) * RELSI
         IF(HTG(I).LT.0.1)HTG(I)=0.1
         HTG(I)=HTG(I)*XHT*SCALE*EXP(HTCON(ISPC))

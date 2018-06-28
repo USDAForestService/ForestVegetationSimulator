@@ -72,6 +72,7 @@
 ../ci/morts.f
 ../ci/pvref4.f
 ../ci/regent.f
+../ci/siterange.f
 ../ci/sitset.f
 ../ci/smhtgf.f
 ../ci/varget.f

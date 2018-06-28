@@ -27,7 +27,7 @@ COMMONS
 C----------
       INTEGER IFIASP, ERRFLAG
       CHARACTER FORST*2,DIST*2,PROD*2,VAR*2,VOLEQ*10
-      REAL SDICON(MAXSP),SITELO(MAXSP),SITEHI(MAXSP)
+      REAL SDICON(MAXSP),SITELO,SITEHI,SLOSSP,SHISSP
       INTEGER I,INTFOR,IREGN,ISPC,J,JJ,K
       REAL TEM
 C----------
@@ -52,20 +52,6 @@ C----------
      & 415., 415., 470., 415., 415., 415., 470., 470., 470., 100.,
      & 300., 470., 400., 470./
 C----------
-C  IF THESE CHANGE, ALSO CHANGE THEM IN REGENT
-C  THESE VALUES SHOULD BE BASED ON THE BASE-AGE OF THE SITE CURVE
-C  BEING USED FOR THAT SPECIES.
-C----------
-      DATA SITELO/
-     &  20.,  20.,  30.,  40.,  40.,  30.,  40.,  40.,  50.,  40.,
-     &   5.,   5.,   5.,   5.,   5.,   5.,  20.,  30.,  30.,   5.,
-     &   5.,  15.,  20.,   5./
-C
-      DATA SITEHI/
-     &  50.,  50.,  70.,  80.,  90.,  70.,  85., 100.,  90.,  80.,
-     &  20.,  15.,  20.,  20.,  15.,  15.,  60., 120.,  90.,  15.,
-     &  30.,  40.,  50.,  20./
-C----------
 C IF SITEAR(I) HAS NOT BEEN SET WITH SITECODE KEYWORD, LOAD IT
 C WITH DEFAULT SITE VALUES.
 C----------
@@ -74,11 +60,25 @@ C----------
         IF(SITEAR(ISISP) .GT. 0.0) TEM = SITEAR(ISISP)
       ENDIF
       IF(ISISP .EQ. 0) ISISP = 7
+C----------
+C  GET THE APPROPRIATE SITE INDEX RANGE VALUES FOR THE SITE SPECIES.
+C----------
+        SLOSSP = 0.
+        SHISSP = 999.
+        CALL SITERANGE (1,ISISP,SLOSSP,SHISSP)
+C
       DO 100 I=1,MAXSP
-      IF(TEM .LT. SITELO(ISISP))TEM=SITELO(ISISP)
-      IF(SITEAR(I) .LE. 0.0) SITEAR(I) = SITELO(I) +
-     & (TEM-SITELO(ISISP))/(SITEHI(ISISP)-SITELO(ISISP))
-     & *(SITEHI(I)-SITELO(I))
+C----------
+C  GET THE APPROPRIATE SITE INDEX RANGE VALUES FOR THIS SPECIES.
+C----------
+        SITELO = 0.
+        SITEHI = 999.
+        CALL SITERANGE (1,I,SITELO,SITEHI)
+C
+        IF(TEM .LT. SLOSSP)TEM=SLOSSP
+        IF(SITEAR(I) .LE. 0.0) SITEAR(I) = SITELO +
+     &    (TEM-SLOSSP)/(SHISSP-SLOSSP)
+     &  *(SITEHI-SITELO)
   100 CONTINUE
 C----------
 C LOAD THE SDIDEF ARRAY.
