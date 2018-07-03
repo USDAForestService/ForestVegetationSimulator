@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C  **BLKDAT--NE  DATE OF LAST REVISION:  10/19/11
+C ACD $Id: blkdat.f 2357 2018-05-18 17:26:03Z lancedavid $
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -337,24 +337,6 @@ C----------
      &    2*.025,8*.036,.112,3*.093,3*.102,2*.074,5*.029,.054,5*.063,
      &    3*.189,5*.070,.075,5*.066,4*.091,3*.069,2*.153,2*.108,
      &    27*.040,11*.027/
-C----------
-C  THE HT-DBH COEFFICIENTS (HT1 AND HT2 ARRAYS) ARE 
-C  ASSIGNED IN **SITSET
-C----------
-      DATA BB0/108*0.0/
-      DATA BB1/108*0.0/
-      DATA BB2/108*0.0/
-      DATA BB3/108*0.0/
-      DATA BB4/108*0.0/
-      DATA BB5/108*0.0/
-      DATA BB6/108*0.0/
-      DATA BB7/108*0.0/
-      DATA BB8/108*0.0/
-      DATA BB9/108*0.0/
-      DATA BB10/108*0.0/
-      DATA BB11/108*0.0/
-      DATA BB12/108*0.0/
-      DATA BB13/108*0.0/
 C
       DATA REGNBK/2.999/
 C

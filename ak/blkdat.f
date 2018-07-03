@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C  **BLKDAT--AK   DATE OF LAST REVISION:  05/08/12
+C AK $Id: blkdat.f 0000 2018-02-14 00:00:00Z gedixon $
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -199,34 +199,6 @@ C
      & -10.4921,  -7.6276, -10.4921, -11.8502,  -9.4649, -11.2306,
      & -10.4718, -10.4921, -10.4921,   0.0   ,   0.0   , -11.2306,
      & -10.4921/
-C
-      DATA BB0/ 9*0.0, 59.5864, 0.6192, 2*0.0 /
-C
-      DATA BB1/ 9*0.0, 0.7953, -5.3394, 2*0.0 /
-C
-      DATA BB2/ 9*0.0, 0.00194, 240.29, 2*0.0 /
-C
-      DATA BB3/ 9*0.0, -0.0007403, 3368.9, 2*0.0 /
-C
-      DATA BB4/ 9*0.0, 0.9198, 3*0.0 /
-C
-      DATA BB5/ MAXSP*0. /
-C
-      DATA BB6/ MAXSP*0. /
-C
-      DATA BB7/ MAXSP*0. /
-C
-      DATA BB8/ MAXSP*0. /
-C
-      DATA BB9/ MAXSP*0. /
-C
-      DATA BB10/ MAXSP*0. /
-C
-      DATA BB11/ MAXSP*0. /
-C
-      DATA BB12/ MAXSP*0. /
-C
-      DATA BB13/ MAXSP*0. /
 C
       DATA REGNBK/2.999/
 C
