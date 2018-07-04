@@ -1,6 +1,6 @@
 CODE SEGMENT TWIGCOM
 C----------
-C COMMON $Id: TWIGCOM.F77 0000 2018-06-22 20:52:44Z gedixon $
+C COMMON $Id$
 C----------
       REAL    EBAU(50)
       COMMON /TWIGCOM/ EBAU

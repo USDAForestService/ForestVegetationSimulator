@@ -1,7 +1,7 @@
 C.... Code segment MISCOM.
 C
 ************************************************************************
-*  **MISCOM--CM  Date of last revision:  04/01/11
+C COMMON $Id$
 *-----------------------------------------------------------------------
 *  Purpose:
 *     Common block variables related to the dwarf mistletoe routines.

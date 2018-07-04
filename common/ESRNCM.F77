@@ -1,6 +1,6 @@
 CODE SEGMENT ESRNCM
 C----------
-C  **ESRNCM DATE OF LAST REVISION:  06/14/00
+C COMMON $Id$
 C----------
       DOUBLE PRECISION ESS0,ESS1
       REAL             ESSS
