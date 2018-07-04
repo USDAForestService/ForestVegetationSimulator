@@ -1,8 +1,8 @@
       SUBROUTINE ESADVH (I,HHT,DELAY,GENTIM,TRAGE,WMAX)
       IMPLICIT NONE
 C----------
-C AK $Id: esadvh.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
-C
+C AK $Id$
+C----------
 C     CALCULATES HEIGHTS OF ADVANCE TREES FOR REGENERATION MODEL
 C----------
 C

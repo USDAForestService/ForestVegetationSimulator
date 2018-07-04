@@ -1,7 +1,7 @@
       SUBROUTINE OLDSEC(ISPC,VN,D,H)
       IMPLICIT NONE
 C----------
-C  **SECGRO--AK    DATE OF LAST REVISION:  02/14/08
+C AK $Id$
 C----------
       INTEGER ISPC
       REAL H,D,VN
