@@ -1,7 +1,7 @@
       SUBROUTINE ESUCKR
       IMPLICIT NONE
 C----------
-C  **ESUCKR--ESTB   DATE OF LAST REVISION:  06/20/11
+C CI $Id$
 C----------
 COMMONS
 C

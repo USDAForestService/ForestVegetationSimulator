@@ -2,7 +2,7 @@
      &  GENTIM,TRAGE)
       IMPLICIT NONE
 C----------
-C CI $Id: esadvh.f 0000 2018-02-14 00:00:00Z gedixon $
+C CI $Id$
 C----------
 C     CALCULATES HEIGHTS OF ADVANCE TREES FOR REGENERATION MODEL
 C----------
