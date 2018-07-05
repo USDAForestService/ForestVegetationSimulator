@@ -1,7 +1,7 @@
       SUBROUTINE ALGPTG(CTOK,LEN,NUM,IRC)
       IMPLICIT NONE
 C----------
-C  $Id: algspp.f 767 2013-04-10 22:29:22Z rhavis@msn.com $
+C BASE $Id$
 C----------
 C
 C     CALLED FROM ALGKEY

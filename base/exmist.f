@@ -1,7 +1,7 @@
       SUBROUTINE EXMIST
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C  Purpose:
 C     Dummy external references for dwarf mistletoe model routines. A

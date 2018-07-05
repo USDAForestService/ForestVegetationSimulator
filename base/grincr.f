@@ -2,7 +2,7 @@
      1                   LBWEGO,LCVATV,LBGCGO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     COMPUTES GROWTH AND MORTALITY ON EACH TREE RECORD.

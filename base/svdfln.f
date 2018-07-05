@@ -1,7 +1,7 @@
       SUBROUTINE SVDFLN (X1,Y1,X2,Y2,A,B,KODE)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

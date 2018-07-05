@@ -2,7 +2,7 @@
      >                   ICNTRL,KODE)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     THIS ROUTINE CONTAINS MACHINE-DEPENDENT FILE OPEN COMMANDS

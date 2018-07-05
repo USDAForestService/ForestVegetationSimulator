@@ -1,7 +1,7 @@
       SUBROUTINE TRNSLO
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C  TRNSLO DECODES THE INPUT SLOPE VALUE TO A RATIO.
 C----------

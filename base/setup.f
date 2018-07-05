@@ -1,7 +1,7 @@
       SUBROUTINE SETUP
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     SET UP THE INDEX POINTERS FOR IND1( SPECIES INDICES ).

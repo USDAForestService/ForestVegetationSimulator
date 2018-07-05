@@ -2,7 +2,7 @@
      >                   ARRAY,IRECNT,KODE,KARD,LFLAG,LKECHO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     KEYWORD CARD READER FOR THE STAND PROGNOSIS SYSTEM

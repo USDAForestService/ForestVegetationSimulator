@@ -1,7 +1,7 @@
       SUBROUTINE SGDECD (ISPC,KARD,IFLAG)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     DECODE THE SPECIES GROUP CODE.

@@ -1,7 +1,7 @@
       SUBROUTINE SVONLN (X,Y,X1,Y1,X2,Y2,KODE)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

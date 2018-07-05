@@ -2,7 +2,7 @@
      &                 ICYC,IREAD,LKECHO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     PART OF THE FERTILIZER OPTION.  CALLED BY INITRE TO ENTER

@@ -2,7 +2,7 @@
      >                   K,XK1,YK1,XK2,YK2,XS,YS,KODE)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

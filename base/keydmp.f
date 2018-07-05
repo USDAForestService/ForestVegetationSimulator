@@ -1,7 +1,7 @@
       SUBROUTINE KEYDMP (IOUT,IRECNT,KEYWRD,ARRAY,KARD)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
       INTEGER IRECNT,IOUT
       REAL ARRAY(7)

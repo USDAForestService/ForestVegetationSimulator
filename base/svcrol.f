@@ -1,7 +1,7 @@
       SUBROUTINE SVCROL (X1,Y1,R1,X2,Y2,R2,KODE)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

@@ -1,8 +1,8 @@
        SUBROUTINE EXTWIGVOL
        IMPLICIT NONE
 C----------
-C BASE $Id: extwigvol.f 0000 2018-02-14 00:00:00Z gedixon $
-C
+C BASE $Id$
+C----------
 C  SATISFY CALLS TO TWIGS VOLUME EQUATIONS FROM ***FVSVOL*** FROM
 C  NON-R9 VARIANTS
 C----------

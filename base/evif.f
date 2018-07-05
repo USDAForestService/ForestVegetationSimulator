@@ -2,7 +2,7 @@
      >                 KARD,JOSTND,LDEBUG,LKECHO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     COMPILES AND STORES THE IF EXPRESSION.

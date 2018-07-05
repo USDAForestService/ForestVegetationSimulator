@@ -1,7 +1,7 @@
       SUBROUTINE DBADD (SUBIN,NC,ICYC,IRC)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C

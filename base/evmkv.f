@@ -1,7 +1,7 @@
       SUBROUTINE EVMKV(CTOK)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     CREATES A NEW VARIABLE, IF IT CAN!

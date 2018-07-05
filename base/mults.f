@@ -1,7 +1,7 @@
       SUBROUTINE MULTS (KIND,IDT,XMULT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 COMMONS

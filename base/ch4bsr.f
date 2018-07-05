@@ -1,7 +1,7 @@
       SUBROUTINE CH4BSR(N,A,IORD,F,IP)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     CHARACTER*4 KEYED BINARY SEARCH

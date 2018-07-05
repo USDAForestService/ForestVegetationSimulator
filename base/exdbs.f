@@ -1,7 +1,7 @@
       SUBROUTINE EXDBS
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C  EXTERNAL REFERENCES FOR THE DATA BASE CONNECTION CODE.
 C----------

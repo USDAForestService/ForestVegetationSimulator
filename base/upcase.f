@@ -1,7 +1,7 @@
       SUBROUTINE UPCASE (C)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
       INTEGER IP
       CHARACTER C

@@ -1,7 +1,7 @@
       SUBROUTINE CH2NUM (C2,ICYC)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
       INTEGER ICYC

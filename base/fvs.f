@@ -1,7 +1,7 @@
       SUBROUTINE FVS(IRTNCD)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     THE PROGNOSIS MODEL FOR STAND DEVELOPMENT

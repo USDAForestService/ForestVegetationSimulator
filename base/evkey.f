@@ -1,7 +1,7 @@
       SUBROUTINE EVKEY (CTOK,NUM,IRC)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     CALLED FROM ALGCMP

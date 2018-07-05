@@ -2,7 +2,7 @@
      >                   LOPEVN,IACTK,KARD,IPRMPT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 COMMONS

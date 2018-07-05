@@ -2,7 +2,7 @@
      >                   IRECNT,IREAD,JOSTND,IRC)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     CALLED FROM EVUSRV, HVIN, AND PPUSRV (AND PERHAPS OTHER PLACES).
