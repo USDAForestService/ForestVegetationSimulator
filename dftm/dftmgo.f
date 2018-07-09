@@ -1,7 +1,7 @@
       SUBROUTINE DFTMGO(L)    
       IMPLICIT NONE
 C---------- 
-C  **DFTMGO DATE OF LAST REVISION:  05/13/13
+C DFTM $Id$
 C---------- 
 C     
 C     PARAMETERS: 

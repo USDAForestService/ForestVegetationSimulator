@@ -1,7 +1,7 @@
       SUBROUTINE TMDTLS(JO)   
       IMPLICIT NONE
 C---------- 
-C  **TMDTLS DATE OF LAST REVISION:  06/30/10
+C DFTM $Id$
 C---------- 
 C     **** This listing of revision dates has NEVER been maintained ****
 C
