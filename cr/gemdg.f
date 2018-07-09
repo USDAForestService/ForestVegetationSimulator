@@ -2,7 +2,7 @@
      &CR,SLOPE,ASPECT,ELEV,PBAL,PCCFI,RELDEN,BAL)
       IMPLICIT NONE
 C----------
-C CR $Id: gemdg.f 0000 2018-02-14 00:00:00Z gedixon $
+C CR $Id$
 C----------
 C   THIS SUBROUTINE CALCULATES DDS. IT IS CALLED FROM DGF.
 C----------

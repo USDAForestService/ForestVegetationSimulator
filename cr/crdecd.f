@@ -1,7 +1,7 @@
       SUBROUTINE CRDECD (IHB,CNHB,MAXHB,ARRAY2,KARD2)
       IMPLICIT NONE
 C----------
-C CR $Id: crdecd.f 0000 2018-02-14 00:00:00Z gedixon $
+C CR $Id$
 C
 C  CALLED FROM SUBROUTINE **HABTYP**.
 C----------
