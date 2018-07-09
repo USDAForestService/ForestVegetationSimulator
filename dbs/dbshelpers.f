@@ -1,6 +1,6 @@
       function success(returnCode)
 
-C $Id$
+C DBS $Id$
 
       INCLUDE 'DBSTYPEDEFS.F77'
             integer(SQLRETURN_KIND), intent(in) :: returnCode

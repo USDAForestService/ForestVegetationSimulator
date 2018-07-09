@@ -1,7 +1,7 @@
       SUBROUTINE TWIGBF(ISPC,H,D,VMAX,BBFV)
       IMPLICIT NONE
 C----------
-C CS $Id: twigbf.f 000 2018-03-27 00:00:00Z gedixon $
+C CS $Id$
 C----------
 C
 COMMONS

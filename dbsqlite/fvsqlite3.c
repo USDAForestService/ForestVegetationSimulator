@@ -1,7 +1,7 @@
 // fsql3. is a C lanaguage shim that provides an interface between Fortran and 
 // the Sqlite3 api. Nick Crookston, ncrookston.fs@gmail.com, Oct 2017
 
-// $Id$
+// DBSQLITE $Id$
 
 // the basic goal is to provide an interface that can populate tables
 // from fortran and get values from existing tables. 

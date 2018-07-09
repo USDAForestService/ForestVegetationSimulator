@@ -1,7 +1,7 @@
       SUBROUTINE DBSINIT
       IMPLICIT NONE
 C
-C $Id$
+C DBS $Id$
 C
       INCLUDE 'DBSCOM.F77'
 C

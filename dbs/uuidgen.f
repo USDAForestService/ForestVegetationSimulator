@@ -1,6 +1,6 @@
       Subroutine uuidgen(uuid)
 
-C $Id$
+C DBS $Id$
 
 
 C     Generates a version 4 uuid as 32 lowercase hexadecimal digits

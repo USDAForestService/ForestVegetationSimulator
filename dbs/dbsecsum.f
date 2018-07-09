@@ -5,7 +5,7 @@
      &      forestValueCalculated,reprodValue, reprodValueCalculated,
      &      ft3Volume, bfVolume,discountRate, sevInput, sevInputUsed)
 
-C $Id$
+C DBS $Id$
 
 
       implicit none

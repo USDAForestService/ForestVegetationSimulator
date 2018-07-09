@@ -1,4 +1,4 @@
-//  $Id$
+//  DBS $Id$
 
 // c program to build DBSTYPEDEFS.F77 for the system on which it is run.
 

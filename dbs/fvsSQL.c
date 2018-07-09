@@ -1,7 +1,7 @@
 // C language routines that link ODBC to FVS
 // NLCrookston -- RMRS -- Moscow -- October 2011
 
-//  $Id$
+//  DBS $Id$
 
 #ifdef WINDOWS
 #include <windows.h>
