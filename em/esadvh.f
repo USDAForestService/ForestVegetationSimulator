@@ -2,8 +2,8 @@
      &  GENTIM,TRAGE)
       IMPLICIT NONE
 C----------
-C EM $Id: esadv.f 0000 2018-02-14 00:00:00Z gedixon $
-C
+C EM $Id$
+C----------
 C     CALCULATES HEIGHTS OF ADVANCED TREES FOR REGENERATION MODEL
 C----------
 C

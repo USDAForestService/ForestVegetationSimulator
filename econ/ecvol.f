@@ -1,6 +1,6 @@
       SUBROUTINE ECVOL(treeId, LOGDIA, LOGVOL, isCubic)
 C----------
-C **ECVOL--ECON  DATE OF LAST REVISION: 0/12/2012
+C ECON $Id$
 C----------
 C Author Fred Martin, WA DNR,
 ! Loads gross log volumes and dibs for every FVS tree into an array by treeId by log for later use.
