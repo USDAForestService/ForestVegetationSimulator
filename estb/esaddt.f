@@ -1,7 +1,7 @@
       SUBROUTINE ESADDT(ICALL)
       IMPLICIT NONE
 C----------
-C ESTB $Id: esaddt.f 0000 2018-02-14 00:00:00Z gedixon $
+C ESTB $Id$
 C----------
 
 C     ADD NEW TREES FROM A FILE OR EXTERNAL DATA BASE.

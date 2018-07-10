@@ -1,7 +1,7 @@
       SUBROUTINE ESRANN (SEL)
       IMPLICIT NONE
 C----------
-C ESTB $Id: esrann.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C ESTB $Id$
 C----------
 C
 C     THIS RANDOM NUMBER GENERATED WAS MODIFIED FROM THE ALGORTHM

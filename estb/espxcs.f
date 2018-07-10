@@ -1,7 +1,7 @@
       SUBROUTINE ESPXCS
       IMPLICIT NONE
 C----------
-C  **ESPXCS--ESTB   DATE OF LAST REVISION:   07/25/08
+C ESTB $Id$
 C----------
 C
 COMMONS

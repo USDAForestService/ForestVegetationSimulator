@@ -1,7 +1,7 @@
       SUBROUTINE ESTPP (VAL,TPP)
       IMPLICIT NONE
 C----------
-C  **ESTPP  DATE OF LAST REVISION:   07/25/08
+C ESTB $Id$
 C----------
 C
 COMMONS

@@ -2,7 +2,7 @@
      &                   IDSDAT,KDT,IP)
       IMPLICIT NONE
 C----------
-C  **ESETPR DATE OF LAST REVISION:  07/25/08
+C ESTB $Id$
 C----------
 C
 C     SET SITE PREPARATION FOR THE REGENERATION MODEL.
