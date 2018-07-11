@@ -1,7 +1,7 @@
       SUBROUTINE ESPSUB
       IMPLICIT NONE
 C----------
-C  **ESPSUB--NI23   DATE OF LAST REVISION:   04/01/08
+C IE $Id$
 C----------
 C
 COMMONS

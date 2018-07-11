@@ -1,7 +1,7 @@
       SUBROUTINE EXPPNB
       IMPLICIT NONE
 C----------
-C NI $Id: exppnb.f 2121 2018-02-28 23:37:24Z gedixon $
+C IE $Id$
 C----------
 C
 C     VARIANT DEPENDENT EXTERNAL REFERENCES FOR THE
