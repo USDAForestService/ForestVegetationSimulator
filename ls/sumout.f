@@ -2,7 +2,7 @@
      >                  LEN,MGMID,NPLT,SAMWT,ITITLE)
       IMPLICIT NONE
 C----------
-C  **SUMOUT--LS   DATE OF LAST REVISION:  07/11/08
+C LS $Id$
 C----------
 C
 C     WRITES SUMMARY OUTPUT.

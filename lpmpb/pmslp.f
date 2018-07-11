@@ -1,7 +1,7 @@
       FUNCTION PMSLP(XX,X,Y,N)
       IMPLICIT NONE
 C----------
-C  **PMSLP         DATE OF LAST REVISION:  07/02/10
+C LPMPB $Id$
 C----------
       DIMENSION X(N),Y(N)
 C

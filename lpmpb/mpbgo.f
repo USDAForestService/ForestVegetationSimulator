@@ -1,7 +1,7 @@
       SUBROUTINE MPBGO(L)
       IMPLICIT NONE
 C----------
-C  **MPBGO         DATE OF LAST REVISION:  06/14/13
+C LPMPB $Id$
 C----------
 C
 C

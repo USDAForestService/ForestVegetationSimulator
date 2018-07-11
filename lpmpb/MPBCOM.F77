@@ -1,6 +1,6 @@
 CODE SEGMENT MPBCOM
 C----------
-C  **MPBCOM        DATE OF LAST REVISION:  08/22/14
+C LPMPB $Id$
 C----------
 C
 C Revision History

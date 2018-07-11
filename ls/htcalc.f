@@ -2,7 +2,7 @@
      &                   DEBUG)
       IMPLICIT NONE
 C----------
-C LS $Id: htcalc.f 0000 2018-02-14 00:00:00Z gedixon $
+C LS $Id$
 C----------
 C  THIS SUBROUTINE COMPUTES THE PREDICTED HEIGHT USING SITE INDEX
 C  CURVES SHOWN IN:

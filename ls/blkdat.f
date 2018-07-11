@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C LS $Id: blkdat.f 0000 2018-02-15 00:00:00Z gary.dixon24@gmail.com $
+C LS $Id$
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
