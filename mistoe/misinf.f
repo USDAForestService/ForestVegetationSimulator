@@ -1,6 +1,6 @@
       SUBROUTINE MISINF
 ***********************************************************************
-C MISTOE $Id: misinf.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     This routine adds dwarf mistletoe infections to a proportion of

@@ -1,6 +1,6 @@
       SUBROUTINE MISIN(PASKEY,ARRAY,LNOTBK,LKECHO)
 ***********************************************************************
-C MISTOE $Id: misin.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Reads in mistletoe keywords and processes the ones that aren't

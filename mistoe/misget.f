@@ -1,6 +1,6 @@
       SUBROUTINE MISGET(ITREE,IDMR)
 ***********************************************************************
-*  **MISGET--MS  Date of last revision:  01/14/94
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Gets dwarf mistletoe rating (stored in array IMIST) for the

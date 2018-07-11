@@ -1,6 +1,6 @@
       REAL FUNCTION MISDGF(ITREE,ISPC)
 ***********************************************************************
-C MISTOE $Id: misdgf.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Calculates the percentage of diameter growth lost periodically

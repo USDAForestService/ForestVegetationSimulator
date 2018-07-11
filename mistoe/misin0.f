@@ -1,6 +1,6 @@
       SUBROUTINE MISIN0
 ***********************************************************************
-C MISTOE $Id: misin0.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Mistletoe parameter initialization routine. This routine is
