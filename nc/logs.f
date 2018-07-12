@@ -2,7 +2,7 @@
      &     (DBH,HT,ICCD,IBCD,CUMIN,BDMIN,ISP,CSTMP,BV,JOSTND)
       IMPLICIT NONE
 C----------
-C NC $Id: logs.f 0000 2018-02-14 00:00:00Z gedixon $
+C NC $Id$
 C----------
 C
 C  TAPER EQUATIONS BY G.S.BIGING

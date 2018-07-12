@@ -1,7 +1,7 @@
       SUBROUTINE BADIST(DEBUG)
       IMPLICIT NONE
 C----------
-C NE $Id: badist.f 0000 2018-02-14 00:00:00Z gedixon $
+C NE $Id$
 C----------
 C
 C COMMONS
