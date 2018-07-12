@@ -1,5 +1,5 @@
 C----------
-C ORGANON $Id: tripleorg.f 0000 2018-02-14 00:00:00Z gedixon $
+C ORGANON $Id$
 C----------
       SUBROUTINE XTRIP(K,J,M,ON,IWQ,WOODQ,IB,BIG6,POINT,TREENO,
      1                 TDATAI,PRAGE,BRCNT,BRHT,BRDIA,JCORE,NPR,PRLH,

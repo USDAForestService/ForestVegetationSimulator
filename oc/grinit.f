@@ -1,7 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-C OC $Id: grinit.f 1388 2014-12-19 16:34:36Z rhavis@msn.com $
+C OC $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES

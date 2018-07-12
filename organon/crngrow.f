@@ -1,6 +1,6 @@
-C
-C ORGANON $Id: crngrow.f 0000 2018-02-14 00:00:00Z gedixon $
-C
+C----------
+C ORGANON $Id$
+C----------
 C     ORGANON GROWTH AND YIELD MODEL
 C     SUBROUTINES INCLUDED:
 C         CROWGRO

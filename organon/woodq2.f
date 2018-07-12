@@ -1,6 +1,6 @@
-C
-C ORGANON $Id: woodq2.f 0000 2018-02-14 00:00:00Z gedixon $
-C
+C----------
+C ORGANON $Id$
+C----------
       SUBROUTINE WQ_FILL(JCALC,EVEN,BHAGE,STAGE,IB2,NTREES,NWQT,TDATAI,
      1                   VERSION,WQINIT,SI_1,SI_2,PDEN,TDATAR,SCR,BRCNT,
      2                   BRDIA,BRHT,JCORE)

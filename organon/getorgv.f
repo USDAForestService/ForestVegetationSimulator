@@ -1,7 +1,7 @@
       SUBROUTINE GETORGV(I,VALU)
       IMPLICIT NONE
 C----------
-C  $Id: getorgv.f $
+C ORGANON $Id$
 C----------
 C
 C  SUBROUTINE TO RETURN EVENT MONITOR VARIABLES

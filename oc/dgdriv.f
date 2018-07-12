@@ -1,7 +1,7 @@
       SUBROUTINE DGDRIV
       IMPLICIT NONE
 C----------
-C OC $Id: dgdriv.f 0000 2018-02-14 00:00:00Z gedixon $
+C OC $Id$
 C----------
 C  THIS SUBROUTINE SERVES TWO PURPOSES:
 C
