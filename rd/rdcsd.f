@@ -1,7 +1,7 @@
       SUBROUTINE RDCSD(ISPI,DBHLIM,THRESH,CRIT)
       IMPLICIT NONE
 C----------
-C  **RDCSD       LAST REVISION:  08/28/14     
+C RD $Id$
 C----------
 C
 C  Purpose :

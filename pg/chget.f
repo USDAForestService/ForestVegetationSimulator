@@ -1,7 +1,7 @@
       SUBROUTINE CHGET
       IMPLICIT NONE
 C----------
-C  $Id$
+C PG $Id$
 C----------
 C
 C     READ THE ALL-DATA CHARACTER DATA FROM THE DA FILE.

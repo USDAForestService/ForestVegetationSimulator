@@ -1,7 +1,7 @@
       REAL FUNCTION RDSLP(X,XX,YY,N)
       IMPLICIT NONE
 C----------
-C  **RDSLP       LAST REVISION:  09/03/14
+C RD $Id$
 C----------
 C
 C  Given two arrays XX and YY, each of dimension N, representing

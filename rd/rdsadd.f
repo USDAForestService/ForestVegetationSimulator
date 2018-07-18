@@ -1,7 +1,7 @@
       SUBROUTINE RDSADD(I,TP)
       IMPLICIT NONE
 C----------
-C  **RDSADD      LAST REVISION:  09/02/14
+C RD $Id$
 C----------
 C
 C  ADD TO THE STUMP LIST.

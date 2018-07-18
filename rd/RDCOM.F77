@@ -1,6 +1,6 @@
 CODE SEGMENT RDCOM
 C----------
-C  **RDCOM       LAST REVISION:  03/24/15
+C RD $Id$
 C----------
 C REVISION HISTORY:
 C   27-JUNE-2002 Lance David

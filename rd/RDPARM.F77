@@ -1,6 +1,6 @@
 CODE SEGMENT RDPARM
 C----------
-C  **RDPARM      LAST REVISION:  08/15/14
+C RD $Id$
 C----------
 C
 C  Parameters for the root disease model are :

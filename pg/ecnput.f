@@ -1,7 +1,7 @@
       SUBROUTINE ECNPUT (WK3,IPNT,ILIMIT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C PG $Id$
 C----------
 C
 C     STORE THE ECONOMIC DATA FOR A GIVEN STAND.

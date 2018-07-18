@@ -1,7 +1,7 @@
       SUBROUTINE RDINIT
       IMPLICIT NONE
 C----------
-C  **RDINIT--CA      LAST REVISION:  03/24/15
+C RD $Id$
 C----------
 C
 C  Purpose :

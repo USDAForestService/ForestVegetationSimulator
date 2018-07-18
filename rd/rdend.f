@@ -1,7 +1,7 @@
       SUBROUTINE RDEND
       IMPLICIT NONE
 C----------
-C  **RDEND       LAST REVISION:  08/28/14 
+C RD $Id$
 C----------
 C
 C  Purpose :

@@ -1,7 +1,7 @@
       SUBROUTINE RDIN(PASKEY,ARRAY,LNOTBK,LKECHO)
       IMPLICIT NONE
 C----------
-C  **RDIN                         LAST REVISION:  01/08/16
+C RD $Id$
 C----------
 C
 C  Purpose :

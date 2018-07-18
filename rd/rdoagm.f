@@ -1,7 +1,7 @@
       SUBROUTINE RDOAGM
       IMPLICIT NONE
 C----------
-C  **RDOAGM      LAST REVISION: 08/29/14
+C RD $Id$
 C----------
 C
 C  Purpose :
