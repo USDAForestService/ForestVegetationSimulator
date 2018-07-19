@@ -2,7 +2,7 @@
      &  TRAGE)
       IMPLICIT NONE
 C----------
-C SN $Id: essubh.f 0000 2018-02-14 00:00:00Z gedixon $
+C SN $Id$
 C----------
 C
 COMMONS

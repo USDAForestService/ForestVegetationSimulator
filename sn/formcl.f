@@ -1,7 +1,7 @@
       SUBROUTINE FORMCL(ISPC,IFOR,D,FC)
       IMPLICIT NONE
 C----------
-C  **FORMCL--SN     DATE OF LAST REVISION:  06/05/08
+C SN $Id$
 C----------
 C
       INTEGER IFOR,ISPC
