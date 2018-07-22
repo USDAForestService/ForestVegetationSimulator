@@ -2,7 +2,7 @@
      &  TRAGE)
       IMPLICIT NONE
 C----------
-C  **ESSUBH--STRP   DATE OF LAST REVISION:   09/17/08
+C STRP $Id$
 C----------
 C
 COMMONS

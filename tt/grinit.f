@@ -2,7 +2,7 @@
       IMPLICIT NONE
 C----------
 C TT $Id$
-C
+C----------
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
 C----------
 C
