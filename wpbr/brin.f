@@ -1,8 +1,8 @@
       SUBROUTINE BRIN(PASKEY,ARRAY,LNOTBK,LKECHO)
       IMPLICIT NONE
-C**********************************************************************
-C  **BRIN         DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C     This subroutine reads the White Pine Blister Rust keywords.
 C----------------------------------------------------------------------

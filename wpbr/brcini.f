@@ -1,8 +1,8 @@
       SUBROUTINE BRCINI(IBRNO,HITE)
       IMPLICIT NONE
-C**********************************************************************
-C  **BRCINI       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  BRCINI uses the canker counts read from the canker data list
 C  (if the CANKDATA keyword is used - there is a required record that

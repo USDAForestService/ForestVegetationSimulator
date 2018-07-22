@@ -1,8 +1,8 @@
       SUBROUTINE BRCSTA
       IMPLICIT NONE
-C**********************************************************************
-C  **BRCSTA       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  BRCSTA determines the status of cankers on each tree during the
 C  initialization cycle.  Status of cankers during cycling is

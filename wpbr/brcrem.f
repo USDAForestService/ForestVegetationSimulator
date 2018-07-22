@@ -1,8 +1,8 @@
       SUBROUTINE BRCREM
       IMPLICIT NONE
-C**********************************************************************
-C  **BRCREM       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  BRCREM removes cankers that have been classified as inactive
 C  or non-lethal.  Also removes excisable cankers when excising

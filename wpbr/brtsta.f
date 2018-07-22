@@ -1,8 +1,8 @@
       SUBROUTINE BRTSTA
       IMPLICIT NONE
-C**********************************************************************
-C  **BRTSTA       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  BRTSTA determines the status of each tree based on the worst
 C  canker for the tree.

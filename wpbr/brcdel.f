@@ -1,8 +1,8 @@
       SUBROUTINE BRCDEL(IVACT,INDXBR,J)
       IMPLICIT NONE
-C**********************************************************************
-C  **BRCDEL       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  This routine deletes cankers by moving them from the bottom of the
 C  list to fill in empty canker record locations at the top of the list.

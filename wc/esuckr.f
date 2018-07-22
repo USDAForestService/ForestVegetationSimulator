@@ -1,7 +1,7 @@
       SUBROUTINE ESUCKR
       IMPLICIT NONE
 C----------
-C  **ESUCKR--WC   DATE OF LAST REVISION: 01/27/11
+C WC $Id$
 C----------
 COMMONS
 C
