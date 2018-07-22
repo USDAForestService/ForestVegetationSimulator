@@ -2,7 +2,7 @@
      >                  LENG,MGMID,NPLT,SAMWT,ITITLE,IPTINV)
       IMPLICIT NONE
 C----------
-C  $Id$
+C VBASE $Id$
 C----------
 C
 C     WRITES SUMMARY OUTPUT.

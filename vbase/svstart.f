@@ -1,7 +1,7 @@
       SUBROUTINE SVSTART
       IMPLICIT NONE
 C----------
-C  $Id$
+C VBASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

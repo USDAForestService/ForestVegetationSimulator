@@ -1,7 +1,7 @@
       SUBROUTINE CWCALC(ISPC,P,D,H,CR,IICR,CW,IWHO,JSTND2)
       IMPLICIT NONE
 C----------
-C NI $Id: cwcalc.f 0000 2018-02-14 00:00:00Z gedixon $
+C VIE $Id$
 C----------
 COMMONS
 C
