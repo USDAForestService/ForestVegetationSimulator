@@ -1,8 +1,8 @@
+C----------
+C VOLUME $Id$
+C----------
       SUBROUTINE R8VOL2(VOLEQ,VOL,DBHOB,HTONE,HTTWO,MTOPP,HTTOT,CTYPE,
      >                  ERRFLAG)
-C----------
-C VOLUME $Id: r8vol2.f 0000 2018-02-14 00:00:00Z gedixon $
-C----------
 !== last modified  03-12-2014
 !== tdh added httwo = httot before prod 08
 C YW added to also check httot > 20 for prod 08 and changed subroutine PROD8 to return zero volume for height < 17.3

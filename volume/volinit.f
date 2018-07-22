@@ -1,12 +1,12 @@
+C----------
+C VOLUME $Id$
+C----------
       SUBROUTINE VOLINIT(REGN,FORST,VOLEQ,MTOPP,MTOPS,STUMP,DBHOB,
      +    DRCOB,HTTYPE,HTTOT,HTLOG,HT1PRD,HT2PRD,UPSHT1,UPSHT2,UPSD1,
      +    UPSD2,HTREF,AVGZ1,AVGZ2,FCLASS,DBTBH,BTR,I3,I7,I15,I20,I21,
      +    VOL,LOGVOL,LOGDIA,LOGLEN,BOLHT,TLOGS,NOLOGP,NOLOGS,CUTFLG,
      +    BFPFLG,CUPFLG,CDPFLG,SPFLG,CONSPEC,PROD,HTTFLL,LIVE,
      +    BA,SI,CTYPE,ERRFLAG,IDIST)
-C----------
-C VOLUME $Id: volinit.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
-C----------
 
 !...  Prepare parameters and data for call to appropriate volume
 !...  equations. 

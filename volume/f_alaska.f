@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: f_alaska.f 0000 2018-02-14 00:00:00Z gedixon $
+C VOLUME $Id$
 C----------
 !== last modified  09-14-2007
 c== Test for New Inside Bark Models

@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: sf_taper.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 !== last modified  01-10-2003
       SUBROUTINE SF_TAPER (RHFW,RFLW,TAPCOE)

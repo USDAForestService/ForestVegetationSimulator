@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id$
+C----------
 !== last modified  06-24-2005
       SUBROUTINE BRK_UP(JSP,GEOSUB,DBHOB,THT,DBTBH,HTUP,DIB,DOB,DBT)
 c             given a section height (HTUP) and dib, calculate the ratio:

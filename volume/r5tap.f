@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r5tap.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 !== last modified  4-9-2002
       SUBROUTINE R5TAP(VOLEQ,DBHOB,HTTOT,HT2,D2,errflg)   

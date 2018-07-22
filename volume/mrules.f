@@ -1,9 +1,9 @@
+C----------
+C VOLUME $Id$
+C----------
       SUBROUTINE MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,
      >   MINLEN,MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
      >   PROD)
-C----------
-C VOLUME $Id: mrules.f 0000 2018-02-14 00:00:00Z gedixon $
-C----------
 c     program assigns regional merchandizing rules to be used with
 c      profile models
 C

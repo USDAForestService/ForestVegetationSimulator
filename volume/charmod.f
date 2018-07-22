@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id$
+C----------
       MODULE CHARMOD
 
 !     Module to store utility type definitions

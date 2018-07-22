@@ -1,8 +1,8 @@
-      SUBROUTINE FVSBRUCEDEMARS(VN,VM,VMAX,D,H,ISPC,BARK,LCONE,CTKFLG)
-      IMPLICIT NONE
 C----------
 C VOLUME $Id$
 C----------
+      SUBROUTINE FVSBRUCEDEMARS(VN,VM,VMAX,D,H,ISPC,BARK,LCONE,CTKFLG)
+      IMPLICIT NONE
 C  This routine calculates volumes for the AK variant using
 C  the Bruce and Demars method METHC = 8
 C  called from **FVSVOL

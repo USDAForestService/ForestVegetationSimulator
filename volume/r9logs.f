@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r9logs.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 C  subroutine for calculating region log volumes
 C

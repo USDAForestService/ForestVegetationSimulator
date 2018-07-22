@@ -1,5 +1,5 @@
-C
-C VOLUME $Id: f_west.f 0000 2018-02-14 00:00:00Z gedixon $
+C----------
+C VOLUME $Id$
 C----------
 C  FILE CONTAINS THE FOLLOWING ROUTINES
 C        SHP_W3

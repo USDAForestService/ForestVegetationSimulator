@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r6dibs.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 !== last modified  08-13-2003
       SUBROUTINE R6DIBS (IAPZ,DBHOB,IBTR,FCLASS,MTOPP,TLH,TH,

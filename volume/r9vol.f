@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r9vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 !== last modified  12-17-2008
       SUBROUTINE R9VOL(VOLEQ,HTTOT,HT1PRD,HT2PRD,DBHOB,VOL,FORST,SI,BA,
