@@ -1,6 +1,7 @@
       SUBROUTINE BMSANI (IYR)
-*      SUBROUTINE BMSANI (ISTD,IYR)
-C
+C----------
+C WWPB $Id$
+C----------
 c     CALLED FROM BMDRV
 c     CALLS:  BMSLSH
 ***********************************************************************

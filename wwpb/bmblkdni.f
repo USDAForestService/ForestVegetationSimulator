@@ -1,7 +1,6 @@
       BLOCK DATA BMBLKD
 C----------
-C  **BMBLKD NI--WESTWIDE PINE BEETLE MODEL  DATE OF LAST REVISION: 04/10/00
-C            Inland Empire FVS variant
+C WWPB $Id$
 C----------
 ***********************************************************************
 * The following Westwide Pine Beetle Model variable initializations

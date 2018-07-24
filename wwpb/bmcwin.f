@@ -1,5 +1,7 @@
       SUBROUTINE BMCWIN (ISTD,IYR)
-
+C----------
+C WWPB $Id$
+C----------
 *     CALLED FROM:  BMDRV
 *     CALLS   GPGET2
 *             GPADD 

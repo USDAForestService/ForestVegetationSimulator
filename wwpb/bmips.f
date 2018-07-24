@@ -1,5 +1,7 @@
       SUBROUTINE BMIPS(ISTD,IYR)                                       
-      
+C----------
+C WWPB $Id$
+C----------
 C     CALLED FROM: BMDRV
 C     CALLS:  SPLAAR
 C             BMRANN

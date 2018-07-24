@@ -1,6 +1,6 @@
       BLOCK DATA BWEBK
 C----------
-C  **BWEBK--IB       DATE OF LAST REVISION:  09/06/06
+C WSBWE $Id$
 C           SEI 14-July-2008
 C----------
 C

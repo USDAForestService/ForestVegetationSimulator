@@ -1,6 +1,7 @@
-c      SUBROUTINE BMCGRF (ISTD,IYR)
       SUBROUTINE BMCGRF (ISTD,IYR,OLDGRF)
-
+C----------
+C WWPB $Id$
+C----------
 c     CALLED BY: BMDRV
 ***********************************************************************
 *  **BMCGRF  Date of last revision:  June 14, 1994

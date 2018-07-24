@@ -1,6 +1,6 @@
       SUBROUTINE BWEBMS (TRFBMS,ICVOPT)
 C----------
-C  **BWEBMS--IB   DATE OF LAST REVISION:  08/10/99
+C WSBWE $Id$
 C            SEI 14-July-2008
 C----------
 C

@@ -1,6 +1,6 @@
 CODE SEGMENT BWECM2
 C----------
-C  **BWECM2                 DATE OF LAST REVISION:  08/28/13
+C WSBWE $Id$
 C----------
 C
 C     BWECM2: Common variables for the GenDefol / Budworm Model

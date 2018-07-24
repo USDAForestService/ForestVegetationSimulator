@@ -1,6 +1,6 @@
       SUBROUTINE BMSETP
 C----------
-C  **BMSETP  DATE OF LAST REVISION:  12/20/05
+C WWPB $Id$
 C----------
 c     Shamelessly adapted from MDSETP.
 c

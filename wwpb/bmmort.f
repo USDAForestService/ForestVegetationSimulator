@@ -1,5 +1,7 @@
       SUBROUTINE BMMORT (ISTD,IYR,SLOW)
-      
+C----------
+C WWPB $Id$
+C----------
 c     CALLED FROM BMDRV
 ***********************************************************************
 * **BMMORT    Date of last revision:  09/28/05

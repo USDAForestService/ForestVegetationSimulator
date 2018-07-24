@@ -1,7 +1,7 @@
       BLOCK DATA BWEBK
       IMPLICIT NONE
 C----------
-C  **BWEBK--CI          DATE OF LAST REVISION:  10/06/11
+C WSBWE $Id$
 C----------
 C
 C     BLOCKDATA FOR THE  BUDWORM MODEL.

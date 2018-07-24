@@ -1,5 +1,7 @@
       SUBROUTINE BMRRSS
 C----------
+C WWPB $Id$
+C----------
 C  **BMRRSS--WWPB   DATE OF LAST REVISION:  07/10/94
 C     A quick model that will provide some sensitivity to root
 C     disease and stem rust in the inventory. These should be

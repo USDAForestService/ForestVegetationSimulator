@@ -1,8 +1,7 @@
       SUBROUTINE BMPPPT (IPNT, ILIMIT)
-      
-***********************************************************************
-*  **BMPPPT--WWPB   DATE OF LAST REVISION:  02/01/95
-*----------------------------------------------------------------------
+C----------
+C WWPB $Id$
+C----------
 *  Purpose:
 *     Write the damage code information for the given stand.
 *  This is part of the Parallel Processing Extension, and freely 

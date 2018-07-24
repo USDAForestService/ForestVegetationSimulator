@@ -1,5 +1,7 @@
       SUBROUTINE BMFINT (BYRAM, FLAME, ISTD) 
-
+C----------
+C WWPB $Id$
+C----------
 *     CALLED FROM BMFIRE      
 ***********************************************************************
 *  **BMFINT--WS  DATE OF LAST REVISION:  JUNE 13, 1994

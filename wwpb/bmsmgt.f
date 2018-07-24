@@ -1,5 +1,7 @@
       SUBROUTINE BMSMGT (IYR)
-      
+C----------
+C WWPB $Id$
+C----------
 c     CALLED FROM BMDRV
 ***********************************************************************
 * **BMSMGT    Date of last revision:  June 22, 1994

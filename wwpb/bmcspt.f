@@ -1,5 +1,7 @@
       SUBROUTINE BMCSPT(ISTD,ISIZ,IPASS,IYR)   
-      
+C----------
+C WWPB $Id$
+C----------
 C     CALLED FROM: BMCNUM
 ***********************************************************************
 *  **BMCSPT  Date of last revision:  March 28, 1994

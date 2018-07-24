@@ -1,5 +1,7 @@
       SUBROUTINE BMCNUM(ISTD,IYR)
-      
+C----------
+C WWPB $Id$
+C----------
 c      CALLED BY: BMDRV
 ***********************************************************************
 *  **BMCNUM  Date of last revision: Aug, 1999 (AJM)

@@ -1,7 +1,7 @@
       BLOCK DATA BMBLKD
 C----------
-C  **BMBLKD CR--WESTWIDE PINE BEETLE MODEL  DATE OF LAST REVISION: 04/10/00
-C           Central Rockies (CR) FVS variant
+C WWPB $Id$
+C----------
 C---------- Modified 2/11/00 AJM...correcting variant-specific tree species
 c          sequences, and setting appropriate defaults.
 ***********************************************************************

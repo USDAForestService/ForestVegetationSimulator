@@ -1,7 +1,7 @@
       SUBROUTINE BWERAN(SEL)
       IMPLICIT NONE
 C----------
-C  **BWERAN                 DATE OF LAST REVISION:  07/14/10
+C WSBWE $Id$
 C----------
 C
 C     BASE RANDOM NUMBER GENERATOR

@@ -1,5 +1,7 @@
       SUBROUTINE BMFMRT (ISTD, IYR, SH, FM)
-
+C----------
+C WWPB $Id$
+C----------
 *     CALLED FROM: BMFIRE
 ***********************************************************************
 *  **BMFMRT  DATE OF LAST REVISION:  June 14, 1994

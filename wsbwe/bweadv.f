@@ -1,7 +1,7 @@
       SUBROUTINE BWEADV(IYR1)
       IMPLICIT NONE
 C----------
-C  **BWEADV                 DATE OF LAST REVISION:  07/14/10
+C WSBWE $Id$
 C----------
 C
 C     ADJUST PROGNOSIS VARIABLES.

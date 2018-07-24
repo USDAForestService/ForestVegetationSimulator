@@ -1,5 +1,7 @@
       SUBROUTINE BMPSTC (IYR) 
-      
+C----------
+C WWPB $Id$
+C----------
 *     CALLED FROM: BMDRV
 ***********************************************************************      
 * **BMPSTC:   Date of last revision: June 22, 1994

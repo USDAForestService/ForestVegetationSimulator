@@ -1,7 +1,7 @@
       SUBROUTINE BWEPPGT (WK3, IPNT, ILIMIT, IB)
       IMPLICIT NONE
 C----------
-C  **BWEPPGT                DATE OF LAST REVISION:  10/15/14
+C WSBWE $Id$
 C----------
 C  Purpose:
 C     Get (read) the GenDefol/Budworm model data for a given stand
