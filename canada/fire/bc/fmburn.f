@@ -1,8 +1,7 @@
       SUBROUTINE FMBURN (IYR, FMD, LNMOUT)
       IMPLICIT NONE
-C
-C  $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C  **FMBURN  FIRE-BC
 C----------

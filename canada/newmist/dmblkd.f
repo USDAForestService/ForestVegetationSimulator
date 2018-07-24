@@ -1,7 +1,7 @@
       BLOCK DATA DMBLKD
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C  **DMBLKD  DATE OF LAST REVISION:  02/15/96
 C----------

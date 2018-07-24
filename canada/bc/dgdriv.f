@@ -1,7 +1,7 @@
       SUBROUTINE DGDRIV
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 C  THIS SUBROUTINE SERVES TWO PURPOSES:
 C

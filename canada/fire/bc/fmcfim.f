@@ -1,8 +1,7 @@
       SUBROUTINE FMCFIM (IYR, FMD, UWIND, IBYRAM, FLAMEHT, CANBURN, ROS)
       IMPLICIT NONE
-C
-C  $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C  **FMCFIM  FIRE-BC
 C----------

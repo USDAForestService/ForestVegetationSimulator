@@ -1,7 +1,7 @@
       SUBROUTINE REVISE (VAR,REV)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 C    $$ DON'T CHANGE THIS DATE UNLESS THE SUBROUTINE LOGIC CHANGES.
 C----------

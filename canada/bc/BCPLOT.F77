@@ -1,6 +1,6 @@
 CODE SEGMENT BCPLOT
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 C  DEFINITIONS OF VARIABLES IN 'BCPLOT' COMMON BLOCK:
 C----------

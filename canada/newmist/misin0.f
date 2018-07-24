@@ -1,7 +1,7 @@
       SUBROUTINE MISIN0
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 *  **MISIN0--    Date of last revision:  04/01/11
 *                Spatial model

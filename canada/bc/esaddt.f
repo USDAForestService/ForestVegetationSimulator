@@ -1,7 +1,7 @@
       SUBROUTINE ESADDT(ICALL)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 
 C     ADD NEW TREES FROM A FILE OR EXTERNAL DATA BASE.

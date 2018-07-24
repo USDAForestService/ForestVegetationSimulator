@@ -1,8 +1,7 @@
       SUBROUTINE FMCONS(FMOIS,BTYPE,PLAREA,IYR,ICALL,PSMOKE,PSBURN)
       IMPLICIT NONE
-C
-C  $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C  **FMCONS   FIRE-BC
 C----------

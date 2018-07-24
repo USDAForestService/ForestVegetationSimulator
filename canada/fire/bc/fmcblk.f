@@ -1,8 +1,7 @@
       BLOCK DATA FMCBLK
       IMPLICIT NONE
-C
-C  $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C   **FMCBLK--FIRE-BC
 C----------

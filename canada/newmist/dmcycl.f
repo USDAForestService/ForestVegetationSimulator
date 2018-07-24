@@ -1,7 +1,7 @@
       SUBROUTINE DMCYCL
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMCYCL -- NISI  Date of last revision April 7 1994
 C----------------------------------------------------------------------

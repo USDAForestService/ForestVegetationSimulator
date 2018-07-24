@@ -2,7 +2,7 @@
      &  TRAGE,SI,LOSTND)
       IMPLICIT NONE
 C----------
-C  **ESSUBH--NE   DATE OF LAST REVISION:   07/11/08
+C ACD $Id$
 C----------
 C
 COMMONS

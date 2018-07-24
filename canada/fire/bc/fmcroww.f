@@ -1,8 +1,7 @@
       SUBROUTINE FMCROWW (SPI,D,H,ITRNC,IC,HP,SG,XV)
       IMPLICIT NONE
-C
-C  $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C  **FMCROWW  FIRE-BC
 C----------

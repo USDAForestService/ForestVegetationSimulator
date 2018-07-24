@@ -2,7 +2,7 @@
      >                  LENG,MGMID,NPLT,SAMWT,ITITLE,LCVOLS,IPTINV)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 C
 C     WRITES SUMMARY OUTPUT.

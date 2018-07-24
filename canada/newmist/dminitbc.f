@@ -1,7 +1,7 @@
       SUBROUTINE DMINIT
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMINIT--NI  DATE OF LAST REVISION: 02/22/96
 C----------

@@ -2,7 +2,8 @@
      &                   JOSTND,DEBUG,D,PCT1)
       IMPLICIT NONE
 C----------
-C  **HTCALC--ON   DATE OF LAST REVISION:  07/11/08
+C CANADA-ON $Id$
+C----------
 C  **from LS_NEW: imported to allow age-dubbing for Mowraski volume 
 C----------
 C  THIS SUBROUTINE COMPUTES THE PREDICTED HEIGHT USING SITE INDEX

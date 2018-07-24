@@ -1,7 +1,7 @@
       SUBROUTINE DMOPTS
       IMPLICIT NONE      
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMOPTS -- NISI  Date of last revision: April 10 1994 
 C----------------------------------------------------------------------

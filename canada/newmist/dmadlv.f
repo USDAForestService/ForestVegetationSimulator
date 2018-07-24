@@ -2,7 +2,7 @@
      &                      Level, Shd, Shd0, II, EB)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C  **DMADLV --  DATE OF LAST REVISION: 02/26/96        
 C----------

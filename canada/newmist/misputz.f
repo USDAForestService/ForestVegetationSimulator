@@ -1,7 +1,7 @@
       SUBROUTINE MISPUTZ(ITREE,IDMR)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 *  **MISPUTZ--MS  Date of last revision:  03/06/01
 *----------------------------------------------------------------------
