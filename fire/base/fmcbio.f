@@ -1,7 +1,7 @@
       SUBROUTINE FMCBIO (D, KSP, ABIO, MBIO, RBIO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMSCUT

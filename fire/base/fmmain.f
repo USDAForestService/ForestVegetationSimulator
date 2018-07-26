@@ -1,7 +1,7 @@
       SUBROUTINE FMMAIN
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id: fmmain.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C FIRE-BASE $Id$
 C----------
 C
 C     THIS ROUTINE IS THE 'MAIN' FIRE ROUTINE. IT LOOPS OVER

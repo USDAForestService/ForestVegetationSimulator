@@ -1,6 +1,6 @@
 CODE SEGMENT FMSNGL
 C----------
-C  $Id$
+C FIRE-BASE-COMMON $Id$
 C----------
 C  **FMSNGL FIRE
 C----------

@@ -1,7 +1,7 @@
       SUBROUTINE FMSVOL (II, XHT, VOL2HT, DEBUG, IOUT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 *     CALLED FROM: FMSOUT
 *                  FMDOUT

@@ -1,6 +1,6 @@
 C.... Code segment FMFCOM.
 C----------
-C  $Id$
+C FIRE-BASE-COMMON $Id$
 C----------
 C  **FMFCOM  FIRE
 C----------

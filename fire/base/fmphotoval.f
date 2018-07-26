@@ -1,7 +1,7 @@
       SUBROUTINE FMPHOTOVAL (FotoRef, Fotocode, FotoVal, FotoValS)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C
 C     CONTAINS THE SURFACE FUEL VALUES (TONS/ACRE) CORRESPONDING TO

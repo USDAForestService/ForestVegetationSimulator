@@ -1,7 +1,7 @@
       SUBROUTINE FMKILL(ICALL)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C     SINGLE-STAND VERSION
 C

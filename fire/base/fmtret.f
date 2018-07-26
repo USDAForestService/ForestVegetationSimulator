@@ -1,7 +1,7 @@
       SUBROUTINE FMTRET (IYR)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id: fmtret.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C FIRE-BASE $Id$
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN
