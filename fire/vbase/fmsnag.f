@@ -1,7 +1,7 @@
       SUBROUTINE FMSNAG (IYR, YR1)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id$
+C FIRE-VBASE $Id$
 C----------
 C     CALLED FROM: FMMAIN
 C     CALLS   FMSSEE

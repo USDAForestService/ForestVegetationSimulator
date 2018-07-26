@@ -1,5 +1,5 @@
 //
-// $Id$
+// FIRE-FOFEM $Id$
 //
 
 #define  e_SHA_Init  -999               /* Init Value                        */

@@ -1,7 +1,7 @@
       SUBROUTINE FMSNGHT(VAR,KSP,HTD,HTCURR,IHRD,HTSNEW)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id: fmsnght.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C FIRE-VBASE $Id$
 C----------
 C
 C     SNAG HEIGHT PREDICTION

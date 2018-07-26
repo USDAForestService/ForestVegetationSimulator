@@ -1,7 +1,7 @@
       SUBROUTINE FMCFMD (IYR, FMD)
       IMPLICIT NONE
 C----------
-C FIRE-NE $Id: fmcfmd.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-NE $Id$
 C----------
 C  SINGLE-STAND VERSION
 C  CALLED FROM: FMBURN

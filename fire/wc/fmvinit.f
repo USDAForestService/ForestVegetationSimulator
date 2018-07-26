@@ -1,8 +1,8 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
-
-C FIRE-WC $Id: fmvinit.f 0000 2018-02-14 00:00:00Z gedixon $
-
+C----------
+C FIRE-WC $Id$
+C----------
 C    VIRTUALLY IDENTICAL TO PN-FFE VERSION
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model

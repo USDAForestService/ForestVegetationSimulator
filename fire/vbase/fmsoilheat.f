@@ -1,7 +1,7 @@
       SUBROUTINE FMSOILHEAT (IYR, LNMOUT)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id$
+C FIRE-VBASE $Id$
 C----------
 C
 C     CALLED FROM: FMBURN

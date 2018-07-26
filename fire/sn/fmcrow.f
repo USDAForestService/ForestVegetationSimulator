@@ -1,7 +1,7 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
 C----------
-C FIRE-SN $Id: fmcrow.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-SN $Id$
 C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS:

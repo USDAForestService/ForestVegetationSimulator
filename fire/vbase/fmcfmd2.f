@@ -1,7 +1,7 @@
       SUBROUTINE FMCFMD2 (IYR, FMD)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id: fmcfmd2.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-VBASE $Id$
 C----------
 *     CALLED FROM: FMBURN, FMPOFL
 *     PURPOSE:

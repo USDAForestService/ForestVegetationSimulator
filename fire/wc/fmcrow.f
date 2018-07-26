@@ -1,8 +1,8 @@
       SUBROUTINE FMCROW
       IMPLICIT NONE
-
-C  **FMCROW  FIRE-WC DATE OF LAST REVISION:  01/10/12
-
+C----------
+C FIRE-WC $Id$
+C----------
 C     CALLED FROM: FMSDIT, FMPRUN
 C     CALLS        RDPSRT
 C                  PCTILE

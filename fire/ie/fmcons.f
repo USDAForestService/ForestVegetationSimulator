@@ -1,7 +1,7 @@
       SUBROUTINE FMCONS(FMOIS,BTYPE,PLAREA,IYR,ICALL,PSMOKE,PSBURN)
       IMPLICIT NONE
 C----------
-C FIRE-NI $Id: fmcons.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-IE $Id$
 C----------
 *     CALLED FROM: FMBURN
 *                  FMPOFL

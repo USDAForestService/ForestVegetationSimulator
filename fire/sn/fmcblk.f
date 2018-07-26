@@ -1,7 +1,7 @@
       BLOCK DATA FMCBLK
       IMPLICIT NONE
 C----------
-C   **FMCBLK--FIRE-SN  DATE OF LAST REVISION:   11/23/07
+C FIRE-SN $Id$
 C----------
 COMMONS
 C

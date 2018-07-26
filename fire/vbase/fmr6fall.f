@@ -1,7 +1,7 @@
       SUBROUTINE FMR6FALL(KSP,SML,JADJ,X)  
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-VBASE $Id$
 C----------
 C     CALLED FROM: FMSNAG
 C

@@ -2,7 +2,7 @@
      >           CWXPTS,CCBP,DBHBP,SZDN,CWHR_MOD,CWHR_WT)
       IMPLICIT NONE
 C----------
-C FIRE_WS $Id: cwhr.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-WS $Id$
 C----------
 
       INCLUDE 'PRGPRM.F77'

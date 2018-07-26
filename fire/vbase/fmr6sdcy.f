@@ -1,7 +1,7 @@
       SUBROUTINE FMR6SDCY (KSP, DBH, X, Y, SML)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id$
+C FIRE-VBASE $Id$
 C----------
 C     CALLED FROM: FMSNAG
 C

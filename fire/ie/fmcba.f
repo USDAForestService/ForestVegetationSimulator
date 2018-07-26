@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C FIRE-IE $Id: cratet.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-IE $Id$
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN

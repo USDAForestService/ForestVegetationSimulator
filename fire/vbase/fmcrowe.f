@@ -1,7 +1,7 @@
       SUBROUTINE FMCROWE (SPILS,SPIYV,D,H,IC,SG,XV)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id$
+C FIRE-VBASE $Id$
 C----------
 
 C     CALLED FROM: FMCROW

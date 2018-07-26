@@ -1,7 +1,7 @@
       SUBROUTINE FMSNGDK(VAR,KSP,D,DKTIME)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-VBASE $Id$
 C----------
 C
 C     SNAG DECAY PREDICTION

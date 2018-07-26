@@ -2,7 +2,7 @@
      >                  PSBURN)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id$
+C FIRE-VBASE $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMBURN

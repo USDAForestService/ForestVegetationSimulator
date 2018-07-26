@@ -1,8 +1,7 @@
       SUBROUTINE FMPOCR(IYR,ICALL)
       IMPLICIT NONE
 C----------
-C  $Id$
-C  $Id$
+C FIRE-VBASE $Id$
 C----------
 C     CALLED FROM: FMBURN
 C
