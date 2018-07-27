@@ -1,7 +1,7 @@
       SUBROUTINE ESTAB (KDT)
       IMPLICIT NONE
 C----------
-C AK/M $ID$
+C METRIC-AK $Id$
 C----------
 COMMONS
 C

@@ -4,7 +4,7 @@
      -  IFORTP,ISZCL,ISTCL)
       IMPLICIT NONE      
 C----------
-C  $Id$
+C METRIC-VDBS $Id$
 C----------
 C     PURPOSE: TO POPULATE A DATABASE WITH THE PROGNOSIS MODEL
 C              OUTPUT.

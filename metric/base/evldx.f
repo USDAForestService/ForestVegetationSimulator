@@ -1,7 +1,7 @@
       SUBROUTINE EVLDX (XLDREG,NXLDX,INSTR,IRC)
       IMPLICIT NONE
 C----------
-C  $Id$
+C METRIC-BASE $Id$
 C----------
 C
 C     CALLED FROM ALGEVL

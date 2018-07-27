@@ -1,7 +1,7 @@
       SUBROUTINE PRTRLS (IWHO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C METRIC-BASE $Id$
 C----------
 C
 C     PRINT THE TREE LIST.

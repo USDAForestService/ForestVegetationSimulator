@@ -1,7 +1,7 @@
       SUBROUTINE FMIN (ICALL,NSP,LKECHO)  
       IMPLICIT NONE
 C----------
-C  $Id:
+C METRIC-FIRE-BASE $Id$
 C----------
 C
 C     FIRE - FIRE & SNAG MODEL
