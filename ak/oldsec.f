@@ -3,8 +3,14 @@
 C----------
 C AK $Id$
 C----------
+C  VARIABLE DECLARATIONS:
+C----------
+C
       INTEGER ISPC
-      REAL H,D,VN
+C
+      REAL D,H,VN
+C
+C----------
 C ENTRY SECGRO COMPUTES VOLUMES FOR SECOND GROWTH TREES
 C (D GE 4 AND H GE 18) UP TO (D LE 9 AND H LT 40)
 C----------

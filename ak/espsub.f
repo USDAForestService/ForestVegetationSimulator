@@ -16,24 +16,35 @@ C
       INCLUDE 'ESPARM.F77'
 C
 C
-      INCLUDE 'ESCOMN.F77'
-C
-C
       INCLUDE 'ESCOM2.F77'
 C
 C
-      INCLUDE 'PLOT.F77'
+      INCLUDE 'ESCOMN.F77'
 C
 C
       INCLUDE 'ESHAP.F77'
 C
 C
+      INCLUDE 'PLOT.F77'
+C
+C
 COMMONS
+C
+C----------
+C  VARIABLE DECLARATIONS:
+C
+C  SPECIES ORDER
+C  1    2    3    4    5    6    7    8    9   10   11  12  13
+C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
+C----------
+C
+      INTEGER I
+C
+      REAL RTOP40
+C
 C----------
 C     P(SUBSEQUENT WHITE SPRUCE).
 C----------
-      INTEGER I
-      REAL RTOP40
       PSUB(1) = 0.0
 C----------
 C     P(SUBSEQUENT WESTERN RED CEDAR).

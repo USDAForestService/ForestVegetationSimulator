@@ -4,12 +4,13 @@ C----------
 C AK $Id$
 C----------
 C
-C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
-C
 COMMONS
 C
 C
       INCLUDE 'PRGPRM.F77'
+C
+C
+      INCLUDE 'ESPARM.F77'
 C
 C
       INCLUDE 'COEFFS.F77'
@@ -21,10 +22,10 @@ C
       INCLUDE 'ECON.F77'
 C
 C
-      INCLUDE 'ESPARM.F77'
-C
-C
       INCLUDE 'ESCOMN.F77'
+C
+C
+      INCLUDE 'FVSSTDCM.F77'
 C
 C
       INCLUDE 'HTCAL.F77'
@@ -48,10 +49,14 @@ C
       INCLUDE 'VARCOM.F77'
 C
 C
-      INCLUDE 'FVSSTDCM.F77'
-C
-C
 COMMONS
+C
+C----------
+C  SPECIES ORDER
+C  1    2    3    4    5    6    7    8    9   10   11  12  13
+C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
+C----------
+C  VARIABLE DECLARATIONS:
 C----------
       INTEGER I,J
 C----------

@@ -129,11 +129,15 @@ C----------
 C----------
 C ASSIGN THE APPROPRIATE EQUATION NUMBER.
 C----------
-      IF (VVER(:2).EQ.'BC') THEN
-        INDX=MAPBC(ISPC)
-       ELSE
-        INDX=99
-      ENDIF
+      SELECT CASE (VARACD)
+C
+        CASE ('BC')
+          INDX=MAPBC(ISPC)
+c
+        CASE DEFAULT
+          INDX=99
+C
+      END SELECT
 C----------
 C COMPUTE CROWN WIDTH
 C----------

@@ -5,6 +5,7 @@ C AK $Id$
 C----------
 C     SUBROUTINE TO PREDICT THE PROBS OF ADVANCE SPECIES.
 C----------
+C
 COMMONS
 C
 C
@@ -14,21 +15,28 @@ C
       INCLUDE 'ESPARM.F77'
 C
 C
-      INCLUDE 'ESCOMN.F77'
-C
-C
       INCLUDE 'ESCOM2.F77'
 C
 C
-      INCLUDE 'PLOT.F77'
+      INCLUDE 'ESCOMN.F77'
 C
 C
       INCLUDE 'ESHAP.F77'
 C
 C
+      INCLUDE 'PLOT.F77'
+C
+C
 COMMONS
+C
+C----------
+C  VARIABLE DECLARATIONS:
+C----------
+C
       INTEGER I
+C
       REAL RTOP40
+C
 C----------
 C     P(ADVANCE WHITE SPRUCE).
 C----------

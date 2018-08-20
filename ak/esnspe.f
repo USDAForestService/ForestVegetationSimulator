@@ -5,10 +5,18 @@ C AK $Id$
 C----------
 C     PREDICT PROBS FOR NUMBER OF SPECIES ON STOCKED PLOTS
 C
+C----------
+C  VARIABLE DECLARATIONS:
+C----------
+C
       INTEGER ITPP
-      REAL PSPE(6),RITPP
-C   
-      RITPP=FLOAT(ITPP)
+C
+      REAL RITPP
+C
+      REAL PSPE(6)
+C
+C----------   
+      RITPP=REAL(ITPP)
 C----------
 C     P(1 SPECIES ON STOCKED PLOTS)
 C----------

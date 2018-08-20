@@ -5,9 +5,14 @@ C AK $Id$
 C----------
 C  FSTGRO COMPUTES CUBIC FOOT VOLUMES FOR TREES WITH (D LT 4 OR H LT 18)
 C----------
-      INTEGER ISPC
-      REAL H,D,VN,TERM1,TERM2,FORM
+C  VARIABLE DECLARATIONS:
+C----------
 C
+      INTEGER ISPC
+C
+      REAL D,FORM,H,TERM1,TERM2,VN
+C
+C----------
       IF(H .LE. 4.5)THEN
         VN=0.
         GO TO 10
