@@ -105,8 +105,8 @@ C
 C----------
 C  GET THE APPROPRIATE SITE INDEX RANGE VALUES FOR THIS SPECIES.
 C----------
-        SLOSSP = 0.
-        SHISSP = 999.
+        SLO = 0.
+        SHI = 999.
         CALL SITERANGE (1,I,SLO,SHI)
 C
       IF(SITEAR(I) .LE. 0.0) SITEAR(I) = SLO +
