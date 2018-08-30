@@ -126,7 +126,8 @@ C----------
    5  CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
-      LZEIDE = .FALSE.
+      LZEIDE = .TRUE.
+      CALCSDI = ' '
       LHTDRG(10) = .FALSE.
       LHTDRG(11) = .FALSE.
       DBHMIN(10) = 11.0

@@ -20,9 +20,9 @@ C DBSQLITE $Id$
      &                              //CHAR(0))
          IF(iRet.EQ.0) THEN
            SQLStmtStr = 'CREATE TABLE FVS_EconHarvestValue ('
-     &              // 'CaseID char(36) not null,'
+     &              // 'CaseID text not null,'
      &              // 'Year int not null,'
-     &              // 'Species char(8) not null,'
+     &              // 'Species text not null,'
      &              // 'Min_DIB real null,'
      &              // 'Max_DIB real null,'
      &              // 'Min_DBH real null,'

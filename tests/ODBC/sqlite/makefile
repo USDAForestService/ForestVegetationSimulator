@@ -3,11 +3,11 @@ all : ie ne sn fireTest
 
 ie : 
 	@echo Test ie database read
-	-../../../bin/FVSiec --keywordfile=ie.key 
+	-../../../bin/FVSie --keywordfile=ie.key 
 	@echo Test ie ended
 	@echo Test ie2 database read and write
 	rm -f FVSieOut.db
-	-../../../bin/FVSiec --keywordfile=ie2.key 
+	-../../../bin/FVSie --keywordfile=ie2.key 
 	-sqlite3 FVSieOut.db < sqliteTestFVSieOut.sql > ie2.db_dump.txt
 	-diff -w ie2.db_dump.txt ie2.db_dump.txt.save
 	@echo Test ie2 ended
@@ -26,7 +26,7 @@ sn :
 fireTest : 
 	@echo fireTest  database read and write
 	rm -f FVSieFireOutput.db
-	-../../../bin/FVSiec --keywordfile=fireTest.key 
+	-../../../bin/FVSie --keywordfile=fireTest.key 
 	-sqlite3 FVSieFireOutput.db < sqliteTestFireOut.sql > fireTest.db_dump.txt
 	-diff -w fireTest.db_dump.txt fireTest.db_dump.txt.save
 	@echo fireTest ended

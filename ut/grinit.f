@@ -123,7 +123,8 @@ C
 C
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
-      LZEIDE = .FALSE.
+      LZEIDE = .TRUE.
+      CALCSDI = ' '
       BAINIT = 0.0
       CFMIN = 0.
       TCFMIN = 0.

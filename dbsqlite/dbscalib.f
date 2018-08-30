@@ -40,10 +40,10 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_CalibStats"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_CalibStats ('//
-     -      'CaseID char(36) not null,'//
-     -      'StandID char(26) not null,'//
-     -      'TreeSize char(2) not null,'//
-     -      'Species char(2) not null,'//
+     -      'CaseID text not null,'//
+     -      'StandID text not null,'//
+     -      'TreeSize text not null,'//
+     -      'Species text not null,'//
      -      'NumTrees int null,'//
      -      'ScaleFactor real null,'//
      -      'StdErrRatio real null,'//

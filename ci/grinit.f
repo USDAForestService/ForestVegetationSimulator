@@ -125,6 +125,7 @@ C----------
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
       LZEIDE = .FALSE.
+      CALCSDI = ' '
       DBHMIN(7) = 7.0
       BFMIND(7) = 7.0
       CFMIN = 0.

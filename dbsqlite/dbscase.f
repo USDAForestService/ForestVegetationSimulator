@@ -132,18 +132,18 @@ C---------
       IRCODE = fsql3_tableexists(IoutDBref,"FVS_Cases"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr="CREATE TABLE FVS_Cases"//
-     -              " (CaseID char(36) primary key,"//
-     -              "Stand_CN char(40),"//
-     -              "StandID char(26),"//
-     -              "MgmtID char(4),"//
-     -              "RunTitle char(72),"//
-     -              "KeywordFile char(50),"//
+     -              " (CaseID text primary key,"//
+     -              "Stand_CN text,"//
+     -              "StandID text,"//
+     -              "MgmtID text,"//
+     -              "RunTitle text,"//
+     -              "KeywordFile text,"//
      -              "SamplingWt real,"//
-     -              "Variant char(2),"//
-     -              "Version char(10),"//
-     -              "RV char(8),"//
-     -              "Groups char(250),"//
-     -              "RunDateTime char(19))"//CHAR(0)
+     -              "Variant text,"//
+     -              "Version text,"//
+     -              "RV text,"//
+     -              "Groups text,"//
+     -              "RunDateTime text)"//CHAR(0)
         IRCODE = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (IRCODE .NE. 0) RETURN
       ENDIF

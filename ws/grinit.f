@@ -200,7 +200,8 @@ C
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
-      LZEIDE = .FALSE.
+      LZEIDE = .TRUE.
+      CALCSDI = ' '
       DSTAG = 1.0
       BAINIT = 0.0
       CFMIN = 0.

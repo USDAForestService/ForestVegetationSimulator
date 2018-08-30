@@ -44,8 +44,8 @@ C  SPECIES ORDER
 C  1    2    3    4    5    6    7    8    9   10   11  12  13
 C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
 C----------
-      DATA SDICON /750.,750.,750.,750.,750.,750.,
-     &             750.,750.,750.,750.,750.,750.,750./
+      DATA SDICON /412.,762.,790.,687.,682.,592.,
+     &             679.,654.,602.,441.,452.,452.,620./
 C----------
 C IF SITEAR(I) HAS NOT BEEN SET WITH SITECODE KEYWORD, LOAD IT
 C WITH DEFAULT SITE VALUES. CONVERT BETWEEN SS & WH; LP & AF

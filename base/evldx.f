@@ -60,7 +60,7 @@ C
       EXTERNAL RANN
       REAL TPA3,DCM,ADIV,HPCT(MAXTRE),JUNK,BADJ,ACRN
       INTEGER JPT,JPTGRP
-      REAL CRDDFAC,CRDTFAC,XCRD
+      REAL CLSD2,CLSTPA,XCRD,CRDTFAC,CRDDFAC
 C
       ITMPDX(1) = 0
 
@@ -195,7 +195,8 @@ C       IF CALCULATING CURTIS'S RD, GET THE BRYAN LU PARAMETERS
 C       CRDTFAC - Curtis Relative Density TPA factor
 C       CRDDFAC - Curtis Relative Density diameter factor
 C----------
-        IF(L.EQ.14)CALL RDCLS(0,0.,999.,1,CRDTFAC,CRDDFAC,XCRD,0)
+        IF(L.EQ.14)CALL RDCLS(0,0.,999.,1,CLSD2,CLSTPA,XCRD,0,
+     &                        CRDTFAC,CRDDFAC)
 C----------
 C       FIND THE DBH RANGE AND THE HT RANGE.
 C----------
@@ -370,7 +371,7 @@ C----------
             XLDREG(1)=XLDREG(1)+(TPA*DG(I))
             GOTO 190
   121       CONTINUE
-            IF(DBH(I).LT.DBHSTAGE)GO TO 190   ! BRANCH IF D IS LT MIN DBH            
+            IF(DBH(I).LT.DBHSTAGE)GO TO 190   ! BRANCH IF D IS LT MIN DBH
             XLDREG(1)=XLDREG(1)+(STAGEA + STAGEB*(DBH(I)**2.0))*TPA
             GOTO 190
   122       CONTINUE
@@ -378,11 +379,14 @@ C----------
             XLDREG(1)=XLDREG(1)+(TPA*TREERD)/GROSPC
             GOTO 190
   123       CONTINUE
-            IF(DBH(I).LT.DBHZEIDE)GO TO 190   ! BRANCH IF D IS LT MIN DBH 
+            IF(DBH(I).LT.DBHZEIDE)GO TO 190   ! BRANCH IF D IS LT MIN DBH
             XLDREG(1)=XLDREG(1)+((DBH(I)/10)**1.605)*TPA
             GOTO 190
   124       CONTINUE
-            IF(DBH(I).LT.DBHSTAGE)GO TO 190   ! BRANCH IF D IS LT MIN DBH            
+C----------
+C           CURTIS RELATIVE DENSITY
+C----------
+            IF(DBH(I).LT.DBHSTAGE)GO TO 190   ! BRANCH IF D IS LT MIN DBH
             XLDREG(1)=XLDREG(1)+(CRDTFAC + CRDDFAC*(DBH(I)**2.0))*TPA
             GOTO 190
 C

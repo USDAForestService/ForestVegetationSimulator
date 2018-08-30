@@ -174,16 +174,6 @@ C-----------
       END IF
       JFT=IFORTP
       SDIFIA=0.
-      IF (IXF.EQ.3.AND.ISNVAR.EQ.1) THEN                                        ! IXF=3 THEN CALL WAS FROM 'CRATET'
-        IF (FIATYP.GT.0.) THEN                                                  ! AND WE SET SDIDEF - MAXSDI -
-          DO 50 I= 1,141                                                        ! BASED ON INPUT FOREST TYPE
-            IF (FTSDMX(I,1).EQ.FIATYP.AND.
-     &          FTSDMX(I,2).GT.0) SDIFIA= FTSDMX(I,2)
-   50     CONTINUE
-        GO TO 9999
-        END IF
-      END IF
-C
 C----------
 C  INITIALIZE S(210) ARRAY WHICH REPRESENTS ITG GROUPS
 C----------
@@ -1165,21 +1155,8 @@ C
       FIATYP = FLOAT(IFT)
 C
 C----------
-C  FOR SN VARIANT, FIND THE SDIMAX ASSOCIATED WITH THE ESTIMATED FOREST TYPE
-C  DO NOT
-C----------
       IF (DEBUG) WRITE (JOSTND,*) ' IN FORTYP_10: ICYC,IFT = ',
      &ICYC,IFT
-      SDIFIA=0.
-      IF (ISNVAR.EQ.1) THEN
-        DO 500 I= 1,141
-          IF (FTSDMX(I,1).EQ.FIATYP) SDIFIA= FTSDMX(I,2)
-  500   CONTINUE
-        IF (SDIFIA.LE.0.) THEN
-          FIATYP= 998.
-          SDIFIA= FTSDMX(141,2)
-        END IF
-      END IF
 C----------
 C  SET FOREST TYPE VARIABLE (IFORTP) CARRIED IN PLOT.F77
 C----------
