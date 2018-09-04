@@ -1,7 +1,7 @@
       SUBROUTINE CH4SRT (N,A,INDEX,LSEQ)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C  CHARACTER*4 INDEX SORT.

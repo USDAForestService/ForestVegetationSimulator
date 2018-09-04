@@ -2,7 +2,7 @@
      >                  LEN,MGMID,NPLT,SAMWT,ITITLE,IPTINV)
       IMPLICIT NONE
 C----------
-C  $Id$
+C METRIC-BASE $Id$
 C----------
 C
 C     WRITES SUMMARY OUTPUT.

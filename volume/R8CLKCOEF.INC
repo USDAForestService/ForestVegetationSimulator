@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id$
+C----------
       INTEGER II,JJ
       REAL DIBMEN(49,3), TOTAL(49,7), NINE(34,6)
       REAL SEVEN(15,6), FOUR(49,6)

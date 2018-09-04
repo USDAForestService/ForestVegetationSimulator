@@ -1,7 +1,7 @@
       SUBROUTINE DMOTHR (Sp)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMOTHR -- NISI  Date of last revision: April 12 1994 
 C----------------------------------------------------------------------

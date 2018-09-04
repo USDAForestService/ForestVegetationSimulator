@@ -1,7 +1,7 @@
       SUBROUTINE MISIN(PASKEY,ARRAY,LNOTBK,LKECHO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C METRIC-NEWMIST $Id$
 C----------
 *  Purpose:
 *     Reads in mistletoe keywords and processes the ones that aren't

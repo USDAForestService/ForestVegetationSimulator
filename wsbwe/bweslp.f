@@ -1,7 +1,7 @@
       FUNCTION BWESLP(XX,X,Y,N)
       IMPLICIT NONE
 C----------
-C  **BWESLP                 DATE OF LAST REVISION:  07/14/10
+C WSBWE $Id$
 C----------
 C
 C     A LINEAR-INTERPOLATION FUNCTION

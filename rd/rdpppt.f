@@ -1,7 +1,7 @@
       SUBROUTINE RDPPPT (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
 ***********************************************************************
-*  **RDPPPT      DATE OF LAST REVISION:  09/10/14
+C RD $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Put (store) the Root Disease model data for a given stand into

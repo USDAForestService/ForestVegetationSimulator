@@ -1,7 +1,7 @@
       SUBROUTINE RDIPRP(PROPN,NOPLOT,PRAN)
       IMPLICIT NONE
 C----------
-C  **RDIPRP      LAST REVISION:  08/29/14
+C RD $Id$
 C----------
 C
 C  Purpose :

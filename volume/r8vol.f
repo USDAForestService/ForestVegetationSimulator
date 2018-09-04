@@ -1,8 +1,8 @@
+C----------
+C VOLUME $Id$
+C----------
       SUBROUTINE R8VOL(VOLEQ,DBHOB,HTTOT,UPSHT1,HT1PRD,MTOPP,PROD,VOL,
      >                 FORST,SI,BA,CTYPE,BFPFLG,CUPFLG,SPFLG,ERRFLAG)
-C----------
-C VOLUME $Id: r8vol.f 0000 2018-02-14 00:00:00Z gedixon $
-C----------
 
 C  CREATED:   06-03-91
 !== last modified  2-7-2014

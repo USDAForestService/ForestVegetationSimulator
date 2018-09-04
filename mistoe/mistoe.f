@@ -1,6 +1,6 @@
       SUBROUTINE MISTOE
 ***********************************************************************
-*  **MISTOE--MS  Date of last revision:  03/10/08
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     This is the main dwarf mistletoe processing routine. It reads the

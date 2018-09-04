@@ -1,8 +1,8 @@
       SUBROUTINE BRDAM(II,ICODES)
       IMPLICIT NONE
-C**********************************************************************
-C  **BRDAM        DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C   This subroutine processes damage codes to determine whether
 C   the tree in question is infected with Blister Rust.

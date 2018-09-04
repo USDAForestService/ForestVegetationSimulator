@@ -1,7 +1,7 @@
        SUBROUTINE GRINIT
        IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
@@ -49,6 +49,7 @@ C     INITIAL VALUES FOR "Version 2" active and processed; respectively
       LV2ATV = .FALSE.
       LV2HDR = .FALSE.
 
+      VARACD = 'BC'
       CALL LNKINT
       DO 5 I=1,MAXSP
       IORDER(I) = 0

@@ -1,7 +1,7 @@
       SUBROUTINE DBSCAN (LDEBG,SUBIN,NC,ICYC)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C

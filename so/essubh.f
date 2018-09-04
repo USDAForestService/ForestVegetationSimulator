@@ -2,7 +2,7 @@
      &                   TRAGE)
       IMPLICIT NONE
 C----------
-C SO $Id: essubh.f 0000 2018-02-14 00:00:00Z gedixon $
+C SO $Id$
 C----------
 C     ASSIGNS HEIGHTS TO SUBSEQUENT AND PLANTED TREE RECORDS
 C     CREATED BY THE ESTABLISHMENT MODEL.

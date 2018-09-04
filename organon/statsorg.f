@@ -1,6 +1,6 @@
-C
-C ORGANON $Id: statsorg.f 0000 2018-02-14 00:00:00Z gedixon $
-C
+C----------
+C ORGANON $Id$
+C----------
 C**********************************************************************
       SUBROUTINE SSTATS(VERSION,NTREES,TDATAI,TDATAR,SBA,TPA,SCCF,
      1                  BAL,BALL,CCFL,CCFLL)

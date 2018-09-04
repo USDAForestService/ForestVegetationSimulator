@@ -1,5 +1,6 @@
-c $Id$
-
+C----------
+C BASE $Id$
+C----------
 c     This is a collection of routines that provide an interface to
 c     elements of the FVS command line parameters, including the stop/
 c     restart facilities. These routines are most useful with the shared

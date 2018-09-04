@@ -1,7 +1,7 @@
       SUBROUTINE BWEAGE (TOTR)
       IMPLICIT NONE
 C----------
-C  **BWEAGE                  DATE OF LAST REVISION:  07/14/10
+C WSBWE $Id$
 C----------
 C
 C     AGE THE FOLIAGE ONE YEAR.

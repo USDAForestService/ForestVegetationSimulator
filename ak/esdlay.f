@@ -1,7 +1,11 @@
       SUBROUTINE ESDLAY (ISPE,IAS,DRAW,DELAY)
       IMPLICIT NONE
 C----------
-C AK $Id: esdlay.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C AK $Id$
+C----------
+C     CONTAINS WEIBULL MAXIMUM LIKLIHOOD FUNCTIONS FOR DETERMINING
+C     THE NUMBER OF YEARS BETWEEN LAST PLOT DISTURBANCE AND
+C     GERMINATION OF BEST TREES.
 C----------
 C
 COMMONS
@@ -13,23 +17,26 @@ C
       INCLUDE 'ESPARM.F77'
 C
 C
-      INCLUDE 'ESCOMN.F77'
-C
-C
       INCLUDE 'ESCOM2.F77'
+C
+C
+      INCLUDE 'ESCOMN.F77'
 C
 C
 COMMONS
 C
-C     CONTAINS WEIBULL MAXIMUM LIKLIHOOD FUNCTIONS FOR DETERMINING
-C     THE NUMBER OF YEARS BETWEEN LAST PLOT DISTURBANCE AND
-C     GERMINATION OF BEST TREES.
+C----------
+C  VARIABLE DECLARATIONS:
+C----------
 C
       INTEGER IAS,ISPE,IT,IBW,IB,IBAA,I
-      REAL DELAY,DRAW,CBW2(2,4),CBW1(2,4),BBW2(2,4),BBW1(2,4)
-      REAL CADV(2,MAXSP),BADV(2,MAXSP),CBW(3,4),BBW(3,4)
-      REAL CSUB(3,MAXSP),BSUB(3,MAXSP),BB,CC
 C
+      REAL BB,CC,DELAY,DRAW
+C
+      REAL BADV(2,MAXSP),BBW(3,4),BBW1(2,4),BBW2(2,4),BSUB(3,MAXSP)
+      REAL CADV(2,MAXSP),CBW(3,4),CBW1(2,4),CBW2(2,4),CSUB(3,MAXSP)
+C
+C----------
 C     PLOT AGE (YRS): 2 THRU 7   8 THRU 12   13 THRU 20
 C
       DATA BSUB/      3.52946,   7.62339,    12.79801,
@@ -45,6 +52,7 @@ C
      O                3.81610,   5.74622,     9.36345,
      O                3.81610,   5.74622,     9.36345,
      A                4.33094,   6.30802,     8.63060/
+C
       DATA BBW/       4.01218,   5.86172,    10.61297,
      4                3.67409,   6.12256,     8.74195,
      8                5.92251,   8.62548,     8.76074,
@@ -65,6 +73,7 @@ C
      O                3.01975,   2.09376,     1.80925,
      O                3.01975,   2.09376,     1.80925,
      A                1.97408,   2.35053,     2.00997/
+C
       DATA CBW/       2.16561,   2.16010,     2.44953,
      4                2.19139,   2.38522,     2.03146,
      8                3.31325,   5.21269,     2.30270,
@@ -130,7 +139,7 @@ C
      4              1.330297,  1.311782,
      8              1.470496,  1.207402,
      9              1.871949,  1.248784/
-C
+C----------
       IT=1
       IF(TIME.GT.7.5.AND.TIME.LT.12.5) IT=2
       IF(TIME.GT.12.5) IT=3

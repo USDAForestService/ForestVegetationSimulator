@@ -1,7 +1,7 @@
       SUBROUTINE ESTAB (KDT)
       IMPLICIT NONE
 C----------
-C LS/M $ID$
+C METRIC-LS $Id$
 C----------
 COMMONS
 C

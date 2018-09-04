@@ -1,6 +1,6 @@
       SUBROUTINE BMDVO (I,IYEAR)
 C----------
-C  **BMDVO  DATE OF LAST REVISION:  JUNE 27, 1994
+C WWPB $Id$
 C----------
 C
 c     Westwide Pine Beetle model; 

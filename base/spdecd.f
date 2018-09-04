@@ -2,7 +2,7 @@
      >                   KEYWRD,ARRAY,KARD)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     DECODE THE SPECIES CODE.

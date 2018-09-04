@@ -1,7 +1,7 @@
       SUBROUTINE FMSVSYNC
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

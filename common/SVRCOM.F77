@@ -1,6 +1,6 @@
 CODE SEGMENT SVRCOM
 C----------
-C  **SVRCOM DATE OF LAST REVISION: 06/15/00
+C COMMON $Id$
 C----------
       DOUBLE PRECISION SVS0,SVS1
       REAL             SVSS

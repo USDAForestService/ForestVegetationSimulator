@@ -1,6 +1,6 @@
 CODE SEGMENT RANCOM
 C----------
-C  **RANCOM DATE OF LAST REVISION:  06/15/00
+C COMMON $Id$
 C----------
       DOUBLE PRECISION S0,S1
       REAL             SS

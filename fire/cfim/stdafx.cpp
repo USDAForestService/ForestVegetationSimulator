@@ -1,5 +1,5 @@
 //----------
-//  $Id$
+// FIRE-CFIM $Id$
 //----------
 // stdafx.cpp : source file that includes just the standard includes
 // cfim.pch will be the pre-compiled header

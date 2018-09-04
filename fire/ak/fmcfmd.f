@@ -1,7 +1,7 @@
       SUBROUTINE FMCFMD (IYR, FMD)
       IMPLICIT NONE
 C----------
-C FIRE-AK $Id: fmcfmd.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C FIRE-AK $Id$
 C----------
 C  SINGLE-STAND VERSION
 C  CALLED FROM: FMBURN

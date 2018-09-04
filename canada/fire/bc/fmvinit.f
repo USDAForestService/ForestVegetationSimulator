@@ -1,8 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
-C
-C FIRE-BC $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C  **FMVINIT  FIRE-BC
 C----------

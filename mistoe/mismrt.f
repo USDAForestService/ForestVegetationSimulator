@@ -1,6 +1,6 @@
       SUBROUTINE MISMRT(MFLAG)
 ***********************************************************************
-C MISTOE $Id: mismrt.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *    Processes the MISTMORT keyword.  Calculates the periodic mortality

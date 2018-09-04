@@ -1,7 +1,7 @@
       SUBROUTINE RDAREA
       IMPLICIT NONE
 C----------
-C  **RDAREA      LAST REVISION:  08/26/14
+C RD $Id$
 C----------
 C
 C  Purpose :

@@ -1,7 +1,7 @@
       SUBROUTINE HTGSTP
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 COMMONS

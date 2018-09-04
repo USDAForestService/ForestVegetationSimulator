@@ -1,6 +1,6 @@
       SUBROUTINE MISACT (LACTV)
 ***********************************************************************
-*  **MISACT--MS  Date of last revision:  01/12/94
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Returns TRUE when called to signal that the "real" mistletoe

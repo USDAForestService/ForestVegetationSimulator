@@ -1,8 +1,7 @@
       SUBROUTINE BMDRGT (IYR)
-      
-***********************************************************************
-*  **BMDRGT  Date of last revision:  Sept 23, 1994
-*----------------------------------------------------------------------
+C----------
+C WWPB $Id$
+C----------
 *  
 *Purpose:  Calculates RVDSC, the rating value due to 'drought' (precipitation
 *     effects) of each size class in each stand in the beetle model.  Also

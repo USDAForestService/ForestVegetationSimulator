@@ -1,6 +1,6 @@
       subroutine ECSTATUS(ICYC, NCYC, IY, beforeCuts)
 C----------
-C **ECSTATUS--ECON  DATE OF LAST REVISION: 06/18/2009
+C ECON $Id$
 C----------
 C Author Fred Martin, WA DNR,
 C Determines ECON and PRETEND status each cycle.

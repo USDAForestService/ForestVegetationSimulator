@@ -2,7 +2,7 @@
      1                 BTKFLG)
       IMPLICIT NONE
 C----------
-C UT $Id: bfvol.f 0000 2018-02-14 00:00:00Z gedixon $
+C UT $Id$
 C----------
 C
 COMMONS

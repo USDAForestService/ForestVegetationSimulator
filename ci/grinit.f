@@ -1,7 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-C CI $Id: grinit.f 2222 2018-04-23 14:12:14Z mshettles521 $
+C CI $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
@@ -69,6 +69,7 @@ C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
+      VARACD = 'CI'
       CALL LNKINT
       DO 5 I=1,MAXSP
       IORDER(I) = 0
@@ -124,6 +125,7 @@ C----------
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
       LZEIDE = .FALSE.
+      CALCSDI = ' '
       DBHMIN(7) = 7.0
       BFMIND(7) = 7.0
       CFMIN = 0.

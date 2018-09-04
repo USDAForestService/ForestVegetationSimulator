@@ -1,8 +1,7 @@
       SUBROUTINE FMCFIM (IYR, FMD, UWIND, IBYRAM, FLAMEHT, CANBURN, ROS)
       IMPLICIT NONE
-C
-C  $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C  **FMCFIM  FIRE-BC
 C----------
@@ -35,7 +34,6 @@ COMMONS
 C
       integer iyr, RC
       integer FMD
-      character VVER*7
       real CFIM_OUTPUT(10)
       REAL FMINFO(13), LHV
       logical debug

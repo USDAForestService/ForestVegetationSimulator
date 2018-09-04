@@ -1,7 +1,7 @@
       SUBROUTINE FMVINIT
       IMPLICIT NONE
 C----------
-C FIRE-OC $Id: fmvinit.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-OC $Id$
 C----------
 *  Purpose:
 *      Initialize variant-specific variables for the Fire Model

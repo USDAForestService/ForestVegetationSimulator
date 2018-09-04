@@ -1,7 +1,7 @@
       SUBROUTINE CVGET (WK3, IPNT, ILIMIT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C PG $Id$
 C----------
 C
 C     GET THE COVER DATA FOR A GIVEN STAND.

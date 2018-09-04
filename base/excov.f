@@ -1,7 +1,7 @@
       SUBROUTINE EXCOV
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C  EXTRA EXTERNAL REFERENCES FOR CVCNOP AND CVBROW CALLS.
 C----------

@@ -1,7 +1,7 @@
       SUBROUTINE DMNTRD
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMNTRD -- NISI  Date of last revision: April 10 1994 
 C----------------------------------------------------------------------

@@ -1,8 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-C  ON  $ID
-C    ON: 05/06/04
+C CANADA-ON $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
@@ -127,6 +126,7 @@ C     >  10., 10. /
 	DATA ONMTD / MAXSP * 0.0 /
 C
 C----------
+      VARACD = 'ON'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.

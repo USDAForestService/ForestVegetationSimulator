@@ -1,8 +1,8 @@
       SUBROUTINE BRCANK
       IMPLICIT NONE
-C**********************************************************************
-C  **BRCANK       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C   BRCANK reads the canker data provided in the keyword list or
 C   canker data file.

@@ -1,5 +1,5 @@
 //----------
-//  $Id$
+// FIRE-CFIM $Id$
 //----------
 #ifndef _NR_H_
 #define _NR_H_

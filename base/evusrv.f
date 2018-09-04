@@ -2,7 +2,7 @@
      >                   LDEBUG,IRECNT)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     CALLED FROM INITRE.  READS, COMPILES, AND STORES USER

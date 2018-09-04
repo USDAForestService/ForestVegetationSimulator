@@ -1,7 +1,7 @@
       BLOCK DATA ESBLKD
       IMPLICIT NONE
 C----------
-C   **ESBLKD--STRP   DATE OF LAST REVISION:   09/17/08
+C STRP $Id$
 C----------
 COMMONS
 C

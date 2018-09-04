@@ -1,7 +1,7 @@
       SUBROUTINE DMTLST (Sp, tDMR, Ptr, Index, P, TLst)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C  **DMTLST -- NISI  Date of last revision April 16 1994
 C--------------------------------------------------------------------

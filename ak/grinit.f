@@ -5,6 +5,7 @@ C AK $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
+C----------
 C
 COMMONS
 C
@@ -15,54 +16,63 @@ C
       INCLUDE 'ARRAYS.F77'
 C
 C
+      INCLUDE 'CALCOM.F77'
+C
+C
       INCLUDE 'COEFFS.F77'
 C
 C
       INCLUDE 'CONTRL.F77'
 C
 C
-      INCLUDE 'OPCOM.F77'
-C
-C
-      INCLUDE 'WORKCM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'HTCAL.F77'
+      INCLUDE 'CWDCOM.F77'
 C
 C
       INCLUDE 'ECON.F77'
 C
 C
+      INCLUDE 'HTCAL.F77'
+C
+C
       INCLUDE 'MULTCM.F77'
+C
+C
+      INCLUDE 'OPCOM.F77'
+C
+C
+      INCLUDE 'PLOT.F77'
 C
 C
       INCLUDE 'SUMTAB.F77'
 C
 C
-      INCLUDE 'VOLSTD.F77'
-C
-C
       INCLUDE 'VARCOM.F77'
 C
 C
-      INCLUDE 'CWDCOM.F77'
+      INCLUDE 'VOLSTD.F77'
 C
 C
-      INCLUDE 'CALCOM.F77'
+      INCLUDE 'WORKCM.F77'
 C
 C
 COMMONS
+C
 C----------
-      INTEGER I,J,K
-      CHARACTER*26 DBLK
-      CHARACTER*4 NONE
+C  VARIABLE DECLARATIONS:
+C----------
+C
       CHARACTER*2 ANINDEX
+      CHARACTER*4 NONE
+      CHARACTER*26 DBLK
+C
+      INTEGER I,J,K
+C----------
+C  DATA STATEMENTS:
+C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
+      VARACD = 'AK'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.0
@@ -116,7 +126,8 @@ C----------
    5  CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
-      LZEIDE = .FALSE.
+      LZEIDE = .TRUE.
+      CALCSDI = ' '
       LHTDRG(10) = .FALSE.
       LHTDRG(11) = .FALSE.
       DBHMIN(10) = 11.0

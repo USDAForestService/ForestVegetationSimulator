@@ -1,10 +1,10 @@
+C----------
+C VOLUME $Id$
+C----------
       subroutine r9clark (volEq,stump,mTopP,mTopS,dbhOb,
      &                    ht1Prd,ht2Prd,htTot,logDia,bolHt,Loglen,
      &                    logVol,vol,cutFlg,bfpFlg,cupFlg,cdpFlg,
      &             spFlg,prod,errFlg,cType,upsHt1,TLOGS,NUMLOGP,NUMLOGS)
-C----------
-C VOLUME $Id: r9clark.f 0000 2018-02-14 00:00:00Z gedixon $
-C----------
 C  Region 9 Profile Model Volume Calculation
 C  revised TDH 01/12/2010  Added code for calculating log volumes and
 C                          added the definfe type CLKCOEF for passing

@@ -1,8 +1,8 @@
+C----------
+C VOLUME $Id$
+C----------
 !== last modified  6-04-2008
       SUBROUTINE R1KEMP(VOLEQ,HTTOT,DBHOB,VOL,LIVE,PROD,TLOGS,errflag) 
-C----------
-C VOLUME $Id: r1kemp.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
-C----------
    
 C PURPOSE: THIS ROUTINE CALCULATES GROSS & NET BOARD & CUBIC 
 C          VOLUMES IN ENGLISH OR METRIC INCLUDING PRODUCT & POLE VOL

@@ -1,7 +1,7 @@
       SUBROUTINE ESADDT(ICALL)
       IMPLICIT NONE
 C----------
-C STRP $Id: esaddt.f 0000 2018-02-14 00:00:00Z gedixon $
+C STRP $Id$
 C----------
 
 C     ADD NEW TREES FROM A FILE OR EXTERNAL DATA BASE.
@@ -23,7 +23,6 @@ C     COMMONS
       CHARACTER*250 CMDLN
       CHARACTER*250 FNAM
       CHARACTER*4   CYR
-      CHARACTER*7   VVER
       INTEGER       I,J,KODE,IKEEP,IPYR
       INTEGER       MYACT(1),NTODO,ITODO,NP,IACTK,IDT,KDT,IMETH
       INTEGER       FNO
@@ -100,11 +99,10 @@ c             Construct input filename: Keyfile_StandID_Year_BM.ES1
               ENDDO
               J = J+1
               FNAM(J:J) = '_'
-              CALL VARVER(VVER)
               DO I = 1,2
-                IF (VVER(I:I) .NE. ' ') THEN
+                IF (VARACD(I:I) .NE. ' ') THEN
                   J = J+1
-                  FNAM(J:J) = VVER(I:I)
+                  FNAM(J:J) = VARACD(I:I)
                 ENDIF
               ENDDO
               FNAM(J+1:J+5) = ".es1"

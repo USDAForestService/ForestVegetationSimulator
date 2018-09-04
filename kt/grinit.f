@@ -63,6 +63,7 @@ C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
+      VARACD = 'KT'
       CALL LNKINT
       DO 5 I=1,MAXSP
       IORDER(I) = 0
@@ -116,6 +117,7 @@ C----------
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
       LZEIDE = .FALSE.
+      CALCSDI = ' '
       DBHMIN(7) = 6.0
       BFMIND(7) = 6.0
       CFMIN = 0.

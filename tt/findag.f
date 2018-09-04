@@ -2,7 +2,7 @@
      &                  HTMAX2,DEBUG)
       IMPLICIT NONE
 C----------
-C TT $Id: findag.f 0000 2018-02-14 00:00:00Z gedixon $
+C TT $Id$
 C----------
 C  THIS ROUTINE SET EFFECTIVE TREE AGE BASED ON INPUT VARIABLE(S)
 C  SUCH AS TREE HEIGHT.

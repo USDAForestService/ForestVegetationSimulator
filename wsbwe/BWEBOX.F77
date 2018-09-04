@@ -1,6 +1,6 @@
 CODE SEGMENT BWEBOX
 C----------
-C  **BWEBOX        DATE OF LAST REVISION:  08/28/13                           
+C WSBWE $Id$
 C----------
 C
 C Revision History:

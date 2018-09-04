@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r8clkdib.f 0000 2018-02-14 00:00:00Z gedixon $
+C VOLUME $Id$
 C----------
 C YW 2016/03/08 Modofied the DIB calculation for TOPHT less than 17.3 to avoid Nan vaue error.
       SUBROUTINE R8PREPCOEF(VOLEQ, COEFFS, ERRFLAG)

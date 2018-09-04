@@ -1,7 +1,7 @@
       SUBROUTINE GRINIT
       IMPLICIT NONE
 C----------
-C NE $Id$
+C ACD $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
@@ -66,6 +66,7 @@ C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
+      VARACD = 'AC'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.

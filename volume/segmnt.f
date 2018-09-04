@@ -1,3 +1,6 @@
+C----------
+C VOLUME $Id$
+C----------
 !== last modified 03-25-2014
       SUBROUTINE SEGMNT(OPT,EVOD,LMERCH,MAXLEN,MINLEN,
      >  TRIM,NUMSEG,LOGLEN)

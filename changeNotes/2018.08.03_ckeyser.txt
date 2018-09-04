@@ -1,0 +1,60 @@
+Subject: SDI Calculation Method and Maximums
+
+Name: Chad Keyser
+
+Date: 08/03/2018
+
+Variants affected: AK, CA, CR, CS, LS, NC, NE, SN, SO TT, UT, WS
+
+Description: This update changes the default SDI calculation method to Zeide from
+             Reineke and sets default SDI maximums based on  an analysis of FIA
+             data by John Shaw. Variants affected include AK, CA (region 5 only),
+             CR, CS, LS, NC (region 5 only), NE, SN, SO (region 5 only), TT, UT
+             and WS variants. The SDI maximums in CS, LS, and NE variants replaced
+             the density maximums based on basal area. The SDI maximums in SN are
+             now set by species instead of by forest type.
+
+Impact on users: These changes will affect FVS projections excluding Regions 1 & 6
+
+Files:
+
+ak/grinit.f
+ak/sitset.f
+base/disply.f
+base/fortyp.f
+base/initre.f
+bm/grinit.f
+ca/grinit.f
+ca/sitset.f
+ci/grinit.f
+common/CONTRL.F77 - New global variable CHARACTER*7 CALCSDI
+cr/grinit.f
+cr/sitset.f
+cs/grinit.f
+cs/sitset.f
+ec/grinit.f
+em/grinit.f
+ie/grinit.f
+kt/grinit.f
+ls/grinit.f
+ls/sitset.f
+nc/grinit.f
+nc/sitset.f
+ne/grinit.f
+ne/sitset.f
+oc/grinit.f
+op/grinit.f
+pn/grinit.f
+sn/cratet.f
+sn/grinit.f
+sn/morts.f
+sn/sitset.f
+so/grinit.f
+so/sitset.f
+tt/grinit.f
+tt/sitset.f
+ut/grinit.f
+ut/sitset.f
+wc/grinit.f
+ws/grinit.f
+ws/sitset.f

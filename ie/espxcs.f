@@ -1,7 +1,7 @@
       SUBROUTINE ESPXCS
       IMPLICIT NONE
 C----------
-C  **ESPXCS--NI23   DATE OF LAST REVISION:   04/01/08
+C IE $Id$
 C----------
 C
 COMMONS

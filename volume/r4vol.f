@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r4vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 !== last modified  09-15-2016
 C 01/11/2013 added volume calculation for stump vol(14) and tip vol(15)

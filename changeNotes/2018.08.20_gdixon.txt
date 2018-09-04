@@ -1,0 +1,197 @@
+Subject: General code cleanup
+
+Name: Gary Dixon
+
+Date: 08/20/2018
+
+Variants affected: All variants
+
+Description: These changes are part of a code modernization effort undertaken by the Forest Management 
+             Service Center and follow guIdelines suggested in the "FVS Code Modernization: ConsIderations and
+             Recommendations" (Gary Dixon, Final Report, 05/25/2017). Changes included in this bulletin are
+             changes to make the code easier to understand and maintain.
+
+             Specifically:
+             
+             1. The labelled COMMON inclusions were alphabetized.
+             
+             2. The variable declaration sections were formatted consistently.
+             
+             3. Other general cleanup.
+                
+Impact on users: None.
+
+Files:
+/ak 
+              blkdat.f  Moved ESPARM right after PRGPRM. Alphabetized the remaining labelled COMMON names.
+
+              bratio.f  Formatted the variable declaration section.
+
+              ccfcal.f  Formatted the variable declaration section.
+
+              cratet.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+               crown.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              cubrds.f  Formatted the labelled COMMON section. Formatted the variable declaration section.
+
+              dgdriv.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated IFIX and FLOAT functions to INT and REAL, respectively.
+
+                 dgf.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the array dimension "13" to MAXSP where it appeared.
+
+              dubscr.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              esadvh.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+              esdlay.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              esnspe.f  Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+              esnutr.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated IFIX and FLOAT functions to INT and REAL, respectively.
+
+              espadv.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              esprep.f  Formatted the variable declaration section.
+
+              espsub.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              espxcs.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              essubh.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+               estab.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated IFIX and FLOAT functions to INT and REAL, respectively.
+
+              estock.f  Added and deleted some comment statements.
+
+               estpp.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              esxcsh.f  Formatted the variable declaration section. Converted the logic to a SELECT CASE
+                        structure.
+
+              findag.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              forkod.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              grinit.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              grohed.f  Formatted the variable declaration section.
+
+              habtyp.f  Formatted the variable declaration section.
+
+              htcalc.f  Formatted the variable declaration section.
+
+                htgf.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+                logs.f  Formatted the variable declaration and data sections.
+                        Changed the outdated FLOAT function to REAL.
+
+              maical.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+               morts.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated IFIX function to INT.
+
+              oldfst.f  Formatted the variable declaration section.
+
+              oldgro.f  Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+              oldsec.f  Formatted the variable declaration section.
+
+              regent.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+                 sbb.f  Formatted the variable declaration section.
+
+              seamrt.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated IFIX and FLOAT functions to INT and REAL, respectively.
+
+              sitset.f  Formatted the variable declaration and data sections.
+
+               top40.f  Formatted the variable declaration section.
+
+/bm
+               bfvol.f  Formatted the variable declaration and data sections.
+
+              blkdat.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              bmtmrt.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated IFIX and FLOAT functions to INT and REAL, respectively.
+
+              bratio.f  Formatted the variable declaration and data sections.
+
+              ccfcal.f  Formatted the variable declaration and data sections.
+
+              cratet.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+               crown.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              cubrds.f  Added some comment lines in the data section.
+
+              dgdriv.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+                 dgf.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              dubscr.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              ecocls.f  Formatted the variable declaration section.
+
+              essubh.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+              findag.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              forkod.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              formcl.f  Formatted the variable declaration section.
+
+              grinit.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              grohed.f  Formatted the variable declaration section.
+
+              habtyp.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated IFIX function to INT.
+
+              htcalc.f  Formatted the variable declaration section.
+
+               htdbh.f  Formatted the variable declaration section.
+
+                htgf.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+              maical.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+               morts.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated IFIX function to INT.
+
+              pvref6.f  Formatted the variable declaration section.
+
+              regent.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+                        Changed the outdated FLOAT function to REAL.
+
+               sichg.f  Formatted the variable declaration section.
+
+           siterange.f  Formatted the variable declaration section.
+
+              sitset.f  Formatted the variable declaration section.
+
+              smhtgf.f  Alphabetized the labelled COMMON names. Formatted the variable declaration section.
+
+/canada/bc 
+              r6crwd.f  Variable VVER was replaced with VARACD. The subroutine was restructured using a SELECT CASE
+                        structure.
+
+              regent.f  The variant identifier variable VAR was changed to two characters. The subroutine was
+                        restructured using a SELECT CASE structure.
+
+/canada/on
+              revise.f  The variant identifier variable VAR was changed to two characters. The subroutine was
+                        restructured using a SELECT CASE structure.
+

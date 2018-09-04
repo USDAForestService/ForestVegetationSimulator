@@ -1,6 +1,6 @@
 CODE SEGMENT RDCRY
 C----------
-C  **RDCRY       LAST REVISION:  08/19/14
+C RD $Id$
 C---------
       REAL   CRNSTO(ITOTRR,2,5), PROBIN(ITOTRR,2,5)
 

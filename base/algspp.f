@@ -1,7 +1,7 @@
       SUBROUTINE ALGSPP (CTOK,LEN,NUM,IRC)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     CALLED FROM ALGKEY

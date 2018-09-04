@@ -1,8 +1,8 @@
       SUBROUTINE BRDOUT
       IMPLICIT NONE
-C**********************************************************************
-C  **BRDOUT       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  Writes a Blister Rust Model All-Host DBH Class Statistics table at the
 C  end of the FVS listing.  This is the same information that is in the

@@ -1,7 +1,7 @@
       SUBROUTINE DMNAC(A,B)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMNAC -- NISI  Date of last revision: January 10, 2002
 C----------------------------------------------------------------------

@@ -1,7 +1,7 @@
       SUBROUTINE EXSV
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION EXTERNAL REFERENCES

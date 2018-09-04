@@ -1,5 +1,7 @@
-C.... Code segment BMCOM.
-
+CODE SEGMENT BMCOM
+C----------
+C WWPB $Id$
+C----------
 ************************************************************************
 *  **BMCOM  Date of last revision: 12/08/05
 *

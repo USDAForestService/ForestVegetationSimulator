@@ -2,7 +2,7 @@
      1                 CTKFLG)
       IMPLICIT NONE
 C----------
-C LS $Id: cfvol.f 0000 2018-02-14 00:00:00Z gedixon $
+C LS $Id$
 C----------
 C THIS ROUTINE CALCULATES CUBIC FOOT VOLUME USING A 
 C USER DEFINED EQUATION.

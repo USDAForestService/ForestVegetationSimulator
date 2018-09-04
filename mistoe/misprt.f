@@ -1,6 +1,6 @@
       SUBROUTINE MISPRT
 ***********************************************************************
-*  **MISPRT--    Date of last revision:  04/21/09
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Produces dwarf mistletoe infection information and mortality

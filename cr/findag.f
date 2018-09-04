@@ -2,7 +2,7 @@
      &                  DEBUG)
       IMPLICIT NONE
 C----------
-C CR $Id: ccfcal.f 2121 2018-02-28 23:37:24Z gedixon $
+C CR $Id$
 C----------
 C  THIS ROUTINE FINDS EFFECTIVE TREE AGE BASED ON INPUT VARIABLE(S)
 C  CALLED FROM **COMCUP

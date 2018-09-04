@@ -66,6 +66,7 @@ C----------
       DATA NONE/'NONE'/
       INTEGER I,J,K
 C----------
+      VARACD = 'CR'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.0
@@ -124,7 +125,8 @@ C
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
-      LZEIDE = .FALSE.
+      LZEIDE = .TRUE.
+      CALCSDI = ' '
 C
       BAINIT = 0.0
       CFMIN = 0.

@@ -1,7 +1,7 @@
       SUBROUTINE SDEFLN (LNOTBK,ARRAY,KEYWRD,B0,B1,KARD,IS)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 COMMONS
 C

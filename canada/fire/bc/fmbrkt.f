@@ -1,8 +1,7 @@
       FUNCTION FMBRKT(DBH,ISP)
       IMPLICIT NONE
-C
-C  $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C  **FMBRKT  FIRE-BC
 C----------

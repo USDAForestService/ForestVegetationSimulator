@@ -84,17 +84,33 @@
 ../ie/cftopk.f
 ../ie/cfvol.f
 ../ie/cutstk.f
-../ie/cwcalc.f
 ../ie/dgbnd.f
 ../ie/exppnb.f
 ../ie/rcon.f
-../ie/spctrn.f
 ../ie/vols.f
 ../kt/dgdriv.f
 ../kt/maical.f
 ../so/avht40.f
-../so/r6crwd.f
-../ws/r5crwd.f
+../vie/cwcalc.f
+../vie/spctrn.f
+../vso/r6crwd.f
+../vws/r5crwd.f
+
+../vbase/cuts.f
+../vbase/disply.f
+../vbase/evpred.f
+../vbase/evtstv.f
+../vbase/fortyp.f
+../vbase/fvsstd.f
+../vbase/initre.f
+../vbase/natcrz.f
+../vbase/revise.f
+../vbase/sdical.f
+../vbase/stkval.f
+../vbase/sumhed.f
+../vbase/sumout.f
+../vbase/svout.f
+../vbase/svstart.f
 
 ../base/algcmp.f
 ../base/algevl.f
@@ -120,7 +136,6 @@
 ../base/comprs.f
 ../base/covolp.f
 ../base/cutqfa.f
-../base/cuts.f
 ../base/cwidth.f
 ../base/damcds.f
 ../base/dampro.f
@@ -132,7 +147,6 @@
 ../base/dbscan.f
 ../base/dense.f
 ../base/dgscor.f
-../base/disply.f
 ../base/dist.f
 ../base/ecopls.f
 ../base/ecvols.f
@@ -147,9 +161,7 @@
 ../base/evmkv.f
 ../base/evmon.f
 ../base/evpost.f
-../base/evpred.f
 ../base/evtact.f
-../base/evtstv.f
 ../base/evusrv.f
 ../base/exbgc.f
 ../base/exbm.f
@@ -166,9 +178,7 @@
 ../base/ffin.f
 ../base/filopn.f
 ../base/fndkey.f
-../base/fortyp.f
 ../base/fvs.f
-../base/fvsstd.f
 ../base/genrpt.f
 ../base/getsed.f
 ../base/gheads.f
@@ -178,7 +188,6 @@
 ../base/hbdecd.f
 ../base/htgstp.f
 ../base/iapsrt.f
-../base/initre.f
 ../base/intree.f
 ../base/iqrsrt.f
 ../base/isstag.f
@@ -208,7 +217,6 @@
 ../base/msbmrt.f
 ../base/mults.f
 ../base/myopen.f
-../base/natcrz.f
 ../base/notre.f
 ../base/opadd.f
 ../base/opbisr.f
@@ -240,12 +248,10 @@
 ../base/rdpsrt.f
 ../base/reass.f
 ../base/resage.f
-../base/revise.f
 ../base/rxdibs.f
 ../base/scalef.f
 ../base/sdefet.f
 ../base/sdefln.f
-../base/sdical.f
 ../base/sdichk.f
 ../base/setup.f
 ../base/sgdecd.f
@@ -253,9 +259,6 @@
 ../base/spesrt.f
 ../base/sstage.f
 ../base/stats.f
-../base/stkval.f
-../base/sumhed.f
-../base/sumout.f
 ../base/svblkd.f
 ../base/svcdbh.f
 ../base/svcmp1.f
@@ -279,13 +282,11 @@
 ../base/svntr.f
 ../base/svobol.f
 ../base/svonln.f
-../base/svout.f
 ../base/svrann.f
 ../base/svrmov.f
 ../base/svsalv.f
 ../base/svsnad.f
 ../base/svsnage.f
-../base/svstart.f
 ../base/svtdel.f
 ../base/svtrip.f
 ../base/tredel.f
@@ -301,6 +302,10 @@
 ../base/update.f
 ../base/upkey.f
 ../base/volkey.f
+
+../vdbs/dbsfmpf.f
+../vdbs/dbsstandin.f
+../vdbs/dbssumry.f
 
 ../dbs/dbsatrtls.f
 ../dbs/dbsblkd.f
@@ -326,7 +331,6 @@
 ../dbs/dbsfmhrpt.f
 ../dbs/dbsfmlink.f
 ../dbs/dbsfmmort.f
-../dbs/dbsfmpf.f
 ../dbs/dbsfmssnag.f
 ../dbs/dbsfuels.f
 ../dbs/dbshelpers.f
@@ -341,9 +345,7 @@
 ../dbs/dbspusget.f
 ../dbs/dbspusput.f
 ../dbs/dbsrd.f
-../dbs/dbsstandin.f
 ../dbs/dbsstrclass.f
-../dbs/dbssumry.f
 ../dbs/dbstreesin.f
 ../dbs/dbstrls.f
 ../dbs/fvsSQL.c
@@ -366,6 +368,9 @@
 ../pg/varput.f
 
 ../nc/essubh.f
+
+../vstrp/essprt.f
+
 ../strp/esaddt.f
 ../strp/esblkd.f
 ../strp/escprs.f
@@ -382,7 +387,6 @@
 ../strp/esprep.f
 ../strp/esprin.f
 ../strp/esrann.f
-../strp/essprt.f
 ../strp/estab.f
 ../strp/estime.f
 ../strp/estump.f
@@ -393,6 +397,9 @@
 ../volume/R8DIB.INC
 ../volume/R8VLIST.INC
 ../volume/R9COEFF.INC
+
+../vvolume/fvsvol.f
+
 ../volume/blmtap.f
 ../volume/blmvol.f
 ../volume/brk_up.f
@@ -412,7 +419,6 @@
 ../volume/fvsoldgro.f
 ../volume/fvsoldsec.f
 ../volume/fvssierralog.f
-../volume/fvsvol.f
 ../volume/fwinit.f
 ../volume/intl78.f
 ../volume/mrules.f
@@ -479,9 +485,11 @@
 ../clim/base/clmorts.f
 ../clim/base/clputget.f
 
+../vcovr/cvbrow.f
+../vcovr/cvcbms.f
+../vcovr/cvshap.f
+
 ../covr/cvbcal.f
-../covr/cvbrow.f
-../covr/cvcbms.f
 ../covr/cvclas.f
 ../covr/cvcnop.f
 ../covr/cvcw.f
@@ -491,7 +499,6 @@
 ../covr/cvnohd.f
 ../covr/cvout.f
 ../covr/cvscon.f
-../covr/cvshap.f
 ../covr/cvsum.f
 
 ../econ/eccalc.f
@@ -520,12 +527,24 @@
 ../fire/ws/fmmois.f
 ../fire/ws/fmshrub.f
 
+../fire/vbase/fmburn.f
+../fire/vbase/fmcfmd2.f
+../fire/vbase/fmeff.f
+../fire/vbase/fmfout.f
+../fire/vbase/fmpocr.f
+../fire/vbase/fmpofl.f
+../fire/vbase/fmr6fall.f
+../fire/vbase/fmr6htls.f
+../fire/vbase/fmr6sdcy.f
+../fire/vbase/fmsnag.f
+../fire/vbase/fmsngdk.f
+../fire/vbase/fmsnght.f
+../fire/vbase/fmsoilheat.f
+
 ../fire/base/excfim.f
-../fire/base/fmburn.f
 ../fire/base/fmcadd.f
 ../fire/base/fmcbio.f
 ../fire/base/fmcfir.f
-../fire/base/fmcfmd2.f
 ../fire/base/fmchkfwt.f
 ../fire/base/fmchrvout.f
 ../fire/base/fmcmpr.f
@@ -534,10 +553,8 @@
 ../fire/base/fmcwd.f
 ../fire/base/fmdout.f
 ../fire/base/fmdyn.f
-../fire/base/fmeff.f
 ../fire/base/fmevmon.f
 ../fire/base/fmfint.f
-../fire/base/fmfout.f
 ../fire/base/fmgfmv.f
 ../fire/base/fmhide.f
 ../fire/base/fmin.f
@@ -547,21 +564,12 @@
 ../fire/base/fmoldc.f
 ../fire/base/fmphotocode.f
 ../fire/base/fmphotoval.f
-../fire/base/fmpocr.f
-../fire/base/fmpofl.f
 ../fire/base/fmprun.f
-../fire/base/fmr6fall.f
-../fire/base/fmr6htls.f
-../fire/base/fmr6sdcy.f
 ../fire/base/fmsadd.f
 ../fire/base/fmsalv.f
 ../fire/base/fmscro.f
 ../fire/base/fmscut.f
 ../fire/base/fmsdit.f
-../fire/base/fmsnag.f
-../fire/base/fmsngdk.f
-../fire/base/fmsnght.f
-../fire/base/fmsoilheat.f
 ../fire/base/fmsout.f
 ../fire/base/fmssee.f
 ../fire/base/fmssum.f

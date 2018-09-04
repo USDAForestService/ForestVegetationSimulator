@@ -3,7 +3,7 @@
      &                   IDSDAT,KDT,IP)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 C
 C     SET SITE PREPARATION FOR THE REGENERATION MODEL.

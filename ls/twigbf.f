@@ -1,7 +1,7 @@
       SUBROUTINE TWIGBF(ISPC,H,D,VMAX,BBFV)
       IMPLICIT NONE
 C----------
-C LS $Id: twigbf.f 0000 2018-02-14 00:00:00Z gedixon $
+C LS $Id$
 C----------
 C-----------------------------------------------------------------
 C  LAKE STATES ACCEPTABLE TREE CLASS VOLUME EQUATION:

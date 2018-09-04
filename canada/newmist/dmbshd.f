@@ -1,7 +1,7 @@
       SUBROUTINE DMBSHD (iCS, iz, ix, ivLen, ivCnt)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C  **DMBSHD -- NISI  Date of last revision: April 7 1994
 C----------------------------------------------------------------------

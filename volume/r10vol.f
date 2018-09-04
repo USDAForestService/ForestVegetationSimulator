@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r10vol.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 !== last modified  06-29-2004
       SUBROUTINE R10VOL(VOLEQ,MTOPP,MTOPS,HTTOT,HT1PRD,DBHOB,

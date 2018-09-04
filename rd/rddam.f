@@ -1,7 +1,7 @@
       SUBROUTINE RDDAM (II,ICODES)
       IMPLICIT NONE
 C----------
-C  **RDDAM       LAST REVISION:  08/28/14
+C RD $Id$
 C----------
 C
 C  Purpose :

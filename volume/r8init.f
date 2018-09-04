@@ -1,7 +1,7 @@
+C----------
+C VOLUME $Id$
+C----------
       SUBROUTINE R8INIT(VOLEQ,DBHMIN,BFMIND,B,VFLAG,ERRFLAG)
-C----------
-C VOLUME $Id: r8init.f 0000 2018-02-14 00:00:00Z gedixon $
-C----------
 
 C CREATED  : 11-8-2002
 !== last modified  6-4-2014

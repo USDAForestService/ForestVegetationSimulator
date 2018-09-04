@@ -1,7 +1,7 @@
       SUBROUTINE RDSHRK
       IMPLICIT NONE
 C----------
-C  **RDSHRK      LAST REVISION:  09/03/14
+C RD $Id$
 C----------
 C
 C  Purpose :

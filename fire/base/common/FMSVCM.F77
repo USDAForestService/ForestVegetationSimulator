@@ -1,6 +1,6 @@
 CODE SEGMENT FMSVCM
 C----------
-C  $Id$
+C FIRE-BASE-COMMON $Id$
 C----------
 C  **FMSVCM FIRE
 C----------

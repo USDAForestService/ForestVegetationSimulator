@@ -1,7 +1,7 @@
       SUBROUTINE SVSNAGE(IYEAR,IDEAD,SNCRDI,SNCRTO,SNHT,SNDI)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION
@@ -31,10 +31,18 @@ COMMONS
 C
 C
       INCLUDE 'PRGPRM.F77'
+C
+C
+      INCLUDE 'CONTRL.F77'
+C
+C
       INCLUDE 'FMPARM.F77'
 C
 C
       INCLUDE 'FMCOM.F77'
+C
+C
+      INCLUDE 'PLOT.F77'
 C
 C
       INCLUDE 'SVDEAD.F77'
@@ -43,15 +51,8 @@ C
       INCLUDE 'SVDATA.F77'
 C
 C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
 COMMONS
 
-      CHARACTER VVER*7
       INTEGER IDEAD, ISTMLT, ITIDIF, ITSTYR, ICURYR,
      &        IYEAR, J, KSP, NFALLD
       REAL    DFALLN, DKTIME, EXPFALL, FALLNUM, FALRATE,
@@ -71,7 +72,6 @@ C----------
       IF (NDEAD.EQ.0) RETURN
 
       CALL SVHABT(XHMOD)
-      CALL VARVER(VVER)
 
 C----------
 C  If this is an open slot, zero out snag attributes and return.
@@ -331,10 +331,10 @@ C----------
         CALL RANNGET(SAVESO)
         DO ICURYR=MAX(ILYEAR+1,IYRCOD(IDEAD)+1),IYEAR
           IF ( ISTATUS(IDEAD) .EQ. 4 ) THEN
-            CALL FMSNGHT(VVER,KSP,OLEN(IDEAD),SNGLEN(IDEAD),
+            CALL FMSNGHT(VARACD,KSP,OLEN(IDEAD),SNGLEN(IDEAD),
      &                   0,HTSNEW)
           ELSE
-            CALL FMSNGHT(VVER,KSP,OLEN(IDEAD),SNGLEN(IDEAD),
+            CALL FMSNGHT(VARACD,KSP,OLEN(IDEAD),SNGLEN(IDEAD),
      &                   1,HTSNEW)
           ENDIF
           SNHT = HTSNEW
@@ -396,7 +396,7 @@ C  (Includes beetle-caused and fire-caused snags)
 C----------
 
           IF ( ISTATUS(IDEAD) .NE. 4 ) THEN
-            CALL FMSNGDK(VVER,KSP,SNGDIA(IDEAD),DKTIME)
+            CALL FMSNGDK(VARACD,KSP,SNGDIA(IDEAD),DKTIME)
             IF ((ICURYR - IYRCOD(IDEAD)) .GE. DKTIME) THEN
               ISTATUS(IDEAD) = 4
             ENDIF

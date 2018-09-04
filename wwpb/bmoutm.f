@@ -1,5 +1,7 @@
       SUBROUTINE BMOUTM (I,IYEAR)
 C----------
+C WWPB $Id$
+C----------
 C  **BMOUTM  DATE OF LAST REVISION:  JUNE 28, 2005, AJM
 C                                    Aug 1999, AJM
 C                                    AUG 13, 1994

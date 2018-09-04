@@ -1,7 +1,7 @@
       SUBROUTINE CHPUT
       IMPLICIT NONE
 C----------
-C  $Id$
+C PG $Id$
 C----------
 C
 C     WRITE THE ALL-DATA CHARACTER DATA TO THE DA FILE.
@@ -157,15 +157,24 @@ C
       CALL CHWRIT(CBUFF,IPNT,LNCBUF,PTGNAME(J)(I:I),2)
   111 CONTINUE
   112 CONTINUE
-
+C
+      DO 114 I=1,2
+      CALL CHWRIT(CBUFF,IPNT,LNCBUF,VARACD(I:I),2)
+  114 CONTINUE
+C
+      DO 115 I=1,7
+      CALL CHWRIT(CBUFF,IPNT,LNCBUF,CALCSDI(I:I),2)
+  115 CONTINUE
+C
       CALL DBSCHPUT(CBUFF,IPNT,LNCBUF)
       CALL VARCHPUT(CBUFF,IPNT,LNCBUF)
       CALL MSCHPUT(CBUFF,IPNT,LNCBUF)
-
+C
 C     Store dummy character as last write and finalize character 
 C     variable storage, last parameter is 3 to specify.
+C
       CDMB='X'
       CALL CHWRIT(CBUFF,IPNT,LNCBUF,CDMB,3)
-
+C
       RETURN
       END

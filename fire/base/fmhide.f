@@ -1,7 +1,7 @@
       SUBROUTINE FMHIDE (ISTD, IYR)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C
 C     CALLED FROM: FMMAIN 

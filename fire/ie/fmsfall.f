@@ -2,7 +2,7 @@
      &                   RSOFT,RSMAL,DFALLN)
       IMPLICIT NONE
 C----------
-C FIRE_NI $Id: fmsfall.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-IE $Id$
 C----------
 C
 C     SNAG FALL PREDICTION

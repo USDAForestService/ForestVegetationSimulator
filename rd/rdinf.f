@@ -1,7 +1,7 @@
       SUBROUTINE RDINF
       IMPLICIT NONE
 C----------
-C  **RDINF       LAST REVISION:  08/28/14
+C RD $Id$
 C----------
 C
 C  Purpose :

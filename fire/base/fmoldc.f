@@ -1,7 +1,7 @@
       SUBROUTINE FMOLDC
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C
 C     CALLED FROM: FMMAIN

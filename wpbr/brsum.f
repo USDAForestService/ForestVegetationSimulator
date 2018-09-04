@@ -1,8 +1,8 @@
       SUBROUTINE BRSUM
       IMPLICIT NONE
-C**********************************************************************
-C  **BRSUM        DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  Loads summary data into the summary array for both the
 C  Blister Rust Stand Summary Table and the Blister Rust 2" DBH Class

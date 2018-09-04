@@ -1,7 +1,7 @@
       SUBROUTINE GETSED (SED)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     GENERATES A SEED FOR THE RANDOM NUMBER GENERATOR.

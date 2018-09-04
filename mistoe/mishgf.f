@@ -1,6 +1,6 @@
       REAL FUNCTION MISHGF(ITREE,ISPC)
 ***********************************************************************
-C MISTOE $Id: mishgf.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Determines the proportion of height growth lost periodically

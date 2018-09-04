@@ -1,6 +1,6 @@
 CODE SEGMENT PRGPRM
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 C
 C     PARAMETERS FOR THE PROGNOSIS MODEL ARE:

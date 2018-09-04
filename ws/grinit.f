@@ -138,6 +138,7 @@ C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
+      VARACD = 'WS'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.
@@ -199,7 +200,8 @@ C
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
-      LZEIDE = .FALSE.
+      LZEIDE = .TRUE.
+      CALCSDI = ' '
       DSTAG = 1.0
       BAINIT = 0.0
       CFMIN = 0.

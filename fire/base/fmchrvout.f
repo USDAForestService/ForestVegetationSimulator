@@ -1,7 +1,7 @@
       SUBROUTINE FMCHRVOUT (IYR)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMMAIN

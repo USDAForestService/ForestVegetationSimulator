@@ -1,7 +1,7 @@
       SUBROUTINE DBSPUSGET (CBUFF,IPNT,LNCBUF)
       IMPLICIT NONE
 C----------
-C $Id$
+C DBS $Id$
 C----------
 C
 COMMONS

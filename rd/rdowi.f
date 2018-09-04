@@ -1,7 +1,7 @@
       SUBROUTINE RDOWI
       IMPLICIT NONE
 C----------
-C  **RDOWI       LAST REVISION:  08/29/14
+C RD $Id$
 C----------
 C
 C  Purpose :

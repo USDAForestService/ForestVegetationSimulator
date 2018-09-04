@@ -1,5 +1,7 @@
       SUBROUTINE BMCBET(ABETA, MINSIZE, MAXSIZE, BETA)
-
+C----------
+C WWPB $Id$
+C----------
 C     CALLED BY: BMISTD
 C     CALLS: FUNCTIONS ALNGAM AND BETAIN
 ******************************************************************************

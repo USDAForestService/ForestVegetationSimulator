@@ -1,7 +1,7 @@
       SUBROUTINE FMCRBOUT (IYR)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id: fmcrbout.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C FIRE-BASE $Id$
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMMAIN

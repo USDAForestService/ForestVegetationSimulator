@@ -1,7 +1,7 @@
       SUBROUTINE FMCWD(IYR)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id: fmcwd.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-BASE $Id$
 C----------
 C     CALLED FROM: FMSNAG
 C                  FMMAIN

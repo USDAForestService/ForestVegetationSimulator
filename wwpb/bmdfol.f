@@ -1,5 +1,7 @@
       SUBROUTINE BMDFOL (ISTD,IYR)
-      
+C----------
+C WWPB $Id$
+C----------
 c     CALLED FROM BMDRV
 ***********************************************************************
 * **BMDFOL    Date of last revision:  June 14, 1994

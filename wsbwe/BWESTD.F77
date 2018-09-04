@@ -1,6 +1,6 @@
 CODE SEGMENT BWESTD
 C----------
-C  **BWESTD          DATE OF LAST REVISION:  08/10/06                              
+C WSBWE $Id$
 C----------
 C
 C     BWESTD: FOLIAGE AND DAMAGE VARIABLES FOR THE BUDWORM MODEL.

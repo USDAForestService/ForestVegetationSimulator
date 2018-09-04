@@ -1,7 +1,7 @@
       BLOCK DATA MPBLKD
       IMPLICIT NONE
 C----------
-C  **MPBLKD--BM   DATE OF LAST REVISION:  08/22/14
+C LPMPB $Id$
 C----------
 C
 C     MOUNTAIN PINE BEETLE --

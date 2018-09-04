@@ -1,6 +1,6 @@
-
-c $Id$
-
+C----------
+C BASE $Id$
+C----------
 c     This is a collection of routines that provide an interface to 
 c     the shared library version of FVS. Other routines that exist
 c     inside FVS may also be called.

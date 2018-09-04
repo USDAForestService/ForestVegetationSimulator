@@ -1,7 +1,7 @@
       SUBROUTINE RDROUT
       IMPLICIT NONE
 C----------
-C  **RDROUT      LAST REVISION:  09/02/14
+C RD $Id$
 C----------
 C  ****** NOTICE ********* NOTICE ******* NOTICE ****** NOTICE *******
 C  ***                                                             ***

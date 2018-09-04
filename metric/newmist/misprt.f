@@ -1,7 +1,7 @@
       SUBROUTINE MISPRT
 		  IMPLICIT NONE
 C----------
-C  $Id$
+C METRIC-NEWMIST $Id$
 C----------
 *  Purpose:
 *     Produces dwarf mistletoe infection information and mortality

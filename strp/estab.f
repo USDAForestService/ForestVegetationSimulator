@@ -1,7 +1,7 @@
       SUBROUTINE ESTAB (KDT)
       IMPLICIT NONE
 C----------
-C STRP $Id: estab.f 0000 2018-02-14 00:00:00Z gedixon $
+C STRP $Id$
 C----------
 COMMONS
 C

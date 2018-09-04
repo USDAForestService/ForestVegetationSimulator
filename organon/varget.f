@@ -1,7 +1,7 @@
       SUBROUTINE VARGET (WK3,IPNT,ILIMIT,REALS,LOGICS,INTS)
       IMPLICIT NONE
 C----------
-C ORGANON $Id: varget.f 874 2013-05-16 19:44:36Z drobinsonessa@gmail.com $
+C ORGANON $Id$
 C----------
 C
 C     READ THE VARIANT SPECIFIC VARIABLES.

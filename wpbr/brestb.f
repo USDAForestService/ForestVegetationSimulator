@@ -1,8 +1,8 @@
       SUBROUTINE BRESTB(TIME,ITYP,ISSP)
       IMPLICIT NONE
-C**********************************************************************
-C  **BRESTB       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  BRESTB sets the Blister Rust variables for new trees that are
 C  added by the FVS REGENeration system. It performs the following

@@ -1,8 +1,7 @@
       SUBROUTINE FMCANC (IYR,FMOIS,CFTMP,CANBURN,ROS,INTSTY,FCLS)
       IMPLICIT NONE
-C
-C  $Id$
-C
+C----------
+C CANADA-FIRE-BC $Id$
 C----------
 C  **FMCANC FIRE-BC
 C----------

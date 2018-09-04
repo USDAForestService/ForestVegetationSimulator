@@ -1,7 +1,7 @@
       SUBROUTINE MISTOE
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 *  **MISTOE--MS  Date of last revision:  03/10/05
 *----------------------------------------------------------------------

@@ -1,7 +1,7 @@
       SUBROUTINE FMSSUM (IYR)
       IMPLICIT NONE
 C----------
-C  **FMSSUM  DATE OF LAST REVISION:  12/16/04
+C METRIC-FIRE-BASE $Id$
 C----------
 C
 C  Purpose:

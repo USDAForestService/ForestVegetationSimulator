@@ -1,7 +1,7 @@
       SUBROUTINE SVGTPL
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

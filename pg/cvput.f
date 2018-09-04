@@ -1,7 +1,7 @@
       SUBROUTINE CVPUT (WK3, IPNT, ILIMIT, ICYC, ITRN)
       IMPLICIT NONE
 C----------
-C  $Id$
+C PG $Id$
 C----------
 C
 C     STORE THE COVER DATA FOR A GIVEN STAND.

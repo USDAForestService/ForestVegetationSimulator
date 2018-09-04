@@ -1,7 +1,7 @@
       SUBROUTINE DMMDMR(New, Old)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMMDMR -- NISI  Date of last revision: April 9 1994 
 C----------------------------------------------------------------------

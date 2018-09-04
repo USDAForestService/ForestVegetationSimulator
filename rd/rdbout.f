@@ -1,7 +1,7 @@
       SUBROUTINE RDBOUT
       IMPLICIT NONE
 C----------
-C  **RDBOUT      LAST REVISION:  03/24/15
+C RD $Id$
 C----------
 C
 C  Purpose :

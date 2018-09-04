@@ -1,7 +1,7 @@
       SUBROUTINE DMSLST (DMRCls, n, SInd, SCD, SPtr, SLst)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMSLST -- NISI  Date of last revision: April 14 1994 
 C--------------------------------------------------------------------

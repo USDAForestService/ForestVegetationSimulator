@@ -1,7 +1,7 @@
       SUBROUTINE HTCALC (IFOR,SINDX,ISPC,AG,HGUESS,JOSTND,DEBUG)
       IMPLICIT NONE
 C----------
-C WS $Id: htcalc.f 0000 2018-02-14 00:00:00Z gedixon $
+C WS $Id$
 C----------
 C THIS ROUTINE CALCULATES A POTENTIAL HT GIVEN AN SPECIES SITE AND AGE
 C IT IS USED TO CALL POTHTG AND SITE
@@ -9,7 +9,7 @@ C----------
 C
       LOGICAL DEBUG
       INTEGER JOSTND,ISPC,IFOR,INDX
-      REAL HGUESS,AG,SINDX,B0,B1,B2,B3,B4,B5,A,B,TERM,TERM2,B50
+      REAL HGUESS,AG,SINDX,A,B,TERM,TERM2,B50
       REAL DUNL1(6),DUNL2(6),DUNL3(6)
       INTEGER IDANUW
 C----------
@@ -141,55 +141,38 @@ C 0.8 SCALER ADDED BY SMITH-MATEJA IN NC VARIANT SO TREES WOULD HIT THE
 C SITE HEIGHT
 C----------
       CASE(28:40,43)
-        B1 = 6.413
-        B2 = 0.322
         A = SQRT(AG) - SQRT(50.0)
-        HGUESS = SINDX*(1.0+B2*(A))-B1*A
+        HGUESS = SINDX*(1.0+0.322*(A))-6.413*A
         HGUESS = HGUESS*.80
 C----------
 C DOLPH RED FIR CURVES PSW 206
 C----------
       CASE(7)
-        B0 = 0.0
-        B1 = 1.51744
-        B2 = 1.4151E-6
-        B3 = -0.0440853
-        B4 = -3.0495E6
-        B5 =  5.72474E-4
-C
-        TERM=AG*EXP(AG*B3)*B2
-        B = SINDX*TERM + B4*TERM*TERM + B5
-        TERM2 = 50.0 * EXP(50.0*B3) * B2
-        B50 = SINDX*TERM2 + B4*TERM2*TERM2 + B5
-        HGUESS = ((SINDX-4.5)*(1.0-EXP(-B*(AG**B1)))) /
-     &           (1.0-EXP(-B50*(50.0**B1)))
+        TERM=AG*EXP(AG*(-0.0440853))*1.4151E-6
+        B = SINDX*TERM - 3.0495E6*TERM*TERM + 5.72474E-4
+        TERM2 = 50.0 * EXP(50.0*(-0.0440853)) * 1.4151E-6
+        B50 = SINDX*TERM2 - 3.0495E6*TERM2*TERM2 + 5.72474E-4
+        HGUESS = ((SINDX-4.5)*(1.0-EXP(-B*(AG**1.51744)))) /
+     &           (1.0-EXP(-B50*(50.0**1.51744)))
         HGUESS = HGUESS+4.5
 C----------
 C 41=MC - USE CURTIS, FOR. SCI. 20:307-316.  CURTIS CURVES
 C ARE PRESENTED IN METRIC (3.2808 ?)
 C
-C EXCESSIVE HT GROWTH -- APPROX 30-40 FT/CYCLE, TAKE OUT METRIC MULT
-C DIXON 11-05-92
+C BECAUSE OF EXCESSIVE HT GROWTH -- APPROX 30-40 FT/CYCLE, TOOK OUT 
+C THE METRIC MULTIPLIER. DIXON 11-05-92
 C----------
       CASE(41)
-        B0 = 0.6192
-        B1 = -5.3394
-        B2 = 240.29
-        B3 = 3368.9
-        HGUESS = (SINDX - 4.5) / ( B0 + B1/(SINDX - 4.5)
-     &         + B2 * AG**(-1.4) +(B3/(SINDX - 4.5))*AG**(-1.4))
+        HGUESS = (SINDX - 4.5) / (0.6192 - 5.3394/(SINDX - 4.5)
+     &         + 240.29*AG**(-1.4) +(3368.9/(SINDX - 4.5))*AG**(-1.4))
         HGUESS = HGUESS + 4.5
 C----------
 C  21=GB FROM THE CR VARIANT VIA UT.
 C  USE ALEXANDER 1967 RM32
 C----------
        CASE(21)
-        B0 = 2.75780
-        B1 = 0.83312
-        B2 = -0.015701
-        B3 = 22.71944
-        B4 = -0.63557
-        HGUESS = 4.5+((B0*SINDX**B1)*(1.0-EXP(B2*AG))**(B3*SINDX**B4))
+        HGUESS = 4.5+((2.75780*SINDX**0.83312)*(1.0-EXP(-0.015701*AG))
+     &           **(22.71944*SINDX**(-0.63557)))
 C
       END SELECT
 C

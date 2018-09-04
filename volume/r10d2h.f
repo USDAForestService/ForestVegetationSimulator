@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r10d2h.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
       SUBROUTINE r10d2h(VOLEQ,DBHOB,HTTOT,VOL,CUTFLG,CUPFLG,BFPFLG,
      >                                                          ERRFLAG)

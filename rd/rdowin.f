@@ -1,7 +1,7 @@
       SUBROUTINE RDOWIN
       IMPLICIT NONE
 C----------
-C  **RDOWIN      LAST REVISION:  08/29/14
+C RD $Id$
 C----------
 C
 C  Purpose :

@@ -1,7 +1,7 @@
       LOGICAL FUNCTION FMCHKFWT(I2)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C     CALLED FROM: FMDYN, FMCFMD (WS,NC,IC)
 C

@@ -3,7 +3,7 @@
      -  KODE)
       IMPLICIT NONE
 C--------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C  **DBSMIS1--DBS  DATE OF LAST REVISION:  08/31/04
 C----------

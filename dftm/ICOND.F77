@@ -1,5 +1,5 @@
 C-------------------------  
-C  ICOND COMMON BLOCK -- DATE OF LAST REVISION: 06/30/10   
+C DFTM $Id$
 C-------------------------  
       INTEGER  IZ6(100), JCLASS(100) 
       REAL     G19(100), X5(100), X6(100), X7(100), Z4(100), Z5(100),

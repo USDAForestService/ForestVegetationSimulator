@@ -1,7 +1,7 @@
       SUBROUTINE ESUCKR
       IMPLICIT NONE
 C----------
-C  **ESUCKR--WC/M   DATE OF LAST REVISION:  02/08/13
+C METRIC-WC $Id$
 C----------
 COMMONS
 C

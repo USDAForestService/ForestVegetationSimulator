@@ -1,8 +1,8 @@
       SUBROUTINE BMOUTM (I,IYEAR)
 C----------
-C  **BMOUTM  DATE OF LAST REVISION:  JUNE 28, 2005, AJM
-C                                    AUG 13, 1994
-C----------                          July 1998
+C METRIC-WWPB $Id$
+C---------- 
+C                                    July 1998
 C                                    August 1998
 C     Two output files were created (units 28 and 29) to output
 C     annual stand and landscape data (RN Havis July 1998)

@@ -2,7 +2,7 @@
      >                   IPRMPT,IRECNT,ICYC)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     OPTION PROCESSING ROUTINE - NL CROOKSTON - JULY 1988 - MOSCOW

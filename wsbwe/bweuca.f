@@ -1,7 +1,7 @@
       SUBROUTINE BWEUCA (C)
       IMPLICIT NONE
 C----------
-C  **BWUPCA                 DATE OF LAST REVISION:  07/14/10
+C WSBWE $Id$
 C----------
       CHARACTER C
       CHARACTER*26 UPPER,LOWER

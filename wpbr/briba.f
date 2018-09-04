@@ -1,8 +1,8 @@
       SUBROUTINE BRIBA
       IMPLICIT NONE
-C**********************************************************************
-C  **BRIBA        DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  BRIBA calculates the Rust Index based on Basal Area.
 C

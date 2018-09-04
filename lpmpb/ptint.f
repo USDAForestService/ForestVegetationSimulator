@@ -1,7 +1,7 @@
       SUBROUTINE PTINT(IPLTNO, NINC, XAXIS, ANEW)
       IMPLICIT NONE
 C----------
-C  **PTINT         DATE OF LAST REVISION:  08/22/14
+C LPMPB $Id$
 C----------
 C
 C

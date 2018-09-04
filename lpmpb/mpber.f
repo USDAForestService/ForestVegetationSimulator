@@ -1,7 +1,7 @@
       SUBROUTINE MPBER (NOER)
       IMPLICIT NONE
 C----------
-C  **MPBER         DATE OF LAST REVISION:  07/02/10
+C LPMPB $Id$
 C----------
 C
 C

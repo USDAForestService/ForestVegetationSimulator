@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: r10tap.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 !== last modified  03-20-2006
       SUBROUTINE R10TAP(TAPEQU,DBHOB,HTTOT,HTUP,D2)

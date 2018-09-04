@@ -1,7 +1,7 @@
       SUBROUTINE DMSHAP(DMTRCW, IDMSHP)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMSHAP -- NISI Date of last revision: 08/05/94
 C This module was made by modifying the COVER MODEL module CVSHAP
@@ -89,7 +89,6 @@ C Local variables.
       INTEGER MAPISP(49),MAPAK(49),MAPCA(49),MAPBM(49),MAPCR(49),
      &        MAPEM(49),MAPIE(49),MAPNI(49),MAPSO(49),
      &        MAPTT(49),MAPUT(49),MAPWC(49),MAPBC(49)
-      CHARACTER VVER*7
       INTEGER I,ISPI,J
       REAL    TPA,RAD,CR,CL,SCORM1
 
@@ -286,9 +285,8 @@ C     BM=RC,RA=RC,WA=RC,PB=RC,GC=RC,AS=RC,CW=RC,WO=RC,WJ=LP,LL=WL
 C     WB=AF,KP=PP,PY=AF,DG=RC,HT=RC,CH=RC,WI=RC,--=OT,OT=RC
      &    9,   10,    9,    6,    6,    6,    6,   11,    6, 10*0/
 
-      CALL VARVER(VVER)
 C    
-      SELECT CASE (VVER(:2))
+      SELECT CASE (VARACD)
       CASE('BC')
         MAPISP=MAPBC
 C  ORIGINAL 11 SPECIES VARIANTS

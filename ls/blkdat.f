@@ -1,7 +1,7 @@
       BLOCK DATA BLKDAT
       IMPLICIT NONE
 C----------
-C LS $Id: blkdat.f 0000 2018-02-15 00:00:00Z gary.dixon24@gmail.com $
+C LS $Id$
 C----------
 C
 C     SEE **MAIN** FOR DICTIONARY OF VARIABLE NAMES.
@@ -296,22 +296,6 @@ C
      & -5.1435,  -2.7758,  -5.1435,  -3.2510,  -4.7903,  -5.2776,
      & -5.1435,  -5.1435,  -3.2510,  -5.7928,  -5.7928,  -5.1435,
      & -4.5018,  -5.1435/
-C
-C
-      DATA BB0/68*0.0/
-      DATA BB1/68*0.0/
-      DATA BB2/68*0.0/
-      DATA BB3/68*0.0/
-      DATA BB4/68*0.0/
-      DATA BB5/68*0.0/
-      DATA BB6/68*0.0/
-      DATA BB7/68*0.0/
-      DATA BB8/68*0.0/
-      DATA BB9/68*0.0/
-      DATA BB10/68*0.0/
-      DATA BB11/68*0.0/
-      DATA BB12/68*0.0/
-      DATA BB13/68*0.0/
 C
       DATA REGNBK/2.999/
 C

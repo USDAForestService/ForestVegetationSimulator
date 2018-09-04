@@ -64,7 +64,6 @@ C.... Variable declarations.
       REAL    DSNAGS, TSOFT, RLIFE, ANNUAL, NEWBOT, OLDBOT, X
       INTEGER ICALL
       REAL    YRSCYC
-      CHARACTER VVER*7
       LOGICAL  DEBUG
 C
 C     CHECK FOR DEBUG.
@@ -102,11 +101,10 @@ C     the simulation begins.
 C     Call FMSNGDK to predict years, since death, for snag to become
 C     soft.
 
-      CALL VARVER(VVER)
-      CALL FMSNGDK(VVER,SP,DBH(I),TSOFT)
-      IF (DEBUG) WRITE(JOSTND,7) ICYC, TSOFT, KODFOR, VVER(1:2)
+      CALL FMSNGDK(VARACD,SP,DBH(I),TSOFT)
+      IF (DEBUG) WRITE(JOSTND,7) ICYC, TSOFT, KODFOR, VARACD
     7 FORMAT(' FMSCRO CYCLE=',I2,' TSOFT=',F10.1,' KODFOR=',I5,
-     &       ' VVER=',A2)
+     &       ' VARACD=',A2)
       
 C     If called from CUTS, then OLDCRW will be holding last year's
 C     crown info, not the dead part of the crown. Thus, we need to do

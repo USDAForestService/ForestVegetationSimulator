@@ -1,6 +1,6 @@
       SUBROUTINE ECSETP(IY)
 C----------
-C **ECSETP--ECON  DATE OF LAST REVISION: 06/18/2009
+C ECON $Id$
 C----------
 C Author Fred Martin, WA DNR,
 

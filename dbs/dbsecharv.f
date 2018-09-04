@@ -1,6 +1,6 @@
       subroutine DBSECHARV_open()
 
-C $Id$
+C DBS $Id$
 
         implicit none
 

@@ -1,7 +1,7 @@
       SUBROUTINE SICHG(ISISP,SSITE,SIAGE,JOSTND)
       IMPLICIT NONE
 C----------
-C NC $Id: sichg.f 0000 2018-02-14 00:00:00Z gedixon $
+C NC $Id$
 C----------
       CHARACTER*1 ISILOC,REFLOC(11)
       INTEGER IREFAG(11)

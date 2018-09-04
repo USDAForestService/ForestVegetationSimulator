@@ -1,7 +1,7 @@
       SUBROUTINE FMPHOTOCODE (FotoRef, CFotoCode, Fotocode, Icall)
       IMPLICIT NONE
 C----------
-C  $Id$
+C FIRE-BASE $Id$
 C----------
 C
 C     TRANSLATES THE CHARACTER PHOTO SERIES PHOTO CODE INTO AN 

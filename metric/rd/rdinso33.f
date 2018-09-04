@@ -1,6 +1,6 @@
       SUBROUTINE RDIN(PASKEY,ARRAY,LNOTBK,LKECHO)
 C----------
-C  **RDIN--SO33    LAST REVISION:  06/03/10
+C METRIC-RD $Id$
 C----------
 C
 C  Purpose :

@@ -1,6 +1,6 @@
       SUBROUTINE ECIN(IRECNT, IREAD, JOSTND, NSP, ICYC, LKECHO, ISPGRP)
 C----------
-C **ECIN--ECON  DATE OF LAST REVISION: 03/03/2012
+C ECON $Id$
 C----------
 C  Author Fred Martin, WA DNR,
 

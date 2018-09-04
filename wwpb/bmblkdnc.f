@@ -1,8 +1,6 @@
       BLOCK DATA BMBLKD
 C----------
-C  **BMBLKD NC--WESTWIDE PINE BEETLE MODEL  
-C           Northern California (Klamath Mountains) FVS variant
-C  Created 5/31/05 ajm, based on bmblkso.f
+C WWPB $Id$
 C----------
 ***********************************************************************
 * The following Westwide Pine Beetle Model variable initializations

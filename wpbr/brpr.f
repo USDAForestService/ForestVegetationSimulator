@@ -1,8 +1,8 @@
       SUBROUTINE BRPR
       IMPLICIT NONE
-C**********************************************************************
-C  **BRPR         DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  BRPR performs the following functions:
 C     1) calls BRCSTA to assign canker status when a compression

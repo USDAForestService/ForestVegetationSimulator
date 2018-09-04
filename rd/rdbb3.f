@@ -1,7 +1,7 @@
       SUBROUTINE RDBB3
       IMPLICIT NONE
 C----------
-C  **RDBB3       LAST REVISION:  08/26/14
+C RD $Id$
 C----------
 C
 C  Purpose :

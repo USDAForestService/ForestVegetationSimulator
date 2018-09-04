@@ -1,8 +1,8 @@
       SUBROUTINE BRROUT
       IMPLICIT NONE
-C**********************************************************************
-C  **BRROUT       DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  BRROUT writes a Blister Rust Model Stand Summary Statistics
 C  table at the end of the FVS listing.

@@ -1,8 +1,8 @@
       BLOCK DATA BRBLKD
       IMPLICIT NONE
-C**********************************************************************
-C  **BRBLKD--SO   DATE OF LAST REVISION:  06/05/2014
-C----------------------------------------------------------------------
+C----------
+C WPBR $Id$
+C----------
 C  Purpose:
 C  Block data for the Blister Rust model.
 C----------

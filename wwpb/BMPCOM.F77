@@ -1,5 +1,7 @@
-C.... Code segment BMPCOM.
-
+CODE SEGMENT BMPCOM
+C----------
+C WWPB $Id$
+C----------
 ************************************************************************
 *  **BMPCOM  Completely re-written AJ McMahan, ITX, Inc.;  Sept, 2005.
 *            Date of last revision: 12/08/05 

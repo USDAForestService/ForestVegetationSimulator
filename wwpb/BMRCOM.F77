@@ -1,5 +1,7 @@
 CODE SEGMENT BMRNCM
 C----------
+C WWPB $Id$
+C----------
 C  **BMRNCM DATE OF LAST REVISION: Wed Apr 21 16:17:56 PDT 1993
 C----------
       REAL*8 BMS0,BMS1

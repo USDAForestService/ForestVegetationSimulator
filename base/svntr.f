@@ -1,7 +1,7 @@
       SUBROUTINE SVNTR (XP,NP)
       IMPLICIT NONE
 C----------
-C  $Id$
+C BASE $Id$
 C----------
 C
 C     STAND VISUALIZATION GENERATION

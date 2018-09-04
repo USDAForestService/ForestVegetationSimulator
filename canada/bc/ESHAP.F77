@@ -1,6 +1,6 @@
 CODE SEGMENT ESHAP
 C----------
-C  $Id$
+C CANADA-BC $Id$
 C----------
 C
       LOGICAL LINGRW,LAUTAL,LSPRUT

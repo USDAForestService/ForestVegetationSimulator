@@ -1,10 +1,11 @@
       BLOCK DATA CUBRDS
       IMPLICIT NONE
 C----------
-C  **CUBRDS--AK   DATE OF LAST REVISION:  02/14/08
+C AK $Id$
 C----------
 C  DEFAULT PARAMETERS FOR THE CUBIC AND BOARD FOOT VOLUME EQUATIONS.
 C----------
+C
 COMMONS
 C
 C
@@ -15,6 +16,13 @@ C
 C
 C
 COMMONS
+C
+C----------
+C  DATA STATEMENTS:
+C
+C  SPECIES ORDER
+C  1    2    3    4    5    6    7    8    9   10   11  12  13
+C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
 C----------
 C  COEFFICIENTS FOR CUBIC FOOT VOLUME FOR TREES THAT ARE SMALLER THAN
 C  THE TRANSITION SIZE. 1 ROW PER SPECIES, EACH ROW HAS 7 COEFFS.
@@ -111,4 +119,5 @@ C----------
       DATA BTRAN/
      &      0.0,      0.0,     0.0,     0.0,     0.0,     0.0,    0.0,
      &      0.0,      0.0,     0.0,     0.0,     0.0,     0.0/
+C
       END

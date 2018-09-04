@@ -1,5 +1,7 @@
       SUBROUTINE BMATCT(IYR)
-
+C----------
+C WWPB $Id$
+C----------
 C     CALLED FROM BMDRV
 C     CALLS:  SPLAAR
 C             SPLADS

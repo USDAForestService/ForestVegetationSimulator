@@ -1,7 +1,7 @@
       SUBROUTINE DMSUM(DMTRCW, IDMSHP)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMSUM --     DATE OF LAST REVISION:  02/23/96   
 C This code was adapted from the CVSUM subroutine of the COVER model.

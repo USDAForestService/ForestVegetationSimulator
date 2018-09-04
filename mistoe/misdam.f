@@ -1,6 +1,6 @@
       SUBROUTINE MISDAM(ITREE,ICODES)
 ***********************************************************************
-*  **MISDAM--MS  Date of last revision:  07/15/94
+C MISTOE $Id$
 *----------------------------------------------------------------------
 *  Purpose:
 *     Processes damage codes to determine whether the tree in

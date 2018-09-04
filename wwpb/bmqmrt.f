@@ -1,7 +1,7 @@
       SUBROUTINE BMQMRT (ISTD,IYR)
-C---------------
-C **BMQMRT    Date of last revision:  June 15, 1994  
-C---------------
+C----------
+C WWPB $Id$
+C----------
 ***********************************************************************
 *
 *     This routine simly calculates extra mortality on host or non-host 

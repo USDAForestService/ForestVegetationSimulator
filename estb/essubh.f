@@ -2,7 +2,7 @@
      &  GENTIM,TRAGE)
       IMPLICIT NONE
 C----------
-C ESTB $Id: essubh.f 0000 2018-02-14 00:00:00Z gedixon $
+C ESTB $Id$
 C----------
 C
 COMMONS

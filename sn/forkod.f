@@ -1,7 +1,7 @@
       SUBROUTINE FORKOD
       IMPLICIT NONE
 C----------
-C SN $Id: forkod.f 0000 2018-02-14 00:00:00Z gedixon $
+C SN $Id$
 C----------
 C
 C     TRANSLATES FOREST CODE INTO A SUBSCRIPT, IFOR, AND IF

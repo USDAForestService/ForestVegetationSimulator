@@ -66,6 +66,7 @@ C----------
       DATA DBLK/'                          '/
       DATA NONE/'NONE'/
 C----------
+      VARACD = 'NE'
       CALL LNKINT
       DO 5 I=1,MAXSP
       SDIDEF(I) = 0.
@@ -119,7 +120,8 @@ C----------
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
-      LZEIDE = .FALSE.
+      LZEIDE = .TRUE.
+      CALCSDI = ' '
       CFMIN = 0.
       TCFMIN = 0.
       BFMIN = 0.
@@ -324,7 +326,7 @@ C----------
 C  INITIALIZE TWIGCOM COMMON VARIABLES
 C----------
       DO I=1,50
-        BAU(I)=0.
+        EBAU(I)=0.
       ENDDO
 C
       RETURN

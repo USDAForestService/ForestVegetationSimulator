@@ -1,7 +1,7 @@
       SUBROUTINE FMCBA (IYR,ISWTCH)
       IMPLICIT NONE
 C----------
-C FIRE-SO $Id: fmcba.f 0000 2018-02-14 00:00:00Z gedixon $
+C FIRE-SO $Id$
 C----------
 C     SINGLE-STAND VERSION
 C     CALLED FROM: FMMAIN

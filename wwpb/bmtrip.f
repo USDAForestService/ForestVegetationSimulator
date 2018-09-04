@@ -1,5 +1,7 @@
       SUBROUTINE BMTRIP(ITFN,I,WEIGHT)
-      
+C----------
+C WWPB $Id$
+C----------
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'PPEPRM.F77'
       INCLUDE 'BMPRM.F77'

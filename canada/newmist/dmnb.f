@@ -1,7 +1,7 @@
       SUBROUTINE DMNB (RQ, D, CNB)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMNB -- NISI  Date of last revision: 12/19/03
 C----------------------------------------------------------------------

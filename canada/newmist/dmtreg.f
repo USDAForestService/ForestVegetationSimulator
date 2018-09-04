@@ -1,7 +1,7 @@
       SUBROUTINE DMTREG
       IMPLICIT NONE
 C----------
-C  $Id$
+C CANADA-NEWMIST $Id$
 C----------
 C **DMTREG -- NISI  Date of last revision: 12/20/03
 C--------------------------------------------------------------------

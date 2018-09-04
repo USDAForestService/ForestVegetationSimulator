@@ -1,5 +1,5 @@
 C----------
-C VOLUME $Id: sf_yhat.f 0000 2018-02-14 00:00:00Z gary.dixon24@gmail.com $
+C VOLUME $Id$
 C----------
 !== last modified  12-08-2003
       FUNCTION SF_YHAT(JSP,RH,totalh,ineedsl,slope,RHFW,RFLW,TAPCOE,F)

@@ -1,7 +1,7 @@
       FUNCTION UV1 (KP,X,B,ALPHA,G) 
       IMPLICIT NONE
 C---------- 
-C  **UV1    DATE OF LAST REVISION:  06/30/10 
+C DFTM $Id$
 C---------- 
 C     DFTM MODEL SUBROUTINE - JIM COLBERT - JAN 1978. 
 C     
