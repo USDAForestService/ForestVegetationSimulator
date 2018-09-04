@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMDWCOV(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE DOWN WOOD COVER REPORT
 C              INFORMATION
@@ -57,8 +57,8 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_Down_Wood_Cov"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_Down_Wood_Cov ('//
-     -              'CaseID char(36) not null,'//
-     -              'StandID char(26) not null,'//
+     -              'CaseID text not null,'//
+     -              'StandID text not null,'//
      -              'Year Int null,'//
      -              'DWD_Cover_3to6_Hard real null,'//
      -              'DWD_Cover_6to12_Hard real null,'//

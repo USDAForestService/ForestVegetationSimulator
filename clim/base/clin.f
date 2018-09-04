@@ -1,7 +1,7 @@
       SUBROUTINE CLIN (DEBUG,LKECHO)
       IMPLICIT NONE
 C----------
-C  $Id$
+C CLIM-BASE $Id$
 C----------
 C
 C     CLIMATE EXTENSION

@@ -1,7 +1,7 @@
       SUBROUTINE DBSCMPU
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE COMPUTE TABLE
 C              INFORMATION
@@ -66,8 +66,8 @@ C
       iRet = fsql3_tableexists(IoutDBref,"FVS_Compute"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmt='CREATE TABLE FVS_Compute('//
-     -             'CaseID char(36) ,'//
-     -             'StandID char(26) null,'//
+     -             'CaseID text ,'//
+     -             'StandID text null,'//
      -             'Year int null'
         DO I=1,ITST5
           IF(.NOT.(CTSTV5(I)(1:1).EQ.'_'.AND.I_CMPU.LT.1)) THEN

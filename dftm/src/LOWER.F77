@@ -1,5 +1,0 @@
-C-------------------------  
-C  LOWER COMMON BLOCK -- DATE OF LAST REVISION: 06/30/10
-C-------------------------  
-      REAL X1(4), Z1(4), B1(36), R1(18), G1(19), F1(4), Y1(3)
-      COMMON  /LOWER/ X1, Z1, B1, R1, G1, F1, Y1

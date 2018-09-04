@@ -1,7 +1,7 @@
       SUBROUTINE DBSCASE(IFORSURE)
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE PROGNOSIS MODEL
@@ -17,16 +17,19 @@ C
       INCLUDE 'PRGPRM.F77'
 C
 C
+      INCLUDE 'CONTRL.F77'
+C
+C
       INCLUDE 'DBSCOM.F77'
+C
+C
+      INCLUDE 'KEYCOM.F77'
 C
 C
       INCLUDE 'OPCOM.F77'
 C
 C
       INCLUDE 'OUTCOM.F77'
-C
-C
-      INCLUDE 'KEYCOM.F77'
 C
 C
       INCLUDE 'PLOT.F77'
@@ -46,17 +49,12 @@ C---
       INTEGER IFORSURE, IFORSR, I, KODE, IRCODE
       CHARACTER(len=36) CID
 
-      CHARACTER*7 VVER
-
       CHARACTER*2 VAR
 
       INCLUDE 'INCLUDESVN.F77'
 
-      CALL VARVER(VVER)
-      CALL REVISE(VVER,REV)
-      VAR=VVER(:2)
-      IF(VAR.EQ.'BP' .OR. VAR.EQ.'LP' .OR. VAR.EQ.'SF' .OR.
-     &   VAR.EQ.'SM' .OR. VAR.EQ.'SP') VAR='CR'
+      CALL REVISE(VARACD,REV)
+      VAR=VARACD
 
 C-----
 C     CHECK TO SEE IF WE ARE NEEDING TO CONTINUE
@@ -134,18 +132,18 @@ C---------
       IRCODE = fsql3_tableexists(IoutDBref,"FVS_Cases"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr="CREATE TABLE FVS_Cases"//
-     -              " (CaseID char(36) primary key,"//
-     -              "Stand_CN char(40),"//
-     -              "StandID char(26),"//
-     -              "MgmtID char(4),"//
-     -              "RunTitle char(72),"//
-     -              "KeywordFile char(50),"//
+     -              " (CaseID text primary key,"//
+     -              "Stand_CN text,"//
+     -              "StandID text,"//
+     -              "MgmtID text,"//
+     -              "RunTitle text,"//
+     -              "KeywordFile text,"//
      -              "SamplingWt real,"//
-     -              "Variant char(2),"//
-     -              "Version char(10),"//
-     -              "RV char(8),"//
-     -              "Groups char(250),"//
-     -              "RunDateTime char(19))"//CHAR(0)
+     -              "Variant text,"//
+     -              "Version text,"//
+     -              "RV text,"//
+     -              "Groups text,"//
+     -              "RunDateTime text)"//CHAR(0)
         IRCODE = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (IRCODE .NE. 0) RETURN
       ENDIF

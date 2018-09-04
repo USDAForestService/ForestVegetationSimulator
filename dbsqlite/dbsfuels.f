@@ -5,7 +5,7 @@
 
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE FUELS REPORT INFORMATION
 C     AUTH: D. GAMMEL -- RMRS -- NOVEMBER 2002
@@ -62,8 +62,8 @@ C
      >       "FVS_Fuels"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_Fuels('//
-     -              'CaseID char(36) not null,'//
-     -              'StandID char(26) not null,'//
+     -              'CaseID text not null,'//
+     -              'StandID text not null,'//
      -              'Year Int null,'//
      -              'Surface_Litter real null,'//
      -              'Surface_Duff real null,'//

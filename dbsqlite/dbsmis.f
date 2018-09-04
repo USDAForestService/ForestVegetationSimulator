@@ -4,7 +4,7 @@
      
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE 1ST MISTLETOE REPORT INFORMATION
 C     AUTH: D. ROBINSON, ESSA - BASED ON D. GAMMEL (DBSFUELS)
@@ -54,10 +54,10 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_DM_Spp_Sum"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_DM_Spp_Sum ('//
-     -      'CaseID char(36) not null,'//
-     -      'StandID char(26) not null,'//
+     -      'CaseID text not null,'//
+     -      'StandID text not null,'//
      -      'Year Int null,'//
-     -      'Spp char(2) null,'//
+     -      'Spp text null,'//
      -      'Mean_DMR real null,'//
      -      'Mean_DMI real null,'//
      -      'Inf_TPA int null,'//
@@ -214,8 +214,8 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_DM_Stnd_Sum"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_DM_Stnd_Sum ('//
-     -      'CaseID char(36) not null,'//
-     -      'StandID char(26) not null,'//
+     -      'CaseID text not null,'//
+     -      'StandID text not null,'//
      -      'Year int null,'//
      -      'Age int null,'//
      -      'Stnd_TPA int null,'//
@@ -384,10 +384,10 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_DM_Sz_Sum"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_DM_Sz_Sum ('//
-     -      'CaseID char(36) not null,'//
-     -      'StandID char(26) not null,'//
+     -      'CaseID text not null,'//
+     -      'StandID text not null,'//
      -      'Year int null,'//
-     -      'Type char(3) not null,'//
+     -      'Type text not null,'//
      -      char(39)//'0-3in'   //char(39)//' real null,'//
      -      char(39)//'3-5in'  //char(39)//' real null,'//
      -      char(39)//'5-7in' //char(39)//' real null,'//

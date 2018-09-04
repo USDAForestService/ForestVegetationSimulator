@@ -1,7 +1,7 @@
       SUBROUTINE CLMAXDEN (SDIDEF,XMAX) 
       IMPLICIT NONE
 C----------
-C  $Id$
+C CLIM-BASE $Id$
 C----------
 C
 C     CLIMATE EXTENSION 

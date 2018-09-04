@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMCANPR(IYEAR,CRFILL,NPLT)
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH CANOPY PROFILE
 C              INFORMATION
@@ -50,8 +50,8 @@ C---
      >       "FVS_CanProfile"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_CanProfile ('//
-     -         'CaseID char(36) not null,'//
-     -         'StandID char(26) not null,'//
+     -         'CaseID text not null,'//
+     -         'StandID text not null,'//
      -         'Year Int null,'//
      -         'Height_m real null,'//
      -         'Canopy_Fuel_kg_m3 real null,'//

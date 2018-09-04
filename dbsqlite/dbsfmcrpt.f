@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMCRPT(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE MAIN CARBON REPORT
@@ -59,8 +59,8 @@ C     INSURE MAIN CARBON TABLE EXISTS IN DATBASE
      >       "FVS_Carbon"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_Carbon('//
-     -         'CaseID char(36) not null,'//
-     -         'StandID char(26) not null,'//
+     -         'CaseID text not null,'//
+     -         'StandID text not null,'//
      -         'Year Int null,'//
      -         'Aboveground_Total_Live real null,'//
      -         'Aboveground_Merch_Live real null,'//

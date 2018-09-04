@@ -1,7 +1,7 @@
       SUBROUTINE DBSFMHRPT(IYEAR,NPLT,VAR,VARDIM,KODE)
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE CARBON HARVEST
@@ -47,8 +47,8 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      >       "FVS_Hrv_Carbon"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_Hrv_Carbon('//
-     -      'CaseID char(36) not null,'//
-     -      'StandID char(26) not null,'//
+     -      'CaseID text not null,'//
+     -      'StandID text not null,'//
      -      'Year int null,' //
      -      'Products real null,' //
      -      'Landfill real null,' //

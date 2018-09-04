@@ -3,7 +3,7 @@
  
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE SUMMARY SNAG REPORT
 C              INFORMATION
@@ -56,8 +56,8 @@ COMMONS
      >       "FVS_SnagSum"//CHAR(0))
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_SnagSum('//
-     -              'CaseID char(36) not null,'//
-     -              'StandID char(26) not null,'//
+     -              'CaseID text not null,'//
+     -              'StandID text not null,'//
      -              'Year Int null,'//
      -              'Hard_snags_class1 real null,'//
      -              'Hard_snags_class2 real null,'//

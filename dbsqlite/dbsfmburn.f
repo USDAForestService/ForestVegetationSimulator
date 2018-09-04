@@ -3,7 +3,7 @@
 
       IMPLICIT NONE
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE BURN CONDITIONS REPORT
 C              INFORMATION
@@ -57,8 +57,8 @@ C     Initialize variables
       iRet = fsql3_tableexists(IoutDBref,"FVS_BurnReport"//CHAR(0))
       IF(iRet.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_BurnReport ('//
-     -              'CaseID char(36) not null,'//
-     -              'StandID char(26) not null,'//
+     -              'CaseID text not null,'//
+     -              'StandID text not null,'//
      -              'Year int null,'//
      -              'One_Hr_Moisture real null,'//
      -              'Ten_Hr_Moisture real null,'//
@@ -71,7 +71,7 @@ C     Initialize variables
      -              'Slope int null,'//
      -              'Flame_length real null,'//
      -              'Scorch_height real null,'//
-     -              'Fire_Type char(8) null,'//
+     -              'Fire_Type text null,'//
      -              'FuelModl1 int null,'//
      -              'Weight1 real null,'//
      -              'FuelModl2 int null,'//

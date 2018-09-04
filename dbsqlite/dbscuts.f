@@ -1,6 +1,6 @@
       SUBROUTINE DBSCUTS(IWHO,KODE)
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO OUTPUT THE CUTS LIST DATA TO THE DATABASE
 C
@@ -73,13 +73,13 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
       IRCODE = fsql3_tableexists(IoutDBref,"FVS_CutList"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_CutList'//
-     -             '(CaseID char(36) null,'//
-     -             'StandID char(26) null,'//
+     -             '(CaseID text null,'//
+     -             'StandID text null,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
-     -             'TreeId char(8) null,'//
+     -             'TreeId text null,'//
      -             'TreeIndex int null,'//
-     -             'Species char(3) null,'//
+     -             'Species text null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
      -             'PtIndex int null,'//

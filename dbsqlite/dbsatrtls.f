@@ -1,6 +1,6 @@
       SUBROUTINE DBSATRTLS(IWHO,KODE,TEM)
 C
-C $Id$
+C DBSQLITE $Id$
 C
 C     PURPOSE: TO OUTPUT THE ATRTLIST DATA TO THE DATABASE
 C
@@ -72,13 +72,13 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
       IRCODE = fsql3_tableexists(IoutDBref,"FVS_ATRTList"//CHAR(0))
       IF(IRCODE.EQ.0) THEN
         SQLStmtStr='CREATE TABLE FVS_ATRTList ('//
-     -             'CaseID char(36) not null,'//
-     -             'StandID char(26) null,'//
+     -             'CaseID text not null,'//
+     -             'StandID text null,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
-     -             'TreeId char(8) null,'//
+     -             'TreeId text null,'//
      -             'TreeIndex int null,'//
-     -             'Species char(3) null,'//
+     -             'Species text null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
      -             'PtIndex int null,'//
