@@ -102,8 +102,12 @@
 ../vbase/evtstv.f
 ../vbase/fortyp.f
 ../vbase/fvsstd.f
+../vbase/gheads.f
 ../vbase/initre.f
 ../vbase/natcrz.f
+../vbase/prtexm.f
+../vbase/prtrls.f
+../vbase/ptbal.f
 ../vbase/revise.f
 ../vbase/sdical.f
 ../vbase/stkval.f
@@ -180,7 +184,6 @@
 ../base/fvs.f
 ../base/genrpt.f
 ../base/getsed.f
-../base/gheads.f
 ../base/gradd.f
 ../base/grdtim.f
 ../base/grincr.f
@@ -237,9 +240,6 @@
 ../base/opsort.f
 ../base/opstus.f
 ../base/pctile.f
-../base/prtexm.f
-../base/prtrls.f
-../base/ptbal.f
 ../base/ptgdecd.f
 ../base/rann.f
 ../base/rcdset.f

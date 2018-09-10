@@ -1,10 +1,13 @@
-
 CODE SEGMENT METRIC
 C----------
 C COMMON $Id$
 C----------
-C
 C     PARAMETERS FOR THE METRIC CONVERSION ARE:
+C----------
+C
+      LOGICAL LMTRIC
+C
+      INTEGER N_METRIC_PRMS
 C
       REAL  CMtoIN, CMtoFT, MtoIN, MtoFT
       REAL  INtoCM, FTtoCM, INtoM, FTtoM
@@ -18,64 +21,62 @@ C
       REAL  FT2pACRtoM2pHA, FT3pACRtoM3pHA
       REAL  MItoKM, KMtoMI
       REAL  FtoC1, FtoC2, CtoF1, CtoF2, BTUtoKJ
-      INTEGER N_METRIC_PRMS
-C
+C----------
 C     Simple Metric to US Conversions
-C
+C----------
       PARAMETER (N_METRIC_PRMS=13)
       PARAMETER (CMtoIN = 0.3937)
       PARAMETER (CMtoFT = 0.0328084)
       PARAMETER (MtoIN  = 39.37)
       PARAMETER (MtoFT  = 3.28084)
       PARAMETER (KMtoMI = 0.6214)
-
+C
       PARAMETER (M2toFT2  = 10.763867)
       PARAMETER (HAtoACR  = 2.471)
-
+C
       PARAMETER (M3toFT3  = 35.314455)
-
+C
       PARAMETER (KGtoLB   = 2.2046226)
       PARAMETER (TMtoTI = 1.102311)
-
+C
       PARAMETER (CtoF1 = 1.8)
       PARAMETER (CtoF2 = 32)
-C
+C----------
 C     Simple US to Metric Conversions
-C
+C----------
       PARAMETER (INtoCM = 2.54)
       PARAMETER (FTtoCM = 30.48)
       PARAMETER (INtoM  = 0.0254001)
       PARAMETER (FTtoM  = 0.3048)
       PARAMETER (MItoKM = 1.609)
-
+C
       PARAMETER (FT2toM2  = 0.0929034)
       PARAMETER (ACRtoHA  = 0.4046945)
-
+C
       PARAMETER (FT3toM3  = 0.028317)
-
+C
       PARAMETER (LBtoKG = 0.4535924)
       PARAMETER (TItoTM = 0.90718)
-
+C
       PARAMETER (FtoC1 = 0.554)
       PARAMETER (FtoC2 = -17.7)
-      
+C      
       PARAMETER (BTUtoKJ = 1.0550559)
-C
+C----------
 C     Complex Metric to US Conversions
-C
+C----------
       PARAMETER (M2pHAtoFT2pACR = 4.3560773)
       PARAMETER (M3pHAtoFT3pACR = 14.291564)
-C
+C----------
 C     Complex US to Metric Conversions
-C
+C----------
       PARAMETER (FT2pACRtoM2pHA = 0.2295643)
       PARAMETER (FT3pACRtoM3pHA = 0.0699713)
 C
+C----------
+C     LEGACY DECLARATION FOR WRD3
+C----------
+C
+      COMMON /METRIC/ LMTRIC
 C
 C-----END SEGMENT
-c
-c     LEGACY DECLARATION FOR WRD3
-c
-      LOGICAL LMTRIC
-      COMMON /METRIC/ LMTRIC
-

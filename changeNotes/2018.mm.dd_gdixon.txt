@@ -1,0 +1,347 @@
+Subject: General code cleanup
+
+Name: Gary Dixon
+
+Date: 09/10/2018
+
+Variants affected: All
+
+Description: These changes are part of a general FVS code cleanup. Common arrays have been edited so the format
+             is consistent and variables appear in alphabetical order. Subroutines for which there was a /base
+             version used in western variants and sometimes the SN variant, and a /ls version used in the CS, LS,
+             NE, and sometimes SN variants, were combined into a single version and stored in /vbase. The /base
+             and /ls versions were deleted, and the source list files were updated accordingly.
+
+Impact on users: Users should not be impacted by these changes.
+
+Files:
+/common
+        ARRAYS.F77 Improved formatting and alphabetized variable names.
+
+        CALCOM.F77 Improved formatting and alphabetized variable names.
+
+        CALDEN.F77 Improved formatting and alphabetized variable names.
+
+         CICOM.F77 Improved formatting and alphabetized variable names.
+
+       CLIMATE.F77 Improved formatting and alphabetized variable names.
+
+        COEFFS.F77 Improved formatting and alphabetized variable names.
+
+        CONTRL.F77 Added two comment lines.
+
+         CVCOM.F77 Improved formatting and alphabetized variable names.
+
+        CWDCOM.F77 Improved formatting and alphabetized variable names.
+
+        DBSCOM.F77 Improved formatting and alphabetized variable names.
+
+         DBSTK.F77 Improved formatting and alphabetized variable names.
+
+        ECNCOM.F77 Improved the formatting.
+
+   ECNCOMSAVES.F77 Improved the formatting.
+
+          ECON.F77 Improved formatting and alphabetized variable names.
+
+         EMCOM.F77 Edited some comment lines.
+
+        ESCOM2.F77 Improved formatting and alphabetized variable names.
+
+        ESCOMN.F77 Improved formatting and alphabetized variable names.
+
+         ESHAP.F77 Improved formatting and alphabetized variable names.
+
+        ESHAP2.F77 Improved formatting and alphabetized variable names.
+
+        ESHOOT.F77 Improved formatting and alphabetized variable names.
+
+        ESRNCM.F77 Improved the formatting.
+
+        ESTCOR.F77 Improved the formatting.
+
+        ESTREE.F77 Improved the formatting.
+
+        ESWSBW.F77 Improved formatting and alphabetized variable names.
+
+      FVSSTDCM.F77 Improved formatting and alphabetized variable names.
+
+         GGCOM.F77 Improved formatting and alphabetized variable names.
+
+      GLBLCNTL.F77 Improved formatting and alphabetized variable names.
+
+         HTCAL.F77 Edited some comment lines.
+
+        HVDNCM.F77 Improved formatting and alphabetized variable names.
+
+    INCLUDESVN.F77 Added two comment lines.
+
+        KEYCOM.F77 Improved the formatting.
+
+        KOTCOM.F77 Improved formatting and alphabetized variable names.
+
+        METRIC.F77 Improved the formatting.
+
+        MISCOM.F77 Improved formatting and alphabetized variable names.
+
+        MULTCM.F77 Improved formatting and alphabetized variable names.
+
+         OPCOM.F77 Improved formatting and alphabetized variable names.
+
+       ORGANON.F77 Improved formatting and alphabetized variable names.
+
+        OUTCOM.F77 Improved formatting and alphabetized variable names.
+
+          PDEN.F77 Improved formatting and alphabetized variable names.
+
+          PLOT.F77 Improved formatting and alphabetized variable names.
+
+        RANCOM.F77 Added some comment lines.
+
+        SCREEN.F77 Improved formatting and alphabetized variable names.
+
+         SNCOM.F77 Improved formatting and alphabetized variable names. Deleted all
+                   extraneous comment statements.
+
+        SSTGMC.F77 Improved formatting and alphabetized variable names.
+
+        STDSTK.F77 Improved formatting and alphabetized variable names.
+
+        SUMTAB.F77 Improved formatting and alphabetized variable names.
+
+        SVDATA.F77 Improved formatting and alphabetized variable names.
+
+        SVDEAD.F77 Improved formatting and alphabetized variable names.
+
+        SVRCOM.F77 Improved the formatting and added a variable definition section.
+
+       TWIGCOM.F77 Improved the formatting and added a variable definition section.
+
+        VARCOM.F77 Improved formatting and alphabetized variable names.
+
+        VOLSTD.F77 Improved formatting and alphabetized variable names.
+
+        WORKCM.F77 Improved formatting and alphabetized variable names.
+
+/base     gheads.f Deleted. Combined with the /ls version and stored in /vbase (see /vbase description).
+
+          prtexm.f Deleted. Combined with the /ls version and stored in /vbase (see /vbase description).
+
+          prtrls.f Deleted. Combined with the /ls version and stored in /vbase (see /vbase description).
+
+           ptbal.f Deleted. Combined with the /ls version and stored in /vbase (see /vbase description).
+
+/bin
+FVSak_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSbm_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSbmx_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSca_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSci_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVScix_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVScr_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVScrx_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVScs_sourceList.txt  Changed subroutines sumhed.f, gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /ls subdirectory.
+
+FVSec_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSecx_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSem_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSemx_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSie_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSiex_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSkt_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSktx_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSls_sourceList.txt  Changed subroutines sumhed.f, gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /ls subdirectory.
+
+FVSnc_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSne_sourceList.txt  Changed subroutines sumhed.f, gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /ls subdirectory.
+
+FVSoc_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSop_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSpn_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSpnx_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSsn_sourceList.txt  Changed subroutines sumhed.f and prtrls.f to come from the /vbase subdirectory 
+                      instead of the /ls subdirectory. Changed subroutines gheads.f, prtexm.f, and ptbal.f
+                      to come from the /vbase subdirectory instead of the /base subdirectory.
+
+FVSso_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSsox_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVStt_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSttx_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSut_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSutx_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSwc_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+FVSws_sourceList.txt  Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSak_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSbm_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSca_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSci_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVScr_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVScs_sourceList.txt Changed subroutines sumhed.f, gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /ls subdirectory.
+
+qFVSec_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSem_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSie_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSkt_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSls_sourceList.txt Changed subroutines sumhed.f, gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /ls subdirectory.
+
+qFVSnc_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSne_sourceList.txt Changed subroutines sumhed.f, gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /ls subdirectory.
+
+qFVSoc_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSop_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSpn_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSsn_sourceList.txt Changed subroutines sumhed.f and prtrls.f to come from the /vbase subdirectory 
+                      instead of the /ls subdirectory. Changed subroutines gheads.f, prtexm.f, and ptbal.f
+                      to come from the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSso_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVStt_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSut_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSwc_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+qFVSws_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptbal.f to come from 
+                      the /vbase subdirectory instead of the /base subdirectory.
+
+/vbase    gheads.f Added the PRGPRM.F77 and CONTRL.F77 labelled common blocks. Formatted the variable declaration
+                   section. Combined the /base and /ls versions using a SELECT CASE structure based on the variant
+                   alpha code. Modified the TWIGS-based section to use a MAX function when printing the title for
+                   the stand composition table. Changed a T35 to a T34 in the 10 FORMAT statement so it is
+                   consistent with the 20 FORMAT statement. Stored the resulting combined version in /vbase. 
+                   Modified all the source list files to use the /vbase version. Deleted the /base and /ls versions.
+
+          prtexm.f Added the PRGPRM.F77 and CONTRL.F77 labelled common blocks. Formatted the variable declaration
+                   section. Combined the /base and /ls versions using a SELECT CASE structure based on the variant
+                   alpha code. Corrected a spelling error in a comment statement. Reordered the statement labels
+                   in ascending order. Note: the combined version contains the return code testing that the
+                   /ls version did not. This is good. Stored the resulting combined version in /vbase. 
+                   Modified all the source list files to use the /vbase version. Deleted the /base and /ls versions.
+
+          prtrls.f Formatted the variable declaration, delteting variables RTR1 and RTR2 from the /ls version.
+                   Combined the /base and /ls versions using a SELECT CASE structure based on the variant
+                   alpha code. Stored the resulting combined version in /vbase. Modified all the source list files
+                   to use the /vbase version. Deleted the /base and /ls versions.
+
+           ptbal.f Formatted the labelled COMMON and variable declaration sections. 
+                   Combined the /base and /ls versions using a SELECT CASE structure based on the variant
+                   alpha code. Added setting the point basal area arrays to 0.0 for eastern variants. Corrected
+                   mixed mode settings. Formatted the comment statements. Ordered the statment labels. Added 
+                   some debug write statments. Stored the resulting combined version in /vbase. Modified all 
+                   the source list files to use the /vbase version. Deleted the /base and /ls versions.
+
+          sumhed.f Formatted the variable declaration section. Combined the /vbase and /ls versions using a 
+                   SELECT CASE structure based on the variant alpha code, using the vbase tab settings in the
+                   format statements. Stored the resulting combined version in /vbase. Modified all the 
+                   source list files to use the /vbase version. Deleted the /ls version.
+
+          sumout.f Formatted the variable declaration section. 
+
+/ls       gheads.f Deleted. Combined with the /base version and stored in /vbase (see /vbase description).
+
+          prtexm.f Deleted. Combined with the /base version and stored in /vbase (see /vbase description).
+
+          prtrls.f Deleted. Combined with the /base version and stored in /vbase (see /vbase description).
+
+           ptbal.f Deleted. Combined with the /base version and stored in /vbase (see /vbase description).
+
+          sumhed.f Deleted. Combined with the /vbase version and stored in /vbase (see /vbase description).
+
+          sumout.f Deleted. It was no longer used. Eastern variants were previously integrated into the
+                   /vbase version.
+
