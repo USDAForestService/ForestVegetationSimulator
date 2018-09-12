@@ -6,6 +6,7 @@ C----------
 C  THIS SUBROUTINE WRITES A HEADER FOR THE SUMMARY OUTPUT ON THE
 C  SCREEN.
 C----------
+C
 COMMONS
 C
 C
@@ -25,11 +26,18 @@ C
 C
 C
 COMMONS
+C
 C----------
-      CHARACTER*2 CRMT(5)
+C  VARIABLE DECLARATIONS:
+C----------
+C
       CHARACTER*7 FMT
       CHARACTER REV*10
+C
+      CHARACTER*2 CRMT(5)
+C
       INTEGER I1,I2,ISTFNB,ISTLNB
+C
 C----------
 C  DEFINITION OF LOCAL VARIABLES:
 C----------
@@ -65,8 +73,28 @@ C
          WRITE (FMT,'(''(T'',I2.2,'',A)'')') (81-I2+I1)/2
          WRITE (JOSCRN,FMT) ITITLE(I1:I2)
       ENDIF
-      WRITE (JOSCRN,10)
-   10 FORMAT (/T16,'SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)'
+C
+      SELECT CASE (VARACD)
+C----------
+C  EASTERN VARIANTS
+C----------
+      CASE ('CS','LS','NE','SN')
+        WRITE (JOSCRN,10)
+   10   FORMAT (/T16,'SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)'
+     >  /,76('-')/
+     >  T8,'START OF SIMULATION PERIOD    REMOVALS/ACRE',4X,
+     >  'AFTER TREATMENT GROWTH',/,T6,28('-'),1X,17('-'),1X,16('-'),
+     >  ' CU FT',/, T6,'TREES',9X,'TOP',6X,'MERCH TREES MERCH SAWLG',
+     >  9X,'TOP',6X,'PER YR',/,'YEAR /ACRE  BA SDI  HT  QMD ',
+     >  'CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR',/,
+     >  '---- ----- --- --- --- ---- ----- ----- ----- ----- ',
+     >  '--- --- --- ---- --- ---')
+C----------
+C  WESTERN AND SOUTHERN VARIANTS
+C----------
+      CASE DEFAULT
+        WRITE (JOSCRN,20)
+   20   FORMAT (/T16,'SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)'
      >  /,76('-')/
      >  T8,'START OF SIMULATION PERIOD    REMOVALS/ACRE',4X,
      >  'AFTER TREATMENT GROWTH',/,T6,28('-'),1X,17('-'),1X,16('-'),
@@ -75,6 +103,10 @@ C
      >  'CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR',/,
      >  '---- ----- --- --- --- ---- ----- ----- ----- ----- ',
      >  '--- --- --- ---- --- ---')
+C
+      END SELECT
+C
  1000 CONTINUE
+C
       RETURN
       END
