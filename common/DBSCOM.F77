@@ -60,8 +60,9 @@ C----------
 C    REGEN DATABASE VERSIONS OF OTHER DBS VARIABLES
 C----------
       COMMON / DBSCOM3 /
-     &       ConnHndlRgnIn,EnvHndlRgnIn,iRet,IRGIN,rsRgnData,
-     &       StmtHndlRgn
+     &       ConnHndlRgnIn,EnvHndlRgnIn,StmtHndlRgn,
+     &       IRGIN,iRet,rsRgnData
+
 C
 C----------
 C  VARIABLE DEFINITIONS:

@@ -1,0 +1,44 @@
+Subject: Update R1 Potential Vegetation Codes.
+         Reassign values to duplicated location codes
+
+Name: Aaron Gagnon
+
+Date: 09/10/2018
+
+Variants affected: EM, IE, KT
+
+Description: Potential vegetation (PV) codes for R1 variants have been added to
+             each respective pvref1.f subroutine. PV codes are based off of 
+             FSVeg supplied PV codes that were used in R1. All new PV codes 
+             were cross-walked to exisitng PV codes in the variant guides.
+
+Impact on users: More reliable potential vegetation code cross-walks and 
+             mapping.
+
+Variants affected: AK, NC, SO
+
+Description: There were duplicate location codes across five total variants. 
+             Duplicates have been changed to new/unique location codes in
+             three of the variants. Changes are: 
+             - SO: original 701 (industry) changed to 702
+             - AK: original 701 (BC/Makah) changed to 703
+             - NC: original 800 (Simpson) changed to 715
+             All changes are in the respective forkod.f subroutine. 
+
+Impact on users: Users will see dual forest codes in the three variants. 
+             The new codes have only been mapped to existing codes so the 
+             original codes will still work. For example, in the SO
+             variant, Industry is now 702 that is mapped to 701. Both 701
+             and 702 still work in the SO variant.  
+
+Files:
+
+em,ie,kt/
+   habtyp.f - Added ADJUSTL to place leading zero on 2 digit numbers.
+   pvref1.f - Updated data statements to accomodate/cross-walk new 
+             potential vegetation codes.
+
+ak,nc,so/
+   forkod.f - Added new location codes and mapped to existing code.
+
+

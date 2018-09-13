@@ -31,12 +31,18 @@ C  506 = LASSEN
 C  509 = MODOC
 C  511 = PLUMAS
 C  701 = INDUSTRY LANDS
+C  702 = INDUSTRY LANDS
+C         **702 is new code introduced to eliminate 
+C           redundancy across variants. 702 will be 
+C           mapped to 701 for processing
 C  514 = SHASTA-TRINITY (MAPPED TO KLAMATH)
 C  799 = WARM SPRINGS INDIAN RESERVATION
 C----------
-      INTEGER JFOR(10),KFOR(10),NUMFOR,I
-      DATA JFOR/601,602,620,505,506,509,511,701,514,799/, NUMFOR /10/
-      DATA KFOR/10*1/
+      INTEGER JFOR(11),KFOR(11),NUMFOR,I
+      DATA JFOR/601,602,620,505,506,509,511,701,514,799,
+     &          702/ 
+      DATA NUMFOR /11/
+      DATA KFOR/11*1/
 C
       IF (KODFOR .EQ. 0) GOTO 30
       DO 10 I=1,NUMFOR
@@ -52,6 +58,11 @@ C
    21   FORMAT(T12,'SHASTA NF (514) BEING MAPPED TO KLAMATH ',
      &  '(505) FOR FURTHER PROCESSING.')
         I=4
+      ELSE IF(I .EQ. 11)THEN
+        WRITE(JOSTND,22)
+   22   FORMAT(T12,'INDUSTRY LANDS (702) IS BEING MAPPED TO ',
+     &  '(701) FOR FURTHER PROCESSING.')
+        I=8        
       ENDIF
       IFOR=I
       IGL=KFOR(I)
