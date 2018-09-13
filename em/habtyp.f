@@ -75,6 +75,18 @@ C  FVS HABITAT TYPE/ECOCLASS CODE IN THE KODTYP VARIABLE.
 C  THEN PROCESS KODTYP CODE (KODTYP IS PASSED BACK TO HABTYP
 C  THROUGH COMMON) 
 C----------
+C  The below ADJSUTL is used to add a leading zero to KODTYPs 
+C  (PV Code) that are two or less digits. For example, 18
+C  would become 018
+      IF(LEN_TRIM(KARD2).LE.2)THEN
+        IF((ICHAR(ADJUSTL(KARD2(1:1))).GE.48).AND.
+     &      (ICHAR(ADJUSTL(KARD2(1:1))).LE.57).AND.
+     &      (ICHAR(ADJUSTL(KARD2(2:2))).GE.48).AND.
+     &      (ICHAR(ADJUSTL(KARD2(2:2))).LE.57))THEN
+            KARD2='0'//ADJUSTL(KARD2)
+         ENDIF
+      ENDIF
+C
       IF(CPVREF.NE.'          ') THEN
         CALL PVREF1(KARD2,LPVCOD,LPVREF)
         IF((LPVCOD.AND.LPVREF).AND.
