@@ -318,7 +318,7 @@ ifeq ($(DBLINK),$(ODBC))
 	$(FCprf)$(LD)         -o $(basename ../$@)$(PRGSUFX)  ../libfvsSQL.dll  $(filter-out fvsSQL.o       ,$(object))
 else
 %.prg : $(object) 
-	$(FCprf)$(LD) -static -shared -Wl, --export-all-symbols -o $(basename ../$@)$(SLIBSUFX)  $(filter-out  main.o,$(object))
+	$(FCprf)$(LD) -static -shared -Wl,--export-all-symbols -o $(basename ../$@)$(SLIBSUFX)  $(filter-out  main.o,$(object))
 	$(FCprf)$(LD) -static -o $(basename ../$@)$(PRGSUFX) $(object)
 endif
 else
