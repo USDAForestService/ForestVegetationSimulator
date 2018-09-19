@@ -379,9 +379,10 @@ C----------
      >       1X,F6.2,1X,I5,1X,F6.1,1X,F6.1,1X,F7.1,1X,I2,1X,I2,
      >       1X,I3)
           ELSE
-            WRITE(KOLIST,20) TID,I,ISP(I),ITRE(I),P,DBH(I),DGI,HT(I),
-     >      HTG(I),IICR,ICR(I),PCT(I),IMC(I),CFV(I),WK1(I),BFV(I),
-     >      (FLOAT(ITRUNC(I))*.01),ICYC,IESTAT(I),IDMR
+            WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >      ISPECL(I),ITRE(I),P,DP,DBH(I),DGI  ,HT(I),HTG(I),ICR(I),CW,
+     >      IDMR,PCT(I),IPTBAL,CFV(I),WK1(I),BFV(I),ICDF,IBDF,
+     >      ((ITRUNC(I)+5)/100)
    20       FORMAT(A8,1X,2I4,I5,F9.3,F8.2,3F7.2,I3,I4,F9.3,I4,F9.2,
      >       F9.3,F9.2,F9.2,I4,I7,I4)
           ENDIF
