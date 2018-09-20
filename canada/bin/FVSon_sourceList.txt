@@ -3,6 +3,7 @@
 ../vbase/evtstv.f
 ../vbase/fortyp.f
 ../vbase/natcrz.f
+../vbase/ptbal.f
 ../vbase/sdical.f
 ../vbase/stkval.f
 ../vbase/svout.f
@@ -403,9 +404,12 @@
 ../ls/exppnb.f
 ../ls/gvrvol.f
 ../ls/maical.f
-../ls/ptbal.f
 ../metric/vdbs/dbsstandin.f
 ../metric/vdbs/dbssumry.f
+../metric/vbase/gheads.f
+../metric/vbase/prtexm.f
+../metric/vbase/prtrls.f
+../metric/vbase/sumhed.f
 ../metric/base/cwidth.f
 ../metric/base/dense.f
 ../metric/base/disply.f
@@ -433,8 +437,6 @@
 ../metric/fire/base/fmssum.f
 ../metric/fire/vbase/fmfout.f
 ../metric/fire/vbase/fmpofl.f
-../metric/ls/gheads.f
-../metric/ls/prtrls.f
 ../metric/so/avht40.f
 ../metric/strp/esin.f
 ../metric/strp/estab.f
@@ -468,14 +470,12 @@
 ../on/morts.f
 ../on/nbolt.f
 ../on/onsthg.f
-../on/prtexm.f
 ../on/regent.f
 ../on/revise.f
 ../on/rgnthw.f
 ../on/rgntsw.f
 ../on/sitset.f
 ../on/spctrn.f
-../on/sumhed.f
 ../on/sumout.f
 ../on/unblnk.f
 ../on/update.f
