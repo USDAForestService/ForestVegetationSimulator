@@ -410,6 +410,7 @@
 ../metric/vbase/prtexm.f
 ../metric/vbase/prtrls.f
 ../metric/vbase/sumhed.f
+../metric/vbase/sumout.f
 ../metric/base/cwidth.f
 ../metric/base/dense.f
 ../metric/base/disply.f
@@ -476,7 +477,6 @@
 ../on/rgntsw.f
 ../on/sitset.f
 ../on/spctrn.f
-../on/sumout.f
 ../on/unblnk.f
 ../on/update.f
 ../on/varmrt.f

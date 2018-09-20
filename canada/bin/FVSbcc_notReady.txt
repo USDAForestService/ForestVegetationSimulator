@@ -209,7 +209,6 @@
 ../bc/revise.f
 ../bc/sitset.f
 ../bc/spctrn.f
-../bc/sumout.f
 ../bc/unblnk.f
 ../bc/vols.f
 ../clim/base/clauestb.f
@@ -473,6 +472,7 @@
 ../metric/vbase/prtexm.f
 ../metric/vbase/prtrls.f
 ../metric/vbase/sumhed.f
+../metric/vbase/sumout.f
 ../metric/base/cwidth.f
 ../metric/base/dense.f
 ../metric/base/evldx.f
