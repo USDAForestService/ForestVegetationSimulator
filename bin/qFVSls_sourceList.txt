@@ -74,8 +74,6 @@
 ../ls/pvref9.f
 ../ls/regent.f
 ../ls/sitset.f
-../ls/twigbf.f
-../ls/twigcf.f
 ../ls/varmrt.f
 
 ../ie/cftopk.f
@@ -389,6 +387,8 @@
 ../volume/R9COEFF.INC
 
 ../vvolume/fvsvol.f
+../vvolume/twigbf.f
+../vvolume/twigcf.f
 
 ../volume/blmtap.f
 ../volume/blmvol.f

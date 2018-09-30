@@ -178,7 +178,6 @@
 ../base/exppe.f
 ../base/exrd.f
 ../base/extree.f
-../base/extwigvol.f
 ../base/ffert.f
 ../base/ffin.f
 ../base/filopn.f
@@ -425,6 +424,8 @@
 ../volume/R9COEFF.INC
 
 ../vvolume/fvsvol.f
+../vvolume/twigbf.f
+../vvolume/twigcf.f
 
 ../volume/blmtap.f
 ../volume/blmvol.f

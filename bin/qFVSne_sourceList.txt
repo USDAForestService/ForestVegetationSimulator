@@ -66,8 +66,6 @@
 ../ne/nbolt.f
 ../ne/regent.f
 ../ne/sitset.f
-../ne/twigbf.f
-../ne/twigcf.f
 ../ne/varmrt.f
 
 ../ak/habtyp.f
@@ -389,6 +387,8 @@
 ../volume/R9COEFF.INC
 
 ../vvolume/fvsvol.f
+../vvolume/twigbf.f
+../vvolume/twigcf.f
 
 ../volume/blmtap.f
 ../volume/blmvol.f
