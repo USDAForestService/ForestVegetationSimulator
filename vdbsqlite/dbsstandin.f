@@ -737,11 +737,11 @@ C     SITE SPECIES CODE PROCESSING
          IF (LSITE) THEN
             IF(LKECHO)WRITE (JOSTND,20) ADJUSTR(CSITECODE),
      >                                  NSP(ISISP,1)(1:2)
-   20       FORMAT (T12,'SITE_SPECIES: ',T31,A9,
+   20       FORMAT (T12,'SITE_SPECIES: ',T30,A,
      >                  ' MAPPED TO INTERNAL CODE: ',A)
          ELSE
             WRITE (JOSTND,25) ADJUSTR(CSITECODE)
-   25       FORMAT (T12,'SITE_SPECIES: ',T31,A9,' WAS NOT RECOGNIZED')
+   25       FORMAT (T12,'SITE_SPECIES: ',T30,A,' WAS NOT RECOGNIZED')
          ENDIF
       ENDIF
 
