@@ -198,6 +198,16 @@ C
          ENDIF            
       ENDDO
       IF (DBH.EQ.0) DBH=DIAMETER
+
+C----------
+C  TREES WITH HISTORY CODES 6,7 ARE RECENT DEAD (GET IMC()=7)
+C  TREES WITH HISTORY CODES 8,9 ARE OLDER  DEAD (GET IMC()=9)
+C----------
+      IF((HISTORY.GE.6).AND.(HISTORY.LE.9))THEN
+        TREEVAL=7
+        IF((HISTORY.EQ.8).OR.(HISTORY.EQ.9))TREEVAL=9
+      ENDIF
+      
       ITREEIN = 2
       RETURN
       END
