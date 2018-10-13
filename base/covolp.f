@@ -26,13 +26,12 @@ C       OF THE TREE RECORDS %CC IS BEING CALCULATED FOR.
       LOGICAL DEBUG 
          
       COVER = 0.
-
+      SUM = 0.
+      
       IF (DEBUG) WRITE (JOSTND,'('' IN COVOLP, NTREES ='',I4)') 
      >           NTREES
 
       IF (NTREES.EQ.0) GOTO 30
-
-      SUM = 0.
 
       IF (INDEX(1).EQ.0) THEN
          DO I=1,NTREES

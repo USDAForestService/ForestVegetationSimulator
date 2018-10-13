@@ -214,8 +214,11 @@ int fsql3_colint_(int *dbnum, int *col, int *ifnull)
       rtn = (int) sqlite3_column_double(stmtset[*dbnum], *col);
       return rtn;
     case SQLITE3_TEXT   :
-      if (sscanf((const char *) sqlite3_column_text(stmtset[*dbnum], 
-        *col),"%d",&rtn) == 1) return rtn; 
+      if (strlen((const char *) sqlite3_column_text(stmtset[*dbnum],*col)) > 0)
+      {
+        if (sscanf((const char *) sqlite3_column_text(stmtset[*dbnum], 
+          *col),"%d",&rtn) == 1) return rtn;
+      }
     case SQLITE_BLOB    :
     case SQLITE_NULL    :
     default:
@@ -235,10 +238,11 @@ double fsql3_coldouble_(int *dbnum, int *col, double *ifnull)
     case SQLITE_FLOAT   :
       return sqlite3_column_double(stmtset[*dbnum], *col);
     case SQLITE3_TEXT   :
-      // did not use atod() because I want to capture an error if 
-      // there is a conversion error. 
-      if (sscanf((const char *) sqlite3_column_text(stmtset[*dbnum], 
-        *col),"%lf",&rtn) == 1) return rtn;
+      if (strlen((const char *) sqlite3_column_text(stmtset[*dbnum],*col)) > 0)
+      {
+        if (sscanf((const char *) sqlite3_column_text(stmtset[*dbnum], 
+          *col),"%lf",&rtn) == 1) return rtn;
+      }
     case SQLITE_BLOB    :
     case SQLITE_NULL    :
     default:
@@ -259,10 +263,11 @@ float fsql3_colreal_(int *dbnum, int *col, float *ifnull)
       rtn = (float) sqlite3_column_double(stmtset[*dbnum], *col);
       return rtn;
     case SQLITE3_TEXT   :
-      // did not use atod() because I want to capture an error if
-      // there is a conversion error. 
-      if (sscanf((const char *) sqlite3_column_text(stmtset[*dbnum], 
-        *col),"%f",&rtn) == 1) return rtn;
+      if (strlen((const char *) sqlite3_column_text(stmtset[*dbnum],*col)) > 0)
+      {
+        if (sscanf((const char *) sqlite3_column_text(stmtset[*dbnum], 
+          *col),"%f",&rtn) == 1) return rtn;
+      }
     case SQLITE_BLOB    :
     case SQLITE_NULL    :
     default:
@@ -283,7 +288,12 @@ int fsql3_coltext_(int *dbnum, int *col, char *txt, int *mxlen, char *ifnull)
       snprintf(txt,*mxlen,"%lf",sqlite3_column_double(stmtset[*dbnum], *col));
       break;
     case SQLITE3_TEXT   :
-      strncpy(txt,(const char *) sqlite3_column_text(stmtset[*dbnum], *col), *mxlen);
+      if (strlen((const char *) sqlite3_column_text(stmtset[*dbnum],*col)) == 0) 
+      {
+        strncpy(txt,ifnull,*mxlen);
+      } else {
+        strncpy(txt,(const char *) sqlite3_column_text(stmtset[*dbnum], *col), *mxlen);
+      }
       break;
     case SQLITE_BLOB    :
     case SQLITE_NULL    :
@@ -295,7 +305,21 @@ int fsql3_coltext_(int *dbnum, int *col, char *txt, int *mxlen, char *ifnull)
 // is the column null
 int fsql3_colisnull_(int *dbnum, int *col)
 {
-  return sqlite3_column_type(stmtset[*dbnum], *col) == SQLITE_NULL;
+  int rtn = 0; // 0 if not null, 1 if null
+  switch (sqlite3_column_type(stmtset[*dbnum], *col))
+  {
+    case SQLITE_INTEGER : 
+    case SQLITE_FLOAT   :
+      break;
+    case SQLITE3_TEXT   :
+      if (strlen((const char *) sqlite3_column_text(stmtset[*dbnum],*col)) == 0) rtn=1;
+      break;
+    case SQLITE_BLOB    :
+    case SQLITE_NULL    :
+    default:
+      rtn=1;
+  }
+  return(rtn);
 }
 
 // If a col does not exist, then add it via alter table.
