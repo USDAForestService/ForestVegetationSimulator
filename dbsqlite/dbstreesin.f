@@ -80,7 +80,7 @@ C       BIND COLUMNS TO THEIR VARIABLES
       
           CASE('SPECIES')
             iRet = fsql3_coltext(IinDBref,ColNumber,
-     -        SPECIES,LEN(SPECIES)," ")
+     -        SPECIES,LEN(SPECIES),CHAR(0))
             SPECIES(iRet+1:) = ' '
             SPECIES = ADJUSTL(SPECIES)
 C     

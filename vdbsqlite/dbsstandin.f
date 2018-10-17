@@ -56,7 +56,7 @@ COMMONS
       INTEGER, PARAMETER :: MxCname = 50, MxMsg = 500
       INTEGER, PARAMETER :: NullInt  = -88885672
       REAL, PARAMETER    :: NullReal = -88885672.
-      CHARACTER(LEN=*), PARAMETER :: NullChar = 'NullChar'
+      CHARACTER(LEN=*), PARAMETER :: NullChar = CHAR(0)
       CHARACTER(LEN=MxCname) ColName
       CHARACTER(LEN=*) SQLSTR
       CHARACTER(LEN=MxMsg) Msg
@@ -273,7 +273,7 @@ C     GET NUMBER OF COLUMNS RETURNED
           iRet = fsql3_coltext (IinDBref,ColNumber,CHAB,
      >                          LEN(CHAB),NullChar)
           if (iRet.LT.LEN(CHAB)) CHAB((iRet+1):) = ' '
-          IF (CHAB .ne. NullChar) Habitat_LI = 1
+          IF (CHAB .ne. ' ') Habitat_LI = 1
 
          CASE('PV_REF_CODE')
           NUMPVREF = fsql3_colint(IinDBref,ColNumber,NullInt)
@@ -351,7 +351,7 @@ C     GET NUMBER OF COLUMNS RETURNED
           iRet = fsql3_coltext (IinDBref,ColNumber,CSITECODE,
      >                          LEN(CSITECODE),NullChar)
           if (iRet.LT.LEN(CSITECODE)) CSITECODE((iRet+1):) = ' '
-          IF (CSITECODE .ne. NullChar) SiteSp_LI = 1
+          IF (CSITECODE .ne. ' ') SiteSp_LI = 1
 
          CASE('SITE_INDEX')
            RSTANDDATA(35) = fsql3_colreal(IinDBref,ColNumber,NullReal)
@@ -459,7 +459,7 @@ C     GET NUMBER OF COLUMNS RETURNED
           iRet = fsql3_coltext (IinDBref,ColNumber,CFotoCode,
      >                          LEN(CFotoCode),NullChar)
           if (iRet.LT.LEN(CFotoCode)) CFotoCode((iRet+1):) = ' '
-          IF (CFotoCode .ne. NullChar) FotoCode_LI = 1
+          IF (CFotoCode .ne. ' ') FotoCode_LI = 1
 
          END SELECT
 
@@ -555,7 +555,7 @@ C
 
       IF(PvRefCode_LI.NE.NullInt)THEN
         IF(NUMPVREF.LE.0)THEN
-          CPVREF='          '
+          CPVREF=' '
         ELSE
           WRITE(CPVREF,'(I10)')NUMPVREF
         ENDIF
