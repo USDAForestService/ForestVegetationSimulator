@@ -56,7 +56,7 @@ COMMONS
       INTEGER, PARAMETER :: MxCname = 50, MxMsg = 500
       INTEGER, PARAMETER :: NullInt  = -88885672
       REAL, PARAMETER    :: NullReal = -88885672.
-      CHARACTER(LEN=*), PARAMETER :: NullChar = 'NullChar'
+      CHARACTER(LEN=*), PARAMETER :: NullChar = CHAR(0)
       CHARACTER(LEN=MxCname) ColName
       CHARACTER(LEN=*) SQLSTR
       CHARACTER(LEN=MxMsg) Msg
@@ -222,13 +222,13 @@ C     GET NUMBER OF COLUMNS RETURNED
          CASE('STAND_CN')
            iRet = fsql3_coltext (IinDBref,ColNumber,TMP_DBCN,
      >                          LEN(TMP_DBCN),NullChar)
-           TMP_DBCN((iRet+1):) = ' '
+           if (iRet.LT.LEN(TMP_DBCN)) TMP_DBCN((iRet+1):) = ' '
            IF (TMP_DBCN .ne. NullChar) DBCN_LI = 1
 
          CASE('STAND_ID')
            iRet = fsql3_coltext (IinDBref,ColNumber,CSTAND,
      >                           LEN(CSTAND),NullChar)
-           CSTAND((iRet+1):) = ' '
+           if (iRet.LT.LEN(CSTAND)) CSTAND((iRet+1):) = ' '
            IF (CSTAND .ne. NullChar) Stand_LI = 1
 
          CASE('INV_YEAR')
@@ -262,7 +262,7 @@ C     GET NUMBER OF COLUMNS RETURNED
          CASE('ECOREGION')
           iRet = fsql3_coltext (IinDBref,ColNumber,CECOREG,
      >                          LEN(CECOREG),NullChar)
-          CECOREG((iRet+1):) = ' '
+          if (iRet.LT.LEN(CECOREG)) CECOREG((iRet+1):) = ' '
           IF (CECOREG .ne. NullChar) Ecoregion_LI = 1
 
          CASE('LOCATION')
@@ -272,8 +272,8 @@ C     GET NUMBER OF COLUMNS RETURNED
          CASE('HABITAT','PV_CODE')
           iRet = fsql3_coltext (IinDBref,ColNumber,CHAB,
      >                          LEN(CHAB),NullChar)
-          CHAB((iRet+1):) = ' '
-          IF (CHAB .ne. NullChar) Habitat_LI = 1
+          if (iRet.LT.LEN(CHAB)) CHAB((iRet+1):) = ' '
+          IF (CHAB .ne. ' ') Habitat_LI = 1
 
          CASE('PV_REF_CODE')
           NUMPVREF = fsql3_colint(IinDBref,ColNumber,NullInt)
@@ -350,8 +350,8 @@ C     GET NUMBER OF COLUMNS RETURNED
          CASE('SITE_SPECIES')
           iRet = fsql3_coltext (IinDBref,ColNumber,CSITECODE,
      >                          LEN(CSITECODE),NullChar)
-          CSITECODE((iRet+1):) = ' '
-          IF (CSITECODE .ne. NullChar) SiteSp_LI = 1
+          if (iRet.LT.LEN(CSITECODE)) CSITECODE((iRet+1):) = ' '
+          IF (CSITECODE .ne. ' ') SiteSp_LI = 1
 
          CASE('SITE_INDEX')
            RSTANDDATA(35) = fsql3_colreal(IinDBref,ColNumber,NullReal)
@@ -458,8 +458,8 @@ C     GET NUMBER OF COLUMNS RETURNED
          CASE('PHOTO_CODE')
           iRet = fsql3_coltext (IinDBref,ColNumber,CFotoCode,
      >                          LEN(CFotoCode),NullChar)
-          CFotoCode((iRet+1):) = ' '
-          IF (CFotoCode .ne. NullChar) FotoCode_LI = 1
+          if (iRet.LT.LEN(CFotoCode)) CFotoCode((iRet+1):) = ' '
+          IF (CFotoCode .ne. ' ') FotoCode_LI = 1
 
          END SELECT
 
@@ -555,12 +555,12 @@ C
 
       IF(PvRefCode_LI.NE.NullInt)THEN
         IF(NUMPVREF.LE.0)THEN
-          CPVREF='          '
+          CPVREF=' '
         ELSE
           WRITE(CPVREF,'(I10)')NUMPVREF
         ENDIF
       ENDIF
-      IF(Habitat_LI.NE.0) THEN
+      IF(Habitat_LI.NE.NullInt) THEN
          CHAB = ADJUSTL(CHAB)
          READ (CHAB,'(I10)',ERR=40)  ISTANDDATA(5)
          GOTO 45
@@ -737,11 +737,11 @@ C     SITE SPECIES CODE PROCESSING
          IF (LSITE) THEN
             IF(LKECHO)WRITE (JOSTND,20) ADJUSTR(CSITECODE),
      >                                  NSP(ISISP,1)(1:2)
-   20       FORMAT (T12,'SITE_SPECIES: ',T31,A9,
+   20       FORMAT (T12,'SITE_SPECIES: ',T30,A,
      >                  ' MAPPED TO INTERNAL CODE: ',A)
          ELSE
             WRITE (JOSTND,25) ADJUSTR(CSITECODE)
-   25       FORMAT (T12,'SITE_SPECIES: ',T31,A9,' WAS NOT RECOGNIZED')
+   25       FORMAT (T12,'SITE_SPECIES: ',T30,A,' WAS NOT RECOGNIZED')
          ENDIF
       ENDIF
 

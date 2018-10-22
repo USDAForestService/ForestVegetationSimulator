@@ -520,7 +520,7 @@ C        FIRST, DECIDE WHICH TREES ARE ON THE VIRTUAL PLOT...
          DO II=1,MXI
             I=INDX(II)
             CALL RANN(RAN)
-            IF (RAN .GT. EXP(-PRB(I)*PSIZE)) THEN
+            IF (PRB(I).GT.1000. .OR. RAN .GT. EXP(-PRB(I)*PSIZE)) THEN
                NYES=NYES+1
                YES(NYES)=I
 

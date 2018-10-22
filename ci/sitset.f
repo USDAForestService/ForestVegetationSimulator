@@ -33,6 +33,7 @@ C----------
       CHARACTER FORST*2,DIST*2,PROD*2,VAR*2,VOLEQ*10
       INTEGER IFIASP,ERRFLAG,ISPC,I,INTFOR,IREGN,J,JJ,K
       REAL BAMAXA(130),SLO,SHI,TEM,SLOSSP,SHISSP
+      REAL R4SDI(MAXSP)
 C----------
 C     SPECIES LIST FOR CENTRAL IDAHO VARIANT.
 C
@@ -84,6 +85,9 @@ C----------
      &  190., 120., 140., 156., 120., 210., 140., 160., 214., 130.,
      &  154., 120., 300., 2*130., 200., 100., 75., 2*100., 110.,
      &  3*150./
+      DATA R4SDI/
+     &  529.,423.,570.,562.,682.,762.,679.,620.,602.,446.,621.,
+     &  576.,562.,272.,501.,409.,452.,409.,452./
 C----------
 C IF SITEAR(I) HAS NOT BEEN SET WITH SITECODE KEYWORD, LOAD IT
 C WITH DEFAULT SITE VALUES.
@@ -132,11 +136,37 @@ C----------
    50 CONTINUE
 C----------
 C  SET SDIDEF AND BAMAX VALUES WHICH HAVE NOT BEEN SET BY KEYWORD.
+C  If a user sets BAMAX, then set the SDI maximums by species with this equation:
+C     SDIDEF(I)=BAMAX/(0.5454154*(PMSDIU/100.))
+C  If a user hasn’t set BAMAX, then set SDI maximums based on region. 
+C  If in R1 (ifor eq 1), then set the SDI maximums by species based on habitat type: 
+C          BAMAX=BAMAXA(ICINDX)
+C          SDIDEF(I)=BAMAX/(0.5454154*(PMSDIU/100.)) 
+C  Or
+C          SDIDEF(I)= BAMAXA(ICINDX)/(0.5454154*(PMSDIU/100.))
+C
+C  If in R4, then set SDI maximums by species based on R4SDI values and
+C     change the calculation method to zeide if not set by the user:
+C         IF(CALCSDI.EQ.' ')LZEIDE = .TRUE.
+C          SDIDEF(I) = R4SDI(I)
 C----------
-      IF (BAMAX.LE.0) BAMAX=BAMAXA(ICINDX)
-      DO 60 I=1,MAXSP
-      IF(SDIDEF(I).LE.0.) SDIDEF(I)=BAMAX/(0.5454154*(PMSDIU/100.))
-   60 CONTINUE
+      IF(CALCSDI.EQ.' ' .AND. IFOR .LT. 2) LZEIDE = .FALSE.
+      IF (BAMAX .GT. 0.0) THEN
+        DO I=1,MAXSP
+          IF(SDIDEF(I).LE.0.)
+     &      SDIDEF(I)=BAMAX/(0.5454154*(PMSDIU/100.))
+        ENDDO
+      ELSE
+        BAMAX=BAMAXA(ICINDX)
+        DO I=1,MAXSP
+          IF(IFOR .LT. 2) THEN
+            IF(SDIDEF(I).LE.0.)
+     &        SDIDEF(I)=BAMAX/(0.5454154*(PMSDIU/100.))
+          ELSE
+            IF(SDIDEF(I).LE.0.) SDIDEF(I)=R4SDI(I)
+          ENDIF
+        ENDDO
+      ENDIF          
 C
       DO 92 I=1,15
       J=(I-1)*10 + 1
