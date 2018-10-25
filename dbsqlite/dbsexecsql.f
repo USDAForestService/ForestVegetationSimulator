@@ -29,7 +29,8 @@ C
 COMMONS
 
       integer fsql3_prepare,fsql3_step,fsql3_colcnt,fsql3_colname,
-     >        fsql3_colreal,fsql3_colisnull,fsql3_finalize
+     >        fsql3_colisnull,fsql3_finalize
+      real fsql3_colreal
       CHARACTER*(*) SQLCMD
       INTEGER IConn,ColumnCount,MxNameLen,ColNumber,NameLen
       PARAMETER (MxNameLen=50)
@@ -41,8 +42,6 @@ COMMONS
       IRC = 1
 
 C     MAKE SURE WE HAVE AN OPEN CONNECTION
-
-      print *,"Iconn=",Iconn," SQLCMD=",trim(SQLCMD)
 
       IF(IConn.EQ.-1) RETURN 
 
@@ -58,7 +57,6 @@ C       THERE WAS A PROBLEM IN PARSING THE SQL STATEMENT
       ENDIF
       
       iRet = fsql3_prepare(Iconn,trim(SQLCMD)//CHAR(0))  
-      print *,"iRet for fsql3_prepare",Iconn," SQLCMD=",trim(SQLCMD)
       IF (iRet.NE.0) THEN 
         iRet = fsql3_finalize(Iconn)
         RETURN 
