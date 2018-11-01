@@ -67,7 +67,6 @@
 ../ie/dgf.f
 ../ie/dubscr.f
 ../ie/dunn.f
-../ie/exppnb.f
 ../ie/findag.f
 ../ie/forkod.f
 ../ie/formcl.f

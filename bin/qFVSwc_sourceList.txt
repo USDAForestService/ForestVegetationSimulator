@@ -80,7 +80,6 @@
 ../ie/cfvol.f
 ../ie/cutstk.f
 ../ie/dunn.f
-../ie/exppnb.f
 ../ie/rcon.f
 ../ie/vols.f
 ../kt/maical.f

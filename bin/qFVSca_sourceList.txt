@@ -93,7 +93,6 @@
 ../vws/r5crwd.f
 ../wc/bfvol.f
 ../wc/logs.f
-../ws/exppnb.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

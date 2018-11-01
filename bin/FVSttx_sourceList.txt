@@ -96,7 +96,6 @@
 ../vie/cwcalc.f
 ../vie/spctrn.f
 ../vws/r5crwd.f
-../ws/exppnb.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

@@ -67,7 +67,6 @@
 ../ie/cfvol.f
 ../ie/cutstk.f
 ../ie/dunn.f
-../ie/exppnb.f
 ../ie/rcon.f
 ../kt/maical.f
 ../pn/bratio.f

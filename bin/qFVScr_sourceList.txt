@@ -86,7 +86,6 @@
 ../ie/cfvol.f
 ../ie/dgbnd.f
 ../ie/dunn.f
-../ie/exppnb.f
 ../ie/rcon.f
 ../ie/vols.f
 ../so/adjmai.f

@@ -60,7 +60,6 @@
 ../ls/cwcalc.f
 ../ls/dgdriv.f
 ../ls/dgf.f
-../ls/exppnb.f
 ../ls/findag.f
 ../ls/forkod.f
 ../ls/grinit.f

@@ -61,7 +61,6 @@
 ../bm/dgf.f
 ../bm/dubscr.f
 ../bm/ecocls.f
-../bm/exppnb.f
 ../bm/findag.f
 ../bm/forkod.f
 ../bm/formcl.f

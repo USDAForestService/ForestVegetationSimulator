@@ -63,7 +63,6 @@
 ../kt/dgdriv.f
 ../kt/dgf.f
 ../kt/dubscr.f
-../kt/exppnb.f
 ../kt/findag.f
 ../kt/forkod.f
 ../kt/grinit.f

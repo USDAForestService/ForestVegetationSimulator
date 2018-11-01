@@ -81,7 +81,6 @@
 ../ls/cfvol.f
 ../ls/cwcalc.f
 ../ls/estab.f
-../ls/exppnb.f
 ../ls/gvrvol.f
 ../ls/htcalc.f
 ../so/adjmai.f

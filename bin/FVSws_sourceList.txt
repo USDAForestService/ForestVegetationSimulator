@@ -62,7 +62,6 @@
 ../ws/dgf.f
 ../ws/dubscr.f
 ../ws/dunn.f
-../ws/exppnb.f
 ../ws/findag.f
 ../ws/forkod.f
 ../ws/grinit.f

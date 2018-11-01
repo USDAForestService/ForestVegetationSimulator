@@ -61,7 +61,6 @@
 ../ci/dgdriv.f
 ../ci/dgf.f
 ../ci/dubscr.f
-../ci/exppnb.f
 ../ci/findag.f
 ../ci/forkod.f
 ../ci/grinit.f

@@ -84,7 +84,6 @@
 ../nc/logs.f
 ../vls/spctrn.f
 ../vls/vols.f
-../ws/exppnb.f
 
 ../vbase/cuts.f
 ../vbase/disply.f

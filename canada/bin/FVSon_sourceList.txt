@@ -401,7 +401,6 @@
 ../ls/bfvol.f
 ../ls/ccfcal.f
 ../ls/cfvol.f
-../ls/exppnb.f
 ../ls/gvrvol.f
 ../ls/maical.f
 ../metric/vdbs/dbsstandin.f
