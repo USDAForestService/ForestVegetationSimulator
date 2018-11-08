@@ -174,7 +174,6 @@
 ../base/exdfb.f
 ../base/exdftm.f
 ../base/exmpb.f
-../base/exppe.f
 ../base/exrd.f
 ../base/extree.f
 ../base/ffert.f

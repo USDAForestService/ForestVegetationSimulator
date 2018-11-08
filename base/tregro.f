@@ -3,7 +3,7 @@
 C----------
 C BASE $Id$
 C----------
-C    CALLED FROM **MAIN** AND PPMAIN EACH CYCLE.
+C    CALLED FROM **MAIN** EACH CYCLE.
 C----------
 COMMONS
 C

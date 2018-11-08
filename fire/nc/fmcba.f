@@ -37,11 +37,9 @@ C     Parameter statements.
 
 C     Parameter include files.
       INCLUDE 'PRGPRM.F77'
-Cppe      INCLUDE 'PPEPRM.F77'
       INCLUDE 'FMPARM.F77'
 
 C     Common include files.
-Cppe      INCLUDE 'PPCNTL.F77'
       INCLUDE 'CONTRL.F77'
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'PLOT.F77'

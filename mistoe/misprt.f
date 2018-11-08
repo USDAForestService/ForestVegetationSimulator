@@ -174,7 +174,7 @@ C MISTOE $Id$
 *        subroutine MISIN0.
 *     07-MAR-08; Lance R. David (FHTET)
 *        Moved local variables to common, necessary for output table 
-*        control that need to be maintained for each stand in PPE mode.
+*        control that need to be maintained for each stand.
 *        Variables moved are: DMFLAG, PRTTBL, LSORT4, MISTBL and ISVSP4
 *  21-APR-09; Lance R. David (FMSC)
 *        Variables IMOUT_ moved to MISCOM.(thanks to Don Robinson)

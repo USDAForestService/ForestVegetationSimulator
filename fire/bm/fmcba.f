@@ -37,11 +37,9 @@ C.... Parameter statements.
 
 C.... Parameter include files.
       INCLUDE 'PRGPRM.F77'
-Cppe      INCLUDE 'PPEPRM.F77'
       INCLUDE 'FMPARM.F77'
 
 C.... Common include files.
-Cppe      INCLUDE 'PPCNTL.F77'
       INCLUDE 'CONTRL.F77'
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'PLOT.F77'
@@ -370,7 +368,6 @@ C       in this case, bump up the decay rate of the smaller wood to that of the 
 
 C     
 Csng      IF (IYR .EQ. IY(1)) THEN
-Cppe      IF (IYR .EQ. MIY(1)) THEN
 C
 C        Load dead fuels as a function of PERCOV...assume that the initiating
 C        stands correspond to about 10% cover and established are 60% or more.

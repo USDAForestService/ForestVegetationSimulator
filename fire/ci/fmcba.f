@@ -37,13 +37,7 @@ C
       INCLUDE 'PRGPRM.F77'
 C
 C
-Cppe      INCLUDE 'PPEPRM.F77'
-C
-C
       INCLUDE 'FMPARM.F77'
-C
-C
-Cppe      INCLUDE 'PPCNTL.F77'
 C
 C
       INCLUDE 'CONTRL.F77'
@@ -446,7 +440,6 @@ C
         ENDIF
 C
 Csng      IF (IYR .EQ. IY(1)) THEN
-Cppe      IF (IYR .EQ. MIY(1)) THEN
 C----------
 C
 C  Load dead fuels as a function of PERCOV...assume that the initiating

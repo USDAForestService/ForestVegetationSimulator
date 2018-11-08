@@ -72,7 +72,7 @@ C----------
    10   CONTINUE
       ENDIF
 C----------
-C  SET OLD PPE VARIABLES TO ZERO
+C  SET OLD PPE VARIABLE TO BLANK, BUT KEEP TO PRESERVE HEADER FORMAT
 C----------
       CISN = '           '
 C----------

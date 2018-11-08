@@ -17,9 +17,6 @@ C
       INCLUDE 'PRGPRM.F77'
 C
 C
-      INCLUDE 'PPDNCM.F77'
-C
-C
       INCLUDE 'ESPARM.F77'
 C
 C
@@ -132,7 +129,7 @@ C     THE RANDOM NUMBER SEEDS, WHICH ARE EQUIVALENCED TO REAL ARRAYS
 C     OF LENGTH 2.
 C
       INTEGER MXL,MXR,MXI,IRECLN
-      PARAMETER (MXR=130,MXL=40,MXI=119,IRECLN=1024)
+      PARAMETER (MXR=128,MXL=39,MXI=119,IRECLN=1024)
       INTEGER ILIMIT,IPNT,K,I,II
       INTEGER INTS(MXI)
 C      LOGICAL LBWE,LRR1,LRR2
@@ -392,32 +389,31 @@ C
       LOGICS (15) = LHCOR2
       LOGICS (16) = LINGRW
       LOGICS (17) = LMORT
-      LOGICS (18) = LNEDNS
-      LOGICS (19) = LOPEVN
-      LOGICS (20) = LRCOR2
-      LOGICS (21) = LSITE
-      LOGICS (22) = LSTART
-      LOGICS (23) = LSTATS
-      LOGICS (24) = LSPRUT
-      LOGICS (25) = LSUMRY
-      LOGICS (26) = LTRIP
-      LOGICS (27) = MORDAT
-      LOGICS (28) = NOTRIP
-      LOGICS (29) = LCALC
-      LOGICS (30) = LFLAGV
-      LOGICS (31) = LBAMAX
-      LOGICS (32) = LPRNT
-      LOGICS (33) = LFIA
-      LOGICS (34) = LZEIDE
-      LOGICS (35) = LFIRE
+      LOGICS (18) = LOPEVN
+      LOGICS (19) = LRCOR2
+      LOGICS (20) = LSITE
+      LOGICS (21) = LSTART
+      LOGICS (22) = LSTATS
+      LOGICS (23) = LSPRUT
+      LOGICS (24) = LSUMRY
+      LOGICS (25) = LTRIP
+      LOGICS (26) = MORDAT
+      LOGICS (27) = NOTRIP
+      LOGICS (28) = LCALC
+      LOGICS (29) = LFLAGV
+      LOGICS (30) = LBAMAX
+      LOGICS (31) = LPRNT
+      LOGICS (32) = LFIA
+      LOGICS (33) = LZEIDE
+      LOGICS (34) = LFIRE
       CALL FMATV (LFM)
-      LOGICS (36) = LFM
-      LOGICS (37) = FSTOPEN
+      LOGICS (35) = LFM
+      LOGICS (36) = FSTOPEN
       CALL CLACTV (LCLM)
-      LOGICS (38) = LCLM
+      LOGICS (37) = LCLM
       CALL RDATV (LWRD,LZ)
-      LOGICS (39) = LWRD
-      LOGICS (40) = LSCRN
+      LOGICS (38) = LWRD
+      LOGICS (39) = LSCRN
 C
 C     WRITE THE LOGICAL SCALARS.
 C
@@ -495,77 +491,75 @@ C
       REALS (57) = ORMSQD
       REALS (58) = PBURN
       REALS (59) = PCTSMX
-      REALS (60) = PDCCFN
-      REALS (61) = PDBAN
-      REALS (62) = PI
-      REALS (63) = PMECH
-      REALS (64) = PMSDIL
-      REALS (65) = PMSDIU
-      REALS (66) = POTEN
-      REALS (67) = REGCH
-      REALS (68) = REGNBK
-      REALS (69) = REGT
-      REALS (70) = RELDEN
-      REALS (71) = RELDM1
-      REALS (72) = RMAI
-      REALS (73) = RMSQD
-      REALS (74) = SAMWT
-      REALS (75) = SAWDBH
-      REALS (76) = SDIAC
-      REALS (77) = SDIBC
-      REALS (78) = SDIMAX
-      REALS (79) = SLO
-      REALS (80) = SLOPE
-      REALS (81) = SLPMRT
-      REALS (82) = SPCLWT
-      REALS (83) = SQBWAF
-      REALS (84) = SQREGT
-      REALS (85) = SSDBH
-      REALS (86) = STOADJ
-      REALS (87) = SUMPRB
-      REALS (88) = TCFMIN
-      REALS (89) = TCWT
-      REALS (90) = TFPA
-      REALS (91) = THRES1
-      REALS (92) = THRES2
-      REALS (93) = TIME
-      REALS (94) = TLAT
-      REALS (95) = TPACRE
-      REALS (96) = TPAMIN
-      REALS (97) = TPAMRT
-      REALS (98) = TPROB
-      REALS (99) = TRM
-      REALS(100) = VMLT
-      REALS(101) = VMLTYR
-      REALS(102) = XCOS
-      REALS(103) = XCOSAS
-      REALS(104) = XSIN
-      REALS(105) = XSINAS
-      REALS(106) = XTES
-      REALS(107) = YR
-      REALS(108) = ZBURN
-      REALS(109) = ZMECH
-      REALS(110) = SVSS
-      REALS(111) = TLONG
-      REALS(112) = TOTREM
-      REALS(113) = AGELST
-      REALS(114) = PBAWT
-      REALS(115) = PCCFWT
-      REALS(116) = FNMIN
-      REALS(117) = QMDMSB
-      REALS(118) = SLPMSB
-      REALS(119) = CEPMSB
-      REALS(120) = PTPAWT
-      REALS(121) = EFFMSB
-      REALS(122) = DLOMSB
-      REALS(123) = DHIMSB
-      REALS(124) = SDIAC2
-      REALS(125) = SDIBC2
-      REALS(126) = DBHZEIDE
-      REALS(127) = DBHSTAGE
-      REALS(128) = DR016
-      REALS(129) = CCCOEF
-      REALS(130) = CCCOEF2
+      REALS (60) = PI
+      REALS (61) = PMECH
+      REALS (62) = PMSDIL
+      REALS (63) = PMSDIU
+      REALS (64) = POTEN
+      REALS (65) = REGCH
+      REALS (66) = REGNBK
+      REALS (67) = REGT
+      REALS (68) = RELDEN
+      REALS (69) = RELDM1
+      REALS (70) = RMAI
+      REALS (71) = RMSQD
+      REALS (72) = SAMWT
+      REALS (73) = SAWDBH
+      REALS (74) = SDIAC
+      REALS (75) = SDIBC
+      REALS (76) = SDIMAX
+      REALS (77) = SLO
+      REALS (78) = SLOPE
+      REALS (79) = SLPMRT
+      REALS (80) = SPCLWT
+      REALS (81) = SQBWAF
+      REALS (82) = SQREGT
+      REALS (83) = SSDBH
+      REALS (84) = STOADJ
+      REALS (85) = SUMPRB
+      REALS (86) = TCFMIN
+      REALS (87) = TCWT
+      REALS (88) = TFPA
+      REALS (89) = THRES1
+      REALS (90) = THRES2
+      REALS (91) = TIME
+      REALS (92) = TLAT
+      REALS (93) = TPACRE
+      REALS (94) = TPAMIN
+      REALS (95) = TPAMRT
+      REALS (96) = TPROB
+      REALS (97) = TRM
+      REALS (98) = VMLT
+      REALS (99) = VMLTYR
+      REALS(100) = XCOS
+      REALS(101) = XCOSAS
+      REALS(102) = XSIN
+      REALS(103) = XSINAS
+      REALS(104) = XTES
+      REALS(105) = YR
+      REALS(106) = ZBURN
+      REALS(107) = ZMECH
+      REALS(108) = SVSS
+      REALS(109) = TLONG
+      REALS(110) = TOTREM
+      REALS(111) = AGELST
+      REALS(112) = PBAWT
+      REALS(113) = PCCFWT
+      REALS(114) = FNMIN
+      REALS(115) = QMDMSB
+      REALS(116) = SLPMSB
+      REALS(117) = CEPMSB
+      REALS(118) = PTPAWT
+      REALS(119) = EFFMSB
+      REALS(120) = DLOMSB
+      REALS(121) = DHIMSB
+      REALS(122) = SDIAC2
+      REALS(123) = SDIBC2
+      REALS(124) = DBHZEIDE
+      REALS(125) = DBHSTAGE
+      REALS(126) = DR016
+      REALS(127) = CCCOEF
+      REALS(128) = CCCOEF2
 C
 C     WRITE THE REAL SCALARS.
 C

@@ -49,13 +49,11 @@ C.... Parameter statements.
 
 C.... Parameter include files.   
       INCLUDE 'PRGPRM.F77'
-Cppe  INCLUDE 'PPEPRM.F77'
       INCLUDE 'FMPARM.F77'
 
 C.... Common include files.
       INCLUDE 'FMCOM.F77'
       INCLUDE 'CONTRL.F77'
-Cppe  INCLUDE 'PPCNTL.F77'
       INCLUDE 'ARRAYS.F77'
       INCLUDE 'PLOT.F77'
 
@@ -76,14 +74,11 @@ C.... Begin routine.
 
       YRSCYC = FLOAT( IY(ICYC+1)-DEADYR )
 Csng  YRSCYC = FLOAT( IY(ICYC+1)-DEADYR )
-Cppe  YRSCYC = FLOAT( MIY(MICYC)-DEADYR )
       
 C     find out how long it will be between the year of death and the 
 C     next year simulated, so that only crown material to fall in that 
 C     year or later is added to CWD2B2 or CWD2B.  
 
-Cppe  IF (DEADYR .LT. MIY(1)) THEN
-Cppe    YNEXTY = MIY(1) - DEADYR
 Csng  IF (DEADYR .LT. IY(1)) THEN
 Csng    YNEXTY = IY(1) - DEADYR
 

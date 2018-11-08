@@ -168,7 +168,6 @@
 ../base/exmist.f
 ../base/exmpb.f
 ../base/exorganon.f
-../base/exppe.f
 ../base/exrd.f
 ../base/extree.f
 ../base/ffert.f
