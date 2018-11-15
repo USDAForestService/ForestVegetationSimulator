@@ -34,8 +34,8 @@ COMMONS
 
       INTEGER IYEAR,iRet,KODE,YRDEAD,SVLH,SVLS,YRLAST,JYR,IDC,JCL
       INTEGER ColNumber
-      REAL SDBH, SHTH, SHTS, SDH, SDS, SVLHB, SVLSB
-      DOUBLE PRECISION SDBHB, SHTHB, SHTSB, SDHB, SDSB, SDTB, SVLTB
+      REAL SDBH, SHTH, SHTS, SDH, SDS 
+      REAL*8 SDBHB, SHTHB, SHTSB, SDHB, SDSB, SDTB, SVLHB, SVLSB, SVLTB
       DIMENSION SVLH(MAXSP,100,6), SVLS(MAXSP,100,6),
      -  SDBH(MAXSP,100,6), SHTH(MAXSP,100,6),SHTS(MAXSP,100,6),
      -  SDH(MAXSP,100,6), SDS(MAXSP,100,6)
@@ -61,7 +61,7 @@ COMMONS
      -          'CaseID text not null,'//
      -          'StandID text not null,'//
      -          'Year Int null,'//
-     -          'Species char null,'//
+     -          'Species text null,'//
      -          'DBH_Class int null,'//
      -          'Death_DBH real null,'//
      -          'Current_Ht_Hard real null,'//
@@ -98,19 +98,20 @@ COMMONS
       DO JYR= 1,YRLAST
          DO IDC= 1,MAXSP
             DO JCL= 1,6
+
               SDTB   = SDH(IDC,JYR,JCL) + SDS(IDC,JYR,JCL)
               IF (SDTB .LE. 0) CYCLE
               CSP = JSP(IDC)
               YRDEAD = IYEAR - JYR + 1
-              SVLTB  = SVLH(IDC,JYR,JCL) + SVLS(IDC,JYR,JCL)
               SDBHB = SDBH(IDC,JYR,JCL)
               SHTHB = SHTH(IDC,JYR,JCL)
               SHTSB = SHTS(IDC,JYR,JCL)
               SDHB  = SDH (IDC,JYR,JCL)
               SDSB  = SDS (IDC,JYR,JCL)
-              SVLHB = SVLH(IDC,JYR,JCL)
-              SVLSB = SVLS(IDC,JYR,JCL)
-C
+              SVLHB = FLOAT(SVLH(IDC,JYR,JCL))
+              SVLSB = FLOAT(SVLS(IDC,JYR,JCL))
+              SVLTB = SVLHB + SVLSB
+
 C             DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
 C             KEYWORD OVER RIDES
 C
@@ -167,10 +168,10 @@ C
 
               ColNumber=ColNumber+1
               iRet = fsql3_bind_double(IoutDBref,ColNumber,SDTB)
-              
+
               iRet = fsql3_step(IoutDBref)
               iRet = fsql3_reset(IoutDBref)
-  
+
             ENDDO
          ENDDO
       ENDDO
@@ -179,6 +180,7 @@ C
       if (iRet.ne.0) then
          ISDET = 0
       ENDIF
+
       RETURN
 
       END
