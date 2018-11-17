@@ -313,7 +313,7 @@ qFVSws_sourceList.txt Changed subroutines gheads.f, prtexm.f, prtrls.f, and ptba
                    /ls version did not. This is good. Stored the resulting combined version in /vbase. 
                    Modified all the source list files to use the /vbase version. Deleted the /base and /ls versions.
 
-          prtrls.f Formatted the variable declaration, delteting variables RTR1 and RTR2 from the /ls version.
+          prtrls.f Formatted the variable declaration, deleted variables RTR1 and RTR2 from the /ls version.
                    Combined the /base and /ls versions using a SELECT CASE structure based on the variant
                    alpha code. Stored the resulting combined version in /vbase. Modified all the source list files
                    to use the /vbase version. Deleted the /base and /ls versions.

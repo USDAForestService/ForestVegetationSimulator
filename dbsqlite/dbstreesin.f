@@ -49,8 +49,31 @@ C     CHECK TO MAKE SURE WE ARE PULLING TREE INFO FROM DATABASE
 
       ABIRTH = 0
       LBIRTH  =.FALSE.
-      DIAMETER=0
+      IPLOT=0
+      ITREE=0
+      RCOUNT=0
+      HISTORY=0
+      SPECIES=' '
       DBH=0
+      DIAMETER=0
+      DG=0
+      HT=0
+      HTG=0
+      HTTOPK=0
+      CRWNR=0
+      DMG1=0
+      DMG2=0
+      DMG3=0
+      SVR1=0
+      SVR2=0
+      SVR3=0
+      TREEVAL=0
+      PRESCRIPT=0
+      SLOPE=0
+      ASPECT=0
+      HABITAT=0
+      TOPOCODE=0
+      SITEPREP=0
 
       ColumnCount = fsql3_colcnt(IinDBref)
       DO ColNumber = 0,ColumnCount-1

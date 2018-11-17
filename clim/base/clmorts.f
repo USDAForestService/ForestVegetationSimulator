@@ -185,12 +185,36 @@ C         Definition: mapdd5 = map*dd5/1000
           CBIRTH(6) = ALGSLP(BIRTHYR,FLOAT(YEARS),ATTRS(1,IXMAP),
      >                       NYEARS)*CBIRTH(3)/1000 
           DTV = CTHISYR - CBIRTH
-          DTV(1) = DTV(1) / ATTRS(1,IDEmtwm)  
-          DTV(2) = DTV(2) / ATTRS(1,IDEmtcm)  
-          DTV(3) = DTV(3) / ATTRS(1,IDEdd5)   
-          DTV(4) = DTV(4) / ATTRS(1,IDEsdi)   
-          DTV(5) = DTV(5) / ATTRS(1,IDEdd0)   
-          DTV(6) = DTV(6) / ATTRS(1,IDEmapdd5)
+          IF (ATTRS(1,IDEmtwm)  >0) THEN 
+            DTV(1) = DTV(1) / ATTRS(1,IDEmtwm)  
+          ELSE
+            DTV(1) = 1.
+          ENDIF
+          IF (ATTRS(1,IDEmtcm)  >0) THEN 
+            DTV(2) = DTV(2) / ATTRS(1,IDEmtcm)  
+          ELSE
+            DTV(2) = 1.
+          ENDIF
+          IF (ATTRS(1,IDEdd5)   >0) THEN 
+            DTV(3) = DTV(3) / ATTRS(1,IDEdd5)   
+          ELSE
+            DTV(3) = 1.
+          ENDIF
+          IF (ATTRS(1,IDEsdi)   >0) THEN 
+            DTV(4) = DTV(4) / ATTRS(1,IDEsdi)   
+          ELSE
+            DTV(4) = 1.
+          ENDIF
+          IF (ATTRS(1,IDEdd0)   >0) THEN 
+            DTV(5) = DTV(5) / ATTRS(1,IDEdd0)                    
+          ELSE
+            DTV(5) = 1.
+          ENDIF
+          IF (ATTRS(1,IDEmapdd5)>0) THEN 
+            DTV(6) = DTV(6) / ATTRS(1,IDEmapdd5)
+          ELSE
+            DTV(6) = 1.
+          ENDIF
           DMORT = (SUM(DTV)/6.)-1.1 ! COMPUTE THE AVERAGE, THEN TRANSLATE
           IF (DMORT .LT. 0) DMORT = 0
           DMORT = .9*(1-EXP(-(DMORT)**2.5))

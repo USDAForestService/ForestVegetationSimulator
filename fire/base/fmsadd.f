@@ -18,7 +18,6 @@ C                  FMKILL
 C                  FMSDIT  [SERIAL FVS ONLY]
 C                  FMSCUT
 C                  FMSNAG
-C                  INSTND  [PPE]
 C
 C     CALLS:       FMSCRO
 C                  FMCBIO

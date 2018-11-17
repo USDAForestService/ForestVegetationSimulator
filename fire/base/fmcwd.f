@@ -26,7 +26,6 @@ C.... Parameter statements.
 C.... Parameter include files.
 
       INCLUDE 'PRGPRM.F77'
-C      INCLUDE 'PPEPRM.F77'
       INCLUDE 'FMPARM.F77'
 
 C.... Common include files.

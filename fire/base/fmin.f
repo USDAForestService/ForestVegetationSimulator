@@ -8,12 +8,11 @@ C     FIRE - FIRE & SNAG MODEL
 C
 C     OPTION PROCESSOR FOR FIRE MODEL
 C
-C     CALLED FROM: INITRE [SINGLE-STAND VERSION & PPE]
-C                  PPIN   [PPE]
+C     CALLED FROM: INITRE [SINGLE-STAND VERSION]
 C
 C     PARAMETER DEFINITIONS
 C     ICALL = 1 call is within a stand (called from INITRE)
-C             2 call from outside a stand (called from PPIN)
+C             2 call is from outside (will always be 1 with deletion of PPE)
 COMMONS
 C
 C
@@ -2611,7 +2610,7 @@ C----------
       CHARACTER*130 RECORD
       CHARACTER*10 KARD(NVALS)
       CHARACTER*8 KEYWRD,TMP
-      LOGICAL LDEBUG,LNOTBK(NVALS),LCOM,LFLAG,L
+      LOGICAL LDEBUG,LNOTBK(NVALS),LCOM,LFLAG
       INTEGER IOUT,IRECNT,INUNIT,KODE,NF,IP,I,J,K,ISTLNB
       REAL ARRAY(NVALS)
 C----------
@@ -2633,9 +2632,6 @@ C
       ENDDO
       IF (LFLAG) THEN
          CALL GROHED (IOUT)
-         CALL PPEATV (L)
-         IF (L) WRITE (IOUT,11)
-   11    FORMAT (/T39,'PARALLEL PROCESSING EXTENSION -- VERSION 1.0')
          WRITE (IOUT,12)
    12    FORMAT (/130('-')//T49,'OPTIONS SELECTED BY INPUT'//
      >            130('-')/' KEYWORD    PARAMETERS:'/

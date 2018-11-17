@@ -32,7 +32,6 @@
 ../common/OUTCOM.F77
 ../common/PDEN.F77
 ../common/PLOT.F77
-../common/PPDNCM.F77
 ../common/RANCOM.F77
 ../common/SCREEN.F77
 ../common/SNCOM.F77
@@ -64,8 +63,6 @@
 ../cs/nbolt.f
 ../cs/regent.f
 ../cs/sitset.f
-../cs/twigbf.f
-../cs/twigcf.f
 ../cs/varmrt.f
 
 ../ak/habtyp.f
@@ -87,7 +84,6 @@
 ../vls/morts.f
 ../vls/spctrn.f
 ../vls/vols.f
-../ws/exppnb.f
 
 ../vbase/cuts.f
 ../vbase/disply.f
@@ -171,7 +167,6 @@
 ../base/exmist.f
 ../base/exmpb.f
 ../base/exorganon.f
-../base/exppe.f
 ../base/exrd.f
 ../base/extree.f
 ../base/ffert.f
@@ -388,6 +383,8 @@
 ../volume/R9COEFF.INC
 
 ../vvolume/fvsvol.f
+../vvolume/twigbf.f
+../vvolume/twigcf.f
 
 ../volume/blmtap.f
 ../volume/blmvol.f

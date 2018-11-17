@@ -1,12 +1,13 @@
       SUBROUTINE PRTRLS (IWHO)
       IMPLICIT NONE
 C----------
-C CANADA-BC $Id$
+C METRIC-VBASE $Id: prtrls.f 2438 2018-07-05 16:54:21Z gedixon $
 C----------
 C
 C     PRINT THE TREE LIST.
 C
 C     IWHO = 1 IF CALLED NORMALLY, AND 2 OR 3 IF CALLED FROM CUTS.
+C----------
 C
 COMMONS
 C
@@ -20,10 +21,13 @@ C
       INCLUDE 'CONTRL.F77'
 C
 C
-      INCLUDE 'PLOT.F77'
-C
-C
       INCLUDE 'ESTREE.F77'
+C
+C
+      INCLUDE 'METRIC.F77'
+C
+C
+      INCLUDE 'PLOT.F77'
 C
 C
       INCLUDE 'VARCOM.F77'
@@ -32,25 +36,36 @@ C
       INCLUDE 'WORKCM.F77'
 C
 C
-      INCLUDE 'METRIC.F77'
-C
-C
 COMMONS
 C
-      INTEGER I,J,NUMREQ,NTODO,ITODO,NPRMS,IACTK,IDT,JYR,IP,ITPLAB
-      INTEGER IWHO,KOLIST,KNTREC,ISPC,I1,I2,I3,IICR,IDMR,ICDF,IBDF
-      INTEGER IPTBAL,MYACT(3)
+C----------
+C  VARIABLE DECLARATIONS:
+C----------
+C
+      LOGICAL   LFORMT,LHD,LOK,LPPACT,LRC,LTREE
+C
+      CHARACTER CISN*11,DAT*10,REV*10,TID*8,TIM*8
+C
       CHARACTER CLAB1(4)*4,CLAB2(3)*3
-      REAL TEM(6),DUPCHK(5,5),XXWT,P,DP,CW,DGI
-      CHARACTER CISN*11,TIM*8,DAT*10,TID*8
-      CHARACTER REV*10
-      INTEGER*4 IDCMP1,IDCMP2,DBSKODE
-      LOGICAL   LHD,LRC,LPPACT,LFORMT,LTREE,LOK
+C
+      INTEGER*4 DBSKODE,IDCMP1,IDCMP2
+C
+      INTEGER I,I1,I2,I3,IACTK,IBDF,ICDF,IDMR,IDT,IICR,IP,IPTBAL,ITODO
+      INTEGER ITPLAB,ISPC,IWHO,J,JYR,NPRMS,NTODO,NUMREQ,KNTREC,KOLIST
+C
+      INTEGER MYACT(3)
+C
+      REAL CW,DGI,DP,P,XXWT
+C
+      REAL DUPCHK(5,5),TEM(6)
+C----------
+C  DATA STATEMENTS:
+C----------
       DATA MYACT/80,199,198/
       DATA IDCMP1,IDCMP2/10000000,20000000/
       DATA CLAB1/'TREE','DEAD','CUT','ATRT'/
       DATA CLAB2/'END','CUT','CUT'/
-C---------
+C----------
 C  INITIALIZATION
 C----------
       DO 500 I= 1,6
@@ -112,6 +127,7 @@ C     SET THE TREELIST TYPE FLAG (LET IP BE THE RECORD OUTPUT COUNT).
 C     AND THE OUTPUT REPORTING YEAR.
 C     ITPLAB: 1=STANDARD COMPLETE LIVE TREE LIST, 2=DEAD TREELIST
 C             3=CUT TREE LIST, 4=AFTER TREATMENT TREE LIST.
+C 
 C
   510 CONTINUE
       IF (IWHO.EQ.1) THEN
@@ -190,7 +206,7 @@ C
          KOLIST=IABS(KOLIST)
       ENDIF
 C
-C     MAKE SURE THE OUTPUT FILE IS OPENNED
+C     MAKE SURE THE OUTPUT FILE IS OPEN
 C
       CALL openIfClosed (KOLIST,"trl",LOK)
       IF (.NOT.LOK) RETURN
@@ -209,10 +225,10 @@ C
          IF (LPPACT) CALL PPWEIG (0,XXWT)
          CALL REVISE (VARACD,REV)
          CALL GRDTIM (DAT,TIM)
-         IF(LFORMT) THEN
+         IF (LFORMT) THEN
             WRITE (KOLIST,2) IP,ICYC,JYR,NPLT,MGMID,VARACD,DAT,TIM,
-     &                   CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
-    2       FORMAT (' -999',3I5,6(1X,A),I3,E14.7,2(1X,A))
+     &                 CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
+    2       FORMAT ('-999',3I5,6(1X,A),I3,E14.7,2(1X,A))
          ELSE
             WRITE (KOLIST) IP,ICYC,JYR,NPLT,MGMID,VARACD,DAT,TIM,
      &                 CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
@@ -234,21 +250,47 @@ C
       IF(KNTREC.NE.0) GO TO 110
       IP=IP+1
       IF (LFORMT) CALL GROHED (KOLIST)
-      IF (LFORMT) THEN
-        WRITE (KOLIST,11) CLAB1(ITPLAB),NPLT,MGMID,
-     >                    CLAB2(IWHO),ICYC,IFINT,JYR,IP
-   11   FORMAT(/' COMPLETE ',A4,' LIST -- STAND : ',A26,T59,'MGMTID:',
-     >    A4,T73,A3,' CYCLE: ',I2,T88,'CYCLE LENGTH: ',I2,' YRS',
-     >    T110,'YEAR: ',I4,T122,'PAGE: ',I2/
-     >    1X,'  TREE   TREE SP SP TR SS PNT  ',
-     >    'TREES    MORTAL   CURR  DIAM  CURR  HT',5X,'MAX',7X,'BA   ',
-     >    'POINT TOT CU MCH CU  MCH BD MC BF TRC',/,
-     >    '  NUMBER  INDX CD NO CL CD NUM PER HA   PER HA    ',
-     >    'DIAM  INCR   HT  INCR CR  CW  MS ',
-     >    '%-TILE  BAL  M  VOL M  VOL  M  VOL DF DF  HT',/,
-     >    1X,'-------- ---- -- -- -- -- --- -------- -------- ----- ',
-     >    '----- ----- ---- -- ---- -- ------ ----- ------ ',
-     >    '------ ------- -- -- ---')
+      IF(LFORMT) THEN
+C
+        SELECT CASE (VARACD)
+C----------
+C  EASTERN AND CANADIAN ONTARIO VARIANTS
+C----------
+        CASE ('CS','LS','NE','SN','ON')
+          WRITE (KOLIST,10) CLAB1(ITPLAB),NPLT,MGMID,
+     >                      CLAB2(IWHO),ICYC,IFINT,JYR,IP
+   10     FORMAT(/'COMPLETE ',A4,' LIST -- STAND: ',A26,T58,'MGMTID: ',
+     >     A4,T72,A3,' CYCLE: ',I2,T87,'CYCLE LENGTH: ',I2,' YRS',
+     >     T109,'YEAR: ',I4,T121,'PAGE: ',I2/
+     >     '  TREE   TREE SP SP TR SS PNT  ',
+     >     'TREES    MORTAL   CURR  DIB   CURR  HT',5X,'MAX',7X,'BA   ',
+     >     'POINT TOT MCH SAW CU SAW BD PW SL TRC',/,
+     >     ' NUMBER  INDX CD NO CL CD NUM PER HA   PER HA    ',
+     >     'DIAM  INCR   HT  INCR CR  CW  MS ',
+     >     '%-TILE  BAL CU M  VL M  VOL M  VL  DF DF  HT',/,
+     >     '-------- ---- -- -- -- -- --- -------- -------- ----- ',
+     >     '----- ----- ---- -- ---- -- ------ ----- ------ ',
+     >     '------ ------- -- -- ---')
+C----------
+C  WESTERN AND CANADIAN BRITISH COLUMBIA VARIANTS
+C----------
+        CASE DEFAULT
+          WRITE (KOLIST,11) CLAB1(ITPLAB),NPLT,MGMID,
+     >                      CLAB2(IWHO),ICYC,IFINT,JYR,IP
+   11     FORMAT(/'COMPLETE ',A4,' LIST -- STAND: ',A26,T58,'MGMTID: ',
+     >     A4,T72,A3,' CYCLE: ',I2,T87,'CYCLE LENGTH: ',I2,' YRS',
+     >     T109,'YEAR: ',I4,T121,'PAGE: ',I2/
+     >     '  TREE   TREE SP SP TR SS PNT  ',
+     >     'TREES    MORTAL   CURR  DIAM  CURR  HT',5X,'MAX',7X,'BA   ',
+     >     'POINT TOT CU MCH CU  MCH BD MC BF TRC',/,
+     >     ' NUMBER  INDX CD NO CL CD NUM PER HA   PER HA    ',
+     >     'DIAM  INCR   HT  INCR CR  CW  MS ',
+     >     '%-TILE  BAL  M  VOL M  VOL  M  VOL DF DF  HT',/,
+     >     '-------- ---- -- -- -- -- --- -------- -------- ----- ',
+     >     '----- ----- ---- -- ---- -- ------ ----- ------ ',
+     >     '------ ------- -- -- ---')
+        END SELECT
+C
       ENDIF
       KNTREC=1
   110 CONTINUE
@@ -264,7 +306,7 @@ C
 C
 C      ITPLAB: 1=STANDARD COMPLETE LIVE TREE LIST, 2=DEAD TREELIST
 C              3=CUT TREE LIST, 4=AFTER TREATMENT TREE LIST.
-C
+C 
       IF (ITPLAB.EQ.1) THEN
          P = PROB(I) / GROSPC
          IF (ICYC.GT.0) THEN
@@ -324,9 +366,14 @@ C----------
       DGI=DG(I)
       IF(ICYC.EQ.0 .AND. TEM(6).EQ.0) DGI=WORK1(I)
 C
-      IF (LFORMT) THEN
-        IF((P/ACRtoHA).LT.9999.9995 .AND. (DP/ACRtoHA).LT.9999.9995)THEN
-          WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+      SELECT CASE (VARACD)
+C----------
+C  EASTERN AND CANADIAN ONTARIO VARIANTS
+C----------
+      CASE ('CS','LS','NE','SN','ON')
+        IF (LFORMT) THEN
+          IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
+            WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
      >      ISPECL(I),ITRE(I),
      >      P/ACRtoHA,
      >      DP/ACRtoHA,
@@ -339,15 +386,58 @@ C
      >      IDMR,PCT(I),IPTBAL,
      >      CFV(I)*FT3toM3,
      >      WK1(I)*FT3toM3,
-     >      BFV(I)*0.,
+     >      BFV(I)*FT3toM3,
      >      ICDF, IBDF,
-     >      NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
-   21     FORMAT(1X,A8,1X,I4,1X,A2,3(1X,I2),1X,I3,1X,F8.3,1X,F8.3,1X,
-     >      F5.1,1X,F5.2,1X,F5.1,1X,F4.1,1X,I2,1X,F4.1,1X,I2,
-     >      1X,F6.2,1X,I5,1X,F6.2,1X,F6.2,1X,F7.1,1X,I2,1X,I2,
-     >      1X,I3)
+     >      NINT(REAL(ITRUNC(I)+5)*.01*FTtoM)
+   21       FORMAT(A8,1X,I4,1X,A2,I3,2(1X,I2),1X,I3,1X,F8.3,1X,F8.3,1X,
+     >       F5.1,1X,F5.2,1X,F5.1,1X,F4.1,1X,I2,1X,F4.1,1X,I2,
+     >       1X,F6.2,1X,I5,1X,F6.1,1X,F6.1,1X,F7.1,1X,I2,1X,I2,
+     >       1X,I3)
+          ELSE
+            WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >      ISPECL(I),ITRE(I),
+     >      P/ACRtoHA,
+     >      DP/ACRtoHA,
+     >      DBH(I)*INtoCM,
+     >      DGI*INtoCM,
+     >      HT(I)*FTtoM,
+     >      HTG(I)*FTtoM,
+     >      ICR(I),
+     >      CW*FTtoM,
+     >      IDMR,PCT(I),IPTBAL,
+     >      CFV(I)*FT3toM3,
+     >      WK1(I)*FT3toM3,
+     >      BFV(I)*FT3toM3,
+     >      ICDF, IBDF,
+     >      NINT(REAL(ITRUNC(I)+5)*.01*FTtoM)
+   20       FORMAT(A8,1X,2I4,I5,F9.3,F8.2,3F7.2,I3,I4,F9.3,I4,F9.2,
+     >       F9.3,F9.2,F9.2,I4,I7,I4)
+          ENDIF
         ELSE
-          WRITE(KOLIST,20) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+          WRITE(KOLIST) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >    ISPECL(I),ITRE(I),
+     >    P/ACRtoHA,
+     >    DP/ACRtoHA,
+     >    DBH(I)*INtoCM,
+     >    DGI*INtoCM,
+     >    HT(I)*FTtoM,
+     >    HTG(I)*FTtoM,
+     >    ICR(I),
+     >    CW*FTtoM,
+     >    IDMR,PCT(I),IPTBAL,
+     >    CFV(I)*FT3toM3,
+     >    WK1(I)*FT3toM3,
+     >    BFV(I)*FT3toM3,
+     >    ICDF, IBDF,
+     >    NINT(REAL(ITRUNC(I)+5)*.01*FTtoM)
+        ENDIF
+C----------
+C  WESTERN AND CANADIAN BRITISH COLUMBIA VARIANTS
+C----------
+      CASE DEFAULT
+        IF (LFORMT) THEN
+          IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
+            WRITE(KOLIST,23) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
      >      ISPECL(I),ITRE(I),
      >      P/ACRtoHA,
      >      DP/ACRtoHA,
@@ -360,32 +450,56 @@ C
      >      IDMR,PCT(I),IPTBAL,
      >      CFV(I)*FT3toM3,
      >      WK1(I)*FT3toM3,
-     >      BFV(I)*0.,
+     >      BFV(I)*FT3toM3,
      >      ICDF, IBDF,
-     >      NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
-   20     FORMAT(1X,A8,1X,I4,1X,A2,3(1X,I2),1X,I3,1X,F8.2,1X,F8.2,1X,
-     >      F5.1,1X,F5.2,1X,F5.1,1X,F4.1,1X,I2,1X,F4.1,1X,I2,
-     >      1X,F6.2,1X,I5,1X,F6.2,1X,F6.2,1X,F7.1,1X,I2,1X,I2,
-     >      1X,I3)
+     >      NINT(REAL(ITRUNC(I)+5)*.01*FTtoM)
+   23       FORMAT(A8,1X,I4,1X,A2,3(1X,I2),1X,I3,1X,F8.3,1X,F8.3,1X,
+     >       F5.1,1X,F5.2,1X,F5.1,1X,F4.1,1X,I2,1X,F4.1,1X,I2,
+     >       1X,F6.2,1X,I5,1X,F6.1,1X,F6.1,1X,F7.1,1X,I2,1X,I2,
+     >       1X,I3)
+          ELSE
+            WRITE(KOLIST,24) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >      ISPECL(I),ITRE(I),
+     >      P/ACRtoHA,
+     >      DP/ACRtoHA,
+     >      DBH(I)*INtoCM,
+     >      DGI*INtoCM,
+     >      HT(I)*FTtoM,
+     >      HTG(I)*FTtoM,
+     >      ICR(I),
+     >      CW*FTtoM,
+     >      IDMR,PCT(I),IPTBAL,
+     >      CFV(I)*FT3toM3,
+     >      WK1(I)*FT3toM3,
+     >      BFV(I)*FT3toM3,
+     >      ICDF, IBDF,
+     >      NINT(REAL(ITRUNC(I)+5)*.01*FTtoM)
+   24       FORMAT(A8,1X,I4,1X,A2,3(1X,I2),1X,I3,1X,F8.2,1X,F8.2,1X,
+     >       F5.1,1X,F5.2,1X,F5.1,1X,F4.1,1X,I2,1X,F4.1,1X,I2,
+     >       1X,F6.2,1X,I5,1X,F6.1,1X,F6.1,1X,F7.1,1X,I2,1X,I2,
+     >       1X,I3)
+          ENDIF
+        ELSE
+          WRITE(KOLIST) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >    ISPECL(I),ITRE(I),
+     >    P/ACRtoHA,
+     >    DP/ACRtoHA,
+     >    DBH(I)*INtoCM,
+     >    DGI*INtoCM,
+     >    HT(I)*FTtoM,
+     >    HTG(I)*FTtoM,
+     >    ICR(I),
+     >    CW*FTtoM,
+     >    IDMR,PCT(I),IPTBAL,
+     >    CFV(I)*FT3toM3,
+     >    WK1(I)*FT3toM3,
+     >    BFV(I)*FT3toM3,
+     >    ICDF, IBDF,
+     >    NINT(REAL(ITRUNC(I)+5)*.01*FTtoM)
         ENDIF
-      ELSE
-        WRITE(KOLIST) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >     ISPECL(I),ITRE(I),
-     >     P/ACRtoHA,
-     >     DP/ACRtoHA,
-     >     DBH(I)*INtoCM,
-     >     DGI*INtoCM,
-     >     HT(I)*FTtoM,
-     >     HTG(I)*FTtoM,
-     >     ICR(I),
-     >     CW*FTtoM,
-     >     IDMR,PCT(I),IPTBAL,
-     >     CFV(I)*FT3toM3,
-     >     WK1(I)*FT3toM3,
-     >     BFV(I)*0.,
-     >     ICDF, IBDF,
-     >     NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
-      ENDIF
+C
+      END SELECT
+C
    50 CONTINUE
    60 CONTINUE
 C
@@ -399,7 +513,7 @@ C----------
 C  WRITE HEADER FOR CASE WHERE NO LIVE TREES IN INVENTORY
 C----------
       IF((.NOT.LTREE).AND.LFORMT.AND.LHD) THEN
-        IF (LFORMT) CALL GROHED (KOLIST)
+      IF (LFORMT) CALL GROHED (KOLIST)
         WRITE (KOLIST,11) CLAB1(ITPLAB),NPLT,MGMID,
      >                    CLAB2(IWHO),ICYC,IFINT,JYR,IP
         LTREE=.TRUE.
@@ -421,7 +535,7 @@ C     DECODE DEFECT AND ROUND OFF POINT BAL.
 C----------
       ICDF=(DEFECT(I)-((DEFECT(I)/10000)*10000))/100
       IBDF= DEFECT(I)-((DEFECT(I)/100)*100)
-      IPTBAL=NINT(PTBALT(I))
+      IPTBAL=NINT(PTBALT(I)*FT2pACRtoM2pHA)
 C----------
 C  CYCLE 0, PRINT INPUT DG ONLY, UNLESS DIRECTED TO PRINT ESTIMATES.
 C----------
@@ -434,43 +548,8 @@ C----------
       P = 0.
 C
       IF (LFORMT) THEN
-        IF((P/ACRtoHA).LT.9999.9995 .AND. (DP/ACRtoHA).LT.9999.9995)THEN
+        IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
           WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >      ISPECL(I),ITRE(I),
-     >      P/ACRtoHA,
-     >      DP/ACRtoHA,
-     >      DBH(I)*INtoCM,
-     >      DGI*INtoCM,
-     >      HT(I)*FTtoM,
-     >      HTG(I)*FTtoM,
-     >      ICR(I),
-     >      CW*FTtoM,
-     >      IDMR,PCT(I),IPTBAL,
-     >      CFV(I)*FT3toM3,
-     >      WK1(I)*FT3toM3,
-     >      BFV(I)*0.,
-     >      ICDF, IBDF,
-     >      NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
-        ELSE
-          WRITE(KOLIST,20) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >      ISPECL(I),ITRE(I),
-     >      P/ACRtoHA,
-     >      DP/ACRtoHA,
-     >      DBH(I)*INtoCM,
-     >      DGI*INtoCM,
-     >      HT(I)*FTtoM,
-     >      HTG(I)*FTtoM,
-     >      ICR(I),
-     >      CW*FTtoM,
-     >      IDMR,PCT(I),IPTBAL,
-     >      CFV(I)*FT3toM3,
-     >      WK1(I)*FT3toM3,
-     >      BFV(I)*0.,
-     >      ICDF, IBDF,
-     >      NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
-        ENDIF
-      ELSE
-        WRITE(KOLIST) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
      >    ISPECL(I),ITRE(I),
      >    P/ACRtoHA,
      >    DP/ACRtoHA,
@@ -483,7 +562,42 @@ C
      >    IDMR,PCT(I),IPTBAL,
      >    CFV(I)*FT3toM3,
      >    WK1(I)*FT3toM3,
-     >    BFV(I)*0.,
+     >    BFV(I)*FT3toM3,
+     >    ICDF, IBDF,
+     >    NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
+        ELSE
+          WRITE(KOLIST,20) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >    ISPECL(I),ITRE(I),
+     >    P/ACRtoHA,
+     >    DP/ACRtoHA,
+     >    DBH(I)*INtoCM,
+     >    DGI*INtoCM,
+     >    HT(I)*FTtoM,
+     >    HTG(I)*FTtoM,
+     >    ICR(I),
+     >    CW*FTtoM,
+     >    IDMR,PCT(I),IPTBAL,
+     >    CFV(I)*FT3toM3,
+     >    WK1(I)*FT3toM3,
+     >    BFV(I)*FT3toM3,
+     >    ICDF, IBDF,
+     >    NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
+        ENDIF
+      ELSE
+          WRITE(KOLIST) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >    ISPECL(I),ITRE(I),
+     >    P/ACRtoHA,
+     >    DP/ACRtoHA,
+     >    DBH(I)*INtoCM,
+     >    DGI*INtoCM,
+     >    HT(I)*FTtoM,
+     >    HTG(I)*FTtoM,
+     >    ICR(I),
+     >    CW*FTtoM,
+     >    IDMR,PCT(I),IPTBAL,
+     >    CFV(I)*FT3toM3,
+     >    WK1(I)*FT3toM3,
+     >    BFV(I)*FT3toM3,
      >    ICDF, IBDF,
      >    NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
       ENDIF

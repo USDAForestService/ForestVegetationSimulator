@@ -89,6 +89,8 @@ C----------
         IF (IRT .EQ. 1) GO TO 125
         READ (INPUT,END=155) IRT,A5
         IF (IRT .NE. 3) CALL ERRGRO(.FALSE.,19)
+        CALL fvsGetRtnCode(IRTNCD)
+        IF (IRTNCD.NE.0) RETURN
         WRITE (IPRINT,110) A5(1),A5(2),A5(3),A5(4)
   110   FORMAT(69X,'RESIDUAL:',4X,F4.1,4X,F6.0,4X,F5.0,6X,F5.1)
 C----------
@@ -102,9 +104,9 @@ C----------
         IF (IRT .NE. 3) CALL ERRGRO(.FALSE.,19)
         CALL fvsGetRtnCode(IRTNCD)
         IF (IRTNCD.NE.0) RETURN
-
         WRITE (IPRINT,120) A5
   120   FORMAT(69X,'RESIDUAL:',4X,F4.1,4X,F6.0,4X,F5.0,6X,F5.1,3X,F6.1)
+C
       END SELECT
 C
   125 CONTINUE

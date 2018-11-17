@@ -29,7 +29,7 @@ C
 
       INTEGER I, J
       REAL    CYCLEN, NEWBOT, OLDBOT
-      LOGICAL DEBUG,LPPE
+      LOGICAL DEBUG
       REAL    TONREM, X
 
 C-----------
@@ -125,10 +125,7 @@ C     snags that are picked up during the inventory.  Set the year
 C     of death equal to the mortality measurement period.  These
 C     trees include "OLD" dead and "RECENT" mortlity.
 
-C     Only make this call when the PPE is not being used.
-
-      CALL PPEATV (LPPE)
-      IF (.NOT.LPPE .AND. LFMON2) CALL FMSADD (IY(1)-IFIX(FINTM),3)
+      IF (LFMON2) CALL FMSADD (IY(1)-IFIX(FINTM),3)
  
       RETURN
       END

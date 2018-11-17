@@ -6,7 +6,6 @@ C----------
 C  Purpose:
 C     Get (read) the Fire Model data for a given stand from DA file.
 C
-C     This is part of the Parallel Processing Extension.
 C----------------------------------------------------------------------
 C
 C  Call list definitions:

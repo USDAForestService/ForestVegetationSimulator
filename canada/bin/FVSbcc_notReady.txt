@@ -3,6 +3,7 @@
 ../vbase/evpred.f
 ../vbase/evtstv.f
 ../vbase/fortyp.f
+../vbase/ptbal.f
 ../vbase/sdical.f
 ../vbase/stkval.f
 ../vbase/svout.f
@@ -62,7 +63,6 @@
 ../base/execon.f
 ../base/exfert.f
 ../base/exmpb.f
-../base/exppe.f
 ../base/extree.f
 ../base/filopn.f
 ../base/fndkey.f
@@ -115,7 +115,6 @@
 ../base/opsort.f
 ../base/opstus.f
 ../base/pctile.f
-../base/ptbal.f
 ../base/ptgdecd.f
 ../base/rann.f
 ../base/rcdset.f
@@ -204,15 +203,11 @@
 ../bc/morts.f
 ../bc/natcrz.f
 ../bc/PRGPRM.F77
-../bc/prtexm.f
-../bc/prtrls.f
 ../bc/r6crwd.f
 ../bc/regent.f
 ../bc/revise.f
 ../bc/sitset.f
 ../bc/spctrn.f
-../bc/sumhed.f
-../bc/sumout.f
 ../bc/unblnk.f
 ../bc/vols.f
 ../clim/base/clauestb.f
@@ -258,7 +253,6 @@
 ../common/OUTCOM.F77
 ../common/PDEN.F77
 ../common/PLOT.F77
-../common/PPDNCM.F77
 ../common/RANCOM.F77
 ../common/SCREEN.F77
 ../common/SSTGMC.F77
@@ -472,11 +466,15 @@
 ../fire/ie/fmcfmd.f
 ../fire/ie/fmmois.f
 ../fire/ie/fmsfall.f
+../metric/vbase/gheads.f
+../metric/vbase/prtexm.f
+../metric/vbase/prtrls.f
+../metric/vbase/sumhed.f
+../metric/vbase/sumout.f
 ../metric/base/cwidth.f
 ../metric/base/dense.f
 ../metric/base/evldx.f
 ../metric/base/fvsstd.f
-../metric/base/gheads.f
 ../metric/base/intree.f
 ../metric/base/isstag.f
 ../metric/base/ksstag.f
@@ -556,7 +554,6 @@
 ../ie/cutstk.f
 ../ie/dgbnd.f
 ../ie/dunn.f
-../ie/exppnb.f
 ../ie/rcon.f
 ../kt/bratio.f
 ../kt/findag.f

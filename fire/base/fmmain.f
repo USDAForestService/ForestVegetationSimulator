@@ -9,7 +9,7 @@ C     THE YEARS WITHIN A CYCLE, AND LOOPS OVER EACH STAND, EACH
 C     YEAR. IT CALLS MANY OF THE DIFFERENT PARTS OF THE FIRE MODEL.
 C     FMD IS DOMINANT FUEL MODEL.
 C
-C     CALLED FROM -- GRADD  (PPE AND SINGLE-STAND)
+C     CALLED FROM -- GRADD  (SINGLE-STAND)
 C     CALLS: EVSET4
 C            FMCBA
 C            FMBURN
@@ -135,10 +135,6 @@ C        Initialize some Key variables. (R&C 07/09/96)
 C        Calculate the dominant cover type (as basal area)
 C        Note that in the single stand case, this only needs to be
 C        done once per cycle unless a burn has occurred during the cycle
-C        (if the PPE version will read and write COVTYP and PERCOV then
-C        that version will also need to only read it once too).
-C         NOTE: cycle-boundary version will no longer need to check
-C               version or year as this will be called every cycle.
 
          CALL FMCBA (IYR,0)
          

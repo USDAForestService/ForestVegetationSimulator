@@ -1,0 +1,17 @@
+Subject: dbsqlite treedata read
+Name: Nick Crookston
+Date: Nov 16 2018
+Variants affected: All
+
+Description: When a tree attribute is not in the input database (like HT), it
+was not being initialized correctly. If the column was present, but had zeros
+or nulls, there was no problem. Only if it was missing completely. The the fix
+was to initialize all attributes prior to the calles to bind data.
+
+Impact on users:
+Users with more than one stand in a run, using the dbsqlite programs, that use
+non-standard input data bases should rerun their simulations.
+
+Files: dbsqlite/dbstreesin.f
+
+

@@ -37,7 +37,6 @@
 ../common/OUTCOM.F77
 ../common/PDEN.F77
 ../common/PLOT.F77
-../common/PPDNCM.F77
 ../common/RANCOM.F77
 ../common/SCREEN.F77
 ../common/SNCOM.F77
@@ -61,7 +60,6 @@
 ../ci/dgdriv.f
 ../ci/dgf.f
 ../ci/dubscr.f
-../ci/exppnb.f
 ../ci/findag.f
 ../ci/forkod.f
 ../ci/grinit.f
@@ -168,9 +166,7 @@
 ../base/exbrus.f
 ../base/exdftm.f
 ../base/exorganon.f
-../base/exppe.f
 ../base/extree.f
-../base/extwigvol.f
 ../base/ffert.f
 ../base/ffin.f
 ../base/filopn.f
@@ -400,6 +396,8 @@
 ../volume/R9COEFF.INC
 
 ../vvolume/fvsvol.f
+../vvolume/twigbf.f
+../vvolume/twigcf.f
 
 ../volume/blmtap.f
 ../volume/blmvol.f
