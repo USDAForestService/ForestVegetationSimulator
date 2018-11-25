@@ -12,7 +12,6 @@ C                     ADDITION TO
 C
       IMPLICIT NONE
 C
-C---
 COMMONS
 C
 C
@@ -43,6 +42,8 @@ C
 COMMONS
 C
       CHARACTER*8 TID,CSPECIES
+      CHARACTER*17 TBLNAME
+      CHARACTER*5 NTCUFT,NMCUFT,NBDFT
       CHARACTER*2000 SQLStmtStr
       INTEGER IWHO,I,JYR,IP,ITPLAB,IRCODE,IDMR,ICDF,IBDF,IPTBAL,KODE
       INTEGER ISPC,I1,I2,I3
@@ -64,16 +65,31 @@ C---------
 C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 C---------
       CALL DBSCASE(1)
+      
+C     For CS, LS, NE and SN, the table name is FVS_TreeList_East and the following
+C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
+
+      IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN') THEN
+        TBLNAME = 'FVS_CutList_East'
+        NTCUFT  = 'MCuFt'
+        NMCUFT  = 'SCuFt'
+        NBDFT   = 'SBdFt'
+      ELSE
+        TBLNAME = 'FVS_CutList'
+        NTCUFT  = 'TCuFt'
+        NMCUFT  = 'MCuFt'
+        NBDFT   = 'BdFt'
+      ENDIF
 
 C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
 C     IF IT DOESNT THEN WE NEED TO CREATE IT
 
       IRCODE = fsql3_exec (IoutDBref,"Begin;"//Char(0))
 
-      IRCODE = fsql3_tableexists(IoutDBref,"FVS_CutList"//CHAR(0))
+      IRCODE = fsql3_tableexists(IoutDBref,TRIM(TBLNAME)//CHAR(0))
       IF(IRCODE.EQ.0) THEN
-        SQLStmtStr='CREATE TABLE FVS_CutList'//
-     -             '(CaseID text null,'//
+          SQLStmtStr='CREATE TABLE ' // TRIM(TBLNAME) //
+     -             ' (CaseID text null,'//
      -             'StandID text null,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
@@ -94,9 +110,9 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
      -             'MistCD int null,'//
      -             'BAPctile real null,'//
      -             'PtBAL real null,'//
-     -             'TCuFt real null,'//
-     -             'MCuFt real null,'//
-     -             'BdFt real null,'//
+     -             NTCUFT // ' real null,'//
+     -             NMCUFT // ' real null,'//
+     -             NBDFT  // ' real null,'//
      -             'MDefect int null,'//
      -             'BDefect int null,'//
      -             'TruncHt int null,'//
@@ -198,15 +214,15 @@ C
             IF(ISPOUT17.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
             IF(ISPOUT17.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
 
-            WRITE(SQLStmtStr,*)'INSERT INTO FVS_CutList ',
-     -           '(CaseID,StandID,Year,PrdLen,',
+            WRITE(SQLStmtStr,*)'INSERT INTO ',TBLNAME,
+     -           ' (CaseID,StandID,Year,PrdLen,',
      -           'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
-     -           'MortPA,DBH,DG,',
-     -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
-     -           'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
+     -           'MortPA,DBH,DG,HT,HTG,PctCr,',
+     -           'CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',', 
+     -           NMCUFT,',',NBDFT,',MDefect,BDefect,TruncHt,',
      -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF,TreeAge) VALUES(''',
-     -           CASEID,''',''',TRIM(NPLT),
-     -           ''',',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
+     -           CASEID,''',''',TRIM(NPLT),''',',JYR,',',
+     -           IFINT,",'",trim(ADJUSTL(TID)),"',",I,",'",
      -           trim(CSPECIES),"',",IMC(I),',',ISPECL(I),',',ITRE(I),
      -           ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
      -           ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',

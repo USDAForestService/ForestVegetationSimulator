@@ -1,0 +1,30 @@
+Subject: FVS_Treelist_East table.
+
+Name: Nick Crookston
+
+Date: 11/27/18
+
+Variants affected: SN, LS, and CS
+
+Description: Three columns in the standard treelist output for these variants
+are different than the other variants. For these variants new database output
+tables are created called: FVS_Treelist_East, FVS_ATRTList_East, and 
+FVS_CutList_East. The difference between these tables and the corresponding
+tables from the other variants is that column names change from: 
+TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt.
+
+This change is only done in the dbsqlite code. In the process a slight change
+is made to the code that creates the FVS_Cases table for all variants (no format
+change.
+
+Impact on users: User's of these variants will see the _East suffix on the treelist
+datatables and the tables will have three different column names.
+
+Files:
+/dbsqlite/dbstrls.f -- Modified code as necessary to impliment the change.
+/dbsqlite/dbscuts.f -- Modified code as necessary to impliment the change.
+/dbsqlite/dbscases.f -- Small change to clear up how variant and revision codes
+  are accessed
+
+tests/qFVSsn/snTablesTest.sql -- query changed 
+tests/qFVSsn/snout.txt.save   -- results changed
