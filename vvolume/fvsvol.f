@@ -136,7 +136,6 @@ C
 C           INTEGER CCONSTANT ARGUMENTS - ALL PULPWOOD TREE
 C           ----------
             XTOPD=0.
-            FORST='  '
             CTYPE='F'
             BFPFLG=1
             CUPFLG=1
@@ -192,7 +191,6 @@ C
 C           INTEGER CCONSTANT ARGUMENTS - ALL PULPWOOD TREE
 C           ----------
             XTOPD=0.
-            FORST='  '
             CTYPE='F'
             BFPFLG=1
             CUPFLG=1

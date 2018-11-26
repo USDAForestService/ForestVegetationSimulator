@@ -35,6 +35,10 @@ C
       INCLUDE 'PLOT.F77'
 C
 C
+      INCLUDE 'INCLUDESVN.F77'
+
+C
+C
 COMMONS
 C---
 
@@ -48,14 +52,6 @@ C---
       CHARACTER(len=MaxStringLen) TIMESTAMP
       INTEGER IFORSURE, IFORSR, I, KODE, IRCODE
       CHARACTER(len=36) CID
-
-      CHARACTER*2 VAR
-
-      INCLUDE 'INCLUDESVN.F77'
-
-      CALL REVISE(VARACD,REV)
-      VAR=VARACD
-
 C-----
 C     CHECK TO SEE IF WE ARE NEEDING TO CONTINUE
 C-----
@@ -156,15 +152,16 @@ C     CREATE DATETIME
       CALL GRDTIM(DATO,TIM)
       TIMESTAMP = DATO(7:10)//'-'//DATO(1:5)//'-'//TIM
 
+C     GET THE REVISION.
+      CALL REVISE(VARACD,REV)
+
 C     STRIP 3-CHARACTER EXTENSION (IF PRESENT) FROM KEYFNAME
+
       KEYFNAME = TRIM(KEYFNAME)
       I = INDEX(".KEY",KEYFNAME)
       IF (I.GT.0 .AND. I.EQ.LEN_TRIM(KEYFNAME)-3) THEN
         KEYFNAME = KEYFNAME(1:I-4)
       ENDIF 
-C----------
-C           MAKE SURE WE DO NOT EXCEED THE MAX TABLE SIZE IN EXCEL
-C----------
       IF (LENSLS.EQ.-1) THEN
         SLSET =""
       ELSE
@@ -190,7 +187,9 @@ C----------
      - TRIM(ADJUSTL(MGMID)),"','",
      - TRIM(ADJUSTL(ITITLE)),"','",
      - TRIM(ADJUSTL(KEYFNAME)),"',",
-     - SAMWT,",'",VAR,"',","'",SVN,"','",REV,"','",
+     - SAMWT,",'",VARACD,"','",
+     - TRIM(ADJUSTL(SVN)),"','",
+     - TRIM(ADJUSTL(REV)),"','",
      - TRIM(ADJUSTL(SLSET)),"','",
      - TRIM(ADJUSTL(TIMESTAMP)),"');"
 

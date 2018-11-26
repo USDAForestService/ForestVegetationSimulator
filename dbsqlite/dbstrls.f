@@ -5,14 +5,11 @@ C DBSQLITE $Id$
 C----------
 C     PURPOSE: TO OUTPUT THE TREELIST DATA TO THE DATABASE
 C
-C     AUTH: D. GAMMEL -- SEM -- JULY 2002
-C
 C     INPUT: IWHO  - THE WHO CALLED ME VALUE WHICH MUST BE 1
 C                     INORDER FOR US TO CONTINUE
 C            KODE  - FOR LETTING CALLING ROUTINE KNOW IF THIS IS A
 C                     REDIRECT OF THE FLAT FILE REPORT OR IN
-C                     ADDITION TO
-C
+C                     ADDITION TO IT
 COMMONS
 C
 C
@@ -43,6 +40,8 @@ C
 COMMONS
 C
       CHARACTER*8 TID,CSPECIES
+      CHARACTER*17 TBLNAME
+      CHARACTER*5 NTCUFT,NMCUFT,NBDFT
       CHARACTER*2000 SQLStmtStr
       INTEGER IWHO,I,IP,ITPLAB,iRet,IDMR,ICDF,IBDF,IPTBAL,KODE
       INTEGER ISPC,I1,I2,I3,ColNumber
@@ -51,13 +50,11 @@ C
       REAL TEM
       REAL*8 CW,P,DGI,DP,ESTHT,TREAGE,DDBH,DHT,DHTG,DPCT,
      >       DCFV,DWK1,DBFV,DHT2TD2,DHT2TD1
-
-     
+    
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
      >        fsql3_bind_text,fsql3_reset
-
-
+     
 C     IF TREEOUT IS NOT TURNED ON OR THE IWHO VARIABLE IS NOT 1
 C     THEN JUST RETURN
 
@@ -68,13 +65,28 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
       IF(ITREELIST.EQ.2) KODE = 0
 
       CALL DBSCASE(1)
+      
+C     For CS, LS, NE and SN, the table name is FVS_TreeList_East and the following
+C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
+
+      IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN' .OR.
+     >    VARACD.EQ.'NE') THEN
+        TBLNAME = 'FVS_TreeList_East'
+        NTCUFT  = 'MCuFt'
+        NMCUFT  = 'SCuFt'
+        NBDFT   = 'SBdFt'
+      ELSE
+        TBLNAME = 'FVS_TreeList'
+        NTCUFT  = 'TCuFt'
+        NMCUFT  = 'MCuFt'
+        NBDFT   = 'BdFt'
+      ENDIF
 
       iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
-      iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_TreeList"//CHAR(0))
+      iRet = fsql3_tableexists(IoutDBref,TRIM(TBLNAME)//CHAR(0))
       IF(iRet.EQ.0) THEN
-          SQLStmtStr='CREATE TABLE FVS_TreeList('//
-     -             'CaseID text,'//
+          SQLStmtStr='CREATE TABLE ' // TRIM(TBLNAME) //
+     -             ' (CaseID text,'//
      -             'StandID text,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
@@ -95,9 +107,9 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
      -             'MistCD int null,'//
      -             'BAPctile real null,'//
      -             'PtBAL real null,'//
-     -             'TCuFt real null,'//
-     -             'MCuFt real null,'//
-     -             'BdFt real null,'//
+     -             NTCUFT // ' real null,'//
+     -             NMCUFT // ' real null,'//
+     -             NBDFT  // ' real null,'//
      -             'MDefect int null,'//
      -             'BDefect int null,'//
      -             'TruncHt int null,'//
@@ -112,12 +124,12 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
            RETURN
          ENDIF
       ENDIF
-      WRITE(SQLStmtStr,*)'INSERT INTO FVS_TreeList',
+      WRITE(SQLStmtStr,*)'INSERT INTO ',TBLNAME,
      -  ' (CaseID,StandID,Year,PrdLen,',
      -  'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
      -  'MortPA,DBH,DG,',
-     -  'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
-     -  'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
+     -  'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',',  
+     -  NMCUFT,',',NBDFT,',MDefect,BDefect,TruncHt,',
      -  'EstHt,ActPt,Ht2TDCF,Ht2TDBF,TreeAge) VALUES (''',
      -  CASEID,''',''',TRIM(NPLT),''',',IY(ICYC+1),',',IFINT,
      -  ',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
@@ -323,6 +335,7 @@ C       DETERMINE TREE AGE
         ENDIF        
 
 C       CYCLE 0, PRINT INPUT DG ONLY, UNLESS DIRECTED TO PRINT ESTIMATES.
+
         DGI=DG(I)
         IF(ICYC.EQ.0 .AND. TEM.EQ.0) DGI=WORK1(I)
 
@@ -348,7 +361,8 @@ C
         IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
         
         ColNumber=1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,TID)            
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,TID,           
+     >                         LEN_TRIM(TID))
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
         ColNumber=ColNumber+1
