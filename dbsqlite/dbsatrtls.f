@@ -69,7 +69,8 @@ C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 C     For CS, LS, NE and SN, the table name is FVS_TreeList_East and the following
 C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
 
-      IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN') THEN
+      IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN' .OR.
+     >    VARACD.EQ.'NE') THEN
         TBLNAME = 'FVS_ATRTList_East'
         NTCUFT  = 'MCuFt'
         NMCUFT  = 'SCuFt'

@@ -4,7 +4,7 @@ Name: Nick Crookston
 
 Date: 11/27/18
 
-Variants affected: SN, LS, and CS
+Variants affected: NE, SN, LS, and CS
 
 Description: Three columns in the standard treelist output for these variants
 are different than the other variants. For these variants new database output
@@ -22,7 +22,8 @@ datatables and the tables will have three different column names.
 
 Files:
 /dbsqlite/dbstrls.f -- Modified code as necessary to impliment the change.
-/dbsqlite/dbscuts.f -- Modified code as necessary to impliment the change.
+/dbsqlite/dbscuts.f -- ditto
+/dbsqlite/dbsatrtls.f -- ditto
 /dbsqlite/dbscases.f -- Small change to clear up how variant and revision codes
   are accessed
 
