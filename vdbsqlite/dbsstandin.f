@@ -752,7 +752,7 @@ C     SITE INDEX PROCESSING
             SELECT CASE (VARACD)
             CASE('CA','NC','SO','WS')
                IF(LKECHO)WRITE(JOSTND,27)
-   27          FORMAT(38X,'   SITE INDEX IS THAN 8 AND ',
+   27          FORMAT(38X,'   SITE INDEX IS GREATER THAN 8 AND ',
      &                'WILL BE INTERPRETED AS A DUNNING CODE.')
             END SELECT
             CALL DUNN(RSTANDDATA(35))

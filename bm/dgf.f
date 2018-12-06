@@ -589,7 +589,10 @@ C----------
         ASPTEM=ASPECT
       ENDIF
       TSITE = SITEAR(ISPC)
-      IF(ISPC.EQ.7) TSITE = -43.78 + 2.16 * TSITE
+      IF(ISPC.EQ.7) THEN
+        TSITE = -43.78 + 2.16 * TSITE
+        IF (TSITE.LE.1.) TSITE=1.
+      ENDIF
       IF(ISPC.EQ.5) TSITE = TSITE * 3.28
       TEMEL=ELEV
       IF(ISPC.EQ.16 .OR. ISPC.EQ.18)THEN

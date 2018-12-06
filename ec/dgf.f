@@ -609,7 +609,12 @@ C
       CASE (12)
         XSITE=XSITE*3.281
       CASE (28)
-        XSITE=-37.60812*ALOG(1-(XSITE/114.24569)**.4444)
+        XSITE=1-(XSITE/114.24569)**.4444
+        IF (XSITE.LE.0) THEN
+          XSITE=125.
+        ELSE
+          XSITE=-37.60812*ALOG(XSITE)
+        ENDIF
       CASE (31)
         XSITE=XSITE*3.281
       END SELECT
