@@ -50,8 +50,8 @@ C     PARSE OUT AND REPLACE WITH USER DEFINED AND EVENT MONITOR VAR VALS
       IF(KODE.EQ.0) THEN
 C       THERE WAS A PROBLEM IN PARSING THE SQL STATEMENT
         WRITE (JOSTND,110) TRIM(SQLCMD)
-  110   FORMAT (/'********   ERROR: SQLOUT/SQLIN PARSING FAILED. '
-     &            'SQL STMT: ',A)
+  110   FORMAT (/T12,'SQL STMT: ',A/
+     &         '********   ERROR: SQLOUT/SQLIN PARSING FAILED. ')
         CALL RCDSET(2,.TRUE.)
         RETURN
       ENDIF
@@ -59,6 +59,10 @@ C       THERE WAS A PROBLEM IN PARSING THE SQL STATEMENT
       iRet = fsql3_prepare(Iconn,trim(SQLCMD)//CHAR(0))  
       IF (iRet.NE.0) THEN 
         iRet = fsql3_finalize(Iconn)
+        WRITE (JOSTND,120) TRIM(SQLCMD)
+  120   FORMAT (/T12,'SQL STMT: ',A/
+     &         '********   ERROR: SQLOUT/SQLIN PREPARE FAILED. ')
+        CALL RCDSET(2,.TRUE.)
         RETURN 
       ENDIF
       DO WHILE(fsql3_step(Iconn)==1)

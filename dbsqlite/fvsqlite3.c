@@ -23,12 +23,30 @@
 sqlite3 *db = NULL;
 sqlite3_stmt *stmt = NULL;
 
-// set the maximum number of opened databases.
+// set the maximum number of opened databases, for FVS, one input and one output
 #define fsql3_MXDBS 2
 
 int fsql3_dbsNum = -1;
 sqlite3 *dbset[fsql3_MXDBS];
 sqlite3_stmt *stmtset[fsql3_MXDBS];
+
+static int busy_handler(void *data, int retry)
+{
+  static int sleep_ms=10;
+  static int max_retry=2000;
+  //fprintf(stderr,"DB SQLITE_BUSY hit %d times, max= %d, ms= %d\n",retry,max_retry,sleep_ms);
+  if (retry < max_retry) {
+		// Sleep a while and retry again. 
+		//fprintf(stderr,"DB SQLITE_BUSY hit %d times (max= %d), retry.\n",retry,max_retry);
+		sqlite3_sleep(sleep_ms); 
+		// Return non-zero to let caller retry again. 
+		return 1;
+	}
+	// Return zero to let caller return SQLITE_BUSY immediately.
+	//fprintf(stderr,"Error: DB retried %d times and is exiting.\n",retry);
+	return 0;
+}
+
 
 // returns the result of sqlite3_open, the database number is stored in dbnum
 // these values are 0 based. 
@@ -56,6 +74,7 @@ int fsql3_open_(int *dbnum, char *dbname)
   if (*dbnum > -1) rc = sqlite3_open(dbname, &dbset[*dbnum]);
   if (rc == 0) 
   {
+    sqlite3_busy_handler(dbset[*dbnum], busy_handler, NULL);
     sqlite3_exec(dbset[*dbnum],"PRAGMA synchronous=0;", NULL, NULL, NULL);
     sqlite3_exec(dbset[*dbnum],"PRAGMA temp_store=2;", NULL, NULL, NULL);
     sqlite3_exec(dbset[*dbnum],"PRAGMA journal_mode=MEMORY;", NULL, NULL, NULL);
@@ -76,8 +95,11 @@ int fsql3_close_(int *dbnum)
 }
 // query without returned values
 int fsql3_exec_(int *dbnum, char *sql)
-{  
-	return sqlite3_exec(dbset[*dbnum], sql, NULL, NULL, NULL);
+{ 
+	int rc = sqlite3_exec(dbset[*dbnum], sql, NULL, NULL, NULL);
+  //fprintf (stderr," exec rc= %d, SQLITE_BUSY= %d\n",rc,SQLITE_BUSY);
+  if (rc == SQLITE_BUSY) fprintf(stderr, "Database locked\n");
+  return rc;
 }
 
 // query with returned value passed back as a character string with max length
@@ -128,8 +150,11 @@ int fsql3_exec2_(int *dbnum, char *sql, char *msg, int *txtlen)
 } 
 // standard prepare
 int fsql3_prepare_(int *dbnum, char *sql)
-{
-  return sqlite3_prepare_v2(dbset[*dbnum], sql, -1, &stmtset[*dbnum], NULL);
+{//usleep(500000); = 1/2 second 
+  int rc = sqlite3_prepare_v2(dbset[*dbnum], sql, -1, &stmtset[*dbnum], NULL);
+  //fprintf (stderr," prepare rc= %d, SQLITE_BUSY= %d\n",rc,SQLITE_BUSY);
+  if (rc == SQLITE_BUSY) fprintf(stderr, "Database locked\n");
+  return rc;
 }
 // standard bind double
 int fsql3_bind_double_(int *dbnum, int *order, double *realvalue)
@@ -199,6 +224,8 @@ SQLITE_FLOAT    2
 SQLITE3_TEXT    3
 SQLITE_BLOB     4
 SQLITE_NULL     5
+Locked error code:
+SQLITE_BUSY   6
 */
 
 // get a integer, regardless of how the data are stored. Last argument
@@ -342,8 +369,8 @@ int fsql3_tableexists_(int *dbnum, char *tname)
   char sql[501];
   snprintf(sql,500,"select _ROWID_ from sqlite_master where name = '%s';",tname);
   sqlite3_prepare_v2(dbset[*dbnum], sql, -1, &stmtset[*dbnum], NULL);
-  int rtn = SQLITE_ROW == sqlite3_step(stmtset[*dbnum]);
+  int rc = SQLITE_ROW == sqlite3_step(stmtset[*dbnum]);
   sqlite3_finalize(stmtset[*dbnum]);
   stmtset[*dbnum] = NULL;
-  return rtn;
+  return rc;
 }

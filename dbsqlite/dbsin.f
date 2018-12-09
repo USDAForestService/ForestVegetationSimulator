@@ -22,7 +22,8 @@ COMMONS
 
       INTEGER    KWCNT, STRLEN, IDT, ISDSP, iRet
       PARAMETER (KWCNT = 37)              
-
+      INTEGER, PARAMETER :: MxMsg = 100
+      CHARACTER(LEN=MxMsg) Msg      
       CHARACTER*8  TABLEME(KWCNT), PASKEY,CSPOUT
       CHARACTER*(*) KEYWRD
       CHARACTER*10 KARD(7)
@@ -37,7 +38,7 @@ COMMONS
       INTEGER      KODE,IPRMPT,NUMBER
       REAL         ARRAY(*),SDLO,SDHI
       
-      integer  fsql3_prepare
+      integer  fsql3_prepare,fsql3_errmsg
 
       DATA TABLEME /
      >     'END     ','DSNOUT  ','SQLOUT  ','SUMMARY ','COMPUTE ',
@@ -157,7 +158,7 @@ C     CHECK TO SEE IF A DATA BASE WAS SUCCESSFULLY OPENED
         ICALIB    = 0
 
         WRITE(JOSTND,215)TRIM(DSNOUT)
-  215   FORMAT(T12,'DBS ERROR: OUTPUT OPEN FAILED FOR DSN:',A)
+  215   FORMAT(T12,'********  ERROR: OUTPUT OPEN FAILED FOR DSN:',A)
       ENDIF
       GOTO 10
   300 CONTINUE
@@ -262,6 +263,8 @@ C       CREATE QUERY STRING
      -  CHAR(39),' AND Inv_Year = ',IY(1)
 
         CALL DBSSTANDIN(STNDSQL,LKECHO)
+        CALL fvsGetRtnCode(IRTNCD)
+        IF (IRTNCD.NE.0) RETURN
       ENDIF
 
       GOTO 10
@@ -286,7 +289,7 @@ C                        OPTION NUMBER 10 -- DSNIN
       CALL DBSOPEN(.FALSE.,.TRUE.,KODE)
       IF (KODE.NE.0) THEN
         WRITE(JOSTND,1015)TRIM(DSNIN)
- 1015   FORMAT(T12,'DBS ERROR: INPUT OPEN FAILED FOR DSN:',A)
+ 1015   FORMAT(T12,'********   ERROR: INPUT OPEN FAILED FOR DSN:',A)
       ENDIF
       GOTO 10
  1100 CONTINUE
@@ -304,12 +307,14 @@ C       PARSE OUT AND REPLACE WITH USER DEFINED AND EVENT MONITOR VAR VALS
         IF(KODE.EQ.0) THEN
 C         THERE WAS A PROBLEM IN PARSING THE SQL STATEMENT
           WRITE(JOSTND,1120) 'STANDSQL',TRIM(STNDSQL)
- 1120     FORMAT ('********  WARNING: ',A,' CAN NOT PREFORM'
+ 1120     FORMAT ('********  ERROR: ',A,' CAN NOT PREFORM'
      &      ' SUBSTITUTIONS IN SQL COMMAND: ',A)
           CALL RCDSET(2,.TRUE.)
           RETURN
         ENDIF
         CALL DBSSTANDIN(STNDSQL,LKECHO)
+        CALL fvsGetRtnCode(IRTNCD)
+        IF (IRTNCD.NE.0) RETURN
       ENDIF
       GOTO 10
  1200 CONTINUE
@@ -322,6 +327,7 @@ C                        OPTION NUMBER 12 -- TREESQL
       IF (IRTNCD.NE.0) RETURN
       
 C     MAKE SURE WE HAVE AN OPEN DATA BASE
+
       IF(IinDBref.EQ.-1) CALL DBSOPEN(.FALSE.,.TRUE.,KODE)
 
       IF (KODE.EQ.0) THEN
@@ -338,10 +344,16 @@ C        EXECUTE QUERY
          IF (iRet.EQ.0) THEN
            ITREEIN = 1
            CALL INTREE(TMPSTR,2,ISDSP,SDLO,SDHI,LKECHO)
-           CALL fvsGetRtnCode(IRTNCD)
-           IF (IRTNCD.NE.0) RETURN
            MORDAT = .TRUE.
+         ELSE
+           iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
+           WRITE (JOSTND,1220) TRIM(SQLSTR), Msg(:iRet)
+ 1220      FORMAT(/T12,'SQL=',A/T12,'Error Msg=',A/,
+     >       '********   ERROR: SQL COMMAND FAILED.')
+           CALL RCDSET (2,.TRUE.)
          ENDIF
+         CALL fvsGetRtnCode(IRTNCD)
+         IF (IRTNCD.NE.0) RETURN
          ITREEIN = 0
       ENDIF
       GOTO 10
