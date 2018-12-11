@@ -19,7 +19,7 @@ C
 C
 C
 COMMONS
-C  ------------------------   
+C  ------------------------
 C  NATIONAL FORESTS:
 C  606 = MT HOOD
 C  608 = OKANOGAN
@@ -33,14 +33,14 @@ C
 C  NOTE: GIFFORD PINCHOT GETS IGL=2 AND MT BAKER/SNOQUALMIE GETS IGL=3.
 C        THIS IS SO FOREST SPECIFIC HT-DBH EQNS CAN BE INDEXED IN
 C        SUBROUTINE **HTDBH**.
-C  ------------------------                                   
-C  RESERVATION PSUEDO CODES:                                  
-                                                              
-C  8106	= COLVILLE RESERVATION	    (MAPPED TO 608 OKANOGAN)  
-C  8117	= UMATILLA RESERVATION	    (MAPPED TO 606 MT. HOOD)  
-C  8118	= WARM SPRINGS RESERVATION	(MAPPED TO 606 MT. HOOD)  
-C  8130	= YAKAMA NATION RESERVATION	(MAPPED TO 613 SNOQUALMIE)
-C  8131	= SPOKANE RESERVATION	      (MAPPED TO 617 WENATCHEE) 
+C  ------------------------
+C  RESERVATION PSUEDO CODES:
+
+C  8106 = COLVILLE RESERVATION      (MAPPED TO 608 OKANOGAN)
+C  8117 = UMATILLA RESERVATION      (MAPPED TO 606 MT. HOOD)
+C  8118 = WARM SPRINGS RESERVATION  (MAPPED TO 606 MT. HOOD)
+C  8130 = YAKAMA NATION RESERVATION (MAPPED TO 613 SNOQUALMIE)
+C  8131 = SPOKANE RESERVATION       (MAPPED TO 617 WENATCHEE)
 
       INTEGER JFOR(7),KFOR(7),NUMFOR,I
       DATA JFOR/606,608,617,699,603,613, 0 /, NUMFOR /6/
@@ -53,49 +53,49 @@ C     FOR THIS VARIANT FOUND IN DATA ARRAY JFOR
         IF (KODFOR .EQ. JFOR(I)) THEN
           IFOR = I
           GOTO 200
-        ENDIF 
-   10 CONTINUE   
+        ENDIF
+   10 CONTINUE
 
       SELECT CASE (KODFOR)
-        
-C       CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE     
-        CASE (8106)         
-          WRITE(JOSTND,60)    
-   60     FORMAT(T12,'Colville Reservation (8106) BEING MAPPED ',      
-     &    'TO Okanogan NF (608) FOR FURTHER PROCESSING.') 
-          IFOR = 2      
-        CASE (8117)         
-          WRITE(JOSTND,61)     
-   61     FORMAT(T12,'Umatilla Reservation (8117) BEING MAPPED ',      
-     &    'TO Mt. Hood NF (606) FOR FURTHER PROCESSING.') 
-          IFOR = 1       
-        CASE (8118)         
-          WRITE(JOSTND,62)     
-   62     FORMAT(T12,'Warm Springs Reservation (8118) BEING MAPPED ',      
-     &    'TO Mt. Hood NF (606) FOR FURTHER PROCESSING.') 
-          IFOR = 1  
-        CASE (8130)         
-          WRITE(JOSTND,63)     
-   63     FORMAT(T12,'Yakama Nation Reservation (8130) BEING MAPPED ',      
-     &    'TO Snoqualmie NF (613) FOR FURTHER PROCESSING.') 
-          IFOR = 6 
-        CASE (8131)         
-          WRITE(JOSTND,64)    
-   64     FORMAT(T12,'Spokane Reservation (8131) BEING MAPPED ',      
-     &    'TO Wenatchee NF (617) FOR FURTHER PROCESSING.') 
-          IFOR = 3       
+
+C       CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE
+        CASE (8106)
+          WRITE(JOSTND,60)
+   60     FORMAT(T12,'COLVILLE RESERVATION (8106) BEING MAPPED ',
+     &    'TO OKANOGAN NF (608) FOR FURTHER PROCESSING.')
+          IFOR = 2
+        CASE (8117)
+          WRITE(JOSTND,61)
+   61     FORMAT(T12,'UMATILLA RESERVATION (8117) BEING MAPPED ',
+     &    'TO MT. HOOD NF (606) FOR FURTHER PROCESSING.')
+          IFOR = 1
+        CASE (8118)
+          WRITE(JOSTND,62)
+   62     FORMAT(T12,'WARM SPRINGS RESERVATION (8118) BEING MAPPED ',
+     &    'TO MT. HOOD NF (606) FOR FURTHER PROCESSING.')
+          IFOR = 1
+        CASE (8130)
+          WRITE(JOSTND,63)
+   63     FORMAT(T12,'YAKAMA NATION RESERVATION (8130) BEING MAPPED ',
+     &    'TO SNOQUALMIE NF (613) FOR FURTHER PROCESSING.')
+          IFOR = 6
+        CASE (8131)
+          WRITE(JOSTND,64)
+   64     FORMAT(T12,'SPOKANE RESERVATION (8131) BEING MAPPED ',
+     &    'TO WENATCHEE NF (617) FOR FURTHER PROCESSING.')
+          IFOR = 3
 C       END CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE
 
 C       LOCATION CODE ERROR TRAP
-        CASE DEFAULT 
+        CASE DEFAULT
           CALL ERRGRO (.TRUE.,3)
           WRITE(JOSTND,11) JFOR(IFOR)
    11     FORMAT(T12,'FOREST CODE USED IN THIS PROJECTION IS',I4)
           USEIGL = .FALSE.
       END SELECT
-         
-  200 CONTINUE 
-  
+
+  200 CONTINUE
+
 C     FOREST MAPPING CORRECTION
       SELECT CASE (IFOR)
         CASE (5)
@@ -114,14 +114,14 @@ C     FOREST MAPPING CORRECTION
           IGL=3
           USEIGL = .FALSE.
       END SELECT
-      
-      
+
+
 C     SET THE IGL VARIABLE ONLY IF DEFAULT FOREST IS USED
 C     GEOGRAPHIC LOCATION CODE: 1=NORTH, 2=CENTRAL, 3=SOUTH
-C     Used to set some equations in regeneration and perhaps 
-C     Height-Diameter in different variants.
-			IF (USEIGL) IGL = KFOR(IFOR)
+C     USED TO SET SOME EQUATIONS IN REGENERATION AND PERHAPS
+C     HEIGHT-DIAMETER IN DIFFERENT VARIANTS.
+      IF (USEIGL) IGL = KFOR(IFOR)
 
       KODFOR=JFOR(IFOR)
       RETURN
-      END    
+      END

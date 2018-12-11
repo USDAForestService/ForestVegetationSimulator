@@ -496,10 +496,6 @@ C
          IY(1) = ISTANDDATA(1)
          IF(LKECHO)WRITE(JOSTND,'(T12,''INV_YEAR: '',T34,I6)') IY(1)
       ENDIF
-      IF(Long_LI.NE.NullInt) THEN
-         TLONG = RSTANDDATA(3)
-         IF(LKECHO)WRITE(JOSTND,'(T12,''LONGITUDE: '',T29,F11.4)') TLONG
-      ENDIF
       IF((Region_LI.NE.NullInt).AND.
      >    LKECHO)WRITE(JOSTND,'(T12,''REGION: '',T34,I6)')
      >    ISTANDDATA(29)
@@ -547,7 +543,12 @@ C     Location code overrides.
 C     SET DEFAULT LOCATION CODE IF NOT PRESENT IN INPUT DATA
 
       IF(KODFOR.EQ.0)CALL FORKOD
-C
+
+      IF(Long_LI.NE.NullInt) THEN
+         TLONG = RSTANDDATA(3)
+         IF(LKECHO)WRITE(JOSTND,'(T12,''LONGITUDE: '',T29,F11.4)') TLONG
+      ENDIF
+
       IF(Lat_LI.NE.NullInt) THEN
          TLAT = RSTANDDATA(2)
          IF(LKECHO)WRITE(JOSTND,'(T12,''LATITUDE: '',T29,F11.4)') TLAT
