@@ -133,16 +133,9 @@ C----------
      & 214, 215, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 312,
      & 201, 205, 208, 224, 311/
       DATA NUMFOR/28/
-C     LOGICAL USEIGL/.TRUE./   IGL not assigned in CR...
+      LOGICAL FORFOUND/.FALSE./
 
-C     CONFIRMS THAT KODFOR IS AN ACCEPTED FVS LOCATION CODE
-C     FOR THIS VARIANT FOUND IN DATA ARRAY JFOR
-      DO 10 I=1,NUMFOR
-        IF (KODFOR .EQ. JFOR(I)) THEN
-          IFOR = I
-          GOTO 200
-        ENDIF
-   10 CONTINUE
+
 
       SELECT CASE (KODFOR)
 C       CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE
@@ -564,8 +557,22 @@ C       CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE
           IFOR = 28
 C       END CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE
 
-C       LOCATION CODE ERROR TRAP
+
         CASE DEFAULT
+
+C         CONFIRMS THAT KODFOR IS AN ACCEPTED FVS LOCATION CODE
+C         FOR THIS VARIANT FOUND IN DATA ARRAY JFOR
+          DO 10 I=1,NUMFOR
+            IF (KODFOR .EQ. JFOR(I)) THEN
+              IFOR = I
+              FORFOUND = .TRUE.
+              EXIT
+            ENDIF
+   10     CONTINUE
+
+C         LOCATION CODE ERROR TRAP
+          IF (.NOT. FORFOUND) THEN
+
 C           ERROR TRAPPING FOR MISSING LOCATIONS BASED UPON
 C           CENTRAL ROCKIES VARIANT - 5 SUBMODELS IMODTY
 C             SOUTHWEST MIXED CONIFER    : 1
@@ -573,37 +580,42 @@ C             SOUTHWEST PONDEROSA PINE   : 2
 C             BLACK HILLS PONDEROSA PINE : 3
 C             SPRUCE-FIR                 : 4
 C             LODGEPOLE PINE             : 5
-          CALL ERRGRO (.TRUE.,3)
-          SELECT CASE (IMODTY)
-            CASE (1:2)
-              IF(IFOR.EQ.0) THEN
-C               CIBOLA
-                IFOR = 15
-              ENDIF
-              IF(KODFOR.GT.0 .AND. KODFOR.LT.300) THEN
-C               SAN JUAN
-                IFOR = 10
-              ENDIF
-            CASE (3)
-              IF(IFOR.EQ.0) THEN
-C               BIGHORN
-                IFOR = 2
-              ENDIF
-            CASE DEFAULT
-              IF(IFOR.EQ.0) THEN
-C               GMUG
-                IFOR = 4
-              ENDIF
-          END SELECT
 
-          IF(KODFOR.GT.0) THEN
-            WRITE(JOSTND,149) JFOR(IFOR)
-  149       FORMAT(T12,'FOREST CODE USED IN THIS PROJECTION IS ',I4)
+      PRINT *, 'hey VARIABLES IFOR: ', IFOR, 'KODFOR: ', 
+     &        KODFOR, 'IMODTY: ', IMODTY
+            CALL ERRGRO (.TRUE.,3)
+            SELECT CASE (IMODTY)
+              CASE ( :2)
+                IF(IFOR.EQ.0) THEN
+C                 CIBOLA
+                  IFOR = 15
+                ENDIF
+                IF(KODFOR.GT.0 .AND. KODFOR.LT.300) THEN
+C                 SAN JUAN
+                  IFOR = 10
+                ENDIF
+              CASE (3)
+                IF(IFOR.EQ.0) THEN
+C                 BIGHORN
+                  IFOR = 2
+                ENDIF
+              CASE DEFAULT
+                IF(IFOR.EQ.0) THEN
+C                 GMUG
+                  IFOR = 4
+                ENDIF
+            END SELECT
+
+            IF(KODFOR.GT.0) THEN
+              WRITE(JOSTND,149) JFOR(IFOR)
+  149         FORMAT(T12,'FOREST CODE USED IN THIS PROJECTION IS ',I4)
+            ENDIF
+
           ENDIF
 
       END SELECT
 
-  200 CONTINUE
+
 C     FOREST MAPPING CORRECTION
       SELECT CASE (IFOR)
         CASE (24)

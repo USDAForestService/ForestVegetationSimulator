@@ -72,203 +72,199 @@ C  7535 = LITTLE TRAVERSE BAY RESERVATION (MAPPED TO 910  HIAWATHA)
       DATA JFOR/902,903,904,906,907,909,910,913,924/
       DATA NUMFOR/9/
       DATA KFOR/9*1/
-      LOGICAL USEIGL/.TRUE./
+      LOGICAL FORFOUND/.FALSE./,USEIGL/.TRUE./
 
-C     CONFIRMS THAT KODFOR IS AN ACCEPTED FVS LOCATION CODE
-C     FOR THIS VARIANT FOUND IN DATA ARRAY JFOR
-      DO 10 I=1,NUMFOR
-        IF (KODFOR .EQ. JFOR(I)) THEN
-          IFOR = I
-          GOTO 200
-        ENDIF 
-   10 CONTINUE   
 
       SELECT CASE (KODFOR)
         
 C       CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE
         CASE (7107)          
           WRITE(JOSTND,55)  
-   55     FORMAT(T12,'Lake Traverse Reservation (7107) BEING ',     
-     &    'MAPPED TO Chippewa NF (903) FOR FURTHER PROCESSING.')          
+   55     FORMAT(T12,'LAKE TRAVERSE RESERVATION (7107) BEING ',     
+     &    'MAPPED TO CHIPPEWA NF (903) FOR FURTHER PROCESSING.')          
           IFOR = 2           
         CASE (7109)          
           WRITE(JOSTND,56)   
-   56     FORMAT(T12,'Turtle Mountain Off-Res. TL (7109) BEING ',     
-     &    'MAPPED TO Chippewa NF (903) FOR FURTHER PROCESSING.')          
+   56     FORMAT(T12,'TURTLE MOUNTAIN OFF-RES. TL (7109) BEING ',     
+     &    'MAPPED TO CHIPPEWA NF (903) FOR FURTHER PROCESSING.')          
           IFOR = 2           
         CASE (7501)
           WRITE(JOSTND,57)   
-   57     FORMAT(T12,'Upper Sioux Community (7501) BEING ',     
-     &    'MAPPED TO Chippewa (903) FOR FURTHER PROCESSING.')
+   57     FORMAT(T12,'UPPER SIOUX COMMUNITY (7501) BEING ',     
+     &    'MAPPED TO CHIPPEWA (903) FOR FURTHER PROCESSING.')
           IFOR = 2           
         CASE (7502)
           WRITE(JOSTND,58)   
-   58     FORMAT(T12,'Lower Sioux Indian Community (7502) BEING ',     
-     &    'MAPPED TO Chippewa NF (903) FOR FURTHER PROCESSING.')          
+   58     FORMAT(T12,'LOWER SIOUX INDIAN COMMUNITY (7502) BEING ',     
+     &    'MAPPED TO CHIPPEWA NF (903) FOR FURTHER PROCESSING.')          
           IFOR = 2           
         CASE (7506)
           WRITE(JOSTND,59)   
-   59     FORMAT(T12,'Prairie Island Off-Res. TL (7506) BEING ',     
-     &    'MAPPED TO Chequamegon (902) FOR FURTHER PROCESSING.')          
+   59     FORMAT(T12,'PRAIRIE ISLAND OFF-RES. TL (7506) BEING ',     
+     &    'MAPPED TO CHEQUAMEGON (902) FOR FURTHER PROCESSING.')          
           IFOR = 1           
         CASE (7507)
           WRITE(JOSTND,60)   
-   60     FORMAT(T12,'Shakopee Mdewakanton Sioux (7507) BEING ',     
-     &    'MAPPED TO Chippewa NF (903) FOR FURTHER PROCESSING.')          
+   60     FORMAT(T12,'SHAKOPEE MDEWAKANTON SIOUX (7507) BEING ',     
+     &    'MAPPED TO CHIPPEWA NF (903) FOR FURTHER PROCESSING.')          
           IFOR = 2       
         CASE (7508)
           WRITE(JOSTND,61)   
-   61     FORMAT(T12,'Menominee Reservation (7508) BEING ',     
-     &    'MAPPED TO Nicolet NF (906) FOR FURTHER PROCESSING.')
+   61     FORMAT(T12,'MENOMINEE RESERVATION (7508) BEING ',     
+     &    'MAPPED TO NICOLET NF (906) FOR FURTHER PROCESSING.')
           IFOR = 4        
         CASE (7510)
           WRITE(JOSTND,62)   
-   62     FORMAT(T12,'Red Lake Reservation (7510) BEING ',     
-     &    'MAPPED TO Chippewa NF (903) FOR FURTHER PROCESSING.')          
+   62     FORMAT(T12,'RED LAKE RESERVATION (7510) BEING ',     
+     &    'MAPPED TO CHIPPEWA NF (903) FOR FURTHER PROCESSING.')          
           IFOR = 2       
         CASE (7511)
           WRITE(JOSTND,63)   
-   63     FORMAT(T12,'Bois Forte Reservation (7511) BEING ',     
-     &    'MAPPED TO Superior NF (909) FOR FURTHER PROCESSING.')           
+   63     FORMAT(T12,'BOIS FORTE RESERVATION (7511) BEING ',     
+     &    'MAPPED TO SUPERIOR NF (909) FOR FURTHER PROCESSING.')           
           IFOR = 6       
         CASE (7512)
           WRITE(JOSTND,64)   
-   64     FORMAT(T12,'Fond du Lac Reservation (7512) BEING ',     
-     &    'MAPPED TO Superior NF (909) FOR FURTHER PROCESSING.')          
+   64     FORMAT(T12,'FOND DU LAC RESERVATION (7512) BEING ',     
+     &    'MAPPED TO SUPERIOR NF (909) FOR FURTHER PROCESSING.')          
           IFOR = 6       
         CASE (7513)
           WRITE(JOSTND,65)   
-   65     FORMAT(T12,'Grand Portage Reservation (7513) BEING ',     
-     &    'MAPPED TO Superior NF (909) FOR FURTHER PROCESSING.')          
+   65     FORMAT(T12,'GRAND PORTAGE RESERVATION (7513) BEING ',     
+     &    'MAPPED TO SUPERIOR NF (909) FOR FURTHER PROCESSING.')          
           IFOR = 6       
         CASE (7514)
           WRITE(JOSTND,66)   
-   66     FORMAT(T12,'Leech Lake Reservation (7514) BEING ',     
-     &    'MAPPED TO Chippewa NF (903) FOR FURTHER PROCESSING.')          
+   66     FORMAT(T12,'LEECH LAKE RESERVATION (7514) BEING ',     
+     &    'MAPPED TO CHIPPEWA NF (903) FOR FURTHER PROCESSING.')          
           IFOR = 2       
         CASE (7515)
           WRITE(JOSTND,67)   
-   67     FORMAT(T12,'White Earth Reservation (7515) BEING ',     
-     &    'MAPPED TO Chippewa NF (903) FOR FURTHER PROCESSING.')          
+   67     FORMAT(T12,'WHITE EARTH RESERVATION (7515) BEING ',     
+     &    'MAPPED TO CHIPPEWA NF (903) FOR FURTHER PROCESSING.')          
           IFOR = 2       
         CASE (7516)
           WRITE(JOSTND,68)   
-   68     FORMAT(T12,'Mille Lacs Reservation (7516) BEING ',     
-     &    'MAPPED TO Chippewa NF (903) FOR FURTHER PROCESSING.')          
+   68     FORMAT(T12,'MILLE LACS RESERVATION (7516) BEING ',     
+     &    'MAPPED TO CHIPPEWA NF (903) FOR FURTHER PROCESSING.')          
           IFOR = 2       
         CASE (7517)
           WRITE(JOSTND,69)   
-   69     FORMAT(T12,'Bad River Reservation (7517) BEING ',     
-     &    'MAPPED TO Chequamegon NF (902) FOR FURTHER PROCESSING.')          
+   69     FORMAT(T12,'BAD RIVER RESERVATION (7517) BEING ',     
+     &    'MAPPED TO CHEQUAMEGON NF (902) FOR FURTHER PROCESSING.')          
           IFOR = 1    
         CASE (7518)
           WRITE(JOSTND,70)   
-   70     FORMAT(T12,'Lac Courte Oreilles Res. (7518) BEING ',     
-     &    'MAPPED TO Chequamegon NF (902) FOR FURTHER PROCESSING.')          
+   70     FORMAT(T12,'LAC COURTE OREILLES RES. (7518) BEING ',     
+     &    'MAPPED TO CHEQUAMEGON NF (902) FOR FURTHER PROCESSING.')          
           IFOR = 1    
         CASE (7519)
           WRITE(JOSTND,71)   
-   71     FORMAT(T12,'Lac du Flambeau Reservation (7519) BEING ',     
-     &    'MAPPED TO Chequamegon NF (902) FOR FURTHER PROCESSING.')          
+   71     FORMAT(T12,'LAC DU FLAMBEAU RESERVATION (7519) BEING ',     
+     &    'MAPPED TO CHEQUAMEGON NF (902) FOR FURTHER PROCESSING.')          
           IFOR = 1   
         CASE (7520)
           WRITE(JOSTND,72)   
-   72     FORMAT(T12,'Oneida (WI) Reservation (7520) BEING ',     
-     &    'MAPPED TO Nicolet NF (906) FOR FURTHER PROCESSING.')          
+   72     FORMAT(T12,'ONEIDA (WI) RESERVATION (7520) BEING ',     
+     &    'MAPPED TO NICOLET NF (906) FOR FURTHER PROCESSING.')          
           IFOR = 4        
         CASE (7521)
           WRITE(JOSTND,73)   
-   73     FORMAT(T12,'Forest County Potawatomi Comm. (7521) BEING ',     
-     &    'MAPPED TO Nicolet NF (906) FOR FURTHER PROCESSING.')          
+   73     FORMAT(T12,'FOREST COUNTY POTAWATOMI COMM. (7521) BEING ',     
+     &    'MAPPED TO NICOLET NF (906) FOR FURTHER PROCESSING.')          
           IFOR = 4        
         CASE (7522)
           WRITE(JOSTND,74)   
-   74     FORMAT(T12,'Red Cliff Reservation (7522) BEING ',     
-     &    'MAPPED TO Chequamegon NF (902) FOR FURTHER PROCESSING.')          
+   74     FORMAT(T12,'RED CLIFF RESERVATION (7522) BEING ',     
+     &    'MAPPED TO CHEQUAMEGON NF (902) FOR FURTHER PROCESSING.')          
           IFOR = 1    
         CASE (7523)
           WRITE(JOSTND,75)   
-   75     FORMAT(T12,'St. Croix Reservation (7523) BEING ',     
-     &    'MAPPED TO Chequamegon NF (902) FOR FURTHER PROCESSING.')          
+   75     FORMAT(T12,'ST. CROIX RESERVATION (7523) BEING ',     
+     &    'MAPPED TO CHEQUAMEGON NF (902) FOR FURTHER PROCESSING.')          
           IFOR = 1    
         CASE (7524)
           WRITE(JOSTND,76)   
-   76     FORMAT(T12,'Sokaogon Chippewa Community (7524) BEING ',     
-     &    'MAPPED TO Nicolet NF (906) FOR FURTHER PROCESSING.')          
+   76     FORMAT(T12,'SOKAOGON CHIPPEWA COMMUNITY (7524) BEING ',     
+     &    'MAPPED TO NICOLET NF (906) FOR FURTHER PROCESSING.')          
           IFOR = 4        
         CASE (7525)
           WRITE(JOSTND,77)   
-   77     FORMAT(T12,'Stockbridge Munsee Community (7525) BEING ',     
-     &    'MAPPED TO Nicolet NF (906) FOR FURTHER PROCESSING.')          
+   77     FORMAT(T12,'STOCKBRIDGE MUNSEE COMMUNITY (7525) BEING ',     
+     &    'MAPPED TO NICOLET NF (906) FOR FURTHER PROCESSING.')          
           IFOR = 4        
         CASE (7526)
           WRITE(JOSTND,78)   
-   78     FORMAT(T12,'Grand Traverse Off-Res. TL (7526) BEING ',     
-     &    'MAPPED TO Manistee NF (924) FOR FURTHER PROCESSING.')          
+   78     FORMAT(T12,'GRAND TRAVERSE OFF-RES. TL (7526) BEING ',     
+     &    'MAPPED TO MANISTEE NF (924) FOR FURTHER PROCESSING.')          
           IFOR = 9       
         CASE (7527)
           WRITE(JOSTND,79)   
-   79     FORMAT(T12,'Sault Ste. Marie Off-Res. TL (7527) BEING ',     
-     &    'MAPPED TO Hiawatha NF (910) FOR FURTHER PROCESSING.')          
+   79     FORMAT(T12,'SAULT STE. MARIE OFF-RES. TL (7527) BEING ',     
+     &    'MAPPED TO HIAWATHA NF (910) FOR FURTHER PROCESSING.')          
           IFOR = 7       
         CASE (7528)
           WRITE(JOSTND,80)   
-   80     FORMAT(T12,'Bay Mills Reservation (7528) BEING ',     
-     &    'MAPPED TO Hiawatha NF (910) FOR FURTHER PROCESSING.')          
+   80     FORMAT(T12,'BAY MILLS RESERVATION (7528) BEING ',     
+     &    'MAPPED TO HIAWATHA NF (910) FOR FURTHER PROCESSING.')          
           IFOR = 7       
         CASE (7529)
           WRITE(JOSTND,81)   
-   81     FORMAT(T12,'Hannahville Indian Community (7529) BEING ',     
-     &    'MAPPED TO Hiawatha NF (910) FOR FURTHER PROCESSING.')          
+   81     FORMAT(T12,'HANNAHVILLE INDIAN COMMUNITY (7529) BEING ',     
+     &    'MAPPED TO HIAWATHA NF (910) FOR FURTHER PROCESSING.')          
           IFOR = 7       
         CASE (7530)
           WRITE(JOSTND,82)   
-   82     FORMAT(T12,'Isabella Reservation (7530) BEING ',     
-     &    'MAPPED TO Manistee NF (924) FOR FURTHER PROCESSING.')          
+   82     FORMAT(T12,'ISABELLA RESERVATION (7530) BEING ',     
+     &    'MAPPED TO MANISTEE NF (924) FOR FURTHER PROCESSING.')          
           IFOR = 9       
         CASE (7531)
           WRITE(JOSTND,83)   
-   83     FORMAT(T12,'L''Anse Reservation (7531) BEING ',     
-     &    'MAPPED TO Ottawa NF (907) FOR FURTHER PROCESSING.')          
+   83     FORMAT(T12,'L''ANSE RESERVATION (7531) BEING ',     
+     &    'MAPPED TO OTTAWA NF (907) FOR FURTHER PROCESSING.')          
           IFOR = 5         
         CASE (7532)
           WRITE(JOSTND,84)   
-   84     FORMAT(T12,'Ontonagon Reservation (7532) BEING ',     
-     &    'MAPPED TO Ottawa NF (907) FOR FURTHER PROCESSING.')          
+   84     FORMAT(T12,'ONTONAGON RESERVATION (7532) BEING ',     
+     &    'MAPPED TO OTTAWA NF (907) FOR FURTHER PROCESSING.')          
           IFOR = 5         
         CASE (7533)
           WRITE(JOSTND,85)   
-   85     FORMAT(T12,'Lac Vieux Desert Reservation (7533) BEING ',     
-     &    'MAPPED TO Ottawa NF (907) FOR FURTHER PROCESSING.')          
+   85     FORMAT(T12,'LAC VIEUX DESERT RESERVATION (7533) BEING ',     
+     &    'MAPPED TO OTTAWA NF (907) FOR FURTHER PROCESSING.')          
           IFOR = 5         
         CASE (7534)
           WRITE(JOSTND,86)   
-   86     FORMAT(T12,'Little River Off-Res. TL (7534) BEING ',     
-     &    'MAPPED TO Manistee NF (924) FOR FURTHER PROCESSING.')          
+   86     FORMAT(T12,'LITTLE RIVER OFF-RES. TL (7534) BEING ',     
+     &    'MAPPED TO MANISTEE NF (924) FOR FURTHER PROCESSING.')          
           IFOR = 9       
         CASE (7535)
           WRITE(JOSTND,87)   
-   87     FORMAT(T12,'Little Traverse Bay Reservation (7535) BEING ',     
-     &    'MAPPED TO Hiawatha NF (910) FOR FURTHER PROCESSING.')          
+   87     FORMAT(T12,'LITTLE TRAVERSE BAY RESERVATION (7535) BEING ',     
+     &    'MAPPED TO HIAWATHA NF (910) FOR FURTHER PROCESSING.')          
           IFOR = 7     
 C       END CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE 
 
-C       LOCATION CODE ERROR TRAP
-        CASE DEFAULT 
-          CALL ERRGRO (.TRUE.,3)
-          WRITE(JOSTND,11) JFOR(IFOR)
-   11     FORMAT(T12,'FOREST CODE USED IN THIS PROJECTION IS',I4)
-          USEIGL = .FALSE.
-      END SELECT
-         
-  200 CONTINUE 
-C     FOREST MAPPING CORRECTION
-      SELECT CASE (IFOR)
-        CASE (9)
-          WRITE(JOSTND,21)
-   21     FORMAT(T12,'MANISTEE NF (924) BEING MAPPED TO HURON-',
-     &    'MANISTEE (904) FOR FURTHER PROCESSING.')
-          IFOR = 3
+        CASE DEFAULT
+        
+C         CONFIRMS THAT KODFOR IS AN ACCEPTED FVS LOCATION CODE
+C         FOR THIS VARIANT FOUND IN DATA ARRAY JFOR
+          DO 10 I=1,NUMFOR
+            IF (KODFOR .EQ. JFOR(I)) THEN
+              IFOR = I
+              FORFOUND = .TRUE.
+              EXIT
+            ENDIF
+   10     CONTINUE        
+          
+C         LOCATION CODE ERROR TRAP       
+          IF (.NOT. FORFOUND) THEN
+            CALL ERRGRO (.TRUE.,3)
+            WRITE(JOSTND,11) JFOR(IFOR)
+   11       FORMAT(T12,'FOREST CODE USED IN THIS PROJECTION IS',I4)
+            USEIGL = .FALSE.
+          ENDIF
+
       END SELECT
 
 
