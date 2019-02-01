@@ -5,25 +5,33 @@ C AK $Id$
 C----------
 C  FUNCTION TO COMPUTE BARK RATIOS AS A FUNCTION OF DIAMETER
 C
-C     SPECIES LIST FOR ALASKA VARIANT.
+C SPECIES LIST FOR ALASKA VARIANT.
 C
-C     1 = WHITE SPRUCE (WS)           PICEA GLAUCA
-C     2 = WESTERN REDCEDAR (RC)       THUJA PLICATA
-C     3 = PACIFIC SILVER FIR (SF)     ABIES AMABILIS
-C     4 = MOUNTAIN HEMLOCK (MH)       TSUGA MERTENSIANA
-C     5 = WESTERN HEMLOCK (WH)        TSUGA HETEROPHYLLA
-C     6 = ALASKA CEDAR (YC)           CALLITROPSIS NOOTKATENSIS
-C     7 = LODGEPOLE PINE (LP)         PINUS CONTORTA
-C     8 = SITKA SPRUCE (SS)           PICEA SITCHENSIS
-C     9 = SUBALPINE FIR (AF)          ABIES LASIOCARPA
-C    10 = RED ALDER (RA)              ALNUS RUBRA
-C    11 = BLACK COTTONWOOD (CW)       POPULUS TRICHOCARPA
-C    12 = OTHER HARDWOODS (OH)
-C    13 = OTHER SOFTWOODS (OS)
-C----------
-C  SPECIES ORDER
-C  1    2    3    4    5    6    7    8    9   10   11  12  13
-C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
+C Number Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
+C
 C----------
 C  VARIABLE DECLARATIONS:
 C----------
@@ -60,6 +68,6 @@ C DIAMETER TO GET BARK RATIO.
 C----------
         BRATIO = (DD - BRATIO) / DD
       ENDIF
-C
+
       RETURN
       END

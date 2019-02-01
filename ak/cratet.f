@@ -76,9 +76,12 @@ C
       REAL SPCNT(MAXSP,3)
 C
 C----------
-C  SPECIES ORDER
-C  1    2    3    4    5    6    7    8    9   10   11  12  13
-C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
+C  SPECIES ORDER:
+C  1   2   3   4   5   6   7   8   9   10  11  12
+C  SF  AF  YC  TA  WS  LS  BE  SS  LP  RC  WH  MH
+C
+C  13  14  15  16  17  18  19  20  21  22  23
+C  OS  AD  RA  PB  AB  BA  AS  CW  WI  SU  OH
 C----------
 C  DATA STATEMENTS:
 C----------
@@ -305,7 +308,7 @@ C----------
 C----------
 C  RED ALDER AND COTTONWOOD USE WC VARIANT LOGIC
 C----------
-      IF(ISPC.EQ.10 .OR. ISPC.EQ.11) THEN
+      IF(ISPC.EQ.15 .OR. ISPC.EQ.20) THEN
         BX=HT2(ISPC)
 C----------
 C       BYPASS SUMS FOR TREES WITH MISSING HEIGHT OR TRUNCATED TOPS.
@@ -326,7 +329,9 @@ C----------
         IF(H.LE.4.5 .OR. NH.LT.0 .OR. D.LT.3.0) GO TO 70
         K1=K1+1
         XX = BX / (D + 1.)
-        IF(ISPC .EQ. 5 .OR. ISPC .EQ. 8) THEN
+
+C       SITKA SPRUCE OR WESTERN HEMLOCK
+        IF(ISPC .EQ. 8 .OR. ISPC .EQ. 11) THEN
           ISBFLG=1
           CALL SBB(ISPC,D,H,Z,ISBFLG)
           ZSUM = ZSUM + Z
@@ -356,7 +361,8 @@ C  DUB HEIGHTS WITH DEFAULT COEFFICIENTS FOR THIS SPECIES.
 C----------
       KNT(IPTR)=K3
       IF(K1 .LT. 3 .OR. .NOT. LHTDRG(ISPC)) GO TO 100
-      IF(ISPC.EQ.5 .OR. ISPC.EQ.8) GO TO 100
+C     SITKA SPRUCE OR WESTERN HEMLOCK
+      IF(ISPC.EQ.8 .OR. ISPC.EQ.11) GO TO 100
       XN=REAL(K1)
       AA(ISPC) = SUMX / XN
       ZAVE = ZSUM / XN
@@ -397,7 +403,7 @@ C
 C----------
 C  RED ALDER AND COTTONWOOD FROM WC VARIANT LOGIC
 C----------
-      IF(ISPC.EQ.10 .OR. ISPC.EQ.11) THEN
+      IF(ISPC.EQ.15 .OR. ISPC.EQ.20) THEN
         AX=HT1(ISPC)
         BX=HT2(ISPC)
         IF (IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
@@ -420,8 +426,9 @@ C        ENTIRITY FOR CLARITY.
 C----------
         IF(.NOT.LHTDRG(ISPC) .OR. 
      &     (LHTDRG(ISPC) .AND. IABFLG(ISPC).EQ.1))THEN
-          IF(ISPC .EQ. 10) CALL HTDBH (1,22,D,H,0)
-          IF(ISPC .EQ. 11) CALL HTDBH (1,27,D,H,0)
+C         RED ALDER AND COTTONWOOD FROM WC VARIANT LOGIC
+          IF(ISPC .EQ. 15) CALL HTDBH (1,22,D,H,0)
+          IF(ISPC .EQ. 20) CALL HTDBH (1,27,D,H,0)
           IF(DEBUG)WRITE(JOSTND,*)'INVENTORY EQN DUB IFOR,ISPC,D,H= ',
      &     IFOR,ISPC,D,H
         ENDIF
@@ -432,7 +439,8 @@ C
         AX = HTT1(ISPC,JCR)
         BX = HTT2(ISPC,JCR)
         IF(IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
-        IF(ISPC .EQ. 5 .OR. ISPC .EQ. 8) THEN
+C       SITKA SPRUCE OR WESTERN HEMLOCK
+        IF(ISPC .EQ. 8 .OR. ISPC .EQ. 11) THEN
           ISBFLG=2
           CALL SBB(ISPC,D,H,ZAVE,ISBFLG)
           IF(H .LE. 0.0) H=EXP(AX+BX/(D+1.0))+4.5
@@ -503,7 +511,7 @@ C
 C----------
 C  RED ALDER AND COTTONWOOD USE WC VARIANT LOGIC
 C----------
-      IF(ISPC.EQ.10 .OR. ISPC.EQ.11) THEN
+      IF(ISPC.EQ.15 .OR. ISPC.EQ.20) THEN
         AX=HT1(ISPC)
         BX=HT2(ISPC)
         IF (IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
@@ -524,8 +532,9 @@ C        ENTIRITY FOR CLARITY.
 C----------
         IF(.NOT.LHTDRG(ISPC) .OR. 
      &     (LHTDRG(ISPC) .AND. IABFLG(ISPC).EQ.1))THEN
-          IF(ISPC.EQ.10) CALL HTDBH (1,22,D,H,0)
-          IF(ISPC.EQ.11) CALL HTDBH (1,27,D,H,0)
+C         RED ALDER AND COTTONWOOD USE WC VARIANT LOGIC
+          IF(ISPC.EQ.15) CALL HTDBH (1,22,D,H,0)
+          IF(ISPC.EQ.20) CALL HTDBH (1,27,D,H,0)
           IF(DEBUG)WRITE(JOSTND,*)'INVENTORY EQN DUB IFOR,ISPC,D,H= ',
      &     IFOR,ISPC,D,H
         ENDIF
@@ -535,7 +544,8 @@ C
         AX = HTT1(ISPC,JCR)
         BX = HTT2(ISPC,JCR)
         IF(IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
-        IF(ISPC .EQ. 5 .OR. ISPC .EQ. 8) THEN
+C       SITKA SPRUCE OR WESTERN HEMLOCK
+        IF(ISPC .EQ. 8 .OR. ISPC .EQ. 11) THEN
           ISBFLG=2
           CALL SBB(ISPC,D,H,ZAVE,ISBFLG)
           IF(H .LE. 0.0) H=EXP(AX+BX/(D+1.0))+4.5
