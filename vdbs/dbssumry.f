@@ -523,4 +523,6 @@ C
 
       END
 
-
+      SUBROUTINE DBSSUMRY2
+      RETURN
+      END
