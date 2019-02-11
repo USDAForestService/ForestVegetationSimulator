@@ -38,7 +38,7 @@ C
 C
       WRITE (IUNIT,40) SVN,REV,DAT,TIM
    40 FORMAT (//T10,'FOREST VEGETATION SIMULATOR',
-     >  5X,'VERSION ',A,' -- SE ALASKA / COASTAL BC ',
+     >  5X,'VERSION ',A,' -- ALASKA ',
      >  T97,'RV:',A,T112,A,2X,A)
       RETURN
       END
