@@ -140,7 +140,6 @@ C----------
 C  ------------------------
 C  RESERVATION PSUEDO CODES:
 C
-C  7111 = SANTEE SDTSA                81205 FRANCIS MARION NF
 C  7201 = ALABAMA-COUSHATTA RES.      81304 TEXAS NF SAM HOUSTON DIST
 C  7207 = KIOWA-COMANCHE-APACHE-      80906 OUACHITA NF KIAMICHI DIST
 C         FORT SILL APACHE OTSA
@@ -215,12 +214,6 @@ C----------------------------------------------------------------------
 C----------------------------------------------------------------------
 C  HANDLE RESERVATION PSUEDO CODES
 C----------------------------------------------------------------------
-        CASE (7111)
-          WRITE(JOSTND,61)
-   61     FORMAT(T12,'SANTEE SDTSA (7111) BEING MAPPED ',
-     &    'TO 81205 FRANCIS MARION NF FOR FURTHER PROCESSING.')
-          KODFOR = 81205
-          IFORDI = 812
         CASE (7201)
           WRITE(JOSTND,62)
    62     FORMAT(T12,'ALABAMA-COUSHATTA RES. (7201) BEING MAPPED ',
