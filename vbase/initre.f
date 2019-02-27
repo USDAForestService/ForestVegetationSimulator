@@ -126,6 +126,8 @@ C----------
       call fvsGetRtnCode(IRTNCD)
       if (IRTNCD.ne.0) return
 C
+      CALL GRINIT
+
       CALL KEYRDR (IREAD,JOSTND,DEBUG,KEYWRD,LNOTBK,
      >             ARRAY,IRECNT,KODE,KARD,LFLAG,LKECHO)
 C----------
@@ -175,7 +177,6 @@ C  ELSE: INITIALIZE VARIABLES AND, IF LFLAG IS TRUE,
 C  WRITE A HEADER.
 C----------
       LNOTRE=.FALSE.
-      CALL GRINIT
       CALL OPINIT
       CALL RANSED(.FALSE.,WK6(1))
       CALL ESINIT
