@@ -32,7 +32,7 @@ C
 C
 C
       INCLUDE 'WORKCM.F77'
-C                                          
+C
 C
       INCLUDE 'DBSCOM.F77'
 C
@@ -42,6 +42,7 @@ C
       CHARACTER*8 TID,CSPECIES
       CHARACTER*17 TBLNAME
       CHARACTER*5 NTCUFT,NMCUFT,NBDFT
+      CHARACTER*8 NAMDCF,NAMDBF
       CHARACTER*2000 SQLStmtStr
       INTEGER IWHO,I,IP,ITPLAB,iRet,IDMR,ICDF,IBDF,IPTBAL,KODE
       INTEGER ISPC,I1,I2,I3,ColNumber
@@ -75,11 +76,15 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
         NTCUFT  = 'MCuFt'
         NMCUFT  = 'SCuFt'
         NBDFT   = 'SBdFt'
+        NAMDCF  = 'Ht2TDMCF'
+        NAMDBF  = 'Ht2TDSCF'
       ELSE
         TBLNAME = 'FVS_TreeList'
         NTCUFT  = 'TCuFt'
         NMCUFT  = 'MCuFt'
         NBDFT   = 'BdFt'
+        NAMDCF  = 'Ht2TDCF '
+        NAMDBF  = 'Ht2TDBF '
       ENDIF
 
       iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
@@ -115,8 +120,8 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
      -             'TruncHt int null,'//
      -             'EstHt real null,'//
      -             'ActPt int null,'//
-     -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null,'//
+     -             NAMDCF // ' real null,'//
+     -             NAMDBF // ' real null,'//
      -             'TreeAge real null);'//CHAR(0)
          iRet = fsql3_exec(IoutDBref,SQLStmtStr) 
          IF (iRet .NE. 0) THEN
@@ -130,7 +135,7 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
      -  'MortPA,DBH,DG,',
      -  'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',',  
      -  NMCUFT,',',NBDFT,',MDefect,BDefect,TruncHt,',
-     -  'EstHt,ActPt,Ht2TDCF,Ht2TDBF,TreeAge) VALUES (''',
+     -  'EstHt,ActPt,',NAMDCF,',',NAMDBF,',','TreeAge) VALUES (''',
      -  CASEID,''',''',TRIM(NPLT),''',',IY(ICYC+1),',',IFINT,
      -  ',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
       iRet = fsql3_prepare(IoutDBref,trim(SQLStmtStr)//CHAR(0))
@@ -154,7 +159,7 @@ C     AND THE OUTPUT REPORTING YEAR.
             P = PROB(I) / GROSPC
             IF (ICYC.GT.0) THEN
               DP = WK2(I)/ GROSPC
-            ELSE                          
+            ELSE
               DP = 0.0
             ENDIF
 
@@ -203,7 +208,7 @@ C           DETERMINE TREE AGE
             ELSE
               TREAGE = 0
             ENDIF
- 
+
 C           GET DG INPUT
 
             DGI=DG(I)
@@ -227,7 +232,7 @@ C
             IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I)))) 
             
             ColNumber=1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,TID)            
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,TID)
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
             ColNumber=ColNumber+1
@@ -292,7 +297,7 @@ C
             iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD1)
             ColNumber=ColNumber+1
             iRet = fsql3_bind_double(IoutDBref,ColNumber,TREAGE)
-            
+
             iRet = fsql3_step(IoutDBref)
             iRet = fsql3_reset(IoutDBref)
           ENDDO
@@ -332,7 +337,7 @@ C       DETERMINE TREE AGE
           TREAGE = ABIRTH(I)
         ELSE
           TREAGE = 0
-        ENDIF        
+        ENDIF
 
 C       CYCLE 0, PRINT INPUT DG ONLY, UNLESS DIRECTED TO PRINT ESTIMATES.
 
@@ -355,13 +360,13 @@ C       KEYWORD OVER RIDES
         ELSE
           CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
         ENDIF
-C       
+C
         IF(ISPOUT6.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
         IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
         IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
         
         ColNumber=1
-        iRet = fsql3_bind_text(IoutDBref,ColNumber,TID,           
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,TID,
      >                         LEN_TRIM(TID))
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
@@ -427,7 +432,7 @@ C
         iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD1)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,TREAGE)
-        
+
         iRet = fsql3_step(IoutDBref)
         iRet = fsql3_reset(IoutDBref)
       ENDDO

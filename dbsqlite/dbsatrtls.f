@@ -44,6 +44,7 @@ C
       CHARACTER*8 TID,CSPECIES
       CHARACTER*17 TBLNAME
       CHARACTER*5 NTCUFT,NMCUFT,NBDFT
+      CHARACTER*8 NAMDCF,NAMDBF
       CHARACTER*2000 SQLStmtStr
       INTEGER IWHO,I,JYR,IP,ITPLAB,IRCODE,IDMR,ICDF,IBDF,IPTBAL,KODE
       INTEGER ISPC,I1,I2,I3
@@ -65,7 +66,7 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
 C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 
       CALL DBSCASE(1)
-      
+
 C     For CS, LS, NE and SN, the table name is FVS_TreeList_East and the following
 C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
 
@@ -75,11 +76,15 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
         NTCUFT  = 'MCuFt'
         NMCUFT  = 'SCuFt'
         NBDFT   = 'SBdFt'
+        NAMDCF  = 'Ht2TDMCF'
+        NAMDBF  = 'Ht2TDSCF'
       ELSE
         TBLNAME = 'FVS_ATRTList'
         NTCUFT  = 'TCuFt'
         NMCUFT  = 'MCuFt'
         NBDFT   = 'BdFt'
+        NAMDCF  = 'Ht2TDCF '
+        NAMDBF  = 'Ht2TDBF '
       ENDIF
 
       IRCODE = fsql3_exec (IoutDBref,"Begin;"//Char(0))
@@ -119,8 +124,8 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
      -             'TruncHt int null,'//
      -             'EstHt real null,'//
      -             'ActPt int null,'//
-     -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null,'//
+     -             NAMDCF // ' real null,'//
+     -             NAMDBF // ' real null,'//
      -             'TreeAge real null);' // CHAR(0)
         IRCODE = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (IRCODE .NE. 0) THEN
@@ -217,20 +222,20 @@ C
             IF(ISPOUT31.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
 
             WRITE(SQLStmtStr,*)'INSERT INTO ',TBLNAME,
-     -           ' (CaseID,StandID,Year,PrdLen,',
-     -         'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
-     -           'MortPA,DBH,DG,HT,HTG,PctCr,',
-     -           'CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',', 
-     -           NMCUFT,',',NBDFT,',MDefect,BDefect,TruncHt,',
-     -         'EstHt,ActPt,Ht2TDCF,Ht2TDBF,TreeAge) VALUES (''',
-     -         CASEID,''',''',TRIM(NPLT),''',',
+     -        ' (CaseID,StandID,Year,PrdLen,',
+     -        'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
+     -        'MortPA,DBH,DG,HT,HTG,PctCr,',
+     -        'CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',',
+     -        NMCUFT,',',NBDFT,',MDefect,BDefect,TruncHt,',
+     -      'EstHt,ActPt,',NAMDCF,',',NAMDBF,',','TreeAge) VALUES (''',
+     -        CASEID,''',''',TRIM(NPLT),''',',
      -        JYR,',',IFINT,',''',trim(ADJUSTL(TID)),''',',I,',''',
      -        trim(CSPECIES),''',',IMC(I),',',ISPECL(I),',',ITRE(I),
-     -         ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
-     -         ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
-     -         CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
-     -         ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
-     -         ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,');'
+     -        ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
+     -        ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
+     -        CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
+     -        ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
+     -        ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,');'
 
            IRCODE = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))
            IF (IRCODE .NE. 0) THEN

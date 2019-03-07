@@ -1,0 +1,27 @@
+Subject: Eastern treelists to output database
+
+Name: Lance David
+
+Date: 03/06/2018
+
+Variants affected: All variants
+
+Description: New versions of output treelists (Treelist, Cutlist, ATRTList)
+             tables in output database for ODBC were added with more
+             appropriate column names. The Eastern versions of the tables
+             have names ending with "_East". The column names in the new
+             tables were changed in both ODBC and SQLite versions and are
+             as follows:
+                 West: TCuFt, MCuFt, BdFt,  Ht2TDCF,  Ht2TDBF
+                 East: MCuFt, SCuFt, SBdFt, Ht2TDMCF, Ht2TDSCF
+
+Impact on users: Easier interpretation of tables.
+                 
+Files:
+
+dbs/dbsatrtls.f
+dbs/dbscuts.f
+dbs/dbstrls.f
+dbsqlite/dbsatrtls.f
+dbsqlite/dbscuts.f
+dbsqlite/dbstrls.f

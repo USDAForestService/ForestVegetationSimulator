@@ -125,7 +125,7 @@ C----------
    10 CONTINUE
       call fvsGetRtnCode(IRTNCD)
       if (IRTNCD.ne.0) return
-C
+
       CALL KEYRDR (IREAD,JOSTND,DEBUG,KEYWRD,LNOTBK,
      >             ARRAY,IRECNT,KODE,KARD,LFLAG,LKECHO)
 C----------
