@@ -35,6 +35,8 @@ C  FVS_RD_Sum           dbsrd       IRD1         case, cycle
 C  FVS_RD_Det           dbsrd       IRD2         case, cycle 
 C  FVS_RD_Beetle        dbsrd       IRD3         case, cycle 
 C  FVS_StrClass         dbsstrclass ISTRCLAS     case, cycle 
+C  FVS_Summary2_East    dbssumry2   ISUMARY      case, cycle, RmvCode
+C  FVS_Summary2         dbssumry2   ISUMARY      case, cycle, RmvCode 
 C  FVS_Summary_East     dbssumry    ISUMARY      case, cycle 
 C  FVS_Summary          dbssumry    ISUMARY      case, cycle 
 C  FVS_TreeList         dbstrls     ITREELIST    case, cycle, tree  
