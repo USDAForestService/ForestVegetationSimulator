@@ -264,7 +264,7 @@ C
 C
 COMMONS
 C
-      INTEGER IYEAR,ICCF,ITOPHT,IOSDI,IPRDLEN,IHRVC
+      INTEGER IYEAR,ICCF,ITOPHT,IOSDI,IPRDLEN,IHRVC,IAGEOUT
       DOUBLE PRECISION DPTPA,DPTPTPA,DPBA,DPQMD,DPTCUFT,DPTPTCUFT,
      > DPMCUFT,DPTPMCUFT,DPBDFT,DPTPBDFT,DPACC,DPMORT,DPMAI,DPRTPA,
      > DPRTCUFT,DPRMCUFT,DPRBDFT
@@ -278,7 +278,7 @@ C
       IF(ISUMARY.NE.2) RETURN
 C
       IYEAR    = IY(ICYC)
-      IAGE     = IOSUM(2,ICYC)
+      IAGEOUT  = IOSUM(2,ICYC)
       ICCF     = IOSUM(12,ICYC)
       ITOPHT   = IOSUM(13,ICYC)
       IOSDI    = ISDIAT(ICYC)
@@ -451,7 +451,7 @@ C
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IHRVC)
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,IAGE)
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IAGEOUT)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPA)
         ColNumber=ColNumber+1
