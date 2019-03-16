@@ -7,7 +7,7 @@ for i in vars
     attr = zeros(Float64,length(vars))
     rtnCode = 0
     
-    ccall(Libdl.dlsym(lib,:fvsevmonattr_), Void,(
+    ccall(Libdl.dlsym(lib,:fvsevmonattr_), Cvoid,(
     Cstring, #name
     Ref{Int32}, #nch
     Cstring, #action

@@ -8,7 +8,7 @@ function fvsSpeciesCode()
     nchplant = 0
     rtnCode = 0
 
-    ccall(Libdl.dlsym(lib,:fvsspeciescode_), Void,(
+    ccall(Libdl.dlsym(lib,:fvsspeciescode_), Cvoid,(
     Cstring, #fvs_code
     Cstring, #fia_code
     Cstring, #plant_code

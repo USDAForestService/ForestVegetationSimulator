@@ -6,15 +6,17 @@ ForestVegetationSimulator.jl is a series of wrapper functions for the FVS API an
 
 #Build Process and Version Info
 
-The functionality works with the .dll files produced by the standard MinGW build process outlined here(https://sourceforge.net/p/open-fvs/wiki/BuildProcess_MinGW/).
+The functionality works with shared library files produced by the build processes outlined in the wiki.
+The current version was developed on Julia 1.1.0
 
-This branch was developed and tested on Windows 10 (64-bit) and Julia 0.6.2 using the compiler version: gcc (x86_64-posix-seh-rev1, Built by MinGW-W64 project) 7.2.0.
+This branch was initally developed and tested on Windows 10 (64-bit). It has been checked on 64 bit Linux Mint, but not thoroughly tested.
 
 function name mangling was in the form of "functionname_"
 
 #Technical Implementation
 
-The functionality is achieved using just base Julia using the ccall function. Julia's use of the LLVM allows it to easily interact with both individual FORTRAN files and shared libraries. For more information see(https://docs.julialang.org/en/release-0.6/manual/calling-c-and-fortran-code/)
+The functionality is achieved using just base Julia using the ccall function. 
+Julia's use of the LLVM allows it to easily interact with both individual FORTRAN files and shared libraries. For more information see(https://docs.julialang.org/en/release-0.6/manual/calling-c-and-fortran-code/)
 
 #Installation
 

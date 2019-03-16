@@ -10,7 +10,7 @@ function fvsTreeAttr(vars;action="get")
             attr    = zeros(Float64,ntrees)
             rtnCode = 0
 
-            ccall(Libdl.dlsym(lib,:fvstreeattr_), Void,(
+            ccall(Libdl.dlsym(lib,:fvstreeattr_), Cvoid,(
             Cstring, #name
             Ref{Int32}, #nch
             Cstring, #action

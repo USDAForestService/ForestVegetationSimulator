@@ -5,7 +5,7 @@ function fvsGetStandIDs()
       ncsID=0
       ncCN=0
       ncmID=0
-      ccall((:fvsstandid_ , "libFVS_iec"), Void,(
+      ccall((:fvsstandid_ , lib), Cvoid,(
             Cstring, #sID
             Cstring, #sCN
             Cstring, #mID

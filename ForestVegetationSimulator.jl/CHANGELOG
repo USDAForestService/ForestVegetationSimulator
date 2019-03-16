@@ -1,0 +1,4 @@
+3/15/19
+Updating from Julia 0.6 to Julia 1.1.0
+- Change all instances of Void to Cvoid
+-Libdl is it's own package now, so need to use 'using Lidbl'

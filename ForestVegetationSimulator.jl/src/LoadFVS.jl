@@ -4,11 +4,5 @@ function fvsLoad(fvsProgram,basedir="~/bin")
     #return([basedir,fvs,lib]) #for debugging
 end 
 
-
-# not sure if needed to load explicitly ? "libfvsSQL.dll"
-#dllname=joinpath(basedir,split(fvsProgram,".")[1])
-#working example
-#fvsLoad("libFVS_iec.dll","C:\\Users\\Casey\\Documents\\SVN\\compiled")
-
-#working hard coded example
-#l=Libdl.dlopen("C:\\Users\\Casey\\Documents\\SVN\\compiled\\libFVS_iec.dll")
+#if pwd() not in load path
+#push!(DL_LOAD_PATH,pwd())

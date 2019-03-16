@@ -4,7 +4,7 @@ abar=Ref{Float64}(0)
 var=Ref{Float64}(0)
 std=Ref{Float64}(0)
 
-ccall(Libdl.dlsym(lib,:meansd_),Void,(
+ccall(Libdl.dlsym(lib,:meansd_),Cvoid,(
 Ptr{Float32},#A
 Ref{Int32}, #N
 Ref{Float64}, #ABAR
@@ -19,7 +19,7 @@ end
 function ch2num(ICYC::Int32)
 C2=rep(" ",2)
 
-ccall(Libdl.dlsym(lib,:ch2num_),Void,(
+ccall(Libdl.dlsym(lib,:ch2num_),Cvoid,(
 Cstring, #C2
 Ref{Int32},#ICYC
 ),C2,ICYC)
@@ -32,7 +32,7 @@ function tvalue(N::Int32,P::Float32)
 T=Ref{Float32}(0)
 IERR=Ref{Int32}(0)
 
-ccall(Libdl.dlsym(lib,:tvalue_),Void,(
+ccall(Libdl.dlsym(lib,:tvalue_),Cvoid,(
 Ref{Int32}, #N
 Ref{Float32}, #P
 Ref{Float32}, #T
@@ -49,7 +49,7 @@ function grdtim()
 DAT = rep(" ",8)
 TIM = rep(" ",8)
 
-ccall(Libdl.dlsym(lib,:grdtim_),Void,(
+ccall(Libdl.dlsym(lib,:grdtim_),Cvoid,(
 Cstring, #DAT
 Cstring, #TIM
 ),DAT,TIM)

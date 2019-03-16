@@ -5,7 +5,7 @@ function fvsSpeciesAttr(;action="get")
     attr = Vector{Float64}()
     rtnCode = 0
     
-    ccall(Libdl.dlsym(lib,:fvsspeciesattr_), Void,(
+    ccall(Libdl.dlsym(lib,:fvsspeciesattr_), Cvoid,(
     Cstring, #name
     Ref{Int32}, #nch
     Cstring, #action

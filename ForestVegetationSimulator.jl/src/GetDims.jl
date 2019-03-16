@@ -8,7 +8,7 @@ function fvsDimSizes()
     maxplots  = Ref{Int32}(0)
     maxcycles = Ref{Int32}(0)
 
-    ccall(Libdl.dlsym(lib,:fvsdimsizes_),Void,(
+    ccall(Libdl.dlsym(lib,:fvsdimsizes_),Cvoid,(
         Ref{Int32}, #ntrees
         Ref{Int32}, #ncycles
         Ref{Int32}, #nplots

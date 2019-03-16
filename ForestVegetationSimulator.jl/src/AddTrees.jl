@@ -11,7 +11,7 @@ function fvsAddTrees(in_dbh,in_species,in_ht,in_cratio,
                           in_plot,in_tpa,ntrees,rtnCode)
 
 ##placeholder to be fixed later
-    ccall(Libdl.dlsym(lib,:fvsaddtrees_), Void,(
+    ccall(Libdl.dlsym(lib,:fvsaddtrees_), Cvoid,(
     Ref{Float32}, #in_dbh
     Ref{Float32}, #in_species
     Ref{Float32}, #in_ht

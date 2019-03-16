@@ -50,7 +50,7 @@ function AddActivity(year,activity,parms)
     nprms=length(parms)
     rtnCode=0
 
-    ccall(Libdl.dlsym(lib,:fvsaddactivity_), Void,(
+    ccall(Libdl.dlsym(lib,:fvsaddactivity_), Cvoid,(
     Ref{Int32}, #year (aka idt)
     Ref{Int32}, #iatck
     Ref{Int32}, #parms(aka inprms)
