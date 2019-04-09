@@ -68,15 +68,15 @@ C----------
 C  VARIABLE DECLARATIONS:
 C----------
       LOGICAL DEBUG
-C
+
       INTEGER I,I1,I2,I3,IASP,INDXS,ISPC
-C
+
       INTEGER MAPDSQ(7,MAXSP),MAPLOC(7,MAXSP),SMMAPS(MAXSP)
-C
+
       REAL ALD,BAL,BARK,BRATIO,CONSPP,CONST,CR,D,DDS,DDSL,DDSS
       REAL DGBALS,DGCRS,DGCRS2,DGDBLS,DGDSQS,DGLDS,DIAGR
       REAL H,RELHT,SMCONS,SSITE,TEMEL,XWT
-C
+
       REAL DGBA(MAXSP),DGBAL(MAXSP),DGCASP(MAXSP),DGCR(MAXSP)
       REAL DGCRSQ(MAXSP),DGDBAL(MAXSP),DGDS(4,MAXSP),DGEL(MAXSP)
       REAL DGEL2(MAXSP),DGFOR(6,MAXSP),DGHAH(MAXSP),DGLD(MAXSP)
@@ -85,41 +85,67 @@ C
       REAL DIAM(MAXTRE),OBSERV(MAXSP),SMCASP(3),SMCR(3),SMCR2(3)
       REAL SMDBAL(3),SMDS(3),SMEL(3),SMEL2(3),SMFOR(4,3)
       REAL SMLBA(3),SMLD(3),SMSASP(3),SMSITE(3),SMSL(3),SMSL2(3)
+
+C----------
+C SPECIES LIST FOR ALASKA VARIANT.
+C
+C Number Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
+C
 C----------
 C  DATA STATEMENTS:
 C
-C  SPECIES ORDER
-C  1    2    3    4    5    6    7    8    9   10   11  12  13
-C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
 C----------
       DATA DGLD/
      & 0.56846, 1.07184, 0.56846, 0.38233,  0.62381,  0.99465,
      & 0.99465, 0.68136, 0.56846, 0.511442, 0.889596, 0.99465, 0.56846/
-C
+
       DATA DGCR/
      & 4.60641, 2.46701, 4.60641, 3.28729,  3.06852,  2.39021,
      & 2.39021, 3.08338, 4.60641, 0.623093, 1.732535, 2.39021, 4.60641/
-C
+
       DATA DGCRSQ/
      & -3.33043, -1.86814, -3.33043, -2.36796, -2.07432, -1.60504,
      & -1.60504, -1.86516, -3.33043,  0.0, 0.0, -1.60504, -3.33043/
-C
+
       DATA DGBAL/
      & 0.00840, 0.00198, 0.00840, 0.00608,     0.0, 0.00402,
      & 0.00402,     0.0, 0.00840, 0.008903, 0.0, 0.00402, 0.00840/
-C
+
       DATA DGDBAL/
      & -0.02759, -0.00128, -0.02759, -0.02029, -0.00638, -0.00646,
      &-0.00646,-0.00881,-0.02759,-0.027074,-0.001265,-0.00646,-0.02759/
-C
+
       DATA DGLNBA/
      &      0.0, -0.44018,      0.0,      0.0, -0.14942, -0.20534,
      & -0.20534, -0.26754,      0.0, -0.481983, 0.0, -0.20534,   0.0/
-C
+
       DATA DGBA/
      & -0.00215,      0.0, -0.00215, -0.00137,      0.0,      0.0,
      &      0.0,      0.0, -0.00215,    0.0, -0.000981, 0.0, -0.00215/
-C
+
       DATA DGHAH/
      &      0.0,  0.29750,      0.0,      0.0,      0.0, -0.10963,
      & -0.10963,      0.0,      0.0, 0.0, 0.0, -0.10963,      0.0/
@@ -157,7 +183,7 @@ C----------
      & 1, 1, 1, 1, 0, 0, 0,
      & 1, 2, 3, 3, 0, 0, 0,
      & 1, 2, 3, 4, 0, 0, 0/
-C
+
       DATA DGFOR/
      &  -3.46832,  -3.48281,  -3.23448,  -3.61663,     0.0,     0.0,
      &   1.10897,   1.52503,       0.0,       0.0,     0.0,     0.0,
@@ -192,7 +218,7 @@ C----------
      & 1, 1, 1, 1, 0, 0, 0,
      & 1, 1, 1, 1, 0, 0, 0,
      & 1, 1, 2, 1, 0, 0, 0/
-C
+
       DATA DGDS/
      & -0.000165, -0.000042,       0.0,       0.0,
      & -0.000239,       0.0,       0.0,       0.0,
@@ -222,23 +248,23 @@ C----------
       DATA DGCASP/
      & -0.18793,  0.00794, -0.18793,  0.04097, -0.03751,  0.09184,
      &  0.09184, -0.23642, -0.18793,0.022254,0.085958,0.09184,-0.18793/
-C
+
       DATA DGSASP/
      & -0.19185,  0.01670, -0.19185, -0.10205, -0.07308, -0.18677,
      & -0.18677,-0.13790,-0.19185,-0.085538,-0.86398,-0.18677,-0.19185/
-C
+
       DATA DGSLOP/
      & -1.42938,  0.02871, -1.42938, -1.35921, -1.56867,  1.27878,
      &  1.27878, -0.86127, -1.42938,  0.0, 0.0, 1.27878, -1.42938/
-C
+
       DATA DGSLSQ/
      &  1.09399,  0.03586,  1.09399,  1.15906,  1.23542, -1.02205,
      & -1.02205,  0.54058,  1.09399, 0.0, 0.0, -1.02205,  1.09399/
-C
+
       DATA DGEL/
      &  0.00039, -0.01052,  0.00039,  0.00224,  0.00438, -0.01272,
      & -0.01272,  0.00047,  0.00039, 0.0, -0.075986,-0.01272, 0.00039/
-C
+
       DATA DGEL2/
      & -0.000009,  0.000104, -0.000009, -0.000009, -0.000019,  0.000046,
      &  0.000046, -0.000008, -0.000009,0.0,0.001193,0.000046,-0.000009/
@@ -247,35 +273,35 @@ C SECTION FOR TREES < 10" DBH.
 C 1ST POSITION = WH, 2ND POSITION = SS
 C----------
       DATA SMSITE/ 0.000972, 0.001258, 0. /
-C
+
       DATA SMLBA /-0.583329,-0.595877, 0. /
-C
+
       DATA SMLD  / 1.525250, 1.780276, 0. /
-C
+
       DATA SMCR  / 1.507640, 4.428345, 0. /
-C
+
       DATA SMCR2 / 0.      ,-2.518086, 0. /
-C
+
       DATA SMEL  / 0.000884, 0.000682, 0. /
-C
+
       DATA SMEL2 /-0.000001,-0.000001, 0. /
-C
+
       DATA SMSASP/ 0.157749, 0.493114, 0. /
-C
+
       DATA SMCASP/ 0.104729, 0.024501, 0. /
-C
+
       DATA SMSL  /-1.100789,-1.817615, 0. /
-C
+
       DATA SMSL2 / 2.114845, 4.122238, 0. /
-C
+
       DATA SMDBAL/-0.005402,-0.006182, 0. /
-C
+
       DATA SMDS  /-0.000792,-0.000866, 0. /
-C
+
       DATA SMFOR / 2.125668, 2.177696, 2.071918, 0.,
      &             1.165812, 1.165812, 1.321460, 0.,
      &             0.      , 0.      , 0.      , 0. /
-C
+
       DATA SMMAPS / 3, 3, 3, 3, 1, 3, 3, 2, 3, 3, 3, 3, 3 /
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
@@ -287,7 +313,7 @@ C----------
 C  DEBUG OUTPUT: MODEL COEFFICIENTS.
 C----------
       IF(DEBUG)WRITE(JOSTND,*) 'IN DGF,HTCON=',HTCON,
-     *'RMAI=',RMAI,'ELEV=',ELEV,'RELDEN=',RELDEN
+     &'RMAI=',RMAI,'ELEV=',ELEV,'RELDEN=',RELDEN
       IF(DEBUG)
      & WRITE(JOSTND,9000) DGCON,DGDSQ,DGLD,DGCR,DGCRSQ,DGBAL
  9000 FORMAT(/11(1X,F10.5))
@@ -330,7 +356,7 @@ C----------
         DDS = ALOG(DIAGR*(2.0*D*BARK+DIAGR))+ALOG(COR2(ISPC))+COR(ISPC)
         GO TO 5
       ENDIF
-C
+
       CR=ICR(I)*0.01
       BAL = (1.0 - (PCT(I)/100.)) * BA
       H=HT(I)
@@ -342,7 +368,7 @@ C
      &          +DGDSQS*D*D  + DGDBLS*BAL/(ALOG(D+1.0))
      &                    +DGHAH(ISPC)*RELHT
      & + DGLNBA(ISPC)*ALOG(BA) + DGBA(ISPC)*BA
-C
+
       IF(DEBUG) WRITE(JOSTND,8000) DGCON(ISPC),COR(ISPC),
      $RELDEN,DGBA(ISPC),RMAI,CONSPP,DGLDS,ALD,
      $DGBALS,BAL,CR,DGCRS,DGCRS2,DGDSQS,D,DGDBLS,
