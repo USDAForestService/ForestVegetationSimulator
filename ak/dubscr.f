@@ -145,7 +145,8 @@ C----------
       SD=CRSD(ISPC)
    10 FCR=BACHLO(0.0,SD,RANN)
       IF(ABS(FCR).GT.SD) GO TO 10
-      IF(ISPC.EQ.10 .OR. ISPC.EQ.11) THEN
+      IF(ISPC.EQ.15 .OR. ISPC.EQ.20) THEN
+C       RED ALDER (RA) AND BLACK COTTONWOOD (CW)
         CR=CR+FCR
         CR=((CR-1.0)*10.0 +1.0)/100.
       ELSE

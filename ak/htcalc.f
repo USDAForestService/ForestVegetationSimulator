@@ -46,7 +46,7 @@ C
 C----------
 C  WESTERN HEMLOCK
 C---------
-        CASE(5)
+        CASE(11)
           IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
           B3 = 3.316557 * XSITE**(-0.2930032)
           C0 = (1.0 - EXP(-10.0*0.01046931)) * 6.421396**(1.0/B3)
@@ -75,7 +75,7 @@ C
 C----------
 C  RED ALDER
 C----------
-        CASE(10)
+        CASE(15)
           HGUESS = XSITE
      &           + (59.5864 + 0.7953*XSITE)*
      &             (1.0-EXP((0.00194 - 0.0007403*XSITE)*AG))**0.9198
@@ -87,7 +87,7 @@ C
 C----------
 C  BLACK COTTONWOOD
 C---------
-        CASE(11)
+        CASE(20)
           HGUESS = (XSITE - 4.5) / ( 0.6192 - 5.3394/(XSITE - 4.5)
      &           + 240.29*AG**(-1.4) + (3368.9/(XSITE-4.5))*AG**(-1.4))
           HGUESS = HGUESS + 4.5
@@ -97,7 +97,7 @@ C
 C----------
 C  ALL SPECIES OTHER THAN RED ALDER AND COTTONWOOD.
 C----------
-        CASE(1:4,6:9,12,13)
+        CASE(1:10,12:14,16:19,21:23)
           IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
 C
           IF(DEBUG)WRITE(JOSTND,9050)I,ISP(I),DBH(I),HT(I),ICR(I),
