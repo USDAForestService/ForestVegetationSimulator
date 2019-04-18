@@ -74,38 +74,68 @@ C             ARE AVERAGED.
 C----------
 C  VARIABLE DECLARATIONS:
 C----------
-C
+
       EXTERNAL RANN
-C
+
       LOGICAL DEBUG,LESTB,LSKIPH
-C
+
       CHARACTER SPEC*2
-C
+
       INTEGER I,I1,I2,I3,IICR,IP,IPCCF,IREFI,ISPC,ISPEC,ITRNIN
       INTEGER K,KK,KOUT,KSPC,L,N
-C
       INTEGER NUMCAL(MAXSP)
-C
+
       REAL BACHLO,BARK,BAWT,BRATIO,CON,CORNEW,CRCODE,D,DDS,DK,DKK,EDH
-      REAL FNT,H,HBA,HBALIM,HK,HTGR,HTNEW,P,PNTWT,POTHTG,PTCCF,RAN,RCR
-      REAL REGYR,RSI,SATBA,SCALE,SCALE2,SCALE3,SNP,SNX,SNY,TBAL,TCR
-      REAL TERM,XHMOD,XMN,XMX,XRDGRO,XRHGRO,XWT,ZZRAN
-C
-C
+     &   FNT,H,HBA,HBALIM,HK,HTGR,HTNEW,P,PNTWT,POTHTG,PTCCF,RANC,RCR
+     &   REGYR,RSI,SATBA,SCALE1,SCALE2,SCALE3,SNP,SNX,SNY,TBAL,TCR
+     &   TERM,XHMOD,XMN,XMX,XRDGRO,XRHGRO,XWT,ZZRAN
       REAL CORTEM(MAXSP),DIAM(MAXSP),XMIN(MAXSP),XMAX(MAXSP)
+
+C----------
+C SPECIES LIST FOR ALASKA VARIANT.
+C
+C Number Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
 C
 C----------
 C  DATA STATEMENTS:
-C
-C  SPECIES ORDER
-C  1    2    3    4    5    6    7    8    9   10   11  12  13
-C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
 C----------
-      DATA XMAX / 13*5.0 /, XMIN/ 9*2.0, 2*3.0, 2*2.0 /
-C
-      DATA REGYR/ 5.0 /
-C
-      DATA DIAM /0.4,5*0.3,0.4,0.4,0.3,3*0.2,0.3/
+      DATA REGYR / 5.0 /
+      DATA XMAX / 23*5.0 /
+      DATA XMIN / 2.0, 2.0, 2.0, 2.0, 2.0,
+     &            2.0, 2.0, 2.0, 2.0, 2.0,
+     &            2.0, 2.0, 2.0, 3.0, 3.0,
+     &            3.0, 3.0, 3.0, 3.0, 3.0,
+     &            2.0, 2.0, 2.0 /
+
+      DATA DIAM / 0.3, 0.3, 0.3, 0.4, 0.4,
+     &            0.4, 0.4, 0.4, 0.4, 0.3,
+     &            0.3, 0.3, 0.3, 0.2, 0.2,
+     &            0.2, 0.2, 0.2, 0.2, 0.2,
+     &            0.2, 0.2, 0.2 /
+
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
@@ -137,7 +167,7 @@ C----------
           FNT=FNT-5.0
         ENDIF
       ENDIF
-      SCALE=FNT/REGYR
+      SCALE1=FNT/REGYR
       SCALE2=YR/FNT
 C----------
 C  ENTER GROWTH PREDICTION LOOP.  PROCESS EACH SPECIES AS A GROUP;
@@ -176,9 +206,9 @@ C  ASSIGN CROWN RATIO FOR NEWLY ESTABLISHED TREES.
 C----------
         TCR = 0.89722 - 0.0000461*PCCF(IP)
     1   CONTINUE
-        RAN = BACHLO(0.0,1.0,RANN)
-        IF(RAN .LT. -1.0 .OR. RAN .GT. 1.0) GO TO 1
-        TCR = TCR + 0.07985 * RAN
+        RANC = BACHLO(0.0,1.0,RANN)
+        IF(RANC .LT. -1.0 .OR. RANC .GT. 1.0) GO TO 1
+        TCR = TCR + 0.07985 * RANC
         IF(TCR .GT. .90) TCR = .90
         IF(TCR .LT. .20) TCR = .20
         ICR(I) = INT((TCR*100.0) + 0.5)
@@ -231,20 +261,20 @@ C
 C----------
 C   ADD RANDOM AFFECTS. LIMIT TO + OR -  1/10 HTGR
 C----------
-        RAN=0.
+        RANC=0.
         IF(DGSD .GE. 1.0) THEN
     3     CONTINUE
-          RAN = BACHLO(0.0,1.0,RANN)
-          IF(RAN.LT.-1.0 .OR. RAN.GT.1.0) GO TO 3
+          RANC = BACHLO(0.0,1.0,RANN)
+          IF(RANC.LT.-1.0 .OR. RANC.GT.1.0) GO TO 3
         ENDIF
-        HTGR = HTGR + RAN*0.1*HTGR
+        HTGR = HTGR + RANC*0.1*HTGR
 C
-        IF(DEBUG)WRITE(JOSTND,*)'I,ISPC,PTCCF,HBA,CRCODE,RAN=',
-     &  I,ISPC,PTCCF,HBA,CRCODE,RAN
-        IF(DEBUG)WRITE(JOSTND,*)'I,POTHTG,XHMOD,SCALE,HTGR= ',
-     &  I,POTHTG,XHMOD,SCALE,HTGR
+        IF(DEBUG)WRITE(JOSTND,*)'I,ISPC,PTCCF,HBA,CRCODE,RANC=',
+     &  I,ISPC,PTCCF,HBA,CRCODE,RANC
+        IF(DEBUG)WRITE(JOSTND,*)'I,POTHTG,XHMOD,SCALE1,HTGR= ',
+     &  I,POTHTG,XHMOD,SCALE1,HTGR
 C
-        HTGR = HTGR * XRHGRO * SCALE
+        HTGR = HTGR * XRHGRO * SCALE1
         IF(HTGR .LT. 0.1) HTGR = 0.1
       ELSE
         HTGR = -4.0166 + 0.451*RCR - 0.00611*TBAL + 0.09426*RSI
@@ -252,9 +282,9 @@ C   4   CONTINUE
         ZZRAN = 0.0
 C       IF(DGSD.GE.1.0) ZZRAN=BACHLO(0.0,1.0,RANN)
 C       IF((ZZRAN .GT. 0.5) .OR. (ZZRAN .LT. -2.0)) GO TO 4
-C       IF(DEBUG)WRITE(JOSTND,9984) HTGR,ZZRAN,XRHGRO,SCALE
+C       IF(DEBUG)WRITE(JOSTND,9984) HTGR,ZZRAN,XRHGRO,SCALE1
 C9984 FORMAT('IN REGENT 9984 FORMAT',4(F10.4,2X))
-        HTGR = (HTGR +ZZRAN*0.1)*XRHGRO * SCALE * CON
+        HTGR = (HTGR +ZZRAN*0.1)*XRHGRO * SCALE1 * CON
       ENDIF
 C-------------
 C     COMPUTE WEIGHTS FOR THE LARGE AND SMALL TREE HEIGHT INCREMENT
