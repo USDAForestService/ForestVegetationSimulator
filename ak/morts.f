@@ -96,22 +96,54 @@ C
       REAL PMD(MAXSP),PMSC(MAXSP),PRM(6)
 C
 C----------
-C  DATA STATEMENTS.
+C SPECIES LIST FOR ALASKA VARIANT.
 C
-C  SPECIES ORDER
-C  1    2    3    4    5    6    7    8    9   10   11  12  13
-C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
+C Number Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
+C
+C----------
+C
+C  DATA STATEMENTS.
 C----------
       DATA MYACTS/94,97/
 C----------
 C BACKGROUND MORTALITY CONSTANTS
 C----------
-      DATA PMSC/6.5112,6.5112,7.2985,5.1677,9.6943,5.1677,
-     *          5.9617,9.6943,5.1677,3*5.5877,5.1677/
-C
-      DATA PMD/-.0052485,-.0052485,-.0129121,-.0077681,
-     *         -.0127328,-.0077681,-.0340128,-.0127328,
-     *         -.0077681,3*-.005348,-.0077681/
+      DATA PMSC/ 7.2985, 5.1677, 5.1677, 6.5112, 6.5112,
+     &           6.5112, 6.5112, 9.6943, 5.9617, 6.5112,
+     &           9.6943, 5.1677, 5.1677, 5.5877, 5.5877,
+     &           5.5877, 5.5877, 5.5877, 5.5877, 5.5877,
+     &           5.5877, 5.5877, 5.5877/
+
+      DATA PMD/ -.0129121, -.0077681, -.0077681, -.0052485, -.0052485,
+     &          -.0052485, -.0052485, -.0127328, -.0340128, -.0052485,
+     &          -.0127328, -.0077681, -.0077681, -.005348,  -.005348,
+     &          -.005348,  -.005348,  -.005348,  -.005348,  -.005348,
+     &          -.005348,  -.005348,  -.005348/
+
+
 C----------
 C  INITIALIZE.
 C----------
@@ -353,7 +385,7 @@ C----------
         CEPMSB = ALOG(CONST*(QMDMSB**(-1.605)))-SLPMSB*ALOG(QMDMSB)
       ENDIF
       IF(DEBUG)WRITE(JOSTND,*)'MATURE STAND BOUNDARY SETTINGS, QMDMSB,'
-     &,'CEPMSB,SLPMSB,D10= ',QMDMSB,CEPMSB,SLPMSB,D10 
+     &,'CEPMSB,SLPMSB,D10= ',QMDMSB,CEPMSB,SLPMSB,D10
 C----------
 C IF TOTAL NUMBER OF TREES IS BETWEEN 85 PERCENT AND COMPUTED MAXIMUM,
 C KILL BACK TO 85 PERCENT LEVEL.
@@ -608,7 +640,7 @@ C----------
         IF(DEBUG)WRITE(JOSTND,*)'ALTERNATE MORTALITY LOGIC, D10,TN,',
      &  'QMDMSB,CEPMSB,SLPMSB,TMMSB,T85MSB,PMSDIU,TMORE= '
         IF(DEBUG)WRITE(JOSTND,*)
-     &  D10,TN,QMDMSB,CEPMSB,SLPMSB,TMMSB,T85MSB,PMSDIU,TMORE  
+     &  D10,TN,QMDMSB,CEPMSB,SLPMSB,TMMSB,T85MSB,PMSDIU,TMORE
 C----------
 C MAKE SURE MSB EFFICIENCY IS SET HIGH ENOUGH; SINCE MORTALITY IS
 C CONCENTRATED IN A DBH RANGE, FIRST COMPUTE THE TPA LEFT IN THE DBH
@@ -616,7 +648,7 @@ C RANGE AFTER DENSITY RELATED MORTALITY HAS BEEN ACCOUNTED FOR.
 C CALL SUBROUTINE MSBMRT TO KILL TMORE TREES AND SET RECALIBRATE FLAG.
 C
 C IF THERE AREN'T ENOUGH TREES LEFT IN THE CLASS TO ACHIEVE THE
-C ALTERNATE MORTALITY LEVEL EVEN IF THEY ARE ALL KILLED, THEN CANCEL 
+C ALTERNATE MORTALITY LEVEL EVEN IF THEY ARE ALL KILLED, THEN CANCEL
 C THE ALTERNATE MORTALITY LOGIC; IF THE EFFICIENCY IS SET TO LOW TO
 C ACHIEVE THE ALTERNATE MORTALITY LEVEL THEN RECOMPUTE IT AND CONTINUE
 C WITH THE LOGIC.
@@ -699,7 +731,7 @@ C----------
       BADEAD=BADEAD+(0.0054542*(D+G)**2.)*WK2(I)
       QMDNEW=QMDNEW + ((D+G)**2.)*P
       IF(DEBUG)WRITE(JOSTND,*)'I,P,D,G,TNEW,BANEW,QMDNEW,BADEAD= ',
-     &I,P,D,G,TNEW,BANEW,QMDNEW,BADEAD 
+     &I,P,D,G,TNEW,BANEW,QMDNEW,BADEAD
    36 CONTINUE
       IF(TNEW .GT. 0.) THEN
         QMDNEW=SQRT(QMDNEW/TNEW)
@@ -727,7 +759,7 @@ C----------
         IF(WKI.GT.P) WKI=P
         WK2(I)=WKI
         IF(DEBUG)WRITE(JOSTND,*)'ADJUSTING FOR BAMAX I,P,WKI= ',
-     &  I,P,WKI   
+     &  I,P,WKI
 C----------
 C       PRINT DEBUG INFO IF DESIRED.
 C----------
@@ -739,9 +771,9 @@ C----------
  1500   CONTINUE
 C----------
 C LOOP BACK AND SEE IF THE BAMAX TARGET HAS BEEN ACHIEVED YET.
-C (I.E. IF THE COMPUTED MORTALITY RATE EXCEEDED THE PROB, AND WE 
+C (I.E. IF THE COMPUTED MORTALITY RATE EXCEEDED THE PROB, AND WE
 C  HAD TO LIMIT MORTALITY TO THE PROB VALUE FOR SOME TREE RECORDS,
-C  THEN WE MAY NOT REACH THE BA LIMIT IN ONE PASS.) 
+C  THEN WE MAY NOT REACH THE BA LIMIT IN ONE PASS.)
 C----------
         KNT2=KNT2+1
         IF(KNT2 .LT. 100)GO TO 9001
@@ -777,7 +809,7 @@ C----------
             IF(PRM(5).LT.3.)THEN
                IF(PRM(2).GT. 1.0)PRM(2)=1.0
                IF(PRM(2).LT. 0.0)PRM(2)=0.0
-            ENDIF 
+            ENDIF
             IF (PRM(5).EQ.1.0) THEN
                IP=2
             ELSEIF (PRM(5).EQ.2.0) THEN
