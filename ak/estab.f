@@ -76,56 +76,86 @@ C      12    HD          1.0 FT |
 C      13    OT          0.5 FT |
 C
 C----------
+C SPECIES LIST FOR ALASKA VARIANT.
+C
+C Number Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
+C
+C----------
 C  VARIABLE DECLARATIONS:
 C----------
-C
+
       EXTERNAL ESRANN
-C
+
       LOGICAL DEBUG
-C
+
       CHARACTER CBLANK*2
-C
+
       CHARACTER*2 CLAST(MAXSP)
       CHARACTER*4 CPREP(4),CTOPO(5)
-C
+
       INTEGER I,IACTK,IBRKUP,IDO,IDUP,IEND,IEVTYR,II,INGRO,IPNSPE
       INTEGER IPOLD,IPYEAR,IREP,ISER,ISHADE,ISTART,ITIME,ITODO,ITP
       INTEGER ITPP,ITRNIN,ITYPEP,IZERO,J,JJ,K,KDT,L,MATCH,MYDO,MXRR
       INTEGER N,NBEST,NCOUNT,NDRAW,NEWTPP,NN,NOFSPE,NP,NSPNZ,NTIMES
       INTEGER NTODO,NUM2PK,NUMSPE
-C
+
       INTEGER*4 IDCMP1,ITEMP,ITMP,ITOOMP
-C
+
       INTEGER IASEP(99),IBEST(MAXSP),ICHOI(2,MAXSP),ICODE(99)
       INTEGER ILSP(MAXSP),IPLANT(MAXSP),MAXING(16),MAXSPP(16)
       INTEGER MAXTPP(16),MYACTS(4),MYHABG(16),NNPREP(4)
-      INTEGER NOTE(99),NULL(MAXSP)
-C
+      INTEGER NOTE(99),JNULL(MAXSP)
+
       REAL BAAOLD,BACHLO,BRKUP,CRDUM,CW,DELAY,DILATE,DRAW,DUP,DUPNPT
       REAL EMSQR,ESAVE,EXPAND,FLOKDT,FLONPT,FTEMP,FTEMP2,GENTIM,HHT
-      REAL PASMAX,PN,PNONE,PTREE,RADIAN,RTOP40,SHADE,SHORTY,SSITE,SUM
-      REAL SUM1,SUM2,TBAAA,TCROP1,TCROP2,TMTIME,TPP,TRAGE,TREEHT
+      REAL PASMAX,PN,PNONE,PTREE,RADIAN,RTOP40,SHADE,SHORTY,SSITE
+      REAL SUM0,SUM1,SUM2,TBAAA,TCROP1,TCROP2,TMTIME,TPP,TRAGE,TREEHT
       REAL TTOTTP,WBLADJ,WBLMAX,XCSMAX,XH,XXH,ZHARV
-C
+
       REAL AGADSB(99),AGEPL(99),AGEXC(99),AVEHT(MAXSP),BESPCT(MAXSP)
       REAL BESTPA(MAXSP),ESPROB(99),EXCESS(MAXSP),FIRST(2,MAXSP)
       REAL HEIGHT(99),HTIMLT(99),PASPCT(MAXSP),PASTPA(MAXSP),PRMS(6)
       REAL PSPE(6),STOMLT(MAXSP),SUMESP(MAXSP),SUMHTS(MAXSP)
       REAL SUMUP(MAXSP),TALL(MAXSP),TOTPCT(MAXSP),TOTTPA(MAXSP)
-C
+
 C----------
 C  DATA STATEMENTS:
-C
-C  SPECIES ORDER
-C  1    2    3    4    5    6    7    8    9   10   11  12  13
-C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
 C----------
-      DATA CBLANK/'  '/,CPREP/'NONE','MECH','BURN','ROAD'/,CTOPO/
-     &  'BOTM','LOWR',' MID','UPPR','RIDG'/,
+      DATA CBLANK/'  '/,
+     & CPREP/'NONE','MECH','BURN','ROAD'/,
+     & CTOPO/'BOTM','LOWR',' MID','UPPR','RIDG'/,
+     & IDCMP1/10000000/,
+     & MYACTS/430,431,491,493/,
+     & NOFSPE/MAXSP/
+
+      DATA
      &  MAXTPP/9,7,5,5,10,8,9,5,21,25,10,10,11,7,10,8/,
-     &  IDCMP1/10000000/,MYHABG/4*1,4*2,3,4,6*5/,
-     &  MAXSPP/4,3*3,5,4,6,4,2*6,4,2*5,4,6,4/,MYACTS/430,431,
-     &  491,493/,NOFSPE/MAXSP/,MAXING/4,4,3,3,5,4,5,4,7,7,5,5,5,4,5,4/
+     &  MYHABG/4*1,4*2,3,4,6*5/,
+     &  MAXSPP/4,3*3,5,4,6,4,2*6,4,2*5,4,6,4/,
+     &  MAXING/4,4,3,3,5,4,5,4,7,7,5,5,5,4,5,4/
 C
 C     INITIALIZE ARRAYS AND VARIABLES
 C
@@ -290,7 +320,7 @@ C
 C
 C     LOAD REGENERATION VECTORS FROM CURRENT INVENTORY.
 C
-      SUM=0.0
+      SUM0=0.0
       IF(ITRN.EQ.0) GO TO 198
       DO 177 I=1,ITRN
       FTEMP=DBH(I)
@@ -300,7 +330,7 @@ C
       FTEMP2=PROB(I)
       PASTPA(NN)=PASTPA(NN)+FTEMP2
       TCROP2=TCROP2 +FTEMP2
-      SUM=SUM+FTEMP2
+      SUM0=SUM0+FTEMP2
       N=ITRE(I)
       PLPROB(N)=PLPROB(N) +(FTEMP2/DUP)
   177 CONTINUE
@@ -309,7 +339,7 @@ C
 C     CALCULATE INTERCEPT OF ACTUAL STOCKING FROM THE INVENTORY.
 C
       IF(INADV.EQ.1.OR.NTALLY.NE.1) GO TO 64
-      TPACRE=SUM
+      TPACRE=SUM0
       IF(TPACRE.LT.1.0) TPACRE=1.0
       ESA=1.0/(1.0+EXP(-1.0*(-5.17397 +0.85131*ALOG(TPACRE))))
       FTEMP=ESA
@@ -347,10 +377,10 @@ C
       GO TO 49
   249 CONTINUE
       IF(IALN(2).EQ.0.AND.IALN(3).EQ.0) GO TO 246
-      SUM=PMECH+PBURN
-      IF(SUM.LE.1.0) GO TO 248
-      PMECH=PMECH/SUM
-      PBURN=PBURN/SUM
+      SUM0=PMECH+PBURN
+      IF(SUM0.LE.1.0) GO TO 248
+      PMECH=PMECH/SUM0
+      PBURN=PBURN/SUM0
   248 CONTINUE
       PNONE=1.0-PMECH-PBURN
       GO TO 252
@@ -363,10 +393,10 @@ C
 C
 C     SECTION TO CHOOSE SITE PREPS.  SAMPLE WITHOUT REPLACEMENT.
 C
-      SUM=PNONE+PMECH+PBURN
-      SUMUP(1)=PNONE/SUM
-      SUMUP(2)=PMECH/SUM
-      SUMUP(3)=PBURN/SUM
+      SUM0=PNONE+PMECH+PBURN
+      SUMUP(1)=PNONE/SUM0
+      SUMUP(2)=PMECH/SUM0
+      SUMUP(3)=PBURN/SUM0
       IF(DEBUG) WRITE(JOSTND,7051) (SUMUP(I),I=1,3)
  7051 FORMAT('PNONE=',F8.4,'  PMECH=',F8.4,'  PBURN=',F8.4)
       N=0
@@ -375,10 +405,10 @@ C
       N=N+1
       DRAW=WK6(N)
       DRAW=DRAW* (((DUPNPT+1.0)-REAL(N))/DUPNPT)
-      SUM=0.0
+      SUM0=0.0
       DO 2 I=1,2
-      SUM=SUM+SUMUP(I)
-      IF(DRAW.GT.SUM) GO TO 2
+      SUM0=SUM0+SUMUP(I)
+      IF(DRAW.GT.SUM0) GO TO 2
       GO TO 8
     2 CONTINUE
       I=3
@@ -685,13 +715,13 @@ C
       NUMSPE=1
       IF(ITPP.EQ.1) GO TO 19
       CALL ESNSPE (PSPE,ITPP)
-      SUM=PSPE(1)
+      SUM0=PSPE(1)
       DO 16 I=2,6
-      SUM=SUM+PSPE(I)
+      SUM0=SUM0+PSPE(I)
    16 CONTINUE
-      SUMUP(1)=PSPE(1)/SUM
+      SUMUP(1)=PSPE(1)/SUM0
       DO 17 I=2,5
-      SUMUP(I)= SUMUP(I-1) + PSPE(I)/SUM
+      SUMUP(I)= SUMUP(I-1) + PSPE(I)/SUM0
    17 CONTINUE
       DO 18 I=1,5
       DRAW=WK6(I)
@@ -707,18 +737,18 @@ C
 C
 C     CHOOSE THE SPECIES TO OCCUPY THE PLOT
 C
-      SUM=0.0
+      SUM0=0.0
       NSPNZ=0
       DO 56 I=1,NOFSPE
       IBEST(I)=0
       FTEMP=PADV(I)+PSUB(I)
       IF(FTEMP.GT.0.0001) NSPNZ=NSPNZ+1
-      SUM=SUM+FTEMP
+      SUM0=SUM0+FTEMP
       SUMUP(I)=FTEMP
    56 CONTINUE
       DO 57 I=1,NOFSPE
-      IF(SUM.LT.0.0001)GO TO 57
-      SUMUP(I)=SUMUP(I)/SUM
+      IF(SUM0.LT.0.0001)GO TO 57
+      SUMUP(I)=SUMUP(I)/SUM0
    57 CONTINUE
       IF(DEBUG) WRITE (JOSTND,7003) (SUMUP(I),I=1,NOFSPE)
       IF(NUMSPE.GT.NSPNZ) NUMSPE=NSPNZ
@@ -727,11 +757,11 @@ C
       WK6(I)=DRAW
   120 CONTINUE
       DO 60 I=1,NUMSPE
-      SUM=0.0
+      SUM0=0.0
       DRAW=WK6(I)
       DO 59 J=1,NOFSPE-1
-      SUM=SUM+SUMUP(J)
-      IF(DRAW.GT.SUM) GO TO 59
+      SUM0=SUM0+SUMUP(J)
+      IF(DRAW.GT.SUM0) GO TO 59
       SUMUP(J)=0.0
       IBEST(J)=1
       GO TO 58
@@ -739,13 +769,13 @@ C
       IBEST(NOFSPE)=1
       SUMUP(NOFSPE)=0.0
    58 CONTINUE
-      SUM=0.0
+      SUM0=0.0
       DO 47 N=1,NOFSPE
-      SUM=SUM+SUMUP(N)
+      SUM0=SUM0+SUMUP(N)
    47 CONTINUE
-      IF(SUM.LT.0.0001) GO TO 60
+      IF(SUM0.LT.0.0001) GO TO 60
       DO 61 N=1,NOFSPE
-      SUMUP(N)=SUMUP(N)/SUM
+      SUMUP(N)=SUMUP(N)/SUM0
    61 CONTINUE
    60 CONTINUE
       IF(DEBUG) WRITE (JOSTND,7004) (IBEST(I),I=1,NOFSPE)
@@ -766,9 +796,9 @@ C
       DO 63 I=1,NOFSPE
       CALL ESRANN (DRAW)
       IF(IBEST(I).NE.1) GO TO 63
-      SUM=PADV(I)+PSUB(I)
-      IF(SUM.LT.0.0001)GO TO 63
-      FTEMP=PADV(I)/SUM
+      SUM0=PADV(I)+PSUB(I)
+      IF(SUM0.LT.0.0001)GO TO 63
+      FTEMP=PADV(I)/SUM0
       J=1
       IF(DRAW.GT.FTEMP) J=2
       ICHOI(J,I)=1
@@ -842,13 +872,13 @@ C
       IF(IBEST(I).NE.1) GO TO 141
       IF(WK6(I).LT.0.0001) WK6(I)=0.0001
   141 CONTINUE
-      SUM=0.0
+      SUM0=0.0
       DO 140 I=1,NOFSPE
-      SUM=SUM+WK6(I)
+      SUM0=SUM0+WK6(I)
   140 CONTINUE
-      SUMUP(1)= WK6(1)/SUM
+      SUMUP(1)= WK6(1)/SUM0
       DO 142 I=2,NOFSPE-1
-      SUMUP(I) = SUMUP(I-1) + WK6(I)/SUM
+      SUMUP(I) = SUMUP(I-1) + WK6(I)/SUM0
   142 CONTINUE
       IF(DEBUG) WRITE (JOSTND,7005) (SUMUP(I),I=1,NOFSPE)
       ITP=ITPP
@@ -866,7 +896,7 @@ C     ASSIGN SPECIES & HEIGHT TO FIRST TREE OF EACH SPECIES
 C
       N=0
       DO 146 I=1,NOFSPE
-      NULL(I)=0
+      JNULL(I)=0
       ILSP(I)=0
       IF(IBEST(I).EQ.0) GO TO 146
       N=N+1
@@ -1057,7 +1087,7 @@ C
       ITEMP=I
   164 CONTINUE
       N=ICODE(ITEMP)
-      NULL(N)=1
+      JNULL(N)=1
       NOTE(ITEMP)=1
       NBEST=NBEST+1
   166 CONTINUE
@@ -1074,7 +1104,7 @@ C
   168 CONTINUE
   169 CONTINUE
       DO 170 J=1,NOFSPE
-      IF(NULL(J).EQ.1) GO TO 170
+      IF(JNULL(J).EQ.1) GO TO 170
       ITEMP=ILSP(J)
       IF(ITEMP.EQ.0) GO TO 170
       NOTE(ITEMP)=1

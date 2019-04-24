@@ -57,7 +57,23 @@ C----------
       AGE=AGE+TRAGE
       IF(AGE.LT.1.0) AGE=1.0
       TRAGE=TIME-DELAY
-      GO TO (10,20,30,40,50,60,70,80,90,100,100,100,110),I
+C
+C     NEW SPECIES IN AK REFIT TO 23 SPECIES ARE ASSIGNED TO 
+C     SURROGATE SPECIES THAT WERE ALREADY DEFINED IN THE 13 SPECIES
+C     VERSION HERE. 
+C             1   2   3   4   5   6   7   8   9   10  11  12  13
+C             WS  RC  SF  MH  WH  YC  LP  SS  AF  RA  CW  OH  OS
+C     GO TO ( 10, 20, 30, 40, 50, 60, 70, 80, 90,100,100,100,110),I
+C
+C     BELOW IS NEW LIST AND MAPPING.
+C
+C             1   2   3   4   5   6   7   8   9  10  11  12
+C            SF  AF  YC  TA  WS  LS  BE  SS  LP  RC  WH  MH
+     GO TO ( 30, 90, 60, 10, 10, 10, 10, 80, 70, 20, 50, 40,
+    &       110,100,100,100,100,100,100,100,100,100,100),I
+C            13  14  15  16  17  18  19  20  21  22  23
+C            OS  AD  RA  PB  AB  BA  AS  CW  WI  SU  OH
+
 C----------
 C     HEIGHT OF TALLEST ADVANCE WHITE PINE.
 C----------
