@@ -41,7 +41,7 @@ C
 C----------
 C          3     YC   Alaska cedar
 C
-      PADV(3) = 0.01 * OCURNF(IFO,6) * XESMLT(6)
+      PADV(3) = 0.01 * OCURNF(IFO,3) * XESMLT(3)
 C----------
 C          4     TA   tamarack
 C
@@ -70,12 +70,12 @@ C
 C----------
 C         10     RC   western redcedar
 C
-      PADV(10) = 0.05 * OCURNF(IFO,2) * XESMLT(2)
+      PADV(10) = 0.05 * OCURNF(IFO,10) * XESMLT(10)
 C----------
 C         11     WH   western hemlock
 C
-      PADV(11) = (60.187-0.022*RTOP40*RTOP40)/100.0 * OCURNF(IFO,5)
-     &          * XESMLT(5)
+      PADV(11) = (60.187-0.022*RTOP40*RTOP40)/100.0 * OCURNF(IFO,11)
+     &          * XESMLT(11)
 C----------
 C         12     MH   mountain hemlock
 C
