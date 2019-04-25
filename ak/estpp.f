@@ -43,7 +43,7 @@ C
 C
       TPP= ((-(ALOG(1.0-VAL)))**(1.0/CC)) *BB   +0.9
 C----------
-C NOT ENOUGH TREES FOR ALASKA, MULTIPLY BY 2.
+C NOT ENOUGH TREES FOR ALASKA, MULTIPLY BY 3.
 C----------
       TPP=TPP*3.0
       RETURN
