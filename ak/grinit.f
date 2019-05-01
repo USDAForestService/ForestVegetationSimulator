@@ -192,7 +192,7 @@ C----------
       IDG = 0
       IFINT = 10
       IFINTH = 5
-      IFOR = 3
+      IFOR = 2
       KODFOR = 0
       IFST = 1
       IGL = 1
