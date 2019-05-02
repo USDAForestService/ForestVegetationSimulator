@@ -48,6 +48,7 @@ C               CROOKSTON(R6) MODEL 1 EQN# = 04
 C               CROOKSTON(R6) MODEL 2 EQN# = 05
 C               DONNELLY EQN#              = 06
 C               MOEUR EQN#                 = 07
+C               MARK CASTLE EQN            = 08
 C
 C  SOURCES OF FOREST GROWN CROWN WIDTH EQUATIONS:
 C  BECHTOLD, WILLIAM A. 2004. LARGEST-CROWN-DIAMETER PREDICTION MODELS FOR
@@ -61,10 +62,12 @@ C  DONNELLY, DENNIS 1996. INTERNAL DOCUMENT ON FILE, FORT COLLINS, CO. DATA
 C     PROVIDED FROM REGION 6.
 C  MOEUR, MELINDA 1981. CROWN WIDTH AND FOLIAGE WEIGHT OF NORTHERN
 C     ROCKY MOUNTAIN CONIFERS. USDA-FS, INT-183.
+C  CASTLE, MARK 2019. EQUATION DEVELOPED FOR 13 OF 23 NEW/UPDATED SPECIES
+C     FOR NEW AK VARIANT ONLY
 C----------
       LOGICAL DEBUG
       CHARACTER CWEQN*5, FIASP*3
-      CHARACTER AKMAP(13)*5, BMMAP(18)*5, CAMAP(49)*5, CIMAP(19)*5
+      CHARACTER AKMAP(23)*5, BMMAP(18)*5, CAMAP(49)*5, CIMAP(19)*5
       CHARACTER CRMAP(38)*5, ECMAP(32)*5, EMMAP(19)*5, IEMAP(23)*5
       CHARACTER KTMAP(11)*5, NCMAP(11)*5, NIMAP(11)*5, PNMAP(39)*5
       CHARACTER SOMAP(33)*5, TTMAP(18)*5, UTMAP(24)*5, WCMAP(39)*5
@@ -84,10 +87,14 @@ C----------
 C----------
 C  SOUTHEAST ALASKA
 C----------
-C                      WS       RC       SF       MH       WH       YC
-       DATA AKMAP/ '09305', '24205', '01105', '26403', '26305', '04205',
-C             LP       SS       AF       RA       CW   OHtoCW   OStoWS
-     &    '10805', '09805', '01905', '35106', '74705', '74705', '09305'/
+C                      SF       AF       YC   TAtoBE       WS   LStoWS
+       DATA AKMAP/ '01105', '01905', '04205', '09508', '09408', '09408',
+C             BE       SS       LP       RC       WH       MH   OStoWS
+     &    '09508', '09805', '10805', '24205', '26305', '26405', '09408',
+C         ADtoRA       RA       PB   ABtoPB   BAtoCW       AS       CW
+     &    '35106', '35106', '37508', '37508', '74708', '74608', '74708',            
+C         WItoCW   SUtoCW   OHtoCW
+     &    '74708', '74708', '74708'/
 C----------
 C  BLUE MOUNTAINS
 C----------
@@ -1309,6 +1316,15 @@ C  081          LIBOCEDRUS DECURRENS                INCENSE CEDAR
         ENDIF
         IF (CW .GT. 40.) CW=40.
 C-----------------------------------------------------------------------
+C  CASE 09508 CASTLE AK EQN 08
+C  095          PICEA MARIANA - BE                  BLACK SPRUCE
+      CASE('09508')
+        IF (D .GE. 0.1) THEN
+          CW= 3.352504 * (D**0.650746) * (H**-0.384478) * (CL**0.250764)
+        ELSE
+          CW= 0.5
+        ENDIF        
+C-----------------------------------------------------------------------
 C  CASE 09204 CROOKSTON (R6) MODEL 1
 C  092          PICEA BREWERIANA                    BREWER SPRUCE
       CASE('09204')
@@ -1404,6 +1420,16 @@ C  098          PICEA SITCHENSIS                  SITKA SPRUCE
           CW= (4.2857*OMIND**0.5940)*(D/OMIND)
         ENDIF
         IF (CW .GT. 60.) CW=60.
+C-----------------------------------------------------------------------
+C  CASE 09408 CASTLE AK EQN 08
+C  094          PICEA GLAUCA - WS                 WHITE SPRUCE
+      CASE('09408')
+        IF (D .GE. 0.1) THEN
+          CW= 8.870861 * (D**0.631291) * (H**-0.875513) * (CL**0.479686)
+     &        * ((BAREA + 1)**0.095698) * (EXP(EL)**(-0.014942))
+        ELSE
+          CW= 0.5
+        ENDIF         
 C-----------------------------------------------------------------------
 C  CASE 10102 BECHTOLD 2004 MODEL 2
 C  101          PINUS ALBICAULIS                   WHITEBARK PINE       
@@ -2098,6 +2124,16 @@ C  375          BETULA PAPYRIFERA                   PAPER BIRCH
            CW= (5.8980*OMIND**0.4841)*(D/OMIND)
          ENDIF
          IF (CW .GT. 25.) CW=25.
+C
+C  CASE 37508 CASTLE AK EQN 08
+C  375          BETULA PAPYRIFERA - PB              PAPER BIRCH         
+      CASE('37508')
+        IF (D .GE. 0.1) THEN
+          CW= 3.313922 * (D**0.528173) * (CL**0.196874)
+     &        * ((BAREA + 1)**-0.054279)
+        ELSE
+          CW= 0.5
+        ENDIF 
 C-----------------------------------------------------------------------
 C  CASE 47502 BECTHOLD 2004 MODEL 2
 C  475         CERCOCARPUS LEDIFOLIUS       CURLLEAF MOUNATIN MAHOGANY
@@ -2167,6 +2203,15 @@ C  746          POPULUS TREMULOIDES                QUAKING ASPEN
           CW= (4.0910*OMIND**0.5907)*(D/OMIND)
         ENDIF
         IF (CW .GT. 45.) CW=45.
+C
+C  CASE 74608 CASTLE AK EQN 08
+C  746          POPULUS TREMULOIDES - AS          QUAKING ASPEN
+      CASE('74608')
+        IF (D .GE. 0.1) THEN
+          CW= 2.385776 * (D**0.630315) * (H**-0.147161) * (CL**0.27444)
+        ELSE
+          CW= 0.5
+        ENDIF
 C-----------------------------------------------------------------------
 C  CASE 74705 CROOKSTON (R6) MODEL 2
 C  747          POPULUS TRICHOCARPA                BLACK COTTONWOOD
@@ -2178,6 +2223,16 @@ C  747          POPULUS TRICHOCARPA                BLACK COTTONWOOD
      &       (CL**0.41477))*(D/OMIND)
         ENDIF
         IF (CW .GT. 56.) CW=56.
+C
+C  CASE 74708 CASTLE AK EQN 08
+C  747          POPULUS TRICHOCARPA - CW           BLACK COTTONWOOD        
+      CASE('74708')
+        IF (D .GE. 0.1) THEN
+          CW= 0.811931 * (D**0.555471) * (H**0.440446)
+     &        * (EXP(EL)**(-0.05041))
+        ELSE
+          CW= 0.5
+        ENDIF
 C-----------------------------------------------------------------------
 C  CASE 74902 BECHTOLD 2004 MODEL 2
 C  749          POPULUS ANGUSTIFOLIA               NARROWLEAF COTTONWOOD
