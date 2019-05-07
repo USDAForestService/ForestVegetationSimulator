@@ -68,7 +68,6 @@
 ../ak/maical.f
 ../ak/morts.f
 ../ak/regent.f
-../ak/sbb.f
 ../ak/seamrt.f
 ../ak/sitset.f
 ../ak/top40.f
