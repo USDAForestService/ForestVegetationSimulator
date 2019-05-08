@@ -459,7 +459,7 @@ C       STANDARD REGION 8 REGION/FOREST/DISTRICT CODES
 C----------------------------------------------------------------------
         CASE DEFAULT
           DO 10 I=1,NUMFOR
-          	
+
             IF (IFORDI .EQ. JFOR(I)) THEN
 
 C----------------------------------------------------------------------
