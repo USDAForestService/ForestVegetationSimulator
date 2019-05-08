@@ -128,8 +128,6 @@ C----------
       LBAMAX = .FALSE.
       LZEIDE = .TRUE.
       CALCSDI = ' '
-      LHTDRG(10) = .FALSE.
-      LHTDRG(11) = .FALSE.
       CFMIN = 0.
       TCFMIN = 0.
       BFMIN = 0.
