@@ -129,6 +129,7 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
      -             'TreeAge real null);' // CHAR(0)
         IRCODE = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (IRCODE .NE. 0) THEN
+          IRCODE = fsql3_exec (IoutDBref,"Commit;"//Char(0))
           IATRTLIST = 0
           RETURN
         ENDIF
@@ -240,6 +241,7 @@ C
            IRCODE = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))
            IF (IRCODE .NE. 0) THEN
              IATRTLIST = 0
+             IRCODE = fsql3_exec (IoutDBref,"Commit;"//Char(0))
              RETURN
            ENDIF
           ENDDO

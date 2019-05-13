@@ -91,7 +91,10 @@ C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
 C     IF IT DOESNT THEN WE NEED TO CREATE IT
 
       IRCODE = fsql3_exec (IoutDBref,"Begin;"//Char(0))
-
+      IF (IRCODE .NE. 0) THEN
+        ICUTLIST = 0
+        RETURN
+      ENDIF
       IRCODE = fsql3_tableexists(IoutDBref,TRIM(TBLNAME)//CHAR(0))
       IF(IRCODE.EQ.0) THEN
           SQLStmtStr='CREATE TABLE ' // TRIM(TBLNAME) //
