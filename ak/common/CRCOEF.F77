@@ -1,6 +1,5 @@
 CODE SEGMENT CRCOEF
 C----------
-C AK-COMMON $Id:
 C AK-COMMON $Id: dgf.f 2666 2019-05-10 22:46:14Z lancedavid $
 C----------
 C
