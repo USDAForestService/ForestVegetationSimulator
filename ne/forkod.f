@@ -52,8 +52,9 @@ C  ------------------------
       DATA JFOR/914,922,919,920,921,911,930/
       DATA NUMFOR/7/
       DATA KFOR/7*1/
-      LOGICAL FORFOUND/.FALSE./,USEIGL/.TRUE./
-
+      LOGICAL USEIGL, FORFOUND
+      USEIGL = .TRUE.
+      FORFOUND = .FALSE.
 
 
       SELECT CASE (KODFOR)

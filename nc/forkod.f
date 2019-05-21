@@ -64,7 +64,9 @@ C  ------------------------
      &          715/
       DATA NUMFOR /11/
       DATA KFOR/11*1/
-      LOGICAL FORFOUND/.FALSE./,USEIGL/.TRUE./
+      LOGICAL USEIGL, FORFOUND
+      USEIGL = .TRUE.
+      FORFOUND = .FALSE.
 
 
       SELECT CASE (KODFOR)

@@ -48,7 +48,9 @@ C  ------------------------
       DATA JFOR/103,104,105,106,621,110,113,114,116,117,118,613 /,
      >          NUMFOR /12/
       DATA KFOR/1,1,3,2,1,1,1,1,1,3,2,1 /
-      LOGICAL FORFOUND/.FALSE./
+      LOGICAL FORFOUND
+      FORFOUND = .FALSE.
+
 
       SELECT CASE (KODFOR)
 

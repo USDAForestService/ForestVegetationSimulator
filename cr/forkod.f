@@ -134,8 +134,8 @@ C----------
      & 214, 215, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 312,
      & 201, 205, 208, 224, 311/
       DATA NUMFOR/28/
-      LOGICAL FORFOUND/.FALSE./
-
+      LOGICAL FORFOUND
+      FORFOUND = .FALSE.
 
 
       SELECT CASE (KODFOR)

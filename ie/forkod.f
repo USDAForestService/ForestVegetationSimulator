@@ -53,7 +53,10 @@ C  ------------------------
      &          102,109,112/,
      >          NUMFOR /15/
       DATA KFOR/1,1,3,2,1,1,1,1,1,3,2,1,1,1,1 /
-      LOGICAL USEIGL/.TRUE./,FORFOUND/.FALSE./
+      LOGICAL USEIGL, FORFOUND
+      USEIGL = .TRUE.
+      FORFOUND = .FALSE.
+      
 
       SELECT CASE (KODFOR)
 C       CROSSWALK FOR RESERVATION PSUEDO CODES & LOCATION CODE
