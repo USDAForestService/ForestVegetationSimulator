@@ -46,10 +46,11 @@ C  7611 = CHEROKEE OTSA                     (MAPPED TO  905 MARK TWAIN)
 C  ------------------------
 
       INTEGER JFOR(4),KFOR(4),NUMFOR,I
+      LOGICAL USEIGL, FORFOUND
       DATA JFOR/905,908,912,911/
       DATA NUMFOR/4/
       DATA KFOR/1,1,1,1/
-      LOGICAL USEIGL, FORFOUND
+
       USEIGL = .TRUE.
       FORFOUND = .FALSE.
 
