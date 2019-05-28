@@ -67,40 +67,42 @@ C             DIAMETER GROWTH EQUATION.
 C----------
 C SPECIES LIST FOR ALASKA VARIANT.
 C
-C Number Code  Common Name         FIA  PLANTS Scientific Name
-C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
-C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
-C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
-C   4     TA   tamarack            071  LALA   Larix laricina
-C   5     WS   white spruce        094  PIGL   Picea glauca
-C   6     LS   Lutz’s spruce            PILU   Picea lutzii
-C   7     BE   black spruce        095  PIMA   Picea mariana
-C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
-C   9     LP   lodgepole pine      108  PICO   Pinus contorta
-C  10     RC   western redcedar    242  THPL   Thuja plicata
-C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
-C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
-C  13     OS   other softwoods     298  2TE
-C  14     AD   alder species       350  ALNUS  Alnus species
-C  15     RA   red alder           351  ALRU2  Alnus rubra
-C  16     PB   paper birch         375  BEPA   Betula papyrifera
-C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
-C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
-C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
-C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
-C  21     WI   willow species      920  SALIX  Salix species
-C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
-C  23     OH   other hardwoods     998  2TD
+C      PERFROST
+C      AFFECTED
+C         | 
+C Number  V  Code  Common Name         FIA  PLANTS Scientific Name
+C   1        SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2        AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3        YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4        TA   tamarack            071  LALA   Larix laricina
+C   5     P  WS   white spruce        094  PIGL   Picea glauca
+C   6     P  LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     P  BE   black spruce        095  PIMA   Picea mariana
+C   8        SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9        LP   lodgepole pine      108  PICO   Pinus contorta
+C  10        RC   western redcedar    242  THPL   Thuja plicata
+C  11        WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12        MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     P  OS   other softwoods     298  2TE
+C  14        AD   alder species       350  ALNUS  Alnus species
+C  15        RA   red alder           351  ALRU2  Alnus rubra
+C  16     P  PB   paper birch         375  BEPA   Betula papyrifera
+C  17     P  AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     P  BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     P  AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     P  CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     P  WI   willow species      920  SALIX  Salix species
+C  22     P  SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     P  OH   other hardwoods     998  2TD
 C----------
 C  VARIABLE DECLARATIONS:
 C----------
-      LOGICAL DEBUG
-
+      LOGICAL DEBUG, LPERM
       INTEGER I ,I1, I2, I3, ISPC, IWHO
 
-      REAL BAL,BARK,BRATIO,CONSPP,CR,D,DDS,DDSL,DDSS
-      REAL DGBALS,DGCRS,DGCRS2,DGDBLS,DGDSQS,DGLDS,DIAGR
-      REAL H,RELHT,SMCONS,SSITE,TEMEL,XWT
+      REAL BAL,BRATIO,CONSPP,CR,D
+
+      REAL SSITE,TEMEL
 
       REAL DGCONB1(MAXSP), DGDBAL(MAXSP), DGDISQ(MAXSP), DGEL(MAXSP),
      &     DGLD(MAXSP), DGLNCR(MAXSP), DGLNSI(MAXSP), DGRD(MAXSP),
@@ -134,7 +136,7 @@ C DBH^2 -- b2
       DATA DGDISQ /
      & -0.000436, -0.000436, -0.000436, -0.003125, -0.003125, 
      & -0.003125, -0.003125, -0.000436, -0.000436, -0.000436, 
-     & -9.432608, -0.000436, -0.003125, -0.003125, -0.003125, 
+     & -0.000436, -0.000436, -0.003125, -0.003125, -0.003125, 
      & -0.003125, -0.003125, -0.003125, -0.003125, -0.003125, 
      & -0.003125, -0.003125, -0.003125 /
 
@@ -143,7 +145,7 @@ C ln(DBH) -- b3
       DATA DGLD /
      &  0.044114,  0.044114,  0.073453,  0.162477,  0.560619, 
      &  0.560619,  0.162477,  0.044114,  0.011996,  0.269429, 
-     & -0.000436,  0.006253,  0.560619,  0.435894,  0.435894, 
+     &  0.180706,  0.006253,  0.560619,  0.435894,  0.435894, 
      &  0.476613,  0.476613,  0.340293,  0.824344,  0.340293, 
      &  0.340293,  0.340293,  0.340293 /
 
@@ -151,7 +153,7 @@ C DESCRIBED IN DOCUMENTATION AS COEFFIENT FOR
 C BAL -- b4
       DATA DGDBAL /
      & -0.001899, -0.001899, -0.000430,  0.445278, -0.000366, 
-     & -0.000366,  0.445278, -0.001899, -0.000430, -0.000430, 
+     & -0.000366, -0.001424, -0.001899, -0.000430, -0.000430, 
      & -0.000402, -0.000713, -0.000366, -0.001244, -0.001244, 
      & -0.006573, -0.006573, -0.000472, -0.000407, -0.000472, 
      & -0.000472, -0.000472, -0.000472 /
@@ -160,9 +162,9 @@ C DESCRIBED IN DOCUMENTATION AS COEFFIENT FOR
 C RD -- b5
       DATA DGRD /
      &  0.0,       0.0,       0.0,      -0.001738, -0.394170,
-     & -0.394170, -0.001738,  0.0,       0.0,       0.0, 
+     & -0.394170, -0.289979,  0.0,       0.0,       0.0, 
      &  0.0,       0.0,      -0.394170, -0.394507, -0.394507, 
-     & -0.001738, -0.001738, -0.738629, -0.489654, -0.738629, 
+     & -0.289979, -0.001738, -0.738629, -0.489654, -0.738629, 
      & -0.738629, -0.738629, -0.738629 /
 
 C DESCRIBED IN DOCUMENTATION AS COEFFIENT FOR
@@ -222,10 +224,10 @@ C DESCRIBED IN DOCUMENTATION AS PERMAFROST COEFFICIENT FOR
 C INTERCEPT -- b1
       DATA PFCON /
      &       0.0,       0.0,       0.0,       0.0, -6.233612,
-     &       0.0, -6.389518,       0.0,       0.0,       0.0,
-     &       0.0,       0.0,       0.0,       0.0,       0.0,
-     & -6.204504,       0.0,       0.0, -6.979727, -5.428688,
-     &       0.0,       0.0,       0.0 /
+     & -6.233612, -6.389518,       0.0,       0.0,       0.0,
+     &       0.0,       0.0, -6.233612,       0.0,       0.0,
+     & -6.204504, -6.204504, -5.428688, -6.979727, -5.428688,
+     & -5.428688, -5.428688, -5.428688 /
 
 C DESCRIBED IN DOCUMENTATION AS PERMAFROST COEFFIENT FOR
 C DBH^2 -- b2
@@ -234,29 +236,29 @@ C DBH^2 -- b2
 C DESCRIBED IN DOCUMENTATION AS PERMAFROST COEFFIENT FOR
 C ln(DBH) -- b3
       DATA PFLD /
-     &       0.0,       0.0,       0.0,       0.0,  0.563513,
-     &       0.0,  0.176255,       0.0,       0.0,       0.0,
-     &       0.0,       0.0,       0.0,       0.0,       0.0,
-     &  0.503683,       0.0,       0.0,  0.879614,  0.103326,
-     &       0.0,       0.0,       0.0 /
+     &      0.0,      0.0,      0.0,      0.0, 0.563513,
+     & 0.563513, 0.176255,      0.0,      0.0,      0.0,
+     &      0.0,      0.0, 0.563513,      0.0,      0.0,
+     & 0.503683, 0.503683, 0.103326, 0.879614, 0.103326,
+     & 0.103326, 0.103326, 0.103326 /
 
 C DESCRIBED IN DOCUMENTATION AS PERMAFROST COEFFIENT FOR
 C BAL -- b4
       DATA PFDBAL /
      &       0.0,       0.0,       0.0,       0.0, -0.000803,
-     &       0.0, -0.001738,       0.0,       0.0,       0.0,
-     &       0.0,       0.0,       0.0,       0.0,       0.0,
-     & -0.006774,       0.0,       0.0, -0.000335, -0.001313,
-     &       0.0,       0.0,       0.0 /
+     & -0.000803, -0.001738,       0.0,       0.0,       0.0,
+     &       0.0,       0.0, -0.000803,       0.0,       0.0,
+     & -0.006774, -0.006774, -0.001313, -0.000335, -0.001313,
+     & -0.001313, -0.001313, -0.001313 /
 
 C DESCRIBED IN DOCUMENTATION AS PERMAFROST COEFFIENT FOR
 C RD -- b5
       DATA PFRD /
      &       0.0,       0.0,       0.0,       0.0, -0.436587,
-     &       0.0, -0.053315,       0.0,       0.0,       0.0,
-     &       0.0,       0.0,       0.0,       0.0,       0.0,
-     & -0.311677,       0.0,       0.0, -0.506973, -0.761759,
-     &       0.0,       0.0,       0.0 /
+     & -0.436587, -0.053315,       0.0,       0.0,       0.0,
+     &       0.0,       0.0, -0.436587,       0.0,       0.0,
+     & -0.311677, -0.311677, -0.761759, -0.506973, -0.761759,
+     & -0.761759, -0.761759, -0.761759 /
 
 C DESCRIBED IN DOCUMENTATION AS PERMAFROST COEFFIENT FOR
 C ln(CR) -- b6
@@ -360,12 +362,15 @@ C       IF PRESENCE OF PERMAFROST IS TRUE, SET UP FIRST COMPONENTS
 c       OF MODIFIER VARIABLES FOR PERMAFROST AFFECTED SPECIES. 
 C       THESE ARE NOT POINT OR TREE SPECIFIC: ELEVATION, SLOPE, ASPECT
 C
-        IF (LPERM .AND. (ISPC .EQ.  5 .OR. ISPC .EQ.  7 .OR.
-     &                   ISPC .EQ. 16 .OR. ISPC .EQ. 19 .OR.
-     &                   ISPC .EQ. 20)) THEN
-       	  PFCOMP1 = PFEL * TEMEL
-     &            + PFSLOP * TEMSLP
-     &            + PFSASP * TEMSASP
+        IF (LPERM) THEN
+          SELECT CASE (ISPC)
+            CASE (5:7, 13, 16:23)
+       	      PFCOMP1 = PFEL * TEMEL
+     &                + PFSLOP * TEMSLP
+     &                + PFSASP * TEMSASP
+            CASE DEFAULT
+              PFCOMP1 = 0.0
+          END SELECT
         ELSE
           PFCOMP1 = 0.0
        	ENDIF
@@ -402,41 +407,44 @@ C         THESE ARE POINT AND TREE SPECIFIC:
 C         DIAMETER, POINT BAL, POINT RELATIVE DENSITY (ZEIDI) AND
 C         CROWN RATIO
 C
-          IF (LPERM .AND. (ISPC .EQ.  5 .OR. ISPC .EQ.  7 .OR.
-     &                     ISPC .EQ. 16 .OR. ISPC .EQ. 19 .OR.
-     &                     ISPC .EQ. 20)) THEN
-       	    PFCOMP2 = PFDSQ * D2
-     &              + PFLD(ISPC) * LOG(D)
-     &              + PFDBAL(ISPC) * BAL
-     &              + PFRD(ISPC) * RDEN
-     &              + PFLNCR * LOG(CR)
-C
-C           COMPUTE PERMAFROST MODIFIER BY COMPUTING THE NUMERATOR AND
-C           DENOMINATOR WITH THE EQUATION BELOW. NUMERATOR INCLUDES PERM
-C           FACTOR AND DENOMINATOR DOES NOT. THE RESULTING MODIFIER
-C           SHOULD BE LESS THAN 1.0
-C           IF PERMAFROST IS NOT PRESENT, PFMOD WILL BE 1.0, NO AFFECT.
-C
-C           ADI = exp(X)
-C
-C           X = b1 + PERM + b2 * DBH2 + b3 * ln(DBH) + b4 * BAL
-C            + b5 * RD + b6 * ln(CR) + b7 * ELEV + b8 * SLOPE
-C            + b9 * SLOPE * cos(ASPECT)
-C           WHERE:
-C           ADI = Annual diameter increment (in year-1)
-C           PERM = permafrost presence variable
-C           DBH = Diameter at breast height (in)
-C           BAL = Plot level basal area in larger trees (ft2 * acre-1)
-C           RD = Relative density (plot Zeide SDI / plot Max SDI - decimal)
-C           CR = Crown ratio (%)
-C           ELEV = Elevation of plot (ft)
-C           SLOPE = Slope of plot (%)
-C           ASPECT = Aspect of plot (radians)
-C
-            PFNUMR = (EXP(PFCON(ISPC) + PFPRES + PFCOMP2 + PFCOMP1))
-            PFDENO = (EXP(PFCON(ISPC) + PFCOMP2 + PFCOMP1))
-            PFMOD = PFNUMR / PFDENO
+          IF (LPERM) THEN
+            SELECT CASE (ISPC)
+            CASE (5:7, 13, 16:23)
 
+       	      PFCOMP2 = PFDSQ * D2
+     &                + PFLD(ISPC) * LOG(D)
+     &                + PFDBAL(ISPC) * BAL
+     &                + PFRD(ISPC) * RDEN
+     &                + PFLNCR * LOG(CR)
+C
+C             COMPUTE PERMAFROST MODIFIER BY COMPUTING THE NUMERATOR AND
+C             DENOMINATOR WITH THE EQUATION BELOW. NUMERATOR INCLUDES PERM
+C             FACTOR AND DENOMINATOR DOES NOT. THE RESULTING MODIFIER
+C             SHOULD BE LESS THAN 1.0
+C             IF PERMAFROST IS NOT PRESENT, PFMOD WILL BE 1.0, NO AFFECT.
+C
+C             ADI = exp(X)
+C
+C             X = b1 + PERM + b2 * DBH2 + b3 * ln(DBH) + b4 * BAL
+C               + b5 * RD + b6 * ln(CR) + b7 * ELEV + b8 * SLOPE
+C               + b9 * SLOPE * cos(ASPECT)
+C             WHERE:
+C             ADI = Annual diameter increment (in year-1)
+C             PERM = permafrost presence variable
+C             DBH = Diameter at breast height (in)
+C             BAL = Plot level basal area in larger trees (ft2 * acre-1)
+C             RD = Relative density (plot Zeide SDI / plot Max SDI - decimal)
+C             CR = Crown ratio (%)
+C             ELEV = Elevation of plot (ft)
+C             SLOPE = Slope of plot (%)
+C             ASPECT = Aspect of plot (radians)
+C
+              PFNUMR = (EXP(PFCON(ISPC) + PFPRES + PFCOMP2 + PFCOMP1))
+              PFDENO = (EXP(PFCON(ISPC) + PFCOMP2 + PFCOMP1))
+              PFMOD = PFNUMR / PFDENO
+            CASE DEFAULT
+              PFMOD = 1.0
+            END SELECT
           ELSE
             PFMOD = 1.0
        	  ENDIF
@@ -458,11 +466,11 @@ C         ANNUAL DIAMETER GROWTH WITH PERMAFROST MODIFIER.
 C         CONVERT OUTSIDE BARK DIAMETER INCREMENT TO INSIDE BARK
 C         CHANGE IN SQUARED DIAMETERS AND LOAD INTO WK2 ARRAY.
 C
-          TEMPD1 = D * BRATIO(ISPC,D,HT(I))
-          DUP = D + DGPRED
-          TEMPD2 = DUP * BRATIO(ISPC,DUP,HT(I))
-          
-          WK2(I) = TEMPD2**2 - TEMPD1**2
+          TEMPD1 = D * (1.0 - BRATIO(ISPC,D,HT(I)))       ! CURRENT DIB
+          DUP = D + DGPRED                                ! WITH GROWTH DOB
+          TEMPD2 = DUP * (1.0 - BRATIO(ISPC,DUP,HT(I)))   ! WITH GROWTH DIB
+
+          WK2(I) = TEMPD2**2 - TEMPD1**2                  ! CHANGE IN DIB
 C----------
 C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 C----------
