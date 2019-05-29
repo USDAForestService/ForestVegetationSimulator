@@ -48,7 +48,7 @@ C               CROOKSTON(R6) MODEL 1 EQN# = 04
 C               CROOKSTON(R6) MODEL 2 EQN# = 05
 C               DONNELLY EQN#              = 06
 C               MOEUR EQN#                 = 07
-C               MARK CASTLE EQN            = 08
+C               MARK CASTLE EQN#           = 08
 C
 C  SOURCES OF FOREST GROWN CROWN WIDTH EQUATIONS:
 C  BECHTOLD, WILLIAM A. 2004. LARGEST-CROWN-DIAMETER PREDICTION MODELS FOR
@@ -90,7 +90,7 @@ C----------
 C                      SF       AF       YC   TAtoBE       WS   LStoWS
        DATA AKMAP/ '01105', '01905', '04205', '09508', '09408', '09408',
 C             BE       SS       LP       RC       WH       MH   OStoWS
-     &    '09508', '09805', '10805', '24205', '26305', '26405', '09408',
+     &    '09508', '09805', '10805', '24205', '26305', '26403', '09408',
 C         ADtoRA       RA       PB   ABtoPB   BAtoCW       AS       CW
      &    '35106', '35106', '37508', '37508', '74708', '74608', '74708',            
 C         WItoCW   SUtoCW   OHtoCW
@@ -1323,7 +1323,8 @@ C  095          PICEA MARIANA - BE                  BLACK SPRUCE
           CW= 3.352504 * (D**0.650746) * (H**-0.384478) * (CL**0.250764)
         ELSE
           CW= 0.5
-        ENDIF        
+        ENDIF
+        IF (CW .GT. 16.) CW=16.        
 C-----------------------------------------------------------------------
 C  CASE 09204 CROOKSTON (R6) MODEL 1
 C  092          PICEA BREWERIANA                    BREWER SPRUCE
@@ -1424,12 +1425,15 @@ C-----------------------------------------------------------------------
 C  CASE 09408 CASTLE AK EQN 08
 C  094          PICEA GLAUCA - WS                 WHITE SPRUCE
       CASE('09408')
+        IF (EL .LT.   1.) EL=  1.
+        IF (EL .GT.  85.) EL= 85.
         IF (D .GE. 0.1) THEN
           CW= 8.870861 * (D**0.631291) * (H**-0.875513) * (CL**0.479686)
      &        * ((BAREA + 1)**0.095698) * (EXP(EL)**(-0.014942))
         ELSE
           CW= 0.5
-        ENDIF         
+        ENDIF
+        IF (CW .GT. 40.) CW=40.         
 C-----------------------------------------------------------------------
 C  CASE 10102 BECHTOLD 2004 MODEL 2
 C  101          PINUS ALBICAULIS                   WHITEBARK PINE       
@@ -1993,20 +1997,21 @@ C  264          TSUGA MERTENSIANA                 MOUNTAIN HEMLOCK
         ENDIF
         IF (CW .GT.45.) CW=45.
 C
-C  CASE 26403 CROOKSTON (R1)
+C  CASE 26403 CROOKSTON (R1) ***SHOULD THIS BE R6?***
+C EQUATION HAS BEEN UPDATED TO REFLECT PROPER LOGIC
 C  264          TSUGA MERTENSIANA                 MOUNTAIN HEMLOCK      
       CASE('26403')
-        IF (H .GE. 5) THEN
-          CW=.8*H*MAX(0.5,CR*0.01)
+        IF (H .LT. 5) THEN
+          CW=(0.8*H*MAX(0.5,CR*0.01))*(1-(H-5)*0.1)*6.90396
+     &       *(D**0.55645)*(H**(-0.28509))*(CL**0.20430)*(H-5)*0.1
         ELSE IF (H .GE. 15) THEN
           CW=6.90396*(D**0.55645)*(H**(-0.28509))*(CL**0.20430)
         ELSE 
-          CW=(0.8*H*MAX(0.5,CR*0.01))*(1-(H-5)*0.1)*6.90396
-     &       *(D**0.55645)*(H**(-0.28509))*(CL**0.20430)*(H-5)*0.1
-        IF (CW .GT.45.) CW=45.
+          CW=.8*H*MAX(0.5,CR*0.01)
         ENDIF
+        IF (CW .GT.45.) CW=45.
 C
-C  CASE 26405 CROOKSTON (R6) MODEL 2
+C  CASE 26405 CROOKSTON (R6) MODEL 2 ***SHOULD THIS BE R1?***
 C  264          TSUGA MERTENSIANA                 MOUNTAIN HEMLOCK      
       CASE('26405')
         IF (EL .LT.  10.) EL= 10.
@@ -2133,7 +2138,8 @@ C  375          BETULA PAPYRIFERA - PB              PAPER BIRCH
      &        * ((BAREA + 1)**-0.054279)
         ELSE
           CW= 0.5
-        ENDIF 
+        ENDIF
+        IF (CW .GT. 53.) CW=53. 
 C-----------------------------------------------------------------------
 C  CASE 47502 BECTHOLD 2004 MODEL 2
 C  475         CERCOCARPUS LEDIFOLIUS       CURLLEAF MOUNATIN MAHOGANY
@@ -2212,6 +2218,7 @@ C  746          POPULUS TREMULOIDES - AS          QUAKING ASPEN
         ELSE
           CW= 0.5
         ENDIF
+        IF (CW .GT. 48.) CW=48.
 C-----------------------------------------------------------------------
 C  CASE 74705 CROOKSTON (R6) MODEL 2
 C  747          POPULUS TRICHOCARPA                BLACK COTTONWOOD
@@ -2233,6 +2240,7 @@ C  747          POPULUS TRICHOCARPA - CW           BLACK COTTONWOOD
         ELSE
           CW= 0.5
         ENDIF
+        IF (CW .GT. 56.) CW=56.
 C-----------------------------------------------------------------------
 C  CASE 74902 BECHTOLD 2004 MODEL 2
 C  749          POPULUS ANGUSTIFOLIA               NARROWLEAF COTTONWOOD
