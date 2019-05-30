@@ -76,6 +76,8 @@ C
    10    CONTINUE
       ENDIF
 
+      IF (ITRN .EQ. 0) RETURN
+
       FIRSTL = .TRUE.
 C
 C     SEE IF WE NEED TO DO SOME DEBUG.
@@ -111,8 +113,8 @@ C
          CALL GETLUN(IRUNIT)
             
          IF (ISTEP .EQ. 1 .AND. IRRSP .EQ. MINRR) THEN
-            JYR = IY(1)
-            IOAGE = IAGE
+            JYR = IY(ICYC+1)
+            IOAGE = IAGE + IY(ICYC+1) - IY(1)
 C
 C           get report ID.
 C
@@ -151,8 +153,8 @@ C
             ENDIF   
             WRITE (IRUNIT,1120) IDRDOUT(1)
          ELSE
-            JYR = IY(ISTEP)
-            IOAGE = IAGE + IY(ISTEP) - IY(1)
+            JYR = IY(ICYC+1)
+            IOAGE = IAGE + IY(ICYC+1) - IY(1)
             IF (DEBUG) WRITE (JOSTND,102) ISTEP, ICYC, JYR
  102        FORMAT ('IN RDPR:ISTEP ICYC JYR=',3I5)
          ENDIF
