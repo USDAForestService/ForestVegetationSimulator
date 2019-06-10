@@ -101,7 +101,7 @@ C----------
       CR = CRINT(ISPC)
       & + CRDBH * D
       & + CRHDR(ISPC) * (H*12/D)
-      & + CRRD(ISPC) * (SDIC2/SDIMAX)
+      & + CRRD(ISPC) * RDEN
       & + CRDQMD * (D/RMSQD)
 C----------
 C  A RANDOM ERROR IS ASSIGNED TO THE CROWN RATIO PREDICTION
