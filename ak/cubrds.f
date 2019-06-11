@@ -157,8 +157,8 @@ C  FLAG IDENTIFYING THE SIZE TRANSITION VARIABLE; 0=D, 1=D2H
 C  1 PER SPECIES.
 C----------
       DATA IBTRAN/
-     &      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-     &      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0/
+     &      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     &      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
 
 C----------
 C  TRANSITION SIZE.  TREES OF LARGER SIZE (D OR D2H) WILL USE
