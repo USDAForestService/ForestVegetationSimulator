@@ -19,33 +19,37 @@ C
 C----------
 C  VARIABLE DECLARATIONS:
 C----------
-C
+
       INTEGER IBCD,IDU,ISP,ITEM,J,JSP,N,NLOGS
-C
+
       INTEGER IMAP(MAXSP)
-C
+
       REAL AH,B1,B2,BDMIN,BV,BVL,D,DBH,DIBAHI,DTOP,DU,FRAC,HI,HT
       REAL HTM,QTLN,S1,SLN,STMP,TBV,TRIM,X,Z1
-C
+
       REAL SF(4,2),TPCF1(6),TPCF2(6),XPS(6)
-C
+
 C----------
 C  DATA STATEMENTS:
-C
-C  SPECIES ORDER
-C  1    2    3    4    5    6    7    8    9   10   11  12  13
-C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
 C----------
       DATA TPCF1/
      & 1.01959, 1.06932, 1.07134, 1.02929, 1.09262, 1.07588/
-C
+
       DATA TPCF2/
      & 0.33567, 0.41563, 0.47216, 0.33401, 0.36530, 0.35378/
-C
+
       DATA XPS/
      & 0.95204, 0.92368, 0.89659, 0.95411, 0.94976, 0.95222/
+
+C     MAPPING OF SPECIES TO ABOVE COEFFICIENTS
+C     SPECIES ORDER:
+C                 1   2   3   4   5   6   7   8   9   10  11  12
+C                 SF  AF  YC  TA  WS  LS  BE  SS  LP  RC  WH  MH
 C
-      DATA IMAP  / 1, 2, 4, 5, 1, 3, 1, 1, 6, 1, 1, 1, 3/
+C                 13  14  15  16  17  18  19  20  21  22  23
+C                 OS  AD  RA  PB  AB  BA  AS  CW  WI  SU  OH
+      DATA IMAP / 4,  6,  3,  1,  1,  1,  1,  1,  1,   2,  1,  5,
+     &            3,  1,  1,  1,  1,  1,  1,  1,  1,   1,  1 /
 C----------
 C  DEFINE NOMINAL SCALING STANDARDS: SLN=STANDARD LOG LENGTH;
 C  TRIM=KERF.  
@@ -64,9 +68,10 @@ C  INITIALIZE VOLUME ESTIMATE.
 C----------
       BV=0.0
 C----------
-C   VOLUMES FOR SPECIES 5 AND 7 ARE CALCULATED FROM FORMULA.
+C   VOLUMES FOR SPECIES (AK OLD: 5 AND 7) ARE CALCULATED FROM FORMULA.
+C                       (AK NEW: 11 AND 9)
 C----------
-      IF (ISP .EQ. 5) THEN
+      IF (ISP .EQ. 11) THEN
 C----------
 C       GIANT SEQUOIA FROM WENSEL AND SCHOENHEIDE
 C----------
@@ -74,7 +79,7 @@ C----------
         BV=EXP(BVL)
         RETURN
       ENDIF
-      IF (ISP .EQ. 7) THEN
+      IF (ISP .EQ. 9) THEN
 C----------
 C       BLACK OAK EQ FROM PNW 414
 C       EQN IS IN CUBIC FEET, APPLY BF/CF RATIO   R.JOHNSON
