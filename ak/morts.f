@@ -162,7 +162,7 @@ C----------
       REAL CREDIT,TEMP,XMORE,VLOS,PRES,XCHECK,X,RIP
       REAL WKI,D1,D2,XMORT
       REAL DQ10,G,BRATIO,BARK,CIOBDS,D,P,SD2SQ,T,SUMDR10
-      REAL BAL,WKIT2,G1(MAXTRE)
+      REAL WKIT2,G1(MAXTRE)
       REAL BAA,TA,SD2SQA,SUMDR10A,DQ10A,SDIA,CIOBDS1(MAXTRE)
       REAL WKII(MAXTRE),PTBAL
       INTEGER MYACTS(2),PASS
@@ -175,41 +175,41 @@ C----------
 C
 C     INTERCEPT COEFFICIENTS
       DATA BM1/5.198019, 5.198019, 5.473731, 5.212785, 4.648477,
-      &        4.648477, 5.212785, 5.198019, 4.974849, 6.323036,
-      &        5.070262, 5.437841, 4.648477, 3.139022, 3.139022,
-      &        3.33781, 3.33781, 2.706075, 2.906063, 2.706075,
-      &        2.706075, 2.706075, 2.706075/
+     &         4.648477, 5.212785, 5.198019, 4.974849, 6.323036,
+     &         5.070262, 5.437841, 4.648477, 3.139022, 3.139022,
+     &         3.337810, 3.337810, 2.706075, 2.906063, 2.706075,
+     &         2.706075, 2.706075, 2.706075/
 C      
 C     DBH COEFFICIENTS
       DATA BM2/0.061917, 0.061917, 0.061917, 0.371005, 0.371005,
-      &        0.371005, 0.371005, 0.061917, 0.061917, 0.061917,
-      &        0.061917, 0.061917, 0.371005, 0.371005, 0.371005,
-      &        0.371005, 0.371005, 0.371005, 0.371005, 0.371005,
-      &        0.371005, 0.371005, 0.371005/
+     &         0.371005, 0.371005, 0.061917, 0.061917, 0.061917,
+     &         0.061917, 0.061917, 0.371005, 0.371005, 0.371005,
+     &         0.371005, 0.371005, 0.371005, 0.371005, 0.371005,
+     &         0.371005, 0.371005, 0.371005/
 C
 C     DBH^2 COEFFICIENTS
-      DATA BM3/-0.001415, -0.001415, -0.001415, -0.05853, -0.018131,
-      &        -0.018131, -0.05853, -0.001415, -0.001415, -0.001415,
-      &        -0.001415, -0.001415, -0.018131, -0.012895, -0.012895,
-      &        -0.017155, -0.017155, -0.010482, -0.013165, -0.010482,
-      &        -0.010482, -0.010482, -0.010482/
+      DATA BM3/-0.001415, -0.001415, -0.001415, -0.058530, -0.018131,
+     &         -0.018131, -0.058530, -0.001415, -0.001415, -0.001415,
+     &         -0.001415, -0.001415, -0.018131, -0.012895, -0.012895,
+     &         -0.017155, -0.017155, -0.010482, -0.013165, -0.010482,
+     &         -0.010482, -0.010482, -0.010482/
 C
 C     BAL COEFFICIENTS
 C     NOT USED (ZERO VALUE) FOR SF, AF, YC, SS, LP, RC, WH, MH
-      DATA BM4/0.0, 0.0, 0.0, -0.005435, -0.004561,
-      &        -0.004561, -0.005435, 0.0, 0.0, 0.0,
-      &        0.0, 0.0, -0.004561, -0.004084, -0.004084,
-      &        -0.007239, -0.007239, -0.0025, -0.010514, -0.0025,
-      &        -0.0025, -0.0025, -0.0025/
+      DATA BM4/0.0,       0.0,      0.0,       -0.005435, -0.004561,
+     &        -0.004561, -0.005435,  0.0,       0.0,       0.0,
+     &         0.0,       0.0,      -0.004561, -0.004084, -0.004084,
+     &        -0.007239, -0.007239, -0.002500, -0.010514, -0.002500,
+     &        -0.002500, -0.002500, -0.002500/
 C
 C     BAL/LN(DBH + 1) COEFFICIENTS
 C     NOT USED (ZERO VALUE) FOR TA, WS, LS, BE, OS, AD, RA, PB, AB,
 C     BA, AS, BC, WI, SU, OH
-      DATA BM5/-0.003554, -0.003554, -0.001365, 0.0, 0.0,
-      &        0.0, 0.0, -0.003554, -0.001722, -0.002602,
-      &        -0.00115, -0.002249, 0.0, 0.0, 0.0,
-      &        0.0, 0.0, 0.0, 0.0, 0.0,
-      &        0.0, 0.0, 0.0/
+      DATA BM5/-0.003554, -0.003554, -0.001365,  0.0,       0.0,
+     &          0.0,       0.0,      -0.003554, -0.001722, -0.002602,
+     &         -0.001150, -0.002249,  0.0,       0.0,       0.0,
+     &          0.0,       0.0,       0.0,       0.0,       0.0,
+     &          0.0,       0.0,       0.0/
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
@@ -220,31 +220,32 @@ C  MULTIPLIERS AND BRANCH TO END (FOR THE METHOD USED TO GET
 C  MULTIPLIERS, SEE SUBROUTINE MULTS).
 C---------
       CALL OPFIND (1,MYACTS(1),NTODO)
-      IF (NTODO.EQ.0) GOTO 12
-      DO 9 I=1,NTODO
-      CALL OPGET(I,4,IDATE,IACTK,NP,PRM)
-      IF (IACTK.LT.0) GOTO 9
-      CALL OPDONE(I,IY(ICYC))
-      ISPCC=IFIX(PRM(1))
-      IF(ISPCC.EQ.0) GOTO 2
-      XMMULT(ISPCC)=PRM(2)
-      XMDIA1(ISPCC)=PRM(3)
-      XMDIA2(ISPCC)=PRM(4)
-      GOTO 9
-    2 CONTINUE
-      DO 5 ISPCC=1,MAXSP
-      XMMULT(ISPCC)=PRM(2)
-      XMDIA1(ISPCC)=PRM(3)
-      XMDIA2(ISPCC)=PRM(4)
-    5 CONTINUE
-    9 CONTINUE
-   12 CONTINUE
+      IF (NTODO.GT.0) THEN
+        DO I=1,NTODO
+          CALL OPGET(I,4,IDATE,IACTK,NP,PRM)
+          IF (IACTK.LT.0) GOTO 9
+          CALL OPDONE(I,IY(ICYC))
+          ISPCC=IFIX(PRM(1))
+          IF (ISPCC.EQ.0) GOTO 2
+          XMMULT(ISPCC)=PRM(2)
+          XMDIA1(ISPCC)=PRM(3)
+          XMDIA2(ISPCC)=PRM(4)
+          GOTO 9
+    2     CONTINUE
+          DO ISPCC=1,MAXSP
+            XMMULT(ISPCC)=PRM(2)
+            XMDIA1(ISPCC)=PRM(3)
+            XMDIA2(ISPCC)=PRM(4)
+          ENDDO
+    9     CONTINUE
+        ENDDO
+      ENDIF
 C----------
 C IF BARE GROUND PLANT, LIMITS WERE NOT ADJUSTED FROM A PERCENT TO A
 C PROPORTION IN CRATET, ADJUST THEM HERE.
 C----------
-      IF(PMSDIL .GT. 1.0)PMSDIL = PMSDIL/100.
-      IF(PMSDIU .GT. 1.0)PMSDIU = PMSDIU/100.
+      IF (PMSDIL .GT. 1.0)PMSDIL = PMSDIL/100.
+      IF (PMSDIU .GT. 1.0)PMSDIU = PMSDIU/100.
 C
       IF (ITRN.LE.0) GOTO 100
 C----------
@@ -254,8 +255,8 @@ C WILL BE RESET TO BE CONSISTENT WITH THE SDI MAXIMUM. THIS IS NEEDED
 C FOR MODELING CLIMATE CHANGE.
 C----------
       CALL SDICAL(0,SDIMAX)
-      IF(DEBUG)WRITE(JOSTND,*)'IN MORTS CYCLE= ',ICYC,'  BAMAX= ',
-     &BAMAX,'  SDIMAX= ',SDIMAX 
+      IF (DEBUG)WRITE(JOSTND,*)'IN MORTS CYCLE= ',ICYC,'  BAMAX= ',
+     &  BAMAX,'  SDIMAX= ',SDIMAX 
 C----------
 C  ESTIMATE QUADRATIC MEAN DIAMETER 10 YEARS HENCE.
 C----------
@@ -270,23 +271,23 @@ C----------
       BARK=BRATIO(IS,D,HT(I))
       G=DG(I)/BARK
       G1(I)=G
-      IF(LZEIDE.AND.(D.LT.DBHZEIDE))GO TO 20       ! BRANCH IF D IS LT MIN DBH
-      IF(.NOT.LZEIDE.AND.(D.LT.DBHSTAGE))GO TO 20
+      IF (LZEIDE.AND.(D.LT.DBHZEIDE)) GOTO 20       ! BRANCH IF D IS LT MIN DBH
+      IF (.NOT.LZEIDE.AND.(D.LT.DBHSTAGE)) GOTO 20
       CIOBDS=(2.0*D*G+G*G)
       CIOBDS1(I)=CIOBDS
       SD2SQ=SD2SQ+P*(D*D+CIOBDS)
-      IF(LZEIDE)THEN
+      IF (LZEIDE) THEN
         SUMDR10=SUMDR10+P*(D+G)**1.605
       ENDIF 
       T=T+P
    20 CONTINUE
-      IF(T. EQ. 0.0) T= 0.0001
+      IF (T. EQ. 0.0) T= 0.0001
       DQ10=SQRT(SD2SQ/T)
-      IF(LZEIDE)THEN
+      IF (LZEIDE) THEN
         DQ10=(SUMDR10/T)**(1/1.605)
       ENDIF 
-      IF(DEBUG)WRITE(JOSTND,*)'SD2SQ,SUMDR10,DQ10= ',
-     &SD2SQ,SUMDR10,DQ10
+      IF (DEBUG)WRITE(JOSTND,*)'SD2SQ,SUMDR10,DQ10= ',
+     &  SD2SQ,SUMDR10,DQ10
 C----------
 C  START LOOP TO ESTIMATE MORTALITY RATE. TREES ARE PROCESSED
 C  ONE AT A TIME WITHIN A SPECIES.
@@ -294,7 +295,7 @@ C----------
 C  START SPECIES LOOP
       DO 50 ISPC=1,MAXSP
       I1=ISCT(ISPC,1)
-      IF(I1.LE.0) GO TO 50
+      IF (I1.LE.0) GOTO 50
       I2=ISCT(ISPC,2)
       XMORT = XMMULT(ISPC)
       D1 = XMDIA1(ISPC)
@@ -317,7 +318,7 @@ C----------
       WK2(I)=0.0
       D=DBH(I)
       BARK=BRATIO(ISPC,D,HT(I))
-      IF(P.LE.0.0) GO TO 40
+      IF (P.LE.0.0) GOTO 40
 C----------
 C  COMPUTE SURVIVAL RATE
 C
@@ -333,17 +334,17 @@ C
 C  PROBABILITY OF SURVIVAL IS CONVERTED TO PROBABILITY OF MORTALITY ADJUSTED BY
 C  CYCLE LENGTH THROUGH THE FOLLOWING: 1 - PR(SURV)**YIP
 C----------
-     PTBAL=PTBALT(I)
+      PTBAL=PTBALT(I)
 C----------
 C ANNUAL SURVIVAL RATE
 C----------      
-     RIP = BM1(ISPC) + BM2(ISPC)*D + BM3(ISPC)*D*D + BM4(ISPC)*PTBAL +
-     & BM5(ISPC)*PTBAL/ALOG(D + 1)
-     RIP = EXP(RIP)/(1 + EXP(RIP))
+      RIP = BM1(ISPC) + BM2(ISPC)*D + BM3(ISPC)*D*D + BM4(ISPC)*PTBAL +
+     &  BM5(ISPC)*PTBAL/ALOG(D + 1)
+      RIP = EXP(RIP)/(1 + EXP(RIP))
 C
 C DETERMINE IF DEBUG IS NEEDED
-     IF(DEBUG)WRITE(JOSTND,*)'IN MORTS EQNS I,ISPC,RIP,D,
-     &PTBAL=',I,ISPC,RIP,D,PTBAL
+      IF (DEBUG)WRITE(JOSTND,*)'IN MORTS EQNS I,ISPC,RIP,D,PTBAL=',
+     &  I,ISPC,RIP,D,PTBAL
 C----------
 C  APPLY MORTALITY MULTIPLIERS WITHIN USER-PROVIDED DBH LIMITS
 C  AND STORE TREES PER ACRE DYING IN THE ARRAY WK2.
@@ -355,11 +356,11 @@ C  FROM HERE TO STATEMENT 29 IS ESTABLISHMENT MODEL CODE.
 C  "BEST" TREES NOT SUBJECT TO MORTALITY FOR 20 YRS
 C  AFTER DISTURBANCE DATE.
 C----------
-      IF(IESTAT(I).LE.0) GO TO 29
-      IF(IY(ICYC).GE.IESTAT(I)) IESTAT(I)=0
+      IF (IESTAT(I).LE.0) GOTO 29
+      IF (IY(ICYC).GE.IESTAT(I)) IESTAT(I)=0
       XCHECK= FLOAT(IESTAT(I)-IY(ICYC))/FINT
-      IF(XCHECK.GT.1.0) XCHECK=1.0
-      IF(XCHECK.LT.0.0) XCHECK=0.0
+      IF (XCHECK.GT.1.0) XCHECK=1.0
+      IF (XCHECK.LT.0.0) XCHECK=0.0
       X=X* (1.0-XCHECK)
    29 CONTINUE
 C
@@ -370,26 +371,27 @@ C CONVERT SURVIVAL RATE TO FINT-YEAR MORTALITY RATE
       WKI= P*(1.0 - (RIP**FINT))*X
 C
 C DETERMINE IF DEBUG IS NEEDED
-      IF(DEBUG)WRITE(JOSTND,*)'IN MORTS EQ I,XCHECK,X,P,RIP,FINT,WKI= ',
-     &I,XCHECK,X,P,RIP,FINT,WKI
+      IF (DEBUG)
+     &  WRITE(JOSTND,*)'IN MORTS EQ I,XCHECK,X,P,RIP,FINT,WKI= ',
+     &  I,XCHECK,X,P,RIP,FINT,WKI
 C
 C DETERMINE IF PREDICTED MORTALITY IS GREATER THAN SIZE CAP IMPOSED 
 C MORTALITY RATE
       BARK=BRATIO(IS,D,HT(I))
       G = (DG(I)/BARK) * (FINT/10.0)
       IDMFLG=IFIX(SIZCAP(ISPC,3))
-      IF((D+G).GE.SIZCAP(ISPC,1) .AND. IDMFLG.NE.1) THEN
+      IF ((D+G).GE.SIZCAP(ISPC,1) .AND. IDMFLG.NE.1) THEN
          WKI = AMAX1(WKI,(P*SIZCAP(ISPC,2)*FINT/10.0))
-        IF(DEBUG)WRITE(JOSTND,*)'SIZE CAP RESTRICTION IMPOSED, ',
+        IF (DEBUG)WRITE(JOSTND,*)'SIZE CAP RESTRICTION IMPOSED, ',
      &  'I,ISPC,D,P,SIZCAP 1-3,WKI = ',
      &  I,ISPC,D,P,SIZCAP(ISPC,1),SIZCAP(ISPC,2),SIZCAP(ISPC,3),WKI
       ENDIF
-      IF(WKI.GT.P) WKI=P
+      IF (WKI.GT.P) WKI=P
 C----------
 C  IF SDIMAX IS LESS THAN 5, ASSUME CLIMATE HAS CHANGED ENOUGH THAT THE
 C  SITE WILL NO LONGER SUPPORT TREES, AND KILL ALL EXISTING TREES.
 C----------
-      IF(SDIMAX .LT. 5)THEN
+      IF (SDIMAX .LT. 5) THEN
         WKI=P
       ENDIF
 C----------
@@ -397,8 +399,8 @@ C  RECALCULATE VALUES AFTER MORTALITY HAS BEEN APPLIED
 C---------- 
       TA=TA+(PROB(I)-WKI)
       WK2(I)=WKI
-      IF(DEBUG)WRITE(JOSTND,*)'IN MORTS INITIAL PASS: IXX WKI WK2=',
-     &I,WKI,WK2(I)
+      IF (DEBUG)WRITE(JOSTND,*)'IN MORTS INITIAL PASS: IXX WKI WK2=',
+     &  I,WKI,WK2(I)
    40 CONTINUE 
    50 CONTINUE
       GOTO 59
@@ -408,19 +410,20 @@ C----------
    55 CONTINUE
       DQ10A=SQRT(SD2SQA/TA)
       BAA=.005454154*DQ10A*DQ10A*TA
-      IF(LZEIDE)THEN
+      IF (LZEIDE) THEN
         DQ10A=(SUMDR10A/TA)**(1./1.605)
       ENDIF
       SDIA=TA*(DQ10A/10)**1.605
-      IF(DEBUG)WRITE(JOSTND,*)'IN MORTS:PASS,TA,SD2SQA,SUMDR10A,DQ10A
-     &,BAA,SDIA=',PASS,TA,SD2SQA,SUMDR10A,DQ10A,BAA,SDIA
+      IF (DEBUG)WRITE(JOSTND,*)'IN MORTS:PASS,TA,SD2SQA,SUMDR10A,DQ10A',
+     &  ',BAA,SDIA=',PASS,TA,SD2SQA,SUMDR10A,DQ10A,BAA,SDIA
 C----------
 C  LOOP BACK THROUGH TREES RECORDS IF STAND IS OVER MAXIMUM SDI.
 C  BECAUSE BA CAN CREEP UP TO UNREALISTIC VALUES EVEN WHILE
 C  HOLDING SDI BELOW MAXIMUM, ANOTHER PASS IS MADE IF A STAND'S
 C  BASAL AREA EXCEEDS THE BASAL AREA MAXIMUM OF THE STAND
 C----------
-      IF(((SDIA.LT.SDIMAX).AND.(BAA.LT.BAMAX)).OR.(PASS.GT.100)) GO TO 70
+      IF (((SDIA.LT.SDIMAX).AND.(BAA.LT.BAMAX))
+     &  .OR. (PASS.GT.100)) GOTO 70
       PASS=PASS+1
       SD2SQA=0
       SUMDR10A=0   
@@ -428,42 +431,40 @@ C----------
   59  CONTINUE
       DO 60 I=1,ITRN
       WKI=WK2(I)*(PASS)
-      IF(WKI.GT.PROB(I)) WKI=PROB(I)
+      IF (WKI.GT.PROB(I)) WKI=PROB(I)
       WKIT2=WKI+WKIT2
       WKII(I)=WKI
-      IF(LZEIDE.AND.(DBH(I).LT.DBHZEIDE))GO TO 60         ! BRANCH IF D IS LT MIN DBH
-      IF(.NOT.LZEIDE.AND.(DBH(I).LT.DBHSTAGE))GO TO 60
+      IF (LZEIDE.AND.(DBH(I).LT.DBHZEIDE)) GOTO 60         ! BRANCH IF D IS LT MIN DBH
+      IF (.NOT.LZEIDE.AND.(DBH(I).LT.DBHSTAGE)) GOTO 60
       SD2SQA=SD2SQA+(PROB(I)-WKI)*(DBH(I)*DBH(I)+CIOBDS1(I))
-      IF(LZEIDE)THEN
+      IF (LZEIDE) THEN
         SUMDR10A=SUMDR10A+(PROB(I)-WKI)*(DBH(I)+G1(I))**1.605
       ENDIF 
       TA=TA+(PROB(I)-WKI)
-      IF(DEBUG)WRITE(JOSTND,*)'IN MORT PASS,I,DBH,WKI,WKIT2,SD2SQA,
-     &SUMDR10A,TA=',PASS,I,DBH(I),WKI,WKIT2,SD2SQA,SUMDR10A,TA
+      IF (DEBUG) WRITE(JOSTND,*)'IN MORT PASS,I,DBH,WKI,WKIT2,SD2SQA,
+     &  SUMDR10A,TA=',PASS,I,DBH(I),WKI,WKIT2,SD2SQA,SUMDR10A,TA
    60 CONTINUE
       GOTO 55
 C----------
 C  END OF TREE LOOPING.  PRINT DEBUG INFO IF DESIRED.
 C----------
    70 CONTINUE
-      DO 80 I=1,ITRN 
-      IF (PASS.GT.1) WK2(I)=WKII(I)
-      IF(WK2(I).GT.PROB(I)) WK2(I)=PROB(I)
-      IF(.NOT.DEBUG) GO TO 80
-      PRES=PROB(I)-WK2(I)
-      VLOS=WK2(I)*CFV(I)/FINT
-      WRITE(JOSTND,9000) I,ISPC,DBH(I),G1(I),BA,PROB(I),
-     &WK2(I),PRES,VLOS
- 9000 FORMAT('IN MORTS, I=',I4,',  ISPC=',I3,',  DBH=',F7.2,
-     &',  DBH INCREMENT=',F7.4,',  RELDBH=',F7.4,',  BA=',F7.2,
-     &       ',  INIT PROB=',F9.3/
-     &       ', TREES DYING=',F9.3,'  RES PROB=',F9.3,
-     &       ',  VOL LOST=',F9.3)
-   80 CONTINUE
-      IF(.NOT.DEBUG) GO TO 100
-      WRITE(JOSTND,9001)  ISPC
- 9001 FORMAT('IN MORTS,  ISPC=',I3,
-     &       11X)
+      DO I=1,ITRN 
+        IF (PASS.GT.1) WK2(I)=WKII(I)
+        IF (WK2(I).GT.PROB(I)) WK2(I)=PROB(I)
+        IF (DEBUG) THEN
+          PRES=PROB(I)-WK2(I)
+          VLOS=WK2(I)*CFV(I)/FINT
+          WRITE(JOSTND,9000) I,ISPC,DBH(I),G1(I),BA,PROB(I),
+     &    WK2(I),PRES,VLOS
+ 9000     FORMAT('IN MORTS, I=',I4,',  ISPC=',I3,',  DBH=',F7.2,
+     &    ',  DBH INCREMENT=',F7.4,',  RELDBH=',F7.4,',  BA=',F7.2,
+     &    ',  INIT PROB=',F9.3/
+     &    ', TREES DYING=',F9.3,'  RES PROB=',F9.3,
+     &    ',  VOL LOST=',F9.3)
+        ENDIF
+      ENDDO
+      IF (DEBUG) WRITE(JOSTND,*) 'IN MORTS,  ISPC=', ISPC
   100 CONTINUE
 C
 C----------
@@ -471,36 +472,37 @@ C  COMPUTE THE CLIMATE-PREDICTED MORTALITY RATES BY SPECIES
 C---------
       CALL CLMORTS
 C----------
+C  BEGIN FIXMORT ACTIVITY PROCESS IF SCHEDULED
 C  COMPUTE THE FIXMORT OPTION.  LOOP OVER ALL SCHEDULED FIXMORT'S
 C  LINCL IS USED TO INDICATE WHETHER A TREE GETS AFFECTED OR NOT
 C----------
       CALL OPFIND (1,MYACTS(2),NTODO)
       IF (NTODO.GT.0) THEN
-        IF(DEBUG)WRITE(JOSTND,*)'FIXMORT PROCESSING, ITODO= ',ITODO
-         DO 300 ITODO=1,NTODO
-         CALL OPGET (ITODO,6,IDATE,IACTK,NP,PRM)
-         IF (IACTK.LT.0) GOTO 300
-         CALL OPDONE(ITODO,IY(ICYC))
-         ISPCC=IFIX(PRM(1))
-         IF(NP .LE. 4)THEN
-           IF(PRM(2).GT. 1.0)PRM(2)=1.0
-         ENDIF
-         IF(PRM(3).LT. 0.0)PRM(3)=0.0
-         IF(PRM(4).LE. 0.0)PRM(4)=999.
-         IP=1
-         IF (NP.GT.4) THEN
-            IF(PRM(5).LT.3.)THEN
-               IF(PRM(2).GT. 1.0)PRM(2)=1.0
-               IF(PRM(2).LT. 0.0)PRM(2)=0.0
+        IF (DEBUG) WRITE(JOSTND,*)'FIXMORT PROCESSING, ITODO= ',ITODO
+        DO ITODO=1,NTODO
+          CALL OPGET (ITODO,6,IDATE,IACTK,NP,PRM)
+          IF (IACTK.LT.0) GOTO 300
+          CALL OPDONE(ITODO,IY(ICYC))
+          ISPCC=IFIX(PRM(1))
+          IF (NP .LE. 4) THEN
+            IF (PRM(2).GT. 1.0) PRM(2)=1.0
+          ENDIF
+          IF (PRM(3).LT. 0.0) PRM(3)=0.0
+          IF (PRM(4).LE. 0.0) PRM(4)=999.
+          IP=1
+          IF (NP.GT.4) THEN
+            IF (PRM(5).LT.3.) THEN
+              IF (PRM(2).GT. 1.0) PRM(2)=1.0
+              IF (PRM(2).LT. 0.0) PRM(2)=0.0
             ENDIF 
             IF (PRM(5).EQ.1.0) THEN
-               IP=2
+              IP=2
             ELSEIF (PRM(5).EQ.2.0) THEN
                IP=3
             ELSEIF (PRM(5).EQ.3.) THEN
                IP=4
             ENDIF
-         ENDIF
+          ENDIF
 C----------
 C  SET FLAG FOR POINT MORTALITY, OR KILLING FROM ABOVE
 C    PRM(6)    POINT      SIZE   KBIG     KILL DIRECTION
@@ -511,24 +513,29 @@ C     11         YES       YES    1       BOTTOM UP
 C     20         NO        YES    2       TOP DOWN
 C     21         YES       YES    2       TOP DOWN
 C----------
-         KPOINT=0
-         KBIG=0
-         IF(PRM(6).GT.0.)THEN
-           IF(PRM(6) .EQ. 1)THEN
-             KPOINT=1
-           ELSEIF(PRM(6) .EQ. 10)THEN
-             KBIG=1
-           ELSEIF(PRM(6) .EQ. 11)THEN
-             KPOINT=1
-             KBIG=1
-           ELSEIF(PRM(6) .EQ. 20)THEN
-             KBIG=2
-           ELSEIF(PRM(6) .EQ. 21)THEN
-             KPOINT=1
-             KBIG=2
-           ENDIF
-         ENDIF
-         IF (ITRN.GT.0) THEN
+          KPOINT=0
+          KBIG=0
+          IF (PRM(6).GT.0.) THEN
+            IF (PRM(6) .EQ. 1) THEN
+              KPOINT=1
+            ELSEIF (PRM(6) .EQ. 10) THEN
+              KBIG=1
+            ELSEIF (PRM(6) .EQ. 11) THEN
+              KPOINT=1
+              KBIG=1
+            ELSEIF (PRM(6) .EQ. 20) THEN
+              KBIG=2
+            ELSEIF (PRM(6) .EQ. 21) THEN
+              KPOINT=1
+              KBIG=2
+            ENDIF
+          ENDIF
+        ENDDO
+      ENDIF
+C----------
+C END OF FIXMORT ACTIVITY PROCESS      
+C----------
+      IF (ITRN.GT.0 .AND. (KBIG .NE.0 .OR. KPOINT.NE. 0)) THEN
 C----------
 C IF CONCENTRATING MORTALITY ON A POINT, AND/OR BY SIZE TREES IS IN
 C EFFECT, DETERMINE EFFECT OF THIS FIXMORT AND REALLOCATE BY POINT:
@@ -538,222 +545,225 @@ C   ONLY REALLOCATE ADDITIONAL MORTALITY IF "ADD" OPTION IS IN EFFECT
 C   ONLY REALLOCATE ADDITIONAL MORTALITY IF "MAX" OPTION IS IN EFFECT
 C   (I.E. MORTALITY OVER AND ABOVE WHAT WAS PREVIOUSLY PREDICTED.
 C----------
-            IF(KBIG.GE.1 .OR. (KPOINT.EQ.1 .AND. IPTINV.GT.1)) THEN
-              XMORE=0.
-              DO 199 I=1,ITRN
-              LINCL = .FALSE.
-              IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I))THEN
-                LINCL = .TRUE.
-              ELSEIF(ISPCC.LT.0)THEN
-                IGRP = -ISPCC
-                IULIM = ISPGRP(IGRP,1)+1
-                DO 90 IG=2,IULIM
-                IF(ISP(I) .EQ. ISPGRP(IGRP,IG))THEN
+        IF (KBIG.GE.1 .OR. (KPOINT.EQ.1 .AND. IPTINV.GT.1)) THEN
+          XMORE=0.0
+          DO I=1,ITRN
+            LINCL = .FALSE.
+            IF (ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I)) THEN
+              LINCL = .TRUE.
+            ELSEIF (ISPCC.LT.0) THEN
+              IGRP = -ISPCC
+              IULIM = ISPGRP(IGRP,1)+1
+              DO IG=2,IULIM
+                IF (ISP(I) .EQ. ISPGRP(IGRP,IG)) THEN
                   LINCL = .TRUE.
-                  GO TO 91
+                  GOTO 91
                 ENDIF
-   90           CONTINUE
-              ENDIF
-   91         CONTINUE
-              IF (LINCL .AND.
-     >          (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
-                GOTO (191,192,193,194),IP
-  191           CONTINUE
+              ENDDO
+            ENDIF
+   91       CONTINUE
+            IF (LINCL .AND.
+     >        (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
+
+              SELECT CASE (IP)
+              CASE (1)
                 XMORE=XMORE+PROB(I)*PRM(2)
                 WK2(I)=0.
-                GOTO 199
-  192           CONTINUE
+              CASE (2)
                 XMORE=XMORE+(AMAX1(0.0,PROB(I)-WK2(I))*PRM(2))
-                GOTO 199
-  193           CONTINUE
+              CASE (3)
                 TEMP=AMAX1(WK2(I),(PROB(I)*PRM(2)))
-                IF(TEMP .GT. WK2(I)) THEN
+                IF (TEMP .GT. WK2(I)) THEN
                   XMORE=XMORE+TEMP-WK2(I)
                 ENDIF
-                GOTO 199
-  194           CONTINUE
+              CASE (4)
                 XMORE=XMORE+WK2(I)*PRM(2)
                 WK2(I)=0.
-                GOTO 199
-              ENDIF
-  199         CONTINUE
-              IF(DEBUG)WRITE(JOSTND,*)'KPOINT,KBIG,ITRN,XMORE= ',
-     &                 KPOINT,KBIG,ITRN,XMORE
-              CREDIT=0.
-              DO 201 I=1,ITRN
-              IWORK1(I)=IND1(I)
-              IF(KBIG .EQ. 1)THEN
-                WORK3(I)=(-1.0)*
-     &                  (DBH(I)+DG(I)/BRATIO(ISP(I),DBH(I),HT(I)))
-              ELSE
-                WORK3(I)=DBH(I)+DG(I)/BRATIO(ISP(I),DBH(I),HT(I))
-              ENDIF
-  201         CONTINUE
-              CALL RDPSRT(ITRN,WORK3,IWORK1,.FALSE.)
-              IF(DEBUG)WRITE(JOSTND,*)'DBH= ',(DBH(IG),IG=1,ITRN)
-              IF(DEBUG)WRITE(JOSTND,*)'IWORK1= ',(IWORK1(IG),IG=1,ITRN)
-              IF(DEBUG)WRITE(JOSTND,*)'WK2= ',(WK2(IG),IG=1,ITRN)
+              END SELECT
+            ENDIF
+
+          ENDDO
+          IF (DEBUG) WRITE(JOSTND,*)'KPOINT,KBIG,ITRN,XMORE= ',
+     &               KPOINT,KBIG,ITRN,XMORE
+          CREDIT=0.
+          DO I=1,ITRN
+            IWORK1(I)=IND1(I)
+            IF (KBIG .EQ. 1) THEN
+              WORK3(I)=(-1.0)*
+     &               (DBH(I)+DG(I)/BRATIO(ISP(I),DBH(I),HT(I)))
+            ELSE
+              WORK3(I)=DBH(I)+DG(I)/BRATIO(ISP(I),DBH(I),HT(I))
+            ENDIF
+          ENDDO
+          CALL RDPSRT(ITRN,WORK3,IWORK1,.FALSE.)
+          IF (DEBUG) THEN
+          	WRITE(JOSTND,*)'DBH= ',(DBH(IG),IG=1,ITRN)
+            WRITE(JOSTND,*)'IWORK1= ',(IWORK1(IG),IG=1,ITRN)
+            WRITE(JOSTND,*)'WK2= ',(WK2(IG),IG=1,ITRN)
+          ENDIF
+
+          IF (KBIG.GE.1 .AND. KPOINT.EQ.0) THEN
 C
-              IF(KBIG.GE.1 .AND. KPOINT.EQ.0)THEN
+C           CONCENTRATION BY SIZE ONLY
 C
-C  CONCENTRATION BY SIZE ONLY
-C
-                DO 310 I=1,ITRN
-                IX=IWORK1(I)
-                LINCL = .FALSE.
-                IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(IX))THEN
-                  LINCL = .TRUE.
-                ELSEIF(ISPCC.LT.0)THEN
-                  IGRP = -ISPCC
-                  IULIM = ISPGRP(IGRP,1)+1
-                  DO 92 IG=2,IULIM
-                  IF(ISP(IX) .EQ. ISPGRP(IGRP,IG))THEN
-                    LINCL = .TRUE.
-                    GO TO 93
-                  ENDIF
-   92             CONTINUE
-                ENDIF
-   93           CONTINUE
-                IF (LINCL .AND.
-     >          (PRM(3).LE.DBH(IX) .AND. DBH(IX).LT.PRM(4))) THEN
-                  TEMP=CREDIT+PROB(IX)-WK2(IX)
-                  IF((TEMP .LE. XMORE).OR.
-     >               (ABS(TEMP-XMORE).LT.0.0001))THEN
-                    CREDIT=CREDIT+PROB(IX)-WK2(IX)
-                    WK2(IX)=PROB(IX)
-                  ELSE
-                    WK2(IX)=WK2(IX)+XMORE-CREDIT
-                    CREDIT=XMORE
-                    GO TO 295
-                  ENDIF
-                ENDIF
-  310           CONTINUE
-                GO TO 295
-C
-              ELSEIF(KPOINT.EQ.1 .AND. KBIG.EQ.0)THEN
-C
-C  CONCENTRATION ON POINTS ONLY
-C
-              DO 205 J=1,IPTINV
-              DO 204 I=1,ITRN
-              IF(ITRE(I) .NE. J)GO TO 204
-              LINCL = .FALSE.
-              IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I))THEN
-                LINCL = .TRUE.
-              ELSEIF(ISPCC.LT.0)THEN
-                IGRP = -ISPCC
-                IULIM = ISPGRP(IGRP,1)+1
-                DO 94 IG=2,IULIM
-                IF(ISP(I) .EQ. ISPGRP(IGRP,IG))THEN
-                  LINCL = .TRUE.
-                  GO TO 95
-                ENDIF
-   94           CONTINUE
-              ENDIF
-   95         CONTINUE
-              IF (LINCL .AND.
-     >          (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
-                TEMP=CREDIT+PROB(I)-WK2(I)
-                IF((TEMP .LE. XMORE).OR.
-     >             (ABS(TEMP-XMORE).LT.0.0001))THEN
-                  CREDIT=CREDIT+PROB(I)-WK2(I)
-                  WK2(I)=PROB(I)
-                ELSE
-                  WK2(I)=WK2(I)+XMORE-CREDIT
-                  CREDIT=XMORE
-                  GO TO 295
-                ENDIF
-              ENDIF
-  204         CONTINUE
-  205         CONTINUE
-              GO TO 295
-C
-C  CONCENTRATION BY SIZE ON POINTS (POINTS HAVE PRIORITY, SO TREES
-C  WILL BE KILLED BY SIZE ON ONE POINT BEFORE MOVING TO THE NEXT
-C  POINT TO START WITH THE BIGGEST/SMALLEST TREES ON THAT POINT.
-              ELSE
-              DO 312 J=1,IPTINV
-              DO 311 I=1,ITRN
+            DO I=1,ITRN
               IX=IWORK1(I)
-              IF(ITRE(IX) .NE. J)GO TO 311
               LINCL = .FALSE.
-              IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(IX))THEN
+              IF (ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(IX)) THEN
                 LINCL = .TRUE.
-              ELSEIF(ISPCC.LT.0)THEN
+              ELSEIF (ISPCC.LT.0) THEN
                 IGRP = -ISPCC
                 IULIM = ISPGRP(IGRP,1)+1
-                DO 96 IG=2,IULIM
-                IF(ISP(IX) .EQ. ISPGRP(IGRP,IG))THEN
-                  LINCL = .TRUE.
-                  GO TO 97
-                ENDIF
-   96           CONTINUE
+                DO IG=2,IULIM
+                  IF (ISP(IX) .EQ. ISPGRP(IGRP,IG)) THEN
+                    LINCL = .TRUE.
+                    GOTO 93
+                  ENDIF
+                ENDDO
               ENDIF
-   97         CONTINUE
+   93         CONTINUE
               IF (LINCL .AND.
      >          (PRM(3).LE.DBH(IX) .AND. DBH(IX).LT.PRM(4))) THEN
                 TEMP=CREDIT+PROB(IX)-WK2(IX)
-                IF((TEMP .LE. XMORE).OR.
-     >             (ABS(TEMP-XMORE).LT.0.0001))THEN
+                IF ((TEMP .LE. XMORE).OR.
+     >            (ABS(TEMP-XMORE).LT.0.0001)) THEN
                   CREDIT=CREDIT+PROB(IX)-WK2(IX)
                   WK2(IX)=PROB(IX)
                 ELSE
                   WK2(IX)=WK2(IX)+XMORE-CREDIT
                   CREDIT=XMORE
-                  GO TO 295
+                  GOTO 295
                 ENDIF
               ENDIF
-  311         CONTINUE
-  312         CONTINUE
-              GO TO 295
-              ENDIF
+            ENDDO
+            GOTO 295
+
+          ELSEIF (KPOINT.EQ.1 .AND. KBIG.EQ.0) THEN
 C
-            ENDIF
+C           CONCENTRATION ON POINTS ONLY
+C
+            DO J=1,IPTINV
+              DO I=1,ITRN
+                IF (ITRE(I) .NE. J) GOTO 204
+                LINCL = .FALSE.
+                IF (ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I)) THEN
+                  LINCL = .TRUE.
+                ELSEIF (ISPCC.LT.0) THEN
+                  IGRP = -ISPCC
+                  IULIM = ISPGRP(IGRP,1)+1
+                  DO IG=2,IULIM
+                    IF (ISP(I) .EQ. ISPGRP(IGRP,IG)) THEN
+                      LINCL = .TRUE.
+                      GOTO 95
+                    ENDIF
+                  ENDDO
+                ENDIF
+   95           CONTINUE
+                IF (LINCL .AND.
+     >            (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
+                  TEMP=CREDIT+PROB(I)-WK2(I)
+                  IF ((TEMP .LE. XMORE).OR.
+     >              (ABS(TEMP-XMORE).LT.0.0001)) THEN
+                    CREDIT=CREDIT+PROB(I)-WK2(I)
+                    WK2(I)=PROB(I)
+                  ELSE
+                    WK2(I)=WK2(I)+XMORE-CREDIT
+                    CREDIT=XMORE
+                    GOTO 295
+                  ENDIF
+                ENDIF
+  204           CONTINUE 
+              ENDDO
+            ENDDO
+            GOTO 295
+
+          ELSE
+C
+C           CONCENTRATION BY SIZE ON POINTS (POINTS HAVE PRIORITY, SO TREES
+C           WILL BE KILLED BY SIZE ON ONE POINT BEFORE MOVING TO THE NEXT
+C           POINT TO START WITH THE BIGGEST/SMALLEST TREES ON THAT POINT.
+C
+            DO J=1,IPTINV
+              DO I=1,ITRN
+                IX=IWORK1(I)
+                IF (ITRE(IX) .NE. J) GOTO 311
+                LINCL = .FALSE.
+                IF (ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(IX)) THEN
+                  LINCL = .TRUE.
+                ELSEIF (ISPCC.LT.0) THEN
+                  IGRP = -ISPCC
+                  IULIM = ISPGRP(IGRP,1)+1
+                  DO IG=2,IULIM
+                    IF (ISP(IX) .EQ. ISPGRP(IGRP,IG)) THEN
+                      LINCL = .TRUE.
+                      GOTO 97
+                    ENDIF
+                  ENDDO
+   97             CONTINUE
+                ENDIF
+                IF (LINCL .AND.
+     >            (PRM(3).LE.DBH(IX) .AND. DBH(IX).LT.PRM(4))) THEN
+                  TEMP=CREDIT+PROB(IX)-WK2(IX)
+                  IF ((TEMP .LE. XMORE).OR.
+     >              (ABS(TEMP-XMORE).LT.0.0001)) THEN
+                    CREDIT=CREDIT+PROB(IX)-WK2(IX)
+                    WK2(IX)=PROB(IX)
+                  ELSE
+                    WK2(IX)=WK2(IX)+XMORE-CREDIT
+                    CREDIT=XMORE
+                    GOTO 295
+                  ENDIF
+                ENDIF
+  311           CONTINUE
+              ENDDO
+            ENDDO
+            GOTO 295
+          ENDIF
+C
+        ENDIF
+      ELSEIF (ITRN .GT. 0 .AND. KBIG .EQ. 0 .AND. KPOINT .EQ. 0) THEN
 C----------
 C  NORMAL FIXMORT PROCESSING WHEN POINT OR SIZE CONCENTRATION
 C  IS NOT IN EFFECT.
 C----------
-            DO 290 I=1,ITRN
-              LINCL = .FALSE.
-              IF(ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I))THEN
+        DO I=1,ITRN
+          LINCL = .FALSE.
+          IF (ISPCC.EQ.0 .OR. ISPCC.EQ.ISP(I)) THEN
+            LINCL = .TRUE.
+          ELSEIF (ISPCC.LT.0) THEN
+            IGRP = -ISPCC
+            IULIM = ISPGRP(IGRP,1)+1
+            DO IG=2,IULIM
+              IF (ISP(I) .EQ. ISPGRP(IGRP,IG)) THEN
                 LINCL = .TRUE.
-              ELSEIF(ISPCC.LT.0)THEN
-                IGRP = -ISPCC
-                IULIM = ISPGRP(IGRP,1)+1
-                DO 98 IG=2,IULIM
-                IF(ISP(I) .EQ. ISPGRP(IGRP,IG))THEN
-                  LINCL = .TRUE.
-                  GO TO 99
-                ENDIF
-   98           CONTINUE
+                GOTO 99
               ENDIF
-   99         CONTINUE
-            IF (LINCL .AND.
-     >         (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
-               GOTO (610,620,630,640),IP
-  610          CONTINUE
-               WK2(I)=PROB(I)*PRM(2)
-               GOTO 290
-  620          CONTINUE
-               WK2(I)=WK2(I)+(AMAX1(0.0,PROB(I)-WK2(I))*PRM(2))
-               GOTO 290
-  630          CONTINUE
-               WK2(I)=AMAX1(WK2(I),(PROB(I)*PRM(2)))
-               GOTO 290
-  640          CONTINUE
-               WK2(I)=AMIN1(PROB(I),WK2(I)*PRM(2))
-               GOTO 290
-            ENDIF
-  290       CONTINUE
-  295    CONTINUE
-         IF(DEBUG)WRITE(JOSTND,*)'ITODO,WK2= ',
-     &    ITODO,(WK2(IG),IG=1,ITRN)
-         ENDIF
-  300    CONTINUE
+            ENDDO
+          ENDIF
+   99     CONTINUE
+          IF (LINCL .AND.
+     >      (PRM(3).LE.DBH(I) .AND. DBH(I).LT.PRM(4))) THEN
+
+            SELECT CASE (IP)
+            CASE (1)
+              WK2(I)=PROB(I)*PRM(2)
+            CASE (2)
+              WK2(I)=WK2(I)+(AMAX1(0.0,PROB(I)-WK2(I))*PRM(2))
+            CASE (3)
+              WK2(I)=AMAX1(WK2(I),(PROB(I)*PRM(2)))
+            CASE (4)
+              WK2(I)=AMIN1(PROB(I),WK2(I)*PRM(2))
+            END SELECT
+          ENDIF
+        ENDDO
       ENDIF
+  295 CONTINUE
+  300 CONTINUE
+      IF (DEBUG)WRITE(JOSTND,*)
+     &   'ITODO,WK2= ',ITODO,(WK2(IG),IG=1,ITRN)
+
       RETURN
 C
       ENTRY MORCON
       RETURN
       END
-
