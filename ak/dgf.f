@@ -24,7 +24,7 @@ C
 
       INCLUDE 'COEFFS.F77'
 
-     INCLUDE 'CONTRL.F77'
+      INCLUDE 'CONTRL.F77'
 
       INCLUDE 'OUTCOM.F77'
 
@@ -109,7 +109,7 @@ C  23     P  OH   other hardwoods     998  2TD
 C----------
 C  VARIABLE DECLARATIONS:
 C----------
-      LOGICAL DEBUG, LPERM
+      LOGICAL DEBUG
       INTEGER I ,I1, I2, I3, ISPC, IWHO
 
       REAL BAL,BRATIO,CONSPP,CR,D
