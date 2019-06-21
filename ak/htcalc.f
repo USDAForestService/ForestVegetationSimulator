@@ -1,4 +1,4 @@
-      SUBROUTINE HTCALC(I,ISPC,XSITE,AG,HGUESS,POTHTG)
+      SUBROUTINE HTCALC(I,ISPC,XSITE,POTHTG)
       IMPLICIT NONE
 C----------
 C AK $Id$
@@ -19,135 +19,121 @@ C
 C
       INCLUDE 'CONTRL.F77'
 C
-COMMONS
 C
+      INCLUDE 'VARCOM.F77'
+C
+C
+      INCLUDE 'PLOT.F77'
+C
+COMMONS
 C------------
 C  VARIABLE DECLARATIONS:
 C----------
 C
       LOGICAL DEBUG
 C
-      INTEGER I,ISPC
+      INTEGER I,ISPC,ISPEC,IWHO,I1,PI2,RDZ1
 C
-      REAL AG,B3,C0,C1,C2,C3,HB,HGUESS,PH,POTHTG,TERM1,XSITE
-C
+      REAL POTHTG,XSITE,RDZ,ZRD(MAXPLT),CRAT,ELEVATN
+      REAL DLO,DHI,SDIC,SDIC2,A,B,AX,BX,CX,DX,EX,FX,PBAL
+      REAL GX,HX,IX,AX1,BX1,CX1,DX1,EX1,FX1,GX1,HX1,IX1
 C-----------
-C  SEE IF WE NEED TO DO SOME DEBUG.
+C  SEE IF WE NEED TO DO SOME DEBUG. 
 C-----------
       CALL DBCHK (DEBUG,'HTCALC',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,3)ICYC
     3 FORMAT(' ENTERING SUBROUTINE HTCALC  CYCLE =',I5)
 C
+C  COMPUTE RELATIVE DENSITY (ZEIDI) FOR INDIVIDUAL POINTS.
+C  ALL SPECIES AND ALL SIZES INCLUDED FOR THIS CALCULATION.
+C 
+      DLO = 0.0
+      DHI = 500.0
+      ISPEC = 0
+      IWHO = 1
+      PI2=INT(PI)
+      DO I1 = I, PI2
+         CALL SDICLS (ISPEC,DLO,DHI,IWHO,SDIC,SDIC2,A,B,I1)
+         ZRD(I1) = SDIC2                                                          
+      END DO 
+C
       POTHTG = 0.
-      HGUESS = 0.
-C
       SELECT CASE(ISPC)
-C
 C----------
-C  WESTERN HEMLOCK
-C---------
-        CASE(11)
-          IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
-          B3 = 3.316557 * XSITE**(-0.2930032)
-          C0 = (1.0 - EXP(-10.0*0.01046931)) * 6.421396**(1.0/B3)
-          C1 = 0.7642128 / B3
-          C2 = EXP(-10.0*0.01046931)
-          C3 = 1.0 / B3
-          HB = HT(I) - 4.5
-          PH = 4.5 + (C0*XSITE**C1 + C2*HB**C3)**(1.0/C3) - HB
+C  CALCULATE HIEGHT GROWTH FOR BOREAL SPECIES 
 C----------
-C TERM1 IS BORROWED FROM SPRUCE LOGIC FOR NOW TO GET SOME
-C CROWN SENSITIVITY INTO THE HEMLOCK EQUATION.
+      CASE(4:7,13,16:23)
+        IF(.NOT.LPERM) THEN
+        IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
+        PBAL=PTBALT(I)
+        RDZ1=ITRE(I)
+        RDZ=(ZRD(RDZ1))/SDIMAX
+        CRAT=ICR(I)
+        ELEVATN=ELEV*100
+        AX=NOPERMH1(I)
+        BX=NOPERMH2(I)
+        CX=NOPERMH3(I)
+        DX=NOPERMH4(I)
+        EX=NOPERMH5(I)
+        FX=NOPERMH6(I)
+        GX=NOPERMH7(I)
+        HX=NOPERMH8(I)
+        IX=NOPERMH9(I)
+        POTHTG=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL + 
+     &         EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
+     &         HX*RDZ + IX*LOG(XSITE))*FINT
+        ENDIF
+        IF(LPERM) THEN
+        IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
+        PBAL=PTBALT(I)
+        RDZ1=ITRE(I)
+        RDZ=(ZRD(RDZ1))/SDIMAX
+        CRAT=ICR(I)
+        ELEVATN=ELEV*100
+        AX1=PERMH1(I)
+        BX1=PERMH2(I)
+        CX1=PERMH3(I)
+        DX1=PERMH4(I)
+        EX1=PERMH5(I)
+        FX1=PERMH6(I)
+        GX1=PERMH7(I)
+        HX1=PERMH8(I)
+        IX1=PERMH9(I)
+        POTHTG=EXP(AX1 + BX1 +CX1*(HT(I))**2 + DX1*LOG(HT(I)) +  
+     &  EX1*PBAL + FX1*LOG(RDZ) + GX1*LOG(CRAT) + 
+     &  HX1*ELEVATN + IX1*RDZ)*FINT
+        ENDIF
 C----------
-          TERM1 = (1.0 - EXP( - 0.03563*ICR(I)) ** 0.907878)
-C----------
-C     NEW WH LOG-LINEAR HTG EQN FROM BILL FARR 10-22-87
-C----------
-          POTHTG = EXP(2.18643 + 0.2059*ALOG(DG(I)) - 7.84117E-5*(HT(I)
-     &    *HT(I)) + 9.6528E-3*XSITE + 0.54334*ALOG(DBH(I)) 
-     &    - 0.35425*ALOG(HT(I)))
-          POTHTG=POTHTG*TERM1
-          IF(POTHTG .GT. PH)POTHTG=PH
-          IF(DEBUG)WRITE(JOSTND,*)
-     &      ' IN HTCALC WH I,ICR,DG,HT,XSITE,DBH,PH= ',
-     &      ICR(I),DG(I),HT(I),XSITE,DBH(I),PH
-C
-C----------
-C  RED ALDER
-C----------
-        CASE(15)
-          HGUESS = XSITE
-     &           + (59.5864 + 0.7953*XSITE)*
-     &             (1.0-EXP((0.00194 - 0.0007403*XSITE)*AG))**0.9198
-     &           - (59.5864 + 0.7953*XSITE)*
-     &             (1.0-EXP((0.00194 - 0.0007403*XSITE)*20.0))**0.9198
-          IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC RA XSITE,AG,HGUESS= ',
-     &    XSITE,AG,HGUESS     
-C
-C----------
-C  BLACK COTTONWOOD
-C---------
-        CASE(20)
-          HGUESS = (XSITE - 4.5) / ( 0.6192 - 5.3394/(XSITE - 4.5)
-     &           + 240.29*AG**(-1.4) + (3368.9/(XSITE-4.5))*AG**(-1.4))
-          HGUESS = HGUESS + 4.5
-C
-          IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC BC XSITE,AG,HGUESS= ',
-     &    XSITE,AG,HGUESS     
-C----------
-C  ALL SPECIES OTHER THAN RED ALDER AND COTTONWOOD.
-C----------
-        CASE(1:10,12:14,16:19,21:23)
-          IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
-C
-          IF(DEBUG)WRITE(JOSTND,9050)I,ISP(I),DBH(I),HT(I),ICR(I),
-     &    XSITE,DG(I)
- 9050     FORMAT('IN HTCALC 9050 I,ISP,DBH,HT,ICR,AVH,XSITE,DG=',
-     &    2I5,2F10.2,I5,5F8.3)
-C----------
-C SPRUCE HEIGHT EQUATION APPLIED TO ALL SPECIES EXCEPT WH, RA, AND BC.
-C----------
-          B3 = 2.744017 * XSITE**(-0.2095425)
-          C0 = (1.0 - EXP(-10.0 * 0.01630621)) * 3.380276**(1.0/B3)
-          C1 = 0.8683028 / B3
-          C2 = EXP(-10.0 * 0.01630621)
-          C3 = 1.0 / B3
-          HB = HT(I) - 4.5
-          PH = 4.5 + (C0*XSITE**C1 + C2*HB**C3)**(1.0/C3) - HB
-          TERM1 = (1.0 - EXP( - 0.03563*ICR(I)) ** 0.907878)
-C----------
-C     SPRUCE LOG-LINEAR HEIGHT EQUATION FROM FARR 10-22-87
-C----------
-          POTHTG = EXP(1.5163 + 0.1429*ALOG(DG(I)) - 6.04687E-5*(HT(I)
-     &    *HT(I)) + 0.0103*XSITE 
-     &    + 0.20358*ALOG(90.00 ) + 0.44146*ALOG(DBH(I))
-     &    - 0.36662*ALOG(HT(I)))
-          POTHTG=POTHTG*TERM1
-C----------
-C HT GROWTH CORRECTION FOR RC AND YC FROM BILL FARR (PNW JUNEAU)
-C JULY 9, 1987.  PUBLISHED BC STUFF INDICATES RC HEIGHT GROWTH SHOULD
-C BE ABOUT 75 PERCENT OF SS HEIGHT GROWTH.
-C----------
-          IF(ISP(I).EQ.2 .OR. ISP(I).EQ.6) THEN
-            POTHTG = POTHTG *
-     &      (0.84875-0.03039*DBH(I)+0.00076*DBH(I)*DBH(I)+0.00313*XSITE)
-          ENDIF
-C
-          IF(DEBUG)WRITE(JOSTND,110) B3,POTHTG
-  110     FORMAT('IN HTCALC 110 B3,POTHTG=',5F9.5)
-C
-          IF(POTHTG .GT. PH)POTHTG=PH
-C
+C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
+C----------  
+       CASE(1:3,8:12,14,15)
+         IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
+          PBAL=PTBALT(I)
+          RDZ1=ITRE(I)
+          RDZ=(ZRD(RDZ1))/SDIMAX
+          CRAT=ICR(I)
+          ELEVATN=ELEV*100
+          AX=NOPERMH1(I)
+          BX=NOPERMH2(I)
+          CX=NOPERMH3(I)
+          DX=NOPERMH4(I)
+          EX=NOPERMH5(I)
+          FX=NOPERMH6(I)
+          GX=NOPERMH7(I)
+          HX=NOPERMH8(I)
+          IX=NOPERMH9(I)
+          POTHTG=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL + 
+     &           EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
+     &           HX*RDZ + LOG(XSITE))*FINT
 C----------
 C  SPACE FOR OTHER SPECIES
 C---------
-        CASE DEFAULT
-          POTHTG = 0.
-          HGUESS = 0.
+      CASE DEFAULT
+        POTHTG = 0.
 C
       END SELECT
 C
   900 CONTINUE
 C
       RETURN
-      END
+      END     

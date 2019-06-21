@@ -143,6 +143,7 @@ C----------
       ITHNPI = 1
       ITHNPN = -1
       ITHNPA = 0
+      LPERM =.FALSE.
 C----------
       DO 10 I=1,MAXCYC
       IY(I) = -1
