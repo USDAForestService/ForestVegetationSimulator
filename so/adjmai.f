@@ -43,7 +43,7 @@ C      BD  DF
      & 201,202,
 C     EQ GROUP 6
 C       WL
-     & ,073,
+     & 073,
 C     EQ GROUP 7
 C      BR  ES  
      & 092,093,
