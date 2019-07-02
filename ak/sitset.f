@@ -31,7 +31,8 @@ C----------
 C
       CHARACTER DIST*2,FORST*2,PROD*2,VAR*2,VOLEQ*10
 C
-      INTEGER ERRFLAG,I,IFIASP,INTFOR,IREGN,ISPC,J,JJ,K,MERCHCDS(2,19),MERCHCAT
+      INTEGER ERRFLAG,I,IFIASP,INTFOR,IREGN,ISPC,J,JJ,K,
+     &        MERCHCDS(2,19),MERCHCAT
 C
       REAL TEM
 C
@@ -52,13 +53,46 @@ C IN THIS SUBROUTINE IS UPDATED!
 C  1    2    3    4    5    6    7    8    9   10   11  12  13
 C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
 C----------
-      DATA SDICON /790.,602.,592.,387.,412.,412.,500.,654.,679.,762.,
-     & 682.,687.,412.,441.,441.,466.,466.,384.,562.,452.,447.,447.,452./
-      DATA SLO /20.,20.,20.,20.,20.,20.,20.,20.,20.,20.,
-     & 20.,20.,20.,20.,20.,20.,20.,20.,20.,20.,20.,20.,20./
-      DATA SHI /138., 131., 138., 131., 131., 131., 131., 164., 131., 
-     & 138., 138., 131., 131., 138., 138., 131., 131., 138., 131., 138.,
+      DATA SDICON /
+     & 790., 602., 592., 387., 412., 412., 500., 654., 679., 762.,
+     & 682., 687., 412., 441., 441., 466., 466., 384., 562., 452.,
+     & 447., 447., 452./
+      DATA SLO /
+     & 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.,
+     & 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.,
+     & 20., 20., 20./
+      DATA SHI /
+     & 138., 131., 138., 131., 131., 131., 131., 164., 131., 138., 
+     & 138., 131., 131., 138., 138., 131., 131., 138., 131., 138.,
      & 138., 138., 138./
+C
+C----------
+C  LOAD VOLUME DEFAULT MERCH. SPECS.
+C----------  
+C
+C  MERCHCDS CONTAINS MERCH SPEC CATEOGORIES (MERCHCAT) FOR EACH 
+C  LOCATION CODE
+      DATA MERCHCDS/
+     &  713,  1,
+     &  720,  2,
+     &  7400, 2,
+     &  7401, 2,
+     &  7402, 2,
+     &  7403, 2,
+     &  7404, 2,
+     &  7405, 2,
+     &  7406, 2,
+     &  7407, 2,
+     &  7408, 2,
+     &  703,  3,
+     &  1002, 3,
+     &  1003, 3,
+     &  1005, 3,
+     &  8134, 3,
+     &  8135, 3,
+     &  8112, 3,
+     &  1004, 4/
+
 C----------
 C IF SITEAR(I) HAS NOT BEEN SET WITH SITECODE KEYWORD, LOAD IT
 C WITH DEFAULT SITE VALUES. USERS SHOULD USE HEGYI (1981) FOR
@@ -105,33 +139,6 @@ C
       IF(JJ .EQ. MAXSP)GO TO 93
    92 CONTINUE
    93 CONTINUE
-C
-C----------
-C  LOAD VOLUME DEFAULT MERCH. SPECS.
-C----------  
-C
-C  MERCHCDS CONTAINS MERCH SPEC CATEOGORIES (MERCHCAT) FOR EACH 
-C  LOCATION CODE
-      DATA MERCHCDS/
-      & 713, 1,
-      & 720, 2,
-      & 7400, 2,
-      & 7401, 2,
-      & 7402, 2,
-      & 7403, 2,
-      & 7404, 2,
-      & 7405, 2,
-      & 7406, 2,
-      & 7407, 2,
-      & 7408, 2,
-      & 703, 3,
-      & 1002, 3,
-      & 1003, 3,
-      & 1005, 3,
-      & 8134, 3,
-      & 8135, 3,
-      & 8112, 3,
-      & 1004, 4/
 C
 C  SELECT MERCHCAT BASED ON LOCATION CODE (KODFOR)
 C  FIGURE OUT WAY TO ITERATE ACROSS MERCHCDS WITHOUT EXPLICITLY
@@ -190,9 +197,9 @@ C  SET BFTOPD DEFAULTS
         	CASE(1,2,4)
         		BFTOPD(ISPC)= 6
         	CASE(3)
-        		BFTOPD(ISPCD)= 7
+        		BFTOPD(ISPC)= 7
         	CASE DEFAULT
-        		BFTOPD(ISPCD) = 7
+        		BFTOPD(ISPC) = 7
         	END SELECT
         ENDIF
       ENDDO

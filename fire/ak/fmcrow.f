@@ -53,25 +53,38 @@ C     INDEX TO THE CROWN EQUATIONS USED BY THE WESTERN (FMCROWW) AND
 C     EASTERN (FMCROWE) CROWN EQUATION ROUTINES. EASTERN EQUATIONS ARE
 C     BASED ON LS-FFE; IN THE TABLE BELOW, A '-' IN THE
 C     "MAPS TO" COLUMN INDICATES A SPECIES THAT MAPS TO ITSELF
-
-C     I   NAME                     MAPS TO          WEST   EAST
+C
+C                                  MAPPPED TO
+C     I   SPECIES                  WEST   EAST
 C --------------------------------------------------------------
-C     1 = white spruce           Engelmann spruce 18
-C     2 = western redcedar          -              7
-C     3 = pacific silver fir     grand fir         4
-C     4 = mountain hemlock          -             24
-C     5 = western hemlock           -              6
-C     6 = alaska-cedar           western redcedar  7
-C     7 = lodgepole pine            -             11
-C     8 = sitka spruce           Engelmann spruce 18
-C     9 = subalpine fir             -              1
-C    10 = red alder                 -             23    
-C    11 = black cottonwood       eastern cottonwood         17
-C    12 = other hardwoods        eastern cottonwood         17
-C    13 = other softwoods        grand fir         4 
+C     1   pacific silver fir         4      
+C     2   subalpine fir              1      
+C     3   alaska-cedar               8      
+C     4   tamarack                         10
+C     5   white spruce                      6
+C     6   Lutz's spruce                     6
+C     7   black spruce                      9
+C     8   sitka spruce              18      
+C     9   lodgepole pine            11      
+C    10   western redcedar           7      
+C    11   western hemlock            6      
+C    12   mountain hemlock          24      
+C    13   other softwoods                   6
+C    14   alder species             23      
+C    15   red alder                 23      
+C    16   paper birch                      43
+C    17   Alaska birch                     43
+C    18   balsam poplar                    42
+C    19   quaking aspen                    41
+C    20   black cottonwood                 17
+C    21   willow species                   64
+C    22   Scouler's willow                 64
+C    23   other hardwoods                  17
 C --------------------------------------------------------------
 
-      DATA ISPMAP /18,7,4,24,6,7,11,18,1,23,17,17,4/
+      DATA ISPMAP / 4,  1, 8, 10,  6,  6,  9, 18, 11,  7,
+     &              6, 24, 6, 23, 23, 43, 43, 42, 41, 17,
+     &             64, 64, 17 /
 
 C     CHECK FOR DEBUG
 
@@ -125,8 +138,12 @@ C       OF THIS LOOP IF THE TREE HAS NO DIAMETER, HEIGHT, OR LIVE CROWN.
         ENDDO
 
         SELECT CASE (SPIW)
-          CASE (11,12)
+C
+C         SPECIES THAT USE CROWN ROUTINE FOR THE EAST
+          CASE (4:7,13,16:)
             CALL FMCROWE(SPIE,SPIW,D,H,IC,SG,XV)
+C
+C         SPECIES THAT USE CROWN ROUTINE FOR THE WEST
           CASE DEFAULT
             CALL FMCROWW(SPIE,D,H,ITR,IC,HP,SG,XV)
         END SELECT

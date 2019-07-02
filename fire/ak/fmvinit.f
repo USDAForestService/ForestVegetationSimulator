@@ -72,7 +72,7 @@ C     ASSUMING COLD/WET PN HABITAT TYPE.
       DKR(6,1) = 0.009 ! 12 - 20"
       DKR(7,1) = 0.009 ! 20 - 35"
       DKR(8,1) = 0.009 ! 35 - 50"
-      DKR(9,1) = 0.009 ! > 50"            
+      DKR(9,1) = 0.009 ! > 50"
       DKR(10,1) = 0.35  ! litter
       DKR(11,1) = 0.002 ! duff
 
@@ -81,10 +81,10 @@ C     ASSUMING COLD/WET PN HABITAT TYPE.
       DKR(3,2) = 0.061 ! 1 - 3"
       DKR(4,2) = 0.025 ! 3 - 6"
       DKR(5,2) = 0.025 ! 6 - 12"
-      DKR(6,2) = 0.018 ! 12 - 20"   
-      DKR(7,2) = 0.018 ! 20 - 35"   
-      DKR(8,2) = 0.018 ! 35 - 50"   
-      DKR(9,2) = 0.018 ! > 50"      
+      DKR(6,2) = 0.018 ! 12 - 20"
+      DKR(7,2) = 0.018 ! 20 - 35"
+      DKR(8,2) = 0.018 ! 35 - 50"
+      DKR(9,2) = 0.018 ! > 50"
       DKR(10,2) = 0.4   ! litter
       DKR(11,2) = 0.002 ! duff
 
@@ -93,10 +93,10 @@ C     ASSUMING COLD/WET PN HABITAT TYPE.
       DKR(3,3) = 0.073 ! 1 - 3"
       DKR(4,3) = 0.041 ! 3 - 6"
       DKR(5,3) = 0.041 ! 6 - 12"
-      DKR(6,3) = 0.031 ! 12 - 20"   
-      DKR(7,3) = 0.031 ! 20 - 35"   
-      DKR(8,3) = 0.031 ! 35 - 50"   
-      DKR(9,3) = 0.031 ! > 50"      
+      DKR(6,3) = 0.031 ! 12 - 20"
+      DKR(7,3) = 0.031 ! 20 - 35"
+      DKR(8,3) = 0.031 ! 35 - 50"
+      DKR(9,3) = 0.031 ! > 50"
       DKR(10,3) = 0.45  ! litter
       DKR(11,3) = 0.003 ! duff
 
@@ -105,10 +105,10 @@ C     ASSUMING COLD/WET PN HABITAT TYPE.
       DKR(3,4) = 0.098 ! 1 - 3"
       DKR(4,4) = 0.077 ! 3 - 6"
       DKR(5,4) = 0.077 ! 6 - 12"
-      DKR(6,4) = 0.058 ! 12 - 20"   
-      DKR(7,4) = 0.058 ! 20 - 35"   
-      DKR(8,4) = 0.058 ! 35 - 50"   
-      DKR(9,4) = 0.058 ! > 50"      
+      DKR(6,4) = 0.058 ! 12 - 20"
+      DKR(7,4) = 0.058 ! 20 - 35"
+      DKR(8,4) = 0.058 ! 35 - 50"
+      DKR(9,4) = 0.058 ! > 50"
       DKR(10,4) = 0.5   ! litter
       DKR(11,4) = 0.003 ! duff
 
@@ -133,8 +133,8 @@ C     ALSO SET LIMBRK.  NZERO COULD BE UNDER USER-CONTROL ONE DAY.
       ENDDO
 
 C     HTR1 and HTR2 are set below, and used for most species (where htx = 1)
-C     for cedar, htx = 0, so no snag height loss is modelled. 
-C     2% a year height loss is based on Hennon and Loopstra (1991) who found that 
+C     for cedar, htx = 0, so no snag height loss is modelled.
+C     2% a year height loss is based on Hennon and Loopstra (1991) who found that
 C     WH snags (ave dbh 23") were 30 ft or shorter after 38 years.
 
       HTR1   =  0.02
@@ -142,8 +142,8 @@ C     WH snags (ave dbh 23") were 30 ft or shorter after 38 years.
 
 C     ** SPECIES-LEVEL VARIABLE ASSIGNMENT **
 
-C     V2T() - UNITS ARE LB/CUFT BY SPECIES - FROM THE 
-C      'WOOD HANDBOOK' USDA FOREST PRODUCTS LAB. 1999.  FPL-GTR-113. 
+C     V2T() - UNITS ARE LB/CUFT BY SPECIES - FROM THE
+C      'WOOD HANDBOOK' USDA FOREST PRODUCTS LAB. 1999.  FPL-GTR-113.
 
 C     [TO CONVERT G/CM**3 TO LB/FT**3, MULTIPLY 'X' G/CM**3 * 62.372]
 
@@ -166,9 +166,9 @@ C     INVOLVING THE VALUE (SEE FMSCRO) MUST BE RE-EXAMINED TO INSURE
 C     THAT THEY BEHAVE PROPERLY.
 
 C     ALLDWN() - YEARS DEAD AT WHICH ALL SNAGS WILL BE FALLEN (NOT USED IN AK-FFE)
-C     DECAYX() - DECAY RATE MULTIPLIER      
-C     FALLX()  - FALL RATE MULTIPLIER        
-C     HTX()    - HEIGHT-LOSS RATE MULTIPLIER 
+C     DECAYX() - DECAY RATE MULTIPLIER
+C     FALLX()  - FALL RATE MULTIPLIER
+C     HTX()    - HEIGHT-LOSS RATE MULTIPLIER
 
 C     DKRCLS() - DECAY RATE CLASS 1 (V.SLOW) TO 4 (FAST). MODEL USERS
 C     CAN USE THE FUELDCAY KEYWORD TO REASSIGN RATES WITHIN THE 4
@@ -178,34 +178,11 @@ C     CLASSES, AND THE FUELPOOL KEYWORD TO REASSIGN CLASS
 
          SELECT CASE (I)
 
-C         white spruce
-          CASE (1)
-            V2T(I)     =  23.1
-            LEAFLF(I)  =  6
-            ALLDWN(I)  =  90 !pn engelmann spruce
-            DECAYX(I)  =  1
-            FALLX(I)   =  1
-            DO J= 1,4
-              HTX(I,J) =  1
-            ENDDO
-            DKRCLS(I)  =  2
-            LSW(I)     =  .TRUE.
-
-C         western redcedar
-          CASE (2)
-            V2T(I)     =  19.3
-            LEAFLF(I)  =  5
-            ALLDWN(I)  =  300
-            DECAYX(I)  =  1
-            FALLX(I)   =  1
-            DO J= 1,4
-              HTX(I,J) =  0 
-            ENDDO
-            DKRCLS(I)  =  1
-            LSW(I)     =  .TRUE.
-
-C         pacific silver fir / other softwoods
-          CASE (3,13)
+C         pacific silver fir
+C         tamarack
+C         black spruce
+C         other softwoods
+          CASE (1,4,7,13)
             V2T(I)     = 24.9
             LEAFLF(I)  = 7
             ALLDWN(I)  = 30
@@ -217,35 +194,21 @@ C         pacific silver fir / other softwoods
             DKRCLS(I)  = 3
             LSW(I)     = .TRUE.
 
-C         mountain hemlock
-          CASE (4)
-            V2T(I)     = 26.2
-            LEAFLF(I)  = 4
+C         subalpine fir
+          CASE (2)
+            V2T(I)     = 19.3
+            LEAFLF(I)  = 7
             ALLDWN(I)  = 90
             DECAYX(I)  = 1
             FALLX(I)   = 1
             DO J= 1,4
               HTX(I,J) = 1
             ENDDO
-            DKRCLS(I)  = 2
+            DKRCLS(I)  = 3
             LSW(I)     = .TRUE.
 
-C         western hemlock
-          CASE (5)
-            V2T(I)     =  26.2
-            LEAFLF(I)  =  5
-            ALLDWN(I)  =  100 
-            DECAYX(I)  =  1
-            FALLX(I)   =  1
-            DO J= 1,4
-              HTX(I,J) =  1
-            ENDDO
-            DKRCLS(I)  =  2
-            LSW(I)     =  .TRUE.
-
-
 C         Alaska-cedar
-          CASE (6)
+          CASE (3)
             V2T(I)     =  26.2
             LEAFLF(I)  =  5
             ALLDWN(I)  =  300
@@ -257,18 +220,19 @@ C         Alaska-cedar
             DKRCLS(I)  =  1
             LSW(I)     =  .TRUE.
 
-C         lodgepole pine
-          CASE (7)
-            V2T(I)     = 23.7
-            LEAFLF(I)  = 3
-            ALLDWN(I)  = 90
-            DECAYX(I)  = 1
-            FALLX(I)   = 1
+C         white spruce
+C         Lutz's spruce
+          CASE (5,6)
+            V2T(I)     =  23.1
+            LEAFLF(I)  =  6
+            ALLDWN(I)  =  90 !pn engelmann spruce
+            DECAYX(I)  =  1
+            FALLX(I)   =  1
             DO J= 1,4
-              HTX(I,J) = 1
+              HTX(I,J) =  1
             ENDDO
-            DKRCLS(I)  = 2
-            LSW(I)     = .TRUE.
+            DKRCLS(I)  =  2
+            LSW(I)     =  .TRUE.
 
 C         sitka spruce
           CASE (8)
@@ -281,24 +245,65 @@ C         sitka spruce
               HTX(I,J) = 1
             ENDDO
             DKRCLS(I)  = 2
-            LSW(I)     = .TRUE. 
+            LSW(I)     = .TRUE.
 
-
-C         subalpine fir
+C         lodgepole pine
           CASE (9)
-            V2T(I)     = 19.3
-            LEAFLF(I)  = 7
+            V2T(I)     = 23.7
+            LEAFLF(I)  = 3
             ALLDWN(I)  = 90
             DECAYX(I)  = 1
             FALLX(I)   = 1
             DO J= 1,4
               HTX(I,J) = 1
             ENDDO
-            DKRCLS(I)  = 3
-            LSW(I)     = .TRUE. 
+            DKRCLS(I)  = 2
+            LSW(I)     = .TRUE.
 
-C         red alder
+C         western redcedar
           CASE (10)
+            V2T(I)     =  19.3
+            LEAFLF(I)  =  5
+            ALLDWN(I)  =  300
+            DECAYX(I)  =  1
+            FALLX(I)   =  1
+            DO J= 1,4
+              HTX(I,J) =  0
+            ENDDO
+            DKRCLS(I)  =  1
+            LSW(I)     =  .TRUE.
+
+C         western hemlock
+          CASE (11)
+            V2T(I)     =  26.2
+            LEAFLF(I)  =  5
+            ALLDWN(I)  =  100
+            DECAYX(I)  =  1
+            FALLX(I)   =  1
+            DO J= 1,4
+              HTX(I,J) =  1
+            ENDDO
+            DKRCLS(I)  =  2
+            LSW(I)     =  .TRUE.
+
+C         mountain hemlock
+          CASE (12)
+            V2T(I)     = 26.2
+            LEAFLF(I)  = 4
+            ALLDWN(I)  = 90
+            DECAYX(I)  = 1
+            FALLX(I)   = 1
+            DO J= 1,4
+              HTX(I,J) = 1
+            ENDDO
+            DKRCLS(I)  = 2
+            LSW(I)     = .TRUE.
+
+C         alder species
+C         red alder
+C         paper birch
+C         Alaska birch
+          CASE (14,15,16,17)
             V2T(I)     = 23.1
             LEAFLF(I)  = 1
             ALLDWN(I)  = 50
@@ -310,8 +315,13 @@ C         red alder
             DKRCLS(I)  = 4
             LSW(I)     = .FALSE.
 
-C         black cottonwood / other hardwoods
-          CASE (11,12)
+C         balsam poplar
+C         quaking aspen
+C         black cottonwood
+C         willow species
+C         Scouler's willow
+C         other hardwoods
+          CASE (18,19,20,21,22,23)
             V2T(I)     = 19.3
             LEAFLF(I)  = 1
             ALLDWN(I)  = 50
@@ -327,39 +337,67 @@ C         black cottonwood / other hardwoods
 
 C       TIME-TO-FALL VALUES
 
-        SELECT CASE (I)        
-        CASE (2,6) !  cedar
-          TFALL(I,0) = 5
-          TFALL(I,1) = 15
-          TFALL(I,2) = 15
-          TFALL(I,3) = 30
-          TFALL(I,4) = 55        
-        CASE (4,5) ! hemlocks
-          TFALL(I,0) = 1
-          TFALL(I,1) = 5
-          TFALL(I,2) = 5
-          TFALL(I,3) = 15
-          TFALL(I,4) = 50
-        CASE (1) ! white spruce
+        SELECT CASE (I)
+
+C       white spruce
+C       Lutz's spruce
+C       black spruce
+C       sitka spriuce
+        CASE (5,6,7,8)
           TFALL(I,0) = 2
           TFALL(I,1) = 5
           TFALL(I,2) = 5
           TFALL(I,3) = 10
           TFALL(I,4) = 50
-        CASE (3,7,8,9,13) ! rest of conifers
+
+C       Alaska-cedar
+C       western redcedar
+        CASE (3,10)
+          TFALL(I,0) = 5
+          TFALL(I,1) = 15
+          TFALL(I,2) = 15
+          TFALL(I,3) = 30
+          TFALL(I,4) = 55
+
+C       western hemlock
+C       mountain hemlock
+        CASE (11,12)
+          TFALL(I,0) = 1
+          TFALL(I,1) = 5
+          TFALL(I,2) = 5
+          TFALL(I,3) = 15
+          TFALL(I,4) = 50
+
+C       pacific silver fir
+C       subalpine fir
+C       tamarack
+C       lodgpole pine
+C       other softwoods
+        CASE (1,2,4,9,13)
           TFALL(I,0) = 2
           TFALL(I,1) = 5
           TFALL(I,2) = 5
           TFALL(I,3) = 15
           TFALL(I,4) = 50
-        CASE (10,11,12) ! hardwoods
+
+C       alder species
+C       red alder
+C       paper birch
+C       Alaska birch
+C       balsam poplar
+C       quaking aspen
+C       black cottonwood
+C       willow species
+C       Scouler's willow
+C       other hardwoods
+        CASE (14:23)
           TFALL(I,0) = 1
           TFALL(I,1) = 10
           TFALL(I,2) = 15
           TFALL(I,3) = 15
-          TFALL(I,4) = 50        
+          TFALL(I,4) = 50
         END SELECT
-        
+
         TFALL(I,5) = TFALL(I,4)
 
 C       DEAD LEAF FALL CANNOT BE > LIVE
