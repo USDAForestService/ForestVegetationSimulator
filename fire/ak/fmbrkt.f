@@ -31,7 +31,7 @@ COMMONS
      >     0.040,  ! 11 = western hemlock
      >     0.040,  ! 12 = mountain hemlock
      >     0.047,  ! 13 = other softwoods
-     >     0.019   ! 14 = alder species
+     >     0.019,  ! 14 = alder species
      >     0.026,  ! 15 = red alder   ***** Duncan Lutes file shows 0.019
      >     0.027,  ! 16 = paper birch ***** Duncan Lutes file shows 0.019
      >     0.019,  ! 17 = Alaska birch
