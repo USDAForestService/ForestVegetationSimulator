@@ -173,15 +173,18 @@ C     HTX()    - HEIGHT-LOSS RATE MULTIPLIER
 C     DKRCLS() - DECAY RATE CLASS 1 (V.SLOW) TO 4 (FAST). MODEL USERS
 C     CAN USE THE FUELDCAY KEYWORD TO REASSIGN RATES WITHIN THE 4
 C     CLASSES, AND THE FUELPOOL KEYWORD TO REASSIGN CLASS
-
+C
+C     ORIGINAL MEMBERS OF GROUPS PRIOR TO AK 23-SPECIES EXPANSION IS
+C     IS MARKED WITH (ORIGINAL) IN THE FOLLOWING 2 CASE STATMENTS.
+C
       DO I = 1,MAXSP
 
          SELECT CASE (I)
 
-C         pacific silver fir
+C         pacific silver fir (ORIGINAL)
 C         tamarack
 C         black spruce
-C         other softwoods
+C         other softwoods (ORIGINAL)
           CASE (1,4,7,13)
             V2T(I)     = 24.9
             LEAFLF(I)  = 7
@@ -194,7 +197,7 @@ C         other softwoods
             DKRCLS(I)  = 3
             LSW(I)     = .TRUE.
 
-C         subalpine fir
+C         subalpine fir (ORIGINAL)
           CASE (2)
             V2T(I)     = 19.3
             LEAFLF(I)  = 7
@@ -207,7 +210,7 @@ C         subalpine fir
             DKRCLS(I)  = 3
             LSW(I)     = .TRUE.
 
-C         Alaska-cedar
+C         Alaska-cedar (ORIGINAL)
           CASE (3)
             V2T(I)     =  26.2
             LEAFLF(I)  =  5
@@ -220,7 +223,7 @@ C         Alaska-cedar
             DKRCLS(I)  =  1
             LSW(I)     =  .TRUE.
 
-C         white spruce
+C         white spruce (ORIGINAL)
 C         Lutz's spruce
           CASE (5,6)
             V2T(I)     =  23.1
@@ -247,7 +250,7 @@ C         sitka spruce
             DKRCLS(I)  = 2
             LSW(I)     = .TRUE.
 
-C         lodgepole pine
+C         lodgepole pine (ORIGINAL)
           CASE (9)
             V2T(I)     = 23.7
             LEAFLF(I)  = 3
@@ -260,7 +263,7 @@ C         lodgepole pine
             DKRCLS(I)  = 2
             LSW(I)     = .TRUE.
 
-C         western redcedar
+C         western redcedar (ORIGINAL)
           CASE (10)
             V2T(I)     =  19.3
             LEAFLF(I)  =  5
@@ -273,7 +276,7 @@ C         western redcedar
             DKRCLS(I)  =  1
             LSW(I)     =  .TRUE.
 
-C         western hemlock
+C         western hemlock (ORIGINAL)
           CASE (11)
             V2T(I)     =  26.2
             LEAFLF(I)  =  5
@@ -286,7 +289,7 @@ C         western hemlock
             DKRCLS(I)  =  2
             LSW(I)     =  .TRUE.
 
-C         mountain hemlock
+C         mountain hemlock (ORIGINAL)
           CASE (12)
             V2T(I)     = 26.2
             LEAFLF(I)  = 4
@@ -300,7 +303,7 @@ C         mountain hemlock
             LSW(I)     = .TRUE.
 
 C         alder species
-C         red alder
+C         red alder (ORIGINAL)
 C         paper birch
 C         Alaska birch
           CASE (14,15,16,17)
@@ -317,10 +320,10 @@ C         Alaska birch
 
 C         balsam poplar
 C         quaking aspen
-C         black cottonwood
+C         black cottonwood (ORIGINAL)
 C         willow species
 C         Scouler's willow
-C         other hardwoods
+C         other hardwoods (ORIGINAL)
           CASE (18,19,20,21,22,23)
             V2T(I)     = 19.3
             LEAFLF(I)  = 1
@@ -339,19 +342,18 @@ C       TIME-TO-FALL VALUES
 
         SELECT CASE (I)
 
-C       white spruce
+C       white spruce (ORIGINAL)
 C       Lutz's spruce
 C       black spruce
-C       sitka spriuce
-        CASE (5,6,7,8)
+        CASE (5,6,7)
           TFALL(I,0) = 2
           TFALL(I,1) = 5
           TFALL(I,2) = 5
           TFALL(I,3) = 10
           TFALL(I,4) = 50
 
-C       Alaska-cedar
-C       western redcedar
+C       Alaska-cedar (ORIGINAL)
+C       western redcedar (ORIGINAL)
         CASE (3,10)
           TFALL(I,0) = 5
           TFALL(I,1) = 15
@@ -359,8 +361,8 @@ C       western redcedar
           TFALL(I,3) = 30
           TFALL(I,4) = 55
 
-C       western hemlock
-C       mountain hemlock
+C       western hemlock (ORIGINAL)
+C       mountain hemlock (ORIGINAL)
         CASE (11,12)
           TFALL(I,0) = 1
           TFALL(I,1) = 5
@@ -368,12 +370,13 @@ C       mountain hemlock
           TFALL(I,3) = 15
           TFALL(I,4) = 50
 
-C       pacific silver fir
-C       subalpine fir
+C       pacific silver fir (ORIGINAL)
+C       subalpine fir (ORIGINAL)
 C       tamarack
-C       lodgpole pine
-C       other softwoods
-        CASE (1,2,4,9,13)
+C       sitka spriuce (ORIGINAL)
+C       lodgpole pine (ORIGINAL)
+C       other softwoods (ORIGINAL)
+        CASE (1,2,4,8,9,13)
           TFALL(I,0) = 2
           TFALL(I,1) = 5
           TFALL(I,2) = 5
@@ -381,15 +384,15 @@ C       other softwoods
           TFALL(I,4) = 50
 
 C       alder species
-C       red alder
+C       red alder (ORIGINAL)
 C       paper birch
 C       Alaska birch
 C       balsam poplar
 C       quaking aspen
-C       black cottonwood
+C       black cottonwood (ORIGINAL)
 C       willow species
 C       Scouler's willow
-C       other hardwoods
+C       other hardwoods (ORIGINAL)
         CASE (14:23)
           TFALL(I,0) = 1
           TFALL(I,1) = 10
