@@ -4,9 +4,37 @@ C----------
 C AK $Id$
 C----------
 C  THIS SUBROUTINE LOADS THE SITEAR ARRAY WITH A SITE INDEX FOR EACH
-C  SPECIES WHICH WAS NOT ASSIGNED A SITE INDEX BY KEYWORD, AND LOADS
+C  SPECIES WHICH WAS NOT ASSIGNED A SITE INDEX BY KEYWORD, LOADS
 C  THE SDIDEF ARRAY WITH SDI MAXIMUMS FOR EACH SPECIES WHICH WAS NOT
-C  ASSIGNED AN SDI MAXIMUM USING THE SDIMAX KEYWORD.
+C  ASSIGNED AN SDI MAXIMUM USING THE SDIMAX KEYWORD, AND LOADS VOLUME 
+C  MERCHANTABILITY SPECIFICATIONS AND VOLUME EQUATIONS.
+C----------
+C SPECIES LIST FOR ALASKA VARIANT.
+C
+C Number Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
 C----------
 COMMONS
 C
@@ -26,6 +54,59 @@ C
 COMMONS
 C
 C----------
+C  DEFINITIONS
+C
+C     DIST --  
+C    FORST --  
+C     PROD --  
+C      VAR --  
+C    VOLEQ --  
+C  ERRFLAG --  
+C        I -- INDEX USED FOR LOOPING ACROSS SPECIES   
+C   IFIASP --  
+C   INTFOR --  
+C    IREGN --  
+C     ISPC -- INDEX USED FOR LOOPING ACROSS SPECIES
+C        J -- INDEX USED FOR PRINTING REPORTS 
+C       JJ -- INDEX USED FOR PRINTING REPORTS
+C        K -- INDEX USED FOR PRINTING REPORTS
+C MERCHCDS --  
+C MERCHCAT --  
+C      TEM -- DEFAULT SITE INDEX, SET TO 70.
+C   SDICON -- ARRAY CONTAINING SDI MAXIMUM FOR EACH SPECIES 
+C               (BASED ON SHAW AND LONG ANALYSIS)
+C      SLO -- ARRAY CONTAINING MINIMUM SITE INDEX VALUES FOR EACH SPECIES
+C             SF, AF, YC, LP, RC, OS, AD, RA; AND  
+C             WH, MH, AND SS GREATER THAN OR EQUAL TO
+C             200 YEARS OF AGE: HEGYI, F., JELINEK, J., VISZLAI, J.,
+C               CARPENTER, D., BRITNEFF, A. 1981.SITE INDEX EQUATIONS  
+C               AND CURVES FOR THE MAJOR TREE SPECIES IN BRITISH 
+C               COLUMBIA.
+C             TA, BE: ROSNER, C. 2004. GROWTH AND YIELD OF BLACK SPRUCE,
+C               PICEA MARIANA (MILL) B.S.P., IN ALASKA. UAF-THESIS. 128
+C               P.
+C             WS, LS: FARR, W. 1967. GROWTH AND YIELD OF WELL-STOCKED 
+C               WHITE SPRUCE STANDS IN ALASKA. USDA FS.PNW-RP-PNW-53. 
+C               30P.
+C             WH, MH, AND SS LESS THAN 200 YEARS OF AGE: PAYANDEH, B.
+C               1974. NONLINEAR SITE INDEX EQUATIONS FOR SEVERAL MAJOR 
+C               CANADIAN TIMBER SPECIES. THE FORESTRY CHRONICLE. 194-
+C               196.
+C             PB AND AB: GREGORY, R. AND HAACK, P. 1965. GROWTH AND 
+C               YIELD OF WELL-STOCKED ASPEN AND BIRCH STANDS IN
+C               ALASKA.USFS RP NOR-2. P.27
+C             BA, CW, WI, SU, OH: SHAW, JD AND PACKEE, EC. 1998. SITE INDEX OF 
+C               BALSAM POPLAR/WESTERN BLACK COTTONWOOD IN INTERIOR AND 
+C               SOUTHCENTRAL ALASKA. NJAF 15(4):174-181. NOTE: USE 
+C               APPROPRIATE CURVE FOR GEOGRAPHIC LOCATION (4 CURVES)
+C             AS: SHAW, JD AND PACKEE, EC. UNPUBLISHED REPORT. SITE 
+C               INDEX OF ASPEN IN ALASKA. 
+C      SHI -- ARRAY CONTAINING MAXIMUM SITE INDEX VALUES FOR EACH 
+C               SPECIES. CITATIONS ARE THE SAME AS SLO.
+C     NOTE -- BASE AGE USED IN ESSPRT.F TO DETERMINE HEIGHT OF SPROUT
+C               RECORDS. ROSNER,SHAW AND GREGORY: BHA 50, FARR: BHA 100 
+C               HEGYI ET AL AND PAYANDEH: TTA 100. 
+C----------
 C  VARIABLE DECLARATIONS:
 C----------
 C
@@ -40,31 +121,19 @@ C
 C
 C----------
 C  DATA STATEMENTS:
-C
-C  SPECIES ORDER
-C  1  2  3  4  5  6  7  8  9 10 
-C SF AF YC TA WS LS BE SS LP RC 
-C
-C 11 12 13 14 15 16 17 18 19 20 21 22 23
-C WH MH OS AD RA PB AB BA AS CW WI SU OH
-C
-C DELETE THESE NEXT TWO COMMENT LINES WHEN NON-SDI STUFF 
-C IN THIS SUBROUTINE IS UPDATED! 
-C  1    2    3    4    5    6    7    8    9   10   11  12  13
-C WS  WRC  PSF   MH   WH  AYC   LP   SS   SAF  RA   CW  OH  OS
 C----------
       DATA SDICON /
      & 790., 602., 592., 387., 412., 412., 500., 654., 679., 762.,
      & 682., 687., 412., 441., 441., 466., 466., 384., 562., 452.,
      & 447., 447., 452./
       DATA SLO /
-     & 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.,
-     & 20., 20., 20., 20., 20., 20., 20., 20., 20., 20.,
-     & 20., 20., 20./
+     & 50., 50., 50.,  5., 50., 50.,  5., 50., 40., 50.,
+     & 50., 50., 50., 40., 40., 30., 30., 20., 30., 20.,
+     & 20.,20.,20./
       DATA SHI /
-     & 138., 131., 138., 131., 131., 131., 131., 164., 131., 138., 
-     & 138., 131., 131., 138., 138., 131., 131., 138., 131., 138.,
-     & 138., 138., 138./
+     & 130., 130., 130.,  40., 100., 100.,  40., 130.,  80.,
+     & 130., 130., 130., 100., 110., 110.,  70.,  70., 100.,
+     &  80., 100., 100., 100., 100./
 C
 C----------
 C  LOAD VOLUME DEFAULT MERCH. SPECS.
@@ -92,30 +161,25 @@ C  LOCATION CODE
      &  8135, 3,
      &  8112, 3,
      &  1004, 4/
-
 C----------
 C IF SITEAR(I) HAS NOT BEEN SET WITH SITECODE KEYWORD, LOAD IT
-C WITH DEFAULT SITE VALUES. USERS SHOULD USE HEGYI (1981) FOR
-C RC, YC, LP SPECIES AND WH, MH AND SS GREATER THAN OR EQUAL TO 
-C 200 YEARS OF AGE. WH, MH, AND SS LESS THAN 200 YEARS OF AGE
-C SHOULD USE PAYANDEH (1974)
+C WITH DEFAULT SITE VALUES. 
 C----------
       TEM = 70.
       IF(ISISP .GT. 0) THEN
         IF (SITEAR(ISISP) .GT. 0.0) TEM=SITEAR(ISISP)
       ENDIF
       IF(ISISP .EQ. 0) ISISP = 11
+C----------
+C TRANSLATE SITE SPECIES SITE INDEX TO OTHER SPECIES
+C----------
       DO 10 I=1,MAXSP
-      SELECT CASE(I)
-        CASE(3,8,9,10,11,12) 
-          IF(TEM .LT. SLO(ISISP))TEM=SLO(ISISP)
-          IF(SITEAR(I) .LE. 0.0) SITEAR(I) = SLO(I) +
-     &    (TEM-SLO(ISISP))/(SHI(ISISP)-SLO(ISISP))
-     &    *(SHI(I)-SLO(I))
-        CASE DEFAULT
-          SITEAR(I)= 0.
-      END SELECT
+        IF(TEM .LT. SLO(ISISP))TEM=SLO(ISISP)
+        IF(SITEAR(I) .LE. 0.0) SITEAR(I) = SLO(I) +
+     &  (TEM-SLO(ISISP))/(SHI(ISISP)-SLO(ISISP))*
+     &  (SHI(I)-SLO(I))
    10 CONTINUE
+
 C----------
 C LOAD THE SDIDEF ARRAY.
 C----------
