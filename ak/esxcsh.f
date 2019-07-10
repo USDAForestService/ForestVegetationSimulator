@@ -49,8 +49,8 @@ C         ----------
           BB = -0.26203 + 0.44249*TIME
    31     CALL ESRANN(X)
           IF(X .GT. WMAX) GO TO 31
-          IF(NTALLY.EQ.1 .AND. X.LT.0.8) GO TO 61
-          IF(NTALLY.EQ.2 .AND. X.GE.0.5) GO TO 61
+          IF(NTALLY.EQ.1 .AND. X.LT.0.8) GO TO 31
+          IF(NTALLY.EQ.2 .AND. X.GE.0.5) GO TO 31
           HHT = ((-(ALOG(1.0-X)))**(1.0/1.195))*BB
 
         CASE (4:7)
@@ -86,8 +86,8 @@ C         ----------
           BB = -0.26203 + 0.44249*TIME
   101     CALL ESRANN(X)
           IF(X .GT. WMAX) GO TO 101
-          IF(NTALLY.EQ.1 .AND. X.LT.0.8) GO TO 21
-          IF(NTALLY.EQ.2 .AND. X.GE.0.5) GO TO 21
+          IF(NTALLY.EQ.1 .AND. X.LT.0.8) GO TO 101
+          IF(NTALLY.EQ.2 .AND. X.GE.0.5) GO TO 101
           HHT = ((-(ALOG(1.0-X)))**(1.0/1.195))*BB
 
         CASE (11)
@@ -97,8 +97,8 @@ C         ----------
           BB = -0.26203 + 0.44249*TIME
   111     CALL ESRANN(X)
           IF(X .GT. WMAX) GO TO 111
-          IF(NTALLY.EQ.1 .AND. X.LT.0.8) GO TO 51
-          IF(NTALLY.EQ.2 .AND. X.GE.0.5) GO TO 51
+          IF(NTALLY.EQ.1 .AND. X.LT.0.8) GO TO 111
+          IF(NTALLY.EQ.2 .AND. X.GE.0.5) GO TO 111
           HHT = ((-(ALOG(1.0-X)))**(1.0/1.195))*BB
 
         CASE (12)
@@ -130,7 +130,7 @@ C         ----------
 
       END SELECT
 C----------
-C  HEIGHTS TO TALL, TEMPORARY FIX, 11-30-93  GD
+C  HEIGHTS TOO TALL, TEMPORARY FIX, 11-30-93  GD
 C----------
       HHT=HHT*0.25
       IF(HHT.LT.1.0)HHT=1.0

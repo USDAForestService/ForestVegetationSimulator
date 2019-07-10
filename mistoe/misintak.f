@@ -97,7 +97,7 @@ C.... Data statements.
 
 C.... Species character representations
 
-      DATA (ACSP(I),I=1,13)
+      DATA (ACSP(I),I=1,MAXSP)
      &  /'SF','AF','YC','TA','WS','LS','BE','SS','LP','RC',
      &   'WH','MH','OS','AD','RA','PB','AB','BA','AS','CW',
      &   'WI','SU','OH'/
@@ -105,7 +105,7 @@ C.... Species character representations
 
 C.... Species affected by mistletoe
 
-      DATA (AFIT(I),I=1,13)
+      DATA (AFIT(I),I=1,MAXSP)
      &   / 1,   1,   0,   0,   0,   0,   0,   0,   1,   0,
      &     1,   1,   0,   0,   0,   0,   0,   0,   0,   0,
      &     0,   0,   0 /
@@ -115,7 +115,6 @@ C.... Diameter growth rates
       DATA ((ADGP(I,J),J=1,7),I=1,MAXSP)
      &  /1.0,1.0,1.0,.98,.95,.70,.50,
      &   1.0,1.0,1.0,.98,.95,.70,.50,
-     &   1.0,1.0,1.0,1.0,1.0,1.0,1.0,
      &   1.0,1.0,1.0,1.0,1.0,1.0,1.0,
      &   1.0,1.0,1.0,1.0,1.0,1.0,1.0,
      &   1.0,1.0,1.0,1.0,1.0,1.0,1.0,

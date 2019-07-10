@@ -47,15 +47,15 @@ C
          CALL R10_EQN(FORST,SPEC,VOLEQ,ERRFLAG)
       ENDIF
 
-      RETURN      
+      RETURN
       END
 
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE GETVARIANT(REGN,FORST,DIST,VAR)
       CHARACTER*2 FORST,DIST,VAR
       INTEGER REGN,FORNUM,DISTNUM
- 
-      IF(FORST(2:2) .LT. '0') THEN 
+
+      IF(FORST(2:2) .LT. '0') THEN
         FORST(2:2) = FORST(1:1)
         FORST(1:1) = '0'
         IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
@@ -67,45 +67,45 @@ C//////////////////////////////////////////////////////////////////
       ENDIF
       READ(FORST,'(I2)')FORNUM
       READ(DIST,'(I2)')DISTNUM
- 
+
       IF(REGN .EQ. 8)THEN
          VAR = 'SN'
- 
+
       ELSE IF(REGN.EQ.1)THEN
-         IF(FORNUM.EQ.4 .OR. FORNUM.EQ.5 .OR. FORNUM.EQ.17 .OR. 
+         IF(FORNUM.EQ.4 .OR. FORNUM.EQ.5 .OR. FORNUM.EQ.17 .OR.
      >      FORNUM.EQ.3 .OR. FORNUM.EQ.14 .OR. FORNUM.EQ.16)THEN
             VAR = 'IE'
          ELSE
             VAR = 'EM'
          ENDIF
- 
+
       ELSE IF(REGN.EQ.5) THEN
 C  DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
 C  INLAND CALIFORNIA
-         IF(FORNUM.EQ.5 .OR. FORNUM.EQ.6 .OR. FORNUM.EQ.8 .OR. 
+         IF(FORNUM.EQ.5 .OR. FORNUM.EQ.6 .OR. FORNUM.EQ.8 .OR.
      >      FORNUM.EQ.11 .OR. FORNUM.EQ.14) THEN
             VAR = 'CA'
 C  SOUTHERN OREGON
          ELSEIF(FORNUM.EQ.9) THEN
             VAR = 'SO'
 C  WESTERN SIERRA
-         ELSEIF(FORNUM.EQ.17 .OR. FORNUM.EQ.16 .OR. FORNUM.EQ.15 .OR. 
+         ELSEIF(FORNUM.EQ.17 .OR. FORNUM.EQ.16 .OR. FORNUM.EQ.15 .OR.
      >          FORNUM.EQ.13 .OR. FORNUM.EQ.3) THEN
             VAR = 'WS'
 C  KLAMATH/NORTHERN CALIFORNIA
          ELSEIF(FORNUM.EQ.5) THEN
             VAR = 'NC'
          ENDIF
- 
+
       ELSE IF(REGN.EQ.6) THEN
 C  DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
 C  BLUE MTN VARIANT
-         IF(FORNUM.EQ.4 .OR. FORNUM.EQ.7 .OR. FORNUM.EQ.14 .OR. 
+         IF(FORNUM.EQ.4 .OR. FORNUM.EQ.7 .OR. FORNUM.EQ.14 .OR.
      >      FORNUM.EQ.16) THEN
             VAR = 'BM'
 C  EASTERN CASCADES
-         ELSEIF(FORNUM.EQ.17 .OR. FORNUM.EQ.8 .OR. (FORNUM.EQ.3 .AND. 
-     >          DISTNUM .EQ. 3) .OR. (FORNUM.EQ.6 .AND. 
+         ELSEIF(FORNUM.EQ.17 .OR. FORNUM.EQ.8 .OR. (FORNUM.EQ.3 .AND.
+     >          DISTNUM .EQ. 3) .OR. (FORNUM.EQ.6 .AND.
      >         (DISTNUM.EQ.1.OR.DISTNUM.EQ.2.OR.DISTNUM.EQ.6))) THEN
 C  MOUNT HOOD Barlow RD
             VAR = 'EC'
@@ -113,7 +113,7 @@ C  SOUTHERN OREGON
          ELSEIF(FORNUM.EQ.1 .OR. FORNUM.EQ. 2 .OR. FORNUM.EQ.20) THEN
             VAR = 'SO'
 C  WESTERN CASCADES
-         ELSEIF(FORNUM.EQ.5 .OR. FORNUM.EQ.15 .OR. FORNUM.EQ.18 .OR. 
+         ELSEIF(FORNUM.EQ.5 .OR. FORNUM.EQ.15 .OR. FORNUM.EQ.18 .OR.
      >          FORNUM.EQ.10 .OR. FORNUM.EQ.3 .OR. FORNUM.EQ.6) THEN
             VAR = 'WC'
 C  PACFIC NORTHWEST
@@ -125,7 +125,7 @@ C  NORTHERN CALIFORNIA
          ELSEIF(FORNUM.EQ.21) THEN
             VAR = 'IE'
          ENDIF
- 
+
       ELSE IF(REGN.EQ.7) THEN
 C  DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
          IF(FORNUM.EQ.2) THEN
@@ -135,21 +135,21 @@ C  DETERMINE VARIENT BY FOREST AND DISTRICT NUMBER
          ELSE
             VAR = 'SO'
          ENDIF
- 
+
       ELSE IF (REGN .EQ. 9) THEN
-         IF(FORNUM.EQ.13 .OR. FORNUM.EQ.10 .OR. FORNUM.EQ.3 .OR. 
-     >        FORNUM.EQ.9 .OR. FORNUM.EQ.4 .OR. FORNUM.EQ.7 .OR. 
+         IF(FORNUM.EQ.13 .OR. FORNUM.EQ.10 .OR. FORNUM.EQ.3 .OR.
+     >        FORNUM.EQ.9 .OR. FORNUM.EQ.4 .OR. FORNUM.EQ.7 .OR.
      >        FORNUM.EQ.2 .OR. FORNUM.EQ.6)THEN
             VAR = 'LS'
          ELSE IF(FORNUM.EQ.12 .OR. FORNUM.EQ.8 .OR. FORNUM.EQ.5)THEN
             VAR = 'CS'
-         ELSE IF(FORNUM.EQ.21 .OR. FORNUM.EQ.20 .OR. FORNUM.EQ.19 .OR. 
+         ELSE IF(FORNUM.EQ.21 .OR. FORNUM.EQ.20 .OR. FORNUM.EQ.19 .OR.
      >           FORNUM.EQ.14 .OR. FORNUM.EQ.22)THEN
             VAR = 'NE'
          ENDIF
- 
+
       ENDIF
- 
+
       RETURN
       END
 C
@@ -167,20 +167,20 @@ C Rocky Mt Juniper,     Subalpine larch,     Western larch,   Engelmann spruce, 
 C Blue spruce,          Whitebark pine,      Bristlecone pine,Pinyon Pine,      Lodgepole pine,
 C Limber pine,          Western white pine,  Ponderosa pine,  Singleleaf pinyon,border pinyon,
 C Douglas fir,          Pacific yew,         Western redcedar,Western hemlock,  Mountain hemlock,
-C Other Softwoods,      Rocky Mountain maple,Paper birch,     curlleaf mtn-mahog,green ash,       
+C Other Softwoods,      Rocky Mountain maple,Paper birch,     curlleaf mtn-mahog,green ash,
 C Cottonwood,           balsam poplar,       plains cottonwood,Quaking aspen,  black cottonwood,
 C Narrowleaf cottonwood,Other hardwood,      Unknown
-          
+
       DATA (FIA(I),I=1,38)/ 12,   15,   17,   19,   64,
-     >                      66,   72,   73,   93,   94,   
-     >                      96,  101,  102,  106,  108,  
-     >                     113,  119,  122,  133,  134,    
-     >                     202,  231,  242,  263,  264,    
-     >                     298,  321,  375,  475,  544,  
-     >                     740,  741,  745,  746,  747,  
+     >                      66,   72,   73,   93,   94,
+     >                      96,  101,  102,  106,  108,
+     >                     113,  119,  122,  133,  134,
+     >                     202,  231,  242,  263,  264,
+     >                     298,  321,  375,  475,  544,
+     >                     740,  741,  745,  746,  747,
      >                     749,  998,  999/
-     
-     
+
+
       DATA (EQNUM(I),I=1,81)/
      >'I00FW2W012','102DVEW017','I00FW2W017','I00FW2W019','102DVEW060',
      >'102DVEW106','I00FW2W019','I00FW2W073','I00FW2W093','102DVEW090',
@@ -269,8 +269,8 @@ C
             ELSE
                LAST = HALF - 1
             ENDIF
-  5      CONTINUE 
-      
+  5      CONTINUE
+
          IF(DONE .LT. 0)THEN
             IF(SPEC.LT.300)THEN
 C              Other Softwood
@@ -280,7 +280,7 @@ C              Other Hardwood
                VOLEQ = EQNUM(36)
             ENDIF
          ELSE
-            VOLEQ = EQNUM(DONE)   
+            VOLEQ = EQNUM(DONE)
          ENDIF
       ENDIF
 
@@ -295,8 +295,8 @@ C//////////////////////////////////////////////////////////////////
       INTEGER FIA(42), FIRST, HALF, LAST, DONE ,FORNUM,I
 C     SPECIES
 C     White fir,        Grand fir,         Corkbark fir,      Subalpine fir,        Juniper,
-C     Alligator juniper,Utah Juniper,      Rocky Mtn. Juniper,Eastern redcedar,     Oneseed Juniper,        
-C     Western Larch,    Engelmann's spruce,White spruce,      Blue spruce,          Whitebark pine,         
+C     Alligator juniper,Utah Juniper,      Rocky Mtn. Juniper,Eastern redcedar,     Oneseed Juniper,
+C     Western Larch,    Engelmann's spruce,White spruce,      Blue spruce,          Whitebark pine,
 C     Bristlecode pine, Pinyon Pine,       Lodgepole pine,    Limber pine,          Southwestern white pine,
 C     Chihuahua pine,   Ponderosa pine,    Singleleaf pinyon, Border pinyon,        Arizona pinyon,
 C     Douglas fir,      Western Redcedar,  Mountain Hemlock,  Other softwoods,      Paper birch,
@@ -306,14 +306,14 @@ C     Silverleaf oak,   Other Hardwoods
 
       DATA (FIA(I),I=1,42)/ 15,  17,  18,  19,  57,
      >                      63,  65,  66,  68,  69,
-     >                      73,  93,  94,  96, 101, 
-     >                     102, 106, 108, 113, 114, 
-     >                     118, 122, 133, 134, 143, 
+     >                      73,  93,  94,  96, 101,
+     >                     102, 106, 108, 113, 114,
+     >                     118, 122, 133, 134, 143,
      >                     202, 242, 264, 298, 375,
      >                     475, 740, 745, 746, 749,
      >                     800, 803, 810, 814, 823,
      >                     843, 998/
-   
+
       DATA (EQNUM(I),I=1,67)/
      >'200FW2W015','I00FW2W019','I00FW2W019','I00FW2W019','300DVEW060',
      >'300DVEW060','200DVEW065','300DVEW060','300DVEW060','200DVEW069',
@@ -328,7 +328,7 @@ C     Silverleaf oak,   Other Hardwoods
      >'200DVEW108','210DVEW108','200CZ2W108','212DVEW122','213DVEW122',
      >'200CZ2W122','203CZ2W122','210DVEW122','200DVEW122','203DVEW122',
      >'200CZ2W746','200DVEW746','210DVEW746','200DVEW066','200CZ2W019',
-     >'200CZ2W015','200DVEW015'/                                       
+     >'200CZ2W015','200DVEW015'/
 C
 C  SEARCH FOR VALID EQUATION NUMBER
 C
@@ -349,7 +349,7 @@ C
       DONE = 0
 
       LAST = 42
-   
+
       IF(SPEC.EQ.122 .AND. FORNUM.EQ.3) THEN
          VOLEQ = EQNUM(43)
       ELSE IF(SPEC.EQ.122 .AND. FORNUM.EQ.13) THEN
@@ -371,12 +371,12 @@ C
             ELSE
                LAST = HALF - 1
             ENDIF
-  5      CONTINUE 
+  5      CONTINUE
          IF(DONE .LT. 0)THEN
 C           Other Hardwood
              VOLEQ = EQNUM(42)
          ELSE
-            VOLEQ = EQNUM(DONE)   
+            VOLEQ = EQNUM(DONE)
          ENDIF
        ENDIF
 C
@@ -399,18 +399,18 @@ C     Whitebark pine,         Bristlecode pine, Pinyon Pine,          Lodgepole 
 C     Southwestern white pine,Chihuahua pine,   Ponderosa pine,       Singleleaf pinyon, Border pinyon,
 C     Arizona pinyon,         Douglas fir,      Western Redcedar,     Mountain Hemlock,  Other softwoods,
 C     Maple,                  Black maple,      Paper Birch,          Mountain Mahogany, Cottonwoods,
-C     Plains cottonwood,      Quaking aspen,    Narrowleaf cottonwood,Oak,               Arizona white oak, 
+C     Plains cottonwood,      Quaking aspen,    Narrowleaf cottonwood,Oak,               Arizona white oak,
 C     Emory oak,              Gambel oak,       Bur oak,              Silverleaf oak,    Other Hardwoods
 
- 
-      DATA (FIA(I),I=1,45)/ 15,  17,  18,  19,  57,   
+
+      DATA (FIA(I),I=1,45)/ 15,  17,  18,  19,  57,
      >                      60,  63,  65,  66,  68,
-     >                      69,  73,  93,  94,  96, 
+     >                      69,  73,  93,  94,  96,
      >                     101, 102, 106, 108, 113,
-     >                     114, 118, 122, 133, 134, 
-     >                     143, 202, 242, 264, 298,  
-     >                     310, 314, 375, 475, 740, 
-     >                     745, 746, 749, 800, 803, 
+     >                     114, 118, 122, 133, 134,
+     >                     143, 202, 242, 264, 298,
+     >                     310, 314, 375, 475, 740,
+     >                     745, 746, 749, 800, 803,
      >                     810, 814, 823, 843, 998/
 
       DATA (EQNUM(I),I=1,52)/
@@ -445,7 +445,7 @@ C
       DONE = 0
 
       LAST = 45
-   
+
       IF(SPEC.EQ.202.AND.(FORNUM.EQ.2.OR.FORNUM.EQ.3.OR.
      >                    FORNUM.EQ.7)) THEN
          DONE=46
@@ -484,18 +484,18 @@ C
              ELSE
                 LAST = HALF - 1
              ENDIF
-  5      CONTINUE 
+  5      CONTINUE
       ENDIF
       IF(DONE .LT. 0)THEN
 C        Unknown
          VOLEQ = EQNUM(45)
       ELSE
-         VOLEQ = EQNUM(DONE)   
+         VOLEQ = EQNUM(DONE)
       ENDIF
 C
       RETURN
       END
-C           
+C
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R4_EQN(FORST,SPEC,VOLEQ,ERRFLAG)
       CHARACTER*10 VOLEQ
@@ -508,14 +508,14 @@ C SPECIES
 C California red fir,    Juniper,          Western juniper,      Rocky Mtn juniper,    Western larch,
 C Incense-cedar,         Common pinyon,    Sugar pine,           Western white pine,   Singleleaf pinyon,
 C Pacific yew,           Western redcedar, Western hemlock,      Mountain hemlock,     Other softwoods,
-C Box elder,             Rocky Mtn maple,  Bigtooth maple,       Curlleaf Mtn Mahogany,Quaking aspen,    
+C Box elder,             Rocky Mtn maple,  Bigtooth maple,       Curlleaf Mtn Mahogany,Quaking aspen,
 C Black cottonwood,      Fremont cottonwod,Narrowleaf cottonwood,Oak (sp.)             Gambel oak,
 C Other hardwoods,       Other
 
-      DATA (FIA(I),I=1,27)/   20,   60,   64,   66,   73,  
-     >                        81,  106,  117,  119,  133,   
-     >                       231,  242,  263,  264,  298,  
-     >                       313,  321,  322,  475,  746,    
+      DATA (FIA(I),I=1,27)/   20,   60,   64,   66,   73,
+     >                        81,  106,  117,  119,  133,
+     >                       231,  242,  263,  264,  298,
+     >                       313,  321,  322,  475,  746,
      >                       747,  748,  749,  800,  814,
      >                       998,  999/
 
@@ -546,12 +546,12 @@ C
         ENDDO
       RETURN
       ENDIF
-C      
+C
       READ(FORST,'(I2)')FORNUM
       DONE = 0
 
       LAST = 27
- 
+
 C     White fir
       IF(SPEC.EQ.15) THEN
          IF (FORNUM.EQ.2.OR.FORNUM.EQ.12.OR.FORNUM.EQ.13.OR.
@@ -667,20 +667,20 @@ C     Other hardwoods
              ELSE
                 LAST = HALF - 1
              ENDIF
-  5      CONTINUE 
-      
+  5      CONTINUE
+
          IF(DONE .LT. 0)THEN
 C           Other Hardwood
             VOLEQ = EQNUM(26)
          ELSE
-            VOLEQ = EQNUM(DONE)   
+            VOLEQ = EQNUM(DONE)
          ENDIF
        ENDIF
 
       RETURN
       END
-    
-      
+
+
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R5_EQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
       CHARACTER*10 VOLEQ
@@ -691,18 +691,18 @@ C//////////////////////////////////////////////////////////////////
 
 C     SPECIES
 C     Pacific silver fir,    White fir,             Grand fir,           Subalpine fir,       California red fir,
-C     Shasta red fir,        Noble fir,             Port Orford cedar,   California juniper,  Juniper,  
+C     Shasta red fir,        Noble fir,             Port Orford cedar,   California juniper,  Juniper,
 C     Utah juniper,          Western Larch,         Incense cedar,       Brewer spruce,       Engelmann spruce,
 C     White bark pine,       Knobcone pine,         Foxtail pine,        Lodgepole pine,      Coulter pine,
 C     Limber pine,           Jeffrey pine,          Sugar pine,          Western white pine,  Ponderosa pine,
 C     Monterey pine,         Grey pine,             Singleleaf pinyon,   Washoe pine,         Great Basin bristlecone pine
 C     Bigcone Douglas-fir,   Douglas-fir,
-C     Redwood,               Giant sequoia,         Pacific yew,         Western red cedar,   California nutmeg, 
+C     Redwood,               Giant sequoia,         Pacific yew,         Western red cedar,   California nutmeg,
 C     Western hemlock,       Mountain hemlock,      Other softwoods,     Koa,                 Bigleaf maple,
-C     California buckeye,    Red alder,             White alder          Pacific madrone,     Golden chinkapin, 
+C     California buckeye,    Red alder,             White alder          Pacific madrone,     Golden chinkapin,
 C     Curl-leaf Mtn Mahogany,Birchleaf Mtn Mahogany,Pacific dogwood,     Eucalyptus,          Oregon Ash,
-C     Walnut,                Tanoak,                Ohia,                California sycamore, Quacking aspen, 
-C     Black cottonwood,      Bitter Cherry,         California live oak, Canyon live oak,     Blue oak, 
+C     Walnut,                Tanoak,                Ohia,                California sycamore, Quacking aspen,
+C     Black cottonwood,      Bitter Cherry,         California live oak, Canyon live oak,     Blue oak,
 C     Engelmann's oak,       Oregon white oak,      California black oak,California white oak,Interior live oak,
 C     Willow,                California laurel,     Other hardwoods,     unkown
 
@@ -712,12 +712,12 @@ C     Willow,                California laurel,     Other hardwoods,     unkown
      >                       101,  103,  104,  108,  109,
      >                       113,  116,  117,  119,  122,
      >                       124,  127,  133,  137,  142,
-     >                       201,  202/  
+     >                       201,  202/
       DATA (FIA(I),I=33,71)/ 211,  212,  231,  242,  251,
      >                       263,  264,  298,  301,  312,
      >                       333,  351,  352,  361,  431,
      >                       475,  478,  492,  510,  542,
-     >                       600,  631,  671,  730,  746, 
+     >                       600,  631,  671,  730,  746,
      >                       747,  768,  801,  805,  807,
      >                       811,  815,  818,  821,  839,
      >                       920,  981,  998,  999/
@@ -794,7 +794,7 @@ C     Whitebark pine
           IF(VAR.EQ.'SO' .OR. VAR.EQ.'so') THEN
                DONE=30
           ELSE
-               DONE=40   
+               DONE=40
           ENDIF
 C     lodgepole pine
       ELSEIF(SPEC.EQ.108)THEN
@@ -870,19 +870,19 @@ C      ELSE
            ELSE
                LAST = HALF - 1
            ENDIF
-  5    CONTINUE 
-      
+  5    CONTINUE
+
        IF(DONE .LT. 0) THEN
            VOLEQ = EQNUM(71)
        ELSE
-           VOLEQ = EQNUM(DONE)   
+           VOLEQ = EQNUM(DONE)
        ENDIF
 C      ENDIF
-      
+
       RETURN
       END
-      
-      
+
+
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R6_EQN(VAR,FORST,DIST,SPEC,VOLEQ,ERRFLAG)
       CHARACTER*10 VOLEQ
@@ -923,7 +923,7 @@ C
      >'I13FW2W242','I13FW2W260','I13FW2W263','I14FW2W012','I14FW2W017',
      >'I14FW2W019','I14FW2W073','I14FW2W093','I14FW2W108','I14FW2W119',
      >'I14FW2W122','I14FW2W202','I14FW2W242','I14FW2W260','I14FW2W263'/
-     
+
       DATA (EQNUMF(I),I=1,27)/
      >'F00FW2W202','F00FW2W242','F00FW2W263','F01FW2W202','F01FW2W242',
      >'F01FW2W263','F02FW2W202','F02FW2W242','F02FW2W263','F03FW2W202',
@@ -1037,13 +1037,13 @@ c      IF(ASPEC(1:1).EQ.' ')ASPEC(1:1) = '0'
 c     Westside Variants
       IF(VAR.EQ.'PN' .OR. VAR.EQ.'WC' .OR. VAR.EQ.'NC' .OR.
      >   VAR.EQ.'CA' .OR. VAR.EQ.'OC' .OR. VAR.EQ.'OP')THEN
-         
+
 c        Gifford Pinchot
          IF(FORNUM.EQ.3)THEN
             IF(SPEC.EQ. 11) THEN
                 DONEI = 26
             ELSE IF (SPEC.EQ.19) THEN
-                DONEI=6 
+                DONEI=6
             ELSE IF(SPEC.EQ.263 .OR. SPEC.EQ.260) THEN
                 DONEF = 3
                 IF(DISTNUM.EQ.1) THEN
@@ -1171,8 +1171,8 @@ c           No INGY, find Behre's hyperbola model
                ELSE
                   LAST = HALF - 1
                ENDIF
-  5         CONTINUE 
-      
+  5         CONTINUE
+
             IF(DONEF .LT. 0) THEN
                VOLEQ = '616BEHW000'
             ELSE
@@ -1192,10 +1192,10 @@ c           No INGY, find Behre's hyperbola model
             ENDIF
           ENDIF
 
-c     Eastside Variants          
+c     Eastside Variants
       ELSE
 C        first check for INGY equations by forest and species
-c        Deschutes          
+c        Deschutes
          IF(FORNUM.EQ.1) THEN
             IF(SPEC.EQ.11 .OR. SPEC.EQ.15 .OR. SPEC.EQ.17
      &                    .OR. SPEC.EQ.21) THEN
@@ -1216,7 +1216,7 @@ c        Fremont
              IF(SPEC.EQ. 15 .OR. SPEC.EQ.17) THEN
                DONEI = 14
              ELSE IF(SPEC.EQ.81) THEN
-               DONEI = 9 
+               DONEI = 9
              ELSE IF(SPEC.EQ.108) THEN
                DONEI = 6
              ELSE IF(SPEC.EQ.122) THEN
@@ -1276,7 +1276,7 @@ c        Ochoco
                DONEI = 33
              ELSE IF(SPEC.EQ.108) THEN
                 DONEI = 30
-            ENDIF          
+            ENDIF
 c        Umatilla
          ELSE IF(FORNUM.EQ.14)THEN
             IF(SPEC.EQ. 17 .OR. SPEC.EQ. 15) THEN
@@ -1313,12 +1313,12 @@ c        Okanogan - Wenatchee
          ELSE IF(FORNUM.EQ.8 .OR. FORNUM.EQ.17) THEN
             IF(SPEC.EQ. 17) THEN
                 DONEI = 14
-                IF(DISTNUM.EQ.2 .OR. DISTNUM.EQ.3 .OR. DISTNUM.EQ.5  
+                IF(DISTNUM.EQ.2 .OR. DISTNUM.EQ.3 .OR. DISTNUM.EQ.5
      >                                  .OR. DISTNUM.EQ.7 ) DONEI = 14
             ELSE IF(SPEC.EQ.202) THEN
                 DONEI = 33
-                IF(DISTNUM.EQ.2 .OR. DISTNUM.EQ.3 .OR. DISTNUM.EQ.4  
-     >              .OR. DISTNUM.EQ.5 .OR. DISTNUM.EQ.7 .OR. 
+                IF(DISTNUM.EQ.2 .OR. DISTNUM.EQ.3 .OR. DISTNUM.EQ.4
+     >              .OR. DISTNUM.EQ.5 .OR. DISTNUM.EQ.7 .OR.
      >              DISTNUM.EQ.9) DONEI = 33
             ELSE IF(SPEC.EQ.108) THEN
                 DONEI = 30
@@ -1330,7 +1330,7 @@ c        Okanogan - Wenatchee
                 DONEI = 32
                 IF(DISTNUM.EQ.4) THEN
                   DONEI = 32
-                ELSE IF(DISTNUM.EQ.2 .OR. DISTNUM.EQ.3 .OR. DISTNUM.EQ.5  
+                ELSE IF(DISTNUM.EQ.2 .OR. DISTNUM.EQ.3 .OR. DISTNUM.EQ.5
      >            .OR. DISTNUM.EQ.7) THEN
                   DONEI = 20
                 ENDIF
@@ -1358,9 +1358,9 @@ c        Colville
              ELSE IF(SPEC.EQ.263 .OR. SPEC.EQ.264)THEN
                 DONEI = 14
              ENDIF
-  
+
          ENDIF
-       
+
          IF(DONEI.GT.0) THEN
              VOLEQ = EQNUMI(DONEI)
           ELSE IF(DONEF.GT.0) THEN
@@ -1383,8 +1383,8 @@ c           No INGY, find Behre's hyperbola model
               ELSE
                 LAST = HALF - 1
               ENDIF
-  7         CONTINUE 
-      
+  7         CONTINUE
+
             IF(DONEF .LT. 0) THEN
               VOLEQ = '616BEHW000'
             ELSE
@@ -1403,12 +1403,12 @@ c           No INGY, find Behre's hyperbola model
                 ENDIF
             ENDIF
          ENDIF
-     
+
       ENDIF
       RETURN
       END
-      
-      
+
+
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R7_EQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
       CHARACTER*10 VOLEQ
@@ -1421,8 +1421,8 @@ C//////////////////////////////////////////////////////////////////
 
 C     SPECIES
 C     Pacific. silver fir,White fir,       Grand fir,        Subalpine fir,    California red fir,
-C     Shasta red fir,     Noble fir,       Port Orford cedar,Alaska cedar,     Western juniper, 
-C     Subalpine larch,    Western larch,   Incense cedar,    Engelmann spruce, Sitka spruce,  
+C     Shasta red fir,     Noble fir,       Port Orford cedar,Alaska cedar,     Western juniper,
+C     Subalpine larch,    Western larch,   Incense cedar,    Engelmann spruce, Sitka spruce,
 C     Whitebark pine,     Knobcone pine,   Lodgepole pine,   Jeffery pine,     Sugar pine,
 C     Western white pine, Ponderosa pine,  Douglas fir,      Redwood,          Pacific yew,
 C     Western red cedar,  Hemlock,         Western Hemlock,  Mountain Hemlock, Big leaf maple,
@@ -1433,11 +1433,11 @@ C     Other species,
       DATA (FIA(I),I=1,41)/  11,   15,   17,   19,   20,
      >                       21,   22,   41,   42,   64,
      >                       72,   73,   81,   93,   98,
-     >                      101,  103,  108,  116,  117,  
-     >                      119,  122,  202,  211,  231,  
-     >                      242,  260,  263,  264,  312,  
-     >                      351,  352,  361,  431,  542,  
-     >                      631,  747,  800,  815,  981,  
+     >                      101,  103,  108,  116,  117,
+     >                      119,  122,  202,  211,  231,
+     >                      242,  260,  263,  264,  312,
+     >                      351,  352,  361,  431,  542,
+     >                      631,  747,  800,  815,  981,
      >                      999/
 
       DATA (EQNUM(I),I=1,45)/
@@ -1467,7 +1467,7 @@ C
      >'I13FW2W242','I13FW2W260','I13FW2W263','I14FW2W012','I14FW2W017',
      >'I14FW2W019','I14FW2W073','I14FW2W093','I14FW2W108','I14FW2W119',
      >'I14FW2W122','I14FW2W202','I14FW2W242','I14FW2W260','I14FW2W263'/
-     
+
       DATA (EQNUMF(I),I=1,27)/
      >'F00FW2W202','F00FW2W242','F00FW2W263','F01FW2W202','F01FW2W242',
      >'F01FW2W263','F02FW2W202','F02FW2W242','F02FW2W263','F03FW2W202',
@@ -1645,8 +1645,8 @@ C
           ELSE
              LAST = HALF - 1
           ENDIF
-  5   CONTINUE 
-C      
+  5   CONTINUE
+C
       IF(DONE .LT. 0) THEN
           VOLEQ = 'B00BEHW999'
       ELSE
@@ -1668,13 +1668,13 @@ C//////////////////////////////////////////////////////////////////
 c     match species to valid species equation code
       DATA (SNFIA(I),I=1,92)/
      >  10,  57,  90, 107, 110, 111, 115, 121, 123, 126, 128,
-     > 129, 130, 131, 132, 221, 222, 260, 298, 311, 313, 
-     > 316, 317, 318, 330, 370, 372, 391, 400, 450, 460, 
-     > 471, 491, 521, 531, 540, 541, 543, 544, 552, 555, 
-     > 580, 591, 601, 602, 611, 621, 650, 651, 652, 653, 
-     > 654, 660, 680, 691, 693, 694, 701, 711, 721, 731, 
-     > 740, 743, 762, 802, 806, 812, 813, 819, 820, 822, 
-     > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838, 
+     > 129, 130, 131, 132, 221, 222, 260, 298, 311, 313,
+     > 316, 317, 318, 330, 370, 372, 391, 400, 450, 460,
+     > 471, 491, 521, 531, 540, 541, 543, 544, 552, 555,
+     > 580, 591, 601, 602, 611, 621, 650, 651, 652, 653,
+     > 654, 660, 680, 691, 693, 694, 701, 711, 721, 731,
+     > 740, 743, 762, 802, 806, 812, 813, 819, 820, 822,
+     > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838,
      > 901, 920, 931, 950, 970, 971, 972, 975, 998, 999/
 
       DATA (SNSP(I), I=1,92)/
@@ -1781,9 +1781,9 @@ C                     // Kisatchie
                      GEOAREA = '02';
                      IF (DISTNUM .EQ. 6) GEOAREA = '09';
 
-       ELSE IF (FORNUM .EQ. 7) THEN  
+       ELSE IF (FORNUM .EQ. 7) THEN
 C                     // Mississippi
-                     
+
               IF (DISTNUM.EQ.1) THEN
                      GEOAREA = '19';
               ELSE IF (DISTNUM.EQ.2) THEN
@@ -1798,11 +1798,11 @@ C                     // Mississippi
                  GEOAREA = '23';
          END IF
 
-       ELSE IF (FORNUM .EQ. 8) THEN  
+       ELSE IF (FORNUM .EQ. 8) THEN
 C                     // GW/Jeff
           GEOAREA = '11';
-                     
-            IF (DISTNUM.EQ.11 .OR. DISTNUM.EQ.12 .OR. DISTNUM.EQ.13 .OR. 
+
+            IF (DISTNUM.EQ.11 .OR. DISTNUM.EQ.12 .OR. DISTNUM.EQ.13 .OR.
      >         DISTNUM.EQ.14 .OR. DISTNUM.EQ.15 .OR. DISTNUM.EQ.16) THEN
                      GEOAREA = '12';
          END IF
@@ -1815,8 +1815,8 @@ C                     // Ouachita
               ELSE IF (DISTNUM.EQ.12) THEN
                  GEOAREA = '32';
          END IF
-       
-      ELSE IF (FORNUM .EQ. 10) THEN   
+
+      ELSE IF (FORNUM .EQ. 10) THEN
 C                     // Ozark/St Francis
                      GEOAREA = '04';
                  IF (DISTNUM .EQ. 7) GEOAREA = '05';
@@ -1835,7 +1835,7 @@ C                     // Francis Marion/Sumpter
                  GEOAREA = '24';
                      IF(DISTNUM .EQ. 2) THEN
                         GEOAREA = '01';
-                     ELSE IF(DISTNUM .EQ. 5)THEN 
+                     ELSE IF(DISTNUM .EQ. 5)THEN
                             GEOAREA = '25';
                      ENDIF
 
@@ -1843,9 +1843,9 @@ C                     // Francis Marion/Sumpter
 C                      // Texas
                      IF(DISTNUM .EQ. 1) THEN
                         GEOAREA = '26';
-                     ELSE IF(DISTNUM .EQ. 3)THEN 
+                     ELSE IF(DISTNUM .EQ. 3)THEN
                             GEOAREA = '27';
-                     ELSE IF(DISTNUM .EQ. 4)THEN 
+                     ELSE IF(DISTNUM .EQ. 4)THEN
                             GEOAREA = '29';
                      ELSE
                             GEOAREA = '28';
@@ -1858,7 +1858,7 @@ C            // savannah river
       ENDIF
 
 C     CREATE THE VOLUME EQUATION NUMBER
-      
+
       VOLEQ(1:1) = '8'
       VOLEQ(2:3) = GEOAREA
       VOLEQ(4:7) = 'DVEE'
@@ -1879,7 +1879,7 @@ C     FIND CORRECT SPECIES
           ELSE
              LAST = HALF - 1
           ENDIF
-  5   CONTINUE 
+  5   CONTINUE
       IF(DONE .LT. 0) DONE = 92
 
       VOLEQ(8:10) = SNSP(DONE)
@@ -1898,13 +1898,13 @@ C//////////////////////////////////////////////////////////////////
 c     match species to valid species equation code
       DATA (SNFIA(I),I=1,92)/
      >  10,  57,  90, 107, 110, 111, 115, 121, 123, 126, 128,
-     > 129, 130, 131, 132, 221, 222, 260, 298, 311, 313, 
-     > 316, 317, 318, 330, 370, 372, 391, 400, 450, 460, 
-     > 471, 491, 521, 531, 540, 541, 543, 544, 552, 555, 
-     > 580, 591, 601, 602, 611, 621, 650, 651, 652, 653, 
-     > 654, 660, 680, 691, 693, 694, 701, 711, 721, 731, 
-     > 740, 743, 762, 802, 806, 812, 813, 819, 820, 822, 
-     > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838, 
+     > 129, 130, 131, 132, 221, 222, 260, 298, 311, 313,
+     > 316, 317, 318, 330, 370, 372, 391, 400, 450, 460,
+     > 471, 491, 521, 531, 540, 541, 543, 544, 552, 555,
+     > 580, 591, 601, 602, 611, 621, 650, 651, 652, 653,
+     > 654, 660, 680, 691, 693, 694, 701, 711, 721, 731,
+     > 740, 743, 762, 802, 806, 812, 813, 819, 820, 822,
+     > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838,
      > 901, 920, 931, 950, 970, 971, 972, 975, 998, 999/
 
       DATA (SNSP(I), I=1,92)/
@@ -1960,7 +1960,7 @@ C             // alabama
               GEOAREA = '4';
               IF (DISTNUM.EQ.3) GEOAREA = '1'
 
-       ELSE IF (FORNUM.EQ.2 .OR. FORNUM.EQ.4 .OR. FORNUM .EQ. 8 .OR. 
+       ELSE IF (FORNUM.EQ.2 .OR. FORNUM.EQ.4 .OR. FORNUM .EQ. 8 .OR.
      >                                             FORNUM .EQ. 60)THEN
 C                     // daniel boone
 C                     // Cherokee
@@ -1983,10 +1983,10 @@ C                     // Kisatchie
 C                     // Texas
                      GEOAREA = '5';
 
-       ELSE IF (FORNUM .EQ. 7) THEN  
+       ELSE IF (FORNUM .EQ. 7) THEN
 C                     // Mississippi
                      GEOAREA = '5';
-                     
+
             IF (DISTNUM .EQ. 6) THEN
                             GEOAREA = '7';
                      ELSE IF (DISTNUM.EQ.7 .OR. DISTNUM.EQ.17) THEN
@@ -1995,7 +1995,7 @@ C                     // Mississippi
        ELSE IF (FORNUM .EQ. 9) THEN
 C                     // Ouachita
                      GEOAREA = '6';
-       ELSE IF (FORNUM .EQ. 10) THEN   
+       ELSE IF (FORNUM .EQ. 10) THEN
 C                     // Ozark/St Francis
                      GEOAREA = '6';
                  IF (DISTNUM .EQ. 7) GEOAREA = '7';
@@ -2014,7 +2014,7 @@ C                     // Francis Marion/Sumpter
                  GEOAREA = '2';
                      IF(DISTNUM .EQ. 2) THEN
                         GEOAREA = '3';
-                     ELSE IF(DISTNUM .EQ. 5)THEN 
+                     ELSE IF(DISTNUM .EQ. 5)THEN
                             GEOAREA = '1';
                      ENDIF
       ENDIF
@@ -2055,15 +2055,15 @@ C     FIND CORRECT SPECIES
           ELSE
              LAST = HALF - 1
           ENDIF
-  5   CONTINUE 
+  5   CONTINUE
       IF(DONE .LT. 0) DONE = 92
 
       VOLEQ(8:10) = SNSP(DONE)
 
        RETURN
       END
-      
-      
+
+
 C//////////////////////////////////////////////////////////////////
       SUBROUTINE R9_EQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
       CHARACTER*10 VOLEQ
@@ -2073,7 +2073,7 @@ C//////////////////////////////////////////////////////////////////
      &         SNFIA(92)
       INTEGER FIRST, HALF, LAST, DONE, I, J
       CHARACTER*2 CDANUW
-            
+
       DATA (LSSP(I), I=1,69)/
      >'012','068','071','091','094','095','105','125','125','129',
      >'130','241','261','001','313','314','315','316','317','318',
@@ -2082,7 +2082,7 @@ C//////////////////////////////////////////////////////////////////
      >'731','741','742','743','746','766','761','762','763','766',
      >'802','804','809','823','826','833','837','901','920','922',
      >'923','931','935','951','972','975','977','300','999'/
-       
+
       DATA (CSSP(I), I=1,97)/
      >'068','068','110','129','131','132','221','001','316','316',
      >'316','318','331','373','391','400','401','402','403','404',
@@ -2125,44 +2125,44 @@ C//////////////////////////////////////////////////////////////////
      > 130, 241, 261, 298, 313, 314, 315, 316, 317, 318,
      > 319, 371, 375, 391, 402, 403, 407, 421, 462, 491,
      > 500, 531, 541, 543, 544, 601, 602, 660, 693, 701,
-     > 731, 741, 742, 743, 746, 760, 761, 762, 763, 766, 
+     > 731, 741, 742, 743, 746, 760, 761, 762, 763, 766,
      > 802, 804, 809, 823, 826, 833, 837, 901, 920, 922,
      > 923, 931, 935, 951, 972, 975, 977, 993, 994/
 
       DATA (CSFIA(I), I =1,97)/
      >  57,  68, 110, 129, 131, 132, 221, 298, 313, 316,
-     > 317, 318, 331, 373, 391, 400, 401, 402, 403, 404, 
+     > 317, 318, 331, 373, 391, 400, 401, 402, 403, 404,
      > 405, 407, 408, 409, 410, 450, 461, 462, 471, 491,
      > 500, 521, 531, 540, 541, 543, 544, 545, 546, 552,
      > 571, 601, 602, 611, 621, 641, 651, 653, 680, 690,
-     > 691, 693, 694, 701, 711, 731, 740, 741, 742, 743, 
-     > 746, 762, 802, 804, 806, 812, 813, 817, 822, 823, 
-     > 824, 825, 826, 827, 828, 830, 831, 832, 833, 834, 
-     > 835, 836, 837, 901, 920, 922, 931, 951, 970, 971, 
+     > 691, 693, 694, 701, 711, 731, 740, 741, 742, 743,
+     > 746, 762, 802, 804, 806, 812, 813, 817, 822, 823,
+     > 824, 825, 826, 827, 828, 830, 831, 832, 833, 834,
+     > 835, 836, 837, 901, 920, 922, 931, 951, 970, 971,
      > 972, 974, 975, 977, 991, 992, 994/
 
       DATA (NEFIA(I), I=1,108)/
      >  12,  43,  57,  68,  71,  90,  91,  94,  95,  97,
      > 100, 105, 110, 123, 125, 126, 128, 129, 130, 131,
-     > 132, 241, 260, 261, 298, 313, 314, 315, 316, 317, 
-     > 318, 330, 332, 341, 356, 371, 372, 373, 374, 375, 
-     > 379, 391, 400, 403, 405, 407, 409, 462, 491, 500, 
-     > 521, 531, 540, 541, 543, 544, 545, 591, 601, 602, 
-     > 611, 621, 641, 650, 651, 653, 660, 691, 693, 701, 
-     > 711, 712, 731, 741, 742, 743, 744, 746, 760, 761, 
-     > 762, 800, 802, 804, 806, 812, 813, 817, 823, 825, 
+     > 132, 241, 260, 261, 298, 313, 314, 315, 316, 317,
+     > 318, 330, 332, 341, 356, 371, 372, 373, 374, 375,
+     > 379, 391, 400, 403, 405, 407, 409, 462, 491, 500,
+     > 521, 531, 540, 541, 543, 544, 545, 591, 601, 602,
+     > 611, 621, 641, 650, 651, 653, 660, 691, 693, 701,
+     > 711, 712, 731, 741, 742, 743, 744, 746, 760, 761,
+     > 762, 800, 802, 804, 806, 812, 813, 817, 823, 825,
      > 826, 827, 830, 831, 832, 833, 835, 837, 901, 922,
      > 931, 951, 952, 970, 972, 975, 994, 998/
 
       DATA (SNFIA(I),I=1,92)/
      >  10,  57,  90, 107, 110, 111, 115, 121, 123, 126, 128,
-     > 129, 130, 131, 132, 221, 222, 260, 298, 311, 313, 
-     > 316, 317, 318, 330, 370, 372, 391, 400, 450, 460, 
-     > 471, 491, 521, 531, 540, 541, 543, 544, 552, 555, 
-     > 580, 591, 601, 602, 611, 621, 650, 651, 652, 653, 
-     > 654, 660, 680, 691, 693, 694, 701, 711, 721, 731, 
-     > 740, 743, 762, 802, 806, 812, 813, 819, 820, 822, 
-     > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838, 
+     > 129, 130, 131, 132, 221, 222, 260, 298, 311, 313,
+     > 316, 317, 318, 330, 370, 372, 391, 400, 450, 460,
+     > 471, 491, 521, 531, 540, 541, 543, 544, 552, 555,
+     > 580, 591, 601, 602, 611, 621, 650, 651, 652, 653,
+     > 654, 660, 680, 691, 693, 694, 701, 711, 721, 731,
+     > 740, 743, 762, 802, 806, 812, 813, 819, 820, 822,
+     > 824, 825, 826, 827, 830, 832, 833, 834, 835, 837, 838,
      > 901, 920, 931, 950, 970, 971, 972, 975, 998, 999/
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
@@ -2212,10 +2212,10 @@ C     NOT A VALID REGION 9 EQUATION
 C
       IF(VOLEQ(1:7).EQ.'900CLKE')THEN
 C     NEW CLARK'S PROFILE MODEL VOLUME EQUATION NUMBERS
-C     MAKE SURE SPEC IS A 3 CHARACTER FIELD.      
+C     MAKE SURE SPEC IS A 3 CHARACTER FIELD.
 C
         WRITE(ASPEC,'(I3)')SPEC
-     
+
         IF(SPEC .LT.10)THEN
           ASPEC(1:2) = '00'
         ELSEIF(SPEC.LT.100)THEN
@@ -2245,7 +2245,7 @@ C     FIND CORRECT SPECIES
           ELSE
             LAST = HALF - 1
           ENDIF
-  5       CONTINUE 
+  5       CONTINUE
           IF(DONE .LT. 0) DONE = 69
 
           VOLEQ(8:10) = LSSP(DONE)
@@ -2263,7 +2263,7 @@ C     FIND CORRECT SPECIES
           ELSE
             LAST = HALF - 1
           ENDIF
-  15      CONTINUE 
+  15      CONTINUE
           IF(DONE .LT. 0) DONE = 97
            VOLEQ(8:10) = CSSP(DONE)
         ELSE IF(VAR.EQ.'NE' .OR. VAR.EQ.'ne')THEN
@@ -2280,7 +2280,7 @@ C     FIND CORRECT SPECIES
           ELSE
             LAST = HALF - 1
           ENDIF
-  25      CONTINUE 
+  25      CONTINUE
           IF(DONE .LT. 0) DONE = 108
           VOLEQ(8:10) = NESP(DONE)
         ELSE
@@ -2300,7 +2300,7 @@ C
           ELSE
             LAST = HALF - 1
           ENDIF
-  35      CONTINUE 
+  35      CONTINUE
           IF(DONE .LT. 0) DONE = 92
           VOLEQ(8:10) = SNSP(DONE)
           ENDIF
@@ -2308,11 +2308,11 @@ C
       ENDIF
 C     End FVS check equation
 C     NEW CLARK'S PROFILE MODEL VOLUME EQUATION NUMBERS
-C     MAKE SURE SPEC IS A 3 CHARACTER FIELD.      
+C     MAKE SURE SPEC IS A 3 CHARACTER FIELD.
 C
         VOLEQ(1:7)='900CLKE'
         WRITE(ASPEC,'(I3)')SPEC
-     
+
         IF(SPEC .LT.10)THEN
           ASPEC(1:2) = '00'
         ELSEIF(SPEC.LT.100)THEN
@@ -2320,7 +2320,7 @@ C
         ENDIF
 
         VOLEQ(8:10) = ASPEC
-      
+
       RETURN
       END
 C//////////////////////////////////////////////////////////////////
@@ -2332,46 +2332,46 @@ C//////////////////////////////////////////////////////////////////
       INTEGER FIA(23), FIRST, HALF, LAST, DONE,I
 C
 C     AK SPECIES LIST
-C     Pacific silver fir  Subalpine fir     Alaska yellow Cedar  Tamarack 
-C     White spruce        Lutz's spruce     Black spruce         Sitka spurce 
+C     Pacific silver fir  Subalpine fir     Alaska yellow Cedar  Tamarack
+C     White spruce        Lutz's spruce     Black spruce         Sitka spurce
 C     Lodgepole pine      Western redcedar  Western hemlock      Mountain Hemlock
 C     Other Softwood      Alder species     Red alder            Paper birch
 C     Alaska birch        Balsam poplar     Quaking aspen        Black cottonwood
 C     Willow species      Scouler's willow  Other hardwood
 C
-C     LUTZ SPRUCE IS CODED AS FIA CODE 94 
-      DATA (FIA(I),I=1,23)/011, 019, 042, 071, 094,
-     >                     094, 095, 098, 108, 242,
-     >                     263, 264, 298, 350, 351,
-     >                     375, 376, 741, 746, 747,
-     >                     920, 928, 998/
+C     LUTZ SPRUCE IS CODED AS FIA CODE 94
+      DATA FIA / 011, 019, 042, 071, 094,
+     >           094, 095, 098, 108, 242,
+     >           263, 264, 298, 350, 351,
+     >           375, 376, 741, 746, 747,
+     >           920, 928, 998/
 C
 C     DEFAULT VOLUME EQUATIONS FOR LOCATION CODES: 703, 1002, 1003, 1005,
 C     8134, 8135, 8112
-      DATA (TONEQN(I),I=1,23)/
-      >'A00F32W260','A00F32W260','A00F32W042','A00DVEW095','A00DVEW094',
-      >'A00DVEW094','A00DVEW095','A00F32W098','A00F32W260','A00F32W242',
-      >'A00F32W260','A00F32W260','A00DVEW094','A32CURW351','A32CURW351',
-      >'A00DVEW375','A00DVEW375','A00DVEW747','A00DVEW746','A00DVEW747',
-      >'A00DVEW375','A00DVEW375','A00DVEW747'/
-      
+      DATA TONEQN /
+     > 'A00F32W260','A00F32W260','A00F32W042','A00DVEW095','A00DVEW094',
+     > 'A00DVEW094','A00DVEW095','A00F32W098','A00F32W260','A00F32W242',
+     > 'A00F32W260','A00F32W260','A00DVEW094','A32CURW351','A32CURW351',
+     > 'A00DVEW375','A00DVEW375','A00DVEW747','A00DVEW746','A00DVEW747',
+     > 'A00DVEW375','A00DVEW375','A00DVEW747'/
+
 C     DEFAULT VOLUME EQUATIONS FOR LOCATION CODES: 1004, 713, 720, 7400, 7401,
 C     7402, 7403, 7404, 7405, 7406, 7407, 7408
-      DATA CHUEQN(TONEQN(I),I=1,23)/
-      >'A01DEMW000','A01DEMW000','A00DVEW094','A00DVEW095','A00DVEW094',
-      >'A00DVEW094','A00DVEW095','A00F32W098','A01DEMW000','A01DEMW000',
-      >'A00F32W260','A01DEMW000','A00DVEW094','A32CURW351','A32CURW351',
-      >'A00DVEW375','A00DVEW375','A00DVEW747','A00DVEW746','A00DVEW747',
-      >'A00DVEW375','A00DVEW375','A00DVEW747'/
-      
-C     OTHER VALID EQUATIONS THAT CAN BE USED -- THESE ARE NOT DEFAULT 
+      DATA CHUEQN /
+     > 'A01DEMW000','A01DEMW000','A00DVEW094','A00DVEW095','A00DVEW094',
+     > 'A00DVEW094','A00DVEW095','A00F32W098','A01DEMW000','A01DEMW000',
+     > 'A00F32W260','A01DEMW000','A00DVEW094','A32CURW351','A32CURW351',
+     > 'A00DVEW375','A00DVEW375','A00DVEW747','A00DVEW746','A00DVEW747',
+     > 'A00DVEW375','A00DVEW375','A00DVEW747'/
+
+C     OTHER VALID EQUATIONS THAT CAN BE USED -- THESE ARE NOT DEFAULT
 C     EQUATION NUMBERS.
-      DATA OTHEREQN(TONEQN(I),I=1,24)/
-      >'A16DEMW042','A01DVEW094','P01GRE0094','A02DVEW094','A16DEMW098',
-      >'A00FW2W098','A02F32W098','A02FW2W098','A02DEMW000','A32DEMW098',
-      >'A61DEMW098','A00FW2W242','A00FW3W242','A61DEMW242','A16DEMW242',
-      >'A00FW2W260','A02F32W260','A02FW2W260','A01DVEW0375','P01GRE0375',
-      >'A01DVEW746','P01GRE0746','A01DVEW747','P01GRE0747'/
+      DATA OTHEREQN /
+     > 'A16DEMW042','A01DVEW094','P01GRE0094','A02DVEW094','A16DEMW098',
+     > 'A00FW2W098','A02F32W098','A02FW2W098','A02DEMW000','A32DEMW098',
+     > 'A61DEMW098','A00FW2W242','A00FW3W242','A61DEMW242','A16DEMW242',
+     > 'A00FW2W260','A02F32W260','A02FW2W260','A01DVEW375','P01GRE0375',
+     > 'A01DVEW746','P01GRE0746','A01DVEW747','P01GRE0747'/
 C
 C     SEARCH FOR VALID EQUATION NUMBER IN TONEQN AND CHUEQN
       IF(SPEC.EQ.9999)THEN
@@ -2417,16 +2417,16 @@ C     CHECK FOR VALID SPECIES
              LAST = HALF - 1
           ENDIF
       ENDDO
-      
+
 C     IF SPECIES NOT FOUND, USE OTHER HARDWOOD
       IF(DONE .LT. 0) DONE = 23
 C
 C     DETERMINE DEFAULT EQUATION NUMBER TO USE BASED ON INDEX (DONE)
 C     AND FOREST NUMBER
       IF(FORNUM .EQ. 4) THEN
-         VOLEQ = CHUEQN(DONE) 
+         VOLEQ = CHUEQN(DONE)
       ELSE
-         VOLEQ = TONEQN(DONE)   
+         VOLEQ = TONEQN(DONE)
       ENDIF
 
       RETURN
@@ -2554,7 +2554,7 @@ c ------------------------------------------------------------------------
          ERRFLAG=1
       ENDIF
 
-      RETURN      
+      RETURN
       END
 
 C FIA DEFAULT VOLUME EQUATION FOR CA
@@ -2565,9 +2565,9 @@ C FIA DEFAULT VOLUME EQUATION FOR CA
       INTEGER DONE,HALF,FIRST,LAST
       CHARACTER*2 CDANUW
 
-      DATA (FIA(I),I=1,91)/  
+      DATA (FIA(I),I=1,91)/
      &  11, 14, 15, 17, 19, 20, 21, 22, 41, 42,
-     &  50, 51, 56, 62, 64, 65, 72, 73, 81, 92, 
+     &  50, 51, 56, 62, 64, 65, 72, 73, 81, 92,
      &  93, 98,101,102,103,104,108,109,113,116,
      & 117,119,120,122,124,127,130,133,137,142,
      & 201,202,211,212,231,242,251,263,264,298,
@@ -2638,33 +2638,33 @@ C     GET EQUATION FROM EQNUME ARRAY
               ELSE
                   LAST = HALF - 1
               ENDIF
-  55       CONTINUE 
-      
+  55       CONTINUE
+
           IF(DONE .LT. 0) THEN
               VOLEQ = EQNUM(LAST)
           ELSE
-              VOLEQ = EQNUM(DONE)   
+              VOLEQ = EQNUM(DONE)
           ENDIF
 
       RETURN
       END SUBROUTINE R5_PNWEQN
-      
+
 C FIA DEFAULT VOLUME EQUATION FOR WA AND OR
       SUBROUTINE R6_PNWEQN(FORST,SPEC,VAR,VOLEQ,ERRFLAG)
       CHARACTER*2 FORST,VAR
       CHARACTER*10 VOLEQ, EQNUMW(66), EQNUME(66)
       INTEGER ERRFLAG,SPEC,FIA(66)
       INTEGER DONE,HALF,FIRST,LAST
-      DATA (FIA(I),I=1,66)/  
+      DATA (FIA(I),I=1,66)/
      &    11, 15, 17, 19, 20, 21, 22, 41, 42, 64,
      &    66, 72, 73, 81, 92, 93, 98,101,103,106,
      &   108,113,116,117,119,122,130,202,211,212,
      &   231,242,263,264,298,312,321,351,352,361,
      &   375,376,431,475,478,492,500,510,542,590,
      &   600,631,660,730,740,746,747,760,768,805,
-     &   815,818,920,981,998,999/     
-      DATA (EQNUMW(I),I=1,66)/  
-c         11, 15, 17, 19, 20, 
+     &   815,818,920,981,998,999/
+      DATA (EQNUMW(I),I=1,66)/
+c         11, 15, 17, 19, 20,
      & '632TRFW011','532TRFW015','632TRFW011','632TRFW011','532TRFW021',
 c         21, 22, 41, 42, 64,
      & '532TRFW021','632TRFW011','532TRFW081','632TRFW242','532TRFW060',
@@ -2692,8 +2692,8 @@ c        815,818,920,981,998,
      & '500DVEW815','500DVEW818','500DVEW351','500DVEW981','500DVEW351',
 c       999
      & '500DVEW351'/
-      DATA (EQNUME(I),I=1,66)/  
-c         11, 15, 17, 19, 20,21,      
+      DATA (EQNUME(I),I=1,66)/
+c         11, 15, 17, 19, 20,21,
      & '616TRFW019','616TRFW019','616TRFW019','616TRFW019','516TRFW021',
 c         21, 22, 41, 42, 64,
      & '516TRFW021','616TRFW019','516TRFW081','616TRFW242','516TRFW060',
@@ -2741,12 +2741,12 @@ C     GET EQUATION FROM EQNUMW ARRAY
               ELSE
                   LAST = HALF - 1
               ENDIF
-  65       CONTINUE 
-      
+  65       CONTINUE
+
           IF(DONE .LT. 0) THEN
               VOLEQ = EQNUMW(LAST)
           ELSE
-              VOLEQ = EQNUMW(DONE)   
+              VOLEQ = EQNUMW(DONE)
           ENDIF
 
 C     FORESTS IN WA
@@ -2780,15 +2780,15 @@ C     GET EQUATION FROM EQNUME ARRAY
               ELSE
                   LAST = HALF - 1
               ENDIF
-  75       CONTINUE 
-      
+  75       CONTINUE
+
           IF(DONE .LT. 0) THEN
               VOLEQ = EQNUME(LAST)
           ELSE
-              VOLEQ = EQNUME(DONE)   
+              VOLEQ = EQNUME(DONE)
           ENDIF
 
-C     FORESTS IN WA      
+C     FORESTS IN WA
         IF(FORST.EQ.'03' .OR. FORST.EQ.'05' .OR. FORST.EQ.'09'
      >    .OR. FORST.EQ.'13' .OR. FORST.EQ.'17' .OR. FORST.EQ.'21')THEN
           IF(SPEC.EQ.351)THEN
@@ -2799,7 +2799,6 @@ C     FORESTS IN WA
           ENDIF
         ENDIF
       ENDIF
-            
+
       RETURN
       END SUBROUTINE R6_PNWEQN
-      
