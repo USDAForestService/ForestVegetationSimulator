@@ -173,7 +173,7 @@ C----------
         CASE(18,20)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LT.10.0)THEN
             NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
           ELSE
             NMSPRC = 3 
@@ -193,7 +193,7 @@ C
         CASE(17)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LT.10.0)THEN
             NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
           ELSE
             NMSPRC = 3 
@@ -209,7 +209,7 @@ C
         CASE(13:16)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LT.10.0)THEN
             NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
           ELSE
             NMSPRC = 3 
@@ -225,7 +225,7 @@ C
         CASE(19)
           IF(DSTMP.LT.5.0)THEN
             NMSPRC = 1
-          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LE.10.0)THEN
+          ELSE IF(DSTMP.GE.5.0.AND.DSTMP.LT.10.0)THEN
             NMSPRC = NINT(-1.0 + 0.4 * DSTMP)
           ELSE
             NMSPRC = 3 
