@@ -254,10 +254,10 @@ C----------
       DLOMSB=0.
       DHIMSB=999.
       MFLMSB=1
-      DBHZEIDE=0.
-      DBHSTAGE=0.
+      DBHZEIDE=1.0
+      DBHSTAGE=0.0
       DR016=0.
-      DBHSDI=0.
+      DBHSDI=0.0
       JSPINDEF=0
       CCCOEF=1.0 
       CCCOEF2=1.0
