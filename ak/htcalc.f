@@ -38,7 +38,7 @@ C
       REAL DLO,DHI,SDIC,SDIC2,A,B,AX,BX,CX,DX,EX,FX,PBAL
       REAL GX,HX,IX,AX1,BX1,CX1,DX1,EX1,FX1,GX1,HX1,IX1
 C-----------
-C  SEE IF WE NEED TO DO SOME DEBUG. 
+C  SEE IF WE NEED TO DO SOME DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'HTCALC',6,ICYC)
       IF(DEBUG) WRITE(JOSTND,3)ICYC
@@ -46,7 +46,7 @@ C-----------
 C
 C  COMPUTE RELATIVE DENSITY (ZEIDI) FOR INDIVIDUAL POINTS.
 C  ALL SPECIES AND ALL SIZES INCLUDED FOR THIS CALCULATION.
-C 
+C
       DLO = 0.0
       DHI = 500.0
       ISPEC = 0
@@ -54,77 +54,76 @@ C
       PI2=INT(PI)
       DO I1 = I, PI2
          CALL SDICLS (ISPEC,DLO,DHI,IWHO,SDIC,SDIC2,A,B,I1)
-         ZRD(I1) = SDIC2                                                          
-      END DO 
+         ZRD(I1) = SDIC2
+      END DO
 C
       POTHTG = 0.
       SELECT CASE(ISPC)
 C----------
-C  CALCULATE HIEGHT GROWTH FOR BOREAL SPECIES 
+C  CALCULATE HIEGHT GROWTH FOR BOREAL SPECIES WITH AND WITHOUT PERMAFROST
 C----------
       CASE(4:7,13,16:23)
-        IF(.NOT.LPERM) THEN
-        IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
-        PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=(ZRD(RDZ1))/SDIMAX
-        CRAT=ICR(I)
-        ELEVATN=ELEV*100
-        AX=NOPERMH1(I)
-        BX=NOPERMH2(I)
-        CX=NOPERMH3(I)
-        DX=NOPERMH4(I)
-        EX=NOPERMH5(I)
-        FX=NOPERMH6(I)
-        GX=NOPERMH7(I)
-        HX=NOPERMH8(I)
-        IX=NOPERMH9(I)
-        POTHTG=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL + 
-     &         EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
-     &         HX*RDZ + IX*LOG(XSITE))*FINT
-        ENDIF
         IF(LPERM) THEN
-        IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
-        PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=(ZRD(RDZ1))/SDIMAX
-        CRAT=ICR(I)
-        ELEVATN=ELEV*100
-        AX1=PERMH1(I)
-        BX1=PERMH2(I)
-        CX1=PERMH3(I)
-        DX1=PERMH4(I)
-        EX1=PERMH5(I)
-        FX1=PERMH6(I)
-        GX1=PERMH7(I)
-        HX1=PERMH8(I)
-        IX1=PERMH9(I)
-        POTHTG=EXP(AX1 + BX1 +CX1*(HT(I))**2 + DX1*LOG(HT(I)) +  
-     &  EX1*PBAL + FX1*LOG(RDZ) + GX1*LOG(CRAT) + 
-     &  HX1*ELEVATN + IX1*RDZ)*FINT
-        ENDIF
-C----------
-C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
-C----------  
-       CASE(1:3,8:12,14,15)
-         IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
+          IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
           PBAL=PTBALT(I)
           RDZ1=ITRE(I)
           RDZ=(ZRD(RDZ1))/SDIMAX
           CRAT=ICR(I)
           ELEVATN=ELEV*100
-          AX=NOPERMH1(I)
-          BX=NOPERMH2(I)
-          CX=NOPERMH3(I)
-          DX=NOPERMH4(I)
-          EX=NOPERMH5(I)
-          FX=NOPERMH6(I)
-          GX=NOPERMH7(I)
-          HX=NOPERMH8(I)
-          IX=NOPERMH9(I)
-          POTHTG=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL + 
+          AX1=PERMH1(ISPC)
+          BX1=PERMH2(ISPC)
+          CX1=PERMH3(ISPC)
+          DX1=PERMH4(ISPC)
+          EX1=PERMH5(ISPC)
+          FX1=PERMH6(ISPC)
+          GX1=PERMH7(ISPC)
+          HX1=PERMH8(ISPC)
+          IX1=PERMH9(ISPC)
+          POTHTG=EXP(AX1 + BX1 +CX1*(HT(I))**2 + DX1*LOG(HT(I)) +
+     &           EX1*PBAL + FX1*LOG(RDZ) + GX1*LOG(CRAT) +
+     &           HX1*ELEVATN + IX1*RDZ)*FINT
+        ELSE
+          IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
+          PBAL=PTBALT(I)
+          RDZ1=ITRE(I)
+          RDZ=(ZRD(RDZ1))/SDIMAX
+          CRAT=ICR(I)
+          ELEVATN=ELEV*100
+          AX=NOPERMH1(ISPC)
+          BX=NOPERMH2(ISPC)
+          CX=NOPERMH3(ISPC)
+          DX=NOPERMH4(ISPC)
+          EX=NOPERMH5(ISPC)
+          FX=NOPERMH6(ISPC)
+          GX=NOPERMH7(ISPC)
+          HX=NOPERMH8(ISPC)
+          IX=NOPERMH9(ISPC)
+          POTHTG=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL +
      &           EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
-     &           HX*RDZ + LOG(XSITE))*FINT
+     &           HX*RDZ + IX*LOG(XSITE))*FINT
+        ENDIF
+C----------
+C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES
+C----------
+      CASE(1:3,8:12,14,15)
+        IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
+        PBAL=PTBALT(I)
+        RDZ1=ITRE(I)
+        RDZ=(ZRD(RDZ1))/SDIMAX
+        CRAT=ICR(I)
+        ELEVATN=ELEV*100
+        AX=NOPERMH1(ISPC)
+        BX=NOPERMH2(ISPC)
+        CX=NOPERMH3(ISPC)
+        DX=NOPERMH4(ISPC)
+        EX=NOPERMH5(ISPC)
+        FX=NOPERMH6(ISPC)
+        GX=NOPERMH7(ISPC)
+        HX=NOPERMH8(ISPC)
+        IX=NOPERMH9(ISPC)
+        POTHTG=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL +
+     &         EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
+     &         HX*RDZ + IX*LOG(XSITE))*FINT
 C----------
 C  SPACE FOR OTHER SPECIES
 C---------
@@ -136,4 +135,4 @@ C
   900 CONTINUE
 C
       RETURN
-      END     
+      END

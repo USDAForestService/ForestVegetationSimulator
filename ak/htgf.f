@@ -114,11 +114,12 @@ C----------
 C----------
 C BIG DIAMETER MODIFIER (RALPH JOHNSON 4-5-88)
 C----------
-      IF(DBH(I) .GT. 90.) GO TO 115
-      IF(DBH(I) .LT. 40.1) GO TO 115
-      BIGDX = 3.01-0.06*DBH(I)+0.00033*DBH(I)*DBH(I)
-      HTG(I)=HTG(I)*BIGDX
-  115 CONTINUE
+C Taken out or service by Lance 7/29/19
+C      IF(DBH(I) .GT. 90.) GO TO 115
+C      IF(DBH(I) .LT. 40.1) GO TO 115
+C      BIGDX = 3.01-0.06*DBH(I)+0.00033*DBH(I)*DBH(I)
+C      HTG(I)=HTG(I)*BIGDX
+C  115 CONTINUE
 C----------
 C CHECK HT/DBH RATIO, IF TOO HIGH, REDUCE HTG
 C----------
