@@ -281,7 +281,7 @@ C
       IAGEOUT  = IOSUM(2,ICYC)
       ICCF     = IOSUM(12,ICYC)
       ITOPHT   = IOSUM(13,ICYC)
-      IOSDI    = ISDIAT(ICYC)
+      IOSDI    = ISDI(ICYC)
       DPTPA    = OLDTPA/GROSPC
       DPBA     = OLDBA/GROSPC
       DPQMD    = ORMSQD
@@ -503,7 +503,7 @@ C
         iRet = fsql3_step(IoutDBref)                     
         IF (IHRVC.EQ.0) exit
         IHRVC    = 2
-        IOSDI    = ISDI(ICYC)
+        IOSDI    = ISDIAT(ICYC)
         ICCF     = NINT(ATCCF/GROSPC)
         ITOPHT   = NINT(ATAVH)  
         DPQMD    = ATAVD
