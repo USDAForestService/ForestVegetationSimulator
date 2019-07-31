@@ -52,7 +52,8 @@ C
       ISPEC = 0
       IWHO = 1
       PI2=INT(PI)
-      DO I1 = I, PI2
+cld      DO I1 = I, PI2
+      DO I1 = 1, PI2
          CALL SDICLS (ISPEC,DLO,DHI,IWHO,SDIC,SDIC2,A,B,I1)
          ZRD(I1) = SDIC2
       END DO
@@ -133,6 +134,12 @@ C
       END SELECT
 C
   900 CONTINUE
+
+      IF(DEBUG) WRITE(JOSTND,9)
+     & I, ISPC, DBH(I), HT(I), POTHTG, PBAL, RDZ, CRAT, ELEVATN 
+    9 FORMAT(' IN HTCALC: I=',I5,' ISPC=',I5,' DBH=',F7.4,' HT=',F8.4,
+     & ' POTHTG=',F8.4,' PBAL=',F10.5,' RDZ=',F7.4,' CRAT=',F7.4,
+     & ' ELEVATN=',F7.2)
 C
       RETURN
       END

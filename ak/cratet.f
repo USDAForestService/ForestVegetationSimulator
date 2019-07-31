@@ -588,8 +588,8 @@ C----------
         D1 = DBH(I)
         H = HT(I)
         D2 = 0.0
-        CALL FINDAG(I,ISPC,D1,D2,H,SITAGE,SITHT,AGMAX,HTMAX,HTMAX2,
-     &              DEBUG)
+cld        CALL FINDAG(I,ISPC,D1,D2,H,SITAGE,SITHT,AGMAX,HTMAX,HTMAX2,
+cld     &              DEBUG)
         IF(SITAGE .GT. 0.)ABIRTH(I)=SITAGE
       ENDIF
       ENDDO
