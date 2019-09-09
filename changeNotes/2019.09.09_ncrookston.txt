@@ -7,8 +7,12 @@ Description: The rules for passing character data between C-language programs an
 Fortran have changed in the most recent versions of Fortran. A new set of C routines
 in file base/apisubsc.c (added) provides a set of API routines that are designed
 to be called from C. Those API routines that do not pass character strings are not
-affected. However a. The changes are downward compatable as the older fortran interfaces were not
+affected. The changes are downward compatable as the older fortran interfaces were not
 changed and in many cases are called from C using modified arguments.
+
+This change is made to only affect the "Q-family" at this time. Making it apply to 
+the ODBC-based programs would only require modifying the sourceList files for those 
+programs.
 
 Impact on users: None except that users of rFVS using R version 3.6.1 will not see
 warnings and future versions should work. 
