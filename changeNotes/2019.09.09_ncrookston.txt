@@ -1,0 +1,59 @@
+Subject: Modified the API so that C functions can be used to pass character data
+Name: Nick Crookston
+Date: 2019.09.09
+Variants affected: All
+
+Description: The rules for passing character data between C-language programs and 
+Fortran have changed in the most recent versions of Fortran. A new set of C routines
+in file base/apisubsc.c (added) provides a set of API routines that are designed
+to be called from C. Those API routines that do not pass character strings are not
+affected. However a. The changes are downward compatable as the older fortran interfaces were not
+changed and in many cases are called from C using modified arguments.
+
+Impact on users: None except that users of rFVS using R version 3.6.1 will not see
+warnings and future versions should work. 
+
+Files:
+Added base/apisubsc.c -- added interfaces callable from C (used in rFVS).
+Modified base/apisubs.f -- added interfaces callable from the routines in apisubsc.c
+Modified base/cmdline.f -- added an interface callable from C
+Modified bin/makefile -- no real change, just fixed a typo in a comment
+Modified bin/qFVSak_sourceList.txt -- added apisubsc.c 
+Modified bin/qFVSbm_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSca_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSci_sourceList.txt -- added apisubsc.c
+Modified bin/qFVScr_sourceList.txt -- added apisubsc.c
+Modified bin/qFVScs_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSec_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSem_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSie_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSkt_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSls_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSnc_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSne_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSoc_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSop_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSpn_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSsn_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSso_sourceList.txt -- added apisubsc.c
+Modified bin/qFVStt_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSut_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSwc_sourceList.txt -- added apisubsc.c
+Modified bin/qFVSws_sourceList.txt -- added apisubsc.c
+Modified tests/APIviaR/Rapi.R        -- added more extensive tests
+Modified tests/APIviaR/Rapi.out.save -- added more extensive tests
+Modified tests/APIviaR/base.key      -- added more extensive tests
+Modified tests/APIviaR/makefile      -- added more extensive tests
+
+Modified R/fvsGetEventMonitorVariables.R   -- Changed .Fortran to .C where needed
+Modified R/fvsGetSVSObjectSet.R            -- Changed .Fortran to .C where needed
+Modified R/fvsGetSpeciesAttrs.R            -- Changed .Fortran to .C where needed
+Modified R/fvsGetSpeciesCodes.R            -- Changed .Fortran to .C where needed
+Modified R/fvsGetStandIDs.R                -- Changed .Fortran to .C where needed
+Modified R/fvsGetTreeAttrs.R               -- Changed .Fortran to .C where needed
+Modified R/fvsGetUnitConversion.R          -- Changed .Fortran to .C where needed
+Modified R/fvsSetCmdLine.R                 -- Changed .Fortran to .C where needed
+Modified R/fvsSetSpeciesAttr.R             -- Changed .Fortran to .C where needed
+Modified R/fvsSetTreeAttr.R                -- Changed .Fortran to .C where needed
+Modified tests/RwikiCode.R                 -- Changed fvsLoad call to use qFVSie
+

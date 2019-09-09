@@ -87,7 +87,7 @@ export FC = gfortran
 export FFLAGS = $(PIC) -g -Wall -Wno-integer-division -ffpe-trap=invalid,zero,underflow,overflow,denormal -fbacktrace 
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow,denormal -fbacktrace -fcheck=all -fcheck=bounds 
 export CC = gcc
-# Adding optimization (-O2 does not help execution speed much but slows compile time a lot
+# Adding optimization (-O2) does not help execution speed much but slows compile time a lot
 # export CFLAGS = $(PIC) -DANSI -DCMP${CC} $(WIN) -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION -O2
 export CFLAGS = $(PIC) -DANSI -DCMP${CC} -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION $(WIN) 
 export LD = gfortran

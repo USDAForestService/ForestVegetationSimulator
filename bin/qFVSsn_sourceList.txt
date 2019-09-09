@@ -112,6 +112,7 @@
 ../base/algslp.f
 ../base/algspp.f
 ../base/apisubs.f
+../base/apisubsc.c
 ../base/autcor.f
 ../base/bachlo.f
 ../base/basdam.f
