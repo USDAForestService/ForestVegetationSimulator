@@ -332,10 +332,6 @@
 ../dbsqlite/dbsppput.f
 ../dbsqlite/dbsprs.f
 ../dbsqlite/dbsprssql.f
-../dbsqlite/dbssiteprep.f
-../dbsqlite/dbssprt.f
-../dbsqlite/dbsstats.f
-../dbsqlite/dbstally.f
 ../dbsqlite/dbsstrclass.f
 ../dbsqlite/dbstreesin.f
 ../dbsqlite/dbstrls.f
