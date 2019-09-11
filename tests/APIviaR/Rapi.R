@@ -60,8 +60,6 @@ trees$htg  = 0
 trees$dg   = 0
 fvsSetTreeAttrs(trees[,c(3,6,8)])
 
-fvsGetSVSObjectSet()
-
 # finish the run
 fvsRun(0,0)
 

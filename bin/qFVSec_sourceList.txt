@@ -119,7 +119,6 @@
 ../base/algslp.f
 ../base/algspp.f
 ../base/apisubs.f
-../base/apisubsc.c
 ../base/autcor.f
 ../base/bachlo.f
 ../base/basdam.f
@@ -335,6 +334,10 @@
 ../dbsqlite/dbsprs.f
 ../dbsqlite/dbsprssql.f
 ../dbsqlite/dbsrd.f
+../dbsqlite/dbssiteprep.f
+../dbsqlite/dbssprt.f
+../dbsqlite/dbsstats.f
+../dbsqlite/dbstally.f
 ../dbsqlite/dbsstrclass.f
 ../dbsqlite/dbstreesin.f
 ../dbsqlite/dbstrls.f
