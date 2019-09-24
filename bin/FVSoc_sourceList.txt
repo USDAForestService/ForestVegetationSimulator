@@ -170,6 +170,7 @@
 ../base/exbm.f
 ../base/exbrus.f
 ../base/exbudl.f
+../base/exdbsqlite.f
 ../base/exdfb.f
 ../base/exdftm.f
 ../base/exmpb.f

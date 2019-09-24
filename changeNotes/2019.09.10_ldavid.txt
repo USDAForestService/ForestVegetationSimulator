@@ -1,0 +1,37 @@
+Subject: ThinRDen
+
+Name: Lance David
+
+Date: 09/10/2019
+
+Variants affected: All variants
+
+Description: Corrections were made to the process of the ThinRDen option
+             so that thinning from below and above will function. All
+             trees within the targetted diameter range was being removed
+             regardless of residual specified when thinning from below or
+             above. It is important to note that since this is a relative
+             density variable and target achievement will only be close,
+             not exact. The reason is that the tree records individual 
+             contribution to the relatived density changes with the
+             population. The process for this options is controlled by
+             the before thin population and individual record's contribution
+             at that point in time. 
+
+Impact on users: ThinRDen option will result in reasonable residuals
+                 when thin from below or above parameter is used. The
+                 option had been removing all trees in the DBH range,
+                 regardless of specified residual. Thin throughout the
+                 range was working just fine.
+Files:
+
+vbase\cuts.f - The calculation method in which individual tree record's
+               contribution to Relatived Density for the ThinRDen option
+               has been changed to use Lu, H.B. diameter and TPA factor
+               method based on the factors returned by sdical.f ENTRY RDCLS.
+               The target for this option was corrected to be removal as
+               opposed to residual. Limit to last tree TPA contribution
+               capped at ORGWK4, which is the live TPA of the tree record,
+               for exit of loop near statement label 1048.
+                
+

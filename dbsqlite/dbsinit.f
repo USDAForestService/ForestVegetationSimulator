@@ -30,10 +30,17 @@ C  FVS_SnagSum          dbsfmssnag  ISSUM        case, cycle
 C  FVS_Fuels            dbsfuels    IFUELS       case, cycle 
 C  FVS_DM_Spp_Sum       dbsmis      IDM1         case, cycle, species
 C  FVS_DM_Stnd_Sum      dbsmis      IDM2         case, cycle 
-C  FVS_DM_Sz_Sum        dbsmis      IDM3         case, cycle 
+C  FVS_DM_Sz_Sum        dbsmis      IDM3         case, cycle
+C  FVS_Regen_Sprouts    dbssprt     IREG1        case, cycle, species 
+C  FVS_Regen_SitePrep   dbssiteprep IREG2        case, cycle 
+C  FVS_Regen_HabType    dbsplothab  IREG3        case, habitat/forest type
+C  FVS_Regen_Tally      dbstally    IREG4        case, cycle, species
+C  FVS_Regen_Ingrowth   dbsingrow   IREG5        case, cycle, species
 C  FVS_RD_Sum           dbsrd       IRD1         case, cycle 
 C  FVS_RD_Det           dbsrd       IRD2         case, cycle 
 C  FVS_RD_Beetle        dbsrd       IRD3         case, cycle 
+C  FVS_Stats_Species    dbsstats    ISTATS1      case, species
+C  FVS_Stats_Stand      dbsstats    ISTATS2      case
 C  FVS_StrClass         dbsstrclass ISTRCLAS     case, cycle 
 C  FVS_Summary2_East    dbssumry2   ISUMARY      case, cycle, RmvCode
 C  FVS_Summary2         dbssumry2   ISUMARY      case, cycle, RmvCode 
@@ -83,7 +90,13 @@ C
       IRD1     = 0
       IRD2     = 0
       IRD3     = 0
-      
+      ISTATS1  = 0
+      ISTATS2  = 0
+      IREG1    = 0
+      IREG2    = 0
+      IREG3    = 0
+      IREG4    = 0
+      IREG5    = 0
       RETURN
       END
 

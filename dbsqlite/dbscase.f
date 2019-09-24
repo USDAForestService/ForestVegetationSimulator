@@ -41,7 +41,6 @@ C
 C
 COMMONS
 C---
-
       INTEGER fsql3_tableexists,fsql3_exec,fsql3_errmsg
       INTEGER,parameter:: MaxStringLen=255
 
@@ -81,7 +80,10 @@ C-----
      -     IBMMAIN.GE.1.OR.
      -     IBMBKP.GE.1.OR.
      -     IBMTREE.GE.1.OR.
-     -     IBMVOL.GE.1) IFORSR = 1
+     -     IBMVOL.GE.1.OR.
+     -     ISTATS1.GE.1.OR.ISTATS2.GE.1.OR.
+     -     IREG1.GE.1.OR.IREG2.GE.1.OR.IREG3.GE.1.OR.
+     -     IREG4.GE.1.OR.IREG5.GE.1) IFORSR = 1
        ENDIF
        IF(IFORSR.EQ.0) RETURN
 C---------
@@ -122,6 +124,8 @@ C---------
         IBMBKP    = 0
         IBMTREE   = 0
         IBMVOL    = 0
+        ISTATS1   = 0
+        ISTATS2   = 0
         RETURN
       ENDIF
       

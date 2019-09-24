@@ -165,6 +165,7 @@
 ../base/exbudl.f
 ../base/exclim.f
 ../base/excov.f
+../base/exdbsqlite.f
 ../base/exdfb.f
 ../base/exdftm.f
 ../base/exmist.f

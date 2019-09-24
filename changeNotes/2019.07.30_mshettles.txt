@@ -1,0 +1,45 @@
+Subject: Addition of the Inventory Statistics Tables to the Database Extension
+Name: Mike Shettles
+Date: 07/30/2019
+Variants affected: All
+
+Description: The two tables that are produced with usage of the base model
+STATS keyword have been added to the database extension code for the Q-family.
+The DB-FVS keyword that triggers this is InvStats. It creates two tables: 
+FVS_Stats_Species and FVS_Stats_Stand.
+
+Impact on users:This will primarily affect FVSOnline/Onlocal user's, 
+allowing them to select the tables as outputs, once the Shiny code is subsequently
+updated (next step).
+
+File(s):
+...\FMSCdev\base\exdbs.f--added the entry for the new dbsstats subroutine and the 
+associated dummy variables
+
+...\FMSCdev\base\stats.f--added logic to call DBSSTATS with needed values that 
+are calculated here for the STATS keyword tables
+
+...\FMSCdev\bin\qFVSak_sourceList.txt--added dbsstats.f to the sourcelist
+
+...\FMSCdev\changeNotes\2019.07.30_mshettles.txt--These notes.
+
+...\FMSCdev\dbsqlite\dbsppget.f--added the ISTATS1 and ISTATS2 variables to the 
+INTS array, and incremented INTS by 2 in it's declaration.
+
+...\FMSCdev\dbsqlite\dbsppput.f--added the ISTATS1 and ISTATS2 variables to the 
+INTS array, and incremented INTS by 2 in it's declaration.
+
+...\FMSCdev\dbsqlite\dbsin.f--incremented KWCNT by 1, added "INVSTATS" to the TABLEME
+array. Added "3800" to the NUMBER array, and added code to set ISTATS1 and ISTATS2
+to be set to 1.
+
+...\FMSCdev\dbsqlite\dbsinit.f--initialized ISTATS1 and ISTATS2 to 0. Added commenbts 
+describing the two new tables.
+
+...\FMSCdev\dbsqlite\dbscase.f--added the ISTATS1 and ISTATS2 variables to the IFORSR
+criteria, and to the KODE criteria.
+	 
+...\FMSCdev\dbsqlite\dbsstats.f--created this new subroutine that writes out the 2 new
+tables to an SQLite3 database.
+
+...\FMSCdev\dbsqlite\DBSCOM.F77--added the ISTATS1 and ISTATS2 variables as global integers.
