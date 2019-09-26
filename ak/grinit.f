@@ -329,5 +329,8 @@ C----------
         ISTAGF(I)=0
       ENDDO
 C
+      DO I=1,MAXPLT
+        XMAXPT(I)=0.0
+      ENDDO
       RETURN
       END

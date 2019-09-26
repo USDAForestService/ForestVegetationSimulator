@@ -1320,7 +1320,7 @@ C  CASE 09508 CASTLE AK EQN 08
 C  095          PICEA MARIANA - BE                  BLACK SPRUCE
       CASE('09508')
         IF (D .GE. 0.1) THEN
-          CW= 3.352504 * (D**0.650746) * (H**-0.384478) * (CL**0.250764)
+          CW= 3.352504 * (D**0.650746)*(H**(-0.384478))*(CL**0.250764)
         ELSE
           CW= 0.5
         ENDIF
@@ -1428,7 +1428,7 @@ C  094          PICEA GLAUCA - WS                 WHITE SPRUCE
         IF (EL .LT.   1.) EL=  1.
         IF (EL .GT.  85.) EL= 85.
         IF (D .GE. 0.1) THEN
-          CW= 8.870861 * (D**0.631291) * (H**-0.875513) * (CL**0.479686)
+          CW= 8.870861 * (D**0.631291)*(H**(-0.875513))*(CL**0.479686)
      &        * ((BAREA + 1)**0.095698) * (EXP(EL)**(-0.014942))
         ELSE
           CW= 0.5
@@ -2135,7 +2135,7 @@ C  375          BETULA PAPYRIFERA - PB              PAPER BIRCH
       CASE('37508')
         IF (D .GE. 0.1) THEN
           CW= 3.313922 * (D**0.528173) * (CL**0.196874)
-     &        * ((BAREA + 1)**-0.054279)
+     &        * ((BAREA + 1)**(-0.054279))
         ELSE
           CW= 0.5
         ENDIF
@@ -2214,7 +2214,7 @@ C  CASE 74608 CASTLE AK EQN 08
 C  746          POPULUS TREMULOIDES - AS          QUAKING ASPEN
       CASE('74608')
         IF (D .GE. 0.1) THEN
-          CW= 2.385776 * (D**0.630315) * (H**-0.147161) * (CL**0.27444)
+          CW= 2.385776 * (D**0.630315)*(H**(-0.147161))*(CL**0.27444)
         ELSE
           CW= 0.5
         ENDIF
