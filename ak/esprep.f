@@ -5,13 +5,14 @@ C AK $Id$
 C----------
 C     PREDICT DEFAULT SITE PREP PROBABILITIES.
 C
-C     PROB(NO SITE PREP)
 C----------
 C  VARIABLE DECLARATIONS:
 C----------
 C
       REAL PBURN,PMECH,PNONE
 C
+C----------
+C     PROB(NO SITE PREP)
 C----------
       PNONE = 1.0
 C----------
