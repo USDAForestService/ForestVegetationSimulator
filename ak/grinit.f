@@ -254,7 +254,7 @@ C----------
       DLOMSB=0.
       DHIMSB=999.
       MFLMSB=1
-      DBHZEIDE=1.0
+      DBHZEIDE=0.0
       DBHSTAGE=0.0
       DR016=0.
       DBHSDI=0.0
