@@ -26,7 +26,7 @@ C     ARGUMENT LIST
       CHARACTER*2000 SQLStmtStr
       CHARACTER*2    SPEC,TSZ
       
-      REAL*8 DCORTEM, DSTDRAT, DWCI
+      REAL*8 DCORTEM, DSTDRAT, DWCI , RCORMULT
 
 C     INITIALIZE VARIABLES
 
@@ -47,7 +47,8 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -      'NumTrees int null,'//
      -      'ScaleFactor real null,'//
      -      'StdErrRatio real null,'//
-     -      'WeightToInput real null);'//CHAR(0)
+     -      'WeightToInput real null,'//
+     -      'ReadCorMult real null);'//CHAR(0)
          iRet = fsql3_exec(IoutDBref,SQLStmtStr)
          IF (iRet .NE. 0) THEN
            ICALIB = 0
@@ -60,9 +61,9 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
         TSZ = 'SM'
       ENDIF
       WRITE(SQLStmtStr,*) 'INSERT INTO FVS_CalibStats ',
-     -  ' (CaseID,StandID,TreeSize,Species,NumTrees,ScaleFactor,',
-     -  'StdErrRatio,WeightToInput) ',
-     -  " VALUES ('",CASEID,"','",TRIM(NPLT),"','",TSZ,"',?,?,?,?,?);"
+     - ' (CaseID,StandID,TreeSize,Species,NumTrees,ScaleFactor,',
+     - 'StdErrRatio,WeightToInput,ReadCorMult) ',
+     - " VALUES ('",CASEID,"','",TRIM(NPLT),"','",TSZ,"',?,?,?,?,?,?);"
       iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
@@ -94,14 +95,26 @@ C         BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
           iRet=fsql3_bind_double(IoutDBref,ColNumber,DCORTEM)
 
           IF(ICFROM.EQ.1) THEN 
-            DSTDRAT = STDRAT(K)          
+            DSTDRAT = STDRAT(K)
             ColNumber=ColNumber+1       ! StdErrRatio
             iRet=fsql3_bind_double(IoutDBref,ColNumber,DSTDRAT)
-          
-            DWCI = WCI(K)            
+          ENDIF
+            
+          IF(ICFROM.EQ.1) THEN
+            DWCI = WCI(K)
             ColNumber=ColNumber+1      ! WeightToInput (LG TREES ONLY)
             iRet=fsql3_bind_double(IoutDBref,ColNumber,DWCI)
           ENDIF
+            
+          IF(ICFROM.EQ.1)THEN
+            RCORMULT=EXP(LOG(DCORTEM)/DWCI)
+            ColNumber=ColNumber+1       ! ScaleFactor
+          ELSE
+            RCORMULT=DCORTEM
+            ColNumber=ColNumber+3       ! ScaleFactor
+          ENDIF
+          
+          iRet=fsql3_bind_double(IoutDBref,ColNumber,RCORMULT)
           
           iRet = fsql3_step(IoutDBref)
           iRet = fsql3_reset(IoutDBref)

@@ -303,6 +303,7 @@
 ../dbs/dbsatrtls.f
 ../dbs/dbsblkd.f
 ../dbs/dbscase.f
+../dbs/dbscalib.f
 ../dbs/dbscknrows.f
 ../dbs/dbsclose.f
 ../dbs/dbsclsum.f
