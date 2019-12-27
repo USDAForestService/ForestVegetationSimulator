@@ -166,7 +166,7 @@ C----------
       BRK = 5.0
       DGSD = 2.0
       EFF = 1.0
-      ELEV = 10.
+      ELEV = 1.
       FINT = 10.
       FINTH = 5.
       FINTM = 5.0

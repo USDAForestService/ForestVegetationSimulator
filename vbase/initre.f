@@ -375,15 +375,6 @@ C
      >    ';',/T12,' SLOPE= ' ,F4.0,'%',
      >    ';  ELEVATION(100''S FEET)=',F5.1,'; REFERENCE CODE= ',A4)
 C
-        CASE ('AK')
-          WRITE (JOSTND,131) KODFOR,KODTYP,IAGE,ASPECT,
-     >                     SLOPE,ELEV,ADJUSTL(CPVREF)
-  131     FORMAT (/'STDINFO    FOREST-LOCATION CODE=',I8,
-     >    '; HABITAT TYPE=',I3,
-     >    '; AGE=',I5,'; ASPECT AZIMUTH IN DEGREES= ',F4.0,
-     >    '; SLOPE= ' ,F4.0,'%'/
-     >    T12,'ELEVATION(10''S FEET)=',F5.1,';  REFERENCE CODE= ',A4)
-C
         CASE ('SN')
           WRITE(JOSTND,135) KODFOR,PCOM,
      >                    IAGE,ASPECT,SLOPE,ELEV,ADJUSTL(CPVREF)
