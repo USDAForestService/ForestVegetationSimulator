@@ -300,7 +300,7 @@ C
             ColNumber=ColNumber+1
             iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD2)
             ColNumber=ColNumber+1
-            DHT2TD1 = HT2TD(I,2)
+            DHT2TD1 = HT2TD(I,1)
             iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD1)
             ColNumber=ColNumber+1
             iRet = fsql3_bind_double(IoutDBref,ColNumber,TREAGE)
@@ -437,7 +437,7 @@ C
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD2)
         ColNumber=ColNumber+1
-        DHT2TD1 = HT2TD(I,2)
+        DHT2TD1 = HT2TD(I,1)
         iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD1)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,TREAGE)
