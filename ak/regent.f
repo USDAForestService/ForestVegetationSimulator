@@ -228,6 +228,18 @@ C----------
       H=HT(I)
       BARK=BRATIO(ISPC,D,H)
       TBAL=(1.0 - (PCT(I)/100.)) * BA
+      XSITE=SITEAR(ISPC)
+      PBAL=PTBALT(I)
+      CRAT=ICR(I)
+      ELEVATN=ELEV*100
+      
+C     CALCULATE RD AND THEN CONSTRAIN RD IF NEEDED
+      RDZ1=ITRE(I)
+      IF (XMAXPT(RDZ1).EQ.0.0) THEN
+        RDZ = 0.01
+      ELSE
+        RDZ = ZRD(RDZ1) / XMAXPT(RDZ1)
+      ENDIF
 C----------
 C  BYPASS INCREMENT CALCULATIONS IF CALLED FROM ESTAB AND THIS IS NOT A
 C  NEWLY CREATED TREE.
@@ -266,12 +278,6 @@ C  CALCULATE HIEGHT GROWTH FOR BOREAL SPECIES
 C----------
       CASE(4:7,13,16:23)
         IF(.NOT.LPERM) THEN
-        XSITE=SITEAR(ISPC)
-        PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=(ZRD(RDZ1))/XMAXPT(RDZ1)
-        CRAT=ICR(I)
-        ELEVATN=ELEV*100
         AX=NOPERMH1(ISPC)
         BX=NOPERMH2(ISPC)
         CX=NOPERMH3(ISPC)
@@ -286,12 +292,6 @@ C----------
      $         HX*RDZ + IX*LOG(XSITE))*FNT
         ENDIF
         IF(LPERM) THEN
-        XSITE=SITEAR(ISPC)
-        PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=(ZRD(RDZ1))/XMAXPT(RDZ1)
-        CRAT=ICR(I)
-        ELEVATN=ELEV*100
         AX1=PERMH1(ISPC)
         BX1=PERMH2(ISPC)
         CX1=PERMH3(ISPC)
@@ -309,12 +309,6 @@ C----------
 C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
 C----------     
       CASE(1:3,8:12,14,15)
-        XSITE=SITEAR(ISPC)
-        PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=(ZRD(RDZ1))/XMAXPT(RDZ1)
-        CRAT=ICR(I)
-        ELEVATN=ELEV*100
         AX=NOPERMH1(ISPC)
         BX=NOPERMH2(ISPC)
         CX=NOPERMH3(ISPC)
@@ -494,6 +488,18 @@ C----------
       IICR=((ICR(I)-1)/10)+1
       IF(IICR.GT.9) IICR=9
       RCR=REAL(IICR)
+      XSITE=SITEAR(ISPC)
+      PBAL=PTBALT(I)
+      CRAT=ICR(I)
+      ELEVATN=ELEV*100
+      
+C     CALCULATE RD AND THEN CONSTRAIN RD IF NEEDED
+      RDZ1=ITRE(I)
+      IF (XMAXPT(RDZ1).EQ.0.0) THEN
+        RDZ = 0.01
+      ELSE
+        RDZ = ZRD(RDZ1) / XMAXPT(RDZ1)
+      ENDIF
 C----------
 C  DIA GT 3 INCHES INCLUDED IN OVERALL MEAN
 C----------
@@ -506,12 +512,6 @@ C  CALCULATE HIEGHT GROWTH FOR BOREAL SPECIES
 C----------
       CASE(4:7,13,16:23)
         IF(LPERM) GO TO 10
-        XSITE=SITEAR(ISPC)
-        PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=(ZRD(RDZ1))/XMAXPT(RDZ1)
-        CRAT=ICR(I)
-        ELEVATN=ELEV*100
         AX=NOPERMH1(ISPC)
         BX=NOPERMH2(ISPC)
         CX=NOPERMH3(ISPC)
@@ -526,11 +526,6 @@ C----------
      $         HX*RDZ + IX*LOG(XSITE))*FINT
   10  CONTINUE
         XSITE=SITEAR(ISPC)
-        PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=(ZRD(RDZ1))/XMAXPT(RDZ1)
-        CRAT=ICR(I)
-        ELEVATN=ELEV*100
         AX1=PERMH1(ISPC)
         BX1=PERMH2(ISPC)
         CX1=PERMH3(ISPC)
@@ -547,12 +542,6 @@ C----------
 C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
 C----------     
       CASE(1:3,8:12,14,15)
-        XSITE=SITEAR(ISPC)
-        PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=(ZRD(RDZ1))/XMAXPT(RDZ1)
-        CRAT=ICR(I)
-        ELEVATN=ELEV*100
         AX=NOPERMH1(ISPC)
         BX=NOPERMH2(ISPC)
         CX=NOPERMH3(ISPC)

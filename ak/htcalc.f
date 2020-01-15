@@ -75,6 +75,14 @@ C         ZRD(I1) = SDIC2
 C      END DO
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
+C     CALCULATE RD AND THEN CONSTRAIN RD IF NEEDED
+      RDZ1=ITRE(I)
+      IF (XMAXPT(RDZ1).EQ.0.0) THEN
+        RDZ = 0.01
+      ELSE
+        RDZ = ZRD(RDZ1) / XMAXPT(RDZ1)
+      ENDIF
+
       POTHTG = 0.
       SELECT CASE(ISPC)
 C----------
@@ -84,8 +92,6 @@ C----------
         IF(LPERM) THEN
           IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
           PBAL=PTBALT(I)
-          RDZ1=ITRE(I)
-          RDZ=ZRD(RDZ1)/XMAXPT(RDZ1)
           CRAT=ICR(I)
           ELEVATN=ELEV*100
           AX1=PERMH1(ISPC)
@@ -103,8 +109,6 @@ C----------
         ELSE
           IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
           PBAL=PTBALT(I)
-          RDZ1=ITRE(I)
-          RDZ=ZRD(RDZ1)/XMAXPT(RDZ1)
           CRAT=ICR(I)
           ELEVATN=ELEV*100
           AX=NOPERMH1(ISPC)
@@ -126,8 +130,6 @@ C----------
       CASE(1:3,8:12,14,15)
         IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
         PBAL=PTBALT(I)
-        RDZ1=ITRE(I)
-        RDZ=ZRD(RDZ1)/XMAXPT(RDZ1)
         CRAT=ICR(I)
         ELEVATN=ELEV*100
         AX=NOPERMH1(ISPC)

@@ -426,7 +426,12 @@ C         BASAL AREA IN LARGER TREES ON THE POINT
           BAL = PTBALT(I)
 
 C         RELATIVE DENSITY (ZEIDI) ON THE POINT
-          RDEN = ZRD(ITRE(I)) / XMAXPT(ITRE(I))
+C         CONSTRAIN RD IF NEEDED
+          IF (XMAXPT(ITRE(I)).EQ.0.0) THEN
+           RDEN = 0.01
+          ELSE
+           RDEN = ZRD(ITRE(I)) / XMAXPT(ITRE(I))
+          ENDIF
 C
 C         DIAMETER, BAL, RELATIVE DENSITY (ZEIDI) AND CROWN RATIO
 C         COMPONENTS OF DIAMETER GROWTH EQUATION.
@@ -522,9 +527,11 @@ C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 C----------
           IF(DEBUG) THEN
           WRITE(JOSTND,9001)
-     &       I,ISPC,D,BRAT,BAL,CR,RDEN,PFMOD,DGPRED,WK2(I)
+     &       I,ISPC,D,BRAT,BAL,CR,ZRD(ITRE(I)),XMAXPT(ITRE(I)),RDEN,
+     &       PFMOD,DGPRED,WK2(I)
  9001     FORMAT(' IN DGF I=',I4,'  ISPC=',I3,'  D=',F7.2,' BRAT=',F7.4,
-     &          '  BAL=',F7.2,'  CR=',F7.4,'  RDEN=',F9.3,
+     &          '  BAL=',F7.2,'  CR=',F7.4,
+     &          '  ZSDI=',F9.3, '  XMAPT =',F9.3, '  RDEN=',F9.3,
      &          '  PFMOD=',F7.5,'  DGPRED=',F7.4,'  DDS=',F7.4)
           ENDIF
    10     CONTINUE

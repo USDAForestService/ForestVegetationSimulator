@@ -1,3 +1,4 @@
+../ak/common/CRCOEF.F77
 ../ak/common/ESPARM.F77
 ../ak/common/PRGPRM.F77
 
@@ -67,10 +68,8 @@
 ../ak/maical.f
 ../ak/morts.f
 ../ak/regent.f
-../ak/sbb.f
 ../ak/seamrt.f
 ../ak/sitset.f
-../ak/top40.f
 
 ../cr/bfvol.f
 ../ie/cftopk.f
@@ -343,7 +342,6 @@
 ../ak/esadvh.f
 ../ak/esdlay.f
 ../ak/esnspe.f
-../ak/esnutr.f
 ../ak/espadv.f
 ../ak/esprep.f
 ../ak/espsub.f
@@ -365,6 +363,7 @@
 ../estb/esin.f
 ../estb/esinit.f
 ../estb/esmsgs.f
+../estb/esnutr.f
 ../estb/esout.f
 ../estb/esplt1.f
 ../estb/esplt2.f
