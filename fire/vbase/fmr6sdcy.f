@@ -79,14 +79,14 @@ C  Variable declarations.
 C----------
       LOGICAL DEBUG
       INTEGER I, J, K, L, X, Y, KSP, SML, SPG, TEMP, MOIS
-      INTEGER WSSPEC(39),BMSPEC(18),ECSPEC(32), SOSPEC(33), AKSPEC(13)
+      INTEGER WSSPEC(39),BMSPEC(18),ECSPEC(32), SOSPEC(33), AKSPEC(23)
       INTEGER PNWMC(75),PNWMD(75),WCWMC(139),WCWMD(139),SOHMC(92)
       INTEGER SOWMD(92),BMHMC(92),BMWMD(92),ECHMC(155),ECWMD(155)
       INTEGER PNYRSOFT(12,3,3,3),PNDCYADJ(12,3,3,3),ESYRSOFT(12,3,3,3)
       INTEGER ESDCYADJ(12,3,3,3),WCYRSOFT(12,3,3,3),WCDCYADJ(12,3,3,3)
       REAL    DBH, DBHCM
       REAL    WSDBH1(39),WSDBH2(39),BMDBH1(18),BMDBH2(18),ECDBH1(32)  
-      REAL    ECDBH2(32),SODBH1(33),SODBH2(33),AKDBH1(13),AKDBH2(13)
+      REAL    ECDBH2(32),SODBH1(33),SODBH2(33),AKDBH1(23),AKDBH2(23)
 C----------
 C  CHECK FOR DEBUG.
 C----------
@@ -126,10 +126,37 @@ C----------
      & 20,25,20/
 C----------
 C  THESE ARE THE AK DBH BREAKPOINTS (SMALL TO MED.) IN CM.
+C
+C  NEW AK SPECIES LIST
+C Number  Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
 C----------
-      DATA (AKDBH1(I), I= 1, 13) /
-     & 25,25,25,25,25,25,20,25,20,20,
-     & 25,25,25/
+      DATA (AKDBH1(I), I= 1, 23) /
+     & 25,25,25,20,20,20,20,25,25,25,
+     & 25,25,20,20,20,20,20,20,20,20,
+     & 20,20,20/
 C----------
 C  SET THE MEDIUM TO LARGE DBH BREAKPOINTS IN CM.
 C----------
@@ -200,10 +227,37 @@ C----------
      & 11,2,11/
 C----------
 C  THESE ARE THE AK SPECIES GROUPS (1 - 12) TO USE FOR SNAG DECAY
+C
+C  NEW AK SPECIES LIST
+C Number  Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
 C----------
-      DATA (AKSPEC(I), I= 1, 13) /     
-     &  6, 1, 9, 7, 7, 1, 5, 6, 8, 12,
-     & 11,11, 9/
+      DATA (AKSPEC(I), I= 1, 23) /     
+     &  9, 9, 1, 6, 6, 6, 6, 6, 5, 1,
+     &  7, 7, 6, 12, 12, 10, 10, 11, 11, 11,
+     &  10, 10, 10/
 C----------
 C  EACH PN HABITAT CODE MAPS TO EITHER WARM (1), MODERATE (2)
 C  OR COLD (3).

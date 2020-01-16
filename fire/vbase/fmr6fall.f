@@ -83,7 +83,7 @@ C----------
       LOGICAL DEBUG, LOREG
       INTEGER I, J, K, L, M, N, KSP, SML, SPG, MOIS, OTSH, OTRT, JADJ
       INTEGER WSSPEC(39,2),BMSPEC(18),ECSPEC(32,2),SOSPEC(33)
-      INTEGER AKSPEC(13) 
+      INTEGER AKSPEC(23) 
       INTEGER PNWMD(75),WCWMD(139),SOWMD(92),BMWMD(92),ECWMD(155)
       INTEGER PNOTSH(75),WCOTSH(139),SOOTSH(92),BMOTSH(92),ECOTSH(155)
       INTEGER PNOTRT(75),WCOTRT(139),SOOTRT(92),BMOTRT(92),ECOTRT(155)
@@ -143,10 +143,37 @@ C----------
      &  19,3 ,19/
 C----------
 C  THESE ARE THE AK SPECIES GROUPS (1 - 20) TO USE FOR SNAG FALL
+C
+C  NEW AK SPECIES LIST
+C Number  Code  Common Name         FIA  PLANTS Scientific Name
+C   1     SF   Pacific silver fir  011  ABAM   Abies amabilis
+C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
+C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
+C   4     TA   tamarack            071  LALA   Larix laricina
+C   5     WS   white spruce        094  PIGL   Picea glauca
+C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   7     BE   black spruce        095  PIMA   Picea mariana
+C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
+C   9     LP   lodgepole pine      108  PICO   Pinus contorta
+C  10     RC   western redcedar    242  THPL   Thuja plicata
+C  11     WH   western hemlock     263  TSHE   Tsuga heterophylla
+C  12     MH   mountain hemlock    264  TSME   Tsuga mertensiana
+C  13     OS   other softwoods     298  2TE
+C  14     AD   alder species       350  ALNUS  Alnus species
+C  15     RA   red alder           351  ALRU2  Alnus rubra
+C  16     PB   paper birch         375  BEPA   Betula papyrifera
+C  17     AB   Alaska birch        376  BENE4  Betula neoalaskana
+C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
+C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
+C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
+C  21     WI   willow species      920  SALIX  Salix species
+C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  23     OH   other hardwoods     998  2TD
 C----------
-      DATA (AKSPEC(I), I= 1, 13) /     
-     &  10,7 ,16,12,11,7 ,9 ,10,16,20,
-     &  19,19,16/
+      DATA (AKSPEC(I), I= 1, 23) /     
+     &  16,16,7,10,10,10,10,10,9,7,
+     &  11,12,10,20,20,18,18,19,19,19,
+     &  18,18,18/
 C----------
 C  EACH PN HABITAT CODE MAPS TO EITHER WET (1), MESIC (2) OR DRY (3).
 C  THIS PERTAINS TO SOIL MOISTURE, AND MAY BE DIFFERENT THAN THE MAPPING
