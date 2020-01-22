@@ -1,0 +1,668 @@
+
+
+         FOREST VEGETATION SIMULATOR     VERSION 2906 -- INLAND EMPIRE EXPANDED                 RV:20200101    01-22-2020  09:45:04
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+                                                OPTIONS SELECTED BY INPUT
+
+KEYWORD FILE NAME: compress
+----------------------------------------------------------------------------------------------------------------------------------
+KEYWORD    PARAMETERS:
+--------   -----------------------------------------------------------------------------------------------------------------------
+
+STDIDENT
+           STAND ID= 01160805050012                                                                                            
+
+STANDCN    DATA BASE CONTROL NUMBER=212701010354
+
+MGMTID  
+           MANAGEMENT ID= A001
+
+INVYEAR    INVENTORY YEAR= 2014
+
+TIMEINT    ALL CYCLES;  PERIOD LENGTH= 10
+
+TIMEINT    CYCLE=  1; PERIOD LENGTH=  4
+
+NUMCYCLE   NUMBER OF CYCLES=  5
+
+DELOTAB    TABLE NUMBER   1  SPECIFIED.  STAND COMPOSITION TABLE WILL BE DELETED.
+
+DELOTAB    TABLE NUMBER   2  SPECIFIED.  SAMPLE TREE TABLE WILL BE DELETED.
+
+DELOTAB    TABLE NUMBER   4  SPECIFIED.  ACTIVITY SCHEDULE TABLE WILL BE DELETED.
+
+
+            
+
+DATABASE   DATABASE KEYWORDS:
+
+DSNIN      INPUT DATA BASE IS FVS_Data.db
+
+STANDSQL   STANDSQL COMMAND FOR INPUT DATA BASE: FVS_Data.db
+           SELECT * FROM FVS_StandInit
+           WHERE Stand_CN= '%Stand_CN%'
+
+           STAND-LEVEL DATA BASE READ:
+           INV_YEAR:               2014
+           REGION:                    1
+           FOREST:                   16
+           DISTRICT:                  8
+            COMPOSITE LOC:          116
+           LONGITUDE:          115.4594
+           LATITUDE:            47.5772
+
+           HABITAT TYPE WILL BE MAPPED TO 260 FOR THIS PROJECTION.
+           HABITAT/PV_CODE:         262
+           PV REFERENCE CODE:       101
+           ASPECT:                120.0
+           SLOPE:                 60.00
+           ELEVFT:               3300.0 CONVERTED TO:   33.0
+           BASAL_AREA_FACTOR:       0.0
+           INV_PLOT_SIZE:            1.
+           BRK_DBH:               999.0
+           NUM_PLOTS:                 6
+           SAM_WT:            26.000000
+           STK_PCNT:              1.000
+           DG_TRANS:                  0
+           DG_MEASURE:               10
+           HTG_TRANS:                 0
+           HTG_MEASURE:               5
+           MORT_MEASURE:              5
+           END OF DATA BASE READ.
+
+TREESQL    TREESQL COMMAND FOR INPUT DATA BASE: FVS_Data.db
+           SELECT * FROM FVS_TreeInit
+           WHERE Stand_CN= '%Stand_CN%'
+           STAND_CN           WAS IGNORED
+           STAND_ID           WAS IGNORED
+           STANDPLOT_CN       WAS IGNORED
+           STANDPLOT_ID       WAS IGNORED
+           PLOT_ID            WAS USED
+           TREE_ID            WAS USED
+           TREE_COUNT         WAS USED
+           HISTORY            WAS USED
+           SPECIES            WAS USED
+           DBH                WAS USED
+           DG                 WAS USED
+           HT                 WAS USED
+           HTG                WAS USED
+           HTTOPK             WAS USED
+           CRRATIO            WAS USED
+           DAMAGE1            WAS USED
+           SEVERITY1          WAS USED
+           DAMAGE2            WAS USED
+           SEVERITY2          WAS USED
+           DAMAGE3            WAS USED
+           SEVERITY3          WAS USED
+           TREEVALUE          WAS USED
+           PRESCRIPTION       WAS USED
+           AGE                WAS USED
+           SLOPE              WAS USED
+           ASPECT             WAS USED
+           PV_CODE            WAS USED
+           TOPOCODE           WAS USED
+           SITEPREP           WAS USED
+           NUMBER ROWS PROCESSED:   27
+
+END        END OF DATA BASE OPTIONS.
+
+
+            
+
+COMPUTE    DATE/CYCLE=    0; DEFINE THE FOLLOWING:
+
+           myNtrees = NumTrees
+
+END
+
+
+            
+
+PROCESS    PROCESS THE STAND.
+----------------------------------------------------------------------------------------------------------------------------------
+
+                                                OPTIONS SELECTED BY DEFAULT
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+TREEFMT    (I4,T1,I7,F6.0,I1,A3,F4.1,F3.1,2F3.0,F4.1,I1,3(I2,I2),2I1,I2,2I3,2I1,F3.0)      
+                                                                                           
+
+DESIGN     BASAL AREA FACTOR=    0.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
+           NUMBER OF PLOTS=     6; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=    26.00000
+           PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+
+STDINFO    FOREST-LOCATION CODE=     116; HABITAT TYPE=260; AGE=    0; ASPECT AZIMUTH IN DEGREES= 120.; SLOPE=  60.%
+           ELEVATION(100'S FEET)= 33.0;  REFERENCE CODE= 101 
+
+SPECIES      WP      WL      DF      GF      WH      RC      LP      ES      AF      PP
+SDI MAX     669.    669.    669.    669.    669.    669.    669.    669.    669.    669.
+
+SPECIES      MH      WB      LM      LL      PI      RM      PY      AS      CO      MM
+SDI MAX     669.    669.    669.    669.    669.    669.    669.    669.    669.    669.
+
+SPECIES      PB      OH      OS
+SDI MAX     669.    669.    669.
+
+           ALPHA SPECIES - FIA CODE CROSS REFERENCE:
+            WP=  119 ;  WL=  073 ;  DF=  202 ;  GF=  017 ;  WH=  263 ;  RC=  242 ;  LP=  108 ;  ES=  093 ; AF=  019 
+            PP=  122 ;  MH=  264 ;  WB=  101 ;  LM=  113 ;  LL=  072 ;  PI=  106 ;  RM=  066 ;  PY=  231 ; AS=  746 
+            CO=  740 ;  MM=  321 ;  PB=  375 ;  OH=  998 ;  OS=  298 
+
+                                  NATIONAL VOLUME ESTIMATOR LIBRARY EQUATION NUMBERS
+SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT 
+------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- 
+  WP    I00FW2W119 I00FW2W119   WL    I00FW2W073 I00FW2W073   DF    I00FW2W202 I00FW2W202   GF    I00FW2W017 I00FW2W017
+  WH    I00FW2W260 I00FW2W260   RC    I00FW2W242 I00FW2W242   LP    I00FW2W108 I00FW2W108   ES    I00FW2W093 I00FW2W093
+  AF    I00FW2W019 I00FW2W019   PP    I00FW2W122 I00FW2W122   MH    I00FW2W260 I00FW2W260   WB    I00FW2W012 I00FW2W012
+  LM    I00FW2W073 I00FW2W073   LL    I00FW2W019 I00FW2W019   PI    102DVEW106 102DVEW106   RM    102DVEW106 102DVEW106
+  PY    616BEHW231 616BEHW231   AS    102DVEW746 102DVEW746   CO    102DVEW740 102DVEW740   MM    200DVEW746 200DVEW746
+  PB    101DVEW375 101DVEW375   OH    200DVEW746 200DVEW746   OS    I00FW2W260 I00FW2W260
+
+SITECODE   SITE INDEX INFORMATION:
+            WP=    0.;  WL=    0.;  DF=    0.;  GF=    0.;  WH=    0.;  RC=    0.;  LP=    0.;  ES=    0.; AF=    0.
+            PP=    0.;  MH=    0.;  WB=    0.;  LM=   35.;  LL=    0.;  PI=   12.;  RM=   10.;  PY=   35.; AS=   50.
+            CO=   62.;  MM=   50.;  PB=   50.;  OH=   62.;  OS=    0.
+           SITE SPECIES=DF CODE=    3
+
+INVENTORY POINT CROSS REFERENCE (FVS SEQUENTIAL POINT NUMBER = POINT NUMBER AS ENTERED IN THE INPUT DATA):
+  1=       1;   2=       2;   3=       3;   4=       4;   5=       5;   6=       6
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+CALIBRATION STATISTICS:
+
+
+                                                 DF    GF    PP
+                                                ----  ----  ----
+
+NUMBER OF RECORDS PER SPECIES                     14     1    12
+
+NUMBER OF RECORDS CODED AS RECENT MORTALITY        1     0     0
+
+NUMBER OF RECORDS WITH MISSING HEIGHTS             0     0     0
+
+NUMBER OF RECORDS WITH BROKEN OR DEAD TOPS         1     0     0
+
+NUMBER OF RECORDS WITH MISSING CROWN RATIOS        0     0     0
+
+NUMBER OF RECORDS AVAILABLE FOR SCALING
+THE DIAMETER INCREMENT MODEL                       9     1     8
+
+RATIO OF STANDARD ERRORS
+(INPUT DBH GROWTH DATA : MODEL)                 0.97  1.00  0.42
+
+WEIGHT GIVEN TO THE INPUT GROWTH DATA WHEN
+DBH GROWTH MODEL SCALE FACTORS WERE COMPUTED    0.74  0.00  0.81
+
+INITIAL SCALE FACTORS FOR THE
+DBH INCREMENT MODEL                             0.98  1.00  1.06
+
+NUMBER OF RECORDS AVAILABLE FOR SCALING
+THE SMALL TREE HEIGHT INCREMENT MODEL             0     0     0
+
+INITIAL SCALE FACTORS FOR THE SMALL TREE
+HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
+
+NUMBER OF RECORDS WITH MISTLETOE                   0     0     6
+
+
+         FOREST VEGETATION SIMULATOR     VERSION 2906 -- INLAND EMPIRE EXPANDED                 RV:20200101    01-22-2020  09:45:04
+
+STAND ID: 01160805050012                MGMT ID: A001    
+
+
+
+                                SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL STAND AREA)
+--------------------------------------------------------------------------------------------------------------------------------------
+               START OF SIMULATION PERIOD                     REMOVALS             AFTER TREATMENT    GROWTH THIS PERIOD
+         --------------------------------------------- ----------------------- ---------------------  ------------------   MAI  ------
+         NO OF              TOP      TOTAL MERCH MERCH NO OF TOTAL MERCH MERCH              TOP  RES  PERIOD ACCRE MORT   MERCH FOR SS
+YEAR AGE TREES  BA  SDI CCF HT  QMD  CU FT CU FT BD FT TREES CU FT CU FT BD FT  BA  SDI CCF HT   QMD  YEARS   PER  YEAR   CU FT TYP ZT
+---- --- ----- --- ---- --- --- ---- ----- ----- ----- ----- ----- ----- ----- --- ---- --- --- ----  ------ ---- -----   ----- ------
+2014   0   140  87  155  83  69 10.6  2020  1657  8211     0     0     0     0  87  155  83  69 10.6       4   48    17     0.0 201 13
+2018   4   135  89  158  85  70 11.0  2145  1821  9218     0     0     0     0  89  158  85  70 11.0      10   50    16     0.0 201 13
+2028  14   124  96  165  91  74 11.9  2481  2115 10674     0     0     0     0  96  165  91  74 11.9      10   51    17     0.0 201 13
+2038  24   254 103  200  95  78  8.6  2818  2427 12673     0     0     0     0 103  200  95  78  8.6      10   53    16     0.0 201 13
+2048  34   214 111  205 101  81  9.7  3190  2820 15032     0     0     0     0 111  205 101  81  9.7      10   56    18     0.0 201 13
+2058  44   204 118  214 105  86 10.3  3573  3229 17384     0     0     0     0 118  214 105  86 10.3       0    0     0     0.0 201 13
+
+
+
+
+                                                     ACTIVITY SUMMARY 
+
+STAND ID= 01160805050012                MGMT ID= A001                                                                            
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+CYCLE  DATE  EXTENSION  KEYWORD   DATE  ACTIVITY DISPOSITION  PARAMETERS:
+-----  ----  ---------  --------  ----  --------------------  --------------------------------------------------------------------
+
+   1   2014
+               CMPU     MYNTREES  2014  DONE IN 2014              26.0000
+
+   2   2018
+               CMPU     MYNTREES  2018  DONE IN 2018              78.0000
+
+   3   2028
+               CMPU     MYNTREES  2028  DONE IN 2028             234.0000
+
+   4   2038
+               CMPU     MYNTREES  2038  DONE IN 2038             303.0000
+
+   5   2048
+               CMPU     MYNTREES  2048  DONE IN 2048             303.0000
+----------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+                REGENERATION ESTABLISHMENT MODEL VERSION 2.0
+        STAND ID: 01160805050012                 MANAGEMENT CODE: A001
+----------------------------------------------------------------------------
+  139.4 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2037
+
+   SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
+   SPECIES:  PB   OH   OS
+
+TREES/ACRE:   0.   0.  96.  22.   0.   0.   0.   0.   0.  21.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+TREES/ACRE:   0.   0.   0.
+
+----------------------------------------------------------------------------
+                REGENERATION ESTABLISHMENT MODEL VERSION 2.0
+        STAND ID: 01160805050012                 MANAGEMENT CODE: A001
+----------------------------------------------------------------------------
+   22.4 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2057
+
+   SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
+   SPECIES:  PB   OH   OS
+
+TREES/ACRE:   0.   2.  12.   2.   0.   0.   0.   0.   0.   5.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+TREES/ACRE:   0.   0.   0.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+                              DWARF MISTLETOE INFECTION AND MORTALITY STATISTICS SUMMARY TABLE
+                                         (BY SPECIES; TOP 4 MOST INFECTED SPECIES)
+----------------------------------------------------------------------------------------------------------------------------
+
+Stand ID: 01160805050012               Management Code: A001   Revision code: 991201
+
+DMRs and DMIs calculated for trees with DBH >= 1.0
+MEAN DMR = Average dwarf mistletoe rating for all trees of that species.
+MEAN DMI = Average dwarf mistletoe rating for infected-only trees of that species.
+
+                                         TPA INFECTED       TPA MORTALITY         % TPA           % TPA        COMPOSITION
+YEAR    MEAN DMR        MEAN DMI           WITH DM             FROM DM           INFECTED       MORTALITY    OF STAND (%TPA)
+---- --------------- --------------- ------------------- ------------------- --------------- --------------- ---------------
+      PP  **  **  **  PP  **  **  **  PP   **   **   **   PP   **   **   **   PP  **  **  **  PP  **  **  **  PP  **  **  **
+     --- --- --- --- --- --- --- --- ---- ---- ---- ---- ---- ---- ---- ---- --- --- --- --- --- --- --- --- --- --- --- ---
+2014 2.8 0.0 0.0 0.0 5.0 0.0 0.0 0.0   29    0    0    0    6    0    0    0  56   0   0   0  13   0   0   0  37   0   0   0
+2018 2.8 0.0 0.0 0.0 4.9 0.0 0.0 0.0   28    0    0    0    3    0    0    0  57   0   0   0   6   0   0   0  36   0   0   0
+2028 2.6 0.0 0.0 0.0 4.8 0.0 0.0 0.0   22    0    0    0    5    0    0    0  54   0   0   0  11   0   0   0  33   0   0   0
+2038 2.4 0.0 0.0 0.0 4.5 0.0 0.0 0.0   19    0    0    0    4    0    0    0  33   0   0   0   7   0   0   0  22   0   0   0
+2048 2.2 0.0 0.0 0.0 4.1 0.0 0.0 0.0   17    0    0    0    3    0    0    0  36   0   0   0   7   0   0   0  22   0   0   0
+2058 2.1 0.0 0.0 0.0 3.9 0.0 0.0 0.0   15    0    0    0    3    0    0    0  33   0   0   0   6   0   0   0  22   0   0   0
+
+
+----------------------------------------------------------------------------------------------------------------------------
+                        DWARF MISTLETOE INFECTION AND MORTALITY STATISTICS SUMMARY TABLE
+                                          (STAND COMPOSITE; PER ACRE)
+----------------------------------------------------------------------------------------------------------------
+
+Stand ID: 01160805050012               Management Code: A001   Revision code: 991201
+
+DMRs and DMIs calculated for trees with DBH >= 1.0
+MEAN DMR = Average dwarf mistletoe rating for all trees in the stand.              * --WARNING-- Calculation may
+MEAN DMI = Average dwarf mistletoe rating for infected-only trees in the stand.         include nonhost species.
+
+               START OF CYCLE        DM INFECTION         DM MORTALITY
+             ------------------   ------------------   ------------------                               *
+             TREES   BA    VOL    TREES   BA    VOL    TREES   BA    VOL    %TPA  %VOL   %TPA  %VOL   MEAN  MEAN
+YEAR   AGE   /ACRE  SQFT  CU FT   /ACRE  SQFT  CU FT   /ACRE  SQFT  CU FT    INF   INF   MORT  MORT    DMR   DMI
+----   ---   -----  ----  -----   -----  ----  -----   -----  ----  -----   ----  ----   ----  ----   ----  ----
+2014     0     140    87   2020      29    20    463       6     4    100     21    23      5     5    1.0   5.0
+2018     4     135    89   2145      28    22    533       3     2     48     20    25      2     2    1.0   4.9
+2028    14     124    96   2481      22    22    556       5     4    101     18    22      4     4    0.9   4.8
+2038    24     254   103   2818      19    21    588       4     3     95      7    21      1     3    0.7   4.5
+2048    34     214   111   3190      17    24    687       3     3     86      8    22      1     3    0.6   4.1
+2058    44     204   118   3573      15    26    779       3     3     89      7    22      1     2    0.6   3.9
+
+
+         FOREST VEGETATION SIMULATOR     VERSION 2906 -- INLAND EMPIRE EXPANDED                 RV:20200101    01-22-2020  09:45:04
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+                                                OPTIONS SELECTED BY INPUT
+
+KEYWORD FILE NAME: compress
+----------------------------------------------------------------------------------------------------------------------------------
+KEYWORD    PARAMETERS:
+--------   -----------------------------------------------------------------------------------------------------------------------
+
+STDIDENT
+           STAND ID= 01160805050012                                                                                            
+
+STANDCN    DATA BASE CONTROL NUMBER=212701010354
+
+MGMTID  
+           MANAGEMENT ID= A001
+
+INVYEAR    INVENTORY YEAR= 2014
+
+TIMEINT    ALL CYCLES;  PERIOD LENGTH= 10
+
+TIMEINT    CYCLE=  1; PERIOD LENGTH=  4
+
+NUMCYCLE   NUMBER OF CYCLES=  5
+
+DELOTAB    TABLE NUMBER   1  SPECIFIED.  STAND COMPOSITION TABLE WILL BE DELETED.
+
+DELOTAB    TABLE NUMBER   2  SPECIFIED.  SAMPLE TREE TABLE WILL BE DELETED.
+
+DELOTAB    TABLE NUMBER   4  SPECIFIED.  ACTIVITY SCHEDULE TABLE WILL BE DELETED.
+
+
+            
+
+DATABASE   DATABASE KEYWORDS:
+
+DSNIN      INPUT DATA BASE IS FVS_Data.db
+
+STANDSQL   STANDSQL COMMAND FOR INPUT DATA BASE: FVS_Data.db
+           SELECT * FROM FVS_StandInit
+           WHERE Stand_CN= '%Stand_CN%'
+
+           STAND-LEVEL DATA BASE READ:
+           INV_YEAR:               2014
+           REGION:                    1
+           FOREST:                   16
+           DISTRICT:                  8
+            COMPOSITE LOC:          116
+           LONGITUDE:          115.4594
+           LATITUDE:            47.5772
+
+           HABITAT TYPE WILL BE MAPPED TO 260 FOR THIS PROJECTION.
+           HABITAT/PV_CODE:         262
+           PV REFERENCE CODE:       101
+           ASPECT:                120.0
+           SLOPE:                 60.00
+           ELEVFT:               3300.0 CONVERTED TO:   33.0
+           BASAL_AREA_FACTOR:       0.0
+           INV_PLOT_SIZE:            1.
+           BRK_DBH:               999.0
+           NUM_PLOTS:                 6
+           SAM_WT:            26.000000
+           STK_PCNT:              1.000
+           DG_TRANS:                  0
+           DG_MEASURE:               10
+           HTG_TRANS:                 0
+           HTG_MEASURE:               5
+           MORT_MEASURE:              5
+           END OF DATA BASE READ.
+
+TREESQL    TREESQL COMMAND FOR INPUT DATA BASE: FVS_Data.db
+           SELECT * FROM FVS_TreeInit
+           WHERE Stand_CN= '%Stand_CN%'
+           STAND_CN           WAS IGNORED
+           STAND_ID           WAS IGNORED
+           STANDPLOT_CN       WAS IGNORED
+           STANDPLOT_ID       WAS IGNORED
+           PLOT_ID            WAS USED
+           TREE_ID            WAS USED
+           TREE_COUNT         WAS USED
+           HISTORY            WAS USED
+           SPECIES            WAS USED
+           DBH                WAS USED
+           DG                 WAS USED
+           HT                 WAS USED
+           HTG                WAS USED
+           HTTOPK             WAS USED
+           CRRATIO            WAS USED
+           DAMAGE1            WAS USED
+           SEVERITY1          WAS USED
+           DAMAGE2            WAS USED
+           SEVERITY2          WAS USED
+           DAMAGE3            WAS USED
+           SEVERITY3          WAS USED
+           TREEVALUE          WAS USED
+           PRESCRIPTION       WAS USED
+           AGE                WAS USED
+           SLOPE              WAS USED
+           ASPECT             WAS USED
+           PV_CODE            WAS USED
+           TOPOCODE           WAS USED
+           SITEPREP           WAS USED
+           NUMBER ROWS PROCESSED:   27
+
+END        END OF DATA BASE OPTIONS.
+
+
+            
+
+COMPRESS   DATE/CYCLE=    3; TARGET TREE RECORDS= 100.; FIND   50. PERCENT OF THE NEW RECORDS BY DEFINING
+           TREE-CLASS BOUNDARIES WHERE THE LARGEST DIFFERENCES ARE BETWEEN TREES.  DEFINE THE REMAINING
+           CLASSES BY SPLITTING THOSE WHICH HAVE THE LARGEST RANGES.
+
+
+            
+
+COMPUTE    DATE/CYCLE=    0; DEFINE THE FOLLOWING:
+
+           myNtrees = NumTrees
+
+END
+
+
+            
+
+PROCESS    PROCESS THE STAND.
+----------------------------------------------------------------------------------------------------------------------------------
+
+                                                OPTIONS SELECTED BY DEFAULT
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+TREEFMT    (I4,T1,I7,F6.0,I1,A3,F4.1,F3.1,2F3.0,F4.1,I1,3(I2,I2),2I1,I2,2I3,2I1,F3.0)      
+                                                                                           
+
+DESIGN     BASAL AREA FACTOR=    0.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
+           NUMBER OF PLOTS=     6; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=    26.00000
+           PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+
+STDINFO    FOREST-LOCATION CODE=     116; HABITAT TYPE=260; AGE=    0; ASPECT AZIMUTH IN DEGREES= 120.; SLOPE=  60.%
+           ELEVATION(100'S FEET)= 33.0;  REFERENCE CODE= 101 
+
+SPECIES      WP      WL      DF      GF      WH      RC      LP      ES      AF      PP
+SDI MAX     669.    669.    669.    669.    669.    669.    669.    669.    669.    669.
+
+SPECIES      MH      WB      LM      LL      PI      RM      PY      AS      CO      MM
+SDI MAX     669.    669.    669.    669.    669.    669.    669.    669.    669.    669.
+
+SPECIES      PB      OH      OS
+SDI MAX     669.    669.    669.
+
+           ALPHA SPECIES - FIA CODE CROSS REFERENCE:
+            WP=  119 ;  WL=  073 ;  DF=  202 ;  GF=  017 ;  WH=  263 ;  RC=  242 ;  LP=  108 ;  ES=  093 ; AF=  019 
+            PP=  122 ;  MH=  264 ;  WB=  101 ;  LM=  113 ;  LL=  072 ;  PI=  106 ;  RM=  066 ;  PY=  231 ; AS=  746 
+            CO=  740 ;  MM=  321 ;  PB=  375 ;  OH=  998 ;  OS=  298 
+
+                                  NATIONAL VOLUME ESTIMATOR LIBRARY EQUATION NUMBERS
+SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT 
+------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- 
+  WP    I00FW2W119 I00FW2W119   WL    I00FW2W073 I00FW2W073   DF    I00FW2W202 I00FW2W202   GF    I00FW2W017 I00FW2W017
+  WH    I00FW2W260 I00FW2W260   RC    I00FW2W242 I00FW2W242   LP    I00FW2W108 I00FW2W108   ES    I00FW2W093 I00FW2W093
+  AF    I00FW2W019 I00FW2W019   PP    I00FW2W122 I00FW2W122   MH    I00FW2W260 I00FW2W260   WB    I00FW2W012 I00FW2W012
+  LM    I00FW2W073 I00FW2W073   LL    I00FW2W019 I00FW2W019   PI    102DVEW106 102DVEW106   RM    102DVEW106 102DVEW106
+  PY    616BEHW231 616BEHW231   AS    102DVEW746 102DVEW746   CO    102DVEW740 102DVEW740   MM    200DVEW746 200DVEW746
+  PB    101DVEW375 101DVEW375   OH    200DVEW746 200DVEW746   OS    I00FW2W260 I00FW2W260
+
+SITECODE   SITE INDEX INFORMATION:
+            WP=    0.;  WL=    0.;  DF=    0.;  GF=    0.;  WH=    0.;  RC=    0.;  LP=    0.;  ES=    0.; AF=    0.
+            PP=    0.;  MH=    0.;  WB=    0.;  LM=   35.;  LL=    0.;  PI=   12.;  RM=   10.;  PY=   35.; AS=   50.
+            CO=   62.;  MM=   50.;  PB=   50.;  OH=   62.;  OS=    0.
+           SITE SPECIES=DF CODE=    3
+
+INVENTORY POINT CROSS REFERENCE (FVS SEQUENTIAL POINT NUMBER = POINT NUMBER AS ENTERED IN THE INPUT DATA):
+  1=       1;   2=       2;   3=       3;   4=       4;   5=       5;   6=       6
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+CALIBRATION STATISTICS:
+
+
+                                                 DF    GF    PP
+                                                ----  ----  ----
+
+NUMBER OF RECORDS PER SPECIES                     14     1    12
+
+NUMBER OF RECORDS CODED AS RECENT MORTALITY        1     0     0
+
+NUMBER OF RECORDS WITH MISSING HEIGHTS             0     0     0
+
+NUMBER OF RECORDS WITH BROKEN OR DEAD TOPS         1     0     0
+
+NUMBER OF RECORDS WITH MISSING CROWN RATIOS        0     0     0
+
+NUMBER OF RECORDS AVAILABLE FOR SCALING
+THE DIAMETER INCREMENT MODEL                       9     1     8
+
+RATIO OF STANDARD ERRORS
+(INPUT DBH GROWTH DATA : MODEL)                 0.97  1.00  0.42
+
+WEIGHT GIVEN TO THE INPUT GROWTH DATA WHEN
+DBH GROWTH MODEL SCALE FACTORS WERE COMPUTED    0.74  0.00  0.81
+
+INITIAL SCALE FACTORS FOR THE
+DBH INCREMENT MODEL                             0.98  1.00  1.06
+
+NUMBER OF RECORDS AVAILABLE FOR SCALING
+THE SMALL TREE HEIGHT INCREMENT MODEL             0     0     0
+
+INITIAL SCALE FACTORS FOR THE SMALL TREE
+HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
+
+NUMBER OF RECORDS WITH MISTLETOE                   0     0     6
+
+
+         FOREST VEGETATION SIMULATOR     VERSION 2906 -- INLAND EMPIRE EXPANDED                 RV:20200101    01-22-2020  09:45:04
+
+STAND ID: 01160805050012                MGMT ID: A001    
+
+
+
+                                SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL STAND AREA)
+--------------------------------------------------------------------------------------------------------------------------------------
+               START OF SIMULATION PERIOD                     REMOVALS             AFTER TREATMENT    GROWTH THIS PERIOD
+         --------------------------------------------- ----------------------- ---------------------  ------------------   MAI  ------
+         NO OF              TOP      TOTAL MERCH MERCH NO OF TOTAL MERCH MERCH              TOP  RES  PERIOD ACCRE MORT   MERCH FOR SS
+YEAR AGE TREES  BA  SDI CCF HT  QMD  CU FT CU FT BD FT TREES CU FT CU FT BD FT  BA  SDI CCF HT   QMD  YEARS   PER  YEAR   CU FT TYP ZT
+---- --- ----- --- ---- --- --- ---- ----- ----- ----- ----- ----- ----- ----- --- ---- --- --- ----  ------ ---- -----   ----- ------
+2014   0   140  87  155  83  69 10.6  2020  1657  8211     0     0     0     0  87  155  83  69 10.6       4   48    17     0.0 201 13
+2018   4   135  89  158  85  70 11.0  2145  1821  9218     0     0     0     0  89  158  85  70 11.0      10   50    16     0.0 201 13
+2028  14   124  96  165  91  74 11.9  2481  2115 10674     0     0     0     0  96  165  91  74 11.9      10   51    19     0.0 201 13
+2038  24   253 102  199  95  77  8.6  2800  2388 12391     0     0     0     0 102  199  95  77  8.6      10   51    17     0.0 201 13
+2048  34   213 109  202  99  81  9.7  3134  2790 15070     0     0     0     0 109  202  99  81  9.7      10   49    18     0.0 201 13
+2058  44   203 114  208 102  84 10.2  3439  3083 16552     0     0     0     0 114  208 102  84 10.2       0    0     0     0.0 201 13
+
+
+
+
+                                                     ACTIVITY SUMMARY 
+
+STAND ID= 01160805050012                MGMT ID= A001                                                                            
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+CYCLE  DATE  EXTENSION  KEYWORD   DATE  ACTIVITY DISPOSITION  PARAMETERS:
+-----  ----  ---------  --------  ----  --------------------  --------------------------------------------------------------------
+
+   1   2014
+               CMPU     MYNTREES  2014  DONE IN 2014              26.0000
+
+   2   2018
+               CMPU     MYNTREES  2018  DONE IN 2018              78.0000
+
+   3   2028
+               CMPU     MYNTREES  2028  DONE IN 2028             234.0000
+               BASE     COMPRESS  2028  DONE IN 2028             100.0000    50.0000
+
+   4   2038
+               CMPU     MYNTREES  2038  DONE IN 2038             169.0000
+
+   5   2048
+               CMPU     MYNTREES  2048  DONE IN 2048             169.0000
+----------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+                REGENERATION ESTABLISHMENT MODEL VERSION 2.0
+        STAND ID: 01160805050012                 MANAGEMENT CODE: A001
+----------------------------------------------------------------------------
+  139.5 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2037
+
+   SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
+   SPECIES:  PB   OH   OS
+
+TREES/ACRE:   0.   0.  96.  22.   0.   0.   0.   0.   0.  21.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+TREES/ACRE:   0.   0.   0.
+
+----------------------------------------------------------------------------
+                REGENERATION ESTABLISHMENT MODEL VERSION 2.0
+        STAND ID: 01160805050012                 MANAGEMENT CODE: A001
+----------------------------------------------------------------------------
+   22.4 INGROWTH TREES/ACRE ADDED IN THE FALL OF 2057
+
+   SPECIES:  WP   WL   DF   GF   WH   RC   LP   ES   AF   PP   MH   WB   LM   LL   PI   RM   PY   AS   CO   MM
+   SPECIES:  PB   OH   OS
+
+TREES/ACRE:   0.   2.  12.   2.   0.   0.   0.   0.   0.   5.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+TREES/ACRE:   0.   0.   0.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+                              DWARF MISTLETOE INFECTION AND MORTALITY STATISTICS SUMMARY TABLE
+                                         (BY SPECIES; TOP 4 MOST INFECTED SPECIES)
+----------------------------------------------------------------------------------------------------------------------------
+
+Stand ID: 01160805050012               Management Code: A001   Revision code: 991201
+
+DMRs and DMIs calculated for trees with DBH >= 1.0
+MEAN DMR = Average dwarf mistletoe rating for all trees of that species.
+MEAN DMI = Average dwarf mistletoe rating for infected-only trees of that species.
+
+                                         TPA INFECTED       TPA MORTALITY         % TPA           % TPA        COMPOSITION
+YEAR    MEAN DMR        MEAN DMI           WITH DM             FROM DM           INFECTED       MORTALITY    OF STAND (%TPA)
+---- --------------- --------------- ------------------- ------------------- --------------- --------------- ---------------
+      PP  **  **  **  PP  **  **  **  PP   **   **   **   PP   **   **   **   PP  **  **  **  PP  **  **  **  PP  **  **  **
+     --- --- --- --- --- --- --- --- ---- ---- ---- ---- ---- ---- ---- ---- --- --- --- --- --- --- --- --- --- --- --- ---
+2014 2.8 0.0 0.0 0.0 5.0 0.0 0.0 0.0   29    0    0    0    6    0    0    0  56   0   0   0  13   0   0   0  37   0   0   0
+2018 2.8 0.0 0.0 0.0 4.9 0.0 0.0 0.0   28    0    0    0    3    0    0    0  57   0   0   0   6   0   0   0  36   0   0   0
+2028 2.6 0.0 0.0 0.0 4.8 0.0 0.0 0.0   22    0    0    0    5    0    0    0  54   0   0   0  11   0   0   0  33   0   0   0
+2038 2.6 0.0 0.0 0.0 4.4 0.0 0.0 0.0   20    0    0    0    4    0    0    0  36   0   0   0   7   0   0   0  22   0   0   0
+2048 2.3 0.0 0.0 0.0 4.1 0.0 0.0 0.0   17    0    0    0    3    0    0    0  37   0   0   0   7   0   0   0  21   0   0   0
+2058 2.2 0.0 0.0 0.0 3.8 0.0 0.0 0.0   15    0    0    0    3    0    0    0  35   0   0   0   7   0   0   0  21   0   0   0
+
+
+----------------------------------------------------------------------------------------------------------------------------
+                        DWARF MISTLETOE INFECTION AND MORTALITY STATISTICS SUMMARY TABLE
+                                          (STAND COMPOSITE; PER ACRE)
+----------------------------------------------------------------------------------------------------------------
+
+Stand ID: 01160805050012               Management Code: A001   Revision code: 991201
+
+DMRs and DMIs calculated for trees with DBH >= 1.0
+MEAN DMR = Average dwarf mistletoe rating for all trees in the stand.              * --WARNING-- Calculation may
+MEAN DMI = Average dwarf mistletoe rating for infected-only trees in the stand.         include nonhost species.
+
+               START OF CYCLE        DM INFECTION         DM MORTALITY
+             ------------------   ------------------   ------------------                               *
+             TREES   BA    VOL    TREES   BA    VOL    TREES   BA    VOL    %TPA  %VOL   %TPA  %VOL   MEAN  MEAN
+YEAR   AGE   /ACRE  SQFT  CU FT   /ACRE  SQFT  CU FT   /ACRE  SQFT  CU FT    INF   INF   MORT  MORT    DMR   DMI
+----   ---   -----  ----  -----   -----  ----  -----   -----  ----  -----   ----  ----   ----  ----   ----  ----
+2014     0     140    87   2020      29    20    463       6     4    100     21    23      5     5    1.0   5.0
+2018     4     135    89   2145      28    22    533       3     2     48     20    25      2     2    1.0   4.9
+2028    14     124    96   2481      22    22    556       5     4    101     18    22      4     4    0.9   4.8
+2038    24     253   102   2800      20    24    648       4     4    106      8    23      2     4    0.8   4.4
+2048    34     213   109   3134      17    23    670       3     3     93      8    21      1     3    0.7   4.1
+2058    44     203   114   3439      15    27    811       3     3     92      8    24      1     3    0.6   3.8

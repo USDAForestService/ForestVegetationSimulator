@@ -42,6 +42,12 @@ iedb :
 	-diff -w ie.db_dump.txt ie.db_dump.txt.save
 	@echo Test ie ended
 
+compress : 	
+	@echo Test ie compres
+	-$(WINE) ../../bin/qFVSie --keywordfile=compress.key 
+	-diff -w compress.out compress.out.save
+	@echo Compress test ended
+
 calibStats : 	
 	@echo Test FVS_CalibStats read and write
 	rm -f calibStats.db

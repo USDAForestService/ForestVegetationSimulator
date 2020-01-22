@@ -118,6 +118,7 @@ c     MRULES IS EXTERNAL AND CONTAINS THE MERCHANDIZING RULES SETTINGS
      >    VOLEQ(4:6).EQ.'CUR' .OR. VOLEQ(4:6).EQ.'cur')  THEN
        
         TOPD = MTOPP
+        MHT = 0
         IF(HTTOT.LE.0) THEN
 C  no total height
            HTFLG = 1  
