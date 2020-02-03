@@ -290,7 +290,9 @@ c         FDAT(1) = X2
 c         FDAT(2) = F2
 c         call SMESS(MACT1, MTXTAC, IDAT, FDAT)
       else if (MODE .ne. 0) then
-         if (LMODE - 1) 70, 80, 450
+         if (LMODE - 1 .LT. 0) goto 70
+         if (LMODE - 1 .EQ. 0) goto 80
+         goto 450
       ENDIF
 c
       if (RND .eq. C0) then
@@ -310,9 +312,16 @@ c
       KS = -1
       XX = X1
       FF = F1
-      if (FL) 40, 75, 50
-   40 if (FF) 60, 230, 100
-   50 if (FF) 100, 230, 60
+c old      if (FL) 40, 75, 50
+      if (FL .GT. 0) goto 50
+      if (FL .EQ. 0) goto 75
+c old  40 if (FF) 60, 230, 100
+      if (FF .GT. 0) goto 100
+      if (FF .EQ. 0) goto 230
+      goto 60
+c old  50 if (FF) 100, 230, 60
+   50 if (FF .LT. 0) goto 100
+      if (FF .EQ. 0) goto 230
    60 LMODE = 0
 c             Take care of points on same side of zero.
    70 FF = F1
@@ -357,8 +366,10 @@ c
 c ENTRY AFTER COMPUTING F FOR THE LAST ITERATE
    80 FF = F1
       TP = FF / FL
-      if (TP) 90, 230, 110
-   90 TP = FF / FO
+c old      if (TP) 90, 230, 110
+      if (TP.EQ.0) goto 230
+      if (TP.GT.0) goto 110
+      TP = FF / FO
       KS = 0
   100 FO = FL
       XO = XL
@@ -366,8 +377,10 @@ c ENTRY AFTER COMPUTING F FOR THE LAST ITERATE
   110 KS = KS + 1
   120 J = 1
       if (FF .gt. C0) J = 2
-      if (TP - C1) 150, 140, 130
-  130 I = 4
+c old      if (TP - C1) 150, 140, 130
+      if (TP - C1 .lt. 0) goto 150
+      if (TP - C1 .eq. 0) goto 140
+      I = 4
       if (TP .gt. C4) I = 5
       go to 160
   140 I = 3
@@ -393,8 +406,7 @@ c THE ZERO IS KNOWN TO LIE.
       XRND = RND * (abs(XX) + abs(XO) + SMALL)
 c
 c TEST FOR CONVERGENCE
-      if (TOL) 190, 200, 200
-  190 continue
+      if (TOL.ge.0) goto 200
       if (abs(FF) .le. abs(TOL)) go to 220
   200 continue
       TOLX = max(TOL, XRND)
@@ -427,14 +439,17 @@ c TEST FOR DISCONTINUITY
         FDAT(1) = XX
       ENDIF
   250 MODE = INDIC
-      if (INDIC - 2) 420, 420, 430
+      if (INDIC - 2 .le. 0) goto 420
+      goto 430
 c END OF CODE FOR FINAL EXIT
 c
 c F NOT DECREASING (OR THE FIRST ITERATE)
 c PREPARE TO DIVIDE THE INTERVAL
   260 TP = C1
-      if (KS) 370, 280, 270
-  270 if (KTYP .eq. 0) go to 290
+c old      if (KS) 370, 280, 270
+      if (KS.le.0) goto 370
+      if (KS.eq.0) goto 280
+      if (KTYP .eq. 0) go to 290
   280 DIV = C2
   290 continue
       DIV = max(DIV, FFDFO)
@@ -454,8 +469,9 @@ c
       if (TP .ge. C1) go to 260
 c DIVIDE THE INTERVAL IF F HAS HAD THE SAME SIGN FOR
 c FOUR OR MORE TIMES IN SUCCESSION
-      if (KS - 4) 320, 340, 290
-  320 continue
+c old      if (KS - 4) 320, 340, 290
+      if (KS - 4.eq.0) goto 340
+      if (KS - 4.gt.0) goto 290
       if (FLMFB .eq. C0) go to 340
 c BEGINNING OF CODE TO DETERMINE IF INVERSE QUADRATIC
 c INTERPOLATION IS TO BE USED.
@@ -475,7 +491,12 @@ c INTERPOLATION IS TO BE USED.
 c
 c DERIVATIVES DO NOT MATCH WELL ENOUGH
   330 continue
-      if (KS .eq. 0) if (FFDFO - C1) 350, 370, 360
+c old      if (KS .eq. 0) if (FFDFO - C1) 350, 370, 360
+      if (KS .eq. 0) then
+      	  if (FFDFO - C1.lt.0) goto 350
+      	  if (FFDFO - C1.eq.0) goto 370
+      	  if (FFDFO - C1.gt.0) goto 360
+      endif
   340 continue
       if ((KTYP .eq. 0) .and. (TP .ge. CP75)) go to 290
       continue
@@ -672,7 +693,7 @@ c
       save TEST, IMACH, RMACH, DMACH
 C     -----------------------------------------------------------------
 C     Machine constants for IEEE standard binary floating-point
-c     processors.  This includes PC's and work-stations using the
+c     processors.  This includes PCs and work-stations using the
 c     Intel 8087, 80287, 80387, ... processors or the
 c     Motorola 68881, 68882, ... processors.
 c     Note:  We are setting the "most negative exponent" (IMACH(12) and
@@ -868,7 +889,7 @@ C      PARAMETER (IM10 =2, IM11 =27, IM12 =-128, IM13 =127)
 C      PARAMETER (IM14 =62, IM15 =-128, IM16 =127, IM17=0)
 CC     -----------------------------------------------------------------
 c++ Code for SYS = PDP11 is INACTIVE
-CC     MACHINE CONSTANTS FOR PDP-11 FORTRAN'S SUPPORTING
+CC     MACHINE CONSTANTS FOR PDP-11 FORTRANS SUPPORTING
 CC     16-BIT INTEGER ARITHMETIC.
 C
 C      PARAMETER (IM1 =5, IM2 =6, IM3 =7, IM4 =6)
@@ -964,7 +985,7 @@ C
       PARAMETER (DBASE = IM10)
 C
 C     Weird subterfuges below are NECESSARY to compute DM1 and DM2 on
-C     some systems.  DON'T SIMPLIFY THEM.
+C     some systems.  DONT SIMPLIFY THEM.
       PARAMETER (DM1 = (DBASE**(IM15/2)) * (DBASE**(IM15-IM15/2-1)))
       PARAMETER (DM2 = DBASE**(IM16-IM14) * ((DBASE**IM14 - DBASE)
      1               + (DBASE - 1.0D0)))

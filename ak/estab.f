@@ -191,10 +191,11 @@ C
       AGEPL(I)=0.0
       AGEXC(I)=0.0
    40 CONTINUE
-      DO 41 I=1,2
-      DO 41 N=1,NOFSPE
-      FIRST(I,N)=0.1
-   41 CONTINUE
+      DO I=1,2
+        DO N=1,NOFSPE
+          FIRST(I,N)=0.1
+        ENDDO
+      ENDDO
       TCROP1=0.0
       TCROP2=0.0
       TTOTTP=0.0
@@ -248,7 +249,7 @@ C
       IFO=4
     5 CONTINUE
 C
-C     IF NOT THE FIRST TALLY, CANCEL MECH & BURNPREP'S IN THIS CYCLE.
+C     IF NOT THE FIRST TALLY, CANCEL MECH & BURNPREPS IN THIS CYCLE.
 C
       IF(NTALLY.GT.1) THEN
         CALL OPFIND (2,MYACTS(3),NTODO)
@@ -795,10 +796,11 @@ C
    53 CONTINUE
       IF(NTALLY.EQ.1) CALL ESPADV (RTOP40)
       CALL ESPSUB (RTOP40)
-      DO 62 I=1,2
-      DO 62 N=1,NOFSPE
-      ICHOI(I,N)=0
-   62 CONTINUE
+      DO I=1,2
+        DO N=1,NOFSPE
+          ICHOI(I,N)=0
+        ENDDO
+      ENDDO
       DO 63 I=1,NOFSPE
       CALL ESRANN (DRAW)
       IF(IBEST(I).NE.1) GO TO 63

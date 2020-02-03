@@ -99,10 +99,11 @@ C
       DO 40 I= 1,99
       AGEPL(I)= 0.0
    40 CONTINUE
-      DO 41 I=1,2
-      DO 41 N=1,NOFSPE
-      FIRST(I,N)=0.1
-   41 CONTINUE
+      DO I=1,2
+        DO N=1,NOFSPE
+          FIRST(I,N)=0.1
+        ENDDO
+      ENDDO
       TCROP1=0.0
       TCROP2=0.0
       TTOTTP=0.0
@@ -689,7 +690,8 @@ C----------
       CALL CWCALC(ISP(I),PROB(I),DBH(I),HT(I),CRDUM,
      &            ICR(I),CW,0,JOSTND)
       CRWDTH(I)=CW
-      ABIRTH(I)= ABIRTH(I)+GENTIM  230 CONTINUE
+      ABIRTH(I)= ABIRTH(I)+GENTIM
+  230 CONTINUE
 C
 C     PRINT REGENERATION SUMMARY
 C

@@ -61,7 +61,7 @@ C     ---- ----- ------- ------ | --------------- ---     | --------
 C       1    WP   PIMO   1.0 FT | BITTERROOT(103)  3      | 1=BOTTOM
 C       2    L    LAOC   1.0 FT | PANHANDLE (104)  4      | 2=LOWER
 C       3    DF   PSME   1.0 FT | CLEARWATER(105)  5      | 3=MID
-C       4    GF   ABGR   0.5 FT | COEUR D'A.(106)  4      | 4=UPPER
+C       4    GF   ABGR   0.5 FT | COEUR D A.(106)  4      | 4=UPPER
 C       5    WH   TSHE   0.5 FT | COLVILLE  (621)  7      | 5=RIDGE
 C       6    C    THPL   0.5 FT | FLATHEAD  (110) 10
 C       7    LP   PICO   1.0 FT | KANIKSU   (113)  4 ->DEERLODGE(109) 9
@@ -176,10 +176,11 @@ C
       AGEXC(I)=0.0
 C
    40 CONTINUE
-      DO 41 I=1,2
-      DO 41 N=1,NOFSPE
-      FIRST(I,N)=0.1
-   41 CONTINUE
+      DO I=1,2
+        DO N=1,NOFSPE
+          FIRST(I,N)=0.1
+        ENDDO
+      ENDDO
       TCROP1=0.0
       TCROP2=0.0
       TTOTTP=0.0
@@ -217,7 +218,7 @@ C
       IFO=4
     5 CONTINUE
 C
-C     IF NOT THE FIRST TALLY, CANCEL MECH & BURNPREP'S IN THIS CYCLE.
+C     IF NOT THE FIRST TALLY, CANCEL MECH & BURN PREPS IN THIS CYCLE.
 C
       IF(NTALLY.GT.1) THEN
         CALL OPFIND (2,MYACTS(3),NTODO)
@@ -765,16 +766,17 @@ C
 C
 C     DETERMINE ADV/SUBS STATUS OF THE FIRST TREE OF EACH SPECIES.
 C
-      DO 53 I=1,NOFSPE
-      PADV(I)=0.0
-      PSUB(I)=0.0
-   53 CONTINUE
+      DO I=1,NOFSPE
+        PADV(I)=0.0
+        PSUB(I)=0.0
+      ENDDO
       IF(NTALLY.EQ.1) CALL ESPADV
       CALL ESPSUB
-      DO 62 I=1,2
-      DO 62 N=1,NOFSPE
-      ICHOI(I,N)=0
-   62 CONTINUE
+      DO I=1,2
+        DO N=1,NOFSPE
+          ICHOI(I,N)=0
+        ENDDO
+      ENDDO
       DO 63 I=1,NOFSPE
       CALL ESRANN (DRAW)
       IF(IBEST(I).NE.1) GO TO 63

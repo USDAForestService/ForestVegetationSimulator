@@ -39,11 +39,12 @@ C----------
       DATA NS/'---'/
       IF (ITRN.LE.0) GOTO 30
       J=0
-      DO 10 I1=1,MAXSP
-      DO 10 I2=1,3
-      J=J+1
-      WORK1(J)=ATTR(I1,I2)
-   10 CONTINUE
+      DO I1=1,MAXSP
+        DO I2=1,3
+          J=J+1
+          WORK1(J)=ATTR(I1,I2)
+        ENDDO
+      ENDDO
 C----------
 C  SORT THE ATTRIBUTE ARRAY IN DESCENDING ORDER.
 C----------

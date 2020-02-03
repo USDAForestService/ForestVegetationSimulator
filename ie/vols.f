@@ -84,15 +84,12 @@ C-----------
       HT2TD(I,J)=0.
       ENDDO
       ENDDO
-      IF (ITRN.LE.0) GOTO 2
-      DO 1 I=1,MAXSP
-      DO 1 J=1,3
-      SPCCC(I,J)=0.0
-      SPCAC(I,J)=0.0
-      SPCMC(I,J)=0.0
-      SPCBV(I,J)=0.0
-    1 CONTINUE
-    2 CONTINUE
+      IF (ITRN.GT.0) THEN 
+        SPCCC=0.0
+        SPCAC=0.0
+        SPCMC=0.0
+        SPCBV=0.0
+      ENDIF
       IPASS=1
       ILOW=1
       IHI=ITRN

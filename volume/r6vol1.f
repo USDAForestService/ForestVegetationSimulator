@@ -50,10 +50,11 @@ C IFTR(127-132) APPLY ONLY TO  8-FT LOGS WITH DIB (6-11)
 
 
 C     ***** CLEAR PREVIOUS TREE *****
-      DO 10 I=1,20
+      DO I=1,20
         INTBF(I) = 0
         LOGVOL(1,I) = 0
-   10   LOGVOL(4,I) = 0
+        LOGVOL(4,I) = 0
+      ENDDO
 
          X = 0.0
 
@@ -92,7 +93,8 @@ C     ***** PROPORTIONATE 32-FT SCALE BY LOG HALFS *****
       ITOPGV = INT(REAL(IV32) * R + 0.5)
       IBOTGV = IV32 - ITOPGV
       LOGVOL(1,I+1) = ITOPGV
-   20 LOGVOL(1,I) = IBOTGV
+      LOGVOL(1,I) = IBOTGV
+   20 CONTINUE
       GO TO 60
                     
 C     ***** SINGLE 16-FT LOG (TOP OR BUTT OF TREE) *****
@@ -116,7 +118,8 @@ C  INTERNATIONAL BDFT
       CALL INTL14(LOGDIA(I,1),16.0,BFINT)
       INTBF(I) = BFINT
 
-   50 LOGVOL(1,I) = IG
+      LOGVOL(1,I) = IG
+   50 CONTINUE
 
       X = XLOGS - LOGS
       IF (X.EQ.0.0) GO TO 60
@@ -145,8 +148,9 @@ C     ***** EASTSIDE HALF LOG AT TOP *****
      >                                    LOGDIA(LOGS,1)**2*F)/2.0*8.0
 
 C     ***** REMAINING LOGS *****
-   70 DO 80 I=2,LOGS
-   80    LOGVOL(4,I) = (LOGDIA(I,1)**2 * F  +  
+   70 DO I=2,LOGS
+        LOGVOL(4,I) = (LOGDIA(I,1)**2 * F  +  
      >                              LOGDIA(I-1,1)**2 * F) / 2.0 * 16.0
+      ENDDO
       RETURN
       END

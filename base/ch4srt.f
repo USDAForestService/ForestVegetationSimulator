@@ -38,8 +38,9 @@ C----------
 C  LOAD IND WITH VALUES FROM 1 TO N.
 C----------
       IF (LSEQ) THEN
-      DO 10 I=1,N
-   10 INDEX(I)=I
+        DO I=1,N
+          INDEX(I)=I
+        ENDDO
       ENDIF
 C----------
 C  RETURN IF FEWER THAN TWO ELEMENTS IN ARRAY A.

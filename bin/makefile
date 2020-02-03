@@ -84,6 +84,7 @@ export FC = gfortran
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero -fbacktrace
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fbacktrace -fcheck=all -fcheck=bounds
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow -fcheck=bounds -fbacktrace 
+#export FFLAGS = $(PIC) -g -Wall -Wno-unused-dummy-argument -Wno-integer-division -ffpe-trap=invalid,zero,underflow,overflow,denormal -fbacktrace 
 export FFLAGS = $(PIC) -g -Wall -Wno-integer-division -ffpe-trap=invalid,zero,underflow,overflow,denormal -fbacktrace 
 #export FFLAGS = $(PIC) -g -Wall -ffpe-trap=invalid,zero,underflow,overflow,denormal -fbacktrace -fcheck=all -fcheck=bounds 
 export CC = gcc

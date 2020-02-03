@@ -30,10 +30,11 @@ C----------
 C  IF LSEQ IS FALSE, ASSUME THAT A IS PARTIALLY
 C  SORTED.  OTHERWISE, LOAD IND WITH VALUES FROM 1 TO N.
 C----------
-      IF(.NOT.LSEQ) GO TO 20
-      DO 10 I=1,N
-   10 INDEX(I)=I
-   20 CONTINUE
+      IF (LSEQ) THEN
+        DO I=1,N
+          INDEX(I)=I
+        ENDDO
+      ENDIF
 C----------
 C  RETURN IF FEWER THAN TWO ELEMENTS IN ARRAY A.
 C----------
