@@ -279,7 +279,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -      'Live_100Pctile_DBH real null,'//
      -      'UnInf_TPA_Total real null,'//
      -      'Inf_TPA_Total real null,'//
-     -      'Pct_Roots_Inf real null)'
+     -      'Pct_Roots_Inf real null);'//CHAR(0)
          iRet = fsql3_exec(IoutDBref,SQLStmtStr)
          IF (iRet .NE. 0) THEN
            IRD2 = 0
@@ -312,7 +312,7 @@ C     DEFINE DATABASE INSERT STATEMENT
      -  'Pct_Roots_Inf) ',
      -  ' VALUES (''',CASEID,''',''',TRIM(NPLT),''',?,''',DTYPE,''',
      -  ?,''',CSP,''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
-      iRet = fsql3_prepare(IoutDBref, SQLStmtStr)
+      iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
          IRD2 = 0
          RETURN
