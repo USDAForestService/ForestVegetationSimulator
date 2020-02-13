@@ -18,117 +18,117 @@ C----------
 C SOUTHEAST ALASKA / COASTAL BRITISH COLUMBIA
 C----------
         CASE('AK')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C BLUE MOUNTAINS
 C----------
         CASE('BM')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C INLAND CALIFORNIA / SOUTHERN CASCADES
 C----------
         CASE('CA')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C CENTRAL IDAHO
 C----------
         CASE('CI')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C CENTRAL ROCKIES
 C----------
         CASE('CR')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C CENTRAL STATES
 C----------
         CASE('CS')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C EAST CASCADES
 C----------
         CASE('EC')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C EASTERN MONTANA
 C----------
         CASE('EM')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C INLAND EMPIRE (AKA NI23)
 C----------
         CASE('IE')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C KOOTENAI / KANIKSU / TALLY LAKE
 C----------
         CASE('KT')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C LAKE STATES
 C----------
         CASE('LS')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C KLAMATH MOUNTAINS
 C----------
         CASE('NC')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C NORTHEAST STATES
 C----------
         CASE('NE')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C SOUTHWEST OREGON ORGANON
 C----------
         CASE('OC')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C NORTHWEST OREGON ORGANON
 C----------
         CASE('OP')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C PACIFIC NORTHWEST
 C----------
         CASE('PN')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C SOUTHERN
 C----------
         CASE('SN')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C SOUTH CENTRAL OREGON / NORTHEAST CALIFORNIA
 C----------
         CASE('SO')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C TETONS
 C----------
         CASE('TT')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C UTAH
 C----------
         CASE('UT')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C WEST CASCADES
 C----------
         CASE('WC')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C WESTERN SIERRA NEVADA
 C----------
         CASE('WS')
-        REV = '20200101'
+        REV = '20200214'
 C----------
 C ANY OTHER VARIANT
 C----------
         CASE DEFAULT
-        REV = '20200101'
+        REV = '20200214'
 C
       END SELECT
 C
