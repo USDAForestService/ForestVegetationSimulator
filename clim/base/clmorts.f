@@ -216,7 +216,8 @@ C         Definition: mapdd5 = map*dd5/1000
             DTV(6) = 1.
           ENDIF
           DMORT = (SUM(DTV)/6.)-1.1 ! COMPUTE THE AVERAGE, THEN TRANSLATE
-          IF (DMORT .LT. 0) DMORT = 0
+          IF (DMORT .LT. 0)   DMORT = 0
+          IF (DMORT .GT. 5.9) DMORT = 5.9
           DMORT = .9*(1-EXP(-(DMORT)**2.5))
           X = (DBH(I)*DBH(I)*PROB(I))
           SPMORT2(ISP(I)) = SPMORT2(ISP(I))+(DMORT*CLMRTMLT2(ISP(I))*X)
