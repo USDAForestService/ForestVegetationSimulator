@@ -32,7 +32,6 @@ COMMONS END
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
      >        fsql3_bind_text
-
       IF(IREG4.NE.1) RETURN
 C
       CALL DBSCASE(1)
@@ -43,7 +42,7 @@ C     DEFINE TAABLENAME
 
       iRet=fsql3_tableexists(IoutDBref,'FVS_Regen_Tally'//CHAR(0))
 C
-C       SITE PREP SUMMARY
+C       TALLY SUMMARY
 C                  
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_Regen_Tally('//
@@ -150,7 +149,7 @@ C     DEFINE TAABLENAME
 
       iRet=fsql3_tableexists(IoutDBref,'FVS_Regen_Tally'//CHAR(0))
 C
-C       SITE PREP SUMMARY
+C      TALLY SUMMARY
 C                  
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_Regen_Tally('//
