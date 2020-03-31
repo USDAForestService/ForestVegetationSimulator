@@ -336,6 +336,7 @@ C
      &  //,'STAND ID: ',A26,'  MANAGEMENT CODE: ',A4,'  YEAR: ',I5,//,
      &  T14,'TREES  AVERAGE',/,T5,'SPECIES  /ACRE  HEIGHT',/,T5,
      &  '-------  -----  -------')
+        WTAVEHT=0.0
         DO 700 I=1,NSPSPE
         CLABEL=NSP(ISPSPE(I),1)(1:2)
         HTAVE(I)=HTAVE(I)/(COUNTR(I)+.00001)
