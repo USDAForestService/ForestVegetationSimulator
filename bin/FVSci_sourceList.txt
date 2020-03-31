@@ -337,8 +337,6 @@
 ../dbs/dbsppput.f
 ../dbs/dbsprs.f
 ../dbs/dbsprssql.f
-../dbs/dbspusget.f
-../dbs/dbspusput.f
 ../dbs/dbsrd.f
 ../dbs/dbsstrclass.f
 ../dbs/dbstreesin.f

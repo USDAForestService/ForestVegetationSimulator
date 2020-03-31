@@ -8,4 +8,4 @@ select "Treelist count" as cnt,Count(*) from FVS_TreeList;
 select "from summary " as frm,StandID, Year, Age, TopHt, BA, TPA from FVS_Summary;
 select "from summary2" as frm,StandID, Year, Age, TopHt, round(BA,0), round(TPA,0) from FVS_Summary2;
 select StandID, Year, round(Inf_TPA,0) as Inf_TPA from FVS_DM_Stnd_Sum;
-select StandID, Year, Spp, round(Inf_TPA,0) as Inf_TPA from FVS_DM_Spp_Sum;
+select StandID, Year, SpeciesFVS, round(Inf_TPA,0) as Inf_TPA from FVS_DM_Spp_Sum;

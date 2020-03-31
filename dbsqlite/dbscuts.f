@@ -41,7 +41,7 @@ C
 C
 COMMONS
 C
-      CHARACTER*8 TID,CSPECIES
+      CHARACTER*8 TID,CSPECIE1,CSPECIE2,CSPECIE3
       CHARACTER*17 TBLNAME
       CHARACTER*5 NTCUFT,NMCUFT,NBDFT
       CHARACTER*8 NAMDCF,NAMDBF
@@ -104,7 +104,9 @@ C     IF IT DOESNT THEN WE NEED TO CREATE IT
      -             'PrdLen int null,'//
      -             'TreeId text null,'//
      -             'TreeIndex int null,'//
-     -             'Species text null,'//
+     -             'SpeciesFVS text null,'//
+     -             'SpeciesPLANTS text null,'//
+     -             'SpeciesFIA text null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
      -             'PtIndex int null,'//
@@ -205,34 +207,26 @@ C           GET DG INPUT
 C----------
             DGI=DG(I)
 
-C
-C           DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
-C           KEYWORD OVER RIDES
-C
-            IF(JSPIN(ISP(I)).EQ.1)THEN
-              CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
-            ELSEIF(JSPIN(ISP(I)).EQ.2)THEN
-              CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
-            ELSEIF(JSPIN(ISP(I)).EQ.3)THEN
-              CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-            ELSE
-              CSPECIES=ADJUSTL(PLNJSP(ISP(I)))
-            ENDIF
-C
-            IF(ISPOUT17.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
-            IF(ISPOUT17.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
-            IF(ISPOUT17.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
+C           LOAD SPECIES CODES FROM FVS, PLANTS AND FIA ARRAYS.
+
+            CSPECIE1 = JSP(ISP(I))
+            CSPECIE2 = PLNJSP(ISP(I))
+            CSPECIE3 = FIAJSP(ISP(I))
 
             WRITE(SQLStmtStr,*)'INSERT INTO ',TBLNAME,
      -        ' (CaseID,StandID,Year,PrdLen,',
-     -        'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
+     -        'TreeId,TreeIndex,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
+     -        'TreeVal,SSCD,PtIndex,TPA,',
      -        'MortPA,DBH,DG,HT,HTG,PctCr,',
      -        'CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',', 
      -        NMCUFT,',',NBDFT,',MDefect,BDefect,TruncHt,',
      -      'EstHt,ActPt,',NAMDCF,',',NAMDBF,',','TreeAge) VALUES (''',
      -        CASEID,''',''',TRIM(NPLT),''',',JYR,',',
-     -        IFINT,",'",trim(ADJUSTL(TID)),"',",I,",'",
-     -        trim(CSPECIES),"',",IMC(I),',',ISPECL(I),',',ITRE(I),
+     -        IFINT,",'",TRIM(ADJUSTL(TID)),"',",I,
+     -        ",'",TRIM(CSPECIE1),"'",
+     -        ",'",TRIM(CSPECIE2),"'",
+     -        ",'",TRIM(CSPECIE3),"',",
+     -        IMC(I),',',ISPECL(I),',',ITRE(I),
      -        ',',P,',',DP,',',DBH(I),',',DGI,',',HT(I),',',HTG(I),
      -        ',',ICR(I),',',CW,',',IDMR,',',PCT(I),',',IPTBAL,',',
      -        CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',

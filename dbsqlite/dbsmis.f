@@ -1,7 +1,7 @@
-      SUBROUTINE DBSMIS1(IYEAR,NPLT,CSP,
+      SUBROUTINE DBSMIS1(IYEAR,CNPLT,CSP,
      -  SPDMR4,SPDMI4,SPINF4,SPMRT4,SPPIN4,SPPMR4,SPPOC4,
      -  KODE)
-     
+
       IMPLICIT NONE
 C
 C DBSQLITE $Id$
@@ -10,14 +10,21 @@ C     PURPOSE: TO POPULATE A DATABASE WITH THE 1ST MISTLETOE REPORT INFORMATION
 C     AUTH: D. ROBINSON, ESSA - BASED ON D. GAMMEL (DBSFUELS)
 C
 C     1:     Year
-C     2:     Mean DMR for species - SPDMR4
-C     3:     Mean DMI for species - SPDMI4
-C     4:     Infected trees/acre for species - SPINF4
-C     5:     Mortality trees/acre for species - SPMRT4
-C     6:     Infected trees/acre % for species - SPPIN4
-C     7:     Mortality trees/acre % for species - SPPMR4
-C     8:     Stand trees/acre % for species - SPPOC4
+C     2:     Stand ID
+C     3:     Species
+C     4:     Mean DMR for species - SPDMR4
+C     5:     Mean DMI for species - SPDMI4
+C     6:     Infected trees/acre for species - SPINF4
+C     7:     Mortality trees/acre for species - SPMRT4
+C     8:     Infected trees/acre % for species - SPPIN4
+C     9:     Mortality trees/acre % for species - SPPMR4
+C    10:     Stand trees/acre % for species - SPPOC4
+C
+COMMONS
+C
+      INCLUDE 'PRGPRM.F77'
 
+      INCLUDE 'PLOT.F77'
 
       INCLUDE 'DBSCOM.F77'
 
@@ -27,19 +34,20 @@ C     ARGUMENT LIST
       REAL    SPDMR4(4),SPDMI4(4),SPINF4(4),SPMRT4(4)
       REAL    SPPIN4(4),SPPMR4(4),SPPOC4(4)
       INTEGER KODE,iRet
-      
+
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
      >        fsql3_step,fsql3_reset,fsql3_bind_text
 
-      INTEGER ColNumber,I
+      INTEGER ColNumber,I,I2
 
       DOUBLE PRECISION  SPDMR4B, SPDMI4B
       INTEGER           ISPINF4,ISPMRT4,ISPPIN4,ISPPMR4,ISPPOC4
 
       CHARACTER*2000    SQLStmtStr
-      CHARACTER(LEN=26) NPLT
+      CHARACTER(LEN=26) CNPLT
       CHARACTER(LEN=2)  CSP(4)
+      CHARACTER(LEN=8)  CSP1,CSP2,CSP3
 
 C     INITIALIZE VARIABLES
 
@@ -49,7 +57,7 @@ C     INITIALIZE VARIABLES
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 
       CALL DBSCASE(1)
-      
+
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_DM_Spp_Sum"//CHAR(0))
       IF(iRet.EQ.0) THEN
@@ -57,7 +65,9 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -      'CaseID text not null,'//
      -      'StandID text not null,'//
      -      'Year Int null,'//
-     -      'Spp text null,'//
+     -      'SpeciesFVS text null,'//
+     -      'SpeciesPLANTS text null,'//
+     -      'SpeciesFIA text null,'//
      -      'Mean_DMR real null,'//
      -      'Mean_DMI real null,'//
      -      'Inf_TPA int null,'//
@@ -73,26 +83,38 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
       ENDIF
 
       WRITE(SQLStmtStr,*) 'INSERT INTO FVS_DM_Spp_Sum ',
-     -  ' (CaseID,StandID,Year,Spp,Mean_DMR,Mean_DMI,Inf_TPA,',
+     -  ' (CaseID,StandID,Year,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
+     -  'Mean_DMR,Mean_DMI,Inf_TPA,',
      -  'Mort_TPA,Inf_TPA_Pct,Mort_TPA_Pct,Stnd_TPA_Pct) ',
-     -  ' VALUES (''',CASEID,''',''',TRIM(NPLT),
-     -  ''',?,?,?,?,?,?,?,?,?);'
+     -  ' VALUES (''',CASEID,''',''',TRIM(CNPLT),
+     -  ''',?,?,?,?,?,?,?,?,?,?,?);'
       iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
          IDM1 = 0
          RETURN
       ENDIF
-        
+
 C     LOOP OVER 4 TOP SPECIES
 
       DO I = 1,4
 
 C       IF THERE ARE LESS THAN 4 SPECIES INFECTED IN THE STAND,
-C       DO NOT WRITE THE BLANK RECORDS TO THE DATABASE. 
+C       DO NOT WRITE THE BLANK RECORDS TO THE DATABASE.
 
         IF (CSP(I) .EQ. '**') CYCLE
-        
+
+
+C     ASSIGN FVS, PLANTS AND FIA SPECIES CODES
+
+      DO I2 = 1,MAXSP
+        IF (CSP(I) .EQ. JSP(I2)) THEN
+          CSP1 = JSP(I2)
+          CSP2 = PLNJSP(I2)
+          CSP3 = FIAJSP(I2)
+        ENDIF
+      ENDDO
+
 C       DOUBLE PRECISION COPIES OF SINGLE PRECISION INPUTS AND
 C       INTEGER COPIES OF REAL VECTOR INPUTS
 
@@ -110,10 +132,18 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
         ColNumber=1                 ! 1 YEAR
         iRet=fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
-        
-        ColNumber=ColNumber+1       ! Species
-        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP(I),
-     >         len_trim(CSP(I)))              
+
+        ColNumber=ColNumber+1       ! SpeciesFVS
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP1,
+     >                                    LEN_TRIM(CSP1))
+
+        ColNumber=ColNumber+1       ! SpeciesPLANTS
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP2,
+     >                                    LEN_TRIM(CSP2))
+
+        ColNumber=ColNumber+1       ! SpeciesFIA
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP3,
+     >                                    LEN_TRIM(CSP3))
 
         ColNumber=ColNumber+1       ! MEAN DMR
         iRet=fsql3_bind_double(IoutDBref,ColNumber,SPDMR4B)
@@ -134,10 +164,10 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         iRet=fsql3_bind_int(IoutDBref,ColNumber,ISPPMR4)
 
         ColNumber=ColNumber+1       ! % STAND TPA
-        iRet=fsql3_bind_int(IoutDBref,ColNumber,ISPPOC4) 
-        
+        iRet=fsql3_bind_int(IoutDBref,ColNumber,ISPPOC4)
+
         iRet = fsql3_step(IoutDBref)
-        iRet = fsql3_reset(IoutDBref) 
+        iRet = fsql3_reset(IoutDBref)
       ENDDO
 
       iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
@@ -155,7 +185,7 @@ C-------------------------------------------------------------------------------
       SUBROUTINE DBSMIS2(IYEAR,NPLT,NAGE,
      -  ISTTPAT,IBA,ISTVOL,ISTTPAI,ISTBAI,ISTVOLI,ISTTPAM,ISTBAM,
      -  ISTVOLM,ISTPIT,ISTPIV,ISTPMT,ISTPMV,STDMR,STDMI,KODE)
-     
+
       IMPLICIT NONE
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE 2ND MISTLETOE REPORT INFORMATION
@@ -189,7 +219,7 @@ C     ARGUMENT LIST
       INTEGER ISTVOLM,ISTPIT,ISTPIV,ISTPMT,ISTPMV
       REAL    STDMR,STDMI
       INTEGER KODE,iRet
-      
+
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
 
@@ -324,7 +354,7 @@ C-------------------------------------------------------------------------------
 
       SUBROUTINE DBSMIS3(IYEAR,NPLT,NLABS,
      -  DCTPA,DCINF,DCMRT,DCDMR,DCDMI,KODE)
-     
+
       IMPLICIT NONE
 
 C     PURPOSE: TO POPULATE A DATABASE WITH THE 3RD MISTLETOE REPORT INFORMATION
@@ -360,7 +390,7 @@ C     ARGUMENT LIST
       INTEGER KODE,iRet
 
 C     LOCAL VARIABLES
-      
+
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
      >        fsql3_step,fsql3_reset,fsql3_bind_text
@@ -425,7 +455,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
          IDM3 = 0
          RETURN
       ENDIF
-            
+
 C     LOOP OVER 5 TYPES
 
       DO I = 1,5
@@ -464,18 +494,18 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
         ColNumber=ColNumber+1       ! Label
         iRet = fsql3_bind_text(IoutDBref,ColNumber,NLABS(I),
-     >         len_trim(NLABS(I)))              
-     
+     >         len_trim(NLABS(I)))
+
         DO J = 1,10
           ColNumber=ColNumber+1     ! SIZE CLASSES 2-11
           iRet=fsql3_bind_double(IoutDBref,ColNumber,X(J))
         ENDDO
 
         iRet = fsql3_step(IoutDBref)
-        iRet = fsql3_reset(IoutDBref) 
+        iRet = fsql3_reset(IoutDBref)
 
       ENDDO
-      
+
       iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then

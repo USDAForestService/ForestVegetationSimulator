@@ -123,18 +123,18 @@ C
 
       ! reopen connections that were in use.
 
-      IF (IinDBref.EQ.0) THEN
-        IinDBref = -1
+      IF (IinDBref.EQ.-1) THEN
+        IinDBref = 0
         CALL DBSOPEN(.FALSE.,.TRUE.,KODE)
 
-        IF (KODE.EQ.0) PRINT *,"Reopen DBSIN failed. DSNIN=",
+        IF (KODE.EQ.1) PRINT *,"Reopen DBSIN failed. DSNIN=",
      -     TRIM(DSNIN)
       ENDIF
-      IF (IoutDBref.EQ.0) THEN
-        IoutDBref = -1
+      IF (IoutDBref.EQ.-1) THEN
+        IoutDBref = 0
         CALL DBSOPEN(.TRUE.,.FALSE.,KODE)
 
-        IF (KODE.EQ.0) PRINT *,"Reopen DSNOUT failed. DSNOUT=",
+        IF (KODE.EQ.1) PRINT *,"Reopen DSNOUT failed. DSNOUT=",
      -     TRIM(DSNOUT)
       ENDIF
 

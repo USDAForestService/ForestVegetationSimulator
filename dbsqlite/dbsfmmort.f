@@ -38,7 +38,7 @@ C---
       DIMENSION BAKILL(MXSP1),VOKILL(MXSP1),BAKILLB(MXSP1),
      -          VOKILLB(MXSP1)
       CHARACTER*2000 SQLStmtStr
-      CHARACTER(LEN=8) CSPECIES
+      CHARACTER(LEN=8) CSP1,CSP2,CSP3
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
@@ -57,7 +57,9 @@ C---
      -              'CaseID text not null,'//
      -              'StandID text not null,'//
      -              'Year Int null,'//
-     -              'Species char null,'//
+     -              'SpeciesFVS text null,'//
+     -              'SpeciesPLANTS text null,'//
+     -              'SpeciesFIA text null,'//
      -              'Killed_class1 real null,'//
      -              'Total_class1 real null,'//
      -              'Killed_class2 real null,'//
@@ -81,13 +83,14 @@ C---
          ENDIF
       ENDIF
         SQLStmtStr ='INSERT INTO FVS_Mortality (CaseID,'//
-     -    'StandID,Year,Species,Killed_class1,Total_class1,'//
+     -    'StandID,Year,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,'//
+     -    'Killed_class1,Total_class1,'//
      -    'Killed_class2,'//
      -    'Total_class2,Killed_class3,Total_class3,Killed_class4,'//
      -    'Total_class4,Killed_class5,Total_class5,Killed_class6,'//
      -    'Total_class6,Killed_class7,Total_class7,Bakill,Volkill)'//
      -    " VALUES ('"//CASEID//"','"//TRIM(NPLT)//
-     -    "',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"//CHAR(0)
+     -    "',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"//CHAR(0)
      
       iRet = fsql3_prepare(IoutDBref, SQLStmtStr)
       IF (iRet .NE. 0) THEN
@@ -98,21 +101,16 @@ C---
       DO J = 1,MXSP1
         IF (TOTAL(J,8) .LE. 0) CYCLE 
         IF (J.EQ.MXSP1) THEN
-          CSPECIES='ALL'
+          CSP1='ALL'
+          CSP2='ALL'
+          CSP3='ALL'
         ELSE
-          IF(JSPIN(J).EQ.1)THEN
-            CSPECIES=ADJUSTL(JSP(J))
-          ELSEIF(JSPIN(J).EQ.2)THEN
-            CSPECIES=ADJUSTL(FIAJSP(J))
-          ELSEIF(JSPIN(J).EQ.3)THEN
-            CSPECIES=ADJUSTL(PLNJSP(J))
-          ELSE
-            CSPECIES=ADJUSTL(PLNJSP(J))
-          ENDIF
+
+C     ASSIGN FVS, PLANTS AND FIA SPECIES CODES
 C
-          IF(ISPOUT21.EQ.1)CSPECIES=ADJUSTL(JSP(J))
-          IF(ISPOUT21.EQ.2)CSPECIES=ADJUSTL(FIAJSP(J))
-          IF(ISPOUT21.EQ.3)CSPECIES=ADJUSTL(PLNJSP(J))
+          CSP1 = JSP(J)
+          CSP2 = PLNJSP(J)
+          CSP3 = FIAJSP(J)
 
         ENDIF
 C
@@ -130,8 +128,16 @@ C
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
         
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIES,
-     >               len_trim(CSPECIES))              
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP1,
+     >                                    len_trim(CSP1))              
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP2,
+     >                                    len_trim(CSP2))              
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP3,
+     >                                    len_trim(CSP3))              
 
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,KILLEDB(J,1))

@@ -25,7 +25,6 @@ C
       CALL DBSCLOSE(LCOUT,LCIN)
 
       KODE=0
-      
       IF (LCOUT) THEN
         I = fsql3_open(IoutDBref,trim(DSNOUT)//CHAR(0))
         IF (I.NE.0) THEN

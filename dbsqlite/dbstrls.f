@@ -39,7 +39,7 @@ C
 C
 COMMONS
 C
-      CHARACTER*8 TID,CSPECIES
+      CHARACTER*8 TID,CSPECIE1,CSPECIE2,CSPECIE3
       CHARACTER*17 TBLNAME
       CHARACTER*5 NTCUFT,NMCUFT,NBDFT
       CHARACTER*8 NAMDCF,NAMDBF
@@ -97,7 +97,9 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
      -             'PrdLen int null,'//
      -             'TreeId text null,'//
      -             'TreeIndex int null,'//
-     -             'Species text null,'//
+     -             'SpeciesFVS text null,'//
+     -             'SpeciesPLANTS text null,'//
+     -             'SpeciesFIA text null,'//
      -             'TreeVal int null,'//
      -             'SSCD int null,'//
      -             'PtIndex int null,'//
@@ -132,13 +134,14 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
       ENDIF
       WRITE(SQLStmtStr,*)'INSERT INTO ',TBLNAME,
      -  ' (CaseID,StandID,Year,PrdLen,',
-     -  'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
+     -  'TreeId,TreeIndex,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
+     -  'TreeVal,SSCD,PtIndex,TPA,',
      -  'MortPA,DBH,DG,',
      -  'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',',  
      -  NMCUFT,',',NBDFT,',MDefect,BDefect,TruncHt,',
      -  'EstHt,ActPt,',NAMDCF,',',NAMDBF,',','TreeAge) VALUES (''',
      -  CASEID,''',''',TRIM(NPLT),''',',IY(ICYC+1),',',IFINT,
-     -  ',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
+     - ',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
       iRet = fsql3_prepare(IoutDBref,trim(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
         ITREELIST = 0
@@ -220,22 +223,12 @@ C           GET DG INPUT
             DGI=DG(I)
             IF(ICYC.EQ.0 .AND. TEM.EQ.0) DGI=WORK1(I)
 
-C           DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
-C           KEYWORD OVER RIDES
-
-            IF(JSPIN(ISP(I)).EQ.1)THEN
-              CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
-            ELSEIF(JSPIN(ISP(I)).EQ.2)THEN
-              CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
-            ELSEIF(JSPIN(ISP(I)).EQ.3)THEN
-              CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-            ELSE
-              CSPECIES=ADJUSTL(PLNJSP(ISP(I)))
-            ENDIF
+C           LOAD SPECIES CODES FROM FVS, PLANTS AND FIA ARRAYS.
 C
-            IF(ISPOUT6.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
-            IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
-            IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I)))) 
+            CSPECIE1 = JSP(ISP(I))
+            CSPECIE2 = PLNJSP(ISP(I))
+            CSPECIE3 = FIAJSP(ISP(I))
+
             
             ColNumber=1
             iRet = fsql3_bind_text(IoutDBref,ColNumber,TID,
@@ -243,8 +236,14 @@ C
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
             ColNumber=ColNumber+1
-            iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIES,
-     >                             LEN_TRIM(CSPECIES))
+            iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE1,
+     >                             LEN_TRIM(CSPECIE1))
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE2,
+     >                             LEN_TRIM(CSPECIE2))
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE3,
+     >                             LEN_TRIM(CSPECIE3))
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,IMC(I))
             ColNumber=ColNumber+1
@@ -357,31 +356,27 @@ C       PUT PROB IN MORTALITY COLUMN
         DP = P
         P = 0.
 
-C       DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
-C       KEYWORD OVER RIDES
-
-        IF(JSPIN(ISP(I)).EQ.1)THEN
-          CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
-        ELSEIF(JSPIN(ISP(I)).EQ.2)THEN
-          CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
-        ELSEIF(JSPIN(ISP(I)).EQ.3)THEN
-          CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-        ELSE
-          CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-        ENDIF
+C           LOAD SPECIES CODES FROM FVS, PLANTS AND FIA ARRAYS.
 C
-        IF(ISPOUT6.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
-        IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
-        IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-        
+            CSPECIE1 = JSP(ISP(I))
+            CSPECIE2 = PLNJSP(ISP(I))
+            CSPECIE3 = FIAJSP(ISP(I))
+
+
         ColNumber=1
         iRet = fsql3_bind_text(IoutDBref,ColNumber,TID,
      >                         LEN_TRIM(TID))
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIES,
-     >                         LEN_TRIM(CSPECIES))
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE1,
+     >                         LEN_TRIM(CSPECIE1))
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE2,
+     >                         LEN_TRIM(CSPECIE2))
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE3,
+     >                         LEN_TRIM(CSPECIE3))
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IMC(I))
         ColNumber=ColNumber+1
