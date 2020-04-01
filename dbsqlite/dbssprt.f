@@ -2,7 +2,7 @@
      &  WTHTAVE,TOT,IYEAR)
       IMPLICIT NONE
 C----------
-C DBSQLITE $Id: dbssprt.f 2620 2019-03-08 18:22:51Z nickcrookston $
+C DBSQLITE $Id$
 C----------C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE PROGNOSIS MODEL
 C              SPROUTING OUTPUT
