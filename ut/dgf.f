@@ -549,6 +549,8 @@ C----------
 C  BEGIN TREE LOOP WITHIN SPECIES ISPC.
 C----------
       DO 10 I3=I1,I2
+      BAL = 0.0
+      CR  = 0.0
       I=IND1(I3)
       D=DIAM(I)
       BARK=BRATIO(ISPC,D,HT(I))
@@ -637,10 +639,10 @@ C----------
 C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 C----------
       IF(.NOT.DEBUG) GO TO 10
-      WRITE(JOSTND,9000) I,ISPC,D,BAL,CR,RELDEN,BA,DDS
+      WRITE(JOSTND,9000) I,ISPC,D,BAL,CR,BA,DDS
  9000 FORMAT(' IN DGF, I=',I4,',  ISPC=',I3,',  DBH=',F7.2,
-     &      ',  BAL=',F7.2,',  CR=',F7.4/
-     &      '          CCF=',F9.3,',  BA=',F9.3,',   LN(DDS),=',F7.4)
+     &      ',  BAL=',F7.2,',  CR=',F7.4,
+     &      ',  BA=',F9.3,',   LN(DDS),=',F7.4)
    10 CONTINUE
 C----------
 C  END OF SPECIES LOOP.
