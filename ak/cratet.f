@@ -71,7 +71,7 @@ C
       INTEGER KNT(MAXSP),KNT2(MAXSP)
 C
       REAL AGMAX,AX,BX,D,D1,D2,H,HS,HTMAX,HTMAX2,Q,SITAGE,SITHT,SUMX
-      REAL XN,XX,YY,PBAL,PBA,AX1,BX1,CX1,DX1,EX1
+      REAL XN,XX,YY,AX1,BX1,CX1
 C
       REAL SPCNT(MAXSP,3)
 C
@@ -345,11 +345,7 @@ C  TEMESGEN MODEL FORM--NO CALIBRATION
       IF(K2.EQ.0) GO TO 140
       DO 113 JJ=1,K2
       II=IND2(JJ)
-      IITRE=ITRE(II)
       D=DBH(II)
-      PBAL=PTBALT(II)
-C     PBA=PTBAA(II)
-      PBA=PTBAA(IITRE)
       TKILL = NORMHT(II) .LT. 0
       IF(D .LE. 0.1) THEN
         H=1.01
@@ -359,14 +355,11 @@ C     PBA=PTBAA(II)
         AX1 = HTT11(ISPC)
         BX1 = HTT12(ISPC)
         CX1 = HTT13(ISPC)
-        DX1 = HTT14(ISPC)
-        EX1 = HTT15(ISPC)
-        H=4.5+(AX1+BX1*PBAL+CX1*PBA)*(1-EXP(DX1*D))**EX1 
+        H= 4.5 + (AX1) * (1-EXP(BX1*D))**CX1 
       IF(DEBUG)THEN
-      WRITE(JOSTND,9009) ISPC,AX1,BX1,CX1,DX1,EX1,PBAL,PBA,H
+      WRITE(JOSTND,9009) ISPC,AX1,BX1,CX1,H
  9009   FORMAT('IN CRATET - ISPC ',I2,'  AX1= ',F10.5, '  BX1=', F7.5,
-     &         '  CX1=', F7.5, '  DX1=', F7.5, '  EX1=', F7.5,
-     &         '  PBAL=', F10.5,'  PBA=', F10.5, '  H=', F10.5)
+     &         '  CX1=', F7.5,'  H=', F10.5)
       ENDIF
   111 CONTINUE    
       IF(TKILL) GO TO 112

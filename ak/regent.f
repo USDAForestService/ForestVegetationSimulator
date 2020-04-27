@@ -85,8 +85,8 @@ C----------
       REAL BACHLO,BARK,BRATIO,CON,CORNEW,D,DDS,DK,EDH
       REAL FNT,H,HK,HTGR,HTNEW,P,RANC,RCR
       REAL REGYR,RSI,SCALE1,SCALE2,SCALE3,SNP,SNX,SNY,TBAL,TCR
-      REAL TERM,XMN,XMX,XRDGRO,XRHGRO,XWT,ZZRAN,A,B,AX,BX,CX,DX
-      REAL EX,FX,GX,HX,IX,AX1,BX1,CX1,DX1,EX1,FX1,GX1,HX1,IX1,CRAT,DLO
+      REAL TERM,XMN,XMX,XRDGRO,XRHGRO,XWT,ZZRAN,A,B,B1,B2,B3,B4
+      REAL B5,B6,B7,POTHTG,CRAT,DLO
       REAL DHI,DTEMP,ELEVATN,PBAL,RDZ,XSDI,XSITE,SDICZ,SDICS
      
       REAL CORTEM(MAXSP),DIAM(MAXSP),XMIN(MAXSP),XMAX(MAXSP),ZRD(MAXPLT)
@@ -278,59 +278,49 @@ C  CALCULATE HIEGHT GROWTH FOR BOREAL SPECIES
 C----------
       CASE(4:7,13,16:23)
         IF(.NOT.LPERM) THEN
-        AX=NOPERMH1(ISPC)
-        BX=NOPERMH2(ISPC)
-        CX=NOPERMH3(ISPC)
-        DX=NOPERMH4(ISPC)
-        EX=NOPERMH5(ISPC)
-        FX=NOPERMH6(ISPC)
-        GX=NOPERMH7(ISPC)
-        HX=NOPERMH8(ISPC)
-        IX=NOPERMH9(ISPC)
-        HTGR=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL + 
-     $         EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
-     $         HX*RDZ + IX*LOG(XSITE))*FNT
-        ENDIF
-        IF(LPERM) THEN
-        AX1=PERMH1(ISPC)
-        BX1=PERMH2(ISPC)
-        CX1=PERMH3(ISPC)
-        DX1=PERMH4(ISPC)
-        EX1=PERMH5(ISPC)
-        FX1=PERMH6(ISPC)
-        GX1=PERMH7(ISPC)
-        HX1=PERMH8(ISPC)
-        IX1=PERMH9(ISPC)
-        HTGR=EXP(AX1 + BX1 +CX1*(HT(I))**2 + DX1*LOG(HT(I)) + EX1*PBAL + 
-     $         FX1*LOG(RDZ) + GX1*LOG(CRAT) + HX1*ELEVATN +
-     $         IX1*RDZ)*FNT
+          B1=PERMH1(ISPC)
+          B2=PERMH2(ISPC)
+          B3=PERMH3(ISPC)
+          B4=PERMH4(ISPC)
+          B5=PERMH5(ISPC)
+          B6=PERMH6(ISPC)
+          B7=PERMH7(ISPC)
+          POTHTG=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
+     &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*FNT
+        ELSE
+          B1=NOPERMH1(ISPC)
+          B2=NOPERMH2(ISPC)
+          B3=NOPERMH3(ISPC)
+          B4=NOPERMH4(ISPC)
+          B5=NOPERMH5(ISPC)
+          B6=NOPERMH6(ISPC)
+          B7=NOPERMH7(ISPC)
+          POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
+     &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FNT
         ENDIF
 C----------
 C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
 C----------     
       CASE(1:3,8:12,14,15)
-        AX=NOPERMH1(ISPC)
-        BX=NOPERMH2(ISPC)
-        CX=NOPERMH3(ISPC)
-        DX=NOPERMH4(ISPC)
-        EX=NOPERMH5(ISPC)
-        FX=NOPERMH6(ISPC)
-        GX=NOPERMH7(ISPC)
-        HX=NOPERMH8(ISPC)
-        IX=NOPERMH9(ISPC)
-        HTGR=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL + 
-     $         EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
-     $         HX*RDZ + IX*LOG(XSITE))*FNT
+        B1=NOPERMH1(ISPC)
+        B2=NOPERMH2(ISPC)
+        B3=NOPERMH3(ISPC)
+        B4=NOPERMH4(ISPC)
+        B5=NOPERMH5(ISPC)
+        B6=NOPERMH6(ISPC)
+        B7=NOPERMH7(ISPC)
+        POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
+     &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FNT
         CASE DEFAULT
           HTGR = 0.
         END SELECT
         
       IF(DEBUG) THEN
       WRITE(JOSTND,9982)
-     &      AX,BX,CX,DX,EX,FX,GX,HX,IX
- 9982 FORMAT(' IN REGENT 9982 FORMAT','  AX=',F10.5,'  BX=',F7.5,
-     &       '  CX=',F7.5,'  DX=',F7.5,'  EX=',F7.5,'  FX=',F7.5,
-     &       '  GX=',F7.5,'  HX=',F7.5, '  IX=', F7.5)
+     &      B1,B2,B3,B4,B5,B6,B7
+ 9982 FORMAT(' IN REGENT 9982 FORMAT','  B1=',F10.5,'  B2=',F7.5,
+     &       '  B3=',F7.5,'  B4=',F7.5,'  B5=',F7.5,'  B6=',F7.5,
+     &       '  B7=',F7.5)
       ENDIF
        
       IF(DEBUG) THEN
@@ -512,48 +502,39 @@ C  CALCULATE HIEGHT GROWTH FOR BOREAL SPECIES
 C----------
       CASE(4:7,13,16:23)
         IF(LPERM) GO TO 10
-        AX=NOPERMH1(ISPC)
-        BX=NOPERMH2(ISPC)
-        CX=NOPERMH3(ISPC)
-        DX=NOPERMH4(ISPC)
-        EX=NOPERMH5(ISPC)
-        FX=NOPERMH6(ISPC)
-        GX=NOPERMH7(ISPC)
-        HX=NOPERMH8(ISPC)
-        IX=NOPERMH9(ISPC)
-        EDH=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL + 
-     $         EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
-     $         HX*RDZ + IX*LOG(XSITE))*FINT
+          B1=PERMH1(ISPC)
+          B2=PERMH2(ISPC)
+          B3=PERMH3(ISPC)
+          B4=PERMH4(ISPC)
+          B5=PERMH5(ISPC)
+          B6=PERMH6(ISPC)
+          B7=PERMH7(ISPC)
+          POTHTG=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
+     &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*FINT
   10  CONTINUE
         XSITE=SITEAR(ISPC)
-        AX1=PERMH1(ISPC)
-        BX1=PERMH2(ISPC)
-        CX1=PERMH3(ISPC)
-        DX1=PERMH4(ISPC)
-        EX1=PERMH5(ISPC)
-        FX1=PERMH6(ISPC)
-        GX1=PERMH7(ISPC)
-        HX1=PERMH8(ISPC)
-        IX1=PERMH9(ISPC)
-        EDH=EXP(AX1 + BX1 +CX1*(HT(I))**2 + DX1*LOG(HT(I)) + EX1*PBAL + 
-     $         FX1*LOG(RDZ) + GX1*LOG(CRAT) + HX1*ELEVATN +
-     $         IX1*RDZ)*FINT
+          B1=NOPERMH1(ISPC)
+          B2=NOPERMH2(ISPC)
+          B3=NOPERMH3(ISPC)
+          B4=NOPERMH4(ISPC)
+          B5=NOPERMH5(ISPC)
+          B6=NOPERMH6(ISPC)
+          B7=NOPERMH7(ISPC)
+          POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
+     &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FINT
 C----------
 C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
 C----------     
       CASE(1:3,8:12,14,15)
-        AX=NOPERMH1(ISPC)
-        BX=NOPERMH2(ISPC)
-        CX=NOPERMH3(ISPC)
-        DX=NOPERMH4(ISPC)
-        EX=NOPERMH5(ISPC)
-        FX=NOPERMH6(ISPC)
-        GX=NOPERMH7(ISPC)
-        HX=NOPERMH8(ISPC)
-        IX=NOPERMH9(I)
-        EDH=EXP(AX + BX*(HT(I))**2 + CX*LOG(HT(I)) + DX*PBAL + 
-     $         EX*LOG(RDZ) + FX*LOG(CRAT) + GX*ELEVATN +
-     $         HX*RDZ + IX*LOG(XSITE))*FINT
+        B1=NOPERMH1(ISPC)
+        B2=NOPERMH2(ISPC)
+        B3=NOPERMH3(ISPC)
+        B4=NOPERMH4(ISPC)
+        B5=NOPERMH5(ISPC)
+        B6=NOPERMH6(ISPC)
+        B7=NOPERMH7(ISPC)
+        POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
+     &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FINT
 C----------
 C  SPACE FOR OTHER SPECIES
 C---------
