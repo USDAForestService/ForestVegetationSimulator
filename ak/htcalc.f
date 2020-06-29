@@ -101,7 +101,7 @@ C----------
           B6=PERMH6(ISPC)
           B7=PERMH7(ISPC)
           POTHTG=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
-     &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*FINT
+     &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*YR
         ELSE
           IF((HT(I) - 4.5) .LE. 0.0)GO TO 900
           PBAL=PTBALT(I)
@@ -115,7 +115,7 @@ C----------
           B6=NOPERMH6(ISPC)
           B7=NOPERMH7(ISPC)
           POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
-     &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FINT
+     &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
         ENDIF
 C----------
 C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES
@@ -133,7 +133,7 @@ C----------
         B6=NOPERMH6(ISPC)
         B7=NOPERMH7(ISPC)
         POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
-     &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FINT
+     &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
 C----------
 C  SPACE FOR OTHER SPECIES
 C---------

@@ -137,7 +137,7 @@ C     DIAM -- BUD WIDTH (I.E. MINIMUM DIAMETER)
 C----------
 C  DATA STATEMENTS:
 C----------
-      DATA REGYR / 5.0 /
+      DATA REGYR / 10.0 /
       DATA XMAX / 23*3.0 /
       DATA XMIN / 23*1.0 /
 
@@ -201,8 +201,8 @@ C----------
           FNT=FNT-5.0
         ENDIF
       ENDIF
-C      SCALE1=FNT/REGYR
-      SCALE1=1
+      
+      SCALE1=FNT/REGYR
       SCALE2=YR/FNT
 C----------
 C  ENTER GROWTH PREDICTION LOOP.  PROCESS EACH SPECIES AS A GROUP;
@@ -286,7 +286,7 @@ C----------
           B6=PERMH6(ISPC)
           B7=PERMH7(ISPC)
           POTHTG=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
-     &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*FNT
+     &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*YR
         ELSE
           B1=NOPERMH1(ISPC)
           B2=NOPERMH2(ISPC)
@@ -296,7 +296,7 @@ C----------
           B6=NOPERMH6(ISPC)
           B7=NOPERMH7(ISPC)
           POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
-     &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FNT
+     &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
         ENDIF
 C----------
 C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
@@ -310,7 +310,7 @@ C----------
         B6=NOPERMH6(ISPC)
         B7=NOPERMH7(ISPC)
         POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
-     &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FNT
+     &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
         CASE DEFAULT
           HTGR = 0.
         END SELECT
@@ -402,8 +402,10 @@ C----------
 C    SCALE DIAMETER INCREMENT TO 10-YR ESTIMATE.
 C    TO BE CONSISTENT WITH GRADD, THE SCALE ADJUSTMENT IS
 C    ON GROWTH IN DDS TERMS RATHER THAN INCHES OF DG
+C
+C    MARK CASTLE: REMOVED SCALE2 ADJUSTMENT AS DG IS ALWAYS ON A 10-YEAR BASIS
 C----------     
-          DDS=(DG(K)*(2.0*BARK*D+DG(K))) * SCALE2
+          DDS=(DG(K)*(2.0*BARK*D+DG(K)))
           DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
         ENDIF
         IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
@@ -510,7 +512,7 @@ C----------
           B6=PERMH6(ISPC)
           B7=PERMH7(ISPC)
           POTHTG=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
-     &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*FINT
+     &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*YR
   10  CONTINUE
         XSITE=SITEAR(ISPC)
           B1=NOPERMH1(ISPC)
@@ -521,7 +523,7 @@ C----------
           B6=NOPERMH6(ISPC)
           B7=NOPERMH7(ISPC)
           POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
-     &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FINT
+     &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
 C----------
 C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
 C----------     
@@ -534,7 +536,7 @@ C----------
         B6=NOPERMH6(ISPC)
         B7=NOPERMH7(ISPC)
         POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
-     &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*FINT
+     &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
 C----------
 C  SPACE FOR OTHER SPECIES
 C---------
