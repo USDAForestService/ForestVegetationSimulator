@@ -285,7 +285,7 @@ C----------
           B5=PERMH5(ISPC)
           B6=PERMH6(ISPC)
           B7=PERMH7(ISPC)
-          POTHTG=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
+          HTGR=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
      &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*YR
         ELSE
           B1=NOPERMH1(ISPC)
@@ -295,7 +295,7 @@ C----------
           B5=NOPERMH5(ISPC)
           B6=NOPERMH6(ISPC)
           B7=NOPERMH7(ISPC)
-          POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
+          HTGR=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
      &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
         ENDIF
 C----------
@@ -309,11 +309,11 @@ C----------
         B5=NOPERMH5(ISPC)
         B6=NOPERMH6(ISPC)
         B7=NOPERMH7(ISPC)
-        POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
+        HTGR=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
      &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
-        CASE DEFAULT
+       CASE DEFAULT
           HTGR = 0.
-        END SELECT
+       END SELECT
         
       IF(DEBUG) THEN
       WRITE(JOSTND,9982)
@@ -325,18 +325,20 @@ C----------
        
       IF(DEBUG) THEN
       WRITE(JOSTND,9983)
-     &       I,ISPC,HT(I),PBAL,CRAT,RDZ,ELEVATN,XSITE
+     &       I,ISPC,HT(I),PBAL,CRAT,RDZ,ELEVATN,XSITE,HTGR
  9983 FORMAT(' IN REGENT 9983 FORMAT','  I=',I4,'  ISPC=',I3,
      &       '  HT=',F7.2,'  BAL=',F7.2,'  CR=',F7.4,'  RDEN=',F9.3,
-     &       '  ELEV=',F7.1,'  XSITE=',F7.4)
+     &       '  ELEV=',F7.1,'  XSITE=',F7.4, '  HTG=',F7.4)
       ENDIF
       
-        ZZRAN = 0.0
-        IF(DGSD.GE.1.0) ZZRAN=BACHLO(0.0,1.0,RANN)
-        IF((ZZRAN .GT. 0.5) .OR. (ZZRAN .LT. -2.0)) GOTO 5
-        IF(DEBUG)WRITE(JOSTND,9984) HTGR,ZZRAN,XRHGRO,SCALE1
- 9984   FORMAT('IN REGENT 9984 FORMAT',4(F10.4,2X))
-        HTGR = (HTGR +ZZRAN*0.1)*XRHGRO * SCALE1 * CON
+    4 CONTINUE
+      ZZRAN = 0.0
+      IF(DGSD.GE.1.0) ZZRAN=BACHLO(0.0,1.0,RANN)
+      IF((ZZRAN .GT. 0.5) .OR. (ZZRAN .LT. -2.0)) GOTO 4
+      IF(DEBUG)WRITE(JOSTND,9984) HTGR,ZZRAN,XRHGRO,SCALE1
+ 9984 FORMAT('IN REGENT 9984 FORMAT',4(F10.4,2X))
+      HTGR = (HTGR +ZZRAN*0.1)*XRHGRO * SCALE1 * CON
+      IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9984',' HTG=',HTGR
 C-----------
 C     COMPUTE WEIGHTS FOR THE LARGE AND SMALL TREE HEIGHT INCREMENT
 C     ESTIMATES.  IF DBH IS LESS THAN OR EQUAL TO XMN, THE LARGE TREE
@@ -350,6 +352,7 @@ C----------
       IF(DEBUG)WRITE(JOSTND,9985)XWT,HTGR,HTG(K),I,K
  9985 FORMAT('IN REGENT 9985 FORMAT',3(F10.4,2X),2I7)
       HTG(K)=HTGR*(1.0-XWT) + XWT*HTG(K)
+      IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9985',' HTG=',HTGR
       IF(HTG(K) .LT. .1) HTG(K) = .1
 C----------
 C CHECK FOR SIZE CAP COMPLIANCE.
@@ -511,7 +514,7 @@ C----------
           B5=PERMH5(ISPC)
           B6=PERMH6(ISPC)
           B7=PERMH7(ISPC)
-          POTHTG=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
+          EDH=EXP(B1 + B2 + B3*(HT(I))**2 + B4*LOG(HT(I)) +
      &           B5*PBAL +  B6*LOG(CRAT) + B7*ELEVATN)*YR
   10  CONTINUE
         XSITE=SITEAR(ISPC)
@@ -522,7 +525,7 @@ C----------
           B5=NOPERMH5(ISPC)
           B6=NOPERMH6(ISPC)
           B7=NOPERMH7(ISPC)
-          POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
+          EDH=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
      &           B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
 C----------
 C  CALCULATE HIEGHT GROWTH FOR COASTAL SPECIES 
@@ -535,14 +538,13 @@ C----------
         B5=NOPERMH5(ISPC)
         B6=NOPERMH6(ISPC)
         B7=NOPERMH7(ISPC)
-        POTHTG=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
+        EDH=EXP(B1 + B2*(HT(I))**2 + B3*LOG(HT(I)) + B4*PBAL +
      &         B5*LOG(CRAT) + B6*ELEVATN + B7*LOG(XSITE))*YR
 C----------
 C  SPACE FOR OTHER SPECIES
 C---------
-        CASE DEFAULT
-          EDH = 0.
-C
+      CASE DEFAULT
+        EDH = 0.
       END SELECT
 
       P=PROB(I)

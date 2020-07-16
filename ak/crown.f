@@ -258,7 +258,7 @@ C  RELATIVE DENSITY, and RELATIVE DBH (DBH/QMD)
 C----------
 C  CALCULATE X
       X = B1
-     & + B2 * ALOG(H*12/D)
+     & + B2 * LOG(H*12/D)
      & + B3 * RDEN
      & + B4 * (D/QMDPLT)
 C
