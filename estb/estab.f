@@ -46,8 +46,7 @@ C
 C
 C
       INCLUDE 'STDSTK.F77'
-C
-C
+C      
 COMMONS
 C
 C     REGENERATION ESTABLISHMENT MODEL   --   VERSION 2.0
@@ -62,7 +61,7 @@ C     ---- ----- ------- ------ | --------------- ---     | --------
 C       1    WP   PIMO   1.0 FT | BITTERROOT(103)  3      | 1=BOTTOM
 C       2    L    LAOC   1.0 FT | PANHANDLE (104)  4      | 2=LOWER
 C       3    DF   PSME   1.0 FT | CLEARWATER(105)  5      | 3=MID
-C       4    GF   ABGR   0.5 FT | COEUR D'A.(106)  4      | 4=UPPER
+C       4    GF   ABGR   0.5 FT | COEUR D A.(106)  4      | 4=UPPER
 C       5    WH   TSHE   0.5 FT | COLVILLE  (621)  7      | 5=RIDGE
 C       6    C    THPL   0.5 FT | FLATHEAD  (110) 10
 C       7    LP   PICO   1.0 FT | KANIKSU   (113)  4 ->DEERLODGE(109) 9
@@ -73,7 +72,7 @@ C      11    MH   TSME   0.5 FT | ST. JOE   (118)  4-| BOISE    (402) 20
 C
       EXTERNAL ESRANN
       LOGICAL DEBUG
-      INTEGER K,L,JJ,IBRKUP,ISHADE,IPNSPE,IDO,ITP,NDRAW,NSPNZ,NEWTPP
+      INTEGER K,L,JJ,IBRKUP,ISHADE,IPNSPE,IDO,ITP,NDRAW,NSPNZ,NEWTPP,M
       REAL CW,CRDUM,XCSMAX,BRKUP,XXH,XH,TMTIME,SHADE,TREEHT,PTREE,ESAVE
       REAL HHT,TRAGE,DILATE,DELAY,TPPLN,TPP,EMSQR,PN,BAAOLN,BAAOLD
       REAL RADIAN,GENTIM,TBAAA,SUM1,SUM2,FTEMP2,FTEMP,SUM
@@ -101,7 +100,10 @@ C
       INTEGER IASEP(99)
       REAL HTIMLT(99),STOMLT(MAXSP)
       INTEGER MAXSPP(16),IPLANT(MAXSP),MAXING(16)
-      REAL AGADSB(99),AGEPL(99),AGEXC(99)
+      REAL AGADSB(99),AGEPL(99),AGEXC(99),WTAVEHT
+      CHARACTER*47 HABTYP(16)
+      CHARACTER*7  SERIES(16)
+      CHARACTER*3  FINAL
 C
       DATA CBLANK/'  '/,CPREP/'NONE','MECH','BURN','ROAD'/,CTOPO/
      &  'BOTM','LOWR',' MID','UPPR','RIDG'/,MYTYPE/9*1,2*5,2*2,3*3,4,
@@ -109,6 +111,41 @@ C
      &  IDCMP1/10000000/,MYHABG/4*1,4*2,3,4,6*5/,MYHTS/1,3*2,4*3,2*4,
      &  6*5/,MAXSPP/4,3*3,5,4,6,4,2*6,4,2*5,4,6,4/,MYACTS/430,431,
      &  491,493/,NOFSPE/MAXSP/,MAXING/4,4,3,3,5,4,5,4,7,7,5,5,5,4,5,4/
+      DATA HABTYP/
+     &  'PSME/ VAGL, LIBO, VACA',
+     &  'PSME/ CARU, CAGE, GRASS',
+     &  'PSME/ PHMA, ACGL',
+     &  'PSME/ SYAL, SPBE, SYOR, ARUV, ARCO',
+     &  'ABGR/ LIBO, CLUN-XETE',
+     &  'ABGR/ XETE, VAGL, COOC, VACA',
+     &  'ABGR/ CLUN (EXCEPT CLUN-XETE)',
+     &  'ABGR/ SPBE, ACGL, PHMA, ASCA, SETR',
+     &  'THPL/ ALL',
+     &  'TSHE/ ALL',
+     &  'ABLA/ VAGL, VASC, VACA',
+     &  'ABLA/ XETE, LIBO',
+     &  'ABLA/ CLUN, GATR',
+     &  'ABLA/ CAGE, CARU, ACGL, SPBE',
+     &  'ABLA/ MEFE, ALSI, TSME/ CLUN, XETE, MEFE, STAM',
+     &  'ABLA/ CACA, STAM, LUHI'/
+      DATA SERIES/
+     &  'DF     ',
+     &  'DF     ',
+     &  'DF     ',
+     &  'DF     ',
+     &  'GF     ',
+     &  'GF     ',
+     &  'GF     ',
+     &  'GF     ',
+     &  'C      ',
+     &  'WH     ',
+     &  'AF & MH',
+     &  'AF & MH',
+     &  'AF & MH',
+     &  'AF & MH',
+     &  'AF & MH',
+     &  'AF & MH'/
+      DATA FINAL/"ALL"/
 C
 C     INITIALIZE ARRAYS AND VARIABLES
 C
@@ -139,10 +176,11 @@ C
       AGEXC(I)=0.0
 C
    40 CONTINUE
-      DO 41 I=1,2
-      DO 41 N=1,NOFSPE
-      FIRST(I,N)=0.1
-   41 CONTINUE
+      DO I=1,2
+        DO N=1,NOFSPE
+          FIRST(I,N)=0.1
+        ENDDO
+      ENDDO
       TCROP1=0.0
       TCROP2=0.0
       TTOTTP=0.0
@@ -180,7 +218,7 @@ C
       IFO=4
     5 CONTINUE
 C
-C     IF NOT THE FIRST TALLY, CANCEL MECH & BURNPREP'S IN THIS CYCLE.
+C     IF NOT THE FIRST TALLY, CANCEL MECH & BURN PREPS IN THIS CYCLE.
 C
       IF(NTALLY.GT.1) THEN
         CALL OPFIND (2,MYACTS(3),NTODO)
@@ -728,16 +766,17 @@ C
 C
 C     DETERMINE ADV/SUBS STATUS OF THE FIRST TREE OF EACH SPECIES.
 C
-      DO 53 I=1,NOFSPE
-      PADV(I)=0.0
-      PSUB(I)=0.0
-   53 CONTINUE
+      DO I=1,NOFSPE
+        PADV(I)=0.0
+        PSUB(I)=0.0
+      ENDDO
       IF(NTALLY.EQ.1) CALL ESPADV
       CALL ESPSUB
-      DO 62 I=1,2
-      DO 62 N=1,NOFSPE
-      ICHOI(I,N)=0
-   62 CONTINUE
+      DO I=1,2
+        DO N=1,NOFSPE
+          ICHOI(I,N)=0
+        ENDDO
+      ENDDO
       DO 63 I=1,NOFSPE
       CALL ESRANN (DRAW)
       IF(IBEST(I).NE.1) GO TO 63
@@ -1452,6 +1491,11 @@ C
      &  '<--- DF --> <--- GF -->  C WH <--- AF & MH --->',/,'YEAR:',
      &  3(I4,1X),'   GROUP: 1  2  3  4  5  6  7  8  9 10 11 12 13 14 ',
      &  '15 16',/,T2,'PCT:',I4,2I5,'   #PLOTS:',I2,15I3)
+        CALL DBSSITEPREP(J,K,L,N,NN,ITEMP)        
+        DO M=1,16
+        IF(IHABT(M).GT.0) CALL DBSPLOTHAB(IHABT(M),HABTYP(M),
+     &   SERIES(M),M)
+        ENDDO
         IF(IPINFO.EQ.3) WRITE(JOREGT,6022)
  6022   FORMAT (/,'NOTE: SOME OR ALL PLOT ID CODES FROM THE TREE ',
      &  'DATA FILE DID NOT MATCH',/,T7,'THOSE IN THE PLOTINFO FILE.  ',
@@ -1487,13 +1531,22 @@ C
      &  'SPECIES /ACRE TOTAL     /ACRE TOTAL HEIGHT      /ACRE TOTAL ',
      &  'SPECIES',/,5X,7('-'),1X,5('-'),1X,5('-'),5X,5('-'),1X,5('-'),
      &  1X,7('-'),5X,5('-'),1X,5('-'),1X,7('-') )
+      WTAVEHT=0.0
       DO 222 I=1,NOFSPE
       IF(TOTTPA(I).LE.0. .AND. BESTPA(I).LE.0. .AND. PASTPA(I).LE.0.)
      &GO TO 222
       WRITE(JOREGT,6014) NSP(I,1),TOTTPA(I),TOTPCT(I),BESTPA(I),
      &  BESPCT(I),AVEHT(I),PASTPA(I),PASPCT(I),NSP(I,1)
  6014 FORMAT(T9,A2,2X,2F6.0,4X,2F6.0,1X,F5.1,6X,2F6.0,3X,A2)
+       WTAVEHT=AVEHT(I)*BESTPA(I)+WTAVEHT
+       CALL DBSTALLY(SUMPRB,NTALLY,NSP(I,1),TOTTPA(I),
+     & TOTPCT(I),BESTPA(I),BESPCT(I),AVEHT(I),PASTPA(I),PASPCT(I),KDT,
+     & WTAVEHT,1,TTOTTP,TCROP1,TCROP2)
   222 CONTINUE
+       IF(TCROP1 . GT. 0.0) WTAVEHT=WTAVEHT/TCROP1
+       CALL DBSTALLY(SUMPRB,NTALLY,FINAL,TOTTPA(I),
+     & TOTPCT(I),BESTPA(I),BESPCT(I),AVEHT(I),PASTPA(I),PASPCT(I),KDT,
+     & WTAVEHT,2,TTOTTP,TCROP1,TCROP2)
       WRITE(JOREGT,6026) TTOTTP,TCROP1,TCROP2
  6026 FORMAT(T14,5('-'),T30,5('-'),T54,5('-'),/,T12,F7.0,T28,F7.0,
      &  T52,F7.0,/)
@@ -1520,6 +1573,10 @@ C
  6029 FORMAT(/('   SPECIES:',20(2X,A2,1X)))
       WRITE(JOREGT,6032)(TOTTPA(J),J=1,NOFSPE)
  6032 FORMAT(/('TREES/ACRE:',20F5.0))
+      DO M=1,NOFSPE
+      IF(TOTTPA(M).GT.0) CALL DBSINGROW(KDT,TTOTTP,NSP(M,1),
+     & TOTTPA(M))
+      ENDDO
   259 CONTINUE
   260 CONTINUE
 C

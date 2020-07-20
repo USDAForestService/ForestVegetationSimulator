@@ -99,13 +99,14 @@ C-----------
       ENDDO
       ENDDO
       IF (ITRN.LE.0) GOTO 2
-      DO 1 I=1,MAXSP
-      DO 1 J=1,3
-      SPCCC(I,J)=0.0
-      SPCAC(I,J)=0.0
-      SPCMC(I,J)=0.0
-      SPCBV(I,J)=0.0
-    1 CONTINUE
+      DO I=1,MAXSP
+        DO J=1,3
+          SPCCC(I,J)=0.0
+          SPCAC(I,J)=0.0
+          SPCMC(I,J)=0.0
+          SPCBV(I,J)=0.0
+        ENDDO
+      ENDDO
     2 CONTINUE
       IPASS=1
       ILOW=1

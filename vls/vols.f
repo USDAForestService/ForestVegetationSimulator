@@ -18,7 +18,7 @@ C
 C
 C
       INCLUDE 'ARRAYS.F77'
-C
+C                                                                                               
 C
       INCLUDE 'COEFFS.F77'
 C
@@ -84,18 +84,19 @@ C  CHECK FOR DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'VOLS',4,ICYC)
       DO J=1,2
-      DO I=1,MAXTRE
-      HT2TD(I,J)=0.
-      ENDDO
+        DO I=1,MAXTRE
+          HT2TD(I,J)=0.
+        ENDDO
       ENDDO
       IF (ITRN.LE.0) GOTO 2
-      DO 1 I=1,MAXSP
-      DO 1 J=1,3
-      SPCCC(I,J)=0.0
-      SPCAC(I,J)=0.0
-      SPCMC(I,J)=0.0
-      SPCBV(I,J)=0.0
-    1 CONTINUE
+      DO I=1,MAXSP
+        DO J=1,3
+          SPCCC(I,J)=0.0
+          SPCAC(I,J)=0.0
+          SPCMC(I,J)=0.0
+          SPCBV(I,J)=0.0
+        ENDDO
+      ENDDO
     2 CONTINUE
       IPASS=1
       ILOW=1
@@ -244,7 +245,7 @@ C----------
 C   CALCULATE SCRIBNER BOARD FOOT VOLUME.
 C   NOTE: METHODS 6 AND 9 GIVE SAME ANSWERS IN EASTERN VARIANTS
 C         METHOD 9 IS FOR INTERNATIOAL BF VOLUMES, AND WE CURRENTLY
-C         DON'T RETURN THOSE FROM VARVOL IN THE EAST.
+C         DONT RETURN THOSE FROM VARVOL IN THE EAST.
 C----------
       IF(DEBUG)WRITE(JOSTND,*)' BOARD SECTION, I,ISPC,D,H,METHB= ',
      &I,ISPC,D,H,METHB(ISPC)

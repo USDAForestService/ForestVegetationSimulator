@@ -115,10 +115,11 @@ C
       ENDIF
 C
       IF (ITST5.GT.0) THEN
-         DO 95 J=1,ITST5
-         DO 95 I=1,8
-         CALL CHWRIT (CBUFF,IPNT,LNCBUF,CTSTV5(J)(I:I),2)
-   95    CONTINUE
+         DO J=1,ITST5
+           DO I=1,8
+             CALL CHWRIT (CBUFF,IPNT,LNCBUF,CTSTV5(J)(I:I),2)
+           ENDDO
+         ENDDO
       ENDIF
       IF (ICACT.GT.0) THEN
          DO I=1,ICACT

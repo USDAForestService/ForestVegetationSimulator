@@ -48,12 +48,13 @@ C
 C     MOVE THE EXPRESSION INTO CEXPRS.
 C
       ICEX=0
-      DO 10 J=IPRMPT,7
-      DO 10 K=1,10
-      ICEX=ICEX+1
-      CEXPRS(ICEX)=KARD(J)(K:K)
-      CALL UPCASE(CEXPRS(ICEX))
-   10 CONTINUE
+      DO J=IPRMPT,7
+      DO K=1,10
+          ICEX=ICEX+1
+          CEXPRS(ICEX)=KARD(J)(K:K)
+          CALL UPCASE(CEXPRS(ICEX))
+        ENDDO
+      ENDDO
 C
 C     WRITE THE FIRST LINE.
 C

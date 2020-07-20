@@ -6,14 +6,14 @@ FVS_Cases          FVS_Fuels          FVS_SnagDet
 01160805050022,"Stand 01160805050022 at Regional Training",fireTest,50.0,IE
 01160805050024,"Stand 01160805050024 at Regional Training",fireTest,17.0,IE
 3,125.0
-6,1.32
+3,1.32
 12,3.39
 12,9.42
-1227,120.0
+1230,120.0
 12,3.7
-29,ALL
+16,ALL
 12,23.56
 12,909.5
 12,5.76
 12,10.16
-256,2.0
+255,2.0

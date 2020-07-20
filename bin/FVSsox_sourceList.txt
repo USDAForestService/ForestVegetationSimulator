@@ -124,6 +124,7 @@
 ../base/algptg.f
 ../base/algslp.f
 ../base/algspp.f
+../base/apisubsc.c
 ../base/apisubs.f
 ../base/autcor.f
 ../base/bachlo.f

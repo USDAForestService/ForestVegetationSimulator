@@ -78,8 +78,8 @@ C---------
      >       "FVS_PotFire_East"//CHAR(0))
         IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_PotFire_East('//
-     -              'CaseID char(36) not null,'//
-     -              'StandID char(26) null,'//
+     -              'CaseID text not null,'//
+     -              'StandID text not null,'//
      -              'Year int null,'//
      -              'Flame_Len_Sev real null,'//
      -              'Flame_Len_Mod real null,'//
@@ -120,15 +120,15 @@ C---------
      >       "FVS_PotFire"//CHAR(0))
         IF(iRet.EQ.0) THEN   
            SQLStmtStr='CREATE TABLE FVS_PotFire ('//
-     -              'CaseID char(36) not null,'//
-     -              'StandID char(26) null,'//
+     -              'CaseID text not null,'//
+     -              'StandID text not null,'//
      -              'Year int null,'//
      -              'Surf_Flame_Sev real null,'//
      -              'Surf_Flame_Mod real null,'//
      -              'Tot_Flame_Sev real null,'//
      -              'Tot_Flame_Mod real null,'//
-     -              'Fire_Type_Sev Char(8) null,'//
-     -              'Fire_Type_Mod Char(8) null,'//
+     -              'Fire_Type_Sev text null,'//
+     -              'Fire_Type_Mod text null,'//
      -              'PTorch_Sev real null,'//
      -              'PTorch_Mod real null,'//
      -              'Torch_Index real null,'//

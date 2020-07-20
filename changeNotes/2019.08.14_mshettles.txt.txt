@@ -1,0 +1,77 @@
+Subject: Addition of the Regeneration Tables to the Database Extension
+Name: Mike Shettles
+Date: 08/14/2019
+Variants affected: All
+
+Description: The 5 tables that are produced with usage of the full establishment model,
+and 3 when using the partial esablisghment model, have been added to the database 
+extension code for the Q-family. The DB-FVS keyword that triggers this is RegRepts. 
+The 5 table names are:
+
+1)FVS_Regen_Sprouts
+2)FVS_Regen_SitePrep
+3)FVS_Regen_HabType
+4)FVS_Regen_Tally
+5)FVS_Regen_Ingrowth
+
+Impact on users:This will primarily affect FVSOnline/Onlocal user's, 
+allowing them to select the tables as outputs, once the Shiny code is subsequently
+updated (next step).
+
+File(s):
+...\FMSCdev\ak\estab.f--added logic to call DBSSITEPREP, DBSPLOTHAB, DBSTALLY, and
+DBSINGROW with needed values that are calculated here for the RegRepts keyword tables
+
+...\FMSCdev\base\exdbs.f--added the entry for the new dbssprt, dbssiteprep,dbsplothab,
+dbstally, and dbsingrow subroutines and their associated dummy variables
+
+...\FMSCdev\bin\qFVS**_sourceList.txt--added dbssprt.f, dbssiteprep.f, dbsplothab.f,
+dbstally.f, and dbsingrow.f to the sourcelist files for all variants
+
+...\FMSCdev\changeNotes\2019.08.14_mshettles.txt--These notes.
+
+...\FMSCdev\dbsqlite\dbsppget.f--added the IREG1, IREG2, IREG3, IREG4, and IREG5
+variables to the INTS array, and incremented INTS by 5 in it's declaration.
+
+...\FMSCdev\dbsqlite\dbsppput.f--added the IREG1, IREG2, IREG3, IREG4, and IREG5
+variables to the INTS array, and incremented INTS by 5 in it's declaration.
+
+...\FMSCdev\dbsqlite\dbsin.f--incremented KWCNT by 1, added "REGREPTS" to the TABLEME
+array. Added "3900" to the NUMBER array, and added code to set IREG1, IREG2, IREG3,
+IREG4, and IREG5 to be set to 1.
+
+...\FMSCdev\dbsqlite\dbsinit.f--initialized IREG1, IREG2, IREG3, IREG4, and IREG5 to 0. 
+Added comments describing the two new tables.
+
+...\FMSCdev\dbsqlite\dbscase.f--added the IREG1, IREG2, IREG3, IREG4, and IREG5
+variables to the IFORSR criteria, and to the KODE criteria.
+	 
+...\FMSCdev\dbsqlite\dbssprt.f--created this new subroutine that writes out the sprouting
+table to an SQLite3 database.
+
+...\FMSCdev\dbsqlite\dbssiteprep.f--created this new subroutine that writes out the site prep
+summary table to an SQLite3 database.
+
+...\FMSCdev\dbsqlite\dbsplothab.f--created this new subroutine that writes out a table 
+summarizing the plot distribution by habitat type to an SQLite3 database.
+
+...\FMSCdev\dbsqlite\dbstally.f--created this new subroutine that writes out the tally
+summary tables to an SQLite3 database.
+
+...\FMSCdev\dbsqlite\dbsingrow.f--created this new subroutine that writes out the ingrowth
+tables to an SQLite3 database.
+
+...\FMSCdev\dbsqlite\DBSCOM.F77--added the IREG1, IREG2, IREG3, IREG4, and IREG5 variables 
+as global integers.
+
+...\FMSCdev\estb\estab.f--added logic to call DBSSITEPREP, DBSPLOTHAB, DBSTALLY, and
+DBSINGROW with needed values that are calculated here for the RegRepts keyword tables
+
+...\FMSCdev\estb\esuckr.fadded logic to call DBSSPRT with needed values that are calculated 
+here for the FVS_Regen_Sprouts tables
+
+...\FMSCdev\estb\strp.f--added logic to call DBSSITEPREP, DBSPLOTHAB, DBSTALLY, and
+DBSINGROW with needed values that are calculated here for the RegRepts keyword tables
+
+...\FMSCdev\estb\strp.fadded logic to call DBSSPRT with needed values that are calculated 
+here for the FVS_Regen_Sprouts tables

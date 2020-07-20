@@ -5,7 +5,10 @@ C BASE $Id$
 C----------
 C
 C     FROM: SYSTEM/360 SCIENTIFIC SUBROUTINE PACKAGE VERSION III
-C     PROGRAMMER'S MANUAL. IBM 1966.
+C     PROGRAMMERS MANUAL. IBM 1966.
+C
+C     PARTS RECODED TO COMPLY TO REMOVED FORTRAN FEATURES BY
+C     NCROOKSTON JAN 2020
 C
 C     ..................................................................
 C
@@ -78,28 +81,30 @@ C   5
       RANGE=1.0D-12
 C   6
       DN=FLOAT(N)
-      IF(MV-1) 10,25,10
-   10 IQ=-N
-      DO 20 J=1,N
-      IQ=IQ+N
-      DO 20 I=1,N
-      IJ=IQ+I
-      R(IJ)=0.0
-      IF(I-J) 20,15,20
-   15 R(IJ)=ONE
-   20 CONTINUE
+      IF (MV-1 .EQ. 0) GOTO 25
+      IQ=-N
+      DO J=1,N
+        IQ=IQ+N
+        DO I=1,N
+          IJ=IQ+I
+          R(IJ)=0.0
+          IF (I-J .EQ. 0) R(IJ)=ONE
+        ENDDO
+      ENDDO
 C
 C        COMPUTE INITIAL AND FINAL NORMS (ANORM AND ANORMX)
 C
-   25 ANORM=0.0
-      DO 35 I=1,N
-      DO 35 J=I,N
-      IF(I-J) 30,35,30
-   30 IA=I+(J*J-J)/2
-      ANORM=ANORM+A(IA)*A(IA)
-   35 CONTINUE
-      IF(ANORM) 165,165,40
-   40 ANORM=DSQRT(ANORM*TWO)
+   25 CONTINUE
+      ANORM=0.0
+      DO I=1,N
+        DO J=I,N
+          IF (I-J .EQ. 0) CYCLE
+          IA=I+(J*J-J)/2
+          ANORM=ANORM+A(IA)*A(IA)
+        ENDDO
+      ENDDO
+      IF(ANORM.LE.0) GOTO 165
+      ANORM=DSQRT(ANORM*TWO)
       ANRMX=ANORM*RANGE/DN
 C
 C        INITIALIZE INDICATORS AND COMPUTE THRESHOLD, THR
@@ -116,16 +121,15 @@ C
       LQ=(L*L-L)/2
       LM=L+MQ
 C  62
-      IF(DABS(A(LM))-THR) 130,65,65
-   65 IND=1
+      IF(DABS(A(LM))-THR .LT. 0) GOTO 130
+      IND=1
       LL=L+LQ
       MM=M+MQ
       X=(A(LL)-A(MM))/TWO
 C  68 
       Y=-A(LM)/ DSQRT(A(LM)*A(LM)+X*X)
-      IF(X) 70,75,75
-   70 Y=-Y
-   75 SINX=Y/ DSQRT(TWO*(ONE+( DSQRT(ONE-Y*Y))))
+      IF(X.LE.0.) Y=-Y
+      SINX=Y/ DSQRT(TWO*(ONE+( DSQRT(ONE-Y*Y))))
       SINX2=SINX*SINX
 C  78
       COSX= DSQRT(ONE-SINX2)
@@ -136,27 +140,27 @@ C        ROTATE L AND M COLUMNS
 C
       ILQ=N*(L-1)
       IMQ=N*(M-1)
-      DO 125 I=1,N
-      IQ=(I*I-I)/2
-      IF(I-L) 80,115,80
-   80 IF(I-M) 85,115,90
-   85 IM=I+MQ
-      GO TO 95
-   90 IM=M+IQ
-   95 IF(I-L) 100,105,105
-  100 IL=I+LQ
-      GO TO 110
-  105 IL=L+IQ
-  110 X=A(IL)*COSX-A(IM)*SINX
-      A(IM)=A(IL)*SINX+A(IM)*COSX
-      A(IL)=X
-  115 IF(MV-1) 120,125,120
-  120 ILR=ILQ+I
-      IMR=IMQ+I
-      X=R(ILR)*COSX-R(IMR)*SINX
-      R(IMR)=R(ILR)*SINX+R(IMR)*COSX
-      R(ILR)=X
-  125 CONTINUE
+      DO I=1,N
+        IQ=(I*I-I)/2
+        IF(I-L .EQ. 0 .OR. I-M .EQ. 0) GOTO 115
+        IF(I-M .GT. 0) GOTO 90
+        IM=I+MQ
+        GO TO 95
+   90   IM=M+IQ
+   95   IF(I-L .GE. 0) GOTO 105
+        IL=I+LQ
+        GO TO 110
+  105   IL=L+IQ
+  110   X=A(IL)*COSX-A(IM)*SINX
+        A(IM)=A(IL)*SINX+A(IM)*COSX
+        A(IL)=X
+  115   IF(MV-1 .EQ. 0) CYCLE
+        ILR=ILQ+I
+        IMR=IMQ+I
+        X=R(ILR)*COSX-R(IMR)*SINX
+        R(IMR)=R(ILR)*SINX+R(IMR)*COSX
+        R(ILR)=X
+      ENDDO
       X=TWO*A(LM)*SINCS
       Y=A(LL)*COSX2+A(MM)*SINX2-X
       X=A(LL)*SINX2+A(MM)*COSX2+X
@@ -168,44 +172,47 @@ C        TESTS FOR COMPLETION
 C
 C        TEST FOR M = LAST COLUMN
 C
-  130 IF(M-N) 135,140,135
-  135 M=M+1
+  130 IF(M-N .EQ. 0) GOTO 140
+      M=M+1
       GO TO 60
 C
 C        TEST FOR L = SECOND FROM LAST COLUMN
 C
-  140 IF(L-(N-1)) 145,150,145
-  145 L=L+1
+  140 IF(L-(N-1) .EQ. 0) GOTO 150
+      L=L+1
       GO TO 55
-  150 IF(IND-1) 160,155,160
-  155 IND=0
+  150 IF(IND-1 .NE. 0) GOTO 160
+      IND=0
       GO TO 50
 C
 C        COMPARE THRESHOLD WITH FINAL NORM
 C
-  160 IF(THR-ANRMX) 165,165,45
+  160 IF(THR-ANRMX .GT. 0.) GOTO 45
 C
 C        SORT EIGENVALUES AND EIGENVECTORS
 C
-  165 IQ=-N
-      DO 185 I=1,N
+  165 CONTINUE
+      IQ=-N
+      DO I=1,N
       IQ=IQ+N
       LL=I+(I*I-I)/2
       JQ=N*(I-2)
-      DO 185 J=I,N
-      JQ=JQ+N
-      MM=J+(J*J-J)/2
-      IF(A(LL)-A(MM)) 170,185,185
-  170 X=A(LL)
-      A(LL)=A(MM)
-      A(MM)=X
-      IF(MV-1) 175,185,175
-  175 DO 180 K=1,N
-      ILR=IQ+K
-      IMR=JQ+K
-      X=R(ILR)
-      R(ILR)=R(IMR)
-  180 R(IMR)=X
-  185 CONTINUE
-      RETURN
+      DO J=I,N
+        JQ=JQ+N
+        MM=J+(J*J-J)/2
+        IF(A(LL)-A(MM) .GE. 0) CYCLE
+        X=A(LL)
+        A(LL)=A(MM)
+        A(MM)=X
+        IF(MV-1 .EQ. 0) CYCLE
+          DO K=1,N
+            ILR=IQ+K
+            IMR=JQ+K
+            X=R(ILR)
+            R(ILR)=R(IMR)
+            R(IMR)=X
+          ENDDO
+        ENDDO
+      ENDDO
+      RETURN     
       END

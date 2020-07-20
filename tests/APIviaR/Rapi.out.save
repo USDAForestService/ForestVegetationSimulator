@@ -110,8 +110,18 @@ FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT
 > 
 > fvsRun(2,2030)
 > fvsGetStandIDs()
-  standid   standcn    mgmtid 
-"S248112"       " "    "NONE" 
+$standid
+[1] "S248112"
+
+$standcn
+[1] ""
+
+$mgmtid
+[1] "NONE"
+
+$caseID
+[1] ""
+
 > 
 > # get and output some event monitor vars
 > fvsGetEventMonitorVariables(c("year","atpa","aba"))
@@ -294,7 +304,7 @@ rtn =  0
 > # continue the run
 > fvsRun(0,0)
 
-                  IE FVS VARIANT -- RV:20171016  
+                  IE FVS VARIANT -- RV:20200403  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -319,7 +329,7 @@ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
 2080   130 231 336 119 18.1 10186     0     0     0 231 336 119 18.1 183  93
 2090   113 238 334 125 19.7 11090     0     0     0 238 334 125 19.7   0   0
 
-                  IE FVS VARIANT -- RV:20171016  
+                  IE FVS VARIANT -- RV:20200403  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -344,7 +354,7 @@ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
 2080   114 241 338 126 19.7 11058     0     0     0 241 338 126 19.7 181  99
 2090    99 246 335 133 21.3 11880     0     0     0 246 335 133 21.3   0   0
 
-                  IE FVS VARIANT -- RV:20171016  
+                  IE FVS VARIANT -- RV:20200403  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -403,7 +413,7 @@ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
 2080   176 195 310 104 14.3  7904     0     0     0 195 310 104 14.3 197  65
 2090   161 214 329 111 15.6  9230     0     0     0 214 329 111 15.6   0   0
 
-                  IE FVS VARIANT -- RV:20171016  
+                  IE FVS VARIANT -- RV:20200403  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE

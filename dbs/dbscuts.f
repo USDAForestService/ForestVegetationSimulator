@@ -1,8 +1,8 @@
       SUBROUTINE DBSCUTS(IWHO,KODE)
       IMPLICIT NONE
-C
+C----------
 C DBS $Id$
-C
+C----------
 C     PURPOSE: TO OUTPUT THE CUTS LIST DATA TO THE DATABASE
 C
 C     INPUT: IWHO  - THE WHO CALLED ME VALUE WHICH MUST BE 2
@@ -43,7 +43,9 @@ COMMONS
 C
       CHARACTER*8 TID,CSPECIES
       CHARACTER*2000 SQLStmtStr
-      CHARACTER*20 TABLENAME,DTYPE
+      CHARACTER*20 TABLENAME,DTYPE,CREATENAM
+      CHARACTER*5 NTCUFT,NMCUFT,NBDFT
+      CHARACTER*8 NAMDCF,NAMDBF
       INTEGER IWHO,I,JYR,IP,ITPLAB,IRCODE,IDMR,ICDF,IBDF,IPTBAL,KODE
       INTEGER ISPC,I1,I2,I3
       INTEGER*4 IDCMP1,IDCMP2
@@ -62,15 +64,69 @@ C---------
 C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 C---------
       CALL DBSCASE(1)
+      
+C     For CS, LS, NE and SN, the table name is FVS_CutList_East and the following
+C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
 
       IF(TRIM(DBMSOUT).EQ.'EXCEL') THEN
-        TABLENAME = '[FVS_CutList$]'
+        IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN' .OR.
+     -      VARACD.EQ.'NE') THEN
+          TABLENAME = '[FVS_CutList_East$]'
+          CREATENAM =  'FVS_CutList_East'
+          NTCUFT  = 'MCuFt'
+          NMCUFT  = 'SCuFt'
+          NBDFT   = 'SBdFt'
+          NAMDCF  = 'Ht2TDMCF'
+          NAMDBF  = 'Ht2TDSCF'
+        ELSE
+          TABLENAME = '[FVS_CutList$]'
+          CREATENAM =  'FVS_CutList'
+          NTCUFT  = 'TCuFt'
+          NMCUFT  = 'MCuFt'
+          NBDFT   = 'BdFt'
+          NAMDCF  = 'Ht2TDCF '
+          NAMDBF  = 'Ht2TDBF '
+        ENDIF
         DTYPE = 'Number'
       ELSEIF(TRIM(DBMSOUT).EQ.'ACCESS') THEN
-        TABLENAME = 'FVS_CutList'
+        IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN' .OR.
+     -      VARACD.EQ.'NE') THEN
+          TABLENAME = 'FVS_CutList_East'
+          CREATENAM = 'FVS_CutList_East'
+          NTCUFT  = 'MCuFt'
+          NMCUFT  = 'SCuFt'
+          NBDFT   = 'SBdFt'
+          NAMDCF  = 'Ht2TDMCF'
+          NAMDBF  = 'Ht2TDSCF'
+        ELSE
+          TABLENAME = 'FVS_CutList'
+          CREATENAM = 'FVS_CutList'
+          NTCUFT  = 'TCuFt'
+          NMCUFT  = 'MCuFt'
+          NBDFT   = 'BdFt'
+          NAMDCF  = 'Ht2TDCF '
+          NAMDBF  = 'Ht2TDBF '
+        ENDIF
         DTYPE = 'Double'
       ELSE
-        TABLENAME = 'FVS_CutList'
+        IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN' .OR.
+     -      VARACD.EQ.'NE') THEN
+          TABLENAME = 'FVS_CutList_East'
+          CREATENAM = 'FVS_CutList_East'
+          NTCUFT  = 'MCuFt'
+          NMCUFT  = 'SCuFt'
+          NBDFT   = 'SBdFt'
+          NAMDCF  = 'Ht2TDMCF'
+          NAMDBF  = 'Ht2TDSCF'
+        ELSE
+          TABLENAME = 'FVS_CutList'
+          CREATENAM = 'FVS_CutList'
+          NTCUFT  = 'TCuFt'
+          NMCUFT  = 'MCuFt'
+          NBDFT   = 'BdFt'
+          NAMDCF  = 'Ht2TDCF '
+          NAMDBF  = 'Ht2TDBF '
+        ENDIF
         DTYPE = 'real'
       ENDIF
 
@@ -93,8 +149,8 @@ C---------
       ENDIF
       IF(IRCODE.EQ.1) THEN
         IF(TRIM(DBMSOUT).EQ."ACCESS") THEN
-          SQLStmtStr='CREATE TABLE FVS_CutList'//
-     -             '(CaseID Text not null,'//
+          SQLStmtStr='CREATE TABLE '// TRIM(CREATENAM) //
+     -             ' (CaseID Text not null,'//
      -             'StandID Text null,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
@@ -115,21 +171,21 @@ C---------
      -             'MistCD int null,'//
      -             'BAPctile double null,'//
      -             'PtBAL double null,'//
-     -             'TCuFt double null,'//
-     -             'MCuFt double null,'//
-     -             'BdFt double null,'//
+     -             NTCUFT // ' double null,'//
+     -             NMCUFT // ' double null,'//
+     -             NBDFT  // ' double null,'//
      -             'MDefect int null,'//
      -             'BDefect int null,'//
      -             'TruncHt int null,'//
      -             'EstHt double null,'//
      -             'ActPt int null,'//
-     -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null,'//
+     -             NAMDCF // ' real null,'//
+     -             NAMDBF // ' real null,'//
      -             'TreeAge double null)'
 
         ELSEIF(TRIM(DBMSOUT).EQ."EXCEL") THEN
-          SQLStmtStr='CREATE TABLE FVS_CutList'//
-     -             '(CaseID Text null,'//
+          SQLStmtStr='CREATE TABLE '// TRIM(CREATENAM) //
+     -             ' (CaseID Text null,'//
      -             'StandID Text null,'//
      -             'Year INT null,'//
      -             'PrdLen int null,'//
@@ -150,20 +206,20 @@ C---------
      -             'MistCD int null,'//
      -             'BAPctile Number null,'//
      -             'PtBAL Number null,'//
-     -             'TCuFt Number null,'//
-     -             'MCuFt Number null,'//
-     -             'BdFt Number null,'//
+     -             NTCUFT // ' Number null,'//
+     -             NMCUFT // ' Number null,'//
+     -             NBDFT  // ' Number null,'//
      -             'MDefect int null,'//
      -             'BDefect int null,'//
      -             'TruncHt int null,'//
      -             'EstHt Number null,'//
      -             'ActPt int null,'//
-     -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null,'//
+     -             NAMDCF // ' real null,'//
+     -             NAMDBF // ' real null,'//
      -             'TreeAge Number null)'
         ELSE
-          SQLStmtStr='CREATE TABLE FVS_CutList'//
-     -             '(CaseID char(36) null,'//
+          SQLStmtStr='CREATE TABLE '// TRIM(CREATENAM) //
+     -             ' (CaseID char(36) null,'//
      -             'StandID char(26) null,'//
      -             'Year int null,'//
      -             'PrdLen int null,'//
@@ -184,16 +240,16 @@ C---------
      -             'MistCD int null,'//
      -             'BAPctile real null,'//
      -             'PtBAL real null,'//
-     -             'TCuFt real null,'//
-     -             'MCuFt real null,'//
-     -             'BdFt real null,'//
+     -             NTCUFT // ' real null,'//
+     -             NMCUFT // ' real null,'//
+     -             NBDFT  // ' real null,'//
      -             'MDefect int null,'//
      -             'BDefect int null,'//
      -             'TruncHt int null,'//
      -             'EstHt real null,'//
      -             'ActPt int null,'//
-     -             'Ht2TDCF real null,'//
-     -             'Ht2TDBF real null,'//
+     -             NAMDCF // ' real null,'//
+     -             NAMDBF // ' real null,'//
      -             'TreeAge real null)'
         ENDIF
         iRet = fvsSQLCloseCursor(StmtHndlOut)
@@ -294,9 +350,10 @@ C
      -           '(CaseID,StandID,Year,PrdLen,',
      -           'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
      -           'MortPA,DBH,DG,',
-     -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,TCuFt,',
-     -           'MCuFt,BdFt,MDefect,BDefect,TruncHt,',
-     -           'EstHt,ActPt,Ht2TDCF,Ht2TDBF,TreeAge) VALUES(''',
+     -           'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,',
+     -           NTCUFT,',',NMCUFT,',',NBDFT,',',
+     -           'MDefect,BDefect,TruncHt,EstHt,ActPt,',
+     -           NAMDCF,',',NAMDBF,',','TreeAge) VALUES(''',
      -           CASEID,''',''',TRIM(NPLT),
      -           ''',',JYR,',',IFINT,",'",ADJUSTL(TID),"',",I,",'",
      -           trim(CSPECIES),"',",IMC(I),',',ISPECL(I),',',ITRE(I),
@@ -305,7 +362,6 @@ C
      -           CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
      -           ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
      -           ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,')'
-
 
             iRet = fvsSQLCloseCursor(StmtHndlOut)
 

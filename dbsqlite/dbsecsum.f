@@ -44,8 +44,8 @@ C DBSQLITE $Id$
       iRet = fsql3_tableexists(IoutDBref,"FVS_EconSummary"//CHAR(0))
       IF(iRet.EQ.0) THEN
          SQLStmtStr = 'CREATE TABLE FVS_EconSummary ('
-     &          // 'CaseID text, '
-     &          // 'StandID text, '
+     &          // 'CaseID text not null, '
+     &          // 'StandID text not null, '
      &          // 'Year int null, '
      &          // 'Period int null, '
      &          // 'Pretend_Harvest text null, '

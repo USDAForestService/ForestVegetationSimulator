@@ -97,10 +97,10 @@ C          IF (JYR .NE. IYR) GO TO 422
           ICOND = 1
   422   CONTINUE
       ENDIF
-C
-      IF ((ICOND .EQ. 0 .OR. COVTYP .LE. 0) .AND. (LFLBRN)) THEN
-        CALL FMFOUT(IYR,0.0,0, 0,'FUELBURN')
-      ENDIF
+C This is an inecessary call to have the fire reports printed for the PILEBURN keyword. M.S. 2/4/20
+C      IF ((ICOND .EQ. 0 .OR. COVTYP .LE. 0) .AND. (LFLBRN)) THEN
+C        CALL FMFOUT(IYR,0.0,0, 0,'FUELBURN')
+C      ENDIF
 C----------
 C  CHECK TO SEE IF THERE IS A DROUGHT STATE; THIS
 C  AFFECTS THE FUEL MODEL IN SOME VARIANTS (UT/CR/LS)

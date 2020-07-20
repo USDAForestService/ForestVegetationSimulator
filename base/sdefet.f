@@ -91,7 +91,7 @@ C
             CALL OPNEW (KODE,IDT,IACTK,6,ARRAY(2))
             WRITE (KARD(2)(7:10),'(I4)') IDT
             ILEN=3
-            IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+            IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
             WRITE (JOSTND,30) KEYWRD,'DATE/CYCLE= ' // KARD(2)(7:10),
      >                        KARD(2)(1:ILEN),IS,(ARRAY(I),I=3,7)
    30       FORMAT(/1X,A8,T13,A,'; SPECIES=',A,' (CODE=',
@@ -100,7 +100,7 @@ C
      >             ';  25 INCH AND LARGER TREES=',F6.2)
          ELSE
             ILEN=3
-            IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+            IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
             WRITE (JOSTND,30) KEYWRD,'DEFECT CHANGED',
      >             KARD(2)(1:ILEN),IS,(ARRAY(I),I=3,7)
 C

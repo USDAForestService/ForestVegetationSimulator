@@ -13,7 +13,7 @@ COMMONS
 C
 C
       INTEGER MXI
-      PARAMETER (MXI=45)
+      PARAMETER (MXI=52)
 
       INTEGER INTS(MXI), ILIMIT, IPNT
       REAL    WK3(*)
@@ -66,6 +66,13 @@ C
       IRD2         = INTS( 43)
       IRD3         = INTS( 44)
       ICALIB       = INTS( 45)
+      ISTATS1      = INTS( 46)
+      ISTATS2      = INTS( 47)
+      IREG1        = INTS( 48)
+      IREG2        = INTS( 49)
+      IREG3        = INTS( 50)
+      IREG4        = INTS( 51)
+      IREG5        = INTS( 52)
 
       CALL IFREAD(WK3, IPNT, ILIMIT, LENSTRINGS, 3, 2)
 C
@@ -93,12 +100,14 @@ C
       INTEGER J,IPNT,KODE
 
       IF (LENSTRINGS(1).GT.0) THEN
+        DSNIN=" "
         DO J=1,LENSTRINGS(1)
           CALL CHREAD(CBUFF,IPNT,LNCBUF,DSNIN(J:J),2)
         ENDDO
       ENDIF
 
       IF (LENSTRINGS(2).GT.0) THEN
+        DSNOUT=" "
         DO J=1,LENSTRINGS(2)
           CALL CHREAD(CBUFF,IPNT,LNCBUF,DSNOUT(J:J),2)
         ENDDO
@@ -116,18 +125,18 @@ C
 
       ! reopen connections that were in use.
 
-      IF (IinDBref.EQ.0) THEN
-        IinDBref = -1
+      IF (IinDBref.EQ.-1) THEN
+        IinDBref = 0
         CALL DBSOPEN(.FALSE.,.TRUE.,KODE)
 
-        IF (KODE.EQ.0) PRINT *,"Reopen DBSIN failed. DSNIN=",
+        IF (KODE.EQ.1) PRINT *,"Reopen DBSIN failed. DSNIN=",
      -     TRIM(DSNIN)
       ENDIF
-      IF (IoutDBref.EQ.0) THEN
-        IoutDBref = -1
+      IF (IoutDBref.EQ.-1) THEN
+        IoutDBref = 0
         CALL DBSOPEN(.TRUE.,.FALSE.,KODE)
 
-        IF (KODE.EQ.0) PRINT *,"Reopen DSNOUT failed. DSNOUT=",
+        IF (KODE.EQ.1) PRINT *,"Reopen DSNOUT failed. DSNOUT=",
      -     TRIM(DSNOUT)
       ENDIF
 

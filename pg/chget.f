@@ -99,11 +99,11 @@ C
    60 CONTINUE
    
 C
-      DO 80 J=1,6
-      DO 70 I=1,3
-      CALL CHREAD(CBUFF,IPNT,LNCBUF,IONSP(J)(I:I),2)
-   70 CONTINUE
-   80 CONTINUE
+      DO J=1,6
+        DO I=1,3
+          CALL CHREAD(CBUFF,IPNT,LNCBUF,IONSP(J)(I:I),2)
+        ENDDO
+      ENDDO
 C
       DO 85 I=1,6
          CALL CHREAD (CBUFF,IPNT,LNCBUF,ALLSUB(I:I),2)
@@ -116,10 +116,11 @@ C
       ENDIF
 C
       IF (ITST5.GT.0) THEN
-         DO 95 J=1,ITST5
-         DO 95 I=1,8
-         CALL CHREAD (CBUFF,IPNT,LNCBUF,CTSTV5(J)(I:I),2)
-   95    CONTINUE
+         DO J=1,ITST5
+           DO I=1,8
+             CALL CHREAD (CBUFF,IPNT,LNCBUF,CTSTV5(J)(I:I),2)
+           ENDDO
+         ENDDO
       ENDIF
       IF (ICACT.GT.0) THEN
          DO I=1,ICACT

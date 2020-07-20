@@ -9,35 +9,6 @@ C----------
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE PROGNOSIS MODEL
 C              OUTPUT.
-C     AUTH: D. GAMMEL -- SEM -- JUNE 2002
-C     INPUT:
-C     IOSUM = THE SUMMARY OUTPUT ARRAY FROM THE PROGNOSIS MODEL.
-C              1: YEAR
-C              2: AGE
-C              3: TREES/ACRE
-C              4: TOTAL CU FT
-C     *        4: MERCH CU FT (PULP AND SAWLOG)
-C              5: MERCH CU FT
-C     *        5: MERCH CU FT (SAWLOG)
-C              6: MERCH BD FT
-C     *        6: MERCH BD FT (SAWLOG)
-C              7: REMOVED TREES/ACRE
-C              8: REMOVED TOTAL CU FT
-C     *        8: REMOVED MERCH CU FT (PULP AND SAWLOG)
-C              9: REMOVED MERCH CU FT
-C     *        9: REMOVED MERCH CU FT (SAWLOG)
-C             10: REMOVED MERCH BD FT
-C     *       10: REMOVED MERCH BD FT (SAWLOG)
-C             11: BASAL AREA/ACRE
-C             12: CCF
-C             13: AVERAGE DOMINATE HEIGHT
-C             14: PERIOD LENGTH (YEARS)
-C             15: ACCRETION (ANNUAL IN CU FT/ACRE)
-C             16: MORTALITY  (ANNUAL IN CU FT/ACRE)
-C             17: SAMPLE WEIGHT
-C             18: FOREST COVER TYPE CODE
-C             19: SIZE CLASS
-C             20: STOCKING CLASS
 C
 COMMONS
 C
@@ -62,7 +33,7 @@ COMMONS END
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
 
-      IF(ISUMARY.EQ.0) RETURN
+      IF(ISUMARY.NE.1) RETURN
 C
       CALL DBSCASE(1)
 
@@ -82,69 +53,69 @@ C
      1      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
 C
             SQLStmtStr='CREATE TABLE FVS_Summary_East('//
-     -                 'CaseID char(36),'//
-     -                 'StandID Char(26),'//
-     -                 'Year int null,'//
-     -                 'Age int null,'//
-     -                 'Tpa int null,'//
-     -                 'BA int null,'//
-     -                 'SDI int null,'//
-     -                 'CCF int null,'//
-     -                 'TopHt int null,'//
-     -                 'QMD real null,'//
-     -                 'MCuFt int null,'//
-     -                 'SCuFt int null,'//
-     -                 'SBdFt int null,'//
-     -                 'RTpa int null,'//
-     -                 'RMCuFt int null,'//
-     -                 'RSCuFt int null,'//
-     -                 'RSBdFt int null,'//
-     -                 'ATBA int null,'//
-     -                 'ATSDI int null,'//
-     -                 'ATCCF int null,'//
-     -                 'ATTopHt int null,'//
-     -                 'ATQMD real null,'//
-     -                 'PrdLen int null,'//
-     -                 'Acc int null,'//
-     -                 'Mort int null,'//
-     -                 'MAI real null,'//
-     -                 'ForTyp int null,'//
-     -                 'SizeCls int null,'//
-     -                 'StkCls int null);'//CHAR(0)
+     -                 'CaseID text not null,'//
+     -                 'StandID text not null,'//
+     -                 'Year int,'//
+     -                 'Age int,'//
+     -                 'Tpa int,'//
+     -                 'BA int,'//
+     -                 'SDI int,'//
+     -                 'CCF int,'//
+     -                 'TopHt int,'//
+     -                 'QMD real,'//
+     -                 'MCuFt int,'//
+     -                 'SCuFt int,'//
+     -                 'SBdFt int,'//
+     -                 'RTpa int,'//
+     -                 'RMCuFt int,'//
+     -                 'RSCuFt int,'//
+     -                 'RSBdFt int,'//
+     -                 'ATBA int,'//
+     -                 'ATSDI int,'//
+     -                 'ATCCF int,'//
+     -                 'ATTopHt int,'//
+     -                 'ATQMD real,'//
+     -                 'PrdLen int,'//
+     -                 'Acc int,'//
+     -                 'Mort int,'//
+     -                 'MAI real,'//
+     -                 'ForTyp int,'//
+     -                 'SizeCls int,'//
+     -                 'StkCls int);'//CHAR(0)
         ELSE
 C
 C       WESTERN VARIANT VOLUME NOMENCLATURE
 C
             SQLStmtStr='CREATE TABLE FVS_Summary('//
-     -                 'CaseID char(36),'//
-     -                 'StandID Char(26),'//
-     -                 'Year int null,'//
-     -                 'Age int null,'//
-     -                 'Tpa int null,'//
-     -                 'BA int null,'//
-     -                 'SDI int null,'//
-     -                 'CCF int null,'//
-     -                 'TopHt int null,'//
-     -                 'QMD real null,'//
-     -                 'TCuFt int null,'//
-     -                 'MCuFt int null,'//
-     -                 'BdFt int null,'//
-     -                 'RTpa int null,'//
-     -                 'RTCuFt int null,'//
-     -                 'RMCuFt int null,'//
-     -                 'RBdFt int null,'//
-     -                 'ATBA int null,'//
-     -                 'ATSDI int null,'//
-     -                 'ATCCF int null,'//
-     -                 'ATTopHt int null,'//
-     -                 'ATQMD real null,'//
-     -                 'PrdLen int null,'//
-     -                 'Acc int null,'//
-     -                 'Mort int null,'//
-     -                 'MAI real null,'//
-     -                 'ForTyp int null,'//
-     -                 'SizeCls int null,'//
-     -                 'StkCls int null);'//CHAR(0)
+     -                 'CaseID text not null,'//
+     -                 'StandID text not null,'//
+     -                 'Year int,'//
+     -                 'Age int,'//
+     -                 'Tpa int,'//
+     -                 'BA int,'//
+     -                 'SDI int,'//
+     -                 'CCF int,'//
+     -                 'TopHt int,'//
+     -                 'QMD real,'//
+     -                 'TCuFt int,'//
+     -                 'MCuFt int,'//
+     -                 'BdFt int,'//
+     -                 'RTpa int,'//
+     -                 'RTCuFt int,'//
+     -                 'RMCuFt int,'//
+     -                 'RBdFt int,'//
+     -                 'ATBA int,'//
+     -                 'ATSDI int,'//
+     -                 'ATCCF int,'//
+     -                 'ATTopHt int,'//
+     -                 'ATQMD real,'//
+     -                 'PrdLen int,'//
+     -                 'Acc int,'//
+     -                 'Mort int,'//
+     -                 'MAI real,'//
+     -                 'ForTyp int,'//
+     -                 'SizeCls int,'//
+     -                 'StkCls int);'//CHAR(0)
         ENDIF
         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (iRet .NE. 0) THEN
@@ -180,7 +151,7 @@ C
       ENDIF
       iRet = fsql3_prepare(IoutDBref,trim(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
-        ISUMARY = 0
+        ISUMARY = 0                                        
         RETURN
       ENDIF
       
@@ -266,6 +237,286 @@ C
       iRet = fsql3_bind_int(IoutDBref,ColNumber,ISTCL)
 
       iRet = fsql3_step(IoutDBref)
+      iRet = fsql3_finalize(IoutDBref)
+      if (iRet.ne.0) then
+         ISUMARY = 0
+      ENDIF
+      RETURN
+      END
+
+
+      SUBROUTINE DBSSUMRY2    
+      IMPLICIT NONE
+C----------
+C VDBSQLITE $Id$
+C----------                                                                            
+C     PURPOSE: TO POPULATE A DATABASE WITH SUMMARY STATISTICS
+C
+COMMONS
+C
+      INCLUDE 'PRGPRM.F77'
+      INCLUDE 'CONTRL.F77'
+      INCLUDE 'DBSCOM.F77'  
+      INCLUDE 'OPCOM.F77'
+      INCLUDE 'OUTCOM.F77'
+      INCLUDE 'PLOT.F77'
+      INCLUDE 'SUMTAB.F77'
+C
+COMMONS
+C
+      INTEGER IYEAR,ICCF,ITOPHT,IOSDI,IPRDLEN,IHRVC,IAGEOUT
+      DOUBLE PRECISION DPTPA,DPTPTPA,DPBA,DPQMD,DPTCUFT,DPTPTCUFT,
+     > DPMCUFT,DPTPMCUFT,DPBDFT,DPTPBDFT,DPACC,DPMORT,DPMAI,DPRTPA,
+     > DPRTCUFT,DPRMCUFT,DPRBDFT
+      INTEGER ColNumber,iRet,I
+      CHARACTER*2000 SQLStmtStr
+      CHARACTER*20 TABLENAME  
+C
+      integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize 
+     
+      IF(ISUMARY.NE.2) RETURN
+C
+      IYEAR    = IY(ICYC)
+      IAGEOUT  = IOSUM(2,ICYC)
+      ICCF     = IOSUM(12,ICYC)
+      ITOPHT   = IOSUM(13,ICYC)
+      IOSDI    = ISDI(ICYC)
+      DPTPA    = OLDTPA/GROSPC
+      DPBA     = OLDBA/GROSPC
+      DPQMD    = ORMSQD
+      IHRVC    = 0
+      IF (ICYC.GT.NCYC) THEN
+        DPTCUFT  = OCVCUR(7)/GROSPC
+        DPMCUFT  = OMCCUR(7)/GROSPC               
+        DPBDFT   = OBFCUR(7)/GROSPC
+      ELSE
+        DPTCUFT  = TSTV1(4)
+        DPMCUFT  = TSTV1(5)              
+        DPBDFT   = TSTV1(6) 
+      ENDIF
+      DPTPTPA  = DPTPA   + (TRTPA/GROSPC)
+      DPTPTCUFT= DPTCUFT + (TRTCUFT/GROSPC)
+      DPTPMCUFT= DPMCUFT + (TRMCUFT/GROSPC)
+      DPTPBDFT = DPBDFT  + (TRBDFT/GROSPC)
+      DPRTPA   = 0.
+      DPRTCUFT = 0.
+      DPRMCUFT = 0.
+      DPRBDFT  = 0.
+      IPRDLEN  = 0
+      DPACC    = 0. 
+      IPRDLEN  = IOSUM(14,ICYC)
+      DPACC    = OACC(7)/GROSPC
+      DPMORT   = OMORT(7)/GROSPC
+      DPMAI    = BCYMAI(ICYC) 
+      IF (ICYC.LE.NCYC) THEN       
+        DPRTPA   = ONTREM(7)/GROSPC
+        DPRTCUFT = OCVREM(7)/GROSPC
+        DPRMCUFT = OMCREM(7)/GROSPC
+        DPRBDFT  = OBFREM(7)/GROSPC 
+        IF (DPRTPA.LE.0.) THEN 
+          IPRDLEN  = IOSUM(14,ICYC)
+          DPACC    = OACC(7)/GROSPC
+          DPMORT   = OMORT(7)/GROSPC
+          DPMAI    = BCYMAI(ICYC)
+        ELSE
+          IHRVC = 1
+        ENDIF        
+      ENDIF
+             
+      CALL DBSCASE(1)
+
+C     DEFINE TABLENAME
+
+      IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     >    (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
+        TABLENAME='FVS_Summary2_East'
+      ELSE    
+        TABLENAME='FVS_Summary2'
+      ENDIF
+      iRet=fsql3_tableexists(IoutDBref,TRIM(TABLENAME)//CHAR(0))
+      IF(iRet.EQ.0) THEN
+C
+C       EASTERN VARIANT VOLUME NOMENCLATURE
+C
+        IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     >      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
+C                       
+          SQLStmtStr='CREATE TABLE '//TRIM(TABLENAME)//
+     -               ' (CaseID text not null,'//
+     -                 'StandID text not null,'//
+     -                 'Year int,'//
+     -                 'RmvCode int,'//
+     -                 'Age int,'//
+     -                 'Tpa real,'//
+     -                 'TPrdTpa real,'//
+     -                 'BA real,'//
+     -                 'SDI int,'//
+     -                 'CCF int,'//
+     -                 'TopHt int,'//
+     -                 'QMD real,'//
+     -                 'MCuFt real,'//
+     -                 'TPrdMCuFt real,'//
+     -                 'SCuFt real,'//
+     -                 'TPrdSCuFt real,'//
+     -                 'SBdFt real,'//
+     -                 'TPrdSBdFt real,'//
+     -                 'RTpa real,'//
+     -                 'RMCuFt real,'//
+     -                 'RSCuFt real,'//
+     -                 'RSBdFt real,'//
+     -                 'PrdLen int,'//
+     -                 'Acc real,'//
+     -                 'Mort real,'//
+     -                 'MAI real,'//
+     -                 'ForTyp int,'//
+     -                 'SizeCls int,'//
+     -                 'StkCls int);'//CHAR(0)
+        ELSE
+C
+C       WESTERN VARIANT VOLUME NOMENCLATURE
+C
+          SQLStmtStr='CREATE TABLE '//TRIM(TABLENAME)//
+     -               ' (CaseID text not null,'//
+     -                 'StandID text not null,'//
+     -                 'Year int,'//
+     -                 'RmvCode int,'//
+     -                 'Age int,'//
+     -                 'Tpa real,'//
+     -                 'TPrdTpa real,'//
+     -                 'BA real,'//
+     -                 'SDI int,'//
+     -                 'CCF int,'//
+     -                 'TopHt int,'//
+     -                 'QMD real,'//
+     -                 'TCuFt real,'//
+     -                 'TPrdTCuFt real,'//
+     -                 'MCuFt real,'//
+     -                 'TPrdMCuFt real,'//
+     -                 'BdFt real,'//
+     -                 'TPrdBdFt real,'//
+     -                 'RTpa real,'//
+     -                 'RTCuFt real,'//
+     -                 'RMCuFt real,'//
+     -                 'RBdFt real,'//
+     -                 'PrdLen int,'//
+     -                 'Acc real,'//
+     -                 'Mort real,'//
+     -                 'MAI real,'//
+     -                 'ForTyp int,'//
+     -                 'SizeCls int,'//
+     -                 'StkCls int);'//CHAR(0)                           
+        ENDIF
+        iRet = fsql3_exec(IoutDBref,SQLStmtStr)
+        IF (iRet .NE. 0) THEN
+          ISUMARY = 0
+          RETURN
+        ENDIF  
+      ENDIF
+      DO I=1,2
+        IF (IHRVC.EQ.1) THEN
+          DPTPTPA   = DPTPTPA   - DPRTPA  
+          DPTPTCUFT = DPTPTCUFT - DPRTCUFT
+          DPTPMCUFT = DPTPMCUFT - DPRMCUFT
+          DPTPBDFT  = DPTPBDFT  - DPRBDFT 
+        ENDIF      
+        IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
+     >      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
+C
+         SQLStmtStr='INSERT INTO '//TRIM(TABLENAME)//
+     -    ' (CaseID,StandID,Year,RmvCode,Age,Tpa,TPrdTpa,BA,SDI,'//
+     -    'CCF,TopHt,QMD,MCuFt,TPrdMCuFt,SCuFt,TPrdSCuFt,SBdFt,'//               
+     -    'TPrdSBdFt,RTpa,RMCuFt,RSCuFt,RSBdFt,'//
+     -    'PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls'//
+     -    ")VALUES('"//CASEID//"','"//TRIM(NPLT)//"',?,?,?,?,?,"//
+     -    '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
+     -    //CHAR(0)
+        ELSE
+         SQLStmtStr='INSERT INTO '//TRIM(TABLENAME)//
+     -    ' (CaseID,StandID,Year,RmvCode,Age,Tpa,TPrdTpa,BA,SDI,'//
+     -    'CCF,TopHt,QMD,TCuFt,TPrdTCuFt,MCuFt,TPrdMCuFt,BdFt,'//
+     -    'TPrdBdFt,RTpa,RTCuFt,RMCuFt,RBdFt,'//
+     -    'PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls'//
+     -    ")VALUES('"//CASEID//"','"//TRIM(NPLT)//"',?,?,?,?,?,"//
+     -    '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'  
+     -    //CHAR(0)
+        ENDIF
+        iRet = fsql3_prepare(IoutDBref,SQLStmtStr)
+        IF (iRet .NE. 0) THEN
+          ISUMARY = 0
+          RETURN
+        ENDIF
+        ColNumber=1 
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IHRVC)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IAGEOUT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPA)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPTPA)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPBA)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IOSDI)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,ICCF)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,ITOPHT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPQMD)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTCUFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPTCUFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPMCUFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPMCUFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPBDFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPBDFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPRTPA)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPRTCUFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPRMCUFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPRBDFT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IPRDLEN)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPACC)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPMORT)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPMAI)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IFORTP)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,ISZCL)
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,ISTCL)
+        iRet = fsql3_step(IoutDBref)                     
+        IF (IHRVC.EQ.0) exit
+        IHRVC    = 2
+        IOSDI    = ISDIAT(ICYC)
+        ICCF     = NINT(ATCCF/GROSPC)
+        ITOPHT   = NINT(ATAVH)  
+        DPQMD    = ATAVD
+        DPBA     = ATBA/GROSPC
+        DPTPA    = ATTPA/GROSPC
+        DPTCUFT  = MAX(0.,DPTCUFT-DPRTCUFT)
+        DPMCUFT  = MAX(0.,DPMCUFT-DPRMCUFT)          
+        DPBDFT   = MAX(0.,DPBDFT -DPRBDFT)
+        DPRTPA   = 0.
+        DPRTCUFT = 0.
+        DPRMCUFT = 0.
+        DPRBDFT  = 0. 
+      ENDDO
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
          ISUMARY = 0

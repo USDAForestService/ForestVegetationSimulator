@@ -1,0 +1,30 @@
+Subject: DB output FVS_Compute table new columns
+
+Name: Lance David
+
+Date: 05/03/2019
+
+Variants affected: All variants
+
+Description: A new SQL SELECT statement parameter (LIMIT 1) had been added to
+             improve performance by restricting number of rows returned to 1. 
+             MS Access has a proprietary parameter for this purpoose (TOP 1)
+             that is placed first in the statement instead of last. Having this
+             query fail disabled the ability to add new columns to the FVS_Compute
+             table when using MS Access database type. Code has been modified so
+             that Access database types use TOP 1 parameter and other database
+             types (SQLite and others) that support ALTER TABLE action to add new
+             columns to an existing table uses the LIMIT 1 parameter.
+
+Impact on users: New columns can be added to existing FVS_Compute table when
+                 using database types MS Access and SQLite.
+                 
+Files:
+
+dbs\dbscknrows.f - Additional special handling depending on database type and
+                   SELECT statement parameter used of "LIMIT 1" or "TOP 1".
+                   There is not a version of this subroutine for the Q-family
+                   code in folder dbsqlite.
+                   
+dbs\dbscmpu.f    - Just some extra print statements for debug that are
+                   commented out.

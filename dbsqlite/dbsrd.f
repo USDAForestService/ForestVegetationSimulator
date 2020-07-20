@@ -1,4 +1,4 @@
-      SUBROUTINE DBSRD1(IYEAR,NPLT,IAGE,DTYPE,NCENT,DAREA,SRATE,
+      SUBROUTINE DBSRD1(IYEAR,CNPLT,IAGE,DTYPE,NCENT,DAREA,SRATE,
      -  STUTPA,STUBA,MRTTPA,MRTCUFT,UNTPA,INTPA,PCTROOT,
      -  MRCUFT,DABA,NEWIN,NEWEXP,NEWTOT)
 
@@ -13,7 +13,7 @@ C     AUTH: L. DAVID -- FMSC (METI) -- 12/30/2014
 C
 C     ARGUMENT LIST
 C      1: IYEAR   -- YEAR
-C      2: NPLT    -- STAND ID
+C      2: CNPLT   -- STAND ID
 C      3: IAGE    -- STAND AGE
 C      4: DTYPE   -- DISEASE TYPE 
 C      5: NCENT   -- NUMBER OF DISEASE CENTERS
@@ -41,7 +41,7 @@ C     ARGUMENT LIST
       REAL    DAREA, SRATE, STUTPA, STUBA, MRTTPA, MRTCUFT, UNTPA,
      -        INTPA, PCTROOT, MRCUFT, DABA, NEWIN, NEWEXP, NEWTOT
       CHARACTER(LEN=1)  DTYPE
-      CHARACTER(LEN=26) NPLT
+      CHARACTER(LEN=26) CNPLT
       INTEGER iRet
 
 C     LOCAL VARIABLES
@@ -125,7 +125,7 @@ C     DEFINE DATABASE INSERT STATEMENT
      -  'Mort_TPA,Mort_CuFt,UnInf_TPA,Inf_TPA,Ave_Pct_Root_Inf,',
      -  'Live_Merch_CuFt,Live_BA,',
      -  'New_Inf_Prp_Ins,New_Inf_Prp_Exp,New_Inf_Prp_Tot) ',
-     -  ' VALUES (''',CASEID,''',''',TRIM(NPLT),''',
+     -  ' VALUES (''',CASEID,''',''',TRIM(CNPLT),''',
      -  ?,?,''',DTYPE,''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
@@ -195,7 +195,7 @@ C     DEFINE DATABASE INSERT STATEMENT
 
 C-------------------------------------------------------------------------------
 
-      SUBROUTINE DBSRD2(IYEAR,NPLT,DTYPE,DAREA,CSP,DDBHCL,
+      SUBROUTINE DBSRD2(IYEAR,CNPLT,DTYPE,DAREA,CSP,DDBHCL,
      -  DTPA,LDBHCL,LUNTPA,LINTPA,PCTROOT)
 
       IMPLICIT NONE
@@ -207,7 +207,7 @@ C     AUTH: L. DAVID -- FMSC (METI) -- 01/06/2015
 C
 C     ARGUMENT LIST
 C      1: IYEAR   -- YEAR
-C      2: NPLT    -- STAND ID
+C      2: CNPLT   -- STAND ID
 C      3: DTYPE   -- DISEASE TYPE 
 C      4: DAREA   -- DISEASE AREA (ACRES)
 C      5: CSP     -- TREE SPECIES CHARACTER ABBREVIATION
@@ -218,6 +218,9 @@ C      9: LUNTPA  -- LIVE UNINFECTED TREES/ACRE TOTAL, DISEASE AREA ONLY
 C     10: LINTPA  -- LIVE INFECTED TREES/ACRE TOTAL, DISEASE AREA ONLY
 C     11: PCTROOT -- AVERAGE PERCENT OF ROOTS INFECTED
 
+      INCLUDE 'PRGPRM.F77'
+
+      INCLUDE 'PLOT.F77'
 
       INCLUDE 'DBSCOM.F77'
 
@@ -228,12 +231,13 @@ C     ARGUMENT LIST
      -        PCTROOT
       CHARACTER(LEN=1)  DTYPE
       CHARACTER(LEN=2)  CSP
-      CHARACTER(LEN=26) NPLT
+      CHARACTER(LEN=26) CNPLT
       INTEGER iRet
 
 C     LOCAL VARIABLES
 
-      INTEGER ColNumber,I
+      CHARACTER(LEN=8)  CSP1,CSP2,CSP3
+      INTEGER ColNumber,I,I2
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
@@ -263,7 +267,9 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -      'Year Int null,'//
      -      'RD_Type char(1) not null,'//
      -      'RD_Area real null,'//
-     -      'Species text not null,'//
+     -      'SpeciesFVS text not null,'//
+     -      'SpeciesPLANTS text not null,'//
+     -      'SpeciesFIA text not null,'//
      -      'Mort_10Pctile_DBH real null,'//
      -      'Mort_30Pctile_DBH real null,'//
      -      'Mort_50Pctile_DBH real null,'//
@@ -279,13 +285,23 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -      'Live_100Pctile_DBH real null,'//
      -      'UnInf_TPA_Total real null,'//
      -      'Inf_TPA_Total real null,'//
-     -      'Pct_Roots_Inf real null)'
+     -      'Pct_Roots_Inf real null);'//CHAR(0)
          iRet = fsql3_exec(IoutDBref,SQLStmtStr)
          IF (iRet .NE. 0) THEN
            IRD2 = 0
            RETURN
          ENDIF
       ENDIF
+
+C     ASSIGN FVS, PLANTS AND FIA SPECIES CODE
+C
+      DO I2 = 1,MAXSP
+        IF (CSP .EQ. JSP(I2)) THEN
+          CSP1 = JSP(I2)
+          CSP2 = PLNJSP(I2)
+          CSP3 = FIAJSP(I2)
+        ENDIF
+      ENDDO
 
 C     LOAD REAL VARIABLES INTO DOUBLE PRECISION AND
 C     WRITE RECORD TO DATABASE
@@ -303,16 +319,18 @@ C     WRITE RECORD TO DATABASE
 C     DEFINE DATABASE INSERT STATEMENT
 
       WRITE(SQLStmtStr,*) 'INSERT INTO FVS_RD_Det',
-     -  ' (CaseID,StandID,Year,RD_Type,RD_Area,Species,',
+     -  ' (CaseID,StandID,Year,RD_Type,RD_Area,',
+     -  'SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
      -  'Mort_10Pctile_DBH,Mort_30Pctile_DBH,Mort_50Pctile_DBH,',
      -  'Mort_70Pctile_DBH,Mort_90Pctile_DBH,Mort_100Pctile_DBH,',
      -  'Mort_TPA_Total,Live_10Pctile_DBH,Live_30Pctile_DBH,',
      -  'Live_50Pctile_DBH,Live_70Pctile_DBH,Live_90Pctile_DBH,',
      -  'Live_100Pctile_DBH,UnInf_TPA_Total,Inf_TPA_Total,',
      -  'Pct_Roots_Inf) ',
-     -  ' VALUES (''',CASEID,''',''',TRIM(NPLT),''',?,''',DTYPE,''',
-     -  ?,''',CSP,''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
-      iRet = fsql3_prepare(IoutDBref, SQLStmtStr)
+     -  " VALUES ('",CASEID,"','",TRIM(CNPLT),"',?,'",DTYPE,"'",
+     -  ",?,'",TRIM(CSP1),"','",TRIM(CSP2),"','",TRIM(CSP3),"'",
+     -  ",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+      iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
          IRD2 = 0
          RETURN
@@ -386,7 +404,7 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
 C-------------------------------------------------------------------------------
 
-      SUBROUTINE DBSRD3(IYEAR, NPLT, CSP, MRTININ, ININTOT, ININLIV,
+      SUBROUTINE DBSRD3(IYEAR, CNPLT, CSP, MRTININ, ININTOT, ININLIV,
      -  MRTINUN, INUNTOT, INUNLIV, MRTOUT, OUTTOT, OUTLIV, STDMRT)
 
       IMPLICIT NONE
@@ -398,7 +416,7 @@ C     AUTH: L. DAVID -- FMSC (METI) -- 01/06/2015
 C
 C     ARGUMENT LIST
 C      1: IYEAR   -- YEAR
-C      2: NPLT    -- STAND ID
+C      2: CNPLT   -- STAND ID
 C      3: DTYPE   -- DISEASE TYPE 
 C      4: DAREA   -- DISEASE AREA (ACRES)
 C      5: CSP     -- TREE SPECIES CHARACTER ABBREVIATION
@@ -409,6 +427,9 @@ C      9: LUNTPA  -- LIVE UNINFECTED TREES/ACRE TOTAL, DISEASE AREA ONLY
 C     10: LINTPA  -- LIVE INFECTED TREES/ACRE TOTAL, DISEASE AREA ONLY
 C     11: PCTROOT -- AVERAGE PERCENT OF ROOTS INFECTED
 
+      INCLUDE 'PRGPRM.F77'
+
+      INCLUDE 'PLOT.F77'
 
       INCLUDE 'DBSCOM.F77'
 
@@ -419,12 +440,13 @@ C     ARGUMENT LIST
      -        ININTOT, INUNTOT, OUTTOT, STDMRT,
      -        ININLIV, INUNLIV, OUTLIV
       CHARACTER(LEN=2)  CSP
-      CHARACTER(LEN=26) NPLT
+      CHARACTER(LEN=26) CNPLT
       INTEGER iRet
 
 C     LOCAL VARIABLES
 
-      INTEGER ColNumber,I
+      CHARACTER(LEN=8)  CSP1,CSP2,CSP3
+      INTEGER ColNumber,I,I2
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
@@ -454,7 +476,9 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -      'CaseID text not null,'//
      -      'StandID text not null,'//
      -      'Year Int null,'//
-     -      'Species text not null,'//
+     -      'SpeciesFVS       text not null,'//
+     -      'SpeciesPLANTS    text not null,'//
+     -      'SpeciesFIA       text not null,'//
      -      'In_Inf_0_5_DBH       real null,'//
      -      'In_Inf_5_10_DBH      real null,'//
      -      'In_Inf_10_15_DBH     real null,'//
@@ -490,6 +514,16 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
         ENDIF
       ENDIF
 
+C     ASSIGN FVS, PLANTS AND FIA SPECIES CODES
+
+      DO I2 = 1,MAXSP
+        IF (CSP .EQ. JSP(I2)) THEN
+          CSP1 = JSP(I2)
+          CSP2 = PLNJSP(I2)
+          CSP3 = FIAJSP(I2)
+        ENDIF
+      ENDDO
+
 C     LOAD REAL VARIABLES INTO DOUBLE PRECISION AND
 C     WRITE RECORD TO DATABASE
 
@@ -497,7 +531,7 @@ C     WRITE RECORD TO DATABASE
         MRTININD(I) = MRTININ(I)
         MRTINUND(I) = MRTINUN(I)
         MRTOUTD(I)  = MRTOUT(I)
-      END DO
+      ENDDO
 
       ININTOTD = ININTOT
       ININLIVD = ININLIV
@@ -510,7 +544,7 @@ C     WRITE RECORD TO DATABASE
 C     DEFINE DATABASE INSERT STATEMENT
 
       WRITE(SQLStmtStr,*) 'INSERT INTO FVS_RD_Beetle',
-     -  ' (CaseID,StandID,Year,Species,',
+     -  ' (CaseID,StandID,Year,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
      -  'In_Inf_0_5_DBH,In_Inf_5_10_DBH,In_Inf_10_15_DBH,',
      -  'In_Inf_15_20_DBH,In_Inf_20_25_DBH,In_Inf_25_30_DBH,',
      -  'In_Inf_30_DBH,In_Inf_Mort,In_Inf_Live_before,',
@@ -521,8 +555,9 @@ C     DEFINE DATABASE INSERT STATEMENT
      -  'Outside_15_20_DBH,Outside_20_25_DBH,Outside_25_30_DBH,',
      -  'Outside_30_DBH,Outside_Mort,Outside_Live_Before,',
      -  'Stand_Mort_Total) ',
-     -  ' VALUES (''',CASEID,''',''',TRIM(NPLT),''',?,''',CSP,''',
-     -  ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+     -  " VALUES (","'",CASEID,"','",TRIM(CNPLT),"',?",
+     -  ",'",TRIM(CSP1),"','",TRIM(CSP2),"','",TRIM(CSP3),"',",
+     -  "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN

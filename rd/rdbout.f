@@ -140,7 +140,7 @@ C
       
       IF (IROOT .EQ. 0) GOTO 1000
       
-      JYR = IY(ISTEP)
+      JYR = IY(ICYC+1)
       NOKILL = .TRUE.
       TOLDYR = .FALSE.
       

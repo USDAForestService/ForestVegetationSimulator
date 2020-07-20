@@ -444,7 +444,13 @@ C----------
         HTMAX2 = 0.0
         D1 = DBH(I)
         D2 = 0.0
-        IF(DEBUG)WRITE(JOSTND,*)' IN HTGF, CALLING FINDAG I= ',I
+        H  = HT(I)
+
+        IF(DEBUG)WRITE(JOSTND,*)' IN HTGF, CALLING FINDAG I= ',I,
+     &  ' ISPC= ',ISPC,' D1= ',D1,' D2= ',D2,
+     &  ' H= ',H,' SITAGE= ',SITAGE,' SITHT= ',SITHT,' AGMAX= ',AGMAX,
+     &  ' HTMAX= ',HTMAX,' HTMAX2= ',HTMAX2,' DEBUG= ',DEBUG
+
         CALL FINDAG(I,ISPC,D1,D2,H,SITAGE,SITHT,AGMAX,HTMAX,HTMAX2,
      &              DEBUG)
 C

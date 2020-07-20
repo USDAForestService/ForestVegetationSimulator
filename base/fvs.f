@@ -50,14 +50,15 @@ C
 !DEC$ ATTRIBUTES DLLEXPORT, C, DECORATE, ALIAS : "FVS" :: FVS
 !DEC$ ATTRIBUTES REFERENCE :: IRTNCD
 
-      INTEGER I,IA,N,K,NTODO,ITODO,IACTK,IDAT,NP
+Cx      INTEGER I,IA,N,K,NTODO,ITODO,IACTK,IDAT,NP                  !Remove these
+      INTEGER I,IA,N,K
       REAL STAGEA,STAGEB
       LOGICAL DEBUG,LCVGO
       INTEGER IBA
-      CHARACTER*150 SYSCMD
-      INTEGER MYACT(1)
-      REAL PRM(1)
-      DATA MYACT/100/
+Cx      CHARACTER*150 SYSCMD                                        !Remove these
+Cx      INTEGER MYACT(1)                                            !Remove these
+Cx      REAL PRM(1)                                                 !Remove these
+Cx      DATA MYACT/100/                                             !Remove these
       INTEGER IRSTRTCD,ISTOPDONE,IRTNCD,lenCl
 C
 C     ******************     EXECUTION BEGINS     ******************
@@ -373,17 +374,17 @@ C
 C
 C     FIND AND RUN ANY SCHEDULED SYSTEM CALLS.
 C
-      CALL OPFIND (1,MYACT,NTODO)
-      IF (NTODO.GT.0) THEN
-         DO ITODO=1,NTODO
-            CALL OPGET(ITODO,1,IDAT,IACTK,NP,PRM)
-            IF (IACTK.EQ.MYACT(1)) THEN
-               CALL OPGETC (ITODO,SYSCMD)
-               CALL OPDONE (ITODO,IY(ICYC+1)-1)
-               IF (SYSCMD.NE.' ') CALL SYSTEM(SYSCMD)
-            ENDIF
-         ENDDO
-      ENDIF
+Cx      CALL OPFIND (1,MYACT,NTODO)                                        !Remove these
+Cx      IF (NTODO.GT.0) THEN                                               !Remove these
+Cx         DO ITODO=1,NTODO                                                !Remove these
+Cx            CALL OPGET(ITODO,1,IDAT,IACTK,NP,PRM)                        !Remove these
+Cx            IF (IACTK.EQ.MYACT(1)) THEN                                  !Remove these
+Cx               CALL OPGETC (ITODO,SYSCMD)                                !Remove these
+Cx               CALL OPDONE (ITODO,IY(ICYC+1)-1)                          !Remove these
+Cx               IF (SYSCMD.NE.' ') CALL SYSTEM(SYSCMD)                    !Remove these
+Cx            ENDIF                                                        !Remove these
+Cx         ENDDO                                                           !Remove these
+Cx      ENDIF                                                              !Remove these
 C
       IF ( ICYC .LT. NCYC ) THEN
         CALL ClearRestartCode

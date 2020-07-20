@@ -1,0 +1,25 @@
+Subject: Canopy Cover and Q-family SQL Statement Length
+
+Name: Lance David
+
+Date: 04/04/2019
+
+Variants affected: All variants
+
+Description: ThinCC triggered underflow error in sdical.f entry point cccls
+             EXP function and a limit of 86 was placed on the parameter to
+             correspond with the limit of a single precision real variable.
+
+             Q-family only - User needs exceeded the size of the allocated SQL
+             statement length for the DB output FVS_Compute table, SQL statement
+             length was  increased from 2,000 to 10,000 characters which is the
+             max length implemented in the ODBC version. This will enable the
+             creation and population of a FVS_Compute table of approximately 500
+             columns.
+
+Impact on users: Compute table output and ThinCC errors averted
+                 
+Files:
+
+dbsqlite\dbscmpu.f - Maximum SQL statement length increased to 10,000 characters.
+vbase\sdical.f     - ENTRY CCCLS has limit of 86 on EXP parameter value.

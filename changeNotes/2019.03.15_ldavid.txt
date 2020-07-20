@@ -1,0 +1,21 @@
+Subject: Western Root Disease Reports
+
+Name: Lance David
+
+Date: 03/15/2019
+
+Variants affected: All variants with Western Root Disease
+
+Description: Western Root Disease reports did not generate properly if there
+             were no input tree records for the stand and trees were not
+             planted in first cycle of the projection. The year lables and
+             stand age in the reports were incorrect in cases where plantings
+             occurred later in the projection. This has been resolved.
+
+Impact on users: Reports in special case now correct.
+                 
+Files:
+
+rd/rdbout.f
+rd/rddout.f
+rd/rdpr.f

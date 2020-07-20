@@ -64,8 +64,7 @@ C
 COMMONS
 C
       INTEGER IDUM1,IDUM2,IDUM3,IHAB,NEWYR,ISPEC,IFOREST,INTDIST,IFORST
-      INTEGER IREGN,IRDUM,INUM,IDFLG,IDTYPE,IXF,IXTMP,ITB,ITC,JJTAB
-      INTEGER IFSP,ISTLNB
+      INTEGER IFSP,IREGN,IRDUM,INUM,IDFLG,IDTYPE,IXF,IXTMP,ITB,ITC,JJTAB
       REAL CAPHT,CAPFLG,CAPPRP,CAPDBH,DUM1,XTMP,X,TB,XXG
       REAL TC,SDHI,SDLO,ARRAY(7),PRMS(10)
       INTEGER ITOPD8,IACT,IRC,IDBCYC,NP,K,I1,IGSP,IG,IULIM,IGRP,ISETQFA
@@ -125,7 +124,7 @@ C----------
    10 CONTINUE
       call fvsGetRtnCode(IRTNCD)
       if (IRTNCD.ne.0) return
-C
+
       CALL KEYRDR (IREAD,JOSTND,DEBUG,KEYWRD,LNOTBK,
      >             ARRAY,IRECNT,KODE,KARD,LFLAG,LKECHO)
 C----------
@@ -541,7 +540,7 @@ C
          IF(.NOT.LNOTBK(4))ARRAY(4)=0.
          IF(.NOT.LNOTBK(5))ARRAY(5)=999.
          ILEN=3
-         IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+         IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
          IF(LKECHO)WRITE(JOSTND,1330) KEYWRD,IDT,KARD(2)(1:ILEN),
      >                                IS,ARRAY(3),ARRAY(4),ARRAY(5)
  1330    FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES=',A,' (CODE=',
@@ -577,7 +576,7 @@ C
  1410 FORMAT (/A8,'   DATA SET REFERENCE NUMBER=',I3)
       IF(IS.NE.0) THEN
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO .AND. LNOTBK(5))WRITE(JOSTND,1411) 'SPECIES= ',
      >   KARD(5)(1:ILEN),IS,'IS'
  1411   FORMAT (T12,A,A,' (CODE= ',I3,') ',A,
@@ -674,7 +673,7 @@ C----------
         CWDL2(IGSP)=WK6(7)
         CWDL3(IGSP)=WK6(8)
  1906   CONTINUE
-        ILEN=ISPGRP(-ISPC,52)
+        ILEN=ISPGRP(-ISPC,92)
         IF(LKECHO)WRITE(JOSTND,1918) KEYWRD,KARD(1)(1:ILEN),ISPC
 C----------
 C     IF (ISPC=0) ALL SPECIES WILL BE CHANGED IN FOLLOWING CODE:
@@ -1144,7 +1143,7 @@ C
      >        '; PROPORTION OF SELECTED TREES REMOVED=',F6.3)
       IF (IS.NE.0) THEN
          ILEN=3
-         IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+         IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
          IF(LKECHO)WRITE(JOSTND,3920) 'SPECIES= ',KARD(5)(1:ILEN),
      >                                IS,'IS'
  3920    FORMAT (T12,A,A,' (CODE= ',I3,') ',A,
@@ -1258,7 +1257,7 @@ C
          IF (KODE.GT.0) GOTO 10
 C
          ILEN=3
-         IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+         IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
          IF(LKECHO)WRITE(JOSTND,4082)KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >   (ARRAY(I),I=3,4),KEYWRD,ARRAY(5)
  4082    FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES= ',A,' (CODE= ',
@@ -1405,7 +1404,7 @@ C----------
           CFDEFT(9,IGSP)=ARRAY(7)
         ENDIF
  4321   CONTINUE
-        ILEN=ISPGRP(-IS,52)
+        ILEN=ISPGRP(-IS,92)
 C
       SELECT CASE (VARACD)
 C
@@ -1540,7 +1539,7 @@ C----------
           BFDEFT(9,IGSP)=ARRAY(7)
         ENDIF
  4021   CONTINUE
-        ILEN=ISPGRP(-IS,52)
+        ILEN=ISPGRP(-IS,92)
 C
         SELECT CASE (VARACD)
 C
@@ -1684,7 +1683,7 @@ C----------
         IF (LNOTBK(5)) STMP(IGSP)  =ARRAY(5)
         IF (LNOTBK(6)) FRMCLS(IGSP)=ARRAY(6)
         IF (LNOTBK(7)) METHC(IGSP) =INT(ARRAY(7))
-        ILEN=ISPGRP(IGRP,52)
+        ILEN=ISPGRP(IGRP,92)
         IF (VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4534) KEYWRD,KARD(2)(1:ILEN),
      &      IGSP,DBHMIN(IGSP),TOPD(IGSP),STMP(IGSP),FRMCLS(IGSP)
@@ -1803,7 +1802,7 @@ C----------
         IF (.NOT.LNOTBK(7)) ARRAY(7)=METHC(IFSP)
         CALL OPNEW(KODE,IDT,217,6,ARRAY(2))
         IF (KODE.GT.0) GOTO 10
-        ILEN=ISPGRP(IGRP,52)
+        ILEN=ISPGRP(IGRP,92)
         IF(VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4544) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >                    (ARRAY(I),I=3,7)
@@ -1935,7 +1934,7 @@ C----------
         IF (LNOTBK(5)) BFSTMP(IGSP)=ARRAY(5)
         IF (LNOTBK(6)) FRMCLS(IGSP)=ARRAY(6)
         IF (LNOTBK(7)) METHB(IGSP) =INT(ARRAY(7))
-        ILEN=ISPGRP(IGRP,52)
+        ILEN=ISPGRP(IGRP,92)
         IF (VARACD .EQ. 'AK') THEN
           IF(LKECHO)WRITE(JOSTND,4634) KEYWRD,KARD(2)(1:ILEN),IGSP,
      &       BFMIND(IGSP),BFTOPD(IGSP),BFSTMP(IGSP),FRMCLS(IGSP)
@@ -2041,7 +2040,7 @@ C----------
         IF (.NOT.LNOTBK(7)) ARRAY(7)=METHB (IFSP)
         CALL OPNEW(KODE,IDT,218,6,ARRAY(2))
         IF (KODE.GT.0) GOTO 10
-        ILEN=ISPGRP(IGRP,52)
+        ILEN=ISPGRP(IGRP,92)
         IF(VARACD.EQ.'AK')THEN
           IF(LKECHO)WRITE(JOSTND,4645) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >                    (ARRAY(I),I=3,7)
@@ -2232,7 +2231,7 @@ C
       CALL OPNEW(KODE,IDT,201,2,ARRAY(2))
       IF (KODE .GT. 0) GOTO 10
       ILEN=3
-      IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+      IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
       IF(LKECHO)WRITE(JOSTND,5160) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      &                             ARRAY(3)
  5160 FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES= ',A,' (CODE=',
@@ -2346,7 +2345,7 @@ C----------
         LDGCAL(IGSP)=.FALSE.
         LHTCAL(IGSP)=.FALSE.
  5801   CONTINUE
-        ILEN=ISPGRP(-IS,52)
+        ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,5808) KEYWRD,KARD(1)(1:ILEN),IS
 C----------
 C     IF (IS=0) ALL SPECIES WILL BE CHANGED IN FOLLOWING CODE:
@@ -2366,7 +2365,7 @@ C----------
         LDGCAL(IS)=.FALSE.
         LHTCAL(IS)=.FALSE.
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,5808) KEYWRD,KARD(1)(1:ILEN),IS
  5808   FORMAT (/A8,'   CALIBRATION USING GROWTH DATA FROM TREE',
      > ' RECORDS WILL BE SUPPRESSED FOR SPECIES= ',A,' (CODE= ',I3,')')
@@ -2418,7 +2417,7 @@ C
       CALL OPNEW(KODE,IDT,I,2,ARRAY(2))
       IF (KODE.GT.0) GOTO 10
       ILEN=3
-      IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+      IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
       IF(LKECHO)WRITE(JOSTND,6030) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      &                             ARRAY(3)
  6030 FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES=',A,' (CODE= ',
@@ -2463,7 +2462,7 @@ C
             CALL OPNEW (KODE,IDT,94,4,ARRAY(2))
             IF (KODE.GT.0) GOTO 10
             ILEN=3
-            IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+            IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
             IF(LKECHO)WRITE(JOSTND,6131) KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      >            ARRAY(3)
  6131       FORMAT(/A8,'   DATE/CYCLE=',I5,'; SPECIES= ',A,
@@ -2498,7 +2497,7 @@ C----------
            LHTDRG(IGSP)=.FALSE.
          ENDIF
  6201   CONTINUE
-         ILEN=ISPGRP(-IS,52)
+         ILEN=ISPGRP(-IS,92)
          IF(LNOTBK(2).AND.ARRAY(2).GT.0.) THEN
            IF(LKECHO)WRITE(JOSTND,6215) KEYWRD,KARD(1)(1:ILEN),IS
          ELSE
@@ -2891,7 +2890,7 @@ C
          IF ((ARRAY(3) .GT. 1) .AND. (ARRAY(6) .LT. 3)) ARRAY(3) = 1.0
          IF ((ARRAY(3) .LT. 0) .AND. (ARRAY(6) .LT. 3)) ARRAY(3) = 0.0              
          ILEN=3
-         IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+         IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
          IF(LKECHO)WRITE(JOSTND,9030) KEYWRD,IDT,KARD(2)(1:ILEN),
      >                       IS,ARRAY(3),ARRAY(4),ARRAY(5),ARRAY(6)
  9030    FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES=',A,' (CODE=',
@@ -2959,7 +2958,7 @@ C----------
           SDIDEF(IGSP)=ARRAY(2)
           MAXSDI(IGSP)=1
  9102     CONTINUE
-          ILEN=ISPGRP(-IS,52)
+          ILEN=ISPGRP(-IS,92)
           IF(LKECHO)WRITE(JOSTND,9108) KARD(1)(1:ILEN),IS,ARRAY(2)
 C----------
 C     IF (IS=0) ALL SPECIES WILL BE CHANGED IN FOLLOWING CODE:
@@ -3013,7 +3012,7 @@ C
               IGSP = ISPGRP(IGRP,IG)
               ISTAGF(IGSP)=INT(ARRAY(7))
  9112         CONTINUE
-              ILEN=ISPGRP(-IS,52)
+              ILEN=ISPGRP(-IS,92)
               IF(LKECHO)WRITE(JOSTND,9117) KARD(1)(1:ILEN),IS,ARRAY(7)
             ELSEIF(IS .EQ. 0) THEN
               DO 9115 J=1,MAXSP
@@ -3174,7 +3173,7 @@ C----------
         IGSP = ISPGRP(IGRP,IG)
         IF (LNOTBK(2) .AND. ARRAY(2) .GT. 5.) SITEAR(IGSP)=ARRAY(2)
  9605   CONTINUE
-        ILEN=ISPGRP(-IS,52)
+        ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,9610) KEYWRD,KARD(1)(1:ILEN),IS,ARRAY(2)
 C----------
 C     IF (IS=0) ALL SPECIES WILL BE CHANGED IN FOLLOWING CODE:
@@ -3276,7 +3275,7 @@ C
          IF (KODE.GT.0) GOTO 10
          IF (ARRAY(5) .LE. 0.0) ARRAY(5)=99.0
          ILEN=3
-         IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+         IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
       IF(LKECHO)WRITE(JOSTND,9854)KEYWRD,IDT,KARD(2)(1:ILEN),IS,
      &                            (ARRAY(J),J=3,6)
  9854 FORMAT(/A8,'   DATE/CYCLE=',I5,';  SPECIES=',A,' (CODE= ',I3,
@@ -3318,7 +3317,7 @@ C----------
         CFVEQL(K,IGSP)=WK6(J)
  9904   CONTINUE
  9905   CONTINUE
-        ILEN=ISPGRP(-ISPC,52)
+        ILEN=ISPGRP(-ISPC,92)
         IF(LKECHO)WRITE(JOSTND,9968) KEYWRD,KARD(1)(1:ILEN),ISPC
 C----------
 C     IF (ISPC=0) ALL SPECIES WILL BE CHANGED IN FOLLOWING CODE:
@@ -3394,7 +3393,7 @@ C----------
         BFVEQL(K,IGSP)=WK6(J)
  9954   CONTINUE
  9955   CONTINUE
-        ILEN=ISPGRP(-ISPC,52)
+        ILEN=ISPGRP(-ISPC,92)
         IF(LKECHO)WRITE(JOSTND,9968) KEYWRD,KARD(1)(1:ILEN),ISPC
 C----------
 C     IF (ISPC=0) ALL SPECIES WILL BE CHANGED IN FOLLOWING CODE:
@@ -3669,7 +3668,7 @@ C
         CALL OPNEW (KODE,IDT,249,6,ARRAY(2))
         IF(KODE.GT.0) GO TO 10
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,10605)KEYWRD,IDT,(ARRAY(J),J=2,4),
      &  KARD(5)(1:ILEN),IS,(ARRAY(J),J=6,7)
 10605   FORMAT(/A8,'   DATE/CYCLE=',I5,';  METHOD=',F5.0,
@@ -3710,7 +3709,7 @@ C
          IF(.NOT.LNOTBK(4))ARRAY(4)=0.
          IF(.NOT.LNOTBK(5))ARRAY(5)=999.
          ILEN=3
-         IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+         IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
          IF(LKECHO)WRITE(JOSTND,11030) KEYWRD,IDT,KARD(2)(1:ILEN),
      >                       IS,ARRAY(3),ARRAY(4),ARRAY(5)
 11030    FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES=',A,' (CODE=',
@@ -3749,7 +3748,7 @@ C
          IF(.NOT.LNOTBK(4))ARRAY(4)=0.
          IF(.NOT.LNOTBK(5))ARRAY(5)=999.
          ILEN=3
-         IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+         IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
          IF(LKECHO)WRITE(JOSTND,11130) KEYWRD,IDT,KARD(2)(1:ILEN),
      >                       IS,ARRAY(3),ARRAY(4),ARRAY(5)
 11130    FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES=',A,' (CODE=',
@@ -3824,7 +3823,7 @@ C
 11220 FORMAT (/A8,'   DATE/CYCLE=',I5,'; RESIDUAL=',F8.2)
       IF(PRMS(2).EQ.0.)THEN
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,11221)KARD(4)(1:ILEN),IS,PRMS(4),PRMS(5)
 11221   FORMAT(T12,
      >   'PROPORTION OF SELECTED TREES REMOVED WILL BE ',
@@ -3834,7 +3833,7 @@ C
      >   F5.1,' INCHES.')
       ELSE
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,11222)PRMS(2),KARD(4)(1:ILEN),
      &                               IS,PRMS(4),PRMS(5)
 11222   FORMAT(T12,
@@ -3940,7 +3939,7 @@ C
 11520 FORMAT (/A8,'   DATE/CYCLE=',I5,'; RESIDUAL=',F8.2)
       IF(PRMS(2).EQ.0.)THEN
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,11521)KARD(4)(1:ILEN),IS,PRMS(4),PRMS(5)
 11521   FORMAT(T12,
      >   'PROPORTION OF SELECTED TREES REMOVED WILL BE ',
@@ -3950,7 +3949,7 @@ C
      >   F5.1,' INCHES.')
       ELSE
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,11522)PRMS(2),KARD(4)(1:ILEN),
      &                               IS,PRMS(4),PRMS(5)
 11522   FORMAT(T12,
@@ -3994,45 +3993,15 @@ C
       IF (IRTNCD.NE.0) RETURN
       GOTO 10
 C
-C  ==========  OPTION NUMBER 118: SYSTEM  ============================SYSTEM
+C  ==========  OPTION NUMBER 118: available  =========================available
 C
 11800 CONTINUE
-C
-C     READ THE SYSTEM COMMAND.
-C
-      READ(IREAD,'(A)',END=80) RECORD
-      IRECNT=IRECNT+1
-      IF (RECORD.EQ.' ') THEN
-         CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
-         CALL ERRGRO (.TRUE.,4)
-         GOTO 10
-      ENDIF
-      IDT=1
-      IF (LNOTBK(1)) IDT=IFIX(ARRAY(1))
-      IF (.NOT.LNOTBK(1)) THEN
-         IF(LKECHO)WRITE(JOSTND,11810) KEYWRD,RECORD(1:ISTLNB(RECORD))
-11810    FORMAT (/A8,'   SYSTEM CALL:',A)
-         CALL SYSTEM(RECORD)
-      ELSE
-         IF (IPRMPT.GT.0) THEN
-            IF (IPRMPT.NE.2) THEN
-              CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
-              CALL ERRGRO (.TRUE.,25)
-            ELSE
-              CALL OPNEWC (KODE,JOSTND,IREAD,IDT,100,KEYWRD,KARD,
-     >                      IPRMPT,IRECNT,ICYC)
-              CALL fvsGetRtnCode(IRTNCD)
-              IF (IRTNCD.NE.0) RETURN
-            ENDIF
-         ELSE
-            CALL OPNEW (KODE,IDT,100,0,ARRAY)
-         ENDIF
-         IF (KODE.EQ.0) CALL OPCACT (KODE,RECORD)
-         IF(LKECHO)WRITE(JOSTND,11820) KEYWRD,IDT,
-     &                                 RECORD(1:ISTLNB(RECORD))
-11820    FORMAT (/A8,'   DATE/CYCLE=',I5,'; SYSTEM CALL:',A)
 
-      ENDIF
+C
+C     PROCESS OPTION 118 CODE HERE. PREVIOUS OPTION WAS AN ACTIVITY AND USED
+C     ACTIVITY CODE 100.
+C
+
       GOTO 10
 C
 C  ==========  OPTION NUMBER 119: DEFECT  =========================DEFECT
@@ -4099,7 +4068,7 @@ C----------
           BFDEFT(9,IGSP)=WK6(8)
         ENDIF
 11901   CONTINUE
-        ILEN=ISPGRP(-IS,52)
+        ILEN=ISPGRP(-IS,92)
 C
         SELECT CASE (VARACD)
 C
@@ -4414,7 +4383,7 @@ C----------
         SIZCAP(IGSP,3)=CAPFLG
         SIZCAP(IGSP,4)=CAPHT
 12301   CONTINUE
-        ILEN=ISPGRP(-ISPC,52)
+        ILEN=ISPGRP(-ISPC,92)
         IF(LKECHO)WRITE(JOSTND,12320) KEYWRD,KARD(1)(1:ILEN),
      &    ISPC,CAPDBH,CAPPRP,IDFLG,CAPHT
 C----------
@@ -4510,7 +4479,7 @@ C
 12420 FORMAT (/A8,'   DATE/CYCLE=',I5,'; RESIDUAL=',F8.2)
       IF(PRMS(2).EQ.0.)THEN
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,12421)KARD(4)(1:ILEN),IS,PRMS(4),PRMS(5)
 12421   FORMAT(T12,
      >   'PROPORTION OF SELECTED TREES REMOVED WILL BE ',
@@ -4520,7 +4489,7 @@ C
      >   F5.1,' INCHES.')
       ELSE
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,12422)PRMS(2),KARD(4)(1:ILEN),IS,
      &                               PRMS(4),PRMS(5)
 12422   FORMAT(T12,
@@ -4580,7 +4549,7 @@ C
         WRITE(NAMGRP(NSPGRP),'("GROUP",I2.2,2X)') NSPGRP
         ILEN=7
       ENDIF
-      ISPGRP(NSPGRP,52)=ILEN       ! save the group name length
+      ISPGRP(NSPGRP,92)=ILEN       ! save the group name length
       INUM=0                       ! initialize the number of codes in the group
       KARD=' '                     ! blank out and zero out kard and arrays
       ARRAY=0
@@ -4600,9 +4569,9 @@ C
         IF (RECORD(I:I).EQ.' '.OR.I.EQ.ILEN) THEN ! end of token (a blank or end of record)
           INUM=INUM+1              ! so, we have a token.
 C
-C  DON'T SAVE OVER 50, COULD DO AN ERROR MSG, BUT DIDN'T
+C  DON'T SAVE OVER 90, COULD DO AN ERROR MSG, BUT DIDN'T
 C
-          IF (INUM.GT.50) INUM=50
+          IF (INUM.GT.90) INUM=90
           IF (I.EQ.ILEN) THEN      ! store the token in kard(1)
             KARD(1)=RECORD(J:I)
           ELSE
@@ -4678,7 +4647,7 @@ C
 12708   FORMAT(/A8)
         IF(IS.NE.0) THEN
           ILEN=3
-          IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+          IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
           IF(LKECHO)WRITE(JOSTND,12709) 'SPECIES= ',KARD(3)(1:ILEN),
      >                               IS,'IS'
 12709     FORMAT (T12,A,A,' (CODE= ',I3,') ',A,
@@ -4842,7 +4811,7 @@ C
 12920 FORMAT (/A8,'   DATE/CYCLE=',I5,'; RESIDUAL=',F8.2)
       IF(PRMS(2).EQ.0.)THEN
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,12921)KARD(4)(1:ILEN),IS,PRMS(4),PRMS(5)
 12921   FORMAT(T12,
      >   'PROPORTION OF SELECTED TREES REMOVED WILL BE ',
@@ -4852,7 +4821,7 @@ C
      >   F5.1,' INCHES.')
       ELSE
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,12922)PRMS(2),KARD(4)(1:ILEN),
      &                                    IS,PRMS(4),PRMS(5)
 12922   FORMAT(T12,
@@ -5036,10 +5005,10 @@ C
             IGSP = ISPGRP(IGRP,IG)
             VEQNNC(IGSP)='          '
             ENDDO
-            ILEN=ISPGRP(-IS,52)
+            ILEN=ISPGRP(-IS,92)
             WRITE(JOSTND,13003)KEYWRD,KARD(1)(1:ILEN),IS
           ELSE
-            ILEN=ISPGRP(-IS,52)
+            ILEN=ISPGRP(-IS,92)
             IF(LKECHO)WRITE(JOSTND,13008)KEYWRD,KARD(1)(1:ILEN),IS
           ENDIF
         ENDIF
@@ -5098,11 +5067,11 @@ C
             IGSP = ISPGRP(IGRP,IG)
             VEQNNB(IGSP)='          '
             ENDDO
-            ILEN=ISPGRP(-IS,52)
+            ILEN=ISPGRP(-IS,92)
             IF(LNOTBK(2))KEYWRD='        '
             WRITE(JOSTND,13004)KEYWRD,KARD(1)(1:ILEN),IS
           ELSE
-            ILEN=ISPGRP(-IS,52)
+            ILEN=ISPGRP(-IS,92)
             IF(LNOTBK(2))KEYWRD='        '
             IF(LKECHO)WRITE(JOSTND,13009)KEYWRD,KARD(1)(1:ILEN),IS
           ENDIF
@@ -5548,11 +5517,11 @@ C
       IF(LKECHO)WRITE(JOSTND,12420) KEYWRD,IDT,PRMS(1)
       IF(PRMS(2).EQ.0.)THEN
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,12421)KARD(4)(1:ILEN),IS,PRMS(4),PRMS(5)
       ELSE
         ILEN=3
-        IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+        IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
         IF(LKECHO)WRITE(JOSTND,12422)PRMS(2),KARD(4)(1:ILEN),IS,
      &                               PRMS(4),PRMS(5)
       ENDIF
@@ -5718,7 +5687,7 @@ C
 C  WRITE KEYWORD TO THE OUTPUT FILE AND SEND TO THE OPTION PROCESSOR.
 C
       ILEN=3
-      IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+      IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
       IF(LKECHO)WRITE(JOSTND,13830)KEYWRD,IDT
 13830 FORMAT (/A8,'   DATE/CYCLE=',I5)
 C
@@ -5856,7 +5825,7 @@ C
      >        '; MAXIMUM ',F8.1)
       IF (IS.NE.0) THEN
          ILEN=3
-         IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+         IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
          IF(LKECHO)WRITE(JOSTND,41114) ' SPECIES= ',KARD(4)(1:ILEN),
      >                                IS,'IS'
 41114    FORMAT (T11,A,A,' (CODE= ',I3,') ',A,
@@ -6037,7 +6006,7 @@ C
       CALL OPNEW(KODE,IDT,206,2,PRMS)
       IF (KODE .GT. 0) GOTO 10
       ILEN=3
-      IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
+      IF(IS.LT.0)ILEN=ISPGRP(-IS,92)
       IF(PRMS(2).GT.0)THEN
         IF(LKECHO)WRITE(JOSTND,14410) KEYWRD,IDT,KARD(2)(1:ILEN),IS
       ELSE

@@ -116,6 +116,7 @@
 ../base/algptg.f
 ../base/algslp.f
 ../base/algspp.f
+../base/apisubsc.c
 ../base/apisubs.f
 ../base/autcor.f
 ../base/bachlo.f
@@ -164,6 +165,7 @@
 ../base/exbm.f
 ../base/exbrus.f
 ../base/exbudl.f
+../base/exdbsqlite.f
 ../base/exdfb.f
 ../base/exdftm.f
 ../base/exmpb.f
@@ -333,8 +335,6 @@
 ../dbs/dbsppput.f
 ../dbs/dbsprs.f
 ../dbs/dbsprssql.f
-../dbs/dbspusget.f
-../dbs/dbspusput.f
 ../dbs/dbsrd.f
 ../dbs/dbsstrclass.f
 ../dbs/dbstreesin.f

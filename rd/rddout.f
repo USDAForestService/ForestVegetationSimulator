@@ -150,6 +150,7 @@ C.... Dimension statements for local variables.
       
       DATA CHTYPE /'P','S','A','W'/
 
+      IF (ITRN .EQ. 0) RETURN
       TMPI = 0.0
 
 C.... Initialize arrays.
@@ -180,7 +181,7 @@ C
       CALL GETLUN(IOUNIT)
 
       IF (ISTEP .GT. 1 .OR. IRRSP .NE. MINRR) GOTO 1000
-      JYR = IY(1)
+      JYR = IY(ICYC+1)
 
 C
 C     get report ID and logical unit number.
@@ -207,7 +208,7 @@ C.... Print header for detailed output table.
       GOTO 1010
 
  1000 CONTINUE
-      JYR = IY(ISTEP)
+      JYR = IY(ICYC+1)
 
  1010 CONTINUE
 
@@ -237,7 +238,7 @@ C.... Find tree species in root disease patches.
 
       IF (ITRN .GT. 0) GOTO 804
       WRITE (IOUNIT,4100) IDRDOUT(2)
- 4100 FORMAT ('***** NO TREES IN STAND')
+ 4100 FORMAT (1X,I5,1X,'***** NO TREES IN STAND')
       GOTO 4000
 
  804  CONTINUE             

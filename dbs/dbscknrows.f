@@ -35,15 +35,23 @@ C
 C     CHECK TO SEE IF THE TREELIST TABLE EXISTS IN DATBASE
 C     IF IT DOESNT THEN WE NEED TO CREATE IT
 
-      if (ISEXCEL) then
+      IF (ISEXCEL) THEN
         SQLStmtStr= 'SELECT Count(*) FROM '//TABLENAME
-      else 
-        SQLStmtStr= 'SELECT Count(*) FROM (select * from '//TABLENAME//
-     >  ' limit 1)'
-      endif
+
+      ELSEIF (TRIM(DBMSOUT) .EQ. 'ACCESS') THEN
+        SQLStmtStr= 'SELECT Count(*) FROM '//
+     >  '(SELECT TOP 1 * FROM '//TRIM(TABLENAME)//')'
+
+      ELSE
+        SQLStmtStr= 'SELECT Count(*) FROM '//
+     >  '(SELECT * FROM '//TRIM(TABLENAME)//' LIMIT 1 )'
+      ENDIF
 
       iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      >            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
+
+c*      PRINT *,SQLStmtStr,"iRet=",iRet
+
       IF(iRet.NE.SQL_SUCCESS.AND.
      >   iRet.NE.SQL_SUCCESS_WITH_INFO) THEN
         IRCODE = 1

@@ -1174,7 +1174,6 @@ C  ITITLE - STDIDENT title
          end do
       end function sevHrvRevenues
 
-
 !    !Computes appreciation of annual costs and revenues for computing sev over an infinite time horizon 
       subroutine calcAnnCostRevSEV()
          endTime = 1; sevAnnCst = 0.0; sevAnnRvn = 0.0                   !endTime required by calcAppreSev

@@ -40,8 +40,7 @@ COMMONS
      -  SDBH(MAXSP,100,6), SHTH(MAXSP,100,6),SHTS(MAXSP,100,6),
      -  SDH(MAXSP,100,6), SDS(MAXSP,100,6)
       CHARACTER*2000 SQLStmtStr
-      CHARACTER(len=4) CSP
-      CHARACTER(LEN=8) CSPECIES
+      CHARACTER(LEN=8) CSP1,CSP2,CSP3
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
@@ -61,7 +60,9 @@ COMMONS
      -          'CaseID text not null,'//
      -          'StandID text not null,'//
      -          'Year Int null,'//
-     -          'Species text null,'//
+     -          'SpeciesFVS    text null,'//
+     -          'SpeciesPLANTS text null,'//
+     -          'SpeciesFIA    text null,'//
      -          'DBH_Class int null,'//
      -          'Death_DBH real null,'//
      -          'Current_Ht_Hard real null,'//
@@ -82,12 +83,13 @@ COMMONS
       ENDIF
 
       WRITE(SQLStmtStr,*)'INSERT INTO FVS_SnagDet ',
-     -          '(CaseID,StandID,Year,Species,DBH_Class,Death_DBH,',
-     -          'Current_Ht_Hard,Current_Ht_Soft,Current_Vol_Hard,',
-     -          'Current_Vol_Soft,Total_Volume,Year_Died,Density_Hard,',
-     -          'Density_Soft,Density_Total) VALUES (''',
-     -          CASEID,''',''',TRIM(NPLT),
-     -          ''',?,?,?,?,?,?,?,?,?,?,?,?,?);'//CHAR(0)
+     -  '(CaseID,StandID,Year,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
+     -  'DBH_Class,Death_DBH,',
+     -  'Current_Ht_Hard,Current_Ht_Soft,Current_Vol_Hard,',
+     -  'Current_Vol_Soft,Total_Volume,Year_Died,Density_Hard,',
+     -  'Density_Soft,Density_Total) VALUES (''',
+     -  CASEID,''',''',TRIM(NPLT),
+     -  ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'//CHAR(0)
       iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
       iRet = fsql3_prepare(IoutDBref,SQLStmtStr)
       IF (iRet .NE. 0) THEN
@@ -101,7 +103,6 @@ COMMONS
 
               SDTB   = SDH(IDC,JYR,JCL) + SDS(IDC,JYR,JCL)
               IF (SDTB .LE. 0) CYCLE
-              CSP = JSP(IDC)
               YRDEAD = IYEAR - JYR + 1
               SDBHB = SDBH(IDC,JYR,JCL)
               SHTHB = SHTH(IDC,JYR,JCL)
@@ -112,29 +113,26 @@ COMMONS
               SVLSB = FLOAT(SVLS(IDC,JYR,JCL))
               SVLTB = SVLHB + SVLSB
 
-C             DETERMINE PREFERED OUTPUT FORMAT FOR SPECIES CODE
-C             KEYWORD OVER RIDES
-C
-              IF(JSPIN(IDC).EQ.1)THEN
-                CSPECIES=ADJUSTL(JSP(IDC))
-              ELSEIF(JSPIN(IDC).EQ.2)THEN
-                CSPECIES=ADJUSTL(FIAJSP(IDC))
-              ELSEIF(JSPIN(IDC).EQ.3)THEN
-                CSPECIES=ADJUSTL(PLNJSP(IDC))
-              ELSE
-                CSPECIES=ADJUSTL(PLNJSP(IDC))
-              ENDIF
-C
-              IF(ISPOUT23.EQ.1)CSPECIES=ADJUSTL(JSP(IDC))
-              IF(ISPOUT23.EQ.2)CSPECIES=ADJUSTL(FIAJSP(IDC))
-              IF(ISPOUT23.EQ.3)CSPECIES=ADJUSTL(PLNJSP(IDC))
+C             ASSIGN FVS, PLANTS AND FIA SPECIES CODES
+
+              CSP1 = JSP(IDC)
+              CSP2 = PLNJSP(IDC)
+              CSP3 = FIAJSP(IDC)
 
               ColNumber=1
-              iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)             
+              iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
 
               ColNumber=ColNumber+1
-              iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIES,
-     >               len_trim(CSPECIES))              
+              iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP1,
+     >                                          len_trim(CSP1))
+
+              ColNumber=ColNumber+1
+              iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP2,
+     >                                          len_trim(CSP2))
+
+              ColNumber=ColNumber+1
+              iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP3,
+     >                                          len_trim(CSP3))
 
               ColNumber=ColNumber+1
               iRet = fsql3_bind_int(IoutDBref,ColNumber,JCL)
