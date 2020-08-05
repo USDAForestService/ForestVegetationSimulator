@@ -62,8 +62,6 @@ C----------
 
 C----------
 C ASSIGN HEIGHTS OF TALLEST EXCESS TREES BASED ON SPECIES INDEX/NUMBER
-C----------
-
       SELECT CASE (II)
         CASE (1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22)
           BB = -0.26203 + 0.44249*TIME2
@@ -76,11 +74,6 @@ C----------
         CASE (23)  
           HHT = 1.0         
       END SELECT 
-C----------
-C  HEIGHTS TOO TALL, TEMPORARY FIX, 11-30-93  GD
-C----------
-C      HHT=HHT*0.25
-C
 C     MAKE SURE HEIGHT IS ABOVE MINIMUM HEIGHT (XMIN SET IN BLKDAT.F)
       IF(HHT.LT.XMIN(II))HHT=XMIN(II)
 C

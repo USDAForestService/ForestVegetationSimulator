@@ -202,15 +202,11 @@ C----------
       IF(IBW.GT.2) IB=2
       IBAA=1
       IF(BAA.GT.25.5) IBAA=2
-
+C     ADVANCE REGENERATION
       IF(IAS .EQ. 1) THEN
-C
-C       ADVANCE REGENERATION
-C
         BB=BADV(IBAA,ISPE)
         CC=CADV(IBAA,ISPE)
         IF(BWB4.LT.0.5) GO TO 40
-
         SELECT CASE (ISPE)
         CASE(1)  ! SF
           I = 1
@@ -223,7 +219,6 @@ C
         CASE DEFAULT
           GO TO 40
         END SELECT
-
         IF(BWB4 .LE. 3.5) THEN
           BB=BBW1(IBAA,I)
           CC=CBW1(IBAA,I)
@@ -234,10 +229,8 @@ C
    40   CONTINUE
         DELAY=((-(ALOG(1.0-DRAW)))**(1.0/CC))*BB
         DELAY= (DELAY+3.0) *(-1.0)
+C     SUBSEQUENT REGENERATION
       ELSE
-C
-C       SUBSEQUENT REGENERATION
-C
         BB=BSUB(IT,ISPE)
         CC=CSUB(IT,ISPE)
         IF(IB.NE.2) GO TO 30
@@ -255,12 +248,10 @@ C
         END SELECT
         BB=BBW(IT,I)
         CC=CBW(IT,I)
-
    30   CONTINUE
         DELAY=((-(ALOG(1.0-DRAW)))**(1.0/CC))*BB
         DELAY=DELAY-4.0
       ENDIF
-
       IF(DELAY .GE. 10.)THEN
         DELAY=10.
       ELSEIF(DELAY .LE. 0.)THEN
