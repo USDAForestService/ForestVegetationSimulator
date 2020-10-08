@@ -148,9 +148,9 @@ C  115 CONTINUE
 C----------
 C CHECK HT/DBH RATIO, IF TOO HIGH, REDUCE HTG
 C----------
-      CNEWHT = HT(I) + HTG(I)
-      RNEWHT = 27.572 * ((DBH(I)+DG(I))**0.544)
-      IF(CNEWHT .GT. RNEWHT) HTG(I) = RNEWHT - HT(I)
+C      CNEWHT = HT(I) + HTG(I)
+C      RNEWHT = 27.572 * ((DBH(I)+DG(I))**0.544)
+C      IF(CNEWHT .GT. RNEWHT) HTG(I) = RNEWHT - HT(I)
       IF(HTG(I) .LE. 0.1) HTG(I) = 0.1
 C----------
 C IF SMALL DG THEN MINIMAL HTG

@@ -204,9 +204,10 @@ C
    92 CONTINUE
    93 CONTINUE
 C
-C  SELECT MERCHCAT BASED ON LOCATION CODE (KODFOR)
-C  FIGURE OUT WAY TO ITERATE ACROSS MERCHCDS WITHOUT EXPLICITLY
-C  TYPING 19
+C----------
+C  LOOP THROUGH MERCHCDS AND SELECT MERCHCAT BASED ON
+C  LOCATION CODE (KODFOR - 19 OPTIONS)
+C----------
       DO I=1, 19 
         IF(KODFOR .EQ. MERCHCDS(I,1)) THEN 
          MERCHCAT= MERCHCDS(I,2)
@@ -217,8 +218,9 @@ C  MERCHCDS
          MERCHCAT= 3
         ENDIF
       ENDDO
-C        	
+C----------
 C  DETERMINE DBHMIN, BFMIND, BFTOPD, AND TOPD BASED ON MERCHCAT
+C----------
 C  SET DBHMIN DEFAULTS
       DO ISPC=1,MAXSP
         IF(DBHMIN(ISPC) .LE. 0) THEN
@@ -231,43 +233,42 @@ C  SET DBHMIN DEFAULTS
             DBHMIN(ISPC)= 9
            CASE DEFAULT
             DBHMIN(ISPC)= 9
-           END SELECT
+          END SELECT
         ENDIF
 C  SET BFMIND DEFAULTS
         IF(BFMIND(ISPC) .LE. 0) THEN
-           SELECT CASE(MERCHCAT)
+          SELECT CASE(MERCHCAT)
            CASE(1, 2, 3, 4)
             BFMIND(ISPC)= 9
            CASE DEFAULT
             BFMIND(ISPC)= 9
-           END SELECT
-         ENDIF
+          END SELECT
+        ENDIF
 C  SET TOPD DEFAULTS
         IF(TOPD(ISPC) .LE. 0) THEN
-           SELECT CASE(MERCHCAT)
+          SELECT CASE(MERCHCAT)
            CASE(1, 2)
             TOPD(ISPC)= 4
            CASE(3)
-           	TOPD(ISPC)= 7
+            TOPD(ISPC)= 7
            CASE(4)
-           	TOPD(ISPC)= 6
+            TOPD(ISPC)= 6
            CASE DEFAULT
             TOPD(ISPC)= 7
-           END SELECT
-         ENDIF
+          END SELECT
+        ENDIF
 C  SET BFTOPD DEFAULTS
         IF(BFTOPD(ISPC) .LE. 0) THEN
-        	SELECT CASE(MERCHCAT)
-        	CASE(1,2,4)
-        		BFTOPD(ISPC)= 6
-        	CASE(3)
-        		BFTOPD(ISPC)= 7
-        	CASE DEFAULT
-        		BFTOPD(ISPC) = 7
-        	END SELECT
+          SELECT CASE(MERCHCAT)
+           CASE(1,2,4)
+            BFTOPD(ISPC)= 6
+           CASE(3)
+            BFTOPD(ISPC)= 7
+           CASE DEFAULT
+            BFTOPD(ISPC) = 7
+          END SELECT
         ENDIF
       ENDDO
-     
 C----------
 C  LOAD VOLUME EQUATION ARRAYS FOR ALL SPECIES
 C----------

@@ -198,39 +198,52 @@ C     SOME SPECIES LEVEL ATTRIBUTES
       PASTPA(I)=0.0
       IPLANT(I)=0
   181 CONTINUE
+C   CALCULATE FOREST TYPE FOR TALLY SEQUENCE
+C   THIS FOREST TYPE WILL BE USED THROUGHOUT THE DURATION OF
+C   THE TALLY SEQUENCE
 C   SET IFT TO FOREST TYPE GROUPS 1-13
 C   IFORTP IS STAND FOREST TYPE, FROM PLOT.F77
 C   IFT USED TO SET PLOT SIZE AND DETERMINING PROBABILITIES
-      SELECT CASE (IFORTP)
-        CASE (122)
-          IFT = 1
-        CASE (125)
-          IFT = 2
-        CASE (270)
-          IFT = 3
-        CASE (271)
-          IFT = 4
-        CASE (281)
-          IFT = 5
-        CASE (301)
-          IFT = 6
-        CASE (304)
-          IFT = 7
-        CASE (305)
-          IFT = 8
-        CASE (703)
-          IFT = 9
-        CASE (901)
-          IFT = 10
-        CASE (902)
-          IFT = 11
-        CASE (904)
-          IFT = 12
-        CASE (911)
-          IFT = 13
-        CASE DEFAULT 
-          IFT = 14
-      END SELECT
+      IF(NTALLY .EQ. 1) THEN
+        SELECT CASE (IFORTP)
+          CASE (122)
+            IFT0 = 1
+          CASE (125)
+            IFT0 = 2
+          CASE (270)
+            IFT0 = 3
+          CASE (271)
+            IFT0 = 4
+          CASE (281)
+            IFT0 = 5
+          CASE (301)
+            IFT0 = 6
+          CASE (304)
+            IFT0 = 7
+          CASE (305)
+            IFT0 = 8
+          CASE (703)
+            IFT0 = 9
+          CASE (901)
+            IFT0 = 10
+          CASE (902)
+            IFT0 = 11
+          CASE (904)
+            IFT0 = 12
+          CASE (911)
+            IFT0 = 13
+          CASE DEFAULT 
+            IFT0 = 14
+        END SELECT
+        IF(DEBUG) WRITE(JOSTND,*) ' SELECTION OF TALLY IFT', IFT0
+      ENDIF
+      
+C     IF ESTAB IS IN A TALLY SEQUENCE USE IFT0 FOR FOREST TYPE
+      IF(NTALLY .LT. 99) IFT = IFT0
+      
+      IF(NTALLY .GT. 1) THEN
+        IF(DEBUG) WRITE(JOSTND,*) 'IFT DURING TALLY SEQ', IFT0
+      ENDIF
 C     PLOT REPLICATION, MINREP SET IN ESINIT OR BY USER 
 C     DUP IS THE NUMBER OF DUPLICATE REGENERATION PLOTS PER BASE
 C     MODEL PLOT
@@ -293,6 +306,39 @@ C       DATES OF SITE PREPS
         ZMECH=ZHARV
         ZBURN=ZHARV
         NTALLY=1
+
+C DETERMINE FOREST TYPE TO BE USED FOR INGROWTH CALCULATIONS
+        SELECT CASE (IFORTP)
+          CASE (122)
+            IFT = 1
+          CASE (125)
+            IFT = 2
+          CASE (270)
+            IFT = 3
+          CASE (271)
+            IFT = 4
+          CASE (281)
+            IFT = 5
+          CASE (301)
+            IFT = 6
+          CASE (304)
+            IFT = 7
+          CASE (305)
+            IFT = 8
+          CASE (703)
+            IFT = 9
+          CASE (901)
+            IFT = 10
+          CASE (902)
+            IFT = 11
+          CASE (904)
+            IFT = 12
+          CASE (911)
+            IFT = 13
+          CASE DEFAULT 
+            IFT = 14
+        END SELECT
+        IF(DEBUG) WRITE(JOSTND,*) ' SELECTION OF INGROWTH IFT', IFT
         GO TO 44
       ENDIF
 C     IF NOT THE FIRST TALLY, THEN SKIP SITE PREPS.
@@ -591,11 +637,14 @@ C     ISER IS PLOT HABITAT TYPE GROUPS CODE (1-5)
       IF(BAAOLD.GT.400.0) BAAOLD=400.0
       IHAB=IPHAB(NNID)
       ISER=MYHABG(IHAB)
+      IF(DEBUG) WRITE(JOSTND, *) ' PLOT VARIABLE DEBUG',' SLO',SLO,
+     &' ASPECT',RADIAN,' TPA',PTA,' RD',PRD,' TPAOLD',TPAOLD,' RDAOLD',
+     & RDAOLD
       IF(DEBUG) THEN
-        WRITE(JOSTND,6033) NNID,NOFSPE,IPREP,NTALLY,ISER,IFO,
+        WRITE(JOSTND,6033) NNID,NOFSPE,IPREP,NTALLY,ISER,IFT,
      &  SLO,BAA,ELEV,ASPECT
  6033   FORMAT(/,72('='),/,'PLOT=',I4,'  NOFSPE=',I4,'  IPREP=',I3,
-     &  '  NTALLY=',I3,'  ISER=',I3,/,'IFO=',I3,
+     &  '  NTALLY=',I3,'  ISER=',I3,/,'IFT=',I3,
      &  '  SLO=',F5.2,'  BAA=',F7.2,'  ELEV=',F6.1,'  ASPECT=',F7.3)
         WRITE(JOSTND,*) 'OCURFT = ',(OCURFT(I,IFT),I=1,NOFSPE)        
         WRITE(JOSTND,*) 'XESMLT = ',(XESMLT(I),I=1,NOFSPE)
@@ -693,9 +742,12 @@ C     USED TO ADJUST PROBABILITY OF STOCKING, ULTIMATELY PROB1(PLOT)
       IF(STOADJ.LT.0.001) STOADJ=0.001
       FTEMP= 1.0/(1.0+EXP(-(PN+ESB-ESB1(NCOUNT) )))
       FTEMP= FTEMP *STOADJ
+      IF(DEBUG) WRITE (JOSTND,*) ' FTEMP AFTER STOADJ', FTEMP, 
+     & ' STOADJ', STOADJ
       IF(FTEMP.LT.0.0001) FTEMP=0.0001
       IF(FTEMP.GT.0.9990) FTEMP=0.9990
       IF(FTEMP.LT.PNN(NCOUNT)) FTEMP=PNN(NCOUNT) +0.0001
+      IF(DEBUG) WRITE (JOSTND,*) ' FTEMP AFTER ADJUSTMENTS', FTEMP
       PROB1(NCOUNT)=FTEMP
       IF(DEBUG) WRITE (JOSTND,6028) ESB,ESB1(NCOUNT),TPACRE,FTEMP
  6028 FORMAT('ESB(ACT)=',F7.4,'  ESB1(PRED)=',F7.4,'  TPACRE=',F7.1,
@@ -1001,10 +1053,19 @@ C     TREE OF THE SAME SPECIES ON THE PLOT.
       DO 140 I=1,NOFSPE
       SUM0=SUM0+WK6(I)
   140 CONTINUE
-      SUMUP(1)= WK6(1)/SUM0
-      DO 142 I=2,NOFSPE-1
-      SUMUP(I) = SUMUP(I-1) + WK6(I)/SUM0
-  142 CONTINUE
+C     DETERMINE HOW TO CALCULATE SUMUP(I) VALUES
+C     IF SUM0 IS ZERO, THEN NO BEST TREES WERE IDENTIFIED AND ALL SUMUP VALUES
+C     SHOULD BE ASSIGNEDA VALUE OF ZERO.
+      IF(SUM0 .LE. 0.0) THEN
+        DO I=1, NOFSPE
+          SUMUP(I) = 0.0
+        ENDDO
+      ELSE
+        SUMUP(1)= WK6(1)/SUM0
+        DO 142 I=2,NOFSPE-1
+          SUMUP(I) = SUMUP(I-1) + WK6(I)/SUM0
+  142   CONTINUE
+      ENDIF
       IF(DEBUG) WRITE (JOSTND,7005) (SUMUP(I),I=1,NOFSPE)
       ITP=ITPP
       J=ITPP+NOFSPE
@@ -1065,11 +1126,16 @@ C     THE TALLEST TREE OF THE SAME SPECIES.  EXIT=STMT 156
       FTEMP=PROB1(NCOUNT)
       FTEMP2=REAL(NEWTPP)/REAL(ITPP)
       ITEMP=ITPP-NEWTPP
+      IF(DEBUG) WRITE(JOSTND,*) ' FTEMP DEBUG',' FTEMP', FTEMP,
+     & ' FTEMP2', FTEMP2, ' NEWTPP', NEWTPP, ' ITPP', ITPP,' ITEMP',
+     & ITEMP
       DO 55 I=1,ITPP
       ESPROB(I)=FTEMP
       IF(I.LT.ITEMP+1) ESPROB(I)=FTEMP-PNN(NCOUNT)
       IF(INGRO.EQ.1.OR.MATCH.EQ.1) ESPROB(I)=FTEMP*FTEMP2
       IF(ESPROB(I).LT.0.0001) ESPROB(I)=0.0001
+      IF(DEBUG) WRITE(JOSTND,*) ' PNN(NCOUNT)=', PNN(NCOUNT),
+     & 'ESPROB', ESPROB(I)
    55 CONTINUE
       PNN(NCOUNT)=FTEMP
 C     STATEMENT 163 IS USED WHEN STOADJ .LE. 0.0
