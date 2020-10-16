@@ -85,9 +85,9 @@ C----------
       REAL BACHLO,BARK,BRATIO,CON,CORNEW,D,DDS,DK,DKK,EDH
       REAL FNT,H,HK,HTGR,HTNEW,P,RANC,RCR
       REAL REGYR,RSI,SCALE1,SCALE2,SCALE3,SNP,SNX,SNY,TBAL
-      REAL TERM,XMN,XMX,XRDGRO,XRHGRO,HWT,DWT,ZZRAN
+      REAL TERM,XMN,XMX,XRDGRO,XRHGRO,ZZRAN,XWT
       REAL ELEVATN,PBAL,XSITE,CR
-      REAL DGSM,DGMIN(MAXSP)
+      REAL DGSM,DGLT
       REAL HEGYI1(MAXSP),HEGYI2(MAXSP),HEGYI3(MAXSP)
       REAL AGE1,AGE2,H1,H2,HTMAX
      
@@ -160,11 +160,11 @@ C----------
      &            5.0, 5.0, 5.0, 5.0, 5.0,
      &            5.0, 5.0, 5.0/
 
-      DATA DGMIN/ 3.0, 3.0, 3.0, 3.0, 3.0,
-     &            3.0, 3.0, 3.0, 3.0, 3.0,
-     &            3.0, 3.0, 3.0, 3.0, 3.0,
-     &            3.0, 3.0, 3.0, 3.0, 3.0,
-     &            3.0, 3.0, 3.0/
+C      DATA DGMIN/ 3.0, 3.0, 3.0, 3.0, 3.0,
+C     &            3.0, 3.0, 3.0, 3.0, 3.0,
+C     &            3.0, 3.0, 3.0, 3.0, 3.0,
+C     &            3.0, 3.0, 3.0, 3.0, 3.0,
+C     &            3.0, 3.0, 3.0/
       
       DATA HEGYI1/1.0458, 1.0458, 1.1243, 1.2883, 1.2883,
      &            1.2883, 1.2883, 1.0458, 1.0236, 1.1243,
@@ -342,22 +342,19 @@ C DEBUG FOR TREE, SPECIES, HT, AGE, SITE INDEX AND HEIGHT GROWTH
       HTGR = (HTGR +ZZRAN*0.1)*XRHGRO * SCALE1 * CON
       IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9984',' HTG=',HTGR
 C-----------
-C     COMPUTE WEIGHTS FOR SMALL TREE HEIGHT INCREMENT ESTIMATES.
+C     COMPUTE WEIGHTS FOR SMALL TREE GROWTH ESTIMATES.
 C     IF DBH IS LESS THAN OR EQUAL TO XMN, THE LARGE TREE
 C     PREDICTION IS IGNORED (XWT=0.0).
 C-----------
-      HWT=(D-XMN)/(XMX-XMN)
-      IF(D.LE.XMN.OR.LESTB) HWT = 0.0
-      
-      DWT=(D-DGMIN(ISPC))/(XMX-DGMIN(ISPC))
-      IF(D.LE.DGMIN(ISPC).OR.LESTB) DWT = 0.0
+      XWT=(D-XMN)/(XMX-XMN)
+      IF(D.LE.XMN.OR.LESTB) XWT = 0.0
 C----------
 C     COMPUTE WEIGHTED HEIGHT INCREMENT FOR NEXT TRIPLE.
 C----------
-      IF(DEBUG)WRITE(JOSTND,9985)HWT,HTGR,HTG(K),I,K
- 9985 FORMAT('IN REGENT 9985 FORMAT',3(F10.4,2X),2I7)
-      HTG(K)=HTGR*(1.0-HWT) + HWT*HTG(K)
-      IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9985',' HTG=',HTGR
+      IF(DEBUG)WRITE(JOSTND,9985)D,XWT,HTGR,HTG(K),I,K
+ 9985 FORMAT('IN REGENT 9985 FORMAT',4(F10.4,2X),2I7)
+      HTG(K)=HTGR*(1.0-XWT) + XWT*HTG(K)
+      IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9985',' HTG=',HTG(K)
       IF(HTG(K) .LT. .1) HTG(K) = .1
 C----------
 C CHECK FOR SIZE CAP COMPLIANCE.
@@ -443,8 +440,9 @@ C----------
             DG(K)=HTG(K)*0.2*BARK*XRDGRO
             DK=D+DG(K)
           ELSE
+            DGLT = DG(K)
             DGSM = (DK-DKK)*BARK*XRDGRO
-            DGSM = DGSM*(1.0-DWT) + DWT*DG(K)
+            DGSM = DGSM*(1.0-XWT) + XWT*DGLT
             DG(K) = DGSM
           ENDIF
           IF(DG(K) .LT. 0.0) DG(K)=0.0
@@ -456,8 +454,8 @@ C----------
           DDS=(DG(K)*(2.0*BARK*D+DG(K))) * SCALE2
           DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
           IF(DEBUG)WRITE(JOSTND,*)
-     &     'K,D,DG(K),BARK,DWT,DGSM,SCALE2,YR,FNT, = ',
-     &      K,D,DG(K),BARK,DWT,DGSM,SCALE2,YR,FNT
+     &     'K,D,DG(K),BARK,XWT,DGSM,DGLT,SCALE2,YR,FNT, = ',
+     &      K,D,DG(K),BARK,XWT,DGSM,DGLT,SCALE2,YR,FNT
         ENDIF
         IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
           DG(K)=DIAM(ISPC)-DBH(K)
