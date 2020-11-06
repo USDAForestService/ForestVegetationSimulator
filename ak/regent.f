@@ -413,11 +413,11 @@ C----------
 C  ELSE USE INVERTED WYKOFF FUNCTION TO CALCULATE DIAMETERS (DK,DKK)
 C----------
         ELSE
-          DK=(HTT2(ISPC)/(ALOG(HK-4.5)-HTT1(ISPC)))-1.0
+          DK=(HT2(ISPC)/(ALOG(HK-4.5)-HT1(ISPC)))-1.0
           IF(H .LE. 4.5) THEN
             DKK=D
           ELSE
-            DKK=(HTT2(ISPC)/(ALOG(H-4.5)-HTT1(ISPC)))-1.0
+            DKK=(HT2(ISPC)/(ALOG(H-4.5)-HT1(ISPC)))-1.0
           ENDIF
           IF(DEBUG)WRITE(JOSTND,*)'I,ISPC,H,HK,DK,DKK,XRDGRO= ',
      &    I,ISPC,H,HK,DK,DKK,XRDGRO

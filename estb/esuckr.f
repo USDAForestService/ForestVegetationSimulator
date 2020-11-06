@@ -282,9 +282,9 @@ C----------
       HT(ITRN)=HT(ITRN)+RANDEV
 
       IF(HT(ITRN) .GT.4.5)THEN
-        BX=HTT2(ISSP)
+        BX=HT2(ISSP)
         IF(IABFLG(ISSP).EQ.1)THEN
-          AX=HTT1(ISSP)
+          AX=HT1(ISSP)
         ELSE
           AX=AA(ISSP)
         ENDIF
