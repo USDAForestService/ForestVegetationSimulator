@@ -57,6 +57,20 @@ C
       REAL FAHMX2,H,MISHGF,POTHTG,RNEWHT,SCALE
       REAL SITAGE,SITHT,TEMHTG,XHT,XSITE
       REAL A,B,DHI,DLO,SDIC,SDIC2,XMAX,ZRD(MAXPLT)
+      REAL HDRMAX(MAXSP),DMAX(MAXSP),HDR,DG10
+C----------
+C  DATA STATEMENTS:
+C----------
+C
+C      DATA HDRMAX/ 
+C     & 110.0, 110.0,  85.0, 120.0, 130.0, 130.0, 120.0, 110.0, 
+C     & 90.0,   85.0, 110.0,  80.0, 130.0, 130.0, 130.0, 165.0,
+C     & 165.0, 150.0, 150.0, 150.0, 150.0, 150.0, 150.0/
+     
+C      DATA DMAX/ 
+C     & 5.0, 5.0, 5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 5.0,
+C     & 5.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0,
+C     & 3.0, 3.0, 3.0/
 C
 C-----------
 C  SEE IF WE NEED TO DO SOME DEBUG.
@@ -114,6 +128,7 @@ C-----------
       H=HT(I)
       D=DBH(I)
       HTG(I)=0.
+      DG10 = DG(I)
       IF(DG(I) .LE. 0.)DG(I)=0.0001
       IF (PROB(I).LE.0.) GO TO 161
 C
@@ -134,7 +149,7 @@ C
 C----------
 C  ESTIMATE HEIGHT GROWTH IN HTCALC
 C----------
-      CALL HTCALC(I,ISPC,XSITE,POTHTG,ZRD)
+      CALL HTCALC(I,ISPC,XSITE,POTHTG,DG10)
       HTG(I)= POTHTG
 C----------
 C CHECK HT/DBH RATIO, IF TOO HIGH, REDUCE HTG
@@ -142,6 +157,10 @@ C----------
 C      CNEWHT = HT(I) + HTG(I)
 C      RNEWHT = 27.572 * ((DBH(I)+DG(I))**0.544)
 C      IF(CNEWHT .GT. RNEWHT) HTG(I) = RNEWHT - HT(I)
+C      HDR = (H*12)/D
+C      IF(D .GT. DMAX(ISPC) .AND. HDR .GT. HDRMAX(ISPC)) HTG(I) = 0.1
+C      IF(DEBUG) WRITE(JOSTND, *) ' HDR CONSTRAINT DEBUG',' D=',D,
+C     &' DMAX',DMAX(ISPC),' HDR=',HDR,' HDRMAX=',HDRMAX(ISPC)
       IF(HTG(I) .LE. 0.1) HTG(I) = 0.1
 C----------
 C IF SMALL DG THEN MINIMAL HTG

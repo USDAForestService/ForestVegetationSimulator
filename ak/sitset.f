@@ -134,12 +134,12 @@ C     & 50., 50., 50.,  5., 50., 50.,  5., 50., 40., 50.,
 C     & 50., 50., 50., 40., 40., 30., 30., 20., 30., 20.,
 C     & 20.,20.,20./
      
-C      DATA SLO /
-C     & 50., 50., 50.,  5., 50., 50.,  5., 50., 40., 50.,
-C     & 50., 50., 50., 40., 40., 30., 30., 20., 30., 20.,
-C     & 20.,20.,20./
+C      DATA SHI /
+C     & 130., 130., 130.,  40., 100., 100.,  40., 130.,  80.,
+C     & 130., 130., 130., 100., 110., 110.,  70.,  70., 100.,
+C     &  80., 100., 100., 100., 100./
 C-----
-     
+
       DATA SLO /
      & 50., 50., 25., 15., 40., 40., 15., 50., 15., 30.,
      & 35., 35., 40., 40., 40., 35., 35., 35., 35., 35.,
@@ -147,7 +147,7 @@ C-----
 
       DATA SHI /
      & 130., 130., 100.,  60., 100., 100.,  60., 130.,  60.,
-     & 120., 130., 100., 100., 110., 110.,  80.,  80., 100.,
+     & 100., 120., 100., 100., 110., 110.,  80.,  80., 100.,
      &  80., 100., 100., 100., 100./
 C
 C----------
@@ -224,13 +224,13 @@ C  LOOP THROUGH MERCHCDS AND SELECT MERCHCAT BASED ON
 C  LOCATION CODE (KODFOR - 19 OPTIONS)
 C----------
       DO I=1, 19 
-        IF(KODFOR .EQ. MERCHCDS(I,1)) THEN 
-         MERCHCAT= MERCHCDS(I,2)
+        IF(KODFOR .EQ. MERCHCDS(1,I)) THEN 
+          MERCHCAT= MERCHCDS(2,I)
          EXIT
 C  DEFAULT TO TONGASS IF LOCATION CODE IS NOT FOUND IN
 C  MERCHCDS 
         ELSE 
-         MERCHCAT= 3
+          MERCHCAT= 3
         ENDIF
       ENDDO
 C----------
@@ -307,7 +307,7 @@ C----------
         IREGN=10
         FORST='04'
       ELSE IF((KODFOR.EQ.703).OR.(IREGN.EQ.81)) THEN
-      	IREGN=10
+        IREGN=10
         FORST='02'
       ENDIF
 C LOAD VOLUME ARRAYS USING VOLEQDEF
