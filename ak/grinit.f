@@ -102,7 +102,7 @@ C----------
       CFLA1(I) = 1.0
       LDGCAL(I) = .TRUE.
       LHTCAL(I) = .TRUE.
-      LHTDRG(I) = .TRUE.
+      LHTDRG(I) = .FALSE.
       BARANK(I) = 0.0
       MAXSDI(I) = 0
       SITEAR(I) = 0.0
