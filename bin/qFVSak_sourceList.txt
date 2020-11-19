@@ -1,6 +1,8 @@
 ../ak/common/CRCOEF.F77
 ../ak/common/ESPARM.F77
 ../ak/common/PRGPRM.F77
+../ak/common/ESCOMN.F77
+../ak/common/VARCOM.F77
 
 ../common/ARRAYS.F77
 ../common/CALCOM.F77
@@ -14,7 +16,6 @@
 ../common/ECNCOMSAVES.F77
 ../common/ECON.F77
 ../common/ESCOM2.F77
-../common/ESCOMN.F77
 ../common/ESHAP.F77
 ../common/ESHAP2.F77
 ../common/ESHOOT.F77
@@ -44,7 +45,6 @@
 ../common/SVDATA.F77
 ../common/SVDEAD.F77
 ../common/SVRCOM.F77
-../common/VARCOM.F77
 ../common/VOLSTD.F77
 ../common/WORKCM.F77
 
