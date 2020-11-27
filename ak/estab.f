@@ -134,17 +134,26 @@ C----------
      & NOFSPE/MAXSP/
 
 C----------
-C MAXTPP: IS USING 75TH PERCENTILE TPP VALUES.
-C TPP VALUES OF 16 INDICATE FOREST TYPES THAT ARE USING GLOBAL
-C 75TH PERCENTILE BASED ON ALL DATA.
+C MAXTPP: CONTAINS TPP VALUES USED IN TALLY SEQUENCES. VALUES ARE
+C BASED ON THE 75TH PERCENTILE TPP VALUES FOUND IN DATA.
+C
+C MAXSPP: CONTAINS THE 75TH PERCENTILE OF NUMBER OF SPECIES THAT CAN
+C OCCUR ON A STOCKED PLOT BY FOREST TYPE.
+C
 C MAXING: CONTAINS TPP VALUES USED IN INGROWTH PREDICTIONS. VALUES
-C HALF OF THOSE FOUND IN MAXTPP.
+C ARE HALF OF THOSE FOUND IN MAXTPP ARRAY. BLACK SPRUCE,
+C YELLOW CEDAR, LODGEPOLE PINE, WESTERN HEMLOCK, AND WESTERN RED 
+C CEDAR FOREST TYPES ASSUME VALUES THAT ARE HALF OF THE 75TH
+C PERCENTILE OF TPP ACROSS ALL FOREST TYPES(TPP=8). PREDICTED TPP
+C VALUES SEEMED TOO HIGH WHEN USING HALF THE VALUES FOUND IN MAXTPP
+C FOR THESE SPECFIC FOREST TYPES.
 C----------
+
       DATA
-     &  MAXTPP/13,16,10,16,16,16,16,9,8,14,12,13,8,0/,
+     &  MAXTPP/13,26,10,20,19,18,20,9,8,14,12,13,8,0/,
      &  MYHABG/4*1,4*2,3,4,6*5/,
-     &  MAXSPP/2,2,3,4,4,3,4,2,2,2,2,2,2,0/,
-     &  MAXING/6,8,5,8,8,8,8,5,4,6,6,4,5,0/
+     &  MAXSPP/2,2,2,3,3,2,3,2,2,2,2,2,2,0/,
+     &  MAXING/6,8,5,8,8,8,8,4,4,7,6,6,4,0/
 
 C----------
 C STEP 1: INITIALIZE ARRAYS AND VARIABLES, AND REPLICATE PLOTS
@@ -224,46 +233,53 @@ C   THE TALLY SEQUENCE
 C   SET IFT TO FOREST TYPE GROUPS 1-13
 C
 C   IFT USED TO SET PLOT SIZE AND DETERMINING PROBABILITIES
+      SELECT CASE (IESFT)
+        CASE (122)
+          IFT = 1
+        CASE (125)
+          IFT = 2
+        CASE (270)
+          IFT = 3
+        CASE (271)
+          IFT = 4
+        CASE (281)
+          IFT = 5
+        CASE (301)
+          IFT = 6
+        CASE (304)
+          IFT = 7
+        CASE (305)
+          IFT = 8
+        CASE (703)
+          IFT = 9
+        CASE (901)
+          IFT = 10
+        CASE (902)
+          IFT = 11
+        CASE (904)
+          IFT = 12
+        CASE (911)
+          IFT = 13
+        CASE DEFAULT 
+          IFT = 14
+      END SELECT
+
+C DISPLAY IFT
+      IF(DEBUG) WRITE(JOSTND,*) 'IFT DETERMINED FROM FOREST TYPE: ', IFT
+
+C STORE IFT0 IF GOING INTO A TALLY SEQUENCE
       IF(NTALLY .EQ. 1) THEN
-        SELECT CASE (IESFT)
-          CASE (122)
-            IFT0 = 1
-          CASE (125)
-            IFT0 = 2
-          CASE (270)
-            IFT0 = 3
-          CASE (271)
-            IFT0 = 4
-          CASE (281)
-            IFT0 = 5
-          CASE (301)
-            IFT0 = 6
-          CASE (304)
-            IFT0 = 7
-          CASE (305)
-            IFT0 = 8
-          CASE (703)
-            IFT0 = 9
-          CASE (901)
-            IFT0 = 10
-          CASE (902)
-            IFT0 = 11
-          CASE (904)
-            IFT0 = 12
-          CASE (911)
-            IFT0 = 13
-          CASE DEFAULT 
-            IFT0 = 14
-        END SELECT
-        IF(DEBUG) WRITE(JOSTND,*) ' SELECTION OF TALLY IFT', IFT0
+        IFT0 = IFT
+        IF(DEBUG) WRITE(JOSTND, *) 'TALLY SEQUENCE FOREST TYPE: ', IFT0
       ENDIF
-      
-C     IF ESTAB IS IN A TALLY SEQUENCE USE IFT0 FOR FOREST TYPE
-      IF(NTALLY .LT. 99) IFT = IFT0
-      
-      IF(NTALLY .GT. 1) THEN
-        IF(DEBUG) WRITE(JOSTND,*) 'IFT DURING TALLY SEQ', IFT0
+
+C USE IFT0 IF IN A TALLY SEQUENCE
+      IF(NTALLY .LT. 99) THEN
+        IFT = IFT0
+        IF(DEBUG) WRITE(JOSTND, *) 'IN TALLY SEQUENCE. USING TALLY 
+     &  SEQUENCE FOREST TYPE: ', IFT
       ENDIF
+
 C     PLOT REPLICATION, MINREP SET IN ESINIT OR BY USER 
 C     DUP IS THE NUMBER OF DUPLICATE REGENERATION PLOTS PER BASE
 C     MODEL PLOT
@@ -326,39 +342,6 @@ C       DATES OF SITE PREPS
         ZMECH=ZHARV
         ZBURN=ZHARV
         NTALLY=1
-
-C DETERMINE FOREST TYPE TO BE USED FOR INGROWTH CALCULATIONS
-        SELECT CASE (IESFT)
-          CASE (122)
-            IFT = 1
-          CASE (125)
-            IFT = 2
-          CASE (270)
-            IFT = 3
-          CASE (271)
-            IFT = 4
-          CASE (281)
-            IFT = 5
-          CASE (301)
-            IFT = 6
-          CASE (304)
-            IFT = 7
-          CASE (305)
-            IFT = 8
-          CASE (703)
-            IFT = 9
-          CASE (901)
-            IFT = 10
-          CASE (902)
-            IFT = 11
-          CASE (904)
-            IFT = 12
-          CASE (911)
-            IFT = 13
-          CASE DEFAULT 
-            IFT = 14
-        END SELECT
-        IF(DEBUG) WRITE(JOSTND,*) ' SELECTION OF INGROWTH IFT', IFT
         GO TO 44
       ENDIF
 C     IF NOT THE FIRST TALLY, THEN SKIP SITE PREPS.
