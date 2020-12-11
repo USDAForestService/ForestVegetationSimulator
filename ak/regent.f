@@ -89,10 +89,9 @@ C----------
       REAL ELEVATN,PBAL,XSITE,CR
       REAL DGSM,DGLT
       REAL HEGYI1(MAXSP),HEGYI2(MAXSP),HEGYI3(MAXSP)
-      REAL AGE1,AGE2,H1,H2,HTMAX,HWT,DWT
+      REAL AGE1,AGE2,H1,H2,HTMAX,XWT
      
       REAL CORTEM(MAXSP),DIAM(MAXSP),XMIN(MAXSP),XMAX(MAXSP)
-      REAL DMIN(MAXSP)
 
 C----------
 C SPECIES LIST FOR ALASKA VARIANT.
@@ -134,8 +133,6 @@ C     XMAX -- UPPER END OF THE DIAMETER RANGE USED FOR WEIGHTING
 C             SMALL AND LARGE TREE HEIGHT AND DIAMETER GROWTH.
 C     XMIN -- LOWER END OF THE DIAMETER RANGE USED FOR WEIGHTING
 C             SMALL AND LARGE TREE HEIGHT GROWTH.
-C     DMIN -- LOWER END OF THE DIAMETER RANGE USED FOR WEIGHTING SMALL
-C             AND LARGE TREE DIAMETER GROWTH.
 C     DIAM -- BUD WIDTH (I.E. MINIMUM DIAMETER)
 C  STHGMLT -- SMALL TREE HEIGHT GROWTH MULTIPLIERS BY SPECIES. THESE
 C             MULTIPLIERS ARE USED TO HELP GET TREES OUT OF THE SMALL
@@ -145,9 +142,9 @@ C  DATA STATEMENTS:
 C----------
       DATA REGYR / 10.0 /
 
-      DATA XMIN / 1.0, 1.0, 3.0, 1.0, 1.0,
-     &            2.0, 1.0, 1.0, 3.0, 3.0,
-     &            2.0, 3.0, 1.0, 1.0, 1.0,
+      DATA XMIN / 1.0, 1.0, 1.0, 1.0, 1.0,
+     &            1.0, 1.0, 1.0, 1.0, 1.0,
+     &            1.0, 1.0, 1.0, 1.0, 1.0,
      &            1.0, 1.0, 1.0, 1.0, 1.0,
      &            1.0, 1.0, 1.0/
 
@@ -156,8 +153,6 @@ C----------
      &            5.0, 5.0, 3.0, 3.0, 3.0,
      &            3.0, 3.0, 3.0, 3.0, 3.0,
      &            3.0, 3.0, 3.0/
-
-      DATA DMIN / MAXSP * 1.0/
 
       DATA HEGYI1/1.0458, 1.0458, 1.1243, 1.2883, 1.2883,
      &            1.2883, 1.2883, 1.0458, 1.0236, 1.1243,
@@ -351,18 +346,16 @@ C----------
 C-----------
 C COMPUTE WEIGHTS FOR SMALL TREE GROWTH ESTIMATES.
 C IF DBH IS LESS THAN OR EQUAL TO XMN, THE LARGE TREE
-C PREDICTION IS IGNORED (HWT AND DWT ARE 0.0).
+C PREDICTION IS IGNORED (XWT 0.0).
 C-----------
-      HWT=(D-XMN)/(XMX-XMN)
-      DWT=(D-DMIN(ISPC))/(XMX - DMIN(ISPC))
-      IF(D.LE.XMN.OR.LESTB) HWT = 0.0
-      IF(D.LE.DMIN(ISPC).OR.LESTB) DWT = 0.0
+      XWT=(D-XMN)/(XMX-XMN)
+      IF(D.LE.XMN.OR.LESTB) XWT = 0.0
 C----------
 C     COMPUTE WEIGHTED HEIGHT INCREMENT FOR NEXT TRIPLE.
 C----------
-      IF(DEBUG)WRITE(JOSTND,9985)D,HWT,HTGR,HTG(K),I,K
+      IF(DEBUG)WRITE(JOSTND,9985)D,XWT,HTGR,HTG(K),I,K
  9985 FORMAT('IN REGENT 9985 FORMAT',4(F10.4,2X),2I7)
-      HTG(K)=HTGR*(1.0-HWT) + HWT*HTG(K)
+      HTG(K)=HTGR*(1.0-XWT) + XWT*HTG(K)
       IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9985',' HTG=',HTG(K)
       IF(HTG(K) .LT. .1) HTG(K) = .1
 C----------
@@ -451,7 +444,7 @@ C----------
           ELSE
             DGLT = DG(K)
             DGSM = (DK-DKK)*BARK*XRDGRO
-            DGSM = DGSM*(1.0-DWT) + DWT*DGLT
+            DGSM = DGSM*(1.0-XWT) + XWT*DGLT
             DG(K) = DGSM
           ENDIF
           IF(DG(K) .LT. 0.0) DG(K)=0.0
@@ -463,8 +456,8 @@ C----------
           DDS=(DG(K)*(2.0*BARK*D+DG(K))) * SCALE2
           DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
           IF(DEBUG)WRITE(JOSTND,*)
-     &     'K,D,DG(K),BARK,DWT,DGSM,DGLT,SCALE2,YR,FNT, = ',
-     &      K,D,DG(K),BARK,DWT,DGSM,DGLT,SCALE2,YR,FNT
+     &     'K,D,DG(K),BARK,XWT,DGSM,DGLT,SCALE2,YR,FNT, = ',
+     &      K,D,DG(K),BARK,XWT,DGSM,DGLT,SCALE2,YR,FNT
         ENDIF
         IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
           DG(K)=DIAM(ISPC)-DBH(K)
