@@ -51,11 +51,11 @@ C
       REAL TEM
       REAL*8 CW,P,DGI,DP,ESTHT,TREAGE,DDBH,DHT,DHTG,DPCT,
      >       DCFV,DWK1,DBFV,DHT2TD2,DHT2TD1
-    
+
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
      >        fsql3_bind_text,fsql3_reset
-     
+
 C     IF TREEOUT IS NOT TURNED ON OR THE IWHO VARIABLE IS NOT 1
 C     THEN JUST RETURN
 
@@ -66,7 +66,7 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
       IF(ITREELIST.EQ.2) KODE = 0
 
       CALL DBSCASE(1)
-      
+
 C     For CS, LS, NE and SN, the table name is FVS_TreeList_East and the following
 C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
 
@@ -125,7 +125,7 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
      -             NAMDCF // ' real null,'//
      -             NAMDBF // ' real null,'//
      -             'TreeAge real null);'//CHAR(0)
-         iRet = fsql3_exec(IoutDBref,SQLStmtStr) 
+         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
          IF (iRet .NE. 0) THEN
            ITREELIST = 0
            iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
@@ -137,7 +137,7 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
      -  'TreeId,TreeIndex,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
      -  'TreeVal,SSCD,PtIndex,TPA,',
      -  'MortPA,DBH,DG,',
-     -  'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',',  
+     -  'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',',
      -  NMCUFT,',',NBDFT,',MDefect,BDefect,TruncHt,',
      -  'EstHt,ActPt,',NAMDCF,',',NAMDBF,',','TreeAge) VALUES (''',
      -  CASEID,''',''',TRIM(NPLT),''',',IY(ICYC+1),',',IFINT,
@@ -158,7 +158,7 @@ C     AND THE OUTPUT REPORTING YEAR.
           I2=ISCT(ISPC,2)
           DO I3=I1,I2
             I=IND1(I3)
-         
+
             IP=ITRN
             ITPLAB=1
             P = PROB(I) / GROSPC
@@ -209,7 +209,7 @@ C           BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
             ELSE
               ESTHT = HT(I)
             ENDIF
-            
+
 C           DETERMINE TREE AGE
 
             IF (LBIRTH(I)) THEN
@@ -229,7 +229,7 @@ C
             CSPECIE2 = PLNJSP(ISP(I))
             CSPECIE3 = FIAJSP(ISP(I))
 
-            
+
             ColNumber=1
             iRet = fsql3_bind_text(IoutDBref,ColNumber,TID,
      >                         LEN_TRIM(TID))
@@ -320,9 +320,9 @@ C
         iRet = fsql3_finalize(IoutDBref)
         RETURN
       ENDIF
-      
+
       DO I=IREC2,MAXTRE
-      
+
         P =(PROB(I) / GROSPC) / (FINT/FINTM)
         WRITE(TID,'(I8)') IDTREE(I)
         TID=ADJUSTL(TID)
@@ -338,6 +338,20 @@ C       DECODE DEFECT AND ROUND OFF POINT BAL.
         ICDF=(DEFECT(I)-((DEFECT(I)/10000)*10000))/100
         IBDF= DEFECT(I)-((DEFECT(I)/100)*100)
         IPTBAL=NINT(PTBALT(I))
+
+C       SET TRUNCATED (TOPKILL) HEIGHT
+C
+        ITRNK = INT((ITRUNC(I)+5)/100)
+
+C       DETERMINE ESTIMATED HEIGHT
+C       ESTIMATED HEIGHT IS NORMAL HEIGHT, UNLESS THE IT WAS NOT
+C       BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
+
+        IF (NORMHT(I) .NE. 0) THEN
+          ESTHT = (REAL(NORMHT(I))+5)/100
+        ELSE
+          ESTHT = HT(I)
+        ENDIF
 
 C       DETERMINE TREE AGE
 
@@ -356,11 +370,11 @@ C       PUT PROB IN MORTALITY COLUMN
         DP = P
         P = 0.
 
-C           LOAD SPECIES CODES FROM FVS, PLANTS AND FIA ARRAYS.
+C       LOAD SPECIES CODES FROM FVS, PLANTS AND FIA ARRAYS.
 C
-            CSPECIE1 = JSP(ISP(I))
-            CSPECIE2 = PLNJSP(ISP(I))
-            CSPECIE3 = FIAJSP(ISP(I))
+        CSPECIE1 = JSP(ISP(I))
+        CSPECIE2 = PLNJSP(ISP(I))
+        CSPECIE3 = FIAJSP(ISP(I))
 
 
         ColNumber=1

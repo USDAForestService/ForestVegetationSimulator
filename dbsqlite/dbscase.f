@@ -65,6 +65,7 @@ C-----
      -     IDM1.GE.1.OR.IDM2.GE.1.OR.IDM3.GE.1.OR.
      -     IDM5.GE.1.OR.IDM6.GE.1.OR.
      -     IPOTFIRE.GE.1.OR.
+     -     IPOTFIREC.GE.1.OR.
      -     IFUELS.GE.1.OR.
      -     ICMRPT.GE.1.OR.
      -     ICHRPT.GE.1.OR.
@@ -108,6 +109,7 @@ C---------
         IDM5      = 0
         IDM6      = 0
         IPOTFIRE  = 0
+        IPOTFIREC = 0
         IFUELS    = 0
         ICMRPT    = 0
         ICHRPT    = 0

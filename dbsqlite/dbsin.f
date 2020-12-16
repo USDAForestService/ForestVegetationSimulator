@@ -138,6 +138,7 @@ C     CHECK TO SEE IF A DATA BASE WAS SUCCESSFULLY OPENED
         IDM5      = 0
         IDM6      = 0
         IPOTFIRE  = 0
+        IPOTFIREC = 0
         IFUELS    = 0
         IFUELC    = 0
         IDWDVOL   = 0
@@ -365,6 +366,7 @@ C                        OPTION NUMBER 13 -- POTFIRE
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          IPOTFIRE=1
+         IPOTFIREC=1
          I=1
          IF(ARRAY(1).GT.1) THEN
 C          WE ARE REDIRECTING OUTPUT AND DON NOT WANT TO PRINT TO FILE

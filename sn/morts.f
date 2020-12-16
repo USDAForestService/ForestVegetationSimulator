@@ -503,10 +503,6 @@ C  COMPUTE BACKGROUND MORTALITY RATE RI
 C----------
       RI=(1.0/(1.0+EXP(B0+B1*D)))
 C----------
-C TEST RUNS SHOW BACKGROUND MORTALITY RATE IS HIGH, CUT IT IN HALF.
-C----------
-      RI = 0.5 * RI
-C----------
 C  MERGE ESTIMATES OF RI AND RN.
 C----------
       RIP=RI

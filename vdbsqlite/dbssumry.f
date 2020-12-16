@@ -151,10 +151,10 @@ C
       ENDIF
       iRet = fsql3_prepare(IoutDBref,trim(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
-        ISUMARY = 0                                        
+        ISUMARY = 0
         RETURN
       ENDIF
-      
+
       ColNumber=1
       iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
 
@@ -245,18 +245,18 @@ C
       END
 
 
-      SUBROUTINE DBSSUMRY2    
+      SUBROUTINE DBSSUMRY2
       IMPLICIT NONE
 C----------
 C VDBSQLITE $Id$
-C----------                                                                            
+C----------
 C     PURPOSE: TO POPULATE A DATABASE WITH SUMMARY STATISTICS
 C
 COMMONS
 C
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'CONTRL.F77'
-      INCLUDE 'DBSCOM.F77'  
+      INCLUDE 'DBSCOM.F77'
       INCLUDE 'OPCOM.F77'
       INCLUDE 'OUTCOM.F77'
       INCLUDE 'PLOT.F77'
@@ -270,17 +270,17 @@ C
      > DPRTCUFT,DPRMCUFT,DPRBDFT
       INTEGER ColNumber,iRet,I
       CHARACTER*2000 SQLStmtStr
-      CHARACTER*20 TABLENAME  
+      CHARACTER*20 TABLENAME
 C
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
-     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize 
-     
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
+
       IF(ISUMARY.NE.2) RETURN
 C
       IYEAR    = IY(ICYC)
       IAGEOUT  = IOSUM(2,ICYC)
       ICCF     = IOSUM(12,ICYC)
-      ITOPHT   = IOSUM(13,ICYC)
+      ITOPHT   = IBTAVH(ICYC)
       IOSDI    = ISDI(ICYC)
       DPTPA    = OLDTPA/GROSPC
       DPBA     = OLDBA/GROSPC
@@ -288,12 +288,12 @@ C
       IHRVC    = 0
       IF (ICYC.GT.NCYC) THEN
         DPTCUFT  = OCVCUR(7)/GROSPC
-        DPMCUFT  = OMCCUR(7)/GROSPC               
+        DPMCUFT  = OMCCUR(7)/GROSPC
         DPBDFT   = OBFCUR(7)/GROSPC
       ELSE
         DPTCUFT  = TSTV1(4)
-        DPMCUFT  = TSTV1(5)              
-        DPBDFT   = TSTV1(6) 
+        DPMCUFT  = TSTV1(5)
+        DPBDFT   = TSTV1(6)
       ENDIF
       DPTPTPA  = DPTPA   + (TRTPA/GROSPC)
       DPTPTCUFT= DPTCUFT + (TRTCUFT/GROSPC)
@@ -304,26 +304,26 @@ C
       DPRMCUFT = 0.
       DPRBDFT  = 0.
       IPRDLEN  = 0
-      DPACC    = 0. 
+      DPACC    = 0.
       IPRDLEN  = IOSUM(14,ICYC)
       DPACC    = OACC(7)/GROSPC
       DPMORT   = OMORT(7)/GROSPC
-      DPMAI    = BCYMAI(ICYC) 
-      IF (ICYC.LE.NCYC) THEN       
+      DPMAI    = BCYMAI(ICYC)
+      IF (ICYC.LE.NCYC) THEN
         DPRTPA   = ONTREM(7)/GROSPC
         DPRTCUFT = OCVREM(7)/GROSPC
         DPRMCUFT = OMCREM(7)/GROSPC
-        DPRBDFT  = OBFREM(7)/GROSPC 
-        IF (DPRTPA.LE.0.) THEN 
+        DPRBDFT  = OBFREM(7)/GROSPC
+        IF (DPRTPA.LE.0.) THEN
           IPRDLEN  = IOSUM(14,ICYC)
           DPACC    = OACC(7)/GROSPC
           DPMORT   = OMORT(7)/GROSPC
           DPMAI    = BCYMAI(ICYC)
         ELSE
           IHRVC = 1
-        ENDIF        
+        ENDIF
       ENDIF
-             
+
       CALL DBSCASE(1)
 
 C     DEFINE TABLENAME
@@ -331,7 +331,7 @@ C     DEFINE TABLENAME
       IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
      >    (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
         TABLENAME='FVS_Summary2_East'
-      ELSE    
+      ELSE
         TABLENAME='FVS_Summary2'
       ENDIF
       iRet=fsql3_tableexists(IoutDBref,TRIM(TABLENAME)//CHAR(0))
@@ -341,7 +341,7 @@ C       EASTERN VARIANT VOLUME NOMENCLATURE
 C
         IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
      >      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
-C                       
+C
           SQLStmtStr='CREATE TABLE '//TRIM(TABLENAME)//
      -               ' (CaseID text not null,'//
      -                 'StandID text not null,'//
@@ -405,27 +405,27 @@ C
      -                 'MAI real,'//
      -                 'ForTyp int,'//
      -                 'SizeCls int,'//
-     -                 'StkCls int);'//CHAR(0)                           
+     -                 'StkCls int);'//CHAR(0)
         ENDIF
         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
         IF (iRet .NE. 0) THEN
           ISUMARY = 0
           RETURN
-        ENDIF  
+        ENDIF
       ENDIF
       DO I=1,2
         IF (IHRVC.EQ.1) THEN
-          DPTPTPA   = DPTPTPA   - DPRTPA  
+          DPTPTPA   = DPTPTPA   - DPRTPA
           DPTPTCUFT = DPTPTCUFT - DPRTCUFT
           DPTPMCUFT = DPTPMCUFT - DPRMCUFT
-          DPTPBDFT  = DPTPBDFT  - DPRBDFT 
-        ENDIF      
+          DPTPBDFT  = DPTPBDFT  - DPRBDFT
+        ENDIF
         IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
      >      (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
 C
          SQLStmtStr='INSERT INTO '//TRIM(TABLENAME)//
      -    ' (CaseID,StandID,Year,RmvCode,Age,Tpa,TPrdTpa,BA,SDI,'//
-     -    'CCF,TopHt,QMD,MCuFt,TPrdMCuFt,SCuFt,TPrdSCuFt,SBdFt,'//               
+     -    'CCF,TopHt,QMD,MCuFt,TPrdMCuFt,SCuFt,TPrdSCuFt,SBdFt,'//
      -    'TPrdSBdFt,RTpa,RMCuFt,RSCuFt,RSBdFt,'//
      -    'PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls'//
      -    ")VALUES('"//CASEID//"','"//TRIM(NPLT)//"',?,?,?,?,?,"//
@@ -438,7 +438,7 @@ C
      -    'TPrdBdFt,RTpa,RTCuFt,RMCuFt,RBdFt,'//
      -    'PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls'//
      -    ")VALUES('"//CASEID//"','"//TRIM(NPLT)//"',?,?,?,?,?,"//
-     -    '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'  
+     -    '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
      -    //CHAR(0)
         ENDIF
         iRet = fsql3_prepare(IoutDBref,SQLStmtStr)
@@ -446,7 +446,7 @@ C
           ISUMARY = 0
           RETURN
         ENDIF
-        ColNumber=1 
+        ColNumber=1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IHRVC)
@@ -500,22 +500,22 @@ C
         iRet = fsql3_bind_int(IoutDBref,ColNumber,ISZCL)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,ISTCL)
-        iRet = fsql3_step(IoutDBref)                     
+        iRet = fsql3_step(IoutDBref)
         IF (IHRVC.EQ.0) exit
         IHRVC    = 2
         IOSDI    = ISDIAT(ICYC)
         ICCF     = NINT(ATCCF/GROSPC)
-        ITOPHT   = NINT(ATAVH)  
+        ITOPHT   = NINT(ATAVH)
         DPQMD    = ATAVD
         DPBA     = ATBA/GROSPC
         DPTPA    = ATTPA/GROSPC
         DPTCUFT  = MAX(0.,DPTCUFT-DPRTCUFT)
-        DPMCUFT  = MAX(0.,DPMCUFT-DPRMCUFT)          
+        DPMCUFT  = MAX(0.,DPMCUFT-DPRMCUFT)
         DPBDFT   = MAX(0.,DPBDFT -DPRBDFT)
         DPRTPA   = 0.
         DPRTCUFT = 0.
         DPRMCUFT = 0.
-        DPRBDFT  = 0. 
+        DPRBDFT  = 0.
       ENDDO
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then

@@ -65,7 +65,7 @@ C     IS THIS OUTPUT A REDIRECT OF THE REPORT THEN SET KODE TO 0
 C     ALWAYS CALL CASE TO MAKE SURE WE HAVE AN UP TO DATE CASE NUMBER
 
       CALL DBSCASE(1)
-      
+
 C     For CS, LS, NE and SN, the table name is FVS_TreeList_East and the following
 C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
 
@@ -320,7 +320,7 @@ C           BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
             ELSE
               ESTHT = HT(I)
             ENDIF
-            
+
 C           DETERMINE TREE AGE
 
             IF (LBIRTH(I)) THEN
@@ -328,7 +328,7 @@ C           DETERMINE TREE AGE
             ELSE
               TREAGE = 0
             ENDIF
- 
+
 C           GET DG INPUT
 
             DGI=DG(I)
@@ -400,13 +400,23 @@ C       DECODE DEFECT AND ROUND OFF POINT BAL.
         IBDF= DEFECT(I)-((DEFECT(I)/100)*100)
         IPTBAL=NINT(PTBALT(I))
 
+C       DETERMINE ESTIMATED HEIGHT
+C       ESTIMATED HEIGHT IS NORMAL HEIGHT, UNLESS THE IT WAS NOT
+C       BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
+
+        IF (NORMHT(I) .NE. 0) THEN
+          ESTHT = (REAL(NORMHT(I))+5)/100
+        ELSE
+          ESTHT = HT(I)
+        ENDIF
+
 C       DETERMINE TREE AGE
 
         IF (LBIRTH(I)) THEN
           TREAGE = ABIRTH(I)
         ELSE
           TREAGE = 0
-        ENDIF        
+        ENDIF
 
 C       CYCLE 0, PRINT INPUT DG ONLY, UNLESS DIRECTED TO PRINT ESTIMATES.
         DGI=DG(I)
@@ -429,11 +439,11 @@ C
         ELSE
           CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
         ENDIF
-C       
+C
         IF(ISPOUT6.EQ.1)CSPECIES=ADJUSTL(TRIM(JSP(ISP(I))))
         IF(ISPOUT6.EQ.2)CSPECIES=ADJUSTL(TRIM(FIAJSP(ISP(I))))
         IF(ISPOUT6.EQ.3)CSPECIES=ADJUSTL(TRIM(PLNJSP(ISP(I))))
-        
+
         WRITE(SQLStmtStr,*)'INSERT INTO ',TABLENAME,
      -       ' (CaseID,StandID,Year,PrdLen,',
      -       'TreeId,TreeIndex,Species,TreeVal,SSCD,PtIndex,TPA,',
@@ -450,17 +460,17 @@ C
      -       CFV(I),',',WK1(I),',',BFV(I),',',ICDF,',',IBDF,',',
      -       ((ITRUNC(I)+5)/100),',',ESTHT,',',IPVEC(ITRE(I)),
      -       ',',HT2TD(I,2),',',HT2TD(I,1),',',TREAGE,')'
-        
+
         iRet = fvsSQLCloseCursor(StmtHndlOut)
-        
+
         iRet = fvsSQLExecDirect(StmtHndlOut,trim(SQLStmtStr),
      -            int(len_trim(SQLStmtStr),SQLINTEGER_KIND))
-        
+
         IF (iRet.NE.SQL_SUCCESS) ITREELIST = 0
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -              'DBSTRLS:Inserting Row: '//trim(SQLStmtStr))
 
       ENDDO
-  100 CONTINUE          
+  100 CONTINUE
       iRet = fvsSQLFreeHandle(SQL_HANDLE_STMT, StmtHndlOut)
       END

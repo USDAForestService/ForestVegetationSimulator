@@ -60,6 +60,7 @@ C
       IDM5     = 0
       IDM6     = 0
       IPOTFIRE = 0
+      IPOTFIREC= 0
       IFUELS   = 0
       ITREEIN  = 0
       IRGIN    = 0

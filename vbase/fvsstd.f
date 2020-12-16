@@ -70,6 +70,12 @@ C----------
 C----------
 C  COMPUTE CURRENT SDI FOR PRINTING
 C----------
+      DO I=1,6
+        TEM(I) = 0.0
+      ENDDO
+C----------
+C  COMPUTE CURRENT SDI FOR PRINTING
+C----------
       TEMSDI=0.
       CALL SDICLS(0,0.,999.,1,TEMSDI,DUMSDI,STAGEA,STAGEB,0)
       KSDI=INT(TEMSDI/GROSPC + 0.5)

@@ -52,7 +52,7 @@ COMMONS
 C
 C  VARIABLE DECLARATIONS.
 
-      INTEGER FMOIS, FMD
+      INTEGER FMOIS, FMD, IDPM, M
       INTEGER SWIND(4), SW, J, IRTNCD
       LOGICAL DEBUG,LNMOUT
       REAL CRTCBH, CRRATE, POMORT, HPA
@@ -276,7 +276,26 @@ C     RETURN IF ALL OUTPUT IS BEING SUPPRESSED
       IF (.NOT.LNMOUT) RETURN
 
 C     DBS CALL FOR DUMPING DATA TO THE DATABASE
-
+      IF(ICYC.EQ.1)THEN
+        DO IDPM = 1,2
+          M = IDPM
+          IF (IDPM .EQ. 2) M=3
+          CALL FMMOIS(M, MOIS)
+          IF (PRESVL(IDPL,1) .EQ. 1) THEN
+            MOIS(1,1) = PRESVL(IDPL,2)
+            MOIS(1,2) = PRESVL(IDPL,3)
+            MOIS(1,3) = PRESVL(IDPL,4)
+            MOIS(1,4) = PRESVL(IDPL,5)
+            MOIS(1,5) = PRESVL(IDPL,6)
+            MOIS(2,1) = PRESVL(IDPL,7)
+            MOIS(2,2) = PRESVL(IDPL,8)
+          ENDIF
+        CALL DBSFMPFC(NPLT,PREWND(IDPL),INT(POTEMP(IDPL)),
+     &          (100.0*MOIS(1,1)),(100.0*MOIS(1,2)),(100.0*MOIS(1,3)),
+     &          (100.0*MOIS(1,4)),(100.0*MOIS(1,5)),(100.0*MOIS(2,1)),
+     &          (100.0*MOIS(2,2)),IDPM)
+       ENDDO
+      ENDIF 
       DBSKODE = 1
       CALL DBSFMPF(IYR, NPLT, PFLAM(2), PFLAM(4), PFLAM(1), PFLAM(3),
      &     CFTYPE(1), CFTYPE(3),PTORCH(1),PTORCH(2),OINIT1(1),OACT1(1),
@@ -419,7 +438,7 @@ C
      &           (FMOD(I),INT((FWT(I)*100.)+0.5),
      &           I=1,NFMODS)
    50 FORMAT(' FMPOFL SPEC: ',2I5,2F10.3,F6.1,F5.1,8(1X,I3))
-C
+C     
       RETURN
       END
 

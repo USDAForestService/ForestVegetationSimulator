@@ -301,6 +301,7 @@
 ../dbsqlite/DBSCOM.F77
 
 ../vdbsqlite/dbsfmpf.f
+../vdbsqlite/dbsfmpfc.f
 ../vdbsqlite/dbsstandin.f
 ../vdbsqlite/dbssumry.f
 
