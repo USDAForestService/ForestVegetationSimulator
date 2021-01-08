@@ -87,12 +87,12 @@ C----------
       REAL REGYR,RSI,SCALE1,SCALE2,SCALE3,SNP,SNX,SNY,TBAL
       REAL TERM,XMN,XMX,XRDGRO,XRHGRO,ZZRAN
       REAL ELEVATN,PBAL,XSITE,CR
-      REAL DGSM,DGLT
+      REAL DGSM,DGLT,LTHG
       REAL HEGYI1(MAXSP),HEGYI2(MAXSP),HEGYI3(MAXSP)
-      REAL AGE1,AGE2,H1,H2,HTMAX,DWT,HWT
+      REAL AGE1,AGE2,H1,H2,HTMAX,XWT
      
       REAL CORTEM(MAXSP),DIAM(MAXSP),XMIN(MAXSP),XMAX(MAXSP)
-      REAL DMAX(MAXSP)
+      REAL DGMAX(MAXSP)
 
 C----------
 C SPECIES LIST FOR ALASKA VARIANT.
@@ -134,8 +134,6 @@ C     XMAX -- UPPER END OF THE DIAMETER RANGE USED FOR WEIGHTING
 C             SMALL AND LARGE TREE HEIGHT GROWTH.
 C     XMIN -- LOWER END OF THE DIAMETER RANGE USED FOR WEIGHTING
 C             SMALL AND LARGE TREE HEIGHT GROWTH.
-C     DMAX -- UPPED END OF THE DIAMETER RANGE FOR WEIGHT SMALL AND LARGE
-C             TREE DIAMETER GROWTH
 C     DIAM -- BUD WIDTH (I.E. MINIMUM DIAMETER)
 C  STHGMLT -- SMALL TREE HEIGHT GROWTH MULTIPLIERS BY SPECIES. THESE
 C             MULTIPLIERS ARE USED TO HELP GET TREES OUT OF THE SMALL
@@ -145,25 +143,23 @@ C  DATA STATEMENTS:
 C----------
       DATA REGYR / 10.0 /
 
-      DATA XMIN / 1.0, 1.0, 1.0, 1.0, 1.0,
-     &            1.0, 1.0, 1.0, 1.0, 1.0,
-     &            1.0, 1.0, 1.0, 1.0, 1.0,
+      DATA XMIN / 1.0, 1.0, 3.0, 1.0, 1.0,
+     &            1.0, 1.0, 1.0, 3.0, 3.0,
+     &            3.0, 3.0, 1.0, 1.0, 1.0,
      &            1.0, 1.0, 1.0, 1.0, 1.0,
      &            1.0, 1.0, 1.0/
 
-      DATA XMAX / 3.0, 3.0, 5.0, 3.0, 3.0,
-     &            3.0, 3.0, 3.0, 5.0, 5.0,
-     &            5.0, 5.0, 3.0, 3.0, 3.0,
+      DATA XMAX / 5.0, 5.0, 8.0, 3.0, 3.0,
+     &            3.0, 3.0, 5.0, 8.0, 8.0,
+     &            7.0, 8.0, 3.0, 3.0, 3.0,
      &            3.0, 3.0, 3.0, 3.0, 3.0,
      &            3.0, 3.0, 3.0/
-     
-      DATA DMAX / MAXSP*3.0/
 
-      DATA HEGYI1/1.0458, 1.0458, 1.1243, 1.2883, 1.2883,
-     &            1.2883, 1.2883, 1.0458, 1.0236, 1.1243,
-     &            1.1514, 1.1514, 1.2883, 1.0142, 1.0142,
-     &            1.2025, 1.2025, 1.1318, 1.2025, 1.1318,
-     &            1.1318, 1.1318, 1.1318/
+      DATA HEGYI1/1.0458, 1.0458, 1.1243, 2.0854, 1.2883,
+     &            1.2883, 2.0854, 1.0458, 1.0236, 1.1243,
+     &            1.1514, 1.1514, 1.2883, 1.1302, 1.1302,
+     &            1.6317, 1.6317, 1.5500, 1.6317, 1.5500,
+     &            1.5500, 1.5500, 1.5500/
      
       DATA HEGYI2/-0.0380, -0.0380, -0.0263, -0.0181, -0.0181,
      &            -0.0181, -0.0181, -0.0380, -0.0465, -0.0263,
@@ -309,19 +305,6 @@ C ESTIMATE H1 BASED ON AGE1 AND H2 BASED ON AGE2
 C COMPUTE HEIGHT INCREMENT BASED ON SUBTRACTION OF H2 AND H1
         HTGR = H2 - H1
       ENDIF
-
-C----------
-C BOREAL SPECIES AND RED ALDER STOP USING SMALL TREE GROWTH EQUATION
-C AFTER 1" DBH. ADJUST HEIGHT GROWTH IF RECORD GREATER THAN 1"(XMN).
-C----------
-      SELECT CASE (ISPC)
-        CASE (4:7, 13:23)
-          IF(D .GT. XMN) THEN
-            HTGR = HTG(K)
-          ENDIF
-        CASE DEFAULT
-          HTGR = HTGR
-      END SELECT
 C----------
 C DEBUG FOR HEGYI COEFFICIENTS
 C----------
@@ -338,8 +321,8 @@ C----------
       WRITE(JOSTND,9983)
      &       I,ISPC,HT(I),AGE1,AGE2,H1,H2,XSITE,HTGR
  9983 FORMAT(' IN REGENT 9983 FORMAT','  I=',I4,'  ISPC=',I3,
-     &       '  HT=',F7.2,'  AGE1',F7.2,'  AGE2=',F7.4,'  H1=',F9.3,
-     &       '  H2=',F7.1,'  XSITE=',F7.4, '  HTG=',F7.4)
+     &       '  HT=',F7.2,'  AGE1=',F7.2,'  AGE2=',F7.4,'  H1=',F9.3,
+     &       '  H2=',F7.1,'  XSITE=',F7.4, '  HTGR=',F7.4)
       ENDIF
       
     4 CONTINUE
@@ -349,25 +332,27 @@ C----------
       IF(DEBUG)WRITE(JOSTND,9984) HTGR,ZZRAN,XRHGRO,SCALE1
  9984 FORMAT('IN REGENT 9984 FORMAT',4(F10.4,2X))
       HTGR = (HTGR +ZZRAN*0.1)*XRHGRO * SCALE1 * CON
-      IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9984',' HTG=',HTGR
+      IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9984',' HTGR=',HTGR
 C-----------
 C COMPUTE WEIGHTS FOR SMALL TREE GROWTH ESTIMATES.
 C IF DBH IS LESS THAN OR EQUAL TO XMN, THE LARGE TREE
 C PREDICTION IS IGNORED (XWT 0.0).
 C-----------
-      HWT=(D-XMN)/(XMX-XMN)
-      DWT=(D-XMN)/(DMAX(ISPC)-XMN)
+      XWT=(D-XMN)/(XMX-XMN)
       IF(D.LE.XMN.OR.LESTB) THEN
-         HWT = 0.0
-         DWT = 0.0
+         XWT = 0.0
       ENDIF
 C----------
 C     COMPUTE WEIGHTED HEIGHT INCREMENT FOR NEXT TRIPLE.
 C----------
-      IF(DEBUG)WRITE(JOSTND,9985)D,HWT,HTGR,HTG(K),I,K
- 9985 FORMAT('IN REGENT 9985 FORMAT',4(F10.4,2X),2I7)
-      HTG(K)=HTGR*(1.0-HWT) + HWT*HTG(K)
-      IF(DEBUG)WRITE(JOSTND,*)'IN REGENT AFTER 9985',' HTG=',HTG(K)
+      LTHG = HTG(K)
+      IF(LTHG .EQ. 0) LTHG = HTGR
+      HTGR= HTGR*(1.0-XWT) + XWT*LTHG
+      HTG(K)=(HTGR + LTHG)/2.0
+      IF(DEBUG)WRITE(JOSTND,9985)ISPC,D,XWT,HTGR,LTHG,HTG(K),I,K
+ 9985 FORMAT(' IN REGENT 9985 FORMAT','  ISPC=',I3,
+     &       '  D=',F7.2,'  XWT=',F7.2,'  HTGR=',F7.4,'  LTHG=',F7.4,
+     &       '  HTG=',F7.4,'  I=',I4, '  K=',I4)
       IF(HTG(K) .LT. .1) HTG(K) = .1
 C----------
 C CHECK FOR SIZE CAP COMPLIANCE.
@@ -384,7 +369,7 @@ C     THAN DGMAX (COMPUTE 10-YEAR DBH INCREMENT REGARDLESS OF
 C     PROJECTION PERIOD LENGTH).
 C----------
 C IF DBH IS GREATER THAN DGMAX, BYPASS DG INCREMENT CALCULATION
-      IF(D.GE.DMAX(ISPC)) GO TO 23
+      IF(D.GE.XMX) GO TO 23
       HK=H + HTG(K)
       IF(DEBUG)WRITE(JOSTND,*)'ISPC,H,HTG,HK,D= ',ISPC,H,HTG(K),HK,D
 
@@ -416,7 +401,7 @@ C----------
           ELSE
             DKK = 1/HTT12(ISPC) * LOG(1-((H-4.5)/HTT11(ISPC))**
      &         (1/HTT13(ISPC)))
-          ENDIF
+         ENDIF
 
           IF(DEBUG)WRITE(JOSTND,*)'INV EQN DUB IFOR,ISPC,H,HK,DK,'
      &      ,'DKK= ',IFOR,ISPC,H,HK,DK,DKK
@@ -427,15 +412,15 @@ C----------
 C  ELSE USE INVERTED WYKOFF FUNCTION TO CALCULATE DIAMETERS (DK,DKK)
 C----------
         ELSE
-          DK=(HT2(ISPC)/(ALOG(HK-4.5)-HT1(ISPC)))-1.0
+          DK=HT2(ISPC)/(ALOG(HK-4.5)-HT1(ISPC))-1.0
           IF(H .LE. 4.5) THEN
             DKK=D
           ELSE
-            DKK=(HT2(ISPC)/(ALOG(H-4.5)-HT1(ISPC)))-1.0
+            DKK=HT2(ISPC)/(ALOG(H-4.5)-HT1(ISPC))-1.0
           ENDIF
           IF(DEBUG)WRITE(JOSTND,*)'I,ISPC,H,HK,DK,DKK,XRDGRO= ',
      &    I,ISPC,H,HK,DK,DKK,XRDGRO
-        ENDIF
+          ENDIF
 C----------
 C  IF CALLED FROM **ESTAB** ASSIGN DIAMETER
 C----------
@@ -456,7 +441,7 @@ C----------
           ELSE
             DGLT = DG(K)
             DGSM = (DK-DKK)*BARK*XRDGRO
-            DGSM = DGSM*(1.0-DWT) + DWT*DGLT
+            DGSM = DGSM*(1.0-XWT) + XWT*DGLT
             DG(K) = DGSM
           ENDIF
           IF(DG(K) .LT. 0.0) DG(K)=0.0
@@ -469,7 +454,7 @@ C----------
           DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
           IF(DEBUG)WRITE(JOSTND,*)
      &     'K,D,DG(K),BARK,DWT,DGSM,DGLT,SCALE2,YR,FNT, = ',
-     &      K,D,DG(K),BARK,DWT,DGSM,DGLT,SCALE2,YR,FNT
+     &      K,D,DG(K),BARK,XWT,DGSM,DGLT,SCALE2,YR,FNT
         ENDIF
         IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
           DG(K)=DIAM(ISPC)-DBH(K)
