@@ -89,7 +89,7 @@ C----------
       REAL ELEVATN,PBAL,XSITE,CR
       REAL DGSM,DGLT,LTHG
       REAL HEGYI1(MAXSP),HEGYI2(MAXSP),HEGYI3(MAXSP)
-      REAL AGE1,AGE2,H1,H2,HTMAX,XWT
+      REAL AGE1,AGE2,H1,H2,HTMAX,XWT,XDWT
      
       REAL CORTEM(MAXSP),DIAM(MAXSP),XMIN(MAXSP),XMAX(MAXSP)
       REAL DGMAX(MAXSP)
@@ -143,15 +143,21 @@ C  DATA STATEMENTS:
 C----------
       DATA REGYR / 10.0 /
 
-      DATA XMIN / 1.0, 1.0, 3.0, 1.0, 1.0,
-     &            1.0, 1.0, 1.0, 3.0, 3.0,
-     &            3.0, 3.0, 1.0, 1.0, 1.0,
+      DATA XMIN / 1.0, 1.0, 1.0, 1.0, 1.0,
+     &            1.0, 1.0, 1.0, 1.0, 1.0,
+     &            1.0, 1.0, 1.0, 1.0, 1.0,
      &            1.0, 1.0, 1.0, 1.0, 1.0,
      &            1.0, 1.0, 1.0/
 
       DATA XMAX / 5.0, 5.0, 8.0, 3.0, 3.0,
      &            3.0, 3.0, 5.0, 8.0, 8.0,
      &            7.0, 8.0, 3.0, 3.0, 3.0,
+     &            3.0, 3.0, 3.0, 3.0, 3.0,
+     &            3.0, 3.0, 3.0/
+
+      DATA DGMAX /5.0, 5.0, 5.0, 3.0, 3.0,
+     &            3.0, 3.0, 5.0, 5.0, 5.0,
+     &            5.0, 5.0, 3.0, 3.0, 3.0,
      &            3.0, 3.0, 3.0, 3.0, 3.0,
      &            3.0, 3.0, 3.0/
 
@@ -339,16 +345,18 @@ C IF DBH IS LESS THAN OR EQUAL TO XMN, THE LARGE TREE
 C PREDICTION IS IGNORED (XWT 0.0).
 C-----------
       XWT=(D-XMN)/(XMX-XMN)
+      XDWT=(D-XMN)/(DGMAX(ISPC)-XMN)
       IF(D.LE.XMN.OR.LESTB) THEN
          XWT = 0.0
+         XDWT = 0.0
       ENDIF
 C----------
 C     COMPUTE WEIGHTED HEIGHT INCREMENT FOR NEXT TRIPLE.
 C----------
       LTHG = HTG(K)
-      IF(LTHG .EQ. 0) LTHG = HTGR
-      HTGR= HTGR*(1.0-XWT) + XWT*LTHG
-      HTG(K)=(HTGR + LTHG)/2.0
+C      IF(LTHG .EQ. 0) LTHG = HTGR
+      HTGR= (HTGR + LTHG)/2.0
+      HTG(K)= HTGR*(1.0-XWT) + XWT*LTHG
       IF(DEBUG)WRITE(JOSTND,9985)ISPC,D,XWT,HTGR,LTHG,HTG(K),I,K
  9985 FORMAT(' IN REGENT 9985 FORMAT','  ISPC=',I3,
      &       '  D=',F7.2,'  XWT=',F7.2,'  HTGR=',F7.4,'  LTHG=',F7.4,
@@ -369,7 +377,7 @@ C     THAN DGMAX (COMPUTE 10-YEAR DBH INCREMENT REGARDLESS OF
 C     PROJECTION PERIOD LENGTH).
 C----------
 C IF DBH IS GREATER THAN DGMAX, BYPASS DG INCREMENT CALCULATION
-      IF(D.GE.XMX) GO TO 23
+      IF(D.GE.DGMAX(ISPC)) GO TO 23
       HK=H + HTG(K)
       IF(DEBUG)WRITE(JOSTND,*)'ISPC,H,HTG,HK,D= ',ISPC,H,HTG(K),HK,D
 
@@ -441,7 +449,7 @@ C----------
           ELSE
             DGLT = DG(K)
             DGSM = (DK-DKK)*BARK*XRDGRO
-            DGSM = DGSM*(1.0-XWT) + XWT*DGLT
+            DGSM = DGSM*(1.0-XDWT) + XDWT*DGLT
             DG(K) = DGSM
           ENDIF
           IF(DG(K) .LT. 0.0) DG(K)=0.0
@@ -454,7 +462,7 @@ C----------
           DG(K)=SQRT((D*BARK)**2.0+DDS)-BARK*D
           IF(DEBUG)WRITE(JOSTND,*)
      &     'K,D,DG(K),BARK,DWT,DGSM,DGLT,SCALE2,YR,FNT, = ',
-     &      K,D,DG(K),BARK,XWT,DGSM,DGLT,SCALE2,YR,FNT
+     &      K,D,DG(K),BARK,XDWT,DGSM,DGLT,SCALE2,YR,FNT
         ENDIF
         IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
           DG(K)=DIAM(ISPC)-DBH(K)
