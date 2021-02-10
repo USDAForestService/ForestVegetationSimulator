@@ -1,9 +1,10 @@
-FVS_ATRTList_East     FVS_Down_Wood_Cov     FVS_Mortality       
-FVS_BurnReport        FVS_Down_Wood_Vol     FVS_PotFire_East    
-FVS_Carbon            FVS_EconHarvestValue  FVS_SnagSum         
-FVS_Cases             FVS_EconSummary       FVS_Summary2_East   
-FVS_Consumption       FVS_Fuels             FVS_Summary_East    
-FVS_CutList_East      FVS_Hrv_Carbon        FVS_TreeList_East   
+FVS_ATRTList_East     FVS_Down_Wood_Vol     FVS_PotFire_East    
+FVS_BurnReport        FVS_EconHarvestValue  FVS_SnagSum         
+FVS_Carbon            FVS_EconSummary       FVS_Summary2_East   
+FVS_Cases             FVS_Fuels             FVS_Summary_East    
+FVS_Consumption       FVS_Hrv_Carbon        FVS_TreeList_East   
+FVS_CutList_East      FVS_Mortality       
+FVS_Down_Wood_Cov     FVS_PotFire_Cond    
 952
 10
 6
@@ -18,6 +19,6 @@ FVS_CutList_East      FVS_Hrv_Carbon        FVS_TreeList_East
 33
 1
 10
-6966
+6971
 426
 10

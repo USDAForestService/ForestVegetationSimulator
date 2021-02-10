@@ -1,8 +1,11 @@
 C----------
 C VOLUME $Id$
 C----------
-!== last modified  01-18-2013
+!== last modified  10-30-2018
 C 01/18/2013 Added calculation for stump VOL(14) and tip VOL(15)
+C 04/13/2017 moved stump and tip vol calc to voinit
+c 08/07/2018 Added species code 64 to the Juniper species for use by FIA equation
+C 10/30/2018 YW CHANGED THE COFB FOR ENGELMAN OAK TO BE SAME AS CA WHITE OAK TO MATCH FIA EQUQTION
       SUBROUTINE  R5HARV (VOLEQ,DBHOB,HTTOT,MTOPP,VOL,BFPFLG,CUPFLG,
      >                    ERRFLAG)
 C FROM THE PNW RESEARCH NOTE PNW-414
@@ -90,7 +93,9 @@ C NOT TO BE USED
       DATA (COFC(14,I),I=1,4)/0.0,0.0,0.0,0.0/
 C ENGLEMANN OAK         79   
       DATA (COFA(15,I),I=1,4)/.0053866353,2.61268,.31103,0.0/
-      DATA (COFB(15,I),I=1,4)/0.0,0.0,0.0,0.0/
+C      DATA (COFB(15,I),I=1,4)/0.0,0.0,0.0,0.0/
+C CHANGED THE ABOVE 0 FOR COFB TO USE WHITE OAK TO MATCH FIA EQUATION (YW 2018/10/30)
+      DATA (COFB(15,I),I=1,4) /0.0001880044,1.87346,1.62443,0.0/
 c      DATA (COFB(15,I),I=1,4)/0.0006540144,2.24437,0.81358,0.43381/
       DATA (COFC(15,I),I=1,4)/.0191453191,2.40248,.28060,0.0/
 C GIANT SEQUOIA
@@ -103,9 +108,7 @@ C CHECK FOR VALID SPECIES AND IF NOT SET VOLUME TO -1 AND RETURN
       DO 10,I=1,15
         VOL(I) = 0
    10 CONTINUE
-C
-      CVTS = 0.
-C
+
       ERRFLAG = 0
       if(dbhob .lt. 1.0)then
          errflag = 3
@@ -113,7 +116,7 @@ C
       endif    
       
       IF (BFPFLG.EQ.1 .OR. CUPFLG.EQ.1) THEN
-        IF(VOLEQ(8:10).EQ.'060') THEN      
+        IF(VOLEQ(8:10).EQ.'060'.OR.VOLEQ(8:10).EQ.'064') THEN      
           SPEC = 0
         ELSEIF(VOLEQ(8:10).EQ.'351') THEN      
           SPEC = 1
@@ -162,7 +165,7 @@ C JUNIPER SPECIES
          IF(D.LT.5 .OR. HTTOT.LT.10) THEN
            CVTS = 0.00272708 * D * D * HTTOT
             V = 0
-         ELSE
+        ELSE
             F = 0.307 + 0.00086*HTTOT - 0.0037*D*HTTOT / (HTTOT - 4.5)
             BA = 0.005454154 * D * D
             CVTS = BA * F * HTTOT * (HTTOT / (HTTOT - 4.5))**2
@@ -172,7 +175,7 @@ C  IF TOP NOT EQUAL TO 0 THEN DEFAULT TO 4 INCH TOP
             ELSE
                V = CVTS
             ENDIF
-         ENDIF
+        ENDIF
          VOL(4) = ANINT(V*10 + 0.5)/10.0
          vol(1) = cvts
 C REDALDER SPECIES
@@ -297,10 +300,8 @@ C*******************************************
 
       ELSE IF (SPEC.EQ.14) THEN
 
-        VOL(2) = REAL(COEFSEQB(1)*(DBHOB**COEFSEQB(2))*
-     &           HTTOT ** COEFSEQB(3))
-        VOL(4) = REAL(COEFSEQC(1)*(DBHOB**COEFSEQC(2))*
-     &           HTTOT ** COEFSEQC(3))
+        VOL(2) = COEFSEQB(1)*(DBHOB**COEFSEQB(2))*HTTOT ** COEFSEQB(3)
+        VOL(4) = COEFSEQC(1)*(DBHOB**COEFSEQC(2))*HTTOT ** COEFSEQC(3)
         vol(1) = vol(4)
 C************************************************
 C--  MISC HARDWOOD SPECIES                   ****
@@ -310,17 +311,17 @@ C************************************************
         TOPC = MTOPP
         D = DBHOB
         BA = D**2 * 0.005454154
-        CV4 = REAL(COFA(SPEC,1) * DBHOB**COFA(SPEC,2)*
-     >        HTTOT**COFA(SPEC,3) * IV**COFA(SPEC,4))
-        CV8 = REAL(COFB(SPEC,1) * DBHOB**COFB(SPEC,2)* 
-     >        HTTOT**COFB(SPEC,3) *IV**COFB(SPEC,4))
+        CV4 = COFA(SPEC,1) * DBHOB**COFA(SPEC,2)*HTTOT**COFA(SPEC,3) * 
+     >        IV**COFA(SPEC,4)
+        CV8 = COFB(SPEC,1) * DBHOB**COFB(SPEC,2)*HTTOT**COFB(SPEC,3) * 
+     >        IV**COFB(SPEC,4)
         IF (CV4.GT.0.AND.CV8.GT.0) THEN
           CV6 = CV4-((CV4-CV8)*.4)
         ELSE
           CV6=0
         ENDIF
-        CVT = REAL(COFC(SPEC,1) * DBHOB**COFC(SPEC,2)*
-     >        HTTOT**COFC(SPEC,3) *IV**COFC(SPEC,4))
+        CVT = COFC(SPEC,1) * DBHOB**COFC(SPEC,2)*HTTOT**COFC(SPEC,3) *
+     >        IV**COFC(SPEC,4)
         IF (TOPC.ge.3 .and. topc.lt. 5) THEN
            CUFTGROS = CV4
         ELSEIF (TOPC.ge.5 .and. topc.lt.7) THEN
@@ -333,12 +334,8 @@ C************************************************
            CUFTGROS = 0.0
         ENDIF
         VOL(4) = CUFTGROS
+        VOL(7) = CV4-CUFTGROS
         vol(1) = cvt
-C       calculate stump and tip volume
-        VOL(14)=CVTS-CVT
-        IF(VOL(14).LT.0.01) VOL(14)=0.0
-        VOL(15)=CVT-CUFTGROS
-        IF(VOL(15).LT.0.01) VOL(15)=0.0                               
 C END CUFT CALCULATIONS
 C
 C
@@ -416,6 +413,12 @@ c        check for top diameter greater then dbh; no merch volume
       IF(MTOPP .GT. DBHOB) VOL(2) = 0.0
       IF(MTOPP .GT. DBHOB) VOL(10) = 0.0
       IF(MTOPP .GT. DBHOB) VOL(4) = 0.0
+
+C       calculate stump and tip volume
+c        VOL(14)=CVTS-CVT
+c        IF(VOL(14).LT.0.01) VOL(14)=0.0
+c        VOL(15)=CVT-CUFTGROS
+c        IF(VOL(15).LT.0.01) VOL(15)=0.0                               
 
 
  999  RETURN

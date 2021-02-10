@@ -2,6 +2,7 @@ C----------
 C VOLUME $Id$
 C----------
 !== last modified  06-29-2004
+! 01/05/2021 Corrected SECGRO subroutine for checking value less than zero.
       SUBROUTINE R10VOL(VOLEQ,MTOPP,MTOPS,HTTOT,HT1PRD,DBHOB,
      >           HTTYPE,VOL,NOLOGP,NOLOGS,TLOGS,LOGLEN,LOGDIA,LOGVOL,
      >           BFPFLG,CUPFLG,SPFLG,ERRFLAG)
@@ -10,25 +11,18 @@ C*********************************************************************
 C*                 LOCAL VARIABLES                                   *
 C*********************************************************************
 
-      CHARACTER*10 VOLEQ
+      CHARACTER*10 VOLEQ,tmpveq
       CHARACTER*1 HTTYPE
 
       INTEGER TLOGS,I,ERRFLAG
       INTEGER CUPFLG,BFPFLG,SPFLG
 
-      REAL MTOPP,MTOPS
+      REAL MTOPP,MTOPS,tmpht2,holdv(2),holdlv(3,20)
       REAL DBHOB,HTTOT,THT,LHT,HT1PRD
       REAL LOGDIA(21,3),LOGLEN(20)
       REAL NOLOGP,NOLOGS,CUBVOL
       REAL VOL(15),LOGVOL(7,20)
-      REAL RDANUW
-      INTEGER IDANUW
-C----------
-C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
-C----------
-      RDANUW = NOLOGS
-      IDANUW = SPFLG
-C     
+     
 
       DO 15 I = 1, 21
          LOGDIA(I,1)=0.0
@@ -80,13 +74,15 @@ C--      USE D SQUARED H EQUATIONS FOR SMALL TREES
             IF (VOL(1) .LT. 0.0) THEN
                VOL(1) = 0.0
             ENDIF
+C           THE VOL(1) IS CVTS. SET A VERY SMALL NUMBER FOR STUMP, SO THERE WILL BE NO STUMP VOL CALC
+            VOL(14) = 0.0001               
             GO TO 1000
          ENDIF
       ENDIF
     
       CALL R10VOLO(VOLEQ,DBHOB,THT,LHT,HTTYPE,MTOPP,NOLOGP,VOL,
      >                LOGLEN,LOGDIA,logvol,BFPFLG,CUPFLG,ERRFLAG)
-      TLOGS = INT(ANINT(NOLOGP))
+      TLOGS = ANINT(NOLOGP)
       
  1000 RETURN
       END 
@@ -148,13 +144,15 @@ C---------------
       REAL D, H, VN
 
       VN = -5.577 + 1.9067 * ALOG(D) + 0.9416 * ALOG(H)
-
-      IF (VN.GT.0.0) THEN
-         VN = EXP(VN)
-      ELSE
-        VN=0.0
-      ENDIF
-
+! It is not necessary to check the negative value for VN. This cause volume error.
+! Commended out the following lines on 01/05/2021 (YW)
+!      IF (VN.GT.0.0) THEN
+!         VN = EXP(VN)
+!      ELSE
+!        VN=0.0
+!      ENDIF
+      VN = EXP(VN)
+      
       RETURN
       END
 

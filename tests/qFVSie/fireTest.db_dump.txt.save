@@ -1,7 +1,7 @@
-FVS_BurnReport     FVS_Consumption    FVS_Hrv_Carbon     FVS_SnagSum      
-FVS_CanProfile     FVS_Down_Wood_Cov  FVS_Mortality    
+FVS_BurnReport     FVS_Consumption    FVS_Hrv_Carbon     FVS_SnagDet      
+FVS_CanProfile     FVS_Down_Wood_Cov  FVS_Mortality      FVS_SnagSum      
 FVS_Carbon         FVS_Down_Wood_Vol  FVS_PotFire      
-FVS_Cases          FVS_Fuels          FVS_SnagDet      
+FVS_Cases          FVS_Fuels          FVS_PotFire_Cond 
 01160805050006,"Stand 01160805050006 at Regional Training",fireTest,21.0,IE
 01160805050022,"Stand 01160805050022 at Regional Training",fireTest,50.0,IE
 01160805050024,"Stand 01160805050024 at Regional Training",fireTest,17.0,IE

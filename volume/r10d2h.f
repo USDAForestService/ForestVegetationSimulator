@@ -1,6 +1,9 @@
+C----------
+C VOLUME $Id$
+C----------
 !== last modified  2-21-2012
-      SUBROUTINE r10d2h(VOLEQ,DBHOB,HTTOT,VOL,CUTFLG,CUPFLG,
-     >           BFPFLG,MTOPP,ERRFLAG)
+      SUBROUTINE r10d2h(VOLEQ,DBHOB,HTTOT,VOL,CUTFLG,CUPFLG,BFPFLG,
+     >           MTOPP,ERRFLAG)
 
 C    subroutine implements volume equations developed by Larsen and Winterberger.
 c            PNW-RN-478.
@@ -16,6 +19,7 @@ C    A00DVEW094, A00DVEW375, and A00DVEW747 are from PNW-RN-478 and PNW-RN-495 b
 C    A01DVEW094, A01DVEW375, and A01DVEW747 are from NOR-5 by Haack 1963 and NOR-6 by Gregory et al 1964
 C    A00DVEW108, A00DVEW310, and A00DVEW351 are from Brackett 1973
 C    2019/04/04 Added A02DVEW094 from Malone et al 2013. The equation is for AK statewide
+C    2020/12/21 Added volume correction factor for small tree (DBH<6) total cubic volume of Larson equation.
       CHARACTER*10 VOLEQ
       REAL DBHOB,HTTOT,VOL(15),MTOPP
       INTEGER CUTFLG,CUPFLG,BFPFLG,ERRFLAG,spn
@@ -55,16 +59,19 @@ c  A00DVEW094
         IF(EQN .eq. '00') THEN
           IF(CUTFLG .EQ. 1)THEN
              VOL(1) = 0.65559+0.00191*D2H
+             IF(DBHOB.LT.6.0.AND.DBHOB.GT.0.0)THEN
+               VOL(1) = VOL(1)-(0.65559*(1.0-(DBHOB/6.0)**3))
+             ENDIF
           ENDIF
 
           IF(CUPFLG .EQ. 1 .AND. DBHOB .GT. 4.0)THEN
              VOL(4) = -0.21849 + 0.00189*D2H
           ENDIF
 
-          IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
-            VOL(2) = 0.000136 * (D2H**1.40338)
+	    IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
+	      VOL(2) = 0.000136 * (D2H**1.40338)
 C XINTT from equation 6 (PNW-RN-495)	      
-            VOL(10) = 0.00078*(D2H**1.26485)
+	      VOL(10) = 0.00078*(D2H**1.26485)
           ENDIF
         ELSEIF(EQN.EQ.'01')THEN
 C A01DVEW094        
@@ -80,13 +87,12 @@ C THE ABOVE FORMULA IS FROM NOR-6. I CHANGED TO THE ONE FROM NOR-5 (YW 2018/11/0
 C            VOL(4) = -.69934+.0021294646*D2H
           ENDIF
 
-          IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
-            VOL(2) = 98.7701+(0.02022*D2H) - 0.77651*DBHOB**2
-     &                - 1.63023*HTTOT
-            VOL(10) = -67.1116+(0.013663011*D2H) + (3344.33/(DBHOB**2))
+	    IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
+	      VOL(2) = 98.7701+(0.02022*D2H) - 
+     +            0.77651*DBHOB**2 - 1.63023*HTTOT
+	      VOL(10) = -67.1116+(0.013663011*D2H) + (3344.33/(DBHOB**2))
           ENDIF
-C        ELSEIF(EQN.EQ.'02')THEN
-        ELSE
+        ELSEIF(EQN.EQ.'02')THEN
 C Malone 2013 equation for statewide AK white spruce
           VOL(1) = EXP(-6.1352+1.8517*LOG(DBHOB)+1.069*LOG(HTTOT))  
 C         Merch volume to 2, 4, 6-in top          
@@ -106,15 +112,18 @@ C A00DVEW375
         IF(EQN .eq. '00') THEN
           IF(CUTFLG .EQ. 1)THEN
              VOL(1) = 0.64456+0.00206*D2H
+             IF(DBHOB.LT.6.0.AND.DBHOB.GT.0.0)THEN
+               VOL(1) = VOL(1)-(0.64456*(1.0-(DBHOB/6.0)**3))
+             ENDIF
           ENDIF
         
           IF(CUPFLG .EQ. 1 .AND. DBHOB .GT. 4.0)THEN
              VOL(4) = -0.7126+(0.00211*D2H)
           ENDIF
 
-         IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
-           VOL(2) = 0.000081*(D2H**1.48459)
-           VOL(10) = 0.00043*(D2H**1.34294)
+	    IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
+	      VOL(2) = 0.000081*(D2H**1.48459)
+	      VOL(10) = 0.00043*(D2H**1.34294)
           ENDIF
 C A01DVEW375
         ELSE
@@ -126,9 +135,9 @@ C A01DVEW375
              VOL(4) = -1.02411+(0.0022034075*D2H)
           ENDIF
 
-          IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
-            VOL(2) = -27.163+(0.00995*D2H)
-            VOL(10) = -29.8848+(0.011913048*D2H)
+	    IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
+	      VOL(2) = -27.163+(0.00995*D2H)
+	      VOL(10) = -29.8848+(0.011913048*D2H)
           ENDIF
         ENDIF
       ELSEIF(voleq(8:10) .eq. '747') THEN     
@@ -136,15 +145,18 @@ C A00DVEW747
         IF(EQN .eq. '00') THEN
           IF(CUTFLG .EQ. 1)THEN
              VOL(1) = 0.9864+0.00181*D2H
+             IF(DBHOB.LT.6.0.AND.DBHOB.GT.0.0)THEN
+               VOL(1) = VOL(1)-(0.9864*(1.0-(DBHOB/6.0)**3))
+             ENDIF
           ENDIF
         
           IF(CUPFLG .EQ. 1 .AND. DBHOB .GT. 4.0)THEN
              VOL(4) = -1.39764+(0.00188*D2H)
           ENDIF
 
-          IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
-            VOL(2) = -28.0674+(0.00937*D2H)
-            VOL(10) = -17.4877+(0.01119*D2H)
+	    IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
+	      VOL(2) = -28.0674+(0.00937*D2H)
+	      VOL(10) = -17.4877+(0.01119*D2H)
           ENDIF
 C A01DVEW747
         ELSE
@@ -156,9 +168,9 @@ C A01DVEW747
              VOL(4) = -0.8722+(0.001811522*D2H)
           ENDIF
 
-          IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
-            VOL(2) = -46.7415+(0.00956*D2H)
-            VOL(10) = -49.1199+(0.010941441*D2H)
+	    IF(BFPFLG.EQ. 1 .AND. DBHOB .GT. 6.0)THEN
+	      VOL(2) = -46.7415+(0.00956*D2H)
+	      VOL(10) = -49.1199+(0.010941441*D2H)
           ENDIF
         ENDIF
       ELSEIF((voleq(8:10) .eq. '108') .or. 
@@ -239,10 +251,10 @@ c      Volume, board feet International 1/4", to 8" top
        IF(CUPFLG .EQ. 1)THEN
          VOL(4) = CVSL
        ENDIF
-
-       IF(BFPFLG.EQ. 1)THEN
-         VOL(2) = SCFT
-         VOL(10) = XINTT
+       VOL(7) = CV4-VOL(4)
+	 IF(BFPFLG.EQ. 1)THEN
+	   VOL(2) = SCFT
+	   VOL(10) = XINTT
        ENDIF           
            
       ENDIF
@@ -251,5 +263,6 @@ c      Volume, board feet International 1/4", to 8" top
       IF(VOL(4) .LT. 0) VOL(4) = 0
       IF(VOL(1) .LT. 0) VOL(1) = 0
       IF(VOL(10) .LT. 0) VOL(10) = 0
+      IF(VOL(7) .LT. 0) VOL(7) = 0
       RETURN
       END
