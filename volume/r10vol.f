@@ -22,13 +22,13 @@ C*********************************************************************
       REAL LOGDIA(21,3),LOGLEN(20)
       REAL NOLOGP,NOLOGS,CUBVOL
       REAL VOL(15),LOGVOL(7,20)
-     
+
 
       DO 15 I = 1, 21
          LOGDIA(I,1)=0.0
          LOGDIA(I,2)=0.0
    15 CONTINUE
-      
+
       DO 20 I=1,20
          LOGVOL(1,I)=0.0
          LOGVOL(2,I)=0.0
@@ -42,7 +42,7 @@ C*********************************************************************
 
       IF(MTOPP .LE. 0.0) MTOPP = 6.0
       IF(MTOPS .LE. 0.0) MTOPS = 4.0
-      
+
       IF (HTTYPE.EQ.'L'.OR.HTTYPE.EQ.'l') THEN
          IF (VOLEQ(2:3).EQ.'32'.or.VOLEQ(2:3).EQ.'62') THEN
             LHT = HT1PRD/10.0
@@ -55,7 +55,7 @@ C*********************************************************************
          LHT=0.0
 c smaltree check.  If tree is le 40 or dbhob lt 9, small tree logic
          IF (HTTOT.LE.40 .OR. DBHOB.LT.9.0) THEN
-C--      USE D SQUARED H EQUATIONS FOR SMALL TREES  
+C--      USE D SQUARED H EQUATIONS FOR SMALL TREES
             IF (DBHOB.LE.3.5 .OR. HTTOT.LT.18.0) THEN
                CALL FSTGRO (DBHOB,HTTOT,CUBVOL)
                VOL(1) = ANINT(cubvol*10.0)/10.0
@@ -75,33 +75,33 @@ C--      USE D SQUARED H EQUATIONS FOR SMALL TREES
                VOL(1) = 0.0
             ENDIF
 C           THE VOL(1) IS CVTS. SET A VERY SMALL NUMBER FOR STUMP, SO THERE WILL BE NO STUMP VOL CALC
-            VOL(14) = 0.0001               
+            VOL(14) = 0.0001
             GO TO 1000
          ENDIF
       ENDIF
-    
+
       CALL R10VOLO(VOLEQ,DBHOB,THT,LHT,HTTYPE,MTOPP,NOLOGP,VOL,
      >                LOGLEN,LOGDIA,logvol,BFPFLG,CUPFLG,ERRFLAG)
       TLOGS = ANINT(NOLOGP)
-      
+
  1000 RETURN
-      END 
+      END
 
 C**************************************************************
 C**************************************************************
       SUBROUTINE FSTGRO(D,H,VN)
 C**************************************************************
 C
-C      WHERE:  
+C      WHERE:
 C              D      = DBHOB
 C              H      = TOTAL TREE HEIGHT FROM GROUND TO TIP
 C              VN     = CUBIC-FOOT VOLUME ESTIMATED BY THIS SUBROUTINE
 C--------------
-C   **FSTGRO DATE OF LAST REVISION:   11:06:49  06/20/89  
+C   **FSTGRO DATE OF LAST REVISION:   11:06:49  06/20/89
 C--------------
 C FSTGRO COMPUTES CUBIC-FOOT VOLUMES FOR TREES WITH (D LT 4 OR H LT 18)
 
-      
+
       REAL D, H, VN, TERM1, TERM2, FORM
 
       IF(H .LE. 4.5)THEN        !3/22/02  small height check
@@ -112,14 +112,14 @@ C FSTGRO COMPUTES CUBIC-FOOT VOLUMES FOR TREES WITH (D LT 4 OR H LT 18)
       IF(H.LE.18) THEN
          TERM1 = ((H - 0.9)*(H - 0.9)) / ((H - 4.5)*(H - 4.5))
          TERM2=TERM1*(H - 0.9)/(H - 4.5)
-         FORM = 0.406098*TERM1 - 0.0762998*D*TERM2 + 
+         FORM = 0.406098*TERM1 - 0.0762998*D*TERM2 +
      >                                      0.00262615*D*H*TERM2
       ELSE
          FORM = 0.480961 + 42.46542/(H*H) - 10.99643*D/(H*H) -
      >                                 0.107809*D/H - 0.00409083*D
       ENDIF
       VN = 0.005454154*FORM*D*D*H
-     
+
       IF(VN.LT.0.0)  VN = 0.0
 
       RETURN
@@ -130,12 +130,12 @@ C**************************************************************
       SUBROUTINE SECGRO(D,H,VN)
 C**************************************************************
 C
-C       WHERE     
+C       WHERE
 C                 D      = DBHOB
 C                 H      = TOTAL TREE HEIGHT FROM GROUND TO TIP
 C                 VN     = CUBIC_FOOT VOLUME ESTIMATED BY THIS SUBROUTINE
 C---------------
-C     **SECGRO DATE OF LAST REVISION:   11:06:49  06/22/89 
+C     **SECGRO DATE OF LAST REVISION:   11:06:49  06/22/89
 C---------------
 C     ENTRY SECGRO COMPUTES VOLUMES FOR SECOND GROWTH TREES
 C     (D GE 4 AND H GE 18)  UP TO (D LE 9 AND H LT 40)
@@ -152,7 +152,7 @@ C---------------
 !        VN=0.0
 !      ENDIF
       VN = EXP(VN)
-      
+
       RETURN
       END
 
