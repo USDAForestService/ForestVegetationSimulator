@@ -291,10 +291,8 @@ C     20=CW, 21=WI, 22=SU
 C----------
       CASE('AK')
         SELECT CASE (ISPC)
-        CASE(14,15)
+        CASE(14:22)
           HTSPRT = (0.1 + SI/100.)*IAG
-        CASE(16:22)
-          HTSPRT = (0.1 + SI/50.)*IAG
         CASE DEFAULT
           HTSPRT = 0.5 + 0.5*IAG
         END SELECT
