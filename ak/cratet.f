@@ -380,6 +380,17 @@ C----------
      &           '  BX1=', F7.5,'  CX1=', F7.5,'  H=', F10.5)
         ENDIF
       ENDIF
+      
+C ADJUST HEIGHT IMPUTATION FOR AD, WI, SU, AND OH
+C ALL OTHER SPECIES ASSUME A MULTIPLIER OF 1.00
+      SELECT CASE (ISPC)
+        CASE(14,21,23)
+          H = H * 0.45
+        CASE(22)
+          H = H * 0.65
+        CASE DEFAULT
+          H = H * 1.00
+      END SELECT
 
       IF(H .LE. 4.5) H=4.5
 

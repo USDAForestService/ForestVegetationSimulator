@@ -112,12 +112,12 @@ C----------
 
       DATA SLO /
      &  35., 20., 25., 25., 30., 30., 20., 40., 15., 30.,
-     &  35., 20., 30., 75., 75., 35., 45., 45., 45., 45.,
+     &  35., 20., 30., 45., 75., 35., 45., 45., 45., 45.,
      &  45., 45., 45./
 
       DATA SHI /
      & 105.,  65.,  75.,  55.,  85.,  85.,  55., 125.,  55.,  85.,
-     & 105.,  65.,  85., 135., 135., 75., 90., 105.,  85., 105.,
+     & 105.,  65.,  85., 105., 135., 75., 90., 105.,  85., 105.,
      & 105., 105., 105./
 C
 C----------
@@ -163,6 +163,19 @@ C----------
         IF(SITEAR(I) .LE. 0.0) SITEAR(I) = SLO(I) +
      &  (TEM-SLO(ISISP))/(SHI(ISISP)-SLO(ISISP))*
      &  (SHI(I)-SLO(I))
+
+C CAP SITE INDEX FOR AD, WI, SU, AND OH BASED ON GROWTH REDUCTIONS
+C FOR HEIGHT DUBBING, LARGE TREE DIAMETER GROWTH, AND LARGE TREE
+C HEIGHT GROWTH.
+        SELECT CASE (I)
+          CASE(14,21,23)
+            SITEAR(I) = SITEAR(I) * 0.45
+          CASE(22)
+            SITEAR(I) = SITEAR(I) * 0.65
+          CASE DEFAULT
+            SITEAR(I) = SITEAR(I) * 1.00
+        END SELECT
+
    10 CONTINUE
 
 C----------
