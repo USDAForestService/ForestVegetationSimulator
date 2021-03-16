@@ -351,6 +351,7 @@
 ../ak/esadvh.f
 ../ak/esdlay.f
 ../ak/esnspe.f
+../ak/esnutr.f
 ../ak/espadv.f
 ../ak/esprep.f
 ../ak/espsub.f
@@ -372,7 +373,6 @@
 ../estb/esin.f
 ../estb/esinit.f
 ../estb/esmsgs.f
-../estb/esnutr.f
 ../estb/esout.f
 ../estb/esplt1.f
 ../estb/esplt2.f
