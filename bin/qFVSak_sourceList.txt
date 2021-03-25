@@ -358,6 +358,7 @@
 ../ak/espxcs.f
 ../ak/essubh.f
 ../ak/estab.f
+../ak/estime.f
 ../ak/estock.f
 ../ak/estpp.f
 ../ak/esxcsh.f
@@ -378,7 +379,6 @@
 ../estb/esplt2.f
 ../estb/esprin.f
 ../estb/esrann.f
-../estb/estime.f
 ../estb/estump.f
 ../estb/esuckr.f
 
