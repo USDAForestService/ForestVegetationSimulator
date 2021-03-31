@@ -3605,7 +3605,7 @@ C----------
 
       SELECT CASE (VARACD)
 
-        CASE ('CR','OC','OP')
+        CASE ('CR')
           IF(LNOTBK(1)) IMODTY=IFIX(ARRAY(1))
           IF(LKECHO)WRITE(JOSTND,10430) KEYWRD,IMODTY
 10430     FORMAT(/A8,'   MODEL TYPE =',I5)
