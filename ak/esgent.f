@@ -70,7 +70,7 @@ C
       ENDIF
       IF(HT(I).GT.HHTMAX(N)) THEN
         HT(I)=HHTMAX(N)
-        DBH(I)=0.95
+C        DBH(I)=0.95
       ENDIF
       IF(DEBUG) WRITE(JOSTND,20) I,N,HT(I),HTG(I),DBH(I),DG(I),WK4(I)
    20 FORMAT('IN ESGENT: RECORD#',I5,'  SPECIES=',I3,'  HT=',F5.1,
