@@ -182,17 +182,14 @@ C
          SELECT CASE (I)
 
 C         pacific silver fir (ORIGINAL)
-C         tamarack
-C         black spruce
-C         other softwoods (ORIGINAL)
-          CASE (1,4,7,13)
+          CASE (1)
             V2T(I)     = 24.9
-            LEAFLF(I)  = 7
-            ALLDWN(I)  = 30
-            DECAYX(I)  = 1
-            FALLX(I)   = 1
+            LEAFLF(I)  = 7.0
+            ALLDWN(I)  = 30.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
             DO J= 1,4
-              HTX(I,J) = 1
+              HTX(I,J) = 1.0
             ENDDO
             DKRCLS(I)  = 3
             LSW(I)     = .TRUE.
@@ -200,12 +197,12 @@ C         other softwoods (ORIGINAL)
 C         subalpine fir (ORIGINAL)
           CASE (2)
             V2T(I)     = 19.3
-            LEAFLF(I)  = 7
-            ALLDWN(I)  = 90
-            DECAYX(I)  = 1
-            FALLX(I)   = 1
+            LEAFLF(I)  = 7.0
+            ALLDWN(I)  = 90.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
             DO J= 1,4
-              HTX(I,J) = 1
+              HTX(I,J) = 1.0
             ENDDO
             DKRCLS(I)  = 3
             LSW(I)     = .TRUE.
@@ -213,39 +210,54 @@ C         subalpine fir (ORIGINAL)
 C         Alaska-cedar (ORIGINAL)
           CASE (3)
             V2T(I)     =  26.2
-            LEAFLF(I)  =  5
-            ALLDWN(I)  =  300
-            DECAYX(I)  =  1
-            FALLX(I)   =  1
+            LEAFLF(I)  =  5.0
+            ALLDWN(I)  =  300.0
+            DECAYX(I)  =  1.0
+            FALLX(I)   =  1.0
             DO J= 1,4
-              HTX(I,J) =  0
+              HTX(I,J) =  0.0
+            ENDDO
+            DKRCLS(I)  =  1
+            LSW(I)     =  .TRUE.
+
+C         tamarack (subalpine larch in PN)
+          CASE (4)
+            V2T(I)     =  29.9
+            LEAFLF(I)  =  1.0
+            ALLDWN(I)  =  150.0 
+            DECAYX(I)  =  1.0
+            FALLX(I)   =  1.0
+            DO J= 1,4
+              HTX(I,J) =  1.0
             ENDDO
             DKRCLS(I)  =  1
             LSW(I)     =  .TRUE.
 
 C         white spruce (ORIGINAL)
 C         Lutz's spruce
-          CASE (5,6)
+C         black spruce 
+C         other softwoods (ORIGINAL)
+          CASE (5,6,7,13)
             V2T(I)     =  23.1
-            LEAFLF(I)  =  6
-            ALLDWN(I)  =  90 !pn engelmann spruce
-            DECAYX(I)  =  1
-            FALLX(I)   =  1
+            LEAFLF(I)  =  6.0
+            ALLDWN(I)  =  90.0 !pn engelmann spruce
+            DECAYX(I)  =  1.0
+            FALLX(I)   =  1.0
             DO J= 1,4
-              HTX(I,J) =  1
+              HTX(I,J) =  1.0
             ENDDO
             DKRCLS(I)  =  2
             LSW(I)     =  .TRUE.
-
-C         sitka spruce
+            
+C         sitka spruce (ORIGINAL)
           CASE (8)
             V2T(I)     = 20.6
-            LEAFLF(I)  = 5
-            ALLDWN(I)  = 110
-            DECAYX(I)  = 1
-            FALLX(I)   = 1
+            LEAFLF(I)  = 5.0
+            ALLDWN(I)  = 110.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
             DO J= 1,4
-              HTX(I,J) = 1
+              HTX(I,J) = 1.0
             ENDDO
             DKRCLS(I)  = 2
             LSW(I)     = .TRUE.
@@ -253,12 +265,12 @@ C         sitka spruce
 C         lodgepole pine (ORIGINAL)
           CASE (9)
             V2T(I)     = 23.7
-            LEAFLF(I)  = 3
-            ALLDWN(I)  = 90
-            DECAYX(I)  = 1
-            FALLX(I)   = 1
+            LEAFLF(I)  = 3.0
+            ALLDWN(I)  = 90.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
             DO J= 1,4
-              HTX(I,J) = 1
+              HTX(I,J) = 1.0
             ENDDO
             DKRCLS(I)  = 2
             LSW(I)     = .TRUE.
@@ -266,12 +278,12 @@ C         lodgepole pine (ORIGINAL)
 C         western redcedar (ORIGINAL)
           CASE (10)
             V2T(I)     =  19.3
-            LEAFLF(I)  =  5
-            ALLDWN(I)  =  300
-            DECAYX(I)  =  1
-            FALLX(I)   =  1
+            LEAFLF(I)  =  5.0
+            ALLDWN(I)  =  300.0
+            DECAYX(I)  =  1.0
+            FALLX(I)   =  1.0
             DO J= 1,4
-              HTX(I,J) =  0
+              HTX(I,J) =  0.0
             ENDDO
             DKRCLS(I)  =  1
             LSW(I)     =  .TRUE.
@@ -279,12 +291,12 @@ C         western redcedar (ORIGINAL)
 C         western hemlock (ORIGINAL)
           CASE (11)
             V2T(I)     =  26.2
-            LEAFLF(I)  =  5
-            ALLDWN(I)  =  100
-            DECAYX(I)  =  1
-            FALLX(I)   =  1
+            LEAFLF(I)  =  5.0
+            ALLDWN(I)  =  100.0
+            DECAYX(I)  =  1.0
+            FALLX(I)   =  1.0
             DO J= 1,4
-              HTX(I,J) =  1
+              HTX(I,J) =  1.0
             ENDDO
             DKRCLS(I)  =  2
             LSW(I)     =  .TRUE.
@@ -292,46 +304,82 @@ C         western hemlock (ORIGINAL)
 C         mountain hemlock (ORIGINAL)
           CASE (12)
             V2T(I)     = 26.2
-            LEAFLF(I)  = 4
-            ALLDWN(I)  = 90
-            DECAYX(I)  = 1
-            FALLX(I)   = 1
+            LEAFLF(I)  = 4.0
+            ALLDWN(I)  = 90.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
             DO J= 1,4
-              HTX(I,J) = 1
+              HTX(I,J) = 1.0
             ENDDO
             DKRCLS(I)  = 2
             LSW(I)     = .TRUE.
 
-C         alder species
+C         alder species 
 C         red alder (ORIGINAL)
-C         paper birch
-C         Alaska birch
-          CASE (14,15,16,17)
+          CASE (14,15)
             V2T(I)     = 23.1
-            LEAFLF(I)  = 1
-            ALLDWN(I)  = 50
-            DECAYX(I)  = 1
-            FALLX(I)   = 1
+            LEAFLF(I)  = 1.0
+            ALLDWN(I)  = 50.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
             DO J= 1,4
-              HTX(I,J) = 1
+              HTX(I,J) = 1.0
             ENDDO
             DKRCLS(I)  = 4
             LSW(I)     = .FALSE.
 
-C         balsam poplar
-C         quaking aspen
-C         black cottonwood (ORIGINAL)
-C         willow species
-C         Scouler's willow
-C         other hardwoods (ORIGINAL)
-          CASE (18,19,20,21,22,23)
-            V2T(I)     = 19.3
-            LEAFLF(I)  = 1
-            ALLDWN(I)  = 50
-            DECAYX(I)  = 1
-            FALLX(I)   = 1
+C         paper birch (paper birch in PN)
+C         Alaska birch 
+          CASE (16,17)
+            V2T(I)     = 29.9
+            LEAFLF(I)  = 1.0
+            ALLDWN(I)  = 50.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
             DO J= 1,4
-              HTX(I,J) = 1
+              HTX(I,J) = 1.0
+            ENDDO
+            DKRCLS(I)  = 4
+            LSW(I)     = .FALSE.
+            
+C         balsam poplar
+C         black cottonwood (ORIGINAL)
+C         other hardwoods (ORIGINAL)
+          CASE (18,20,23)
+            V2T(I)     = 19.3
+            LEAFLF(I)  = 1.0
+            ALLDWN(I)  = 50.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
+            DO J= 1,4
+              HTX(I,J) = 1.0
+            ENDDO
+            DKRCLS(I)  = 4
+            LSW(I)     = .FALSE.
+
+C         quaking aspen (quaking aspen in PN) 
+          CASE (19)
+            V2T(I)     = 21.8
+            LEAFLF(I)  = 1.0
+            ALLDWN(I)  = 50.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
+            DO J= 1,4
+              HTX(I,J) = 1.0
+            ENDDO
+            DKRCLS(I)  = 4
+            LSW(I)     = .FALSE.
+            
+C         willow species (willow in PN)
+C         Scouler's willow 
+          CASE (21,22)
+            V2T(I)     = 22.5
+            LEAFLF(I)  = 1.0
+            ALLDWN(I)  = 50.0
+            DECAYX(I)  = 1.0
+            FALLX(I)   = 1.0
+            DO J= 1,4
+              HTX(I,J) = 1.0
             ENDDO
             DKRCLS(I)  = 4
             LSW(I)     = .FALSE.
@@ -345,7 +393,8 @@ C       TIME-TO-FALL VALUES
 C       white spruce (ORIGINAL)
 C       Lutz's spruce
 C       black spruce
-        CASE (5,6,7)
+C       other softwood (ORIGINAL)
+        CASE (5,6,7,13)
           TFALL(I,0) = 2
           TFALL(I,1) = 5
           TFALL(I,2) = 5
@@ -363,7 +412,8 @@ C       western redcedar (ORIGINAL)
 
 C       western hemlock (ORIGINAL)
 C       mountain hemlock (ORIGINAL)
-        CASE (11,12)
+C       tamarack
+        CASE (4,11,12)
           TFALL(I,0) = 1
           TFALL(I,1) = 5
           TFALL(I,2) = 5
@@ -372,11 +422,9 @@ C       mountain hemlock (ORIGINAL)
 
 C       pacific silver fir (ORIGINAL)
 C       subalpine fir (ORIGINAL)
-C       tamarack
 C       sitka spriuce (ORIGINAL)
 C       lodgpole pine (ORIGINAL)
-C       other softwoods (ORIGINAL)
-        CASE (1,2,4,8,9,13)
+        CASE (1,2,8,9)
           TFALL(I,0) = 2
           TFALL(I,1) = 5
           TFALL(I,2) = 5

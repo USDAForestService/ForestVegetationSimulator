@@ -30,7 +30,7 @@ C      SF AF YC TA WS LS BE SS LP RC
      & 3, 3, 1, 1, 5, 5, 5, 5, 4, 1, 
 C      11 12 13 14 15 16 17 18 19 20
 C      WH MH OS AD RA PB AB BA AS CW
-     & 3, 3, 3, 6, 6, 7, 7, 6, 6, 6, 
+     & 3, 3, 5, 6, 6, 7, 7, 6, 6, 6, 
 C      21 22 23
 C      WI SU OH
      & 6, 6, 6 /
