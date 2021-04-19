@@ -394,8 +394,8 @@
 ../pg/putgetsubs.f
 ../pg/putstd.f
 ../pg/stash.f
-../ak/varget.f
-../ak/varput.f
+../pg/varget.f
+../pg/varput.f
 
 ../volume/R8CLIST.INC
 ../volume/R8CLKCOEF.INC
