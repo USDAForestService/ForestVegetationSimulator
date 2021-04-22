@@ -62,9 +62,9 @@ C  PNEVEL   -- ELEVATION COEFFICIENT (B4)
 C  PNSLO    -- SLOPE COEFFICIENT (B5)
 C  PNTLAT   -- STAND LATTITUDE COEFFICIENT (B6)
 C  PN       -- USED IN DETERMINING SPECIES PROBABILITY
-C  XPRD     -- PLOT RELATIVE DENSITY >= REGNBK, PASSED IN AS 
+C  XPRD     -- PLOT RELATIVE DENSITY >= REGNBK, PASSED IN AS
 C              PRDA(MAXPLOT) IN PDEN.F77
-C  BAPER    -- PLOT SPECIES BASAL AREA PROPORTION>= REGNBK, 
+C  BAPER    -- PLOT SPECIES BASAL AREA PROPORTION>= REGNBK,
 C              PASSED IN AS OVER(MAXSP,MAXPLOT) IN PDEN.F77
 C  ELEV     -- STAND ELEVATION (100S OF FEET), PASSED IN PLOT.F77
 C  SLO      -- PLOT SLOPE IN PROPORITON, PASSED IN ESCOMN.F77
@@ -77,10 +77,10 @@ C  PXCS     -- SPECIES PROBABILITY, PASSED TO ESCOM2.F77
 C----------
 C  VARIABLE DECLARATIONS:
 C----------
-C  
+C
       INTEGER IFT, I, J
 C
-      REAL PN,PNFT(MAXSP,14),PNRDA(MAXSP),PBAPER(MAXSP),PNELEV(MAXSP), 
+      REAL PN,PNFT(MAXSP,14),PNRDA(MAXSP),PBAPER(MAXSP),PNELEV(MAXSP),
      & PNSLO(MAXSP),PNTLAT(MAXSP),B1,B2,B3,B4,B5,B6,XPRD,BAPER,DENOM,
      & ADJSLO, ADJELV
 C
@@ -152,17 +152,17 @@ C----------
      &   0.0,         0.0,       0.0,        0.0,      -2.016213,
      &   0.0,         0.0,       0.0,
      &   0.0,         0.0,       0.0,        0.0,       0.0,            ! OTHER F.T.
-     &   0.0,         0.0,       0.0,        0.0,       0.0, 
      &   0.0,         0.0,       0.0,        0.0,       0.0,
-     &   0.0,         0.0,       0.0,        0.0,       0.0, 
+     &   0.0,         0.0,       0.0,        0.0,       0.0,
+     &   0.0,         0.0,       0.0,        0.0,       0.0,
      &   0.0,         0.0,       0.0 /
-      DATA PNRDA / 
+      DATA PNRDA /
      &   0.0,       0.0,      -2.727480,  0.0,        0.776703,
      &   0.0,       1.660099, -0.839137, -3.839569,  -1.443887,
-     &   1.735537, -0.622608,  0.0,       0.0,        0.851437, 
-     &  -1.845793,  0.0,      -0.464068, -0.397475,  -0.464068, 
+     &   1.735537, -0.622608,  0.0,       0.0,        0.851437,
+     &  -1.845793,  0.0,      -0.464068, -0.397475,  -0.464068,
      &   0.0,       0.0,       0.0 /
-      DATA PBAPER / 
+      DATA PBAPER /
      &   0.0,      0.0,      3.266072, 0.0,      2.913539,
      &   0.0,     19.545532, 0.899752, 2.472569, 1.07446,
      &   5.125714, 3.072878, 0.0,      0.0,      5.115206,
@@ -173,25 +173,25 @@ C----------
      &   0.0,      0.000381, -0.000296,  -0.000699, -0.00134,
      &  -0.000998, 0.000541,  0.0,        0.0,      -0.004469,
      &  -0.000526,  0.0,     -0.000587,  -0.000492, -0.000587,
-     &   0.0,      0.0,       0.0 /     
-      DATA PNSLO / 
+     &   0.0,      0.0,       0.0 /
+      DATA PNSLO /
      &   0.0,       0.0,     -0.003365,  0.0,      -0.020246,
-     &   0.0,      -0.044743, 0.003520, -0.002281,  0.006463, 
+     &   0.0,      -0.044743, 0.003520, -0.002281,  0.006463,
      &   0.007038, -0.007531, 0.0,       0.0,      -0.027257,
      &   0.021005,  0.0,      0.019293,  0.029316,  0.019293,
-     &   0.0,       0.0,      0.0 /      
-      DATA PNTLAT / 
+     &   0.0,       0.0,      0.0 /
+      DATA PNTLAT /
      &   0.0,       0.0,      -0.314365,  0.0,        -0.025767,
      &   0.0,       0.156946,  0.022802, -0.253422,   -1.427422,
      &  -0.414381,  0.164182,  0.0,       0.0,        -0.706979,
      &  -0.078066,  0.0,      -0.035456,  0.145823,   -0.035456,
      &   0.0,       0.0,       0.0 /
 
-C     CALCULATE PLOT DENSITIES 
+C     CALCULATE PLOT DENSITIES
       XPRD = PRDA(NNID)
       DENOM = BAAA(NNID)
-      IF(BAAA(NNID).LE.0.) DENOM=1.       
-C     ADJUST PLOT SLO-BASED VARIABLES TO PERCENT SLOPE.  
+      IF(BAAA(NNID).LE.0.) DENOM=1.
+C     ADJUST PLOT SLO-BASED VARIABLES TO PERCENT SLOPE.
       ADJSLO = SLO*100
       ADJELV = ELEV*100
 
@@ -205,29 +205,38 @@ C  VARIABLES DEFINED IN SECTION ABOVE
 C  PN IS CONVERTED TO PROBABILITY OF EXCESS SPECIES BY
 C  EXP(PN)/(1 + EXP(PN))
 C----------
+C  IF THE FOREST TYPE IS UNDEFINED (IFT=14), THE PROBABILITY CAN NOT
+C  BE CALCULATED AND PADV VALUE WILL BE ZERO.
+C
+      IF(IFT .EQ. 14) THEN
+        DO J=1,MAXSP
+          PXCS(J) = 0.0
+        ENDDO
+      ELSE
 
 C     CYCLE THROUGH SPECIES TO COMPUTE SPECIES PROBABILITIES
-      DO 5 J=1,MAXSP
-C       SET COEFFICIENTS FOR COMPUTING PN
-        B1 = PNFT(J,IFT)
-        B2 = PNRDA(J)
-        B3 = PBAPER(J)
-        B4 = PNELEV(J)
-        B5 = PNSLO(J)
-        B6 = PNTLAT(J)
-        BAPER = OVER(J,NNID)/DENOM
-        PN = B1 + B2 * XPRD + B3 * BAPER + B4 * ADJELV + 
-     &       B5 * ADJSLO + B6 * TLAT
-        PXCS(J) = (EXP(PN)/(1 + EXP(PN))) * OCURFT(J,IFT) * XESMLT(J)
-    5 CONTINUE
-C
-C  MAKE SURE SPECIES PROBABILITIES ARE BETWEEN 0 AND 1.
-      DO 10 I=1,MAXSP
-      IF(PXCS(I).LT.0.)PXCS(I)=0.
-      IF(PXCS(I).GT.1.)PXCS(I)=1.
-      IF(IFT.EQ.14)PXCS(I)=0.
-   10 CONTINUE
-C
+        DO J=1,MAXSP
+          IF(OCURFT(J,IFT) .EQ. 0.0) THEN
+            PXCS(J) = 0.0
+          ELSE
+C           SET COEFFICIENTS FOR COMPUTING PN
+            B1 = PNFT(J,IFT)
+            B2 = PNRDA(J)
+            B3 = PBAPER(J)
+            B4 = PNELEV(J)
+            B5 = PNSLO(J)
+            B6 = PNTLAT(J)
+            BAPER = OVER(J,NNID)/DENOM
+            PN = B1 + B2 * XPRD + B3 * BAPER + B4 * ADJELV +
+     &           B5 * ADJSLO + B6 * TLAT
+            PXCS(J)=(EXP(PN)/(1 + EXP(PN))) * OCURFT(J,IFT) * XESMLT(J)
+
+C           MAKE SURE SPECIES PROBABILITIES ARE BETWEEN 0 AND 1.
+            IF(PXCS(J) .LT. 0.0) PXCS(J) = 0.0
+            IF(PXCS(J) .GT. 1.0) PXCS(J) = 1.0
+          ENDIF
+        ENDDO
+      ENDIF
+
       RETURN
       END
-
