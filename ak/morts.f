@@ -550,7 +550,7 @@ C----------
           ENDDO
           CALL RDPSRT(ITRN,WORK3,IWORK1,.FALSE.)
           IF (DEBUG) THEN
-          	WRITE(JOSTND,*)'DBH= ',(DBH(IG),IG=1,ITRN)
+            WRITE(JOSTND,*)'DBH= ',(DBH(IG),IG=1,ITRN)
             WRITE(JOSTND,*)'IWORK1= ',(IWORK1(IG),IG=1,ITRN)
             WRITE(JOSTND,*)'WK2= ',(WK2(IG),IG=1,ITRN)
           ENDIF

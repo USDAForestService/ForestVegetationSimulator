@@ -417,7 +417,7 @@ C
           END SELECT
         ELSE
           PFCOMP1 = 0.0
-       	ENDIF
+        ENDIF
 
 C----------
 C  BEGIN TREE LOOP WITHIN SPECIES ISPC.
@@ -434,7 +434,7 @@ C         BASAL AREA IN LARGER TREES ON THE POINT
 
 C         RELATIVE DENSITY (ZEIDI) ON THE POINT
 C         CONSTRAIN RD IF NEEDED
-          IF (XMAXPT(ITRE(I)).EQ.0.0) THEN
+          IF (XMAXPT(ITRE(I)).LE.0.0) THEN
            RDEN = 0.01
           ELSE
            RDEN = ZRD(ITRE(I)) / XMAXPT(ITRE(I))
@@ -460,7 +460,7 @@ C
             SELECT CASE (ISPC)
             CASE (5:7, 13, 16:23)
 
-       	      PFCOMP2 = PFDSQ * D2
+              PFCOMP2 = PFDSQ * D2
      &                + PFLD(ISPC) * LOG(D)
      &                + PFDBAL(ISPC) * BAL
      &                + PFRD(ISPC) * RDEN
@@ -496,7 +496,7 @@ C
             END SELECT
           ELSE
             PFMOD = 1.0
-       	  ENDIF
+          ENDIF
 C
 C         ANNUAL DIAMETER GROWTH = exp(X)
 C         X = b1 + b2 * DBH^2 + b3 * ln(DBH) + b4 * BAL + b5 * RD
