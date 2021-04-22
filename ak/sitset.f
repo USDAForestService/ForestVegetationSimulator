@@ -294,7 +294,7 @@ C----------
         FORST='04'
       ELSE IF((KODFOR.EQ.703).OR.(IREGN.EQ.81)) THEN
         IREGN=10
-        FORST='02'
+        FORST='05'
       ENDIF
 C LOAD VOLUME ARRAYS USING VOLEQDEF
       DO ISPC=1,MAXSP

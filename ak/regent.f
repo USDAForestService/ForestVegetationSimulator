@@ -405,8 +405,8 @@ C----------
      &         (1/HTT13(ISPC)))
          ENDIF
 
-          IF(DEBUG)WRITE(JOSTND,*)'INV EQN DUB IFOR,ISPC,H,HK,DK,'
-     &      ,'DKK= ',IFOR,ISPC,H,HK,DK,DKK
+          IF(DEBUG)WRITE(JOSTND,*)'INV EQN DUB,ISPC,H,HK,DK,'
+     &      ,'DKK= ',ISPC,H,HK,DK,DKK
 
           IF(DEBUG)WRITE(JOSTND,*)'ISPC,LHTDRG,IABFLG= ',
      &      ISPC,LHTDRG(ISPC),IABFLG(ISPC)

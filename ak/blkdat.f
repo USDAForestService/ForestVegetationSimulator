@@ -207,7 +207,7 @@ C----------
 
       DATA PLNJSP /
      & 'ABAM  ', 'ABLA  ', 'CANO9 ', 'LALA  ', 'PIGL  ', 'PILU  ',
-     &  'PIMA  ','PISI  ', 'PICO  ', 'THPL  ', 'TSHE  ', 'TSME  ',
+     & 'PIMA  ', 'PISI  ', 'PICO  ', 'THPL  ', 'TSHE  ', 'TSME  ',
      & '2TE   ', 'ALNUS ', 'ALRU2 ', 'BEPA  ', 'BENE4 ', 'POBA2 ',
      & 'POTR5 ', 'POBAT ', 'SALIX ', 'SASC  ', '2TD   '/
 
