@@ -180,7 +180,7 @@ C----------
             BMDBH2(I) = 75
           ENDIF
         ENDIF
-        IF (I .LE. 13) THEN
+        IF (I .LE. 23) THEN
           IF (AKDBH1(I) .EQ. 20) THEN
             AKDBH2(I) = 50
           ELSE
