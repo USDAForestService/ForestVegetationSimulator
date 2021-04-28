@@ -361,6 +361,8 @@ C
       ENDIF
 C
       H=EXP(AX+BX/(D+1.0))+4.5
+      IF(DEBUG)WRITE(JOSTND,*) 'WYKOFF EQN DUBBING',' ISPC=',ISPC,
+     & ' AX=',AX,' BX=',BX,' D=',D,' H=',H
 
 C----------
 C  USE INVENTORY EQUATIONS IF CALIBRATION OF THE HT-DBH FUNCTION IS TURNED
@@ -375,9 +377,10 @@ C----------
         CX1 = HTT13(ISPC)
         H= 4.5 + (AX1) * (1-EXP(BX1*D))**CX1 
         IF(DEBUG)THEN
-          WRITE(JOSTND,9009) ISPC,AX1,BX1,CX1,H
+          WRITE(JOSTND,9009) ISPC,AX1,BX1,CX1,D,H
  9009     FORMAT('INVENTORY EQN DUBBING - ISPC ',I2,'  AX1= ',F10.5,
-     &           '  BX1=', F7.5,'  CX1=', F7.5,'  H=', F10.5)
+     &           '  BX1=', F7.5,'  CX1=', F7.5,'  D=', F10.5,'  H=',
+     &           F10.5)
         ENDIF
       ENDIF
       
@@ -454,6 +457,8 @@ C
       BX = HT2(ISPC)
       IF(IABFLG(ISPC) .EQ. 0) AX=AA(ISPC)
       H=EXP(AX+BX/(D+1.0))+4.5
+      IF(DEBUG)WRITE(JOSTND,*) 'WYKOFF EQN DUBBING DEAD',' ISPC=',ISPC,
+     & ' AX=',AX,' BX=',BX,' D=',D,' H=',H
 C----------
 C  USE INVENTORY EQUATIONS IF CALIBRATION OF THE HT-DBH FUNCTION IS TURNED
 C  OFF, OR IF WYKOFF CALIBRATION DID NOT OCCUR.
@@ -467,9 +472,10 @@ C----------
         CX1 = HTT13(ISPC)
         H= 4.5 + (AX1) * (1-EXP(BX1*D))**CX1 
         IF(DEBUG)THEN
-          WRITE(JOSTND,9010) ISPC,AX1,BX1,CX1,H
+          WRITE(JOSTND,9010) ISPC,AX1,BX1,CX1,D,H
  9010     FORMAT('INVENTORY EQN DUBBING DEAD - ISPC ',I2,'  AX1= ',
-     &           F10.5,'  BX1=', F7.5,'  CX1=', F7.5,'  H=', F10.5)
+     &           F10.5,'  BX1=', F7.5,'  CX1=', F7.5,'  D=', F10.5,
+     &           '  H=', F10.5)
         ENDIF
       ENDIF
       IF(H .LE. 4.5) H=4.5
