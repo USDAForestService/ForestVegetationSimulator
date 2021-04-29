@@ -102,7 +102,7 @@ C
       CHARACTER DIST*2,FORST*2,PROD*2,VAR*2,VOLEQ*10
 C
       INTEGER ERRFLAG,I,IFIASP,INTFOR,IREGN,ISPC,J,JJ,K,
-     &        MERCHCDS(2,19),MERCHCAT
+     &        MERCHCDS(2,17),MERCHCAT
 C
       REAL TEM
 C
@@ -145,8 +145,6 @@ C  LOCATION CODE
      &  7407, 2,
      &  7408, 2,
      &  703,  3,
-     &  1002, 3,
-     &  1003, 3,
      &  1005, 3,
      &  8134, 3,
      &  8135, 3,
@@ -198,9 +196,9 @@ C
 C
 C----------
 C  LOOP THROUGH MERCHCDS AND SELECT MERCHCAT BASED ON
-C  LOCATION CODE (KODFOR - 19 OPTIONS)
+C  LOCATION CODE (KODFOR - 17 OPTIONS)
 C----------
-      DO I=1, 19 
+      DO I=1, 17 
         IF(KODFOR .EQ. MERCHCDS(1,I)) THEN 
           MERCHCAT= MERCHCDS(2,I)
          EXIT

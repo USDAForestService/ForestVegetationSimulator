@@ -166,7 +166,7 @@ C----------
       BRK = 5.0
       DGSD = 2.0
       EFF = 1.0
-      ELEV = 1.
+      ELEV = 0.
       FINT = 10.
       FINTH = 5.
       FINTM = 5.0
@@ -184,7 +184,7 @@ C----------
       IDG = 0
       IFINT = 10
       IFINTH = 5
-      IFOR = 4
+      IFOR = 2
       KODFOR = 0
       IFST = 1
       IGL = 1
@@ -219,8 +219,8 @@ C----------
       DBCN = ' '
       SAMWT = -1E25
       SLOPE = 5.0
-      TLAT = 56.
-      TLONG = 132.
+      TLAT = 0.
+      TLONG = 0.
       ISTATE = 0
       ICNTY = 0
       TFPA = 0.0
