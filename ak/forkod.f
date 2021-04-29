@@ -158,7 +158,7 @@ C----------------------------------------------------------------------
           IF(ELEV.EQ.0)  ELEV  = 1.
         CASE(7404) 
           IF(TLAT.EQ.0)  TLAT  = 61.21
-          IF(TLONG.EQ.0) TLONG = 149.81
+          IF(TLONG.EQ.0) TLONG = -149.81
           IF(ELEV.EQ.0)  ELEV  = 1.
         CASE(7405) 
           IF(TLAT.EQ.0)  TLAT  = 64.85
