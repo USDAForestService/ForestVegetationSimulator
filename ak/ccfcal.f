@@ -73,21 +73,21 @@ C  INTERCEPT COEFFICIENTS
       DATA B1/6.1880, 6.1880, 4.0,  0.535,  1.50,
      &        1.50,   0.535,  6.5,  6.1880, 4.0,
      &        4.5652, 4.5652, 1.50, 8.0,    8.0,
-     &        1.48,   1.48,   1.31, 1.31,   0.5,
+     &        1.48,   1.48,   0.5,  1.31,   0.5,
      &        0.5,    0.5,    0.5/
 C    
 C  DBH COEFFICENTS
       DATA B2/1.0069, 1.0069, 1.6,   0.742,  0.496,
      &        0.496,  0.742,  1.8,   1.0069, 1.6,
      &        1.4147, 1.4147, 0.496, 1.53,   1.53,
-     &        0.623,  0.623,  0.586, 0.586,  1.62,
+     &        0.623,  0.623,  1.62,  0.586,  1.62,
      &        1.62,   1.62,   1.62/
 C
 C  ARRAY CONTAING MCW EQUATION FORM FLAGS BY SPECIES
       DATA EQMAP/1, 1, 1, 2, 2,
      &           2, 2, 1, 1, 1,
      &           1, 1, 2, 1, 1,
-     &           2, 2, 2, 2, 1,
+     &           2, 2, 1, 2, 1,
      &           1, 1, 1/
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
@@ -124,9 +124,9 @@ C
 C  SMITH/PAINE AND HANN EQUATION FORM
       IF(EQFORM .EQ. 1) THEN
        MCW = B1(ISPC) + B2(ISPC)*D
-C  RUSSELL AND WEISKITTEL EQUATION FORM (CONVERT TO FEET)
+C  RUSSELL AND WEISKITTEL EQUATION FORM (D IN CM, CONVERT TO FEET)
       ELSE
-       MCW = B1(ISPC) + D**B2(ISPC)
+       MCW = B1(ISPC)*(D*2.54)**B2(ISPC)
        MCW = MCW * 3.28
       ENDIF 
 C
