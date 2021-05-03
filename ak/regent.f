@@ -351,8 +351,8 @@ c     SINCE THERE IS NO LARGE TREE GROWTH ESTIMATE IN THIS SCENARIO.
 C     CALCULATE SMALL TREE GROWTH WHICH IS WEIGHTED AVERAGE OF HTGR 
 C     AND LTHG.
       HTG(K)= HTGR*(1.0-XWT) + XWT*LTHG
-      IF(DEBUG)WRITE(JOSTND,9985)ISPC,D,XWT,HTGR,LTHG,HTG(K),I,K
- 9985 FORMAT(' IN REGENT 9985 FORMAT','  ISPC=',I3,
+      IF(DEBUG)WRITE(JOSTND,9985)LESTB,ISPC,D,XWT,HTGR,LTHG,HTG(K),I,K
+ 9985 FORMAT(' IN REGENT 9985 FORMAT',' LESTB=',L3,'  ISPC=',I3,
      &       '  D=',F7.2,'  XWT=',F7.2,'  HTGR=',F7.4,'  LTHG=',F7.4,
      &       '  HTG=',F7.4,'  I=',I4, '  K=',I4)
       IF(HTG(K) .LT. .1) HTG(K) = .1
@@ -405,8 +405,8 @@ C----------
      &         (1/HTT13(ISPC)))
          ENDIF
 
-          IF(DEBUG)WRITE(JOSTND,*)'INV EQN DUB,ISPC,H,HK,DK,'
-     &      ,'DKK= ',ISPC,H,HK,DK,DKK
+          IF(DEBUG)WRITE(JOSTND,*)'INVENTORY EQN DUB',' K=',K,' ISPC=',
+     &      ISPC,' H=',H,' HK=',HK,' DKK= ',DKK,' DK=',DK
 
           IF(DEBUG)WRITE(JOSTND,*)'ISPC,LHTDRG,IABFLG= ',
      &      ISPC,LHTDRG(ISPC),IABFLG(ISPC)
@@ -420,8 +420,8 @@ C----------
           ELSE
             DKK=HT2(ISPC)/(ALOG(H-4.5)-HT1(ISPC))-1.0
           ENDIF
-          IF(DEBUG)WRITE(JOSTND,*)'I,ISPC,H,HK,DK,DKK,XRDGRO= ',
-     &    I,ISPC,H,HK,DK,DKK,XRDGRO
+          IF(DEBUG)WRITE(JOSTND,*)'WYKOFF EQN DUB',' K=',K,' ISPC=',
+     &      ISPC,' H=',H,' HK=',HK,' DKK= ',DKK,' DK=',DK
           ENDIF
 C----------
 C  IF CALLED FROM **ESTAB** ASSIGN DIAMETER
@@ -456,9 +456,9 @@ C----------
           DGSM=SQRT((D*BARK)**2.0+DDS)-BARK*D
           DGLT = DG(K)
           DG(K) = DGSM*(1.0-XDWT) + XDWT*DGLT
-          IF(DEBUG)WRITE(JOSTND,*)
-     &     'K,D,DG(K),BARK,DWT,DGSM,DGLT,SCALE2,YR,FNT, = ',
-     &      K,D,DG(K),BARK,XDWT,DGSM,DGLT,SCALE2,YR,FNT
+          IF(DEBUG)WRITE(JOSTND,*)' K=',K,' ISPC=',ISPC,' D=',D,
+     &    ' BARK=',BARK,' DWT=',XDWT,' DGSM=',DGSM,' DGLT=',DGLT,
+     &    ' DG(K)=',DG(K),' SCALE2=',SCALE2,' YR=',YR,' FNT=',FNT
         ENDIF
         IF((DBH(K)+DG(K)).LT.DIAM(ISPC))THEN
           DG(K)=DIAM(ISPC)-DBH(K)
