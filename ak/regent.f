@@ -13,34 +13,6 @@ C  THIS ROUTINE IS CALLED FROM **CRATET** DURING CALIBRATION AND
 C  FROM **TREGRO** DURING CYCLING.  ENTRY **REGCON** IS CALLED FROM
 C  **RCON** TO LOAD MODEL PARAMETERS THAT NEED ONLY BE RESOLVED ONCE.
 C----------
-C
-C----------
-C SPECIES LIST FOR ALASKA VARIANT.
-C Number  V  Code  Common Name         FIA  PLANTS Scientific Name
-C   1        SF   Pacific silver fir  011  ABAM   Abies amabilis
-C   2        AF   subalpine fir       019  ABLA   Abies lasiocarpa
-C   3        YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
-C   4        TA   tamarack            071  LALA   Larix laricina
-C   5     P  WS   white spruce        094  PIGL   Picea glauca
-C   6     P  LS   Lutz’s spruce            PILU   Picea lutzii
-C   7     P  BE   black spruce        095  PIMA   Picea mariana
-C   8        SS   Sitka spruce        098  PISI   Picea sitchensis
-C   9        LP   lodgepole pine      108  PICO   Pinus contorta
-C  10        RC   western redcedar    242  THPL   Thuja plicata
-C  11        WH   western hemlock     263  TSHE   Tsuga heterophylla
-C  12        MH   mountain hemlock    264  TSME   Tsuga mertensiana
-C  13     P  OS   other softwoods     298  2TE
-C  14        AD   alder species       350  ALNUS  Alnus species
-C  15        RA   red alder           351  ALRU2  Alnus rubra
-C  16     P  PB   paper birch         375  BEPA   Betula papyrifera
-C  17     P  AB   Alaska birch        376  BENE4  Betula neoalaskana
-C  18     P  BA   balsam poplar       741  POBA2  Populus balsamifera
-C  19     P  AS   quaking aspen       746  POTR5  Populus tremuloides
-C  20     P  CW   black cottonwood    747  POBAT  Populus trichocarpa
-C  21     P  WI   willow species      920  SALIX  Salix species
-C  22     P  SU   Scouler’s willow    928  SASC   Salix scouleriana
-C  23     P  OH   other hardwoods     998  2TD
-C----------
 
 COMMONS
 C
@@ -114,7 +86,7 @@ C----------
       REAL FNT,H,HK,HTGR,HTNEW,P,RANC,RCR
       REAL REGYR,RSI,SCALE1,SCALE2,SCALE3,SNP,SNX,SNY,TBAL
       REAL TERM,XMN,XMX,XRDGRO,XRHGRO,ZZRAN
-      REAL ELEVATN,PBAL,XSITE,CR
+      REAL ELEVATN,PBAL,XSITE,CR,BX,AX
       REAL DGSM,DGLT,LTHG,XWT,XDWT,AGET,HTMAX
       REAL CORTEM(MAXSP),DIAM(MAXSP),XMIN(MAXSP),XMAX(MAXSP)
       REAL DGMAX(MAXSP)
@@ -414,11 +386,17 @@ C----------
 C  ELSE USE INVERTED WYKOFF FUNCTION TO CALCULATE DIAMETERS (DK,DKK)
 C----------
         ELSE
-          DK=HT2(ISPC)/(ALOG(HK-4.5)-HT1(ISPC))-1.0
+          BX=HT2(ISPC)
+          IF(IABFLG(ISPC).EQ.1) THEN
+            AX=HT1(ISPC)
+          ELSE
+            AX=AA(ISPC)
+          ENDIF          
+          DK=BX/(ALOG(HK-4.5)-AX)-1.0
           IF(H .LE. 4.5) THEN
             DKK=D
           ELSE
-            DKK=HT2(ISPC)/(ALOG(H-4.5)-HT1(ISPC))-1.0
+            DKK=BX/(ALOG(H-4.5)-AX)-1.0
           ENDIF
           IF(DEBUG)WRITE(JOSTND,*)'WYKOFF EQN DUB',' K=',K,' ISPC=',
      &      ISPC,' H=',H,' HK=',HK,' DKK= ',DKK,' DK=',DK
