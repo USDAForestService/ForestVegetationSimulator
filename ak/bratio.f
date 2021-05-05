@@ -35,39 +35,34 @@ C
 C----------
 C  VARIABLE DECLARATIONS:
 C----------
-      REAL BARKB(4,23),H,D,BRATIO,DIB,DBT
-      INTEGER JBARK(23),IS
+      REAL BARKB(3,23),H,D,BRATIO,DIB,DBT
+      INTEGER IS
       REAL RDANUW
 C----------
-      DATA JBARK/
-     &  1,  2,  3,  4,  5,  5,  7,  8,  9, 10,
-     & 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-     & 21, 22, 23/
-C----------
       DATA BARKB/
-     & 011.,  0.186   ,  0.45417 , 1.,
-     & 019.,  0.186   ,  0.45417 , 1.,
-     & 042.,  0.186   ,  0.45417 , 1.,
-     & 071.,  0.796645,  1.060823, 3.,
-     & 094.,  0.839825,  1.039951, 3.,
-     &   0.,  0.839825,  1.039951, 3.,  ! Lutz's Spruce has no FIA#
-     & 095.,  0.796645,  1.060823, 3.,
-     & 098.,  0.843047,  1.030798, 3.,
-     & 108.,  0.186   ,  0.45417 , 1.,
-     & 242.,  0.186   ,  0.45417 , 1.,
-     & 263.,  0.186   ,  0.45417 , 1.,
-     & 264.,  0.743935,  1.048186, 3.,
-     & 298.,  0.839825,  1.039951, 3.,
-     & 350.,  0.075256,  0.94373 , 2.,
-     & 351.,  0.075256,  0.94373 , 2.,
-     & 375.,  0.899145,  1.011965, 3.,
-     & 376.,  0.899145,  1.011965, 3.,
-     & 741.,  0.792559,  1.028571, 3.,
-     & 746.,  0.921204,  0.996669, 3.,
-     & 747.,  0.784468,  1.035819, 3.,
-     & 920.,  0.784468,  1.035819, 3.,
-     & 928.,  0.784468,  1.035819, 3.,
-     & 998.,  0.784468,  1.035819, 3./
+     & 1.,  0.186   ,  0.45417 ,
+     & 1.,  0.186   ,  0.45417 ,
+     & 1.,  0.186   ,  0.45417 ,
+     & 3.,  0.796645,  1.060823,
+     & 3.,  0.839825,  1.039951,
+     & 3.,  0.839825,  1.039951,
+     & 3.,  0.796645,  1.060823,
+     & 3.,  0.843047,  1.030798,
+     & 1.,  0.186   ,  0.45417 ,
+     & 1.,  0.186   ,  0.45417 ,
+     & 1.,  0.186   ,  0.45417 ,
+     & 3.,  0.743935,  1.048186,
+     & 3.,  0.839825,  1.039951,
+     & 2.,  0.075256,  0.94373 ,
+     & 2.,  0.075256,  0.94373 ,
+     & 3.,  0.899145,  1.011965,
+     & 3.,  0.899145,  1.011965,
+     & 3.,  0.784468,  1.035819,
+     & 3.,  0.921204,  0.996669,
+     & 3.,  0.784468,  1.035819,
+     & 3.,  0.784468,  1.035819,
+     & 3.,  0.784468,  1.035819,
+     & 3.,  0.784468,  1.035819/
 C----------
 C  EQUATION TYPES AND COEFS (COLUMN 4 OF BARKB)
 C  1  DBT = a * DOB ** b
@@ -76,21 +71,21 @@ C         TAKEN FROM EQ 4.2.1 OF AK VARIANT GUIDE
 C  2  BRATIO = (a + (b * DOB))/DOB
 C         TAKEN FROM EQ 4.2.2 OF AK VARIANT GUIDE
 C  3  DIB = a * DOB ** b
-c     BRATIO = DIB/D
-c         TAKEN FROM THE GENIUS OF MARK CASTLE
+C     BRATIO = DIB/D
+C         DEVELOPED DURING FITTING BY MARK CASTLE
 C----------
 C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
 C----------
       RDANUW = H
 C
       IF (D .GT. 0) THEN
-        IF(BARKB(4,JBARK(IS)) .EQ. 1.)THEN
-          DBT=BARKB(2,JBARK(IS))*D**BARKB(3,JBARK(IS))
+        IF(BARKB(1,IS) .EQ. 1.)THEN
+          DBT=BARKB(2,IS)*D**BARKB(3,IS)
           BRATIO=(D-DBT)/D
-        ELSEIF (BARKB(4,JBARK(IS)) .EQ. 2.)THEN
-          BRATIO=(BARKB(2,JBARK(IS)) + (BARKB(3,JBARK(IS))*D))/D
-        ELSEIF (BARKB(4,JBARK(IS)) .EQ. 3.)THEN
-          DIB=BARKB(2,JBARK(IS))*D**BARKB(3,JBARK(IS))
+        ELSEIF (BARKB(1,IS) .EQ. 2.)THEN
+          BRATIO=(BARKB(2,IS) + (BARKB(3,IS)*D))/D
+        ELSEIF (BARKB(1,IS) .EQ. 3.)THEN
+          DIB=BARKB(2,IS)*D**BARKB(3,IS)
           BRATIO=DIB/D
         ELSE
           BRATIO= 0.9
@@ -98,7 +93,6 @@ C
       ELSE
         BRATIO = 0.99
       ENDIF
-
 C
       IF(BRATIO .GT. 0.99) BRATIO= 0.99
       IF(BRATIO .LT. 0.80) BRATIO= 0.80
