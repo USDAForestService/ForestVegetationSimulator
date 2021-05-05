@@ -121,10 +121,10 @@ C----------
      &   23.863861, -10.247801,  0.0,        0.0,      35.028264,
      &   0.0,         0.0,       0.0,        0.0,       0.0,
      &   0.0,         0.0,       0.0,
-     &   0.0,         0.0,      14.973387,    0.0,       0.0,            ! 305 SITKA SPRUCE
+     &   0.0,         0.0,      14.973387,   0.0,       0.0,            ! 305 SITKA SPRUCE
      &   0.0,         0.0,      -0.543492,  11.206520, 78.007427,
      &   22.863489, -11.475804,  0.0,        0.0,      35.028264,
-     &   -0.257252,   0.0,       0.0,        0.0,      -5.290410,
+     &   -0.257252,   0.0,       0.0,        0.0,       0.0,
      &   0.0,         0.0,       0.0,
      &   0.0,         0.0,       0.0,        0.0,       0.290072,       ! 703 COTTONWOOD
      &   0.0,       -14.503453, -2.413704,   0.0,       0.0,
@@ -149,7 +149,7 @@ C----------
      &   0.0,         0.0,       0.0,        0.0,       0.0,            ! 911 RED ALDER
      &   0.0,         0.0,      -0.018768,   0.0,       0.0,
      &   21.861333,   0.0,       0.0,        0.0,      35.028264,
-     &   0.0,         0.0,       0.0,        0.0,      -2.016213,
+     &   0.0,         0.0,       0.0,        0.0,       0.0,
      &   0.0,         0.0,       0.0,
      &   0.0,         0.0,       0.0,        0.0,       0.0,            ! OTHER F.T.
      &   0.0,         0.0,       0.0,        0.0,       0.0,
@@ -230,6 +230,13 @@ C           SET COEFFICIENTS FOR COMPUTING PN
             PN = B1 + B2 * XPRD + B3 * BAPER + B4 * ADJELV +
      &           B5 * ADJSLO + B6 * TLAT
             PADV(J)=(EXP(PN)/(1 + EXP(PN))) * OCURFT(J,IFT) * XESMLT(J)
+
+C           WRITE STATEMENT IS USED FOR DEBUG PURPOSES HERE. UNCOMMENT TO
+C           SEE OUTPUT.
+C            WRITE(16,*)' IN ESPADV',' IFT=',IFT,' ISPC=',J,' XPRD=',
+C     &      XPRD,' BAPER=',BAPER,' ADJELV=',ADJELV,' ADJSLO=',ADJSLO,
+C     &      ' TLAT=',TLAT,' OCCURFT=',OCURFT(J,IFT),' XESMLT=',
+C     &      XESMLT(J),' PN=',PN,' PADV=',PADV(J)
 
 C           MAKE SURE SPECIES PROBABILITIES ARE BETWEEN 0 AND 1.
             IF(PADV(J) .LT. 0.0) PADV(J) = 0.0
