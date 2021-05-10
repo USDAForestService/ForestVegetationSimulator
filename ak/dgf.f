@@ -47,7 +47,7 @@ C
 C   DGBAL  -- ARRAY, COEFFICIENTS FOR THE BASAL AREA IN
 C             LARGER TREES TERM IN THE DIAMETER GROWTH EQUATION
 C   DGDBAL -- ARRAY, COEFFICIENTS FOR THE INTERACTION
-C             BETWEEN BASAL AREA IN LARGER TREES AND LN(DBH)
+C             BETWEEN POINT BASAL AREA IN LARGER TREES AND LN(DBH)
 C   DGDSQ  -- ARRAY, THE COEFFICIENTS FOR THE DIAMETER
 C             SQUARED TERM IN THE DIAMETER GROWTH EQUATION
 C   DGEL   -- ARRAY, COEFFICIENTS FOR THE ELEVATION TERM IN THE
@@ -58,7 +58,7 @@ C   DGLNCR -- ARRAY, COEFFICIENTS FOR THE LOG(CROWN
 C             RATIO) TERM IN THE DIAMETER GROWTH EQUATION
 C   DGLNSI -- ARRAY, COEFFICIENTS FOR THE LOG(SITE
 C             INDEX) TERM IN THE DIAMETER GROWTH EQUATION
-C   DGRD   -- ARRAY, COEFFICIENTS FOR RELATIVE DENSITY
+C   DGRD   -- ARRAY, COEFFICIENTS FOR POINT RELATIVE DENSITY
 C             (PLOT ZEIDE SDI / PLOT MAX SDI – DECIMAL)
 C   DGSASP -- ARRAY, COEFFICIENT FOR SLOPE*COS(ASPECT) TERM
 C   DGSLOP -- ARRAY, COEFFICIENT FOR SLOPE PERCENT TERM
@@ -66,13 +66,13 @@ C   OBSERV -- CONTAINS THE NUMBER OF OBSERVATIONS BY SPECIES FOR THE
 C             GROWTH MODEL (THIS DATA IS ACTUALLY USED BY **DGDRIV** 
 C             FOR CALIBRATION).
 C   PFCON  -- ARRAY, PERMAFROST INTERCEPT COEFFICIENT (b1)
-C   PFDBAL -- ARRAY, PERMAFROST BASAL AREA LARGER COEFFIENT (b4)
+C   PFDBAL -- ARRAY, PERMAFROST POINT BASAL AREA LARGER COEFFIENT (b4)
 C   PFDSQ  -- SCALAR, PERMAFROST DBH SQUARED COEFFIENT (b2)
 C   PFEL   -- SCALAR, PERMAFROST ELEVATION COEFFIENT (b7)
 C   PFLD   -- ARRAY, PERMAFROST NAT LOG OF DBH COEFFIENT (b3)
 C   PFLNCR -- SCALAR, PERMAFROST NAT LOG OF CROWN RATIO COEFFIENT (b6)
 C   PFPRES -- SCALAR, PERMAFROST PRESENCE/ABSENCE FACTOR (b01)
-C   PFRD   -- ARRAY, PERMAFROST ZEIDI RELATIVE DENSITY COEFFIENT (b5)
+C   PFRD   -- ARRAY, PERMAFROST ZEIDI POINT RELATIVE DENSITY COEFFIENT (b5)
 C   PFSASP -- SCALAR, PERMAFROST SLOPE*cos(ASPECT) COEFFIENT (b9)
 C   PFSLOP -- SCALAR, PERMAFROST SLOPE COEFFIENT (b8)
 C----------
@@ -86,7 +86,7 @@ C Number  V  Code  Common Name         FIA  PLANTS Scientific Name
 C   1        SF   Pacific silver fir  011  ABAM   Abies amabilis
 C   2        AF   subalpine fir       019  ABLA   Abies lasiocarpa
 C   3        YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
-C   4        TA   tamarack            071  LALA   Larix laricina
+C   4     P  TA   tamarack            071  LALA   Larix laricina
 C   5     P  WS   white spruce        094  PIGL   Picea glauca
 C   6     P  LS   Lutz’s spruce            PILU   Picea lutzii
 C   7     P  BE   black spruce        095  PIMA   Picea mariana
@@ -112,19 +112,19 @@ C----------
       LOGICAL DEBUG
       INTEGER I ,I1, I2, I3, ISPC, IWHO
 
-      REAL BAL,BRAT,BRATIO,CONSPP,CR,D,XMAX
+      REAL PBAL,BRAT,BRATIO,CONSPP,CR,D,XMAX
 
       REAL SSITE,TEMEL
 
       REAL DGCONB1(MAXSP), DGDBAL(MAXSP), DGDISQ(MAXSP), DGEL(MAXSP),
      &     DGLD(MAXSP), DGLNCR(MAXSP), DGLNSI(MAXSP), DGRD(MAXSP),
      &     DGSASP(MAXSP), DGSLOP(MAXSP)
-      REAL A, B, D2, DGCOMP1, DGCOMP2, DGPRED, DHI, DLO, RDEN,
+      REAL A, B, D2, DGCOMP1, DGCOMP2, DGPRED, DHI, DLO, PRD,
      &     SDICS, SDICZ, TEMSLP, TEMSASP, ZRD(MAXPLT)
 
       REAL PFPRES, PFCON(MAXSP), PFDBAL(MAXSP), PFDSQ, PFEL, 
      &     PFLD(MAXSP), PFLNCR, PFRD(MAXSP), PFSASP, PFSLOP
-      REAL PFCOMP1, PFCOMP2, PFDENO, PFMOD, PFNUMR
+      REAL PFCOMP1, PFCOMP2, PFMOD, BASEDG
 
       REAL DUP, TEMPD1, TEMPD2
       
@@ -163,7 +163,7 @@ C ln(DBH) -- b3
      &  0.212906,  0.212906,  0.212906 /
 
 C DESCRIBED IN DOCUMENTATION AS COEFFIENT FOR
-C BAL -- b4
+C PBAL -- b4
       DATA DGDBAL /
      & -0.002283, -0.002283, -0.000598, -0.001513, -0.000057, 
      & -0.000057, -0.001513, -0.002283, -0.000598, -0.000598, 
@@ -172,7 +172,7 @@ C BAL -- b4
      & -0.000722, -0.000722, -0.000722 /
 
 C DESCRIBED IN DOCUMENTATION AS COEFFIENT FOR
-C RD -- b5
+C PRD -- b5
       DATA DGRD /
      &  0.0,       0.0,       0.0,      -0.353197, -0.455502,
      & -0.455502, -0.353197,  0.0,       0.0,       0.0, 
@@ -256,7 +256,7 @@ C ln(DBH) -- b3
      & 0.082885, 0.082885, 0.082885/
 
 C DESCRIBED IN DOCUMENTATION AS PERMAFROST COEFFIENT FOR
-C BAL -- b4
+C PBAL -- b4
       DATA PFDBAL /
      &       0.0,       0.0,       0.0, -0.001871, -0.000531,
      & -0.000531, -0.001871,       0.0,       0.0,       0.0,
@@ -265,7 +265,7 @@ C BAL -- b4
      & -0.001321, -0.001321, -0.001321 /
 
 C DESCRIBED IN DOCUMENTATION AS PERMAFROST COEFFIENT FOR
-C RD -- b5
+C PRD -- b5
       DATA PFRD /
      &       0.0,       0.0,       0.0,  -0.02879, -0.482094,
      & -0.482094, -0.02879,       0.0,        0.0,       0.0,
@@ -329,7 +329,7 @@ C  LOADED INTO WK2 ARRAY AT END OF TREE LOOP.
 C
 C  ADI = exp(X)
 C
-C  X = b1 + b2 * DBH^2 + b3 * ln(DBH) + b4 * BAL+ b5 * RD
+C  X = b1 + b2 * DBH^2 + b3 * ln(DBH) + b4 * PBAL+ b5 * PRD
 C    + b6 * ln(CR) + b7 * ELEV + b8 * SLOPE
 C    + b9 * SLOPE * cos(ASPECT) + b10*ln(SI)
 C
@@ -341,8 +341,8 @@ C
 C  WHERE:
 C  ADI = Annual diameter increment (in year-1)
 C  DBH = Diameter at breast height (in)
-C  BAL = Plot level basal area in larger trees (ft2 * acre-1)
-C  RD = Relative density (plot Zeide SDI / plot Max SDI – decimal)
+C  PBAL = Plot level basal area in larger trees (ft2 * acre-1)
+C  PRD = Plot Relative density (plot Zeide SDI / plot Max SDI – decimal)
 C  CR = Crown ratio (%)
 C  ELEV = Elevation of plot (ft)
 C  SLOPE = Slope of plot (%)
@@ -408,7 +408,7 @@ C       THESE ARE NOT POINT OR TREE SPECIFIC: ELEVATION, SLOPE, ASPECT
 C
         IF (LPERM) THEN
           SELECT CASE (ISPC)
-            CASE (5:7, 13, 16:23)
+            CASE (4:7, 13, 16:23)
        	      PFCOMP1 = PFEL * TEMEL
      &                + PFSLOP * TEMSLP
      &                + PFSASP * TEMSASP
@@ -430,86 +430,87 @@ C----------
           CR = REAL(ICR(I))
 
 C         BASAL AREA IN LARGER TREES ON THE POINT
-          BAL = PTBALT(I)
+          PBAL = PTBALT(I)
 
 C         RELATIVE DENSITY (ZEIDI) ON THE POINT
 C         CONSTRAIN RD IF NEEDED
           IF (XMAXPT(ITRE(I)).LE.0.0) THEN
-           RDEN = 0.01
+           PRD = 0.01
           ELSE
-           RDEN = ZRD(ITRE(I)) / XMAXPT(ITRE(I))
+           PRD = ZRD(ITRE(I)) / XMAXPT(ITRE(I))
           ENDIF
 C
-C         DIAMETER, BAL, RELATIVE DENSITY (ZEIDI) AND CROWN RATIO
+C         DIAMETER, PBAL, RELATIVE DENSITY (ZEIDI) AND CROWN RATIO
 C         COMPONENTS OF DIAMETER GROWTH EQUATION.
 C         THESE COMPONENTS USE POINT OR TREE SPECIFIC VLUES.
-C
           DGCOMP2 = DGDISQ(ISPC) * D2
      &            + DGLD(ISPC) * LOG(D)
-     &            + DGDBAL(ISPC) * BAL
-     &            + DGRD(ISPC) * RDEN
+     &            + DGDBAL(ISPC) * PBAL
+     &            + DGRD(ISPC) * PRD
      &            + DGLNCR(ISPC) * LOG(CR)
-
+C
+C         ANNUAL DIAMETER GROWTH = exp(X)
+C         X = b1 + b2 * DBH^2 + b3 * ln(DBH) + b4 * PBAL + b5 * PRD
+C             + b6 * ln(CR) + b7 * ELEV + b8 * SLOPE
+C             + b9 * SLOPE * cos(ASPECT) + b10*ln(SI)
+C
+C         DGCOMP2 INCLUDES: b2, b3, b4, b5, b6
+C         DGCOMP1 INCLUDES: b7, b8, b9, b10 
+          BASEDG = (EXP(DGCONB1(ISPC) + DGCOMP2 + DGCOMP1))
+C
 C         IF PRESENCE OF PERMAFROST IS TRUE, SET UP SECOND COMPONENTS
 C         OF MODIFIER VARIABLES FOR PERMAFROST AFFECTED SPECIES. 
 C         THESE ARE POINT AND TREE SPECIFIC:
 C         DIAMETER, POINT BAL, POINT RELATIVE DENSITY (ZEIDI) AND
 C         CROWN RATIO
 C
-          IF (LPERM) THEN
-            SELECT CASE (ISPC)
-            CASE (5:7, 13, 16:23)
-
+C         COMPUTE PERMAFROST MODIFIER BY COMPUTING THE NUMERATOR WITH 
+C         THE EQUATION BELOW. NUMERATOR INCLUDES PERM FACTOR WHEN 
+C         PERMAFROST IS TURNED ON FOR AFFECTED SPECIES. NUMERATOR
+C         DOES NOT INCLUDE PERM FACTOR WHEN TURNED OFF FOR AFFECTED 
+C         SPECIES. 
+C
+C         ADI = exp(X)
+C
+C         X = b1 + PERM + b2 * DBH2 + b3 * ln(DBH) + b4 * PBAL
+C             + b5 * PRD + b6 * ln(CR) + b7 * ELEV + b8 * SLOPE
+C             + b9 * SLOPE * cos(ASPECT)
+C         WHERE:
+C         ADI = Annual diameter increment (in year-1)
+C         PERM = permafrost presence variable
+C         DBH = Diameter at breast height (in)
+C         PBAL = Plot level basal area in larger trees (ft2 * acre-1)
+C         PRD = Relative density (plot Zeide SDI / plot Max SDI - decimal)
+C         CR = Crown ratio (%)
+C         ELEV = Elevation of plot (ft)
+C         SLOPE = Slope of plot (%)
+C         ASPECT = Aspect of plot (radians)
+          SELECT CASE (ISPC)
+            CASE (4:7, 13, 16:23)
               PFCOMP2 = PFDSQ * D2
-     &                + PFLD(ISPC) * LOG(D)
-     &                + PFDBAL(ISPC) * BAL
-     &                + PFRD(ISPC) * RDEN
-     &                + PFLNCR * LOG(CR)
-C
-C             COMPUTE PERMAFROST MODIFIER BY COMPUTING THE NUMERATOR AND
-C             DENOMINATOR WITH THE EQUATION BELOW. NUMERATOR INCLUDES PERM
-C             FACTOR AND DENOMINATOR DOES NOT. THE RESULTING MODIFIER
-C             SHOULD BE LESS THAN 1.0
-C             IF PERMAFROST IS NOT PRESENT, PFMOD WILL BE 1.0, NO AFFECT.
-C
-C             ADI = exp(X)
-C
-C             X = b1 + PERM + b2 * DBH2 + b3 * ln(DBH) + b4 * BAL
-C               + b5 * RD + b6 * ln(CR) + b7 * ELEV + b8 * SLOPE
-C               + b9 * SLOPE * cos(ASPECT)
-C             WHERE:
-C             ADI = Annual diameter increment (in year-1)
-C             PERM = permafrost presence variable
-C             DBH = Diameter at breast height (in)
-C             BAL = Plot level basal area in larger trees (ft2 * acre-1)
-C             RD = Relative density (plot Zeide SDI / plot Max SDI - decimal)
-C             CR = Crown ratio (%)
-C             ELEV = Elevation of plot (ft)
-C             SLOPE = Slope of plot (%)
-C             ASPECT = Aspect of plot (radians)
-C
-              PFNUMR = (EXP(PFCON(ISPC) + PFPRES + PFCOMP2 + PFCOMP1))
-              PFDENO = (EXP(PFCON(ISPC) + PFCOMP2 + PFCOMP1))
-              PFMOD = PFNUMR / PFDENO
+     &                  + PFLD(ISPC) * LOG(D)
+     &                  + PFDBAL(ISPC) * PBAL
+     &                  + PFRD(ISPC) * PRD
+     &                  + PFLNCR * LOG(CR)
+              IF (LPERM) THEN
+                PFMOD = EXP(PFCON(ISPC) + PFPRES + PFCOMP2 + 
+     &          PFCOMP1)/BASEDG
+                IF (PFMOD.GT.1.0)PFMOD=1.0
+              ELSE
+                PFMOD = EXP(PFCON(ISPC) + PFCOMP2 + 
+     &          PFCOMP1)/BASEDG
+                IF (PFMOD.LT.1.0)PFMOD=1.0
+              ENDIF
             CASE DEFAULT
               PFMOD = 1.0
-            END SELECT
-          ELSE
-            PFMOD = 1.0
-          ENDIF
+          END SELECT
+          IF(DEBUG)WRITE(JOSTND,*)
+     &    'IN DGF, ISPC= ',ISPC,' ISCT= ',I1, ' BASEDG=', BASEDG,
+     &    ' PFMOD= ', PFMOD
 C
-C         ANNUAL DIAMETER GROWTH = exp(X)
-C         X = b1 + b2 * DBH^2 + b3 * ln(DBH) + b4 * BAL + b5 * RD
-C             + b6 * ln(CR) + b7 * ELEV + b8 * SLOPE
-C             + b9 * SLOPE * cos(ASPECT) + b10*ln(SI)
-C
-C         DGCOMP2 INCLUDES: b2, b3, b4, b5, b6
-C         DGCOMP1 INCLUDES: b7, b8, b9, b10 
 C         ANNUAL DIAMETER GROWTH WITH PERMAFROST MODIFIER
 C         EXPANDED TO PERIOD.
-
-          DGPRED =
-     &    YR * (EXP(DGCONB1(ISPC) + DGCOMP2 + DGCOMP1)) * PFMOD
+          DGPRED = YR * BASEDG * PFMOD
      
 C         ADJUST DIAMETER GROWTH BASED ON SPECIES
 C         AD, WI, OH: ASSUME MULTIPLIER OF 0.45
@@ -547,11 +548,11 @@ C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 C----------
           IF(DEBUG) THEN
           WRITE(JOSTND,9001)
-     &       I,ISPC,D,BRAT,BAL,CR,ZRD(ITRE(I)),XMAXPT(ITRE(I)),RDEN,
+     &       I,ISPC,D,BRAT,PBAL,CR,ZRD(ITRE(I)),XMAXPT(ITRE(I)),PRD,
      &       PFMOD,DGPRED,WK2(I)
  9001     FORMAT(' IN DGF I=',I4,'  ISPC=',I3,'  D=',F7.2,' BRAT=',F7.4,
-     &          '  BAL=',F7.2,'  CR=',F7.4,
-     &          '  ZSDI=',F9.3, '  XMAPT =',F9.3, '  RDEN=',F9.3,
+     &          '  PBAL=',F7.2,'  CR=',F7.4,
+     &          '  ZSDI=',F9.3, '  XMAPT =',F9.3, '  PRD=',F9.3,
      &          '  PFMOD=',F7.5,'  DGPRED=',F7.4,'  DDS=',F7.4)
           ENDIF
    10     CONTINUE
