@@ -14,7 +14,7 @@ C Number  V  Code  Common Name         FIA  PLANTS Scientific Name
 C   1        SF   Pacific silver fir  011  ABAM   Abies amabilis
 C   2        AF   subalpine fir       019  ABLA   Abies lasiocarpa
 C   3        YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
-C   4        TA   tamarack            071  LALA   Larix laricina
+C   4     P  TA   tamarack            071  LALA   Larix laricina
 C   5     P  WS   white spruce        094  PIGL   Picea glauca
 C   6     P  LS   Lutz’s spruce            PILU   Picea lutzii
 C   7     P  BE   black spruce        095  PIMA   Picea mariana
@@ -77,11 +77,15 @@ C
 C
       INTEGER I,I1,I2,I3,ISPC,ITFN
 C
-      REAL AGMAX,D,D2,FAHMX
-      REAL FAHMX2,H,MISHGF,POTHTG,SCALE
-      REAL SITAGE,SITHT,TEMHTG,XHT,XSITE
-      REAL B1,B2,B3,B4,B5,B6,ELEVATN
-      REAL PFNUMR,PFDENO,PFMOD
+      REAL D
+      REAL H,MISHGF,POTHTG,SCALE
+      REAL TEMHTG,XHT,XSITE,TEMEL
+      REAL NOPERMH1(MAXSP),NOPERMH2(MAXSP),NOPERMH3(MAXSP)
+      REAL NOPERMH4(MAXSP),NOPERMH5(MAXSP),NOPERMH6(MAXSP)
+      REAL PERMH1(MAXSP),PERMH2(MAXSP),PERMH3(MAXSP)
+      REAL PERMH4(MAXSP),PERMH5(MAXSP),PERMH6(MAXSP)      
+      REAL B1,B2,B3,B4,B5,B6
+      REAL BASEHG,PFHMOD
       REAL HTLO(MAXSP),HTHI(MAXSP),HGBND
       REAL DG10,DGLT,BRAT,BRATIO
 
@@ -89,6 +93,102 @@ C----------
 C  DATA STATEMENTS:
 C----------
 
+C      BASE HG INTERCEPT COEFFICIENTS
+      DATA NOPERMH1/
+     & -2.18236,  -2.18236,  -2.955092, -0.663746, -0.501134,
+     & -0.501134, -0.663746, -2.18236,  -3.19512,  -2.979661,
+     & -2.404892, -2.770793, -0.501134, -0.174905, -0.710501, 
+     & -0.306839, -0.306839, -0.174905, -0.630114, -0.174905,
+     & -0.174905, -0.174905, -0.174905/
+
+C      BASE HG DBH^2 COEFFICIENTS
+      DATA NOPERMH2/
+     & -0.000447, -0.000447, -0.000447, -0.003814, -0.003814,
+     & -0.003814, -0.003814, -0.000447, -0.000447, -0.000447,
+     & -0.000447, -0.000447, -0.003814, -0.003814, -0.003814,
+     & -0.003814, -0.003814, -0.003814, -0.003814, -0.003814,
+     & -0.003814, -0.003814, -0.003814/
+
+C      BASE HG LN(DBH) COEFFICIENTS
+      DATA NOPERMH3/
+     & -0.00488,  -0.00488,   0.125393, 0.176358,  0.209621,
+     &  0.209621,  0.176358, -0.00488,  0.166453,  0.130947, 
+     &  0.044809,  0.099358,  0.209621, -0.051622,  0.396143,
+     &  0.062956,  0.062956, -0.051622, 0.068496, -0.051622,
+     & -0.051622, -0.051622, -0.051622/
+
+C      BASE HG ELEV COEFFICIENTS
+      DATA NOPERMH4/
+     &  0.0,       0.0,       0.0,      -0.000075, -0.000075, 
+     & -0.000075, -0.000075,  0.0,       0.0,       0.0,
+     &  0.0,       0.0,      -0.000075, -0.000075, -0.000075,
+     & -0.000075, -0.000075, -0.000075, -0.000075, -0.000075,
+     & -0.000075, -0.000075, -0.000075/
+
+C      BASE HG LN(SITEINDEX) COEFFICIENTS
+      DATA NOPERMH5/
+     & 0.429243, 0.429243, 0.429243, 0.0,      0.0,
+     & 0.0,      0.0,      0.429243, 0.429243, 0.429243, 
+     & 0.429243, 0.429243, 0.0,      0.0,      0.0,
+     & 0.0,      0.0,      0.0,      0.0,      0.0,
+     & 0.0,      0.0,      0.0/
+     
+C      BASE HG LN(DG) COEFFICIENTS
+      DATA NOPERMH6/
+     & 0.489281, 0.489281, 0.376732, 0.560124, 0.517799,
+     & 0.517799, 0.560124, 0.489281, 0.342411, 0.374658, 
+     & 0.469563, 0.408836, 0.517799, 0.539313, 0.195472,
+     & 0.392915, 0.392915, 0.539313, 0.367413, 0.539313,
+     & 0.539313, 0.539313, 0.539313/
+
+C      HG PERMAFROST MOD INTERCEPT COEFFICIENTS
+      DATA PERMH1/
+     &  0.0,       0.0,       0.0,      -0.661722, -0.509243,
+     & -0.509243, -0.661722,  0.0,       0.0,       0.0,
+     &  0.0,       0.0,      -0.509243,  0.0,       0.0, 
+     & -0.299268, -0.299268, -0.148618, -0.617425, -0.148618,
+     & -0.148618, -0.148618, -0.148618/
+
+C      HG PERMAFROST MOD - PERMFROST EFFECT COEFFICIENTS
+      DATA PERMH2/
+     &  0.0,       0.0,       0.0,      -0.130016, -0.130016,
+     & -0.130016, -0.130016,  0.0,       0.0,       0.0,
+     &  0.0,       0.0,      -0.130016,  0.0,       0.0,
+     & -0.130016, -0.130016, -0.130016, -0.130016, -0.130016,
+     & -0.130016, -0.130016, -0.130016/
+
+C      HG PERMAFROST MOD DBH^2 COEFFICIENTS
+      DATA PERMH3/
+     &  0.0,       0.0,       0.0,      -0.003807, -0.003807,
+     & -0.003807, -0.003807,  0.0,       0.0,       0.0,
+     &  0.0,       0.0,      -0.003807,  0.0,       0.0,
+     & -0.003807, -0.003807, -0.003807, -0.003807, -0.003807,
+     & -0.003807, -0.003807, -0.003807/
+
+C      HG PERMAFROST MOD LN(DBH) COEFFICIENTS
+      DATA PERMH4/
+     & 0.0,        0.0,       0.0,      0.17915,   0.221303,
+     & 0.221303,   0.17915,   0.0,      0.0,       0.0,
+     & 0.0,        0.0,       0.221303, 0.0,       0.0,
+     & 0.057156,   0.057156, -0.075692, 0.060586, -0.075692,
+     & -0.075692, -0.075692, -0.075692/ 
+
+C      HG PERMAFROST ELEV COEFFICIENTS
+      DATA PERMH5/
+     &  0.0,       0.0,       0.0,      -0.000067, -0.000067,
+     & -0.000067, -0.000067,  0.0,       0.0,       0.0,
+     &  0.0,       0.0,      -0.000067,  0.0,       0.0,
+     & -0.000067, -0.000067, -0.000067, -0.000067, -0.000067,
+     & -0.000067, -0.000067, -0.000067/
+
+C      HG PERMAFROST LN(DG) COEFFICIENTS
+      DATA PERMH6/
+     &  0.0,      0.0,      0.0,      0.537482, 0.509459,
+     &  0.509459, 0.537482, 0.0,      0.0,      0.0,
+     &  0.0,      0.0,      0.509459, 0.0,      0.0,
+     &  0.397696, 0.397696, 0.556616, 0.375558, 0.556616,
+     &  0.556616, 0.556616, 0.556616/
+     
 C  LOWER BOUNDING VALUES FOR HTG BOUNDING. THESE VALUES ARE BASED ON THE
 C  99TH PERCENTILE OF HT VALUES OBSERVED IN THE DATASET USED TO FIT 
 C  HEIGHT GROWTH EQUATIONS.
@@ -123,7 +223,7 @@ C----------
 C----------
 C  SCALE ELEVATION TERM REQUIRED FOR HG CALCULATION
 C----------
-      ELEVATN=ELEV*100
+      TEMEL=ELEV*100
 C----------
 C   BEGIN SPECIES LOOP:
 C----------
@@ -145,7 +245,7 @@ C-----------
       IF(DG(I) .LE. 0.)DG(I)=0.0001
       IF (PROB(I).LE.0.) GO TO 161
 
-C CALCULATE INSIDE BARK DIAMETER GROWTH WHICH USED FOR HTG EQUATIONS
+C CALCULATE OUTSIDE BARK DIAMETER GROWTH WHICH USED FOR HTG EQUATIONS
       BRAT = BRATIO(ISPC,D,H)
       DG10 = DGLT/BRAT
 
@@ -155,21 +255,6 @@ C LESS THAN 4.5 FT.
 
       IF(DEBUG)WRITE(JOSTND,*)' I=',I,' ISPC=',ISPC,' D=',D,' BRAT=',
      & BRAT,' DGLT=',DGLT,' DG10=',DG10
-
-C
-      SITAGE = 0.0
-      SITHT = 0.0
-      AGMAX = 0.0
-      FAHMX = 0.0
-      FAHMX2 = 0.0
-      D2 = 0.0
-C      
-cld      CALL FINDAG(I,ISPC,D,D2,H,SITAGE,SITHT,AGMAX,FAHMX,FAHMX2,DEBUG)
-C      
-      IF(DEBUG)WRITE(JOSTND,9050)I,ISP(I),DBH(I),HT(I),ICR(I),
-     &AVH,XSITE,SCALE,XHT,DG(I)
- 9050 FORMAT('IN HTGF 9050 I,ISP,DBH,HT,ICR,AVH,XSITE,SCALE,XHT,DG=',
-     &2I5,2F10.2,I5,5F8.3)
 
 C----------
 C  CALCULATE HEIGHT GROWTH FOR ALL SPECIES
@@ -197,8 +282,8 @@ C  LOAD HG COEFFICIENTS FOR SPECIES
       B4=NOPERMH4(ISPC)
       B5=NOPERMH5(ISPC)
       B6=NOPERMH6(ISPC)
-      POTHTG=EXP(B1 + B2*D**2 + B3*LOG(D) + B4*ELEVATN +
-     &           B5*LOG(XSITE) + B6*LOG(DG10))*YR
+      BASEHG=EXP(B1 + B2*D**2 + B3*LOG(D) + B4*TEMEL +
+     &           B5*LOG(XSITE) + B6*LOG(DG10))
 
 C----------
 C  CALCULATE PERMAFROST HEIGHT GROWTH MODIFIER IF LPERM IS TRUE
@@ -220,32 +305,33 @@ C  ELEV: ELEVATION OF THE STAND
 C  DG10: 10 YEAR OUTSIDE BARK DIAMETER GROWTH.
 C----------
 
-      IF(LPERM) THEN
-        SELECT CASE (ISPC)
-        CASE (5:7, 13, 16:23)
+      SELECT CASE (ISPC)
+        CASE (4:7, 13, 16:23)
           B1=PERMH1(ISPC)
           B2=PERMH2(ISPC)
           B3=PERMH3(ISPC)
           B4=PERMH4(ISPC)
           B5=PERMH5(ISPC)
           B6=PERMH6(ISPC)
-
-C  NUMERATOR OF PFMOD
-          PFNUMR=EXP(B1 + B2 + B3*(D)**2 + B4*LOG(D) + 
-     &               B5*ELEVATN + B6*LOG(DG10))*YR
-
-C  DENOMINATOR OF PFMOD
-          PFDENO=EXP(B1 + B3*(D)**2 + B4*LOG(D) + B5*ELEVATN +
-     &               B6*LOG(DG10))*YR
-
-C  CALCULATE PFMOD
-          PFMOD=PFNUMR/PFDENO
+          IF(LPERM) THEN
+            PFHMOD=EXP(B1 + B2 + B3*(D)**2 + B4*LOG(D) + 
+     &             B5*TEMEL + B6*LOG(DG10))/BASEHG
+            IF (PFHMOD.GT.1.0)PFHMOD=1.0
+          ELSE
+            PFHMOD=EXP(B1 + B3*(D)**2 + B4*LOG(D) + B5*TEMEL +
+     &             B6*LOG(DG10))/BASEHG
+            IF (PFHMOD.LT.1.0)PFHMOD=1.0
+          ENDIF
         CASE DEFAULT
-          PFMOD = 1.0
-        END SELECT
-      ELSE
-        PFMOD = 1.0
-      ENDIF
+          PFHMOD = 1.0
+      END SELECT
+      IF(DEBUG)WRITE(JOSTND,*)
+     &    'IN HTGF, ISPC= ',ISPC,' ISCT= ',I1, ' BASEHG=', BASEHG,
+     &    ' PFHMOD= ', PFHMOD
+
+C     ANNUAL HEIGHT GROWTH WITH PERMAFROST MODIFIER
+C     EXPANDED TO PERIOD.      
+      POTHTG = YR * BASEHG * PFHMOD
 
 C  ADJUST HEIGHT GROWTH BASED ON SPECIES
 C  AD, WI, OH: ASSUME MULTIPLIER OF 0.45
@@ -260,12 +346,10 @@ C  ALL OTHER SPECIES: ASSUME A MULTIPLIER OF 1.00
           POTHTG = POTHTG * 1.00
       END SELECT
 
-      POTHTG = POTHTG * PFMOD
-
       IF(DEBUG) WRITE(JOSTND,9)
-     & I, ISPC, DBH(I), HT(I), ELEVATN, XSITE, DG10, PFMOD, POTHTG
+     & I, ISPC, DBH(I), HT(I), TEMEL, XSITE, DG10, PFHMOD, POTHTG
     9 FORMAT(' IN HTGF: I=',I5,' ISPC=',I5,' DBH=',F7.4,' HT=',F8.4,
-     & ' ELEVATN=',F7.2,' XSITE=',F7.2, ' DG10=',F7.4, ' PFMOD=',F7.4,
+     & ' TEMEL=',F7.2,' XSITE=',F7.2, ' DG10=',F7.4, ' PFHMOD=',F7.4,
      & ' POTHTG=',F8.4)
 
 C----------
