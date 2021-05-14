@@ -112,7 +112,7 @@ C----------
       LOGICAL DEBUG
       INTEGER I ,I1, I2, I3, ISPC, IWHO
 
-      REAL PBAL,BRAT,BRATIO,CONSPP,CR,D,XMAX
+      REAL PBAL,BRAT,BRATIO,CR,D,XMAX
 
       REAL SSITE,TEMEL
 
@@ -120,7 +120,7 @@ C----------
      &     DGLD(MAXSP), DGLNCR(MAXSP), DGLNSI(MAXSP), DGRD(MAXSP),
      &     DGSASP(MAXSP), DGSLOP(MAXSP)
       REAL A, B, D2, DGCOMP1, DGCOMP2, DGPRED, DHI, DLO, PRD,
-     &     SDICS, SDICZ, TEMSLP, TEMSASP, ZRD(MAXPLT)
+     &     SDICS, SDICZ, TEMSLP, TEMSASP, ZRD(MAXPLT), DDS
 
       REAL PFPRES, PFCON(MAXSP), PFDBAL(MAXSP), PFDSQ, PFEL, 
      &     PFLD(MAXSP), PFLNCR, PFRD(MAXSP), PFSASP, PFSLOP
@@ -370,7 +370,7 @@ C
       IF(DEBUG)WRITE(JOSTND,*) 'IN DGF, CALL SDICLS - POINT COUNT ',I2
       DO I1 = 1, I2
          CALL SDICLS (ISPC,DLO,DHI,IWHO,SDICS,SDICZ,A,B,I1)
-         IF(DEBUG)WRITE(JOSTND,*) 'IN DGF, POINT ',I1,' SDICZ= ',SDICZ
+         IF(DEBUG)WRITE(JOSTND,*) ' POINT ',I1,' SDICZ= ',SDICZ
          ZRD(I1) = SDICZ
       END DO
       
@@ -378,18 +378,16 @@ C     SET ELEVATION, SLOPE, AND ASPECT VALUES
       TEMEL = ELEV * 100.0
       TEMSLP = SLOPE * 100.0
       TEMSASP = TEMSLP * COS(ASPECT)
-
 C----------
 C  BEGIN SPECIES LOOP.  ASSIGN VARIABLES WHICH ARE SPECIES DEPENDENT
 C----------
       DO ISPC=1,MAXSP
         I1=ISCT(ISPC,1)
         IF(DEBUG)WRITE(JOSTND,*)
-     &    'IN DGF, TOP OF SPECIES LOOP, ISPC= ',ISPC,' ISCT= ',I1
+     &    ' TOP OF SPECIES LOOP, ISPC= ',ISPC,' ISCT= ',I1
         IF(I1.EQ.0) GO TO 20
         I2=ISCT(ISPC,2)
         SSITE = SITEAR(ISPC)
-        CONSPP= DGCONB1(ISPC) + COR(ISPC)
 C
 C       ELEVATION, SLOPE, ASPECT AND SITE INDEX COMPONENT OF
 C       DIAMETER GROWTH EQUATION
@@ -401,23 +399,24 @@ C
      &          + DGSLOP(ISPC) * TEMSLP
      &          + DGSASP(ISPC) * TEMSASP
      &          + DGLNSI(ISPC) * LOG(SSITE)
-
+        
 C       IF PRESENCE OF PERMAFROST IS TRUE, SET UP FIRST COMPONENTS
 c       OF MODIFIER VARIABLES FOR PERMAFROST AFFECTED SPECIES. 
 C       THESE ARE NOT POINT OR TREE SPECIFIC: ELEVATION, SLOPE, ASPECT
 C
-        IF (LPERM) THEN
-          SELECT CASE (ISPC)
-            CASE (4:7, 13, 16:23)
-       	      PFCOMP1 = PFEL * TEMEL
-     &                + PFSLOP * TEMSLP
-     &                + PFSASP * TEMSASP
-            CASE DEFAULT
-              PFCOMP1 = 0.0
+        SELECT CASE (ISPC)
+          CASE (4:7, 13, 16:23)
+       	    PFCOMP1 = PFEL * TEMEL
+     &              + PFSLOP * TEMSLP
+     &              + PFSASP * TEMSASP
+          CASE DEFAULT
+            PFCOMP1 = 0.0
           END SELECT
-        ELSE
-          PFCOMP1 = 0.0
-        ENDIF
+
+        IF(DEBUG)WRITE(JOSTND,*)
+     &  '  SPECIES VARIABLES, TEMEL=',TEMEL,' TEMSLP=',TEMSLP,
+     &  ' ASPECT=',ASPECT,' TEMSASP=',TEMSASP,' SSITE=',SSITE,
+     &  ' LOG(SSITE)=',LOG(SSITE)
 
 C----------
 C  BEGIN TREE LOOP WITHIN SPECIES ISPC.
@@ -425,6 +424,8 @@ C----------
         DO I3=I1,I2
           I = IND1(I3)
           D = DIAM(I)
+          IF(DEBUG)WRITE(JOSTND,*)
+     &    ' TOP OF TREE LOOP, I= ',I,' D= ',D          
           IF (D.LE.0.0) GOTO 10
           D2 = D*D
           CR = REAL(ICR(I))
@@ -448,6 +449,9 @@ C         THESE COMPONENTS USE POINT OR TREE SPECIFIC VLUES.
      &            + DGDBAL(ISPC) * PBAL
      &            + DGRD(ISPC) * PRD
      &            + DGLNCR(ISPC) * LOG(CR)
+          IF(DEBUG)WRITE(JOSTND,*)
+     &    '  TREE VARIABLES, D^2=',D2,' LOG(D)=',LOG(D),
+     &    ' PBAL=',PBAL,' PRD=',PRD,' CR=',CR,' LOG(CR)=',LOG(CR)
 C
 C         ANNUAL DIAMETER GROWTH = exp(X)
 C         X = b1 + b2 * DBH^2 + b3 * ln(DBH) + b4 * PBAL + b5 * PRD
@@ -457,6 +461,10 @@ C
 C         DGCOMP2 INCLUDES: b2, b3, b4, b5, b6
 C         DGCOMP1 INCLUDES: b7, b8, b9, b10 
           BASEDG = (EXP(DGCONB1(ISPC) + DGCOMP2 + DGCOMP1))
+
+          IF(DEBUG)WRITE(JOSTND,*)
+     &    '  BASEDG EQN, DGCONB1=',DGCONB1(ISPC),' DGCOMP1=',DGCOMP1,
+     &    ' DGCOMP2=', DGCOMP2,' BASEDG=',BASEDG
 C
 C         IF PRESENCE OF PERMAFROST IS TRUE, SET UP SECOND COMPONENTS
 C         OF MODIFIER VARIABLES FOR PERMAFROST AFFECTED SPECIES. 
@@ -505,8 +513,8 @@ C         ASPECT = Aspect of plot (radians)
               PFMOD = 1.0
           END SELECT
           IF(DEBUG)WRITE(JOSTND,*)
-     &    'IN DGF, ISPC= ',ISPC,' ISCT= ',I1, ' BASEDG=', BASEDG,
-     &    ' PFMOD= ', PFMOD
+     &    '  PF MODIFIER, PFCON=',PFCON(ISPC),' PFPRES=',PFPRES,  
+     &    ' PFCOMP1',PFCOMP1,' PFCOMP2',PFCOMP2,' PFMOD= ', PFMOD
 C
 C         ANNUAL DIAMETER GROWTH WITH PERMAFROST MODIFIER
 C         EXPANDED TO PERIOD.
@@ -524,14 +532,9 @@ C         ALL OTHER SPECIES: ASSUME A MULTIPLIER OF 1.00
             CASE DEFAULT
               DGPRED = DGPRED * 1.00
           END SELECT
-
-C          IF(DEBUG) WRITE(JOSTND,8000) ISPC, D, DGPRED
-          IF(DEBUG) WRITE(JOSTND,8000) ISPC, D, DGCONB1(ISPC), DGPRED,
-     &    DGCOMP2, DGCOMP1, SSITE, FINT
-C 8000     FORMAT('IN DGF ISPC, D, DGPRED= ',I3,2F12.5)
- 8000     FORMAT('IN DGF ISPC, D, B1, DGPRED, DGCOMP2, ',
-     &           'DGCOMP1, SSITE, FINT,= ',
-     &           I3,7F15.5)
+          
+          IF(DEBUG)WRITE(JOSTND,*)
+     &    '  YR=',YR,' DGPRED=',DGPRED
 
 C         CONVERT OUTSIDE BARK DIAMETER INCREMENT TO INSIDE BARK
 C         CHANGE IN SQUARED DIAMETERS AND LOAD INTO WK2 ARRAY.
@@ -541,20 +544,18 @@ C
           DUP = D + DGPRED                            ! WITH GROWTH DOB
           TEMPD2 = DUP * BRAT                         ! WITH GROWTH DIB
 
-C         LOG OF CHANGE IN DIB SQUARED FOR THE PERIOD
-          WK2(I) = LOG(TEMPD2**2 - TEMPD1**2)         ! CHANGE IN DIB
+C         LOG OF CHANGE IN DIB SQUARED FOR THE PERIOD WITH CALIBRATION
+C         (COR) AND READCORD ADJUSTMENT FROM DGCON.
+          DDS = LOG(TEMPD2**2 - TEMPD1**2)+COR(ISPC)+DGCON(ISPC)         ! CHANGE IN DIB
+          IF(DDS.LT.-9.21) DDS=-9.21
+          WK2(I)=DDS
 C----------
 C  END OF TREE LOOP.  PRINT DEBUG INFO IF DESIRED.
 C----------
-          IF(DEBUG) THEN
-          WRITE(JOSTND,9001)
-     &       I,ISPC,D,BRAT,PBAL,CR,ZRD(ITRE(I)),XMAXPT(ITRE(I)),PRD,
-     &       PFMOD,DGPRED,WK2(I)
- 9001     FORMAT(' IN DGF I=',I4,'  ISPC=',I3,'  D=',F7.2,' BRAT=',F7.4,
-     &          '  PBAL=',F7.2,'  CR=',F7.4,
-     &          '  ZSDI=',F9.3, '  XMAPT =',F9.3, '  PRD=',F9.3,
-     &          '  PFMOD=',F7.5,'  DGPRED=',F7.4,'  DDS=',F7.4)
-          ENDIF
+          IF(DEBUG)WRITE(JOSTND,*)
+     &    ' END OF TREE LOOP, BRAT=',BRAT,' TEMPD1=',TEMPD1,' DUP=',DUP,
+     $    ' TEMPD2=',TEMPD2,' COR=',COR(ISPC),' DGCON(ISPC)',DGCON(ISPC)
+          IF(DEBUG)WRITE(JOSTND,*)' DDS=',DDS,'WK2(I)=',WK2(I)
    10     CONTINUE
         ENDDO
 C----------
