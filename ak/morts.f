@@ -417,12 +417,12 @@ C----------
         IF (DEBUG) THEN
           PRES=PROB(I)-WK2(I)
           VLOS=WK2(I)*CFV(I)/FINT
-          WRITE(JOSTND,9000) I,ISPC,DBH(I),G1(I),BA,PROB(I),
+          WRITE(JOSTND,9000) I,ISP(I),DBH(I),G1(I),BA,PROB(I),
      &    WK2(I),PRES,VLOS
  9000     FORMAT('IN MORTS, I=',I4,',  ISPC=',I3,',  DBH=',F7.2,
      &    ',  DBH INCREMENT=',F7.4,',  BA=',F7.2,
      &    ',  INIT PROB=',F9.3/
-     &    ', TREES DYING=',F9.3,'  RES PROB=',F9.3,
+     &    ' TREES DYING=',F9.3,'  RES PROB=',F9.3,
      &    ',  VOL LOST=',F9.3)
         ENDIF
       ENDDO
