@@ -49,7 +49,7 @@ C
             IF(DSTMP.LT.6.0)THEN
               PREM = PREM * 0.92
             ELSE IF(DSTMP.GE.6.0.AND.DSTMP.LT.9.0)THEN
-              PREM = PREM * (-0.13333) * DSTMP + 1.70
+              PREM = PREM * (-0.13333 * DSTMP + 1.70)
             ELSE
               PREM = PREM * 0.50
             ENDIF
