@@ -1,0 +1,235 @@
+Subject: Consolidation of TWIGS volume subroutines
+         Consolidation of subroutines with a /base version and a /ls version
+
+Name: Gary Dixon
+
+Date: 10/01/2018
+
+Variants affected: all
+
+Description: Changes documented in bulletin 2018.09.10_gdixon.txt included condensing subroutines for which there was 
+             a /base version used in western variants and sometimes the SN variant, and a /ls version used in the CS, 
+             LS, NE, and sometimes SN variants, were combined into a single version and stored in /vbase. The versions
+             of these subroutines used in the Canadian and US metric variants were similarly updated.
+             
+             Variant-specific source code subroutines associated with computing volumes using equations from the 
+             TWIGS variants have been consolidated into /vvolume/twigbf.f and /vvolume/twigcf.f that now get used
+             by all variants.
+
+Impact on users: None
+
+Files:
+/base
+   extwigvol.f  Deleted. See /vvolume/twigbf.f and twigcf.f descriptions.
+
+/bin
+FVSak_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSbm_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSbmx_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSca_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSci_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVScix_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVScr_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVScrx_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVScs_sourceList.txt   Replaced /cs/twigbf.f and /cs/twigcf.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSec_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSecx_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSem_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSemx_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSie_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSiex_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSkt_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSktx_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSls_sourceList.txt   Replaced /ls/twigbf.f and /ls/twigcf.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSnc_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSne_sourceList.txt   Replaced /ne/twigbf.f and /ne/twigcf.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSoc_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSop_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSpn_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSpnx_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSsn_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSso_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSsox_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVStt_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSttx_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSut_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSutx_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSwc_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+FVSws_sourceList.txt   Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSak_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSbm_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSca_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSci_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVScr_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVScs_sourceList.txt   Replaced /cs/twigbf.f and /cs/twigcf.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSec_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSem_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSie_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSkt_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSls_sourceList.txt   Replaced /ls/twigbf.f and /ls/twigcf.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSnc_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSne_sourceList.txt   Replaced /ne/twigbf.f and /ne/twigcf.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSoc_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSop_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSpn_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSsn_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSso_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVStt_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSut_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSwc_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+qFVSws_sourceList.txt  Replaced /base/extwigvol.f with /vvolume/twigbf.f and /vvolume/twigcf.f.
+
+/canada/bc
+      prtexm.f  Deleted.
+
+      prtrls.f  Deleted.
+
+      sumhed.f  Deleted.
+
+      sumout.f  Deleted
+
+/canada/bin
+   FVSbcc_notReady.txt
+      gheads.f  Changed to use /metric/vbase version instead of /metric/base version.
+
+      prtexm.f  Changed to use /metric/vbase version instead of /canada/bc version.
+
+      prtrls.f  Changed to use /metric/vbase version instead of /canada/bc version.
+
+       ptbal.f  Changed to use /vbase version instead of /base version.
+
+      sumhed.f  Changed to use /metric/vbase version instead of /canada/bc version.
+
+      sumout.f  Changed to use /metric/vbase version instead of /canada/bc version.
+
+  FVSon_sourceList.txt
+      gheads.f  Changed to use /metric/vbase version instead of /metric/ls version.
+
+      prtexm.f  Changed to use /metric/vbase version instead of /canada/on version.
+
+      prtrls.f  Changed to use /metric/vbase version instead of /metric/ls version.
+
+       ptbal.f  Changed to use /vbase version instead of /ls version.
+
+      sumhed.f  Changed to use /metric/vbase version instead of /canada/on version.
+
+      sumout.f  Changed to use /metric/vbase version instead of /canada/on version.
+
+/canada/on
+      prtexm.f  Deleted.
+
+      sumhed.f  Deleted.
+
+      sumout.f  Deleted
+
+/changenotes
+  2018.09.10_gdixon.txt  A spelling error was corrected in this document.
+
+/cs
+      twigbf.f  Deleted. See /vvolume/twigbf.f description.
+
+      twigcf.f  Deleted. See /vvolume/twigcf.f description.
+
+/ls
+      twigbf.f  Deleted. See /vvolume/twigbf.f description.
+
+      twigcf.f  Deleted. See /vvolume/twigcf.f description.
+
+/metric/base
+      gheads.f  Deleted
+
+      sumhed.f  Deleted
+
+      sumout.f  Deleted
+
+/metric/ls
+      gheads.f  Deleted
+
+      prtrls.f  Deleted
+
+/metric/vbase   New folder
+      gheads.f  Combined version of old metric/ls and metric/base versions.
+
+      prtexm.f  Combined version of old /canada/on and /canada/bc versions.
+
+      prtrls.f  Combined version of old metric/ls and /canada/bc versions.
+
+      sumhed.f  Combined version of /vbase and /canada/on and /canada/bc versions.
+
+      sumout.f  Combined version of /vbase, /metric/base, /canada/on, and /canada/bc versions.
+
+/ne
+      twigbf.f  Deleted. See /vvolume/twigbf.f description.
+
+      twigcf.f  Deleted. See /vvolume/twigcf.f description.
+
+/vbase
+      prtexm.f  Added a missing return code check for the Eastern Variants.
+
+      prtrls.f  Corrected the write list for eastern variants when the trees/acre value is greater than or equal to
+                10,000.
+
+       ptbal.f  Added the Canadian Ontario variant to one of the CASE statements.
+
+
+/vvolume
+      twigbf.f  New subroutine combining the /cs, /ls, and /ne versions of this subroutine along with the board-foot
+                portion of /base/extwigvol.f subroutine.
+
+      twigcf.f  New subroutine combining the /cs, /ls, and /ne versions of this subroutine along with the cubic-foot
+                portion of /base/extwigvol.f subroutine.
+

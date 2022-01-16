@@ -1,0 +1,723 @@
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:36
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+                                                 OPTIONS SELECTED BY INPUT
+
+ KEYWORD FILE NAME: ClearCutPretend.key
+ ----------------------------------------------------------------------------------------------------------------------------------
+ KEYWORD    PARAMETERS:
+ --------   -----------------------------------------------------------------------------------------------------------------------
+
+ STDIDENT
+            STAND ID= Clearcut_Volume_Test              Checks that all cut FVS volumes (by log) are accounted for by ECON.     
+
+
+            *Pretend clearcut everything every year with volume computed by individual log.
+
+ SCREEN     SUMMARY TABLE WILL BE PRINTED TO DATA SET REFERENCE NUMBER     6 AS RUN PROGRESSES.
+
+ INVYEAR    INVENTORY YEAR= 2004
+
+            HABITAT TYPE WILL BE MAPPED TO 530 FOR THIS PROJECTION.
+
+ STDINFO    FOREST-LOCATION CODE=     118; HABITAT TYPE=530; AGE=    0; ASPECT AZIMUTH IN DEGREES=   0.; SLOPE=   0.%
+            ELEVATION(100'S FEET)= 30.0; REFERENCE CODE=     
+
+ DESIGN     BASAL AREA FACTOR=   40.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
+            NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
+            PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+            SEE "OPTIONS SELECTED BY DEFAULT" FOR FINAL DESIGN VALUES.
+
+ NUMCYCLE   NUMBER OF CYCLES= 10
+
+
+            *Turn off any ingrowth and natural regeneration
+
+ ESTAB      REGENERATION ESTABLISHMENT OPTIONS:
+
+ NOAUTALY   TALLIES WILL NOT BE ADDED AUTOMATICALLY.
+
+ NOINGROW   INGROWTH WILL NOT BE ADDED AUTOMATICALLY.
+
+ END        END OF ESTABLISHMENT KEYWORDS
+
+ THINDBH    DATE/CYCLE=    0; MINIMUM DBH=     0.0; MAXIMUM DBH=   999.0; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+
+
+            *Begin ECON Extension keywords
+
+ ECON       ECONOMIC EXTENSION KEYWORDS:
+
+ STRTECON   ECON START YEAR/CYCLE:    1, DISCOUNT RATE:  4.0%, Known SEV: $ , SEV will be computed: FALSE
+
+
+            *Make all harvest "pretend" harvests
+
+ PRETEND    PRETEND MODE STARTS YEAR/CYCLE:    1, CONTINUING FOR 999 YEARS 
+
+ ANNUCST    ANNUAL COST OF $   3.00 WILL BE APPLIED FOR: Mgmt Cost.
+
+ HRVVRCST   HARVEST COST: $  90. PER 1000 BF-TREE, FOR TREES >=   6.0 AND <  12.0 INCHES DBH.
+
+ HRVVRCST   HARVEST COST: $  70. PER 1000 BF-TREE, FOR TREES >=  12.0 AND <  16.0 INCHES DBH.
+
+ HRVVRCST   HARVEST COST: $  50. PER 1000 BF-TREE, FOR TREES >=  16.0 AND <  22.0 INCHES DBH.
+
+ HRVVRCST   HARVEST COST: $  30. PER 1000 BF-TREE, FOR TREES >=  22.0 AND < 999.0 INCHES DBH.
+
+ HRVRVN     HARVEST PRICE: $   1. PER REMOVED TPA >=  0.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $  10. PER 1000 BF-LOGS >=  0.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $ 100. PER 100 Ft3-LOGS >=  0.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ END        END ECONOMIC EXTENSION KEYWORDS.
+
+
+            *End ECON Extension keywords
+
+ TREEDATA   DATA SET REFERENCE NUMBER= 15
+
+ PROCESS    PROCESS THE STAND.
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+                                                 OPTIONS SELECTED BY DEFAULT
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ TREEFMT    (I4,T1,I7,F6.0,I1,A3,F4.1,F3.1,2F3.0,F4.1,I1,3(I2,I2),2I1,I2,2I3,2I1,F3.0)      
+                                                                                            
+
+ DESIGN     BASAL AREA FACTOR=   40.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
+            NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
+            PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+
+ STDINFO    FOREST-LOCATION CODE=     118; HABITAT TYPE=530; AGE=    0; ASPECT AZIMUTH IN DEGREES=   0.; SLOPE=   0.%
+            ELEVATION(100'S FEET)= 30.0;  REFERENCE CODE=     
+
+ SPECIES      WP      WL      DF      GF      WH      RC      LP      ES      AF      PP
+ SDI MAX     949.    949.    949.    949.    949.    949.    949.    949.    949.    949.
+
+ SPECIES      MH      WB      LM      LL      PI      RM      PY      AS      CO      MM
+ SDI MAX     949.    949.    949.    949.    949.    949.    949.    949.    949.    949.
+
+ SPECIES      PB      OH      OS
+ SDI MAX     949.    949.    949.
+
+                                   NATIONAL VOLUME ESTIMATOR LIBRARY EQUATION NUMBERS
+ SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT 
+ ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- 
+   WP    I00FW2W119 I00FW2W119   WL    I00FW2W073 I00FW2W073   DF    I00FW2W202 I00FW2W202   GF    I00FW2W017 I00FW2W017
+   WH    I00FW2W260 I00FW2W260   RC    I00FW2W242 I00FW2W242   LP    I00FW2W108 I00FW2W108   ES    I00FW2W093 I00FW2W093
+   AF    I00FW2W019 I00FW2W019   PP    I00FW2W122 I00FW2W122   MH    I00FW2W260 I00FW2W260   WB    I00FW2W119 I00FW2W119
+   LM    I00FW2W073 I00FW2W073   LL    I00FW2W019 I00FW2W019   PI    102DVEW106 102DVEW106   RM    102DVEW106 102DVEW106
+   PY    616BEHW231 616BEHW231   AS    200DVEW746 200DVEW746   CO    101DVEW740 101DVEW740   MM    200DVEW746 200DVEW746
+   PB    101DVEW375 101DVEW375   OH    200DVEW746 200DVEW746   OS    I00FW2W260 I00FW2W260
+
+ SITECODE   SITE INDEX INFORMATION:
+             WP=    0.;  WL=    0.;  DF=    0.;  GF=    0.;  WH=    0.;  RC=    0.;  LP=    0.;  ES=    0.; AF=    0.
+             PP=    0.;  MH=    0.;  WB=    0.;  LM=   41.;  LL=    0.;  PI=   15.;  RM=   12.;  PY=   41.; AS=   58.
+             CO=   93.;  MM=   58.;  PB=   58.;  OH=   93.;  OS=    0.
+            SITE SPECIES=DF CODE=    3
+
+ INVENTORY POINT CROSS REFERENCE (FVS SEQUENTIAL POINT NUMBER = POINT NUMBER AS ENTERED IN THE INPUT DATA):
+   1=       1
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+
+                                                      ACTIVITY SCHEDULE
+
+ STAND ID= Clearcut_Volume_Test          MGMT ID= NONE    Checks that all cut FVS volumes (by log) are accounted for by ECON.     
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ CYCLE  DATE  EXTENSION  KEYWORD   DATE  PARAMETERS:
+ -----  ----  ---------  --------  ----  ------------------------------------------------------------------------------------------
+
+    1   2004
+                ECON     STRTECON  2004        4.00      0.00      0.00
+                ECON     PRETEND   2004      999.00
+                BASE     THINDBH   2004        0.00    999.00      1.00      0.00      0.00      0.00
+
+    2   2014
+                BASE     THINDBH   2014        0.00    999.00      1.00      0.00      0.00      0.00
+
+    3   2024
+                BASE     THINDBH   2024        0.00    999.00      1.00      0.00      0.00      0.00
+
+    4   2034
+                BASE     THINDBH   2034        0.00    999.00      1.00      0.00      0.00      0.00
+
+    5   2044
+                BASE     THINDBH   2044        0.00    999.00      1.00      0.00      0.00      0.00
+
+    6   2054
+                BASE     THINDBH   2054        0.00    999.00      1.00      0.00      0.00      0.00
+
+    7   2064
+                BASE     THINDBH   2064        0.00    999.00      1.00      0.00      0.00      0.00
+
+    8   2074
+                BASE     THINDBH   2074        0.00    999.00      1.00      0.00      0.00      0.00
+
+    9   2084
+                BASE     THINDBH   2084        0.00    999.00      1.00      0.00      0.00      0.00
+
+   10   2094
+                BASE     THINDBH   2094        0.00    999.00      1.00      0.00      0.00      0.00
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+
+ CALIBRATION STATISTICS:
+
+
+                                                  DF    WH    RC
+                                                 ----  ----  ----
+
+ NUMBER OF RECORDS PER SPECIES                     18     2     1
+
+ NUMBER OF RECORDS WITH MISSING HEIGHTS             0     0     0
+
+ NUMBER OF RECORDS WITH BROKEN OR DEAD TOPS         0     0     0
+
+ NUMBER OF RECORDS WITH MISSING CROWN RATIOS       18     2     1
+
+ NUMBER OF RECORDS AVAILABLE FOR SCALING
+ THE DIAMETER INCREMENT MODEL                       0     0     0
+
+ RATIO OF STANDARD ERRORS
+ (INPUT DBH GROWTH DATA : MODEL)                 1.00  1.00  1.00
+
+ WEIGHT GIVEN TO THE INPUT GROWTH DATA WHEN
+ DBH GROWTH MODEL SCALE FACTORS WERE COMPUTED    0.00  0.00  0.00
+
+ INITIAL SCALE FACTORS FOR THE
+ DBH INCREMENT MODEL                             1.00  1.00  1.00
+
+ NUMBER OF RECORDS AVAILABLE FOR SCALING
+ THE SMALL TREE HEIGHT INCREMENT MODEL             0     0     0
+
+ INITIAL SCALE FACTORS FOR THE SMALL TREE
+ HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
+
+ NUMBER OF RECORDS WITH MISTLETOE                   0     0     0
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:36
+
+ STAND ID: Clearcut_Volume_Test          MGMT ID: NONE    Checks that all cut FVS volumes (by log) are accounted for by ECON.
+
+
+                                         STAND COMPOSITION (BASED ON STOCKABLE AREA)
+ --------------------------------------------------------------------------------------------------------------------------
+                             PERCENTILE POINTS IN THE
+                      DISTRIBUTION OF STAND ATTRIBUTES BY DBH      TOTAL/ACRE
+         STAND       -----------------------------------------      OF STAND         DISTRIBUTION OF STAND ATTRIBUTES BY
+ YEAR  ATTRIBUTES      10     30     50     70     90    100       ATTRIBUTES       SPECIES AND 3 USER-DEFINED SUBCLASSES
+ ----  -----------   ------ ------ ------ ------ ------ ------   --------------  ------------------------------------------
+                                  (DBH IN INCHES)
+
+
+
+ 2004  TREES           0.1    1.0    3.0    8.0   14.0    19.0     400. TREES     95.% DF1,   3.% RC1,   3.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        10.0   12.0   14.0   16.0   19.0    19.0    4101. CUFT      74.% DF1,  20.% WH1,   7.% RC1,   0.% ---
+         MERCH        10.0   12.0   14.0   16.0   19.0    19.0    3615. CUFT      73.% DF1,  21.% WH1,   7.% RC1,   0.% ---
+         MERCH        10.0   13.0   14.0   16.0   19.0    19.0   19300. BDFT      72.% DF1,  22.% WH1,   6.% RC1,   0.% ---
+
+
+       ACCRETION       8.0   11.0   13.0   15.0   18.0    19.0     122. CUFT/YR   76.% DF1,  15.% WH1,   9.% RC1,   0.% ---
+       MORTALITY       8.0   11.0   13.0   14.0   18.0    19.0      24. CUFT/YR   85.% DF1,  12.% WH1,   3.% RC1,   0.% ---
+
+
+
+ 2014  TREES           0.1    2.3    5.2   11.5   16.4    21.3     305. TREES     94.% DF1,   3.% RC1,   3.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        10.9   13.1   15.6   17.5   20.3    21.3    5075. CUFT      74.% DF1,  19.% WH1,   7.% RC1,   0.% ---
+         MERCH        11.3   13.1   15.6   17.5   20.3    21.3    4496. CUFT      73.% DF1,  20.% WH1,   7.% RC1,   0.% ---
+         MERCH        11.5   13.7   15.6   17.9   20.5    21.3   24765. BDFT      71.% DF1,  22.% WH1,   7.% RC1,   0.% ---
+
+
+       ACCRETION       8.9   12.3   14.8   16.5   19.6    21.3     124. CUFT/YR   75.% DF1,  15.% WH1,  10.% RC1,   0.% ---
+       MORTALITY       8.9   12.0   14.0   15.8   19.3    21.3      32. CUFT/YR   85.% DF1,  12.% WH1,   3.% RC1,   0.% ---
+
+
+
+ 2024  TREES           0.3    4.3    8.6   13.7   17.9    23.4     241. TREES     92.% DF1,   4.% RC1,   4.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        11.9   14.2   16.9   19.0   21.7    23.4    5994. CUFT      73.% DF1,  19.% WH1,   8.% RC1,   0.% ---
+         MERCH        12.4   14.5   16.9   19.0   21.7    23.4    5360. CUFT      73.% DF1,  19.% WH1,   8.% RC1,   0.% ---
+         MERCH        12.4   14.8   17.0   19.3   21.7    23.4   29836. BDFT      71.% DF1,  21.% WH1,   8.% RC1,   0.% ---
+
+
+       ACCRETION       9.8   13.5   16.0   18.7   21.5    23.4     118. CUFT/YR   73.% DF1,  17.% WH1,  11.% RC1,   0.% ---
+       MORTALITY       9.4   13.2   15.2   17.8   20.6    23.4      43. CUFT/YR   85.% DF1,  12.% WH1,   4.% RC1,   0.% ---
+
+
+
+ 2034  TREES           2.1    6.3   11.0   15.3   19.3    24.6     197. TREES     91.% DF1,   5.% RC1,   4.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        13.0   15.3   17.8   20.3   23.0    24.6    6739. CUFT      73.% DF1,  19.% WH1,   9.% RC1,   0.% ---
+         MERCH        13.4   15.3   18.0   20.3   23.0    24.6    6115. CUFT      72.% DF1,  19.% WH1,   9.% RC1,   0.% ---
+         MERCH        13.6   15.9   18.5   20.9   23.0    24.6   34620. BDFT      70.% DF1,  22.% WH1,   9.% RC1,   0.% ---
+
+
+       ACCRETION      11.0   14.5   17.1   19.0   23.0    24.6     124. CUFT/YR   71.% DF1,  16.% WH1,  13.% RC1,   0.% ---
+       MORTALITY      10.3   14.5   16.4   18.8   22.2    24.6      57. CUFT/YR   86.% DF1,  11.% WH1,   4.% RC1,   0.% ---
+
+
+
+ 2044  TREES           3.7    8.9   14.1   16.9   21.2    25.9     163. TREES     89.% DF1,   5.% RC1,   5.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        14.1   16.6   19.5   21.7   24.6    25.9    7410. CUFT      71.% DF1,  19.% WH1,  10.% RC1,   0.% ---
+         MERCH        14.4   16.6   19.5   21.8   24.6    25.9    6797. CUFT      71.% DF1,  19.% WH1,  10.% RC1,   0.% ---
+         MERCH        14.6   16.7   19.9   22.1   24.6    25.9   39062. BDFT      68.% DF1,  22.% WH1,  10.% RC1,   0.% ---
+
+
+       ACCRETION      12.2   16.3   17.8   20.7   23.7    25.9     123. CUFT/YR   70.% DF1,  16.% WH1,  14.% RC1,   0.% ---
+       MORTALITY      10.7   15.6   17.4   20.2   23.5    25.9      60. CUFT/YR   84.% DF1,  12.% WH1,   4.% RC1,   0.% ---
+
+
+
+ 2054  TREES           5.6   10.6   16.0   18.7   23.4    27.7     139. TREES     88.% DF1,   6.% RC1,   6.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        14.9   18.0   20.5   23.0   26.0    27.7    8040. CUFT      70.% DF1,  19.% WH1,  11.% RC1,   0.% ---
+         MERCH        15.8   18.0   20.5   23.3   26.0    27.7    7366. CUFT      70.% DF1,  19.% WH1,  11.% RC1,   0.% ---
+         MERCH        15.9   18.0   21.3   23.4   26.0    27.7   43169. BDFT      67.% DF1,  22.% WH1,  11.% RC1,   0.% ---
+
+
+       ACCRETION      12.3   17.9   18.9   21.9   24.8    27.7     124. CUFT/YR   65.% DF1,  18.% RC1,  17.% WH1,   0.% ---
+       MORTALITY      12.1   16.6   18.5   21.5   24.7    27.7      66. CUFT/YR   83.% DF1,  13.% WH1,   4.% RC1,   0.% ---
+
+
+
+ 2064  TREES           7.1   12.5   17.4   20.4   24.6    29.1     120. TREES     87.% DF1,   7.% RC1,   6.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        15.7   19.8   21.2   24.1   27.3    29.1    8624. CUFT      68.% DF1,  19.% WH1,  12.% RC1,   0.% ---
+         MERCH        15.7   19.8   21.3   24.1   27.3    29.1    7944. CUFT      68.% DF1,  19.% WH1,  13.% RC1,   0.% ---
+         MERCH        16.5   20.1   21.9   24.6   27.3    29.1   47335. BDFT      65.% DF1,  22.% WH1,  13.% RC1,   0.% ---
+
+
+       ACCRETION      13.2   18.8   20.8   23.0   26.9    29.1     110. CUFT/YR   66.% DF1,  18.% RC1,  16.% WH1,   0.% ---
+       MORTALITY      13.2   17.4   20.3   22.7   25.7    29.1      72. CUFT/YR   84.% DF1,  12.% WH1,   4.% RC1,   0.% ---
+
+
+
+ 2074  TREES           8.0   13.8   18.7   21.9   25.8    30.2     104. TREES     86.% DF1,   8.% RC1,   7.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        16.6   21.3   22.6   25.1   28.0    30.2    9004. CUFT      67.% DF1,  19.% WH1,  14.% RC1,   0.% ---
+         MERCH        16.6   21.3   22.6   25.4   28.0    30.2    8324. CUFT      66.% DF1,  20.% WH1,  14.% RC1,   0.% ---
+         MERCH        17.4   21.3   23.0   25.8   28.0    30.2   50637. BDFT      64.% DF1,  22.% WH1,  14.% RC1,   0.% ---
+
+
+       ACCRETION      14.5   20.4   22.3   24.1   27.9    30.2     108. CUFT/YR   63.% DF1,  19.% RC1,  18.% WH1,   0.% ---
+       MORTALITY      13.9   18.7   21.9   24.0   27.9    30.2      81. CUFT/YR   83.% DF1,  13.% WH1,   4.% RC1,   0.% ---
+
+
+
+ 2084  TREES           9.9   15.0   19.4   23.3   27.1    31.0      91. TREES     84.% DF1,   8.% RC1,   7.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        17.3   22.3   23.8   26.2   29.4    31.0    9277. CUFT      65.% DF1,  20.% WH1,  15.% RC1,   0.% ---
+         MERCH        17.3   22.3   23.9   26.5   29.4    31.0    8599. CUFT      65.% DF1,  20.% WH1,  15.% RC1,   0.% ---
+         MERCH        18.1   22.8   24.0   26.7   29.4    31.0   53004. BDFT      62.% DF1,  23.% WH1,  16.% RC1,   0.% ---
+
+
+       ACCRETION      15.1   21.8   23.1   24.8   28.9    31.0     104. CUFT/YR   63.% DF1,  22.% RC1,  15.% WH1,   0.% ---
+       MORTALITY      14.5   19.3   23.1   24.8   28.7    31.0      81. CUFT/YR   83.% DF1,  12.% WH1,   5.% RC1,   0.% ---
+
+
+
+ 2094  TREES          10.9   16.5   21.0   24.7   28.5    31.7      80. TREES     83.% DF1,   9.% RC1,   8.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        18.4   23.5   24.9   27.3   30.2    31.7    9511. CUFT      63.% DF1,  20.% WH1,  17.% RC1,   0.% ---
+         MERCH        18.5   23.5   25.1   27.3   30.2    31.7    8841. CUFT      63.% DF1,  20.% WH1,  17.% RC1,   0.% ---
+         MERCH        19.1   24.0   25.2   27.8   30.2    31.7   55725. BDFT      60.% DF1,  22.% WH1,  18.% RC1,   0.% ---
+
+
+       ACCRETION      15.6   22.7   24.7   25.8   30.1    31.7      98. CUFT/YR   62.% DF1,  23.% RC1,  15.% WH1,   0.% ---
+       MORTALITY      15.6   21.0   24.5   25.9   29.9    31.7      82. CUFT/YR   79.% DF1,  16.% WH1,   5.% RC1,   0.% ---
+
+
+
+ 2104  TREES          12.3   17.7   23.1   26.0   29.9    32.8      71. TREES     81.% DF1,  10.% RC1,   8.% WH1,   0.% ---
+       VOLUME:  
+         TOTAL        19.3   24.4   26.3   28.1   31.1    32.8    9673. CUFT      62.% DF1,  20.% WH1,  19.% RC1,   0.% ---
+         MERCH        19.3   24.4   26.4   28.1   31.1    32.8    9031. CUFT      61.% DF1,  20.% WH1,  19.% RC1,   0.% ---
+         MERCH        20.1   25.0   26.4   28.7   31.1    32.8   57707. BDFT      58.% DF1,  22.% WH1,  20.% RC1,   0.% ---
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:37
+
+ STAND ID: Clearcut_Volume_Test          MGMT ID: NONE    Checks that all cut FVS volumes (by log) are accounted for by ECON.
+
+
+ ------------------------------------------------------------------------------------------------------------------------------
+                      ATTRIBUTES OF SELECTED SAMPLE TREES                 ADDITIONAL STAND ATTRIBUTES (BASED ON STOCKABLE AREA)
+       -----------------------------------------------------------------  -----------------------------------------------------
+       INITIAL                           LIVE   PAST DBH  BASAL   TREES          QUADRATIC   TREES    BASAL  TOP HEIGHT  CROWN
+       TREES/A            DBH    HEIGHT  CROWN   GROWTH   AREA     PER    STAND   MEAN DBH    PER     AREA     LARGEST   COMP
+ YEAR   %TILE  SPECIES (INCHES)  (FEET)  RATIO  (INCHES)  %TILE    ACRE   AGE     (INCHES)    ACRE   (SQFT/A) 40/A (FT)  FACTOR
+ ----  ------- ------- -------- -------- ------ --------- ------- ------  -----  ---------   ------ --------- --------- -------
+
+ 2004                                          ( 10 YRS)
+
+         10     DF1       0.10     1.00    76     0.00      0.0  100.00
+         30     DF1       1.00     5.00    56     0.29      0.2   50.00
+         50     DF1       3.00    15.00    42     0.79      2.1   30.00
+         70     DF1       8.00    60.00    20     0.66     11.0   10.00
+         90     DF1      14.00    89.00    41     2.28     63.8   15.00
+        100     WH1      19.00   103.00    42     2.16    100.0    5.00
+                                                                            0       7.6      400.     127.       94.9    140.0
+
+ 2014                                          ( 10 YRS)
+
+         10     DF1       0.11     2.60    76     0.00      0.0   53.82
+         30     DF1       1.27     7.53    56     0.24      0.1   32.32
+         50     DF1       3.90    20.33    38     0.78      1.9   24.58
+         70     DF1       8.88    65.99    19     0.76     11.1    8.68
+         90     DF1      15.58    95.54    40     1.37     60.8   14.31
+        100     WH1      20.47   108.86    41     1.37     98.0    4.83
+                                                                           10       9.4      305.     148.      101.0    155.2
+
+ 2024                                          ( 10 YRS)
+
+         10     DF1       0.33     5.86    76     0.19      0.0   28.20
+         30     DF1       1.84    11.84    56     0.49      0.1   20.75
+         50     DF1       4.73    25.53    35     0.72      1.8   20.19
+         70     DF1       9.70    72.61    18     0.71     10.2    7.45
+         90     DF1      16.87   101.24    39     1.12     57.8   13.60
+        100     WH1      21.73   114.25    40     1.18     95.6    4.65
+                                                                           20      11.3      241.     166.      106.5    166.8
+
+ 2034                                          ( 10 YRS)
+
+         10     DF1       0.50     7.32    76     0.15      0.0   14.51
+         30     DF1       2.11    13.72    56     0.24      0.1   13.98
+         50     DF1       5.52    29.76    34     0.69      1.8   16.36
+         70     DF1      10.26    77.47    17     0.49     10.2    6.28
+         90     DF1      17.58   105.43    38     0.61     54.4   12.68
+        100     WH1      22.95   119.47    39     1.14     94.1    4.43
+                                                                           30      12.9      197.     179.      111.5    172.7
+
+ 2044                                          ( 10 YRS)
+
+         10     DF1       0.70     8.93    76     0.18      0.0    7.38
+         30     DF1       2.39    15.52    56     0.24      0.1    8.81
+         50     DF1       6.07    35.75    32     0.48      1.7   12.80
+         70     DF1      11.32    83.70    16     0.92      9.8    5.00
+         90     DF1      19.03   111.09    38     1.26     54.8   11.09
+        100     WH1      24.62   125.39    38     1.56     93.9    4.21
+                                                                           40      14.5      163.     188.      117.0    176.1
+
+ 2054                                          ( 10 YRS)
+
+         10     DF1       0.96    10.89    76     0.23      0.0    4.13
+         30     DF1       2.81    18.23    56     0.37      0.1    5.49
+         50     DF1       6.67    42.84    31     0.51      1.9    9.35
+         70     DF1      12.12    88.93    15     0.69      8.8    4.36
+         90     DF1      19.91   115.44    38     0.76     53.2   10.40
+        100     WH1      25.96   130.64    37     1.25     93.9    4.04
+                                                                           50      16.1      139.     195.      121.3    178.0
+
+ 2064                                          ( 10 YRS)
+
+         10     DF1       1.28    13.09    76     0.27      0.0    2.47
+         30     DF1       3.73    23.96    56     0.80      0.1    3.56
+         50     DF1       7.43    48.14    29     0.66      1.3    6.96
+         70     DF1      13.03    94.36    14     0.80      8.3    3.65
+         90     DF1      21.19   120.44    38     1.10     54.4    9.27
+        100     WH1      27.26   135.72    36     1.21     94.8    3.85
+                                                                           60      17.6      120.     201.      126.6    179.1
+
+ 2074                                          ( 10 YRS)
+
+         10     DF1       1.52    14.69    76     0.21      0.0    1.50
+         30     DF1       4.36    27.95    56     0.54      0.1    2.83
+         50     DF1       7.97    53.24    28     0.47      1.1    5.46
+         70     DF1      13.65    98.76    14     0.54      7.8    3.13
+         90     DF1      21.86   124.10    37     0.59     49.3    8.58
+        100     WH1      27.85   139.24    36     0.55     91.0    3.68
+                                                                           70      18.9      104.     203.      131.7    177.1
+
+ 2084                                          ( 10 YRS)
+
+         10     DF1       2.16    18.82    76     0.55      0.0    0.92
+         30     DF1       5.03    33.41    55     0.58      0.1    2.09
+         50     DF1       8.38    57.85    26     0.36      0.7    4.06
+         70     DF1      14.18   102.78    13     0.46      6.0    2.54
+         90     DF1      23.06   128.72    36     1.04     44.8    7.46
+        100     WH1      29.44   144.64    36     1.48     94.9    3.36
+                                                                           80      20.1       91.     202.      135.7    173.7
+
+ 2094                                          ( 10 YRS)
+
+         10     DF1       2.84    23.02    76     0.59      0.0    0.63
+         30     DF1       5.68    40.74    54     0.57      0.1    1.52
+         50     DF1       8.88    62.57    25     0.43      0.5    2.91
+         70     DF1      14.75   106.87    12     0.50      5.2    2.03
+         90     DF1      24.56   133.65    36     1.30     47.6    6.87
+        100     WH1      30.22   148.48    36     0.73     93.3    3.24
+                                                                           90      21.4       80.     201.      139.0    169.9
+
+ 2104                                          ( 10 YRS)
+
+         10     DF1       4.01    29.96    76     1.02      0.0    0.45
+         30     DF1       6.44    45.04    53     0.66      0.1    1.12
+         50     DF1       9.89    68.40    25     0.87      0.6    2.15
+         70     DF1      15.62   111.68    12     0.75      5.2    1.64
+         90     DF1      24.96   136.36    35     0.35     44.0    6.47
+        100     WH1      31.14   152.57    36     0.86     92.7    3.00
+                                                                          100      22.6       71.     198.      142.0    165.8
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:37
+
+ STAND ID: Clearcut_Volume_Test          MGMT ID: NONE    Checks that all cut FVS volumes (by log) are accounted for by ECON.
+
+
+
+                                 SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL STAND AREA)
+ --------------------------------------------------------------------------------------------------------------------------------------
+                START OF SIMULATION PERIOD                     REMOVALS             AFTER TREATMENT    GROWTH THIS PERIOD
+          --------------------------------------------- ----------------------- ---------------------  ------------------   MAI  ------
+          NO OF              TOP      TOTAL MERCH MERCH NO OF TOTAL MERCH MERCH              TOP  RES  PERIOD ACCRE MORT   MERCH FOR SS
+ YEAR AGE TREES  BA  SDI CCF HT  QMD  CU FT CU FT BD FT TREES CU FT CU FT BD FT  BA  SDI CCF HT   QMD  YEARS   PER  YEAR   CU FT TYP ZT
+ ---- --- ----- --- ---- --- --- ---- ----- ----- ----- ----- ----- ----- ----- --- ---- --- --- ----  ------ ---- -----   ----- ------
+ 2004   0   400 127  258 140  95  7.6  4101  3615 19300     0     0     0     0 127  258 140  95  7.6      10  122    24     0.0 201 13
+ 2014  10   305 148  278 155 101  9.4  5075  4496 24765     0     0     0     0 148  278 155 101  9.4      10  124    32     0.0 201 12
+ 2024  20   241 166  291 167 107 11.3  5994  5360 29836     0     0     0     0 166  291 167 107 11.3      10  118    43     0.0 201 12
+ 2034  30   197 179  296 173 111 12.9  6739  6115 34620     0     0     0     0 179  296 173 111 12.9      10  124    57     0.0 201 12
+ 2044  40   163 188  297 176 117 14.5  7410  6797 39062     0     0     0     0 188  297 176 117 14.5      10  123    60     0.0 201 12
+ 2054  50   139 195  297 178 121 16.1  8040  7366 43169     0     0     0     0 195  297 178 121 16.1      10  124    66     0.0 201 12
+ 2064  60   120 201  296 179 127 17.6  8624  7944 47335     0     0     0     0 201  296 179 127 17.6      10  110    72     0.0 201 12
+ 2074  70   104 203  290 177 132 18.9  9004  8324 50637     0     0     0     0 203  290 177 132 18.9      10  108    81     0.0 201 12
+ 2084  80    91 202  281 174 136 20.1  9277  8599 53004     0     0     0     0 202  281 174 136 20.1      10  104    81     0.0 201 12
+ 2094  90    80 201  273 170 139 21.4  9511  8841 55725     0     0     0     0 201  273 170 139 21.4      10   98    82     0.0 201 12
+ 2104 100    71 198  264 166 142 22.6  9673  9031 57707     0     0     0     0 198  264 166 142 22.6       0    0     0     0.0 201 12
+ 
+ 
+
+
+                                                      ACTIVITY SUMMARY 
+
+ STAND ID= Clearcut_Volume_Test          MGMT ID= NONE    Checks that all cut FVS volumes (by log) are accounted for by ECON.     
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ CYCLE  DATE  EXTENSION  KEYWORD   DATE  ACTIVITY DISPOSITION  PARAMETERS:
+ -----  ----  ---------  --------  ----  --------------------  --------------------------------------------------------------------
+
+    1   2004
+                ECON     STRTECON  2004  DONE IN 2004                4.00      0.00      0.00
+                ECON     PRETEND   2004  DONE IN 2004              999.00
+                BASE     THINDBH   2004  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    2   2014
+                BASE     THINDBH   2014  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    3   2024
+                BASE     THINDBH   2024  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    4   2034
+                BASE     THINDBH   2034  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    5   2044
+                BASE     THINDBH   2044  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    6   2054
+                BASE     THINDBH   2054  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    7   2064
+                BASE     THINDBH   2064  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    8   2074
+                BASE     THINDBH   2074  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+    9   2084
+                BASE     THINDBH   2084  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+
+   10   2094
+                BASE     THINDBH   2094  DELETED OR CANCELED         0.00    999.00      1.00      0.00      0.00      0.00
+ ----------------------------------------------------------------------------------------------------------------------------------
+ 
+ 
+ ------------------------------------------------------------------------------------------------------------------------------------
+                                                   FVS/ECON EXTENSION VERSION 1.0
+ STAND ID: Clearcut_Volume_Test        MANAGEMENT CODE: NONE  Checks that all cut FVS volumes (by log) are accounted for by ECON.
+ ------------------------------------------------------------------------------------------------------------------------------------
+ ECONOMIC ANALYSIS SUMMARY REPORT
+ ------------------------------------------------------------------------------------------------------------------------------------
+       INVEST PRETEND UNDISCNTED VALUE   PRESENT VALUE                                   VALUE  VALUE  MRCH   MRCH   DISC
+       -MENT  MODE IS ---------------- ----------------                B/C               OF     OF     CU FT  BD FT  RATE    SEV
+  YEAR PERIOD ACTIVE     COST  REVENUE    COST  REVENUE   PNV    IRR  RATIO   RRR   SEV  FORST  TREES  HARV   HARV   GIVEN  GIVEN
+ ------------------------------------------------------------------------------------------------------------------------------------
+  2004     10  YES       1330     4208    1325     4046  2721  >50.0    3.1  16.3                       3615  19300   4.0
+  2014     20  YES       1648     5049    1115     3279  2164  >50.0    2.9   9.8                       4496  24765   4.0
+  2024     30  YES       1829     5900     848     2589  1741   30.9    3.1   7.9                       5360  29836   4.0
+  2034     40  YES       1978     6658     635     1974  1339   19.3    3.1   7.0                       6115  34620   4.0
+  2044     50  YES       2054     7350     464     1472  1009   14.0    3.2   6.4                       6797  39062   4.0
+  2054     60  YES       2129     7936     345     1074   729   10.8    3.1   6.0                       7366  43169   4.0
+  2064     70  YES       2209     8537     263      780   517    8.8    3.0   5.6                       7944  47335   4.0
+  2074     80  YES       2255     8935     204      552   348    7.4    2.7   5.3                       8324  50637   4.0
+  2084     90  YES       2194     9221     159      385   225    6.3    2.4   5.0                       8599  53004   4.0
+  2094    100  YES       2252     9479     134      267   133    5.5    2.0   4.7                       8841  55725   4.0
+ 
+ 
+ HARVEST VOLUME AND GROSS VALUE REPORT
+ -------------------------------------------------------------------------------------------------------------------
+  YEAR = 2004 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9      380       380                                                      380
+  DF          0.0   999.9                                                                  13850       139       139
+  DF          0.0   999.9                                                2626      2626                         2626
+  WH                         0.0   999.9       10        10                                                       10
+  WH          0.0   999.9                                                                   4250        43        43
+  WH          0.0   999.9                                                 754       754                          754
+  RC                         0.0   999.9       10        10                                                       10
+  RC          0.0   999.9                                                                   1200        12        12
+  RC          0.0   999.9                                                 235       235                          235
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                    400       400              3615      3615    19300       193      4208
+ 
+  YEAR = 2014 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9      286       286                                                      286
+  DF          0.0   999.9                                                                  17581       176       176
+  DF          0.0   999.9                                                3271      3271                         3271
+  WH                         0.0   999.9       10        10                                                       10
+  WH          0.0   999.9                                                                   5366        54        54
+  WH          0.0   999.9                                                 896       896                          896
+  RC                         0.0   999.9       10        10                                                       10
+  RC          0.0   999.9                                                                   1818        18        18
+  RC          0.0   999.9                                                 329       329                          329
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                    305       305              4496      4496    24765       248      5049
+ 
+  YEAR = 2024 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9      222       222                                                      222
+  DF          0.0   999.9                                                                  21250       212       212
+  DF          0.0   999.9                                                3904      3904                         3904
+  WH                         0.0   999.9        9         9                                                        9
+  WH          0.0   999.9                                                                   6241        62        62
+  WH          0.0   999.9                                                1030      1030                         1030
+  RC                         0.0   999.9        9         9                                                        9
+  RC          0.0   999.9                                                                   2346        23        23
+  RC          0.0   999.9                                                 426       426                          426
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                    241       241              5360      5360    29836       298      5900
+ 
+  YEAR = 2034 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9      179       179                                                      179
+  DF          0.0   999.9                                                                  24084       241       241
+  DF          0.0   999.9                                                4394      4394                         4394
+  WH                         0.0   999.9        9         9                                                        9
+  WH          0.0   999.9                                                                   7468        75        75
+  WH          0.0   999.9                                                1176      1176                         1176
+  RC                         0.0   999.9        9         9                                                        9
+  RC          0.0   999.9                                                                   3068        31        31
+  RC          0.0   999.9                                                 545       545                          545
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                    197       197              6115      6115    34620       346      6658
+ 
+  YEAR = 2044 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9      146       146                                                      146
+  DF          0.0   999.9                                                                  26751       268       268
+  DF          0.0   999.9                                                4804      4804                         4804
+  WH                         0.0   999.9        8         8                                                        8
+  WH          0.0   999.9                                                                   8433        84        84
+  WH          0.0   999.9                                                1312      1312                         1312
+  RC                         0.0   999.9        9         9                                                        9
+  RC          0.0   999.9                                                                   3878        39        39
+  RC          0.0   999.9                                                 681       681                          681
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                    163       163              6797      6797    39062       391      7350
+ 
+  YEAR = 2054 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9      122       122                                                      122
+  DF          0.0   999.9                                                                  29065       291       291
+  DF          0.0   999.9                                                5134      5134                         5134
+  WH                         0.0   999.9        8         8                                                        8
+  WH          0.0   999.9                                                                   9400        94        94
+  WH          0.0   999.9                                                1432      1432                         1432
+  RC                         0.0   999.9        9         9                                                        9
+  RC          0.0   999.9                                                                   4704        47        47
+  RC          0.0   999.9                                                 800       800                          800
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                    139       139              7366      7366    43169       432      7936
+ 
+  YEAR = 2064 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9      104       104                                                      104
+  DF          0.0   999.9                                                                  31002       310       310
+  DF          0.0   999.9                                                5406      5406                         5406
+  WH                         0.0   999.9        8         8                                                        8
+  WH          0.0   999.9                                                                  10300       103       103
+  WH          0.0   999.9                                                1542      1542                         1542
+  RC                         0.0   999.9        8         8                                                        8
+  RC          0.0   999.9                                                                   6033        60        60
+  RC          0.0   999.9                                                 996       996                          996
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                    120       120              7944      7944    47335       473      8537
+ 
+  YEAR = 2074 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9       89        89                                                       89
+  DF          0.0   999.9                                                                  32161       322       322
+  DF          0.0   999.9                                                5526      5526                         5526
+  WH                         0.0   999.9        7         7                                                        7
+  WH          0.0   999.9                                                                  11154       112       112
+  WH          0.0   999.9                                                1632      1632                         1632
+  RC                         0.0   999.9        8         8                                                        8
+  RC          0.0   999.9                                                                   7322        73        73
+  RC          0.0   999.9                                                1166      1166                         1166
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                    104       104              8324      8324    50637       506      8935
+ 
+  YEAR = 2084 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9       77        77                                                       77
+  DF          0.0   999.9                                                                  32783       328       328
+  DF          0.0   999.9                                                5562      5562                         5562
+  WH                         0.0   999.9        7         7                                                        7
+  WH          0.0   999.9                                                                  11927       119       119
+  WH          0.0   999.9                                                1725      1725                         1725
+  RC                         0.0   999.9        8         8                                                        8
+  RC          0.0   999.9                                                                   8294        83        83
+  RC          0.0   999.9                                                1312      1312                         1312
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                     91        91              8599      8599    53004       530      9221
+ 
+  YEAR = 2094 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  DF                         0.0   999.9       67        67                                                       67
+  DF          0.0   999.9                                                                  33393       334       334
+  DF          0.0   999.9                                                5569      5569                         5569
+  WH                         0.0   999.9        6         6                                                        6
+  WH          0.0   999.9                                                                  12417       124       124
+  WH          0.0   999.9                                                1772      1772                         1772
+  RC                         0.0   999.9        8         8                                                        8
+  RC          0.0   999.9                                                                   9915        99        99
+  RC          0.0   999.9                                                1500      1500                         1500
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                     80        80              8841      8841    55725       557      9479
+ 

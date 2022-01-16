@@ -1,0 +1,16 @@
+Subject: Interim Updates
+Name:    R. Havis, D. Robinson
+Date:    May 9, 2006
+Variants affected: None - FFE, DBS
+
+Description: These changes are to incorporate development work (Carbon Accounting)
+             from ESSA into the production source code 
+
+Impact on users: None
+
+Files:
+./base/src/sstage.f  - updated comments and removed obsolete code (Nick)
+./dbs/src/DBSCOM.F77
+./dbs/src/dbsin.f
+./fire/base/common/FMFCOM.F77
+./fire/base/src/fmin.f

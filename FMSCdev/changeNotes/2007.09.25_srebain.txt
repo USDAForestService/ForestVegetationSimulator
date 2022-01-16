@@ -1,0 +1,64 @@
+Subject:  Fire and Fuels Extension - Carbon Reporting Updates
+Name: Stephanie Rebain	
+Date: 09/25/2007
+Variants affected:
+all variants with FFE (all variants except CS and AK)
+
+Description:
+1) A new FFE carbon event monitor function was created.
+
+CarbStat(arg1) returns carbon stored in various pools, in whatever units are designated with the CarbCalc keyword.
+The following pools correspond exactly to those reported in the two existing FFE carbon reports.
+
+arg1 = 1 returns the total aboveground live tree carbon
+arg1 = 2 returns the merchantable aboveground live tree carbon
+arg1 = 3 returns the belowground live carbon (roots)
+arg1 = 4 returns the belowground dead carbon (roots of dead or cut trees)
+arg1 = 5 returns the standing dead carbon
+arg1 = 6 returns the down dead wood carbon
+arg1 = 7 returns the forest floor carbon
+arg1 = 8 returns the shrub and herb carbon
+arg1 = 9 returns the total stand carbon
+arg1 = 10 returns the total removed carbon
+arg1 = 11 returns the carbon released from fire
+arg1 = 12 returns the merchantable removed carbon in wood products
+arg1 = 13 returns the merchantable removed carbon in landfills 
+arg1 = 14 returns the merchantable removed carbon emitted with energy capture
+arg1 = 15 returns the merchantable removed carbon emitted without energy capture
+arg1 = 16 returns the merchantable removed stored carbon (products + landfills)
+arg1 = 17 returns the merchantable removed carbon (all categories)
+
+2) An additional option was added to the CarbCalc keyword so that users can output the 
+two carbon reports in metric tons/acre.
+
+CARBCALC  - Set carbon accounting parameters
+Fields 1, 3-5:    same as earlier versions 
+Field 2:          units for output
+                  0 or blank = use imperial units (tons carbon per acre)
+                  1 = use metric units (metric tons carbon per hectare)
+                  2 = use combined units (metric tons carbon per acre)
+                  Default is 0.
+
+3) A bug was fixed in the removed carbon value, as reported in the stand carbon report.
+
+Impact on users:
+This change does not affect numerical output.  However, the headers for the two carbon
+reports were modified.  These changes will be included in Suppose in its next update.
+
+Files:
+fire/base/common/fmfcom.f77 - added new array carbval
+base/src/algkey.f - added the new em function carbstat
+base/src/evldx.f -  added code for the new function
+base/src/algevl.f - added code for the new function
+fire/base/src/fminit.f - initialized carbval to 0
+fire/base/src/fmdout.f - removed return statments so that calculations would always be made,
+                         in case carbstat em function is being used.
+fire/base/src/fmevmon.f - added a new entry point (fmevcarb) for the new em function.
+fire/base/src/fmin.f - added new reporting units option to the CarbCalc keyword
+fire/base/src/fmcrbout.f - added processing of new reporting units option; set carbval
+fire/base/src/fmchrvout.f - added processing of new reporting units option; set carbval
+fire/ppe/src/fmppget.f - added the new common variable
+fire/ppe/src/fmppput.f - added the new common variable
+base/src/exfire.f - added a new entry point for fmevcarb
+fire/base/src/fmscut.f - initialized LVCRWN to 0 
+                         (this was causing problems in runs with more than one stand)

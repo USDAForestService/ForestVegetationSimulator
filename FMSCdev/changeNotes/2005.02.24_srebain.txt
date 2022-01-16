@@ -1,0 +1,22 @@
+Subject: New SimFire Option
+Name: Stephanie Rebain
+Date: February 24, 2005
+Variants affected: All variants with FFE
+
+Description: 
+A new option was added to the SimFire keyword, allowing users to turn off the
+predicted simulated fire mortality.  This is done thru the 5th field on the keyword.
+If field 5 = 1 (the default in FVS and Suppose), FFE will predict simulated 
+fire mortality as usual.  If field 5 = 0, no mortality will be included as part of
+the simulated fire.  Users then have the option of including their own mortality
+predictions, by species and size class, using the FixMort keyword.
+
+Impact on users:
+This should have no impact on previously created simulations.  It simply gives
+users an addition option when simulating fires.
+
+Files:
+fire/base/src/fmeff.f - added a new argument, mkode, that holds whether FFE mortality is turned on or off.
+fire/base/src/fmin.f - added an additional field
+fire/base/src/fmburn.f - set mkode and added it to the call to fmeff
+fire/base/src/fmpofl.f - added the new argument in the call to fmeff

@@ -1,0 +1,742 @@
+Subject: Elimination of PPE code
+         Cleanup of the test keyword and data sets
+         Correction of an error when writing to a database with the new q-family executables.
+
+Name: Gary Dixon
+
+Date: 11/15/2018
+
+Variants affected: all
+
+Description: The Parallel Processing Extension (PPE) was retired several years ago. However, code linking base FVS 
+             with the PPE is scattered throughout the FVS code and was never taken out. As part of modernizing and
+             cleaning up the FVS code, a decision was made to remove PPE code throughout FVS.
+             
+             This effort removes obvious PPE-related code, so the code will compile and link without any
+             PPE common blocks, or the subroutines EXPPNB or EXPPE as part of the link list. Less
+             obvious PPE code, if any remains, will need to be removed as it is encountered.
+             
+             There were a number of inconsistencies in the test keyword files that were causing STOP 10 
+             warnings upon execution. These inconsistencies have been eliminated. Also, order of the 
+             tree data input records had been altered to test certain functionality in FVS and were
+             never put back into order. They have now been put back in order.
+             
+             There was an error in the q-family of executables when writing to a database. This has
+             been fixed.
+
+Impact on users: None
+
+Files:
+/acd
+       dgf.f  Removed the variable XPPDDS and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP. Updated this subroutine to use the variable VARACD
+              as the variant identifier.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/ak
+       dgf.f  Removed the variable XPPDDS and the call to subroutine PPDGF.
+
+     estab.f  Removed the variable LPPE and the calls to subroutines PPEATV and PPLABS.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT and the call to subroutine PPREGT.
+
+/base
+    algcmp.f  Removed PPE comment statements.
+
+    algevl.f  Removed PPE comment statements. Removed the call to subroutine PPLDX.
+
+    algexp.f  Removed PPE comment statements.
+
+    algkey.f  Removed the PPE Event Montior variables 409 = SELECTED, 410 = BRCHWT, 411 = STNDAREA,
+              412 = RDACCESS, 413 = STARTYR, 414 = STANDWT, and 415 = NODES, and the call to
+              subroutine PPKEY.
+
+    ecvols.f  Removed the variables LPPE and CISN, and the calls to subroutines PPLATV and PPISN. Removed
+              write statments associated with PPE runs.
+
+    evalnk.f  Removed a PPE comment statement.
+
+     evldx.f  Removed a PPE comment statement.
+
+     evmon.f  Removed PPE comment statements. Removed the variable LPATV and calls to subroutines PPEATV
+              and PPEVMI.
+
+    evtact.f  Removed a PPE comment statement.
+
+     gradd.f  Removed PPE comment statements. Removed the call to subroutine PPPDEN.
+
+    grincr.f  Removed PPE comment statements. Removed the variable IPH and call to subroutine PPBRPH.
+
+    keyrdr.f  Removed PPE comment statements. Removed the variable L and call to subroutine PPEATV.
+
+    oplist.f  Removed the variables LPPEQN, CLBWID, JOUT, NCNT, and CISN, and the call to subroutine PPEATV. 
+              Removed entry point PPACTS.
+
+    oprdat.f  Removed a PPE comment statement.
+
+    tregro.f  Removed a PPE comment statement.
+
+/bin
+ FVSak_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSbm_sourceList.txt  Removed subroutines ../bm/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSbmx_sourceList.txt  Removed subroutines ../bm/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSca_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSci_sourceList.txt  Removed subroutines ../ci/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVScix_sourceList.txt  Removed subroutines ../ci/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVScr_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVScrx_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVScs_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSec_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSecx_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSem_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSemx_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSie_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSiex_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSkt_sourceList.txt  Removed subroutines ../kt/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSktx_sourceList.txt  Removed subroutines ../kt/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSls_sourceList.txt  Removed subroutines ../ls/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSnc_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSne_sourceList.txt  Removed subroutines ../ls/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSoc_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSop_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSpn_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSpnx_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSsn_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSso_sourceList.txt  Removed subroutines ../so/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSsox_sourceList.txt  Removed subroutines ../so/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVStt_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSttx_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSut_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+FVSutx_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSwc_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+ FVSws_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSak_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSbm_sourceList.txt  Removed subroutines ../bm/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSca_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSci_sourceList.txt  Removed subroutines ../ci/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVScr_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVScs_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSec_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSem_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSie_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSkt_sourceList.txt  Removed subroutines ../kt/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSls_sourceList.txt  Removed subroutines ../ls/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSnc_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSne_sourceList.txt  Removed subroutines ../ls/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSoc_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSop_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSpn_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSsn_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSso_sourceList.txt  Removed subroutines ../so/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVStt_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSut_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSwc_sourceList.txt  Removed subroutines ../ie/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+qFVSws_sourceList.txt  Removed subroutines ../ws/exppnb.f and ../base/exppe.f from the list.
+                       Removed common PPDNCM.F77 from the list.
+
+/bm
+       dgf.f  Removed the variables BBA, BREL, and XPPDDS, and the call to subroutine PPDGF.
+
+    exppnb.f  Deleted.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT and the call to subroutine PPREGT.
+
+/ca
+       dgf.f  Removed the variable XPPDDS and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT and the call to subroutine PPREGT.
+
+/canada/bc
+       dgf.f  Removed the variable XPPDDS and the call to subroutine PPDGF.
+
+    esinit.f  Removed the call to subroutine PPEATV.
+
+     estab.f  Removed the variable LPPE and the calls to subroutines PPEATV and PPLABS.
+
+    grincr.f  Removed the variable IPH and call to subroutine PPBRPH.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    initre.f  Removed the variable LACTV, and the calls to subroutines PPEATV and MSTRGT. 
+
+    regent.f  Removed the variable XPPMLT and the call to subroutine PPREGT.
+
+/canada/bin
+ FVSbcc_notReady.txt  Removed subroutine ../ie/exppnb.f and ../base/exppe.f from the list.
+                      Removed common PPDNCM.F77 from the list.
+
+FVSon_sourceList.txt  Removed subroutine ../ls/exppnb.f and ../base/exppe.f from the list.
+                      Removed common PPDNCM.F77 from the list.
+
+/canada/on
+       dgf.f  Removed the variable XPPDDS and the call to subroutine PPDGF.
+
+    fvsstd.f  Removed the variable LPPACT, and the calls to subroutines PPISN, PPEATV, and PPWEIG.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+  regentsw.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/ci
+       dgf.f  Removed the variables PPBAL, PPBALD, and XPPDDS, and the call to subroutine PPDGF.
+
+    esinit.f  Removed the call to subroutine PPEATV.
+
+    exppnb.f  Deleted.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables PPBA, PPBAD, PPBAL, XPPMLT and the call to subroutine PPREGT.
+
+/common
+  PPCISN.F77  Archived in /archive/PPEcommons.
+
+  PPCMAD.F77  Archived in /archive/PPEcommons.
+
+  PPCNTL.F77  Archived in /archive/PPEcommons.
+
+  PPDNCM.F77  Archived in /archive/PPEcommons.
+
+  PPEPRM.F77  Archived in /archive/PPEcommons.
+
+  PPEXCM.F77  Archived in /archive/PPEcommons.
+
+  PPGPCM.F77  Archived in /archive/PPEcommons.
+
+  PPHVCM.F77  Archived in /archive/PPEcommons.
+
+  PPLLCM.F77  Archived in /archive/PPEcommons.
+
+  PPMDCM.F77  Archived in /archive/PPEcommons.
+
+  PPSPLA.F77  Archived in /archive/PPEcommons.
+
+  PPSPNB.F77  Archived in /archive/PPEcommons.
+
+  PPSPRD.F77  Archived in /archive/PPEcommons.
+
+/covr
+    cvnohd.f  Removed the call to subroutine PPISN.
+
+     cvout.f  Removed 5 calls to subroutine PPLABS.
+
+/cr
+       dgf.f  Removed the variables X1 and XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/cs
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT, and the call to subroutine PPREGT.
+
+/dbs
+     dbsin.f  Removed the call to subroutine PPEATV.
+
+/dbsqlite
+     dbsin.f  Removed the call to subroutine PPEATV.
+
+   dbstrls.f  Changed the argument variable TEM from a REAL*8 to a REAL.
+
+/ec
+       dgf.f  Removed the variables X1 and XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/em
+       dgf.f  Removed the variable XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/estb
+    esinit.f  Removed the call to subroutine PPEATV.
+
+     estab.f  Removed the variable LPPE and the calls to subroutines PPEATV and PPLABS.
+
+/fire/base
+    fmcadd.f  Removed the commented out include of the PPEPRM labelled common.
+
+    fmcmpr.f  Removed the commented out include of the PPEPRM labelled common.
+
+     fmcwd.f  Removed the commented out include of the PPEPRM labelled common.
+
+    fmfint.f  Removed the commented out include of the PPEPRM labelled common.
+
+    fmhide.f  Removed the commented out include of the PPEPRM labelled common.
+
+      fmin.f  Removed the variable L and the call to PPEATV.
+
+    fminit.f  Removed the reference to PPE in one of the comment statements.
+
+    fmkill.f  Removed references to PPE in the comment statements.
+
+    fmmain.f  Removed references to PPE in the comment statements.
+
+    fmoldc.f  Removed the commented out include of the PPEPRM labelled common.
+
+    fmsadd.f  Removed references to PPE in the comment statements.
+
+    fmscro.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+    fmsdit.f  Removed the LPPE variable and the call to subroutine PPEATV.
+
+    fmssee.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+    fmtrip.f  Removed the commented out include of the PPEPRM labelled common.
+
+/fire/bm
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+/fire/ci
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+/fire/cr
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+/fire/ec
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons.
+
+/fire/em
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons.
+
+/fire/ie
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+    fmcons.f  Removed the commented out include of the PPEPRM labelled common.
+
+/fire/nc
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons.
+
+/fire/so
+    fmcons.f  Removed the commented out include of the PPEPRM labelled common.
+
+/fire/tt
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+/fire/ut
+     fmcba.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+/fire/vbase
+     fmeff.f  Removed the commented out includes of the PPEPRM and PPCNTL labelled commons, and
+              other commented out PPE code.
+
+    fmpofl.f  Removed the call to subroutine FMPPHV_REPORT.
+
+/ie
+       dgf.f  Removed the variable XPPDDS, and the call to subroutine PPDGF.
+
+    exppnb.f  Deleted.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT, and the call to subroutine PPREGT.
+
+/kt
+       dgf.f  Removed the variables PPCCF and XPPDDS, and the call to subroutine PPDGF.
+
+    exppnb.f  Deleted.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables PPSBAC, PPCCFC, PPBALC, PPCCF, PPBAL, and XPPMLT, and the call to subroutine PPREGT.
+
+/ls
+     estab.f  Removed the variable LPPE and the calls to subroutines PPEATV and PPLABS.
+
+    exppnb.f  Deleted.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/mistoe
+    misprt.f  Removed a reference to PPE in a comment statement.
+
+/nc
+       dgf.f  Removed the variables X1 and XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/ne
+       dgf.f  Removed the variables X1 and XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/oc
+       dgf.f  Removed the variable XPPDDS, and the call to subroutine PPDGF.
+
+    grinit.f  Corrected a spelling error in a comment.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT, and the call to subroutine PPREGT.
+
+/op
+       dgf.f  Removed the variables X1 and XPPDDS, and the call to subroutine PPDGF.
+
+    grinit.f  Corrected a spelling error in a comment.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/pg
+   fmppput.f  Removed a reference to PPE in a comment statement.
+
+   fmppget.f  Removed a reference to PPE in a comment statement.
+
+    getstd.f  Removed the PPDNCM labelled common. Removed the variables PDCCFN, PDBAN, and LNEDNS. Adjusted
+              the remaining subroutine accordingly.
+
+/pn
+       dgf.f  Removed the variables X1 and XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+/sn
+       dgf.f  Removed the variable XPPDDS, and the commented out call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT, and the call to subroutine PPREGT.
+
+/so
+       dgf.f  Removed the variables BREL, X1, and XPPDDS, and the call to subroutine PPDGF.
+
+    exppnb.f  Deleted.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT, and the call to subroutine PPREGT.
+
+/strp
+    esinit.f  Removed the call to subroutine PPEATV.
+
+     estab.f  Removed the variable LPPE and the calls to subroutines PPEATV and PPLABS.
+
+/tests/fvsak and /tests/qfvsak
+     akt01.key  Put the HRVRVN keywords in order by species and size class.
+
+     akt01.tre  Put the tree records back in numerical order.
+
+akt01.sum.save  Updated
+
+/tests/fvsbm and /tests/qfvsbm
+     bmt01.key  Put the HRVRVN keywords in order by species and size class. Deleted the DF HRVRVN keyword
+                pertaining to trees less than 4.0 inches since the dollar value was unreasonable. Also,
+                having 8 of these keywords pertaining to DF was causing the HRVRVN keywords pertaining to
+                ALL other species being ingnored, which in turn caused a STOP 10 error.
+
+     bmt01.tre  Put the tree records back in numerical order.
+
+bmt01.sum.save  Updated
+
+/tests/fvsca and /tests/qfvsca
+     cat01.tre  Put the tree records back in numerical order.
+
+cat01.sum.save  Updated
+
+/tests/fvsci and /tests/qfvsci
+     cit01.tre  Put the tree records back in numerical order.
+
+cit01.sum.save  Updated
+
+/tests/fvscr and /tests/qfvscr
+     crt01.key  Corrected the placement and content of the habitat type code on the STDINFO keyword so it doesn't
+                produce a "STOP 10" error. Also added the MODTYPE keyword. Put the HRVRVN keywords in order by 
+                species and size class. Deleted the duplicate 20" ES HRVRVN keyword.
+
+     crt01.tre  Put the tree records back in numerical order.
+
+crt01.sum.save  Updated
+
+/tests/fvscs and /tests/qfvscs
+     cst01.key  Right justified the STDINFO field 8 value.
+
+     cst01.tre  Put the tree records back in numerical order.
+
+cst01.sum.save  Updated
+
+/tests/fvsec and /tests/qfvsec
+     ect01.key  Put the HRVRVN keywords in order by species and size class. Corrected the DESIGN record
+              information to specify 11 plots in the first 3 test stands (4th was ok).
+
+     ect01.tre  Put the tree records back in numerical order. Added record 20 for a non-stockable plot.
+
+ect01.sum.save  Updated
+
+/tests/fvsem and /tests/qfvsem
+     emt01.tre  Put the tree records back in numerical order.
+
+emt01.sum.save  Updated
+
+/tests/fvsie and /tests/qfvsie
+     iet01.tre  Put the tree records back in numerical order.
+
+iet01.sum.save  Updated
+
+/tests/fvskt and /tests/qfvskt
+     ktt01.tre  Put the tree records back in numerical order.
+
+ktt01.sum.save  Updated
+
+/tests/fvsls and /tests/qfvsls
+     lst01.tre  Put the tree records back in numerical order.
+
+lst01.sum.save  Updated
+
+/tests/fvsnc and /tests/qfvsnc
+      makefile  Added the ffe test run
+
+     nct01.key  Added a valid habitat type code to the STDINFO keywords to avoid a STOP 10 error.
+
+     nct01.tre  Put the tree records back in numerical order.
+
+       ffe.key  Added a valid habitat type code to the STDINFO keywords to avoid a STOP 10 error.
+
+       ffe.tre  Put the tree records back in numerical order.
+
+nct01.sum.save  Updated
+
+  ffe.sum.save  Updated
+
+/tests/fvsne and /tests/qfvsne
+     net01.tre  Put the tree records back in numerical order.
+
+net01.sum.save  Updated
+
+/tests/fvsoc and /tests/qfvsoc
+     oct01.tre  Put the tree records back in numerical order.
+
+oct01.sum.save  Updated
+
+/tests/fvsop and /tests/qfvsop
+     opt01.tre  Put the tree records back in numerical order.
+
+opt01.sum.save  Updated
+
+/tests/fvspn and /tests/qfvspn
+     pnt01.tre  Put the tree records back in numerical order.
+
+pnt01.sum.save  Updated
+
+/tests/fvssn and /tests/qfvssn
+     snt01.key  Corrected the DESIGN record information to specify 11 plots; 1 non-stockable. 
+
+     snt01.tre  Put the tree records back in numerical order. Added record 20 for a non-stockable plot.
+
+snt01.sum.save  Updated
+
+/tests/fvsso and /tests/qfvsso
+     sot01.tre  Put the tree records back in numerical order.
+
+sot01.sum.save  Updated
+
+/tests/fvstt and /tests/qfvstt
+     ttt01.key  Added habitat type to the STDINFO keyword to avoid STOP 10 errors. 
+
+     ttt01.tre  Put the tree records back in numerical order.
+
+ttt01.sum.save  Updated
+
+/tests/fvsut and /tests/qfvsut
+     utt01.key  Added habitat type to the STDINFO keyword to avoid STOP 10 errors. 
+
+     utt01.tre  Put the tree records back in numerical order.
+
+utt01.sum.save  Updated
+
+/tests/fvswc and /tests/qfvswc
+     wct01.tre  Put the tree records back in numerical order.
+
+wct01.sum.save  Updated
+
+/tests/fvsws and /tests/qfvsws
+     wst01.key  Added habitat type to the STDINFO keyword to avoid STOP 10 errors. 
+
+     wst01.tre  Put the tree records back in numerical order.
+
+wst01.sum.save  Updated
+
+/tt
+       dgf.f  Removed the variable XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT, and the call to subroutine PPREGT.
+
+/ut
+       dgf.f  Removed the variables X1 and XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/vbase
+    evtstv.f  Removed the call to subroutine PPLDEV. Adjusted the comment statements formerly associated
+              with the PPE.
+
+    fvsstd.f  Removed the variable LPPACT, and the calls to subroutines PPISN, PPEATV, and PPWEIG.
+
+    gheads.f  Removed the 2 calls to subroutine PPLABS.
+
+    initre.f  Removed the variable LACTV, and the calls to subroutines PPEATV and MSTRGT.
+
+    natcrz.f  Removed the variable LPPACT, and the calls to subroutines PPISN, PPEATV, and PPWEIG.
+
+    prtrls.f  Removed the variable LPPACT, and the calls to subroutines PPISN, PPEATV, and PPWEIG.
+
+    sumout.f  Removed the call to subroutines PPISN.
+
+/wc
+       dgf.f  Removed the variables X1 and XPPDDS, and the call to subroutine PPDGF.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variables X1 and XPPMLT, and the call to subroutine PPREGT.
+
+/ws
+       dgf.f  Removed the variable XPPDDS, and the call to subroutine PPDGF.
+
+    exppnb.f  Deleted.
+
+    grohed.f  Removed the call to subroutine PPCLOP.
+
+    regent.f  Removed the variable XPPMLT, and the call to subroutine PPREGT.
+

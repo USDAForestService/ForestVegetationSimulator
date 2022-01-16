@@ -1,0 +1,53 @@
+Subject: Dwarf Mistletoe and Western Spruce Budworm
+Name:    Lance R. David
+Date:    01/30/2009
+Variants affected: All western variants
+
+Description:
+    Implicit none added to all Dwarf Mistletoe Model subroutines.
+
+    Common block/variable assignments modified in Western Spruce
+    Budworm Model for cross-compiler compatibility.
+
+Impact on users: None.
+
+Files:
+  Directory of FVS\MISTOE\SRC
+     misact.f    
+     miscnt.f    
+     miscpf.f    
+     misdam.f    
+     misdgf.f    
+     misget.f    
+     misin.f     
+     misin0.f    
+     misinf.f    
+     misintak.f  
+     misintbm.f  
+     misintca.f  
+     misintci.f  
+     misintcr.f  
+     misintec.f  
+     misintem.f  
+     misintie.f  
+     misintkt.f  
+     misintnc.f  
+     misintni.f  
+     misintpn.f  
+     misintso.f  
+     misintso33.f
+     misinttt.f  
+     misintut.f  
+     misintwc.f  
+     misintws.f  
+     mismrt.f    
+     misprt.f    
+     misputz.f   
+     misran.f    
+     mistoe.f    
+     msppgt.f    
+     mspppt.f   
+
+  Directory of FVS\WSBWE\SRC
+    BWECM2.F77
+    BWECOM.F77

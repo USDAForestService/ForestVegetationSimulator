@@ -1,0 +1,25 @@
+Subject: COVR - Implicit None Update
+Name: rhavis
+Date: July 11, 2008
+Variants affected: All variants hooked to Cover model
+
+Description: Added Implicit None statement to COVR/src routines
+
+Impact on users: None
+
+Files:
+./covr/src/cvbcal.f
+./covr/src/cvbrow.f
+./covr/src/cvcbms.f
+./covr/src/cvclas.f
+./covr/src/cvcnop.f
+./covr/src/cvcw.f
+./covr/src/cvgo.f
+./covr/src/cvin.f
+./covr/src/cvinit.f
+./covr/src/cvnohd.f
+./covr/src/cvout.f
+./covr/src/cvscon.f
+./covr/src/cvshap.f
+./covr/src/cvsum.f
+

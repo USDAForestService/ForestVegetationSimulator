@@ -1,0 +1,18 @@
+Subject: Misc. Changes
+Name: R. Havis
+Date: August 22, 2011
+Variants affected: ALL
+
+Description: Misc. changes, see below
+
+Impact on users: none
+
+Files:
+./base/src/errgro.f - reworded FVS WARNING 35 to improve clarity of message
+./common/includeSVN.f
+./cr/src/varvol.f - removed redundant declarations
+./dbs/src/dbsatrtls.f - removed unneeded declarations
+./dbs/src/dbscuts.f - removed unneeded declarations
+./dbs/src/dbstrls.f - removed unneeded declarations
+./fire/base/common/FMFCOM.F77 - added new common block, CFIMCOM, to
+                                accommodate future development projects

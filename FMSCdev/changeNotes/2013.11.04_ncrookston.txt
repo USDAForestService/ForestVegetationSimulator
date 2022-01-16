@@ -1,0 +1,28 @@
+Subject: Modified keyword action in Climate-FVS, making several into activities.
+Name: Nick Crookston
+Date: 2013.11.04
+Variants affected: All western
+
+Description: 
+
+This modification makes the climate model "modifier" keywords activities so 
+that they can be scheduled. The changes are to: MORTMULT, AUTOESTB, MXDENMLT, 
+and GROWMULT. The "parms" feature for these keywords has also been implimented. 
+
+Impact on users: 
+All "old" Climate-FVS keyword files that use these keywords need to be edited 
+to treat the first field as a YEAR or CYCLE number according to typical FVS 
+conventions. Beyond that, the change makes the program more powerful.
+
+Files:
+base/src/oplist.f : added activitiy codes and keyword callback for CLKEY.
+clim/base/src/clmaxden.f : modified to process the MXDENMLT activity
+clim/base/src/clauestb.f : modified to process the AUTOESTB activity
+clim/base/src/clmorts.f : modified to process the MORTMULT activity
+clim/base/src/clgmlt.f : modified to process the GROWMULT activity
+clim/base/src/clin.f : modified to process the keywords. 
+
+tests/FVSiec/climate.key: Modified to add tests of these options.
+tests/FVSiec/climate.sum.out: Modified to reflect tests of these options. 
+
+

@@ -1,0 +1,26 @@
+Subject: R8 Merch. Height
+Name: Robert Havis
+Date: May 25, 2006
+Variants affected: CS, LS, NE, SE, SN
+
+Description: (SE, SN) Measurements group added an algorithm, internal to their code, that
+             calculates the height-to-Merch. top. This algorithm was implemented
+             rather than the SVELHT routine, which was unreliable for short trees.
+
+             (CS, LS, NE, SE, SN) The CFVOLEQU keyword can be used to define parameters
+             for Cubic Foot volume calculations. A problem in this keyword was corrected.
+             There was only a problem when users were specifying an equation with a
+             d2h coefficient.
+
+
+Impact on users: Users should obtain new executables. Volumes may be sightly affected.
+
+Files: 
+./base/src/revise.f
+./ls/src/cfvol.f     - corrected a problem with usage of the d2h variable in the
+                       user-specified volume equations. 
+./sn/src/varvol.f    - removed call to SEVLHT routine. adapted to use Merch. height
+                       calculated in the volume routines.
+./volume/src/r8vol.f - see VOLUME ESTIMATOR LIBRARY BULLETIN No. V0121_05012006
+./volume/src/r8vol2.f- see VOLUME ESTIMATOR LIBRARY BULLETIN No. V0121_05012006
+

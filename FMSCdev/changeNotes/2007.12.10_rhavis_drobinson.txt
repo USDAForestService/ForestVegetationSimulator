@@ -1,0 +1,14 @@
+Subject: Corrections from Don Robinson, ESSA Technologies.
+Name: R. Haves
+Date: December 10, 2007
+Variants affected: ALL
+
+Description: Parameter and Entry Argument corrections as shown below.
+
+Impact on users: No FVS Update Bulletin was involved.
+
+Files:
+./base/src/exfire.f - Corrected dummy arguments in Entry FMEVSNG
+./base/src/oplist.f - Corrected parameter NTRSLT=145, which was
+                      missed in Code Change December 6, 2007
+

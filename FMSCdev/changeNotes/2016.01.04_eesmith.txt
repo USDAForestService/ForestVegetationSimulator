@@ -1,0 +1,16 @@
+Subject: Mortality
+Name: Erin Smith-Mateja
+Date: 01/04/16
+Variants affected: PN, WC, OP
+
+Description: A critical value was not being calculated for some trees when 
+the SDICALC keyword had a diamater threshold. This has been fixed.
+
+
+Impact on users: Fixes a bug
+
+Files:
+wc/src
+  morts.f
+op/src
+  morts.f

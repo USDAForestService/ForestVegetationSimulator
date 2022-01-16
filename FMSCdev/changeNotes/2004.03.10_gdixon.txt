@@ -1,0 +1,111 @@
+Subject:Restructuring crown width estimation
+Name:Gary Dixon
+Date:3/10/04
+Variants affected:all variants
+
+Description:
+     Crown width was being calculated when it was needed for various reasons
+at 19 different places in the model. In many cases, crown width was predicted from
+CCF equations. New and improved crown width equations are being published. Also, 
+users want the ability to enter crown width multipliers to change the estimates. All
+these factors necessitated restructuring the way crown width is calculated and 
+handled within the model.
+     Summary of changes: (1) crown width will be carried in as a variable (CRWDTH(i))
+in Common. It gets initialized at cycle 0 and updated at the end of each cycle from
+MAIN. Users will have two new keywords to manipulate crown width calculations: the
+CWEQN keyword allows users to enter their own species specific crown width 
+equations; the FIXCW keyword allows users to manipulate crown widths by species
+and size class.
+     These changes set the stage for actual revision of the crown width estimation 
+equations. Those will be upgraded in a future change. The call to CCFCAL will be 
+removed from CWIDTH at that time and replaced with a call to a subroutine containing
+either eastwide or westwide crown width equations.
+
+Impact on users: Users should not see any difference in runs with these changes.
+However, users will now have the ability to enter their own crown width equations 
+or manipulate the crown width estimates using keywords.
+
+Files:
+COMMON
+   ARRAYS.F77 added the array CRWDTH() to carry estimated tree crown width
+   CWDCOM.F77 new common block to carry user-input coefficients for crown width
+              estimation.
+              
+BASE/SRC
+   CWIDTH.F new routine to handle estimating crown widths and handle the crown
+            width modifiers entered via keywords.
+   MAIN.F   added 2 calls to CWIDTH; one to estimate cyle 0 crown widths; one to
+            update crown widths at the end of the cycle.
+   CUTS.F   removed the call to CCFCAL; use the crown width array values instead.
+            inserted code to make sure cutting targets are ge zero (this was a
+            problem sometimes with computed cutting targets).
+   EVLDX.F  removed the call to CCFCAL; use the crown width array values instead.
+   FVSSTD.F removed two calls to CCFCAL; use the crown width array values instead.
+   INITRE.F added CWDCOM common; added FIXCW and CWEQN keywords
+   KEYWDS.F add FIXCW and CWEQN keywords
+   OPLIST.F add FIXCW as activity code 90
+   PRTRLS.F removed the call to CCFCAL; use the crown width array values instead.
+   SDICAL.F removed the call to CCFCAL; use the crown width array values instead.
+   SSTAGE.F removed two calls to CCFCAL; use the crown width array values instead.
+   SVOUT.F  removed the call to CCFCAL; use the crown width array values instead.
+   SVSNAD.F removed six calls to CCFCAL; use the crown width array values instead.
+   TRIPLE.F added the CRWDTH() array to tripling logic
+   COMPRS.F added the CRWDTH() array to the compression logic
+   TREMOV.F added the CRWDTH() array to the tree move logic
+   
+BASE/OBJ AK/OBJ CA/OBJ CR/OBJ CS/OBJ IE/OBJ LS/OBJ NE/OBJ SE/OBJ SN/OBJ UT/OBJ WC/OBJ
+   MAKEFILE added CWDCOM to the dependency list for INITRE.F
+            added compile instructions for the CWIDTH routine
+   
+COVR/SRC
+   CVCW.F   removed the call to CCFCAL; use the crown width array values instead.
+   
+DBS/SRC
+   DBSCUTS.F  removed the call to CCFCAL; use the crown width array values instead.
+   DBSTRLS.F  removed the call to CCFCAL; use the crown width array values instead.
+   
+PPBASE/SRC
+   PUTSTD.F  added the CRWDTH() array, and CWDCOM common variables
+   GETSTD.F  added the CRWDTH() array, and CWDCOM common variables
+   INSTND.F  added a call to the CWIDTH routine
+   GRCEND.F  added a call to the CWIDTH routine
+   
+PPBASE/OBJ  PPCR/OBJ  PPLS/OBJ  PPUT/OBJ PPWC/OBJ 
+   MAKEFILE  added CWDCOM to the dependency list for GETSTD.F and PUTSTD.F
+   
+all variants\SRC
+   GRINIT.F  add CWDCOM common; add initilization of CWDCOM common variables
+   
+all variants\OBJ
+   MAKEFILE  add CWDCOM to the dependency list for GRINIT.F  
+   
+/FVS/BIN
+   MAKEFILE  add CWIDTH routine to link lists for all variants
+   
+/LS/SRC
+   PRTRLS.F  removed two calls to CCFCAL; use the crown width array values instead.
+   
+/FIRE/BM/SRC  /FIRE/CI/SRC  /FIRE/UT/SRC
+   FMCBA.F   remove calls to CCFCAL; use the crown width array values instead.
+   FMCFMD.F  remove calls to CCFCAL; use the crown width array values instead.
+   
+/FIRE/CR/SRC  /FIRE/EC/SRC   /FIRE/NC/SRC
+/FIRE/PN/SRC  /FIRE/SN/SRC  /FIRE/SO/SRC  /FIRE/TT/SRC  /FIRE/WC/SRC
+   FMCBA.F   remove calls to CCFCAL; use the crown width array values instead.
+   
+/FIRE/EM/SRC  /FIRE/IE/SRC  /FIRE/NI/SRC
+   FMCBA.F   left call to CCFCAL in; inserted comment explaining that this call
+             to CCFCAL will need to be replaced with a call to the west-wide
+             crown width routine when that gets developed.
+
+/FIRE/WS/SRC
+   CWHR.F    remove calls to CCFCAL; use the crown width array values instead.
+             added crown width array to argument list, defined new corresponding
+             local array CWID() to pass these into
+   FMCBA.F   remove calls to CCFCAL; use the crown width array values instead.
+   FMCFMD.F  added CRWDTH array to call list for subroutine CWHR
+   
+/FIRE/CA/SRC
+   FMCBA.F   remove calls to CCFCAL; use the crown width array values instead.
+   FMCFMD.F  added CRWDTH array to call list for subroutine CWHR
+   

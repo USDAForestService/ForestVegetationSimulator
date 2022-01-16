@@ -1,0 +1,150 @@
+Subject: Stump sprouting
+
+Name: Gary Dixon
+Date: 02/02/12
+
+Variants affected: All variants except KT, and NI
+
+Description: (1) Stump sprouting for quaking aspen was not being handled consistently
+             across all variants. The FMSC has updated equations predicting the 
+number of aspen sprouts when aspen get cut. These equations were not being used
+in the BM, CS, LS, NE, SO, or WS variants. Equations predicting the number of aspen
+sprouts has now been updated in these five variants.
+
+(2) The CI variant has the updated aspen sprouting equations but two of the variables
+used in these equations were not being computed correctly. This has been corrected.
+
+(3) The equation predicting sprout height has now been updated for all sprouting 
+species in all variants. The equation is now a function of both sprout age and
+species site index; the previous equation was only a function of sprout age in most
+cases. Updated species are:
+
+variant species
+
+  AK    RA, CW
+
+  BM    PY, AS, CW
+
+  CA    PY, LO, CY, BL, EO, WO, BO, VO, IO, BM, BU, RA, MA, GC, DG, FL, WN, TO,
+        SY, AS, CW, WI, CN, CL
+
+  CI    AS, CW
+
+  CR    AS, NC, PQ, GO, AW, EM, BK, SO, PB, AJ, CI
+
+  CS    WN, BN, TL, TS, WT, BG, HS, SH, SL, MH, PH, HI, WH, BH, PE, BI, AB, BA, PA, UA,
+        EC, RM, BE, SV, BC, AE, SG, HK, WE, EL, SI, RL, RE, YP, BW, SM, AS, WA, GA, WO,
+        RO, SK, BO, SO, BJ, CK, SW, BR, SN, PO, DO, CO, PN, CB, QI, OV, WK, NK, WL, QS,
+        SS, OB, CA, PS, HL, BP, BT, QA, BK, SY, BY, RB, SU, WI, BL, AH, RD, DW, HT, KC,
+        OO, CT, MV, MB, HH, SD
+
+  EM    GA, AS, CW, BA, PW, NC, PB
+  
+  IE    PY, AS, CO, MM, PB
+
+  LS    BA, GA, EC, SV, RM, BC, AE, RL, RE, YB, BW, SM, BM, AB, WA, WO, SW, BR, CK, RO,
+        BO, NP, BH, PH, SH, BT, QA, BP, PB, BN, WN, HH, BK, BE, ST, MM, AH, AC, HK, DW,
+        HT, AP, BG, SY, PR, CC, PL, WI, BL, DM, SS, MA
+
+  NC    MA, BO, TO
+  
+  NE    RM, SM, BM, SV, YB, SB, RB, PB, GB, HI, PH, SL, SH, MH, AB, AS, WA, BA, GA, PA,
+        YP, SU, CT, QA, BP, EC, BT, PY, BC, WO, BR, CK, PO, OK, SO, QI, WK, PN, CO, SW,
+        SN, RO, SK, BO, CB, BU, YY, WR, HK, PS, HY, BN, WN, OO, MG, MV, AP, WT, BG, SD,
+        PW, SY, WL, BK, BL, SS, BW, WB, EL, AE, RL, BE, ST, AI, SE, AH, DW, HT, HH, PL,
+        PR
+  
+  PN    RW, BM, RA, WA, PB, GC, AS, CW, WO, PY, DG, HT, CH, WI 
+
+  SN    BY, PC, FM, BE, RM, SV, SM, BU, BB, SB, AH, HI, CA, HB, RD, DW, PS, AB, AS, WA,
+        BA, GA, HL, LB, HA, HY, BN, WN, SU, YP, MG, CT, MS, MV, ML, AP, MB, WT, BG, TS,
+        HH, SD, SY, CW, BT, BC, WO, SO, SK, CB, TO, LK, OV, BJ, SN, CK, WK, CO, RO, QS,
+        PO, BO, LO, BK, WI, SS, BW, EL, WE, AE, RL
+
+  SO    PY, WA, RA, BM, AS, CW, CH, WO, WI, GC, MB
+
+  TT    AS, BI, MM, NC
+  
+  UT    AS, GO, NC, FC, BI, BE
+  
+  WC    RW, BM, RA, WA, PB, GC, AS, CW, WO, PY, DG, HT, CH, WI 
+  
+  WS    RW, LO, CY, BL, BO, VO, IO, TO, GC, AS, CL, MA, DG, BM
+
+
+(4) Updated logic for handling stump sprouts when the stump list was full has been
+added to the following variants: CA, CR, TT, UT, PN, and WC
+
+(5) The number of sprout records for Pacific yew was changed from 2 to 1 in the BM, 
+CA, CI, and IE variants (bulletin 2010.04.20_rhavis.txt). It was not changed in the
+PN, SO, or WC variants. It has now been changed from 2 to 1 in these three variants.
+
+(6) In making these changes, sprouting logic code was reorganized and consolidated
+to make future changes and maintenance easier.
+
+(7) In the BM variant, during site index dubbing, quaking aspen site index should 
+have been to a base age 80, breast height age basis. It was being set to a base age
+100, total age basis. This has been corrected.
+
+Impact on users: There will be differences in the number of aspen sprouts, when aspen
+is cut, in the BM, CI, CS, LS, NE, SO, and WS variants. There will be differences in
+sprout heights for the hardwood species and variants listed in description (3) above.
+There will be differences in number of sprout records in runs where Pacific yew is
+cut in the PN, SO, and WC variants.
+
+Users of all variants, except KT and NI, should obtain a new executable.
+
+Files:
+
+bm/src
+  sichg.f    changed the date of revision; corrected aspen to a breast height age,
+             80 year basis.
+
+ci/src
+ esinit.f    changed the date of revision; changed LSPRUT to .TRUE.
+            
+strp/src
+  esuckr.f   changed the date of revision; updated and inserted extra comment statements;
+             extensively revised the logic to make use of the new ESSPRT subroutine with
+             it's entry points to handle variant and species specific coding, thus eliminating
+             the need for variant specific versions of this routine.
+  estump.f   changed the date of revision; updated and inserted extra comment statements; added
+             a call to entry ESASID in subroutine ESSPRT to return the FVS index number of
+             quaking aspen if quaking aspen is included in the variant. If quaking aspen is
+             included then the trees-per-acre and basal area of aspen that were cut is accumulated
+             for use in subroutine ESUCKR. This eliminates the need for variant specific
+             version of this routine.
+  essprt.f   new routine containing entry points to handle sprout computations that are variant
+             and species dependent. Added to version control and compile/link instructions.
+  
+estb/src
+  esuckr.f   changed the date of revision; updated and inserted extra comment statements;
+             extensively revised the logic to make use of the new ESSPRT subroutine with
+             it's entry points to handle variant and species specific coding, thus eliminating
+             the need for variant specific versions of this routine.
+  estump.f   changed the date of revision; updated and inserted extra comment statements; added
+             a call to entry ESASID in subroutine ESSPRT to return the FVS index number of
+             quaking aspen if quaking aspen is included in the variant. If quaking aspen is
+             included then the trees-per-acre and basal area of aspen that were cut is accumulated
+             for use in subroutine ESUCKR. This eliminates the need for variant specific
+             version of this routine.
+  essprt.f   new routine containing entry points to handle sprout computations that are variant
+             and species dependent. Added to version control and compile/link instructions.
+
+
+xx/obj       where xx = STRP, ESTB, AK, AN, BM, CA, CI, CR, CS, EC, EM, IE, KT,
+             LS, NC, NE, NI, PN, SN, SO, TT, UT, WC, WS
+  makefile   added subroutine ESSPRT to the compile instructions as appropriate;
+             changed the variant specific instructions for ESUCKR and ESTUMP to
+             get these routines from STRP or ESTB as appropriate.
+             
+bin
+  makefile   modified the instructions regarding the subroutines named above as
+             appropriate for each variant; added ESTUMP, ESUCKR, and ESSPRT to the
+             STRP_LINK list.
+             
+xx/src       
+  esuckr.f   removed from version control and deleted            these variants now
+             where xx = CA, CI, CR, EM, IE, TT, UT, WC           use the strp and
+  estump.f   removed from version control and deleted            estb versions of
+             where xx = CA, CR, TT, UT, WC                       these routines

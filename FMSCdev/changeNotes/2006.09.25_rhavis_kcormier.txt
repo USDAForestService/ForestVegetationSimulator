@@ -1,0 +1,16 @@
+Subject: Volume Update
+Name: R. Havis
+Date: September 25, 2006
+Variants affected: AK, SE and SN
+
+Description:  See V0125_091906.txt and V0126_091906.txt. Check to use outside bark
+              diameter appropriate to Clark's profile models in R8. Added BF calc
+              for White Spruce in R10.
+
+Impact on users: Obtain new executables
+
+Files:
+dvest.f r10d2h.f r8vol2.f - R10 white spruce BF Eq., and outside bark
+                            conversion for Clark's Eqs. in R8 - see
+                            2006.09.25_rhavis_kcormier.txt
+varvol.f - added BF for WS - see 2006.09.25_rhavis_kcormier.txt

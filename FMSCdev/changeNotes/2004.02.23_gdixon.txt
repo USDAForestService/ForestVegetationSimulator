@@ -1,0 +1,19 @@
+Subject: BAL modifier for height growth
+Name: Gary Dixon
+Date: 02/23/04
+Variants affected: NE, LS, CS
+
+Description: Small hardwood trees growing under an overstory would grow
+unrestricted in height, but not in diameter. The DG equations have a BAL
+modifier function. I took the BAL modifier function out of DGF 
+and made it into its own subroutine BALMOD and put calls to this routine
+in DGF, HTGF, and RGNTHW. I also put a lower limit on the BAL modifier.
+I modified the POTBAG calculation in DGF, inserted some debug write 
+statements, and changed/added some comments.
+
+Impact on users: Small hardwood height growth is now commensurate with
+small hardwood diameter growth. The large tree height growth now is 
+commensurate with large tree diameter growth. The overstory effect on
+small hardwood trees is now more realistic.
+
+Files: BALMOD, DGF, HTGF, RGNTHW

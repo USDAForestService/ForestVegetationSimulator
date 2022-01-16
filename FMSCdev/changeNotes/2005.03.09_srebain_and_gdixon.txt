@@ -1,0 +1,18 @@
+Subject: Fix to the Cover Extension 
+Name: Stephanie Rebain and Gary Dixon
+Date: March 9, 2005
+Variants affected: All variants with Cover
+
+Description: 
+The Cover extension was using incorrect (previous cycle) crown width 
+values in its calculations.  This was fixed.  The Cover extension now 
+yields canopy cover estimates that match those on the structure class table
+and those reported via SPMCDBH.
+
+Impact on users:
+This should have no effect on base FVS or FFE output.  This will affect
+Cover extension output.
+
+Files:
+base/src/main.f - removed the call to cwidth and moved it to gradd
+base/src/gradd.f - added a call to cwidth

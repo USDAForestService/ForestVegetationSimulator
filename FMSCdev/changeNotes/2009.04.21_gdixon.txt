@@ -1,0 +1,55 @@
+Subject: 1) Correction to crown width equations for some species in some variants
+         2) Correction to large tree diameter growth for some species in TT and SO
+         3) Elimination of unused aspen coefficients (SO)
+         4) Code cleanup
+
+Name: Gary Dixon
+Date:
+
+Variants affected: 1) EM, IE, PN, UT, WC
+                   2) TT, SO
+                   3) SO (33 species version)
+                   4) UT, WC
+
+Description: 1) Crown width equations used were changed as follows:
+                EM  Black cottonwood changed from narrowleaf cottonwood eqn to black cottonwood eqn
+                    Rocky Mtn juniper changed from western juniper eqn to Rocky Mtn juniper eqn
+                IE  Rocky Mtn juniper changed from western juniper eqn to Rocky Mtn juniper eqn
+                PN  Black cottonwood changed from narrowleaf cottonwood eqn to black cottonwood eqn
+                UT  Western juniper changed from Rocky Mtn juniper eqn to western juniper eqn
+                WC  Black cottonwood changed from narrowleaf cottonwood eqn to black cottonwood eqn
+                
+             2) A relative density adjustment was being applied twice in the large tree diameter 
+                growth equation for whitebark pine, limber pine, and "other species" in the Tetons
+                variant, and whitebark pine in the SO variant. This has been corrected.
+                
+             3) Unused quaking aspen coefficients were set to zero to avoid code confusion in 
+                subroutine DGF for the 33 species version of the SO variant.
+                
+             4) Eliminated the definition of a variable not used in the UT variant; eliminated some
+                tab characters in the code for the WC variant.
+
+
+Impact on users: 1) Different crown width estimates for the species in the variants noted above;
+                    users of the EM, IE, PN, UT, WC variants should obtain a new executable.
+                 2) Slight increase in diameter, height, and volume for the species noted in
+                    the TT and SO variants; Users of the TT and SO variants should obtain a new
+                    executable.
+                 3) No effect on users.
+                 4) No effect on users.
+
+Files:
+ni/src     cwcalc.f  changed the date of revision; changed crown width equation numbers as shown above; 
+                     corrected some of the comment lines.
+                     
+so33/src   dgf.f     changed the date of revision; took out unused aspen coefficients in arrays DGFOR, 
+                     DGDS, DGCASP, DGSASP, DGSLOP, and DGSIC; took out array DGCCFC (the WB relative
+                     density adjustment was already included via array DGCCFA.
+                     
+tt/src     dgf.f     changed the date of revision; took out the DGCCFA array; consolidated the code
+                     necessary to properly set the DGCCF array from the DGCCFC array in entry DGCONS.
+                     
+ut/src     dgf.f     changed the date of revision; took out the definition of array DGCCFC, which is
+                     not used in this variant.
+                     
+wc/src     dgf.f     changed the date of revision; replaced tab characters with spaces (lines 306-317)

@@ -1,0 +1,18 @@
+Subject: NE variant OIN OAK alpha and FIA codes
+Name: R. Havis, G. Dixon
+Date: September 27, 2006
+Variants affected: NE
+
+Description: In the NE variant species Seq. No. 63 was identified as northern pin oak Alpha
+             code = NP, FIA code 809. This was incorrect and has been changed. Species No. 63
+             (Quercus palustris) is more appropriately identified as pin oak, Alpha code= PN,
+             FIA code= 830.
+
+Impact on users: Users should be aware that the identificatoin of Species No. 63 in the Northeast
+                 variant has been changed, but there will be no effect on simulations. The NP
+                 alpha code and 809 FIA codes will be mapped appropriately.
+
+Files:
+base/INITRE - removed comma in column 73 line 3167
+ne/BLKDAT -  changed species No. 63 (Quercus palustris) to PIN OAK, PN, FIA=830
+ls/SPCTRN -  for NE, changed species No. 63 (Quercus palustris) to PIN OAK, PN, FIA=830

@@ -1,0 +1,24 @@
+Subject: Fire and Fuels Extension - Carbon Reporting Updates
+Name:  Stephanie Rebain
+Date:  11/01/2006
+
+Description:
+The default root decay rate assumed within the FFE carbon reports was updated.
+A few column headings were corrected within the output database table for the main carbon report (FVS_Carbon).
+A new variable was added to the main carbon report and associated database table that reports carbon released from fire.
+
+Impact on users:
+Users of the FFE carbon reports should obtain new executables.  Users will not be able to append new database output to
+an FVS_Carbon table created with an older version of the software due to the changes in the column headings.
+
+Modified Files:
+
+fire/base/common/FMFCOM.F77 - added a new variable, BIOCON, to hold biomass consumed for carbon reporting purposes.
+fire/base/src/fminit.f - changed the default root decay rate used in the carbon reports
+                         and initialized BIOCON to zero.
+fire/base/src/fmin.f - changed the way the root decay rate is echoed back to the main output file
+dbs/src/dbsfmcrpt.f - changed a few column headings of the FVS_Carbon database output table 
+                      and added a new column to FVS_Carbon for carbon released/consumed by fire
+fire/base/src/fmdout.f - set BIOCON
+fire/base/src/fmcrbout.f - added a new variable to the main carbon report for carbon released from fire
+dbs/dbsdocument/dbsuserguide.doc - updated the DBS documentation to reflect the changes to FVS_Carbon

@@ -1,0 +1,42 @@
+Subject: 1) BA maximum & Mature Stand Boundary limits 
+         2) Event monitor reporting of BA and SDI maximums
+         3) Setting of SDI maximums when a BA maximum is specified
+
+Name: Gary Dixon
+Date: 05/06/2010
+
+Variants affected: All variants
+
+Description:
+     1) In the SN variant and the NC variant, stand density was going slightly above a specified 
+        BA maximum. When the code that does the checks against the ba maximum and the mature stand
+        boundary calculations was developed, it was done in a variant where the default cycle length
+        was 10 years.  The code was then copied into the other variants.  The part where you add in
+        the fint-based diameter growth needed to be adjusted from fint/10 to fint/5 since the default
+        cycle length is 5 years in the SN and NC variants.
+
+     2) In the SN variant, default SDI maximums are set by forest type and they can change 
+        throughout a simulation as stand management or natural growth causes the forest type to
+        change. The event monitor wasn't reporting the correct sdi or ba maximum values in all
+        cases. The forest typing routine is called from several places. One of those is in MORTS 
+        before anything else is done, so when a forest type change occurred in the previous cycle
+        it was being picked up ok in the subsequent cycle in MORTS.  However, the forest typing algorithm 
+        is also called from DISPLY which is at the end of the cycle.  If the forest type changed, then 
+        the SDIMAX and BAMAX values also needed to be updated for the SN variant or else the event monitor 
+        wouldn't see the new values at the beginning of the next cycle.  It would see the new forest type 
+        since that changed, but the SDIMAX and BAMAX values weren't being changed until you got to MORTS.
+        This only affects SN. 
+
+     3) When a BA maximum was specified with a BAMAX keyword, the SDIMAX was being incorrectly computed 
+        in subroutine SDICAL. This would affect all variants and was introduced within the past year when 
+        some changes were made to accomodate climate change. The problem affected all variants.
+
+
+Impact on users:  All users should obtain a new executable. There will be slight changes in model output
+                  for stand that are at the BA maximum.
+
+Files:
+SN/src    morts.f
+NC/src    morts.f
+base/src  sdical.f  disply.f
+

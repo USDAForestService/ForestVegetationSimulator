@@ -1,0 +1,65 @@
+Subject: Code Maintenance
+Name: R. Havis
+Date: September 06, 2008
+Variants affected: SO33 variant output could be affected
+
+Description: Routine code maintenance, see notes below
+
+Impact on users: Possibly affects SO33, but did not affect output
+                 from standard tests
+
+Modified Files:
+
+base/src/revise.f
+bin/makefile            removed so33/sohtgf object reference
+ls/src/cwcalc.f         added comment lines
+ls/src/spctrn.f         added comment lines
+mistoe/obj/makefile     removed misintut compile instructions
+ni/src/cwcalc.f         no change
+so33/obj/makefile       corrected source location for CUBRDS and CVSHAP
+so33/src/dunn.f         changed ',' to '.' in ADJFAC data statement 
+fire/base/src/fmin.f    edited separators in format statement
+fire/base/src/fmpofl.f  edited separators in format statement
+base/src/svhabt.f       edited comments
+./base/src/exfire.f     removed PRGPRM.F77 include statment and edited array dimensions
+
+Dependencies were added to the following makefiles
+
+./ak/obj/makefile
+./base/obj/makefile
+./ca/obj/makefile
+./cr/obj/makefile
+./cs/obj/makefile
+./ie/obj/makefile
+./ls/obj/makefile
+./nc/obj/makefile
+./ne/obj/makefile
+./so33/obj/makefile
+./se/obj/makefile
+./sn/obj/makefile
+./strp/obj/makefile
+./ut/obj/makefile
+./wc/obj/makefile
+./ws/obj/makefile
+
+Strp routine compile intructions
+ESADDT - VARCOM was added to the dependency list.
+ESIN   - ESPARM and ESCOMN were added to the dependency list
+ESINIT -  ESCOMN was added to the dependency list
+ESPLT2 - ESHAP2   was added to the dependency list
+ESUCKR - COEFFS was added to the dependency list
+
+SVS routine compile instructions
+SVSNAGE - CONTRL was added to dependency list
+SVSNAD  - CONTRL was added to dependency list
+SVMORT  - CONTRL and SVDATA were added to dependency list
+SVGTPL  - CONTRL and ARRAYS were added to dependency list
+
+SPESRT - ARRAYS was added to dependency list
+MULTS  - CONTRL was added to dependency list
+
+Removed Files:
+so33/src/sohtgf.f   - not used in SO33
+
+COMPILE the source routines and
+LINK    SO33 and extensions

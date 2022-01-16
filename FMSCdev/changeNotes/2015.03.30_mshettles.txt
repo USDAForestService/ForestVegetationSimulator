@@ -1,0 +1,19 @@
+Subject: Default Behre's Hyperbola Form Factor Values
+Name: Mike Shettles
+Date: 3/30/2015
+Variants affected: CA, NC, PN and WC
+
+Description: The default form factor values for use with Behre's Hyperobla profile
+model were changed from the values to be used with a 32' log to a 16' log equation.
+
+Impact on users: Users should be aware that the default form factor values for the 
+species whose defaul volume equation is Behre's hyperbola are now based upon the 
+16' log equation (616BEHW***), and no longer the 32' log equation (632BEHW***) for 
+the USFS location codes in these four variants. Download new exectuables to obtain 
+the latest volume estimates.
+
+Modified Files:
+trunk/ca/src/formcl.f
+trunk/nc/src/formcl.f
+trunk/pn/src/formcl.f
+trunk/wc/src/formcl.f

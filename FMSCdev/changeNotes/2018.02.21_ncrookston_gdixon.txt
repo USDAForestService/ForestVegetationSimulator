@@ -1,0 +1,66 @@
+Subject: Underflow errors
+
+Name: Nick Crookston and Gary Dixon
+
+Date: 02/21/18
+
+Variants affected: All variants
+
+Description: Code testing revealed coding logic that could potentially produce underflow errors during execution.
+             These changes guard against that happening.
+
+Impact on users: Users should obtain a new executable at their convenience.
+
+Files:
+base/src exfire.f Initialization X6 = 0. was added in ENTRY FMSFALL to avoid an underflow error in the calling 
+                  subroutine. Some cosmetic subroutine formatting was also done.
+
+ci/src  regent.f  A CASE DEFAULT was added to all SELECT CASE statements.  
+
+dbs/src dbscase.f The file name suffix was not being stripped correctly causing an invalid subscript.
+                  Code was added to fix this error. 
+
+ec/src  regent.f  The $ID date-of-revision line was implemented. Initialization of variables DAT45, DK, and DKK 
+                  was added before the SELECT CASE statement in the diameter lookup section.  
+
+fire/ni/src 
+       fmsfall.f  The $ID date-of-revision line was implemented. A couple of comment statements were edited.
+                  Initialization of variable DFALLN to 0. was added at the beginning of the subroutine.
+
+ls/src  sitset.f  The variable ISISP was being used as an array subscript, and it potentially could be zero.
+                  The code was revised so ISISP gets assigned the default value if it is zero, before it gets
+                  used as a subscript.
+
+ne/src  regent.f  The $ID date-of-revision line was implemented. The variable D in the second call to subroutine 
+                  BALMOD was undefined, and replaced with DBH(I).
+
+oc/src  cratet.f  Code was inserted to avoid using variable IPTR as an array subscript when it is zero in the
+                  crown ratio dubbing section.
+
+op/src  cratet.f  Code was inserted to avoid using variable IPTR as an array subscript when it is zero in the
+                  crown ratio dubbing section.
+
+         morts.f  A bound on variable CRADJ was inserted to avoid an underflow error as CR increases.
+
+organon/src 
+        diagro.f  A bound on variable CRADJ was inserted to avoid an underflow error as CR increases in
+                  subroutines DG_SWO, DG_NWO_RUN, DG_SMC, and DG_RAP.
+
+      htgrowth.f  Bounds on variables FCR and CRADJ were inserted to avoid underflow errors in
+                  subroutines HG_SWO, HG_NWO, HG_SMC, and HG_RAP.
+          
+     mortality.f  A bound on variable CRADJ was inserted to avoid an underflow error as CR increases in
+                  subroutine MORTAL_RUN (5 places).
+
+volume/src 
+       f_other.f  A lower bound on variable DR was inserted to avoid an underflow error for small values
+                  in subroutine BRK_OT.
+       
+        r8vol2.f  Initialization of variables BTR and DBTBH to 0. was added in subroutine R8CLARK.
+
+wc/src   morts.f  The C $ID date of change line was implemented. A bound on variable CRADJ was inserted
+                  to avoid an underflow error as CR increases.
+
+
+
+

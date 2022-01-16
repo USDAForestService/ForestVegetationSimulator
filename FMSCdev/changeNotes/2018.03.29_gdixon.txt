@@ -1,0 +1,2515 @@
+Subject: General FVS code modernization
+Name: Gary Dixon
+Date: 03/29/2018
+Variants affected: All
+
+Description: As part of a code modernization effort, the FVS code is being cleaned up and streamlined. The
+             following changes are to eliminate compile warning messages. Changes included in this group are: 
+                  1) elimination of mixed-mode variable settings
+                  2) elimination of tab characters
+                  3) elimination of unused statement labels
+                  4) elimination of unused declared local variables and arrays
+                  5) correction of mismatched character arrays and variables
+                  6) elimination of unused dummy argument warnings
+             
+             Miscellaneous other corrections were made that pertained to uninitialized variables and other problems 
+             that were causing denormal run-time errors. Some inconsistencies in the test keyword files and sum.save
+             files were corrected.
+
+Impact on users: There will be no impact on users.
+
+Files:
+
+ak/src       
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+               
+      crown.f  The $ID date of change line was implemented. The 50 CONTINUE statement was deleted. The statement 
+               9052 ICRI = ... was changed to 9052 CONTINUE followed by ICRI = ... with the INT function used to 
+               correct the mixed-mode setting of variable ICRI. The REAL and INT fortran functions were used in 
+               other places to correct mixed-mode variable settings. The local variables CRHAT, DIFF, and PCTHAT 
+               were deleted. The outdated IFIX and FLOAT functions were converted to INT and REAL, respectively. 
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI.
+               The local variables FMRT, REGGOR, and SNO were deleted.
+
+        dgf.f  The $ID date of change line was implemented. All tab characters were converted to spaces.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     esadvh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable N.
+
+     esdlay.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable IBW.
+
+     esnutr.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used 
+               to correct mixed-mode setting of variable NCLAS, and an IF test at line 376.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N, ITIME, and IAGE.
+
+      estab.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables IDUP, ITEMP, KDTOLD, ITIME, ITPP, IBRKUP, N, NN, J, K, 
+               and L. The real "0." was converted to integer "0" in all initializations of array DEFECT(i). The
+               setting of array CLAST(N) was changed from NSP(I,1) to NSP(I,1)(1:2) to avoid mismatched character
+               array sizes.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     habtyp.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument 
+               warning.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables NLOGS and IDU. The unused local variable H1 was deleted.
+
+      morts.f  The $ID date of change line was implemented. The 190 CONTINUE statement was deleted. The unused
+               local variable TN10TMP was deleted.
+
+      prof1.f  This subroutine was deleted since it is no longer used.
+
+      prof2.f  This subroutine was deleted since it is no longer used.
+
+     regent.f  The $ID date of change line was implemented. The 4 CONTINUE statement was commented out for now. 
+               The fortran INT function was used to correct mixed-mode setting of array ICR(i).
+               The local variable BBALIM was deleted.
+
+        sbb.f  The $ID date of change line was implemented. The 185 CONTINUE and 170 CONTINUE statements were
+               deleted.
+
+     seamrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+base/src       
+     autcor.f  The 135 CONTINUE statement was deleted. The fortran INT function was used to correct mixed-mode
+               setting of variables NEW and NOLD.
+
+       comp.f  In the setting of array ICMP(i), NSP(ISPC,JMC) was changed to NSP(ISPC,JMC)(1:3) to avoid
+               truncation of the character*4 NSP value.
+               
+     comprs.f  The fortran INT and REAL functions were used to correct mixed-mode setting of
+               variable NCLS1. The fortran REAL function was used to correct REAL(8) to REAL(4) conversion
+               warnings. Uses of the outdated FLOAT fortran function were changed to the REAL function.
+               
+     cutqfa.f  The unused variables K, NDEF, and NFILL were deleted.  Code was added to suppress an unused dummy
+               argument warning.
+               
+       cuts.f  The fortran INT function was used to correct mixed-mode setting of variables ISPCUT, QFATAR,
+               ICUT, IORDER, IGRP, and ISPEC. The unused variable BRBASE was deleted.
+               
+     damcds.f  The unused variable IDD was deleted.
+               
+     dbprse.f  The 3060 CONTINUE statement was deleted.
+               
+     disply.f  The fortran INT function was used to correct mixed-mode setting of variable JSDI and arrays
+               IOSUM(i,j), ISDI(i), ISDIAT(i), IOLDBA(i), IBTCCF(i), and IBTAVH(i).
+               
+     ecvols.f  The fortran INT function was used to correct mixed-mode setting of variables IDBH, ICVOLT,
+               ICVOLC, ICVOLB, ICTREE, and ICBA. The unused variable IIDBH was deleted.
+               
+      eigen.f  The unused statement labels 5, 6, 62, 68, and 78 were converted to comment statements since 
+               they are referenced in the directions for converting the subroutine to double precision.
+               
+      evmon.f  Tabs were converted to spaces.
+               
+     evpred.f  The variable SUMTPA was initialized to 0.0 before the DO 90 loop.
+
+      exbgc.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings.
+
+       exbm.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings.
+
+     exbrus.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings. Some comment lines were added or edited.
+
+     exbudl.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings. Some comment lines were added or edited.
+               
+     exclim.f  The unused variable IRECNT was deleted. Code was added to suppress unused dummy argument 
+               warnings. Some comment lines were added or edited.
+               
+      excov.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               
+      exdbs.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               The unused variables FVALU, ID, IREAD, IRECNT, SQLSTMTSTR, and SUMTABLEID were deleted.
+               
+      exdfb.f  The unused variable NPLT was deleted. Code was added to suppress unused dummy argument 
+               warnings. Some comment lines were added or edited.
+
+     exdftm.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings. Some comment lines were added or edited.
+               
+     execon.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               The unused array LNOTBK was deleted.
+               
+     exestb.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               
+     exfert.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               
+     exfire.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               The unused variables J1, J2, and I5 were deleted.
+               
+     exmist.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               The GO TO 9000 statements were changed to RETURN to be consistent with other subroutines of this
+               family.
+
+      exmpb.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or
+               edited.
+
+  exorganon.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings. Some comment lines were added or edited.
+
+      exppe.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or
+               edited.
+
+       exrd.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+               
+       exsv.f  Code was added to suppress unused dummy argument warnings. Some comment lines were added or edited.
+
+     extree.f  In the setting of array IONSP(i), NSP(ISPC,JMC) was changed to NSP(ISPC,JMC)(1:3) to avoid
+               truncation of the character*4 NSP value.
+
+  extwigvol.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings. Some comment lines were added or edited.
+               
+      ffert.f  The unused variable DDYR was deleted.
+
+     fndkey.f  Code was added to suppress an unused dummy argument warning.
+
+     formcl.f  Code was added to suppress unused dummy argument warnings.
+               
+     fortyp.f  The fortran INT function was used to correct mixed-mode setting of variable NINTY5. The unused
+               variables QUATR and TROHPWDS were deleted.
+               
+     fvsstd.f  The fortran INT function was used to correct mixed-mode setting of variable KSDI. The unused
+               variable CLAB2 was deleted.
+               
+     genrpt.f  The unused variable KODE was deleted.
+               
+     initre.f  The 9970 CONTINUE, 9920 CONTINUE, and 1210 CONTINUE statements were deleted. The 4622 FORMAT 
+               statement was deleted. The fortran INT function was used to correct mixed-mode setting of 
+               variables I (CLOSE keyword), IISP, IXTMP, POINTNO, and JOSCRN, and arrays ISTAGF(i), IPTGRP(i,j),
+               METHC(i) and METHB(i). The fortran INT and REAL functions were used to correct mixed-mode setting
+               of variable IFORTP. The unused variables CFOUR, VOLEQ, CCCOEF1 and CCCOEF2 were deleted.
+               
+     intree.f  The fortran INT function was used to correct mixed-mode setting of array ITRUNC(i). The real "0."
+               was changed to an integer 0 in setting array DEFECT(i). The variable IOSTAT was initialized to 0.
+               
+     keyopn.f  The fortran INT function was used to correct mixed-mode setting of variables IS and IM. 
+               
+       main.f  A tab was deleted.
+               
+     natcrz.f  The unused variable IA was deleted.
+               
+     opget2.f  The 20 CONTINUE statement was deleted.
+               
+     opget3.f  The 20 CONTINUE statement was deleted.
+               
+     opsame.f  The unused variable KIDE was deleted.
+               
+     opstus.f  The unused variable ITR2 was deleted.
+               
+    ptgdecd.f  The commented out GO TO 20 statement and the corresponding 20 CONTINUE statement were deleted.
+               
+       rann.f  The fortran REAL function was used to correct a REAL(8) to REAL(4) conversion warning.
+               
+     sdichk.f  The statement label 8000 was deleted.
+               
+     sstage.f  Assignments involving JSP(ISP(I)) were changed to JSP(ISP(I))(1:3) to avoid a truncation
+               warning message.
+               
+      stats.f  The fortran INT function was used to correct mixed-mode setting of variable IALP. 
+               
+     stkval.f  The unused variable STKR1 was deleted.
+               
+     sumout.f  The unused variable LNOR was deleted.
+               
+     svcdbh.f  The real "0." was changed to an integer 0 in setting array IPLCNT(i).
+               
+      svkey.f  The unused variables ISTLNB and KODE were deleted.
+               
+     svrann.f  The fortran REAL function was used to correct a REAL(8) to REAL(4) conversion warning.
+               
+     svrmov.f  The 10 CONTINUE, 15 CONTINUE, and 35 CONTINUE statements were removed.
+               
+     svsalv.f  The fortran INT and REAL functions were used to correct mixed-mode setting of variable NOTFELD. 
+               The unused variables IPUT, ISNAG, ISVOBJ, and K were deleted.
+               
+     tredel.f  Added the directory name to the C $ID line. Incorporated Lance's changes. 
+               
+     update.f  The fortran INT and REAL functions were used to correct mixed-mode setting of array NORMHT(i). 
+
+bm/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-
+               mode setting of variables ID, ITD, and IVTD. Code was added to suppress unused dummy argument 
+               warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     bmtmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The $ID date of change line was implemented. The 50 CONTINUE statement was deleted. The 
+               51 CONTINUE statement was commented out. The fortran INT and REAL functions were used to correct 
+               mixed-mode variable settings. The outdated IFIX and FLOAT functions were converted to INT and REAL,
+               respectively. The unused variables CRHAT, DIFF, and PCTHAT were deleted. The unused variable HF was
+               commented out.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively.
+
+        dgf.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable LSI.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables N and ITIME. Code was added to suppress unused dummy argument warnings.
+
+     exppnb.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     formcl.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IFCDBH.
+
+       htgf.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to correct 
+               mixed-mode setting of variable IICR. The unused statement label 1322 was deleted. The unused
+               170 CONTINUE statement was deleted.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted. The
+               unused variable TN10TMP was deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to correct 
+               mixed-mode setting of array ICR(i) and variable JCR. The unused variables BAWT, BAALIM, HBA, HBALIM,
+               IICR, IP, J, KSPC, PNTWT, PTCCF, RCR, RSI, SATBA, TBAL, TCR, and XHMOD were deleted.
+
+     sitset.f  The $ID date of change line was implemented. The unused variable KNTEGO was deleted.
+
+     smhtgf.f  The $ID date of change line was implemented. The unused variables B0A, B0ASTD, B0B, B0BSTD, B1A,
+               B1B, B1BSTD, BACHLO, BAL, BETA1, BETA2, CR, CR1, CRMOD, D, DOMHTGR, FACTOR, HTG1, HTGRTH, IPCCF,
+               PPCCF, RELHT, RHMOD, SMHMOD, STDEV, and TEMBAL were deleted.
+
+ca/src       
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to correct 
+               mixed-mode variable settings. The outdated IFIX and FLOAT functions were converted to INT and REAL,
+               respectively. 
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The unused variable
+               SIG was deleted.
+
+        dgf.f  The initialization values for array OBSERV(i) were changed to integer values. The unused statement
+               label 5 was deleted.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+       dunn.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IST. 
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables N and ITIME. Code was added to suppress unused dummy argument warnings.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     forkod.f  The unused 29 CONTINUE statement was deleted.
+
+     formcl.f  The fortran INT function was used to correct mixed-mode setting of variable IFCDBH. 
+
+     habtyp.f  The $ID date of change line was implemented. The variable KARD2 was deleted from the first debug
+               WRITE statement because it is still undefined. KARD2 was changed to KARD2(1:8) in the IF tests 
+               against arrays R5HABT(i) and PCOML(i), and in the section of code after 300 CONTINUE. The unused 
+               variables I1, I2, and IFORST were deleted.
+
+      htdbh.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused variable INDEX was deleted.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted. The
+               unused variable TN10TMP was deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of array ICR(i).
+
+     smhtgf.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     varmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+ci/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables ID, ITD, and IVTD. Code was added to suppress unused dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. All tabs were deleted. Code was added to suppress an 
+               unused dummy argument warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The $ID date of change line was implemented. The unused 50 CONTINUE statement was deleted. The
+               fortran INT and REAL functions were used to correct mixed-mode setting of variable ICRI. The
+               unused variables CRHAT, DIFF, and PCTHAT were deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. 
+
+        dgf.f  The $ID date of change line was implemented. Initialization values for arrays IBSERV(i,j) and
+               OBSERV(i) were changed from real to integer values. The fortran INT function was used to correct
+               mixed-mode setting of variable LSI. The unused variables IPPCF and ISOC were deleted.
+
+     esadvh.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables N and ITIME. The fortran FLOAT function was changed to the REAL function.
+
+     esdlay.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IBW.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables N, ITIME, and IAGE.
+
+     exppnb.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     findag.f  The $ID date of change line was implemented. The debug 91201 FORMAT statement was commented out.
+               Code was added to suppress unused dummy argument warnings.
+
+     habtyp.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused 1322 statement label and 999 CONTINUE
+               statement were deleted. The fortran INT and REAL functions were used to correct mixed-mode setting
+               of variable IICR. The unused variable IHT was deleted.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables NLOGS and IDU.
+
+     regent.f  The $ID date of change line was implemented. The unused 8897 CONTINUE and 18 CONTINUE statements
+               were converted to comment lines. The fortran INT function was used to correct mixed-mode setting
+               of variables NTYR and IYR, and array ICR(i). The unused array AB(i), and variables BBAL, BETA1,
+               BETA2, BH, DADJ, DDS2, DG2, DGJ, DGK, DLESS3, DNEW, HSIGMA, HTG1, HTNEW, IITRE, PS, RELH, RELSDI,
+               RSBA0, RSBA1, RSBA2, SOBAL, STDDEV, and TCR, and arrays HHT1(i), HHT2(i), RHGL(i), RHHAB(i,j), 
+               RHLH(i), and RHSC(i) were deleted.
+
+     smhtgf.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+     varget.f  The $ID date of change line was implemented. A tab character was deleted. Code was added to 
+               suppress unused dummy argument warnings.
+
+     varput.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings.
+
+clim/src       
+   clputget.f  Incorporated Nick's changes: variable CLHABINDX was changed to put and get as an integer instead 
+               of a real in subroutines CLPUT and CLGET.
+
+covr/src       
+     cvbcal.f  The $ID date of revision line was implemented. The 260 CONTINUE statement was deleted. 
+
+       cvcw.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy 
+               argument warning.
+
+       cvin.f  The $ID date of revision line was implemented. The 135 CONTINUE statement was deleted. The fortran 
+               function INT was used to correct mixed-mode setting of variables IHTYPE, IPHYS, and IDIST.
+
+cr/src       
+      bfvol.f  The fortran INT function was used correct mixed-mode setting of variable ITD. Code was added 
+               to suppress unused dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+     crdecd.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variable ICRI and settings involving arrays NORMHT(i) and 
+               ITRUNC(i). The outdated FLOAT and IFIX fortran functions were converted to REAL and INT,
+               respectively.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. 
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of variables N and ITIME. Code was added to suppress unused dummy argument
+               warnings.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+      gemcr.f  The $ID date of change line was implemented. The unused 1000 CONTINUE statement was deleted.
+
+      gemdg.f  The $ID date of change line was implemented. The unused variable APECT was deleted. Code was added
+               to suppress unused dummy argument warnings.
+
+      gemht.f  The $ID date of change line was implemented. The unused variable HGA was deleted.
+
+     habtyp.f  The $ID date of change line was implemented. The unused 100 CONTINUE statement was deleted.
+               The unused variables REFTMP and TEMP were deleted.
+
+       htgf.f  The $ID date of change line was implemented. The real "0." was changed to an integer 0 in 
+               setting variable IHTG.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted.
+               The unused variable TN10TMP was deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of array ICR(i). The unused variables IICR, IP, PPBA, PPBAD, PPBAL, PPBALI,
+               RCR, RELHT, RHDM1, RHDM2, SBA, SBAL, SCNST, SCR, SCRSQ, SDHCN, SDHCR, SDHHT, SHDM1, SHDM2, SHTBA,
+               SOBAL, SPBAL, SPTBA, SRLHT, TBAL, and TCR were deleted.
+
+     sitset.f  The $ID date of change line was implemented. The array DEFMT was changed from type REAL to INTEGER.
+
+     varget.f  Code was added to suppress unused dummy argument warnings.
+
+     varmrt.f  The unused variable J was deleted.
+
+     varput.f  Code was added to suppress unused dummy argument warnings.
+
+cs/src       
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i). The unused variables A1, A2,
+               A3, A4, A5, A6, BAT, and BATREE, and arrays B1(i), B2(i), B3(i), B4(i), B5(i), and B6(i), were deleted.
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to correct 
+               mixed-mode variable settings. The outdated IFIX and FLOAT functions were converted to INT and REAL,
+               respectively. 
+
+     essubh.f  The $ID date of change line was implemented. The array MAPCS(i) was changed from type REAL to type
+               INTEGER. The fortran INT function was used to correct mixed-mode setting of variables N and ITIME.
+               Code was added to suppress unused dummy argument warnings.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument 
+               warnings.
+
+      htdbh.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument 
+               warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused 35 CONTINUE and 36 CONTINUE statements
+               were deleted.
+
+      nbolt.f  The $ID date of change line was implemented. All tab characters were converted to spaces. The
+               fortran INT function was used to correct mixed-mode setting of variables IHT2 and IHT1. 
+
+     twigbf.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument 
+               warning.
+
+     twigcf.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument 
+               warning.
+
+     varmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+dbs/src       
+  dbsatrtls.f  The unused variable CCFT was deleted. 
+  
+    dbscmpu.f  The unused variable ID was deleted in subroutine INSERTCMPU. 
+
+    dbscuts.f  The unused variables CCFT and J were deleted.
+  
+  dbsfmburn.f  The 100 CONTINUE statement was deleted. 
+
+ dbsfmcanpr.f  The 100 CONTINUE statement was deleted. 
+
+  dbsfmcrpt.f  The 100 CONTINUE statement was deleted. 
+
+ dbsfmdsnag.f  The 100 CONTINUE statement was deleted. The setting of variable CSP was changed from JSP(IDC)
+               to JSP(IDC)(1:3) to avoid truncation. 
+
+ dbsfmdwvol.f  The 100 CONTINUE statement was deleted. 
+
+  dbsfmfuel.f  The 100 CONTINUE statement was deleted. 
+
+  dbsfmhrpt.f  The 100 CONTINUE statement was deleted. The unused variable ID was deleted.
+
+  dbsfmmort.f  The 100 CONTINUE statement was deleted. The setting of variable CSP was changed from JSP(J)
+               to JSP(J)(1:3) to avoid truncation. 
+
+ dbsfmssnag.f  The 100 CONTINUE statement was deleted. 
+
+   dbsfuels.f  The 100 CONTINUE statement was deleted. 
+
+      dbsin.f  The 80 CONTINUE statement was deleted. The fortran INT function was used to correct mixed-mode settings
+               in variables ITREELIST, ISPOUT6, ICUTLIST, ISPOUT17, IDM1, IDM2, IDM3, IDM5, IDM6, ISPOUT21,
+               ISPOUT23, ISPOUT30, IATRTLIST, and ISPOUT31.
+
+   dbsppget.f  The unused variables I and K were deleted in subroutine DBSCHGET.
+
+   dbsppput.f  The unused variable I was deleted. The unused variables I and K were deleted in subroutine DBSCHPUT.
+
+  dbspusput.f  The unused variable CT was deleted.
+
+ dbsstandin.f  The fortran INT and REAL functions were used to correct mixed-mode settings in variables IXTMP and
+               IFORTP. The real "-1." was changed to an integer -1 in the setting of variables ISTANDDATA(51) and
+               ISTANDDATA(52). Instances of the fortran FLOAT function were changed to the REAL function.
+
+   dbssumry.f  A tab character was converted to spaces.
+
+ dbstreesin.f  The fortran INT function was used to correct mixed-mode settings in variables IPLOT, ITREE, HISTORY,
+               CRWNR, DMG1, DMG2, DMG3, SVR1, SVR2, SVR3, TREEVAL, PRESCRIPT, SLOPE, ASPECT, TOPOCODE, and SITEPREP.
+               In a comment statement "HASN'T" was changed to "HAS NOT".
+
+    dbstrls.f  The unused variable CCFT was deleted.
+
+mkdbsTypeDefs.c  Incorporated Nick's modifications to this subroutine.
+               
+      stash.f  A tab was converted to spaces.
+
+ec/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables ID, ITD, and IVTD. The unused variable VVER was deleted. Code was added to 
+               suppress unused dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning. The unused variable TEMD was deleted. 
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The $ID date of change line was implemented. The unused 50 CONTINUE statement was deleted.
+               The fortran INT and REAL functions were used to correct mixed-mode setting of variable ICRI, 
+               and other calculations involving arrays ICR(i), NORMHT(I), and ITRUNC(i). 
+               The unused variables CRHAT, DIFF, and PCTHAT were deleted. The outdated FLOAT and IFIX fortran
+               functions were replaced with REAL and INT, respectively.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. 
+
+     dubscr.f  The $ID date of change line was implemented. The call to subroutine DBCHK was uncommented
+               so the variable DEBUG is defined. Code was added to suppress an unused dummy argument
+               warning.
+
+     esadvh.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables N and ITIME. The fortran FLOAT function was changed to REAL.
+
+     essubh.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     findag.f  The $ID date of change line was implemented. The unused variable HMAX was deleted.
+
+     formcl.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IFCDBH.
+
+      htdbh.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused variable D was deleted.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted. 
+               The unused variables KSPC and TN10TMP were deleted. 
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode 
+               setting of array ICR(i).
+
+     varmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+em/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables ID, ITD, and IVTD. Code was added to suppress unused dummy argument
+               warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to correct
+               mixed-mode setting of variable ICRI, and other calculations involving arrays ICR(i), NORMHT(I),
+               and ITRUNC(i). The unused variables CRHAT, DIFF, PCTHAT, RDM, and J were deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. 
+
+        dgf.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable LSI.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     esadvh.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables N and ITIME. The fortran FLOAT function was changed to the REAL function.
+
+     esdlay.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IBW.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables N, ITIME, and IAGE.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     habtyp.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+       htgf.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable IICR.
+
+       logs.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted. 
+               The unused variable TN10TMP was deleted. 
+
+       rcon.f  The $ID date of change line was implemented. The unused variable I was deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode 
+               setting of variables NTYR and IYR, and array ICR(i). The unused variable RELSDI was deleted.
+
+     varget.f  Code was added to suppress unused dummy argument warnings.
+
+     varput.f  Code was added to suppress unused dummy argument warnings.
+
+estb/src       
+     esaddt.f  The $ID date of revision line was implemented. The unused 404 statement label was deleted.
+               Code was added to suppress an unused dummy argument warning. 
+
+     esadvh.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N and ITIME. 
+
+     esdlay.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable IBW. 
+
+     esnutr.f  The $ID date of revision line was implemented. The fortran INT and REAL functions were used
+               to correct mixed-mode setting of variable NCLAS. 
+               
+     esrann.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct
+               a REAL(8) to REAL(4) conversion warning.
+
+     essprt.f  The $ID date of revision line was implemented. All tab characters were converted to spaces
+               or deleted. The fortran INT function was used to correct mixed-mode settings of variable NMSPRC.
+               The unused variable NASPRT was deleted. Code was added to suppress an unused dummy argument
+               warning.
+
+     essubh.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N, ITIME, and IAGE. 
+
+      estab.f  The fortran INT function was used to correct mixed-mode setting of variables IDUP, ITEMP, KDTOLD,
+               ITIME, ITPP, IBRKUP, N, NN, J, K, and L. The real "0." was changed to an integer 0 in the setting
+               of array DEFECT(i). NSP(I,1) was changed to NSP(I,1)(1:2) in the setting of array CLAST(i).
+  
+     esuckr.f  The $ID date of revision line was implemented. A tab character was deleted. The fortran INT function
+               was used to correct mixed-mode setting of variable MXTODO. One instance of the FLOAT function was
+               changed to the REAL function. The real "0." was changed to an integer 0 in setting DEFECT(i). The
+               variable NSP(ISPSPE(I),1) was changed to NSP(ISPSPE(I),1)(1:2) in setting CLABEL to avoid truncation.
+               The unused variable ITODO was deleted. 
+
+fire/ak/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variables DCYMLT, IFGS, IWET,and XX
+               were deleted. All tabs were converted to spaces.
+
+     fmcfmd.f  The $ID date of revision line was implemented. The unused variables K and L were deleted. All
+               tabs were converted to spaces.
+
+    fmvinit.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The loop index
+               for the initialization of arrays PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/base/common       
+    FMCOM.F77  All tabs were converted to spaces or deleted.
+
+   FMFCOM.F77  All tabs were converted to spaces or deleted.
+
+fire/base/src       
+     excfim.f  The $ID date of revision line was implemented. The unused variables BYRAM and FLAMEHT were 
+               deleted. Code was added to suppress unused dummy argument warnings.
+
+     fmburn.f  All tabs were converted to spaces. The INT and REAL functions were used to correct mixed-mode
+               setting of variables ATEMP, IDRYE and FMOIS, and array SURFVL(i,j,k). The unused variables BDAVG,
+               FFL, HERB, WOODY, K, L, WF, and FDFL, and arrays CURRCWD(i) and TPRMS(i), were deleted.
+
+     fmcadd.f  All tabs were converted to spaces.
+
+     fmcfir.f  The fortran INT function was used to correct mixed-mode setting of array MPS(i,j). The unused 
+               variable RACT1 was deleted.
+
+    fmcfmd2.f  The 590 CONTINUE statement was deleted. The fortran INT function was used to correct mixed-mode 
+               setting of array SURFVL(i,j,k). The unused variables BDAVG, INDD, INL, LOK, XDEP, XEXT, and IFMD 
+               were deleted in subroutine FMCFMD2. The unused arrays XFML(i,j) and XSUR(i,j) were deleted in 
+               subroutine FMCFMD2. The 50 FORMAT debug write statement was moved.
+
+     fmcmpr.f  All tabs were converted to spaces. The fortran INT function was used to correct mixed-mode setting
+               of array GROW(i). The outdated IFIX function was replaced with the INT function.
+
+   fmcrbout.f  The unused variable XDCAY was deleted.
+
+    fmcrowe.f  All tabs were converted to spaces or deleted.
+
+      fmcwd.f  The unused variables BARK, BRATIO, DIF3, Q, LCONE, LMERCH, SDIF3, VOL3, VOL4, XGET, Z, and BEHRE 
+               were deleted. Code was added to suppress an unused dummy argument warning.
+
+      fmeff.f  All tabs were converted to spaces or deleted.
+
+    fmevmon.f  The 50 FORMAT statement was revised so it did not go beyond column 72. The unused variables IFIRST,
+               IT, KSP, LIVESTM, SNBBA, TOTFUL, TOTLIV, TOTSNG, TOTSTD, TOTSTND, XBMOUT, XDBH, XHT, XREM, and 
+               XTYPE were deleted.
+
+     fmfint.f  Changed the real "0." to an integer 0 in the initialization of array FLAG(i). Used the fortran INT
+               function to correct mixed-mode setting of variables JMAX, KMAX, N1, N2, and JM.
+
+     fmfout.f  The unused 319 FORMAT statement was deleted.
+
+     fmgfmv.f  All tabs were converted to spaces or deleted.
+
+       fmin.f  The section of code dealing with a special end-of-file target 80 CONTINUE statement et.al. was
+               deleted. The real "999." was changed to an integer 999 in setting variables IFMBRE, IFMFLE, 
+               and IFMMRE. The fortran INT function was used to correct mixed-mode setting of variable IFIRE,
+               and array POTSEAS(i). The unused variable IRTNCD was deleted in subroutine FMKEYRDR. The unused
+               variable NPRMS was deleted. 
+
+     fmmain.f  The unused variable VVER and three commented out lines using it were deleted.
+
+     fmpofl.f  The fortran INT function was used to correct mixed-mode setting of array SWIND(i). The fortran 
+               REAL function was used to correct REAL(8) to REAL(4) conversion warnings.
+
+     fmprun.f  All tabs were converted to spaces or deleted.
+
+   fmr6sdcy.f  All tab characters were deleted.
+
+     fmsadd.f  The fortran INT function was used to correct mixed-mode setting of variable SPCL.
+
+     fmscut.f  Code was added to suppress an unused dummy argument warning.
+
+     fmscro.f  The unused variables JADJ, JSML, and JYRSOFT were deleted. A tab character was deleted. The field
+               width for variable TSOFT in the 7 FORMAT statement was changed from F6.1 to F10.1.
+
+     fmsnag.f  The fortran INT and REAL functions were used to correct mixed-mode setting of variables JSP and 
+               YEAR. The unused variables BASE and X were deleted.
+
+    fmsnght.f  All tab characters were deleted.
+
+ fmsoilheat.f  All tab characters were deleted. The illegal # signs in column 1 were converted to C's.
+               Code was added to suppress an unused dummy argument warning.
+
+     fmsout.f  The fortran INT and REAL functions were used to correct mixed-mode setting of variable ISNAGE. 
+
+     fmsvol.f  A " character was changed to INCH in a comment statement.
+
+    fmsvout.f  The fortran INT and REAL functions were used to correct mixed-mode setting of variables TEMPIOBJ,
+               TEMPIS, and MEDIAN, and arrays IOBJTP(i) and IS2F(i). 
+
+     fmtret.f  The unused variables D, DIAM, HTD, IDCL, and J were deleted in subroutine FMFMOV.
+
+    fmusrfm.f  The fortran INT function was used to correct mixed-mode setting of variables IFLOGIC and IFMSET. 
+
+fire/bc/src       
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/bm/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variables DCYMLT and XX were deleted.
+
+     fmcfmd.f  The $ID date of revision line was implemented. The unused variable SWT was deleted in subroutine
+               FMCFMD. 
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/ca/src       
+      fmcba.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays
+               PRDUFFT(i,j), PRDUFF(i,j), and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL. The initialization value for array
+               TODUFF(i,j) was changed from -1. to 0.
+
+fire/ci/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variable XX was deleted.
+
+     fmcfmd.f  The $ID date of revision line was implemented. The unused variable X1 was deleted in subroutine
+               FMCFMD. 
+
+    fmsfall.f  The $ID date of revision line was implemented. The variable DFALLN was initialized to 0.
+               Code was added to suppress an unused dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/cr/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variable XX was deleted. 
+               All tabs were converted to spaces.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/cs/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variable IFK was deleted. 
+
+     fmcrow.f  The $ID date of revision line was implemented. All tab characters were converted to spaces.
+
+    fmsfall.f  The $ID date of revision line was implemented. The variable DFALLN was initialized to 0. 
+               Initialization of variables RSOFT and RSMAL were moved. Code was added to suppress an unused
+               dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/ec/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variables DCYMLT and XX were deleted. 
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/em/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variable XX was deleted.
+
+    fmsfall.f  The $ID date of revision line was implemented. The variable DFALLN was initialized to 0. 
+               Initialization of variables RSOFT and RSMAL were moved. Code was added to suppress an unused
+               dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/fofem/src       
+   fof_util.c  At line 166 "(char) NULL;" on the right hand side of the = sign was changed to "0;".
+
+fire/ie/src       
+      fmcba.f  The $ID date of revision line was implemented. The array COVINI(i) was changed from a type REAL to
+               a type INTEGER. The unused variable XX was deleted.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/ls/src       
+      fmcba.f  The $ID date of revision line was implemented. All tab characters were changed to spaces or 
+               deleted.
+
+     fmcfmd.f  The $ID date of revision line was implemented. All tab characters were changed to spaces or 
+               deleted. The unused variable Y and array HPOINT(i) were deleted.
+
+     fmcrow.f  The $ID date of revision line was implemented. All tab characters were changed to spaces or 
+               deleted.
+
+    fmsfall.f  The $ID date of revision line was implemented. The variable DFALLN was initialized to 0. 
+               Initialization of variables RSOFT and RSMAL were moved. Code was added to suppress an unused 
+               dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/nc/src       
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/ne/src       
+      fmcba.f  The $ID date of revision line was implemented. A tab character was deleted. The unused variable
+               FTLIVEFU was deleted.
+
+     fmcfnd.f  The $ID date of revision line was implemented. The unused variables K and L were deleted. 
+
+     fmcrow.f  The $ID date of revision line was implemented. All tab characters were changed to spaces. 
+
+    fmsfall.f  The $ID date of revision line was implemented. The variable DFALLN was initialized to 0. 
+               Initialization of variables RSOFT and RSMAL were moved. Code was added to suppress an unused 
+               dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/ni/src       
+      fmcba.f  The $ID date of revision line was implemented. The array COVINI(i) was changed from a type REAL to
+               a type INTEGER. The unused variable XX was deleted.
+
+     fmcons.f  The $ID date of revision line was implemented. Code was added to suppress an unused dummy 
+               argument warning.
+
+     fmmois.f  The $ID date of revision line was implemented.
+
+    fmsfall.f  The $ID date of revision line was implemented. Initialization of variables RSOFT and RSMAL were
+               moved. Code was added to suppress an unused dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/oc/src       
+      fmcba.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays
+               PRDUFFT(i,j), PRDUFF(i,j), and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL. The initialization value for array
+               TODUFF(i,j) was changed from -1. to 0.
+
+fire/op/src       
+      fmcba.f  The $ID date of revision line was implemented. A tab character was deleted. The unused variables
+               DCYMLT and XX were deleted.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/pn/src       
+      fmcba.f  The $ID date of revision line was implemented. A tab character was deleted. The unused variables 
+               DCYMLT and XX were deleted. 
+
+    fmsfall.f  The $ID date of revision line was implemented. The unused variable FALLM2 and its definition 
+               were deleted. The unused variable X was deleted. The variable DFALLN was initialized to 0. 
+               Initialization of variables RSOFT and RSMAL were moved.  Code was added to suppress unused 
+               dummy argument warnings.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/sn/src       
+     fmcrow.f  The $ID date of revision line was implemented. All tab characters were converted to spaces.
+
+    fmsfall.f  The $ID date of revision line was implemented. The variable DFALLN was initialized to 0. 
+               Initialization of variables RSOFT and RSMAL were moved. Code was added to suppress an unused 
+               dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/so/src       
+      fmcba.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays
+               PRDUFFT(i,j), PRDUFF(i,j), and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+     fmcons.f  The $ID date of revision line was implemented. Code was added to suppress an unused 
+               dummy argument warning.
+
+    fmsfall.f  The $ID date of revision line was implemented. All tab characters were deleted. The variable 
+               DFALLN was initialized to 0. Initialization of variables RSOFT and RSMAL were moved.
+               Code was added to suppress an unused dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL. The initialization value for array
+               TODUFF(i,j) was changed from -1. to 0.
+
+fire/tt/src       
+      fmcba.f  The $ID date of revision line was implemented. A tab character was deleted. The unused variables 
+               DCYMLT, PVG, S9B and XX were deleted. 
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/ut/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variable XX was deleted. 
+
+     fmcfmd.f  The $ID date of revision line was implemented. The unused 67 statement label was deleted. The
+               fortran INT function was used to correct mixed-mode setting of variable SIFM. The unused
+               variable XDUM was deleted. The variable DFALLN was initialized to 0. 
+               Initialization of variables RSOFT and RSMAL were moved.
+
+    fmsfall.f  The $ID date of revision line was implemented. The unused variable LASCO was deleted.
+               Code was added to suppress an unused dummy argument warning.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/wc/src       
+      fmcba.f  The $ID date of revision line was implemented. The unused variables DCYMLT and XX were deleted.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+fire/ws/src       
+       cwhr.f  The $ID date of revision line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+    fmvinit.f  The $ID date of revision line was implemented. The loop index for the initialization of arrays 
+               PRDUFF(i,j) and TODUFF(i,j) was changed from 10 to MXFLCL.
+
+ie/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variables ID, ITD, LAST, and IVTD. Code was added to suppress unused
+               dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The fortran INT and REAL functions were used to correct mixed-mode variable settings. 
+               The outdated IFIX and FLOAT functions were converted to INT and REAL, respectively. The unused
+               variables CRHAT, DIFF, PCTHAT, and RDM were deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. 
+
+        dgf.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable LSI.
+
+     esadvh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode settings of variables N and ITIME.
+
+     esdlay.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode settings of variable IBW.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N, IAGE, and ITIME.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     formcl.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IFCDBH.
+
+       htgf.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to correct 
+               mixed-mode setting of variable IICR.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables NLOGS and IDU. The unused variable H1 was deleted.
+
+      morts.f  The unused array CLIMORT(i) was deleted.
+
+     regent.f  The variable SCALE was changed to SCALE2 in the debug write statement after the calls to
+               subroutine MULTS. The fortran INT function was used to correct mixed-mode setting of variables
+               NTYR and IYR, and array ICR(i). The unused variable RELSDI was deleted.
+
+kt/src       
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+        dgf.f  The $ID date of change line was implemented. Initialization values for the array OBSERV(i,j) were
+               changed from real to integer values.
+
+     exppnb.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     habtyp.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     pvref1.f  The $ID date of change line was implemented. The unused variable CPVDUM was deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to 
+               correct mixed-mode settings of variables NTYR, IYR, and array ICR(i).
+
+     varget.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     varput.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+ls/src       
+      bfvol.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+      cfvol.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i). The unused variables A1, A2,
+               A3, A4, A5, A6, BATREE, and BAT, and arrays B1(i), B2(i), B3(i), B4(i), B5(i), and B6(i), were
+               deleted.
+
+      crown.f  The fortran INT and REAL functions were used to correct mixed-mode variable settings. 
+               The outdated IFIX and FLOAT functions were converted to INT and REAL, respectively. 
+
+     cutstk.f  The unused variable DUDL was deleted. 
+
+     cwcalc.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     essubh.f  The $ID date of change line was implemented. The array MAPLS(i) was changed from a type REAL to
+               a type INTEGER. The fortran INT function was used to correct mixed-mode setting of variables
+               N and ITIME. Code was added to suppress unused dummy argument warnings.
+
+      estab.f  The $ID date of change line was implemented. The unused 163 CONTINUE and 44 CONTINUE were deleted.
+               The fortran INT function was used to correct mixed-mode setting of variables IDUP, KDTOLD, ITEMP,
+               IBRKUP, N, NN, J, K, and L. The real "0." was changed to an integer 0 in setting array DEFECT(i).
+               NSP(I,1) was changed to NSP(I,1)(1:2) in setting array CLAST(i).
+
+     exppnb.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     gvrvol.f  The $ID date of change line was implemented. The unused variables BRATIO, EQN, LCONE, TDIBB, and
+               TDIBC were deleted. Code was added to suppress unused dummy argument warnings.
+
+     htcalc.f  The $ID date of change line was implemented. The debug write statement just before the 900 CONTINUE
+               was made into two lines so it didn't exceed column 72. The arrays MAPCS(i), MAPLS(i), and MAPNE(i)
+               were changed from type REAL to type INTEGER.
+
+      htdbh.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused 35 CONTINUE and 36 CONTINUE statements
+               were deleted. The unused variables BA10, BARK, BRATIO, DBH10, GM, HT10, HTNOW, and IS, and arrays 
+               B1(i), B2(i), B3(i), B4(i), B5(i), and B6(i), were deleted.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted.
+               The unused variable TN10TMP was deleted.
+
+      nbolt.f  The $ID date of change line was implemented. All tab characters were changed to spaces. The
+               fortran INT function was used to correct mixed-mode setting of variables IHT1 and IHT2.
+
+     sitset.f  The $ID date of change line was implemented. The unused 50 CONTINUE statement was deleted.
+
+     spctrn.f  The variable SPCOUT was changed from a CHARACTER*4 to a CHARACTER*3. Initialization of variable
+               SPCOUT was changed to 'XX '. The ASPT(i,j) reference in setting variable SPCOUT was changed to 
+               ASPT(i,j)(1:3) to avoid truncation. The test on variable SPCOUT being 'XX  '  after the
+               150 CONTINUE was changed to 'XX '. SPCOUT in the DO 200 loop was changed to SPCOUT(1:2).
+
+     twigbf.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     twigcf.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     varmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+       vols.f  The $ID date of change line was implemented. The variables OMCCUR(7) and OBFCUR(7) were deleted
+               from a debug write statement.
+
+mistoe/src       
+     miscnt.f  The $ID date of revision line was implemented. The unused 9000 CONTINUE statement was deleted.
+
+     miscpf.f  The $ID date of revision line was implemented. The unused 9000 CONTINUE statement was deleted.
+
+     misdgf.f  The $ID date of revision line was implemented. The unused 9000 CONTINUE statement was deleted.
+
+     mishgf.f  The $ID date of revision line was implemented. The unused 9000 CONTINUE statement was deleted.
+
+     misin0.f  The $ID date of revision line was implemented. The unused 9000 CONTINUE statement was deleted.
+
+      misin.f  The $ID date of revision line was implemented. The unused 8200 FORMAT statement was deleted.
+
+     misfit.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of arrays NEWLEV(i) and NEWTYP(i).
+
+   misintak.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintbc.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintbm.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintca.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintci.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintcr.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i). The unused 9000 CONTINUE statement
+               was deleted.
+
+   misintec.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintem.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintie.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintkt.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintnc.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintni.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintoc.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintop.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintpn.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintso.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misinttt.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintut.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintwc.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+   misintws.f  The $ID date of revision line was implemented. The local AFIT(i) array type was changed from REAL
+               to INTEGER to correct mixed-mode setting of array MISFIT(i).
+
+     mismrt.f  The $ID date of revision line was implemented. The unused 9000 CONTINUE statement was deleted.
+
+nc/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variables ID, ITD, and IVTD. Code was added to suppress unused 
+               dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode variable settings. The outdated IFIX and FLOAT functions were converted to 
+               INT and REAL, respectively. 
+
+        dgf.f  The $ID date of change line was implemented. Initialization values for the array OBSERV(i,j) were
+               changed from real to integer values.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings. IMPLICIT NONE was implemented.
+
+       dunn.f  The $ID date of change line was implemented. The fortran INT function was used to 
+               correct mixed-mode setting of variable IST.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N and ITIME. Code was added to suppress unused dummy argument
+               warnings.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     formcl.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IFCDBH.
+
+     habtyp.f  The $ID date of change line was implemented. The variable KARD2 was deleted from the first debug
+               WRITE statement because it is still undefined. KARD2 was changed to KARD2(1:8) in the IF tests 
+               against arrays R5HABT(i) and PCOML(i), and in the section of code after 300 CONTINUE. 
+
+     htdbh.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused 150 statement label was deleted.
+
+       logs.f  The $ID date of change line was implemented. The unused 75 CONTINUE statement and statement label
+               25 were deleted. The fortran INT function was used to correct mixed-mode setting of variables IH, 
+               IC, IDU, IC, and NLOGS. The real "1." was changed to an integer 1 in the setting of variable ITEM. 
+               The unused variable IBDC was deleted.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted. The
+               unused variable TN10TMP was deleted.
+
+     nwcmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of variable NTYR and array ICR(i). The variable L was changed from type REAL
+               to type INTEGER. The unused variables TEMP and XA were deleted. Variable HK was taken out of
+               the 9000 debug write statement.
+
+      sichg.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     sitset.f  The $ID date of change line was implemented. The unused 20 CONTINUE statement was deleted.
+
+ne/src       
+     badist.f  The $ID date of revision line was implemented. Code was added to suppress an unused dummy 
+               argument warning.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i). The unused variables A1, A2,
+               A3, A4, A5, A6, BATREE, and BAT, and arrays B1(i), B2(i), B3(i), B4(i), B5(i), and B6(i), were
+               deleted.
+
+      crown.f  The fortran INT and REAL functions were used to correct mixed-mode variable settings. 
+               The outdated IFIX and FLOAT functions were converted to INT and REAL, respectively. 
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. The unused variable S was
+               deleted.
+
+        dgf.f  The $ID date of change line was implemented. All tab characters were changed to spaces.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N and ITIME. The array MAPNE(i) was changed from type REAL to 
+               type INTEGER. Code was added to suppress unused dummy argument warnings.
+
+     findag.f  The $ID date of revision line was implemented. Code was added to suppress unused dummy 
+               argument warnings.
+
+      htdbh.f  The $ID date of revision line was implemented. Code was added to suppress an unused dummy 
+               argument warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused 35 CONTINUE and 36 CONTINUE statements
+               were deleted.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of variables NLOGS and IDU.
+
+      nbolt.f  The $ID date of change line was implemented. All tab characters were changed to spaces. The
+               fortran INT function was used to correct mixed-mode setting of variables IHT1 and IHT2.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to 
+               correct mixed-mode settings of array ICR(i). The unused 95 CONTINUE statement was deleted.
+               The unused variable MODE9 was deleted.
+
+     sitset.f  The $ID date of change line was implemented. All tab characters were changed to spaces.
+
+     twigbf.f  The $ID date of revision line was implemented. Code was added to suppress an unused dummy 
+               argument warning.
+
+     twigcf.f  The $ID date of revision line was implemented. Code was added to suppress an unused dummy 
+               argument warning.
+
+     varmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+ni/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variables ID, ITD, and IVTD. Code was added to suppress unused 
+               dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+      crown.f  The fortran INT and REAL functions were used to correct mixed-mode variable settings. 
+               The outdated IFIX and FLOAT functions were converted to INT and REAL, respectively. 
+
+     cwcalc.f  The $ID date of change line was implemented. The unused 20 CONTINUE statement was deleted.
+                 Code was added to suppress unused dummy argument warnings.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. 
+
+       dunn.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy 
+               argument warning.
+
+     exppnb.f  The $ID date of revision line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables NLOGS and IDU.
+
+      morts.f  The unused variable IPATH was deleted.
+
+     spctrn.f  The variable SPCOUT was changed from a CHARACTER*4 to a CHARACTER*3. Initialization of variable
+               SPCOUT was changed to 'XX '. The ASPT(i,j) reference in setting variable SPCOUT was changed to 
+               ASPT(i,j)(1:3) to avoid truncation. The test on variable SPCOUT being 'XX  '  after the
+               150 CONTINUE was changed to 'XX '. SPCOUT in the DO 200 loop was changed to SPCOUT(1:2).
+
+       vols.f  The $ID date of change line was implemented. The variables OMCCUR(7) and OBFCUR(7) were deleted
+               from a debug write statement.
+
+oc/src       
+     cratet.f  The fortran INT, NINT, and REAL functions were used to correct mixed-mode settings of variables 
+               NORMHT(i) and ITRUNC(i). The unused variables IHEAD and ORGEDIT_STATUS were deleted. The 
+               outdated fortran FLOAT function was replaced with the fortran REAL function.
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variable ICRI. The outdated FLOAT and IFIX fortran functions were 
+               replaced with REAL and INT, respectively.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. The unused variables SIG and
+               ALLOW_THINNING_OPTION were deleted.
+
+        dgf.f  The unused statement label 5 was deleted.
+
+       htgf.f  The unused variable INDEX was deleted.
+
+      morts.f  The unused 190 CONTINUE statement and variable TN10TMP were deleted.
+
+     regent.f  The fortran INT function was used to correct mixed-mode setting of array ICR(i). The outdated
+               fortran FLOAT function was replace with the REAL function.
+
+op/src       
+     cratet.f  The fortran INT, NINT, and REAL functions were used to correct mixed-mode settings of variables 
+               NORMHT(i) and ITRUNC(i). The unused variables IHEAD and ORGEDIT_STATUS were deleted. The 
+               outdated fortran FLOAT function was replaced with the fortran REAL function.
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variable ICRI. The outdated FLOAT and IFIX fortran functions were 
+               replaced with REAL and INT, respectively. The unused 50 CONTINUE statement was deleted. The
+               unused variables CRHAT, DIFF, and PCTHAT were deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. The unused variable
+               ALLOW_THINNING_OPTION was deleted.
+
+       htgf.f  The $ID date of change line was implemented. The unused 1322 statement label was deleted. The
+               unused array MAPHD(i) was deleted. 
+
+      morts.f  The unused variable B5 was deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of array ICR(i). The unused variables ALHK, ALHT, AX, BX, CRCODE, DAT45, DKK,
+               HG10, IRDX, PCTRED, POTHTG, SI, TEMT, VIGOR, and X were deleted.
+
+organon/src       
+    crngrow.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of variable K in subroutine GET_CCFL. The unused variable DACB in subroutine 
+               CRNCLO was deleted. The unused variables EXPAN and VERSION in subroutines CW_RAP, CW_SMC, CW_NWO,
+               and CW_SWO were deleted. The unused variable MINCR in subroutine CROWGRO was deleted.
+
+     diagro.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable K in subroutine GET_BAL_RUN. The unused variable I in subroutine
+               DIAMGRO_RUN was deleted. 
+
+    diamcal.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable K in subroutine GET_BAL, and variable L in subroutine SSUM.
+               The unused variable I in subroutine DIAMGRO was deleted. The unused array GROWTH(i) and
+               variables XSI_1 AND XSI_2 were deleted in subroutine MORTAL. Code was added to suppress 
+               unused dummy argument warnings.
+
+   execute2.f  The $ID date of change line was implemented. Initialization values for array TDATAI(i,j) were
+               changed from real to integer values in subroutines EXECUTE and INGRO_FILL. The unused variables
+               TEMPERR and XSI50 were deleted in subroutine EDIT_RUN. The unused array SPGRP(i) was deleted
+               in subroutine CKSP_RUN. The unused variables TAGE, XTIME, and XSI50 were deleted in subroutine
+               EXECUTE. The unused variable XSI50 was deleted in subroutine INGRO_FILL. Code was added to 
+               suppress unused dummy argument warnings. The variable SI_1 was changed to SITE_1 at lines 277
+               and 1183.
+
+   htgrowth.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument 
+               warning.
+
+  mortality.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument 
+               warning.
+
+ org_intree.f  The $ID date of change line was implemented. The fortran ANINT function was changed to an NINT
+               function in the setting of array ICR(i). The fortran INT function was used to correct mixed-mode
+               setting of array ITRUNC(i). The unused variables ICNTR1, IRDPLV, LCONN, and OINTSP were deleted.
+
+     orgvol.f  The $ID date of change line was implemented. The fortran ANINT function was changed to an NINT
+               function in the setting of variables NDI and NLOGTD. The fortran AINT function was changed to an
+               INT function in the setting of variables NW and J. The unused variable J in subroutine EDIT_VOL,
+               and A5, A6, NLG, and T in subroutine LOG_TABLE were deleted.
+
+       orin.f  The $ID date of change line was implemented. The unused variable PASKEY was deleted.
+
+    prepare.f  The $ID date of change line was implemented. The unused variables TEMPERR and XSI50 in subroutine
+               EDIT, array SPGRP(i) in subroutine CKSP_EDIT, and variables II, J, K, and KK in subroutine
+               PREPARE were deleted.
+
+     start2.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode settings of variable K in subroutine GET_CCFL_EDIT, and H1 in subroutine SITEF_C_EDIT.
+               The unused variable TNXT was deleted in subroutine HDCALIB. Code was added to suppress unused 
+               dummy argument warnings.
+
+   statsorg.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of variable L in subroutine SSTATS.
+
+  tripleorg.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument 
+               warning.
+
+     varget.f  Code was added to suppress unused dummy argument warnings.
+
+     varput.f  Code was added to suppress unused dummy argument warnings.
+
+    voleqns.f  The $ID date of change line was implemented. The unused 10 CONTINUE statement was deleted, and
+               the fortran AINT function was changed to an INT function in subroutine RA_SCRIB. The AINT
+               function was changed to an INT function in setting variables NW and DII in subroutine RA_LOGVOL.
+               The AINT function was changed to an INT function in setting variable J in subroutine RA_SCRIB.
+               The AINT function was changed to an INT function in setting variables LEN and DII in subroutine 
+               LOGVOL. The AINT function was changed to an INT function in setting variables NDI, NW, J, and 
+               NLOGTD in subroutine SCRIB_VOL. The unused variables: NDI, NLOGTD, and VERSION in subroutine
+               RA_SCRIB; A, B, C, I1, I2, JP1, JP2, and RH in subroutine RA_LOGVOL; MH in subroutine RAP_HCFV;
+               CR in subroutine NWO_HCFV; CR in subroutine SWO_HCFV; and IMH and ISH in subroutine RA_CFV; 
+               were deleted. Code was added to suppress unused dummy argument warnings.
+
+       vols.f  The $ID date of change line was implemented. The variables OMCCUR(7) and OBFCUR(7) were deleted
+               from a debug write statement. The unused variable VER was deleted.
+
+     woodq2.f  The $ID date of change line was implemented. The ANINT fortran function was changed to an NINT
+               function in setting variable ICR in subroutine CORE. The unused variable II1 was deleted in
+               subroutine WQ_CALC.
+
+   woodqual.f  The $ID date of change line was implemented. Initialization values for array TDATAI(i,j) were
+               changed from real to integer values. The unused variables II and XSI50 were deleted.
+
+pg/src       
+     getstd.f  The LOGICAL variables LBWE, LRR1, and LRR2 were moved to their own logical statement and commented 
+               out. For code commented out using "!" characters, the "!" was changed to a "C" in column 1.
+
+ putgetsubs.f  The unused 100 CONTINUE statement was deleted in subroutines BFWRIT, LFWRIT, and IFWRIT.
+
+     putstd.f  The LOGICAL variables LBWE, LRR1, and LRR2 were moved to their own logical statement and commented 
+               out. For code commented out using "!" characters, the "!" was changed to a "C" in column 1.
+
+     varget.f  Code was added to suppress unused dummy argument warnings.
+
+     varput.f  Code was added to suppress unused dummy argument warnings.
+
+pn/src       
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+      crown.f  The $ID date of change line was implemented. The unused 50 CONTINUE statement was deleted. The 
+               fortran INT and REAL functions were used to correct mixed-mode setting of variables ICRI, CHG,
+               PDIFPY, HN, HD, and CRLN, and array CRNEW(i). The unused variables CRHAT, DIFF, and PCTHAT were
+               deleted. The outdated FLOAT and IFIX fortran functions were replaced with REAL and INT,
+               respectively.
+
+        dgf.f  The $ID date of change line was implemented. All tab characters were deleted. Initialization
+               values for array OBSERV(i) were converted from real to integer values. 
+
+     formcl.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IFCDBH.
+
+     habtyp.f  The $ID date of change line was implemented. The unused variable I was deleted.
+
+     htcalc.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IISPC.
+
+rd/src       
+     rdcent.f  The $ID date of revision line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variable NSTUMP. The integer "0" was changed to a real 0.0 in the
+               initialization of variable TSTUMP.
+
+     rdcmpr.f  The $ID date of revision line was implemented. The unused 910 CONTINUE, 904 CONTINUE, 903 CONTINUE,
+               and 900 CONTINUE statements were deleted. The unused 334 FORMAT and 333 FORMAT statements were
+               commented out. 
+
+     rdcntl.f  The $ID date of revision line was implemented. The unused 740 CONTINUE, 391 CONTINUE, and 
+               379 CONTINUE statements were deleted. The fortran INT function was used to correct mixed-mode
+               setting of variable IRRSP. 
+
+     rddout.f  The $ID date of revision line was implemented. The unused 3100 FORMAT statement was deleted. 
+               The 805 CONTINUE statement was deleted.
+
+     rdinoc.f  The $ID date of revision line was implemented. The unused 920 FORMAT statement was deleted. 
+               The fortran INT function was used to correct mixed-mode setting of variable JINT. 
+
+     rdinsd.f  The $ID date of revision line was implemented. The outdated FLOAT and INT functions were replaced 
+               with the REAL and INT functions, respectively. The fortran INT function was used to correct 
+               mixed-mode setting of variable NUMTRE. 
+
+     rdiout.f  The $ID date of revision line was implemented. The unused 200 FORMAT statement was deleted. 
+               The unused 2200 FORMAT was commented out. 
+
+     rdjump.f  The $ID date of revision line was implemented. The unused 710 CONTINUE and 600 CONTINUE statements 
+               were deleted. 
+
+      rdmn1.f  The $ID date of revision line was implemented. The unused 95 CONTINUE statement was deleted. 
+
+     rdmrec.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     rdrann.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct a
+               REAL(8) to REAL(4) conversion warning. Code was added to suppress unused dummy argument
+               warnings. 
+
+     rdroot.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     rdssiz.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     rdsout.f  The $ID date of revision line was implemented. The unused 200 CONTINUE statement was deleted. 
+
+     rdspor.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable IST. 
+
+     rdsprd.f  The $ID date of revision line was implemented. The unused 110 CONTINUE and 20 CONTINUE statements 
+               were deleted. 
+
+     rdspup.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable JRRTYP. 
+
+      rdstp.f  The $ID date of revision line was implemented. The fortran INT function was used to
+               correct mixed-mode setting of variable IST. 
+
+      rdstr.f  The $ID date of revision line was implemented. The unused 1000 CONTINUE statement was deleted. 
+
+     rdtdel.f  The $ID date of revision line was implemented. The IF test involving variables LGO and TPAREA was
+               moved to after the setting of variable TPAREA. Incorporated Lance's changes.
+
+     rdtreg.f  The $ID date of revision line was implemented. The unused 202 CONTINUE statement was deleted. 
+
+     rdtreg.f  The $ID date of revision line was implemented. The real "0.0" was changed to an integer 0 to 
+               correct mixed-mode setting of array ICENSP(i,j). 
+
+sn/src       
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The $ID date of revision line was implemented. The unused 50 CONTINUE statement was deleted. The
+               fortran INT and REAL functions were used to correct mixed-mode settings of variable ICRI, and
+               other settings involving arrays ICR(I), NORMHT(i), and ITRUNC(i). The unused variables CRHAT, DEN,
+               DIFF, and PCTHAT were deleted. The outdated FLOAT and IFIX fortran functions were replaced with
+               REAL and INT functions, respectively. 
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. The unused variable CSNYY was
+               deleted.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N and ITIME. Code was added to suppress unused 
+               dummy argument warnings.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused 
+               dummy argument warnings.
+
+     forkod.f  The $ID date of change line was implemented. The unused 30 CONTINUE statement was deleted.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted. The
+               unused variables KSPC and TN10TMP were deleted.
+
+      nbolt.f  The $ID date of change line was implemented. All tab characters were changed to spaces. The
+               fortran INT function was used to correct mixed-mode setting of variables IHT1 and IHT2.
+
+     regent.f  The $ID date of change line was implemented. The unused 95 CONTINUE statement was deleted.
+               The fortran INT function was used to correct mixed-mode setting of array ICR(i). 
+
+     sitset.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to
+               correct mixed-mode setting of variables IXTMP and IFORTP. The unused variable BFTOP was deleted.
+
+     varget.f  The $ID date of change line was implemented. Code was added to suppress unused 
+               dummy argument warnings.
+
+     varmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+     varput.f  The $ID date of change line was implemented. Code was added to suppress unused 
+               dummy argument warnings.
+
+so/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to 
+               correct mixed-mode setting of variables ID, ITD and IVTD. Code was added to 
+               suppress unused dummy argument warnings.
+       
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+       
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i). The outdated fortran FLOAT
+               function was replaced with the REAL function.
+
+      crown.f  The fortran INT and REAL functions were used to correct mixed-mode variable settings. 
+               The outdated IFIX and FLOAT functions were converted to INT and REAL, respectively. The unused
+               variables CRHAT, DIFF, and PCTHAT were deleted. The unused 50 CONTINUE statement was
+               deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. The unused variable WV was
+               deleted.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+       
+       dunn.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of variable IST.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N and ITIME. The unused variable DUM1 was deleted.
+               Code was added to suppress unused dummy argument warnings. Some comment statements were added,
+               moved, or edited.
+
+     exppnb.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     findag.f  The $ID date of change line was implemented. The unused variables AG2, HITE1, HITE2, and HTGR 
+               were deleted. Code was added to suppress unused dummy argument warnings.
+
+     formcl.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IFCDBH.
+
+     habtyp.f  The $ID date of change line was implemented. The variable KARD2 was deleted from the first debug
+               WRITE statement because it is still undefined. KARD2 was changed to KARD2(1:8) in the IF tests 
+               against arrays R5HABT(i) and PCOML(i), and in the section of code after 300 CONTINUE. 
+
+       htgf.f  The $ID date of change line was implemented. The unused 1322 statement label, 900 FORMAT statement, 
+               and 170 CONTINUE statement were deleted. The fortran INT and REAL functions were used to correct
+               mixed-mode setting of variable IICR. The unused variables INDEX and X1 were deleted.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables NLOGS and IDU. 
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted. The
+               unused variables KSPC and TN10TMP were deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variable JCR and array ICR(i). The unused variables D1, J, and
+               RELSDI were deleted. The outdated fortran FLOAT function was replaced with the REAL function.
+
+     scomrt.f  The $ID date of change line was implemented. The unused variable J was deleted. 
+
+     smhtgf.f  The $ID date of change line was implemented. The unused 900 CONTINUE statement was deleted. The
+               unused variables B0A, B0ASTD, B0B, B0BSTD, B1A, B1B, B1BSTD, BACHLO, BETA1, BETA2, D, HTG1,
+               HTGRTH, IPCCF, PPCCF, and STDDEV were deleted.
+
+strp/src       
+     esaddt.f  The $ID date of revision line was implemented. The unused 404 statement label was deleted. 
+               Code was added to suppress an unused dummy argument warning.
+
+     esnutr.f  The $ID date of revision line was implemented. The fortran INT and REAL functions were used
+               to correct mixed-mode setting of variable NCLAS. 
+               
+     esprep.f  The $ID date of revision line was implemented. Code was added to suppress an unused dummy
+               argument warning.
+
+     esrann.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct
+               a REAL(8) to REAL(4) conversion warning.
+
+      estab.f  The unused 163 CONTINUE and 44 CONTINUE statements were deleted. The fortran INT function was used
+               to correct mixed-mode setting of variables IDUP, KDTOLD, ITEMP, IBRKUP, N, NN, J, K, and L. 
+               The real "0.0" was changed to an integer 0 in setting the array DEFECT(i). NSP(I,1) was changed to
+               NSP(I,1)(1:2) in setting array CLAST(i).
+  
+     esuckr.f  The $ID date of revision line was implemented. A tab character was deleted. The fortran INT function
+               was used to correct mixed-mode setting of variable MXTODO. One instance of the FLOAT function was
+               changed to the REAL function. The real "0." was changed to an integer 0 in setting DEFECT(i). The
+               variable NSP(ISPSPE(I),1) was changed to NSP(ISPSPE(I),1)(1:2) in setting CLABEL to avoid truncation.
+               The unused variables ITODO and IIRGT were deleted. 
+
+tests/fvsak
+     akt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+at01.sum.save This file was updated after changes to the akt01.key file.
+
+tests/fvsbmc
+     bmt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Duplicate Douglas-fir HRVRVN keywords were deleted.
+
+bmt01.sum.save This file was updated after changes to the bmt01.key file. The old file was not up to date anyway.
+
+tests/fvscac
+     cat01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+cat01.sum.save This file was updated after changes to the cat01.key file.
+
+tests/fvscic
+     cit01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Elevation was changed from 3400 feet to 5000 feet.
+
+cit01.sum.save This file was updated after changes to the cit01.key file.
+
+tests/fvscrc
+     crt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+crt01.sum.save This file was updated after changes to the crt01.key file.
+
+tests/fvscs
+     cst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Elevation was changed from 3400 feet to 1000 feet.
+
+cst01.sum.save This file was updated after changes to the cst01.key file.
+
+tests/fvsecc
+     ect01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+ect01.sum.save This file was updated after changes to the ect01.key file. The old file was not up to date anyway.
+
+tests/fvsemc
+     emt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+emt01.sum.save This file was updated after changes to the emt01.key file. The old file was not up to date anyway.
+
+tests/fvsktc
+     ktt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. A forest code of 11406001 was entered on all STDINFO keywords.
+
+ktt01.sum.save This file was updated after changes to the ktt01.key file.
+
+tests/fvsls
+     lst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. An NPV code of 1 was entered on all STDINFO keywords. Elevation was changed from 3400
+               feet to 1000 feet.
+
+lst01.sum.save This file was updated after changes to the lst01.key file.
+
+tests/fvsncc
+       ffe.key The STDINFO keyword was changed to match this variant.
+
+  ffe.sum.save This file was updated after changes to the ffe.key file.
+
+     nct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+nct01.sum.save This file was updated after changes to the nct01.key file.
+
+tests/fvsne
+     net01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Habitat type was taken off the STDINFO keyword. Elevation was changed from 3400
+               feet to 2000 feet.
+
+net01.sum.save This file was updated after changes to the net01.key file.
+
+tests/fvsoc
+     oct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was changed from 610 to 711. Habitat type was specified as 452.
+
+oct01.sum.save This file was updated after changes to the oct01.key file.
+
+tests/fvsop
+     opt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 708. Habitat type was specified as 40. Elevation was
+               changed from 3400 feet to 700 feet.
+
+opt01.sum.save This file was updated after changes to the opt01.key file.
+
+tests/fvspnc
+     pnt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 708. Habitat type was specified as 40. Elevation was
+               changed from 3400 feet to 700 feet.
+
+pnt01.sum.save This file was updated after changes to the pnt01.key file. The old file was not up to date anyway.
+
+tests/fvssn
+     snt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 80106. Habitat type was changed from m9999 to 231Dd. 
+               Elevation was changed from 3400 feet to 700 feet. SDIMAX keyword was taken out of the shelterwood
+               and bare ground simulations. DESIGN keyword was changed from 11 points with 1 non-stockable to
+               10 points with 0 non-stockable to match the snt01.tre file.
+
+snt01.sum.save This file was updated after changes to the snt01.key file.
+
+tests/fvssoc
+     sot01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was changed from 620 to 601. Habitat type was specified as 49.
+
+sot01.sum.save This file was updated after changes to the sot01.key file.
+
+tests/fvsttc
+     ttt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+ttt01.sum.save This file was updated after changes to the ttt01.key file. The old file was not up to date anyway.
+
+tests/fvsutc
+     utt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+utt01.sum.save This file was updated after changes to the utt01.key file. The old file was not up to date anyway.
+
+tests/fvswcc
+     wct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Habitat type was specified as 52.
+
+wct01.sum.save This file was updated after changes to the wct01.key file.
+
+tests/fvswsc
+     wst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+wst01.sum.save This file was updated after changes to the wst01.key file. The old file was not up to date anyway.
+
+tests/qfvsak
+     akt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+at01.sum.save This file was updated after changes to the akt01.key file.
+
+tests/qfvsbm
+     bmt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Duplicate Douglas-fir HRVRVN keywords were deleted.
+
+bmt01.sum.save This file was updated after changes to the bmt01.key file. The old file was not up to date anyway.
+
+tests/qfvsca
+     cat01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+cat01.sum.save This file was updated after changes to the cat01.key file.
+
+tests/qfvsci
+     cit01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Elevation was changed from 3400 feet to 5000 feet.
+
+cit01.sum.save This file was updated after changes to the cit01.key file.
+
+tests/qfvscr
+     crt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+crt01.sum.save This file was updated after changes to the crt01.key file.
+
+tests/qfvscs
+     cst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Elevation was changed from 3400 feet to 1000 feet.
+
+cst01.sum.save This file was updated after changes to the cst01.key file.
+
+tests/qfvsec
+     ect01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+ect01.sum.save This file was updated after changes to the ect01.key file. The old file was not up to date anyway.
+
+tests/qfvsem
+     emt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+emt01.sum.save This file was updated after changes to the emt01.key file. The old file was not up to date anyway.
+
+tests/qfvskt
+     ktt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. A forest code of 11406001 was entered on all STDINFO keywords.
+
+ktt01.sum.save This file was updated after changes to the ktt01.key file.
+
+tests/qfvsls
+     lst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. An NPV code of 1 was entered on all STDINFO keywords. Elevation was changed from 3400
+               feet to 1000 feet.
+
+lst01.sum.save This file was updated after changes to the lst01.key file.
+
+tests/qfvsnc
+       ffe.key The STDINFO keyword was changed to match this variant.
+
+  ffe.sum.save This file was updated after changes to the ffe.key file.
+
+     nct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+nct01.sum.save This file was updated after changes to the nct01.key file.
+
+tests/qfvsne
+     net01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Habitat type was taken off the STDINFO keyword. Elevation was changed from 3400
+               feet to 2000 feet.
+
+net01.sum.save This file was updated after changes to the net01.key file.
+
+tests/qfvsoc
+     oct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was changed from 610 to 711. Habitat type was specified as 452.
+
+oct01.sum.save This file was updated after changes to the oct01.key file.
+
+tests/qfvsop
+     opt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 708. Habitat type was specified as 40. Elevation was
+               changed from 3400 feet to 700 feet.
+
+opt01.sum.save This file was updated after changes to the opt01.key file.
+
+tests/qfvspn
+     pnt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 708. Habitat type was specified as 40. Elevation was
+               changed from 3400 feet to 700 feet.
+
+pnt01.sum.save This file was updated after changes to the pnt01.key file. The old file was not up to date anyway.
+
+tests/qfvssn
+     snt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was specified as 80106. Habitat type was changed from m9999 to 231Dd. 
+               Elevation was changed from 3400 feet to 700 feet. SDIMAX keyword was taken out of the shelterwood
+               and bare ground simulations. DESIGN keyword was changed from 11 points with 1 non-stockable to
+               10 points with 0 non-stockable to match the snt01.tre file.
+
+snt01.sum.save This file was updated after changes to the snt01.key file.
+
+tests/qfvsso
+     sot01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Location code was changed from 620 to 601. Habitat type was specified as 49.
+
+sot01.sum.save This file was updated after changes to the sot01.key file.
+
+tests/qfvstt
+     ttt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+ttt01.sum.save This file was updated after changes to the ttt01.key file. The old file was not up to date anyway.
+
+tests/qfvsut
+     utt01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+utt01.sum.save This file was updated after changes to the utt01.key file. The old file was not up to date anyway.
+
+tests/qfvswc
+     wct01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test. Habitat type was specified as 52.
+
+wct01.sum.save This file was updated after changes to the wct01.key file.
+
+tests/qfvsws
+     wst01.key The STDINFO keyword was changed to match this variant in the FFE run and added to the bare ground
+               plant test.
+
+wst01.sum.save This file was updated after changes to the wst01.key file. The old file was not up to date anyway.
+
+tt/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to 
+               correct mixed-mode setting of variable ITD. The unused variable ID was deleted.
+               Code was added to suppress unused dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i). The outdated fortran FLOAT
+               function was replaced with the REAL function. The unused variable IJ was deleted.
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode variable settings. The outdated IFIX and FLOAT functions were converted to 
+               INT and REAL, respectively. The unused variables CRHAT, DIFF, and PCTHAT were deleted. The unused 
+               50 CONTINUE statement was deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. 
+
+        dgf.f  The $ID date of change line was implemented. The fortran INT function was used to 
+               correct mixed-mode settings of variables LSI and ISIC2. The array IGCCFM(i,j) was changed from
+               type REAL to type INTEGER.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N, ITIME, and IAGE. The variable ITIME was changed from type REAL 
+               to type INTEGER. Code was added to suppress an unused dummy argument warning.
+
+     findag.f  The $ID date of change line was implemented. The 91201 FORMAT statement was commented out.
+               Code was added to suppress an unused dummy argument warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused 1322 statement label, 999 CONTINUE 
+               statement, 160 CONTINUE statement, and 170 CONTINUE statement were deleted. The fortran INT and
+               REAL functions were used to correct mixed-mode setting of variables LSIGRP and IICR. The unused
+               variable AG was deleted.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted.
+               The unused variable TN10TMP was deleted.
+
+     regent.f  The $ID date of change line was implemented. The unused 18 CONTINUE statement was deleted.
+               The fortran INT function was used to correct mixed-mode setting of variables NTYR and IYR,
+               and array ICR(i). The unused variables BBAL, BETA1, BETA2, BH, DADJ, DDS2, DG2, DGJ, DGK,
+               DLESS3, HLESS4, HSIGMA, HTG1, IITRE, PS, RELH, RELSDI, RSAB0, RSAB1, RSAB2, STDDEV, and DNEW, 
+               and arrays HHT1(i), HHT2(i), RHGL(i), RHHAB(i,j), RHLH(i), and RHSC(i) were deleted.
+
+     smhtgf.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+      ttmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+ut/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to 
+               correct mixed-mode setting of variable ITD. Code was added to suppress unused 
+               dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i). The outdated fortran FLOAT
+               function was replaced with the REAL function. The unused variable IJ was deleted.
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode variable settings. The outdated IFIX and FLOAT functions were converted to 
+               INT and REAL, respectively. The unused variables CRHAT, DIFF, and PCTHAT were deleted. The unused 
+               50 CONTINUE statement was deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. 
+
+        dgf.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables LSI, ISC, and ISI. The unused variable IS was deleted.
+
+     dgfasp.f  The $ID date of change line was implemented. The unused 800 CONTINUE statement was deleted.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N and ITIME. The variable ITIME was changed from type REAL to
+               type INTEGER. The unused variable SI was deleted. Code was added to suppress unused dummy argument
+               warnings.
+
+     findag.f  The $ID date of change line was implemented. The 91201 FORMAT statement was commented out.
+               Code was added to suppress an unused dummy argument warning.
+
+      fndag.f  The $ID date of change line was implemented. The unused variables CCFTEM, HG, HL, HTMAX, and
+               ISPC were deleted. Code was added to suppress an unused dummy argument warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused 1322 statement label, 999 CONTINUE 
+               statement, and 170 CONTINUE statement were deleted. The fortran INT and
+               REAL functions were used to correct mixed-mode setting of variables LSIGRP and IICR. The unused
+               variable AG was deleted.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables NLOGS and IDU. The unused variable BVL was deleted. 
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted.
+               The unused variable TN10TMP was deleted.
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of array ICR(i). The unused variables B1, B2, BACON, BAYR, BI, C1, C2,
+               CCFYR, CI, CW, D1, D2, H1, HTGRR, IS, ITOT, IYR, KY, NPER, NTYR, NYR, PN, PPCCF, PS, RDJ,
+               TEMBA, TEMCCF, and TPCCF were deleted. 
+
+      utmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.
+
+volume/src       
+     blmtap.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The unused 
+               variables PROFILEHT and DBHIB were deleted. 
+             
+     blmvol.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The fortran INT
+               function was used to correct the mixed-mode setting of variable TOP1 in subroutine BLMMLEN. The
+               unused variable LCNT was deleted. The unused variable ITAPER was commented out in subroutine
+               BLMVOL. Code was added to suppress an unused dummy argument warning.
+
+    doyal78.f  The $ID date of revision line was implemented. The fortran INT function was used to correct the 
+               mixed-mode setting of variable INDEX. 
+
+      dvest.f  The $ID date of revision line was implemented. All tabs were converted to spaces. Code was added
+               to suppress an unused dummy argument warning.
+
+   formclas.f  The $ID date of revision line was implemented. All tabs were converted to spaces. Unused statement
+               label 200 was removed in subroutines FORMCL_BM, FORMCL_CA, FORMCL_EC, FORMCL_NI, FORMCL_PN, FORMCL_SO, and
+               FORMCL_WC. The fortran INT function was used to correct mixed-mode setting of variable IFCDBH. 
+               The real "80." was changed to an integer 80 in setting variable FC in FORMCL_CA.
+               Code was added to suppress an unused dummy argument warning.
+
+fvsbrucedemars.f  The unused variables BBFV and DBT were deleted.
+
+  fvsoldfst.f  Code was added to suppress an unused dummy argument warning.
+
+  fvsoldgro.f  The unused statement label 900 and the unused 100 CONTINUE statement were deleted. The unused
+               variable PROF2 was deleted. Changed DD2MI to PROF1 in the IF check before returning.
+
+  fvsoldsec.f  Code was added to suppress an unused dummy argument warning.
+
+     fvsvol.f  A debug write statement when entering NATCRS was revised. 
+
+     fwinit.f  The $ID date of revision line was implemented. All tabs were converted to spaces. 
+
+   f_alaska.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The fortran REAL
+               function was used to correct REAL(8) to REAL(4) conversion warnings. Code was added to suppress an
+               unused dummy argument warning.
+
+     f_ingy.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The fortran REAL
+               function was used to correct REAL(8) to REAL(4) conversion warnings.
+
+    f_other.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The fortran REAL
+               function was used to correct REAL(8) to REAL(4) conversion warnings. 
+
+     f_west.f  The $ID date of revision line was implemented. The unused statement labels 40 and 50, in 
+               FUNCTION FDBT_C1 were deleted. Initialized variable BH to 4.5 in ENTRY SF_DFZ5 and ENTRY SF_DFZ4.
+               The arrays R25(i) and R34(i) were changed from REAL*4 to REAL*8 since they are loaded with double 
+               precision values. The fortran REAL function was used to correct REAL(8) to REAL(4) conversion
+               warnings.  Code was added to suppress an unused dummy argument warning.
+
+     intl78.f  The $ID date of revision line was implemented. The fortran INT function was used to correct the 
+               mixed-mode setting of variable INDEX. 
+
+     mrules.f  The $ID date of revision line was implemented. Code was added to suppress an unused dummy
+               argument warning.
+
+   pnwtarif.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The real "1." was
+               changed to an integer 1 in the setting of FCLASS. The unused variables RI816 in subroutine GET_MERCH_VOL,
+               and B4, CV6, R16, RC6, REGION, RS616, RS616L, RS632, SV616, SV632, XINT6, and CUBUS in subroutine 
+               PNWTARIF were deleted. Code was added to suppress an unused dummy argument warning.
+
+    profile.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The fortran INT
+               function was used to correct mixed-mode setting of variable LENGTH in subroutine VOLRATIO. The
+               fortran REAL function was used to correct REAL(8) to REAL(4) conversion warnings. The unused
+               5546 CONTINUE statement was deleted. The real "1." was changed to an integer 1 in the setting
+               of variable DIBCLS in subroutine GETDIB. Code was added to suppress an unused dummy argument
+               warning.
+
+    r1allen.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables ID, ITD, and IVTD. 
+
+     r1kemp.f  The $ID date of revision line was implemented. The variable BFNET was initialized to 10.0 and the
+               variable NONSAW to 0. 
+
+      r1tap.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The fortran REAL 
+               function was used to correct REAL(8) to REAL(4) conversion warnings. 
+
+      r2tap.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct 
+               REAL(8) to REAL(4) conversion warnings. 
+
+     r3d2hv.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The real "25." was
+               changed to an integer 25 in setting variable HTTFLL.
+
+      r4d2h.f  The $ID date of revision line was implemented. All tabs were converted to spaces. 
+
+      r4vol.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The fortran INT
+               function was used to correct the mixed-mode setting of variable NUMLGS.
+
+     r5harv.f  The $ID date of revision line was implemented. The variable CVTS was initialized to 0. The fortran 
+               REAL function was used to correct REAL(8) to REAL(4) conversion warnings.  
+
+      r5tap.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct 
+               REAL(8) to REAL(4) conversion warnings. 
+
+     r6dibs.f  The $ID date of revision line was implemented. The unused statement labels 10 and 220 were deleted.
+               The fortran INT function was used to correct mixed-mode setting of variables ILH and ID.  
+
+      r6vol.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The real "0.0"
+               was changed to an integer 0 in the intialization of array LGGRD(i). The real "80." was changed to 
+               an integer 80 in the setting of variable FCLASS in subroutine GETFCLASS.
+
+     r6vol1.f  The $ID date of revision line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode setting of variables LOGS, KD, ITOPGV, and IBOTGV.
+            
+R8CLKCOEF.INC  The unused array TOPRAT(i) was deleted.             
+
+   r8clkdib.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The fortran INT
+               function was used to correct mixed-mode setting of variables CHECK and SPGRP. The unused variables
+               BA and SI in subroutine R8CLKDIB were deleted. Variables SPECPR, EQNPR, and GEOAPR were all
+               initialized to 0 in subroutine R8PREPCOEF. Code was added to suppress an unused dummy argument
+               warning.
+
+     r8init.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The unused
+               statement label 998 was deleted. The unused variable SPCD was commented out. The variable VGLAG,
+               that is used in an IF-THEN-ELSE-ENDIF block at lines 809-823 to conditionally set values in
+               array B(i), is not declared or set anywhere. I assumed this was a typo and changed VGLAG to VFLAG,
+               since VFLAG is passed into this routine as an argument and used to index coefficient arrays in
+               other places in this subroutine. Code was added to suppress an unused dummy argument
+               warning.
+
+      r8vol.f  The $ID date of revision line was implemented. All tabs were converted to spaces. Code was added 
+               to suppress unused dummy argument warnings.
+
+     r8vol1.f  The $ID date of revision line was implemented. All tabs were converted to spaces.
+
+     r8vol2.f  The $ID date of revision line was implemented. All tabs were converted to spaces. Unused statement
+               labels 2 in subroutine PROD8, and 999 in subroutine HT479, were deleted. The fortran INT function
+               was used to correct mixed-mode setting of variables CHECK and SPGRP in subroutine R8VOL2. Unused
+               variables DF1 in subroutine R8VOL2, TOPDIB in subroutine R8CLARK, and SEG1, SEG2, and SEG3 in 
+               subroutine TOTHT, were deleted. Code was added to suppress unused dummy argument warnings.
+
+    r9clark.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The unused 
+               500 FORMAT and 520 FORMAT statements were deleted. Unused variable LOGV in subroutine R9BDFT,
+               variables I and J, and array VOL(i) in subroutine R9CUFT, I and RES in subroutine R9HT, I in
+               subroutine R9DIA417, DIB17, SAWHT, UPPRHT, and LOWRHT in subroutine R9PREP, A, A4, B, B4, B17,
+               C, CF1, CF2, CF3, DBHIB, DIB17, E, P, R, TOTHT, and A17 in subroutine R9CLARK, and I in subroutine
+               R9DIB were deleted. Code was added to suppress unused dummy argument warnings.
+
+     r9init.f  The $ID date of revision line was implemented. All tabs were converted to spaces.
+
+     r9logs.f  The $ID date of revision line was implemented. All tabs were converted to spaces.
+
+      r9vol.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The unused
+               statement label 999 was deleted. The fortran REAL function was used to correct REAL(8) to 
+               REAL(4) conversion warnings. 
+
+     r10d2h.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The unused variables
+               PI and VOLM were deleted.
+
+     r10tap.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The unused 
+               statement label 900 was deleted. The fortran REAL function was used to correct REAL(8) to REAL(4) 
+               conversion warnings. 
+
+    r10tapo.f  The $ID date of revision line was implemented. The unused statement label 900 was deleted.
+
+     r10vol.f  The $ID date of revision line was implemented. The unused statement label 900 was deleted. The
+               fortran INT function was used to correct mixed-mode setting of varible TLOGS. The unused arrays
+               HOLDLV(i,j) and HOLDV(i) were deleted. The unused variables TMPHT2 and TMPVEQ were deleted.
+               Code was added to suppress unused dummy argument warnings.
+
+    r10volo.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables NCNT, DI1, JBF, KBF, KAJ, KBF2 KDBFF, KDBFS, and ITEMP. The 
+               integer 2 was changed to a real "2." in the setting of variable AJ.
+
+     r12tap.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct 
+               REAL(8) to REAL(4) conversion warnings. 
+
+     r12vol.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables SEGNUM and ITEMP. 
+
+      scrib.f  The $ID date of revision line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables Q9 and COMPAR.
+
+     sf_3pt.f  The $ID date of revision line was implemented. The unused variables BRK_UPA2, NSP, and array
+               WHITENOISE(i) were all commented out. The fortran REAL function was used to correct REAL(8) to 
+               REAL(4) conversion warnings. 
+
+      sf_3z.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct 
+               REAL(8) to REAL(4) conversion warnings. 
+
+   sf_taper.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct 
+               REAL(8) to REAL(4) conversion warnings. 
+
+    sf_yhat.f  The $ID date of revision line was implemented. The fortran REAL function was used to correct 
+               REAL(8) to REAL(4) conversion warnings. 
+
+      stump.f  The $ID date of revision line was implemented. The unused variable LOC in subroutine SEARCH
+               was deleted.
+
+   voleqdef.f  The $ID date of revision line was implemented. The unused variables DIST in subroutines R6_PNWEQN
+               and R5_PNWEQN, VVER in subroutine GETVARIANT, and FORNUM, GEOAREA, VEQTEM, and array GEOCODES(i) 
+               in subroutine R9_EQN, were deleted. Code was added to suppress unused dummy argument warnings.
+
+    volinit.f  The $ID date of revision line was implemented. All tabs were converted to spaces. The unused 
+               500 FORMAT, 504 FORMAT, 508 FORMAT, and 520 FORMAT statements were deleted. The fortran INT
+               function was used to correct mixed-mode setting of variable TLOGS. The unused variables CR,
+               FOREST, and SPCD, and arrays BMS(i) and WF(i), were commented out. The unused variables DIB, DOB, 
+               SPN, STUMPDIB, STUMPDOB, TIPDIB, and TIPLEN were deleted.
+
+wc/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable ITD. Code was added to suppress unused dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i).
+
+      crown.f  The $ID date of change line was implemented. The 50 CONTINUE statement was deleted. The fortran INT
+               and REAL functions were used to correct mixed-mode variable settings. The outdated IFIX and FLOAT
+               functions were converted to INT and REAL, respectively. The unused variables CRHAT, DIFF, and PCTHAT
+               were deleted. 
+
+      dgbnd.f  All tab characters were deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. All tab characters were deleted.
+
+        dgf.f  The $ID date of change line was implemented. Initialization values for array OBSERV(i) were changed
+               from real to integer values. 
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     essubh.f  The $ID date of change line was implemented. The unused 100 CONTINUE statement was deleted. The 
+               fortran INT function was used to correct mixed-mode setting of variables N and ITIME. The unused
+               variables ISUM5 and H were deleted. The outdated FLOAT function was converted to the REAL function.
+               Code was added to suppress an unused dummy argument warning. Some comment statements were inserted
+               or edited.
+
+     formcl.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IFCDBH.
+
+     htcalc.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variable IISPC.
+
+       htgf.f  The $ID date of change line was implemented. The unused 1322 statement label was deleted. The unused
+               array MAPHD(i) was deleted.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct mixed-mode
+               setting of variables NLOGS and IDU. The unused variable H1 was deleted.
+
+      morts.f  The $ID date of change line was implemented. The unused variable B5 was deleted. 
+
+     regent.f  The $ID date of change line was implemented. The fortran INT function was used to correct 
+               mixed-mode setting of array ICR(i). The unused variables ALHK, ALHT, AX, BX, CRCODE, DAT45, DKK,
+               HG10, IRDX, PCTRED, POTHTG, SI, TEMT, VIGOR, and X were deleted.
+
+     smhgdg.f  The $ID date of change line was implemented. All tab characters were deleted. The unused variables
+               DG1 and HG were deleted.
+
+ws/src       
+      bfvol.f  The $ID date of change line was implemented. The fortran INT function was used to 
+               correct mixed-mode setting of variables ID, ITD, and IVTD. The unused variable VVER was deleted.
+               Code was added to suppress unused dummy argument warnings.
+
+     bratio.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+     ccfcal.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     cratet.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode settings of variables NORMHT(i) and ITRUNC(i). The outdated fortran FLOAT
+               function was replaced with the REAL function. The unused 114 CONTINUE statement was deleted.
+
+      crown.f  The $ID date of change line was implemented. The fortran INT and REAL functions were used to 
+               correct mixed-mode variable settings. The outdated IFIX and FLOAT functions were converted to 
+               INT and REAL, respectively. The unused variables CRHAT, DIFF, and PCTHAT were deleted. The unused 
+               50 CONTINUE statement was deleted.
+
+     dgdriv.f  The fortran INT function was used to correct mixed-mode setting of variable ISI. The outdated IFIX
+               and FLOAT functions were converted to INT and REAL, respectively. 
+
+        dgf.f  The $ID date of change line was implemented. Initialization values for array OBSERV(i) were changed
+               from real values to integer values. The unused variable DGSQS was deleted. The unused 910
+               statement label was deleted.
+
+     dgfasp.f  The $ID date of change line was implemented. The unused 800 CONTINUE statement was deleted.
+
+     dubscr.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+       dunn.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable IST.
+
+     essubh.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables N and ITIME. Code was added to suppress unused dummy argument
+               warnings.
+
+     exppnb.f  The $ID date of revision line was implemented. Code was added to suppress unused dummy argument
+               warnings. Some comment statements were edited.
+
+     findag.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     forkod.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variable KFOR1. The outdated fortran FLOAT function was changed to a
+               REAL function.
+
+     htcalc.f  The $ID date of change line was implemented. The unused variables B6, C, and Z were deleted.
+               Code was added to suppress an unused dummy argument warning.
+
+      htdbh.f  The $ID date of change line was implemented. Code was added to suppress an unused dummy argument
+               warning.
+
+       htgf.f  The $ID date of change line was implemented. The unused 1322 statement label and 999 CONTINUE 
+               statement were deleted. The unused variables AG, IICR, IXAGE, J, K, KEYCR, and L were deleted.
+
+       logs.f  The $ID date of change line was implemented. The fortran INT function was used to correct
+               mixed-mode setting of variables NLOGS and IDU.
+
+      morts.f  The $ID date of change line was implemented. The unused 190 CONTINUE statement was deleted.
+               The unused variables KSPC and TN10TMP were deleted.
+
+     regent.f  The $ID date of change line was implemented. The unused variable RELHT was deleted. The fortran
+               INT function was used to correct mixed-mode setting of array ICR(i). The outdated fortran FLOAT
+               function was changed to the REAL function.
+
+     smhtgf.f  The $ID date of change line was implemented. Code was added to suppress unused dummy argument
+               warnings.
+
+     varmrt.f  The $ID date of change line was implemented. The unused variable J was deleted.

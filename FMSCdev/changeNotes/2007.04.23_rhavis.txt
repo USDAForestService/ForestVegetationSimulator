@@ -1,0 +1,91 @@
+Subject: Tree Age through DBS and Preliminary Site Tree update
+Name: R. Havis       
+Date: April 23, 2007
+Variants affected: ALL
+
+Description:
+
+1) Tree age was previously added to the input tree data file
+   (see FVS Update Bulletin No. 647). This update allows users
+   to also enter tree age through the Data Base Extension.
+
+2) Additional code updates are preliminary to an upgrade to increase
+   site tree manipulation capabilities. Following these changes,
+   FVS will be able to correctly read and store site tree information.
+   The next steps will be the addition of a site tree summary table
+   to the main output file, and adding logic to calculate site index
+   from the input data.
+   
+Impact on users: Users may enter tree age information through
+                 a data base.
+
+Files:
+
+PLOT    added a two dimensional array, SITETR( , ), to store site tree information
+        and a scalar, NSITET to keep track of how many site trees were read in the input data
+PRGPRM  added the parameter MAXSTR which is the maximum number of site trees FVS can handle
+        (currently set to 20).
+PRGPRM   ak, ca, cr, cs, cs_new, ie, ls, ls_new, ne, ne_new, pn, se, sn, so33, ut, wc
+                       same changes described above
+
+GRINIT       ak, bm, ca, ci, cr, cs, cs_new, ec, em, ie, kt, ls, ls_new, nc ,ne, ne_new, ni,
+             pn, se, sn, so, so33, tt, ut, wc, ws
+                      added initialization of SITETR and NSITET
+base/src
+   BASDAM  added a comment about processing of damage code 56 (which is going to be used to indicate a site tree)
+   INTREE     added damage code 56 processing
+
+
+./ak/common/PRGPRM.F77
+./ak/src/grinit.f
+./base/src/basdam.f
+./base/src/exdbs.f
+./base/src/initre.f  - added printing of a "Site index tree input summary table".
+./base/src/intree.f  -  Added ABIRTH array to DBSTREESIN call statement parameters
+./base/src/revise.f
+./bm/src/grinit.f
+./ca/common/PRGPRM.F77
+./ca/src/grinit.f
+./ci/src/grinit.f
+./common/PLOT.F77
+./common/PRGPRM.F77
+./cr/common/PRGPRM.F77
+./cr/src/grinit.f
+./cs/common/PRGPRM.F77
+./cs/src/grinit.f
+./dbs/src/DBSCOM.F77  - updated dimensions of rsTreeData and VAL_LI arrays
+./dbs/src/dbstreesin.f      - added ABIRTH array to subroutine statement parameter list, and
+                              to processing logic
+./ec/src/grinit.f
+./em/src/grinit.f
+./ie/common/PRGPRM.F77
+./ie/src/grinit.f
+./kt/src/grinit.f
+./ls/common/PRGPRM.F77
+./ls/src/grinit.f
+./nc/src/grinit.f
+./ne/common/PRGPRM.F77
+./ne/src/grinit.f
+./ni/src/grinit.f
+./pn/common/PRGPRM.F77
+./pn/src/grinit.f
+./so33/common/PRGPRM.F77
+./so33/src/grinit.f
+./se/common/PRGPRM.F77
+./se/src/grinit.f
+./sn/common/PRGPRM.F77
+./sn/src/grinit.f
+./so/src/grinit.f
+./tt/src/grinit.f
+./ut/common/PRGPRM.F77
+./ut/src/grinit.f
+./wc/common/PRGPRM.F77
+./wc/src/grinit.f
+./ws/src/grinit.f
+./cs_new/common/PRGPRM.F77
+./cs_new/src/grinit.f
+./ls_new/common/PRGPRM.F77
+./ls_new/src/grinit.f
+./ne_new/common/PRGPRM.F77
+./ne_new/src/grinit.f
+

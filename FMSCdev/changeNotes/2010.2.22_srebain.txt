@@ -1,0 +1,13 @@
+Subject: Fire and Fuels Extension Update - BM variant
+Name:  Stephanie Rebain
+Date:  2/22/2010
+Variants affected: Blue Mountains
+
+Description:
+This is an update to accomodate the four plant associations added to 
+the BM variant.
+
+Modified Files:
+fire/bm/src/fmcba.f - edited arrays covini and mapdry for new plant associations
+fire/base/src/fmr6fall.f - edited arrays bmhmc and bmwmd for new plant associations
+fire/base/src/fmr6sdcy.f -  edited arrays bmwmd, bmotsh, and bmotrt for new plant associations

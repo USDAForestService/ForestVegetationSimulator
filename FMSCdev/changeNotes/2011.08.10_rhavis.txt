@@ -1,0 +1,62 @@
+Subject: Merch Height in Treelist Database Tables, and R9 Clark Volumes for the
+         Southern Variant
+Name: R. Havis
+Date: August 10, 2011
+Variants affected: ALL
+
+Description: The R9 Clark volume equations were added to the SN variant for the
+             Mark Twain and Shawnee NFs. Trees that do not meet DBH merch. specs
+             have no reported Height To Merch. Top in the Treelist, Cutlist, and
+             After Treatment Treelist output database tables. The default Height
+             To Merch. Top columns in the database tables are defined as
+             follows.
+
+                           HT2TDCF                      HT2TDBF
+             West          height to primary            height to primary
+                           product(cubic feet)          product (board feet)
+
+
+             East          height to pulp top           height to saw top
+
+Impact on users: Users interested in height to Merch top output or in using
+                 the southern variant to simulate stands in the Mark Twain or
+                 Shawnee NFs should obtain new executables.
+
+Files:
+VARVOLs - added logic to prevent setting HT2TD array when tree DBH does not equal
+          or exceed the merch. DBH.
+./ak/src/varvol.f
+./an/src/varvol.f
+./base/src/initre.f - removed ITOPD9 variable and logic that prevented R9 to use
+                      VOLUME and BFVOLUME keywords, and added VOLEQNUM keyword
+                      logic for SN variant in Mark Twain and Shawnee NFs.
+./base/src/revise.f
+./bin/makefile - added R9 volume objects to southern variant link list
+./bm/src/varvol.f
+./ca/src/varvol.f
+./ci/src/varvol.f
+./common/includeSVN.f
+./cr/src/varvol.f
+./dbs/src/dbsatrtls.f - changed HT2TD column write assignments, and
+                        corrected database table creation formats
+./dbs/src/dbscuts.f - changed HT2TD column write assignments, and
+                        corrected database table creation formats
+./dbs/src/dbstrls.f - changed HT2TD column write assignments, and
+                        corrected database table creation formats
+./ec/src/varvol.f
+./em/src/varvol.f
+./ie/src/varvol.f
+./ls/src/varvol.f
+./nc/src/varvol.f
+./ni/src/varvol.f
+./pn/src/varvol.f
+./sn/src/sitset.f
+./sn/src/varvol.f
+./so/src/varvol.f
+./tt/src/varvol.f
+./ut/src/varvol.f
+./volume/src/VolEqDef.f - added logic to set Clark volume Eq. Nos. when 
+                          running the southern variant in the Mark Twain
+                          or Shawnee NFs.
+./wc/src/varvol.f
+./ws/src/varvol.f

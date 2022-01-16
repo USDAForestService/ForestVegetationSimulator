@@ -1,0 +1,31 @@
+Subject: Dead tree expansion factor on input tree data
+Name: Lance R. David
+Date: August 7, 2007
+Variants affected: ALL western variants with LPMPB extension
+
+Description:
+
+An expansion factor applied by FVS to dead trees in the input tree data was
+not properly addressed in the Lodgepole Mountain Pine Beetle model leading
+to over-representation of current MPB mortality. Added code for UNexpansion
+of dead tree TPA. An explanation of the TPA expansion is in base\src\notre.f.
+
+Impact on users:
+
+1) MPB model impacts will be less severe when initializing current MPB
+   mortality from inventory (LPMPB keyword InvMort) and initiating an 
+   outbreak in cycle 1.
+
+Files:
+
+lpmpb\src\mpsdlp.f - added PLOT.F77 common file. Added code for UNexpansion of dead tree TPA.
+
+lpmpb\obj\makefile - added PLOT.F77 common file to mpsdlp dependency list.
+
+cr\obj\makefile    - added PLOT.F77 common file to mpsdlp dependency list.
+
+ie\obj\makefile    - added PLOT.F77 common file to mpsdlp dependency list.
+
+so33\obj\makefile  - added PLOT.F77 common file to mpsdlp dependency list.
+
+ut\obj\makefile    - added PLOT.F77 common file to mpsdlp dependency list.

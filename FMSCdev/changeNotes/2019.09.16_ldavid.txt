@@ -1,0 +1,22 @@
+Subject: SDI max by point weighted by species BA
+
+Name: Lance David
+
+Date: 09/16/2019
+
+Variants affected: All variants
+
+Description: Calculation of MAX SDI for each sample point weighted by species
+             basal area has been added to SDICAL routine. The values are stored
+             in array XMAXPT that has beed added to VARCOM common area. This was
+             created for use by the regeneration model in the new Alaska varaint,
+             but this array and values are available in all variants.            
+
+Impact on users: FFE will function with new 23 species AK variant.
+                 
+Files:
+
+vbase/sdical.f  - Processing adding to SDICAL routine to compute point maximum SDI
+                  weighted by species basal area. And stored in array XMAXPT for each
+                  sample point.
+common/varcom.f77 - Added array XMAXPT for maximum SDI by point weighted by species BA.

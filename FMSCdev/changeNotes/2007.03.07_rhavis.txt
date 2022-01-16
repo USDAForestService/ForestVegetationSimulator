@@ -1,0 +1,129 @@
+Subject: CALBSTAT keyword new fields F2 and F3
+Name: R. Havis
+Date: MArch 7, 2007
+Variants affected: ALL
+
+Description:
+From tine-to-time users request control of the number of growth increment measurements
+required to allow self calibration. Rather than continue to create custom executables,
+two new fields (F2 and F3) were added to the CALBSTAT keyword to control
+the number of growth increment measurements (Large Tree DBH, and Small Tree
+Height) in the input data required to trigger self calibration.
+
+The CALBSTAT keyword fields are now as follows.
+
+field 1:      File reference number for CALBSTAT output file (Default=13)
+field 2:      Minimum number of diameter growth observations per species to calibrate 
+              the large tree diameter increment model for local conditions (Default=5, Minimum=3)
+Field 3:      Minimum number of height growth observations per species to calibrate 
+              the small tree height increment model for local conditions (Default=5, Minimum=3)
+
+Impact on users: Users should not use Field 2 or Field 3 and should use default values.
+
+Two new global variables FNMIN (Min. number of DBH growth increment measurements) and
+NCALHT (Min. number of small tree height growth increment measurements) were added to
+common/CALCOM.F77, and initialized to 5 in the GRINIT.F routines. The hard coded default
+values (5) were replaced with these variable values in the REGENT.F and DGDRIV.F routines.
+The CALBSTAT keyword processing was adapted in INITRE.F. The CALCOM.F77 dependency was added
+to the GRINIT compile instructions in the makefiles as required.
+
+Files:
+./ak/obj/makefile
+./ak/src/dgdriv.f
+./ak/src/grinit.f
+./ak/src/regent.f
+./base/obj/makefile
+./base/src/initre.f
+./base/src/revise.f
+./bm/obj/makefile
+./bm/src/grinit.f
+./bm/src/regent.f
+./ca/obj/makefile
+./ca/src/dgdriv.f
+./ca/src/grinit.f
+./ca/src/regent.f
+./ci/obj/makefile
+./ci/src/grinit.f
+./ci/src/regent.f
+./common/CALCOM.F77
+./cr/obj/makefile
+./cr/src/dgdriv.f
+./cr/src/grinit.f
+./cr/src/regent.f
+./cs/obj/makefile
+./cs/src/dgdriv.f
+./cs/src/grinit.f
+./cs/src/rgnthw.f
+./ec/obj/makefile
+./ec/src/grinit.f
+./ec/src/regent.f
+./em/obj/makefile
+./em/src/grinit.f
+./em/src/regent.f
+./ie/obj/makefile
+./ie/src/dgdriv.f
+./ie/src/grinit.f
+./ie/src/regent.f
+./kt/obj/makefile
+./kt/src/grinit.f
+./kt/src/regent.f
+./ls/obj/makefile
+./ls/src/dgdriv.f
+./ls/src/grinit.f
+./ls/src/rgnthw.f
+./nc/obj/makefile
+./nc/src/grinit.f
+./nc/src/regent.f
+./ne/obj/makefile
+./ne/src/dgdriv.f
+./ne/src/grinit.f
+./ne/src/rgnthw.f
+./ni/obj/makefile
+./ni/src/dgdriv.f
+./ni/src/grinit.f
+./ni/src/regent.f
+./pn/obj/makefile
+./pn/src/grinit.f
+./ppbase/src/getstd.f
+./ppbase/src/putstd.f
+./so33/obj/makefile
+./so33/src/dgdriv.f
+./so33/src/grinit.f
+./so33/src/regent.f
+./se/obj/makefile
+./se/src/dgdriv.f
+./se/src/grinit.f
+./se/src/regent.f
+./sn/obj/makefile
+./sn/src/grinit.f
+./sn/src/dgdriv.f
+./sn/src/regent.f
+./so/obj/makefile
+./so/src/grinit.f
+./so/src/regent.f
+./tt/obj/makefile
+./tt/src/grinit.f
+./tt/src/regent.f
+./ut/obj/makefile
+./ut/src/dgdriv.f
+./ut/src/grinit.f
+./ut/src/regent.f
+./wc/obj/makefile
+./wc/src/dgdriv.f
+./wc/src/grinit.f
+./wc/src/regent.f
+./ws/obj/makefile
+./ws/src/grinit.f
+./ws/src/regent.f
+./cs_new/obj/makefile
+./cs_new/src/dgdriv.f
+./cs_new/src/grinit.f
+./cs_new/src/regent.f
+./ls_new/obj/makefile
+./ls_new/src/dgdriv.f
+./ls_new/src/grinit.f
+./ls_new/src/regent.f
+./ne_new/obj/makefile
+./ne_new/src/dgdriv.f
+./ne_new/src/grinit.f
+./ne_new/src/regent.f

@@ -1,0 +1,123 @@
+Subject: Fire and Fuels Extension Update
+Name:  Stephanie Rebain
+Date:  01/11/2011
+Variants affected: All
+
+Description:
+
+1) A new keyword was created to allow initialization of soft/rotten down wood.  This
+keyword can be used in conjunction with FuelInit, which initializes hard/sound down wood
+and litter and duff.
+
+FUELSOFT: Set the amount of soft/rotten dead down fuel in each fuel size class.  These loadings
+can also be set within the StandInit table of an input FVS database.
+
+Field 1:	Initial soft/rotten fuel load for the 0-0.25 inch class (tons/acre).
+Field 2:	Initial soft/rotten fuel load for the 0.25-1 inch class (tons/acre).
+Field 3:	Initial soft/rotten fuel load for the 1-3 inch class (tons/acre).
+Field 4:	Initial soft/rotten fuel load for the 3-6 inch class (tons/acre).
+Field 5:	Initial soft/rotten fuel load for the 6-12 inch class (tons/acre).
+Field 6:	Initial soft/rotten fuel load for the 12-20 inch class (tons/acre).
+Field 7:	Initial soft/rotten fuel load for the 20-35 inch class (tons/acre).
+Field 8:	Initial soft/rotten fuel load for the 35-50 inch class (tons/acre).
+Field 9:	Initial soft/rotten fuel load for the > 50 inch class (tons/acre).
+
+2) The FVS_StandInit input data table structure has changed slightly.  Originally surface fuel was entered
+through the following columns:
+
+Fuel_0_25	-	Initial tons per acre of 0 to 0.25 inch fuel 
+Fuel_25_1	-	Initial tons per acre of 0.25 to 1 inch fuel 
+Fuel_0_1	-	Initial tons per acre of 0 to 1 inch fuel, if not using previous two fields
+Fuel_1_3	-	Initial tons per acre of 1 to 3 inch fuel
+Fuel_3_6	-	Initial tons per acre of 3 to 6 inch fuel
+Fuel_6_12	-	Initial tons per acre of 6 to 12 inch fuel
+Fuel_12_20 or Fuel_gt_12 -	Initial tons per acre of 12 to 20 inch fuel.  
+                            (If both columns are present, the first is used.)
+Fuel_20_35	-	Initial tons per acre of 20 to 35 inch fuel
+Fuel_35_50	-	Initial tons per acre of 35 to 50 inch fuel
+Fuel_gt_50	-	Initial tons per acre of greater than 50 inch fuel
+
+Now the columns are as follows:
+Fuel_0_25_H	-	Initial tons per acre of 0 to 0.25 inch hard/sound fuel 
+Fuel_25_1_H	-	Initial tons per acre of 0.25 to 1 inch hard/sound fuel 
+Fuel_1_3_H	-	Initial tons per acre of 1 to 3 inch hard/sound fuel
+Fuel_3_6_H	-	Initial tons per acre of 3 to 6 inch hard/sound fuel
+Fuel_6_12_H	-	Initial tons per acre of 6 to 12 inch hard/sound fuel
+Fuel_12_20_H -	Initial tons per acre of 12 to 20 inch hard/sound fuel.  
+Fuel_20_35_H	-	Initial tons per acre of 20 to 35 inch hard/sound fuel
+Fuel_35_50_H	-	Initial tons per acre of 35 to 50 inch hard/sound fuel
+Fuel_gt_50_H	-	Initial tons per acre of greater than 50 inch hard/sound fuel
+Fuel_0_25_S	-	Initial tons per acre of 0 to 0.25 inch soft/rotten fuel 
+Fuel_25_1_S	-	Initial tons per acre of 0.25 to 1 inch soft/rotten fuel 
+Fuel_1_3_S	-	Initial tons per acre of 1 to 3 inch soft/rotten fuel
+Fuel_3_6_S	-	Initial tons per acre of 3 to 6 inch soft/rotten fuel
+Fuel_6_12_S	-	Initial tons per acre of 6 to 12 inch soft/rotten fuel
+Fuel_12_20_S -	Initial tons per acre of 12 to 20 inch soft/rotten fuel.  
+Fuel_20_35_S	-	Initial tons per acre of 20 to 35 inch soft/rotten fuel
+Fuel_35_50_S	-	Initial tons per acre of 35 to 50 inch soft/rotten fuel
+Fuel_gt_50_S	-	Initial tons per acre of greater than 50 inch soft/rotten fuel
+
+This change is backward compatible.  Databases with the old fuels columns will work fine. In this case,
+the tons/acre will all be put in the hard surface fuel classes and the soft decay classes will be 0.
+    
+Impact on users:
+In most cases, this will have no impact on output.  Users initializing their surface fuels by
+selecting a photo series photo (FuelFoto keyword) may notice small changes in output.
+
+Modified Files:
+
+fire/base/src/fmin.f - added processing of FUELSOFT
+base/src/oplist.f - added new keyword to arrays ITRSL1 and ITRSL2          
+fire/ak/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/bm/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array                   
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ca/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ci/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array 
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/cr/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/cs/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array 
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ec/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/em/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array  
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ie/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ls/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/nc/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ne/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ni/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/pn/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/sn/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/so/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/tt/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ut/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/wc/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+fire/ws/src/fmcba.f - adjusted processing of FUELINIT keyword and added new dimension to STFUEL array
+                    - added processing of FUELSOFT, adjusted processing of FUELFOTO
+dbs/src/dbsstandin.f - adjusted subroutine for processing of new fuels columns
+fire/base/src/fmphotoval.f - adjusted photoseries initialization logic for new size classes and hard/soft
+
+metric/base/src/oplist.f - added new keyword to arrays ITRSL1 and ITRSL2 
+metric/dbs/src/dbsstandin.f - adjusted subroutine for processing of new fuels columns
+metric/fire/base/src/fmin.f - - added processing of FUELSOFT
+metric/fire/base/src/fmdout.f - made small change to down wood volume table to match the code change on 11-24-10
+                              
+
+
+
+
+

@@ -1,0 +1,29 @@
+Subject: API interface to SVS objects
+Name: Nick Crookston
+Date: April 12, 2013
+Variants affected: All
+
+Description: Added API calls to support interaction with the SVS objects. 
+
+Impact on users: None unless someone is using the features.
+
+SVS keyword impact: Added a flag on field 7 that suppresses the actual
+writting of the image files yet turns on the SVS calculations.
+
+Files:
+common/SVDEAD.F77  Added SNGCNWT (now) and CWDWT (at r736)
+base/src/svkey     Added the ability to suppress output. 
+base/src/svsnad.f  Added processing of SNGCNWT
+base/src/svcwd.f   Added processing of CWDWT (at r736)
+base/src/apisubs.f Added routines: fvsFFEAttrs fvsSVSDimSizes 
+                   fvsSVSObjData which will be documented in the api wiki
+base/src/svsnage.f Added code to process snag and cwd state
+base/src/svout.f   Added code to skip write statements when JSVOUT is
+                   negetive. Also fixed several type issues to clear up
+                   compiler warnings.
+pg/src/putstd.f    Put SNGCNWT and CWDWT 
+pg/src/getstd.f    Get SNGCNWT and CWDWT
+
+R/fvsGetSVSObjectAttrs.R -- added to fetch and process SVS objects
+
+

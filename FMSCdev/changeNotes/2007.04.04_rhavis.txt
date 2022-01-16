@@ -1,0 +1,20 @@
+Subject: Misc. Updates
+Name: R. Havis
+Date: April 4, 2007
+Variants affected: SO, CS_NEW, LS_NEW, AND NE_NEW
+
+Description: Miscellaneous updates. Corrected logic in setting default site
+             index values when site species is western juniper,
+             whitebark pine or quakeing aspen.
+
+Impact on users: Users of the SO variant should obtain a new executable.
+
+Files:
+   base/src/revise.f
+   cs_new/src/grohed.f      - changed version from BETA to TEST
+   ls_new/src/grohed.f      - changed version from BETA to TEST
+   ne_new/src/grohed.f      - changed header from BETA to TEST
+   so33/src/cratet.f        - set bound for jcr to 9
+   so33/src/sitset.f        - corrected logic in setting default SI when site species are
+                              Sq. Nos. 11, 16 and 24
+   wc/src/blkdat.f          - corrected value of unused coefficient

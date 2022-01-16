@@ -1,0 +1,59 @@
+Subject: code maintenance, Black Hills PP dg bug
+Name: R. Havis
+Date: May 17, 2011
+Variants affected: CR
+
+Description:
+1) The Forest-specific Merch. Specs. code was removed from the VOLS routines
+    and added to the SITSET routines
+2) A problem with the Black Hills PP diameter growth equations was causing
+   unreasonable calibration values. This was corrected.
+
+Impact on users: CR variant users should obtain new executables.
+
+Files:
+ni, ls /VOLS - removed Forest-specific Merch. Specs. code
+ca, cr, cs, ls, metric/cr, metric/wc, nc, ne, pn, sn,
+           so, wc / SITSET - added Forest-specific Merch. Specs. code
+
+./bin/makefile - removed duplicated object (debug_mod.o) from FVSut link list
+./ca/src/sitset.f
+./common/includeSVN.f
+./cr/src/cratet.f - moved call to DGDRIV, and Prep. of input height calibration
+                    data, to below call to FINDAG; and branched around setting 
+                    the YOUNG and OLD variables if ABIRTH() <=0
+./cr/src/dgf.f - branched around setting 
+                 the YOUNG and OLD variables if ABIRTH() <=0
+./cr/src/gemdg.f - removed unused statement (100 CONTINUE), added trap for
+                   predicted diameter when the result was less than current
+                   diameter (added .1 in to current diameter)
+./cr/src/sitset.f
+./cs/src/sitset.f
+./em/src/cratet.f - moved call to DGDRIV, and Prep. of input height calibration
+                    data, to below call to FINDAG
+./em/src/dgf.f - branched around setting the YOUNG and OLD variables if ABIRTH() <=0
+./ie/src/cratet.f - moved call to DGDRIV, and Prep. of input height calibration
+                    data, to below call to FINDAG
+./ie/src/dgf.f - branched around setting the YOUNG and OLD variables if ABIRTH() <=0
+./ls/src/sitset.f
+./ls/src/vols.f
+./metric/cr/src/sitset.f
+./metric/wc/src/sitset.f
+./nc/src/sitset.f
+./ne/src/sitset.f
+./ni/src/vols.f
+./pn/src/sitset.f
+./sn/src/sitset.f
+./so/src/sitset.f
+./tt/src/cratet.f - moved call to DGDRIV, and Prep. of input height calibration
+                    data, to below call to FINDAG; and branched around setting 
+                    the YOUNG and OLD variables if ABIRTH() <=0
+
+./tt/src/dgf.f - branched around setting the YOUNG and OLD variables if ABIRTH() <=0
+./ut/src/cratet.f - moved call to DGDRIV, and Prep. of input height calibration
+                    data, to below call to FINDAG; and branched around setting 
+                    the YOUNG and OLD variables if ABIRTH() <=0
+./ut/src/dgf.f - branched around setting the YOUNG and OLD variables if ABIRTH() <=0
+./wc/src/sitset.f
+./ws/src/dgf.f - removed duplicate declaration of AGERNG, DSTAG,and BAU
+./ws/src/htgf.f - removed duplicate declaration of DDSMX1 and DDSMX2

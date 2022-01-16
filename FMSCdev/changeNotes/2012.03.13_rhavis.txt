@@ -1,0 +1,26 @@
+Subject: Metric-Climate Extension (FVScrmc) to the Central Rockies Variant
+Name: R. Havis
+Date: March 13, 2012
+Variants affected: Metric Central Rockies
+
+Description: A new Metric-Climate extension to the Central Rockies
+             variant was created.
+
+Impact on users: The Climate extension is available to metric users
+                 of the Central Rockies variant. The volume killed field
+                 in the database version of the metric FFE Mortality
+                 Report was corrected.
+
+Files:
+
+fvs/bin/makefile - added build instructions for the FVScrmc executable
+metric/cr/obj/makefile - edited object list and routine compile instructions
+                         to accommodate the re-engineered sprout logic
+                         (see 2012.02.02_gdixon.txt); added FVSTDCM.F77 to
+                         dependency list of blkdat.f; added GGCOM.F77 to dependency
+                         list of cratet.f; removed ARRAYS.F77 from dependency list
+                         of findag.f; added VARCOM.F77 to habtyp.f dependency list
+metric/fire/base/src/fmfout.f - corrected volume metric conversion factor in call to
+                                subroutine dbsfmmort
+metric/strp/src/esuckr.f - added stump sprout logic described in 2012.02.02_gdixon.txt
+

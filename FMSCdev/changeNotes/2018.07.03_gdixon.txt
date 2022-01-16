@@ -1,0 +1,233 @@
+Subject: 1) Eliminating duplicate array names in COMMON
+         2) Improving efficiency in handling site index curve coefficients.
+         3) Correction to the site index equation for WF/GF in the PN variant.
+
+Name: Gary Dixon
+
+Date: 07/03/2018
+
+Variants affected: All variants
+
+Description: These changes are part of a code modernization effort undertaken by the Forest Management 
+             Service Center and follow guidelines suggested in the "FVS Code Modernization: Considerations and
+             Recommendations" (Gary Dixon, Final Report, 05/25/2017). Changes included in this bulletin are
+             changes to make the code more efficient and easier to maintain.
+
+             Specifically:
+             1. The array name BAU appeared in both the GGCOM and TWIGCOM labelled common blocks and with
+                different dimensions. The BAU array in the TWIGCOM labelled common was changed to EBAU.
+
+             2. Arrays containing site index range values for each species appeared in two places in the
+                CI, SO, TT and UT variants. In each of these variants, the site index range values were 
+                moved to one loction for ease of maintenance.
+
+             3. Arrays containing site index range values for each species appeared in three places in the
+                BM variant. Site index range values were moved to one location for ease of maintenance.
+                
+             4. Site index equation coefficients were being handled inefficiently. This has been improved.
+                As part of these changes, an error was found in the the WF/GF equation used in both the OP 
+                and PN variants. One of the coefficients was positive and should have been negative. This 
+                was also corrected.
+
+Impact on users: Generally no impact on users. Users of the OP and PN variants will notice a slight 
+                 reduction in WF/GF height growth estimates and, in turn, volumes.
+
+Files:
+/common
+           TWIGCOM.F77  Renamed the array BAU(50) to EBAU(50) to avoid a potential conflict with the BAU(41)
+                        array in the GGCOM.F77 labelled common block. Added the C $ID date of revision line. 
+
+            VARCOM.F77  Added the C $ID date of revision line. Deleted arrays BB0(maxsp) through BB13(maxsp).
+
+/acd 
+              blkdat.f  Added the C $ID date of revision line. Deleted initialization of the BB0-BB13 arrays.
+
+/ak 
+              blkdat.f  Added the C $ID date of revision line. Copied the site equation coefficients to HTCALC.
+                        Deleted initialization of the BB0-BB13 arrays.
+
+              htcalc.f  Added the C $ID date of revision line. Restructured the subroutine so it flows better.
+                        Initialized return variables POTHTG and HGUESS to 0. Embedded the equation coefficients
+                        directly into the equations. Took out unused variables P1 and P2. Edited or inserted
+                        debug write statements. Took out the VARCOM labelled COMMON block.
+
+/bin
+   FVSbm_sourceList.txt Added subroutine SITERANGE to the source list file.
+  FVSbmx_sourceList.txt 
+  qFVSbm_sourceList.txt 
+
+   FVSci_sourceList.txt Added subroutine SITERANGE to the source list file.
+  FVScix_sourceList.txt 
+  qFVSci_sourceList.txt 
+
+   FVSso_sourceList.txt Added subroutine SITERANGE to the source list file.
+  FVSsox_sourceList.txt 
+  qFVSso_sourceList.txt 
+
+   FVStt_sourceList.txt Added subroutine SITERANGE to the source list file.
+  FVSttx_sourceList.txt 
+  qFVStt_sourceList.txt 
+
+   FVSut_sourceList.txt Added subroutine SITERANGE to the source list file.
+  FVSutx_sourceList.txt 
+  qFVSut_sourceList.txt 
+
+/bm
+              blkdat.f  Added the C $ID date of revision line. Copied the site equation coefficients to HTCALC.
+                        Deleted initialization of the BB0-BB13 arrays.
+
+              htcalc.f  Added the C $ID date of revision line. Embedded the equation coefficients
+                        directly into the equations. Edited or inserted debug write statements. Took out
+                        the COMMON blocks.
+
+                htgf.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values.
+
+              regent.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values. Upper range value for lodgepole pine is now
+                        70 instead of 66 to match the documentation and values in subroutines SITSET and
+                        HTGF.
+
+           siterange.f  New subroutine containing site index range values for each species.
+
+              sitset.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values.
+
+/ca
+              blkdat.f  Added the C $ID date of revision line. Copied the site equation coefficients to HTCALC.
+                        Deleted initialization of the BB0-BB13 arrays.
+
+              htcalc.f  Added the C $ID date of revision line. Embedded the equation coefficients
+                        directly into the equations. Edited or inserted debug write statements. Took out
+                        the COMMON blocks. Switched the R6 SELECT CASE structure to a species basis.
+
+/canada/on
+              blkdat.f  Added the C $ID date of revision line. Deleted initialization of the BB0-BB13 arrays.
+
+/ci
+              regent.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values. 
+
+           siterange.f  New subroutine containing site index range values for each species.
+
+              sitset.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values.
+
+/cs
+              blkdat.f  Deleted initialization of the BB0-BB13 arrays.
+
+/ec
+              blkdat.f  Added the C $ID date of revision line. Copied the site equation coefficients to HTCALC.
+                        Deleted initialization of the BB0-BB13 arrays.
+
+              htcalc.f  Added the C $ID date of revision line. Embedded the equation coefficients
+                        directly into the equations. Edited or inserted debug write statements. Took out
+                        the COMMON blocks.
+
+/ls
+              blkdat.f  Deleted initialization of the BB0-BB13 arrays.
+
+/nc
+              blkdat.f  Added the C $ID date of revision line. Copied the site equation coefficients to HTCALC.
+                        Deleted initialization of the BB0-BB13 arrays.
+
+              htcalc.f  Added the C $ID date of revision line. Embedded the equation coefficients
+                        directly into the equations. Edited or inserted debug write statements. Took out
+                        the COMMON blocks.
+
+/ne
+              blkdat.f  Added the C $ID date of revision line. Deleted initialization of the BB0-BB13 arrays.
+
+              badist.f  Changed the array name BAU to EBAU. Added the 150 CONTINUE statement to end the DO loop
+                        instead of ending it on an assignment statement.
+
+              balmod.f  Changed the array name BAU to EBAU. Added the C $ID date of revision line.
+
+              grinit.f  Changed the array name BAU to EBAU.
+
+/oc
+              blkdat.f  Added the C $ID date of revision line. Deleted initialization of the BB0-BB13 arrays.
+
+/op
+              blkdat.f  Deleted initialization of the BB0-BB13 arrays.
+
+/pg
+              getstd.f  Deleted reading of the BB0-BB13 arrays.
+
+              putstd.f  Deleted writing of the BB0-BB13 arrays.
+
+/pn
+              blkdat.f  Added the C $ID date of revision line. Copied the site equation coefficients to HTCALC.
+                        Deleted initialization of the BB0-BB13 arrays.
+
+              htcalc.f  Embedded the equation coefficients directly into the equations. Edited or inserted 
+                        debug write statements. Took out the COMMON blocks. Changed the equation SELECT CASE
+                        statement to a species basis. Corrected the WF/GF coefficient of ALOG(AG)**24 from 
+                        2.054E-24 to -2.054E-24. (Cochran PNW-252)
+
+/so
+              blkdat.f  Added the C $ID date of revision line. Copied the site equation coefficients to HTCALC.
+                        Deleted initialization of the BB0-BB13 arrays.
+
+              htcalc.f  Added the C $ID date of revision line. Embedded the equation coefficients
+                        directly into the equations. Edited or inserted debug write statements. Took out
+                        the COMMON blocks.
+
+              regent.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values. 
+
+           siterange.f  New subroutine containing site index range values for each species.
+
+              sitset.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values.
+
+/tests/FVSop
+        opt01.sum.save  Updated because of the correction to the WF site curve coefficient. This caused a
+                        slight change in heights which caused a slight change in volumes.
+
+/tests/FVSpn
+        pnt01.sum.save  Updated because of the correction to the WF site curve coefficient. This caused a
+                        slight change in heights which caused a slight change in volumes.
+
+/tests/qFVScr
+        crt01.sum.save  Updated because of the previous sprouting error fixes in the CR logic
+                        (bulletin 2018.06.22_gdixon.txt).
+
+/tests/qFVSop
+        opt01.sum.save  Updated because of the correction to the WF site curve coefficient. This caused a
+                        slight change in heights which caused a slight change in volumes.
+
+/tests/qFVSpn
+        pnt01.sum.save  Updated because of the correction to the WF site curve coefficient. This caused a
+                        slight change in heights which caused a slight change in volumes.
+
+/tt
+              regent.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values.
+
+           siterange.f  New subroutine containing site index range values for each species.
+
+              sitset.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values.
+
+/ut
+              regent.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values.
+
+           siterange.f  New subroutine containing site index range values for each species.
+
+              sitset.f  Deleted site index range values. Inserted a call subroutine SITERANGE to return the
+                        appropriate site index range values.
+
+/wc
+              blkdat.f  Added the C $ID date of revision line. Copied the site equation coefficients to HTCALC.
+                        Deleted initialization of the BB0-BB13 arrays.
+
+              htcalc.f  Embedded the equation coefficients directly into the equations. Edited or inserted 
+                        debug write statements. Took out the COMMON blocks. Changed one of the site index
+                        coefficients from 0.00074 to 0.0007403 to be consistent with the same equation in
+                        the PN variant.
+                        
+/ws
+              htcalc.f  Embedded the equation coefficients directly into the equations for species not
+                        using the Dunning equations. 

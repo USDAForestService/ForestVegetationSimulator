@@ -1,0 +1,150 @@
+Subject: Westwide Pine Beetle Model-Database Extension Updates, et al.
+Name: Andrew McMahan
+Date: September 27, 2005
+Variants affected: All WWPBM Extensions
+
+Description: WWPBM-DB-SVS output changes.
+         (1) old WWPBM output generating keywords are now obsolete.
+         (2) standard (PPE "top component") WWPBM output has been 
+               reduced from 5 files to 2; these contain new information.
+         (3) 4 new WWPBM output files containing additional data are now
+               available as stand-level schedulable activities 
+         (4) data from these four new output files may now be redirected 
+               to a database
+         (5) WWPBM beetle-killed trees are now uniquely portrayed in SVS.
+             
+         (6) PPE change: Progress of a PPE run is now written to screen
+             
+     Details:
+
+(1 & 2) WWPBM keywords BMTOTALS, BMDETAIL and BMDVOUT are now obsolete.
+Two of the output files previously requestable via keyword BMTOTALS are
+now available via keyword BMOUT: the "landscape average" (*.lpy) output file
+and the "cycle" (*.cyc) output file.  Unlike its predecessor, the new cycle
+output file now reports cycle-beginning values (and some cycle total values) 
+instead of cycle-average values.  Contents of both files have been enhanced.
+
+Keyword BMOUT has 2 fields.  The default condition is that they are both 
+blank, which invokes both output files to be written.  Any value in field 1 
+suppresses the *.lpy output file; any value in field 2 suppresses the *.cyc
+output file.
+
+(3 & 4) A new stand level WWPBM option processor (BMIN) was created.  It 
+processes *STAND LEVEL* WWPBM keywords.  It is invoked via (new) base-FVS 
+keyword BMIN, which signals that stand-level WWPBM keywords are to be 
+read-in. 
+The new stand-level options (currently available) are for 4 different 
+output files. Each output file may be redirected to database using new 
+database keywords.  
+
+The new keywords & files are:
+                                             
+----------------------------------------------------------
+                                                ASSOCIATED
+KEYWORD   OUTPUT FILE                   UNIT    DB KEYWORD
+----------------------------------------------------------
+MAINOUT   "Main"                         26     PPBMMAIN 
+TREEOUT   tree-by-size class             27     PPBMTREE
+BKPOUT    BKP & RV                       28     PPBMBKP
+VOLOUT    volume-by-size class           30     PPBMVOL
+
+Keyword fields:
+Field 1: year (or cycle) to begin writing
+Field 2: Duration to write (# of years)
+Field 3: Interval (within the duration period) to write (years)
+
+Database keyword fields:
+Field 1: A value greater than one suppresses the standard output file (i.e. 
+data will be written to database only).  A blank or a value of 1 invokes  
+both the writing to DB as well as standard output file.
+
+(5) WWPBM-SVS modifications
+
+In runs invoking both SVS and the WWPBM, 80-series tree class codes are 
+written to the SVS files, allowing simulated beetle-killed trees to be 
+portrayed uniquely, e.g. as "red trees".  New treeform files, recognizing 
+the new tree class codes, are under development.
+
+(6) PPE: echo progress to screen as run progresses (PPMAIN) 
+
+Now, instead of a seeing a "blank" screen, the user sees something like:
+ 
+    STAND  xx  OF xxxx    CYCLE  x  OF  xx   1ST LOOP 
+
+scroll by on the screen as the run progresses.
+
+
+Impact on users:
+
+Users running keyword sets invoking WWPBM output-generating keywords 
+BMTOTALS, BMDETAIL, or BMDVOUT will need to change their keyword files.  
+Although keyword BMTOTALS will not invoke the writing of the three output 
+files that it heretofore did, it will still invoke output writing; its 
+request will be "redirected" to keyword BMOUT.  Thus, an old BMTOTALS 
+request will invoke the writing of the new *.bml and *.bmc output files.
+
+The WWPBM mapping tools (ArcView 3.x projects) will not be updated to 
+accomodate these new output files.  These WWPBM mapping tools are thus 
+rendered obsolete.  Users will need to employ new methods enabling 
+importation of WWPBM output data into a GIS. 
+
+
+
+Files:
+
+base/src/exbm.f     Handles new call from DBSIN
+base/src/exdbs.f    Handle new calls from WWPBM (from BMOUT & BMSDIT)
+base/src/initre.f   Handles new keyword BMIN
+base/src/keywds.f   Add BMIN
+base/src/oplist.f   Add 4 new activities (WWPBM stand level output-writing)
+base/src/svmort.f   New beetle-mortality functionality / recognition
+base/src/svout.f                  "
+base/src/svrmov.f                 "
+base/src/svsnad.f                 "
+base/src/svsnage.f                "
+
+bin/FCWindows_NT.make
+bin/makefile
+
+common/KEYCOM.F77   Increment # keywords
+
+dbs/obj/makefile    Added 4 new routines
+dbs/src/DBSCOM.F77  New variables added
+dbs/src/dbsblkd.f   Addition/initialization of 4 new variables for WWPBM
+dbs/src/dbscase.f   Entry from 
+dbs/src/dbsin.f     4 new keywords for WWPBM output
+dbs/src/dbsinit.f   Addition/initialization of 4 new variables for WWPBM
+dbs/src/dbsppget.f  Addition of 4 variables 
+dbs/src/dbsppput.f                "
+
+ppbase/src/ppmain.f Added echo progress to screen
+
+wwpb/obj/makefile   Removed 2 routines, added 1. 
+                    Add BMPCOM added as dependency to a few routines
+wwpb/src/BMCOM.F77  Additional variables. Including:CVOLREM replaces VOLREM 
+                    as a variable holding volume removed over the cycle, 
+                    VOLREM now holds annual removals
+wwpb/src/BMPCOM.F77 Complete overhaul
+wwpb/src/BMPRM.F77  Minor code clean-up (declared NUMRV)
+wwpb/src/bmatct.f   Add new variable SELFBKP; clean-up code
+wwpb/src/bmcbkp.f   Ensure that PBKILL won't go negative
+wwpb/src/bmdrv.f    Replace call from BMOUTM to BMOUT
+wwpb/src/bmin.f     New routine, stand-level WWPBM option processor
+wwpb/src/bminit.f   New output units. new output logical variables.
+                    New entry (from DBSIN) verifying WWPBM linkage.
+                    Removed unneeded LFAC; code clean-up
+wwpb/src/bmkill.f   Add call to SVMORT (SVS processing of beetle mortality);
+                    Updated a variable name (CVOLREM); 
+wwpb/src/bmmort.f   Added bookkeeping for "nscl+1" position in array TREE
+wwpb/src/bmout.f    New routine, handles all new output files 
+wwpb/src/bmppin.f   Revised handling of obsolete keywords. Add 1 new keyword
+wwpb/src/bmsalv.f   Add BMPCOM dependency
+wwpb/src/bmsani.f   Add BMPCOM dependency. Add new AAREMS array. Add new  
+                    variable (REMBKP) tracking BKP removed via sanitation 
+wwpb/src/bmsdit.f   Added bookkeeping for "nscl+1" position in array TREE.
+                    For new stand level output writing activities,added: 
+                    -call to OPFIND (to fetch activity parameters)
+                    -calls to OPGET and OPDONE  
+                    -call to DBSWW (entry in DBSIN) fetch DB-writing params
+                    -call to DBSWW2(entry in DBSCASE) fetch caseID
+wwpb/src/bmsetp.f   Inititalize new WWPBM stand level activity parameters

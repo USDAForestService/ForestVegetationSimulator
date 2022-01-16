@@ -1,0 +1,28 @@
+Subject: Base Code Errors
+Name: G. Dixon
+Date: June 30, 2010
+Variants affected: ALL
+
+Description:
+
+1)  evpred.f  line 65  I changed IF(LFIRE2 .EQ. .FALSE. )  to  IF(.NOT. LFIRE)       error: a logical type variable cannot be mixed with an arithmetic type variable
+2)  fmevmon.f  line 923 changed IF(LSW(ISPC) .EQ. .TRUE.)  to  IF(LSW(ISPC))  error: a logical type variable cannot be mixed with an arithmetic type variable
+3)  fvsstd.f    line 72 (in combination with line 52)    error: elements of a COMMON block must be initialized in a BLOCK DATA subprogram.  I moved the FVSSTDCM
+common block and associated type statements to the COMMON directory FVSSTDCM.F77; added an INCLUDE FVSSTDCM statement to fvsstd; added an INCLUDE FVSSTDCM statement
+and the initialization of these two variables to each of the variant BLKDAT routines; added an INCLUDE FVSSTDCM statement and associated code to subroutines PUTSTD
+and GETSTD; and updated the makefile dependency lists accordingly.
+4) also added common CWDCOM to the dependency list for getstd and putstd in the ppnc/obj/makefile and ppws/obj/makefile
+
+Impact on users: None
+
+Files:
+
+base/src               evpred.f    fvsstd.f
+fire/base/src        fmevmon.f
+ppbase/src         getstd.f  putstd.f
+
+__/src/blkdat.f      __ = AK, AN, BM, CA, CI, CR, CS, CS_NEW, EC, EM, IE, KT, LS, LS_NEW, NC, NE, NE_NEW, NI, PN, SN, SO, SO33, TT, UT, WC, WS
+
+__/obj/makefile   __ = BASE, AK, AN, BM, CA, CI, CR, CS, CS_NEW, EC, EM, IE, KT, LS, LS_NEW, NC, NE, NE_NEW, NI, PN, SN, SO, SO33, TT, UT, WC, WS
+
+__/obj/makefile   __ = ppbase, ppbm, ppca, ppcr, ppls, ppnc, ppne_new, ppso33, pput, ppwc, ppws

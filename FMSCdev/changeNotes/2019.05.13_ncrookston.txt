@@ -1,0 +1,32 @@
+Subject: SQLite treelist database output. 
+Name: Nick Crookston
+Date: May 13, 2019
+Variants affected: All
+
+Description: Dead trees in the input treedata were not getting handled completely
+             in the output to database process for treelists. Modifications in 3
+             SQLite specific routines handling the standard treelist, cutlist and
+             after treatment treelist were updated to resolve the issue.
+
+Impact on users: This pertains to Q-Family of executables only. Users processing
+                 input data with dead trees and requesting ouput treelists be
+                 sent to database will not experience failures.
+
+Files:
+changeNotes/2019.05.13_ncrookston.txt -- These notes.
+
+dbsqlite/dbsatrtls.f -- Column names for height to top diameters now handled as
+                        variables instead of leterals in SQL statements. Added
+                        2 "Commit" executions to ensure parings with "Begin" on
+                        SQL processes.
+ 
+dbsqlite/dbscuts.f -- Column names for height to top diameters now handled as
+                      variables instead of leterals in SQL statements.
+ 
+dbsqlite/dbstrls.f -- Corrected conditional for dead tree records presence and
+                      Added 2 "Commit" executions to ensure parings with
+                      "Begin" on SQL processes.
+ 
+tests/qFVSie/ie.db_dump.txt.save -- updated output.
+
+tests/qFVSsn/snout.txt.save -- updated output.   
