@@ -1,0 +1,152 @@
+Subject: Douglas-fir Beetle, Lodgepole MPB, Root Disease
+Name: Lance David (FHTET)
+Date: 2014.09.26
+Variants affected: All with extensions attached
+
+Description: Updates for Root Disease was for implementation of 
+Implicit None and does not affect simulation results. Updates for 
+Douglas-fir Beete and Lodgpole MPB models simply addressed some
+variable names that were in conflict with FORTRAN functions. Did
+not find that any of these variable name conflicts actually caused
+erros or altered results. Code modification notes of significance
+are in the source files.
+
+Impact on users: None
+
+Files:
+dbf/src/dfdbh.f 
+
+lpmpb/src/MPBCOM.F77
+lpmpb/src/mpbdrv.f
+lpmpb/src/mpbin.f
+lpmpb/src/mpblkdbm.f
+lpmpb/src/mpblkdci.f
+lpmpb/src/mpblkdcr.f
+lpmpb/src/mpblkdso.f
+lpmpb/src/mpblkdtt.f
+lpmpb/src/mpblkdut.f
+lpmpb/src/mpbmod.f
+lpmpb/src/mpbtab.f
+lpmpb/src/ptint.f
+lpmpb/src/ptscl.f
+
+rd/src/RDADD.F77    
+rd/src/RDARRY.F77   
+rd/src/RDCOM.F77    
+rd/src/RDCOM_wrk.F77
+rd/src/RDCRY.F77    
+rd/src/RDPARM.F77   
+rd/src/RDPARMCA.F77 
+rd/src/rdarea.f    
+rd/src/rdatv.f     
+rd/src/rdbb1.f     
+rd/src/rdbb2.f     
+rd/src/rdbb3.f     
+rd/src/rdbb4.f     
+rd/src/rdbbdo.f    
+rd/src/rdblk1.f    
+rd/src/rdblk1bc.f  
+rd/src/rdblk1bm.f  
+rd/src/rdblk1ca.f  
+rd/src/rdblk1ci.f  
+rd/src/rdblk1cr.f  
+rd/src/rdblk1ec.f  
+rd/src/rdblk1em.f  
+rd/src/rdblk1ie.f  
+rd/src/rdblk1nc.f  
+rd/src/rdblk1pn.f  
+rd/src/rdblk1so.f  
+rd/src/rdblk1tt.f  
+rd/src/rdblk1ut.f  
+rd/src/rdblk1wc.f  
+rd/src/rdblk1ws.f  
+rd/src/rdbout.f    
+rd/src/rdcent.f    
+rd/src/rdcloc.f    
+rd/src/rdcmpr.f    
+rd/src/rdcntl.f    
+rd/src/rdcsd.f     
+rd/src/rddam.f     
+rd/src/rddbug.f    
+rd/src/rddout.f    
+rd/src/rddst.f     
+rd/src/rdend.f     
+rd/src/rdescp.f    
+rd/src/rdesin.f    
+rd/src/rdestb.f    
+rd/src/rdgrow.f    
+rd/src/rdin.f      
+rd/src/rdinbm.f    
+rd/src/rdinca.f    
+rd/src/rdinci.f    
+rd/src/rdincr.f    
+rd/src/rdinec.f    
+rd/src/rdinem.f    
+rd/src/rdinf.f     
+rd/src/rdinie.f    
+rd/src/rdinit.f    
+rd/src/rdinitca.f  
+rd/src/rdinoc.f    
+rd/src/rdinsd.f    
+rd/src/rdinso.f    
+rd/src/rdintt.f    
+rd/src/rdinup.f    
+rd/src/rdinut.f    
+rd/src/rdinws.f    
+rd/src/rdiout.f    
+rd/src/rdiprp.f    
+rd/src/rdjump.f    
+rd/src/rdload.f    
+rd/src/rdmn1.f     
+rd/src/rdmn2.f     
+rd/src/rdmort.f    
+rd/src/rdmrec.f    
+rd/src/rdoagm.f    
+rd/src/rdowi.f     
+rd/src/rdowin.f    
+
+rd/src/rdppgt.f - Integer IROOT was in list twice.
+rd/src/rdpppt.f   Added real scalar OLDPRP and real array CDF(1001). 
+
+rd/src/rdpr.f      
+rd/src/rdprin.f    
+rd/src/rdpush.f    
+rd/src/rdrani.f    
+rd/src/rdrann.f    
+rd/src/rdranp.f  - Common blocks PRPDAT and PRPDATD were moved to
+                   RDCOM.F77 and also added to rdppgt.f and rdppgt.f.
+                   Array CDF changed from double precision to REAL
+                   because double precision was not necessary.
+rd/src/rdrate.f    
+rd/src/rdrdel.f    
+rd/src/rdroot.f    
+rd/src/rdrout.f    
+rd/src/rdsadd.f    
+rd/src/rdsetp.f    
+rd/src/rdshrk.f    
+rd/src/rdshst.f    
+rd/src/rdslp.f     
+rd/src/rdsout.f    
+rd/src/rdspl1.f    
+rd/src/rdspl2.f    
+rd/src/rdspor.f    
+rd/src/rdsprd.f  - Local variable NEWDEN default type was integer, should be real.
+                   Did not change type assignment to real due to minor changes
+                   in simulation results. Need to check this further and likely
+                   change type to real before committing to repository. 09/03/14
+                   Variable NEWDEN declared as REAL and will have minor affect 
+                   on simulation RD detail reports but may not change stand level
+                   summary results.
+rd/src/rdspup.f    
+rd/src/rdssiz.f    
+rd/src/rdstp.f     
+rd/src/rdstr.f     
+rd/src/rdsum.f     
+rd/src/rdtdel.f    
+rd/src/rdtim.f     
+rd/src/rdtout.f    
+rd/src/rdtreg.f    
+rd/src/rdtres.f    
+rd/src/rdtrip.f    
+rd/src/rdtrp.f     
+rd/src/rdzero.f    

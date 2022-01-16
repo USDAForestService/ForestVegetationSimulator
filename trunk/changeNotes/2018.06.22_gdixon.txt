@@ -1,0 +1,902 @@
+Subject: 1) Directory structure changes
+         2) Upgrade to the way the variant designator is set and passed
+         2) Central Rockies sprouting logic correction
+
+Name: Gary Dixon
+
+Date: 06/22/2018
+
+Variants affected: All variants
+
+Description: These changes are part of a code modernization effort undertaken by the Forest Management 
+             Service Center and follow guidelines suggested in the "FVS Code Modernization: Considerations and
+             Recommendations" (Gary Dixon, Final Report, 05/25/2017). Changes included in this bulletin are
+             to improve the code repository directory structure, seperate subroutines containing variant-
+             specific coding from those that don't, and restructure the way the variant designator is set,
+             passed, and used throughout the model.
+
+             Specifically:
+             1. New subdirectories were created to contain variant-specific code, subroutines containing 
+                variant-specific code were moved into the new subdirectories.
+             2. The new 2-character variable VARACD was created in the CONTRL labelled COMMON block to
+                contain the variant designator. The VARVER entry points in all the GROHED subroutines
+                was elimintated. The 7-character variable VVER was eliminated throughout the model.
+
+             3. In the process of implementing the VARACD variable, errors were discovered in the Central
+                Rockies variant sprouting logic. The errors affect the number of aspen sprouts, and the
+                sprout heights for all sprouting species. These errors have been corrected.
+
+Impact on users: Directory structure changes, and improvements to the way the variant designator is set and
+                passed throughout the model only affect FVS developers; there is no impact on users. However,
+                corrections to the Central Rockies sprouting logic will impact any users making runs of stands
+                containing sprouting species.
+
+Files:
+/common
+            CONTRL.F77  The variable VARACD was added to carry the 2-character alphabetic variant designator.
+                        All variable names were alphabetized. The file was restructured in the desired format.
+                        Variable definitions were added where they were missing; variable definitons were
+                        deleted for variables that have been previously removed from this labelled common
+                        block. The unused variables D0 and D0MULT were deleted.
+
+/acd 
+              grinit.f  Initialized the variable VARACD to 'AC'.
+
+/ak 
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'AK'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/base
+                cuts.f  Moved to the /vbase subdirectory. 
+
+              disply.f  Moved to the /vbase subdirectory. 
+
+              ecvols.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+              evpred.f  Moved to the /vbase subdirectory. 
+
+              evtstv.f  Moved to the /vbase subdirectory. 
+
+              filopn.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+              fortyp.f  Moved to the /vbase subdirectory. 
+
+              fvsstd.f  Moved to the /vbase subdirectory. 
+
+              initre.f  Moved to the /vbase subdirectory. 
+
+              natcrz.f  Moved to the /vbase subdirectory. 
+
+              prtrls.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+              revise.f  Moved to the /vbase subdirectory. 
+
+              sdical.f  Moved to the /vbase subdirectory. 
+
+              stkval.f  Moved to the /vbase subdirectory. 
+
+              sumhed.f  Moved to the /vbase subdirectory. 
+
+              sumout.f  Moved to the /vbase subdirectory. 
+
+               svout.f  Moved to the /vbase subdirectory. 
+
+             svsnage.f  Alphabetized the labelled COMMON blocks. Deleted the VVER variable and replaced 
+                        usages of VVER with VARACD. 
+
+             svstart.f  Moved to the /vbase subdirectory. 
+
+              unblnk.f  Deleted the VVER variable and Canadian variant-specific code. 
+
+/bin
+   FVSak_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSak_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vestb, /vdbs or /vdbsqlite, /vvolume,
+                        /vso, /vws, and /vie subdirectories.
+
+   FVSbm_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSbmx_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+  qFVSbm_sourceList.txt /vws, and /vie subdirectories.
+
+   FVSca_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSca_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+                        /vso, /vws, and /vie subdirectories.
+
+   FVSci_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVScix_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vestb, /vdbs or /vdbsqlite, /vvolume,
+  qFVSci_sourceList.txt /vws, and /vie subdirectories.
+                        
+   FVScr_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVScrx_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+  qFVScr_sourceList.txt /vws, /fire/vut, and /vie subdirectories.
+
+   FVScs_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVScs_sourceList.txt addition of the /vbase, /fire/vbase, /vstrp, /vdbs or /vdbsqlite, /vvolume, and /vls
+                        subdirectories.
+
+   FVSec_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSecx_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+  qFVSec_sourceList.txt /vso, /vws, and /vie subdirectories.
+
+   FVSem_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSemx_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vestb, /vdbs or /vdbsqlite, /vvolume,
+  qFVSem_sourceList.txt /vws, and /vie subdirectories.
+
+   FVSie_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSiex_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vestb, /vdbs or /vdbsqlite, /vvolume,
+  qFVSie_sourceList.txt /vso, /vws, and /vie subdirectories.
+
+   FVSkt_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSktx_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vestb, /vdbs or /vdbsqlite, /vvolume,
+  qFVSkt_sourceList.txt /vso, /vws, and /vie subdirectories.
+
+   FVSls_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSls_sourceList.txt addition of the /vbase, /fire/vbase, /vstrp, /vdbs or /vdbsqlite, /vvolume, and /vls
+                        subdirectories.
+
+   FVSnc_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSnc_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+                        /vso, /vws, and /vie subdirectories.
+
+   FVSne_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSne_sourceList.txt addition of the /vbase, /fire/vbase, /vstrp, /vdbs or /vdbsqlite, /vvolume, and /vls
+                        subdirectories.
+
+   FVSoc_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSoc_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+                        /vorganon, /vso, /vws, and /vie subdirectories.
+
+   FVSop_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSop_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+                        /vorganon, /vso, /vwc, /vws, /fire/vop, and /vie subdirectories.
+
+   FVSpn_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSpnx_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+  qFVSpn_sourceList.txt /vso, /vwc, /vws, /fire/vpn, and /vie subdirectories.
+
+   FVSsn_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSsn_sourceList.txt addition of the /vbase, /fire/vbase, /vstrp, /vdbs or /vdbsqlite, /vvolume, and /vls
+                        subdirectories.
+
+   FVSso_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSsox_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+  qFVSso_sourceList.txt /vso, /vws, /and vie subdirectories.
+
+   FVStt_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSttx_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+  qFVStt_sourceList.txt /vws, /fire/vut, and /vie subdirectories.
+
+   FVSut_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  FVSutx_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+  qFVSut_sourceList.txt /vws, /fire/vut, and /vie subdirectories.
+
+   FVSwc_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSwc_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+                        /vso, /vwc, /vws, /fire/vpn, and /vie subdirectories.
+
+   FVSws_sourceList.txt Pathnames were adjusted to reflect changes in the directory structure. These include
+  qFVSws_sourceList.txt addition of the /vbase, /fire/vbase, /vcovr, /vstrp, /vdbs or /vdbsqlite, /vvolume,
+                        /vws, and /vie subdirectories.
+
+/bm
+               bfvol.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted reference
+                        to the obsolete NI variant. Deleted variants that no longer use this subroutine: CI, 
+                        EC, EM, KT, NC, SO, WS.
+
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'BM'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/ca
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'CA'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/canada/bc
+              becset.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              cwcalc.f  Added the CONTRL.F77 labelled COMMON block. Deleted the VVER variable and replaced 
+                        usages of VVER with VARACD.
+
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              disply.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+               esadd.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              esuckr.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'BC'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER.
+
+              initre.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted the
+                        obsolete variants NI, OZ, and SE. Replaced Central Rockies model types (SM,SP,BP,SF,
+                        LP) with the variant designator CR.
+
+              prtrls.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              r6crwd.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Added the 
+                        PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted U.S. variant code.
+
+              sitset.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              sumhed.f  Added the CONTRL.F77 common block. Deleted the VVER variable and replaced usages of
+                        VVER with VARACD. Replaced Central Rockies model types (SM,SP,BP,SF,LP) 
+                        with the variant designator CR.
+
+              sumout.f  Added the CONTRL.F77 common block. Deleted the VVER variable and replaced usages of
+                        VVER with VARACD. Deleted the obsolete variants OZ and SE.
+
+              unblnk.f  New subroutine cloned from /base version with variant-specific and U.S. variant
+                        code deleted.
+
+/canada/bin
+   FVSbcc_notReady.txt  Pathnames were adjusted to reflect changes in the directory structure. These include:
+                        1) Changed unblnk.f to come from /bc instead of /base. 
+                        2) from /vbase instead of /base: cuts.f, evpred.f, evtstv.f, fortyp.f, sdical.f,
+                           stkval.f, svout.f, and svstart.f
+                        3) from /fire/vbase instead of fire/base: fmcfmd2.f, fmcrowe.f, fmeff.f, fmfout.f,
+                           fmpocr.f, fmpofl.f, fmr6fall.f, fmr6htls.f, fmr6sdcy, fmsnag.f, fmsngdk.f, 
+                           fmsnght.f, and fmsoilheat.f.
+                        4) from /vcovr instead of /covr: cvbrow.f, cvcbms.f, and cvshap.f
+                        5) from /vstrp instead of /strp: essprt.f
+                        6) from /vdbs instead of /dbs: dbstmpf.f
+                        7) from /metric/vdbs instead of /metric/dbs: dbsstandin.f and dbssumry.f.
+                        8) from /metric/fire/vbase instead of /metirc/fire/base: fmfout.f and fmpofl.f.
+                        9) from /vws instead of /ws: r5crwd.f.
+
+  FVSon_sourceList.txt  Pathnames were adjusted to reflect changes in the directory structure. These include:
+                        1) Changed unblnk.f to come from /on instead of /base. 
+                        2) from /vbase instead of /base: evpred.f, evtstv.f, fortyp.f, natcrz.f, sdical.f,
+                           stkval.f, svout.f, and svstart.f
+                        3) from /fire/vbase instead of fire/base: fmcfmd2.f, fmcrowe.f, fmeff.f, fmfout.f,
+                           fmpocr.f, fmpofl.f, fmr6fall.f, fmr6htls.f, fmr6sdcy, fmsnag.f, fmsngdk.f, 
+                           fmsnght.f, and fmsoilheat.f.
+                        4) from /vstrp instead of /strp: essprt.f
+                        5) from /vdbs instead of /dbs: dbstmpf.f
+                        6) from /metric/vdbs instead of /metric/dbs: dbsstandin.f and dbssumry.f.
+                        7) from /metric/fire/vbase instead of /metirc/fire/base: fmfout.f and fmpofl.f.
+
+/canada/fire/bc
+              fmburn.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              fmcfim.f  Deleted the VVER variable.
+
+/canada/newmist
+              dmshap.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+/canada/on
+                cuts.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted the
+                        obsolete SE variant.
+
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              esuckr.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              fvsstd.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'ON'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER.
+
+              sumhed.f  Added the CONTRL.F77 common block. Deleted the VVER variable and replaced usages of
+                        VVER with VARACD. Deleted Central Rockies model types (SM,SP,BP,SF,LP).
+
+              sumout.f  Added the CONTRL.F77 common block. Deleted the VVER variable and replaced usages of
+                        VVER with VARACD. Deleted the obsolete variants OZ and SE.
+
+              unblnk.f  New subroutine cloned from /base version with variant-specific and U.S. variant
+                        code deleted.
+
+              varvol.f  Deleted the VVER variable.
+
+                vols.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+/ci
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  The initialization of variables D0 and D0MULT was deleted.
+                        Initialized the variable VARACD to 'CI'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/covr
+              cvbrow.f  Moved to the /vcovr sudirectory.
+
+              cvcbms.f  Moved to the /vcovr sudirectory.
+
+              cvshap.f  Moved to the /vcovr sudirectory.
+
+/cr
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'CR'.
+
+              grohed.f  Added the CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Converted the
+                        model type section to a SELECT CASE structure. Shortened the variant-model type
+                        description so it isn't overwritten by the revision date.
+
+/cs
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'CS'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/dbs
+             dbscase.f  Added the CONTRL.F77 labelled COMMON block. Alphabetized the COMMON blocks.
+                        Deleted the VVER variable and replaced usage of VVER with VARACD. Deleted
+                        the setting of variable VAR to CR because VARACD is CR in the Central Rockies variant.
+
+             dbsfmpf.f  Moved to the /vdbs subdirectory.
+
+           dbsprssql.f  Deleted the VVER variable and replaced usage of VVER with VARACD. 
+
+          dbsstandin.f  Moved to the /vdbs subdirectory.
+
+            dbssumry.f  Moved to the /vdbs subdirectory.
+
+/dbsqlite
+             dbscase.f  Added the CONTRL.F77 labelled COMMON block. Alphabetized the COMMON blocks.
+                        Deleted the VVER variable and replaced usage of VVER with VARACD. Deleted
+                        the setting of variable VAR to CR because VARACD is CR in the Central Rockies variant.
+
+             dbsfmpf.f  Moved to the /vdbs subdirectory.
+
+           dbsprssql.f  Deleted the VVER variable and replaced usage of VVER with VARACD. 
+
+          dbsstandin.f  Moved to the /vdbs subdirectory.
+
+            dbssumry.f  Moved to the /vdbs subdirectory.
+
+/ec
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'EC'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/em
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'EM'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/estb
+              esaddt.f  Deleted the VVER variable and replaced usage of VVER with VARACD.
+
+              esinit.f  Deleted the VVER variable.
+
+              esnutr.f  Deleted the VVER variable.
+
+              essprt.f  Moved to the /vestb subdirectory.
+
+              estump.f  Added the CONTRL.F77 labelled COMMON block. Deleted the VVER variable and replaced 
+                        usage of VVER with VARACD.
+
+/fire/base
+              fmburn.f  Moved to the /fire/vbase subdirectory. 
+
+             fmcfmd2.f  Moved to the /fire/vbase subdirectory. 
+
+             fmcrowe.f  Moved to the /fire/vbase subdirectory. 
+
+               fmeff.f  Moved to the /fire/vbase subdirectory. 
+
+              fmfout.f  Moved to the /fire/vbase subdirectory. 
+
+              fmpocr.f  Moved to the /fire/vbase subdirectory. 
+
+              fmpofl.f  Moved to the /fire/vbase subdirectory. 
+
+            fmr6fall.f  Moved to the /fire/vbase subdirectory. 
+
+            fmr6htls.f  Moved to the /fire/vbase subdirectory. 
+
+            fmr6sdcy.f  Moved to the /fire/vbase subdirectory. 
+
+              fmscro.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+              fmsnag.f  Moved to the /fire/vbase subdirectory. 
+
+             fmsngdk.f  Moved to the /fire/vbase subdirectory. 
+
+             fmsnght.f  Moved to the /fire/vbase subdirectory. 
+
+          fmsoilheat.f  Moved to the /fire/vbase subdirectory.
+
+/fire/op
+              fmcfmd.f  Moved to the /fire/vop subdirectory. 
+
+/fire/pn
+              fmcfmd.f  Moved to the /fire/vpn subdirectory. 
+
+/fire/ut
+              fmcfmd.f  Moved to the /fire/vut subdirectory. 
+
+             fmsfall.f  Moved to the /fire/vut subdirectory. 
+
+/fire/vbase             New subdirectory for fire/base subroutines containing variant-specific code.
+
+              fmburn.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Changed 
+                        one variant-specific block to a SELECT CASE structure. Replaced the Central
+                        Rockies model type codes with the variant designator CR.
+
+             fmcfmd2.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Changed 
+                        one variant-specific block to a SELECT CASE structure. Replace the Central
+                        Rockies model type codes with the variant designator CR.
+
+             fmcrowe.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+               fmeff.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted reference
+                        to the obsolete NI variant.
+
+              fmfout.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              fmpocr.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted the
+                        Central Rockies model type references (they all use VARACD = CR) and reference to
+                        the obsolete NI variant.
+
+              fmpofl.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Changed 
+                        one variant-specific block to a SELECT CASE structure. Replaced the Central
+                        Rockies model type codes with the variant designator CR.
+
+            fmr6fall.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+            fmr6htls.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+            fmr6sdcy.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+              fmsnag.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Converted the
+                        variant-specific code to SELECT CASE structures.
+
+             fmsngdk.f  Renamed the local VVER variable to VAR and changed it to a character*2 type. 
+                        Replaced usages of VVER with VAR. 
+
+             fmsnght.f  Renamed the local VVER variable to VAR and changed it to a character*2 type. 
+                        Replaced usages of VVER with VAR. 
+
+          fmsoilheat.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Converted the
+                        variant-specific code to SELECT CASE structures.
+
+/fire/vop               New subdirectory for fire/op subroutines containing variant-specific code.
+
+              fmcfmd.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+              
+                        Note: This subroutine could eventually be combined with the /vpn version and then 
+                        this subdirectory could be deleted. This subroutine is only used in the OP variant.
+                        An alternative would be to take out the coding pertaining to the WC variant and
+                        then move this subroutine back to the fire/op subdirectory.
+
+/fire/vpn               New subdirectory for fire/pn subroutines containing variant-specific code.
+
+              fmcfmd.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+/fire/vut               New subdirectory for fire/ut subroutines containing variant-specific code.
+
+              fmcfmd.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Converted some of
+                        the variant-specific code to a SELECT CASE structure.
+
+             fmsfall.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Converted the
+                        variant-specific code to a SELECT CASE structure.
+
+/ie
+               bfvol.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted reference
+                        to the obsolete NI variant. Deleted variants that no longer use this subroutine: BM, CI, 
+                        EC, EM, KT, NC, SO, WS.
+
+              cwcalc.f  Moved to the /vie subdirectory.
+
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'IE'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+              spctrn.f  Moved to the /vie subdirectory. 
+
+/kt
+               bfvol.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted reference
+                        to the obsolete NI variant. Deleted variants that do not use this subroutine: BM, CI, 
+                        EC, EM, NC, SO, WS.
+
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'KT'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+              sitset.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Added the C $ID
+                        date of revision line. Deleted the VAR variable and replaced it with VARACD.
+
+/ls
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'LS'.
+
+               morts.f  Moved to the /vls subdirectory.
+
+              prtrls.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              spctrn.f  Moved to the /vls subdirectory.
+
+              sumhed.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Added the C $ID
+                        date of revision line. Added the CONTRL.F77 labelled COMMON block and alphabetized
+                        the COMMON blocks. Deleted Central Rockies code.
+
+              sumout.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Added the
+                        CONTRL.F77 labelled COMMON block.
+
+                vols.f  Moved to the /vls subdirectory.
+
+/metric/dbs
+          dbsstandin.f  Moved to the /metric/vdbs subdirectory.
+
+            dbssumry.f  Moved to the /metric/vdbs subdirectory.
+
+/metric/fire/base
+              fmfout.f  Moved to the /metric/fire/vbase subdirectory.
+
+              fmpofl.f  Moved to the /metric/fire/vbase subdirectory.
+
+
+/metric/fire/vbase      New subdirectory to hold former /metric/fire/base subroutines that contain 
+                        variant-specific coding.
+
+              fmfout.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+                        Converted the variant-specific code to a SELECT CASE structure.
+
+              fmpofl.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Changed 
+                        one variant-specific block to a SELECT CASE structure. Replaced the Central
+                        Rockies model type codes with the variant designator CR.
+
+/metric/vdbs            New subdirectory to hold former /metric/dbs subroutines that contain variant-specific
+                        coding.
+
+          dbsstandin.f  Deleted the VVER variable and replaced usage of VVER with VARACD. Deleted reference
+                        to the obsolete SE variant.
+
+            dbssumry.f  Added the PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted the VVER variable
+                        and replaced usage of VVER with VARACD. Deleted reference to the obsolete OZ AND SE 
+                        variants.
+
+/mistoe
+               misin.f  Deleted the unused variable VVER.
+
+/nc
+               bfvol.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted reference
+                        to the obsolete NI variant. Deleted variants that no longer use this subroutine: BM, CI, 
+                        EC, EM, KT, SO, WS.
+
+              grinit.f  Initialized the variable VARACD to 'NC'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/ne
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'NE'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/oc
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'OC'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. 
+
+/op
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'OP'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. 
+
+/organon
+              orgtab.f  Moved to the /vorganon subdirectory.
+
+          org_intree.f  Moved to the /vorganon subdirectory.
+
+                orin.f  Moved to the /vorganon subdirectory.
+
+/pg
+               chget.f  Added the variable VARACD.
+
+               chput.f  Added the variable VARACD.
+
+              getstd.f  Variables D0 and D0MULT were removed.
+
+              putstd.f  Variables D0 and D0MULT were removed.
+
+/pn
+              grinit.f  Initialized the variable VARACD to 'PN'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/sn
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'SN'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/so
+               bfvol.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted reference
+                        to the obsolete NI variant. Deleted variants that no longer use this subroutine: BM, CI, 
+                        EC, EM, KT, NC, WS.
+
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'SO'.
+
+              r6crwd.f  Moved to the /vso subdirectory.
+
+/strp
+              esaddt.f  Deleted the VVER variable and replaced usage of VVER with VARACD.
+
+              essprt.f  Moved to the /vestb subdirectory.
+
+              estump.f  Added the CONTRL.F77 labelled COMMON block. Deleted the VVER variable and replaced 
+                        usage of VVER with VARACD.
+
+              esuckr.f  Deleted the VVER variable and replaced usage of VVER with VARACD.
+
+/tests/FVScr
+        crt01.sum.save  Updated with the change to Central Rockies sprouting logic.
+
+/tt
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'TT'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/ut
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'UT'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+/vbase                  New subdirectory to hold former /base subroutines that contain variant-specific
+                        coding.
+
+                cuts.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted
+                        references to the obsolete SE variant.
+
+              disply.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted
+                        references to the obsolete OZ and SE variants.
+
+              evpred.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+              evtstv.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted
+                        references to the obsolete OZ and SE variants. Restructured sections of code
+                        testing on VARACD to use a SELECT CASE structure.
+
+              fortyp.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted
+                        references to the obsolete SE variant.
+
+              fvsstd.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Restructured
+                        sections of code testing on VARACD to use a SELECT CASE structure.
+
+              initre.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Restructured
+                        sections of code testing on VARACD to use a SELECT CASE structure. Deleted code
+                        referencing the obsolete NI, OZ and SE variants.
+
+              natcrz.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Restructured
+                        sections of code testing on VARACD to use a SELECT CASE structure.
+
+              revise.f  Replaced the VAR variable with VARACD. Replaced the Central Rockies variant
+                        designator with CR for all model types. Deleted reference to the NI variant.
+                        Rewrote this subroutine using a SELECT CASE structure. Added a CASE DEFAULT
+                        for variants such as AC, BC, and ON.
+
+              sdical.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+              stkval.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Restructured
+                        sections of code testing on VARACD to use a SELECT CASE structure. Deleted code
+                        referencing the obsolete OZ and SE variants. Deleted the IWEST intermediate
+                        variable.
+
+              sumhed.f  Alphabetized the labelled COMMON blocks. Added the CONTRL.F77 labelled COMMON
+                        block. Added the CRMT array containing the CR alphabetic model type designator.
+                        Deleted the VVER variable and replaced usages of VVER with VARACD or CRMT. 
+                        Restructured sections of code testing on VARACD to use a SELECT CASE structure. 
+
+              sumout.f  Added the CONTRL.F77 labelled COMMON block. Deleted code referencing the obsolete 
+                        OZ and SE variants. Deleted the VVER variable and replaced usages of VVER with 
+                        VARACD. Restructured sections of code testing on VARACD to use a SELECT CASE 
+                        structure. Changed local variables ICFLAG to ICALLF, JOSTND to JSTND2, and
+                        JOSUM to JSUM2 since variables ICFLAG, JOSTND, and JOSUM are in the CONTRL.F77
+                        common block (ICFLAG has a different usage in CONTRL.F77 anyway). 
+
+              svout.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+            svstart.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+/vcovr                  New subdirectory to hold former /covr subroutines that contain variant-specific
+                        coding.
+
+              cvbrow.f  Deleted the VVER variable and replaced usage of VVER with VARACD. Deleted
+                        reference to obsolete NI variant.
+
+              cvcbms.f  Deleted the VVER variable and replaced usage of VVER with VARACD. Deleted
+                        reference to obsolete NI variant. Replaced the five CR model type designators
+                        (SM,SP,BP,SF,LP) with CR. Added a CASE DEFAULT to the the SELECT CASE structure.
+
+              cvshap.f  Deleted the VVER variable and replaced usage of VVER with VARACD. Deleted
+                        reference to obsolete NI variant. Replaced the five CR model type designators
+                        (SM,SP,BP,SF,LP) with CR. Added a CASE DEFAULT to the the SELECT CASE structure.
+
+/vdbs                   New subdirectory to hold former /dbs subroutines that contain variant-specific
+                        coding.
+
+             dbsfmpf.f  Added the PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted the VVER variable
+                        and replaced usage of VVER with VARACD.
+
+          dbsstandin.f  Deleted the VVER variable and replaced usage of VVER with VARACD. Deleted reference
+                        to the obsolete SE variant.
+
+            dbssumry.f  Added the PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted the VVER variable
+                        and replaced usage of VVER with VARACD. Deleted reference to the obsolete OZ AND SE 
+                        variants.
+
+/vdbsqlite              New subdirectory to hold former /dbsqlite subroutines that contain variant-specific
+                        coding.
+
+             dbsfmpf.f  Added the PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted the VVER variable
+                        and replaced usage of VVER with VARACD.
+
+          dbsstandin.f  Deleted the VVER variable and replaced usage of VVER with VARACD. Deleted reference
+                        to the obsolete SE variant.
+
+            dbssumry.f  Added the PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted the VVER variable
+                        and replaced usage of VVER with VARACD. Deleted reference to the obsolete OZ AND SE 
+                        variants.
+
+/vestb                  New subdirectory to hold former /estb subroutines that contain variant-specific
+                        coding.
+
+              essprt.f  Changed reference to AN variant to AC variant. Corrected mixed-mode arithmetic.
+                        Added a CASE DEFAULT to the SELECT CASE structure.
+
+/vie                    New subdirectory to hold former /ie subroutines that contain variant-specific
+                        coding.
+
+              cwcalc.f  Added the CONTRL.F77 labelled COMMON block. Deleted the VVER variable and replaced 
+                        usages of VVER with VARACD. Changed the JOSTND local variable argument to JSTND2
+                        since JOSTND is in the CONTRL.F77 common block.
+
+              spctrn.f  Deleted the VVER variable and replaced usages of VVER with VARACD. 
+
+/vls                    New subdirectory to hold former /ls subroutines that contain variant-specific
+                        coding.
+
+               morts.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Converted the
+                        variant-specific code to a SELECT CASE structure.
+
+              spctrn.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Deleted reference
+                        to the obsolete SE variant.
+
+                vols.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Converted the
+                        variant-specific code to a SELECT CASE structure.
+
+/volume
+              fvsvol.f  Deleted the VVER variable and replaced usage of VVER with VARACD. Changed testing on
+                        Central Rockies model type to VARACD = CR. Converted IF-THEN-ELSEIF-END structure to
+                        a SELECT CASE structure.
+
+/vorganon               New subdirectory to hold former /organon subroutines that contain variant-specific
+                        coding.
+
+              orgtab.f  Deleted the VVER variable and replaced usage of VVER with VARACD.
+
+          org_intree.f  Took the variant designator out of the call list since the CONTRL.F77 common block
+                        is in this subroutine. Deleted variable VER and replaced its usage with VARACD.
+
+                orin.f  Deleted the VVER variable and replaced usage of VVER with VARACD. Took the variant
+                        designator out of the call list to subroutine ORG_INTREE.
+
+/vso                    New subdirectory to hold former /so subroutines that contain variant-specific
+                        coding.
+
+              r6crwd.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Implemented the
+                        C $ID date of revision line. Added the PRGPRM.F77 and CONTRL.F77 labelled COMMON
+                        blocks. Changed the variant-specific coding to a SELECT CASE structure. Deleted
+                        reference to the obsolete NI variant. Deleted reference to the BM variant since this
+                        subroutine is no longer used in that variant.
+
+/vstrp                  New subdirectory to hold former /strp subroutines that contain variant-specific
+                        coding.
+
+              essprt.f  Implemented the C $ID revision date line. Changed the CR model type designators
+                        (SM,SP,BP,SF,LP) to CR. Corrected mixed-mode arithmetic. Added some comment lines
+                        and rearranged code in alphabetical order by variant. Added a CASE DEFAULT to the
+                        SELECT CASE structure in ESSPRT. Added the ON variant to subroutine ESSPRT; added 
+                        the OC and OP variants to ENTRY SPRTHT.
+
+/vwc                    New subdirectory to hold former /wc subroutines that contain variant-specific
+                        coding.
+
+               morts.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              smhgdg.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Added the
+                        CONTRL.F77 labelled COMMON block. Changed local variable ICYC to JCYC, and JOSTND to 
+                        JSTND2, since ICYC and JOSTND are in the CONTRL.F77 common block. These variables
+                        can be eliminated from the argument list.
+
+/vws                    New subdirectory to hold former /ws subroutines that contain variant-specific
+                        coding.
+
+              r5crwd.f  Deleted the VVER variable and replaced usages of VVER with VARACD. Added the C $ID
+                        date of revision line. Added the PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks.
+                        Converted the variant-specific code to a SELECT CASE structure.
+
+/wc
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'WC'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+               morts.f  Moved to the /vwc subdirectory.
+
+              smhgdg.f  Moved to the /vwc subdirectory.
+
+/ws
+              dgdriv.f  Deleted the VVER variable and replaced usages of VVER with VARACD.
+
+              grinit.f  Initialized the variable VARACD to 'WS'.
+
+              grohed.f  Added PRGPRM.F77 and CONTRL.F77 labelled COMMON blocks. Deleted variable DVVER and
+                        replaced it with VARACD. Deleted variable VVER and ENTRY VARVER. Added the C $ID
+                        date of revision line.
+
+              r5crwd.f  Moved to the /vws subdirectory.
+

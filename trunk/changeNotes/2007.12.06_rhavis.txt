@@ -1,0 +1,32 @@
+Subject: Misc Bug Corrections
+Name: R. Havis
+Date: December 6, 2007
+Variants affected: ALL
+
+Description:
+1) Default plot habitat type was not being set correctly when the plot-specific
+   habitat type was not entered on input and when using the the data base extension.
+   This has been corrected.
+2) A potential run-time error was corrected in setting board foot volume equations in R8.
+3) A problem was corrected in the calculation of trees per acre removals when
+   using the THINRDEN keyword.
+
+Impact on users: All users should obtain new executables.
+
+Files:
+\common\KEYCOM.F77     changed the date of revision; expanded the TABLE array 
+                       dimension to 150.
+\base\src\keywds.f     changed the date of revision; expanded the TABLE array to 150;
+                       added 4 new keywords: ATRTLIST, THINRDSL, MORTMSB, SETSITE
+\base\src\oplist.f     changed the date of revision; modified the ITRSL_ arrays to
+                       accommodate the new keywords
+\base\src\initre.f     changed the date of revision; added preliminary processing
+                       of all 4 of these keywords.
+\estb\src\esplt2.f     corrected the assignment of plot habitat type when using
+                       the database extension and plot specific habitat type was not entered.
+\strp\src\esplt2.f     corrected the setting of plot habitat type when using the DBS
+                       extension and not entering plot specific habitat types
+\volume\src\voleqdef.f corrected potential run-time error in setting R8 volume
+                       equation numbers
+\base\src\cuts.f       corrected removal tpa for last tree in a THINRDEN cut.
+\base\src\revise

@@ -1,0 +1,42 @@
+Subject: Fire and Fuels Extension Update - Usage of Kodtyp vs. Itype
+Name:  Stephanie Rebain
+Date:  02/29/2008
+Variants affected: all FFE variants
+
+Description:
+Most FFE subroutines were updated to use itype instead of kodtyp whenever
+plant association or habitat type is used to set default fuel loading, select
+a fuel model, or affect other parts of FFE, such as the snag dynamics.  Other
+corrections were made as small errors were found.
+
+Impact on users:
+Most users will see no difference in output as a result of these changes.
+Some cases where there may be an output difference include:
+NI/IE simulations with a forest location code of 621 (Colville NF)
+Simulations where all trees are cut in the first cycle (NC, CA, CR, TT variants)
+SO simulations
+
+Modified Files:
+fire/base/src/fmr6fall.f - changed kodtyp to itype
+fire/base/src/fmsdit.f - took out references to jtype and icl5
+fire/ws/src/fmcba.f - changed kodtyp to itype
+fire/wc/src/fmcba.f - changed kodtyp to itype
+fire/ut/src/fmcba.f - changed kodtyp to itype
+fire/tt/src/fmcba.f - changed kodtyp to itype; change icindx to itype
+fire/pn/src/fmcba.f - changed kodtyp to itype
+fire/ec/src/fmcba.f - changed kodtyp to itype
+fire/bm/src/fmcba.f - changed kodtyp to itype
+fire/so/src/fmcba.f - changed kodtyp to itype
+fire/so33/src/fmcba.f - changed kodtyp to itype
+fire/nc/src/fmcba.f - changed kodtyp to itype;
+                      changed forest code classication so that 
+                       701 (BLM Lakeview) is part of Oregon logic
+fire/ca/src/fmcba.f - changed kodtyp to itype
+fire/cr/src/fmcba.f - changed kodtyp to itype
+fire/so/src/fmcfmd.f - changed kodtyp to itype
+fire/so33/src/fmcfmd.f - changed kodtyp to itype
+fire/ls/src/fmcfmd.f - changed kodtyp to itype
+fire/nc/src/fmcfmd.f - changed forest code classication so that 
+                       701 (BLM Lakeview) is part of Oregon logic
+fire/ni/src/fmcba.f - corrected setting of ICHABT
+fire/ie/src/fmcba.f - corrected setting of ICHABT

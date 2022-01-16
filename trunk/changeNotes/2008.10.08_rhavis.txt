@@ -1,0 +1,49 @@
+Subject: Update PPE PUT and GET Routines
+Name: R. Havis
+Date: October 8, 2008
+Variants affected: ALL connected to PPE
+
+Description: Added variables to PPE PUT and GET routines.
+
+Impact on users: None
+
+Files:
+./common/PLOT.F77    - removed PERRHO
+./common/VARCOM.F77  - removed MSBDBH, MSBSLP, MSBCEP
+                     - added   QMDMSB, SLPMSB, CEPMSB
+./dbs/src/dbsppget.f, dbsppput.f - added
+IDBSECON    
+CMPUID      
+SUMRYID     
+TREEOUTID   
+FMPFID      
+FUELID      
+CUTSID      
+DM1ID       
+DM2ID       
+DM3ID       
+DM5ID       
+DM6ID       
+CONID       
+BURNID      
+MORTID      
+SSUMID      
+SDETID      
+STRCLID     
+CMRPTID     
+CHRPTID     
+BM_MNID
+BMTREID
+BMVOLID
+BMBKPID
+IATRTLID
+ICMRPT
+ICHRPT
+CANPRID
+IRGIN  
+./dbs/src/
+./fire/ppe/src/fmppget.f, fmppput.f    - added FMICR, OLDICT2, BURNLV, LVWEST, BURNED, FIRKIL, OLDSCTWT, FMPROB
+./mistoe/src/msppgt.f, mspppt.f        - added DMPLT
+./ppbase/src/getstd.f, putstd.f        - added ISILFT, NSITET, ILGNUM, QMDMSB, CEPMSB, SLPMSB, PHT, SITETR, LREG, JOPCYC, LFIA
+./volume/src/profile.f      - logic corrected for broken top. see V0148_0093008.txt
+

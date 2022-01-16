@@ -1,0 +1,38 @@
+Subject: Improve reporting of computed variables
+Name: Stephanie Rebain and Nick Crookston
+Date: 2005.05.05
+Variants affected: All
+
+Description: Sometimes the order that computed variables were output did
+not match the order they were being computed. This caused the last reported
+value of a specific variable to not be its true final value. So, we fixed it.
+
+Impact on users: In some cases, the compute variable values in the activity
+summary will be different than before; now the last value computed will always
+be listed last. This will also be true in the FVS_Compute table generated using
+the database extension to FVS.
+
+In addition, all activities will be listed in order they are actually done
+by FVS and not necessarily in the order scheduled.
+
+A side effect of the change is that variables that are never computed and
+any activity that is reported "NOT DONE" or "DELETED OR CANCELED" will
+always be listed first.
+
+Files:
+base/src/opadd.f -- incremented ISEQDN and change assignment of ISEQ to
+ force proper sequence reporting.
+base/src/opfind.f -- see opadd.f
+base/src/opdon2.f -- see opadd.f
+base/src/opexpn.f -- set ISEQDN to appropriate starting value
+base/src/evtstv.f -- modified debug and insured IPHASE is 2 when user
+ defined variables are being computed in a specified year as done by
+ the fire extension.
+base/src/opinit.f -- set initial value of ISEQDN
+common/OPCOM.F77 -- added variable ISEQDN
+ppbase/src/putstd.f -- stored ISEQDN
+ppbase/src/getstd.f -- get ISEQDN
+
+dbs/src/dbscmpu.f -- when the first variable was in state "NOT DONE",
+ none of the variable would be added to the database.  We fixed that
+ problem and some other related issues.

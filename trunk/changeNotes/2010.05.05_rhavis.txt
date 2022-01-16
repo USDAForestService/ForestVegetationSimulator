@@ -1,0 +1,20 @@
+Subject: Sprout Keyword
+Name: R. Havis
+Date: May 5, 2010
+Variants affected: All
+
+Description: Corrected operation of Sprout keyword operation when multiple
+             keywords are used in sequence within a cycle.
+
+Impact on users: Sprout keyword users should obtain a new executable.
+
+Files:
+./ca/src/esuckr.f  
+./cr/src/esuckr.f  
+./em/src/esuckr.f  
+./estb/src/esuckr.f
+./ie/src/esuckr.f  
+./strp/src/esuckr.f
+./tt/src/esuckr.f  
+./ut/src/esuckr.f  
+./wc/src/esuckr.f  

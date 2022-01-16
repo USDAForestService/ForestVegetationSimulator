@@ -1,0 +1,25 @@
+Subject: Dwarf Mistletoe reports in PPE
+Name: Lance R. David
+Date: March 10, 2008
+Variants affected: All western variants
+
+Description:
+Several report generation controlling variables were relocated to the
+MISCOM common block and became stand-specific variables in PPE (added
+to the put and get routines). This resolves a newly discovered issue
+in PPE simulations where the top 4 most dwarf mistletoe infected species
+were reselected during the simulation causing the table headings not to
+match the values in the columns.
+
+Stand level summaries were unaffected and single stand simulations were also
+unaffected.
+
+Impact on users: Western variant PPE users should obtain new executables
+
+Files:
+./mistoe/src/MISCOM.F77
+./mistoe/src/misinf.f
+./mistoe/src/misppgt.f
+./mistoe/src/mispppt.f
+./mistoe/src/misprt.f
+./mistoe/src/mistoe.f

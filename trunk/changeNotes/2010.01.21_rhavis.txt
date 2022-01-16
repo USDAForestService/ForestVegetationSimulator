@@ -1,0 +1,57 @@
+Subject: TEEELIST and SETPTHIN keywords
+Name: R. Havis
+Date: January 21, 2010
+Variants affected:
+
+Description:
+
+1) The TREELIST keyword prints a list of tree records to an output treelist file.
+   The output was modified so that when a dead treelist (Field 5 > 0 on the
+   TREELIST keyword) is requested, the live trees in the stand will show Trees
+   Per Acre values of 0 and the Mortality Per Acre column will show positive values for
+   live tree mortality. When a dead tree list was requested the FVS Table header was not
+   being written, and the Tree List Table header did not indicate a DEAD tree list. These
+   problems have been corrected.
+   
+2) The SETPTHIN keyword is used in conjunction with the THINPT keyword to achieve a density
+   target on a specified point. The point to be thinned is indicated in Field 2 of SETPTHIN.
+   The SETPTHIN keyword was enhanced to allow thinning all points in the stand by entering
+   zero (0) in Field 2 of SETPTHIN.
+
+Impact on users: Users should obtain new executables.
+
+Files:
+
+all variants / GRINIT - changed initialization of ITHNPN from 0 to -1.
+
+./ak/src/grinit.f
+./an/src/grinit.f
+./base/src/cuts.f - modified logic to apply thinning to all points in stand when Field 2 = 0
+                    on the SETPTHIN keyword. added logical variable (LPTALL)
+./base/src/initre.f - changed parameter used to check for an illegal blank entry in Field 2
+                      of the SETPTHIN keyword
+./base/src/prtrls.f - modified logic for printing dead tree list
+./bm/src/grinit.f
+./ca/src/grinit.f
+./ci/src/grinit.f
+./cr/src/grinit.f
+./cs/src/grinit.f
+./cs_new/src/grinit.f
+./ec/src/grinit.f
+./em/src/grinit.f
+./ie/src/grinit.f
+./kt/src/grinit.f
+./ls/src/grinit.f
+./ls_new/src/grinit.f
+./nc/src/grinit.f
+./ne/src/grinit.f
+./ne_new/src/grinit.f
+./ni/src/grinit.f
+./pn/src/grinit.f
+./sn/src/grinit.f
+./so/src/grinit.f
+./so33/src/grinit.f
+./tt/src/grinit.f
+./ut/src/grinit.f
+./wc/src/grinit.f
+./ws/src/grinit.f

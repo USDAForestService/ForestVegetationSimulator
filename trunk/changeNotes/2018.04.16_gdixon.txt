@@ -1,0 +1,197 @@
+Subject: Stagnation effect (field 7 SDIMAX keyword)
+         Crown ratio dubbing
+
+Name: Gary Dixon
+
+Date: 04/16/2018
+
+Variants affected: Central Rockies (CR), Tetons (TT), Utah (UT), Western Sierra Nevada (WS)
+
+Description: Stand density is used to compute a stagnation multiplier that is applied to diameter and height
+             growth estimates when turned on using field 7 of the SDIMAX keyword. The stagnation multiplier
+             can be applied to all species in the Central Rockies variant; species 15 = narrowleaf cottonwood and 
+             18 = other hardwoods in the TT variant; and species 17 = Great Basin bristlecone pine, 18 = narrowleaf
+             cottonwood, 19 = Fremont cottonwood, and 22 = boxelder in the UT variant.
+             The SDIMAX keyword was not allowing the stagnation multiplier to be turned on in the TT or UT variants.
+             The staganation multiplier was not being applied during large tree diameter growth calibration.
+             Both of these problems have been fixed.
+             
+             A potential problem with crown ratio dubbing in the second or subsequent stands in multi-stand runs
+             when certain other conditions exist was fixed.   
+             
+Impact on users: Users of the CR, TT, and UT variants should obtain a new executable.
+
+Files:
+acd/src
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+ak/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+base/src
+   disply.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+   grincr.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+   initre.f  The TT and UT variants were added as valid variants for processing field 7 of the SDIMAX keyword, and
+             processing of field 7 of the SDIMAX keyword was changed to a SELECT CASE structure.  
+
+   sdical.f  The tree index pointers that indicate where tree data is stored in the tree arrays were added to all 
+             DO loops going from 1 to ITRN. Code was then added to skip dead trees in the initial inventory where
+             appropriate.   
+
+   sdichk.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+bc/src
+   disply.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+   grincr.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+   sdichk.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+bm/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+ca/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+ci/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+   regent.f  Removed some debug write statement containing variables that were undefined.
+
+clim/base
+ clauestb.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+cr/src
+       dgf.f  Added logic to include recent mortality trees in the computation of the relative SDI calculation
+              during the calibration phase. Moved the setting of DSTAG = 1.0 to before loop that might
+              change it. Added a 1 as the first argument in the call to subroutine SDICAL.
+
+    grinit.f  Initialized DSTAG to 1. and moved the initialization of the ISTAGF array to the bottom of this
+              subroutine.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+cs/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+ec/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+em/src
+      dgf.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+ie/src
+      dgf.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+kt/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+ls/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+metric/base/src
+   disply.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+   
+   sdichk.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+nc/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+ne/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+ni/src
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+oc/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+on/src
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+op/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+    regent.f  Added DGR = 0.0 in the LSKIPH section for regeneration establishment trees to avoid an undefined
+              variable in a subsequent debug WRITE statement.
+
+pn/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+sn/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+so/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+tt/src
+       dgf.f  Added logic to include recent mortality trees in the computation of the relative SDI calculation
+              during the calibration phase. Moved the setting of DSTAG = 1.0 to before loop that might
+              change it. Added a 1 as the first argument in the call to subroutine SDICAL.
+
+    grinit.f  Initialized DSTAG to 1. and moved the initialization of the ISTAGF array to the bottom of this
+              subroutine.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+    regent.f  Removed the variable POTHTG from a debug WRITE statement to avoid an undefined variable error.
+
+ut/src
+       dgf.f  Added logic to include recent mortality trees in the computation of the relative SDI calculation
+              during the calibration phase. Moved the setting of DSTAG = 1.0 to before loop that might
+              change it. Added a 1 as the first argument in the call to subroutine SDICAL.
+
+    grinit.f  Initialized DSTAG to 1. and moved the initialization of the ISTAGF array to the bottom of this
+              subroutine.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+    regent.f  Removed the variable POTHTG from a debug WRITE statement to avoid an undefined variable error.
+
+wc/src
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+    regent.f  Added DGR = 0.0 in the LSKIPH section for regeneration establishment trees to avoid an undefined
+              variable in a subsequent debug WRITE statement.
+
+ws/src
+      dgf.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+
+   grinit.f  Added the initialization of array ISTAGF() to 0.
+
+    morts.f  Added a 0 as the first argument in the call to subroutine SDICAL.
+

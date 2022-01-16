@@ -1,0 +1,36 @@
+Subject: Fire and Fuels Extension Soil Heating Report
+Name:  Stephanie Rebain
+Date:  05/04/2006
+Variants affected: All variants with FFE (All except AK and CS)
+
+Description:
+A new soil heating report is available when fires are simulated with the
+Fire and Fuels Extension.  This soil heating output uses the soil heating
+algorithms already in the FOFEM model.  Output includes the temperature (°C)
+at various depths below the surface.  Also output is the depth where the
+temperature exceeds 60 °C (often considered the lethal temperature for 
+living organisms) and 275 °C.
+
+Users can request this report with the new FFE keyword SOILHEAT.
+
+SOILHEAT – request the soil heating report when a fire is simulated.
+Field 1: The FVS cycle number or the calendar year when the output starts; 
+         default is 1.
+Field 2: Number of years to output; default is 200.
+Field 3: Soil Type – 1 (Loamy Skeletal), 2 (Fine Silt), 3 (Fine), 
+                     4 (Coarse Silt), or 5 (Coarse Loam)
+
+Impact on users:
+This is a new feature for FFE users.
+This keyword will be available for selection in the next version of Suppose.
+
+Modified Files:
+fire/base/src/fmsoilheat.f - made some corrections so that soil type is 
+                             read in and soil moisture is estimated correctly.
+fire/base/src/fmburn.f - adding the processing of the SoilHeat keyword
+fire/base/src/fmfout.f - deleted the processing of the SoilHeat keyword
+fire/base/src/fmin.f - added a field to the SoilHeat keyword for soil type
+fire/base/common/FMFCOM.F77 - added a new variable for soil type, SOILTP
+fire/base/src/fminit.f - initialized SOILTP to 3 (Fine)
+fire/ppe/src/fmppput.f - added SOILTP
+fire/ppe/src/fmppget.f - added SOILTP

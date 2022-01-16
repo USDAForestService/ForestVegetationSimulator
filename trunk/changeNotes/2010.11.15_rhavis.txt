@@ -1,0 +1,31 @@
+Subject: Misc. Updates
+Name: R. Havis
+Date: November 15, 2010
+Variants affected: None
+
+Description:
+
+1) In testing the Central Rockies variant, certain conditional sequences caused a run time error.
+   ESSA Inc., under contract to the FMSC, detected these problems using their build system and
+   slightly modified the semantics of the IF-ENDIF conditionals to process without error.
+   This problem may not have bee symptomatic on all build systems.
+   
+ 2) A variable was added to the climate model code to facilitate programming of the
+    Prognosis BC variant climate extension.
+
+ 3) A run-time error was corrected in the climate extension, and zeros were made acceptable
+    in data base Fields for the DG_Measure and HTG_Measure variables.
+
+
+Impact on users: A potential run-time error in climate extension was corrected, and zeros
+                 are now allowable for the DG_Measure and HTG_Measure variables in data base
+                 input tables.
+
+Files:
+./base/src/svrmov.f - changed IF-ENDIF semantics
+./clim/base/src/clgmult.f - Fixed logic error that was causing growth to become zero
+./clim/base/src/clinit.f - initialized CLHABINDX
+./common/CLIMATE.F77 - added CLHABINDX
+./cr/src/sitset.f - changed IF-ENDIF semantics
+./dbs/src/dbsstandin.f - Set IFINT and IFINTH to default values when entered as zeros 
+                         in data base.

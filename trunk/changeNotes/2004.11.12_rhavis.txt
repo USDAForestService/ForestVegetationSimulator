@@ -1,0 +1,20 @@
+Subject: Bug-Fix
+Name: R. Havis
+Date: 11/12/04
+Variants affected: AK, CA, CR, CS, IE, LS, NC, NE, PN, SE, SN, TT, UT, WC, WS
+
+Description: The conditional statement that branched around tree record creation
+             for stump sprouts, when there were insignificant numbers (PREM) of
+             sprouts, was modified to consider the value of the user input
+             number of sprouts (SPRMLT).  This corrects a potential error 
+             that occured in the IEX executable in the tree list compression
+             code, when a 0 is used in Field 2 (multiplier on number of
+             stump spouts) 
+
+Impact on users: Users with 0 in Field 2 of the SPROUT keyword should obtain a
+                 new executable.
+
+Files:
+base/src/revise.f ca/src/esuckr.f cr/src/esuckr.f 
+estb/src/esuckr.f ie/src/esuckr.f strp/src/esuckr.f 
+tt/src/esuckr.f ut/src/esuckr.f wc/src/esuckr.f 

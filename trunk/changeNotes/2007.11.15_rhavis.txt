@@ -1,0 +1,37 @@
+Subject: Bole Height to merch spec. output enhacement
+Name: R. Havis
+Date: Nvember 15, 2007
+Variants affected: All except R9
+
+Description: FVS Update Bulletin No. 675 was enhanced. A column was added
+             to the cutlist data base output showing The bole height from
+             stump to merch board foot top DIB. The 2 new columns represent
+             bole height from stump to merch cubic foot top DIB (Ht2TDibCF), and
+             bole height from stump to merch board foot top DIB (Ht2TDibBF).
+             Also, Don Robinson discovered an error in the DBSIN routine
+             as described below.
+
+Impact on users: If needed, additional bole height data are available.
+
+Files:
+./ak/src/varvol.f
+./bm/src/varvol.f
+./ca/src/varvol.f
+./ci/src/varvol.f
+./common/ARRAYS.F77 - the HT2TDIB array became 2 dimensional
+./cr/src/varvol.f
+./dbs/src/dbscuts.f
+./dbs/src/dbsin.f    - the arguments in call statement (line 112) to ERRGRO were reversed
+./ec/src/varvol.f
+./em/src/varvol.f
+./ie/src/varvol.f
+./ls/src/vols.f
+./nc/src/varvol.f
+./ni/src/varvol.f
+./ni/src/vols.f
+./sn/src/varvol.f
+./so33/src/varvol.f
+./tt/src/varvol.f
+./ut/src/varvol.f
+./wc/src/varvol.f
+./ws/src/varvol.f

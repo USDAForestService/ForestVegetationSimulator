@@ -1,0 +1,63 @@
+Subject: Code Maintenance
+Name: R. Havis
+Date: December 21, 2010
+Variants affected: None
+
+Description: Nick adapted the AIX build option in the FVS make utility to build with gfortran.
+             While compiling the FVS code, using the gfortran compiler, a number 
+             of code issues were identified and corrected. To use gfortran to build FVS executables,
+             complete the following steps.
+             
+             1) Download and install the MinGW software.
+             2) In a CMD window set OS to null as shown below.
+             
+             c:\set OS=
+             
+             3) In a CMD window, use the make commands to build FVS executables
+
+Impact on users: None
+
+Files:
+
+The makefiles were adapted to use the former AIX option to build, instead, with gfortran.
+
+The FPTRS6K routine has been retired. Delete it from all directories.
+
+./ak/obj/makefile
+./an/obj/makefile
+./base/obj/makefile
+./base/src/keyrdr.f - added the CKEYFN variable to its own common block
+./base/src/main.f - removed call to FPTRS6K
+./base/src/stkval.f - removed unused array TAB3
+./bin/makefile
+./bin/FC.make - changed to use gfortran
+./bm/obj/makefile
+./ca/obj/makefile
+./cr/obj/makefile
+./cs/obj/makefile
+./cs_new/obj/makefile
+./econ/src/ecin.f - removed unnecessary comma in the BURNCOST keyword echo format
+                    statement line 149; removed back slash in the HRVRVN keyword
+                    processing format statement, lines 312, 327, and 352.
+                    removed unneeded comma in PLANTCST keyword warning text, line 572
+./em/obj/makefile
+./ie/obj/makefile
+./ie/src/bfvol.f - converted real type array variable indicies to integer type
+./ls/obj/makefile
+./ls_new/obj/makefile
+./metric/base/obj/makefile
+./metric/cr/obj/makefile
+./ne/obj/makefile
+./ne_new/obj/makefile
+./ppbase/src/ppmain.f - removed call to FPTRS6K
+./sn/obj/makefile
+./so/obj/makefile
+./tt/obj/makefile
+./ut/obj/makefile
+./volume/src/profile.f - converted real type array variable indicies to integer type,
+                         added debug code
+./volume/src/r10volo.f - converted real type array variable indicies to integer type
+./volume/src/r12tap.f - converted real type array variable indicies to integer type
+./volume/src/r4vol.f - converted real type array variable indicies to integer type
+./volume/src/r6dibs.f - converted real type array variable indicies to integer type
+./wc/obj/makefile

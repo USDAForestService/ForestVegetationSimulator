@@ -1,0 +1,77 @@
+Subject: SDICALC keyword
+Name: R. Havis
+Date: July 7, 2010
+Variants affected: AK, AN, BM, CA, CS_NEW, CR, EC, EM, LS_NEW, NC,
+                   NE_NEW, SN, SO, TT, UT,and WS 
+
+Description: The SDICALC keyword allows selection of the Ziede
+             summation method for calculating Stand Density Index
+             for use in mortalilty calculations and thinning targets.
+             Field 2 of the keyword allow users to set the minimum
+             diamater for including trees in SDI calcualtions. The default
+             SDI method remains the traditional Stage's summation method
+             with all trees included in the SDI calcualtions.
+             
+SDICALC Keyword
+Field 1       any entry (non-blank) sets SDI method to Ziede summation method,
+              blank (default) sets Stage's summation SDI method
+Field 2       minimum diameter for including trees in SDI calculations (default=0.),
+              all trees greater than or equal to this value will be included in
+              the SDI calculations (Stage or Zeide)
+
+Impact on users: The SDICALC keyword will not be released to the user community
+                 at this time.
+
+Files:
+./ak/src/grinit.f    - initialized LZEIDE and DBHSDI
+./ak/src/morts.f     - added logic to process SDICALC, calculate initial QMD rather
+                       than using the RMSQD global variable, added Zeide summation
+                       method calculations and substituted Reineke Dia. for QMD when
+                       useing Zeide
+./an/src/grinit.f
+./an/src/morts.f
+./base/src/cuts.f    - added logic to use Zeide SDI as thining target when using
+                       Zeide for SDI in MORTS
+./base/src/disply.f  - added logic to print Zeide SDI in summary statistics table
+                       when using Zeide for mortality
+./base/src/initre.f  - added logic to process the SDICALC keyword
+./base/src/keywds.f  - added SDICALC
+./bin/makefile       - changed Fvstt to FVStt
+./bm/src/grinit.f
+./bm/src/morts.f
+./ca/src/grinit.f
+./ca/src/morts.f
+./ci/src/grinit.f
+./common/CONTRL.F77  - added LZEIDE and DBHSDI
+./cr/src/grinit.f
+./cr/src/morts.f
+./cs/src/grinit.f
+./cs_new/src/grinit.f
+./ec/src/grinit.f
+./em/src/grinit.f
+./em/src/morts.f
+./ie/src/grinit.f
+./kt/src/grinit.f
+./ls/src/grinit.f
+./ls_new/src/grinit.f
+./ls_new/src/morts.f
+./metric/base/src/disply.f
+./metric/base/src/initre.f
+./nc/src/grinit.f
+./nc/src/morts.f
+./ne/src/grinit.f
+./ne_new/src/grinit.f
+./ni/src/grinit.f
+./pn/src/grinit.f
+./ppbase/src/getstd.f  - added LZEIDE and DBHSDI
+./ppbase/src/putstd.f  - added LZEIDE and DBHSDI
+./sn/src/grinit.f
+./sn/src/morts.f
+./so/src/grinit.f
+./so33/src/grinit.f
+./tt/src/grinit.f
+./tt/src/morts.f
+./ut/src/grinit.f
+./ut/src/morts.f
+./wc/src/grinit.f
+./ws/src/grinit.f

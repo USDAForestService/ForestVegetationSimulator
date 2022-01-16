@@ -1,0 +1,26 @@
+Subject:  Corrections to FFE Calculations
+Name: Stephanie Rebain and Nick Crookston
+Date: 08/31/2004
+Variants affected:  All FFE variants
+
+Description: FFE bombed in some cases when moisture levels were set so 
+high that potential or simulated fires couldn't actually burn.  This was 
+fixed.  In these cases, the torching and crowning indices will be 
+reported as -1.  Also, some internal variables weren't being initialized
+correctly and this was fixed as well.  The torching index was capped at 
+9999 miles/hour.
+
+Impact on users:  Most users will notice no difference in output.  There
+may be a difference in simulations where moisture levels are set high.  
+If FFE bombed in these cases previously, it may not with the current 
+code.  There may be a difference in torching index, in situations where 
+it was previously very high.
+
+Files:
+fvs/fire/base/src/fmcfir.f - added error traps for divide by zero errors.
+Also, capped the torching index at 9999.
+fvs/fire/base/src/fmfint.f - initialized some variables to zero at the 
+beginning of a loop.
+fvs/fire/base/src/fmpofl.f - added error trapping to avoid log 0 errors.
+made a change to when conditional surface fires are reported, taking 
+into account the fact that the crowning index may be -1.

@@ -1,0 +1,18 @@
+Subject: FFE TreeBio update
+Name:  Stephanie Rebain
+Date:  03/25/2014
+Variants affected: All
+
+Description:
+
+1)  Corrections were made to the TreeBio event monitor function.
+
+Impact on users:
+Users should download new executables.  
+
+Modified Files:
+fire/base/src/fminit.f - initialized ISPCC to 0
+fire/base/src/fmevmon.f - adjusted the loop so that live removed biomass is only calculated when a harvest occurs.
+
+
+

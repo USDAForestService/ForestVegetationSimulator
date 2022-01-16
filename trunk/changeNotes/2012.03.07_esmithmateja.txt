@@ -1,0 +1,27 @@
+Subject: Oregon White Oak Site Index
+Name: E. Smith-Mateja
+Date: March 07, 2012
+Variants affected: PN WC
+
+Description: Edited the PN and WC code so that if a users specifies a Oregon White Oak
+             as the only site species/site index the model does not stop processing. 
+
+Impact on users: Processing will no longer stop if a user specifies Oregon White Oak 
+                 as the site species, instead it will use King's Douglas-fir Site Index
+                 (base age 50) for white oak to approximate the site index for other 
+                 species in the simulation and for further processing in the growth 
+                 equations. There is not a known Oregon White Oak site curve, therefore
+                 a user should not enter site index directly for Oregon White Oak,
+                 so that a more appropriate proxy site index can be calculated from the
+                 site species (see variant overview for details).
+
+
+Files:
+
+./pn/blkdat.f - added coefficients BB0-BB5 for Oregon White Oak (species 28)
+./pn/htcalc.f - mapped Oregon White Oak (species 28) to use the King equation
+./wc/blkdat.f - added coefficients BB0-BB5 for Oregon White Oak (species 28)
+./wc/htcalc.f - mapped Oregon White Oak (species 28) to use the King equation
+
+
+                     

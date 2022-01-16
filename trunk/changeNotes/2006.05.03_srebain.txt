@@ -1,0 +1,32 @@
+Subject: Fire and Fuels Extension - Northeast Variant
+Name:  Stephanie Rebain
+Date:  05/03/2006
+Variants affected: Northeast (NE)
+
+Description:
+The Fire and Fuels Extension was calibrated for the Northeast variant of FVS.
+This version is a stripped-down version with only slim fuel model selection 
+rules.  As a result, users are highly encouraged to specifically set a fuel
+model with the FuelModl keyword when running NE-FFE.
+
+Impact on users:
+This is a new feature for NE FVS users.
+FFE will be available for selection with the NE variant in the next version
+of Suppose.
+These changes are documented in the FFE addendum document.
+
+Modified Files:
+fire/base/src/fmeff.f - added some specific mortality adjustments for NE-FFE
+bin/makefile - changes made to compile NE-FFE
+fire/ls/src/fmcba.f - a correction was made to an incorrect comment
+
+New Files:
+fire/ne/src/fmsnag.f - has the NE-FFE snag relationships
+fire/ne/src/fmmois.f - has the default NE-FFE fuel moistures
+fire/ne/src/fmvinit.f - initializes many variables within NE-FFE
+fire/ne/src/fmcfmd.f - the NE-FFE fuel model selection logic
+fire/ne/src/fmneft.f - calculates a forest type, used in fmcba
+fire/ne/src/fmcba.f - estimates initial dead fuel loadings and herb and shrub loadings
+fire/ne/src/fmcrow.f - calculates the crown biomass for individual trees
+fire/ne/src/fmbrkt.f - has the bark thickness values for NE-FFE
+fire/ne/obj/makefile - changes made to compile NE-FFE

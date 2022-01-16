@@ -1,0 +1,116 @@
+Subject: Cruise file generation and BGC (Bio-Geochemical Cycles) Model code removed
+
+Name: Lance David
+
+Date: 07/28/2021
+
+Variants affected: All
+
+Description: The Cruise File generation controlled by the CRUZFILE keyword was
+             used as input to a post processor that is no longer available and
+             code for this has been removed.
+             The BGC model had not been included in any FVS build for over 5
+             years and was part of a special project that came to an end. With
+             no expectation of future use, code related to the BGC extension 
+             was removed to keep the FVS base model clean.
+
+Impact on users: None because these options were not used.
+
+Files:
+base\Fvs.f 
+                Removed “CALL NATCRZ (1)” directly following call to FVSSTD
+                at original line numbers 290 and 373 .
+
+base\keywds.f 
+                Removed CRUZFILE from table. Location can be reused in 
+                association with option number 120 in initre.f.
+                Removed BGCIN from table. Location can be reused in
+                association with option number 114 in initre.f.
+
+vbase\cuts.f
+                Removed “CALL NATCRZ (2)” following FVSSTD process at line
+                number 1675.
+
+vbase\initre.f 
+                CruzFile keyword occupied option number 120 and statement
+                label 12000 in the computed “GO TO” statement. Those are
+                now available for reuse. It was also an activity using
+                activity code 205 which is now available for reuse.
+
+                BGCin keyword occupied option number 114 and statement label
+                11400 in the computed “GO TO” statement. Those are now
+                available for reuse.
+                BGC extension has been retired.
+                Associated with this keyword was also a call to BGCIN for
+                keyword processing and a call to BGCINT for initialization
+                of the BGC extension which is now defunct.
+
+vbase\natcrz.f
+                This subroutine has been retired and will be moved to archive
+                folder after removal from all other variants.
+
+bin\FVSak_sourcelist.txt - ../vbase/natcrz.f removed from source file lists.
+bin\FVSbm_sourcelist.txt   ../base/exbgc.f f removed from source file lists.
+bin\FVSca_sourcelist.txt
+bin\FVSci_sourcelist.txt
+bin\FVScr_sourcelist.txt
+bin\FVScs_sourcelist.txt
+bin\FVSec_sourcelist.txt
+bin\FVSem_sourcelist.txt
+bin\FVSkt_sourcelist.txt
+bin\FVSls_sourcelist.txt
+bin\FVSnc_sourcelist.txt
+bin\FVSne_sourcelist.txt
+bin\FVSoc_sourcelist.txt
+bin\FVSop_sourcelist.txt
+bin\FVSpn_sourcelist.txt
+bin\FVSsn_sourcelist.txt
+bin\FVSso_sourcelist.txt
+bin\FVStt_sourcelist.txt
+bin\FVSut_sourcelist.txt
+bin\FVSwc_sourcelist.txt
+bin\FVSws_sourcelist.txt
+
+BGC (Bio-Geochemical Cycles) Model links removal 
+
+base\exbgc.f –  This was the stub routine for builds not including BGC. it was
+                removed from source list files referenced above and will be
+                moved to archive folder after it has been removed from all
+                variants. It was used as a guide to locate link points
+                throughout FVS source code.
+
+base\gradd.f –  Removed LBGCGO variable from parameter list
+                Removed LBGCGO variable from declarations
+
+            Code following CALL HTGSTP removed
+            C
+            C     CALL BGCFVS IF REPLACING INCREMENTS AND MORTALITY WITH THOSE
+            C     FROM STAND-BGC.
+            C
+                  IF(LBGCGO)CALL BGCFVS(1)
+
+            Code following CALL CROWN removed
+            C
+            C     IF STAND-BGC IS ACTIVE, REPLACE CROWN CHANGE ESTIMATES IF
+            C     BGC ESTIMATES ARE BEING USED.
+            C
+                  IF(LBGCGO)CALL BGCFVS(2)
+
+base\grincr.f - Removed LBGCGO variable from parameter list
+                Removed LBGCGO variable from declarations
+
+            Code following CALL DFBGO removed
+            C
+            C     CALL BGCGO TO SEE IF STAND-BGC IS ACTIVE
+            C
+                  CALL BGCGO(LBGCGO)
+
+            Code following CALL FFERT removed
+            C
+            C     CALL **BGCGROW** TO COMPUTE BGC GROWTH ESTIMATES.
+            C
+                  IF(LBGCGO)CALL BGCGRO(IY(ICYC),IY(ICYC+1))
+
+
+base\tregro.f – Removed logical variable LBGCGO from declarations
+                Removed LBGCGO from GRADD and GRINCR parameters list.

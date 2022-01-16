@@ -1,0 +1,36 @@
+Subject: PPE Correction, and Misc. Code Maintenance
+Name: R. Havis
+Date: August 16, 2012
+Variants affected: All PPE Extensions
+
+Description: A problem with the PPE was corrected. Corrections were made to
+             variable declarations. Other minor changes are described below.
+
+Impact on users:
+
+Files:
+./an/src/dubscr.f    - removed numerical error trap that is no longer needed
+./ci/obj/makefile    - changed target of LOGS routine compile instructions to
+                       ci/src/logs.f
+./ci/src/ccfcal.f    - removed duplicate declaration of BA and ODBA, removed
+                       declaration of LFIRE, it is declared in include file
+./ci/src/crown.f     - removed declaration of AVH, it is declared in include file
+./ci/src/findag.f    - removed declaration of SITEAR, it is declared in include file
+./ci/src/htgf.f      - removed duplicate declaration of HTNEW
+./ci/src/logs.f      - **new routine to ci variant, added elements 12-19 to DATA
+                       statement for IMAP array
+./common/includeSVN.f
+./fire/ci/src/fmcba.f       - moved parameter statement for MXVCODE to precede
+                              use in declarations
+./mistoe/src/misintak.f     - corrected data statement that incompletely loaded AHGP array
+./nc/src/morts.f     - removed duplicate declaration of D10N
+./ppbase/src/getstd.f       - changed dimension of TSTV1 to 50, changed MXL to 37 and
+                              changed the final LOGICS array element to 37
+./ppbase/src/putstd.f       - changed dimension of TSTV1 to 50, changed MXL to 37 and
+                              changed the final LOGICS array element to 37
+./rd/src/rdescp.f    - changed literal 500 value to parameter IRRTRE (max number of
+                       RD model tree records)
+./rd/src/rdshst.f    - changed literal 500 value on DO loop to parameter IRRTRE
+./ut/src/blkdat.f    - removed duplicate declaration statement at line 98
+./ut/src/regent.f    - removed duplicate declaration of HTMAX and HTMAX2 and
+                       regrouped declaration of AG1

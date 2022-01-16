@@ -1,0 +1,20 @@
+Subject: CI aspen calculation
+
+Name: Lance David
+
+Date: 01/23/2020
+
+Variants affected: CI variant
+
+Description: Variable RD needed for aspen calculation at line 754 had not
+             been loaded resulting in a floating point error on some systems.
+             Also corrected failing debug write statement.
+
+Impact on users: Growth impacts of small aspen would be expected but not shown
+                 in base tests datasets.
+
+Files:
+
+ci\regent.f - load of variable RD at line 753 for use at line 754 affecting
+              only aspec species.
+

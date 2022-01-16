@@ -1,0 +1,41 @@
+Subject: Metric Version of Northeast Variant, and bug fix
+Name: R. Havis
+Date: June 19, 2012
+Variants affected: ALL
+
+Description: A metric version of the northeast variant was created.
+             Species codes output to a database were being set to the 
+             2-character alpha code format whenever a 2-character alpha
+             code was used in a keyword. This has been corrected.
+
+Impact on users: Users should obtain new executables.
+
+New Directories:
+
+./metric/ne/src
+./metric/ne/obj
+
+Files:
+
+./base/src/spdecd.f - Removed "IF(ISP.GT.0)JSPIN(ISP)=1" at line 115 because
+                      it reset species reporting format to 2-character alpha
+                      when a keyword using 2-character species code was processed.
+./bin/makefile - added build instructions for the metric version of the northeast
+                 variant, FVSnem.exe, updated FVScrmc build instructions
+./common/includeSVN.f
+./metric/base/src/sumout.f - changed third variable in output record (X3) to integer
+                             for the condition LPRT=.TRUE.
+./metric/cr/obj/makefile - added separate compile for climate extension, added
+                           FVSSTDCM.F77and METRIC.F77 include files to fvsstd.f
+                           dependency list
+./metric/fire/base/src/fmdout.f - removed extra spaces
+./metric/fire/base/src/fmfout.f - metrified format statement Nos. 47, 320, 420,
+                                  and 321
+./metric/fire/cr/obj/makefile - added include statement for METRIC.F77 to
+                                the compile instructions for fmdout.f, fmfout.f,
+                                fmin.f, and fmssum.f
+./metric/ls/src/estab.f - **new metric routine
+./metric/ls/src/prtrls.f - updated to be consistent with standard routine
+./metric/ls/src/sumhed.f - updated to be consistent with standard routine
+./metric/ne/obj/makefile - **new metric makefile
+./metric/ne/src/sitset.f - **new metric routine

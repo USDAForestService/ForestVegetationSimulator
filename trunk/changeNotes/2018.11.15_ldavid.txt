@@ -1,0 +1,25 @@
+Subject: Cuts.f and SQLite FFE Detailed Snag Report
+
+Name: Lance David
+
+Date: 11/15/2018
+
+Variants affected: All variants
+
+Description: The treelist clean-up process in cuts.f was placing minimal TPA
+             records in the cutlist that were outside specified size range of 
+             cutting activity. Added condition where record must have already
+             been targetted for some removal to qualify.
+             Detailed snag report to SQLite output database is working.
+
+Impact on users: Invalid tree records of minimal TPA no longer can appear in 
+            cutlist. FFE Detailed snage repoprt to SQLite output database is
+            now working.
+Files:
+
+vbase/cuts.f - Added missing parameters at end of calls to RDCLS.
+               Added addition qualifier in treelist clean-up near line
+               1536.
+               
+dbsqlite\dbsfmdsnag.f - Corrected a couple variables that should have been
+                       delcared REAL*8 and their associated computations.

@@ -1,0 +1,90 @@
+Subject: Upgraded ECON extension, and correction to DBS input variable processing
+Name: Fred Martin (WADNR), Robert Havis
+Date: August 9, 2006
+Variants affected: ALL
+
+Description:
+1) STK_PCT, FINTH, and FINT variables input through data base tables were not fully
+   or correctly processed. See description of changes to the DBSSTANDIN routine below.
+
+2) A completely upgraded set of ECON extension code was provided by Fred Martin
+   for integration into the production code and further testing. The makefiles 
+   were upgraded to build FVSniec, FVSieec and FVSieecfm.
+
+Impact on users: All DBS users should obtain new executables
+
+Files:
+dbsstandin.f - The real variables FINT and FINTH were created from their
+               integer counterparts (IFINT and IFINTH).
+               The STK_PCNT variable is equivalent to the GROSPC variable
+               on the DESIGN keyword. STK_PCNT was not processed correctly,
+               and could cause a numerical error when STK_PCNT=0.
+               This has been changed so
+                1. < STK_PCNT <=100, GROSPC=0.01*STK_PCNT
+                0. < STK_PCNT <=1. , GROSPC=STK_PCNT
+                     STK_PCNT=0.   , GROSPC is calculated based on number
+                                            of stockable plots
+
+./ak/src/estab.f - removed 3 calls to ECESTB
+./base/src/algkey.f - added  2 group 3 variables and 1 group 8 variable,
+                      modified ECON variable names
+./base/src/comprs.f - removed call to ECCMPR
+./base/src/cuts.f - added call to GETISPRETENDACTIVE, and ECHARV
+                  - removed calls to ECLOAD, ECATV3, ECVCUT, and ECLOAD
+./base/src/evtstv.f - modified comments
+./base/src/gradd.f - added arguments to ECCALC call statement
+./base/src/execon.f - modified to accommodate new ECON code
+./base/src/grincr.f - added 2 calls to ECSTATUS, and removed call to ECATV2
+./base/src/initre.f - modified argument list ECIN call statement
+./base/src/main.f - modified comments, and removed calls to ECATV2 and ECFIN
+./base/src/oplist.f - modified codes in ITRLS2 
+./base/src/tredel.f - deleted call to ECTDEL
+./base/src/triple.f - deleted call to ECTRIP
+./base/src/revise.f
+./bin/makefile - edited ECON object list, and added FVSieec build instructions
+./common/ECNCOM.F77 - revised for ECON upgrade
+./common/OPCOM.F77 - changed parameter MXTST4 from 45 to 48
+./econ/obj/makefile - added build instructions for new ECON routines, removed old,
+                      and edited where necessary.
+./econ/src/eccalc.f - upgraded ECON routine
+./econ/src/echarv.f - new ECON routine
+./econ/src/ecin.f - upgraded ECON routine
+./econ/src/ecinit.f - upgraded ECON routine
+./econ/src/ecsetp.f - upgraded ECON routine
+./econ/src/ecstatus.f - new ECON routine
+./econ/src/ecvol.f - upgraded ECON routine
+./estb/src/estab.f - removed 3 calls to ECESTB
+./fire/fofem/src/fof_bcm.c - modified arguments t xprintf for cross-compiler consistency
+./ie/obj/makefile -  - added build instructions for new ECON routines, removed old,
+                      and edited where necessary.
+./ni/src/vols.f - modified ECVOL argument list
+./strp/src/estab.f - removed one call to ECESTB
+
+The following routines are obsolete and should be deleted.
+./econ/src/ecancs.f
+./econ/src/ecatv.f
+./econ/src/eccmpr.f
+./econ/src/eccycl.f
+./econ/src/ecdgrp.f
+./econ/src/ecdur.f
+./econ/src/ecestb.f
+./econ/src/ecexcs.f
+./econ/src/ecexgt.f
+./econ/src/ecfactr.f
+./econ/src/ecfin.f
+./econ/src/ecfutr.f
+./econ/src/echvfc.f
+./econ/src/echvrv.f
+./econ/src/echvvc.f
+./econ/src/eclnval.f
+./econ/src/ecload.f
+./econ/src/ecpric.f
+./econ/src/ecprtl.f
+./econ/src/ecread.f
+./econ/src/ecspcs.f
+./econ/src/ecsprv.f
+./econ/src/ectdel.f
+./econ/src/ecthfc.f
+./econ/src/ecthvc.f
+./econ/src/ectrip.f
+./econ/src/ecvcut.f

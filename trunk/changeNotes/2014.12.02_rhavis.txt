@@ -1,0 +1,15 @@
+Subject: Point Group Keyword
+Name: R. Havis
+Date: December 2, 2014
+Variants affected: ALL
+
+A new keyword, the Point Group keyword, defines a group of points that
+can be referenced by a single name or group number, and will be treated
+as a group in management actions or event monitor functions. Users may
+define up to 30 point groups with each group containing up to 50 points.
+If the group name is entered in the point field of a keyword, the keyword
+action will apply to all points in the group.
+
+Impact on users:
+
+Files:

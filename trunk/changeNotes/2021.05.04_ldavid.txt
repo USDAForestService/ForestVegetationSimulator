@@ -1,0 +1,53 @@
+Subject: Database Extension Keywords, Establishment Randon Seed Keyword
+
+Name: Lance David
+
+Date: 05/04/2021
+
+Variants affected: All
+
+Description: This change was only made to SQLite version and not ODBC version.
+             Keywords in the Database Extension that had same name as base or
+             other extension has been changed to be unique to Database 
+             Extension. This enables easier handling of keywords in the
+             interface and for the user.
+             Establishment model random seed keyword made unique because it 
+             had been same keyword as base model.
+
+             Extension      Old Keyword  New Keyword
+             -------------  -----------  -----------
+             Establishment  RANNSEED     ESRanSD
+
+             Database       ATRTLIST     ATrtLiDB
+                            BURNREPT     BurnReDB
+                            CALBSTAT     CalbStDB
+                            CARBRPTS     CarbReDB
+                            CLIMREPT     ClimReDB
+                            COMPUTE      ComputDB
+                            CUTLIST      CutLiDB
+                            DWDCVOUT     DWDCvDB
+                            DWDVLOUT     DWDVlDB
+                            FUELREPT     FuelReDB
+                            MORTREPT     MortReDB
+                            POTFIRE      PotFirDB
+                            SNAGOUT      SnagOuDB
+                            SNAGSUM      SnagSuDB
+                            STRCLASS     StrClsDB
+                            TREELIST     TreeLiDB
+
+Impact on users: For those using FVS through the interface, there will be no
+             impact and they will notice nothing. For those who run FVS outside
+             the interface with prebuilt keyword files, they will need to
+             perform search and replace of database keywords and be careful
+             to change those keywords that exist within a DATABASE/END keyword
+             block.
+             Establishment model RANNSEED keyword was changed to ESRANSD. This
+             keyword is not likely used by many. But, if it is present in any
+             existing keyword files that are used again, an error will occur.
+             This keyword would be present within a ESTAB/END keyword block.
+
+Files:
+dbsqlite\dbsin.f - Database keywords changed
+estb\esin.f      - Full Establishment model random number seed keyword changed
+strp\esin.f      - Partial Establishment model random number seed keyword changed
+

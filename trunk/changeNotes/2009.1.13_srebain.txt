@@ -1,0 +1,94 @@
+Subject: Fire and Fuels Extension Update
+Name:  Stephanie Rebain
+Date:  01/13/2009
+Variants affected: all FFE variants
+
+Description:
+Two new FFE keywords were developed to allow users to adjust the fire behavior calculations.
+The details behind the new options can be found in the latest version of the FFE addendum.
+
+     1) FIRECALC
+     
+     Modify the fire behavior calculations.  Users can choose to use the original
+     fuel model selection logic, the new fuel model selection logic (includes
+     the 40 new fuel models) or can choose to predict fire behavior from
+     modelled fuel loads directly.  The SAV and bulk density values entered are
+     used only if the new fuel model selection logic or the modelled loads option
+     is chosen.  The heat content entered is used only if the modelled loads
+     option is chosen.  These variables should be entered as they pertain to your
+     fuel bed and will be used to help select the most similar fuel model(s) (if using
+     the new fuel model logic) or will be used directly in the fire behavior
+     calculations (if using the modelled loads option).
+
+     field 1: Year or cycle in which the fire behavior calculations will be changed.  Default = 1.  
+              (Once in effect, this keyword stays in effect until replaced with another FireCalc keyword.)
+     field 2: The fire behavior calculations should use:
+              0 = the original FFE fuel model selection logic (Default)
+              1 = the new fuel model selection logic (includes the 40 new fuel models)
+              2 = modelled loads directly in predicting fire behavior
+     field 3: Fuel model set for use with the new fuel model logic:
+              0 = use the original 13 fuel models 
+              1 = use the 40 new Scott and Burgan fuel models
+              2 = use all 53 fuel models (Default)
+     field 4: Surface area to volume ratio (1/ft) for 1 hr (0-.25") fuels.  Default = 2000.
+     field 5: Surface area to volume ratio (1/ft) for live herb fuels.  Default = 1800.
+     field 6: Surface area to volume ratio (1/ft) for live woody fuels.  Default = 1500.
+     field 7: Bulk density (lbs/ft3) for live fuels.  Default = 0.10 
+     field 8: Bulk density (lbs/ft3) for dead fuels.  Default = 0.75
+     field 9: Heat content (BTU/lb).  Default = 8000                                         
+
+
+     2) FMODLIST
+     
+     Adjust the fuel models available for selection in conjuction with the new
+     fuel model logic (also see FireCalc keyword).  Fuel models can either be turned 
+     "on" (they will be part of the potential fuel model pick list) or turned
+     "off".  See the FFE documentation for details on the new fuel model logic and
+     what fuel models are part of the pick list by default.  Once set, this keyword
+     stays in effect unless reset.
+
+     field 1: Year or cycle in which the keyword will apply.  Default = 1.  
+              (Once in effect, this keyword stays in effect unless reset.
+               Multiple FMODLIST keywords can be used simultaneously.)
+     field 2: Fuel model (1 - 204).  Default = 1
+     field 3: Fuel model status:
+              -1 = use default logic to determine if fuel model is part of the pick list (Default)
+              0 = fuel model IS part of the pick list  
+              1 = fuel model IS NOT part of the pick list  
+
+Impact on users:
+Simulation runs will not change by default.  These new options are now available and documented
+in the FFE addendum.
+
+
+Modified Files:
+fire/base/src/fmin.f - added new FireCalc and FModList keywords;
+                     - changed default file reference number for detailed snag report (SNAGOUT)
+fire/base/src/fminit.f - added new variables 
+fire/base/src/fmusrfm.f - forced selection of fm89 if using modelled loads option;
+                          added processing of new FireCalc keyword
+fire/base/src/fmburn.f - updated parameters for fm89 based on modelled loads; added call to new fm logic (fmcfmd2)
+fire/base/src/fmfint.f - edited heat content variable used
+fire/base/common/FMFCOM.F77 - added new variables 
+fire/ppe/src/fmppput.f - added new variables 
+fire/ppe/src/fmppget.f - added new variables 
+fire/base/src/fmpofl.f - added call to new fm logic (fmcfmd2)
+bin/makefile - added fmcfmd2 to fire_base_link
+fire/base/obj/makefile - added fmcfmd2; added ARRAYS.F77 to fmburn
+fire/ak/obj/makefile - added fmcfmd2; removed extra listing of fmcfmd.o; added ARRAYS.F77 to fmburn
+fire/cs/obj/makefile - added fmcfmd2; added ARRAYS.F77 to fmburn
+fire/cr/obj/makefile - added fmcfmd2; added ARRAYS.F77 to fmburn
+fire/ca/obj/makefile - added fmcfmd2; removed extra listing of fmcfmd.o; added ARRAYS.F77 to fmburn
+fire/ie/obj/makefile - added fmcfmd2; added ARRAYS.F77 to fmburn
+fire/ls/obj/makefile - added fmcfmd2; added ARRAYS.F77 to fmburn
+fire/ne/obj/makefile - added fmcfmd2; added ARRAYS.F77 to fmburn
+fire/pn/obj/makefile - added fmcfmd2; removed extra listing of fmcfmd.o; added ARRAYS.F77 to fmburn
+fire/wc/obj/makefile - added fmcfmd2; removed extra listing of fmcfmd.o; added ARRAYS.F77 to fmburn
+fire/so33/obj/makefile - added fmcfmd2; removed extra listing of fmcfmd.o; added ARRAYS.F77 to fmburn
+fire/ut/obj/makefile - added fmcfmd2; added ARRAYS.F77 to fmburn
+fire/sn/obj/makefile - added fmcfmd2; added ARRAYS.F77 to fmburn
+base/src/oplist.f - added new keywords to arrays ITRSL1 and ITRSL2
+fire/base/src/fmgfmv.f - added a debug statement
+
+Added Files:
+fire/base/src/fmcfmd2.f - new set of fuel model logic rules; applies to all variants

@@ -1,0 +1,36 @@
+Subject: Cut List Data Base Table 
+Name: R. Havis
+Date: December 26, 2007
+Variants affected: ALL
+
+Description: The top diameter Merch. Spec. used in the eastern variants is measred to
+             inside bark diamater, and to outside bark diamater in the western variants.
+             The Cut List Database table column headings Ht2TDibCF and Ht2TDibBF were
+             changed to Ht2TDCF and Ht2TDBF to avoid confusion. Likewise the HT2TDIB
+             array was changed to HT2TD.
+
+Impact on users: None
+
+Files:
+./ak/src/varvol.f
+./bm/src/varvol.f
+./ca/src/varvol.f
+./ci/src/varvol.f
+./common/ARRAYS.F77
+./cr/src/varvol.f
+./dbs/src/dbscuts.f
+./ec/src/varvol.f
+./em/src/varvol.f
+./ie/src/varvol.f
+./ls/src/vols.f
+./nc/src/varvol.f
+./ni/src/varvol.f
+./ni/src/vols.f
+./pn/src/varvol.f
+./sn/src/varvol.f
+./so33/src/varvol.f
+./tt/src/varvol.f
+./ut/src/varvol.f
+./wc/src/varvol.f
+./ws/src/varvol.f
+

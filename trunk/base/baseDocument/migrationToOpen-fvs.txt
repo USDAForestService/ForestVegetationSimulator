@@ -1,0 +1,397 @@
+Migration of Fort Collins Source code into Open-fvs Code
+
+Fort Collins versus open-fvs Code Review. Changes relative to the FC code are indicated.
+If a difference is found the STATUS indicates which difference is accepted in the OpenFVS code.
+Line numbers are indicated in parenthesis. Revision dates were rolled relative to FC code.
+The output was compared for all variants. There was some discrepancy in t Effie output, likely
+caused but adjustments to the volume calculations. Base variant output showed differences of
+a few CF, except for the PN and TT variants which showed differences on the order of 10-20 CF.
+
+
+ROUTINE              FORT COLLINS                     OPEN-FVS                                    STATUS
+
+Ak/CRATET                                   removed duplicate declaration of H                    OpenFVS
+  /ESTAB                             added ZRAND(ITRN)=-999. (1163,1233,1304)                     OpenFVS
+  /GROHED                                   changed data statement SVN and entry                  OpenFVS
+  /REGENT                                   initialized ZRAND(1:MAXTRE)=-999.0                    OpenFVS
+
+An/ESTAB                              added ZRAND(ITRN)=-999. (1163,1233,1304)                      OpenFVS
+  /GROHED                                   changed data statement SVN and entry                  OpenFVS
+  /REGENT                                   initialized ZRAND(1:MAXTRE)=-999.0                    OpenFVS
+
+
+base/APISUBS                              **new routine is a collection of routines that
+                                          provide an interface to the
+                                          shared library version of FVS.                          OpenFVS
+
+    /CMDLINE                              **new routine is a collection of routines that
+                                          provide an interface to elements of the FVS
+                                          command line parameters, including the stop/
+                                          restart facilities.
+
+
+    /COMPRS                               deleted commented code                                  OpenFVS
+                                          Reset serial correlation ZRAND (899)                    OpenFVS
+
+    /CUTS     corrected ThinRDSL logic,
+              and ThinPT to SDI, RD, RDSL
+              targets                                                                             FC
+
+    /DISPLY                               added declaration for IRTNCD                            OpenFVS
+                                          Added call to fvsGetRtnCode (400)and,
+                                          Logic for return Condition                              OpenFVS
+
+    /ERRGRO                               modified initial comments, and removed
+                                          call to DBSCLOSE and removed CLOSE statement            OpenFVS
+                                          Removed logic to assign STOP code, added                Opens
+                                          2 calls to fvsSetRtnCode
+
+   /EVCOMP                                added declaration for IRTNCD                            OpenFVS
+                                          Added call to fvsGetRtnCode and logic for
+                                          Return condition                                        OpenFVS
+                                          Added entry fvsGetICCode, added _Windll code
+
+   /EVIF                                  Added 2 calls to fvsGetRtnCode and logic for
+                                          Return condition, added declaration of IRTNCD           OpenFVS
+
+   /EVTACT                                added declaration for IRTNCD                            OpenFVS
+                                          Added call to fvsGetRtnCode and logic for
+                                          Return condition
+
+   /EVLDX     added debug write
+              statement (69)                                                                      FC
+
+   /EVTSTV                                modified comments                                       OpenFVS
+                                          Add logic to set variables if IUSERV<0(211)             OpenFVS
+                                          Modified IY array index to use MAX(1,ICYC)              OpenFVS
+                                          Initialized TSTV1(45)=0. (261)                          OpenFVS
+                                          Added conditional return if(IUSERV<0)(289),             OpenFVS
+                                          Modified debug write statement                          OpenFVS
+   /EVUSRV                                added declaration of IRTNCD, call to
+                                          fvsGetRtnCode and return logic                          OpenFVS
+   /EXCLIM                                added declarations, and entries CLACTV,                 OpenFVS
+                                          CLACTV CLSETACTV, CLPUT, CLGET
+   /EXDBS                                 added declarations and entries DBSCLSUM,                OpenFVS
+                                          DBSCHPUT, and DBSCHGET
+
+   /FILOPN                                routine is largely rewritten with logic to open and
+                                          close files an process star/stop logic                  OpenFVS
+
+   /GENRPT                                added PRGPRM.F77, CONTRL.F77, _WINDLL, modified
+                                          declarations, modified MYOPEN and GENRPT call
+                                          arguments, added entries GETNRPTS, SETNRPTS             OpenFVS
+
+   /GRADD                                 added stop/restart logic                                OpenFVS
+
+   /GRINCR                                added stop/restart logic removed debug write
+                                          statement (55)                                          OpenFVS
+
+   /INITRE                                added SNCOM.F77, added multiple calls to
+                                          fvsSetRtnCode and return logic                          OpenFVS
+                 Updated SDICALC logic                                                            FC
+                 added logic for ThinPt
+                 to RDSL target
+
+   /INTREE                                added calls to fvsSetRtnCode and return logic,
+                                          added logic (153) to open text tree file if not
+                                          database input, initialized serial correlation (316, 506)OpenFVS
+
+   /KEYOPEN                               added declaration for IRTNCD                            OpenFVS
+                                          Added call to fvsGetRtnCode and logic for
+                                          Return condition
+
+   /MAIN                                  this routine has been rewritten to supervise cycling,
+                                          report writing and program STOP command and error
+                                          code echo                                               OpenFVS
+
+   /OPNEWC                                added declaration for IRTNCD                            OpenFVS
+                                          Added call to fvsGetRtnCode and logic for
+                                          Return condition
+
+   /PRTEXM                                added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+   /PRTRLS                                added call to openIFClosed OpenFVSadded declaration
+                                          for IRTNCDOpenFVSAdded call to fvsGetRtnCode and
+                                          logic for Return condition                              OpenFVS
+
+   /RDCSET                                added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+   /SDEFET                                added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+   /SDICAL    added diameter limits for
+              SDI calculations    
+              
+   /SDICHK    updated to use Zeide SDI
+              with SDICalc keyword to
+              reset number of trees if
+              stand SDIMAX is reset                                                                FC
+
+   /SUMOUT                                modified dummy argument LEN to LENG, added file
+                                          management logic                                        OpenFVS
+
+   /SVCWD                                 added FMSVCM.F77 and corrected SVS logic (FC)           OpenFVS
+
+   /TREGRO                                added start/stop logic                                  OpenFVS
+
+Bm/ECOCLS       updated metric site values                                                        FC
+
+  /REGENT                                 removed ZRAND initialization                            OpenFVS
+
+Ca/REGENT                                 removed ZRAND initialization                            OpenFVS
+
+Clim/CLAUESTB                             modified logic (XX) and table headers                   OpenFVS
+
+    /CLGMULT                              logic significantly modified                            OpenFVS
+
+    /CLIN                                 modified logic, keyword echo format                     OpenFVS
+
+    /CLINIT                               added variables                                         OpenFVS
+
+   /CLMAXDEN                              added MXDENMLT, modified debug write                    OpenFVS
+
+   /CLMORTS                               added species presence calibration, mortality
+                                          based on climate transfer distance, weighted
+                                          average mortality rate                                  OpenFVS
+
+
+   /CLPUTGET                              **new routine                                           OpenFVS
+
+Common/CLIMATE.F77                        many new variables                                      OpenFVS
+
+   /ECNCOM.F77                            new variables                                           OpenFVS
+
+   /ESCOMN.F77                            modified                                                OpenFVS
+
+   /PRGPRM.F77                            ** deleted in OpenFVS
+
+   /SNCOM.F77                             commented out many variables in OpenFVS,
+                                          mostly left over from SE variant                        OpenFVS
+                                          
+   /CONTRL.F77  added DBHZEIDE,DBHSTAGE,
+                DR016                                                                             FC
+
+Covr/CVIN                                 added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+Cr/FORKOD     updated to map the Routt NF (211)
+              to the Medicine Bow-Routt (206)
+              and also updated the default
+              forest code for model types
+              4 and 5 to 206 instead of
+              previous 211.                                                                       FC
+
+   /HTGF                                 initialized HHE1, HHU1, IHTG, HTGI to zero               OpenFVS
+
+   /REGENT                               removed initialization of ZRAND                         OpenFVS
+
+
+Cs/HTGF       merged FC correction for
+              HTGF when H>HTMAX                                                                   FC
+
+Dbs/DBSIN                                converted over all code to OpenFVS code
+                                         incorporated FC case conversion (869)
+   /DBSSUMRY                             incorporated comments from FC code
+
+
+Ec/                                      removed initialization of ZRAND                          OpenFVS
+
+Econ/                                    converted all code over to OpenFVS code                  OpenFVS
+
+Em/REGENT                                removed initialization of ZRAND                          OpenFVS
+
+Estb/ESIN                                added declaration for IRTNCD                             OpenFVS
+                                         Added calls to fvsGetRtnCode and logic for
+                                         Return condition
+    /ESOUT                               added INQUIRE statement on open status of output file    OpenFVS
+
+    /ESPLT1                              added declaration for IRTNCD                             OpenFVS
+                                         Added calls to fvsGetRtnCode and logic for
+                                         Return condition
+
+    /ESTAB                               initialized ZRAND (1186,1257,1329)                        OpenFVS
+                                         Updated OpenFVS to current handling of ABIRTH FC
+
+    /ESUCKR                              initialized ZRAND                                        OpenFVS
+
+Fire/base/FMBURN                         added declaration for IRTNCD                            OpenFVS
+                                         Added calls to fvsGetRtnCode and logic for
+                                         Return condition
+
+     /FMCFIR                             added declaration for IRTNCD                            OpenFVS
+                                         Added calls to fvsGetRtnCode and logic for
+                                         Return condition
+
+     /FMCWD                               modified volume calculations, (507,536)                 OpenFVS
+                                          added debug write statement
+
+
+   /FMEVMON   removed declarations and
+              placed in FMCOM.F77                                                                 FC
+
+   /FMINIT    expanded precision to 5
+              decimal places                                                                      FC
+
+   /FMSCRO    Updated to FC 11/20/12                                                              FC
+
+   /FMGFMV                                added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+   /FMIN                                  removed unused Format statement No. 104                 OpenFVS
+                                          Removed call to GRSTOP                                  OpenFVS
+                                          added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+  /FMMAIN                                 added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+/FMPOFL                                   added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+/FMSOILHEAT                               removed interface function and added _WINDLL            OpenFVS
+
+/FMSOUT                                   added call to openIfClosed                              OpenFVS
+
+/FMSSUM                                   removed comma from Format statement No. 10              OpenFVS
+
+Fire/common/FMCOM.F77  added PREMST,PREMCR,
+                       ISPCC,DBHC,HTC,CROWNWC                                                     FC
+
+/fofem/fm_fofem.c                        added FVS interface _WINDLL, edited comments            OpenFVS
+
+/ppe/FMPPGET,FMPPPUT added new variables
+                     that were added to FMCOM.F77                                                 FC
+
+Dev/ie/REGENT                            removed initialization of ZRAND                          OpenFVS
+
+Ie/common/PRGPRM.F77                     added parameter MXFRCDS                                  OpenFVS
+
+Kt/REGENT                                removed initialization of ZRAND                          OpenFVS
+
+Kt/common/ESPARM.F77, PRGPRM.F77         **new common directory and files                         OpenFVS
+
+Ls/src/DGF    changes unit 16 to JOSTND
+              for debug write                                                                     FC
+
+  /ESTAB      ABIRTH logic changes to prevent
+              setting age of first tree in
+              treelist                                                                            FC
+                                         added ZRAND initialization                               OpenFVS
+
+  /HTGF       initialized return variables
+              in HTCALC, to Prevent HTGF
+              problem H>HTMAX                                                                     FC
+
+/REGENT                                   removed initialization if ZRAND                         OpenFVS
+             changes unit 16 to JOSTND
+             for debug write                                                                      FC
+
+Metric/
+       ak/ESTAB                           removed initialization of ZRAND                        OpenFVS
+
+       Base/EVLDX  added conversions and
+                   ACORN function which
+                   Requires application of
+                   metric conversions                                                             FC
+
+       /INTREE                            initialized ZRAND and edited comments                   OpenFVS
+
+       /PRTRLS                            added calls to openIfClosed                             OpenFVS
+
+       Cr/ESUCKR                          added initialization of ZRAND                           OpenFVS
+
+       Dbs/DBSSTANDIIN                    corrected output format for PV Ref. Code                FC
+                                          Added conversions for ELEV                              FC
+
+       Estb/ESTAB                         added initialization of ZRAND                           OpenFVS
+                    Modified ABIRTH logic
+                    as per FC                                                                     FC
+
+       /ESUCKR                            added initialization of ZRAND                           OpenFVS
+
+       Fire/base/FMSOUT                   added call to openIfClosed                              OpenFVS
+
+       ls\src\ESTAB                       added initialization of ZRAND                           OpenFVS
+                    Modified ABIRTH logic
+                    as per FC                                                                     FC
+
+       wc/ESUCKR                          added initialization of ZRAND                           OpenFVS
+
+dev\mistoe\MISIN                          added declaration for IRTNCD                            OpenFVS
+                                          Added calls to fvsGetRtnCode and logic for
+                                          Return condition
+
+
+Nc\common                                 **PRGPRM.F77 new file in OpenFVS                        OpenFVS
+
+Ne/HTGF                                   initialized return variables HTCALC, to
+                                          Prevent HTGF problem H>HTMAX                            OpenFVS
+
+  /REGENT                                 removed initialization if ZRAND                         OpenFVS
+
+Ni/REGENT                                 removed initialization if ZRAND                         OpenFVS
+
+Pg/PUTGETSUBS                           **new routine, New directory and new
+                                          location for PPE routines used to store
+                                          stand variables                                         OpenFVS
+
+  /PUTSTD         added DBHZEIDE,DBHSTAGE,DR016                                                   FC
+  /GETSDT         added DBHZEIDE,DBHSTAGE,DR016                                                   FC
+
+pg//FMPPGET,FMPPPUT added new variables that were added to FMCOM.F77                              FC
+
+sn/FINDAG         initialized AGET, HTGF                                                          FC
+
+sn/HTCALC         removed initialization
+                  of AGET,HTGF                                                                    FC
+
+sn/HTGF           initialized HTG1, AGET                                                          OpenFVS
+
+sn/GRINIT         removed old SE variant variable ISEFOR                                          FC
+
+sn/MORTS          udated SDICALC logic                                                            FC
+
+sn/REGENT         initialized AGET, HTGF                                                          FC
+
+strp/ESOUT                                   added INQUIRE statement on JOREGT open               OpenFVS
+
+strp/ESTAB                                   added initialization of ZRAND                        OpenFVS
+                 Modified ABIRTH logic as per FC                                                  FC
+
+strp/ESUCKR                                  added initialization of ZRAND                       OpenFVS
+
+
+tt/SMHTGF                                    enhanced debug write                                 OpenFVS
+
+  /MORTS         updated SDICALC keyword code                                                     FC
+
+  /DGF           removed ISC from DEBUG write statement
+                 in DGCONS changed division of integer by real
+                 to division by integer (ISC)
+
+volume\15 updated
+       routines    see V0159_011813.txt                                                           FC
+
+wc/REGENT                                   removed initialization if ZRAND                       OpenFVS
+
+all variants/GRINIT
+                  initialized DBHZEIDE,
+                  DBHSTAGE,DR016                                                                  FC
+
+all variants/common/PRGPRM.F77              added parameter MXFRCDS                               OpenFVS
+
+all variants/GROHED  added INCLUDESVN.F77
+                     with INCLUDE statement                                                       FC
+
+
+

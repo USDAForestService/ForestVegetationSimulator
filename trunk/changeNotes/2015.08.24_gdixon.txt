@@ -1,0 +1,18 @@
+Subject: Code cleanup: removal of LAKEVIEW in comment lines
+Name: Gary Dixon
+Date: 08/24/15
+Variants affected: WC
+
+Description: Forest code 711 is for BLM's Medford Administrative Unit. It was wrongly stated in some comment lines
+             as Medford/Lakeview. Lakeview ADU has its own code to be added at a future date, so LAKEVIEW was purged
+             from comment statements where it appeared. 
+
+Impact on users: None. This is a cosmetic change in the code.
+
+Files:
+wc/src
+        dgf.f  changed the date of revision; took LAKEVIEW out of comment line 386
+     forkod.f  changed the date of revision; took LAKEVIEW out of comment line 35
+     formcl.f  changed the date of revision; took LAKEVIEW out of comment lines 10, 37
+      htdbh.f  changed the date of revision; took LAKEVIEW out of comment line 24
+      

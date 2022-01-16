@@ -1,0 +1,39 @@
+Subject: 1) SDI based mortality logic correction
+         2) General code cleanup
+
+Name: Gary Dixon
+Date: 09/16/2010
+
+Variants affected: 1) AK, AN, BM, CA, CR, CS_NEW, EC, LS_NEW, NC, NE_NEW, SN, SO, TT, UT, WS
+                   2) CS, NE
+
+Description: 1) An error in the logic when the entire tpa representation of the tree
+                record gets assigned to mortality was corrected.
+             2) Tab characters were eliminated from the code.
+
+Impact on users: 1) This error would not affect most runs and would likely cause the 
+                    projection to terminate abnormally.  However, users of these variants 
+                    should obtain a new executable.
+                 2) These changes will not affect projections.
+
+Files:
+ak/src     seamrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 188
+an/src     seamrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 188
+bm/src     bmtmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 214
+ca/src     varmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 189
+cr/src     varmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 198
+cs_new/src varmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 190
+ec/src     varmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 184
+ls_new/src varmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 187
+nc/src     nwcmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 183
+ne_new/src varmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 191
+sn/src     varmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 204
+so/src     scomrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 188
+tt/src     ttmrt.f    changed the date of revision; corrected the calculation of TEMWK2 at line 215
+ut/src     utmrt.f    changed the date of revision; corrected the calculation of TEMWK2 at line 212
+ws/src     varmrt.f   changed the date of revision; corrected the calculation of TEMWK2 at line 183
+
+cs/src     varmrt.f   changed the date of revision; removed tabs from lines 364, 372, 390, 392
+ne/src     varmrt.f   changed the date of revision; removed tabs from lines 377-379, 385, 386, 388
+
+

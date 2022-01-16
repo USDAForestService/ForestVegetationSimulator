@@ -1,0 +1,21 @@
+Subject:  Database Extension - Treelist Output Correction
+Name: Stephanie Rebain	
+Date: 11/02/2007
+Variants affected: All
+
+Description:
+1) Dead trees present in the initial inventory were being printed to the text-based
+treelist, but were not being included when the treelist was exported to Excel or
+Access using the Database Extension.  Also, the diameter growth values being
+exported with the Database Extension treelist did not correctly reflect the option chosen
+on the TREELIST keyword (field 7).  Both of these were corrected.
+
+Impact on users:
+This change affects treelist output exported using the Database Extension.  Users of this
+report should obtain new executables.
+
+Files:
+base/src/exdbs.f - added new argument to call of dbstrls
+base/src/prtrls.f - added new argument to call of dbstrls
+dbs/src/dbstrls.f - added printing of inventory year dead trees, added new argument passed in
+                    corrected printing of diameter growth values

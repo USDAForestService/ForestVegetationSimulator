@@ -1,0 +1,15 @@
+Subject: Routine Semantics Corrections
+Name: Robert Havis
+Date: 12 March 2004
+Variants affected: PPE (with mistletoe), FFE, IE
+
+Files and Description:
+
+bin/MAKEFILE  - added ${OBJ} string to the objects in IE_BASE_ADD to allow compilation on PC
+base/EXDBS    - dimensioned 3 arrays for consistency with subroutine call statements
+mistoe/MSPPPT, MSPPGT - in reading and writing the integer array ISMSOUT, the IFWRIT routine
+must be used rather than the BFWRIT routine
+fire/nc/FMCFMD - added actual argument to the CWHR call statement for consistency with
+the CWHR subroutine statement arguments.
+
+Impact on users: There should not be a noticible effect.

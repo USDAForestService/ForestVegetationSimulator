@@ -1,0 +1,52 @@
+Subject: Tree Biomass Event Monitor Variable TreeBM
+Name: R. Havis
+Date: June 12, 2007
+Variants affected: ALL-FFE
+
+Description: The TREE BIOmass event monitor variable provides estimates of
+             the biomass of standing trees (live and/or dead) and the biomass
+             of trees removed from the stand through harvest and/or salvage. 
+             The parameters for the TREEBIO Event Monitor function are
+             described below
+             
+TREEBIO(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) Event Monitor Function
+
+ARGUMENT NO.         <0            =0            >0
+1                Standing        Removed        Both
+2                Dead            Live           Both
+3                Stem            Crown          Both
+
+4                Usual Species Code Processing Alpha, Seq.No., 0=ALL
+5                Min. DBH
+6                Max. DBH
+7                Min. Height
+8                Max. Height
+
+Impact on users:
+
+Files:
+./ak/src/varvol.f           - added debug write statement
+./base/src/algevl.f         - added code to process TREEBIO EM function
+./base/src/algkey.f         - added code to process TREEBIO EM function
+./base/src/cuts.f           - added call to FMTREM entry to save removal data
+./base/src/evldx.f         - added code to process TREEBIO EM function
+./base/src/exfire.f         - added entries FMTREM and FMEVTBM
+./fire/base/common/FMCOM.F77  - added variables HTIHSALV, HTISSALV, SPSSALV, DBSSALV, HARDSALV
+                                 NSNAGSALV, HTDEADSALV  and LREMT
+./fire/base/obj/makefile    - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/base/src/fmevmon.f   - added entry FMTREM which saves tree removal data to calculate TREEBIO 
+                              return values. Return values are calculated in the FMEVTBM entry
+./fire/base/src/fminit.f    - initialized variables added to FMCOM.F77
+./fire/base/src/fmsalv.f    - pass variables added to FMCOM (except LREMT) to FMEVTBM
+./fire/ca/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/cr/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/ie/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/pn/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/ppe/src/fmppget.f    - added new common variables
+./fire/ppe/src/fmppput.f    - added new common variables
+./fire/sn/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/ut/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/wc/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/so33/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/ls/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies
+./fire/ne/obj/makefile   - added ARRAYS.F77 and PLOT.F77 to FMEVMON dependencies

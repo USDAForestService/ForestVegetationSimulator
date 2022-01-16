@@ -1,0 +1,69 @@
+Subject: climate change code corrections
+
+
+Name: Gary Dixon
+Date: 05/19/09
+
+Variants affected: all variants
+
+Description: As climate changes, FVS needs the capability to go from a forest condition
+             to a non-forest condition, or visa-versa.  This is currently being done
+             through manipulation of the SDI maximums. These changes allow users, or the
+             climate extension to adjust SDI maximums from forest values to zero, or 
+             something near zero (non-forest condition) to positive values (forest 
+             condition.  
+
+Impact on users: No effect on current simulations. However, these changes will allow anyone
+             using the SETSITE keyword to simulate climate change to adjust species
+             sdi maximums down to 1, indicating a land condition that would not support trees.
+
+Files:
+ak/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+an/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+ca/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+ci/src       morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+cr/src       morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+ec/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+em/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+ie/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+ls_new/src   morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+nc/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+ni/src       morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+pn/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+sn/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+so/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+so33/src     crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+tt/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+ut/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+wc/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   
+ws/src       crown.f      changed the date of revision; added a trap to avoid division by zero 
+             morts.f      changed the date of revision; added code to kill all tree if the sdi
+                          maximum indicates a condition that will not support trees   

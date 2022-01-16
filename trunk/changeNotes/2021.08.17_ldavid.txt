@@ -1,0 +1,46 @@
+Subject: Ratio of Standard Errors Reporting and Calibration Process Correction
+
+Name: Lance David
+
+Date: 08/17/2021
+
+Variants affected: All
+
+Description: The RATIO OF STANDARD ERRORS in the CALIBRATION STATISTICS table
+             in the main output file contained a value other than 1.00 for
+             species that had diameter growth measurements in the input data
+             when no calibration (NoCalib) was specified. This was due to input
+             measurement counts being used when they should not. Projection
+             results for a dataset with too few growth measurements (per 
+             individual species) should be identical to no growth mesurements
+             or use of NoCalib keyword. This modification makes it so.
+
+Impact on users: Users who specify No Calibration for datasets that contain
+                 diameter growth measurments will see minor differences in
+                 results. Differences observed during testing was considered
+                 very slight.
+
+Files:
+ak\dgdriv.f(509) - At line number indicated () new code:
+bm\dgdriv.f(506)   C  ADDED 'OR' CONDITION SO THAT NO CALIBRATION SPECIFIED IS THE
+ca\dgdriv.f(474)   C  SAME AS HAVING TOO FEW GROWTH MEASUREMENTS FOR CALIBRATION.
+ci\dgdriv.f(566)   C  8/17/2021 -LRD
+cr\dgdriv.f(502)
+cs\dgdriv.f(469)         IF(FN.LT.FNMIN .OR. .NOT.LDGCAL(ISPC)) GO TO 190
+ec\dgdriv.f(545)
+em\dgdriv.f(541)   Replaced:
+ie\dgdriv.f(530)         IF(FN.LT.FNMIN) GO TO 190
+kt\dgdriv.f(476)   C----------
+ls\dgdriv.f(485)   C  IF NOCALIB WAS SPECIFIED, CALCULATION OF CORRECTION TERMS
+ne\dgdriv.f(469)   C  IS BYPASSED.  MODEL VARIANCE IS, HOWEVER, ESTIMATED (STMT 180).
+oc\dgdriv.f(815)   C----------
+op\dgdriv.f(803)         IF(.NOT.LDGCAL(ISPC)) GO TO 180
+sn\dgdriv.f(480)
+so\dgdriv.f(487)    Statement label 180 later in subroutine was removed.
+tt\dgdriv.f(495)
+ut\dgdriv.f(538)
+wc\dgdriv.f(471)
+ws\dgdriv.f(558)
+
+Note: NC variant uses kt\dgdriv.f
+      PN variant uses pn\dgdriv.f

@@ -1,0 +1,25 @@
+Subject:  MistOff keyword and input tree data order dependency eliminated
+Name: Lance David	
+Date: 03/23/2007
+Variants affected:
+all variants with Dwarf Mistletoe extension
+
+Description:
+MistOff keyword process modified to eliminate the need for it to occur
+before input tree data processing. 
+
+Impact on users:
+MistOff keyword will suppress Misltetoe model operation regardless of 
+the location of the MistOff keyword in the keyword list. It used to 
+need to be processed prior to processing of the input tree data.
+
+Files:
+mistoe/src/misin.f  - added code to MistOff keyword process
+mistoe/obj/makefile - added ARRAYS.F77 to dependency list of misin.f
+ak/obj/makefile       in all affected makefiles listed here
+ca/obj/makefile
+cr/obj/makefile 
+ie/obj/makefile
+so33/obj/makefile
+ut/obj/makefile 
+wc/obj/makefile 

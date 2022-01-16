@@ -1,0 +1,22 @@
+Subject: R1 PV Code Crosswalk update, and R8,R9 Tree list table update
+Name: R. Havis
+Date: June 9, 2010
+Variants affected: EM, IE, KT, NI, and CS, LS, NE and SN
+
+Description:
+1) Some PV Code/reference code combinations were not being mapped to the
+   appropriate FVS habitat type code. This has been corrected.
+   
+2) In Region 8 and Region 9 the Tree List table was not being printed correctly
+   when the stand inventory consisted of all dead trees. This has been corrected.
+
+Impact on users: Users of the effected variants should obtain new executables.
+
+Files:
+./base/src/sdical.f - modified comments
+./em/src/pvref1.f - updated cross walk
+./kt/src/pvref1.f - updated cross walk
+./ls/src/prtrls.f - corrected printing of treelist for case of all dead trees
+                    in inventory
+./ni/src/pvref1.f - updated cross walk
+./ppbase/src/getstd.f - rolled revision date

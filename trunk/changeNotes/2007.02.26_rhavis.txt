@@ -1,0 +1,25 @@
+Subject:R9_New and Volume Updates 
+Name: R. Havis
+Date: February 26, 2007
+Variants affected: CS_new, LS_new, NE_new, NC, PN and WC
+
+Description:
+1.  Modified background mortality constants in R9_new variants, and edited
+    File header text
+2.  Updated BLM Behre hyperbola coefficients
+
+Impact on users:
+
+Files:
+./base/src/revise.f  - added logic for CS_new, LS_new, NE_new - BETA versions
+./bin/makefile       - removed unneeded token ne_ne from nefm_new build instructions
+./tt/src/dgf.f       - edited source code syntax
+./volume/src/blmtap.f       - see V0129_02162007
+./volume/src/blmvol.f       - see V0129_02162007
+./volume/src/profile.f      - see V0129_02162007 and, V0130_02162007
+./volume/src/r8vol.f        - see V0131_02162007
+./cs_new/src/grohed.f       - added the word "TEST" to standard table title
+./ls_new/src/grohed.f       - added the word "TEST" to standard table title
+./ls_new/src/morts.f        - modified the background mortality constants for 
+./ls_new/src/regent.f       - CS_new, LS_new and, NE_new
+./ne_new/src/grohed.f       - added the word "TEST" to standard table title

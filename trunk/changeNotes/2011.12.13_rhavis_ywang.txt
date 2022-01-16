@@ -1,0 +1,33 @@
+Subject: Volume Updates
+Name: R. Havis, Yingfang Wang
+Date: Dec 13, 2011
+Variants affected: none
+
+Description:
+
+The Volume Estimator Library source code, which is used to calculate tree
+volumes in FVS, has been updated by the Measurements group (measurements 
+bulletin V0158_121211).  The updates do not affect FVS volume calculations 
+except when there are numerical errors. Region 4 and 9 routines were updated 
+to trap numerical errors when excessively tall trees are passed from FVS. 
+When these errors occur, the tree volume is set to zero and an error code 
+is returned to FVS.
+
+Impact on users: Numerical error checking in the volume code will potentially
+                 prevent FVS model runtime errors in Regions 4 and 9.
+
+Files:
+
+./common/includeSVN.f
+./ls/src/varvol.f  - changed r9vol call statement argument list to be consist with the
+                     r9clark subroutine argument list, modified debug write statement
+./sn/src/varvol.f -  changed r9vol call statement argument list to be consist with the
+                     r9clark subroutine argument list
+./volume/src/r4vol.f - added excessive tree height check
+./volume/src/r5harv.f
+./volume/src/r8init.f
+./volume/src/r8vol.f
+./volume/src/r9clark.f  - added a subroutine iisnan to screen for numerical errors.
+                          added excessive tree height check
+./volume/src/r9logs.f
+./volume/src/voleqdef.f        

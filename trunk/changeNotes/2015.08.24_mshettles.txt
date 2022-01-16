@@ -1,0 +1,38 @@
+Subject: Sprouting Improvements
+Name: M. Shettles
+Date: August 24, 2015
+Variants affected: All except KT	
+
+Description: 
+
+	1. For all variants except KT: Following extensive literature review,
+   	sprouting estimates were improved upon for all species except quaking aspen
+
+	2. SN variant: Sprouting estimates for scarlet, cherrybark, blackjack, 
+	northern red and post oak for location codes 809**, 810**, 905** and 908**
+	were changed to use the equations from the CS variant.
+
+	3. CS variant: Shortleaf pine (< 7" dbh) was added to the sprouting 
+        species list.
+
+	4. CI and EC variants: Listed sprouting species that weren't sprouting, 
+	now sprout. These include quaking aspen (26) in EC and pacific yew (12) in CI.	 
+
+Impact on users: users should obtain new executables.
+
+Files: 
+cs/common/ESPARM.F77 - Set NSPSPE to 87
+cs/src/blkdat.f - added shortleaf pine (3) to ISPSPE list
+ci/common/ESPARM.F77 - Set NSPSPE to 3
+ci/src/blkdat.f - added pacific yew (12) to ISPSPE list
+strp/src/esuckr.f - updated calls to NSPREC and ESSPRT
+strp/src/essprt.f - added EC case statement to ESASID, updated 
+		    the number of sprout records created and the
+                    calculation of sprouts per acre represented by 
+                    each sprout record
+estab/src/esuckr.f - updated calls to NSPREC and ESSPRT
+estab/src/essprt.f - updated the number of sprout records created and
+		     the calculation of sprouts per acre represented by
+                     each sprout record
+                    
+
