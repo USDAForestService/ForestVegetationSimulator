@@ -1,8 +1,0 @@
-CODE SEGMENT SVRCOM
-C----------
-C COMMON $Id$
-C----------
-      DOUBLE PRECISION SVS0,SVS1
-      REAL             SVSS
-      COMMON /SVRCOM/ SVS0,SVS1,SVSS
-C-----END SEGMENT

@@ -1,8 +1,0 @@
-CODE SEGMENT ESRNCM
-C----------
-C COMMON $Id$
-C----------
-      DOUBLE PRECISION ESS0,ESS1
-      REAL             ESSS
-      COMMON /ESRNCM/ ESS0,ESS1,ESSS
-C-----END SEGMENT

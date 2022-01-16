@@ -1,7 +1,0 @@
-CODE SEGMENT ESTCOR
-C----------
-C COMMON $Id$
-C----------
-      REAL HCOR(MAXSP)
-      COMMON /ESTCOR/ HCOR
-C-----END SEGMENT
