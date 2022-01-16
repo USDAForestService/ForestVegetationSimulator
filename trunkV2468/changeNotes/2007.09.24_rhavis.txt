@@ -1,0 +1,16 @@
+Subject: Mapping Formclass by Forest
+Name: R. Havis
+Date: September 24, 2007
+Variants affected: EC
+
+Description: Formclass is needed for the Behre volume equations. The arrays
+             of formclass values by species were not being correctly mapped
+             to the different National forests. This has been corrected.
+
+Impact on users: Users should obtain new executables. This update will
+                 slightly affect volume calculations.
+                 
+
+Files:
+./base/src/revise.f
+./ec/src/formcl.f

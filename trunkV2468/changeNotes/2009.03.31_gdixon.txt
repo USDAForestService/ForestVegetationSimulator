@@ -1,0 +1,64 @@
+Subject: Correction to setting of the ABIRTH array for seedlings originating via PLANT or
+         NATURAL keywords.
+         Correction to double incrementing of ABIRTH for quaking aspen, paper birch, and
+         mountain maple.
+         Change to a debug format statement to prevent field overflow when tpa values
+         are 1000 or larger for a tree record.
+         
+Name: Gary Dixon
+Date: 03/31/09
+
+Variants affected: All variants
+
+Description: The age of seedlings originating via the PLANT or NATURAL keywords was being set
+             incorrectly. This had other consequences such as the incorrect estimated seedling
+             height growth for the cycle in which the trees were established if the planting 
+             date was more than 5 years before the end of the cycle. These problems affected
+             all species in all variants. For aspen, paper birch, and mountain maple in the IE
+             variant, and aspen and paper birch in the 19 species version of EM variant, 
+             this also resulted in incorrect estimated height growth estimates
+             as long as the tree was considered a "small" tree for FVS modeling purposes.
+             
+             The seedling age for aspen, paper birch, and mountain maple in the IE
+             variant, and aspen and paper birch in the 19 species version of EM variant,
+             was being double incremented by the cycle length which resulted in 
+             a slight underestimation of small tree height growth.
+             
+             One of the write statements used by model developers for debuging program code 
+             was resulting in a print field overflow anytime the tpa representation for a tree
+             record was 1000 or larger.
+             
+             These problems have been corrected.
+             
+
+Impact on users:  All users should obtain a new executable.
+
+Files:
+
+estb/src  estab.f  changed the date of revision; changed the caluclation of the variable GENTIM for
+strp/src  estab.f  trees established via the PLANT or NATURAL keywords; changed the setting of 
+                   variables AGEXC and AGEPL; moved the setting of the ABIRTH array, took out the
+                   incrementing of ABIRTH. 
+                   
+  ie/src  regent.f changed the date of revision; deleted the incrementation of the ABIRTH array
+   ie/essubh.f  -  initialixed PN=0., HTT=.5 for specis Seq. NO. 13-23
+ em/src*  regent.f which occurred for some species.
+  
+  ak/src  morts.f  changed the date of revision; modified the format specification for one of
+  bm/src  morts.f  the debug write statements.
+  ca/src  morts.f
+  cr/src  morts.f
+  em/src  morts.f
+  ie/src  morts.f
+lsnew/src morts.f
+  nc/src  morts.f
+  ni/src  morts.f
+  sn/src  morts.f
+  so/src  morts.f
+so33/src  morts.f
+  tt/src  morts.f
+  ut/src  morts.f
+  wc/src  morts.f
+  ws/src  morts.f
+  
+  *refers to the source code for the 19 species version of the EM variant; NOT the 11 speices version

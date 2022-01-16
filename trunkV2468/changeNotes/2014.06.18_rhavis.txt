@@ -1,0 +1,17 @@
+Subject: Compression of variable Height to Top Diameter
+Name: R. Havis
+Date: June 18,2014
+Variants affected: All
+
+Description: The tree bole height from stump to the specified cubic foot
+             or board foot top diameter is written to the
+             tree list, cut list, and after treatment tree list
+             database tables. When compression of the tree list
+             occurs during a simulation, the values for these
+             heights were not accurate. The values for these
+             heights were not accurate for trees created in the
+             tripling algorithm. This has been corrected.
+
+Impact on users: Users should obtain new executables.
+
+Files:

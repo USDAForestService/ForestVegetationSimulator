@@ -1,0 +1,24 @@
+Subject:Bug Fixes
+Name: R. Havis
+Date: December 16, 2008
+Variants affected: ALL
+
+Description:
+
+1) Using the FIXMORT keyword, with diameter limits to kill all trees, rounding
+   caused residual trees in growth loops with zero PROB array values. A tolerance
+   was added to the conditional statement which compared equality of real numbers.
+
+2) see Volume Estimator Library Bulletin No. V0149_120308.
+   Default was added for height to first live limb.
+   Ponderosa pine BF values (large trees) will be slightly affected.
+
+Impact on users:
+
+Files:
+all MORTS routines - ak, bm, ca, ci, cr, em, ie, ls, ls,_new, nc, ni, sn, 
+                     so, so33, tt, ut, wc, and ws/MORTS - added tolerance
+                     criterion to upper bound in real value equivalence
+                     in FIXMORT conditional statements.
+fvs/volume/r3d2hv.f - see Volume Estimator Library Bulletin No. V0149_120308.
+fvs/base/src/exfire.f - added 6 entries and edited arguments in 1 entry

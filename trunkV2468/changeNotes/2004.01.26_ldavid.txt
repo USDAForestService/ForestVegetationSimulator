@@ -1,0 +1,28 @@
+Subject: Dwarf Mistletoe model output summaries
+Name: Lance David (FHTET)
+Date: 2004.01.26
+Variants affected: All with Dwarf Mistletoe extension
+
+Description: All Dwarf Mistletoe model output summaries are written to the
+FVS standard output file. They have also been made availabel to the FVS 
+Database extension. The MISTFILE keyword is has been removed from the 
+Dwarf Mistltoe model and keyword MISRPTS (Mistletoe Reports) has been added
+to the FVS Database extension. Thanks go to Don Robinson (ESSA) for this
+very useful update and enhancement.
+
+Impact on users: Additional versatility and less file management when
+utilizing Dwarf Mistletoe model summary output tables
+
+Files:
+misout.f   obsolete - remove
+misprm.f77 obsolete - remove
+
+miscom.f77
+misdgf.f77
+misin.f
+misin0.f
+mismrt.f
+misprt.f
+misppgt.f
+mispppt.f
+mistoe.f

@@ -1,0 +1,32 @@
+Subject: small tree diameter growth for aspen (AS) and other (OT)
+
+Name: Gary Dixon
+Date: 02/08/10
+
+Variants affected: Tetons (TT)
+
+Description: The Tetons variant used the smdgf routine from the
+             Eastern Montana variant. The Eastern Montana variant was
+expanded from 8 to 19 species in March 2009. Changes to the EM smdgf
+routines as part of that expansion, caused zero diameter growth estimates
+for all aspen (AS) and other (OT) trees less than 3.0" in dbh in the
+Tetons variant. This problem went undetected between March 2009 and now. 
+
+Impact on users: All users of the Tetons (TT) variant should obtain a 
+                 new executable.
+
+Files:
+
+tt/src     SMDGF  This is a new routine which corresponds to the old
+                  eastern Montana version before the EM species expansion
+                  project.
+                  
+tt/obj  makefile  Added compile instructions for the new SMDGF routine
+
+bin     makefile  Changed to link the SMDGF routine from the tt/obj object
+                  directory for all versions of the TT variant instead of 
+                  linking this routine from the em/obj object directory:
+                  1) added smdgf to the TT_LINK list
+                  2) removed ${EM_OBJ}smdgf.o${BJ}  \  from the link instructions
+                     for FVStt, FVSttc, FVSttb, and FVSttx
+

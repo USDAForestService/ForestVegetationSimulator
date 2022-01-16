@@ -1,0 +1,84 @@
+Subject: See List Below
+Name: R. Havis
+Date: March 3, 2008
+Variants affected: ALL
+
+Description:
+
+1) Added code to delete tree records with zero prob values as a result
+of previous cycle mortality, or those marked for deletion by other
+parts of the model.
+
+2) The SN variant default stand density values are based on Forest Type.
+When calculated Forest Type changes during a simulation, the Stand Density
+Index (SDIMAX) value is dynamically reset to a new default value
+based on the calculated Forest Type. The Stand density specified
+by the SDIMAX or BAMAX keywords does not change during a simulation. In the SN variant,
+when calculated Forest Type resets, and the BAMAX keyword was used, the calculated
+SDIMAX value was not adjusted to the proportion (default = 0.85) of the 
+theoretical maximum density at which the stand reaches actual maximum density.
+This has been corrected.
+
+3) Changed industry (701) to default to R5 rather than R6 for a default
+habitat type. This is for consistency with other parts of the model.
+
+4) Retired the Southeast variant from the production source code.
+
+5) Several report generation controlling variables were relocated to the
+MISCOM common block and became stand-specific variables in PPE (added to
+the put and get routines). This resolves a newly discovered issue in PPE
+simulations where the top 4 most dwarf mistletoe infected species were
+reselected during the simulation causing the table headings not to match
+the values in the columns.
+
+Impact on users: Obtain new executables
+
+Files:
+
+Retired SE variant deleting source code and references,
+renamed SECOM.F77 to SNCOM.F77 and completed this rename in the SN 
+source code and throughout the makefiles
+
+Changes to Mistletoe routines are described in changeNotes/2008.03.10_ldavid.txt
+
+
+./ak/obj/makefile
+./base/obj/makefile
+./base/src/cuts.f    - Added code to delete tree records with zero prob
+                       values as a result of previous cycle mortality,
+                       or those marked for deletion by other parts of the model.
+./base/src/initre.f
+./base/src/revise.f
+./bin/makefile
+./ca/obj/makefile
+./common/SNCOM.F77   - renamed routine - previously named SECOM.F77
+./cr/obj/makefile
+./cs/obj/makefile
+./cs_new/obj/makefile
+./fire/cs/obj/makefile
+./fire/ls/obj/makefile
+./fire/ne/obj/makefile
+./fire/sn/obj/makefile
+./fire/sn/src/fmcrow.f
+./ie/obj/makefile
+./ls/obj/makefile
+./ls_new/obj/makefile
+./mistoe/src/MISCOM.F77
+./mistoe/src/misinf.f
+./mistoe/src/misprt.f
+./mistoe/src/mistoe.f
+./mistoe/src/msppgt.f
+./mistoe/src/mspppt.f
+./ne/obj/makefile
+./ne_new/obj/makefile
+./sn/obj/makefile
+./sn/src/forkod.f
+./sn/src/grinit.f
+./sn/src/morts.f     - Applied factor PMSDIU/100. to elsment in SDIDEF array,
+                       not set by user, when Forest Code resets and user has input BAMAX
+./sn/src/sevlht.f
+./sn/src/sitset.f
+./sn/src/varvol.f
+./so33/obj/makefile
+./ut/obj/makefile
+./wc/obj/makefile

@@ -1,0 +1,16 @@
+?? refers to the variant abbreviation
+
+Base Serial Runs
+??test.key - these keyword files contain 4 test runs for a specific base variant
+??test.tre - input tree data for a specific base variant
+??test.rsp - response file for a specific base variant
+
+Climate Extension
+??test.rsp - response file for running FVS-Climate
+
+Parallel Processing Extension
+??pp.key - keyword file for running the parallel processing extension to FVS
+??pp.tre - input tree data file for running the parallel processing extension
+pp??test.rsp - response file for running the parallel processing extension
+??serial.key - keyword file for running the parallel processing extension in serial mode
+ser??test.rsp - response file for running the parallel processing extension in serial mode

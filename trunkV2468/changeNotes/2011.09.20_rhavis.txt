@@ -1,0 +1,29 @@
+Subject: Climate Model in Eastern Montana, and Western Sierra Variants
+Name: R. Havis
+Date: September 20, 2011
+Variants affected: AK, BM, CA, CI, CR, EC, EM, IE, KT, NC, NI, PN, SO, TT, UT, WC, WS
+
+Description:
+
+1) The Climate extensions for the EM and WS variants were not updated when
+   the variant species lists were expanded in May of 2011 (please see FVS Update
+   Bulletin No. 715). This has been corrected.
+
+2) Excessive tree heights were causing array storage overflow. This was corrected.
+   These trees are assigned zero volume, and an error code equal to 4.
+
+Impact on users: Users of the Eastern Montana, and Western Sierra climate extensions
+                 should obtain new executables. Users of western variants should obtain
+                 new executables.
+
+Files:
+./clim/em/obj - new directory
+./clim/ws/obj - new directory
+./clim/em/obj/makefile - new file with compile instructions for variant-specific climate objects
+./clim/ws/obj/makefile - new file with compile instructions for variant-specific climate objects
+./bin/makefile - added logic to compile and link variant-specific climate objects in
+                 FVSemc, and FVSwsc, cleaned up compile instructions in FVSwsc build
+./ak/src/varvol.f - changed commented write statements to debug write statements
+./volume/src/profile.f - added check for number of log segments to prevent array overflow,
+                         set volume to zero and return error code 4
+

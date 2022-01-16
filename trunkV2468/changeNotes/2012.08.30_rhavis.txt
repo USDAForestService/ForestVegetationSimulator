@@ -1,0 +1,26 @@
+Subject: Correction to Logic in CROWN Routines, added Numerical Error Trap to Volume Code
+Name: R. Havis, Nick Crookston, YingFang Wang
+Date: August 30, 2012
+Variants affected: CA, CR, CS, LS, NC, and NE
+
+Description:
+1) The variable (ICRFST) was used to control processing in the CROWN
+   routines but was not saved. The ICRFST variable was removed and the global
+   variable LSTART was employed to achieve the same purpose.
+
+2) Added logic to trap the condition where the number of logs in a tree exceeds
+   the number of elements in the LOGLEN array. When the number of logs in a tree
+   exceeds 20 segments, the volume of the tree is set to zero, and volume error
+   code No. 12 is returned to the calling routine.
+
+Impact on users: Users of Region 9 variants should obtain new executables.
+
+Files:
+
+./ca/src/crown.f - changed logic to use LSTART rather than ICRFST, and removed
+                   unused variables from declarations statements
+./cr/src/crown.f - changed logic to use LSTART rather than ICRFST
+./nc/src/crown.f - changed logic to use LSTART rather than ICRFST
+./volume/src/r9clark.f - added error flag variable in call to R9LOGS
+./volume/src/r9logs.f - added error flag variable to subroutine and call statements,
+                        added logic to trap potential array-out-of-bounds errors

@@ -1,0 +1,33 @@
+Subject: Revamping the two FVS-Organon variants for production use
+Name: Gary Dixon
+Date: 06/DD/15
+Variants affected: OC and OP
+
+Description: The OC and OP are variants incorporate the ORGANON growth model into FVS using the CA and PN
+variants, respectively, as the starting points. The OC variant incorporates the ORGANON Southwest Oregon model type;
+the OP variant the ORGANON Northwest Oregon and Stand Management Co-op model types. The resulting code is now being 
+revamped to eliminate errors, make available the full array of FVS keyword options, and revamp the code conform to 
+established code standards for ease of maintainence and updating.
+
+Impact on users: None
+
+Files:
+base/src
+     execon.f  added entry points for ecnget and ecnput
+  
+organon/src
+  ORGANON.F77  enhanced the description of INDS(11)
+     orgtab.f  changed date of revision; modified 342 FORMAT statement for bare ground planting
+
+oc/src
+     cratet.f  changed date of revision; added comment line 127 about skipping Organon section if this is a bare ground plant; 
+               added ITRN test at line 140 to skip Organon section if no trees
+     dgdriv.f  added setting of INDS(11)=1 to signify no overstory in a bare ground plant scenario to trigger setting of the
+               sdi self-thinning variables A1 and A2
+
+op/src
+     cratet.f  changed date of revision; added comment line 127 about skipping Organon section if this is a bare ground plant; 
+               added ITRN test at line 140 to skip Organon section if no trees
+     dgdriv.f  added setting of INDS(11)=1 to signify no overstory in a bare ground plant scenario to trigger setting of the
+               sdi self-thinning variables A1 and A2
+     sitset.f  changed date of revision; changed multiplier for 24=TO from 1.50 to 0.70 at line 179

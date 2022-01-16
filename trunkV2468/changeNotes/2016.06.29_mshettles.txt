@@ -1,0 +1,16 @@
+Subject: Default Behre's Hyperbola Form Factor Values
+Name: Mike Shettles
+Date: 6/29/2016
+Variants affected: OP, PN and WC
+
+Description: The calculated maximum diameter growth bound (DGMAX) was scaled so as 
+to be congruent with the timescale of DDS. DGMAX was being calculated based upon 
+the default of 10 years, whereas DDS is scaled based upon user defined time scales. 
+Differences in scaled diameter growth for larger trees were being nullified as a result.
+This difference was reconciled. 
+
+Impact on users: Diameter growth predicted for larger trees may change to be larger 
+than with previous executables for these three variants. 
+
+Modified File(s):
+branches/FMSCdev/wc/src/dgbnd.f

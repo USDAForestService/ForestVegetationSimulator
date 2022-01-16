@@ -1,0 +1,76 @@
+Subject: Rewrite of SDI-based mortality logic
+Name: Gary Dixon
+Date: 10/05/09
+Variants affected: AK, AN, BM, CA, CR, EC, EM, NC, SN, SO, SO33, TT, UT, WS,
+                   CS_NEW, LS_NEW, NE_NEW
+
+Description: Coding for the SDI-based mortality logic was improved to speed
+             up execution time, and correct other minor problems.
+
+Impact on users: User's may notice slight differences in projection results.
+
+Files:
+/fvs/common
+varcom.f77  -Changed the date of revision
+            -Eliminated variables LASTS and LASTE
+            
+/fvs/ppbase/src
+getstd.f77  -Changed the date of revision
+            -Eliminated variables LASTS and LASTE, and adjusted array dimensioning
+                 accordingly
+            
+putstd.f77  -Changed the date of revision
+            -Eliminated variables LASTS and LASTE, and adjusted array dimensioning
+                 accordingly
+            
+/fvs/xx/src where xx = AK, AN, BM, CA, CR, EM, LS_NEW, NC, SN, SO, SO33, TT, UT, WS
+morts.f     -Changed the date of revision
+            -Eliminated extra spaces in the debug write format dealing with
+                 "morts check diameters"
+            -Corrected the calculation of variable QMDNEW which is only used
+                 during debug for informational purposes
+            -Eliminated variables LASTS, LASTE, and IRESET
+            -Streamlined and corrected the logic when BAMAX is exceeded
+            
+/fvs/ls/src
+morts.f     -Changed the date of revision
+            -Eliminated variables LASTS and LASTE
+            
+/fvs/xx/src where xx = CA, CR, CS_NEW, EC, LS_NEW, NE_NEW, SN, WS
+varmrt.f    -Changed the date of revison
+            -Eliminated variables LASTS, LASTE, and IRESET
+            -Replaced logic with new geometric progression based logic
+
+/fvs/ak/src & /fvs/an/src
+seamrt.f    -Changed the date of revison
+            -Eliminated variables LASTS, LASTE, and IRESET
+            -Replaced logic with new geometric progression based logic
+
+/fvs/bm/src
+bmtmrt.f    -Changed the date of revison
+            -Eliminated variables LASTS, LASTE, and IRESET
+            -Replaced logic with new geometric progression based logic
+            -Corrected a problem with minimum efficiency values for trees lareger
+                  than 40" dbh
+
+/fvs/nc/src
+nwcmrt.f    -Changed the date of revison
+            -Eliminated variables LASTS, LASTE, and IRESET
+            -Replaced logic with new geometric progression based logic
+
+/fvs/so33/src & /fvs/so/src
+scomrt.f    -Changed the date of revison
+            -Eliminated variables LASTS, LASTE, and IRESET
+            -Replaced logic with new geometric progression based logic
+
+/fvs/tt/src
+ttmrt.f     -Changed the date of revison
+            -Changed the subroutine name from utmrt to ttmrt
+            -Eliminated variables LASTS, LASTE, and IRESET
+            -Replaced logic with new geometric progression based logic
+
+/fvs/ut/src
+utmrt.f     -Changed the date of revison
+            -Eliminated variables LASTS, LASTE, and IRESET
+            -Replaced logic with new geometric progression based logic
+

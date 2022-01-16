@@ -1,0 +1,25 @@
+Subject: VOLEQNUM Keyword
+Name: R. Havis
+Date: October 11, 2012
+Variants affected: BM, CA, EC, IE, NC, NI, PN, SO, and WC
+
+Description: Added 3 BLM volume equation numbers to the VOLEQNUM keyword
+             logic for R6 forests. Added Region 6 Behre volume equation
+             numbers to the VOLEQNUM keyword logic for BLM forests. A potential
+             problem using the Event Monitor with the PPE was corrected.
+
+Impact on users: Three additional BLM volume equations are available
+                 in R6 forests. Region 6 Behre volume equations are
+                 available in BLM forests. Users running the Event Monitor
+                 in the PPE should obtain a new executable.
+
+Files:
+./nc/src/varvol.f - added logic to call R6VOL / BLMVOL based on Vol. Eq. No.,
+                    and removed logic to call R6VOL / BLMVOL based on forest
+./pn/src/varvol.f - removed logic to call R6VOL / BLMVOL based on forest
+./wc/src/varvol.f - removed logic to call R6VOL / BLMVOL based on forest
+./volume/src/voleqdef.f - added the EQNUM array and do loop to explicitly
+                          verify BLM equation numbers in the R6_EQN subroutine, 
+                          and added logic to verify Region 6 Behre
+                          equation numbers in the R7_EQN subroutine
+./ppbase/src/chget.f - changed CHWRIT to CHREAD in Call statement at line 125

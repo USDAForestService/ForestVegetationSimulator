@@ -1,0 +1,91 @@
+Subject: Miscellaneous code corrections
+
+
+Name: Gary Dixon
+Date: 05/12/2009
+
+Variants affected: EM, SO, TT, UT
+
+Description: 1) An error trap to avoid potential alog(0) errors in the Johnson SBB
+                height growth logic was rewritten so it didn't interfere with height
+                growth estimates obtained from the equation (EM, SO, TT, and UT variants)
+             2) The estimated bark ratio for western juniper needed to be subject to
+                the bounds  .80 <= bark ratio <= 0.99 (SO variant)
+             3) There is no equation for limber pine mean annual increment, so a 
+                surrogate of whitebark pine was assigned (UT variant)
+             4) A variable in used during calibration for some species was undefined
+                and has been corrected (UT variant)
+             5) Source code contained in the SO source directory is used in other
+                variants. The compile and link instructions were changed to point to
+                the SO33 source directory instead of the SO source directory because the
+                SO33 source routines are IMPLICIT NONE compliant
+             6) Height dubbing for dead trees of western juniper, whitebark pine, and
+                quaking aspen in the SO variant was wrong (heights were set to a constant
+                4.5 feet regardless of diameter)
+             7) For species in the SO variant using surrogate equations from the WC variant,
+                the dummy variable associated with a managed stand was not being set for
+                establishment model trees, and the small tree diameter growth was not
+                being correctly set
+             8) For SO variant species other than SH, PP, or WO, height growth was not 
+                correctly set for trees taller than the maximum allowed for a species
+
+
+Impact on users: Users of the EM, SO, TT, and UT variants should obtain new executables.
+
+Files:
+em/src       htgf.f       changed the date of revison; revised the alog(0) error trap so it
+                          doesn't interfere with intended height growth estimates   
+so33/src     bratio.f     changed the date of revision; revised the code so western juniper
+                          bark ratio is now bounded between 0.80 and 0.99   
+so33/src     cratet.f     changed the date of revision; inserted code to bypass the call to
+                          subroutine htdbh for WJ, WB, and AS
+so33/src     essubh.f     changed the date of revision; moved the debug write outside the
+                          select - end select block so values will print regardless of species
+so33/src     htgf.f       changed the date of revison; revised the alog(0) error trap so it
+                          doesn't interfere with intended height growth estimates; revised the
+                          logic dealing with trees of advanced height; changed a GE test to a
+                          GT test when checking against max age
+so33/src     regent.f     changed the date of revision; set DDUM=1 if LESTB is true; added code
+                          to correctly set diameter growth for species from the WC variant 
+so33/src     scomrt.f     changed the date of revision; added a debug write statement to 
+                          facilitate debugging 
+tt/src       htgf.f       changed the date of revison; revised the alog(0) error trap so it
+                          doesn't interfere with intended height growth estimates   
+ut/src       cratet.f     changed the date of revison; inserted a call to subroutine AVHT40
+                          to compute the variable AVH (average height of the 40 largest diameter
+                          trees); added a debug write statement  
+ut/src       htgf.f       changed the date of revison; revised the alog(0) error trap so it
+                          doesn't interfere with intended height growth estimates ; added some
+                          debug write statements in the Johnson's SBB logic  
+ut/src       maical.f     changed the date of revision; changed the mean annual increment
+                          equation number for limber pine from 113 (which is not recognized
+                          by the mai calculation routine) to 101 whitebark pine; added a
+                          debug write statement when exiting the routine          
+ak/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+ca/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+cr/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+cs/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+cs_new/obj   makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+ie/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+ls/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+ls_new/obj   makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+ne/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+ne_new/obj   makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+sn/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+ut/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory; added compile instructions for subroutine
+                          AVHT40
+wc/obj       makefile     changed the SO_SRC pointer from the SO source code directory to the
+                          SO33 source code directory
+bin          makefile     added object AVHT40 to the UT object set

@@ -1,0 +1,35 @@
+Subject: code cleanup, coefficient correction, and SETSITE keyword enhancement
+
+Name: Gary Dixon
+Date: 03/27/09
+
+Variants affected: code cleanup  IE, UT
+                   coefficient correction IE
+                   SETSITE keyword enhancement: all variants
+
+Description: Deleted unused coefficients for Aspen (UT and IE), paper birch (IE), and mountain maple (IE).
+             These were in arrays DGFOR, DGDS, DGCASP, DGSASP, and DGSLOP, in subroutine DGF.
+             
+             Corrected the DGEL2 coefficient for paper birch from -0.000943 to 0.0 in subroutine DGF for
+             the IE variant.
+             
+             Redesigned the SETSITE keyword and added two new fields. The keyword now looks like this:
+             
+             field 1: year or cycle in which the parameter will be changed (default 1)
+             field 2: habitat type, plant association, or ecological unit (must be numeric; enter
+                      numeric sequence number for plant association or ecol unit) (default blank = no change)
+             field 3: basal area maximum (default blank = no change)
+             field 4: species code or species group name (default  All)
+             field 5: site index, or percent change in site index for the species indicated in
+                      field 4 (default  blank = no change)
+             field 6: site index flag. 0 or blank if the value in field 5 is a site index value; 1 if the
+                      value in field 5 is a percent change. (default  blank = site index value)
+             field 7: Stand Density Index (SDI) maximum for the species indicated in field 4.
+             
+
+Impact on users: No impact on UT users.  Very minor impact on IE users simulating paper birch.
+
+Files:   ut/src   dgf
+         ie/src   dgf
+       base/src   initre, grincr
+       

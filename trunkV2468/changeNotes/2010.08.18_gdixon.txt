@@ -1,0 +1,90 @@
+Subject: 1) Large tree diameter growth model scale factors
+         2) Species printing in Calibration Statistics Table
+
+Name: Gary Dixon
+Date: 08/18/2010
+
+Variants affected: 1) West Cascades (WC) and Pacific Northwest Coast (PN)
+                   2) All variants
+
+Description:
+1) Inconsistent results were being seen when using large tree diameter growth
+   multipliers entered with the READCORD keyword in the WC and PN variants.
+   Further investigation into this problem revealed that an incorrect array 
+   species index was being used in loading and accessing the constant term in
+   the large tree diameter growth model. This resulted in incorrect initial 
+   large tree diameter growth scale factors being computed for white fir, 
+   grand fir, incense-cedar, Engelmann/Sitka spruce, Jeffrey pine, sugar pine,
+   western white pine, ponderosa pine, coast redwood, white alder/Pacific madrone,
+   paper birch, giant chinkapin/tanoak, quaking aspen, black cottonwood, 
+   western juniper, subalpine larch, whitebark pine, knobcone pine, Pacific yew,
+   Pacific dogwood, hawthorn species, bitter cherry, willow species, and the
+   other species grouping. Growth projections involving these species when 
+   calibration of the large tree diameter growth model occurred, or when 
+   READCORD multipliers were entered, for these species are also incorrect.
+   This problem in the WC and PN variants has now been corrected.
+   
+2) When a single projection contained more than 11 species, the spacing of the
+   species codes printed in the Calibration Statistics Table did not match the
+   format used to print calibration values in all the western variants and in
+   the Southern variant. This has been corrected and the coding in all variants
+   has been standardized. Projections are not affected by this change.
+
+Impact on users: Users of the WC and PN variants should obtain a new executable
+                 as soon as possible. Users of all other variants can obtain a
+                 new executable at their convenience.
+
+Files:
+wc/src      dgf.f    changed the date of revision; changed in index when loading and
+                     accessing the DGCON()array from JSPC to ISPC
+            cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+pn/src      dgf.f    changed the date of revision; changed in index when loading and
+                     accessing the DGCON()array from JSPC to ISPC
+ak/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+an/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+bm/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+ca/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+ci/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+cr/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+cs/src      cratet.f changed the date of revision; changed the write 
+                     statements involving 9000 and 9001 formats
+cs_new/src  cratet.f changed the date of revision; changed the write 
+                     statements involving 9000 and 9001 formats
+ec/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+em/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+ie/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+kt/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+ls/src      cratet.f changed the date of revision; changed the write 
+                     statements involving 9000 and 9001 formats
+ls_new/src  cratet.f changed the date of revision; changed the write 
+                     statements involving 9000 and 9001 formats
+nc/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+ne/src      cratet.f changed the date of revision; changed the write 
+                     statements involving 9000 and 9001 formats
+ne_new/src  cratet.f changed the date of revision; changed the write 
+                     statements involving 9000 and 9001 formats
+ni/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+sn/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+so/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+tt/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+ut/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+ws/src      cratet.f changed the date of revision; changed the write and format 
+                     statements involving 9000 and 9001 formats
+

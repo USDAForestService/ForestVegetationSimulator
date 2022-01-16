@@ -1,0 +1,36 @@
+Subject: Changed Volume Code File Name Convention
+Name: R. Havis
+Date: February 8, 2012
+Variants affected: Southern Variant
+
+Description: The include files in the FVS volume source code used a mixture of 
+             file name extensions (.FOR, .inc, .INC), and a mixture of upper and
+             lower case characters in the include file names. This has been changed
+             so that all FVS volume source code include files have upper case file name
+             characters and use the same extension .INC. All file names
+             in include statements were modified to match the include file name
+             convention (i.e. all upper case). Additional code maintenance is
+             described in the following section.
+             
+Impact on users: None
+
+Files:
+
+./base/src/algkey.f -  The NUM variable was initialized, NUM=0.
+./common/includeSVN.f
+./dbs/src/dbsprssql.f -  The call to ALGKEY (line 98) and the call to EVLDX (line 101)
+                         each have 3 arguments. The corresponding ALGKEY and EVLDX routines
+                         each have 4 arguments. It looks like the argument IOPKD has been
+                         dropped from DBSPRSSQL but ALGKEY/EVLDX haven't been modified. 
+                         To correct this, the IRC variable was added to each argument list.
+                         The unused variable NUMSTR was deleted from the declarations.
+./sn/obj/makefile - added dependencies ARRAYS.F77 and OUTCOM.F77 to compile instructions for escprs.f 
+./volume/obj/makefile  - changed names of include files to upper case and extension .INC
+./volume/src/r8vol1.f - changed names of include files to extension .INC
+./volume/src/r8vol2.f - changed names of include files to extension .INC
+./volume/src/r9clark.f - changed names of include files to upper case and extension .INC
+./volume/src/R8DIB.FOR - deleted
+./volume/src/R8CLIST.FOR - renamed to R8CLIST.INC
+./volume/src/R8VLIST.FOR - renamed to R8VLIST.INC
+./volume/src/R8DIB.INC - removed declaration of I and J, these are previously declared
+./volume/src/r9coeff.inc - renamed to R9COEFF.INC

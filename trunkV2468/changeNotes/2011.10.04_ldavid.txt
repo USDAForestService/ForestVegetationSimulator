@@ -1,0 +1,62 @@
+Subject: I&D extensions (DFB, LP-MPB, WRD, GenDefol) updated for Central Idaho
+         variant species expansion.
+Name: Lance David
+Date: October 4, 2011
+Variants affected: CI
+
+Description:
+
+1) Douglas-fir Beetle Model updated for the CI species expansion.
+
+2) Lodgepole Mountain Pine Model updated for the CI species expansion.
+
+3) Western Root Disease Model updated for the CI species expansion.
+
+4) General Defoliation Model updated for the CI species expansion.
+
+Impact on users: Users of the CI variant with I&D extensions should obtain a
+                 new executable. Tree species that had previously been placed
+                 in the "other" group that are now represented will be affected
+                 when they had been ignored before. The new tree species and
+                 groups are: 
+                    whitebark pine
+                    Pacific yew
+                    quaking aspen
+                    Western juniper
+                    curlleaf mountain-mohogany
+                    limber pine
+                    black cotton wood
+                    other softwoods
+                    other hardwoods
+
+                 Even though some tree species now represented may not be host
+                 to a given insect or pathogen, their recognition and presence
+                 can alter the behavior of the models.
+
+Files:
+
+./lpmpb/src/mpblkdci.f - new file
+
+./dfb/src/dfblkdci.f   - new file
+./dfb/src/dfblkd.f     - comment modification
+./dfb/src/dfblkdbm.f   - comment modification
+./dfb/src/dfblkdcr.f   - comment modification
+./dfb/src/dfblkdec.f   - comment modification
+./dfb/src/dfblkdie.f   - comment modification
+./dfb/src/dfblkdpn.f   - comment modification
+./dfb/src/dfblkdtt.f   - comment modification
+
+./rd/src/rdblk1ci.f    - new file
+./rd/src/rdinci.f      - new file
+
+./wsbwe/src/bwebk.f    - comment designates NI variant only
+./wsbwe/src/bwebkci.f  - new file
+./wsbwe/src/bwebms.f   - comment designates NI variant only
+./wsbwe/src/bwebmsci.f - new file
+
+./bin/makefile         - new FVScix link instructions
+
+./ci/obj/makefile      - added compile instructions for I&D extensions
+
+./tt/obj/makefile      - removed unneeded DFB source file (dfbincr.f) from
+                         compile list

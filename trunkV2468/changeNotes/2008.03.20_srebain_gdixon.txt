@@ -1,0 +1,45 @@
+Subject: R5 site class update
+Name:  Stephanie Rebain and Gary Dixon
+Date:  03/20/2008
+Variants affected: WS, CA, NC, SO
+
+Description:
+Region 5 users may enter a Region 5 site class code, which is mapped to a certain
+site index value.  Originally only codes 0 - 5 were accepted, but this was expanded
+to include site classes 6 and 7.  Also, the site index assignments for each site
+class were modified to match other Region 5 applications as follows:
+
+Region 5      50-year      100-year
+site class   site index   site index
+0                106         140
+1                90          121
+2                75          102
+3                56          81
+4                49          67
+5                39          54
+6                31          44
+7                23          36
+
+Impact on users: Users in Region 5 will notice output differences and should
+obtain new executables.
+
+Modified Files:
+fire/ws/src/fmcba.f - updated code to allow for site codes 6 and 7
+fire/nc/src/fmcba.f - updated code to allow for site codes 6 and 7
+fire/ca/src/fmcba.f - updated code to allow for site codes 6 and 7
+nc/src/dunn.f - updated code to allow for site codes 6 and 7;
+                adjusted the site index values associated with each site code
+ws/src/dunn.f - updated code to allow for site codes 6 and 7;
+                adjusted the site index values associated with each site code
+ca/src/dunn.f - updated code to allow for site codes 6 and 7;
+                adjusted the site index values associated with each site code
+so/src/dunn.f - updated code to allow for site codes 6 and 7;
+                adjusted the site index values associated with each site code
+so33/src/dunn.f - updated code to allow for site codes 6 and 7;
+                adjusted the site index values associated with each site code
+dbs/src/dbsstandin.f - updated code to allow for site codes 6 and 7
+ca/src/htgf.f - corrected the mapping of site index back to a site code
+so33/src/htgf.f - corrected the mapping of site index back to a site code
+ca/src/findag.f - modified to account for new site code values
+so33/src/findag.f - modified to account for new site code values
+base/src/initre.f - corrected processing of site codes so 6 and 7 are valid

@@ -1,0 +1,30 @@
+Subject: Misc, Updates and Corrections
+Name: R. Havis
+Date: January 22, 2014
+Variants affected: ALL
+
+Description: 
+
+1) PN and WC (BLM forests): A coefficient in the volume equation for
+   hemlock (B00BEHW260) in was corrected in the BLM Behre's function.
+   Refer to Volume Library Bulletin No. VO161_010613.txt
+   
+2) All variants: There was a problem in writing large lists of variables
+   to the FVS_Compute Table. The maximum size for the list of variables
+   was increased to correct this issue.
+   
+3) CS and LS variants: The incorrect species list was being used in small tree height
+   calculations. Therefore, while small trees were getting height
+   increments added each cycle, the increments may not have been
+   representative of the correct species.  
+
+4) CR variant: The first record in the main output file did not identify the
+               FVS variant used in the simulation. The "Central Rockies" variant
+               was added to the first record in the main output file.
+
+
+Impact on users: BLM users should obtain new executables. Users of the
+                 FVS_Compute database table should obtain new executables.
+                 CS, and LS users should obtain new executables
+
+Files:

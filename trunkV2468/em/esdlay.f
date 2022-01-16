@@ -1,0 +1,206 @@
+      SUBROUTINE ESDLAY (ISPE,IAS,DRAW,DELAY)
+      IMPLICIT NONE
+C----------
+C EM $Id: esdlay.f 0000 2018-02-14 00:00:00Z gedixon $
+C
+C     CONTAINS WEIBULL MAXIMUM LIKLIHOOD FUNCTIONS FOR DETERMINING
+C     THE NUMBER OF YEARS BETWEEN LAST PLOT DISTURBANCE AND
+C     GERMINATION OF BEST TREES.
+C----------
+C
+COMMONS
+C
+C
+      INCLUDE 'PRGPRM.F77'
+C
+C
+      INCLUDE 'ESPARM.F77'
+C
+C
+      INCLUDE 'ESCOMN.F77'
+C
+C
+      INCLUDE 'ESCOM2.F77'
+C
+C
+COMMONS
+C----------
+C
+      REAL BSUB(3,MAXSP),CSUB(3,MAXSP),BBW(3,4),CBW(3,4),
+     &  BADV(2,MAXSP),CADV(2,MAXSP),BBW1(2,4),CBW1(2,4),BBW2(2,4),
+     &  CBW2(2,4)
+      REAL DELAY,DRAW,BB,CC
+      INTEGER IAS,ISPE,IT,IBW,IB,IBAA,I
+C----------
+C  SPECIES ORDER:
+C   1=WB,  2=WL,  3=DF,  4=LM,  5=LL,  6=RM,  7=LP,  8=ES,
+C   9=AF, 10=PP, 11=GA, 12=AS, 13=CW, 14=BA, 15=PW, 16=NC,
+C  17=PB, 18=OS, 19=OH
+C
+C  SPECIES EXPANSION
+C  LM USES IE LM (ORIGINALLY FROM TT VARIANT)
+C  LL USES IE AF (ORIGINALLY FROM NI VARIANT)
+C  RM USES IE JU (ORIGINALLY FROM UT VARIANT)
+C  AS,PB USE IE AS (ORIGINALLY FROM UT VARIANT)
+C  GA,CW,BA,PW,NC,OH USE IE CO (ORIGINALLY FROM CR VARIANT)
+C----------
+C
+C     PLOT AGE (YRS): 2 THRU 7   8 THRU 12   13 THRU 20
+C
+      DATA BSUB/      3.52946,   7.62339,    12.79801,
+     2                5.23792,   7.38005,    10.42350,
+     3                4.34376,   6.55916,     9.16226,
+     4                     0.,        0.,          0.,
+     9                3.45725,   6.34975,     8.65545,
+     6                     0.,        0.,          0.,
+     7                5.33757,   6.78727,     9.45827,
+     8                5.36466,   7.44468,     9.69507,
+     9                3.45725,   6.34975,     8.65545,
+     O                3.81610,   5.74622,     9.36345,
+     &                 21*0.0,
+     A                4.33094,   6.30802,     8.63060,
+     &                  3*0.0/
+      DATA BBW/       4.01218,   5.86172,    10.61297,
+     4                3.67409,   6.12256,     8.74195,
+     8                5.92251,   8.62548,     8.76074,
+     9                4.11555,   6.19124,     8.82962/
+C
+C     PLOT AGE (YRS): 3 THRU 7   8 THRU 12   13 THRU 20
+C
+      DATA CSUB/      1.71621,   2.72466,     3.98359,
+     2                3.11598,   3.04038,     2.87196,
+     3                2.33194,   2.63560,     2.21663,
+     4                     0.,        0.,          0.,
+     9                2.06804,   2.79933,     2.28687,
+     6                     0.,        0.,          0.,
+     7                4.16994,   3.59937,     2.39138,
+     8                2.89777,   2.80504,     3.27745,
+     9                2.06804,   2.79933,     2.28687,
+     O                3.01975,   2.09376,     1.80925,
+     &                  21*0.,
+     A                1.97408,   2.35053,     2.00997,
+     &                    3*0./
+      DATA CBW/       2.16561,   2.16010,     2.44953,
+     4                2.19139,   2.38522,     2.03146,
+     8                3.31325,   5.21269,     2.30270,
+     9                1.98007,   2.84149,     2.46665/
+C
+C     OVERSTORY BA:  0 TO 25  26+ SQ.FT./A.
+C     NO BUDWORM BEFORE HARVEST
+C
+      DATA BADV/    6.699826, 13.431179,
+     2              9.768223, 27.100242,
+     3             13.121021, 22.186540,
+     4                    0.,        0.,
+     9             21.962337, 32.176727,
+     6                    0.,        0.,
+     7              7.358880, 32.955809,
+     8             13.990273, 21.779362,
+     9             21.962337, 32.176727,
+     O              8.986115, 10.312660,
+     &                 14*0.,
+     A             13.604594, 19.605485,
+     &                 2*0.0/
+C
+C     BUDWORM 1-3 YEARS BEFORE HARVEST
+C
+      DATA BBW1/   16.856252, 18.601097,
+     4             11.393035, 19.994331,
+     8              8.388204, 18.023409,
+     9             20.207660, 30.052681/
+C
+C     BUDWORM 4-5 YEARS BEFORE HARVEST
+C
+      DATA BBW2/   18.833076, 17.660965,
+     4             16.154050, 13.936793,
+     8             10.587442, 16.554662,
+     9             25.512363, 20.555202/
+C
+C     NO BUDWORM BEFORE HARVEST
+C
+      DATA CADV/    1.262533,  1.279302,
+     2              1.152577,  1.319692,
+     3              1.043254,  1.215651,
+     4                    0.,        0.,
+     9              1.101266,  1.317022,
+     6                    0.,        0.,
+     7              0.912295,  1.230540,
+     8              1.051296,  1.416222,
+     9              1.101266,  1.317022,
+     O              1.068472,  1.470405,
+     &                 14*0.,
+     A              1.267057,  1.287445,
+     &                 2*1.0/
+C
+C     BUDWORM 1-3 YEARS BEFORE HARVEST
+C
+      DATA CBW1/    1.165449,  1.182513,
+     4              1.137030,  1.355774,
+     8              1.332778,  1.502281,
+     9              1.660504,  1.832537/
+C
+C     BUDWORM 4-5 YEARS BEFORE HARVEST
+C
+      DATA CBW2/    1.307195,  1.938481,
+     4              1.330297,  1.311782,
+     8              1.470496,  1.207402,
+     9              1.871949,  1.248784/
+C
+      IT=1
+      IF(TIME.GT.7.5.AND.TIME.LT.12.5) IT=2
+      IF(TIME.GT.12.5) IT=3
+      IBW=INT(BWB4+BWAF+0.5)
+      IB=1
+      IF(IBW.GT.2) IB=2
+      IBAA=1
+      IF(BAA.GT.25.5) IBAA=2
+      IF(IAS.EQ.2) GO TO 20
+C
+C     ADVANCED REGENERATION
+C
+      BB=BADV(IBAA,ISPE)
+      CC=CADV(IBAA,ISPE)
+      IF(BWB4.LT.0.5) GO TO 40
+      IF(ISPE.NE.3 .AND. ISPE.NE.8 .AND. ISPE.NE.9)
+     &  GO TO 40
+      IF(ISPE.EQ.3) I=1
+      IF(ISPE.EQ.8) I=3
+      IF(ISPE.EQ.9) I=4
+      IF(BWB4.GT.3.5) GO TO 45
+      BB=BBW1(IBAA,I)
+      CC=CBW1(IBAA,I)
+      GO TO 40
+   45 CONTINUE
+      BB=BBW2(IBAA,I)
+      CC=CBW2(IBAA,I)
+   40 CONTINUE
+      DELAY=((-(ALOG(1.0-DRAW)))**(1.0/CC))*BB
+      DELAY= (DELAY+3.0) *(-1.0)
+      GO TO 50
+   20 CONTINUE
+C
+C     SUBSEQUENT REGENERATION
+C
+      BB=BSUB(IT,ISPE)
+      CC=CSUB(IT,ISPE)
+      IF(IB.NE.2) GO TO 30
+      IF(ISPE.NE.3 .AND. ISPE.NE.8 .AND. ISPE.NE.9)
+     &  GO TO 30
+      IF(ISPE.EQ.3) I=1
+      IF(ISPE.EQ.8) I=3
+      IF(ISPE.EQ.9) I=4
+      BB=BBW(IT,I)
+      CC=CBW(IT,I)
+   30 CONTINUE
+      DELAY=((-(ALOG(1.0-DRAW)))**(1.0/CC))*BB
+      DELAY=DELAY-4.0
+   50 CONTINUE
+C
+      IF(DELAY .GE. 10.)THEN
+        DELAY=10.
+      ELSEIF(DELAY .LE. 0.)THEN
+        DELAY=0.
+      ENDIF
+C
+      RETURN
+      END

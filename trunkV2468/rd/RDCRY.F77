@@ -1,0 +1,12 @@
+CODE SEGMENT RDCRY
+C----------
+C  **RDCRY       LAST REVISION:  08/19/14
+C---------
+      REAL   CRNSTO(ITOTRR,2,5), PROBIN(ITOTRR,2,5)
+
+      COMMON /RDCRY/ PROBIN, CRNSTO
+C
+C     PROBIN  --
+C     CRNSTO  --
+C
+C-----END SEGMENT

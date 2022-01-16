@@ -1,0 +1,78 @@
+Subject: FIA and alpha species codes
+Name: Gary Dixon
+Date: 01/12/04
+Variants affected: AK, CA, CR, EM, IE, KT, NC, NI, PN, WC, WS, CS, LS, NE, SE
+
+Description: Historically, we used FIA codes 001 for other softwoods, and 004 for other hardwoods.
+This followed some reporting standards established by the FS years ago. About a year, or so, ago
+Don Vandendriesche asked Bob Havis to change the 001 to 290 and 004 to 990 so his FVSSTAND program 
+would sort the other softwoods to the bottom of all softwoods, and other hardwoods to the bottom
+of all hardwoods. The change was made to most variants but not all, and without consulting the 
+latest FIA code list, and without first checking to see if the 001 and 004 were standard codes for
+these categories or not. FIA now says these codes were for reporting convience and are no longer
+used. However 990 is the code for Arizona-ironwood. To accomodate both current FIA coding and to
+accomodate FVSSTAND, I have made the following changes.
+1. Changed FIA code 990 to 998 for "other live hardwood". Code 998 is not currently used by FIA
+and code 999 is used for their "unknown dead hardwood" category. In FVS we currently use 999 for 
+"Other (OT)" which is still a conflict, but I didn't change this as yet. The best solution to this
+would be to make sure each variant had an other softwood and other hardwood category rather than 
+just an "other" category.
+2. Changed FIA code 290 to 298 for "other live softwood". Code 298 is not currently used by FIA
+and code 299 is used for their "unknown dead softwood" category.
+
+While examining current FIA codes and alpha codes, I also corrected some inconsistencies:
+3. In the CA variant, I changed FIA code 330 to 333 for California buckeye
+4. In the IE variant, I changed FIA code 106 to 133 for single-leaf pinyon
+5. In the PN and WC variants, I changed FIA code 376 to 375 for paper birch, and 060 to 064 
+   for western juniper.
+6. In the CS variant, I changed the alpha code CW to EC for eastern cottonwood; the FIA code 410
+   to -13 (the negative Dennis Donnelly established to signify this species category is not a
+   recognized FIA species category); the alpha code HB to HK for hackberry.
+7. In the LS variant, I changed the alpha code CW to EC for eastern cottonwood; the alpha code HB
+   to HK for hackberry; the FIA code 766 to 760 for plum; the FIA code 993 to -14 for Other
+   Commercial Hardwoods.
+8. In the NE variant, I changed the alpha code HB to HK for hackberry; the FIA code 830 to 809 for
+   Northern Pin Oak.
+9. In the SE variant, I changed the alpha code MP to MA for American Mtn Ash; the FIA code 490 to
+   491 for dogwood; the FIA code 462 to 460 for hackberry; the FIA code 652 to 650 for magnolia;
+   the FIA code 310 to 935 for American Mtn Ash.
+   
+10. I changed /ls/src/spctrn.f to accomodate the above changes. However, this routine needs to be 
+    totally rewritten to be in sync with the current FIA code list. This is underway, and the existing
+    routine will suffice until that work is done. 
+11. I changed /ni/src/spctrn.f to be the basis for an all-western variant species translation routine.
+    Thus eliminating /ie/src/spctrn.f. This routine will now provide the basis for better translation
+    of FIA codes to an appropriate category for each variant. This part of the work has not been done
+    as yet, but will be done in the future. However, as a result of these changes, the variants will 
+    now recognize the one- and two-character alpha designations for the same species where those still
+    exist (L and WL for western larch, S and ES for Engelmann spruce; C and RC for cedar, J and JU for 
+    juniper, OS and OC for other conifer (WS variant). 
+    
+    Accordingly, I changed the IE compile macro to now use ni/src/spctrn.f and changed the link macros
+    so the routine order is consistent with coding standards.
+12. I changed the /base/src/stkval.f routine to recognize 298 instead of 290 and 998 instead of 990.
+13. I changed the /base/src/revise.f routine to update the date on affected variants.
+
+
+Impact on users: See notes above
+
+Files:
+Summary of changed routines:
+/base/src  stkval.f revise.f
+/ak/src    blkdat.f
+/ca/src    blkdat.f
+/cr/src    blkdat.f
+/ie/src    blkdat.f
+/ie/obj    makefile
+/nc/src    blkdat.f
+/ni/src    spctrn.f
+/pn/src    blkdat.f
+/wc/src    blkdat.f
+/ws/src    blkdat.f
+/cs/src    blkdat.f
+/ls/src    blkdat.f spctrn.f
+/ne/src    blkdat.f
+/se/src    blkdat.f
+/fvs/bin   makefile
+deleted    /ie/src/spctrn.f
+

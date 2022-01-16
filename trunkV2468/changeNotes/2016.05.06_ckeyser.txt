@@ -1,0 +1,20 @@
+Subject: Tree age added to output database treelists
+Name: C. Keyser
+Date: May 6, 2016
+Variants affected: ALL
+
+Description: Tree Age (TreeAge) has been added to the following database extension
+             output tables: FVS_TreeList, FVS_CutList, and FVS_ATRTList.   
+
+Impact on users: If a user supplies tree age with input data, FVS will populate the 
+                 TreeAge field in database extension output tables with tree age; 
+                 otherwise, reported TreeAge will be 0. 
+
+Files:
+base\src\intree.f
+base\src\triple.f
+common\ARRAYS.F77
+dbs\src\dbsatrtls.f
+dbs\src\dbscuts.f
+dbs\src\dbstreesin.f
+dbs\src\dbstrls.f

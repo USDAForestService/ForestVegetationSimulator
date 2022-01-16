@@ -1,0 +1,102 @@
+Subject: 1)CA fire model code
+         2)Miscellaneous changes to expanded WS variant
+         3)CA crown width
+         
+Name: Gary Dixon
+Date: 05/09/11
+
+Variants affected: 1) CA
+                   2) New (43 species) WS
+
+Description: 1) Comment lines and debug output labels in the code were corrected.
+             2) a. Correction to comments in subroutine FMCFMD
+                b. Correction to computation of variable DCYMLT for species with a 100-yr
+                   base age (GB and MC) in subroutine FMCBA
+                c. Adjustment to the default site index assignment for bristlecone pine (GB)
+                   and curlleaf mountain-mahogany (MC)
+                d. Adjustment to the default site index assignments from a Dunning site code 
+                   for LO, CY, BL, BO, VO, IO, TO, GC, AS, CL, MA, DG, and BM.
+                e. Corrected a problem with the latitude index when latitude is entered with
+                   a decimal fraction. This affects a parameter in both the large tree diameter
+                   growth and large tree height growth equations.
+                f. Changed site equation for SP, DF, WF, GS, IC, JP, PP, WP, SF, MP, BD, RW, MH,
+                   and OS from King to Dunning.
+                g. Changed site equation for LO, CY, BL, BO, VO, IO, TO, GC, AS, CL, MA, DG, BM,
+                   and OH from King to Powers.
+                h. Changed surrogate species for singleleaf pinyon (PM) from Jeffrey pine to
+                   knobcone pine.
+                i. Additional crown width equations were inserted for BD, CL, RW, C, GP, LO, and VO.
+             3) Additional crown width equations were added for Coulter pine, Digger/Gray pine,
+                coast live oak, and California white/valley oak. Crown width estimates for these
+                species are now consistent with R5 FIAS estimates.
+
+Impact on users: Users of the CA and WS variants should obtain a new executable.
+
+                 Specific impact of the changes noted above:
+                 1) None
+                 2) a. None
+                    b. Corrects the decay rate modifier for GB and MC
+                    c. Corrects a problem with the default site index assignment for GB and MC
+                       when a site species and site index (other than Dunning) is specified
+                       by the user.
+                    d. Adjusts default site index assignments to R5 specifications.
+                    e. Corrects a problem with the WS latitude parameter in large tree diameter 
+                       and height growth. This was also a problem in the 11 species version of
+                       the WS variant. Users of the WS variant should obtain a new executable
+                       as a result of this change.
+                    f-i. Changes requested by the Regional Office. Users of the WS variant should
+                       obtain a new executable as a result of these changes.
+                 3) Users of the CA variant should obtain a new executable.
+
+Files:
+fire/ca/src   fmcfmd.f  changed date of revision; changed the fourth and fifth elements of array
+                        FTLABL from WW and WE, to WE and WW, respectively (i.e. they were reversed);
+                        changed the comments at lines 80 and 98 in the same way. Now they match what 
+                        is shown for row labels for arrays FMD_R5 and FMD_R6.
+                        
+fire/ws/src   fmcfmd.f  changed date of revision; changed the comment for row 7 of array CWHRFMD from
+                        Jeffrey pine to giant sequoia; changed the comment for row 8 of array CWHRFMD
+                        from giant sequoia to Jeffrey pine (i.e. they were reversed). Now they match
+                        what is shown for row labels and variable assignments elsewhere in the routine.
+                        
+fire/ws/src   fmcba.f   changed date of revision; added code so if the site species is GB or MC,
+                        then the 50-year site value for RF is used to get the correct decay rate modifiers
+                        based on the Dunning 50-year breakpoints.
+                        
+ws/src        dgf.f     changed date of revision; added ITLAT variable, set it in DGCONS, and used it
+                        in place of TLAT in the conditionals for cases where latitude is entered with
+                        decimal point fractions.
+                        
+              dunn.f    changed date of revision; modified the species specific adjustment factors for 
+                        assigning default site index values per Joe Sherlock's note 4/28/11.          
+
+              htcalc.f  changed date of revision; changed SP, DF, WF, GS, IC, JP, PP, WP, PM, SF, MP,
+                        BD, RW, MH, and OS to use a Dunning site curve instead of King; changed LO, CY,
+                        BL, BO, VO, IO, TO, GC, AS, CL, MA, DG, BM, and OH to use a Powers site curve
+                        instead of King.
+                        
+              htgf.f    changed date of revision; added ITLAT variable, set it in HTCONS, and used it
+                        in place of TLAT in the conditionals for cases where latitude is entered with
+                        decimal point fractions. Replaced TLAT with ITLAT in a debug write statement.
+                        Moved section of code saving pointers to small bristlecone pine trees inside
+                        the bristlecone pine select case logic.
+                        
+              r5crwd.f  changed date of revision; added equations for bigcone Douglas-fir, California
+                        bay laurel, redwood, Coulter pine, Digger (Gray) pine, coast live oak, and 
+                        California white (valley) oak. Modified the species mapping functions for
+                        the CA and expanded WS variants to use these added equations.
+                        
+              sitset.f  changed date of revision; added code to set default GB and MC site index values
+                        using the proportion of the red fir site index to its possible range. 
+                        
+              In the following ws/src routines, the date of revision was changed, the comment regarding
+              surrogate species assignments was modified to show singleleaf pinyon using knobcone pine
+              from the CA variant instead of Jeffrey pine from the WS variant, and the parameters
+              associated with singleleaf pinyon were switched from using Jeffrey pine as the surrogate
+              species to using knobcone pine as the surrogate species:
+              blkdat.f  bfvol.f   bratio.f  ccfcal.f  cratet.f  crown.f   cubrds.f  dgbnd.f   dgdriv.f
+              dgf.f     dubscr.f  dunn.f    essubh.f  findag.f  grinit.f  htcalc.f  htdbh.f   htgf.f
+              logs.f    morts.f   r5crwd.f  regent.f  sichg.f   sitset.f  smhtgf.f  varmrt.f  varvol.f
+              covr/src/cvcbms.f   covr/src/cvshap.f
+                        
+                        

@@ -1,0 +1,64 @@
+Subject: Expansion of the CR variant from 24 species to 38 species
+
+
+Name: Gary Dixon
+Date: 07/06/09
+
+Variants affected: Central Rockies
+
+Description: At the request of Regions 2 and 3, the Central Rockies variant
+             was expanded from recognizing 24 species to recognizing 38 species.
+
+
+Impact on users: No impact on growth projections for the current 24 species. 
+                 However, users wanting to take advantage of the expanded species
+                 list should obtain a new variant executable.
+
+Files:
+cr/common    PRGPRM.F77   changed the date of revision; changed MAXSP from 24 to 38         
+             ESCOMN.F77   changed the date of revision; corrected IFORST from 20 to 23;
+                          corrected OCURNF from (20,MAXSP) to (23,MAXSP)
+             ESPARM.F77   changed the date of revision; changed NSPSPE from 3 to 11
+             
+the following variant specific files changed to accomodate the species expansion:
+cr/src       blkdat.f
+             bratio.f
+             ccfcal.f
+             cubrds.f
+             dubscr.f
+             essubh.f
+             esuckr.f
+             fndag.f
+             gemcr.f
+             gemdg.f
+             gemht.f
+             htgf.f
+             maical.f
+             morts.f
+             regent.f
+             sitset.f
+             varmrt.f
+             varvol.f
+             
+ni/src       cwcalc.f
+             spctrn.f
+             
+mistoe/src   misintcr.f
+
+covr/src     cvcbms.f
+             cvshap.f
+             cvbrow.f  note: I fixed a forest mapping problem in this routine.
+                       changed the date of revision; added VVER, set forest
+                       default to the Boise/Payette for cover computation when
+                       the extension is being used outside the range for which
+                       it is calibrated.
+                       
+fire/cr/src  fmbrkt.f
+             fmcba.f
+             fmcblk.f
+             fmcrow.f
+             fmvinit.f
+             
+fire/base/src fmsnag.f
+
+volume/src   voleqdef.f

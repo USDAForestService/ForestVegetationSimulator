@@ -1,0 +1,38 @@
+Subject: ECON Extension Updates
+Name: F. Martin, E. Crosland
+Date: September 21, 2011
+Variants affected: ALL
+
+Description: Two new Event Monitor variables have been added to the Economic
+             Extension (ECON). These variables represent the cubic foot and
+             board foot harvest volumes that ECON valued. Depending on ECON keywords,
+             these variable values may be substantially different from the harvest
+             amounts listed elsewhere by FVS, e.g., some harvest volume may have
+             no economic value because log sizes or species were not saleable. 
+             
+             ECCUFT    cubic feet valued by ECON
+             ECBDFT    board feet valued by ECON
+
+
+Impact on users: Uses of the ECON extension should obtain a new executable.
+
+Files:
+common/OPCOM.F77
+     - 8: Increased the value of MXTST4 (max category 4 variables) by two, to make room for our new variables.
+
+base/src/algkey.f
+     - 22:      Increased the value of N6 by two in order to accommodate our two new Event Monitor variables.
+     - 193-194: Added mention of our new variables to the comment text.
+     - 284;288: Added references to our new variables.
+     - 310:     Added a comma to the end of the line, for consistency's sake.
+
+base/src/evtstv.f
+     193-194: Added mention of our new variables to the comment text.
+
+econ/src/eccalc.f
+     - 8:       Corrected a typo in the comment text.
+     - 12-13:   Added a comment describing recent changes.
+     - 44-45:   Defined symbolic constants to represent our new variables.
+     - 82;86:   Extended the "reset" code (and comment) so that it also resets our new variables.
+     - 209:     Simplified conditional logic.
+     - 697-905: Refactored computations (see comment on line 12).

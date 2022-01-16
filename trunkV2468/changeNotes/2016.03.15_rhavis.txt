@@ -1,0 +1,16 @@
+Subject: COde Maintenance
+Name: R. Havis
+Date: March 15, 2016
+Variants affected: None
+
+Description:
+
+1) Deleted unused files in the sn directory sn/common/R8DIB.F77 and sn/src/sevlht.f
+2) moved mistoe/src/MISCOM.F77 to fvs/common
+3) moved organon/src/ORGANON.F77 to fvs/common
+4) moved dbs/src/DBSCOM.F77 to fvs/common
+5) edited variant sourceList files
+
+Impact on users: none
+
+Files:

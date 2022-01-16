@@ -1,0 +1,116 @@
+Subject: Add a check/restart capability to FVS
+Name: Nick Crookston
+Date: November 1, 2011
+Variants affected: Only the ie variant is currently working (program FVSiec)
+
+Description: Added the capability to stop FVS midway through its simulation
+and restart it.
+
+Impact on users: None if they don't use the capability
+
+Files:  
+  fvsSQL.c -- provides Fortran access to ODBC functions
+  DBSTYPEDEFS.F77 -- provides for ODBC types and controlling functions.
+
+  base/src/genrpt.f
+  base/src/main.f
+  bin/FC.make (and the windows version in the future)
+  bin/makefile -- add compile and link for FVSiec
+  pg -- added directory for "putget" extension 
+  pg/obj -- added object directory (all object files will be considered variant-dependent
+  pg/obj/ie -- added object for ie 
+  pg/obj/ie/makefile -- make for ie
+  pg/src -- added source directory with these routines which are modified 
+            from the PPE or new
+  pg/src/chget.f
+  pg/src/chput.f
+  pg/src/cvget.f
+  pg/src/cvput.f
+  pg/src/ecnget.f
+  pg/src/ecnput.f
+  pg/src/fmppget.f
+  pg/src/fmpphv.f
+  pg/src/fmpput.f
+  pg/src/getstd.f
+  pg/src/pgcmdline.f
+  pg/src/PUTGET.inc
+  pg/src/putgetsubs.f
+  pg/src/putstd.f
+  pg/src/stash.f
+  
+Overview:
+
+The ability to run FVS for a period of time, say 1 cycle, stop the program and 
+then pick up where it left off has been a need for landscape simulations for 
+several decades. The PPE was originally designed to do that job but it really 
+does not allow for the kind of interoperability with other software that is 
+needed.  This document describes a "checkpoint" and "restart" capability in the 
+base FVS program that will allow the necessary functionality. I intend that this 
+capability can meet the landscape simulation needs of the "fire" decision 
+support system and those of BC.
+
+How it works
+
+1. The checkpoint data is a copy of the storage associated with all the stands 
+in a given simulation. It is created in an unformatted sequential binary file 
+where each stand is stored in the order of processing. Note that many instances 
+of FVS could create many files.  Rather than using a binary file, two different 
+approaches may be added at a later date: one option would use a database to hold 
+the data and in another, a pointer to a memory area would be passed to FVS and 
+the data would be stored there. 
+
+2. The checkpoint actions are controlled by command-line options, not by FVS 
+keywords. The content of the keyword file is not altered in any way. The options 
+include:
+
+  a) The name of the checkpoint file, it is opened in "replace" mode for output 
+only.
+
+  b) A code indicating the point within an FVS cycle where the checkpoint is 
+taken. Only one point is allowed. These codes are: 1: prior to "cuts", 2: just 
+after "cuts", 3: after growth is computed but before it is added to the trees.
+
+  c) The year of the simulation when the checkpoint is processed; only one is 
+allowed. The program translates this year into a cycle number corresponding to 
+the cycle when the checkpoint is processed.
+
+3. Like the checkpoint actions, the restart actions are controlled by a single 
+command-line option. It is the file name of the checkpoint file. This file is 
+read in sequence, it includes the checkpoint code, and for each stand the 
+program first loads the memory areas and then jumps to the point in the code 
+where the checkpoint was taken and resumes processing.
+
+4. The checkpoint and restart options are completely independent of each other 
+and cannot use the same file. If the database method is added, they might use 
+the same database table.
+
+5. Processes controlling FVS simulations can "stop" between checkpoint and 
+restart allowing other processes to run.
+
+FVS Output Processing
+
+When using the checkpoint/restart facility, the standard FVS reports are not 
+correctly built. However, the database extension features work and the FVS_Cases 
+table is correctly updated. FVS output processing needs additional close 
+attention but it seems clear that it can be completely worked out without 
+removing our core functionality. Likely this would be achieved by greater use of 
+databases (perhaps SQLite3 by default).
+
+Examples:
+
+Assume that you have set up a simulation (.key file) that runs past year 2060:
+
+To create a check point at year 2020 (using checkpoint code 1=prior to cuts):
+FVSiec --checkpoint=1,2020,checkpoint.output
+
+To restart using the check point:
+FVSiec --restart=checkpoint.output
+
+To do both (first rename the the output file from the preceding step):
+rename checkpoint.output checkpoint.input
+FVSiec --restart=checkpoint.input --checkpoint=1,2040,checkpoint.output
+
+To finish the preceding simulation:
+FVSiec --restart=checkpoint.output
+
+

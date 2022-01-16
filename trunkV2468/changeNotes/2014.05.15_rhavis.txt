@@ -1,0 +1,19 @@
+Subject: BF Volume Methods in CS, LS, and NE Variants
+Name: R. Havis
+Date: May 15, 2014
+
+Variants affected: CS, LS, and NE
+
+Description:
+
+LS variant: All of the National Forests in Region 9 (CS, LS and NE variants)
+            were using the Gross Scribner Board Foot volume calculation
+            method. This was changed so that the Chequamegon, Chippewa,
+            Nicolet, Ottawa, Superior, Hiawatha, and Chequamegon-Nicolet
+            National Forests in the LS variant use the Gross Scribner 
+            Board Foot volume method and all other National Forests in
+            Region 9 use the International 1/4 inch rule.
+
+Impact on users: Region 9 users should get new executables.
+
+Files:

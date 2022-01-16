@@ -1,0 +1,42 @@
+Subject: General Defoliation Model (aka Western Spruce Budworm) output formats
+
+
+Name: Lance David
+Date: 06/12/2009
+
+Variants affected: BM, CI, EC, EM, NI, SO, TT
+
+Description: Optional output tables available from the General Defoliation
+             Model (Bwoutput keyword) have modified formats to include the
+             stand ID on each line/record and comma delimiter to better
+             facilitate the importing of the reports to database and spreadsheet
+             applications. Additionally, the FVS keyword filename is prepended
+             to the output table name so that General Defoliator output from
+             one projection will not overwite the output of another.
+
+             Output tables requested by the Bwoutput keyword:
+            u (1) keyfile_WITHIN.TAB   -- WITHIN-YEAR POPULATION DYNAMICS SUMMARY
+            * (2) keyfile_CANOPY.TAB   -- ANNUAL DEFOLIATION BY SPECIES TABLE
+            x (3) keyfile_DEFSUM.TAB   -- DEFOLIATION SUMMARY (currently unavailable)
+            * (4) keyfile_PARAMS.TAB   -- PARAMETERS AND KEY EVENTS SUMMARY
+            * (5) keyfile_ANNUAL.TAB   -- BRIEF ANNUAL SUMMARY
+            * (6) keyfile_DEFOL.TAB    -- ANNUAL DEFOLIATION SUMMARY
+            * (7) keyfile_DYNAMICS.TAB -- BUDWORM DYNAMICS SUMMARY
+
+              * - Table has modified format with stand ID and commas.
+              u - Table remains unchaged
+              x - Table is unavailable.
+
+Impact on users: Users of the GenDefol Model should obtain a new executable.
+
+Files:
+
+modified files:
+
+wsbwe/src    bwedr.f  Output format changes
+             bwego.f  Output format changes
+             bwein.f  Output filename and file open handling
+             bweob.f  Output format changes
+             bwep2.f  This subroutine not actually in use at this time.
+             bwep3.f  Output format changes
+             bwep4.f  Output format changes

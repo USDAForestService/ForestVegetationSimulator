@@ -1,0 +1,74 @@
+Subject: New FVS Event Monitor Function - StrStat
+Name:  Stephanie Rebain
+Date:  08/01/2006
+
+Description:
+A new event monitor function, STRSTAT, was created that allows users to compute custom 
+variables and conditionally schedule activities based on all of the variables in the
+structure statistics output table (see the STRCLASS keyword).
+
+STRSTAT(I,J), where:
+
+I = 1 = nominal dbh for stratum 1
+I = 2 = nominal height for stratum 1
+I = 3 = height of the tallest tree in stratum 1
+I = 4 = height of the shortest tree in stratum 1      
+I = 5 = height to crown base for stratum 1
+I = 6 = canopy cover for stratum 1
+I = 7 = major species 1 for stratum 1
+I = 8 = major species 2 for stratum 1
+I = 9 = stratum status code for stratum 1
+I = 10 = trees per acre for stratum 1
+I = 11 = nominal dbh for stratum 2
+I = 12 = nominal height for stratum 2
+I = 13 = height of the tallest tree in stratum 2
+I = 14 = height of the shortest tree in stratum 2         
+I = 15 = height to crown base for stratum 2
+I = 16 = canopy cover for stratum 2
+I = 17 = major species 1 for stratum 2
+I = 18 = major species 2 for stratum 2
+I = 19 = stratum status code for stratum 2
+I = 20 = trees per acre for stratum 2
+I = 21 = nominal dbh for stratum 3
+I = 22 = nominal height for stratum 3
+I = 23 = height of the tallest tree in stratum 3
+I = 24 = height of the shortest tree in stratum 3             
+I = 25 = height to crown base for stratum 3
+I = 26 = canopy cover for stratum 3
+I = 27 = major species 1 for stratum 3
+I = 28 = major species 2 for stratum 3
+I = 29 = stratum status code for stratum 3
+I = 30 = trees per acre for stratum 3
+I = 31 = number of strata
+I = 32 = canopy cover
+I = 33 = structure class
+
+and J = 0 is before thinning and J = 1 is after thinning
+
+Impact on users:
+None, this simply gives users an additional feature.  To use the STRSTAT event monitor
+function, the structural statistics calculations must be toggled on with the STRCLASS
+keyword (similar to the structural statistics event monitor variables).
+
+Modified Files:
+base/src/algevl.f - added strstat to the goto statement
+base/src/algkey.f - added strstat to ctab7 and iopt7 and increased n7
+base/src/evldx.f - added processing for strstat, added sstgmc to the include list
+base/src/sstage.f - set ostrst, an array that holds all the structure class values
+common/sstgmc.f77 - added ostrst
+ppbase/src/getstd.f - added ostrst
+ppbase/src/putstd.f - added ostrst
+base/src/isstag.f - initialized ostrst to 0
+ak/obj/makefile - added sstgmc to the include list for evldx
+base/obj/makefile - added sstgmc to the include list for evldx
+ca/obj/makefile - added sstgmc to the include list for evldx
+cr/obj/makefile - added sstgmc to the include list for evldx
+cs/obj/makefile - added sstgmc to the include list for evldx
+ie/obj/makefile - added sstgmc to the include list for evldx
+ls/obj/makefile - added sstgmc to the include list for evldx
+ne/obj/makefile - added sstgmc to the include list for evldx
+se/obj/makefile - added sstgmc to the include list for evldx
+sn/obj/makefile - added sstgmc to the include list for evldx
+so33/obj/makefile - added sstgmc to the include list for evldx
+ut/obj/makefile - added sstgmc to the include list for evldx
+wc/obj/makefile - added sstgmc to the include list for evldx

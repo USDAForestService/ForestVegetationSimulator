@@ -1,0 +1,58 @@
+Subject: Added soil heating from fofem
+Name: Nicholas Crookston
+Date: 03/30/2006
+Variants affected: All FFE
+
+Description: This code addes soil heating routines from fofem to the FFE.
+ The code is a direct use of fofem and is the first time FVS is being based
+ on the mixture of Fortran and C.
+
+ This project is not done. The fmsoilheat routine is only a shell that
+ loads constant initial values and returns the same answers for every call.
+ This part will be done soon but will only affect a few routines very
+ likely it will not effect the link files.
+
+Impact on users: NONE unless they use the new SoilHeat keyword.
+
+Files:
+
+bin/FC.make -- added xlc compilier for c routines
+bin/FCWindows_NT.make -- added gcc compilier for c routines
+bin/makefile -- added FIRE_FOFEM_LINK and placed it in the link list where
+                    fm programs are built
+                added fire_fofem_compile and placed it in the dependency
+                    list where fm programs are built
+                *** NOTE *** I may have missed some ****
+fire/base/obj/makefile -- added entry to make fmsoilheat
+fire/ca/obj/makefile   -- added entry to make fmsoilheat
+fire/cr/obj/makefile   -- added entry to make fmsoilheat
+fire/ie/obj/makefile   -- added entry to make fmsoilheat
+fire/ls/obj/makefile   -- added entry to make fmsoilheat
+fire/pn/obj/makefile   -- added entry to make fmsoilheat
+fire/sn/obj/makefile   -- added entry to make fmsoilheat
+fire/so33/obj/makefile -- added entry to make fmsoilheat
+fire/ut/obj/makefile   -- added entry to make fmsoilheat
+fire/wc/obj/makefile   -- added entry to make fmsoilheat
+
+base/src/oplist.f -- added support for SoilHeat keyword
+fire/base/common/FMFCOM.F77 -- added control variables for SoilHeat output
+fire/base/src/fmburn.f -- added call to fmsoilheat
+fire/base/src/fmfout.f -- added processing of SoilHeat keyword
+fire/base/src/fmin.f -- added processing of SoilHeat keyword
+fire/base/src/fminit.f -- added initialization of SoilHeat control variables
+fire/ppe/src/fmppput.f -- put SoilHeat control variables
+fire/ppe/src/fmppget.f -- get SoilHeat control variables
+
+fire/fofem -- new directory
+fire/fofem/obj -- new directory
+fire/fofem/src -- new directory
+fire/fofem/obj/makefile -- new makefile for fofem routines
+fire/fofem/src/ ... as follows:
+ansi_mai.c  fof_bcm.c  fof_co.h    fof_hsf.h  fof_sd2.h  fof_sh2.h   fof_util.c
+bur_bov.c   fof_bcm.h  fof_co2.h   fof_iss.h  fof_se.c   fof_sha.c   fof_util.h
+bur_bov.h   fof_cct.h  fof_disp.c  fof_lem.c  fof_se.h   fof_sha.h   win_ccwf.h
+bur_brn.c   fof_ci.c   fof_disp.h  fof_lem.h  fof_se2.h  fof_smt.h
+bur_brn.h   fof_ci.h   fof_duf.c   fof_mrt.c  fof_sgv.c  fof_soi.c
+fm_fofem.c  fof_cm.c   fof_duf.h   fof_mrt.h  fof_sgv.h  fof_soi.h
+fm_fofem.h  fof_cm.h   fof_gen.h   fof_sd.c   fof_sh.c   fof_spp.h
+fof_ansi.h  fof_co.c   fof_hsf.c   fof_sd.h   fof_sh.h   fof_unix.c

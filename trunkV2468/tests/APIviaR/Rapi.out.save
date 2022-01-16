@@ -1,0 +1,429 @@
+> ## R code to test the FVS api
+> 
+> # find and get the R code
+> cwd = getwd()
+> while(TRUE)
++ {
++   if (length(dir(pattern="rFVS")) > 0) break
++   setwd("..")
++   if (nchar(getwd()) < 4) {setwd(cwd);stop("Cannot find R code.")}
++ }
+> setwd("rFVS/R")
+> 
+> # fetching R code
+> for (rf in dir ()) source (rf)
+> setwd(cwd)
+> 
+> # load the FVS library
+> fvsLoad("qFVSie","../../bin")
+> 
+> # define tree attribute list names
+> treeAttrs = c("id","species","mort","tpa","dbh","dg","ht",
++       "htg","crwdth","cratio","age","plot",
++       "tcuft","mcuft","bdft","plotsize","mgmtcd")
+>       
+> # no cycles, plots, or trees yet
+> fvsGetDims()
+    ntrees    ncycles     nplots   maxtrees maxspecies   maxplots  maxcycles 
+         0          0          0       3000         23        500         40 
+> 
+> # should be return an empty list
+> fvsGetTreeAttrs(treeAttrs) 
+ [1] id       species  mort     tpa      dbh      dg       ht       htg     
+ [9] crwdth   cratio   age      plot     tcuft    mcuft    bdft     plotsize
+[17] mgmtcd  
+<0 rows> (or 0-length row.names)
+> 
+> # the species codes
+> fvsGetSpeciesCodes()
+   fvs  fia   plant  
+1  "WP" "119" "PIMO3"
+2  "WL" "073" "LAOC" 
+3  "DF" "202" "PSME" 
+4  "GF" "017" "ABGR" 
+5  "WH" "263" "TSHE" 
+6  "RC" "242" "THPL" 
+7  "LP" "108" "PICO" 
+8  "ES" "093" "PIEN" 
+9  "AF" "019" "ABLA" 
+10 "PP" "122" "PIPO" 
+11 "MH" "264" "TSME" 
+12 "WB" "101" "PIAL" 
+13 "LM" "113" "PIFL2"
+14 "LL" "072" "LALY" 
+15 "PI" "106" "PIED" 
+16 "RM" "066" "JUSC2"
+17 "PY" "231" "TABR2"
+18 "AS" "746" "POTR5"
+19 "CO" "740" "POPUL"
+20 "MM" "321" "ACGL" 
+21 "PB" "375" "BEPA" 
+22 "OH" "998" "2TD"  
+23 "OS" "298" "2TE"  
+> # list supported activity codes
+> fvsAddActivity()
+BASE_TREELIST  BASE_CRNMULT  BASE_MANAGED    BASE_FIXCW  BASE_BAIMULT 
+           80            81            82            90            91 
+ BASE_HTGMULT BASE_REGHMULT BASE_MORTMULT ESTB_SPECMULT BASE_REGDMULT 
+           92            93            94            95            96 
+ BASE_FIXMORT    BASE_FIXDG   BASE_FIXHTG   BASE_SYSTEM    DBIN_SQLIN 
+           97            98            99           100           101 
+  DBIN_SQLOUT  BASE_HTGSTOP  BASE_TOPKILL  BASE_SETSITE BASE_ATRTLIST 
+          102           110           111           120           198 
+ BASE_CUTLIST  BASE_MINHARV BASE_SPECPREF BASE_TCONDMLT BASE_YARDLOSS 
+          199           200           201           202           203 
+BASE_FVSSTAND BASE_CRUZFILE BASE_MCDEFECT BASE_BFDEFECT   BASE_VOLUME 
+          204           205           215           216           217 
+BASE_BFVOLUME BASE_THINAUTO  BASE_THINBTA  BASE_THINATA  BASE_THINBBA 
+          218           222           223           224           225 
+ BASE_THINABA BASE_THINPRSC  BASE_THINDBH  BASE_SALVAGE  BASE_THINSDI 
+          226           227           228           229           230 
+  BASE_THINCC   BASE_THINHT BASE_THINMIST BASE_THINRDEN   BASE_THINPT 
+          231           232           233           234           235 
+BASE_THINRDSL BASE_SETPTHIN    BASE_PRUNE BASE_COMPRESS BASE_FERTILIZ 
+          236           248           249           250           260 
+   ESTB_TALLY ESTB_TALLYONE ESTB_TALLYTWO    ESTB_PLANT  ESTB_NATURAL 
+          427           428           429           430           431 
+ESTB_ADDTREES ESTB_STOCKADJ    ESTB_HTADJ BASE_RESETAGE   ESTB_SPROUT 
+          432           440           442           443           450 
+ ESTB_NATURAL ESTB_BURNPREP ESTB_MECHPREP    COVR_COVER MIST_MISTMULT 
+          490           491           493           900          2001 
+MIST_MISTPREF MIST_MISTMORT MIST_MISTHMOD MIST_MISTGMOD MIST_MISTPINF 
+         2002          2003          2004          2005          2006 
+MIST_MISTABLE   FIRE_SALVSP FIRE_SOILHEAT FIRE_BURNREPT FIRE_MOISTURE 
+         2007          2501          2503          2504          2505 
+ FIRE_SIMFIRE FIRE_FLAMEADJ  FIRE_POTFIRE  FIRE_SNAGOUT  FIRE_FUELOUT 
+         2506          2507          2508          2512          2515 
+ FIRE_SALVAGE FIRE_FUELINIT FIRE_SNAGINIT FIRE_PILEBURN FIRE_FUELTRET 
+         2520          2521          2522          2523          2525 
+FIRE_FUELREPT FIRE_MORTREPT  FIRE_DROUGHT FIRE_FUELMOVE FIRE_FUELMODL 
+         2527          2528          2529          2530          2538 
+FIRE_DEFULMOD FIRE_CARBREPT  FIRE_CARBCUT FIRE_CANFPROF FIRE_FUELFOTO 
+         2539          2544          2545          2547          2548 
+FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT 
+         2549          2550          2551          2552          2553 
+ ECON_PRETEND ECON_SEVSTART  ECON_SPECCST  ECON_SPECRVN ECON_STRTECON 
+         2605          2606          2607          2608          2609 
+> 
+> ## first run
+> fvsSetCmdLine("--keywordfile=base.key")
+> 
+> fvsRun(2,2030)
+> fvsGetStandIDs()
+  standid   standcn    mgmtid 
+"S248112"       " "    "NONE" 
+> 
+> # get and output some event monitor vars
+> fvsGetEventMonitorVariables(c("year","atpa","aba"))
+     year      atpa       aba 
+2030.0000  307.2265  172.4059 
+> 
+> # get and output tree attributes
+> fvsGetTreeAttrs(treeAttrs)
+   id species      mort       tpa       dbh        dg        ht       htg
+1   2       3 5.9764795 11.703694  2.106737 0.4840353  19.31215  3.582005
+2   1       7 0.7015545  3.096018 14.819185 0.6226397  96.43296  5.118442
+3   3       5 0.9053202 14.429884 15.579575 1.8464403  68.93443  9.155409
+4   4       2 1.7551249  4.842361 10.855013 0.4708748 109.41888  6.930491
+5   6       2 1.7070651  4.814987 10.999720 0.4773073  98.38235  7.277725
+6   7      10 2.0188510 13.007945 10.952437 0.6981430  95.31825 10.164910
+7   8       2 1.4854553  5.040408 11.845120 0.5236015  34.39922  7.264559
+8   9       7 1.1431966  3.764103 12.371732 0.5262651  83.89598  5.238081
+9  10       3 3.4912140 17.712557  7.978105 0.6522441  57.41324  7.909767
+10 11      10 0.7851101  8.212758 14.027614 0.9264679 117.49553  8.883680
+11 12       3 3.1449480 16.517807  5.719432 0.8473253  41.39857  7.105887
+12 13       3 3.2801156 17.503468  6.423943 0.8108368  45.91443  7.558331
+13 15      10 5.9291925 17.425850  4.091025 0.4857495  29.02637  6.737612
+14 16       4 1.4670962 21.045235 14.144825 1.9049301  71.04697 11.335133
+15 17       3 0.4795011  5.759114 16.415119 1.1805582 100.72453  7.424264
+16 18       4 1.0276721 16.299068 16.221830 2.2305317  85.56437 11.623179
+17 19       3 0.2983986  3.596692 18.712023 1.0776949  99.11540  6.777545
+18 21       7 1.0989718  3.739047 12.503526 0.5282278  83.93179  5.231350
+19 22       3 0.4182620  5.470648 17.646286 1.2897835  92.05586  7.667734
+20 23       7 1.4380805  4.451651 11.388887 0.5319605  83.84326  5.362871
+21 24       4 0.3189368  5.191728 20.908792 2.0174351 110.28760  9.948197
+22 25       3 0.5493898  6.473873 15.777290 1.1849594  97.53134  7.675017
+23 26      10 3.8563030 16.678608  7.294916 0.6442704  67.67924 10.789137
+24 27       8 1.8950896  9.589748  2.479595 0.7722368  17.39054  3.465405
+25 28       8 1.3673648 17.241978 11.411366 1.1381159  61.82631  7.598182
+26 29       8 2.2778049 20.732975  8.370291 0.6709471  55.15468  6.729373
+27 30       4 0.8784083 13.912024 16.462238 2.0897293  76.85712 11.487197
+      crwdth cratio age plot     tcuft    mcuft     bdft plotsize mgmtcd
+1   6.577499     55  40    2   0.20000  0.00000   0.0000        0      2
+2  12.835247     23  40    2  53.80000 48.80000 270.0000        0      1
+3  25.181452     72  40    3  40.70000 35.60000 190.0000        0      1
+4  11.663081     17  40    3  26.80000 24.80000 140.0000        0      1
+5  11.626649     17  40    4  21.11336 19.53453 111.1721        0      2
+6  12.463078     36  40    4  25.30000 23.60000 120.0000        0      1
+7  11.557233     23  40    4   8.60000  6.70000  30.0000        0      1
+8  10.519159     17  40    4  33.40000 30.50000 160.0000        0      1
+9  10.156955     17  40    5   7.80000  6.50000  40.0000        0      1
+10 14.609336     38  40    5  50.80000 46.70000 270.0000        0      1
+11 11.424382     53  40    1   3.00000  0.00000   0.0000        0      2
+12 11.383348     41  40    1   4.20000  0.00000   0.0000        0      2
+13  7.940616     64  40    1   1.20000  0.00000   0.0000        0      3
+14 19.808756     61  40    1  30.90000 26.70000 130.0000        0      1
+15 17.664047     29  40    6  52.90000 49.20000 280.0000        0      1
+16 22.548592     73  40    6  49.80000 44.00000 230.0000        0      1
+17 18.644283     28  40    6  66.80000 60.20000 330.0000        0      1
+18 10.591420     17  40    8  34.10000 30.50000 160.0000        0      2
+19 19.419891     37  40    8  46.01444 40.61188 220.6279        0      2
+20  9.969191     17  40    8  28.70000 26.40000 150.0000        0      1
+21 25.095003     59  40    9 107.10000 96.89999 560.0000        0      1
+22 17.106232     28  40    9  47.60000 43.40000 230.0000        0      1
+23  9.953178     40  40   10   8.20000  6.40000  40.0000        0      2
+24  6.204528     65  40   10   0.30000  0.00000   0.0000        0      2
+25 13.271747     54  40   10  18.70000 15.90000  70.0000        0      1
+26  8.891997     18  40   10   9.50000  7.70000  40.0000        0      1
+27 21.283850     60  40   11  44.20000 38.30000 190.0000        0      1
+> 
+> # get and set some species attributes
+> spAttrs = fvsGetSpeciesAttrs(c("spsdi","spccf","spsiteindx"))
+> spAttrs
+      spsdi     spccf spsiteindx
+1  841.2368  0.000000    0.00000
+2  841.2368  9.027432    0.00000
+3  841.2368 48.435181    0.00000
+4  841.2368 85.434265    0.00000
+5  841.2368 17.980297    0.00000
+6  841.2368  0.000000    0.00000
+7  841.2368 12.298176    0.00000
+8  841.2368 16.629766    0.00000
+9  841.2368  0.000000    0.00000
+10 841.2368 20.217075    0.00000
+11 841.2368  0.000000    0.00000
+12 841.2368  0.000000    0.00000
+13 841.2368  0.000000   28.33386
+14 841.2368  0.000000    0.00000
+15 841.2368  0.000000   16.00000
+16 841.2368  0.000000   13.00000
+17 841.2368  0.000000   28.33386
+18 841.2368  0.000000   60.00000
+19 841.2368  0.000000   98.00000
+20 841.2368  0.000000   60.00000
+21 841.2368  0.000000   60.00000
+22 841.2368  0.000000   98.00000
+23 841.2368  0.000000    0.00000
+> rtn = fvsSetSpeciesAttrs(spAttrs)
+> cat ("rtn = ",rtn,"\n")
+rtn =  0 
+> 
+> # run to 2060 stop prior to adding increments
+> fvsRun(5,2060)
+> trees=fvsGetTreeAttrs(treeAttrs)
+> #set mortality and growth to zero
+> trees$mort = 0
+> trees$htg  = 0
+> trees$dg   = 0
+> fvsSetTreeAttrs(trees[,c(3,6,8)])
+> 
+> # finish the run
+> fvsRun(0,0)
+> 
+> # get and output summary statistics
+> fvsGetSummary() #year 2060 and 2070 should be equal
+   Year Age Tpa TCuFt MCuFt  BdFt RTpa RTCuFt RMCuFt RBdFt ATBA ATCCF ATTopHt
+1  1990  60 536  1592  1015  5238    0      0      0     0   77    91      63
+2  2000  70 431  2580  1989 10253    0      0      0     0  111   127      74
+3  2010  80 358  3770  3001 15127    0      0      0     0  144   155      80
+4  2020  90 307  5019  4245 21368    0      0      0     0  172   177      84
+5  2030 100 262  6216  5385 28665    0      0      0     0  193   191      90
+6  2040 110 221  7351  6550 36109    0      0      0     0  209   200      97
+7  2050 120 187  8418  7674 43315    0      0      0     0  220   206     106
+8  2060 130 159  9422  8580 50354    0      0      0     0  229   210     113
+9  2070 140 159  9422  8580 50354    0      0      0     0  229   210     113
+10 2080 150 130 10186  9258 55400    0      0      0     0  231   210     119
+11 2090 160 113 11090 10274 63613    0      0      0     0  238   213     125
+   PrdLen Acc Mort SampWt ForTyp SizeCls StkCls
+1      10 111   12     11    201       2      3
+2      10 140   21     11    201       1      3
+3      10 162   37     11    201       1      2
+4      10 173   53     11    201       1      2
+5      10 182   68     11    267       1      2
+6      10 186   80     11    267       1      2
+7      10 188   88     11    267       1      2
+8      10   0    0     11    267       1      2
+9      10 185  109     11    267       1      2
+10     10 183   93     11    267       1      2
+11      0   0    0     11    267       1      2
+> 
+> # run the next stand in the set, no stoping. 
+> fvsRun()
+> 
+> ## next run, use the same keywords
+> fvsSetCmdLine("--keywordfile=base.key")
+> 
+> fvsRun(2,1993)
+> addtrees <- fvsGetTreeAttrs(treeAttrs) 
+> addtrees <- subset(addtrees,dbh<2)[,c("dbh","species","ht","cratio","plot","tpa")]
+> 
+> # these trees will be added to the run at 2013
+> addtrees
+   dbh species ht cratio plot      tpa
+1  0.1       3  2     55    2 90.00001
+11 1.2       3 11     55    1 30.00000
+12 1.9       3 13     45    1 30.00000
+13 0.1      10  3     65    1 90.00001
+24 0.1       8  2     65   10 30.00000
+> 
+> # add a yearloss and thindbh for 1993
+> fvsAddActivity(1993,"base_yardloss",c(0.50, 0.70, 0.50))
+> fvsAddActivity(1993,"base_thindbh",c(0.00,12.00,1.00,0.00,0.00))
+> 
+> # continue the run
+> fvsRun(6,2013)
+> 
+> # add the trees and output the current trees
+> fvsAddTrees(addtrees)
+> fvsGetTreeAttrs(treeAttrs)
+        id species     mort       tpa      dbh       dg       ht      htg
+1       19       3 0.136898  4.162337 17.78894 1.322643 92.85017 7.694734
+2 10030002       3 0.000000 90.000008  0.10000 0.000000  2.00000 0.000000
+3 10030003       3 0.000000 30.000002  1.20000 0.000000 11.00000 0.000000
+4 10030004       3 0.000000 30.000002  1.90000 0.000000 13.00000 0.000000
+5 10030005      10 0.000000 90.000008  0.10000 0.000000  3.00000 0.000000
+6 10030006       8 0.000000 30.000002  0.10000 0.000000  2.00000 0.000000
+     crwdth cratio age plot tcuft mcuft bdft plotsize mgmtcd
+1 18.613752     31  30    6    57    52  280        0      1
+2  0.500000     55   5    2     0     0    0        0      2
+3  4.984567     55   5    1     0     0    0        0      2
+4  6.014030     45   5    1     0     0    0        0      2
+5  0.500000     65   5    1     0     0    0        0      2
+6  1.187158     65   5   10     0     0    0        0      2
+> 
+> # continue the run
+> fvsRun(0,0)
+
+                  IE FVS VARIANT -- RV:20171016  
+
+
+        STAND = S248112                     MANAGEMENT CODE = NONE
+
+
+               SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)
+----------------------------------------------------------------------------
+       START OF SIMULATION PERIOD    REMOVALS/ACRE    AFTER TREATMENT GROWTH
+     ---------------------------- ----------------- ---------------- CU FT
+     TREES         TOP      TOTAL TREES TOTAL MERCH         TOP      PER YR
+YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
+---- ----- --- --- --- ---- ----- ----- ----- ----- --- --- --- ---- --- ---
+1990   536  77 184  63  5.1  1592     0     0     0  77 184  63  5.1 111  12
+2000   431 111 236  74  6.9  2580     0     0     0 111 236  74  6.9 140  21
+2010   358 144 281  80  8.6  3770     0     0     0 144 281  80  8.6 162  37
+2020   307 172 314  84 10.1  5019     0     0     0 172 314  84 10.1 173  53
+2030   262 193 334  90 11.6  6216     0     0     0 193 334  90 11.6 182  68
+2040   221 209 344  97 13.2  7351     0     0     0 209 344  97 13.2 186  80
+2050   187 220 347 106 14.7  8418     0     0     0 220 347 106 14.7 188  88
+2060   159 229 346 113 16.3  9422     0     0     0 229 346 113 16.3   0   0
+2070   159 229 346 113 16.3  9422     0     0     0 229 346 113 16.3 185 109
+2080   130 231 336 119 18.1 10186     0     0     0 231 336 119 18.1 183  93
+2090   113 238 334 125 19.7 11090     0     0     0 238 334 125 19.7   0   0
+
+                  IE FVS VARIANT -- RV:20171016  
+
+
+        STAND = S248112                     MANAGEMENT CODE = NONE
+
+
+               SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)
+----------------------------------------------------------------------------
+       START OF SIMULATION PERIOD    REMOVALS/ACRE    AFTER TREATMENT GROWTH
+     ---------------------------- ----------------- ---------------- CU FT
+     TREES         TOP      TOTAL TREES TOTAL MERCH         TOP      PER YR
+YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
+---- ----- --- --- --- ---- ----- ----- ----- ----- --- --- --- ---- --- ---
+1990   536  77 184  63  5.1  1592     0     0     0  77 184  63  5.1 118  13
+2000   441 115 243  75  6.9  2650     0     0     0 115 243  75  6.9 149  23
+2010   363 151 292  77  8.7  3916     0     0     0 151 292  77  8.7 160  40
+2020   305 178 322  84 10.3  5120     0     0     0 178 322  84 10.3 170  57
+2030   257 197 337  88 11.9  6254     0     0     0 197 337  88 11.9 178  72
+2040   215 210 344  96 13.4  7321     0     0     0 210 344  96 13.4 179  82
+2050   180 220 344 105 14.9  8295     0     0     0 220 344 105 14.9 189  90
+2060   152 229 343 112 16.6  9286     0     0     0 229 343 112 16.6 182  89
+2070   131 236 342 120 18.1 10213     0     0     0 236 342 120 18.1 181  97
+2080   114 241 338 126 19.7 11058     0     0     0 241 338 126 19.7 181  99
+2090    99 246 335 133 21.3 11880     0     0     0 246 335 133 21.3   0   0
+
+                  IE FVS VARIANT -- RV:20171016  
+
+
+        STAND = S248112                     MANAGEMENT CODE = NONE
+
+
+               SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)
+----------------------------------------------------------------------------
+       START OF SIMULATION PERIOD    REMOVALS/ACRE    AFTER TREATMENT GROWTH
+     ---------------------------- ----------------- ---------------- CU FT
+     TREES         TOP      TOTAL TREES TOTAL MERCH         TOP      PER YR
+YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
+---- ----- --- --- --- ---- ----- ----- ----- ----- --- --- --- ---- --- ---
+1990   536  77 184  63  5.1  1592   532  1502  2392   4   6  67 12.7   4   0
+2000     4   5   7  77 14.6   130     0     0     0   5   7  77 14.6   5   0
+2010     4   6   9  85 16.3   172     0     0     0   6   9  85 16.3   5   1
+2020   249   7  24  21  2.3   216     0     0     0   7  24  21  2.3  30   0
+2030   233  26  64  44  4.5   514     0     0     0  26  64  44  4.5  96   1
+2040   218  59 125  64  7.1  1469     0     0     0  59 125  64  7.1 158   4
+2050   212  99 188  78  9.3  3011     0     0     0  99 188  78  9.3 186  14
+> 
+> #get and output summary statistics
+> fvsGetSummary()
+   Year Age Tpa TCuFt MCuFt  BdFt RTpa RTCuFt RMCuFt RBdFt ATBA ATCCF ATTopHt
+1  1990  60 536  1592  1015  5238  532   1502    465  2392    4     4      67
+2  2000  70   4   130   116   562    0      0      0     0    5     5      77
+3  2010  80   4   172   151   782    0      0      0     0    6     5      85
+4  2020  90 249   216   197  1060    0      0      0     0    7     8      21
+5  2030 100 233   514   247  1400    0      0      0     0   26    30      44
+6  2040 110 218  1469  1110  7048    0      0      0     0   59    65      64
+7  2050 120 212  3011  2420 12446    0      0      0     0   99   104      78
+8  2060 130 203  4730  4344 22552    0      0      0     0  137   135      88
+9  2070 140 190  6395  5832 31023    0      0      0     0  170   160      96
+10 2080 150 176  7904  7021 38959    0      0      0     0  195   173     104
+11 2090 160 161  9230  8554 47889    0      0      0     0  214   182     111
+   PrdLen Acc Mort SampWt ForTyp SizeCls StkCls
+1      10   4    0     11    201       2      3
+2      10   5    0     11    999       5      5
+3      10   5    1     11    999       5      5
+4      10  30    0     11    999       5      5
+5      10  96    1     11    201       3      4
+6      10 158    4     11    201       2      4
+7      10 186   14     11    201       1      3
+8      10 196   30     11    201       1      2
+9      10 199   48     11    201       1      2
+10     10 197   65     11    201       1      2
+11      0   0    0     11    201       1      2
+> 
+> # continue the run for the next stand.
+> fvsRun()
+> 
+> 
+> 
+> 
+2060   203 137 241  88 11.1  4730     0     0     0 137 241  88 11.1 196  30
+2070   190 170 282  96 12.8  6395     0     0     0 170 282  96 12.8 199  48
+2080   176 195 310 104 14.3  7904     0     0     0 195 310 104 14.3 197  65
+2090   161 214 329 111 15.6  9230     0     0     0 214 329 111 15.6   0   0
+
+                  IE FVS VARIANT -- RV:20171016  
+
+
+        STAND = S248112                     MANAGEMENT CODE = NONE
+
+
+               SUMMARY STATISTICS (BASED ON TOTAL STAND AREA)
+----------------------------------------------------------------------------
+       START OF SIMULATION PERIOD    REMOVALS/ACRE    AFTER TREATMENT GROWTH
+     ---------------------------- ----------------- ---------------- CU FT
+     TREES         TOP      TOTAL TREES TOTAL MERCH         TOP      PER YR
+YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
+---- ----- --- --- --- ---- ----- ----- ----- ----- --- --- --- ---- --- ---
+1990   536  77 184  63  5.1  1592     0     0     0  77 184  63  5.1 118  13
+2000   441 115 243  75  6.9  2650     0     0     0 115 243  75  6.9 149  23
+2010   363 151 292  77  8.7  3916     0     0     0 151 292  77  8.7 160  40
+2020   305 178 322  84 10.3  5120     0     0     0 178 322  84 10.3 170  57
+2030   257 197 337  88 11.9  6254     0     0     0 197 337  88 11.9 178  72
+2040   215 210 344  96 13.4  7321     0     0     0 210 344  96 13.4 179  82
+2050   180 220 344 105 14.9  8295     0     0     0 220 344 105 14.9 189  90
+2060   152 229 343 112 16.6  9286     0     0     0 229 343 112 16.6 182  89
+2070   131 236 342 120 18.1 10213     0     0     0 236 342 120 18.1 181  97
+2080   114 241 338 126 19.7 11058     0     0     0 241 338 126 19.7 181  99
+2090    99 246 335 133 21.3 11880     0     0     0 246 335 133 21.3   0   0
