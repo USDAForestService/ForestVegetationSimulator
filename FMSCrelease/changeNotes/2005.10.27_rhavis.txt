@@ -1,0 +1,38 @@
+Subject: code maintenance
+Name: Robert Havis
+Date: 27 Oct 2005
+Variants affected: no effect on calculations
+
+Description:
+
+INITRE and VOLUME routines:
+Some end-of-line comments (i.e. comments delimited with !) were removed and
+assigned to new comment lines. When the end-of-line comments appear on the
+same line as a one-line IF statement, a run-time error may be generated
+with executables built with the COMPAQ compiler/assembler. These changes
+prevent such errors.
+
+MISTLETOE routines:
+Table Column headings were updated for conformance with current variant
+species codes.
+
+Impact on users: None
+
+Files:
+./base/src/initre.f  - corrected code positioning in column 73 at FORMAT statement 12710
+./mistoe/src/misintca.f
+./mistoe/src/misintem.f
+./mistoe/src/misintie.f
+./mistoe/src/misintkt.f
+./mistoe/src/misintni.f
+./mistoe/src/misintpn.f
+./mistoe/src/misinttt.f
+./mistoe/src/misintwc.f
+./volume/src/f_alaska.f
+./volume/src/f_ingy.f
+./volume/src/formclas.f
+./volume/src/profile.f
+./volume/src/r1kemp.f
+./volume/src/r8vol1.f
+./volume/src/r8vol2.f
+

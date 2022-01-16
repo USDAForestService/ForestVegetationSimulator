@@ -1,0 +1,35 @@
+Subject: Misc. Updates
+Name: R. Havis
+Date: September 8, 2011
+Variants affected: ALL
+
+Description:
+
+1. There was a problem writing the FVS_Hrv_Carbon table to a generic
+   database. This has been corrected
+
+2. The FIA codes, and NRCS PLANTS symbols, for the species categories shown
+   below were represented by dashes (---). This caused volumes to be
+   calculated using softwood equations. The new codes, listed below,
+   are mapped to hardwood volume equations.
+   
+   Variant  Species  (FVS Seq. No. - Common Name)   FIA Code   NRCS PLANTS Symbol
+   CS       14-select hickory (HS)                  400        CARYA    
+   CS       68-other upland hardwood species (UH)   999        2TREE
+   CS       78-other lowland species (OL)           999        2TREE
+   CS       85-non-commercial hardwood species (NC) 999        2TREE
+   LS       44-commercial hardwood species (CH)     999        2TREE
+   LS       49-non-commercial hardwood species (NC) 999        2TREE
+   NE       98-non-commercial hardwood species (NC) 999        2TREE 
+   
+Impact on users: Users who write the FVS_Hrv_Carbon table to a generic
+                 database should obtain a new executable. Region 9 users
+                 should obtain a new executable.
+
+Files:
+
+./cs/src/blkdat.f
+./dbs/src/dbsfmhrpt.f - added the Year column header to the generic database
+                        table creation segment
+./ls/src/blkdat.f
+./ne/src/blkdat.f

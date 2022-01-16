@@ -1,0 +1,92 @@
+Subject: Add FFE and ECON to Base and PPE,
+         Cover added to AK, CA, CR, UT, WC, and PN
+Name: R, Havis
+Date: January 14, 2008
+Variants affected: ALL
+
+Description:
+
+1. The FVS base model executable names have been changed by prepending the
+   characters FVS to the executable name (e.g. ni.exe was changed to FVSni.exe)
+   This was done because some FVS executable names were also UNIX commands
+   (e.g. ls). 
+   
+2. The number of FVS executables available has been reduced.
+   The FVS base model executables have been updated to include
+   the new Economic Analysis (ECON) extension, and the Fire and Fuels Extension
+   (FFE) where it is available. Separate executables will no longer be
+   provided for the FFE. The ECON extension is also a part of all Parallel
+   Processing Extensions (PPE), as is the FFE where it is available. 
+   The ECON Users Guide will be available January 25, 2008 from the FVS Web
+   site, General Technical Reports and Guides page.
+
+3. The cover extension was added to the following variants:
+   		Southeast Alaska/Coastal British Columbia (AK)
+   		Inland California/Southern Cascades (CA)
+   		Central Rockies (CR)
+   		Pacific Northwest Coast (PN)
+   		Utah (UT),
+   		Westside Cascades (WC)
+   The cover model is now available in all western variants.
+
+6. A potential numerical error in the FFE model was corrected.
+
+7. The functionality of Field 2 of the DBS STRCLASS keyword has been corrected.
+
+Impact on users: To use the new executables, users should download a new
+                 version of the Suppose software. Users should back up
+                 their current executable files and and data.
+
+Files:
+
+delete ie, so33 / CVSHAP, CVCBMS - the coefficients are incorporated in the
+                                   covr / CVSHAP, CVCBMS routines
+
+AK, CA, CR, PN, UT and WC/makefile - added compile instructions for cover routines
+
+./ak/obj/makefile
+./base/src/revise.f
+./base/src/svsnage.f - fixed a statement so that snags cannot get shorter in the SVS images
+                       (this does not affect other FVS output, only the SVS images)
+./bin/makefile       - modified link lists to prepend FVS to executable name and link
+                       the ECON and FFE objects. Removed the ??fm.exe executables. Added ECON
+                       and FFE objects to the PPE link lists, deleted EXECON and EXFIRE objects
+                       except in AK and CS link lists
+./ca/obj/makefile
+./common/ECNCOM.F77  - added isFirstEcon
+./covr/src/cvcbms.f  - added logic to process all western variants
+./covr/src/cvshap.f  - added logic to process all western variants
+./cr/obj/makefile
+./econ/src/eccalc.f  - various updates
+./econ/src/ecin.f    - various updates
+./econ/src/ecinit.f  - various updates
+./econ/src/ecsetp.f  - various updates
+./fire/base/src/fmcfir.f - added a check that eliminates a potential numerical run-time error.
+./ie/obj/makefile    - deleted compile instructions for so33/CVSHAP, CVCBMS and added compile
+                       instructions for covr/CVSHAP, CVCBMS
+./ls/obj/makefile    - added compile instructions for the ECON extension routines
+./ppbase/obj/makefile       - added compile instructions for ECNGET and ECNPUT
+./ppbase/src/ecnget.f       - new routine, called by GETSTD, to store ECON global variables
+./ppbase/src/ecnput.f       - new routine, called by PUTSTD, to retrieve ECON global variables
+./ppbase/src/getstd.f       - added call to ECNGET
+./ppbase/src/instnd.f       - added call to ECSETP
+./ppbase/src/ppmain.f       - this routine should not have been touched
+./ppbase/src/putstd.f       - added call to ECNPUT      
+./ppca/obj/makefile         - added compile instructions for ECNGET and ECNPUT
+./ppcr/obj/makefile         - added compile instructions for ECNGET and ECNPUT
+./ppls/obj/makefile         - added compile instructions for ECNGET and ECNPUT
+./ppso33/obj/makefile       - added compile instructions for ECNGET and ECNPUT
+./pput/obj/makefile         - added compile instructions for ECNGET and ECNPUT
+./ppwc/obj/makefile         - added compile instructions for ECNGET and ECNPUT
+./rd/src/rdbb1.f	       - Updated argument list in calls to OPCOPY to correct array to scalar mismatch.
+./rd/src/rdbb2.f	       - Updated argument list in calls to OPCOPY to correct array to scalar mismatch.
+./rd/src/rdbb3.f	       - Updated argument list in calls to OPCOPY to correct array to scalar mismatch.
+./rd/src/rdbb4.f	       - Updated argument list in calls to OPCOPY to correct array to scalar mismatch.
+./rd/src/rdmn1.f	       - Updated argument list in calls to OPCOPY to correct array to scalar mismatch.
+./rd/src/rdowin.f	       - Updated argument list in calls to OPCOPY to correct array to scalar mismatch.
+./so33/obj/makefile  - deleted compile instructions for so33/CVSHAP, CVCBMS and added compile
+                       instructions for covr/CVSHAP, CVCBMS
+./ut/obj/makefile
+./wc/obj/makefile
+./base/src/sstage.f  - corrected F2 functionality of the DBS STRCLASS keyword
+./cs_new/obj/makefile - deleted compile instructions for the EXFIRE routine

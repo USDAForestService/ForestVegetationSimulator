@@ -1,0 +1,33 @@
+Subject: PPE
+Name: Nick Crookston
+Date: 2005.03.14
+Variants affected: All
+
+Description:
+Very large PPE runs, with many reports are taking too long to process. In
+addition some other changes were made while addressing some failed PPE
+runs.
+
+Impact on users:
+In PPE runs where there are over 2000 reports is to write the scratch file,
+the program creates a permanent file named "<keywordFileName>_genrpt.txt".
+The "user" can post process this report with a post processor that is yet
+to be produced.
+
+Files:
+base/src/genrpt.f -- modified so that large "general report" scratch files are
+                     are turned into perminate files for post processing. Also changed the
+                     general report file number from 99 to 93 to avoid a file number conflict
+                     when more than one diract access file is used.
+ppbase/src/ppmain.f -- modified for the genrpt change plus inhanced debug output
+base/src/main.f -- modified for genrpt change
+
+
+base/src/oprdat.f -- changed the way stand ids are compared to those in input activity files
+base/src/sstage.f -- removed the equivalence statement
+base/src/update.f -- trap killing over 100% of the trees per acre
+
+ppbase/src/grcend.f -- removed extra call to cwidth and added call to natcrz
+ppbase/src/hvsel.f  -- added some debug output
+ppbase/src/sparls.f -- modified debug output
+

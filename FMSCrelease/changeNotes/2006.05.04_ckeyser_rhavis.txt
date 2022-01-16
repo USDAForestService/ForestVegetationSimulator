@@ -1,0 +1,16 @@
+Subject: Eastern Crown Width Calculations and the SPCODES Keyword
+Name: Chad Keyser / Robert Havis
+Date: May 4, 2006
+Variants affected: CS, LS, NE, SE AND SN
+
+Description: The SPCODES keyword causes the JSP array to be modified.
+             This was causing incorrect associations of species with crown
+             width equation in the CWCALC routine. Therefore the index associating
+             species with equations was changed from JSP to NSP. 
+
+Impact on users: Use of the SPCODES keyword will not affect crown width calculations.
+
+Files:
+./base/src/revise.f
+./ls/src/cwcalc.f
+

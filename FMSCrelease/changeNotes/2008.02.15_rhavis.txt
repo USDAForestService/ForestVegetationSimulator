@@ -1,0 +1,24 @@
+Subject: Data Base Output and ECON Updates
+Name: R. Havis - Thenks to Fred Martin (WDNR) for these code change contributions.
+Date: February 15, 2008
+Variants affected: ALL
+
+Description:
+
+1) Normal height (column label EstHt) and actual point number (column ActPt) have
+   been added to the Data Base Tree List Output Table and to the After Treatment
+   Tree List Table. The ECON extension allows pretend harvests that are not tracked
+   in FVS accounting procedures. The pretend mode may not have been closed between
+   stand simulations in serial runs. This has been corrected.
+   
+
+Impact on users: Obtain new executable
+
+Files:
+./dbs/src/dbsatrtls.f       - added EstHt and ActPt to output
+./dbs/src/dbstrls.f         - added EstHt and ActPt to output
+./econ/src/eccalc.f         - added logic relevant to output tables
+./econ/src/ecin.f           - edited code format
+./econ/src/ecinit.f         - added call to setPretendDtatus to initialize
+                              isPretend Active
+./econ/src/ecstatus.f       - modified pretend logic

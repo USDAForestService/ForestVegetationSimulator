@@ -1,0 +1,13 @@
+Subject: Potential Crown Dubbin Bug
+Name: R. Havis
+Date: July 15, 12016
+Variants affected: AK, BM, CA, CI, EC, EM, IE, NC, OC,
+                   OP, PN, SO, TT, UT, WC, WS
+
+Description: On July 1, 2016 (FVS Update Bulletin No. 738) a potential problem
+             with crown dubbing was introduced. This has been corrected.
+
+Impact on users: Small differences in simulations may be apparent when
+                 input data requires crown dubbing.
+
+Files:

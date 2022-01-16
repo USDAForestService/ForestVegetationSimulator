@@ -1,0 +1,45 @@
+Subject: Crown Ratio Change Update
+Name: Robert Havis
+Date: September 22, 2005
+Variants affected: ALL
+
+Description:
+By default, FVS automatically applies limits on the internally
+calculated rate of increase and rate of decrease in crown ratio
+each cycle. These limits are applied before the optional user
+adjustments to the crown ratio change that can be specified
+using the CRNMULT keyword.
+ 
+1) By default, FVS automatically applies limits on the internally
+calculated rate of increase and rate of decrease in crown ratio
+each cycle. These limits are applied before the optional user
+adjustments to crown ratio change that can be specified
+using the CRNMULT keyword.
+
+2) There was no limit on the increase in crown ratio in the
+AK variant. This has been changed to a 3% limit in the change
+in crown ratio per year.
+
+3) The CRNMULT keyword and the crown ratio change limits were not
+a part of the KT and NI variants, and were not applied to species 
+sequence numbers 1-11 in the IE variant. This has been
+changed so the CRNMULT keyword and crown ratio change limits are
+applied in all these cases.
+
+Impact on users: Crown ratio change limits will be adjusted based on
+the number of years in each cycle in all variants. If using a
+default variant cycle length, this update will affect the
+AK, KT, IE, NI, variants for the reasons described above. 
+In teh NC and SN vraiants the crown ratio change limits will be 5%
+per standard 5 year cycle rather than 10% per cycle before the change.
+If using a non-default cycle length, the output results in all
+variants may be affected by these changes.
+
+Files:
+
+ak/src/crown.f base/src/revise.f bm/src/crown.f ca/src/crown.f 
+ci/src/crown.f cr/src/crown.f cs/src/crown.f ec/src/crown.f 
+em/src/crown.f ie/src/crown.f ls/src/crown.f nc/src/crown.f 
+ne/src/crown.f ni/src/crown.f pn/src/crown.f se/src/crown.f 
+sn/src/crown.f so/src/crown.f so33/src/crown.f tt/src/crown.f 
+ut/src/crown.f wc/src/crown.f ws/src/crown.f 

@@ -1,0 +1,30 @@
+Subject: Merge of branches.
+
+Name: Lance David
+
+Date: 08/22/2018
+
+Variants affected: All variants
+
+Description: This merge involved branch FMSCdev into branch GaryDev. Source code
+             modifications noted in changeNotes up to 2018.08.20_gdixon.txt,
+             Revision 2472.
+             Minor update to include new CONTRL.F77 common variable in put/get
+             routines for stop/restart.
+             Added "FVSobdc" target to bin/makefile for ODBC executables only.
+
+
+
+Impact on users: Described in previous change notes.
+
+Files:
+
+pg/
+   chget.f - Added new CONTRL.F77 global variable CHARACTER*7 CALCSDI
+   chput.f
+
+bin/
+  makefile - Added target "FVSodbc" for building ODBC executables only.
+
+common/
+  PLOT.F77 - Removed descriptions of obsolete variables D0 and D0MULT

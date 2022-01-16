@@ -1,0 +1,17 @@
+Subject: FFE crown biomass equations for hardwood species in the expanded EC variant
+
+Name: Gary Dixon
+Date: 03/16/12
+
+Variants affected: East Cascades (EC)
+
+Description: The equation used to calculate crown biomass for hardwood species in the
+             recently expanded EC variant was corrected.
+
+Impact on users: Users of the 32 species version of the EC variant should obtain a new
+                 executable.
+
+Files:
+fire/base/src
+   fmcrowe.f    changed: date of revision; added EC as a variant needing special attention
+                in getting a height for crown biomass estimation

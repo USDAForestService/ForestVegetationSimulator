@@ -1,0 +1,61 @@
+Subject: Misc. bugs fixes in establishment extension and database extension
+Name: R. Havis
+Date: January 07, 2011
+Variants affected: ALL
+
+Description:
+
+1) As a general rule in FVS, a year or a cycle may be used interchangeably in
+   field 1 of keywords to schedule activities. When a cycle number was used
+   in field one of the ESTAB keyword to indicate the date of disturbance
+   it was not processed properly. This has been corrected.
+
+2) When the estab routine was entered and no trees were added to the tree
+   list, the tree list was always sorted anyway. A sort of the tree list
+   changes the projection slightly because the randomization of the growth
+   calculations are applied to the tree list in a different order. This 
+   could happen if the ESTAB and the TALLEY keywords were used without 
+   specifying any other action. Logic was added to skip the tree
+   list sort if there were no trees added to the tree list in a call to
+   the ESTAB routine. 
+
+3) The input database file name, including path, specified in the DSNIN 
+   keyword record was limited to 80 characters. This limit has been
+   expanded to 240 characters.
+   
+4) The FVS database extension has been updated to recognise FIA species
+   codes when a leading zero has been removed (e.g. FVS will recognise
+   either 019 or 19 as a valid species code for subalpine fir).
+
+
+Impact on users: The simulation cycle may be used in field 1 of the
+                 ESTAB keyword. The specified database name plus path
+                 may now be up to 240 characters in length. Tree data
+                 may now containg two-digit FIA species codes without
+                 a leading zero.
+
+Files:
+ESNUTR - added code to convert cycle index to year when needed.
+ESTAB - added logic to skip call to ESGENT if no trees were
+        added to the tree list.
+
+./ak/src/esnutr.f
+./ak/src/estab.f
+./an/src/esnutr.f
+./an/src/estab.f
+./common/includeSVN.f
+./dbs/src/dbsopen.f - modified declaration statement
+./dbs/src/dbsstandin.f - added 2 decimals to the output print format for STK_PCNT
+./dbs/src/dbstreesin.f - trapped 2 character FIA codes and prepended a 0
+./estb/src/esnutr.f
+./estb/src/estab.f
+./ls_new/src/estab.f - added shade adjustment updates, ABIRTH calculation updates and
+                       time delay calculation updates
+./metric/ak/src/estab.f - added shade adjustment updates, ABIRTH calculation updates and
+                          time delay calculation updates
+./metric/estb/src/estab.f - added shade adjustment updates, ABIRTH calculation updates and
+                            time delay calculation updates
+./metric/strp/src/estab.f - added shade adjustment updates, ABIRTH calculation updates and
+                            time delay calculation updates
+./strp/src/esnutr.f
+./strp/src/estab.f

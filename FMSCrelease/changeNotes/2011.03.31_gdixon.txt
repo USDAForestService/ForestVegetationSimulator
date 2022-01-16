@@ -1,0 +1,25 @@
+Subject: Streamlining of code in variants having a Weibull-based crown model
+
+Name: Gary Dixon
+Date: 03/31/11
+
+Variants affected:AK, AN, BM, CA, CI, EC, EM, IE, NC, PN, SN, SO, TT, UT, WC, WS
+
+Description: In variants using the Weibull distribution to estimate crown ratios on trees 
+             with DBH 1.0" and larger, an iterative procedure has been replaced with a
+             direct computation. This makes the code more efficient.
+
+Impact on users:  Users of the AK, BM, CA, CI, EC, EM, IE, NC, PN, SN, SO, TT, UT, WC,
+                  and WS variants need to obtain a new executable. Projections may be 
+                  very slightly affected by this change. In addition to being more efficient
+                  the estimated crown ratio is now rounded to the nearest percent rather
+                  than being truncated. This changes the crown ratio on some trees by 1%
+                  either up or down.
+
+Files:
+                
+xx/src          where xx = AK, AN, BM, CA, CI, EC, EM, IE, NC, PN, SN, SO, TT, UT, WC, WS
+   crown.f      changed the date of revision; deleted variable KNT and IFLAG from the variable
+                declarations; deleted the initialization of IFLAG and replace the iteration
+                logic with a direct computation for estimating crown ratio from the Weibull
+                distribution.

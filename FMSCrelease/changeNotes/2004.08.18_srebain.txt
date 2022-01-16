@@ -1,0 +1,38 @@
+Subject: Corrections to FFE Fire Behavior Calculations
+Name: Stephanie Rebain
+Date: 2004/08/18
+Variants affected: All Variants with FFE
+
+Description: The FFE fire behavior calculations were updated.  A
+correction was made to the value of HPA (heat per unit area) used in 
+estimating the torching index.  Previously, the HPA value for fuel model
+10, not the selected fuel model, was being used.  In addition, the 
+calculation of crown fraction burned for passive crown fires was updated
+to match the method used in Nexus.  One of the coefficients in the crown
+fire intensity / flame length relationship was adjusted to match Nexus 
+and research publications.
+
+Impact on Users:  Users may notice a difference in potential and 
+simulated fire behavior, which may translate to a difference in fire
+effects.  The torching index will either be higher or lower, depending
+on the fuel models selected.  In some cases, this change in torching
+index may cause surface fires to become crown fires and vice versa.  For
+passive fires, the crown fraction burned and total flame length may be 
+different.  For active crown fires, the flame length will be slightly
+lower.
+
+Files:
+fire/base/src/fmcfir.f - added an argument that passed in the correct hpa
+                         value, added some debug code, updated the 
+                         calculation of crown fraction burned and final
+                         spread rate for passive fires
+fire/base/src/fmpofl.f - altered the calls to fmcfir and fmfint, altered 
+                         the crown fire intensity / flame length relationship
+fire/base/src/fmburn.f - altered the calls to fmcfir and fmfint, altered
+                         the crown fire intensity / flame length relationship
+fire/base/src/fmpocr.f - added some debug code
+fire/base/src/fmfint.f - added some debug code, added an argument to 
+                         pass in the call type, so an additional call to
+                         fmfint was needed for the new crown fraction
+                         burned calculation
+

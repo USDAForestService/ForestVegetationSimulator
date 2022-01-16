@@ -1,0 +1,92 @@
+Subject: Expansion of the Utah variant (UT) from 14 to 24 species.
+Name: Gary Dixon
+Date: 01/21/10
+Variants affected: UT
+
+Description: At the request of R4, this variant was expanded from 14 to 24
+             species. Equations and coefficients for the additional species
+are from the Utah, Central Rockies, and South Central Oregon / Northeast
+California variants. The expanded species list and surrogate equations are
+as follows:
+
+C     1 = WHITEBARK PINE               WB  PINUS ALBICAULIS
+C     2 = LIMBER PINE                  LM  PINUS FLEXILIS
+C     3 = DOUGLAS-FIR                  DF  PSEUDOTSUGA MENZIESII
+C     4 = WHITE FIR                    WF  ABIES CONCOLOR
+C     5 = BLUE SPRUCE                  BS  PICEA PUNGENS
+C     6 = QUAKING ASPEN                AS  POPULUS TREMULOIDES
+C     7 = LODGEPOLE PINE               LP  PINUS CONTORTA
+C     8 = ENGELMANN SPRUCE             ES  PICEA ENGELMANNII
+C     9 = SUBALPINE FIR                AF  ABIES LASIOCARPA
+C    10 = PONDEROSA PINE               PP  PINUS PONDEROSA
+C    11 = COMMON PINYON                PI  PINUS EDULIS
+C    12 = WESTERN JUNIPER              WJ  JUNIPERUS OCCIDENTALIS
+C    13 = GAMBEL OAK                   GO  QUERCUS GAMBELII
+C    14 = SINGLELEAF PINYON            PM  PINUS MONOPHYLLA
+C    15 = ROCKY MOUNTAIN JUNIPER       RM  JUNIPERUS SCOPULORUM
+C    16 = UTAH JUNIPER                 UJ  JUNIPERUS OSTEOSPERMA
+C    17 = GREAT BASIN BRISTLECONE PINE GB  PINUS LONGAEVA
+C    18 = NARROWLEAF COTTONWOOD        NC  POPULUS ANGUSTIFOLIA
+C    19 = FREMONT COTTONWOOD           FC  POPULUS FREMONTII
+C    20 = CURL-LEAF MOUNTAIN-MAHOGANY  MC  CERCOCARPUS LEDIFOLIUS
+C    21 = BIGTOOTH MAPLE               BI  ACER GRANDIDENTATUM
+C    22 = BOXELDER                     BE  ACER NEGUNDO
+C    23 = OTHER SOFTWOODS              OS
+C    24 = OTHER HARDWOODS              OH
+
+C VARIANT EXPANSION:
+C GO AND OH USE OA (OAK SP.) EQUATIONS FROM UT
+C PM USES PI (COMMON PINYON) EQUATIONS FROM UT
+C RM AND UJ USE WJ (WESTERN JUNIPER) EQUATIONS FROM UT
+C GB USES BC (BRISTLECONE PINE) EQUATIONS FROM CR
+C NC, FC, AND BE USE NC (NARROWLEAF COTTONWOOD) EQUATIONS FROM CR
+C MC USES MC (CURL-LEAF MTN-MAHOGANY) EQUATIONS FROM SO
+C BI USES BM (BIGLEAF MAPLE) EQUATIONS FROM SO
+C OS USES OT (OTHER SP.) EQUATIONS FROM UT
+
+This expansion includes components associated with FVSut.exe (base model, partial
+regeneration establishment model, cover, dwarf mistletoe, econ, and ffe). It does
+not include additional components associated with FVSutx.exe (Douglas-fir beetle,
+Douglas-fir tussock moth, mountain pine beetle, root disease, and budworm).
+
+
+Impact on users: Users should obtain a new executable and a new variant overview
+                 document.  Results for projections of the original 13 species 
+in this variant may be slightly different due to miscellaneous error corrections
+or updated equations. Results reported as the original "other" (OT) species
+may be different due to some of the trees that may have been in this grouping 
+originally may be reported as a different species now (e.g. other hardwoods). 
+
+One major impact on users is that all site index values should now be entered on
+the site curves base-age basis. In the previous version of this variant, most site
+index values were on a 50-year age basis regardless of the site curves base age.
+This means that any SITECODE keywords in existing runstreams need to be changed so
+the site index value corresponds to the site curves base-age for that species.
+
+Files:
+ut/src modified routines:      BLKDAT, BRATIO, CCFCAL, CRATET, CROWN, CUBRDS, DGDRIV, DGF,    DGFASP,
+                               DUBSCR, ESSUBH, FINDAG, GRINIT, HTGF,   LOGS,  MAICAL, MORTS,  REGENT, 
+                               SITSET, UTMRT,  VARVOL
+
+ut/src new routines:           FNDAG
+                          
+ut/obj modified:               makefile
+
+ut/common modified:            PRGPRM, ESPARM
+
+fvs/bin modified:              makefile
+
+ni/src modified routines:      CWCALC, SPCTRN
+
+volume/src modified routines:  VOLEQDEF
+
+mistoe/src modified routines:  MISINTUT
+
+covr/src modified routines:    CVCBMS, CVSHAP
+
+fire/ut/src modified routines: FMBRKT, FMCBA,  FMCBLK, FMCROW, FMVINIT
+
+fvs/common modified:           PLOT
+
+fvs/base/src                   INITRE, GRINCR, EVTSTV
+

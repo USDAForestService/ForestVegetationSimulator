@@ -1,0 +1,15 @@
+Subject: Misc. corrections
+Name: R. Havis -- problems identified and corrections contributed by Don Robinson, ESSA
+Date: August 11, 2008
+Variants affected: ALL
+
+Description: see discriptions below
+
+Impact on users: None
+
+Files:
+
+./base/src/initre.f  - Initialized IS in TREEDATA keyword sequence. May cause exception
+                       with some compilers
+./dbs/src/dbstrls.f - Corrected explicit logic setting species code output format by keyword.
+                      Functioning of keyword is not affected.

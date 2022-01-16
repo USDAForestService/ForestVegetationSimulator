@@ -1,0 +1,30 @@
+Subject: Add FMortMlt keyword to FFE
+Name: Nick Crookston
+Date: 2015.05.15
+Variants affected: All
+
+Description:
+Routine changes needed to support the keyword, see Files. The new keyword
+abstract is: 
+FMortMlt   
+Field 1: Year/Cycle
+Field 2: Multiplier
+Field 3: Species (0 = ALL), 
+Field 4: Lower DBH (trees must be GE this)
+Field 5: Upper DBH (trees must be less than this). 
+      
+Impact on users: None unless the new keyword is used
+
+Files:
+base/src/oplist.f - added activity code 2554 to the tables
+fire/base/common/FMCOM.F77 - added a vector to hold the multiplier so that 
+ it is used in the potential fire as well as the simulated fire calculations
+fire/base/common/FMFCOM.F77 - just a tab fix
+fire/base/src/fmeff.f - added code to apply the multiplier
+fire/base/src/fmin.f - added keyword processing
+fire/base/src/fmmain.f - added option processing. the multiplier is reset to 
+ 1.0 at the beginning of every cycle, so it does not have "history" and therefore
+ does not need to be record tripled nor stored in put/get routines
+tests/FVSiec/iet03.key - added the use of the new keyword to a test
+tests/FVSiec/iet03.sum.save - updated the test output
+

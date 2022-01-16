@@ -1,0 +1,84 @@
+Subject: Removed keyword SYSTEM
+
+Name: Lance David
+
+Date: 10/08/2019
+
+Variants affected: All variants
+
+Description: Removed the keyword "SYSTEM" from FVS base system. This keyword
+             was developed early in the life of FVS and did serve special
+             purposes at that time. It is no longer needed and did present a
+             volnerability.
+
+Impact on users: No impact on users. Few, if any, users outside of the FVS
+                 developer team were even aware of the existance of this
+                 keyword and it has not been needed or used for at least 15
+                 years.
+
+Files:
+
+base\fvs.f    - Removed processing of SYSTEM activity along with associated
+                varable declarations. This block of code immediately followed
+                call to NATCRZ to retrieve and execute activity.
+
+                C
+                C     FIND AND RUN ANY SCHEDULED SYSTEM CALLS.
+                C
+                      CALL OPFIND (1,MYACT,NTODO)
+                      IF (NTODO.GT.0) THEN
+                         DO ITODO=1,NTODO
+                            CALL OPGET(ITODO,1,IDAT,IACTK,NP,PRM)
+                            IF (IACTK.EQ.MYACT(1)) THEN
+                               CALL OPGETC (ITODO,SYSCMD
+                               CALL OPDONE (ITODO,IY(ICYC+1)-1)
+                               IF (SYSCMD.NE.' ') CALL SYSTEM(SYSCMD)
+                            ENDIF
+                         ENDDO
+                      ENDIF
+
+base\keywds.f - Keyword table array position 118 has been vacated and is
+                available for future new keyword.
+
+vbase\initre.f - Recognition and processing of 'SYSTEM' keyword has been
+                 removed. It was also an activity and so the activity code
+                 100 is now available for future use. The following code stored
+                 the activity for subsequent retreival.
+ 
+                 C
+                 C     READ THE SYSTEM COMMAND.
+                 C
+                       READ(IREAD,'(A)',END=80) RECORD
+                       IRECNT=IRECNT+1
+                       IF (RECORD.EQ.' ') THEN
+                          CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
+                          CALL ERRGRO (.TRUE.,4)
+                          GOTO 10
+                       ENDIF
+                       IDT=1
+                       IF (LNOTBK(1)) IDT=IFIX(ARRAY(1))
+                       IF (.NOT.LNOTBK(1)) THEN
+                          IF(LKECHO)WRITE(JOSTND,11810) KEYWRD,RECORD(1:ISTLNB(RECORD))
+                 11810    FORMAT (/A8,'   SYSTEM CALL:',A)
+                          CALL SYSTEM(RECORD)
+                       ELSE
+                          IF (IPRMPT.GT.0) THEN
+                             IF (IPRMPT.NE.2) THEN
+                               CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
+                               CALL ERRGRO (.TRUE.,25)
+                             ELSE
+                               CALL OPNEWC (KODE,JOSTND,IREAD,IDT,100,KEYWRD,KARD,
+                      >                      IPRMPT,IRECNT,ICYC)
+                               CALL fvsGetRtnCode(IRTNCD)
+                               IF (IRTNCD.NE.0) RETURN
+                             ENDIF
+                          ELSE
+                             CALL OPNEW (KODE,IDT,100,0,ARRAY)
+                          ENDIF
+                          IF (KODE.EQ.0) CALL OPCACT (KODE,RECORD)
+                          IF(LKECHO)WRITE(JOSTND,11820) KEYWRD,IDT,
+                      &                                 RECORD(1:ISTLNB(RECORD))
+                 11820    FORMAT (/A8,'   DATE/CYCLE=',I5,'; SYSTEM CALL:',A)
+
+                       ENDIF
+

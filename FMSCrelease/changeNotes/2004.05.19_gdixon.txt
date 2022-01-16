@@ -1,0 +1,46 @@
+Subject: New DEFECT keyword
+Name: Gary Dixon
+Date: 05/19/04
+Variants affected: All variants
+
+Description: The BFDEFECT and MCDEFECT keywords allow users to set defect
+percentages for classes up to 25" dbh. Eastern forests wanted the ability
+to set defect percentages up to at least 35" dbh. They wanted the specified
+defect percentages to apply to all cycles. All the fields on the BFDEFECT 
+and MCDEFECT keywords were being used. To expand the diameter range but
+maintain the upward compatability with BFDEFECT and MCDEFECT, I created a
+new DEFECT keyword with two fields and a supplemental record. The two fields
+specify the type of defect being specified (cubic or pulpwood, board or 
+sawtimber, or both) and the species. The supplemental record contains 8 
+fields for defect percentages up to 40" dbh. Additional supplemental records
+can be added if we ever need to expand this capability beyond 40". 
+Functionality of the BFDEFECT and MCDEFECT keywords is maintained, and these
+keywords can be used in conjunction with the new DEFECT keyword if desired.
+
+Impact on users: No impact. Just added functionality.
+
+Files:
+common     COEFFS changed dimensions of arrays CFDEFT and BFDEFT from
+                  (6,MAXSP) to (9,MAXSP).
+
+base       VOLKEY added setting of CFDEFT(i,sp) and BFDEFT(i,sp) for i=7,8,9.
+           SDEFET added setting of CFDEFT(i,sp) and BFDEFT(i,sp) for i=7,8,9.
+           INITRE added setting of CFDEFT(i,sp) and BFDEFT(i,sp) for i=7,8,9.
+                  added code for processing the DEFECT keyword.
+           KEYWDS added the DEFECT keyword
+
+ppbase     GETSTD changed dimensions of arrays CFDEFT and BFDEFT from
+                  (6,MAXSP) to (9,MAXSP).
+           PUTSTD changed dimensions of arrays CFDEFT and BFDEFT from
+                  (6,MAXSP) to (9,MAXSP).
+
+ni & ls    VOLS   Changed number of elements for arrays CFDEFT and BFDEFT from
+                  6 to 9 in the calls to ALGSLP.
+                  Changed dimension and initialization of array DBHCLS from 
+                  6 to 9.
+all variants
+           GRINIT Changed initialization of arrays CFDEFT and BFDEFT from
+                  (6,MAXSP) to (9,MAXSP).
+ci & ec    GRINIT Changed a dimension of 11 on the setting of CFDEFT and BFDEFT to
+                  MAXSP.
+                  

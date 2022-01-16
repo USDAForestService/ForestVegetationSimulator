@@ -1,0 +1,25 @@
+Subject: Fire and Fuels Extension Update
+Name:  Stephanie Rebain
+Date:  11/25/2005
+Variants affected: ALL FFE variants
+
+Description:
+1) NPV (native plant community) codes are used in the LS-FFE to determine the fuel model.  
+A correction was made to the way these codes are read in.  
+
+2) Corrections were made to the calculations of consumed and killed crown material when fires are simulated.
+
+
+Impact on users:
+Users of LS-FFE may see changes in output in cases where the NPV code was
+previously not being read in correctly.
+Users should expect small to moderate changes in FFE output when simulating fires.
+
+Files:
+ls/src/habtyp.f - corrected NPV character codes for proper read in.
+fire/base/src/fmeff.f - made numerous corrections to the calculations that consume and kill 
+                        crown material when fires are simulated, especially in cases where the user
+                        shuts off the FFE-predicted mortality or when only a portion of the stand
+                        is burned.
+
+

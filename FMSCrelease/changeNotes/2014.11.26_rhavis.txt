@@ -1,0 +1,24 @@
+Subject: POINT GROUP keyword
+Name: R. Havis
+Date: November 26, 2014
+Variants affected: ALL
+
+Description: Defines a group of points that can be referenced by a single name
+             or group number, and will be treated as a group in management actions
+             or event monitor functions. Users may define up to 30 point groups
+             with each group containing up to 50 points. If the group name is
+             entered in the point field of a keyword, the keyword action will
+             apply to all points in the group. One or more supplemental records
+             are required that contain the FVS input point numbers.                                                                                                           
+             When using the SETPTHIN keyword or the SPMCDBH event monitor function,
+             a point can be referenced by point number identified in the input
+             data or the FVS point sequence number (see the POINTREF keyword).
+             Similarly, point groups can be referenced by their group name defined
+             in field 1, or by their FVS point group sequence number. FVS sequence
+             numbers for poin6t groups are assigned by FVS and are contained in the
+             range (-1 to -30). When referencing point groups on keywords, users are
+             encouraged to use the group name instead of the FVS group sequence number.
+
+Impact on users: DOwnload a new executable to use the point group keyword
+
+Files:

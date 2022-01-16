@@ -1,0 +1,31 @@
+Subject: Metric Model Updates
+Name: R. Havis
+Date: June 26, 2012
+Variants affected: metric version of Central Rockies climate extension
+
+Description: The makefiles for the metric models, FVScrm, FVScrmc and FVSnem,
+             were updated. The metric climate routine (clin.f) was updated.
+
+Impact on users: Users should obtain a new copy of the metric version
+                 of the CR climate extension, FVScrmc.
+
+New Directories:
+
+./metric/clim/cr/obj
+./metric/dbs/obj/ne
+./metric/fire/ne/obj
+
+Files:
+
+./base/src/revise.f
+./bin/makefile                     - edited build instructions for FVScrmc
+./common/includeSVN.f
+./fire/pn/src/fmsfall.f            - added a call to DBCHK
+./metric/clim/cr/obj/makefile      - **new directory, and new makefile to build
+                                     the metric clin object
+./metric/clim/src/clin.f           - updated to current standard version
+./metric/cr/obj/makefile           - removed compile instructions for clin.f
+./metric/dbs/obj/ne/makefile       - **new directory and makefile to compile the
+                                     metric dbs objects for NE
+./metric/fire/ne/obj/makefile      - **new directory and makefile to compile the
+                                     metric fire objects for NE

@@ -1,0 +1,18 @@
+Subject: Volume Code Update
+Name: Robert Havis
+Date: March 22, 2006
+Variants affected: AK
+
+Description: Routine maintenance to the volume code resulted in
+             a change to the R10TAP routine that will prevent a
+             potential mathematical error.
+
+Impact on users: Users of the AK variant should obtain a new executable.
+
+Volume Update - See Volume Bulletins 116-120
+Added Region number to R4VOL Call Statement arguments in VARVOL routines
+
+Files:
+base/src/revise.f ci/src/varvol.f tt/src/varvol.f
+ut/src/varvol.f volume/src/blmvol.f volume/src/profile.f
+volume/src/r10tap.f volume/src/r10vol1.f volume/src/r4vol.f

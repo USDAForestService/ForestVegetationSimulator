@@ -1,0 +1,185 @@
+      SUBROUTINE HTCALC(SINDX,ISPC,AG,HGUESS,JOSTND,DEBUG)
+      IMPLICIT NONE
+C----------
+C WC $Id$
+C----------
+C THIS ROUTINE CALCULATES A POTENTIAL HEIGHT GIVEN A SPECIES SITE AND
+C AGE; IT IS USED TO CALCULATE POTENTIAL HEIGHT AND SITE WHITE OAK IS NOT
+C BASED DIRECTLY ON SI AND AGE, CALCULATED IN HTGF
+C----------
+      LOGICAL DEBUG
+      INTEGER ISPC,JOSTND
+      REAL HGUESS,AG,SINDX
+      REAL SM45,X2,X3,TERM,B,TERM2,B50,X1,Z
+C
+      IF(DEBUG)WRITE(JOSTND,*)' IN HTCALC ISPC,SINDX,AG= ',
+     &ISPC,SINDX,AG
+C
+      SELECT CASE (ISPC)
+C----------
+C PACIFIC SILVER FIR - HOYER, PNW-418
+C SPECIES: SF
+C----------
+      CASE(1)
+        SM45 = SINDX-4.5
+        HGUESS= (SM45  *
+     &       (1.0 - EXP(-(0.0071839 + 0.0000571 * SM45 ) * AG))**
+     &       1.39005
+     &       / (1.0 - EXP(-(0.0071839 + 0.0000571 * SM45 ) * 100.))**
+     &       1.39005) + 4.5
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC SF SM45,HGUESS= ',SM45,HGUESS
+C----------
+C WHITE & GRAND FIR - COCHRAN, PNW-252
+C SPECIES: WF, GF
+C----------
+      CASE(2,3)
+        X2= -0.30935 + 1.2383*ALOG(AG) + 0.001762*(ALOG(AG))**4
+     &      - 5.4E-6*(ALOG(AG))**9 + 2.046E-7*(ALOG(AG))**11
+     &      - 4.04E-13*(ALOG(AG))**18
+        X3= -6.2056 + 2.097*ALOG(AG) - 0.09411*(ALOG(AG))**2
+     &      - 4.382E-5*(ALOG(AG))**7 + 2.007E-11*(ALOG(AG))**16
+     &      - 2.054E-17*(ALOG(AG))**24
+        HGUESS=EXP(X2) - 84.93*EXP(X3) + (SINDX - 4.5)*EXP(X3)
+     &         + 4.5
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC WF/GF X2,X3,HGUESS= ',
+     &  X2,X3,HGUESS
+C----------
+C SUBALPINE FIR - ALEXANDER, RM-32
+C SPECIES: AF, ES
+C----------
+      CASE(4,10)
+        HGUESS = 4.5+((2.75780*SINDX**0.83312)*(1.0-EXP(-0.015701*AG))
+     &           **(22.71944*SINDX**(-0.63557)))
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC ES HGUESS= ',HGUESS
+C----------
+C RED FIR & CALIFORNIA - DOLPH, PSW-206
+C SPECIES: RF
+C----------
+      CASE(5)
+        TERM=AG*EXP(AG*(-0.0440853))*1.4151E-6
+        B = SINDX*TERM - 3.0495E6*TERM*TERM + 5.72474E-4
+        TERM2 = 50.0 * EXP(50.0*(-0.0440853)) * 1.4151E-6
+        B50 = SINDX*TERM2 - 3.0495E6*TERM2*TERM2 + 5.72474E-4
+        HGUESS = ((SINDX-4.5)*(1.0-EXP(-B*(AG**1.51744)))) /
+     &           (1.0-EXP(-B50*(50.0**1.51744)))
+        HGUESS = HGUESS+4.5
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC RF TERM,B,TERM2,B50,HGUESS= ',
+     &  TERM,B,TERM2,B50,HGUESS
+C----------
+C NOBLE FIR - HERMAN, PNW-243
+C SPECIES: NF
+C----------
+      CASE(7)
+        X1 = -564.38 + 22.25*(SINDX - 4.5) - 0.04995*(SINDX - 4.5)**2
+        X2 = 6.80 + 2843.21*(SINDX - 4.5)**(-1) + 34735.54*
+     &       (SINDX - 4.5)**(-2)
+        HGUESS = 4.5 + (SINDX - 4.5)/(X1*(1.0/AG)**2 +
+     &   X2*(1.0/AG) + 1.0 - 0.0001*X1 - 0.01*X2)
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC NF X1,X2,HGUESS= ',X1,X2,HGUESS
+C----------
+C MISC. SPECIES - USE CURTIS, FOR. SCI. 20:307-316.  CURTIS CURVES
+C ARE PRESENTED IN METRIC (3.2808 ?)
+C BECAUSE OF EXCESSIVE HT GROWTH -- APPROX 30-40 FT/CYCLE, TOOK OUT 
+C THE METRIC MULTIPLIER. DIXON 11-05-92
+C SPECIES: YC, DF, RW, RC, BM, WA, PB, GC, AS, CW, WJ, WB, KP, PY, DG, 
+C           HT, CH, WI, OT
+C----------
+      CASE(8,16:18,21,23:27,29,31:37,39)
+        HGUESS = (SINDX - 4.5) / ( 0.6192 - 5.3394/(SINDX - 4.5)
+     &           + 240.29*AG**(-1.4) +(3368.9/(SINDX - 4.5))*AG**(-1.4))
+        HGUESS = HGUESS + 4.5
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC MISC HGUESS= ',HGUESS
+C----------
+C INCENSE CEDAR - BARRETT, PNW 232 (JEFFERY & PONDEROSA)
+C PONDEROSA PINE USE BARRETT
+C SPECIES: IC, JP, PP
+C----------
+      CASE(9,12,15)
+        HGUESS =(128.8952205*(1.0 -EXP(-0.016959*AG))**1.23114)
+     &          - ((-0.7864 + 2.49717*
+     &          (1.0-EXP(-0.0045042*AG))**0.33022)*100.43)
+     &          + ((-0.7864 + 2.49717*(1.0-EXP(-0.0045042*AG))**
+     &          0.33022)*(SINDX-4.5)) + 4.5
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC IC/JP/PP HGUESS= ',HGUESS
+C----------
+C LODGEPOLE PINE USE DAHMS PNW 8
+C SPECIES: LP
+C----------
+      CASE(11)
+        HGUESS = SINDX*(-0.0968 + 0.02679*AG - 0.00009309*AG*AG)
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC LP HGUESS= ',HGUESS
+C----------
+C SUGAR & WHITE PINE - CURTIS, PNW-423
+C SPECIES: SP, WP
+C----------
+      CASE(13,14)
+        HGUESS = (1.0-EXP(-EXP(-4.62536+1.346399*ALOG(AG)-135.354483/
+     &           SINDX))) /
+     &           (1.0-EXP(-EXP(-4.62536+1.346399*ALOG(100.)-135.354483/
+     &           SINDX)))
+        HGUESS = HGUESS*(SINDX-4.5)+4.5
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC SP/WP HGUESS= ',HGUESS
+C----------
+C WESTERN HEMLOCK - WILEY, 1978
+C SPECIES: WH
+C----------
+      CASE(19)
+        Z = 2500./(SINDX-4.5)
+        HGUESS = (AG*AG/(-1.7307 + 0.1394*Z + (-0.0616 + 0.0137*Z)*AG +
+     &           (0.00192 + 0.00007*Z)*(AG*AG))) + 4.5
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC WH Z,HGUESS= ',Z,HGUESS
+C----------
+C MOUNTAIN HEMLOCK - USE MEANS, UNPUBLISHED
+C SPECIES: MH
+C----------
+      CASE(20)
+        HGUESS = (22.8741 + 0.950234*SINDX)*(1.0 - EXP(-0.00206465*
+     &           SQRT(SINDX)*AG))**(1.365566 + 2.045963/SINDX)
+        HGUESS=(HGUESS+ 1.37)*3.281
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC MH HGUESS= ',HGUESS
+C----------
+C RED ALDER - HARRINGTON, PNW-358
+C SPECIES: RA
+C----------
+      CASE(22)
+        HGUESS = SINDX
+     &           + (59.5864 + 0.7953*SINDX)*(1.0-EXP((0.00194 - 
+     &           0.0007403*SINDX)*AG))**0.9198
+     &           - (59.5864 + 0.7953*SINDX)*(1.0-EXP((0.00194 - 
+     &           0.0007403*SINDX)*20.0))**0.9198
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC RA HGUESS= ',HGUESS
+C----------
+C SUBALPINE LARCH - COCHRAN, PNW-424
+C SPECIES: LL
+C----------
+      CASE(30)
+        HGUESS=4.5 + 1.46897*AG + 0.0092466*AG*AG - 2.3957E-4*AG**3 
+     &         + 1.1122E-6*AG**4 + (SINDX -4.5)*(-0.12528 + 0.039636*AG
+     &         - 4.278E-4*AG*AG + 1.7039E-6*AG**3)
+     &         - 73.57*(-0.12528 + 0.039636*AG - 4.278E-4*AG*AG
+     &         + 1.7039E-6*AG**3)
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC LL HGUESS= ',HGUESS
+C----------
+C DOUGLAS FIR -- KING, WEYERHAUSER FOR RPT #8, 1966
+C SPECIES: WO
+C----------
+      CASE(28)
+        Z = 2500./(SINDX-4.5)
+        HGUESS = (AG*AG/(-0.954038 + 0.109757*Z + (5.58178E-2 +
+     &           7.92236E-3*Z)*AG +
+     &           (-7.33819E-4 + 1.97693E-4*Z)*(AG*AG))) + 4.5
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC WO Z,HGUESS= ',Z,HGUESS
+C----------
+C BLANK SPECIES ISPC = 6 AND 38
+C FUTURE SPECIES
+C----------
+      CASE DEFAULT
+        HGUESS = 0.
+        IF(DEBUG)WRITE(JOSTND,*)' HTCALC DEFAULT HGUESS= ',HGUESS
+C
+      END SELECT
+C
+      IF(DEBUG)WRITE(JOSTND,*)' LEAVING HTCALC'
+C
+      RETURN
+      END

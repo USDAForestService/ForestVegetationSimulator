@@ -1,0 +1,169 @@
+Subject: Expansion of the WS variant from 11 to 43 species
+
+Name: Gary Dixon
+Date: 03/29/2011
+
+Variants affected: Western Sierras (WS)
+
+Description: 
+1) At the request of R5 this variant has been expanded from 11 species
+   to 43 species. New species are modeled using existing growth
+   equations from other species in the WS and other variants. The 
+   complete species list and surrogate equations used are as follows:
+
+   New species list for the Western Sierras (WS) variant:
+
+   FVS    FVS                                                            
+   Seq  Alpha   Common                        Scientific                 Source of
+Number   Code   Name                          Name                       Equations Used
+------  -----   ----------------------------  ------------------------   -------------------
+     1     SP   SUGAR PINE                    PINUS LAMBERTIANA          WS sugar pine
+     2     DF   DOUGLAS-FIR                   PSEUDOTSUGA MENZIESII      WS Douglas-fir
+     3     WF   WHITE FIR                     ABIES CONCOLOR             WS white fir
+     4     GS   GIANT SEQUOIA                 SEQUOIADENDRON GIGANTEUM   WS giant sequoia
+     5     IC   INCENSE CEDAR                 LIBOCEDRUS DECURRENS       WS incense cedar
+     6     JP   JEFFREY PINE                  PINUS JEFFREYI             WS Jeffrey pine
+     7     RF   CALIFORNIA RED FIR            ABIES MAGNIFICA            WS California red fir
+     8     PP   PONDEROSA PINE                PINUS PONDEROSA            WS ponderosa pine
+     9     LP   LODGEPOLE PINE                PINUS CONTORTA             CA lodgepole pine
+    10     WB   WHITEBARK PINE                PINUS ALBICAULIS           CA lodgepole pine
+    11     WP   WESTERN WHITE PINE            PINUS MONTICOLA            WS sugar pine
+    12     PM   SINGLELEAF PINYON             PINUS MONOPHYLLA           WS Jeffrey pine
+    13     SF   PACIFIC SILVER FIR            ABIES AMABILIS             WS white fir
+    14     KP   KNOBCONE PINE                 PINUS ATTENUATA            CA knobcone pine
+    15     FP   FOXTAIL PINE                  PINUS BALFOURIANA          CA knobcone pine
+    16     CP   COULTER PINE                  PINUS COULTERI             CA knobcone pine
+    17     LM   LIMBER PINE                   PINUS FLEXILIS             CA knobcone pine
+    18     MP   MONTEREY PINE                 PINUS RADIATA              WS ponderosa pine
+    19     GP   GRAY PINE                     PINUS SABINIANA            CA knobcone pine
+                (OR CALIFORNIA FOOTHILL PINE)
+    20     WE   WASHOE PINE                   PINUS WASHOENSIS           CA knobcone pine
+    21     GB   GREAT BASIN BRISTLECONE PINE  PINUS LONGAEVA             UT Great Basin bristlecone pine
+    22     BD   BIGCONE DOUGLAS-FIR           PSEUDOTSUGA MACROCARPA     WS Douglas-fir
+    23     RW   REDWOOD                       SEQUOIA SEMPERVIRENS       WS giant sequoia
+    24     MH   MOUNTAIN HEMLOCK              TSUGA MERTENSIANA          WS sugar pine
+    25     WJ   WESTERN JUNIPER               JUNIPERUS OCIDENTALIS      CA knobcone pine
+    26     UJ   UTAH JUNIPER                  JUNIPERUS OSTEOSPERMA      CA knobcone pine
+    27     CJ   CALIFORNIA JUNIPER            JUNIPERUS CALIFORNICA      CA knobcone pine
+    28     LO   CALIFORNIA LIVE OAK           QUERCUS AGRIFOLIA          WS California black oak
+    29     CY   CANYON LIVE OAK               QUERCUS CHRYSOLEPSIS       WS California black oak
+    30     BL   BLUE OAK                      QUERCUS DOUGLASII          WS California black oak
+    31     BO   CALIFORNIA BLACK OAK          QUERQUS KELLOGGII          WS California black oak
+    32     VO   VALLEY OAK                    QUERQUS LOBATA             WS California black oak
+                (OR CALIFORNIA WHITE OAK)
+    33     IO   INTERIOR LIVE OAK             QUERCUS WISLIZENI          WS California black oak
+    34     TO   TANOAK                        LITHOCARPUS DENSIFLORUS    WS tanoak/giant chinkapin
+    35     GC   GIANT CHINKAPIN               CHRYSOLEPIS CHRYSOPHYLLA   WS tanoak/giant chinkapin
+    36     AS   QUAKING ASPEN                 POPULUS TREMULOIDES        WS tanoak/giant chinkapin
+    37     CL   CALIFORNIA-LAUREL             UMBELLULARIA CALIFORNICA   WS tanoak/giant chinkapin
+    38     MA   PACIFIC MADRONE               ARBUTUS MENZIESII          WS tanoak/giant chinkapin
+    39     DG   PACIFIC DOGWOOD               CORNUS NUTTALLII           WS tanoak/giant chinkapin
+    40     BM   BIGLEAF MAPLE                 ACER MACROPHYLLUM          WS California black oak
+    41     MC   CURLLEAF MOUNTAIN-MAHOGANY    CERCOCARPUS LEDIFOLIUS     SO curlleaf mountain-mahogany
+    42     OS   OTHER SOFTWOODS                                          WS other softwoods
+    43     OH   OTHER HARDWOODS                                          WS California black oak
+
+
+Impact on users: 
+   Users of the WS variant should obtain a new executable. Projections for the
+   original WS species (SP, DF, WF, GS, IC, BO, JP, RF, PP, TO, and GC)
+   will remain unchanged. Projections for the other softwoods (OS) and other hardwoods (OH)
+   species groups may be different because some of the trees that used to be assigned to 
+   these groups are now projected as seperate species. Since the original WS species have been 
+   assigned a different FVS sequence number in the expanded variant, any runstream using FVS 
+   sequence numbers to designate species on keywords, or any runstreams containing keywords with
+   species ordered parameters cannot be directly used with the new expanded variant.
+
+
+Files:
+
+covr/src
+   cvcbms.f     changed: date of revision; added MAPWS( ) array to map coefficients
+   cvshap.f     changed: date of revision; added MAPWS( ) array to map coefficients
+   
+mistoe/src
+   misintws.f   changed: date of revision; expanded arrays; converted to FVS
+                         coding standards
+
+ni/src
+   cwcalc.f     changed: date of revision; modifed WSMAP dimensions and settings
+   spctrn.f     changed: date of revision; modified WS species translation
+
+volume/src
+   voleqdef.f   changed: date of revision; added new species and equation numbers to R5 logic
+
+ws/common
+   prgprm.f77   new to WS, added to version control, changed MAXSP from 11 to 43
+   esparm.f77   changed: date of revision, number of sprouting species from 2 to 14
+
+ws/src
+   bfvol.f      new routine, added to version control; added to compile and link instructions
+   blkdat.f     changed: date of revision; arrays expanded and loaded for species expansion
+   bratio.f     new routine, added to version control; added to compile and link instructions
+   ccfcal.f     changed: date of revision; coefficients, and logic
+   cratet.f     changed: date of revision; logic
+   crown.f      changed: date of revision; loaded arrays; changed logic to accomodate new species
+   cubrds.f     changed: date of revision; loaded arrays
+   dgbnd.f      changed: date of revision; loaded arrays; changed logic to select case structure
+   dgdriv.f     new routine, added to version control; added to compile and link instructions
+   dgf.f        changed: date of revision; loaded arrays; changed logic to accomodate new species
+   dubscr.f     new routine, added to version control; added to compile and link instructions
+   dunn.f       changed: date of revision; loaded arrays; changed logic to select case structure
+   essubh.f     changed: date of revision; added new species
+   findag.f     changed: date of revision; added Dunning/Levitan logic as used in other R5
+                         variants
+   forkod.f     changed: date of revision; set IGL variable to 2 for the Angeles NF to signal 
+                         DGF to use a different forest constant for JP and PM (this was not
+                         working in DGF in the 11 species version)
+   grinit.f     changed: date of revision; added GGCOM; added initialization of ISTAGF, DSTAG, and BAINIT
+   htcalc.f     changed: date of revision; added new species
+   htdbh.f      new routine, added to version control; added to compile and link instructions
+   htgf.f       changed: date of revision; loaded arrays; changed logic to accomodate new species
+   logs.f       new routine, added to version control; added to compile and link instructions
+   morts.f      changed: date of revision; loaded arrays; changed logic to accomodate new species
+   r5crwd.f     changed: date of revision; ws equation mapping array
+   regent.f     changed: date of revision; loaded arrays; changed logic to accomodate new species
+   sichg.f      changed: date of revision; loaded arrays
+   sitset.f     changed: date of revision; modified the SDI defaults array
+   smhtgf.f     changed: date of revision; loaded arrays; changed logic to select case structure; added
+                         new species
+   varmrt.f     changed: date of revision; loaded arrays; changed logic to accomodate new species
+   varvol.f     changed: date of revision; changes species list
+   
+ws/obj
+   makefile     added compile of new routines
+                added compile of all other routines that make up the variant
+   
+bin/obj
+   makefile     added new routines to WS_LINK list
+                added all other routines that make up the variant to WS_LINK list
+                modified FVSws link instructions
+                modified FVSppws link link instructions
+
+   FCWindows_NT.make  added DBS_LINK_WS
+   
+ppws/obj
+   makefile     added compile instructions for PPE routines
+   
+pput/obj
+   makefile     corrected a comment line
+   
+dbs/obj
+   ws           new folder with svn subfolder and makefile; added to version control
+   
+fire/base/src
+   fmcroww.f    changed: date of revision; comment statements for species assignments
+   fmcrowe.f    changed: date of revision; logic calling htdbh for WS variant
+   
+fire/ws/src
+   fmbrkt.f     changed: date of revision; loaded coefficients
+   fmcba.f      changed: date of revision; loaded values for fuel loads and dominant
+                         vegetation types by habitat type
+   fmcrow.f     changed: date of revision; loaded species map; inserted call to FMCROWE
+                         for some species
+   fmvinit.f    changed: date of revision; loaded new species parameters
+   
+fire/ws/obj
+   makefile     changed: source of PRGPRM;, added compile of all fire model routines;
+                         added appropriate source directories
+   

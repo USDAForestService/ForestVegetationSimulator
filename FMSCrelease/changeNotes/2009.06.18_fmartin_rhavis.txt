@@ -1,0 +1,107 @@
+Subject: ECON extension enhancements
+Name: R. Havis, coded by Fred Martin, Washington DNR
+Date: June 18, 2008
+Variants affected: ALL
+
+Description
+
+1) Added four columns to the ECON summary text report and the Econ
+   Summary database table; harvested total merch cubic volume
+   (saw log merch cubic for the east), harvested board foot volume,
+   discount rate, and user-input (known) SEV.
+
+2. Eliminated SEVKNOWN and DISCOUNT keywords.
+
+3. Added parameters to the STRTECON keyword for discount rate, known SEV,
+   and compute SEV “toggle” (turns SEV calculation on and off).The fields for
+   the STRTECON keyword are:
+   
+STRTECON (ECON Start or Re-initialization Year)
+Field 1: Year or cycle when economic calculations start.  If the ECON start-year
+occurs after the first year of a cycle then harvests in that cycle will not be
+included in ECON calculations, because FVS performs harvests in the first year
+of each cycle.  Default = cycle 1.  
+
+Field 2:  Percentage discount rate, greater than or equal to zero (e.g., 5.25).
+Default = 0.
+
+Field 3: Per acre dollar value of the known SEV; must be greater than zero.
+Specifying a known SEV results in the calculation “value of forest”
+(land plus standing harvestable timber) and “value of trees” (harvestable
+timber separate from land).  If a value is entered in this field then SEV
+will not be calculated, regardless of the value in Field 4, default = 0.  
+
+Field 4: Compute the SEV for each cycle; turns the computation of SEV on and off.
+This field only has affect if field 3 is blank or zero and the discount rate
+is greater than zero; SEV is undefined for a zero discount rate.
+0 = do not compute SEV, default.
+1 = do compute SEV
+
+4. Added smallest and largest tree DBH parameters to the HRVVRCST and
+   PCTVRCST keywords to be consistent with thinning keywords when specifying
+   diameter limits. The fields for the HRVVRCST are
+
+HRVVRCST (Harvest Variable Cost)
+Field 1:  Current (today’s) cost per unit-of-measure and tree DBH.  A zero cost is permitted.   
+
+Field 2:  Unit-of-measure for which cost is specified.   This field is required or the keyword is ignored.  
+1 = tree/acre harvested
+2 = 1000 board-feet/acre
+3 =   100 cubic-feet/acre
+
+Field 3:  Smallest tree DBH in inches to which cost applies (greater than or equal).  Default=0.0
+
+Field 4:  Largest tree DBH in inches to which cost applies (less than).  Default = 999.0
+
+Field 5:  Enter an “&” (without quotes) if a supplemental record follows the keyword.
+
+Supplemental Record:
+Value rate changes are specified on the supplemental record and are entered as a rate and
+duration pair.  The rate is entered as a percent change in the first five-character field
+and the duration in years is entered in the next five-character field.  Rate must be greater
+than or equal to -100%.  Up to eight rate/duration pairs can be entered on the
+supplemental record.
+
+The fields for the PCTVRCST keyword are
+PCTVRCST (Pre-Commercial Thinning Variable Cost)
+
+Field 1:  Current (today’s) cost per unit-of-measure and tree DBH.  
+
+Field 2:  Unit-of-measure for which cost is specified.
+This field is required or record is skipped.  
+1 = tree/acre removed
+2 = 1000 board-feet/acre
+3 =   100 cubic-feet/acre
+
+Field 3:  Smallest tree DBH in inches to which cost applies (greater
+than or equal).  Default=0.0
+
+Field 4:  Largest tree DBH in inches to which cost applies (less than).
+ Default = 999.0
+
+Field 5:  Enter an “&” (without quotes) if a supplemental record
+follows the keyword.
+
+Supplemental Record:
+Value rate changes are specified on the supplemental record and are
+entered as a rate and duration pair.  The rate is entered as a percent
+change in the first five-character 
+
+Impact on users:
+
+Files:
+./bin/makefile - Rebuilt Blue Mountains Climate link (FVSbmc) by creating new
+                 folder and makefile for climate objects (bm/obj/makefile).
+                 Updated bin/makefile.
+./clim/bm/obj/makefile - see comments for bin/makefile
+./common/ECNCOM.F77 deleted hrvCostDbhIndexm, pctDbhIndex, varHrvDbh, VarPctDbh
+                    added doServ, varPctDbhLo, varPctDbhHi, varHrvDbhLo, varHrvDbhHi
+./dbs/src/dbsecsum.f
+./econ/src/eccalc.f
+./econ/src/echarv.f
+./econ/src/ecin.f
+./econ/src/ecinit.f
+./econ/src/ecsetp.f
+./econ/src/ecstatus.f
+./ppbase/src/ecnget.f - added new econ variables, and removed deleted variables.
+./ppbase/src/ecnput.f - added new econ variables, and removed deleted variables.

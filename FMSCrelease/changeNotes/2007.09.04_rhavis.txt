@@ -1,0 +1,39 @@
+Subject: VOLEQNUM Keyword update and numerical error trap.
+Name: R. Havis
+Date: 4 Sep. 2007
+Variants affected: Southeast Alaska/Coastal British Columbia (AK), Blue Mountain (BM),
+                   Inland California/Southern Cascades (CA), Central Idaho (CI),
+      Central Rockies (CR), East Cascades (EC), Eastern Montana (EM), Inland Empire (IE),
+      Kootenai/Kaniksu/Tally Lake (KooKanTL) (KT), Klamath Mountains (NC), 
+      Northern Idaho (NI), Pacific Northwest Coast (PN), Southeast (SE), Southern (SN),
+      South Central Oregon/Northeast California (SO), Tetons (TT), Utah (UT),
+      Westside Cascades (WC), Western Sierra Nevada (WS)
+
+Description:
+1) The VOLEQNUM keyword did not function correctly when the forest code 
+   was absent from the input data. This has been corrected. In the volume
+   equation number table, Behre equation numbers for Region 6 were 
+   showing species FIA codes when default formclass (80) was being used.
+   This has been changed such that species code 999 is shown when default
+   Behre equations are used. (AK, BM, CA, CI, CR, EC, EM, IE, KT, NC,
+   NI, PN, SE, SN, SO, TT, UT, WC and WS)
+   
+2) A potential numerical error was avoided in assigning missing crown
+   ratios to dead trees in the input data. (AK, BM, CI, CR, EC, KT, IE,
+   NC, NI, SO, TT, UT, and WS)
+
+Impact on users: Users should obtain new executables.
+
+Files:
+./ak/src/dubscr.f    - added numerical error trap
+./ak/src/varvol.f    - moved debug statement to befor NATCRS entry
+./base/src/initre.f  - added kludge to assign region number based on variant
+                       in VOLEQNUM keyword processin
+./base/src/revise.f
+./cr/src/dubscr.f    - added numerical error trap
+./ie/src/dubscr.f    - added numerical error trap
+./ni/src/dubscr.f    - added numerical error trap
+./so/src/dubscr.f    - added numerical error trap
+./so33/src/dubscr.f    - added numerical error trap
+./ut/src/dubscr.f    - added numerical error trap
+./volume/src/VolEqDef.f     - modified default Behre Eq. No. in R6

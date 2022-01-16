@@ -1,0 +1,17 @@
+Subject: SQLite-only code in the database extension
+Name: Nick Crookston
+Date: Feb 9, 2018
+Variants affected: All
+
+Description: Replaced ODBC-based code with SQLite-only code in the database extension. 
+
+Impact on users: When using this version of the database extension, the file name
+specified on the DSNIn and DSNOut keywords will be interpreted as an SQLite3 database
+regardless of the line ending. Specification of an ODBC connection string would likely
+cause an error. 
+
+Files: 
+1. makefile: building with SQLite-only is added.
+2. all files in .../dbsqlite are new, those in .../dbs are not used when the SQLite-only 
+versions are used.
+3. a set of source_List files were added that provide for the new code.

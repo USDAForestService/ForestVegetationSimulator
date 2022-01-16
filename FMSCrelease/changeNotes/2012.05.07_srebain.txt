@@ -1,0 +1,78 @@
+Subject: Fire and Fuels Extension Update
+Name:  Stephanie Rebain
+Date:  05/07/2012
+Variants affected: All except NI and NC
+
+Description:
+
+1) In eastern FVS variants, the biomass estimates in the Fire and Fuels Extension were adjusted
+ to improve values for trees below or near the minimum merchantable diameter for cubic foot volume.
+ In the SN variant, the equations used to estimate crown biomass were switched to those in Jenkins (2003), matching
+ the other eastern variants.  Because some hardwood species in western FVS variants use crown biomass 
+ equations from the east, those estimates are altered as well.
+ 
+ Jenkins, J.C., D.C. Chojnacky, L.S. Heath, and R.A. Birdsey. 2003. National-scale biomass estimators for 
+ United States tree species. For Sci. 49:12-35.
+  
+Impact on users:
+Estimates of biomass, surface fuels, canopy fuels, carbon, fire behavior and fire effects may all be different due to this
+code change.  Users of most variants should obtain new executables.
+
+Modified Files:
+
+fire/base/src/fmcrowe.f - changed subroutine so that the crown biomass equations are those from the Jenkins' forest science pub;
+                          improved how biomass is calculated for small trees for smoother behavior as tree cross the min merch dbh limit
+fire/ak/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe; 
+                       added placeholder for unused call to htdbh from fmcrowe 
+fire/bm/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe;
+                       deleted placeholder for unused call to htdbh from fmcrowe                       
+fire/ca/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/ci/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/cr/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/cs/src/fmcrow.f - changed call from fmcrowls to fmcrowe 
+fire/ec/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe;
+                       deleted placeholder for unused call to htdbh from fmcrowe 
+fire/em/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/ie/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/ls/src/fmcrow.f - changed call from fmcrowls to fmcrowe
+fire/nc/src/fmcrow.f - changed comments
+fire/ne/src/fmcrow.f - changed call from fmcrowls to fmcrowe
+fire/ni/src/fmcrow.f - changed comments
+fire/pn/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/so/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/sn/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       adjusted call to fmcrowe
+fire/tt/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/ut/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/wc/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+fire/ws/src/fmcrow.f - changed the mapping of some hardwoods to reflect the species ordering in the new version of fmcrowe;
+                       deleted unnecessary code and variables; adjusted call to fmcrowe
+
+fire/cs/obj/makefile - compiled and linked CS with fmcrowe instead of fmcrowls
+fire/ls/obj/makefile - compiled and linked LS with fmcrowe instead of fmcrowls
+fire/ne/obj/makefile - compiled and linked NE with fmcrowe instead of fmcrowls
+
+
+Deleted Files:
+fire/base/src/fmcrowls.f - moved these crown biomass equations into fmcrowe, rendering this subroutine useless.
+
+
+                              
+
+
+
+
+

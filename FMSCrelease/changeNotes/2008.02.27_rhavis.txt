@@ -1,0 +1,19 @@
+Subject: BLM volume in PN variant
+Name: R. Havis
+Date: February 27, 2008
+Variants affected: PN, WC
+
+Description:
+The PN variant was using the VARVOL routine from the WC variant.
+The BLM forest codes and volume equations were not mapping to
+the appropriate volume equation processing routines.
+This was corrected. In WC, NATCRS was accessing the incorrect variant.
+
+Impact on users: BLM users of the PN variant should obtain new executables
+
+Files:
+./bin/makefile
+./pn/obj/makefile
+./pn/src/varvol.f
+./wc/obj/makefile
+./wc/src/varvol.f

@@ -1,0 +1,45 @@
+Subject: ECON Extension Update
+Name: R. Havis
+Date: September 28, 2007
+Variants affected: ALL
+
+Description: The ECON Extension was updated by it's Creator Fred Martin of the Washinton
+             DNR. THE ECON DataBase functionality was improved and it was linked to
+             variants in R8 and R9.
+
+Impact on users: Users will be able to write ECON DataBase Tables, and use ECON in R8 and R9.
+
+Files:
+
+Major update to ECON routines.
+
+./base/src/cuts.f    - modified CALL Statement parameters (ECHARV)
+./base/src/exdbs.f   - added entries DBSECSUM and DBSECHARV  
+./base/src/execon.f  - modified ENTRY Statements (ECSTEP, ECHARV, ECIN and ECVOL)
+./base/src/grincr.f  - modified comments
+./base/src/initre.f  - modified CALL Statement parameters (ECIN)
+./base/src/main.f    - moved CALL Statement (ECSTEP) and modified comments
+./bin/makefile       - added link instructions for ECON extensions for CS, LS, NE and SN
+                     - added OPGET3 to R8 and R9 link lists
+./common/ECNCOM.F77  - added parameter FT3_100_LOG
+                     - added SEVINPUT
+                     - removed SEVAMT
+                     - modified comments
+./cs/obj/makefile    - added compile instructions for ECON routines, and OPGET3
+./cs_new/obj/makefile- added compile instructions for ECON routines, and OPGET3
+./dbs/obj/ak/makefile- added compile instructions for ECON routines
+./dbs/obj/makefile   - added compile instructions for ECON DBS routines
+./dbs/src/DBSCOM.F77 - added IDBSECON
+./econ/src/eccalc.f
+./econ/src/echarv.f
+./econ/src/ecin.f
+./econ/src/ecinit.f
+./econ/src/ecsetp.f
+./econ/src/ecstatus.f
+./econ/src/ecvol.f
+./ls/obj/makefile    - added compile instructions for ECON routines, and OPGET3
+./ls_new/obj/makefile- added compile instructions for ECON routines, and OPGET3
+./ne/obj/makefile    - added compile instructions for ECON routines, and OPGET3
+./ne_new/obj/makefile- added compile instructions for ECON routines, and OPGET3
+./ni/src/vols.f      - modified CALL Statement parameters (ECVOL)
+./sn/obj/makefile    - added compile instructions for ECON routines, and OPGET3

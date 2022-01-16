@@ -1,0 +1,56 @@
+Subject: Root Disease Model
+Name: Lance R. David (FHTET), D. Robinson (ESSA)
+Date: 08/18/2006
+
+Variants affected: FFE only - bm, ci, cr, ec, em, ie, kt, nc, ni,
+                              pn, so, so33, tt, ut, wc, ws
+
+Description:
+
+A new base common file METRIC.F77 (initiated by Don) has been
+implemented and a few metric conversion factor variable names 
+needed changed in the RD model to facilitate the removal of the 
+METRIC.F77 common file that existed (but is now deleted) in rd/src.
+
+Makefiles were also modified to redirect the path for METRIC.F77
+from fvs/rd/src to fvs/common.
+
+Two obsolete directories under rd/obj (cr, pn_wc) were also removed.
+
+rdin subroutines had additional cleanup and some keyword processing
+error messages had been inadvertently suppressed with the keyword
+echo control, LKECHO.
+
+Impact on users:
+
+None.
+
+
+Modified Files in rd/src:
+
+	rdbout.f 
+	rddout.f 
+	rdin.f 
+	rdinca.f 
+	rdincr.f 
+	rdinie.f 
+	rdinso33.f 
+	rdinut.f 
+	rdpr.f 
+	rdsout.f 
+
+Removed Files:
+
+	rd/src/METRIC.F77 
+	rd/obj/cr    (directory and contents)
+	rd/obj/pn_wc (directory and contents)
+
+Modified MakeFiles:
+
+	cr/obj/makefile 
+	ie/obj/makefile 
+	pn/obj/makefile 
+	rd/obj/makefile 
+	so33/obj/makefile 
+	ut/obj/makefile 
+	wc/obj/makefile 

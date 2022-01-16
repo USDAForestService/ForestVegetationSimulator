@@ -1,0 +1,14 @@
+Subject: SPROUT Generation Algorithm
+Name: Havis/Keyser
+Date: April 25, 2006
+Variants affected: CR
+
+Description: New sprouts are generated when cutting or fire is simulated. The predicted number of
+             sprouts per stem was excessive when disturbance the cycle length exceeded 10 years.
+             This has been corrected.
+
+Impact on users: Users who set the cycle length greater than 10 years, and who expect sprout
+                 generation in their simulations should obtain a new executable.
+
+Files:
+cr/src/esuckr.f - constrained RSHAG <=10 to correct excessive sprouting problem

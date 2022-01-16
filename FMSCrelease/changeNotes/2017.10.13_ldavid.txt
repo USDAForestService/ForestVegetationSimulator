@@ -1,0 +1,38 @@
+Subject: Miscellaneous changes in CS and LS variants
+Name: Lance David
+Date: 10/13/2017
+Variants affected: CS and LS
+
+Description: With the implementation of new diameter growth equations (dgf.f)
+in CS and LS variants, run time floating-point exception errors occurred when
+processing test dataset from flat file input. Errors did not occur when an input
+database was used. It is important to note that the crash did not happen in 
+dgf.f, but in return from dgdriv.f to cratet.f, which makes no sense. During 
+process to resolve, some subroutines were modified, but only with initialization
+of variables and debug accommodation. No procedural or functional changes where
+made that changed results of projections. In the end, the only way to alleviate
+the floating-point exception, which I currently believe to be a false detection,
+was to remove the option from the compiler.
+
+
+Impact on users: Projections will be different for the CS and LS variants due to
+the new diameter growth equations (dgf.f) previously committed. These changes
+do alter projections at all. 
+
+Files:
+/cs/src/findag.f           Initialized AGET and HTMAX variables, added debug.
+/ls/src/findag.f
+
+/cs/src/dgf.f              Removed tab characters and unused declared variables.
+/ls/src/dgf.f              Formatted data blocks and moved from bottom of routine
+                           to the top.
+
+/ls/src/dgdriv.f           Added debug. Impelemented common exit point at end of 
+                           subroutine.
+
+/ls/src/regent.f           initialized variables AGET and D used in call parameters.
+
+/ls/src/htcalc.f           Added debug. Set variable HTG1 = 0.0 at line 396
+
+/dbs/src/dbsstandin.f      Initialize variable CHAB to blank.
+

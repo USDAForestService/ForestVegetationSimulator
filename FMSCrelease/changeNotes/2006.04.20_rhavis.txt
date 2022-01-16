@@ -1,0 +1,52 @@
+Subject: CCF Coefficient Correction, Crown Width Update in R1 and in 
+         Western Variants for some species (DBH < 5 in), correction of
+         Diameter Growth Eq. (CR) for Whitebark Pine, and Correction of
+         Plants 2 Plants Codes in Minor Species in the CS and LS variants
+Name: Robert Havis
+Date: April 20, 2006
+Variants affected: AK, BM, CA, CS, CI, CR, EC, EM, IE, KT, LS,
+                   NC, NI, PN, SO, TT, UT, WC and WS
+
+Description:
+1) An error was corrected in the large tree diameter growth 
+   equations for whitebark pine. Also, the breakpoint between
+   the large and small tree models for whitebark pine was changed from 1.0
+   inch to 3.0 inches, and the weighting of the large and small tree height
+   growth estimates was changed from 0.5"-1.0" to 2.0"-5.0". These changes
+   will affect whitebark pine large tree diameter growth, calibration of the
+   large tree diameter growth model, small tree height growth, and small tree
+   diameter growth (CR).
+2) A coefficient (Element 11 (OT) in the RD2 array), sum of diameters
+   term, was corrected in the Crown Competition Factor algorithm.
+   (BM, EM, NC, SO and WC variants)
+3) The crown width equations were improved for R1 and for some species
+   having diameters less than 5 in. in the other western variants.
+4) The plant code for nutall oak was changed from QUBU2 to QUNU (CS), and 
+   diamond willow was changed from SABE2 to SAERF (LS) 
+
+
+Impact on users: User's of the CR variant that have whitebark pine as a species
+                 should obtain a new executable. Users of the BM, EM, NC, SO and
+                 WC variants should obtain new executables. Users of western
+                 variants (except R5) who are concerned with crown width
+                 calculations should obtain new executables. Users of the CS
+                 variant who use plants codes for nutall oakbark and users of
+                 the LS variant who use plants codes for diamond willow should
+                 obtain new executables.
+
+Files:
+base/src/revise.f
+bm/src/ccfcal.f      - corrected coefficient (element 11 (OT) array RD2)
+cs/src/blkdat.f      - plant code for nutall oak was changed from QUBU2 to QUNU
+em/src/ccfcal.f      - corrected coefficient (element 11 (OT) array RD2)
+ls/src/blkdat.f      - plant code for diamond willow was changed from SABE2 to SAERF
+ls/src/spctrn.f      - changed Cs and LS plants codes
+nc/src/ccfcal.f      - corrected coefficient (element 11 (OT) array RD2)
+ni/src/cwcalc.f      - updated R1 and D<=5.in. (some species) crown width formulae 
+so/src/ccfcal.f      - corrected coefficient (element 11 (OT) array RD2)
+so33/src/ccfcal.f    - corrected coefficient (element 11 (OT) array RD2)
+wc/src/ccfcal.f      - corrected coefficient (element 11 (OT) array RD2)
+em/src    dgf.f      - corrected a debug write statement so it prints the correct variables
+cr/src   gemdg.f     - corrected the whitebark pine large tree diameter growth equation
+         blkdat.f    - changed the breakpoint diameter between the small and large tree models from 1.0" to 3.0" for whitebark pine
+         regent.f    - changed the height growth weighting range from 0.5"-1.0" to 2.0"-5.0" for whitebark pine

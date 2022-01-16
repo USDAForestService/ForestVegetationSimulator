@@ -1,0 +1,32 @@
+Subject: HERBSHRB event monitor function
+
+Name: Gary Dixon
+Date: 01/19/2010
+
+Variants affected: All variants
+
+Description: A new event monitor function, HERBSHRB(i), was added. When the FFE
+             extension is active, HERBSHRB(1) returns the total herbs in tons/acre;
+             HERBSHRB(2) returns the total shrubs in tons/acre; and HERBSHRB(3)
+             returns the total herbs and shrubs in tons/acre, at the cycle boundaries.
+             These values are from the FFE Fuels Output Report.
+
+Impact on users: None, however users wanting to use this new function should obtain
+                 a new variant executable.
+
+Files:
+base/src       ALGKEY: changed the date of revision; changed the value of N8 from 
+                       35 to 36; added comment line for the HERBSHRB function with
+                       activity code 13200; loaded HERBSHRB into the CTAB8 array;
+                       loaded option code 13200 into the IOPT8 array.
+               ALGEVL: changed the date of revision; added HERBSHRB to a comment line
+                       at line 373; added another "340" value to the next to last
+                       position of the GO TO statement before the 301 CONTINUE statement;
+                       added HERBSHRB to a comment line before the 340 CONTINUE statement.
+               EVLDX:  changed the date of revision; added code just before the
+                       1000 CONTINUE statement to process the HERBSHRB function.
+               EXFIRE: changed the date of revision; added an ENTRY for FMEVLSF(rval,ii,irc).
+               
+fire/base/src  FMEVMON: change the date of revision; added code at the end of the routine,
+                        ENTRY FMEVLSF(rval,ii,irc) for live surface fuels, to compute a value 
+                        for the HERBSHRB function.

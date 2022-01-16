@@ -1,0 +1,36 @@
+Subject: SDI Calculation and Curtis RD added to SpMcDBH function
+Name: Lance David
+Date: 03/07/2018
+Variants affected: All
+
+Description: Loop control variable in sdi calculations (sdical.f) changed from
+ITRN (total tree records) to IREC1 (projectable/live tree records). Using ITRN
+caused process to enter indices that did not contain tree data because the
+incoming mortality status of the tree records placed them at the end of the 
+arrays.
+Bryan Lu (WA DNR) provided an update for the addition of returning the
+partitioned Curtis relative density value with the SpMcDBH Event Monitor
+function. His code was integrated into evldx.f routine. This is option #14
+for the function and behaves like all other options with the inclusion of the
+controlling paramters.
+***
+Earlier modification to sdical.f that did not get into a change note was
+the ENTRY RDCLS code for the summation method of calculating relative density
+was replaced with code developed by Bryan Lu, F. Martin, and R. Johnson 
+(WA Department of Natural Resources). This modification affects the specific
+performance of the ThinRDen management action and the Event Monitor variables
+BRDEN and ARDEN. This update went out with January 2018 release.
+***
+
+
+Impact on users: SDI calculation loop control only displayed minor changes in
+results for varaints AK, WS and WC test runs with multiple stands in a serial
+run. The addition of partitioned Curtis relative densitsy to the capabilities
+of the SpMcDBH Event Monitor function is useful for computed variable and 
+conditionals.
+
+Files:
+/base/src/evldx.f     Updated SpMcDBH for Curtis relative density return.
+/base/src/sdical.f    Changed loop control from ITRN to IREC1. Entry RDCLS
+                      was updated earlier with new process for calculating
+                      Curtis' relative density.

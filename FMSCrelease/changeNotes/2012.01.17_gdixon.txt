@@ -1,0 +1,50 @@
+Subject: Small tree diameter growth
+
+Name: Gary Dixon
+Date: 01/17/12
+
+Variants affected: All Variants
+
+Description: (1) When the cycle length was not 10-years, diameter growth for trees less than 3.0" dbh
+             was being incorrectly scaled to the cycle length. This problem has been fixed.
+             (2) In the CA, CS, LS, NE, and SO variants, a blending of estimated small tree diameter 
+             growth with estimated large tree diameter growth occurs over a diameter range to ensure 
+             a smoother transition between the two submodels. Small tree diameter growth was not being
+             scaled to the same time basis as the large tree diameter growth before this weighting
+             occurred. This problem has been fixed.
+             (3) In the IE and SO variants, scaling variables were not being used correctly 
+             for some species. This problem has been corrected.
+             (4) In the CS, LS, and NE variants, the small tree diameter growth multiplier and
+             bark ratio adjustment were being applied twice. These problems have been fixed.
+
+Impact on users: Users of these variants should obtain a new executable. Results for runs containing
+                 trees less than 3.0" dbh will be different.
+
+Files:
+xx/src/regent.f   xx = AK, BM, CI, CR, CS, EC, EM, IE, KT, LS, NC, NE, NI, PN, SN, SO, TT, UT, WC, WS
+                  changed the date of revision; changed the diameter used in the calculation of
+                  DDS from DG, and subsequent conversion from DDS to DG, to actual beginning-of-cycle
+                  tree dbh;
+
+                  xx = CI, EM, KT, NC, NI, TT
+                  changed the date of revision;
+                  changed the variable BARK to use actual beginning-of-cycle tree dbh and height
+
+                  xx = CA, CS, LS, NE, SO
+                  changed the date of revision;
+                  moved the scaling of small tree diameter growth to a 10-yr basis before the
+                  weighting with large tree diameter growth which is already on a 10-yr basis;
+                  added some comment statements explaining the logic
+                  
+                  xx = CS, LS, NE, SO
+                  changed the date of revision; restructured the small tree diameter growth scaling
+                  logic so the small tree diameter growth multiplier was not being applied twice.
+                  
+                  xx = SO
+                  changed the date of revision; added scaling of DG to a 10-year basis for
+                  species NF, WH, PY, WA, RA, BM, CW, CH, WI, GC, MC, MB, and OH.
+                  
+                  xx = IE
+                  changed the date of revision; inserted code to set and use the SCALE and SCALE2 
+                  parameters correctly according to species; changes some of the IF-THEN-ENDIF code
+                  structures to CASE statements.

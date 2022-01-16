@@ -1,0 +1,43 @@
+Subject: Database extension enhancements
+Name: Nick Crookston
+Date: 09/07/2004
+Variants affected: All
+
+Description:
+
+This notice modifies 2004.09.01_ncrookston.txt
+
+1. Changed the input spacies code length to a maximum of 8, not 6 chars.
+
+2. The new column in FVS_Cases table is now called Stand_CN. In the future
+we will likely also have a Tree_CN so the name change will help us keep the
+two items separate. And, the values of CN are 40 chars long, not 34.
+
+3. Stand_CN is now a defined part of the FVS_StandInit table. When it is present
+in the database, the value of Stand_CN from the database is used to initialize
+the value of DBCN in FVS.  DBCN is stored in /PLOT/
+
+4. Stand_CN can now be used in SQL preprocessing. For example, in addition to
+%StandID% and other automatic variables, you can use %Stand_CN% in any SQL
+statement in the database extension. The current value of CN will be inserted
+in the SQL statement prior to processing.
+
+5. Changed the new CN keyword to STANDCN.
+
+Impact on users: User's will need to start fresh output databases because
+of the change in CN column name in the FVS_Cases table.
+
+Files:
+common/PLOT.F77 -- added DBCN variable
+
+base/src/keywds.f -- changed CN keyword to STANDCN
+base/src/initre.f -- changed CN keyword to STANDCN
+
+base/src/intree.f -- changed species processing to hold 8 chars
+
+dbs/src/dbscase.f -- changed CN to Stand_CN
+dbs/src/dbsprssql.f -- changed CN to Stand_CN
+
+ls/src/spctrn.f -- changed data type of SPCIN to CHARACTER*(*)SPCIN
+ni/src/spctrn.f -- ditto.
+
