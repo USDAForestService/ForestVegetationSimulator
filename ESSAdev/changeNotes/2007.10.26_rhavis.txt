@@ -1,0 +1,16 @@
+Subject: KCP, ADD file error report
+Name: R. Havis
+Date: October 26, 2007
+Variants affected: ALL
+
+Description: The generation of an FVS Error message was added to
+             the main output file when an OPEN keyword tries
+             to open a .KCP or .ADD file that does not exist
+
+Impact on users: New OPEN keyword diagnostic error report.
+
+Files:
+./base/src/errgro.f - added FVS ERROR31
+./base/src/keyopn.f - force file open status "old" for .kcp and .add files
+                      and generate FVS ERROR31 message when file does not exist
+

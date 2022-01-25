@@ -1,0 +1,103 @@
+Subject: R8 and R8 Default Merch. Specs. CCFCAL routines and other updates
+Name: R. Havis
+Date: December 28, 2006
+Variants affected: BM, CA, CR, CS, LS, NC, NE, PN, SO, TT, UT, and WC
+
+Description:
+1) The default Merch. Specs. were updated for R9. The BFVOLUME and VOLUME keyword
+processing was updated so scheduling changes in Merch. Specs. properly tracks
+defaults in R9. Keyword echos reflect that top diameters can not be changed in
+R8 and R9. R8 now operates like R9 in that defaults are always used.
+
+Admin              HARDWOOD               SOFTWOOD        Aspen, Balsam Poplar    Redcedar
+Forest         Pulp      Sawtimber   Pulp      Sawtimber  Pulp        Sawtimber   Sawtimber
+               Min  Top  Min   Top   Min  Top  Min  Top   Min   Top   Min   Top   Min   Top
+               DBH  DIB  DBH   DIB   DBH  DIB  DBH  DIB   DBH   DIB   DBH   DIB   DBH   DIB
+03-Chipp       5.0  4.0  9.0   7.6   5.0  4.0  9.0  7.6   6.0   4.0   11.0  9.6
+04-HurMan      5.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6
+05-MarkTwain   5.0  4.0  9.0   7.6   5.0  4.0  9.0  7.6                           8.0   8.0
+07-Ottawa      5.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6                9.0  7.6
+08-Shawnee     6.0  5.0  11.0  9.6   5.0  4.0  9.0  7.6
+09-Superior    6.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6
+10-Hiawatha    5.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6
+12-Hoosier     6.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6
+13-CheNic      5.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6
+14-Wayne       6.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6
+19-Allegheny   6.0  5.0  11.0  9.6   5.0  4.0  9.0  7.6   
+20-GreenMtn    8.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6   
+21-Monongahela 5.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6    
+22-WhiteMtn    5.0  4.0  11.0  9.6   5.0  4.0  9.0  7.6
+
+
+2) Equation documentation was added to the CCFCAL routine comment areas, and
+various corrections to logic and coefficients were applied as described below.
+
+Impact on users:
+
+The keyword guide should be changed to show the default Merch. Specs. for R9,
+and remove the statements "Changing it will cause reported board/cubic foot
+volumes to be zero" in the BFVOLUME and VOLUME keyword descriptions for SE/SN F4.
+Could substitute the statement "Changing it will cause no change in reported
+board/cubic foot volumes".
+
+Files:
+./ak/obj/makefile    - added GGCOM.F77 dependency to ni/VOLS compile instructions
+./ak/src/ccfcal.f    - added comments describing equation sources
+./base/src/initre.f  - modified processing of VOLUME and BFVOLUME keywords to 
+                       selectively process R8 and R9 Merch. Specs.
+./base/src/revise.f
+./base/src/volkey.f  - removed lower bound of BFMIND, BFTOPD = 2 and put in ls,
+                       ni/VOLS
+./bin/makefile       - removed extra, unneeded, token in link list for R9_new
+                       executables
+./bm/src/ccfcal.f    - added comments describing equation sources, corrected
+                       coeffs 9, 11
+./ca/obj/makefile    - added GGCOM.F77 dependency to ni/VOLS compile instructions
+./ca/src/ccfcal.f    - corrected logic in CCF calculation
+./ci/src/ccfcal.f    - added comments describing equation sources
+./cr/obj/makefile    - added GGCOM.F77 dependency to ni/VOLS compile instructions
+./cr/src/ccfcal.f    - added comments describing equation sources
+./cr/src/sitset.f    - removed setting of default Merch. Specs., added comments
+./cs/src/sitset.f    - removed setting of default Merch. Specs., added comments
+./ec/src/ccfcal.f    - added comments describing equation sources
+./em/src/ccfcal.f    - added comments describing equation sources
+./ie/obj/makefile    - added GGCOM.F77 dependency to ni/VOLS compile instructions
+./ie/src/ccfcal.f    - added comments describing equation sources
+./ls/src/grinit.f    - set DBHMIN, TOPD, BFMIND, BFTOPD= 0.
+./ls/src/sitset.f    - removed setting of default Merch. Specs., added comments
+./ls/src/vols.f      - set default Merch. Specs. by forest for CS, LS, NE, SE, SN
+./nc/src/ccfcal.f    - added comments describing equation sources and corrected 
+                       coeffs for 1, 5, 8, 9 and 11
+./ne/src/blkdat.f    - corrected plants code for PN (pin oak)
+./ne/src/grinit.f    - set DBHMIN, TOPD, BFMIND, BFTOPD= 0.
+./ne/src/sitset.f    - removed setting of default Merch. Specs., added comments
+./ni/obj/makefile    - added GGCOM.F77 dependency to ni/VOLS compile instructions
+./ni/src/vols.f      - set default Merch. Specs. for CR
+./pn/src/ccfcal.f    - added comments describing equation sources, corrected coeffs
+./so33/obj/makefile  - added GGCOM.F77 dependency to ni/VOLS compile instructions
+./so33/src/ccfcal.f  - added comments describing equation sources
+./se/src/grinit.f    - set DBHMIN, TOPD, BFMIND, BFTOPD= 0.
+./sn/src/grinit.f    - set DBHMIN, TOPD, BFMIND, BFTOPD= 0.
+./so/src/ccfcal.f    - added comments describing equation sources, corrected coeffs
+                       red fir/subalpine fir
+./tt/src/ccfcal.f    - added comments describing equation sources, corrected
+                       coeffs 1, 2, 7, 11
+./ut/obj/makefile    - added GGCOM.F77 dependency to ni/VOLS compile instructions
+./ut/src/ccfcal.f    - added comments describing equation sources, corrected
+                       coeffs 1, 2, 7, 11, 12, 14
+./wc/obj/makefile    - added GGCOM.F77 dependency to ni/VOLS compile instructions
+./wc/src/ccfcal.f    - added comments describing equation sources, corrected coeffs
+./ws/src/ccfcal.f    - added comments describing equation sources
+./cs_new/obj/makefile
+./cs_new/src/essubh.f
+./cs_new/src/sitset.f    - removed setting of default Merch. Specs., added comments
+./ls_new/obj/makefile
+./ls_new/src/essubh.f
+./ls_new/src/grinit.f    - set DBHMIN, TOPD, BFMIND, BFTOPD= 0.
+./ls_new/src/sitset.f    - removed setting of default Merch. Specs., added comments
+./ls_new/src/vols.f      - set default Merch. Specs. by forest for CS, LS, NE, SE, SN
+./ne_new/obj/makefile
+./ne_new/src/blkdat.f    - corrected plants code for PN (pin oak)
+./ne_new/src/grinit.f    - set DBHMIN, TOPD, BFMIND, BFTOPD= 0.
+./ne_new/src/essubh.f
+./ne_new/src/sitset.f    - removed setting of default Merch. Specs., added comments

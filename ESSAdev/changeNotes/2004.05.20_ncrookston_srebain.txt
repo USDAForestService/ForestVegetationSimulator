@@ -1,0 +1,124 @@
+Subject: Enhancements to Potential Fire Report, fixed initial snags in SVS
+         images, modified FFE Event Monitor variables.
+Name: Nick Crookston and Stephanie Rebain
+Date: May 20, 2004
+Variants affected: All.
+
+===================== Description: =====================
+1. Enhancements to Potential Fire Report included adding surface fire flame
+lengths, P-Torch, and Conditional Surface Fire as a fire type. The
+format of the table was changed to accommodate the new output variables.
+The modifications included writing "S" for "SURFACE", "P" for "PASSIVE",
+"A" for "ACTIVE", and "C" for "COND_SUR" (conditional surface fire).
+Updates were made to the data base extension to output these variables. A
+few column names were modified to make them more consistent.
+
+2. The data base extension documentation was updated to reflect the change
+in the Potential Fire Report.
+
+3. Modified the SVS code to correctly represent the number of snags
+recorded at inventory time (there were 2X the number of snags being drawn
+than there should have been).
+
+4. Modified the calling sequence so that snag salvage is done prior to
+aging snags.
+
+5. Added surface flame lengths as options in the POTFLEN function.
+
+6. Modified FFE so that four FFE Event Monitor variables and two functions
+do not have values during the first and second calls to the EM, but get
+their values once they are correctly computed. They are available for
+COMPUTE expressions that are evaluated after the second call to EM. This is
+accomplished by adding a call to EVTSTV from the FFE that allows pending
+COMPUTE expressions to be computed during the cycle.
+
+7. Fixed some bugs in the trial harvest logic.
+
+8. Made some very minor changes as listed below under "house keeping".
+
+=====================
+Impact on users:
+=====================
+
+1. Users of the data base extension will need to rename existing
+FVS_PotFire tables to a new name because the new table column names are
+different than the old ones.
+
+2. SVS images will be correct when snags are in the inventory.
+
+3. The change to the FFE Salvage option is minor and was done in
+preparation of other changes in the Salvage and SVS logic.
+
+4. The change to the FFE-Event Monitor logic was made so that computed
+variables have values that match the values reported in the FFE output
+tables for the year the values are computed. This changes affects computed
+variables that are functions of FFE variables, FFE functions, or both. The
+four affected variables are: CRBASEHT, CROWNIDX, TORCHIDX, and CRBULKDN.
+The two affected functions are: FUELLOAD, and POTFLEN. Variables and
+functions that are not affected are: FIRE, FIREYEAR, MINSOIL, and SNAGS.
+
+Logical expressions that contain affected FFE variables and FFE functions
+will never be true because these variables and functions will never have
+values during the first and second calls to the Event Monitor. Logical
+expressions that are functions of computed variables will be based on the
+values last known for those variables. When those variables have values
+that are functions of affected FFE variables and FFE functions, the values
+will be from the most recent cycle, not the current cycle.
+
+5. Trial harvest logic change only effects some experimental uses.
+
+=====================
+Files:
+=====================
+base/src/svestb.f -- fixed the number of snags per acre.
+fire/base/src/fmmain.f --
+           moved call to salvage to occur prior to call to fmsnag. added
+           call to evtstv to request pending computation of user-defined
+           variables (some of which are functions of FFE variables that
+           are now defined at this point in the code).
+
+fire/ppe/src/fmpphv.f -- moved call to salvage to occur prior to call to
+                        fmsnag (see fmmain.f)
+
+fire/base/src/fmpofl.f --
+           added calculation of P-Torch, surface fire flame length, and
+           conditional surface fire type. changed the format of the report
+           and modified the calls to the database extension. cleaned up
+           comment formatting.
+base/src/rann.f --   added entry points to get and put the random seed.
+base/src/exdbs.f --  modified to match new arguments
+dbs/src/dbsfmpf.f -- added new variables to table, enhanced column names.
+fire/base/src/fmssum.f --  added a comment
+base/src/svsnage.f -- removed some stale code, reformatted source code.
+
+fire/base/src/fmsdit.f -- initialized IFMYR1 to -1 so we can use it as a
+           flag to show when FFE has not yet started. Added calls to unset
+           FFE Event Monitor variables.
+fire/base/src/fmevmon.f --
+           added return codes so we can track when variables are defined,
+           also added surface fire lengths to POTFLEN function.
+base/src/exfire    -- added return codes to correspond to new arguments in fmevmon
+base/src/evldx     -- added use of return codes used to load on FFE event mon functions.
+base/src/evtstv    -- modified to let first argument be a year and to post
+                      the OPDONE for computed variables equal to that year.
+dbs/src/dbsexecsql -- enhanced the error reporting
+dbs/dbsDocument/DB-FVS-UserGuide.doc -- updated to show new variables in FFE tables
+
+
+======= The following changes are additional to what is listed above. They are fixes
+related to the PPE trial harvest logic.
+
+base/src/grincr.f -- simplified the code that controls when SSTAGE and SDICAL are
+                    called when the PPE is linked.
+base/src/opeval.f -- added code to suppress evaluation of expressions during cycle zero.
+base/src/opfind.f -- use the return code from opeval, it was being ignored.
+ppbase/src/hvaloc.f -- added calls to sstage, sdical, and sdicls to insure related E.M.
+                      variables are available during trial harvest logic.
+ppbase/src/hvhrv1.f -- same change as in hvaloc.
+
+======= Other house keeping fixes
+base/src/svstart.f -- modified to remove RANCOM and took advantage of new entry points
+                     in rann.f
+base/src/initre.f -- fixed IRECNT for the READCOR keywords.
+
+

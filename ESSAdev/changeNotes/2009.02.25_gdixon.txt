@@ -1,0 +1,40 @@
+Subject: Correction to SDIMAX cross-reference table
+         Miscellaneous debug write corrections
+         Upgrade of default volume equation routine
+
+Name: Gary Dixon
+Date: 2/25/2009
+Variants affected: All variants
+
+Description:
+Correction to SDIMAX cross-reference table -- There were two problems with the writing of the SDIMAX cross
+reference table in the output file: (1) if you used a SPCODES keyword to change the input species code for
+one or more species, the new species codes were showing up in this table; and (2) in some variants there 
+were extra lines being written with only the line labels. I changed the write statement to reference array
+NSP instead of array JSP. I changed the logic to prevent the extra set of label lines. I also standardized
+the write statement across all variants.
+
+Miscellaneous debug write changes -- in ie/src/dgf.f I fixed the 9000 format statement so the leading
+character of the array label would print; in cr/src/badist.f I added the 165 Format statement to control
+printing of debug output; in base/src/sdical.f I added the 17 Format and 18 Format statements to control 
+printing of debug output.
+
+Upgrade of default volume equation routine -- in modifying volume/src/voleqdef.f for the upgrade of the EM
+variant to 19 species, I noticed this routine contained a lot of tab characters. Also, the indentation of
+statements was not consistent which made the routine hard to work with. I added the extra species to the
+R1 section of the routine, deleted the tab statements, and aligned the indentation so it made sense.
+
+Impact on users: None
+
+Files:
+sdi write correction:
+sitset.f  for ak, bm, ca, ci, cr, cs, cs_new, ec, em, ie, ls, ls_new, nc, ne, ne_new, pn, so, so33, tt, ut, wc, ws
+sn/src/cratet.f
+
+miscellaneous debug write corrections:
+ie/src/dgf.f
+cr/src/badist.f
+base/src/sdical.f
+
+upgrade of volume routine:
+volume/src/voleqdef.f

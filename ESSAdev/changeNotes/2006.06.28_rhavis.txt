@@ -1,0 +1,98 @@
+Subject: DRAFT Carbon Reporting Code from Don Robinson - ESSA
+Name: rhavis
+Date: June 28, 2006
+Variants affected: BM, CA, CI, CR, EC, EM, KT, NC, NE, NI, PN, SN,
+                   SO, TT, UT, WC and WS.
+
+                   The Fire and Fuels Extension (FFE) includes all variants
+                   except AK, CS and SE. Updates to the LS, IE, and SO33 FFE
+                   extensions are not included in this update but will be
+                   forthcoming. 
+
+Description: The DRAFT FFE carbon reporting code has been integrated
+             into the source code and FVS makefiles. This was carried
+             out so future updates to the affected routines will not have
+             to be incorporated into these changes. 
+
+Impact on users: At present there is NO effect on users
+
+
+Files:
+./ak/obj/makefile
+./base/obj/makefile     - added METRIC.F77 to SVESTB, SVOUT and SVRMOV 
+                          dependency list
+./base/src/exdbs.f      - added ENTRY statements for DBSFMCRPT, and DBSFMHRPT
+./base/src/svestb.f     - changed to include METRIC.F77 metric constants
+./base/src/svout.f      - changed to include METRIC.F77 metric constants
+./base/src/svrmov.f     - changed to include METRIC.F77 metric constants
+./bin/makefile          - added object references to link lists for FMCIBO,
+                          FMCHRVOUT, and FMCRBOUT where needed
+./bin/FCWindows_NT.make - added object references to link lists for DBSFMCRPT
+                          and DBSFMHRPT where needed
+./ca/obj/makefile       - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency
+                          list
+./common/SVDATA.F77     - edited parameters for consistency with new METRIC.F77
+                          routine
+./common/METRIC.F77     - ***new routine
+./cr/obj/makefile       - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency
+                          list
+./cs/obj/makefile       - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency
+                          list
+./dbs/obj/makefile      - added compile instructions for DBSFMCRPT and DBSFMHRPT
+./dbs/src/DBSCOM.F77    - updated for FFE-Carbon report. added ICMRPT and ICHRPT
+./dbs/src/dbsblkd.f     - added CMRPTID and CHRPTID
+./dbs/src/dbscase.f     - updated for FFE-Corbon report. added ICMRPT and ICHRPT
+./dbs/src/dbsinit.f     - updated for FFE-Corbon report. added ICMRPT and ICHRPT
+./dbs/src/dbsfmcrpt.f   - ***new routine
+./dbs/src/dbsfmhrpt.f   - ***new routine
+./fire/base/common/FMFCOM.F77   - edited comments
+./fire/base/obj/makefile     - added compile instructions for FMCIBO and added
+                               METRIC.F77 to FMSVFL, FMSVOUT and FMSVTREE
+                               dependency lists
+./fire/base/src/fmin.f          - edited comments
+./fire/base/src/fminit.f     - edited comments
+./fire/base/src/fmmain.f     - added calls to FMCHRVOUT, and FMCRBOUT
+./fire/base/src/fmsvfl.f     - added include statement for METRIC.F77
+./fire/base/src/fmsvol.f     - added ENTRY statement for FMSVL3
+./fire/base/src/fmsvout.f    - added include statement for METRIC.F77
+./fire/base/src/fmsvtree.f   - added include statement for METRIC.F77 and removed
+                                  unneeded declarations
+./fire/base/src/fmcbio.f     - ***new routine
+./fire/bm/src/fmvinit.f------ FMVINIT routines - defined BIOGRP array
+./fire/ca/obj/makefile------- FFE MAKEFILES (except base and NI)- added compile instructions
+                                  for FMCIBO,FMCHRVOUT, and FMCRBOUT and added METRIC.F77 to FMSVFL,
+                                  FMSVOUT and FMSVTREE dependency lists
+./fire/ca/src/fmvinit.f
+./fire/ci/src/fmvinit.f
+./fire/cr/obj/makefile
+./fire/cr/src/fmvinit.f
+./fire/ec/src/fmvinit.f
+./fire/em/src/fmvinit.f
+./fire/ie/obj/makefile
+./fire/nc/src/fmvinit.f
+./fire/ni/obj/makefile          - added compile instructions for FMCHRVOUT, and FMCRBOUT
+./fire/ni/src/fmvinit.f         - also defined FAPROP array
+./fire/ni/src/fmchrvout.f       -***new routine
+./fire/ni/src/fmcrbout.f        -***new routine
+./fire/pn/obj/makefile
+./fire/pn/src/fmvinit.f
+./fire/sn/obj/makefile
+./fire/sn/src/fmvinit.f
+./fire/so/src/fmvinit.f
+./fire/tt/src/fmvinit.f
+./fire/ut/obj/makefile
+./fire/ut/src/fmvinit.f
+./fire/wc/obj/makefile
+./fire/wc/src/fmvinit.f
+./fire/ws/src/fmvinit.f
+./fire/so33/obj/makefile
+./fire/ls/obj/makefile
+./fire/ne/obj/makefile
+./fire/ne/src/fmvinit.f
+./ie/obj/makefile     - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency list
+./ls/obj/makefile     - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency list
+./ne/obj/makefile     - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency list
+./so33/obj/makefile   - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency list
+./sn/obj/makefile     - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency list
+./ut/obj/makefile     - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency list
+./wc/obj/makefile     - added METRIC.F77 to SVESTB, SVOUT and SVRMOV dependency list

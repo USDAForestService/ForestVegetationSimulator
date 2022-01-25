@@ -1,0 +1,50 @@
+Subject: Central Rockies Fuel Model Logic and Structure Class Determination within FFE
+Name: Stephanie Rebain
+Date: January 24, 2005
+Variants affected: All
+
+Description: 
+Changes were made to the Central Rockies fuel model logic based on input from a 
+recent FFE validation workshop.  A description of these changes can be found in
+the next version of the FFE documentation addendum, posted to the FVS website.  To
+accomplish these changes, the way FFE obtains structure class information was changed
+(structure class is often used to determine the appropriate fuel model).  In previous
+versions of the code, the structure class logic was automatically turned on when
+using FFE, even if not needed.  In this new code, a new entry point, fmsstage, was
+created in sstage specifically so that FFE could call the structure class calculations
+whenever needed and with whatever input parameters desired.
+
+Impact on users:
+There should be no changes for users not running FFE.  Central Rockies FFE users 
+should obtain new executables.  There may be some output differences with other 
+FFE variants where structure class is used to determine the fuel model or fuel 
+loadings (TT, UT, EC, SO).
+
+Files:
+base/src/sstage.f - added a new entry point so that FFE could get structural stage
+                    info whenever necessary and could use any parameters necessary.
+fire/bm/src/fmvinit.f - took out automatically calling of structural statistics
+fire/ca/src/fmvinit.f - took out automatically calling of structural statistics
+fire/ci/src/fmvinit.f - took out automatically calling of structural statistics
+fire/cr/src/fmvinit.f - took out automatically calling of structural statistics
+fire/ec/src/fmvinit.f - took out automatically calling of structural statistics
+fire/ie/src/fmvinit.f - took out automatically calling of structural statistics
+fire/nc/src/fmvinit.f - took out automatically calling of structural statistics
+fire/ni/src/fmvinit.f - took out automatically calling of structural statistics
+fire/pn/src/fmvinit.f - took out automatically calling of structural statistics
+fire/sn/src/fmvinit.f - took out automatically calling of structural statistics
+fire/so/src/fmvinit.f - took out automatically calling of structural statistics
+fire/so33/src/fmvinit.f - took out automatically calling of structural statistics
+fire/tt/src/fmvinit.f - took out automatically calling of structural statistics
+fire/ut/src/fmvinit.f - took out automatically calling of structural statistics
+fire/wc/src/fmvinit.f - took out automatically calling of structural statistics
+fire/ws/src/fmvinit.f - took out automatically calling of structural statistics
+fire/so/src/fmcba.f - added a call to fmsstage, the new entry point in sstage
+fire/so33/src/fmcba.f - added a call to fmsstage, the new entry point in sstage
+fire/so/fmcfmd.f - added a call to fmsstage, the new entry point in sstage
+fire/so33/fmcfmd.f - added a call to fmsstage, the new entry point in sstage
+fire/ut/fmcfmd.f - added a call to fmsstage, the new entry point in sstage, 
+                   made changes to CR fuel model logic
+fire/ec/fmcfmd.f - added a call to fmsstage, the new entry point in sstage
+fire/fireDocument/ProgrammersGuide_Fire_2004.doc - updated the FFE programmers guide for 
+                                                   the above change.

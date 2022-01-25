@@ -1,0 +1,135 @@
+Subject: FFE Carbon tracking update. Don updated the C source code to improve
+         cross-compiler compliance
+Name: R. Havis(FMSC)/D. Robinson (ESSA)
+Date: August 1, 2006
+Variants affected: ALL FFE - THE carbon tracking keywords have not
+been released to users at this time
+
+Description:
+
+MOVE
+the fire/ni/src/fmcrbout.f and fmchrvout.f routines to fire/base/src
+
+MAKEFILES
+The FFE makefiles fire/ca, cr, ie, ls, ne, pn, sn, so33, ut and wc were
+changed to compile the fmcrbout.f and fmchrvout.f routines from the
+fire/base/src directory rather than the fire/ni/src directory
+
+Compile instructions for the fmcrbout.f and fmchrvout.f routines were
+added to the fire/base/obj/makefile
+
+Compile instructions for the fmcrbout.f and fmchrvout.f routines were
+removed from the fire/ni/obj/makefile
+
+The FMFCOM.F77 dependency was added to the compile instructions for
+the fire/base/src/fmsadd.f routine in all FFE makefiles where appropriate
+
+The fmcrbout and fmchrvout object references were changed from the
+fire/ni/obj directory to the fire/base/obj directory where appropriate
+in the bin/makefile
+
+ROUTINES
+
+/fvs/fire/base/src/fmcbio.f
+clarified comments and cleaned up data blocks
+
+/fvs/fire/base/src/fmchrvout.f
+updated arguments in FAPROP array
+
+/fvs/fire/base/src/fmeff.f
+removed ALGSLP declaration
+
+/fvs/fire/base/src/fmfcom.f77
+add variable for C-report region code;
+new dimension added to FAPROP array
+change BIOGRP type from REAL to INTEGER               
+                                                      
+/fvs/fire/base/src/fmfint.f                         
+modify comment to avoid long line                     
+                                                      
+/fvs/fire/base/src/fminit.f                         
+add ICHABT default to index C reporting regions for
+NI,IE,SO,SO33,SN variants, added code to initialize Merch. Vol. flag
+
+/fvs/fire/base/src/fmpofl.f
+modify comments to avoid long lines
+remove declarations for unused variables
+
+/fvs/fire/base/src/fmsadd.f
+correct argument type error in call to FMCBIO, added call to FMCBIO
+added INCLUDE statement FMFCOM.F77
+
+/fvs/fire/base/src/fmscut.f
+modify comment
+added code to calculate removed tree biomass
+
+fvs/fire/base/src/fmsoilheat.f
+modified declarations
+
+/fvs/fire/base/src/fmsvol.f
+added code to initialize Merch. Vol. flag
+
+/fvs/fire/fofem/src/fof_bcm.c
+modified xprint function declaration
+
+/fvs/fire/bm/src/fmvinit.f
+/fvs/fire/ca/src/fmvinit.f
+/fvs/fire/ci/src/fmvinit.f
+/fvs/fire/cr/src/fmvinit.f
+/fvs/fire/ec/src/fmvinit.f
+/fvs/fire/em/src/fmvinit.f
+/fvs/fire/ie/src/fmvinit.f
+/fvs/fire/ls/src/fmvinit.f
+/fvs/fire/nc/src/fmvinit.f
+/fvs/fire/ne/src/fmvinit.f
+/fvs/fire/ni/src/fmvinit.f
+/fvs/fire/pn/src/fmvinit.f
+/fvs/fire/sn/src/fmvinit.f
+/fvs/fire/so/src/fmvinit.f
+/fvs/fire/so33/src/fmvinit.f
+/fvs/fire/tt/src/fmvinit.f
+/fvs/fire/ut/src/fmvinit.f
+/fvs/fire/wc/src/fmvinit.f
+/fvs/fire/ws/src/fmvinit.f
+add FAPROP data statements
+
+/fvs/fire/ie/src/fmcba.f
+/fvs/fire/ni/src/fmcba.f
+/fvs/fire/sn/src/fmcba.f
+/fvs/fire/so/src/fmcba.f
+/fvs/fire/so33/src/fmcba.f
+add code to detect Forest Code and change
+C-reporting index ICHABT when appropriate
+
+Impact on users: None
+
+Files:
+A summary of the files changed appears below.
+
+bin/makefile fire/base/common/FMFCOM.F77
+fire/base/obj/makefile fire/base/src/fmcbio.f
+fire/base/src/fmeff.f fire/base/src/fmfint.f
+fire/base/src/fminit.f fire/base/src/fmpofl.f
+fire/base/src/fmsadd.f fire/base/src/fmscut.f
+fire/base/src/fmsoilheat.f fire/base/src/fmsvol.f
+fire/bm/src/fmvinit.f fire/ca/obj/makefile
+fire/ca/src/fmvinit.f fire/ci/src/fmvinit.f
+fire/cr/obj/makefile fire/cr/src/fmvinit.f
+fire/ec/src/fmvinit.f fire/em/src/fmvinit.f
+fire/fofem/src/fof_bcm.c fire/ie/obj/makefile
+fire/ie/src/fmcba.f fire/ie/src/fmvinit.f fire/ls/obj/makefile
+fire/ls/src/fmvinit.f fire/nc/src/fmvinit.f
+fire/ne/obj/makefile fire/ne/src/fmvinit.f
+fire/ni/obj/makefile fire/ni/src/fmcba.f fire/ni/src/fmvinit.f
+fire/pn/obj/makefile fire/pn/src/fmvinit.f
+fire/sn/obj/makefile fire/sn/src/fmcba.f fire/sn/src/fmvinit.f
+fire/so/src/fmcba.f fire/so/src/fmvinit.f
+fire/so33/obj/makefile fire/so33/src/fmcba.f
+fire/so33/src/fmvinit.f fire/tt/src/fmvinit.f
+fire/ut/obj/makefile fire/ut/src/fmvinit.f
+fire/wc/obj/makefile fire/wc/src/fmvinit.f
+fire/ws/src/fmvinit.f
+wc/src/esuckr.f - moved text in line 98 one column to the right, the C character in the CALL
+statement was in column 6. Thanks to Don Robinson for finding this.
+fvs/base/src/revise.f
+

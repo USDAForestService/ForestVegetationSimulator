@@ -1,0 +1,40 @@
+Subject: Bug Fixes
+Name: R. Havis
+Date: November 21, 2006
+Variants affected: CA, IE, SO, and WS and all FFE extensions
+
+Description:
+1) The default habitat type assignment correction (please reference FVS Update
+   Bulletin) was completed for the CA variant
+2) The max and Min site index bounds for the other hardwoods species were
+   updated to correspond with the values in the central rockies variant from
+   which the species was imported. Changed the maximum site form 120 to 100
+   and changed the minimum site index from 0 to 20. (IE)
+3) The crown ratio term in the crown modifier part of the small tree height
+   growth function for red shasta fir was being divided by 10 rather than 100. (SO)
+4) The small tree height growth adjustment for Jeffry pine was applied twice,
+   so the second adjustment was removed. (WS)
+5) Corrected problem with root decay.
+
+
+Impact on users: Users of these variants should obtain new executables.
+
+Files:
+./base/src/exbudl.f  - added argument to ENTRY BWEPPGT  and ENTRY BWEPPT to
+                       be consistent with the call statements (thanks to
+                       Don Robinson for correcting this)
+./base/src/revise.f
+./ca/src/habtyp.f    - removed old statement setting IFORST
+./cs_new/src/grohed.f
+./cs_new/src/htgf.f
+./cs_new/src/regent.f
+./ie/src/regent.f    - updated SLO and SHI as described above
+./ls_new/src/grohed.f
+./ls_new/src/htgf.f
+./ls_new/src/regent.f
+./ne_new/src/grohed.f
+./ne_new/src/htgf.f
+./so33/src/smhtgf.f  - divide CR by 100 rather than 10 in calculations of red Shasta
+                       small tree height growth
+./ws/src/regent.f - removed second small tree height adjustment for JP
+./fire/base/src/fmcrbout.for - corrected problem with root decay dependance on print options

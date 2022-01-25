@@ -1,0 +1,21 @@
+Subject: R9 Species Codes
+Name: M. Vandyck
+Date: Dec. 20, 2011
+Variants affected: CS, LS, and NE
+
+Description: FIA and Plants codes were modified so that all
+             species codes are unique. The new codes are shown
+             in the table below.
+
+PLNTS       FIA          FVS          DESCRIPTION
+2TB         001          CH           Commercial Hardwood (in LS)
+2TDBD       002          NC           Noncommercial Hardwood (in CS, LS, NC)
+2TDB        003          UH           Other Upland Hardwood (in CS)
+2TEB        004          OL           Other Lowland (in CS)
+CAGLG2      005          HS           Select Hickory (in CS)
+
+
+Impact on users: Users may accurately track the species through the
+                 unique codes
+                 
+Files:

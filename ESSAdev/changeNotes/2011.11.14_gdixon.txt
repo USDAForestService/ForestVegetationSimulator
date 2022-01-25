@@ -1,0 +1,47 @@
+Subject: 1) CI mortality coefficients
+         2) BM,CI makefiles
+         3) SO makefile
+
+Name: Gary Dixon
+Date: 11/14/11
+
+Variants affected: 1) Central Idaho (CI)
+                   2) Blue Mountains (BM), Central Idaho (CI)
+                   3) Southern Oregon / Northeast California (SO)
+
+Description: 
+1) This variant uses mortality coefficients from the North Idaho variant
+   which are dependent on National Forest and habitat type. When this variant
+   was expanded from 11 to 19 species coefficents from the NI NezPerce NF
+   were temporarily used for all National Forests in the CI variant. The
+   Region has now decided to use the NI NezPerce coefficents for the CI
+   NezPerce and Payette National Forests, and the NI Bitterroot coefficients
+   for the CI Boise, Challis, Salmon, and Sawtooth National Forests.
+   
+2) The PRGPRM common block has been added to the makefile dependency list for
+   subroutine BRATIO.   
+
+2) The COEFFS common block has been removed from the makefile dependency list for
+   subroutine BRATIO.   
+
+
+Impact on users: 
+1) Users of the CI variant should obtain a new executable. Projections for the
+   Boise, Challis, Salmon, and Sawtooth National Forests will now be different
+   because of the change in mortality coefficients.
+2) This makefile change will have no impact on users.
+3) This makefile change will have no impact on users.
+
+
+Files:
+ci/src   morts.f     changed: the date of revision and settings for the National Forest
+                     mapping function in array MAPFOR.
+                     
+ci/obj   makefile    added the PRGPRM.F77 common block as a dependency for subroutine
+                     BRATIO in the compile macro.
+                     
+bm/obj   makefile    added the PRGPRM.F77 common block as a dependency for subroutine
+                     Bratio in the compile macro.
+so/obj   makefile    removed the COEFFS.F77 common block as a dependency for subroutine
+                     BRATIO in the compile macro.
+                     

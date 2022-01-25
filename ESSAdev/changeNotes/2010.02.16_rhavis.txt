@@ -1,0 +1,42 @@
+Subject: Blue Mountains Variant Plant Association (PA) expansion.
+Name: R. Havis
+Date: February 16, 2010
+Variants affected: BM
+
+Description: 
+
+The default site index and maximum stand density index values for the Blue
+Mountains Variant (BM) were updated. Additional default SDImax and SI values
+for individual species were added to PAs. The following new PAs were added.
+
+ 2 - CAG4   
+ 17 - CEF411
+ 43 - CLS5  
+ 46 - CLS6  
+
+Please refer to the variant overview documentation and the following report,
+or contact the service center.
+
+Powell, David, C. 2009. Updates of Maximum Stand Density Index and Site
+Index for the Blue Mountain Variant of the Forest Vegetation Simulator.
+USDA Forest Service, Pacific Northwwest Region, Umatilla National
+Forest.
+
+Impact on users: Users should obtain new executables.
+
+Files:
+./bm/src/dgf.f       - added mapping for added PAs
+./bm/src/ecocls.f    - added new PAs and additional species, SDImax and SI values
+./bm/src/habtyp.f    - added new PAs
+./base/src/initre.f  - added logic to SITECODE keyword to echo statement when
+                       dunning codes are used in CS, NC, SO and WS variants.
+./base/src/revise.f
+./dfb/src/dfbwin.f   - Changed MYACT parameter to MYACT(1) in call to OPREDT.
+./fire/base/src/fmusrfm.f - This fixes two things.  First, if the FUELMODL keyword
+                            was being used to set things back to the default fuel
+                            model logic, this keyword was listed as NOT DONE in
+                            the activity summary, when in fact it had been done.
+                            This was corrected.  Second, the FUELMODL keyword wasn't
+                            working properly when used in conjunction with the 
+                            FIRECALC keyword - it was getting deleted or cancelled
+                            when it shouldn't have been. This was corrected. 

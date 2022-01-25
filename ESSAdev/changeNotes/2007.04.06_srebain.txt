@@ -1,0 +1,25 @@
+Subject:  FFE Event Monitor Function - PotFType
+Name: Stephanie Rebain	
+Date: 04/06/2007
+Variants affected:
+all variants with FFE (all variants except CS and AK)
+
+Description:
+The returned values of the new FFE event monitor function PotFType were altered.  
+
+PotFType(arg1) returns potential fire type.
+arg1 = 1 returns potential severe fire type
+arg1 = 2 returns potential moderate fire type
+
+To better match FARSITE and FlamMap, the returned values are now as follows:
+1 = surface fire
+2 = passive crown fire
+3 = active crown fire
+4 = conditional surface fire
+
+Impact on users:
+This affects anyone using the PotFType function.
+
+Files:
+fire/base/common/fmfcom.f77 - edited the comments of the pottyp variable
+fire/base/src/fmpofl.f - changed the setting of pottyp

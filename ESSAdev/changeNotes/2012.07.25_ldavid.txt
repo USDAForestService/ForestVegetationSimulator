@@ -1,0 +1,49 @@
+Subject: General Defoliation model daily weather data processing update
+
+Name: Lance R. David
+Date: July 25, 2012
+
+Variants affected: BM, CI EC, EM, NI, SO, TT
+
+Description: Daily weather data processing of up to 50 years was added to the General 
+             Defoliation model. At this time, this option is pretty bare in its 
+             implementation and is not released to the general users. The current 
+             implementation does not include options to control weather data years or
+             lapse rate to adjust for elevation differences and reporting improvements
+             are needed for these options as well.
+
+Impact on users: None at this time, not released to general users.
+
+Files:
+
+./wsbwe/src
+   bwecm2.F77   added BWPRMS array and variable IYRCNT for daily weather processing,
+                added declaration of variable ADMORT
+   bwecup.f     added check for presence of host species
+   bwein.f      modified WEATHER keyword option processing for RAWS Daily data processing,
+                modified processing that takes place after END keyword is encountered to
+                call BWERAWS subroutine.
+   bweint.f     added initialization of BWPRMS array
+   bwelit.f     added code to handle loader of weather parameters from BWPRMS arrays,
+                added code to detect loss of all host species so model doesn't crash 
+                on budworm dispersal and there is no host trees to recieve them.
+   bwep4.f      added report output for RAWS Daily Weather processing
+   bwepdm.f     added requirement that missing foliage categories for top and middle crown
+                thirds must be greater than zero before topkill and mortality is calculated.
+   bweppgt.f    added control parameters and reading of BWPRMS array
+   bwepppt.f    added control parameters and writing of BWPRMS array
+   bweraws.f    new routine for processing daily weather data and loading the bwprms array
+
+./wsbwe/obj/makefile added bweraws.f, bweppatv.f, bweppgt.f and bwepppt.f to the compile list
+
+./bin/makefile  modified link instructions to includes bweraws subroutine for
+                FVSbmx.exe, FVScix.exe, FVSecx.exe, FVSemx.exe, FVSnix.exe, 
+                FVSsox.exe, FVSttx.exe
+
+./bm/obj/makefile added bweraws.f to the compile list
+./ci/obj/makefile added bweraws.f to the compile list
+./ec/obj/makefile added bweraws.f to the compile list
+./em/obj/makefile added bweraws.f to the compile list
+./ni/obj/makefile added bweraws.f to the compile list
+./so/obj/makefile added bweraws.f to the compile list
+./tt/obj/makefile added bweraws.f to the compile list

@@ -1,0 +1,35 @@
+Subject: Crown width equations
+Name:  Erin Smith-Mateja
+Date:  11/10/2005
+Variants affected: NI, IE, CI, KT, EM, UT, TT, CR, PN, EC, WC, PN, BM, CA, 
+                   SO, NC, WC
+
+Description: The ni/CWCALC routine for the western varaints now returns 
+crown width for forest grown trees for all of the species in the western states, 
+instead of using ccf equations which is what the NI, IE, CI, KT, EM, UT, TT and 
+CR varaints were using to return crown width. 
+
+Impact on users: The crown width calculation will be greatly impacted for the
+NI, IE, CI, KT, EM, UT, TT and CR varaints. Users may see a slight change in
+crown width calculations for PN, EC, WC, PN, BM, CA, NC, and WC.
+
+Files:
+ak/src/estab.f       - added to CWCALC call JOSTND
+base/src/cwidth.f    - added to CWCALC call JOSTND
+ca/src/esuckr.f      - added to CWCALC call JOSTND
+cr/src/esuckr.f      - added to CWCALC call JOSTND
+estb/src/estab.f     - added to CWCALC call JOSTND
+estb/src/esuckr.f    - added to CWCALC call JOSTND
+ie/src/esuckr.f      - added to CWCALC call JOSTND
+ls/src/ccfcal.f      - added to CWCALC call JOSTND
+ls/src/cwcalc.f      - added to subroutine argument JOSTND 
+ni/src/cwcalc.f      - add western species forest grown crown with equations
+strp/src/estab.f     - added to CWCALC call JOSTND
+strp/src/esuckr.f    - added to CWCALC call JOSTND
+tt/src/esuckr.f      - added to CWCALC call JOSTND
+ut/src/esuckr.f      - added to CWCALC call JOSTND
+wc/src/esuckr.f      - added to CWCALC call JOSTND
+
+
+Compile these routines and link the NI, IE, CI, KT, EM, UT, TT, CR, PN, 
+EC, WC, PN, BM, CA, SO, NC, WC variants and their extensions.

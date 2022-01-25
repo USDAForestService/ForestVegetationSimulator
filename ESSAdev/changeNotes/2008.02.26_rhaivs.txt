@@ -1,0 +1,152 @@
+Subject: Implicit None, FFE and SETSITE Keyword Updates
+Name: R. Havis
+Date: February 26, 2008
+Variants affected: ALL
+
+Description:
+1) Applied IMPLICIT NONE statement to routines of the AK, BM, and CA variants
+2) Corrected potential numerical error in NC,
+3) Corrected FVS sequence No. for Plant association index used in R6 Fire and
+   Fuels Extension
+4) Corrected functionality of using both DataScrn and Treedata Keywords
+
+Impact on users:
+
+Files:
+./ak/obj/makefile
+./ak/src/blkdat.f
+./ak/src/bratio.f
+./ak/src/ccfcal.f
+./ak/src/cratet.f
+./ak/src/crown.f
+./ak/src/cubrds.f
+./ak/src/dgdriv.f
+./ak/src/dgf.f
+./ak/src/dubscr.f
+./ak/src/esadvh.f
+./ak/src/esdlay.f
+./ak/src/esnspe.f
+./ak/src/esnutr.f
+./ak/src/espadv.f
+./ak/src/esprep.f
+./ak/src/espsub.f
+./ak/src/espxcs.f
+./ak/src/essubh.f
+./ak/src/estab.f
+./ak/src/estock.f
+./ak/src/estpp.f
+./ak/src/esxcsh.f
+./ak/src/findag.f
+./ak/src/forkod.f
+./ak/src/grinit.f
+./ak/src/grohed.f
+./ak/src/habtyp.f    - set variables kard2 and pcom and initialized itype to 0
+./ak/src/htcalc.f
+./ak/src/htgf.f
+./ak/src/logs.f
+./ak/src/maical.f
+./ak/src/morts.f
+./ak/src/oldfst.f
+./ak/src/oldgro.f
+./ak/src/oldsec.f
+./ak/src/prof1.f
+./ak/src/prof2.f
+./ak/src/regent.f
+./ak/src/sbb.f
+./ak/src/seamrt.f
+./ak/src/sitset.f
+./ak/src/top40.f
+./ak/src/varvol.f
+./base/src/initre.f  - Developed code to process the MORTMSB keyword, modification to
+                       setsite processing to preserve original plant community alpha code
+                       Corrected a problem with data screening when a user has both a
+                       datascrn keyword and a treedata keyword in their keyword set.
+./base/src/revise.f
+./bin/makefile       - added crdecd and pvref5 to ppso link list, added subroutines
+                       CRDECD and PVREF5 to the link instructions for SO and SO33
+./bm/src/blkdat.f
+./bm/src/bmtmrt.f
+./bm/src/bratio.f
+./bm/src/ccfcal.f
+./bm/src/cratet.f
+./bm/src/crown.f
+./bm/src/dgf.f
+./bm/src/ecocls.f
+./bm/src/essubh.f
+./bm/src/exppnb.f
+./bm/src/forkod.f
+./bm/src/formcl.f
+./bm/src/grinit.f
+./bm/src/grohed.f
+./bm/src/habtyp.f    - modified some comment statements, added sequence number processing
+                       for setsite with parms compability.
+./bm/src/htcalc.f
+./bm/src/htdbh.f
+./bm/src/htgf.f
+./bm/src/maical.f
+./bm/src/morts.f
+./bm/src/regent.f
+./bm/src/sichg.f
+./bm/src/sitset.f
+./bm/src/smhtgf.f
+./bm/src/varvol.f
+./ca/src/blkdat.f
+./ca/src/bratio.f
+./ca/src/ccfcal.f
+./ca/src/cratet.f
+./ca/src/crown.f
+./ca/src/cubrds.f
+./ca/src/dgdriv.f
+./ca/src/dgf.f
+./ca/src/dubscr.f
+./ca/src/dunn.f
+./ca/src/ecocls.f
+./ca/src/essubh.f
+./ca/src/estump.f
+./ca/src/esuckr.f
+./ca/src/forkod.f
+./ca/src/formcl.f
+./ca/src/grinit.f
+./ca/src/grohed.f
+./ca/src/habtyp.f    - corrected the defaulting for R5 forests in a setsite application
+./ca/src/htcalc.f
+./ca/src/htdbh.f
+./ca/src/htgf.f
+./ca/src/morts.f
+./ca/src/pvref5.f
+./ca/src/pvref6.f
+./ca/src/regent.f
+./ca/src/sichg.f
+./ca/src/sitset.f
+./ca/src/smhtgf.f
+./ca/src/varmrt.f
+./ca/src/varvol.f
+./common/VARCOM.F77  - Added 3 variables associated with implementation of the mature stand
+                       boundary concept in sdi-based mortality models.
+                       added VARCOM to the dependency list for subroutine habtyp
+./ec/src/habtyp.f    - incorporated IMPLICIT NONE; modified to accomodate setsite with parms
+                       and FVS PA sequence number processing.
+./fire/base/src/fmevmon.f   - This fixes a problem with a debug statement that Don Robinson found.
+./fire/base/src/fmr6sdcy.f`- changed index form KODTYP to ITYPE
+./ls/src/habtyp.f    - incorporated IMPLICIT NONE; modied to be compatable with setsite with
+                        parms and fvs pa sequence number processing.
+./ls_new/src/habtyp -  fincorporated IMPLICIT NONE; modied to be compatable with setsite with
+                       parms and fvs pa sequence number processing.
+./nc/src/habtyp.f    - Updated for setsite implementation.
+./nc/src/regent.f    - Changed LT to LE in conditional statement line 220 in small tree DG
+                       calculations to prevent potential numerical error at line 224 on 4.5 ft. tree
+./pn/src/habtyp.f    - incorporated IMPLICIT NONE; modifed for setsite with parms and fvs pa
+                       sequence number compatability.
+./sn/obj/makefile    - prepended ./ to directory paths. seems to prevent internal compiler error
+./sn/src/grinit.f    - modified to work with setsite parms and plant association sequence numbers
+./sn/src/habtyp.f    - incorporated IMPLICIT NONE, modified to work with setsite parms and plant
+                       association sequence numbers
+./so/obj/makefile    - added subroutines CRDECD and PVREF5 to the compile instructions
+./so/src/habtyp.f    - added subroutines CRDECD and PVREF5 to the compile instructions, added r5 plant
+                       association codes; modified to work with setsite and fvs pa sequence numbers
+./so33/obj/makefile  - added subroutines CRDECD and PVREF5 to the compile instructions
+./so33/src/habtyp.f  - added r5 plant associations; modified to work with setsite and fvs pa sequence numbers
+./ut/src/habtyp.f    - Modified to work with setsite and recognize plant association sequence number
+./wc/src/habtyp.f    - incorporated IMPLICIT NONE; modifed for setsite with parms and fvs pa
+                       sequence number compatability.
+./ws/src/habtyp.f    - Modified to work with setsite and fvs habitat type sequence number

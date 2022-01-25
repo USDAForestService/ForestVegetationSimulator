@@ -1,0 +1,20 @@
+Subject: Conditional statements in cutting logic
+Name: R. Havis
+Date: April 9, 2014
+Variants affected: ALL
+
+Description: 
+
+All variants: Logic at lines 958 and 1033 was clarified to ensure
+              correct processing. One example using the ThinPt
+              thnining keywrod was found to be in error. This
+              potential problem was introduced with Update
+              Bulletin No. 727.
+              
+All variants: There was a problem with the PRUME keyword. This
+              has been corrected,  This problem was introduced with Update
+              Bulletin No. 727.
+
+Impact on users: Users should obtain new executables.
+
+Files:

@@ -1,0 +1,51 @@
+Subject: Correction of crown width values for non-Forest Service users in some western variants; correction in missing
+         height or crown ratio dubbing logic in OC and OP variants
+Name: Gary Dixon
+Date: 07/21/15
+Variants affected: CA, OC, OP, NC, PN, WC
+
+Description: 1) When calculating crown widths for some non-Forest Service users in these 6 variants, an error was found in either 
+the selection of which equations to use or one of the parameter settings for certain species. This has been corrected.
+2) In the new OC and OP variants, the number of tree records with missing heights or crown ratios that get dubbed using Organon
+equations were not being counted for reporting in the calibration statistics table. Only the tree records that get these values
+dubbed using FVS equations were being counted. This has been corrected. 
+3) In the new OC and OP variants, dubbing of missing heights and crown ratios were being done with the FVS equations for all trees. 
+This has been corrected so the Organon equations get used for valid Organon trees.
+
+Impact on users: 
+1) changed crown widths for the following variants, locations, and species:
+   CA/OC        BLM Roseburg, Medford-Lakeview, Coos Bay;   All species
+   WC;          BLM Roseburg, Medford-Lakeview;             AF, RA, IC, LP, ES, SP, WP, PP, MH
+   OP/PN;       Quinault IR;                                SF, LP, SS, RC
+   OP/PN/WC;    BLM Salem;                                  SF, WF, GF, AF, NF, YC, LP, WP, RC, WH, MH
+   PN/OP/WC;    BLM Eugene;                                 GF, WH, RC, LP, ES, SP, WP, PP, WH
+   NC/OP/PN;    BLM Coos Bay;                               RA, IC, LP, PP, DF, RC, WH, MH
+   NC;          Simpson Timber                              IC, PP, DF
+   NC;          Hoopa Indian Reservation                    all species
+
+Files:
+ni/src
+     cwcalc.f  changed date of revision; in testing for branching to subroutine R5CRWD: WS variant, took off the 
+               condition (IFOR.LE.12) since all forests should use R5 crown widths (does not change output for any forest);
+               NC variant, changed (IFOR.GE.9) to (IFOR.EQ.5) (HOOPA IR will now use R5CRWD); CA and OC variants deleted
+               (IFOR.GE.8) (BLM will now use R6 crown widths); added some comments preceeding the R5CRWD branching section;
+               added some comments preceeding the setting of BF; changed the conditions on setting of BF coefficients to
+               include non-FS forest codes within R6: 712 uses 611, 710 & 711 use 610, PN/OP 800 uses 609, NC 800 uses 611,
+               708 uses 606, 709 uses 618
+  
+oc/src
+     cratet.f  changed date of revision; added logic for including the number of tree records with missing heights or crown
+               ratios that get dubbed using Organon equations into the number being reported in the calibration statistics
+               table. Corrected the logic so Organon equations are used for dubbing missing heights and crown ratios for
+               valid Organon trees.
+     sitset.f  changed date of revision; revised Organon logic for setting DF & PP site index to include the case where both
+               are 0.0
+
+op/src
+     cratet.f  changed date of revision; added logic for including the number of tree records with missing heights or crown
+               ratios that get dubbed using Organon equations into the number being reported in the calibration statistics
+               table. Corrected the logic so Organon equations are used for dubbing missing heights and crown ratios for
+               valid Organon trees.
+     sitset.f  changed date of revision; revised Organon logic for setting DF & WH site index to include the case where both
+               are 0.0
+      morts.f  changed date of revision; revised to use new WC mortality logic (which is from ORGANON)

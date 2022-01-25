@@ -1,0 +1,21 @@
+Subject: Bug Fix and Code Maintenance
+Name: R. Havis
+Date: September 25, 2015
+Variants affected: CR, EM, IE, LS, NE, TT, UT, TT
+
+Description:
+
+1) The BAU variable was not initialized in the CR variant and this
+   caused a difference in output when comparing the same stand in
+   single run and a serial run. TO correct this variables carried
+   in GGCOM (including BAU) were initialized in GRINIT routines in
+   CR, EM, IE, TT, UT, and WS. GGCOM.F77 was added to GRINIT
+   where needed.
+
+2) The TWIGCOM common carries one variable BAU. Where needed, BAU
+   was initialized in ACD, and NE. TWIGCOM was not needed in several
+   eastern variant routines and was therefore removed form those routines.
+
+Impact on users: None
+
+Files:

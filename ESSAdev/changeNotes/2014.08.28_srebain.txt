@@ -1,0 +1,22 @@
+Subject: FFE Update
+Name:  Stephanie Rebain
+Date:  08/28/2014
+Variants affected: All
+
+Description:
+
+1)  An error was corrected in the litter and duff consumption estimates in
+association with the PileBurn keyword.
+
+Impact on users:
+Users of the Pileburn keyword should obtain new executables.
+
+Modified Files:
+fire/base/src/fmtret.f - updated amount of litter and duff that is piled for use in fmcons
+fire/ni/src/fmcons.f - updated consumption of litter and duff
+fire/so/src/fmcons.f - updated consumption of litter and duff
+fire/bc/src/fmcons.f - updated consumption of litter and duff
+
+
+
+

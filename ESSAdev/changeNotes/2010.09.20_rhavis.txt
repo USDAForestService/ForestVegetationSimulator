@@ -1,0 +1,38 @@
+Subject: TREESZCP Keyword
+Name: R.Havis
+Date: September 20, 2010
+Variants affected: ALL
+
+Description: The TREESZCP keyword sets morphological limits for maximum
+        tree diameter and height for a given species, and specifies a minimum
+        mortality rate to be used when tree diameter exceeds the specified limit.
+        This minimum mortality rate was applied based on the variant standard cycle
+        length, which caused an overestimation of mortality when shorter cycle
+        lengths were used, and an underestimation of mortality if longer cycle
+        lengths are used. This has been corrected so that TREESZCP keyword
+        mortality is dynamically adjusted for the actual cycle length in a
+        simulation.
+
+
+Impact on users: Users of the TREESZCP keyword should obtain a new executable.
+
+Files:
+./ak/src/morts.f
+./an/src/morts.f
+./bm/src/morts.f
+./ca/src/morts.f
+./ci/src/morts.f
+./cr/src/morts.f
+./ec/src/morts.f
+./em/src/morts.f
+./ie/src/morts.f
+./ls/src/morts.f
+./ls_new/src/morts.f
+./nc/src/morts.f
+./ni/src/morts.f
+./sn/src/morts.f
+./so/src/morts.f
+./tt/src/morts.f
+./ut/src/morts.f
+./wc/src/morts.f
+./ws/src/morts.f

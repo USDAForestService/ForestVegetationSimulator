@@ -1,0 +1,19 @@
+Subject: Plant association codes
+Name: E. Smith-Mateja
+Date: December 29, 2010
+Variants affected: CA
+
+Description: Edited the Plant Association codes in the CA varaint so they no longer require
+             the pre-prended "X". 
+
+Impact on users: No longer will require an "X" in the front of the PA code if it comes in 
+                 with out a PA reference code.
+
+Files:
+
+./ca/habtyp.f - removed the prepended "X" on all the Plant Association codes.
+./ca/ecocls.f - removed the prepended "X" on all the Plant Association codes.
+./ca/pvref6.f - removed the prepended "X" in the PA crosswalk
+./ca/sitset.f - removed the prepended "X" from the default PA code if set in SITSET.
+
+                     

@@ -1,0 +1,61 @@
+Subject: FFE updates
+Name:  Stephanie Rebain
+Date:  05/19/2005
+Variants affected: All FFE variants except SN
+
+Description
+The default surface fuel loadings for juniper, pinyon pine, and bristlecone
+pine types were changed.
+
+The new live and dead default surface fuel values for juniper in the 
+BM, CA, EM, PN, and WC variants are from:
+
+Ottmar, Roger D.; Vihnanek, Robert E.; Wright, Clinton S. 1998.  Stereo photo
+series for quantifying natural fuels.  Volume I: mixed-conifer with mortality,
+western juniper, sagebrush, and grassland types in the interior Pacific Northwest.
+PMS 830.  Boise, ID: National Wildfire Coordinating Group, National Interagency
+Fire Center.  73 p.
+
+The default litter loadings for juniper, pinyon pine, and bristlecone pine in the 
+UT and CR variants were also lowered.
+
+The litter decay rates were also changed for some variants.  For the California
+variants (WS, NC, CA, and the California portion of SO), the default litter decay
+rate was reduced from 0.65 to 0.5.  
+
+Lastly, the species-specific lbs/cuft conversion factors used in calculating biomass
+from volume were corrected.
+
+Impact on users:
+There may be changes in predicted fuel loadings.  This may affect other parts of 
+the model, such as the fuel model selected and the predicted fire behavior and fire effects.
+
+Files:
+fire/bm/src/fmcba.f - changed default surface fuel values for other (juniper)
+fire/em/src/fmcba.f - changed default surface fuel values for other (juniper)
+fire/ca/src/fmcba.f - changed default surface fuel values for juniper
+fire/cr/src/fmcba.f - changed default litter for juniper, pinyon pine, and bristlecone pine
+fire/ut/src/fmcba.f - changed default litter for juniper and pinyon pine
+fire/wc/src/fmcba.f - changed default surface fuel values for juniper
+fire/pn/src/fmcba.f - changed default surface fuel values for juniper
+
+fire/so/src/fmcba.f - changed the default litter decay rate 
+fire/so33/src/fmcba.f - changed the default litter decay rate 
+
+fire/ws/src/fmvinit.f - changed the default litter decay rate and lbs/cuft values (V2T)
+fire/nc/src/fmvinit.f - changed the default litter decay rate and lbs/cuft values (V2T)
+fire/ca/src/fmvinit.f - changed the default litter decay rate and lbs/cuft values (V2T)
+
+fire/bm/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/ci/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/ni/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/ie/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/pn/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/wc/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/cr/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/ut/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/tt/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/em/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/so/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/so33/src/fmvinit.f - changed the lbs/cuft values (V2T)
+fire/ec/src/fmvinit.f - changed the lbs/cuft values (V2T)

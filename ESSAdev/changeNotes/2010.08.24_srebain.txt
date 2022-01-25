@@ -1,0 +1,21 @@
+Subject: Fire and Fuels Extension - Smoke Estimates
+Name:  Stephanie Rebain
+Date:  08/24/2010
+Variants affected: All
+
+Description:
+1)An error was fixed in the smoke emissions factors used in FFE.
+
+2)A small fix was made to the duff consumption algorithm in the SO variant.
+
+Impact on users:
+Users may notice small changes in their smoke estimates and/or duff consumption.
+
+Modified Files:
+fire/ni/src/fmcons.f - fixed the logic used to select the smoke emissions factor
+fire/so/src/fmcons.f - fixed the logic used to select the smoke emissions factor and 
+                       added a check for negative duff consumption values
+
+
+
+

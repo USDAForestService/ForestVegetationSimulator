@@ -1,0 +1,68 @@
+Subject: SO test files and "X" executable builds
+
+Name: Lance R. David
+
+Date: 04/30/2018
+
+Variants affected: BM, CI, CR, EC, EM, IE, KT, PN, SO, TT, UT
+
+Description:
+
+  Added SO variant test set
+
+  Most differences in the .save files where just a sinlge digit or decimal,
+  with the exception of OP which were actual different results.
+
+  Added makefile and source lists to build executables that contain I&D 
+  extenstions in addtion to Dwarf Mistletoe and Root Disease which are 
+  now included in the base executable. These are considered temporary
+  for this current release because these executables are not fully 
+  functional with all capabilities of base FVS. Extensions referenced as
+  DFB, DFTM, LPMPB, WPBR and WSBW do not use the FVS General Report Writer
+  facility and cannot use the stop/restart functionality.
+
+  Syntax for X build: make -f makefile_Xbuild FVSx
+
+Impact on users: This will be the last release with historic I&D extensions.
+                 Future releases will only include Dwarf Mistletoe and Root
+                 Disease in variants where they are currently present.
+
+Modified files:
+C:\open-FVS\NickDev\tests\FVSso\sot01.sum.save
+                                makefile
+C:\open-FVS\NickDev\tests\FVSbm\bmt01.sum.save
+C:\open-FVS\NickDev\tests\FVScs\cst01.sum.save
+C:\open-FVS\NickDev\tests\FVSec\ect01.sum.save
+C:\open-FVS\NickDev\tests\FVSem\emt01.sum.save
+C:\open-FVS\NickDev\tests\FVSop\opt01.sum.save
+C:\open-FVS\NickDev\tests\FVSpn\pnt01.sum.save
+C:\open-FVS\NickDev\tests\FVSws\wst01.sum.save
+C:\open-FVS\NickDev\tests\QFVSbm\bmt01.sum.save
+C:\open-FVS\NickDev\tests\QFVScs\cst01.sum.save
+C:\open-FVS\NickDev\tests\QFVSec\ect01.sum.save
+C:\open-FVS\NickDev\tests\QFVSem\emt01.sum.save
+C:\open-FVS\NickDev\tests\QFVSie\ie.db_dump.txt.save
+C:\open-FVS\NickDev\tests\QFVSie\TestDataBase.dump.save
+C:\open-FVS\NickDev\tests\QFVSie\fireTest.db_dump.txt.save
+C:\open-FVS\NickDev\tests\QFVSop\opt01.sum.save
+C:\open-FVS\NickDev\tests\QFVSpn\pnt01.sum.save
+C:\open-FVS\NickDev\tests\QFVSso\sot01.sum.save
+C:\open-FVS\NickDev\tests\QFVSws\wst01.sum.save
+
+New files:
+C:\open-FVS\NickDev\tests\FVSso\sot03.key
+                                sot03.tre
+                                sot03.sum.save
+
+C:\open-FVS\NickDev\bin\makefile_Xbuild
+                        FVSbmx_sourcelist.txt
+                        FVScix_sourcelist.txt
+                        FVScrx_sourcelist.txt
+                        FVSecx_sourcelist.txt
+                        FVSemx_sourcelist.txt
+                        FVSiex_sourcelist.txt
+                        FVSktx_sourcelist.txt
+                        FVSpnx_sourcelist.txt
+                        FVSsox_sourcelist.txt
+                        FVSttx_sourcelist.txt
+                        FVSutx_sourcelist.txt

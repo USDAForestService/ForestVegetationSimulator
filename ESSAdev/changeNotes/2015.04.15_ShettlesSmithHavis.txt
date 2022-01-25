@@ -1,0 +1,21 @@
+Subject: BLM Forest Codes, Volume Equations
+Name: M. Shettles, E. Smith-Meteja, R. Havis
+Date: April 15, 2015
+Variants affected: Western Variants Except WS
+
+Description:
+
+1. CA variant: The following BLM codes were added to the CA variant, 710-Rosenburg,
+   711-Medford, and 712-Coos Bay. Growth relationships for Siskiyou NF
+   were mapped to Coos Bay. Growth relationships for the Rogue River NF
+   were mapped to Rosenburg and Medford.
+
+2. Western variants except WS: Volume equation numbers in the Cruise software were
+   reconciled with the volume equation numbers used in FVS. See variant
+   overviews for specific volume equation numbers and form-class values.
+
+Impact on users: Users should obtain new executables. Volumes will be different
+                 if volume equation numbers have changed for species in the
+                 simulation.
+
+Files:

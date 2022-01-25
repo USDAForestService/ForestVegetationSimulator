@@ -1,0 +1,103 @@
+Subject: Dwarf Mistletoe Height Growth Impact
+
+Name: Lance David
+Date: 07/13/11
+
+Variants affected: All western variants
+
+Description: Height growth impacts due to dwarf mistletoe infection may be 
+             added to projections. The new keyword/activity controlling
+             this action is the MistHMod keyword, a schedulable event. It
+             functions in the same manner as the diameter growth impacts by
+             applying a proportional value from 0.0 to 1.0 a multiplier to 
+             the FVS predicted height growth based on the tree record's DMR
+             value.  On the keyword record the first field is year or cycle,
+             and the second is the species code. A supplemental record
+             contains height growth multiplier values for DMRs 1 thru 6
+             with a space as a delimeter. There are no default height
+             growth impacts assigned, so they must be specified on the 
+             supplemental record.
+
+             In order to simulate the results observed by Katy Mallams for
+             her Douglas-fir study plots in Region 6, the keyword record
+             would be as shown below.
+
+             MistHMod        2007        DF
+             1.  1.  0.95  0.65  0.50  0.00
+
+             The effect would be to reduce the height growth for Douglas-fir
+             trees with DMRs 1 through 6, respectively, to 100% (no additional
+             impact),100% 95%, 65%, 50%, and 0% of the height growth predicted
+             in the absense of this keyword.
+
+Impact on users: Additional effects of height growth impact only if
+                 specified with the inclusion of MistHMod keyword.
+
+Files:
+
+mistoe/src:
+
+  miscom.f77 - Added dimension to MISCYC array, added HGPDMR array.
+  misdgf.f   - Added dimension to MISCYC array.
+  mishgf.f   - New file. Mistletoe height growth impact function.
+  misin0.f   - Initialization of miodified MISCYC array.
+  misin.f    - Variable "NUMBER" changed to "NUMBR". Added MISTHMOD keyword.
+  misintso.f - Added initialization of HGPDMR array, height growth impact values for DF only.
+  misppgt.f  - Added HGPDMR array to process.
+  mispppt.f  - Added HGPDMR array to process.
+
+base/src:
+
+  exmist.f   - added MISHGF function stub.
+  oplist.f   - Modified keyword location index (ITRSL2 array) from 1030 to 1002 for MistHMod activity.
+
+
+Variant files: htgf.f   - added DM height growth impact (MISHGF function) to HTG(I).
+               makefile - added compile of mistoe/src/mishgf.f 
+
+  ak/src/htgf.f
+    /obj/makefile
+
+  an/src/htgf.f
+    /obj/makefile
+
+  bm/src/htgf.f
+    /obj/makefile
+
+  ca/src/htgf.f
+    /obj/makefile
+
+  ci/src/htgf.f
+
+  cr/src/htgf.f
+    /obj/makefile
+
+  ec/src/htgf.f
+
+  em/src/htgf.f
+    /obj/makefile
+
+  ie/src/htgf.f
+    /obj/makefile
+
+  nc/src/htgf.f
+
+  ni/src/htgf.f
+
+  so/src/htgf.f
+    /obj/makefile
+
+  tt/src/htgf.f
+    /obj/makefile
+
+  ut/src/htgf.f
+    /obj/makefile
+
+  wc/src/htgf.f
+    /obj/makefile
+
+  ws/src/htgf.f
+    /obj/makefile
+
+
+bin/makefile - added mishgf to link lists with DM model.

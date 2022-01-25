@@ -1,0 +1,51 @@
+Subject: Follow up on CycleAt keyword update
+Name: R. Havis
+Date: July 30, 2007
+Variants affected: ALL
+
+Description: makefiles - added WORKCM.F77 to the compile instructions
+                         for GRINIT, INITRE, and MAIN
+                         also see individual file descriptions below
+
+Impact on users:
+
+1) potential effect on diameter growth for WL in SO33 when site slope = 0.
+2) potential effect on diameter growth for stands coded as 711, MEdford/Lakeview
+3) avoided potential error in establishment models
+
+Files:
+./ak/obj/makefile
+./ak/src/grinit.f    - rolled revision date
+./base/obj/makefile
+./base/src/revise.f
+./bm/obj/makefile
+./ca/obj/makefile
+./ci/obj/makefile
+./cr/obj/makefile
+./cs/obj/makefile
+./cs_new/obj/makefile
+./ec/obj/makefile
+./em/obj/makefile
+./estb/src/esnutr.f - Added condition of NTODO.GT.0 on second call to ESCPRS
+./ie/obj/makefile
+./kt/obj/makefile
+./ls/obj/makefile
+./ls_new/obj/makefile
+./nc/obj/makefile
+./ne/obj/makefile
+./ne_new/obj/makefile
+./ni/obj/makefile
+./pn/obj/makefile
+./se/obj/makefile
+./sn/obj/makefile
+./so/obj/makefile
+./so33/obj/makefile
+./so33/src/dgf.f     - set constant for western larch when slope=0.
+./strp/src/esnutr.f - Added condition of NTODO.GT.0 on second call to ESCPRS
+./tt/obj/makefile
+./ut/obj/makefile
+./volume/src/r3d2hv.f - added error check for diameter root collar =0.
+                        see V0134_061907
+./wc/obj/makefile
+./wc/src/dgf.f - wc/DGF - the Medford/Lakeview BLM lands mapping was changed from Mt. Hood  (default) to the Rogue River.
+./ws/obj/makefile

@@ -1,0 +1,1051 @@
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:40
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+                                                 OPTIONS SELECTED BY INPUT
+
+ KEYWORD FILE NAME: Example2SEV.key
+ ----------------------------------------------------------------------------------------------------------------------------------
+ KEYWORD    PARAMETERS:
+ --------   -----------------------------------------------------------------------------------------------------------------------
+
+ STDIDENT
+            STAND ID= ECON_UserManualExample_2          Calculate SEV for a perpetual management prescription.                  
+
+ SCREEN     SUMMARY TABLE WILL BE PRINTED TO DATA SET REFERENCE NUMBER     6 AS RUN PROGRESSES.
+
+ INVYEAR    INVENTORY YEAR= 2004
+
+            HABITAT TYPE WILL BE MAPPED TO 530 FOR THIS PROJECTION.
+
+ STDINFO    FOREST-LOCATION CODE=     118; HABITAT TYPE=530; AGE=    1; ASPECT AZIMUTH IN DEGREES=   0.; SLOPE=   0.%
+            ELEVATION(100'S FEET)= 30.0; REFERENCE CODE=     
+
+ DESIGN     BASAL AREA FACTOR=   40.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
+            NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
+            PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+            SEE "OPTIONS SELECTED BY DEFAULT" FOR FINAL DESIGN VALUES.
+
+ NUMCYCLE   NUMBER OF CYCLES= 10
+
+
+            *Regenerate the residual stand, limiting natural regen & ingrowth
+
+ ESTAB      REGENERATION ESTABLISHMENT OPTIONS:
+            DATE OF DISTURBANCE= 2004
+
+ NOAUTALY   TALLIES WILL NOT BE ADDED AUTOMATICALLY.
+
+ NOINGROW   INGROWTH WILL NOT BE ADDED AUTOMATICALLY.
+
+ PLANT      DATE/CYCLE= 2004; SPECIES= DF  (CODE=   3); TREES/ACRE=  250.; % SURVIVAL=100.00
+            AGE=  0.0; AVE. HEIGHT=  0.0; SHADE CODE=  0.0
+
+ PLANT      DATE/CYCLE= 2004; SPECIES= WP  (CODE=   1); TREES/ACRE=  350.; % SURVIVAL=100.00
+            AGE=  0.0; AVE. HEIGHT=  0.0; SHADE CODE=  0.0
+
+ END        REGENERATION TALLY SEQUENCE SCHEDULED TO START IN 2004 
+            END OF ESTABLISHMENT KEYWORDS
+
+
+            *Cleaning and commercial thinning
+
+ THINBTA    DATE/CYCLE= 2034; RESIDUAL=  300.00; PROPORTION OF SELECTED TREES REMOVED= 0.900
+            DBH OF REMOVED TREES WILL RANGE FROM   0.5 TO   9.0 INCHES, AND
+            HEIGHT OF REMOVED TREES WILL RANGE FROM   0.0 TO 999.0 FEET.
+
+ THINDBH    DATE/CYCLE= 2034; MINIMUM DBH=     4.0; MAXIMUM DBH=    12.0; PROPORTION OF SELECTED TREES REMOVED= 0.500
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+            RESIDUAL CLASS TPA =    50.0 RESIDUAL CLASS BA =     0.0
+
+
+            *Cleaning of natural regen after commercial thinning
+
+ THINBBA    DATE/CYCLE= 2034; RESIDUAL=    0.00; PROPORTION OF SELECTED TREES REMOVED= 0.800
+            DBH OF REMOVED TREES WILL RANGE FROM   0.0 TO   5.0 INCHES, AND
+            HEIGHT OF REMOVED TREES WILL RANGE FROM   0.0 TO 999.0 FEET.
+
+
+            *Pretend harvests to leave 16 residual trees per acre
+
+ THINDBH    DATE/CYCLE= 2044; MINIMUM DBH=     6.0; MAXIMUM DBH=    99.0; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+            RESIDUAL CLASS TPA =    16.0 RESIDUAL CLASS BA =     0.0
+
+ THINDBH    DATE/CYCLE= 2054; MINIMUM DBH=     6.0; MAXIMUM DBH=    99.0; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+            RESIDUAL CLASS TPA =    16.0 RESIDUAL CLASS BA =     0.0
+
+ THINDBH    DATE/CYCLE= 2064; MINIMUM DBH=     6.0; MAXIMUM DBH=    99.0; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+            RESIDUAL CLASS TPA =    16.0 RESIDUAL CLASS BA =     0.0
+
+ THINDBH    DATE/CYCLE= 2074; MINIMUM DBH=     6.0; MAXIMUM DBH=    99.0; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+            RESIDUAL CLASS TPA =    16.0 RESIDUAL CLASS BA =     0.0
+
+ THINDBH    DATE/CYCLE= 2084; MINIMUM DBH=     6.0; MAXIMUM DBH=    99.0; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+            RESIDUAL CLASS TPA =    16.0 RESIDUAL CLASS BA =     0.0
+
+ THINDBH    DATE/CYCLE= 2094; MINIMUM DBH=     6.0; MAXIMUM DBH=    99.0; PROPORTION OF SELECTED TREES REMOVED= 1.000
+            ALL SPECIES (CODE=   0) ARE TARGETED FOR THIS CUT.
+            RESIDUAL CLASS TPA =    16.0 RESIDUAL CLASS BA =     0.0
+
+
+            *Begin ECON Extension keywords               1.0
+
+ ECON       ECONOMIC EXTENSION KEYWORDS:
+
+ STRTECON   ECON START YEAR/CYCLE:    1, DISCOUNT RATE:  4.0%, Known SEV: $ , SEV will be computed: TRUE
+
+
+            *Make all harvests beginning in 2040 "pretend" harvests
+
+ PRETEND    PRETEND MODE STARTS YEAR/CYCLE: 2040, CONTINUING FOR 999 YEARS 
+
+ ANNUCST    ANNUAL COST OF $   1.00 WILL BE APPLIED FOR: Mgmt Cost.
+
+ SPECCST    $   2. SPECIAL COST INCURRED FOR: Cycle_1, IN YEAR/CYCLE:    1
+
+ SPECCST    $   5. SPECIAL COST INCURRED FOR: Cycle_2, IN YEAR/CYCLE:    2
+
+ PLANTCST   COST: $ 100. PER 1000 TPA PLT
+
+ HRVVRCST   HARVEST COST: $  80. PER 1000 BF-TREE, FOR TREES >=   6.0 AND <  12.0 INCHES DBH.
+
+ HRVVRCST   HARVEST COST: $  70. PER 1000 BF-TREE, FOR TREES >=  12.0 AND <  16.0 INCHES DBH.
+
+ HRVVRCST   HARVEST COST: $  50. PER 1000 BF-TREE, FOR TREES >=  16.0 AND < 999.9 INCHES DBH.
+
+ HRVRVN     HARVEST PRICE: $  50. PER 1000 BF-LOGS >=  4.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $ 175. PER 1000 BF-LOGS >=  9.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $ 200. PER 1000 BF-LOGS >= 12.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $ 225. PER 1000 BF-LOGS >= 14.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $ 275. PER 1000 BF-LOGS >= 16.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $ 300. PER 1000 BF-LOGS >= 18.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $ 350. PER 1000 BF-LOGS >= 20.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+ HRVRVN     HARVEST PRICE: $ 400. PER 1000 BF-LOGS >= 24.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+
+            *Zero price allows output of harvested trees/acre w/o affecting revenue
+
+ HRVRVN     HARVEST PRICE: $   0. PER REMOVED TPA >=  0.0 INCHES DIB/DBH FOR SPECIES ALL.
+
+
+            *Harvests less than 1000 board-feet per acre are pre-commercial
+
+ PCTSPEC    PRE-COMMERCIAL THINNING  DEFINED AS REMOVALS < 1000. BOARD-FEET VOLUME PER ACRE AND  QMD <  0.0 INCHES.
+
+ END        END ECONOMIC EXTENSION KEYWORDS.
+
+
+            *End ECON Extension keywords
+
+ TREEDATA   DATA SET REFERENCE NUMBER= 15
+
+ PROCESS    PROCESS THE STAND.
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+                                                 OPTIONS SELECTED BY DEFAULT
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ TREEFMT    (I4,T1,I7,F6.0,I1,A3,F4.1,F3.1,2F3.0,F4.1,I1,3(I2,I2),2I1,I2,2I3,2I1,F3.0)      
+                                                                                            
+
+ DESIGN     BASAL AREA FACTOR=   40.0; INVERSE OF FIXED PLOT AREA=    1.0; BREAK DBH=  999.0
+            NUMBER OF PLOTS=     1; NON-STOCKABLE PLOTS=     0; STAND SAMPLING WEIGHT=     1.00000
+            PROPORTION OF STAND CONSIDERED STOCKABLE=  1.000
+
+ STDINFO    FOREST-LOCATION CODE=     118; HABITAT TYPE=530; AGE=    1; ASPECT AZIMUTH IN DEGREES=   0.; SLOPE=   0.%
+            ELEVATION(100'S FEET)= 30.0;  REFERENCE CODE=     
+
+ SPECIES      WP      WL      DF      GF      WH      RC      LP      ES      AF      PP
+ SDI MAX     949.    949.    949.    949.    949.    949.    949.    949.    949.    949.
+
+ SPECIES      MH      WB      LM      LL      PI      RM      PY      AS      CO      MM
+ SDI MAX     949.    949.    949.    949.    949.    949.    949.    949.    949.    949.
+
+ SPECIES      PB      OH      OS
+ SDI MAX     949.    949.    949.
+
+                                   NATIONAL VOLUME ESTIMATOR LIBRARY EQUATION NUMBERS
+ SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT SPECIES CUBIC FOOT BOARD FOOT 
+ ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- ------- ---------- ---------- 
+   WP    I00FW2W119 I00FW2W119   WL    I00FW2W073 I00FW2W073   DF    I00FW2W202 I00FW2W202   GF    I00FW2W017 I00FW2W017
+   WH    I00FW2W260 I00FW2W260   RC    I00FW2W242 I00FW2W242   LP    I00FW2W108 I00FW2W108   ES    I00FW2W093 I00FW2W093
+   AF    I00FW2W019 I00FW2W019   PP    I00FW2W122 I00FW2W122   MH    I00FW2W260 I00FW2W260   WB    I00FW2W119 I00FW2W119
+   LM    I00FW2W073 I00FW2W073   LL    I00FW2W019 I00FW2W019   PI    102DVEW106 102DVEW106   RM    102DVEW106 102DVEW106
+   PY    616BEHW231 616BEHW231   AS    200DVEW746 200DVEW746   CO    101DVEW740 101DVEW740   MM    200DVEW746 200DVEW746
+   PB    101DVEW375 101DVEW375   OH    200DVEW746 200DVEW746   OS    I00FW2W260 I00FW2W260
+
+ SITECODE   SITE INDEX INFORMATION:
+             WP=    0.;  WL=    0.;  DF=    0.;  GF=    0.;  WH=    0.;  RC=    0.;  LP=    0.;  ES=    0.; AF=    0.
+             PP=    0.;  MH=    0.;  WB=    0.;  LM=   41.;  LL=    0.;  PI=   15.;  RM=   12.;  PY=   41.; AS=   58.
+             CO=   93.;  MM=   58.;  PB=   58.;  OH=   93.;  OS=    0.
+            SITE SPECIES=DF CODE=    3
+
+ INVENTORY POINT CROSS REFERENCE (FVS SEQUENTIAL POINT NUMBER = POINT NUMBER AS ENTERED IN THE INPUT DATA):
+   1=       1
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+
+                                                      ACTIVITY SCHEDULE
+
+ STAND ID= ECON_UserManualExample_2      MGMT ID= NONE    Calculate SEV for a perpetual management prescription.                  
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ CYCLE  DATE  EXTENSION  KEYWORD   DATE  PARAMETERS:
+ -----  ----  ---------  --------  ----  ------------------------------------------------------------------------------------------
+
+    1   2004
+                ESTB     PLANT     2004        3.00    250.00    100.00      0.00      0.00      0.00
+                ESTB     PLANT     2004        1.00    350.00    100.00      0.00      0.00      0.00
+                ESTB     TALLY     2004     2004.00
+                ECON     STRTECON  2004        4.00      0.00      1.00
+                ECON     SPECCST   2004        2.00
+
+    2   2014
+                ECON     SPECCST   2014        5.00
+ 
+    3   2024
+
+    4   2034
+                BASE     THINBTA   2034      300.00      0.90      0.50      9.00      0.00    999.00
+                BASE     THINDBH   2034        4.00     12.00      0.50      0.00     50.00      0.00
+                BASE     THINBBA   2034        0.00      0.80      0.00      5.00      0.00    999.00
+                ECON     PRETEND   2040      999.00
+
+    5   2044
+                BASE     THINDBH   2044        6.00     99.00      1.00      0.00     16.00      0.00
+
+    6   2054
+                BASE     THINDBH   2054        6.00     99.00      1.00      0.00     16.00      0.00
+
+    7   2064
+                BASE     THINDBH   2064        6.00     99.00      1.00      0.00     16.00      0.00
+
+    8   2074
+                BASE     THINDBH   2074        6.00     99.00      1.00      0.00     16.00      0.00
+
+    9   2084
+                BASE     THINDBH   2084        6.00     99.00      1.00      0.00     16.00      0.00
+
+   10   2094
+                BASE     THINDBH   2094        6.00     99.00      1.00      0.00     16.00      0.00
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+
+ CALIBRATION STATISTICS:
+
+
+                                                  DF    WH    RC
+                                                 ----  ----  ----
+
+ NUMBER OF RECORDS PER SPECIES                     13     2     1
+
+ NUMBER OF RECORDS WITH MISSING HEIGHTS             0     0     0
+
+ NUMBER OF RECORDS WITH BROKEN OR DEAD TOPS         0     0     0
+
+ NUMBER OF RECORDS WITH MISSING CROWN RATIOS       13     2     1
+
+ NUMBER OF RECORDS AVAILABLE FOR SCALING
+ THE DIAMETER INCREMENT MODEL                       0     0     0
+
+ RATIO OF STANDARD ERRORS
+ (INPUT DBH GROWTH DATA : MODEL)                 1.00  1.00  1.00
+
+ WEIGHT GIVEN TO THE INPUT GROWTH DATA WHEN
+ DBH GROWTH MODEL SCALE FACTORS WERE COMPUTED    0.00  0.00  0.00
+
+ INITIAL SCALE FACTORS FOR THE
+ DBH INCREMENT MODEL                             1.00  1.00  1.00
+
+ NUMBER OF RECORDS AVAILABLE FOR SCALING
+ THE SMALL TREE HEIGHT INCREMENT MODEL             0     0     0
+
+ INITIAL SCALE FACTORS FOR THE SMALL TREE
+ HEIGHT INCREMENT MODEL                          1.00  1.00  1.00
+
+ NUMBER OF RECORDS WITH MISTLETOE                   0     0     0
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:40
+
+ STAND ID: ECON_UserManualExample_2      MGMT ID: NONE    Calculate SEV for a perpetual management prescription.
+
+
+                                         STAND COMPOSITION (BASED ON STOCKABLE AREA)
+ --------------------------------------------------------------------------------------------------------------------------
+                             PERCENTILE POINTS IN THE
+                      DISTRIBUTION OF STAND ATTRIBUTES BY DBH      TOTAL/ACRE
+         STAND       -----------------------------------------      OF STAND         DISTRIBUTION OF STAND ATTRIBUTES BY
+ YEAR  ATTRIBUTES      10     30     50     70     90    100       ATTRIBUTES       SPECIES AND 3 USER-DEFINED SUBCLASSES
+ ----  -----------   ------ ------ ------ ------ ------ ------   --------------  ------------------------------------------
+                                  (DBH IN INCHES)
+
+
+
+ 2004  TREES           6.0    9.0   11.0   15.0   18.0    19.0      16. TREES     81.% DF1,  13.% WH1,   6.% RC1,   0.% ---
+       VOLUME:  
+         TOTAL        10.0   14.0   16.0   18.0   19.0    19.0     485. CUFT      61.% DF1,  33.% WH1,   6.% RC1,   0.% ---
+         MERCH        10.0   14.0   16.0   18.0   19.0    19.0     435. CUFT      60.% DF1,  35.% WH1,   5.% RC1,   0.% ---
+         MERCH        10.0   14.0   16.0   18.0   19.0    19.0    2350. BDFT      59.% DF1,  36.% WH1,   5.% RC1,   0.% ---
+
+
+       ACCRETION       8.0   11.0   14.0   16.0   19.0    19.0      18. CUFT/YR   73.% DF1,  20.% WH1,   7.% RC1,   0.% ---
+       MORTALITY      10.0   14.0   16.0   18.0   19.0    19.0       2. CUFT/YR   65.% DF1,  33.% WH1,   2.% RC1,   0.% ---
+
+
+
+ 2014  TREES           0.1    0.1    0.1    0.7    0.9    21.3    1429. TREES     26.% WP1,  21.% DF1,  19.% GF2,  11.% RC2
+       VOLUME:  
+         TOTAL        11.7   14.9   17.8   19.4   20.3    21.3     652. CUFT      64.% DF1,  30.% WH1,   6.% RC1,   0.% ---
+         MERCH        11.7   14.9   18.0   19.4   20.3    21.3     594. CUFT      64.% DF1,  30.% WH1,   6.% RC1,   0.% ---
+         MERCH        11.7   14.9   18.0   19.4   20.3    21.3    3302. BDFT      62.% DF1,  33.% WH1,   6.% RC1,   0.% ---
+
+
+       ACCRETION       0.7    0.9    1.2   12.9   18.5    21.3      49. CUFT/YR   53.% DF1,  30.% WP1,   8.% WH1,   4.% WP2
+       MORTALITY      11.0   14.1   16.9   19.4   20.3    21.3       0. CUFT/YR   66.% DF1,  28.% WH1,   6.% RC1,   0.% ---
+
+
+
+ 2024  TREES           0.1    0.1    0.3    1.3    3.1    23.5    1835. TREES     23.% GF2,  19.% WP1,  18.% DF1,  14.% RC2
+       VOLUME:  
+         TOTAL         3.2   12.3   16.7   19.9   21.6    23.5    1145. CUFT      59.% DF1,  20.% WH1,  13.% WP1,   5.% RC1
+         MERCH        13.3   16.3   19.0   20.7   21.8    23.5     791. CUFT      67.% DF1,  27.% WH1,   6.% RC1,   0.% ---
+         MERCH        13.3   16.7   19.3   20.9   21.9    23.5    4468. BDFT      65.% DF1,  29.% WH1,   6.% RC1,   0.% ---
+
+
+       ACCRETION       1.7    2.7    3.6    4.4   15.6    23.5     152. CUFT/YR   42.% WP1,  41.% DF1,   6.% WP2,   4.% DF2
+       MORTALITY       1.7    2.4    3.8   15.6   20.9    23.5       2. CUFT/YR   46.% DF1,  31.% WP1,  10.% WH1,   6.% WP2
+
+
+
+ 2034  TREES           0.2    0.5    1.6    3.8    6.6    24.6    1396. TREES     21.% WP1,  20.% DF1,  18.% GF2,  16.% RC2
+       VOLUME:  
+         TOTAL         4.5    6.6    8.6   17.7   22.3    24.6    2647. CUFT      49.% DF1,  30.% WP1,  10.% WH1,   4.% WP2
+         MERCH         7.8    9.9   17.6   20.9   23.0    24.6    1499. CUFT      60.% DF1,  17.% WP1,  17.% WH1,   4.% RC1
+         MERCH         7.9   11.7   18.2   21.2   23.2    24.6    8149. BDFT      60.% DF1,  20.% WH1,  14.% WP1,   5.% RC1
+
+
+       REMOVAL         0.3    0.7    1.6    3.6    6.2    12.0    1241. TREES     21.% WP1,  20.% DF1,  18.% GF2,  16.% RC2
+       VOLUME:  
+         TOTAL         3.7    5.0    6.5    7.6    8.9    12.0    1348. CUFT      49.% WP1,  37.% DF1,   7.% WP2,   5.% DF2
+         MERCH         7.3    7.8    8.3    8.9    9.9    12.0     414. CUFT      50.% WP1,  47.% DF1,   3.% WP2,   0.% DF2
+         MERCH         7.3    7.8    8.3    8.9   10.0    12.0    1970. BDFT      50.% DF1,  47.% WP1,   3.% WP2,   0.% DF2
+
+
+       RESIDUAL        0.2    0.3    0.4    6.0    9.4    24.6     155. TREES     23.% DF1,  20.% GF2,  18.% RC2,  18.% WP1
+
+
+       ACCRETION       5.3    6.7    8.1   15.9   21.6    24.6      67. CUFT/YR   52.% DF1,  31.% WP1,   6.% WH1,   5.% WP2
+       MORTALITY       6.6   15.6   18.9   21.2   22.9    24.6       2. CUFT/YR   66.% DF1,  20.% WH1,   9.% WP1,   2.% RC1
+
+
+
+ 2044  TREES           0.7    1.3    5.3    9.8   14.0    26.9     128. TREES     26.% DF1,  20.% WP1,  18.% RC2,  15.% GF2
+       VOLUME:  
+         TOTAL         9.4   12.7   19.6   22.0   24.6    26.9    1945. CUFT      59.% DF1,  17.% WP1,  16.% WH1,   5.% RC1
+         MERCH         9.8   13.3   19.8   22.4   24.6    26.9    1721. CUFT      60.% DF1,  17.% WH1,  15.% WP1,   5.% RC1
+         MERCH         9.9   16.4   20.6   23.1   24.7    26.9    9667. BDFT      60.% DF1,  19.% WH1,  13.% WP1,   5.% RC1
+
+
+       ACCRETION       7.8    9.7   10.9   13.3   22.0    26.9      89. CUFT/YR   49.% DF1,  34.% WP1,   5.% WP2,   5.% WH1
+       MORTALITY       8.4   13.3   19.6   22.4   24.6    26.9       5. CUFT/YR   58.% DF1,  18.% WH1,  17.% WP1,   3.% RC1
+
+
+
+ 2054  TREES           1.5    2.8    9.5   13.0   17.7    28.5     117. TREES     28.% DF1,  21.% WP1,  18.% RC2,  13.% GF2
+       VOLUME:  
+         TOTAL        11.3   13.9   18.5   23.3   25.4    28.5    2783. CUFT      56.% DF1,  22.% WP1,  12.% WH1,   4.% RC1
+         MERCH        11.8   14.2   19.1   23.5   25.5    28.5    2479. CUFT      57.% DF1,  22.% WP1,  13.% WH1,   4.% RC1
+         MERCH        12.1   14.8   20.9   23.7   25.8    28.5   13768. BDFT      57.% DF1,  19.% WP1,  15.% WH1,   4.% RC1
+
+
+       ACCRETION       9.5   12.4   13.7   15.6   23.6    28.5     108. CUFT/YR   44.% DF1,  37.% WP1,   6.% WP2,   5.% WH1
+       MORTALITY      10.4   13.7   18.8   23.5   25.5    28.5       9. CUFT/YR   54.% DF1,  23.% WP1,  14.% WH1,   4.% WP2
+
+
+
+ 2064  TREES           2.5    4.2   12.2   15.8   19.9    29.8     110. TREES     29.% DF1,  22.% WP1,  18.% RC2,  12.% GF2
+       VOLUME:  
+         TOTAL        13.2   16.2   18.1   24.0   26.5    29.8    3775. CUFT      53.% DF1,  27.% WP1,  10.% WH1,   4.% WP2
+         MERCH        13.5   16.3   18.3   24.1   26.6    29.8    3370. CUFT      54.% DF1,  26.% WP1,  11.% WH1,   4.% WP2
+         MERCH        13.7   16.4   19.9   24.7   26.8    29.8   18964. BDFT      54.% DF1,  24.% WP1,  12.% WH1,   4.% RC1
+
+
+       ACCRETION      11.2   14.8   16.3   17.8   24.9    29.8     123. CUFT/YR   41.% DF1,  38.% WP1,   6.% WP2,   4.% WH1
+       MORTALITY      12.2   15.8   18.4   24.5   26.6    29.8      14. CUFT/YR   53.% DF1,  26.% WP1,  10.% WH1,   4.% WP2
+
+
+
+ 2074  TREES           3.5    6.5   14.7   18.4   21.8    30.5     104. TREES     30.% DF1,  22.% WP1,  18.% RC2,  11.% GF2
+       VOLUME:  
+         TOTAL        14.9   18.0   19.8   24.2   27.5    30.5    4870. CUFT      50.% DF1,  29.% WP1,   9.% WH1,   4.% WP2
+         MERCH        15.3   18.1   20.0   24.7   27.6    30.5    4383. CUFT      51.% DF1,  29.% WP1,   9.% WH1,   4.% WP2
+         MERCH        15.6   18.4   20.4   25.4   27.9    30.5   25114. BDFT      51.% DF1,  27.% WP1,  11.% WH1,   4.% WP2
+
+
+       ACCRETION      12.1   16.8   18.4   19.8   25.1    30.5     144. CUFT/YR   41.% WP1,  38.% DF1,   6.% WP2,   3.% WH1
+       MORTALITY      14.4   17.7   19.8   24.9   27.5    30.5      21. CUFT/YR   51.% DF1,  29.% WP1,   8.% WH1,   5.% WP2
+
+
+
+ 2084  TREES           5.2    8.5   16.9   20.5   24.1    31.6      99. TREES     30.% DF1,  22.% WP1,  18.% RC2,  10.% GF2
+       VOLUME:  
+         TOTAL        16.5   19.9   21.8   24.2   28.6    31.6    6096. CUFT      47.% DF1,  32.% WP1,   7.% WH1,   5.% WP2
+         MERCH        16.9   20.2   21.8   24.5   28.6    31.6    5533. CUFT      48.% DF1,  32.% WP1,   8.% WH1,   5.% WP2
+         MERCH        17.2   20.3   22.1   25.6   28.9    31.6   32394. BDFT      48.% DF1,  31.% WP1,   9.% WH1,   5.% WP2
+
+
+       ACCRETION      11.8   18.5   20.5   22.0   26.3    31.6     158. CUFT/YR   42.% WP1,  34.% DF1,   6.% WP2,   4.% RC2
+       MORTALITY      16.2   19.8   21.8   25.5   28.6    31.6      30. CUFT/YR   48.% DF1,  31.% WP1,   8.% WH1,   5.% WP2
+
+
+
+ 2094  TREES           7.0   10.6   19.0   22.8   25.9    32.9      94. TREES     30.% DF1,  22.% WP1,  18.% RC2,  10.% GF2
+       VOLUME:  
+         TOTAL        18.2   21.8   23.5   25.3   29.7    32.9    7370. CUFT      44.% DF1,  34.% WP1,   6.% WH1,   5.% WP2
+         MERCH        18.2   21.8   23.6   25.5   29.7    32.9    6729. CUFT      45.% DF1,  34.% WP1,   7.% WH1,   5.% WP2
+         MERCH        18.7   22.0   24.0   26.2   30.0    32.9   40372. BDFT      45.% DF1,  34.% WP1,   8.% WH1,   5.% WP2
+
+
+       ACCRETION      12.0   19.9   22.2   24.0   26.8    32.9     163. CUFT/YR   42.% WP1,  33.% DF1,   6.% WP2,   5.% RC2
+       MORTALITY      17.7   21.5   23.5   25.8   29.5    32.9      41. CUFT/YR   46.% DF1,  33.% WP1,   6.% WH1,   6.% WP2
+
+
+
+ 2104  TREES           8.6   12.9   21.0   24.6   27.7    34.0      88. TREES     30.% DF1,  22.% WP1,  18.% RC2,  10.% GF2
+       VOLUME:  
+         TOTAL        19.5   23.3   25.1   26.9   30.6    34.0    8596. CUFT      42.% DF1,  36.% WP1,   6.% WH1,   5.% WP2
+         MERCH        19.7   23.4   25.3   27.0   30.6    34.0    7897. CUFT      42.% DF1,  36.% WP1,   6.% WH1,   5.% WP2
+         MERCH        20.1   23.8   25.7   27.2   30.7    34.0   48469. BDFT      42.% DF1,  37.% WP1,   7.% WH1,   5.% WP2
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:43
+
+ STAND ID: ECON_UserManualExample_2      MGMT ID: NONE    Calculate SEV for a perpetual management prescription.
+
+
+ ------------------------------------------------------------------------------------------------------------------------------
+                      ATTRIBUTES OF SELECTED SAMPLE TREES                 ADDITIONAL STAND ATTRIBUTES (BASED ON STOCKABLE AREA)
+       -----------------------------------------------------------------  -----------------------------------------------------
+       INITIAL                           LIVE   PAST DBH  BASAL   TREES          QUADRATIC   TREES    BASAL  TOP HEIGHT  CROWN
+       TREES/A            DBH    HEIGHT  CROWN   GROWTH   AREA     PER    STAND   MEAN DBH    PER     AREA     LARGEST   COMP
+ YEAR   %TILE  SPECIES (INCHES)  (FEET)  RATIO  (INCHES)  %TILE    ACRE   AGE     (INCHES)    ACRE   (SQFT/A) 40/A (FT)  FACTOR
+ ----  ------- ------- -------- -------- ------ --------- ------- ------  -----  ---------   ------ --------- --------- -------
+
+ 2004                                          ( 10 YRS)
+
+         10     DF1       6.00    44.00    25     1.87      2.4    1.00
+         30     DF1       9.00    66.00    45     1.55     10.0    1.00
+         50     DF1      11.00    77.00    46     1.79     22.7    1.00
+         70     DF1      15.00    92.00    50     2.29     51.6    1.00
+         90     WH1      18.00   101.00    42     1.64     85.8    1.00
+        100     WH1      19.00   103.00    43     1.06    100.0    1.00
+                                                                            1      12.6       16.      14.       78.6     14.3
+
+ 2014 **                                       ( 10 YRS)
+
+         10     RC2       0.10     1.59    84     0.00      0.0    6.61
+         30     DF2       0.10     2.46    90     0.00      0.1    4.41
+         50     DF1       0.10     3.49    86     0.00      0.2    5.00
+         70     DF1       0.71     5.22    87     0.71      1.3    2.20
+         90     WP1       0.93     7.41    90     0.93      6.5    7.00
+        100     WH1      21.27   110.17    43     2.12    100.0    0.24
+                                                                           11       1.6     1429.      20.       40.8     22.8
+
+ 2024 **                                       ( 10 YRS)
+
+         10     GF1       0.10     1.80    90     0.00      0.0    1.16
+         30     GF1       0.10     3.16    84     0.00      0.1    1.16
+         50     GF2       0.32     4.86    84     0.20      0.3    0.42
+         70     WP2       1.26    17.46    90     1.12      2.5    4.38
+         90     DF1       3.07    22.15    90     1.82     22.6    0.68
+        100     WH1      23.45   117.03    43     2.04    100.0    0.06
+                                                                           21       2.2     1835.      47.       58.3     60.3
+
+ 2034                                          ( 10 YRS)
+
+         10     GF1       0.11     3.93    90     0.00      0.0    0.68
+         30     GF1       0.34     8.67    84     0.22      0.1    0.68
+         50     GF2       1.14    10.99    84     0.75      0.8    0.25
+         70     WP2       5.09    42.07    90     3.69     26.2    3.73
+         90     DF1       6.91    41.06    91     3.33     47.0    0.66
+        100     WH1      24.40   121.63    43     0.89     99.8    0.06
+                                                                           31       4.0     1396.     121.       69.7    141.2
+                                                                      RESIDUAL:     6.8      155.      39.       65.7     37.9
+
+ 2044                                          ( 10 YRS)
+
+         10     GF1       0.56    10.22    90     0.42      0.0    0.08
+         30     GF1       1.40    15.99    84     0.96      0.3    0.08
+         50     GF2       2.12    17.62    84     0.89      0.7    0.00
+         70     WP2       7.39    70.79    95     2.22      3.6    0.57
+         90     DF1       9.63    59.25    93     2.35     16.0    0.13
+        100     WH1      26.25   127.75    44     1.73     99.6    0.06
+                                                                           41       9.2      128.      59.       77.6     54.1
+
+ 2054                                          ( 10 YRS)
+
+         10     GF1       1.36    15.69    90     0.73      0.1    0.05
+         30     GF1       2.46    22.98    84     0.97      0.6    0.07
+         50     GF2       4.14    30.76    84     1.85      1.7    0.00
+         70     WP2       8.83    82.36    95     1.39      4.0    0.55
+         90     DF1      12.43    69.12    94     2.43     18.9    0.13
+        100     WH1      28.21   133.89    43     1.82     99.7    0.06
+                                                                           51      11.3      117.      82.       86.5     71.0
+
+ 2064                                          ( 10 YRS)
+
+         10     GF1       2.31    21.97    90     0.87      0.2    0.04
+         30     GF1       4.05    33.13    84     1.45      1.4    0.06
+         50     GF2       6.32    40.16    87     1.99      2.9    0.00
+         70     WP2      11.46    98.47    95     2.53      6.5    0.49
+         90     DF1      15.22    78.02    95     2.41     25.9    0.13
+        100     WH1      29.00   137.89    43     0.74     99.7    0.06
+                                                                           61      13.3      110.     106.       94.4     87.7
+
+ 2074                                          ( 10 YRS)
+
+         10     GF1       3.41    28.99    90     1.00      0.3    0.03
+         30     GF1       5.56    41.51    85     1.38      1.9    0.05
+         50     GF2       8.55    48.36    89     2.05      4.4    0.00
+         70     WP2      13.73   110.19    95     2.19      8.7    0.47
+         90     DF1      17.74    85.85    95     2.18     31.9    0.12
+        100     WH1      30.47   143.10    42     1.38     99.8    0.05
+                                                                           71      15.2      104.     131.      101.5    104.2
+
+ 2084                                          ( 10 YRS)
+
+         10     GF1       5.89    39.94    93     2.27      1.1    0.03
+         30     GF1       6.37    47.59    83     0.74      1.3    0.05
+         50     GF2      11.32    58.37    89     2.53      6.6    0.00
+         70     WP2      15.80   121.15    94     1.99     11.0    0.45
+         90     DF1      20.32    93.29    95     2.24     37.8    0.12
+        100     WH1      31.49   147.43    41     0.95     99.8    0.05
+                                                                           81      17.0       99.     157.      109.2    120.4
+
+ 2094                                          ( 10 YRS)
+
+         10     GF1       7.95    47.09    94     1.89      1.6    0.02
+         30     GF1       7.51    56.81    81     1.04      1.2    0.04
+         50     GF2      13.08    66.35    88     1.61      8.3    0.00
+         70     WP2      17.68   131.40    93     1.82     13.5    0.42
+         90     DF1      22.37    99.58    95     1.78     40.8    0.11
+        100     WH1      32.38   151.44    40     0.83     99.7    0.05
+                                                                           91      18.8       94.     180.      116.2    135.8
+
+ 2104                                          ( 10 YRS)
+
+         10     GF1       9.33    53.88    93     1.27      1.7    0.02
+         30     GF1       9.44    64.49    81     1.76      1.8    0.03
+         50     GF2      14.89    74.46    87     1.66     10.2    0.00
+         70     WP2      19.59   141.43    92     1.84     15.8    0.40
+         90     DF1      24.26   105.37    94     1.64     42.9    0.11
+        100     WH1      33.58   155.94    39     1.12     99.9    0.05
+                                                                          101      20.5       88.     202.      122.6    150.2
+
+ ** NOTE:  DUE TO HARVEST, COMPRESSION, OR REGENERATION ESTABLISHMENT, NEW SAMPLE TREES WERE SELECTED.
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:43
+
+ STAND ID: ECON_UserManualExample_2      MGMT ID: NONE    Calculate SEV for a perpetual management prescription.
+
+
+
+                                 SUMMARY STATISTICS (PER ACRE OR STAND BASED ON TOTAL STAND AREA)
+ --------------------------------------------------------------------------------------------------------------------------------------
+                START OF SIMULATION PERIOD                     REMOVALS             AFTER TREATMENT    GROWTH THIS PERIOD
+          --------------------------------------------- ----------------------- ---------------------  ------------------   MAI  ------
+          NO OF              TOP      TOTAL MERCH MERCH NO OF TOTAL MERCH MERCH              TOP  RES  PERIOD ACCRE MORT   MERCH FOR SS
+ YEAR AGE TREES  BA  SDI CCF HT  QMD  CU FT CU FT BD FT TREES CU FT CU FT BD FT  BA  SDI CCF HT   QMD  YEARS   PER  YEAR   CU FT TYP ZT
+ ---- --- ----- --- ---- --- --- ---- ----- ----- ----- ----- ----- ----- ----- --- ---- --- --- ----  ------ ---- -----   ----- ------
+ 2004   1    16  14   23  14  79 12.6   485   435  2350     0     0     0     0  14   23  14  79 12.6      10   18     2   435.0 999 55
+ 2014  11  1429  20   75  23  41  1.6   652   594  3302     0     0     0     0  20   75  23  41  1.6      10   49     0    54.0 201 34
+ 2024  21  1835  47  158  60  58  2.2  1145   791  4468     0     0     0     0  47  158  60  58  2.2      10  152     2    37.7 201 34
+ 2034  31  1396 121  318 141  70  4.0  2647  1499  8149  1241  1348   414  1970  39   84  38  66  6.8      10   67     2    48.4 201 23
+ 2044  41   128  59  111  54  78  9.2  1945  1721  9667     0     0     0     0  59  111  54  78  9.2      10   89     5    52.1 201 14
+ 2054  51   117  82  143  71  87 11.3  2783  2479 13768     0     0     0     0  82  143  71  87 11.3      10  108     9    56.7 201 14
+ 2064  61   110 106  174  88  94 13.3  3775  3370 18964     0     0     0     0 106  174  88  94 13.3      10  123    14    62.0 201 13
+ 2074  71   104 131  204 104 101 15.2  4870  4383 25114     0     0     0     0 131  204 104 101 15.2      10  144    21    67.6 201 13
+ 2084  81    99 157  233 120 109 17.0  6096  5533 32394     0     0     0     0 157  233 120 109 17.0      10  158    30    73.4 201 13
+ 2094  91    94 180  258 136 116 18.8  7370  6729 40372     0     0     0     0 180  258 136 116 18.8      10  163    41    78.5 201 13
+ 2104 101    88 202  279 150 123 20.5  8596  7897 48469     0     0     0     0 202  279 150 123 20.5       0    0     0    82.3 201 12
+ 
+ 
+
+
+                                                      ACTIVITY SUMMARY 
+
+ STAND ID= ECON_UserManualExample_2      MGMT ID= NONE    Calculate SEV for a perpetual management prescription.                  
+
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ CYCLE  DATE  EXTENSION  KEYWORD   DATE  ACTIVITY DISPOSITION  PARAMETERS:
+ -----  ----  ---------  --------  ----  --------------------  --------------------------------------------------------------------
+
+    1   2004
+                ECON     STRTECON  2004  DONE IN 2004                4.00      0.00      1.00
+                ESTB     PLANT     2004  DONE IN 2004                3.00    250.00    100.00      0.00      0.00      0.00
+                ESTB     PLANT     2004  DONE IN 2004                1.00    350.00    100.00      0.00      0.00      0.00
+                ECON     SPECCST   2004  DONE IN 2004                2.00
+                ESTB     TALLY     2004  DONE IN 2013             2004.00
+
+    2   2014
+                ECON     SPECCST   2014  DONE IN 2014                5.00
+                ESTB     TALLY     2023  DONE IN 2023             2004.00      2.00
+ 
+    3   2024
+
+    4   2034
+                BASE     THINBTA   2034  DONE IN 2034              300.00      0.90      0.50      9.00      0.00    999.00
+                BASE     THINDBH   2034  DONE IN 2034                4.00     12.00      0.80      0.00     50.00      0.00
+                BASE     THINBBA   2034  DONE IN 2034                0.00      0.80      0.00      5.00      0.00    999.00
+                ECON     PRETEND   2040  DONE IN 2040              999.00
+
+    5   2044
+                BASE     THINDBH   2044  DELETED OR CANCELED         6.00     99.00      0.75      0.00     16.00      0.00
+
+    6   2054
+                BASE     THINDBH   2054  DELETED OR CANCELED         6.00     99.00      0.75      0.00     16.00      0.00
+
+    7   2064
+                BASE     THINDBH   2064  DELETED OR CANCELED         6.00     99.00      0.76      0.00     16.00      0.00
+
+    8   2074
+                BASE     THINDBH   2074  DELETED OR CANCELED         6.00     99.00      0.79      0.00     16.00      0.00
+
+    9   2084
+                BASE     THINDBH   2084  DELETED OR CANCELED         6.00     99.00      0.81      0.00     16.00      0.00
+
+   10   2094
+                BASE     THINDBH   2094  DELETED OR CANCELED         6.00     99.00      0.82      0.00     16.00      0.00
+ ----------------------------------------------------------------------------------------------------------------------------------
+1        FOREST VEGETATION SIMULATOR     VERSION 0629 -- INLAND EMPIRE EXPANDED                 RV:10/01/12    04-29-2013  11:57:40
+ 
+ ----------------------------------------------------------------------------
+                 REGENERATION ESTABLISHMENT MODEL VERSION 2.0
+         STAND ID: ECON_UserManualExample_2       MANAGEMENT CODE: NONE
+ ----------------------------------------------------------------------------
+ 
+   SITE PREP SUMMARY                 PLOT HABITAT TYPE SUMMARY
+ -------------------   ------------------------------------------------------
+ PREP:NONE MECH BURN   SERIES:<--- DF --> <--- GF -->  C WH <--- AF & MH --->
+ YEAR:2004 2004 2004    GROUP: 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+  PCT:  84   14    2   #PLOTS: 0  0  0  0  0  0  0  0  1  0  0  0  0  0  0  0
+ 
+ TALLY 1 AT 10 YEARS.  PROBABILITY OF STOCKING IS 0.3674 IN THE FALL OF 2013.
+ 
+ NOTE: REPORTED PROBABILITY OF STOCKING DOES NOT INCLUDE TREES FROM PLANT
+       AND NATURAL KEYWORDS.  SPECIES=   WP  DF
+ 
+      SUMMARY OF ALL          SUMMARY OF BEST         TREES < 3.0 IN. DBH
+      TREES REGENERATING      TREES REGENERATING      BEING PROJECTED BY
+      DURING THIS TALLY.      DURING THIS TALLY.      THE PROGNOSIS MODEL
+      -------------------     -------------------     -------------------
+              TREES % OF      TREES % OF  AVERAGE     TREES % OF
+      SPECIES /ACRE TOTAL     /ACRE TOTAL HEIGHT      /ACRE TOTAL SPECIES
+      ------- ----- -----     ----- ----- -------     ----- ----- -------
+         WP    489.   26.      385.   46.   5.8        458.   32.   WP
+         WL     13.    1.       11.    1.   4.5         13.    1.   WL
+         DF    435.   23.      290.   35.   5.7        376.   27.   DF
+         GF    569.   31.       82.   10.   2.5        348.   25.   GF
+         RC    324.   17.       42.    5.   2.5        194.   14.   RC
+         LP     11.    1.       11.    1.   3.9         11.    1.   LP
+         ES      4.    0.        4.    1.   1.5          4.    0.   ES
+         AF      9.    0.        7.    1.   1.9          9.    1.   AF
+              -----           -----                   -----
+              1854.            831.                   1414.
+ 
+ 
+ TALLY 2 AT 20 YEARS.  PROBABILITY OF STOCKING IS 0.5611 IN THE FALL OF 2023.
+ 
+      SUMMARY OF ALL          SUMMARY OF BEST         TREES < 3.0 IN. DBH
+      TREES REGENERATING      TREES REGENERATING      BEING PROJECTED BY
+      DURING THIS TALLY.      DURING THIS TALLY.      THE PROGNOSIS MODEL
+      -------------------     -------------------     -------------------
+              TREES % OF      TREES % OF  AVERAGE     TREES % OF
+      SPECIES /ACRE TOTAL     /ACRE TOTAL HEIGHT      /ACRE TOTAL SPECIES
+      ------- ----- -----     ----- ----- -------     ----- ----- -------
+         WP     84.    9.       46.   19.   3.5        340.   21.   WP
+         WL      5.    0.        5.    2.   3.9         17.    1.   WL
+         DF    116.   12.       57.   23.   3.4        325.   20.   DF
+         GF    491.   51.       90.   37.   2.4        587.   36.   GF
+         RC    251.   26.       41.   17.   2.1        341.   21.   RC
+         LP      3.    0.        3.    1.   3.1         13.    1.   LP
+         ES      1.    0.        1.    0.   2.3          6.    0.   ES
+         AF      2.    0.        2.    1.   2.3         10.    1.   AF
+              -----           -----                   -----
+               954.            245.                   1639.
+ 
+ 
+ 
+ ------------------------------------------------------------------------------------------------------------------------------------
+                                                   FVS/ECON EXTENSION VERSION 1.0
+ STAND ID: ECON_UserManualExample_2    MANAGEMENT CODE: NONE  Calculate SEV for a perpetual management prescription.
+ ------------------------------------------------------------------------------------------------------------------------------------
+ ECONOMIC ANALYSIS SUMMARY REPORT
+ ------------------------------------------------------------------------------------------------------------------------------------
+       INVEST PRETEND UNDISCNTED VALUE   PRESENT VALUE                                   VALUE  VALUE  MRCH   MRCH   DISC
+       -MENT  MODE IS ---------------- ----------------                B/C               OF     OF     CU FT  BD FT  RATE    SEV
+  YEAR PERIOD ACTIVE     COST  REVENUE    COST  REVENUE   PNV    IRR  RATIO   RRR   SEV  FORST  TREES  HARV   HARV   GIVEN  GIVEN
+ ------------------------------------------------------------------------------------------------------------------------------------
+  2004     10  NO          72        0      70        0   -70           0.0        -209                    0      0   4.0
+  2014     20  NO          87        0      80        0   -80           0.0        -141                    0      0   4.0
+  2024     30  NO          97        0      83        0   -83           0.0        -116                    0      0   4.0
+  2034     40  NO         265      101     135       30  -105   <0.0    0.2   0.2  -126                    0   1970   4.0
+  2044     50  YES        693     1497     224      310    86    5.8    1.4   4.7   110                    0   7219   4.0
+  2054     60  YES        892     2221     223      317    94    5.5    1.4   4.6   113                    0  10389   4.0
+  2064     70  YES       1095     3246     214      317   103    5.3    1.5   4.6   119                    0  14500   4.0
+  2074     80  YES       1346     4672     206      312   106    5.1    1.5   4.5   120                    0  19794   4.0
+  2084     90  YES       1662     6566     198      300   102    5.0    1.5   4.5   113                    0  26258   4.0
+  2094    100  YES       2012     8763     189      274    85    4.7    1.5   4.4    94                    0  33046   4.0
+ 
+ 
+ HARVEST VOLUME AND GROSS VALUE REPORT
+ -------------------------------------------------------------------------------------------------------------------
+  YEAR = 2034 - PRETEND HARVEST: NO
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  WP                         0.0   999.9      323         0                                                        0
+  WP          4.0     9.0                                                                    974        49        49
+  WL                         0.0   999.9       10         0                                                        0
+  DF                         0.0   999.9      316         0                                                        0
+  DF          4.0     9.0                                                                    977        49        49
+  DF          9.0    12.0                                                                     19         3         3
+  GF                         0.0   999.9      318         0                                                        0
+  RC                         0.0   999.9      256         0                                                        0
+  LP                         0.0   999.9        9         0                                                        0
+  ES                         0.0   999.9        4         0                                                        0
+  AF                         0.0   999.9        5         0                                                        0
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                   1241         0                                 1970       101       101
+ 
+  YEAR = 2044 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  WP                         0.0   999.9       20         0                                                        0
+  WP          4.0     9.0                                                                    829        41        41
+  WP          9.0    12.0                                                                    241        42        42
+  WL                         0.0   999.9        0         0                                                        0
+  WL          4.0     9.0                                                                      0         0         0
+  DF                         0.0   999.9       25         0                                                        0
+  DF          4.0     9.0                                                                    948        47        47
+  DF          9.0    12.0                                                                    753       132       132
+  DF         12.0    14.0                                                                    692       138       138
+  DF         14.0    16.0                                                                    943       212       212
+  DF         16.0    18.0                                                                    764       210       210
+  DF         18.0    20.0                                                                    306        92        92
+  DF         20.0    24.0                                                                     12         4         4
+  GF                         0.0   999.9        0         0                                                        0
+  WH                         0.0   999.9        1         0                                                        0
+  WH          4.0     9.0                                                                     41         2         2
+  WH          9.0    12.0                                                                     70        12        12
+  WH         12.0    14.0                                                                     36         7         7
+  WH         14.0    16.0                                                                    138        31        31
+  WH         16.0    18.0                                                                    181        50        50
+  WH         18.0    20.0                                                                    315        94        94
+  WH         20.0    24.0                                                                    601       210       210
+  RC                         0.0   999.9        1         0                                                        0
+  RC          4.0     9.0                                                                     23         1         1
+  RC          9.0    12.0                                                                     70        12        12
+  RC         12.0    14.0                                                                    107        21        21
+  RC         14.0    16.0                                                                    112        25        25
+  RC         16.0    18.0                                                                     33         9         9
+  LP                         0.0   999.9        0         0                                                        0
+  LP          4.0     9.0                                                                      3         0         0
+  AF                         0.0   999.9        0         0                                                        0
+  AF          4.0     9.0                                                                      0         0         0
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                     47         0                                 7219      1396      1396
+ 
+  YEAR = 2054 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  WP                         0.0   999.9       21         0                                                        0
+  WP          4.0     9.0                                                                    932        47        47
+  WP          9.0    12.0                                                                   1079       189       189
+  WP         12.0    14.0                                                                    250        50        50
+  WL                         0.0   999.9        0         0                                                        0
+  WL          4.0     9.0                                                                      1         0         0
+  DF                         0.0   999.9       25         0                                                        0
+  DF          4.0     9.0                                                                    994        50        50
+  DF          9.0    12.0                                                                   1318       231       231
+  DF         12.0    14.0                                                                    695       139       139
+  DF         14.0    16.0                                                                    981       221       221
+  DF         16.0    18.0                                                                   1177       324       324
+  DF         18.0    20.0                                                                    790       237       237
+  DF         20.0    24.0                                                                    140        49        49
+  GF                         0.0   999.9        0         0                                                        0
+  GF          4.0     9.0                                                                      4         0         0
+  WH                         0.0   999.9        1         0                                                        0
+  WH          4.0     9.0                                                                     33         2         2
+  WH          9.0    12.0                                                                     38         7         7
+  WH         12.0    14.0                                                                     95        19        19
+  WH         14.0    16.0                                                                    114        26        26
+  WH         16.0    18.0                                                                    111        30        30
+  WH         18.0    20.0                                                                    302        91        91
+  WH         20.0    24.0                                                                    843       295       295
+  WH         24.0   999.9                                                                     41        16        16
+  RC                         0.0   999.9        1         0                                                        0
+  RC          4.0     9.0                                                                     26         1         1
+  RC          9.0    12.0                                                                     52         9         9
+  RC         12.0    14.0                                                                     65        13        13
+  RC         14.0    16.0                                                                    155        35        35
+  RC         16.0    18.0                                                                    135        37        37
+  RC         18.0    20.0                                                                     10         3         3
+  LP                         0.0   999.9        0         0                                                        0
+  LP          4.0     9.0                                                                      5         0         0
+  LP          9.0    12.0                                                                      4         1         1
+  ES                         0.0   999.9        0         0                                                        0
+  AF                         0.0   999.9        0         0                                                        0
+  AF          4.0     9.0                                                                      1         0         0
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                     49         0                                10389      2120      2120
+ 
+  YEAR = 2064 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  WP                         0.0   999.9       21         0                                                        0
+  WP          4.0     9.0                                                                    859        43        43
+  WP          9.0    12.0                                                                   1451       254       254
+  WP         12.0    14.0                                                                   1206       241       241
+  WP         14.0    16.0                                                                    452       102       102
+  WP         16.0    18.0                                                                     24         7         7
+  WL                         0.0   999.9        0         0                                                        0
+  WL          4.0     9.0                                                                      3         0         0
+  WL          9.0    12.0                                                                      0         0         0
+  DF                         0.0   999.9       26         0                                                        0
+  DF          4.0     9.0                                                                    871        44        44
+  DF          9.0    12.0                                                                   1522       266       266
+  DF         12.0    14.0                                                                   1408       282       282
+  DF         14.0    16.0                                                                   1157       260       260
+  DF         16.0    18.0                                                                   1289       354       354
+  DF         18.0    20.0                                                                   1413       424       424
+  DF         20.0    24.0                                                                    438       153       153
+  GF                         0.0   999.9        2         0                                                        0
+  GF          4.0     9.0                                                                     27         1         1
+  GF          9.0    12.0                                                                      2         0         0
+  WH                         0.0   999.9        1         0                                                        0
+  WH          4.0     9.0                                                                     29         1         1
+  WH          9.0    12.0                                                                     64        11        11
+  WH         12.0    14.0                                                                     74        15        15
+  WH         14.0    16.0                                                                     72        16        16
+  WH         16.0    18.0                                                                    155        43        43
+  WH         18.0    20.0                                                                    262        79        79
+  WH         20.0    24.0                                                                    924       324       324
+  WH         24.0   999.9                                                                    230        92        92
+  RC                         0.0   999.9        1         0                                                        0
+  RC          4.0     9.0                                                                     24         1         1
+  RC          9.0    12.0                                                                     53         9         9
+  RC         12.0    14.0                                                                     73        15        15
+  RC         14.0    16.0                                                                    118        26        26
+  RC         16.0    18.0                                                                    195        54        54
+  RC         18.0    20.0                                                                     84        25        25
+  LP                         0.0   999.9        0         0                                                        0
+  LP          4.0     9.0                                                                      5         0         0
+  LP          9.0    12.0                                                                     10         2         2
+  ES                         0.0   999.9        0         0                                                        0
+  ES          4.0     9.0                                                                      1         0         0
+  AF                         0.0   999.9        0         0                                                        0
+  AF          4.0     9.0                                                                      4         0         0
+  AF          9.0    12.0                                                                      1         0         0
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                     52         0                                14500      3145      3145
+ 
+  YEAR = 2074 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  WP                         0.0   999.9       21         0                                                        0
+  WP          4.0     9.0                                                                    796        40        40
+  WP          9.0    12.0                                                                   1413       247       247
+  WP         12.0    14.0                                                                   1718       344       344
+  WP         14.0    16.0                                                                   1459       328       328
+  WP         16.0    18.0                                                                    771       212       212
+  WP         18.0    20.0                                                                     90        27        27
+  WL                         0.0   999.9        0         0                                                        0
+  WL          4.0     9.0                                                                      4         0         0
+  WL          9.0    12.0                                                                      1         0         0
+  DF                         0.0   999.9       27         0                                                        0
+  DF          4.0     9.0                                                                    856        43        43
+  DF          9.0    12.0                                                                   1416       248       248
+  DF         12.0    14.0                                                                   1721       344       344
+  DF         14.0    16.0                                                                   1984       446       446
+  DF         16.0    18.0                                                                   1690       465       465
+  DF         18.0    20.0                                                                   1675       503       503
+  DF         20.0    24.0                                                                   1182       414       414
+  GF                         0.0   999.9        7         0                                                        0
+  GF          4.0     9.0                                                                    122         6         6
+  GF          9.0    12.0                                                                     16         3         3
+  GF         12.0    14.0                                                                      2         0         0
+  WH                         0.0   999.9        1         0                                                        0
+  WH          4.0     9.0                                                                     37         2         2
+  WH          9.0    12.0                                                                     67        12        12
+  WH         12.0    14.0                                                                     36         7         7
+  WH         14.0    16.0                                                                    125        28        28
+  WH         16.0    18.0                                                                     84        23        23
+  WH         18.0    20.0                                                                    244        73        73
+  WH         20.0    24.0                                                                    868       304       304
+  WH         24.0   999.9                                                                    675       270       270
+  RC                         0.0   999.9        3         0                                                        0
+  RC          4.0     9.0                                                                     53         3         3
+  RC          9.0    12.0                                                                     48         8         8
+  RC         12.0    14.0                                                                     57        11        11
+  RC         14.0    16.0                                                                     95        21        21
+  RC         16.0    18.0                                                                    189        52        52
+  RC         18.0    20.0                                                                    208        62        62
+  RC         20.0    24.0                                                                     57        20        20
+  LP                         0.0   999.9        0         0                                                        0
+  LP          4.0     9.0                                                                      7         0         0
+  LP          9.0    12.0                                                                      7         1         1
+  LP         12.0    14.0                                                                      9         2         2
+  ES                         0.0   999.9        0         0                                                        0
+  ES          4.0     9.0                                                                      3         0         0
+  ES          9.0    12.0                                                                      0         0         0
+  AF                         0.0   999.9        0         0                                                        0
+  AF          4.0     9.0                                                                      5         0         0
+  AF          9.0    12.0                                                                      2         0         0
+  AF         12.0    14.0                                                                      1         0         0
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                     60         0                                19794      4571      4571
+ 
+  YEAR = 2084 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  WP                         0.0   999.9       21         0                                                        0
+  WP          4.0     9.0                                                                    696        35        35
+  WP          9.0    12.0                                                                   1336       234       234
+  WP         12.0    14.0                                                                   1538       308       308
+  WP         14.0    16.0                                                                   2316       521       521
+  WP         16.0    18.0                                                                   2266       623       623
+  WP         18.0    20.0                                                                   1089       327       327
+  WP         20.0    24.0                                                                    186        65        65
+  WL                         0.0   999.9        0         0                                                        0
+  WL          4.0     9.0                                                                      4         0         0
+  WL          9.0    12.0                                                                      4         1         1
+  DF                         0.0   999.9       26         0                                                        0
+  DF          4.0     9.0                                                                    809        40        40
+  DF          9.0    12.0                                                                   1404       246       246
+  DF         12.0    14.0                                                                   1653       331       331
+  DF         14.0    16.0                                                                   2282       514       514
+  DF         16.0    18.0                                                                   2778       764       764
+  DF         18.0    20.0                                                                   2033       610       610
+  DF         20.0    24.0                                                                   2145       751       751
+  DF         24.0   999.9                                                                     17         7         7
+  GF                         0.0   999.9       10         0                                                        0
+  GF          4.0     9.0                                                                    288        14        14
+  GF          9.0    12.0                                                                     52         9         9
+  GF         12.0    14.0                                                                     17         3         3
+  GF         14.0    16.0                                                                      2         1         1
+  WH                         0.0   999.9        1         0                                                        0
+  WH          4.0     9.0                                                                     28         1         1
+  WH          9.0    12.0                                                                     33         6         6
+  WH         12.0    14.0                                                                     83        17        17
+  WH         14.0    16.0                                                                     43        10        10
+  WH         16.0    18.0                                                                    163        45        45
+  WH         18.0    20.0                                                                    160        48        48
+  WH         20.0    24.0                                                                    718       251       251
+  WH         24.0   999.9                                                                   1121       448       448
+  RC                         0.0   999.9        9         0                                                        0
+  RC          4.0     9.0                                                                    163         8         8
+  RC          9.0    12.0                                                                     48         8         8
+  RC         12.0    14.0                                                                     36         7         7
+  RC         14.0    16.0                                                                     79        18        18
+  RC         16.0    18.0                                                                    189        52        52
+  RC         18.0    20.0                                                                    284        85        85
+  RC         20.0    24.0                                                                    148        52        52
+  LP                         0.0   999.9        0         0                                                        0
+  LP          4.0     9.0                                                                      8         0         0
+  LP          9.0    12.0                                                                      6         1         1
+  LP         12.0    14.0                                                                      7         1         1
+  LP         14.0    16.0                                                                      9         2         2
+  ES                         0.0   999.9        0         0                                                        0
+  ES          4.0     9.0                                                                      5         0         0
+  ES          9.0    12.0                                                                      1         0         0
+  AF                         0.0   999.9        0         0                                                        0
+  AF          4.0     9.0                                                                      3         0         0
+  AF          9.0    12.0                                                                      6         1         1
+  AF         12.0    14.0                                                                      2         0         0
+  AF         14.0    16.0                                                                      1         0         0
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                     68         0                                26258      6465      6465
+ 
+  YEAR = 2094 - PRETEND HARVEST: YES
+            SMALL-END DIB     TREE DBH     TPA       TPA      TONS/   CU FT     CU FT    BD FT     BD FT     TOTAL
+  SPECIES    MIN     MAX    MIN     MAX   REMOVED   VALUE $   ACRE    REMOVED   VALUE $  REMOVED   VALUE $   VALUE $
+  -------   -------------  -------------  -------  --------  -------  -------  --------  -------  --------  --------
+  WP                         0.0   999.9       20         0                                                        0
+  WP          4.0     9.0                                                                    672        34        34
+  WP          9.0    12.0                                                                   1214       212       212
+  WP         12.0    14.0                                                                   1475       295       295
+  WP         14.0    16.0                                                                   2284       514       514
+  WP         16.0    18.0                                                                   2838       780       780
+  WP         18.0    20.0                                                                   2823       847       847
+  WP         20.0    24.0                                                                   1669       584       584
+  WL                         0.0   999.9        0         0                                                        0
+  WL          4.0     9.0                                                                      5         0         0
+  WL          9.0    12.0                                                                      5         1         1
+  WL         12.0    14.0                                                                      1         0         0
+  DF                         0.0   999.9       25         0                                                        0
+  DF          4.0     9.0                                                                    688        34        34
+  DF          9.0    12.0                                                                   1144       200       200
+  DF         12.0    14.0                                                                   1729       346       346
+  DF         14.0    16.0                                                                   2203       496       496
+  DF         16.0    18.0                                                                   3044       837       837
+  DF         18.0    20.0                                                                   3328       998       998
+  DF         20.0    24.0                                                                   3254      1139      1139
+  DF         24.0   999.9                                                                    106        42        42
+  GF                         0.0   999.9       10         0                                                        0
+  GF          4.0     9.0                                                                    391        20        20
+  GF          9.0    12.0                                                                    180        31        31
+  GF         12.0    14.0                                                                     44         9         9
+  GF         14.0    16.0                                                                     16         4         4
+  GF         16.0    18.0                                                                      3         1         1
+  WH                         0.0   999.9        1         0                                                        0
+  WH          4.0     9.0                                                                     23         1         1
+  WH          9.0    12.0                                                                     62        11        11
+  WH         12.0    14.0                                                                     50        10        10
+  WH         14.0    16.0                                                                     92        21        21
+  WH         16.0    18.0                                                                     87        24        24
+  WH         18.0    20.0                                                                    177        53        53
+  WH         20.0    24.0                                                                    625       219       219
+  WH         24.0   999.9                                                                   1463       585       585
+  RC                         0.0   999.9       15         0                                                        0
+  RC          4.0     9.0                                                                    322        16        16
+  RC          9.0    12.0                                                                     69        12        12
+  RC         12.0    14.0                                                                     54        11        11
+  RC         14.0    16.0                                                                     85        19        19
+  RC         16.0    18.0                                                                    136        37        37
+  RC         18.0    20.0                                                                    207        62        62
+  RC         20.0    24.0                                                                    416       146       146
+  LP                         0.0   999.9        0         0                                                        0
+  LP          4.0     9.0                                                                      5         0         0
+  LP          9.0    12.0                                                                     11         2         2
+  LP         12.0    14.0                                                                     10         2         2
+  LP         14.0    16.0                                                                     12         3         3
+  LP         16.0    18.0                                                                      0         0         0
+  ES                         0.0   999.9        0         0                                                        0
+  ES          4.0     9.0                                                                      5         0         0
+  ES          9.0    12.0                                                                      2         0         0
+  ES         12.0    14.0                                                                      0         0         0
+  AF                         0.0   999.9        0         0                                                        0
+  AF          4.0     9.0                                                                      4         0         0
+  AF          9.0    12.0                                                                      7         1         1
+  AF         12.0    14.0                                                                      3         1         1
+  AF         14.0    16.0                                                                      3         1         1
+                                          -------  --------  -------  -------  --------  -------  --------  --------
+    Totals                                     72         0                                33046      8662      8662
+ 

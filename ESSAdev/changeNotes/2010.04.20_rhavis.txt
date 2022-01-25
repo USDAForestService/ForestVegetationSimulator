@@ -1,0 +1,37 @@
+Subject: Sprout Species List Update, PV Code /PV Ref. Codes Crosswalk R9, and Misc.
+Name: R. Havis
+Date: April 20, 2010
+Variants affected: AK, BM, CA, NC, IE, PN, SO33, UT,and WC
+
+Description: 
+
+  1) The sprouting species lists were updated in the affected variants.
+     See the variant overview documentation for for a list of sprouting
+     species. Sprout proliferation was halved, through creating only one
+     sprout record rather than two records (normal method), for the
+     species indicated below.
+     
+     Variant        Species Sprouts Halved
+      BM            Pacific yew
+      CA            Pacific yew
+      CA            California nutmeg
+      IE            Pacific yew
+      WC            Pacific yew
+      
+  2) Misc. changes described below.
+
+Impact on users: Users should obtain new executables
+
+Files:
+base/DBSSTANDIN - The value of FKOD hasn't been assigned causing runtime error using some data bases.
+                  Set FKOD=-1 at line 971 to avoid error. May be OK if the photocode is present.
+
+base/CUTS - corrected logic for thinning to a BA target with the THINPT / SETPTHIN keyword combination
+
+ca/PVREF6 - deleted water association in crosswalk
+
+ca,ie,strp,wc/ECUSKR - added logic to control sprout numbers as described in 1) above.
+
+ak,bm,ca,cs,cs_new,ie,ls,ls_new,nc,ne,ne_new,pn,sn,so33,ut,wc/BLKDAT - edited ISPSPE array
+
+ak,bm,ca,cs,cs_new,ls,ls_new,nc,ne,ne_new,pn,sn,so33,ut,wc/ESPARM.F77 - edited NSPSPE variable

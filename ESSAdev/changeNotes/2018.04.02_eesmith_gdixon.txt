@@ -1,0 +1,19 @@
+Subject: ORGANON mortality
+
+Name: Erin Smith-Mateja; Gary Dixon
+
+Date: 04/02/2018
+
+Variants affected: ORGANON Southwest (OC) and ORGANON Pacific Northwest (OP)
+
+Description: Mortality rates estimated by ORGANON were not being adjusted to the cycle-length.
+
+Impact on users: Mortality rates will be different when using cycle lengths other than 5-years in a projection.
+                 Users of these two variants should obtain a new executable.
+
+Files:
+oc/src
+     morts.f  The ORGANON mortality rate was multiplied by (FINT/5.) to adjust it to the cycle length.
+
+op/src
+     morts.f  The ORGANON mortality rate was multiplied by (FINT/5.) to adjust it to the cycle length.

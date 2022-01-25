@@ -1,0 +1,108 @@
+Subject: 1) Expansion of the Tetons variant (TT) from 8 to 18 species.
+         2) Miscellaneous other changes
+         
+Name: Gary Dixon
+Date: 06/18/10
+Variants affected: 1) TT
+                   2) All variants
+
+Description: 1) At the request of R4, the TT variant was expanded from 8 to 18
+             species. Equations and coefficients for the additional species
+             are from the Utah, Central Rockies, Inland Empire, and South Central  
+             Oregon / Northeast California variants. The expanded species list and 
+             surrogate equations are as follows:
+
+C     1 = WHITEBARK PINE               WB  PINUS ALBICAULIS
+C     2 = LIMBER PINE                  LM  PINUS FLEXILIS
+C     3 = DOUGLAS-FIR                  DF  PSEUDOTSUGA MENZIESII
+C     4 = SINGLELEAF PINYON            PM  PINUS MONOPHYLLA
+C     5 = BLUE SPRUCE                  BS  PICEA PUNGENS    
+C     6 = QUAKING ASPEN                AS  POPULUS TREMULOIDES
+C     7 = LODGEPOLE PINE               LP  PINUS CONTORTA
+C     8 = ENGELMANN SPRUCE             ES  PICEA ENGELMANNII
+C     9 = SUBALPINE FIR                AF  ABIES LASIOCARPA
+C    10 = PONDEROSA PINE               PP  PINUS PONDEROSA
+C    11 = UTAH JUNIPER                 UJ  JUNIPERUS OSTEOSPERMA
+C    12 = ROCKY MOUNTAIN JUNIPER       RM  JUNIPERUS SCOPULORUM
+C    13 = BIGTOOTH MAPLE               BI  ACER GRANDIDENTATUM    
+C    14 = ROCKY MOUNTAIN MAPLE         MM  ACER GLABRUM      
+C    15 = NARROWLEAF COTTONWOOD        NC  POPULUS ANGUSTIFOLIA
+C    16 = CURLLEAF MOUNTAIN-MAHOGANY   MC  CERCOCARPUS LEDIFOLIUS
+C    17 = OTHER SOFTWOODS              OS
+C    18 = OTHER HARDWOODS              OH
+
+C VARIANT EXPANSION:
+C BS USES ES EQUATIONS FROM TT
+C PM USES PI (COMMON PINYON) EQUATIONS FROM UT
+C PP USES PP EQUATIONS FROM CI
+C UJ AND RM USE WJ (WESTERN JUNIPER) EQUATIONS FROM UT
+C BI USES BM (BIGLEAF MAPLE) EQUATIONS FROM SO
+C MM USES MM EQUATIONS FROM IE
+C NC AND OH USE NC (NARROWLEAF COTTONWOOD) EQUATIONS FROM CR
+C MC USES MC (CURL-LEAF MTN-MAHOGANY) EQUATIONS FROM SO
+C OS USES OT (OTHER SP.) EQUATIONS FROM TT
+
+This expansion includes components associated with FVStt.exe (base model, partial
+regeneration establishment model, cover, dwarf mistletoe, econ, and ffe). It does
+not include additional components associated with FVSttx.exe (Douglas-fir beetle,
+Douglas-fir tussock moth, mountain pine beetle, root disease, and budworm).
+
+2) A potential problem with PPE runs was discovered and fixed.
+   The COMMON block FVSSTDCM was moved from within the FVSSTD routine to the /common
+   source code directory. The FVSSTD routine was modified accordingly. Variables
+   contained within the FSSSTDCM common block were added to the /ppbase/src GETSTD 
+   and PUTSTD routines which are used in the PPE extension.  This change affects all
+   variants.
+
+Impact on users: 1) Users of the TT variant should obtain a new executable and a new variant 
+                 overview document.  Results for projections of the original 8 species 
+in this variant may be slightly different due to miscellaneous error corrections
+or updated equations and site index ranges. Results reported as the original "other" (OT) 
+species may be different due to some of the trees that may have been in this grouping 
+originally may be reported as a different species now (e.g. other hardwoods). 
+
+One major impact on users is that all site index values should now be entered on
+the site curves base-age basis. In the previous version of this variant, most site
+index values were on a 50-year age basis regardless of the site curves base age.
+This means that any SITECODE keywords in existing runstreams need to be changed so
+the site index value corresponds to the site curves base-age for that species.
+
+2) Anyone using the Parallel Processing Extension should obtain a new executable.
+
+Files:
+tt/src modified routines:      BLKDAT, CCFCAL, CRATET, CROWN,  CUBRDS, DGF,
+                               ESSUBH, ESTUMP, ESUCKR, FINDAG, FORKOD, GRINIT, GROHED,
+                               HTGF,   MAICAL, MORTS,  REGENT, SITSET, SMDGF,  SMHTGF,  
+                               TTMRT,  VARVOL
+
+tt/src new routines:           BFVOL,  BRATIO, DGDRIV, DUBSCR
+                          
+tt/obj modified:               makefile
+
+tt/common new routines:        PRGPRM, ESCOMN, ESPARM
+
+fvs/bin modified:              makefile, FCWindows_NT.make
+
+ni/src modified routines:      CWCALC, SPCTRN
+
+volume/src modified routines:  VOLEQDEF
+
+mistoe/src modified routines:  MISINTTT
+
+covr/src modified routines:    CVCBMS, CVSHAP
+
+fire/tt/src modified routines: FMBRKT, FMCBA,  FMCBLK, FMCROW, FMVINIT
+
+fvs/fire/tt/obj modified:      makefile
+
+fire/ut/src modified routines: FMCFMD
+
+fire/base/src modified routines: FMSNAG, FMBURN, FMPOFL
+
+base/src modified routines:    FVSSTD
+
+ppbase/src modified routines:  GETSTD, PUTSTD
+
+/common new routines:          FVSSTDCM
+
+

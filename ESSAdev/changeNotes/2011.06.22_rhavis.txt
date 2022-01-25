@@ -1,0 +1,48 @@
+Subject: Array Sorting After Call to COMPRS
+Name: R. Havis
+Date: June 22, 2011
+Variants affected: ALL
+
+Description: 
+             
+1) Tree list compression is required to make room for trees introduced from the establishment
+   extension, and also to reduce the tree list to a number that the Western Root Disease extension
+   can process. Tree list compression can also be scheduled using the COMPRESS keyword.
+   In the cases where tree list compression was called from the establishment extensions,
+   the arrays maintaining species and tree record diameter sorting were not being re-established.
+   This has been corrected.
+   
+2) FVS maintains PV Code / PV Reference Code cross walks to map the PV Code / PV Reference
+   Code sets from FSveg to codes understood by FVS. The PV Code / PV Reference
+   Code cross walk for the BM variant was updated. PV Reference Codes 622, 640 and 639
+   having a CJ plant association were mapped to FVS Code CPG111.
+             
+Impact on users: In rare cases, problems with the pointer arrays could cause processing problems.
+                 Users of the BM variant should obtain a new executable.
+
+MAKEFILEs - added dependencies ARRAYS.F77 and OUTCOM.F77 to the compile instructions for ESCPRS 
+Files:
+./ak/obj/makefile
+./an/obj/makefile
+./bm/obj/makefile
+./bm/src/pvref6.f - updated PV Reference Code / PV Code crosswalk
+./ca/obj/makefile
+./common/includeSVN.f
+./cr/obj/makefile
+./cs/obj/makefile
+./em/obj/makefile
+./estb/obj/makefile
+./estb/src/escprs.f - added logic to maintain species and tree record diameter sorting arrays
+./ie/obj/makefile
+./ls/obj/makefile
+./metric/cr/obj/makefile
+./ne/obj/makefile
+./sn/obj/makefile
+./so/obj/makefile
+./strp/obj/makefile
+./strp/src/escprs.f - added logic to maintain species and tree record diameter sorting arrays
+./tt/obj/makefile
+./ut/obj/makefile
+./wc/obj/makefile
+./ws/obj/makefile
+

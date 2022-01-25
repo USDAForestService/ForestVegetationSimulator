@@ -1,0 +1,56 @@
+Subject: Crown ratio dubbing for LM, PY, AS, MM, and PB trees less than
+         1.0" in diameter.
+
+Name: Gary Dixon
+Date: 06/22/2010
+
+Variants affected: Inland Empire (IE)
+
+Description: Stand MAI is an independent variable in the equation used to dub 
+             crown ratio values missing in the input data for limber pine, 
+Pacific yew, quaking aspen, mountain maple, and paper birch less than 1.0" in
+dbh, and for dead trees of all sizes for these species. Stand MAI is estimated
+from the site index of the site species for the stand. In the IE variant, 
+site species is mapped by habitat type to 1 of the original 11 species for all 
+habitat types except 1 (habitat type 850 is mapped to whitebark pine).
+There is no default site index for the original 11 North Idaho (NI) species, or 
+for whitebark pine, since site index is not used in any of the model's equations
+for these species. As a result, if users did not provide site index values  or
+designate a site species using the SITECODE keyword then a default site index of 
+140 was being used for whatever site species is assigned by habitat type in the
+calculation of MAI. 
+Default site index values by habitat type, provided by Regional personnel, range from 
+22 to 41 for limber pine and Pacific yew, and 33 to 60 for aspen, mountain maple, and 
+paper birch. So, the site value of 140 being used in the calculation of MAI was not
+representative of stands in Region 1.
+     This problem has been corrected. If users do not enter site index information, the 
+model now uses the default site index by habitat type provided by Regional personnel in
+the calculation of MAI for limber pine, Pacific yew, quaking aspen, mountain maple, and 
+paper birch. This results in better crown ratio estimates and slightly different growth 
+predictions for affected trees.
+     To reiterate, this problem only affected crown ratio values missing in the input data 
+for limber pine, Pacific yew, quaking aspen, mountain maple, and paper birch less than 1.0" 
+in dbh, and for dead trees of all sizes for these species.
+
+Impact on users: The highest impact would be in stands where all trees in
+                 the inventory were less than 1.0" in dbh and were one of
+the species listed above. In this extreme case, the impact on a 100-year
+simulation for a medium high site would be about a 10% reduction in volume.
+In general, the impact will be far less than 10% and in most cases negligible. 
+However, users of this variant should obtain a new executable.
+
+Files:
+ie/src    crown.f   changed the date of revision; defined new variables RMAIAS 
+                    and RMAILM to represent the MAI of the stand if the stand 
+                    was either classified as AS/MM/PB  or LM/PY; computed these
+                    new values with calls to function ADJMAI. Used these values
+                    in dubbing crowns on tree less than 1.0" dbh and cycle 0 dead
+                    trees instead of the regular MAI value computed in CRATET.
+                    
+          dubscr.f  changed the date of revision; renamed the local variable RMAI
+                    to TMAI to avoid potential confusion with the RMAI variable in
+                    the PLOT common.
+                    
+          maical.f  changed the date of revision; reset values of the ISPNUM array
+                    for hardwood species since hardwoods use a different equation
+                    in ADJMAI than do conifers.            

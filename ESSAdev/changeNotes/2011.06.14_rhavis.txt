@@ -1,0 +1,33 @@
+Subject: FVS35 WARNING, and Misc. Code Maintenance
+Name: R. Havis
+Date: June, 14, 2011
+Variants affected: ALL
+
+Description:
+
+1) The FVS35 WARNING, shown below, will be written to the main output
+   file when, on the DESIGN keyword or an input database, the number of 
+   nonstockable plots equals the total number of plots and the stockability
+   value is zero or blank. The stand stockable area is set to 100% to
+   allow further processing.
+
+********   FVS35 WARNING:  THE NUMBER OF NONSTOCKABLE PLOTS EQUALS THE NUMBER OF STOCKABLE PLOTS. 
+                           NUMBER OF NONSTOCKABLE PLOTS SET TO ZERO.
+
+Impact on users:
+
+If the the number of nonstockable plots equals the total number of plots and the stockability
+value is zero or blank, the run will continue with the stand stockable area set to 100%.
+
+Files:
+./base/src/errgro.f - added text for the FVS35 WARNING
+./base/src/initre.f - added logic to set GROSPC=1 if the difference between the
+                      stockable plots and nonstockable plots is zero on the DESIGN keyword
+                      or database input data
+./ls/src/estab.f - set GRDTIM as per strp/ESTAB
+./metric/base/src/prtrls.f - corrected spacing in table header
+./metric/cr/src/esuckr.f - adjusted code format
+./sn/src/varvol.f - edited comments
+
+
+

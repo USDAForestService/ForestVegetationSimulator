@@ -1,0 +1,40 @@
+Subject: Set initital crown width for seedling and sprouts, correct 
+source code semantics
+Name:  R. N. Havis
+Date: 10/12/04
+Variants affected: Variants attached to the cover extension and also 
+                   having sprouting species - IE, NC, TT and WS
+
+Description:  Crown width was assigned to new sprouts (ESUCKR) and to
+              seedlings established in the ESTAB routine.  Refinements
+              to other routines solve problems discussed below.
+
+Impact on users: There was a potential for numerical errors in the 
+                 cover extension when a zero crown width of sprouts
+                 or seedlings was used in covr/CVSU to calculate
+                 canopy cover.
+
+Files:
+ak/src/estab.f - set crown width using call to CCFCAL after growing
+                 seedlings to end of cycle
+base/src/disply.f - reading the string '---' in to IFIA caused errors
+                    in some compilers.  To correct this, the string
+                    '---' is mapped to FIA code 998 (MIsc. harwoods).
+base/src/fortyp.f - initialized the SOUTH variiable
+bsae/src/revise.f
+ca/src/esuckr.f - set crown width using call to CCFCAL  
+common/ESHOOT.F77 - expanded comments
+cr/src/esuckr.f - set crown width using call to CCFCAL
+em/src/cratet.f - added actual subroutine argument 
+em/src/findag.f - added dummy subroutine argument
+estb/src/estab.f - set crown width using call to CCFCAL after growing
+                   seedlings to end of cycle
+estb/src/esuckr.f - set crown width using call to CCFCAL
+ie/src/esuckr.f - set crown width using call to CCFCAL 
+strp/src/estab.f - set crown width using call to CCFCAL after growing
+                   seedlings to end of cycle
+strp/src/esuckr.f - set crown width using call to CCFCAL
+tt/src/esuckr.f - set crown width using call to CCFCAL
+ut/src/esuckr.f - set crown width using call to CCFCAL
+wc/src/esuckr.f - set crown width using call to CCFCAL 
+

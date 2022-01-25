@@ -1,0 +1,27 @@
+Subject: Silvah Event Monitor Variables
+Name: R. Havis
+Date: March 17, 2010
+Variants affected: NorthEast (NE)
+
+Description: The Event Monitor variables ARDEN2 and, BRDEN2, and the
+             SPMCDBH function (argument 1 = 12) return stand densities
+             based on the SILVAH model (MARQUIS and ERNST. 1992).
+             There were multiple problems with the calculations, and
+             these problems have been corrected. These calculations
+             are only available to users of the Northeast variant.
+             
+             MARQUIS, D.A., AND R.L. ERNST. 1992. USER'S
+             GUIDE TO SILVAH. USDA FOREST SERVICE, NORTHEAST FOREST
+             EXP STA, GEN TECH REP NE-96.Silvah-based 
+
+Impact on users:
+
+Files:
+./base/src/evldx.f   - adjusted SPMCDBH (arg1=12)  variable for stand stockable area
+./base/src/evtstv.f  - adjusted ARDEN2 and BRDEN2 variables for stand stockable area
+./base/src/revise.f
+./base/src/sdical.f  - updated array (MAPNE) mapping species to Silvah tree-area
+                       ratio equations, truncated calculations for trees < 1 in,
+                       and negative relative densities, and removed BA term in
+                       single tree calculations.
+                        

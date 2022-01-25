@@ -1,0 +1,17 @@
+Subject: R8 Volume
+
+Name: Gary Dixon
+
+Date: 11/23/18
+
+Variants affected: Southern (SN)
+
+Description: A potential error in the R8 volume logic has been corrected.
+
+Impact on users: Users of the Southern variant (SN) should obtain a new executable. 
+
+Files:
+/vvolume
+    fvsvol.f  Deleted the line of code setting the forest code (FORST) to blank just before the call to
+              subroutine r8vol in both the cubic-foot and board-foot sections of the code. This variable
+              is set previously and should not be set back to blanks before the calls to r8vols.

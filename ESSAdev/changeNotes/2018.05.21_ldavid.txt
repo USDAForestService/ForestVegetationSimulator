@@ -1,0 +1,33 @@
+Subject: Source file relocation and sourceLists
+
+Name: Lance R. David
+
+Date: 05/21/2018
+
+Variants affected: CI
+
+Description:
+
+ Moves of ../ci/src files to ../ci and ../fire/ci/src to ../fire/ci resulted
+ in the loss of file log histories for these two sets of files. All attempts 
+ to restore them resulted in a commit error "Unexpected HTTP status 502 
+ 'Bad Gateway' on" files and folders. The log histories of these files can
+ seen by using repository browser and setting revision at 2366 or checking
+ out a version of trunk at revision 2366. If a method to restore thsi history
+ to revision HEAD is found it will be done.
+ 
+ SouceList files were updated for new folder structures of CI variant specific
+ files.
+
+Impact on users: Builds for CI variant executables and dlls were browken for
+                 last couple of days but are corrected now.
+                 code may have a faulty version of sdical.f that will
+                 not calculate Curtis relative density.
+
+Modified files:
+C:\open-FVS\trunk\bin\FVSci_sourceList.txt
+C:\open-FVS\trunk\bin\FVScix_sourceList.txt
+C:\open-FVS\trunk\bin\qFVSci_sourceList.txt
+
+New files:
+C:\open-fvs\trunk\changeNotes\2018.05.21_ldavid.txt

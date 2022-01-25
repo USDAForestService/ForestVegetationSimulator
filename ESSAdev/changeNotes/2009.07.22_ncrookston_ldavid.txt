@@ -1,0 +1,73 @@
+Subject: Climate-FVS
+Name: Nick Crookston, Lance David
+Date: July 22, 2009
+
+Variants affected: 
+bm - Blue Mountains, Oregon
+ca - Inland CA, Southern Cascades
+ci - Central ID
+cr - Central Rockies 
+ec - East Cascades, Washington
+em - Eastern Montana
+ie - Inland Empire  - 23 species
+nc - Klammath Mountains, Northern CA
+ni - Inland Empire, Northern ID - Western MT
+so - South Central OR N CA
+tt - Tetons, Wyoming
+ut - Utah
+wc - West Cascades
+pn - Pacific Northwest Coast
+ws - Western Sierra Nevada, CA
+kt - Kootenai/Kaniksu/Tally LK, ID - MT
+
+Description: Add Climate-FVS
+
+Impact on users: Provides the option to represent the
+effects climate-change may have on forests
+
+Files:
+
+Climate-FVS Called from  Purpose
+clauestb    gradd        Adds new trees
+clgmult     dgdriv       Computes growth multiplier
+clin        initre       Processed keywords
+clinit      initre       Initializes variables 
+clmaxden    sdical       Adjusts maximum density
+clmorts     morts        Computes mortality rate
+
+Notes:
+1. gradd, initre, and sdical are base routines.
+2. dgdriv and morts are variant specific; changes are done
+   to each one as needed.
+3. clauestb operates by adding "natural" keywords via 
+   the event monitor. 
+4. clgmult loads wk4 with tree-level multipliers and 
+   applies them to DDS later in the routine.
+   This means that code revisions occur beyond simply
+   adding the call to dgdriv.
+5. clmaxden modifies the density computed by sdical.
+6. clmorts modifies wk2 (the FVS mortality rate), this
+   is done prior to processing fixmort keywords so fixmort
+   can override the climate-fvs rates.
+
+Files changed:
+
+./bin/makefile
+./bm/src/dgdriv.f
+./bm/src/morts.f
+./ca/src/dgdriv.f
+./ca/src/morts.f
+./ci/src/morts.f
+./em/src/dgdriv.f
+./em/src/morts.f
+./ie/src/morts.f
+./nc/src/morts.f
+./ni/src/dgdriv.f
+./ni/src/morts.f
+./so/src/morts.f
+./tt/src/morts.f
+./ut/src/dgdriv.f
+./ut/src/morts.f
+./wc/src/dgdriv.f
+./wc/src/morts.f
+./ws/src/morts.f

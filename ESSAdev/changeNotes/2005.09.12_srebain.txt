@@ -1,0 +1,21 @@
+Subject: Fire and Fuels Extension Update
+Name:  Stephanie Rebain
+Date:  09/12/2005
+Variants affected: ALL FFE variants
+
+Description:
+The canopy bulk density values in all FFE variants were capped at 0.35 kg/m3.
+The LS-FFE fuel model logic was updated to account for potential numerical errors.
+The LS-FFE crown biomass equations were improved.
+
+Impact on users:
+There should be small changes in LS-FFE output.  Output from other FFE variants
+may be different in cases where unreasonably high canopy bulk density values were being
+reported.
+
+Files:
+fire/base/src/fmpocr.f - canopy bulk density values capped at 0.35.
+fire/base/src/fmcrowls.f - Different crown biomass equations are used for submerch and 
+                           merchantable trees.  A weighted average of these equations 
+                           is now used when near the dbh breakpoint.
+fire/ls/src/fmcfmd.f - changed fuel model logic to correct potential numerical errors.

@@ -1,0 +1,42 @@
+Subject: Corrections to default live fuel loading values
+
+Name: Gary Dixon
+Date: 03/22/11
+
+Variants affected: 1) CA (Inland California and Southern Cascades)
+                   2) BM (Blue Mountains) and CA variants
+                   3) PN (Pacific Northwest) and WC (West Cascades) variants
+
+Description: 1) The default value for live fuel loadings for shrubs in initiating stands
+                has been corrected from 0.10 to 1.00 for whitebark pine, knobcone pine, 
+                lodgepole pine, Coulter pine, limber pine, and other softwoods.
+             
+             2) The default value for live fuel loadings for herbs and shrubs in initiating stands
+                has been corrected from 0.13 and 1.63, respectively, to 0.10 and 2.06,
+                respectively, for western juniper. The same values for established stands have 
+                been corrected from 0.04 and 0.05, respectively, to 0.14 and 0.35, respectively.
+                New values are from Ottmar's photo series volume 1. 
+                
+             3) The default value for live fuel loadings for shrubs in established stands of
+                mountain hemlock has been corrected from 0.20 to 0.10 to match those for grand fir.
+
+Impact on users: Users not entering their own fuel loading values may notice small differences in 
+                 live fuel loading estimates.
+
+Files:
+fire/ca/src   fmcba.f   changed date of revision; changed the default values for
+                        WB, KP, LP, CP, and LM in the FULIVI array from 0.10 to 1.00;
+                        changed the values for western juniper in the FULIVI and FULIVE arrays
+                        as noted above
+                        
+fire/bm/src   fmcba.f   changed date of revision; changed the values for western juniper in the
+                        FULIVI and FULIVE arrays as noted above.
+                        
+fire/pn/src   fmcba.f   changed date of revision; changed the value for shrubs for mountain hemlock
+                        in the FULIVE array from 0.20 to 0.10.
+                        
+fire/wc/src   fmcba.f   changed date of revision; changed the value for shrubs for mountain hemlock
+                        in the FULIVE array from 0.20 to 0.10.
+
+                        
+                        

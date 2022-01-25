@@ -1,0 +1,30 @@
+Subject: IE changes and fixes
+
+Name: Gary Dixon
+Date: 03/04/09
+
+Variants affected: IE
+
+Description: Changes and corrections to crown dubbing for dead tree records
+             Modification of the default ht-dbh relationship for PI and RM
+             Correction to potentially very small, or negative, height growth 
+             for PI and RM 
+
+Impact on users: Dubbed height values for pinyon and juniper will be substantially
+         different. Dubbed crown ratio values on dead trees for PI, RM, AS, MM, and
+         PB will be different. Some differences in growth for pinyon and juniper will
+         be seen.
+
+Files: ie/src/
+crown.f  changed the revision date; added the logical variant variable block to the 
+         cycle 0 dead tree dubbing section; added the pinyon and juniper equation so
+         dead tree crown ratio values are consistent with live tree values
+dubscr.f changed the revision date; zeroed out coefficients for species 15, 16, 19,
+         and 22 (this routine is not used for these species); modified a couple of
+         comment lines accordingly
+blkdat.f changed the revision date; corrected the default height-diameter coefficients 
+         for pinyon and juniper to match those found in the Utah variant (these species
+         were using limber pine coefficients from the Tetons variant)
+regent.f changed the revision date; added a small or negative height increment check to
+         the cr/ut species section (random increment is sometimes larger than the 
+         calculated height growth for slow growing species like pinyon or juniper)
