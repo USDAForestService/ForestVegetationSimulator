@@ -1,4 +1,4 @@
-      SUBROUTINE DBSINGROW(IYEAR,INGROW,SPECCD,TPAIN)
+      SUBROUTINE DBSINGROW(IYEAR,INGROW,CSP,TPAIN)
       IMPLICIT NONE
 C----------
 C METRIC-DBSQLITE $Id: dbsstats.f 2620 2019-03-08 18:22:51Z nickcrookston $
@@ -18,11 +18,12 @@ C
 C
 COMMONS
 C
-      INTEGER ColNumber,iret,IYEAR,IYEAR1
+      INTEGER ColNumber,I,iret,IYEAR,IYEAR1
       REAL INGROW,TPAIN
       DOUBLE PRECISION INGROW1,TPAIN1
       CHARACTER*2000 SQLStmtStr
-      CHARACTER*2 SPECCD      
+      CHARACTER*2 CSP
+      CHARACTER*8 CSP1,CSP2,CSP3
 C
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_ADDCOLIFABSENT
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_DOUBLE
@@ -88,12 +89,14 @@ C       SITE PREP SUMMARY
 C                  
       IF(iRet.EQ.0) THEN
           SQLStmtStr='CREATE TABLE FVS_Regen_Ingrow_Metric('//
-     -              'CaseID char(36) null,'//
-     -              'StandID char(26) null,'//
-     -              'Year int null,'//
+     -              'CaseID           text not null,'//
+     -              'StandID          text not null,'//
+     -              'Year             int  null,'//
      -              'IngrowthTotalTph real null,'//
-     -              'Species Char(2) null,'//
-     -              'IngrowthTph int null);'//CHAR(0)
+     -              'SpeciesFVS       text null,'//
+     -              'SpeciesPLANTS    text null,'//
+     -              'SpeciesFIA       text null,'//
+     -              'IngrowthTph      int  null);'//CHAR(0)
      
       iRet = fsql3_exec(IoutDBref,SQLStmtStr)
       IF (iRet .NE. 0) THEN
@@ -103,16 +106,23 @@ C
       ENDIF                
           
         WRITE(SQLStmtStr,*)'INSERT INTO FVS_Regen_Ingrow_Metric',
-     -         ' (CaseID,StandID,Year,IngrowthTotalTph,Species,',
-     -         'IngrowthTph)',
-     -         'VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,?,?,?);'    
-          
-        iRet = fsql3_prepare(IoutDBref,trim(SQLStmtStr)//CHAR(0))
+     -     ' (CaseID,StandID,Year,IngrowthTotalTph,',
+     -     ' SpeciesFVS,SpeciesPLANTS,SpeciesFIA,IngrowthTph)',
+     -     ' VALUES(''',CASEID,''',''',TRIM(NPLT),''',?,?,?,?,?,?);'
           IF (iRet .NE. 0) THEN
             IREG5 = 0                                    
             RETURN
           ENDIF
-          
+
+C     ASSIGN FVS, PLANTS AND FIA SPECIES CODE
+C
+      DO I = 1,MAXSP
+        IF (CSP .EQ. JSP(I)) THEN
+          CSP1 = JSP(I)
+          CSP2 = PLNJSP(I)
+          CSP3 = FIAJSP(2)
+        ENDIF
+      ENDDO          
 C
 C     ASSIGN REAL VALUES TO DOUBLE PRECISION VARS
 C        
@@ -126,8 +136,14 @@ C
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,INGROW1)
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_text(IoutDBref,ColNumber,SPECCD,
-     >                                      LEN_TRIM(SPECCD))
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP1,
+     >                                  LEN_TRIM(CSP1))
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP2,
+     >                                  LEN_TRIM(CSP2))
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP3,
+     >                                  LEN_TRIM(CSP3))
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,TPAIN1)
         iRet = fsql3_step(IoutDBref)
