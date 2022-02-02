@@ -45,7 +45,7 @@ C---------
         ENDIF 
 
         iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_PotFire_Cond"//CHAR(0))
+     >       "FVS_PotFire_Cond_Metric"//CHAR(0))
         IF(iRet.EQ.0) THEN   
            SQLStmtStr='CREATE TABLE FVS_PotFire_Cond_Metric ('//
      -              'CaseID text not null,'//
