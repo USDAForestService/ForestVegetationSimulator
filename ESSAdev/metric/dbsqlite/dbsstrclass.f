@@ -123,9 +123,9 @@ C
  
       CALL DBSCASE(1)
       iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_StrClass"//CHAR(0))
+     >       "FVS_StrClass_Metric"//CHAR(0))
       IF(iRet.EQ.0) THEN
-        SQLStmtStr='CREATE TABLE FVS_StrClass ('//
+        SQLStmtStr='CREATE TABLE FVS_StrClass_Metric ('//
      -    'CaseID text not null,'//
      -    'StandID text not null,'//
      -    'Year int null,'//
@@ -241,7 +241,7 @@ C     WRITE RECORD TO DATABASE
       BS2DBH=S2DBH
       BS3DBH=S3DBH
 
-      WRITE(SQLStmtStr,*)'INSERT INTO FVS_StrClass (CaseID,',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_StrClass_Metric (CaseID,',
      -  'StandID,Year,Removal_Code,Stratum_1_DBH,Stratum_1_Nom_Ht,',
      -  'Stratum_1_Lg_Ht,Stratum_1_Sm_Ht,Stratum_1_Crown_Base,',
      -  'Stratum_1_Crown_Cover,',

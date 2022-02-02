@@ -96,9 +96,9 @@ C---
       CALL DBSCASE(1)
       iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
       iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_Mortality"//CHAR(0))
+     >       "FVS_Mortality_Metric"//CHAR(0))
       IF(iRet.EQ.0) THEN
-          SQLStmtStr='CREATE TABLE FVS_Mortality ('//
+          SQLStmtStr='CREATE TABLE FVS_Mortality_Metric ('//
      -              'CaseID text not null,'//
      -              'StandID text not null,'//
      -              'Year Int null,'//
@@ -127,7 +127,7 @@ C---
            RETURN
          ENDIF
       ENDIF
-        SQLStmtStr ='INSERT INTO FVS_Mortality (CaseID,'//
+        SQLStmtStr ='INSERT INTO FVS_Mortality_Metric (CaseID,'//
      -    'StandID,Year,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,'//
      -    'Killed_class1,Total_class1,'//
      -    'Killed_class2,'//

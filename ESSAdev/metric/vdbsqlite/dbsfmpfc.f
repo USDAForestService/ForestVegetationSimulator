@@ -47,7 +47,7 @@ C---------
         iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_PotFire_Cond"//CHAR(0))
         IF(iRet.EQ.0) THEN   
-           SQLStmtStr='CREATE TABLE FVS_PotFire_Cond ('//
+           SQLStmtStr='CREATE TABLE FVS_PotFire_Cond_Metric ('//
      -              'CaseID text not null,'//
      -              'StandID text not null,'//
      -              'Fire_Condition text null,'//
@@ -63,7 +63,8 @@ C---------
            iRet = fsql3_exec(IoutDBref,SQLStmtStr)
            IF (iRet.NE.0) THEN
              iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
-             print *,"FVS_PotFire_Cond exec direct error:",Msg(:iRet)
+             print *,"FVS_PotFire_Cond_Metric exec direct error:",
+     -          Msg(:iRet)
              IPOTFIREC = 0
              RETURN
            ENDIF
@@ -78,27 +79,23 @@ C---------
         DMOIST6=MOIST6
         DMOIST7=MOIST7
 
-        WRITE(SQLStmtStr,*)'INSERT INTO FVS_PotFire_Cond (CaseID,',
-     -     'StandID,Fire_Condition,Wind_Speed,Temperature,',
+        WRITE(SQLStmtStr,*)'INSERT INTO FVS_PotFire_Cond_Metric ',
+     -     '(CaseID,StandID,Fire_Condition,Wind_Speed,Temperature,',
      -     'One_Hr_Moisture,Ten_Hr_Moisture,',
      -     'Hundred_Hr_Moisture,Thousand_Hr_Moisture,Duff_Moisture,',
      -     'Live_Woody_Moisture,Live_Herb_Moisture) VALUES (''',
      -      CASEID,''',''',TRIM(NPLT),''',''',TRIM(FCOND),
      -      ''',?,?,?,?,?,?,?,?,?);'
 
-
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
 
       IF (iRet.NE.0) THEN
          iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
-         print *,"FVS_PotFire_Cond prepare error:",Msg(:iRet)
+         print *,"FVS_PotFire_Cond_Metric prepare error:",Msg(:iRet)
          IPOTFIREC = 0
          RETURN
       ENDIF 
 
-C      ColNumber=1
-C      iRet = fsql3_bind_double(IoutDBref,ColNumber,FCOND)
-      
       ColNumber=1
       iRet = fsql3_bind_double(IoutDBref,ColNumber,DWINDSP)
       
@@ -129,13 +126,13 @@ C      iRet = fsql3_bind_double(IoutDBref,ColNumber,FCOND)
       iRet = fsql3_step(IoutDBref)
       if (iRet.ne.0) then
          iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
-         print *,"FVS_PotFire_Cond step error:",Msg(:iRet)
+         print *,"FVS_PotFire_Cond_Metric step error:",Msg(:iRet)
          IPOTFIREC = 0
       ENDIF  
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
          iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
-         print *,"FVS_PotFire_Cond finalize error:",Msg(:iRet)
+         print *,"FVS_PotFire_Cond_Metric finalize error:",Msg(:iRet)
          IPOTFIREC = 0
       ENDIF
       RETURN

@@ -99,9 +99,9 @@ COMMONS
       iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
 
       iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_SnagDet"//CHAR(0))
+     >       "FVS_SnagDet_Metric"//CHAR(0))
       IF(iRet.EQ.0) THEN 
-          SQLStmtStr='CREATE TABLE FVS_SnagDet ('//
+          SQLStmtStr='CREATE TABLE FVS_SnagDet_Metric ('//
      -          'CaseID text not null,'//
      -          'StandID text not null,'//
      -          'Year Int null,'//
@@ -127,7 +127,7 @@ COMMONS
         ENDIF
       ENDIF
 
-      WRITE(SQLStmtStr,*)'INSERT INTO FVS_SnagDet ',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_SnagDet_Metric ',
      -  '(CaseID,StandID,Year,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
      -  'DBH_Class,Death_DBH,',
      -  'Current_Ht_Hard,Current_Ht_Soft,Current_Vol_Hard,',

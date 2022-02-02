@@ -100,9 +100,10 @@ C     Initialize variables
       IF(IBURN.EQ.2) KODE = 0
       CALL DBSCASE(1)
 
-      iRet = fsql3_tableexists(IoutDBref,"FVS_BurnReport"//CHAR(0))
+      iRet = fsql3_tableexists(IoutDBref,"FVS_BurnReport_Metric"
+     - //CHAR(0))
       IF(iRet.EQ.0) THEN
-        SQLStmtStr='CREATE TABLE FVS_BurnReport ('//
+        SQLStmtStr='CREATE TABLE FVS_BurnReport_Metric ('//
      -              'CaseID text not null,'//
      -              'StandID text not null,'//
      -              'Year int null,'//
@@ -151,7 +152,7 @@ C
       WTB(3) = INT((WT(3)*100.)+0.5)
       WTB(4) = INT((WT(4)*100.)+0.5)
 
-      WRITE(SQLStmtStr,*)'INSERT INTO FVS_BurnReport (CaseID,',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_BurnReport_Metric (CaseID,',
      -  'StandID,Year,One_Hr_Moisture,Ten_Hr_Moisture,',
      -  'Hundred_Hr_Moisture,Thousand_Hr_Moisture,Duff_Moisture,',
      -  'Live_Woody_Moisture,Live_Herb_Moisture,Midflame_Wind,Slope,',

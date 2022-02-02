@@ -98,9 +98,9 @@ COMMONS
       CALL DBSCASE(1)
 
       iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_SnagSum"//CHAR(0))
+     >       "FVS_SnagSum_Metric"//CHAR(0))
       IF(iRet.EQ.0) THEN
-          SQLStmtStr='CREATE TABLE FVS_SnagSum('//
+          SQLStmtStr='CREATE TABLE FVS_SnagSum_Metric ('//
      -              'CaseID text not null,'//
      -              'StandID text not null,'//
      -              'Year Int null,'//
@@ -144,7 +144,7 @@ C
       SCL7B = SCL7
       HDSFB = HDSF
 
-      WRITE(SQLStmtStr,*)'INSERT INTO FVS_SnagSum (CaseID,',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_SnagSum_Metric (CaseID,',
      -  'StandID,Year,Hard_snags_class1,Hard_snags_class2,',
      -  'Hard_snags_class3,Hard_snags_class4,Hard_snags_class5,',
      -  'Hard_snags_class6,Hard_snags_total,Soft_snags_class1,',

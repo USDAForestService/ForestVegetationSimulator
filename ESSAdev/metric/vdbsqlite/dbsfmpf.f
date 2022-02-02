@@ -118,11 +118,12 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C---------
       CALL DBSCASE(1)
       
-      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')
+     >    .OR. (VARACD .EQ. 'ON')) THEN
         iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_PotFire_East"//CHAR(0))
+     >       "FVS_PotFire_East_Metric"//CHAR(0))
         IF(iRet.EQ.0) THEN
-          SQLStmtStr='CREATE TABLE FVS_PotFire_East('//
+          SQLStmtStr='CREATE TABLE FVS_PotFire_East_Metric('//
      -              'CaseID text not null,'//
      -              'StandID text not null,'//
      -              'Year int null,'//
@@ -155,7 +156,7 @@ C---------
            iRet = fsql3_exec(IoutDBref,SQLStmtStr)
            IF (iRet.NE.0) THEN
              iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
-             print *,"FVS_PotFire_East exec direct east error:",
+             print *,"FVS_PotFire_East_Metric exec direct east error:",
      -         Msg(:iRet)
              IPOTFIRE = 0
              RETURN
@@ -163,9 +164,9 @@ C---------
          ENDIF 
       ELSE !NOT SN VARIANT
         iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_PotFire"//CHAR(0))
+     >       "FVS_PotFire_Metric"//CHAR(0))
         IF(iRet.EQ.0) THEN   
-           SQLStmtStr='CREATE TABLE FVS_PotFire ('//
+           SQLStmtStr='CREATE TABLE FVS_PotFire_Metric('//
      -              'CaseID text not null,'//
      -              'StandID text not null,'//
      -              'Year int null,'//
@@ -198,7 +199,8 @@ C---------
            iRet = fsql3_exec(IoutDBref,SQLStmtStr)
            IF (iRet.NE.0) THEN
              iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
-             print *,"FVS_PotFire west exec direct error:",Msg(:iRet)
+             print *,"FVS_PotFire_Metric west exec direct error:",
+     -          Msg(:iRet)
              IPOTFIRE = 0
              RETURN
            ENDIF
@@ -233,13 +235,14 @@ C---------
       BFUELWT(3)=DBLE(INT((FUELWT(3)*100.)+0.5))
       BFUELWT(4)=DBLE(INT((FUELWT(4)*100.)+0.5))
 
-      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')
+     -    .OR. (VARACD .EQ. 'ON')) THEN
         BSFUELWT(1)=DBLE(INT((SFUELWT(1)*100.)+0.5))
         BSFUELWT(2)=DBLE(INT((SFUELWT(2)*100.)+0.5))
         BSFUELWT(3)=DBLE(INT((SFUELWT(3)*100.)+0.5))
         BSFUELWT(4)=DBLE(INT((SFUELWT(4)*100.)+0.5))
-        WRITE(SQLStmtStr,*)'INSERT INTO FVS_PotFire_East (CaseID,',
-     -     'StandID,Year,Flame_Len_Sev,Flame_Len_Mod,',
+        WRITE(SQLStmtStr,*)'INSERT INTO FVS_PotFire_East_Metric
+     -     (CaseID,StandID,Year,Flame_Len_Sev,Flame_Len_Mod,',
      -     'Canopy_Ht,Canopy_Density,Mortality_BA_Sev,',
      -     'Mortality_BA_Mod,Mortality_VOL_Sev,Mortality_VOL_Mod,',
      -     'Pot_Smoke_Sev,Pot_Smoke_Mod,Fuel_Mod1_mod,Fuel_Mod2_mod,',
@@ -251,7 +254,7 @@ C---------
      -     ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? ',
      -     ',?,?,?,?);'
       ELSE
-        WRITE(SQLStmtStr,*)'INSERT INTO FVS_PotFire (CaseID,',
+        WRITE(SQLStmtStr,*)'INSERT INTO FVS_PotFire_Metric (CaseID,',
      -     'StandID,Year,Surf_Flame_Sev,Surf_Flame_Mod,',
      -     'Tot_Flame_Sev,Tot_Flame_Mod,Fire_Type_Sev,Fire_Type_Mod,',
      -     'PTorch_Sev,PTorch_Mod,Torch_Index,Crown_Index,',
@@ -268,7 +271,7 @@ C---------
 
       IF (iRet.NE.0) THEN
          iRet = fsql3_errmsg(IinDBref, Msg, MxMsg)
-         print *,"FVS_PotFire prepare error:",Msg(:iRet)
+         print *,"FVS_PotFire_Metric prepare error:",Msg(:iRet)
          IPOTFIRE = 0
          RETURN
       ENDIF
@@ -282,7 +285,8 @@ C---------
       ColNumber=ColNumber+1
       iRet = fsql3_bind_double(IoutDBref,ColNumber,BMFLMSU)
 
-      IF ((VARACD .NE. 'SN') .AND. (VARACD .NE. 'CS')) THEN
+      IF ((VARACD .NE. 'SN') .AND. (VARACD .NE. 'CS')
+     >    .AND. (VARACD .NE. 'ON')) THEN
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,BSFLMTO)
 
@@ -350,7 +354,8 @@ C---------
       ColNumber=ColNumber+1
       iRet = fsql3_bind_double(IoutDBref,ColNumber,BFUELWT(4))
 
-      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')) THEN
+      IF ((VARACD .EQ. 'SN') .OR. (VARACD .EQ. 'CS')
+     >  .OR. (VARACD .EQ. 'ON')) THEN
        ColNumber=ColNumber+1
        iRet = fsql3_bind_int(IoutDBref,ColNumber,SFUELMOD(1))
 

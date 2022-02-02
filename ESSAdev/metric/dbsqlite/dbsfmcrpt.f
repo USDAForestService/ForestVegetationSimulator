@@ -101,9 +101,9 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 C     INSURE MAIN CARBON TABLE EXISTS IN DATBASE
 
       iRet = fsql3_tableexists(IoutDBref,
-     >       "FVS_Carbon"//CHAR(0))
+     >       "FVS_Carbon_Metric"//CHAR(0))
       IF(iRet.EQ.0) THEN
-        SQLStmtStr='CREATE TABLE FVS_Carbon('//
+        SQLStmtStr='CREATE TABLE FVS_Carbon_Metric('//
      -         'CaseID text not null,'//
      -         'StandID text not null,'//
      -         'Year Int null,'//
@@ -129,7 +129,7 @@ C     COPY INPUT VECTOR TO DOUBLE-PRECISION
 
       VARD = VAR
 
-      WRITE(SQLStmtStr,*)'INSERT INTO FVS_Carbon (CaseID,',
+      WRITE(SQLStmtStr,*)'INSERT INTO FVS_Carbon_Metric(CaseID,',
      >  'StandID,Year,Aboveground_Total_Live,Aboveground_Merch_Live,',
      >  'Belowground_Live,Belowground_Dead,Standing_Dead,',
      >  'Forest_Down_Dead_Wood,Forest_Floor,Forest_Shrub_Herb,',
