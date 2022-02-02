@@ -180,6 +180,6 @@ C
       CALL ERRGRO (.TRUE.,5)
       GOTO 1
   310 CONTINUE
-      CALL ERRGRO (.TRUE.,39)
+      CALL ERRGRO (.FALSE.,39)
       GOTO 1
       END
