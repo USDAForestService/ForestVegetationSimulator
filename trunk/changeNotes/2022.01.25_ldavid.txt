@@ -1,0 +1,43 @@
+Subject: Compute variable name error and point number retention
+
+Name: Lance David
+
+Date: 01/25/2022
+
+Variants affected: All
+
+Description: User defined Compute variable name containing invalid characters
+             warning was changed to an error (FVS39) which terminates run.
+             This was done to avoid users waiting for a run and expected ouput
+             that would not be generated.
+             The point number retention change is only relevant to stands that
+             only have one sample plot or if running plots as stands. The
+             previous behavior was to ignore the input plot number if only 1
+             plot and carry a 1 for it. Now, the input plot number will be
+             retained and reported. One note for this is that with the text
+             version of the output tree list has a column labeled as
+             PNT NUM, but actually contained the point index. It now contains
+             the actual point number which corresponds to the DB output tree
+             list column ActPt (Actual Point). Additionally, the text tree
+             list PNT NUM column will only accommodate 3 digits. If the input
+             point number is more than 3 digits, *** will appear in the printed
+             column.
+
+Impact on users: Users will experience run termination if an invalid character
+                 is found in their compute variable name. When they look at the
+                 end of ther main output file, that variable name will be shown.
+                 Users expecting to have the original input point (AKA plot) 
+                 number in the ouput tree list when processing a single plot
+                 will have that number tree list column for text is PNT NUM and
+                 the column in DB tree list is ActPt.
+
+Files:
+base\algexp.f - Change of FVS39 warning to error with termination.
+base\errgro.f
+
+base\intree.f - at line 316 suppressed code that set point number to 1.
+
+vbase\prtrls.f - modified text tree records to write actual point number 
+                 (IPVEC array). Corrected the write statements for unformatted
+                 writing of the tree record which is initiated by providing a
+                 negative unit numnber (field 2) on the base TreeList keyword.
