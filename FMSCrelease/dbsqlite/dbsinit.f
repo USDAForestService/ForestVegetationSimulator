@@ -31,6 +31,7 @@ C  FVS_Fuels            dbsfuels    IFUELS       case, cycle                    
 C  FVS_DM_Spp_Sum       dbsmis      IDM1         case, cycle, species           Yes
 C  FVS_DM_Stnd_Sum      dbsmis      IDM2         case, cycle                    Yes
 C  FVS_DM_Sz_Sum        dbsmis      IDM3         case, cycle                    Yes
+C  FVS_DM_TreeList      dbsmis      IDM5         case, cycle                    Yes
 C  FVS_Regen_Sprouts    dbssprt     IREG1        case, cycle, species           Yes
 C  FVS_Regen_SitePrep   dbssiteprep IREG2        case, cycle                      -
 C  FVS_Regen_HabType    dbsplothab  IREG3        case, habitat/forest type        -

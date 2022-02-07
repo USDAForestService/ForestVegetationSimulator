@@ -122,15 +122,15 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
      >    VARACD.EQ.'NE' .OR. VARACD.EQ.'ON') THEN
         TBLNAME = 'FVS_ATRTList_East_Metric'
         NTCUFT  = 'TCuM'
-        NMCUFT  = 'SCuM'
-        NBDFT   = 'NCuM'
+        NMCUFT  = 'MCuM'
+        NBDFT   = 'CCuM'
         NAMDCF  = 'Ht2TDMCM'
         NAMDBF  = 'Ht2TDSBM'
       ELSE
         TBLNAME = 'FVS_ATRTList_Metric'
         NTCUFT  = 'TCuM'
         NMCUFT  = 'MCuM'
-        NBDFT   = 'NCuM'
+        NBDFT   = 'CCuM'
         NAMDCF  = 'Ht2TDCM '
         NAMDBF  = 'Ht2TDBM '
       ENDIF

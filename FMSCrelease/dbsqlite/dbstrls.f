@@ -73,9 +73,9 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
       IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN' .OR.
      >    VARACD.EQ.'NE') THEN
         TBLNAME = 'FVS_TreeList_East'
-        NTCUFT  = 'MCuFt'
-        NMCUFT  = 'SCuFt'
-        NBDFT   = 'SBdFt'
+        NTCUFT  = 'MCuFt'   ! options: MCuFt or SCuFt
+        NMCUFT  = 'SCuFt'   ! options: SCuFt or MCuFt
+        NBDFT   = 'SBdFt'   ! options: SBdFt or BdFt
         NAMDCF  = 'Ht2TDMCF'
         NAMDBF  = 'Ht2TDSCF'
       ELSE

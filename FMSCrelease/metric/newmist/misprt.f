@@ -435,16 +435,6 @@ C              Otherwise defaults to all species.
   120    CONTINUE
       ENDIF
 
-C     PRINT DETAILED TREELIST AND LIGHT TABLES, CONTINGENT
-C     ON 'DMTABLE' KEYWORD
-C     DR/ESSA Jan-2020: These 2 detailed tables are not yet updated
-C                       as part of the DBSQLITE-DBSMIS
-
-      !IF (LDETAIL) THEN
-      !  CALL DBSMIS5(NYEAR,IDBSKODE)
-      !  CALL DBSMIS6(NYEAR,IDBSKODE)
-      !ENDIF
-      !
 C     Sort for the top four most infected species only once. This may
 C     happen in the first cycle or it may happen later if infections
 C     were introduced. Anyway, LSORT4 will be FALSE if not sorted yet.
@@ -685,6 +675,15 @@ C     CALL THE DBS MODULE TO OUTPUT DMDATA TO A DATABASE
         CALL DBSMIS3(NYEAR,NPLT,NLABS,
      &    DCTPA_M,DCINF_M,DCMRT_M,DCDMR,DCDMI,
      &    IDBSKODE)
+
+C     PRINT SPATIAL MODEL TABLES IF THE SPATIAL MODEL IS ALSO
+C     ACTIVE. THESE TABLES ARE NOT AVAILABLE IN TEXT OUTPUT
+C     FORM (UNLIKE THE 3 TABLES OF THE NON-SPATIAL MODEL.
+
+        IF (NEWMOD) THEN
+          CALL DBSMIS5(NYEAR,IDBSKODE)
+          CALL DBSMIS6(NYEAR,IDBSKODE)
+        ENDIF
       ENDIF
 
 C     BRANCH AROUND MAIN OUTPUT IF THAT OUTPUT STREAM IS SILENCED

@@ -90,6 +90,8 @@ C.... Local variable declarations.
 
 C.... Data statements
 
+      NEWMOD = .FALSE.
+
 C.... TPDMR is the dummy array used to load the array DMDMR.
 C.... This is initialized this way so that if multiple stands are run through
 C.... the model then the array DMDMR will get re-initialized properly for each

@@ -80,6 +80,7 @@ C.... So, no call to DBCHK would work.
 C.... Mistletoe model initializations.
 
       PRTMIS=.FALSE.
+      NEWMOD=.FALSE.      
       FSTMIS=.TRUE.
       FSTTBL=.TRUE.
       MISFLG=.TRUE.

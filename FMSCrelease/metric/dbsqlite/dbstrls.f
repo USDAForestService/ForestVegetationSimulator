@@ -121,16 +121,16 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
       IF (VARACD.EQ.'CS' .OR. VARACD.EQ.'LS' .OR. VARACD.EQ.'SN' .OR.
      >    VARACD.EQ.'NE' .OR. VARACD.EQ.'ON') THEN
         TBLNAME = 'FVS_TreeList_East_Metric'
-        NTCUFT  = 'MCuM'
-        NMCUFT  = 'SCuM'
-        NBDFT   = 'SBdM'
+        NTCUFT  = 'TCuM'
+        NMCUFT  = 'MCuM'
+        NBDFT   = 'CCum'
         NAMDCF  = 'Ht2TDMCM'
         NAMDBF  = 'Ht2TDSCM'
       ELSE
         TBLNAME = 'FVS_TreeList_Metric'
         NTCUFT  = 'TCuM'
         NMCUFT  = 'MCuM'
-        NBDFT   = 'BdM'
+        NBDFT   = 'CCum'
         NAMDCF  = 'Ht2TDCM '
         NAMDBF  = 'Ht2TDBM '
       ENDIF

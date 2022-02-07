@@ -1403,17 +1403,28 @@ C           FOR "HISTORICAL PURPOSES" ONLY.
               ENDIF
             ENDIF
 
-            IF(DEBUG)WRITE(JOSTND,*)'REGENT: PRE-H2'
+            IF(DEBUG)WRITE(JOSTND,*)'REGENT: LV2ATV', LV2ATV
+            IF(DEBUG)WRITE(JOSTND,*)'REGENT: LSPPOK', LSPPOK
+            IF(DEBUG)WRITE(JOSTND,*)'REGENT: HTGRL', HTGRL
+            IF(DEBUG)WRITE(JOSTND,*)'REGENT: KPER(J)', KPER(j)
+            IF(DEBUG)WRITE(JOSTND,*)'REGENT: REGYR', REGYR
+            IF(DEBUG)WRITE(JOSTND,*)'REGENT: XRHGRO', XRHGRO
+            IF(DEBUG)WRITE(JOSTND,*)'REGENT: H1', H1
+
             IF (LV2ATV) THEN
               IF (LSPPOK) THEN
-                H2=H1+(EXP(HTGRL)*(FLOAT(KPER(J))/REGYR)*XRHGRO
+                H2=H1+
+     >           (EXP(MAX(-40.0,HTGRL))*(FLOAT(KPER(J))/REGYR)*XRHGRO
      >          * MtoFT)
               ELSE
-                H2=H1+EXP(HTGRL)*(FLOAT(KPER(J))/REGYR)*XRHGRO
+                H2=H1+
+     >           EXP(MAX(-40.0,HTGRL))*(FLOAT(KPER(J))/REGYR)*XRHGRO
               ENDIF
             ELSE
               H2=H1+HTGRL*(FLOAT(KPER(J))/REGYR)*XRHGRO
             ENDIF
+            
+            IF(DEBUG)WRITE(JOSTND,*)'REGENT: H2', H2
             IF(DEBUG)WRITE(JOSTND,*)'REGENT: POST-H2'
             WK3(I)=H2
 C----------

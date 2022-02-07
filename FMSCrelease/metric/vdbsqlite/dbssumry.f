@@ -110,13 +110,13 @@ C
      -                 'CCF int,'//
      -                 'TopHt int,'//
      -                 'QMD real,'//
+     -                 'TCuM int,'//
      -                 'MCuM int,'//
-     -                 'SCuM int,'//
-     -                 'NCuM int,'//
+     -                 'CCuM int,'//
      -                 'RTph int,'//
+     -                 'RTCuM int,'//
      -                 'RMCuM int,'//
-     -                 'RSCuM int,'//
-     -                 'RNCuM int,'//
+     -                 'RCCuM int,'//
      -                 'ATBA int,'//
      -                 'ATSDI int,'//
      -                 'ATCCF int,'//

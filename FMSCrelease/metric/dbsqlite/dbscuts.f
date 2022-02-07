@@ -123,14 +123,14 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
         TBLNAME = 'FVS_CutList_East_Metric'
         NTCUFT  = 'TCuM'
         NMCUFT  = 'MCuM'
-        NBDFT   = 'SBdM'
+        NBDFT   = 'CCuM'
         NAMDCF  = 'Ht2TDMCM'
         NAMDBF  = 'Ht2TDSCM'
       ELSE
         TBLNAME = 'FVS_CutList_Metric'
         NTCUFT  = 'TCuM'
         NMCUFT  = 'MCuM'
-        NBDFT   = 'BdM'
+        NBDFT   = 'CCuM'
         NAMDCF  = 'Ht2TDCM '
         NAMDBF  = 'Ht2TDBM '
       ENDIF
