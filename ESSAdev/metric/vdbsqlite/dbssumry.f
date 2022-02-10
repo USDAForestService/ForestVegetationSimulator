@@ -441,7 +441,7 @@ C
      -                 'QMD real,'//
      -                 'TCuM real,'//
      -                 'TPrdTCuM real,'//
-     -                 'MCum real,'//
+     -                 'MCuM real,'//
      -                 'TPrdMCuM real,'//
      -                 'NABdM real,'//
      -                 'TPrdNABdM real,'//
