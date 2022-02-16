@@ -1243,7 +1243,7 @@ C----------
   452       CONTINUE
           ENDIF
           IF(LINCL .AND.
-     >      (DBH(I).GE.5.0) THEN
+     >      (DBH(I).GE.5.0)) THEN
             DCM = DBH(I)*2.54
             TPA3 = PROB(I)
             ACRN = 0.
