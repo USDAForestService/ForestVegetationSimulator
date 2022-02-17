@@ -107,7 +107,7 @@ C METRIC-DBSQLITE $Id$
      &          // 'Value_of_Forest real null, '
      &          // 'Value_of_Trees real null, '
      &          // 'Mrch_Cubic_Volume int null, '
-     &          // 'Mrch_BoardMeter_Volume int null, '
+     &          // 'Mrch_Board_Volume int null, '
      &          // 'Discount_Rate real null, '
      &          // 'Given_SEV real null);' // CHAR(0)
         iRet = fsql3_exec(IoutDBref,SQLStmtStr)
@@ -122,7 +122,7 @@ C METRIC-DBSQLITE $Id$
      &   'Pretend_Harvest, Undiscounted_Cost, Undiscounted_Revenue,',
      &   'Discounted_Cost, Discounted_Revenue, PNV, IRR, BC_Ratio,',
      &   'RRR, SEV, Value_of_Forest, Value_of_Trees,',
-     &   'Mrch_Cubic_Volume, Mrch_BoardMeter_Volume, Discount_Rate,',
+     &   'Mrch_Cubic_Volume, Mrch_Board_Volume, Discount_Rate,',
      &   'Given_SEV)','VALUES (''',CASEID,''',''',TRIM(STDID),
      &   ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);' // CHAR(0)
       iRet = fsql3_prepare(IoutDBref,SQLStmtStr)

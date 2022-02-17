@@ -1,7 +1,7 @@
       SUBROUTINE PRTRLS (IWHO)
       IMPLICIT NONE
 C----------
-C METRIC-VBASE $Id: prtrls.f 2438 2018-07-05 16:54:21Z gedixon $
+C METRIC-VBASE $Id$
 C----------
 C
 C     PRINT THE TREE LIST.
@@ -227,7 +227,7 @@ C
      &                 CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
     2       FORMAT ('-999',3I5,6(1X,A),I3,E14.7,2(1X,A))
          ELSE
-            WRITE (KOLIST) IP,ICYC,JYR,NPLT,MGMID,VARACD,DAT,TIM,
+            WRITE (KOLIST,*) IP,ICYC,JYR,NPLT,MGMID,VARACD,DAT,TIM,
      &                 CLAB1(ITPLAB)(1:1),IFINT,XXWT,REV,CISN
          ENDIF
       ENDIF
@@ -373,7 +373,7 @@ C----------
         IF (LFORMT) THEN
           IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
             WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >      ISPECL(I),ITRE(I),
+     >      ISPECL(I),IPVEC(ITRE(I)),
      >      P/ACRtoHA,
      >      DP/ACRtoHA,
      >      DBH(I)*INtoCM,
@@ -394,7 +394,7 @@ C----------
      >       1X,I3)
           ELSE
             WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >      ISPECL(I),ITRE(I),
+     >      ISPECL(I),IPVEC(ITRE(I)),
      >      P/ACRtoHA,
      >      DP/ACRtoHA,
      >      DBH(I)*INtoCM,
@@ -413,8 +413,8 @@ C----------
      >       F9.3,F9.2,F9.2,I4,I7,I4)
           ENDIF
         ELSE
-          WRITE(KOLIST) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >    ISPECL(I),ITRE(I),
+          WRITE(KOLIST,*) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >    ISPECL(I),IPVEC(ITRE(I)),
      >    P/ACRtoHA,
      >    DP/ACRtoHA,
      >    DBH(I)*INtoCM,
@@ -437,7 +437,7 @@ C----------
         IF (LFORMT) THEN
           IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
             WRITE(KOLIST,23) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >      ISPECL(I),ITRE(I),
+     >      ISPECL(I),IPVEC(ITRE(I)),
      >      P/ACRtoHA,
      >      DP/ACRtoHA,
      >      DBH(I)*INtoCM,
@@ -458,7 +458,7 @@ C----------
      >       1X,I3)
           ELSE
             WRITE(KOLIST,24) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >      ISPECL(I),ITRE(I),
+     >      ISPECL(I),IPVEC(ITRE(I)),
      >      P/ACRtoHA,
      >      DP/ACRtoHA,
      >      DBH(I)*INtoCM,
@@ -479,8 +479,8 @@ C----------
      >       1X,I3)
           ENDIF
         ELSE
-          WRITE(KOLIST) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >    ISPECL(I),ITRE(I),
+          WRITE(KOLIST,*) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >    ISPECL(I),IPVEC(ITRE(I)),
      >    P/ACRtoHA,
      >    DP/ACRtoHA,
      >    DBH(I)*INtoCM,
@@ -549,7 +549,7 @@ C
       IF (LFORMT) THEN
         IF(P.LT.9999.9995 .AND. DP.LT.9999.9995)THEN
           WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >    ISPECL(I),ITRE(I),
+     >    ISPECL(I),IPVEC(ITRE(I)),
      >    P/ACRtoHA,
      >    DP/ACRtoHA,
      >    DBH(I)*INtoCM,
@@ -566,7 +566,7 @@ C
      >    NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
         ELSE
           WRITE(KOLIST,20) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >    ISPECL(I),ITRE(I),
+     >    ISPECL(I),IPVEC(ITRE(I)),
      >    P/ACRtoHA,
      >    DP/ACRtoHA,
      >    DBH(I)*INtoCM,
@@ -583,8 +583,8 @@ C
      >    NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM)
         ENDIF
       ELSE
-          WRITE(KOLIST) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
-     >    ISPECL(I),ITRE(I),
+          WRITE(KOLIST,*) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+     >    ISPECL(I),IPVEC(ITRE(I)),
      >    P/ACRtoHA,
      >    DP/ACRtoHA,
      >    DBH(I)*INtoCM,

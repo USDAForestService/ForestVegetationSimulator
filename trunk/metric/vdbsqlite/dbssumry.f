@@ -304,11 +304,57 @@ COMMONS
 C
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'CONTRL.F77'
-      INCLUDE 'DBSCOM.F77'  
+      INCLUDE 'DBSCOM.F77'
       INCLUDE 'OPCOM.F77'
       INCLUDE 'OUTCOM.F77'
       INCLUDE 'PLOT.F77'
       INCLUDE 'SUMTAB.F77'
+      INCLUDE 'METRIC.F77'
+C
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_ADDCOLIFABSENT
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_DOUBLE
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_INT
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_TEXT
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_CLOSE
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLCNT
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLDOUBLE
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLINT
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLISNULL
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLNAME
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLREAL
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLTEXT
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLTYPE
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_ERRMSG
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_EXEC
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_FINALIZE
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_OPEN
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_PREPARE
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_RESET
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_STEP
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_TABLEEXISTS
+#if !(_WIN64)
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_ADDCOLIFABSENT' :: FSQL3_ADDCOLIFABSENT
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_DOUBLE'    :: FSQL3_BIND_DOUBLE
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_INT'       :: FSQL3_BIND_INT
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_TEXT'      :: FSQL3_BIND_TEXT
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_CLOSE'          :: FSQL3_CLOSE
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLCNT'         :: FSQL3_COLCNT
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLDOUBLE'      :: FSQL3_COLDOUBLE
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLINT'         :: FSQL3_COLINT
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLISNULL'      :: FSQL3_COLISNULL
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLNAME'        :: FSQL3_COLNAME
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLREAL'        :: FSQL3_COLREAL
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLTEXT'        :: FSQL3_COLTEXT
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLTYPE'        :: FSQL3_COLTYPE
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_ERRMSG'         :: FSQL3_ERRMSG
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_EXEC'           :: FSQL3_EXEC
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_FINALIZE'       :: FSQL3_FINALIZE
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_OPEN'           :: FSQL3_OPEN
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_PREPARE'        :: FSQL3_PREPARE
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_RESET'          :: FSQL3_RESET
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_STEP'           :: FSQL3_STEP
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_TABLEEXISTS'    :: FSQL3_TABLEEXISTS 
+#endif
 C
 COMMONS
 C
@@ -316,12 +362,14 @@ C
       DOUBLE PRECISION DPTPA,DPTPTPA,DPBA,DPQMD,DPTCUFT,DPTPTCUFT,
      > DPMCUFT,DPTPMCUFT,DPBDFT,DPTPBDFT,DPACC,DPMORT,DPMAI,DPRTPA,
      > DPRTCUFT,DPRMCUFT,DPRBDFT
+      DOUBLE PRECISION DX
       INTEGER ColNumber,iRet,I
+      INTEGER IX
       CHARACTER*2000 SQLStmtStr
-      CHARACTER*24 TABLENAME  
+      CHARACTER*24 TABLENAME
 C
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
-     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize 
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
      
       IF(ISUMARY.NE.2) RETURN
 C
@@ -408,7 +456,7 @@ C
      -                 'MCuM real,'//
      -                 'TPrdMCuM real,'//
      -                 'SCuM real,'//
-     -                 'TPrdNCuM real,'//
+     -                 'TPrdSCuM real,'//
      -                 'NCuM real,'//
      -                 'TPrdNCuM real,'//
      -                 'RTph real,'//
@@ -441,7 +489,7 @@ C
      -                 'QMD real,'//
      -                 'TCuM real,'//
      -                 'TPrdTCuM real,'//
-     -                 'MCum real,'//
+     -                 'MCuM real,'//
      -                 'TPrdMCuM real,'//
      -                 'NABdM real,'//
      -                 'TPrdNABdM real,'//
@@ -461,11 +509,11 @@ C
         IF (iRet .NE. 0) THEN
           ISUMARY = 0
           RETURN
-        ENDIF  
+        ENDIF
       ENDIF
       DO I=1,2
         IF (IHRVC.EQ.1) THEN
-          DPTPTPA   = DPTPTPA   - DPRTPA  
+          DPTPTPA   = DPTPTPA   - DPRTPA
           DPTPTCUFT = DPTPTCUFT - DPRTCUFT
           DPTPMCUFT = DPTPMCUFT - DPRMCUFT
           DPTPBDFT  = DPTPBDFT  - DPRBDFT 
@@ -476,7 +524,7 @@ C
 C
          SQLStmtStr='INSERT INTO '//TRIM(TABLENAME)//
      -    ' (CaseID,StandID,Year,RmvCode,Age,Tph,TPrdTph,BA,SDI,'//
-     -    'CCF,TopHt,QMD,MCuM,TPrdMCuM,SCuM,TPrdSCuM,SNCuM,'//
+     -    'CCF,TopHt,QMD,MCuM,TPrdMCuM,SCuM,TPrdSCuM,NCuM,'//
      -    'TPrdNCuM,RTph,RMCuM,RSCuM,RNCuM,'//
      -    'PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls'//
      -    ")VALUES('"//CASEID//"','"//TRIM(NPLT)//"',?,?,?,?,?,"//
@@ -489,7 +537,7 @@ C
      -    'TPrdNABdM,RTph,RTCuM,RMCuM,RNABdM,'//
      -    'PrdLen,Acc,Mort,MAI,ForTyp,SizeCls,StkCls'//
      -    ")VALUES('"//CASEID//"','"//TRIM(NPLT)//"',?,?,?,?,?,"//
-     -    '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'  
+     -    '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
      -    //CHAR(0)
         ENDIF
         iRet = fsql3_prepare(IoutDBref,SQLStmtStr)
@@ -497,54 +545,95 @@ C
           ISUMARY = 0
           RETURN
         ENDIF
-        ColNumber=1 
+        ColNumber=1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IYEAR)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IHRVC)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IAGEOUT)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPA)
+        DX = DPTPA/ACRtoHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPTPA)
+        DX = DPTPTPA/ACRtoHA        
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPBA)
+        DX = DPBA*FT2pACRtoM2pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,IOSDI)
+        IX = NINT(IOSDI/ACRtoHA)
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IX)
+
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,ICCF)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,ITOPHT)
+        IX = NINT(ITOPHT*FTtoM)
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPQMD)
+        DX = DPQMD*INtoCM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTCUFT)
+        DX = DPTCUFT*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPTCUFT)
+        DX = DPTPTCUFT*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPMCUFT)
+        DX = DPMCUFT*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPMCUFT)
+        DX = DPTPMCUFT*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPBDFT)
+        DX = DPBDFT*0.0
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPTPBDFT)
+        DX = DPTPBDFT*0.0
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPRTPA)
+        DX = DPRTPA/ACRtoHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPRTCUFT)
+        DX = DPRTCUFT*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPRMCUFT)
+        DX = DPRMCUFT*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPRBDFT)
+        DX = DPRBDFT*0.0
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IPRDLEN)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPACC)
+        DX = DPACC*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPMORT)
+        DX = DPMORT*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPMAI)
+        DX = DPMAI*FT3pACRtoM3pHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,DX)
+
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IFORTP)
         ColNumber=ColNumber+1
@@ -566,7 +655,7 @@ C
         DPRTPA   = 0.
         DPRTCUFT = 0.
         DPRMCUFT = 0.
-        DPRBDFT  = 0. 
+        DPRBDFT  = 0.
       ENDDO
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
