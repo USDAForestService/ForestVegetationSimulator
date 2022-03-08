@@ -44,21 +44,21 @@ C
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_DOUBLE
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_INT
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_TEXT
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_CLOSE  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_CLOSE
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLCNT
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLDOUBLE  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLDOUBLE
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLINT
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLISNULL  
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLNAME  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLISNULL
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLNAME
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLREAL
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLTEXT
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLTYPE
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_ERRMSG
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_EXEC
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_FINALIZE
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_OPEN  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_OPEN
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_PREPARE
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_RESET  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_RESET
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_STEP
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_TABLEEXISTS
 #if !(_WIN64)
@@ -66,12 +66,12 @@ C
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_DOUBLE'    :: FSQL3_BIND_DOUBLE
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_INT'       :: FSQL3_BIND_INT
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_TEXT'      :: FSQL3_BIND_TEXT
-  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_CLOSE'          :: FSQL3_CLOSE  
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_CLOSE'          :: FSQL3_CLOSE
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLCNT'         :: FSQL3_COLCNT
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLDOUBLE'      :: FSQL3_COLDOUBLE
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLINT'         :: FSQL3_COLINT
-  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLISNULL'      :: FSQL3_COLISNULL  
-  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLNAME'        :: FSQL3_COLNAME  
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLISNULL'      :: FSQL3_COLISNULL
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLNAME'        :: FSQL3_COLNAME
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLREAL'        :: FSQL3_COLREAL
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLTEXT'        :: FSQL3_COLTEXT
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLTYPE'        :: FSQL3_COLTYPE
@@ -82,7 +82,7 @@ C
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_PREPARE'        :: FSQL3_PREPARE
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_RESET'          :: FSQL3_RESET
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_STEP'           :: FSQL3_STEP
-  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_TABLEEXISTS'    :: FSQL3_TABLEEXISTS 
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_TABLEEXISTS'    :: FSQL3_TABLEEXISTS
 #endif
 
 COMMONS
@@ -183,7 +183,7 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
       ENDIF
       WRITE(SQLStmtStr,*)'INSERT INTO ',TBLNAME,
      -  ' (CaseID,StandID,Year,PrdLen,',
-     -  'TreeId,TreeIndex,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',      
+     -  'TreeId,TreeIndex,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
      -  'TreeVal,SSCD,PtIndex,TPH,',
      -  'MortPH,DBH,DG,',
      -  'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',',
@@ -210,9 +210,9 @@ C     AND THE OUTPUT REPORTING YEAR.
 
             IP=ITRN
             ITPLAB=1
-            P = (PROB(I) / GROSPC)
+            P = PROB(I) / GROSPC
             IF (ICYC.GT.0) THEN
-              DP = (WK2(I)/ GROSPC)
+              DP = WK2(I)/ GROSPC
             ELSE
               DP = 0.0
             ENDIF
@@ -250,7 +250,7 @@ C           ESTIMATED HEIGHT IS NORMAL HEIGHT, UNLESS THE IT WAS NOT
 C           BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
 
             IF (NORMHT(I) .NE. 0) THEN
-              ESTHT = ((REAL(NORMHT(I))+5)/100)
+              ESTHT = (REAL(NORMHT(I))+5)/100
             ELSE
               ESTHT = HT(I)
             ENDIF
@@ -279,6 +279,7 @@ C
      >                         LEN_TRIM(TID))
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
+
             ColNumber=ColNumber+1
             iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE1,
      >                             LEN_TRIM(CSPECIE1))
@@ -288,7 +289,6 @@ C
             ColNumber=ColNumber+1
             iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE3,
      >                             LEN_TRIM(CSPECIE3))
-
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,IMC(I))
 
@@ -306,6 +306,7 @@ C
             XB = DP/ACRtoHA
             iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
+            ColNumber=ColNumber+1
             XB = DBH(I)*INtoCM
             iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
@@ -482,7 +483,7 @@ C
         iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
         ColNumber=ColNumber+1
-        XB = DBH(I)*INtoCM        
+        XB = DBH(I)*INtoCM
         iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
         ColNumber=ColNumber+1
@@ -501,7 +502,7 @@ C
         iRet = fsql3_bind_int(IoutDBref,ColNumber,ICR(I))
 
         ColNumber=ColNumber+1
-        XB = CRWDTH(I)*FTtoM        
+        XB = CRWDTH(I)*FTtoM
         iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
         ColNumber=ColNumber+1
@@ -551,7 +552,7 @@ C
         iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
         ColNumber=ColNumber+1
-        XB = TREAGE        
+        XB = TREAGE
         iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
         iRet = fsql3_step(IoutDBref)
