@@ -394,6 +394,14 @@ C     (C) MAPLE OR BEECH ARE THE LEADING SPECIES
       IF ((BAM .GT. 0.) .AND. (AGSBAM/BAM .GT. 0.50) .AND. LMBLEAD) THEN
         LHYBRID = .TRUE.
       ENDIF
+      
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+C     Temporarily disable the hybrid model for BlueSource 09-Mar-2022
+
+      LHYBRID = .FALSE.
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       IF (LHYBRID) THEN
 
