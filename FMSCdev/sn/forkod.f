@@ -529,6 +529,7 @@ C----------------------------------------------------------------------
    11       FORMAT(/,'********',T12,'FOREST CODE USED FOR THIS ',
      &      'PROJECTION IS',I4,
      &      /,'********',T12,'DISTRICT USED FOR THIS PROJECTION IS',I3)
+            KODFOR=(JFOR(IFOR)*100) + KODIST
           ENDIF
 
       END SELECT
