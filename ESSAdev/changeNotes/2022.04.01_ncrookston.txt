@@ -1,0 +1,23 @@
+Subject: Modifications to the externally-callible (usually by R) API
+Name: NLCrookston
+Date: April 1, 2022
+Variants affected: All
+
+Description: 
+Added a stop point 7, returns after the trees are read, but prior to dubbing
+of missing measurements. Added api calles to set/get multipliers via the 
+fvsSpeciesAttributes code.
+
+Impact on users: Additional funtionality is provided, everything is backwards compatible
+so there is only impact on users who take advantage of the additional functionality.
+
+Files:
+base/apisubs.f -- edited some comments. Added code to get/set multipliers
+base/cmdline.f -- change max stopping points to 7, changed return rule so that year can be zero.
+common/MULTCM.F77 -- edited some comments.
+common/GLBLCNTL.F77 -- edited some comments.
+common/CONTRL.F77 -- edited some comments.
+base/fvs.f -- added stop point 7 to return control after notre, prior to calibration
+tests/APIviaR/Rapi.R -- added a test for new stop point 7 and to test get/set of 
+  multipliers.
+

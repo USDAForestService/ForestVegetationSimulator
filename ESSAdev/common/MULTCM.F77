@@ -11,12 +11,13 @@ C
 C----------
 C  VARIABLE DEFINITIONS:
 C----------
-C  XDMULT --
-C  XHMULT --
-C  XMDIA1 --
-C  XMDIA2 --
-C  XMMULT --
-C  XRDMLT --
-C  XRHMLT --
+C  Species specifice multipers:
+C  XDMULT -- diameter growth 
+C  XHMULT -- height growth
+C  XMDIA1 -- lower diameter limit for mortality multipier
+C  XMDIA2 -- upper diameter limit for mortality multipier
+C  XMMULT -- mortality 
+C  XRDMLT -- small tree diameter growth
+C  XRHMLT -- small tree height growth
 C
 C-----END SEGMENT

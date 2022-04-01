@@ -25,7 +25,11 @@ c     the fortran routines.
 
       integer :: ntrees,ncycles,nplots,maxtrees,maxspecies,maxplots,
      -           maxcycles
-      ntrees    = ITRN
+      if (LSTART) then
+        ntrees = IREC1
+      else
+        ntrees = ITRN
+      endif
       ncycles   = NCYC
       nplots    = IPTINV
       maxtrees  = MAXTRE
@@ -98,8 +102,8 @@ c     set and/or gets the named tree attributes
 c     name    = char string of the variable name, (case sensitive)
 c     nch     = the number of characters in "name" 
 c     action  = char string that is one of "set" or "get" (case sensitive)
-c     ntrees  = the number of trees, length of data
-c     attr    = a vector of length data, always "double"
+c     ntrees  = the number of trees, length of attr
+c     attr    = a vector of length ntrees, always "double"
 c     rtnCode = 0 is OK, 1= "name" not found,
 c               2= ntrees is greater than maxtrees, not all data transfered
 c               3= there were more/fewer than ntrees.
@@ -115,15 +119,10 @@ c
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSTREEATTR'::FVSTREEATTR
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, NTREES, ATTR, RTNCODE
 
-      integer :: nch,rtnCode,ntrees
+      integer :: nch,rtnCode,ntrees,ntest
       real(kind=8)      :: attr(ntrees)
       character(len=10) :: name
       character(len=4)  :: action
-
-      if (nch == 0 .or. nch > 10) then
-        rtnCode = 4
-        return
-      endif
 
       name=name(1:nch)
       action=action(1:3)
@@ -134,90 +133,98 @@ c
         rtnCode = 2
         return
       endif
-      if (ntrees /= itrn) then
+      
+      if (LSTART) then
+        ntest = IREC1
+      else
+        ntest = ITRN
+      endif
+      
+      if (ntrees /= ntest) then
         attr = 0
         rtnCode = 3
         return
       endif
+      
       select case(name)
       case ("tpa")
-        if (action=="get") attr = prob(:itrn)
-        if (action=="set") prob(:itrn) = real(attr,4)
+        if (action=="get") attr = prob(:ntrees)
+        if (action=="set") prob(:ntrees) = real(attr,4)
       case ("mort")
-        if (action=="get") attr = wk2(:itrn)
-        if (action=="set") wk2(:itrn) = real(attr,4)
+        if (action=="get") attr = wk2(:ntrees)
+        if (action=="set") wk2(:ntrees) = real(attr,4)
       case ("dbh")
-        if (action=="get") attr = dbh(:itrn)
-        if (action=="set") dbh(:itrn) = real(attr,4)
+        if (action=="get") attr = dbh(:ntrees)
+        if (action=="set") dbh(:ntrees) = real(attr,4)
       case ("dg")
-        if (action=="get") attr = dg(:itrn)
-        if (action=="set") dg(:itrn) = real(attr,4)
+        if (action=="get") attr = dg(:ntrees)
+        if (action=="set") dg(:ntrees) = real(attr,4)
       case ("ht")
-        if (action=="get") attr = ht(:itrn)
-        if (action=="set") ht(:itrn) = real(attr,4)
+        if (action=="get") attr = ht(:ntrees)
+        if (action=="set") ht(:ntrees) = real(attr,4)
       case ("htg")
-        if (action=="get") attr = htg(:itrn)
-        if (action=="set") htg(:itrn) = real(attr,4)
+        if (action=="get") attr = htg(:ntrees)
+        if (action=="set") htg(:ntrees) = real(attr,4)
       case ("crwdth")
-        if (action=="get") attr = crwdth(:itrn)
-        if (action=="set") crwdth(:itrn) = real(attr,4)
+        if (action=="get") attr = crwdth(:ntrees)
+        if (action=="set") crwdth(:ntrees) = real(attr,4)
       case ("cratio")
-        if (action=="get") attr = icr(:itrn)
-        if (action=="set") icr(:itrn) = int(attr,4)
+        if (action=="get") attr = icr(:ntrees)
+        if (action=="set") icr(:ntrees) = int(attr,4)
       case ("species")
-        if (action=="get") attr = isp(:itrn)
-        if (action=="set") isp(:itrn) = int(attr,4)
+        if (action=="get") attr = isp(:ntrees)
+        if (action=="set") isp(:ntrees) = int(attr,4)
       case ("age")
-        if (action=="get") attr = abirth(:itrn)
-        if (action=="set") abirth(:itrn) = real(attr,4)
+        if (action=="get") attr = abirth(:ntrees)
+        if (action=="set") abirth(:ntrees) = real(attr,4)
       case ("plot")
-        if (action=="get") attr = itre(:itrn)
-        if (action=="set") itre(:itrn) = int(attr,4)
+        if (action=="get") attr = itre(:ntrees)
+        if (action=="set") itre(:ntrees) = int(attr,4)
       case ("tcuft")
-        if (action=="get") attr = cfv(:itrn)
-        if (action=="set") cfv(:itrn) = real(attr,4)
+        if (action=="get") attr = cfv(:ntrees)
+        if (action=="set") cfv(:ntrees) = real(attr,4)
       case ("mcuft")
-        if (action=="get") attr = wk1(:itrn)
-        if (action=="set") wk1(:itrn) = real(attr,4)
+        if (action=="get") attr = wk1(:ntrees)
+        if (action=="set") wk1(:ntrees) = real(attr,4)
       case ("bdft")
-        if (action=="get") attr = bfv(:itrn)
-        if (action=="set") bfv(:itrn) = real(attr,4)
+        if (action=="get") attr = bfv(:ntrees)
+        if (action=="set") bfv(:ntrees) = real(attr,4)
       case ("defect")
-        if (action=="get") attr = defect(:itrn)
-        if (action=="set") defect(:itrn) = ifix(real(attr,4))
+        if (action=="get") attr = defect(:ntrees)
+        if (action=="set") defect(:ntrees) = ifix(real(attr,4))
       case ("ptbalt")
-        if (action=="get") attr = ptbalt(:itrn)
-        if (action=="set") ptbalt(:itrn) = real(attr,4)
+        if (action=="get") attr = ptbalt(:ntrees)
+        if (action=="set") ptbalt(:ntrees) = real(attr,4)
       case ("mgmtcd")
-        if (action=="get") attr = imc(:itrn)
-        if (action=="set") imc(:itrn) = int(attr,4)
+        if (action=="get") attr = imc(:ntrees)
+        if (action=="set") imc(:ntrees) = int(attr,4)
       case ("plotsize")
-        if (action=="get") attr = pltsiz(:itrn)
-        if (action=="set") pltsiz(:itrn) = int(attr,4)
+        if (action=="get") attr = pltsiz(:ntrees)
+        if (action=="set") pltsiz(:ntrees) = int(attr,4)
       case ("bapctile")
-        if (action=="get") attr = pct(:itrn)
-        if (action=="set") pct(:itrn) = int(attr,4)
+        if (action=="get") attr = pct(:ntrees)
+        if (action=="set") pct(:ntrees) = int(attr,4)
       case ("crownwt0")
-        if (action=="get") attr = crownw(:itrn,0)
-        if (action=="set") crownw(:itrn,0) = real(attr,4)
+        if (action=="get") attr = crownw(:ntrees,0)
+        if (action=="set") crownw(:ntrees,0) = real(attr,4)
       case ("crownwt1")
-        if (action=="get") attr = crownw(:itrn,1)
-        if (action=="set") crownw(:itrn,1) = real(attr,4)
+        if (action=="get") attr = crownw(:ntrees,1)
+        if (action=="set") crownw(:ntrees,1) = real(attr,4)
       case ("crownwt2")
-        if (action=="get") attr = crownw(:itrn,2)
-        if (action=="set") crownw(:itrn,2) = real(attr,4)
+        if (action=="get") attr = crownw(:ntrees,2)
+        if (action=="set") crownw(:ntrees,2) = real(attr,4)
       case ("crownwt3")
-        if (action=="get") attr = crownw(:itrn,3)
-        if (action=="set") crownw(:itrn,3) = real(attr,4)
+        if (action=="get") attr = crownw(:ntrees,3)
+        if (action=="set") crownw(:ntrees,3) = real(attr,4)
       case ("crownwt4")
-        if (action=="get") attr = crownw(:itrn,4)
-        if (action=="set") crownw(:itrn,4) = real(attr,4)
+        if (action=="get") attr = crownw(:ntrees,4)
+        if (action=="set") crownw(:ntrees,4) = real(attr,4)
       case ("crownwt5")
-        if (action=="get") attr = crownw(:itrn,5)
-        if (action=="set") crownw(:itrn,5) = real(attr,4)
+        if (action=="get") attr = crownw(:ntrees,5)
+        if (action=="set") crownw(:ntrees,5) = real(attr,4)
       case ("id")
-        if (action=="get") attr = idtree(:itrn)
-        if (action=="set") idtree(:itrn) = int(attr,4)
+        if (action=="get") attr = idtree(:ntrees)
+        if (action=="set") idtree(:ntrees) = int(attr,4)
       case default
         rtnCode = 1
         attr = 0
@@ -273,6 +280,7 @@ c
       include "PLOT.F77"
       include 'VOLSTD.F77'
       include 'CONTRL.F77'
+      include 'MULTCM.F77'
 
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE:: FVSSPECIESATTR
 !DEC$ ATTRIBUTES ALIAS:'FVSSPECIESATTR'::FVSSPECIESATTR
@@ -329,9 +337,28 @@ c     volume calculation-related vectors
       case ("mcstmp")
         if (action=="get") attr = stmp
         if (action=="set") stmp = real(attr,4)
-      case ("mcmeth")
-        if (action=="get") attr = methc
-        if (action=="set") methc = int(attr,4)
+      case ("baimult")
+        if (action=="get") attr = xdmult
+        if (action=="set") xdmult = int(attr,4)
+      case ("htgmult")
+        if (action=="get") attr = xhmult
+        if (action=="set") xhmult = int(attr,4)
+      case ("mortmult")
+        if (action=="get") attr = xmmult
+        if (action=="set") xmmult = int(attr,4)
+      case ("mortdia1")
+        if (action=="get") attr = xmdia1
+        if (action=="set") xmdia1 = int(attr,4)
+       case ("mortdia2")
+        if (action=="get") attr = xmdia2
+        if (action=="set") xmdia2 = int(attr,4)
+      case ("regdmult")
+        if (action=="get") attr = xrdmlt
+        if (action=="set") xrdmlt = int(attr,4)
+      case ("reghmult")
+        if (action=="get") attr = xrhmlt
+        if (action=="set") xrhmlt = int(attr,4)     
+
       case default
         rtnCode = 1
         attr = 0
