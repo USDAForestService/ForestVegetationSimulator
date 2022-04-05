@@ -337,6 +337,9 @@ c     volume calculation-related vectors
       case ("mcstmp")
         if (action=="get") attr = stmp
         if (action=="set") stmp = real(attr,4)
+      case ("mcmeth")
+        if (action=="get") attr = methc
+        if (action=="set") methc = real(attr,4)
       case ("baimult")
         if (action=="get") attr = xdmult
         if (action=="set") xdmult = int(attr,4)
