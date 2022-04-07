@@ -69,7 +69,6 @@ C  SEE IF WE NEED TO DO SOME DEBUG.
 C  NEEDED FOR STOP/RESTART DEBUG OPTION TO CONTINUE.
 C-----------
       CALL DBCHK (DEBUG,'MAIN',4,0)
-      debug=.TRUE.
 
 C     Check the current return code, if -1 the cmdLine has never been processed.
 
