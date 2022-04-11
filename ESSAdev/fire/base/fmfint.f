@@ -76,6 +76,11 @@ C-----------
 
 C     INITIALIZATION
 
+
+cccc
+c somewhere here the model crashes with Rtools 4 fortran
+cccc
+
 C     TURN SLOPE INTO A PROPORTION IF NECESSARY
 
       IF (FMSLOP .GT. 1.0) THEN
