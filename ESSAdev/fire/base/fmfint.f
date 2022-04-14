@@ -76,11 +76,6 @@ C-----------
 
 C     INITIALIZATION
 
-
-cccc
-c somewhere here the model crashes with Rtools 4 fortran
-cccc
-
 C     TURN SLOPE INTO A PROPORTION IF NECESSARY
 
       IF (FMSLOP .GT. 1.0) THEN
@@ -113,7 +108,7 @@ C     Start the loop for the fire models defined in fmcfmd
 
       DO 800 INB = 1,MXFMOD
 
-C    one new fuel model has a different heat content value (106-GR06)
+C       one new fuel model has a different heat content value (106-GR06)
         IF (FMOD(INB) .EQ. 106) THEN
           LHV = 9000.0
         ELSEIF (IFLOGIC .EQ. 2) THEN
@@ -125,7 +120,7 @@ C    one new fuel model has a different heat content value (106-GR06)
         IF ((FTYP .EQ. 2) .AND. (ICALL .EQ. 1)) THEN
 
 c       if FTYP = 2 and we are calling to get fm 10 info,
-c       then we don't want to do any interpolation.
+c       then we do not want to do any interpolation.
 
           IF (INB .GE. 2) GOTO 810
           CALL FMGFMV(IYR, 10)
@@ -220,7 +215,7 @@ C
 C
 C       ALSO SORT IF THE LIVE WOODY CATEGORY IS EMPTY BUT THERE ARE LIVE HERBS
 C       OR IF THERE ARE DEAD HERBS AND SOME OF THE DEAD CATEGORIES ARE EMPTY.
-C       IT SEEMS SILLY TO HAVE TO DO THIS, BUT I DON'T KNOW ANOTHER WAY BESIDES
+C       IT SEEMS SILLY TO HAVE TO DO THIS, BUT I DO NOT KNOW ANOTHER WAY BESIDES
 C       TOTALLY REVAMPING THE CODE BELOW.  SAR
 C
         IDA = ISIZE(2, 1)
@@ -545,13 +540,17 @@ C     THE WEIGHTED AVARAGE AS COMPUTED IN THE BLOCK ABOVE (NLC 21 AUG 2003)
 
       FLAME = (0.45 * (BYRAM/ 60.0) ** 0.46)
 
-      HPA = SXIR(FTYP)*384.0/SSIGMA(FTYP)
-
       IF (DEBUG) WRITE(JOSTND,*) 'FWG1 = ',
      &   FWG(1,1),FWG(1,2),FWG(1,3),FWG(1,4),FWG(1,5),FWG(1,6),FWG(1,7)
       IF (DEBUG) WRITE(JOSTND,*) 'FWG2 = ',FWG(2,1),FWG(2,2)
       IF (DEBUG) WRITE(JOSTND,*) 'SXIR=',SXIR(FTYP)
       IF (DEBUG) WRITE(JOSTND,*) 'SSIGMA=',SSIGMA(FTYP)
+
+      IF (SSIGMA(FTYP).NE.0.) THEN
+        HPA = SXIR(FTYP)*384.0/SSIGMA(FTYP)
+      ELSE
+        HPA = 0.
+      ENDIF
 
       IF (DEBUG) WRITE(JOSTND,900) ICYC,FLAME,BYRAM,HPA
   900 FORMAT(' EXIT FMFINT CYCLE = ',I2,' FLAME,BYRAM,HPA=',3E14.7)

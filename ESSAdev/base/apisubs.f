@@ -225,6 +225,9 @@ c
       case ("id")
         if (action=="get") attr = idtree(:ntrees)
         if (action=="set") idtree(:ntrees) = int(attr,4)
+      case ("special")
+        if (action=="get") attr = ispecl(:ntrees)
+        if (action=="set") ispecl(:ntrees) = int(attr,4)     
       case default
         rtnCode = 1
         attr = 0
@@ -339,28 +342,28 @@ c     volume calculation-related vectors
         if (action=="set") stmp = real(attr,4)
       case ("mcmeth")
         if (action=="get") attr = methc
-        if (action=="set") methc = real(attr,4)
+        if (action=="set") methc = int(attr,4)
       case ("baimult")
         if (action=="get") attr = xdmult
-        if (action=="set") xdmult = int(attr,4)
+        if (action=="set") xdmult = real(attr,4)
       case ("htgmult")
         if (action=="get") attr = xhmult
-        if (action=="set") xhmult = int(attr,4)
+        if (action=="set") xhmult = real(attr,4)
       case ("mortmult")
         if (action=="get") attr = xmmult
-        if (action=="set") xmmult = int(attr,4)
+        if (action=="set") xmmult = real(attr,4)
       case ("mortdia1")
         if (action=="get") attr = xmdia1
-        if (action=="set") xmdia1 = int(attr,4)
+        if (action=="set") xmdia1 = real(attr,4)
        case ("mortdia2")
         if (action=="get") attr = xmdia2
-        if (action=="set") xmdia2 = int(attr,4)
+        if (action=="set") xmdia2 = real(attr,4)
       case ("regdmult")
         if (action=="get") attr = xrdmlt
-        if (action=="set") xrdmlt = int(attr,4)
+        if (action=="set") xrdmlt = real(attr,4)
       case ("reghmult")
         if (action=="get") attr = xrhmlt
-        if (action=="set") xrhmlt = int(attr,4)     
+        if (action=="set") xrhmlt = real(attr,4)     
 
       case default
         rtnCode = 1
