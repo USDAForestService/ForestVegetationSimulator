@@ -39,6 +39,10 @@ C      WRITE(JOSTND,*) ' IN DAMPRO: I1=',I1,' I2=',I2
         DO I = 1,6
           ICODES(I) = DAMSEV(I,II)
         END DO
+C       DAMAGE CODE 54 IS USED TO SET ACADIAN FORM AND RISK CODE
+        DO I = 1,5,2
+          IF (ICODES(I).EQ.54) ISPECL(II)=ICODES(I+1)
+        ENDDO
 
 C        WRITE(JOSTND,*) 'IN DAMPRO: ICODES(I) =    ',(ICODES(I),I=1,6),
 C     &  ' IDTREE, ISP, DBH =',IDTREE(II),ISP(II),DBH(II),

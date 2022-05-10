@@ -24,6 +24,7 @@ fvsAddActivity()
 ## first run
 fvsSetCmdLine("--keywordfile=base.key")
 
+fvsRun(7,0)
 fvsRun(2,2030)
 fvsGetStandIDs()
 

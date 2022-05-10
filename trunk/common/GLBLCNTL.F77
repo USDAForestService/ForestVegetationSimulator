@@ -38,7 +38,7 @@ C      minorstopptcode = stoppoint request code (stopWithoutStore).
 C                        The "stopptcode" is the location code from where the  
 C                        program is being asked to return to the caller. 
 C                        codes are:
-C                        0 = Don't stop.
+C                        0 = Never stop.
 C                       -1 = Stop at every stop point.
 C                        1 = Stop just before the first call to the  
 C                            Event Monitor.
@@ -51,9 +51,10 @@ C                            Event Monitor.
 C                        5 = Stop after growth has been computed, but prior to 
 C                            adding the growth.
 C                        6 = Stop just before the estab routines are called.
+C                        7 = Stop before missing value dubbing.
 C      minorstopptyear = stopptyear request code (stopWithoutStore).
 C                        codes are:
-C                        0 = Don't stop, even if minorstopptcode == -1.
+C                        0 = Never stop, even if minorstopptcode == -1.
 C                       -1 = Stop at every cycle.
 C                       >0 = Stop during the cycle that contains the year. 
 C         keywordfile = keyword file name.
