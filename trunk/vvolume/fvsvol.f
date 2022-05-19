@@ -63,7 +63,32 @@ C-----------
         IREGN = KODFOR/100
         INTFOR = KODFOR - (KODFOR/100)*100
       ENDIF
+
+      IF(VARACD.EQ.'PN' .OR. VARACD.EQ.'OP')THEN
+        IF(IREGN.EQ.8)THEN
+          IREGN=6
+          INTFOR=9
+        ENDIF
+      ELSEIF(VARACD.EQ.'NC')THEN
+        IF(IREGN.EQ.8)THEN
+          IREGN=5
+          INTFOR=10
+        ENDIF
+      ELSEIF(VARACD.EQ.'SO')THEN
+        IF(IREGN.EQ.7)THEN
+          SELECT CASE (KODFOR)
+          CASE (701)
+            IREGN=5
+            INTFOR=5
+          CASE (799)
+            IREGN=6
+            INTFOR=1
+          END SELECT
+        ENDIF
+      ENDIF
+      
       IF(VARACD.EQ.'SN')IDIST=KODFOR-(KODFOR/100)*100
+
       WRITE(FORST,'(I2)')INTFOR
       IF(INTFOR.LT.10)FORST(1:1)='0'
       WRITE(FIASP,('(A)'))JSP(ISPC)
