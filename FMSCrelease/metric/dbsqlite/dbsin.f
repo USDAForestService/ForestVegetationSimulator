@@ -86,14 +86,14 @@ COMMONS
       integer  fsql3_prepare,fsql3_errmsg
 
       DATA TABLEME /
-     >     'END     ','DSNOUT  ','SQLOUT  ','SUMMARY ','COMPUTE ',
-     >     'TREELIST','STANDIN ','CLIMREPT','DRIVERS ','DSNIN   ',
-     >     'STANDSQL','TREESQL ','POTFIRE ','FUELSOUT','DSNESTAB',
-     >     'SQLIN   ','CUTLIST ','MISRPTS ','FUELREPT','BURNREPT',
-     >     'MORTREPT','SNAGSUM ','SNAGOUT ','STRCLASS','PPBMMAIN',
-     >     'PPBMTREE','PPBMBKP ','PPBMVOL ','CARBRPTS','ECONRPTS',
-     >     'ATRTLIST','DWDVLOUT','DWDCVOUT','RDSUM   ','RDDETAIL',
-     >     'RDBBMORT','CALBSTAT','INVSTATS','REGREPTS'/
+     >     'END     ','DSNOUT  ','SQLOUT  ','SUMMARY ','COMPUTDB',
+     >     'TREELIDB','STANDIN ','CLIMREDB','DRIVERS ','DSNIN   ',
+     >     'STANDSQL','TREESQL ','POTFIRDB','FUELSOUT','DSNESTAB',
+     >     'SQLIN   ','CUTLIDB ','MISRPTS ','FUELREDB','BURNREDB',
+     >     'MORTREDB','SNAGSUDB','SNAGOUDB','STRCLSDB','PPBMMAIN',
+     >     'PPBMTREE','PPBMBKP ','PPBMVOL ','CARBREDB','ECONRPTS',
+     >     'ATRTLIDB','DWDVLDB ','DWDCVDB ','RDSUM   ','RDDETAIL',
+     >     'RDBBMORT','CALBSTDB','INVSTATS','REGREPTS'/
 
       DATA TYPEMSG/'DATABASE TABLE AND STANDARD OUTPUT ARE GENERATED',
      >             'ONLY THE DATABASE TABLE IS GENERATED'/
@@ -243,7 +243,7 @@ C                        OPTION NUMBER 4 -- SUMMARY
   420 FORMAT(/A8,'   SUMMARY VERSION 2 STATISTICS SENT TO DATABASE.')
       GOTO 10
   500 CONTINUE
-C                        OPTION NUMBER 5 -- COMPUTE
+C                        OPTION NUMBER 5 -- COMPUTDB
       ICOMPUTE=1
       IADDCMPU = 0
       IF(ARRAY(1).GT.0) IADDCMPU = 1
@@ -260,7 +260,7 @@ C                        OPTION NUMBER 5 -- COMPUTE
 
       GOTO 10
   600 CONTINUE
-C                        OPTION NUMBER 6 -- TREELIST
+C                        OPTION NUMBER 6 -- TREELIDB
       ITREELIST = 1
       I=1
       ISPOUT6=0
@@ -318,7 +318,7 @@ C       CREATE QUERY STRING
 
       GOTO 10
   800 CONTINUE
-C                        OPTION NUMBER 8 -- CLIMATE
+C                        OPTION NUMBER 8 -- CLIMREDB
       ICLIM = 1
       IF(LKECHO) WRITE(JOSTND,810) KEYWRD
   810 FORMAT(/A8,'   OUTPUT THE CLIMATE-FVS TABLE TO SPECIFIED ', 
@@ -407,7 +407,7 @@ C        EXECUTE QUERY
       ENDIF
       GOTO 10
  1300 CONTINUE
-C                        OPTION NUMBER 13 -- POTFIRE
+C                        OPTION NUMBER 13 -- POTFIRDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          IPOTFIRE=1
@@ -475,7 +475,7 @@ C       QUERY IF FOR SCHEDULED EXECUTION
       ENDIF
       GOTO 10
  1700 CONTINUE
-C                        OPTION NUMBER 17 -- CUTLIST
+C                        OPTION NUMBER 17 -- CUTLIDB
       ICUTLIST = 1
       I=1
       ISPOUT17=0
@@ -519,7 +519,7 @@ C                        OPTION NUMBER 18 -- MISRPTS
      >       T12,'CREATE TEXT FILE REPORTS: ',A)
       GOTO 10
  1900 CONTINUE
-C                        OPTION NUMBER 19 -- FUELREPT
+C                        OPTION NUMBER 19 -- FUELREDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          IFUELC=1
@@ -539,7 +539,7 @@ C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
       ENDIF
       GOTO 10
  2000 CONTINUE
-C                        OPTION NUMBER 20 -- BURNREPT
+C                        OPTION NUMBER 20 -- BURNREDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          IBURN=1
@@ -560,7 +560,7 @@ C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
       ENDIF
       GOTO 10
  2100 CONTINUE
-C                        OPTION NUMBER 21 -- MORTREPT
+C                        OPTION NUMBER 21 -- MORTREDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          IMORTF=1
@@ -593,7 +593,7 @@ C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
       ENDIF
       GOTO 10
  2200 CONTINUE
-C                        OPTION NUMBER 22 -- SNAGSUM
+C                        OPTION NUMBER 22 -- SNAGSUDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          ISSUM=1
@@ -613,7 +613,7 @@ C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
       ENDIF
       GOTO 10
  2300 CONTINUE
-C                        OPTION NUMBER 23 -- SNAGOUT
+C                        OPTION NUMBER 23 -- SNAGOUDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          ISDET=1
@@ -646,7 +646,7 @@ C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
       ENDIF
       GOTO 10
  2400 CONTINUE
-C                        OPTION NUMBER 24 -- STRCLASS
+C                        OPTION NUMBER 24 -- STRCLSDB
       ISTRCLAS=1
       I=1
       IF(ARRAY(1).GT.1) THEN
@@ -736,7 +736,7 @@ C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
       GOTO 10
 C
  2900 CONTINUE
-C                        OPTION NUMBER 29 -- CARBRPTS
+C                        OPTION NUMBER 29 -- CARBREDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          ICMRPT=1
@@ -778,7 +778,7 @@ C                        OPTION NUMBER 30 -- ECONRPTS
      >       T12,'SPECIES CODE OUTPUT FORMAT: ',A)
       GOTO 10
  3100 CONTINUE
-C                        OPTION NUMBER 31 -- ATRTLIST
+C                        OPTION NUMBER 31 -- ATRTLIDB
       IATRTLIST = 1
       I=1
       ISPOUT31=0
@@ -801,7 +801,7 @@ C                        OPTION NUMBER 31 -- ATRTLIST
      >       T12,'CREATE TEXT FILE REPORT: ',A)
       GOTO 10
  3200 CONTINUE
-C                        OPTION NUMBER 32 -- DWDVLOUT
+C                        OPTION NUMBER 32 -- DWDVLDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          IDWDVOL=1
@@ -821,7 +821,7 @@ C          WE ARE REDIRECTING OUTPUT AND DO NOT WANT TO PRINT TO FILE
       ENDIF
       GOTO 10
  3300 CONTINUE
-C                        OPTION NUMBER 33 -- DWDCVOUT
+C                        OPTION NUMBER 33 -- DWDCVDB
       CALL FMLNKD(LACT)
       IF (LACT) THEN
          IDWDCOV=1
@@ -865,7 +865,7 @@ C                        OPTION NUMBER 36 -- RDBBMORT
      >           'TABLE SENT TO SPECIFIED DATABASE.')
       GOTO 10
  3700 CONTINUE
-C                        OPTION NUMBER 37 -- CALBSTAT
+C                        OPTION NUMBER 37 -- CALBSTDB
       ICALIB = 1
       IF(LKECHO) WRITE(JOSTND,3710) KEYWRD
  3710 FORMAT(/A8,'   CALIBRATION STATISTICS ',

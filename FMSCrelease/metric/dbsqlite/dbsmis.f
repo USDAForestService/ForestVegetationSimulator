@@ -79,7 +79,7 @@ C
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_STEP'           :: FSQL3_STEP
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_TABLEEXISTS'    :: FSQL3_TABLEEXISTS 
 #endif
-      
+
 C     ARGUMENT LIST
 
       INTEGER IYEAR
@@ -109,7 +109,7 @@ C     INITIALIZE VARIABLES
 C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 
       CALL DBSCASE(1)
-      
+
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_DM_Spp_Sum_Metric"//CHAR(0))
       IF(iRet.EQ.0) THEN
@@ -236,7 +236,7 @@ C-------------------------------------------------------------------------------
       SUBROUTINE DBSMIS2(IYEAR,NPLT,NAGE,
      -  ISTTPAT,IBA,ISTVOL,ISTTPAI,ISTBAI,ISTVOLI,ISTTPAM,ISTBAM,
      -  ISTVOLM,ISTPIT,ISTPIV,ISTPMT,ISTPMV,STDMR,STDMI,KODE)
-     
+
       IMPLICIT NONE
 C
 C     PURPOSE: TO POPULATE A DATABASE WITH THE 2ND MISTLETOE REPORT INFORMATION
@@ -313,7 +313,7 @@ C
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_STEP'           :: FSQL3_STEP
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_TABLEEXISTS'    :: FSQL3_TABLEEXISTS 
 #endif
-      
+
 C     ARGUMENT LIST
 
       INTEGER IYEAR,NAGE
@@ -609,7 +609,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
          IDM3 = 0
          RETURN
       ENDIF
-            
+
 C     LOOP OVER 5 TYPES
 
       DO I = 1,5
@@ -649,7 +649,7 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         ColNumber=ColNumber+1       ! Label
         iRet = fsql3_bind_text(IoutDBref,ColNumber,NLABS(I),
      >         len_trim(NLABS(I)))
-     
+
         DO J = 1,10
           ColNumber=ColNumber+1     ! SIZE CLASSES 2-11
           iRet=fsql3_bind_double(IoutDBref,ColNumber,X(J))
@@ -659,7 +659,7 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         iRet = fsql3_reset(IoutDBref) 
 
       ENDDO
-      
+
       iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
       if (iRet.ne.0) then
@@ -674,7 +674,7 @@ C-------------------------------------------------------------------------------
 
       SUBROUTINE DBSMIS5(IYEAR,KODE)
       IMPLICIT NONE
-      
+
 C----------
 C     PURPOSE: TO OUTPUT THE TREELIST DM DATA TO THE DATABASE
 C
@@ -743,11 +743,11 @@ C
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_STEP'           :: FSQL3_STEP
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_TABLEEXISTS'    :: FSQL3_TABLEEXISTS 
 #endif
-      
+
       INTEGER IYEAR, KODE, iRet
 
 C     LOCAL VARIABLES
-      
+
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
      >        fsql3_step,fsql3_reset,fsql3_bind_text      
@@ -757,11 +757,11 @@ C     LOCAL VARIABLES
       DATA    IDCMP1,IDCMP2/10000000,20000000/
 
       DOUBLE PRECISION PB,DBHB,HTB,CWB
-	DOUBLE PRECISION BRKPNTB(BPCNT),NEWSPRB(3),NEWINTB(3)
+      DOUBLE PRECISION BRKPNTB(BPCNT),NEWSPRB(3),NEWINTB(3)
       DOUBLE PRECISION DMINFB(CRTHRD,DEAD_BC),DMINFB_BC(CRTHRD,ACTIVE)
-      
+
       CHARACTER*8      TID,CSPECIE1
-      CHARACTER*1000   SQLStmtStr      
+      CHARACTER*1000   SQLStmtStr
 
 C     INITIALIZE VARIABLES
 
@@ -772,7 +772,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
 
       CALL DBSCASE(1)
 
-      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))      
+      iRet = fsql3_exec (IoutDBref,"Begin;"//Char(0))
       iRet = fsql3_tableexists(IoutDBref,
      >       "FVS_DM_TreeList_Metric"//CHAR(0))
       IF(iRet.EQ.0) THEN
@@ -781,8 +781,8 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -      'StandID text not null,'//
      -      'Year int null,'//
      -      'TreeID text null,'//
-     -      'TreeIndex int null,'//          
-     -      'SpeciesFVS text null,'//                    
+     -      'TreeIndex int null,'//
+     -      'SpeciesFVS text null,'//
      -      'TPH real null,'//
      -      'DBH real null,'//
      -      'Ht real null,'//
@@ -842,7 +842,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -  'NewSpr1,NewSpr2,NewSpr3,',
      -  'NewInt1,NewInt2,NewInt3,',
      -  'Immtr1,Immtr2,Immtr3,',
-     -  'Latnt1,Latnt2,Latnt3,',        
+     -  'Latnt1,Latnt2,Latnt3,',
      -  'Suppr1,Suppr2,Suppr3,',
      -  'Actv1,Actv2,Actv3,',
      -  'BCImmtr1,BCImmtr2,BCImmtr3,',
@@ -855,21 +855,21 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -  '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,',
      -  '?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,',
      -  '?,?,?,?,?,?,?,?,?,?,?,?);'
-    
+
       iRet=fsql3_prepare(IoutDBref, trim(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
        IDM5 = 0
        iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
        RETURN
       ENDIF
-      
+
       DO ISPC = 1,MAXSP
         I1 = ISCT(ISPC,1)
         IF (MISFIT(ISPC) .NE. 0 .AND. I1 .NE. 0) THEN
           I2 = ISCT(ISPC,2)
           DO I3 = I1,I2
             I = IND1(I3)
-            
+
             PB = (PROB(I) / GROSPC)/ACRtoHA
 
 C           TRANSLATE TREE IDS FOR TREES THAT HAVE BEEN
@@ -887,25 +887,25 @@ C           COMPRESSED OR GENERATED THROUGH THE ESTAB SYSTEM.
 
 C           DOUBLE PRECISION COPIES OF SINGLE PRECISION INPUTS
 
-	      DO J = 1,BPCNT
-	        BRKPNTB(J) = BRKPNT(I,J)
-	      ENDDO
-	      DO J = 1,CRTHRD
-	        NEWSPRB(J) = NEWSPR(I,J)
-	        NEWINTB(J) = NEWINT(I,J)
-	      ENDDO
+            DO J = 1,BPCNT
+              BRKPNTB(J) = BRKPNT(I,J)
+            ENDDO
+            DO J = 1,CRTHRD
+              NEWSPRB(J) = NEWSPR(I,J)
+              NEWINTB(J) = NEWINT(I,J)
+            ENDDO
 
-	      DO J = 1,CRTHRD
-	        DO K = 1,DEAD_BC
-	          DMINFB(J,K) = DMINF(I,J,K)
-	        ENDDO
-	        DO K = 1,ACTIVE
-	          DMINFB_BC(J,K) = 0.0
-	          DO L = 1,MAXBC
-	            DMINFB_BC(J,K) = DMINFB_BC(J,K) + DMINF_BC(I,J,K,L)
-	          ENDDO
-	        ENDDO
-            ENDDO            
+            DO J = 1,CRTHRD
+              DO K = 1,DEAD_BC
+                DMINFB(J,K) = DMINF(I,J,K)
+              ENDDO
+              DO K = 1,ACTIVE
+                DMINFB_BC(J,K) = 0.0
+                DO L = 1,MAXBC
+                  DMINFB_BC(J,K) = DMINFB_BC(J,K) + DMINF_BC(I,J,K,L)
+                ENDDO
+              ENDDO
+            ENDDO
 
             iRet=fsql3_prepare(IoutDBref, trim(SQLStmtStr)//CHAR(0))
 
@@ -928,16 +928,16 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
             ColNumber=ColNumber+1       ! FVSSpecies
             iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE1,
      >        LEN_TRIM(CSPECIE1))
-            
+
             ColNumber=ColNumber+1       ! TPH
             iRet = fsql3_bind_double(IoutDBref,ColNumber,PB)
 
             ColNumber=ColNumber+1       ! DBH
-            DBHB=DBH(I)*INtoCM            
+            DBHB=DBH(I)*INtoCM
             iRet = fsql3_bind_double(IoutDBref,ColNumber,DBHB)
 
             ColNumber=ColNumber+1       ! Ht
-            HTB=HT(I)*FTtoM            
+            HTB=HT(I)*FTtoM
             iRet = fsql3_bind_double(IoutDBref,ColNumber,HTB)
 
             ColNumber=ColNumber+1       ! CrWidth
@@ -964,7 +964,7 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
             
             DO K = 1,ACTIVE
               DO J = 1,CRTHRD
-	          ColNumber=ColNumber+1    ! DMINF
+                ColNumber=ColNumber+1    ! DMINF
                 iRet = fsql3_bind_double(IoutDBref,ColNumber,
      -            DMINFB(J,K))
               ENDDO
@@ -972,19 +972,19 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
             DO K = 1,ACTIVE
               DO J = 1,CRTHRD
-	          ColNumber=ColNumber+1    ! DMINF_BC
+                ColNumber=ColNumber+1    ! DMINF_BC
                 iRet = fsql3_bind_double(IoutDBref,ColNumber,
      -            DMINFB_BC(J,K))
               ENDDO
             ENDDO
-            
+
             K = DEAD_BC
             DO J = 1,CRTHRD
               ColNumber=ColNumber+1      ! DMINF-DEAD
               iRet = fsql3_bind_double(IoutDBref,ColNumber,
      -          DMINFB_BC(J,K))
             ENDDO
-            
+
             iRet = fsql3_step(IoutDBref)
             iRet = fsql3_reset(IoutDBref)
           ENDDO
@@ -997,7 +997,7 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
       RETURN
       END
       
-C-------------------------------------------------------------------------------      
+C-------------------------------------------------------------------------------
 
       SUBROUTINE DBSMIS6(IYEAR,KODE)
       IMPLICIT NONE

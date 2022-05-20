@@ -24,7 +24,8 @@ endif()
 ## example 2: All-variant GLOB: file(GLOB tobuild FVS*_sourceList.txt)
 
 #file(GLOB tobuild FVSbc_sourceList.txt)
-file(GLOB tobuild FVSon_sourceList.txt)
+#file(GLOB tobuild FVSon_sourceList.txt)
+file(GLOB tobuild FVSbc_sourceList.txt)
 
 list(SORT tobuild)
 message(STATUS "tobuild = ${tobuild}")

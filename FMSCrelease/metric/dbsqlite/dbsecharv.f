@@ -67,7 +67,9 @@ C METRIC-DBSQLITE $Id$
            SQLStmtStr = 'CREATE TABLE FVS_EconHarvestValue_Metric ('
      &              // 'CaseID text not null,'
      &              // 'Year int not null,'
-     &              // 'Species text not null,'
+     &              // 'SpeciesFVS    text null,'
+     &              // 'SpeciesPLANTS text null,'
+     &              // 'SpeciesFIA    text null,'
      &              // 'Min_DIB real null,'
      &              // 'Max_DIB real null,'
      &              // 'Min_DBH real null,'
@@ -77,8 +79,8 @@ C METRIC-DBSQLITE $Id$
      &              // 'Tonne_Per_Ha int null,'
      &              // 'CuM_Removed int null,'
      &              // 'CuM_Value int null,'
-     &              // 'Board_M_Removed int null,'
-     &              // 'Board_M_Value int null,'
+     &              // 'Board_Removed int null,'
+     &              // 'Board_Value int null,'
      &              // 'Total_Value int null);'
           iRet = fsql3_exec(IoutDBref,SQLStmtStr//CHAR(0))
           IF (iRet .NE. 0) THEN
@@ -88,11 +90,11 @@ C METRIC-DBSQLITE $Id$
         ENDIF
 
         SQLStmtStr = 'INSERT INTO FVS_EconHarvestValue_Metric ' //
-     &     '(CaseID,Year,Species,' //
+     &     '(CaseID,Year,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,' //
      &      'Min_DIB,Max_DIB,Min_DBH,Max_DBH,TPH_Removed,TPH_Value,' //
-     &      'Tonne_Per_Ha,CuM_Removed,CuM_Value,Board_M_Removed,' //
-     &      'Board_M_Value,Total_Value) VALUES (''' // CASEID //
-     &      ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?);' // CHAR(0)
+     &      'Tonne_Per_Ha,CuM_Removed,CuM_Value,Board_Removed,' //
+     &      'Board_Value,Total_Value) VALUES (''' // CASEID //
+     &      ''',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);' // CHAR(0)
          iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
          iRet = fsql3_prepare(IoutDBref,SQLStmtStr)
          IF (iRet .NE. 0) THEN
@@ -161,7 +163,7 @@ C METRIC-DBSQLITE $Id$
          integer fsql3_bind_int,fsql3_bind_text,fsql3_bind_double,
      &           fsql3_step,fsql3_errmsg,fsql3_reset,iRet
 
-         character(len=8) :: species
+         character(len=8) :: species1,species2,species3
          character(len=100) :: msg
          real    :: minDia, maxDia, minDbh, maxDbh
          integer :: beginAnalYear, tpaCut, tpaValue, tonsPerAcre,
@@ -171,56 +173,44 @@ C METRIC-DBSQLITE $Id$
 
          if(IDBSECON < 2) return   !ECON harvest table was not requested
 
-         !Determine preferred species output format - keyword has precedence
-         select case (ISPOUT30)
-           case (1)
-              species = adjustl(trim(JSP(speciesId)))
-           case (2)
-              species = adjustl(trim(FIAJSP(speciesId)))
-           case (3)
-              species = adjustl(trim(PLNJSP(speciesId)))
-           case default
-              if (JSPIN(speciesId) == 1) then
-                 species = adjustl(trim(JSP(speciesId)))
-              else if (JSPIN(speciesId) == 2) then
-                 species = adjustl(trim(FIAJSP(speciesId)))
-              else if (JSPIN(speciesId) == 3) then
-                 species = adjustl(trim(PLNJSP(speciesId)))
-              else
-                 species = adjustl(trim(PLNJSP(speciesId)))
-              endif
-          end select                                      
-          species = trim(species)
-          minDia8 = minDia
-          maxDia8 = maxDia
-          minDbh8 = minDbh
-          maxDbh8 = maxDbh
+C     assign FVS, PLANTS and FIA species codes
+C
+         species1 = JSP(speciesId)
+         species2 = PLNJSP(speciesId)
+         species3 = FIAJSP(speciesId)
+
+         minDia8 = minDia
+         maxDia8 = maxDia
+         minDbh8 = minDbh
+         maxDbh8 = maxDbh
          iRet = fsql3_bind_int(IoutDBref,1,beginAnalYear)
-         iRet = fsql3_bind_text(IoutDBref,2,species,len_trim(species))
+         iRet = fsql3_bind_text(IoutDBref,2,species1,len_trim(species1))
+         iRet = fsql3_bind_text(IoutDBref,3,species2,len_trim(species2))
+         iRet = fsql3_bind_text(IoutDBref,4,species3,len_trim(species3))
          if (minDia8    .ge.0)
-     >      iRet = fsql3_bind_double(IoutDBref,3,  minDia8)
+     >      iRet = fsql3_bind_double(IoutDBref,5,  minDia8)
          if (maxDia8    .ge.0)
-     >      iRet = fsql3_bind_double(IoutDBref,4,  maxDia8)
+     >      iRet = fsql3_bind_double(IoutDBref,6,  maxDia8)
          if (minDbh8    .ge.0)
-     >      iRet = fsql3_bind_double(IoutDBref,5,  minDbh8)
+     >      iRet = fsql3_bind_double(IoutDBref,7,  minDbh8)
          if (maxDbh8    .ge.0)
-     >      iRet = fsql3_bind_double(IoutDBref,6,  maxDbh8)
+     >      iRet = fsql3_bind_double(IoutDBref,8,  maxDbh8)
          if (tpaCut     .ge.0)
-     >      iRet = fsql3_bind_int   (IoutDBref,7,  tpaCut)
+     >      iRet = fsql3_bind_int   (IoutDBref,9,  tpaCut)
          if (tpaValue   .ge.0)
-     >      iRet = fsql3_bind_int   (IoutDBref,8,  tpaValue)
+     >      iRet = fsql3_bind_int   (IoutDBref,10,  tpaValue)
          if (tonsPerAcre.ge.0)
-     >      iRet = fsql3_bind_int   (IoutDBref,9,  tonsPerAcre)
+     >      iRet = fsql3_bind_int   (IoutDBref,11,  tonsPerAcre)
          if (ft3Volume  .ge.0)     
-     >      iRet = fsql3_bind_int   (IoutDBref,10, ft3Volume)
+     >      iRet = fsql3_bind_int   (IoutDBref,12, ft3Volume)
          if (ft3Value   .ge.0)
-     >      iRet = fsql3_bind_int   (IoutDBref,11, ft3Value)
+     >      iRet = fsql3_bind_int   (IoutDBref,13, ft3Value)
          if (bfVolume   .ge.0)
-     >      iRet = fsql3_bind_int   (IoutDBref,12, bfVolume)
+     >      iRet = fsql3_bind_int   (IoutDBref,14, bfVolume)
          if (bfValue    .ge.0)
-     >      iRet = fsql3_bind_int   (IoutDBref,13, bfValue)
+     >      iRet = fsql3_bind_int   (IoutDBref,15, bfValue)
          if (totalValue .ge.0)
-     >     iRet = fsql3_bind_int    (IoutDBref,14, totalValue)
+     >     iRet = fsql3_bind_int    (IoutDBref,16, totalValue)
          iRet = fsql3_step(IoutDBref)
          iRet = fsql3_reset(IoutDBref)
          IF (iRet>0) THEN

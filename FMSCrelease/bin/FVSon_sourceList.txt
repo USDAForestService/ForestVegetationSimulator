@@ -313,23 +313,29 @@
 
 ../dbsqlite/DBSCOM.F77
 
-../vdbsqlite/dbsfmpf.f
-../vdbsqlite/dbsfmpfc.f
-
+../metric/vdbsqlite/dbsfmpfc.f
+../metric/vdbsqlite/dbsfmpf.f
 ../metric/vdbsqlite/dbsstandin.f
 ../metric/vdbsqlite/dbssumry.f
+
 ../metric/dbsqlite/dbsatrtls.f
 ../metric/dbsqlite/dbscuts.f
 ../metric/dbsqlite/dbsecharv.f
 ../metric/dbsqlite/dbsecsum.f
+../metric/dbsqlite/dbsfmburn.f
+../metric/dbsqlite/dbsfmcrpt.f
+../metric/dbsqlite/dbsfmdsnag.f
 ../metric/dbsqlite/dbsfmdwcov.f
 ../metric/dbsqlite/dbsfmdwvol.f
 ../metric/dbsqlite/dbsfmfuel.f
+../metric/dbsqlite/dbsfmmort.f
+../metric/dbsqlite/dbsfmssnag.f
 ../metric/dbsqlite/dbsfuels.f
 ../metric/dbsqlite/dbsin.f
 ../metric/dbsqlite/dbssprt.f
 ../metric/dbsqlite/dbsstats.f
 ../metric/dbsqlite/dbstally.f
+../metric/dbsqlite/dbsstrclass.f
 ../metric/dbsqlite/dbstrls.f
 
 ../dbsqlite/dbsblkd.f
@@ -339,14 +345,9 @@
 ../dbsqlite/dbscmpu.f
 ../dbsqlite/dbsevm.f
 ../dbsqlite/dbsexecsql.f
-../dbsqlite/dbsfmburn.f
 ../dbsqlite/dbsfmcanpr.f
-../dbsqlite/dbsfmcrpt.f
-../dbsqlite/dbsfmdsnag.f
 ../dbsqlite/dbsfmhrpt.f
 ../dbsqlite/dbsfmlink.f
-../dbsqlite/dbsfmmort.f
-../dbsqlite/dbsfmssnag.f
 ../dbsqlite/dbsinit.f
 ../dbsqlite/dbsopen.f
 ../dbsqlite/dbsplothab.f
@@ -355,7 +356,6 @@
 ../dbsqlite/dbsprs.f
 ../dbsqlite/dbsprssql.f
 ../dbsqlite/dbssiteprep.f
-../dbsqlite/dbsstrclass.f
 ../dbsqlite/dbstreesin.f
 ../dbsqlite/uuidgen.f
 ../dbsqlite/fvsqlite3.c

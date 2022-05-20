@@ -44,21 +44,21 @@ C
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_DOUBLE
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_INT
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_BIND_TEXT
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_CLOSE  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_CLOSE
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLCNT
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLDOUBLE  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLDOUBLE
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLINT
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLISNULL  
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLNAME  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLISNULL
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLNAME
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLREAL
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLTEXT
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_COLTYPE
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_ERRMSG
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_EXEC
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_FINALIZE
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_OPEN  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_OPEN
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_PREPARE
-  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_RESET  
+  !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_RESET
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_STEP
   !DEC$ ATTRIBUTES DLLIMPORT :: FSQL3_TABLEEXISTS
 #if !(_WIN64)
@@ -66,12 +66,12 @@ C
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_DOUBLE'    :: FSQL3_BIND_DOUBLE
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_INT'       :: FSQL3_BIND_INT
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_BIND_TEXT'      :: FSQL3_BIND_TEXT
-  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_CLOSE'          :: FSQL3_CLOSE  
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_CLOSE'          :: FSQL3_CLOSE
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLCNT'         :: FSQL3_COLCNT
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLDOUBLE'      :: FSQL3_COLDOUBLE
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLINT'         :: FSQL3_COLINT
-  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLISNULL'      :: FSQL3_COLISNULL  
-  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLNAME'        :: FSQL3_COLNAME  
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLISNULL'      :: FSQL3_COLISNULL
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLNAME'        :: FSQL3_COLNAME
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLREAL'        :: FSQL3_COLREAL
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLTEXT'        :: FSQL3_COLTEXT
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_COLTYPE'        :: FSQL3_COLTYPE
@@ -82,7 +82,7 @@ C
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_PREPARE'        :: FSQL3_PREPARE
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_RESET'          :: FSQL3_RESET
   !DEC$ ATTRIBUTES ALIAS:'_FSQL3_STEP'           :: FSQL3_STEP
-  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_TABLEEXISTS'    :: FSQL3_TABLEEXISTS 
+  !DEC$ ATTRIBUTES ALIAS:'_FSQL3_TABLEEXISTS'    :: FSQL3_TABLEEXISTS
 #endif
 
 COMMONS
@@ -99,6 +99,7 @@ C
       REAL TEM
       REAL*8 CW,P,DGI,DP,ESTHT,TREAGE,DDBH,DHT,DHTG,DPCT,
      >       DCFV,DWK1,DBFV,DHT2TD2,DHT2TD1
+      DOUBLE PRECISION XB
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
      >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
@@ -182,7 +183,7 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
       ENDIF
       WRITE(SQLStmtStr,*)'INSERT INTO ',TBLNAME,
      -  ' (CaseID,StandID,Year,PrdLen,',
-     -  'TreeId,TreeIndex,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',      
+     -  'TreeId,TreeIndex,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
      -  'TreeVal,SSCD,PtIndex,TPH,',
      -  'MortPH,DBH,DG,',
      -  'HT,HTG,PctCr,CrWidth,MistCD,BAPctile,PtBAL,',NTCUFT,',',
@@ -209,9 +210,9 @@ C     AND THE OUTPUT REPORTING YEAR.
 
             IP=ITRN
             ITPLAB=1
-            P = (PROB(I) / GROSPC)/ACRtoHA
+            P = PROB(I) / GROSPC
             IF (ICYC.GT.0) THEN
-              DP = (WK2(I)/ GROSPC)/ACRtoHA
+              DP = WK2(I)/ GROSPC
             ELSE
               DP = 0.0
             ENDIF
@@ -234,10 +235,6 @@ C           GET MISTLETOE RATING FOR CURRENT TREE RECORD.
 
             CALL MISGET(I,IDMR)
 
-C           SET CROWN WIDTH.
-
-            CW=CRWDTH(I)*FTtoM
-
 C           DECODE DEFECT AND ROUND OFF POINT BAL.
 
             ICDF=(DEFECT(I)-((DEFECT(I)/10000)*10000))/100
@@ -253,9 +250,9 @@ C           ESTIMATED HEIGHT IS NORMAL HEIGHT, UNLESS THE IT WAS NOT
 C           BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
 
             IF (NORMHT(I) .NE. 0) THEN
-              ESTHT = ((REAL(NORMHT(I))+5)/100)*FTtoM
+              ESTHT = (REAL(NORMHT(I))+5)/100
             ELSE
-              ESTHT = HT(I)*FTtoM
+              ESTHT = HT(I)
             ENDIF
 
 C           DETERMINE TREE AGE
@@ -268,8 +265,8 @@ C           DETERMINE TREE AGE
 
 C           GET DG INPUT
 
-            DGI=DG(I)*INtoCM
-            IF(ICYC.EQ.0 .AND. TEM.EQ.0) DGI=WORK1(I)*INtoCM
+            DGI=DG(I)
+            IF(ICYC.EQ.0 .AND. TEM.EQ.0) DGI=WORK1(I)
 
 C           LOAD SPECIES CODES FROM FVS, PLANTS AND FIA ARRAYS.
 C
@@ -277,12 +274,12 @@ C
             CSPECIE2 = PLNJSP(ISP(I))
             CSPECIE3 = FIAJSP(ISP(I))
 
-
             ColNumber=1
             iRet = fsql3_bind_text(IoutDBref,ColNumber,TID,
      >                         LEN_TRIM(TID))
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,I)
+
             ColNumber=ColNumber+1
             iRet = fsql3_bind_text(IoutDBref,ColNumber,CSPECIE1,
      >                             LEN_TRIM(CSPECIE1))
@@ -294,63 +291,93 @@ C
      >                             LEN_TRIM(CSPECIE3))
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,IMC(I))
+
             ColNumber=ColNumber+1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,ISPECL(I))
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,ITRE(I))
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,P)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DP)
-            DDBH=DBH(I)*INtoCM
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DDBH)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DGI)
-            DHT=HT(I)*FTtoM
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT)
-            DHTG=HTG(I)*FTtoM
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DHTG)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,ICR(I))
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,CW)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,IDMR)
-            DPCT = PCT(I)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DPCT)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,IPTBAL)
-            ColNumber=ColNumber+1
-            DCFV = CFV(I)*FT3toM3
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DCFV)
-            ColNumber=ColNumber+1
-            DWK1 = WK1(I)*FT3toM3
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DWK1)
-            ColNumber=ColNumber+1
-            DBFV = BFV(I)*FT3toM3
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DBFV)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,ICDF)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,IBDF)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_int(IoutDBref,ColNumber,ITRNK)
-            ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,ESTHT)
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,ISPECL(I))  
+
             ColNumber=ColNumber+1
             iRet = fsql3_bind_int(IoutDBref,ColNumber,IPVEC(ITRE(I)))
-            DHT2TD2 = HT2TD(I,2)*FTtoM
+
             ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD2)
+            XB = P/ACRtoHA
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
             ColNumber=ColNumber+1
-            DHT2TD1 = HT2TD(I,1)*FTtoM
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD1)
+            XB = DP/ACRtoHA
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
             ColNumber=ColNumber+1
-            iRet = fsql3_bind_double(IoutDBref,ColNumber,TREAGE)
+            XB = DBH(I)*INtoCM
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            XB = DGI*INtoCM
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            XB = HT(I)*FTtoM
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            XB = HTG(I)*FTtoM
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,ICR(I))
+
+            ColNumber=ColNumber+1
+            XB = CRWDTH(I)*FTtoM
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,IDMR)
+
+            ColNumber=ColNumber+1
+            XB = PCT(I)
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,IPTBAL)
+
+            ColNumber=ColNumber+1
+            XB = CFV(I)*FT3toM3
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            XB = WK1(I)*FT3toM3
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            XB = BFV(I)*FT3toM3
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,ICDF)
+
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,IBDF)
+
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,ITRNK)
+
+            ColNumber=ColNumber+1
+            XB = ESTHT*FTtoM
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            iRet = fsql3_bind_int(IoutDBref,ColNumber,IPVEC(ITRE(I)))
+
+            ColNumber=ColNumber+1
+            XB = HT2TD(I,2)*FTtoM
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+            
+            ColNumber=ColNumber+1
+            XB = HT2TD(I,1)*FTtoM
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+            ColNumber=ColNumber+1
+            XB = TREAGE
+            iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
             iRet = fsql3_step(IoutDBref)
             iRet = fsql3_reset(IoutDBref)
@@ -371,7 +398,7 @@ C
 
       DO I=IREC2,MAXTRE
 
-        P =((PROB(I) / GROSPC)/ACRtoHA) / (FINT/FINTM)
+        P =(PROB(I) / GROSPC) / (FINT/FINTM)
         WRITE(TID,'(I8)') IDTREE(I)
         TID=ADJUSTL(TID)
 
@@ -379,7 +406,7 @@ C       GET MISTLETOE RATING FOR CURRENT TREE RECORD.
         CALL MISGET(I,IDMR)
 
 C       SET CROWN WIDTH.
-        CW=CRWDTH(I)*FTtoM
+        CW=CRWDTH(I)
 
 C       DECODE DEFECT AND ROUND OFF POINT BAL.
 
@@ -389,16 +416,16 @@ C       DECODE DEFECT AND ROUND OFF POINT BAL.
 
 C       SET TRUNCATED (TOPKILL) HEIGHT
 C
-        ITRNK = INT(REAL((ITRUNC(I)+5)*.01*FTtoM))   
+        ITRNK = INT(REAL((ITRUNC(I)+5)*.01*FTtoM))
 
 C       DETERMINE ESTIMATED HEIGHT
 C       ESTIMATED HEIGHT IS NORMAL HEIGHT, UNLESS THE IT WAS NOT
 C       BEEN SET, IN WHICH CASE IT IS EQUAL TO CURRENT HEIGHT
 
         IF (NORMHT(I) .NE. 0) THEN
-          ESTHT = ((REAL(NORMHT(I))+5)/100)*FTtoM
+          ESTHT = ((REAL(NORMHT(I))+5)/100)
         ELSE
-          ESTHT = HT(I)*FTtoM
+          ESTHT = HT(I)
         ENDIF
 
 C       DETERMINE TREE AGE
@@ -411,8 +438,8 @@ C       DETERMINE TREE AGE
 
 C       CYCLE 0, PRINT INPUT DG ONLY, UNLESS DIRECTED TO PRINT ESTIMATES.
 
-        DGI=DG(I)*INtoCM
-        IF(ICYC.EQ.0 .AND. TEM.EQ.0) DGI=WORK1(I)*INtoCM
+        DGI=DG(I)
+        IF(ICYC.EQ.0 .AND. TEM.EQ.0) DGI=WORK1(I)
         
 C       PUT PROB IN MORTALITY COLUMN
         DP = P
@@ -424,7 +451,6 @@ C
         CSPECIE2 = PLNJSP(ISP(I))
         CSPECIE3 = FIAJSP(ISP(I))
 
-        
         ColNumber=1
         iRet = fsql3_bind_text(IoutDBref,ColNumber,TID,
      >                         LEN_TRIM(TID))
@@ -441,63 +467,93 @@ C
      >                         LEN_TRIM(CSPECIE3))
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IMC(I))
+
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,ISPECL(I))
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,ITRE(I))
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,P)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DP)
-        DDBH=DBH(I)*INtoCM
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DDBH)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DGI)
-        DHT=HT(I)*FTtoM
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT)
-        DHTG=HTG(I)*FTtoM
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DHTG)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,ICR(I))
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,CW)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,IDMR)
-        DPCT = PCT(I)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DPCT)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,IPTBAL)
-        ColNumber=ColNumber+1
-        DCFV = CFV(I)*FT3toM3
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DCFV)
-        ColNumber=ColNumber+1
-        DWK1 = WK1(I)*FT3toM3
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DWK1)
-        ColNumber=ColNumber+1
-        DBFV = BFV(I)*FT3toM3
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DBFV)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,ICDF)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,IBDF)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,ITRNK)
-        ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,ESTHT)
+
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,IPVEC(ITRE(I)))
-        DHT2TD2 = HT2TD(I,2)*FTtoM
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD2)
+        XB = P/ACRtoHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
         ColNumber=ColNumber+1
-        DHT2TD1 = HT2TD(I,1)*FTtoM
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,DHT2TD1)
+        XB = DP/ACRtoHA
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_double(IoutDBref,ColNumber,TREAGE)
+        XB = DBH(I)*INtoCM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        XB = DGI*INtoCM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        XB = HT(I)*FTtoM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        XB = HTG(I)*FTtoM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,ICR(I))
+
+        ColNumber=ColNumber+1
+        XB = CRWDTH(I)*FTtoM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IDMR)
+
+        ColNumber=ColNumber+1
+        XB = PCT(I)
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IPTBAL)
+
+        ColNumber=ColNumber+1
+        XB = CFV(I)*FT3toM3
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+        
+        ColNumber=ColNumber+1
+        XB = WK1(I)*FT3toM3
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        XB = BFV(I)*FT3toM3
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,ICDF)
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IBDF)
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,ITRNK)
+
+        ColNumber=ColNumber+1
+        XB = ESTHT*FTtoM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IPVEC(ITRE(I)))
+
+        ColNumber=ColNumber+1
+        XB = HT2TD(I,2)*FTtoM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        XB = HT2TD(I,1)*FTtoM
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
+
+        ColNumber=ColNumber+1
+        XB = TREAGE
+        iRet = fsql3_bind_double(IoutDBref,ColNumber,XB)
 
         iRet = fsql3_step(IoutDBref)
         iRet = fsql3_reset(IoutDBref)

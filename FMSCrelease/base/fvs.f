@@ -59,7 +59,7 @@ Cx      CHARACTER*150 SYSCMD                                        !Remove thes
 Cx      INTEGER MYACT(1)                                            !Remove these
 Cx      REAL PRM(1)                                                 !Remove these
 Cx      DATA MYACT/100/                                             !Remove these
-      INTEGER IRSTRTCD,ISTOPDONE,IRTNCD,lenCl
+      INTEGER IRSTRTCD,ISTOPDONE,IRTNCD,ISTOPRES,lenCl
 C
 C     ******************     EXECUTION BEGINS     ******************
 C
@@ -87,6 +87,7 @@ C     FIND THE RESTART, AND BRANCH AS REQUIRED
      >                           " IRTNCD=",IRTNCD
       if (IRTNCD.ne.0) return
       if (IRSTRTCD.lt.0) return
+      if (IRSTRTCD.eq.7) goto 19
       if (IRSTRTCD.ge.1) goto 41
 C
       ICL1=0
@@ -113,7 +114,7 @@ C
          IY(I) = IY(I-1) + IY(I)
       ENDDO
 C
-C     ADD IN CYCLES FOR REQUESTED YEARS...BUT DON'T EXTEND THE END
+C     ADD IN CYCLES FOR REQUESTED YEARS...BUT DO NOT EXTEND THE END
 C     OR CHANGE THE BEGINNING OF THE SIMULATION.
 C
       IF (IWORK1(1).GT.0) THEN
@@ -163,6 +164,12 @@ C
 C     CALCULATE TREES/ACRE ( = LOAD PROB )
 C
       CALL NOTRE
+      CALL fvsStopPoint (7,ISTOPRES)
+      IF (ISTOPRES.NE.0) RETURN
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN 
+C     BRANCH HERE IF RESTARTING FROM STOPCODE 7
+   19 CONTINUE
 C
 C     WESTERN ROOT DISEASE MODEL VER. 3.0 INITIALIZATION
 C
@@ -363,9 +370,9 @@ C
 C     IF RUNNING FVSSTAND POST-PROCESSOR, CALL FILE PRINTER.
 C
       CALL FVSSTD (1)
-C
-C     FIND AND RUN ANY SCHEDULED SYSTEM CALLS.
-C
+C                                                                          !Remove these
+C     FIND AND RUN ANY SCHEDULED SYSTEM CALLS.                             !Remove these
+C                                                                          !Remove these
 Cx      CALL OPFIND (1,MYACT,NTODO)                                        !Remove these
 Cx      IF (NTODO.GT.0) THEN                                               !Remove these
 Cx         DO ITODO=1,NTODO                                                !Remove these
