@@ -1,8 +1,0 @@
-CODE SEGMENT INCLUDESVN
-C----------
-C COMMON $Id$
-C----------
-C
-      DATA SVN/"4004"/
-C
-C-----END SEGMENT
