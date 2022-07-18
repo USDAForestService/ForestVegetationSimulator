@@ -1,6 +1,0 @@
-The MS Access database file ("Mgmt BC Out.mdb) is provided "empty" so that runs will execute properly.
-It is not intended that this file be updated, since it will result in very large files.
-Filenames within KEY file and RSP file use embedded blanks
-
-Don Robinson - ESSA
-10 May 201
