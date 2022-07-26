@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  10-26-2005
       SUBROUTINE R8VOL1(VOLEQ,DBHOB,HTONE,HTTWO,PROD,VOL,ERRFLAG)
 
@@ -28,8 +25,8 @@ C     CHARACTER*8 READIT
       REAL VOL(15)
       !COFARR(162,10)
 
-      include 'R8CLIST.INC'
-      include 'R8VLIST.INC'
+      include 'r8clist.inc'
+      include 'r8vlist.inc'        !'R8VLIST.inc'
 
 c      INCLUDE 'COMM0'
 
@@ -70,23 +67,23 @@ c      ENDIF
       FIRST = ((GC1-1)*81)+2
       LAST = FIRST + 80
       DO 5, WHILE (DONEFLAG.EQ.0)
-C  !DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
           IF(FIRST.EQ.LAST)LASTFLAG = 1   
-C  !DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
           HALF=((LAST-FIRST+1)/2) + FIRST   
           READ (ATMP1(HALF),'(I3,4I4)') SPEC,
      >         (COEFEQ(J),J=1,4)
-C  !FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
           IF(VSPEC.EQ.SPEC)THEN      
              DONEFLAG=1
-C  !MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
           ELSEIF(VSPEC.GT.SPEC)THEN  
              FIRST = HALF
-C  !MOVE UP THE LIST
+	!MOVE UP THE LIST
           ELSEIF(VSPEC.LT.SPEC)THEN   
              LAST = HALF - 1
           ENDIF
-C  !DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
           IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) GO TO 998   
    5  CONTINUE
 

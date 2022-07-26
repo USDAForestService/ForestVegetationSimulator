@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  6-04-2008
       SUBROUTINE R1KEMP(VOLEQ,HTTOT,DBHOB,VOL,LIVE,PROD,TLOGS,errflag) 
    
@@ -155,10 +152,6 @@ C      DATA (POLECB(4,I),I=1,17)/7.4, 10.4, 14.1, 18.3, 25.4, 34.3, 46.0,
 C     *54.8, 65.5, 75.0, 86.6, 96.7, 112.5, 120.8, 136.3, 150.0, 170.4/  
      
 C--  SET ALL POTENTIAL VOLUMES AND AVG NUM OF TLOGS TO ZERO
-C
-      NONSAW = 0
-      BFNET = 10.
-C
       DO 10 I=1,15
         VOL(I)=0.0
  10   CONTINUE

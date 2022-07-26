@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  10-30-2003
       SUBROUTINE SCRIB(DIA,LEN,COR,VOL)
 C     DIA-REAL  LEN-REAL COR-CHAR  VOL-REAL
@@ -150,10 +147,10 @@ c  46     FORMAT(A24)
 c     set maximum small end diameter 
       if(DIA .GT. 120) DIA = 120
       
-      Q9=INT(DIA)
+      Q9=DIA
       IF (DIA .GT. 5.0 .AND. DIA .LE. 11) THEN
-        IF ((LEN.GT.15).AND.(LEN.LT.32)) Q9=INT(DIA+115.)
-        IF ((LEN.GT.31).AND.(LEN.LT.41)) Q9=INT(DIA+121.)
+        IF ((LEN.GT.15).AND.(LEN.LT.32)) Q9=DIA+115
+        IF ((LEN.GT.31).AND.(LEN.LT.41)) Q9=DIA+121
       ENDIF
 
       VOLFAC=FACTOR(Q9)
@@ -170,7 +167,7 @@ C  FIX EXCEPTIONS TO FACTOR VOLUMES
         ANUM=LEN*1000+DIA
   100     AGAIN = 'N'
           ISCRPT=(IHIGH+ILOW)/2
-          COMPAR=INT(AINT(EXCEPT(ISCRPT)/10.))
+          COMPAR=AINT(EXCEPT(ISCRPT)/10)
           IF (ANUM.EQ.COMPAR) THEN
              XXX =(EXCEPT(ISCRPT)/2.0)-INT(EXCEPT(ISCRPT)/2.0)
              IF (XXX.GT.0) THEN

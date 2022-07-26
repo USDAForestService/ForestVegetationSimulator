@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  4-9-2002
       SUBROUTINE R2TAP(VOLEQ,DBHOB,D30,H30,TOP6,HT1,HT2,D2,DBTBH,errflg)
 C       (TAPEQU-INT  DBHOB-R  HT1-R  HT2-R  D2-R)
@@ -221,7 +218,7 @@ C    CALCULATE DIB
         TERM3 = R2CZC(3,SP)*(HTUP**2)
 
         DIBCOR = DIBUP*(TERM1+TERM2+TERM3)
-        D2 = REAL(DIBCOR)
+        D2 = DIBCOR
 
 C****************************************************************
 C                  USE NEW THREE PARAMETER MODEL     ************
@@ -235,7 +232,7 @@ C****************************************************************
           EDBHIB = EDBH(2,SP)*DBH + EDBH(1,SP)
         ENDIF
         
-        D30IB = REAL(D30*(1.0-(1.0-EDBHIB/DBH)*(1.0/(2.0-D30/DBH))))
+        D30IB = D30*(1.0-(1.0-EDBHIB/DBH)*(1.0/(2.0-D30/DBH)))
 
         R1 = HTUP/HTTOT
         R2 = 4.5/HTTOT
@@ -289,7 +286,7 @@ C********************************************
           IF (DIBCOR.LE.0.0) THEN
              D2=0.0
           ELSE
-             D2=REAL(SQRT(DIBCOR))
+             D2=SQRT(DIBCOR)
           ENDIF
         
         ELSE
@@ -297,14 +294,14 @@ C********************************************
             IF (D30IB.LT.6.0) THEN
 C              D2SQ = D30IB**2-(D30IB**2)*((HTUP-TOP6)/(HTTOT-TOP6))
 C              D2 = SQRT(D2SQ)
-              D2 = REAL(D30IB*((HTTOT-HTUP)/(HTTOT-TOP6)))
+              D2 = D30IB*((HTTOT-HTUP)/(HTTOT-TOP6))
             ELSE
 C              D2SQ = 36.0 - (36.0*((HTUP-TOP6)/(HTTOT-TOP6)))
 C              D2 = SQRT(D2SQ)
-              D2 = REAL(6.0*((HTTOT-HTUP)/(HTTOT-TOP6)))
+              D2 = 6.0*((HTTOT-HTUP)/(HTTOT-TOP6))
             ENDIF
           ELSE
-            D2 = REAL(SQRT(DIBCOR))
+            D2 = SQRT(DIBCOR)
           ENDIF
         ENDIF
       ENDIF

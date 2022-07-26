@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  4-9-2002
       SUBROUTINE R5TAP(VOLEQ,DBHOB,HTTOT,HT2,D2,errflg)   
 C       (TAPEQU-INT  DBHOB-R  HTTOT-R  HT2-R  D2-R)
@@ -145,7 +142,7 @@ C
 
        ENDIF
         
-       D2 = REAL(DIBCOR)
+       D2 = DIBCOR
 C   
 C*****************************************************************
 C    THIS IS THE END OF THE MAIN LOGIC   

@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 C  subroutine for calculating region log volumes
 C
 C  Created TDH 11/20/09 
@@ -21,10 +18,15 @@ C  DBH to logdia(1,1).
 C
 C  Revised YW 08/21/2012
 C  Added ERRFLG to R9LOGS, R9LOGDIB and R9LOGLEN subroutines.
+c  YW 04/13/2017 Modified R9LOGS to also calculate logs for topwood for sawtimber
+c  YW 01/18/2018 Removed the changes made on 4/13/2017.
+C  YW 05/30/2019 R9 do want logs calculation for the topwood of the sawtimber. 
+C                So I put the change back again.
+!  YW 03/11/2021 When topwood not long for a min log, set NOLOGS to 0 and continue
 C_______________________________________________________________________
 C
       SUBROUTINE R9LOGS(SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM,
-     &           LOGLEN, LOGDIA, NOLOGP, NOLOGS, TLOGS, COEFFS, ERRFLG)
+     &           LOGLEN,LOGDIA,NOLOGP,NOLOGS,TLOGS,COEFFS,ERRFLG,BOLHT)
 C_______________________________________________________________________
 C
 
@@ -36,7 +38,7 @@ C
 !**********************************************************************
 !...  Parameters
       REAL    SAWHT, PLPHT, STUMP, MINLEN, MAXLEN, TRIM 
-      REAL    LOGLEN(20), LOGDIA(21,3)
+      REAL    LOGLEN(20), LOGDIA(21,3),BOLHT(21)
       INTEGER NOLOGP, NOLOGS, TLOGS, NUMSEG, ERRFLG
       TYPE(CLKCOEF):: COEFFS
       
@@ -53,7 +55,7 @@ C
 125      FORMAT (A)
          WRITE  (LUDBG, 150)SAWHT, PLPHT, MINLEN, MAXLEN, TRIM
 150      FORMAT (5F6.1)      
-      END IF
+   	END IF
 C     Check number of logs
       IF (SAWHT .GT. 0) THEN
         LMERCH = SAWHT-STUMP
@@ -74,13 +76,13 @@ C     Check number of logs
 !...saw portion
 
         LMERCH = SAWHT-STUMP     
-
+			  
         NOLOGP = INT(LMERCH/(MAXLEN+TRIM))
-
+			 
         LEFTOV=LMERCH-((MAXLEN+TRIM)*FLOAT(NOLOGP))-TRIM
 
 !check for saw logs
-        IF(.NOT.(LMERCH.LT. (MINLEN+TRIM) .OR. NOLOGP.LE.0 
+        IF(.NOT.(LMERCH.LT. (MINLEN+TRIM)  !.OR. NOLOGP.LE.0 
      &    .OR. (NOLOGP .EQ.0 .AND. LEFTOV.LT.(MINLEN+TRIM)))) THEN 
           
             ILOG = 1
@@ -95,22 +97,31 @@ C     Check number of logs
                WRITE  (LUDBG, 220)LMERCH, NOLOGP, LOGLEN(1), 
      &                 LOGLEN(NOLOGP), LEFTOV
 220            FORMAT (F6.1,4X I2, 3F7.1)      
-            END IF
-        
+   		    END IF
+   		ENDIF    
 !...TOP WOOD PORTION
 !first check to see if there's top wood
         !make sure there's a plpht value and it > sawht
-        ELSE IF (PLPHT > 0 .AND. PLPHT .GT. SAWHT) THEN
+!        ELSE IF (PLPHT > 0 .AND. PLPHT .GT. SAWHT) THEN
+        IF (PLPHT > 0 .AND. PLPHT .GT. SAWHT) THEN
+          SAWHT = STUMP
+          IF(NOLOGP.GT.0)THEN
+            DO 250, I=1,NOLOGP
+              SAWHT = SAWHT + LOGLEN(I) + TRIM
+250         CONTINUE
+          ENDIF
           LMERCH = PLPHT - SAWHT
           NOLOGS = INT(LMERCH/(MAXLEN+TRIM))
-         
-         !do we need a check for nologs >0???  
-         IF(LMERCH.LT. (MINLEN+TRIM) .OR. NOLOGS.LE.0 
-     &    .OR. (NOLOGS.EQ.0 .AND. LEFTOV.LT.(MINLEN+TRIM)) ) THEN
-          RETURN
-         ENDIF   
-           
+C         The LEFTOVER need to be calculate here (5/22/2017)          
           LEFTOV=LMERCH-((MAXLEN+TRIM)*FLOAT(NOLOGS))-TRIM
+          
+         !do we need a check for nologs >0???  
+         IF(LMERCH.LT. (MINLEN+TRIM) !.OR. NOLOGS.LE.0 
+     &    .OR. (NOLOGS.EQ.0 .AND. LEFTOV.LT.(MINLEN+TRIM)) ) THEN
+          !RETURN
+          NOLOGS = 0
+         ENDIF   
+         IF(NOLOGS.GT.0)THEN  
           ILOG = NOLOGP + 1
           JLOG = ILOG + NOLOGS - 1
           IF (JLOG .GT. 20) THEN
@@ -120,6 +131,7 @@ C     Check number of logs
           CALL R9LOGLEN(ILOG, JLOG, NOLOGS, MINLEN, MAXLEN, TRIM,
      &                 LOGLEN, LEFTOV, ERRFLG)
           IF(ERRFLG .NE. 0) RETURN
+         ENDIF
           IF (DEBUG%MODEL) THEN
            WRITE  (LUDBG, 300)'LMERCH  NOLOGS ilog  jlog'
      &                    //' LEFTOV'
@@ -127,8 +139,8 @@ C     Check number of logs
            WRITE  (LUDBG, 320)LMERCH, NOLOGS, ilog, 
      &                      jlog,LEFTOV
 320        FORMAT (F6.1, 4X, I2, 2I4, 2X, F7.1)      
-          END IF
-        END IF
+   		  END IF
+	  END IF
      
 !---------------------------------------------------------------------    
 !------ non-saw timber segmentation----------------------------------
@@ -138,28 +150,30 @@ C     Check number of logs
         LMERCH = PLPHT-STUMP
         NOLOGP = 0
         NOLOGS = INT(LMERCH/(MAXLEN+TRIM))
- 
+			 
         LEFTOV=LMERCH-((MAXLEN+TRIM)*FLOAT(NOLOGS))-TRIM
         
         !IF(LEFTOV .GT. (MINLEN+TRIM) .AND. NOLOGS .EQ. 0) NOLOGS = 1
         
         IF(LMERCH.LT. (MINLEN+TRIM) !.OR. NOLOGS.LE.0 
      &    .OR. (NOLOGS.EQ.0 .AND. LEFTOV.LT.(MINLEN+TRIM)) ) THEN
-          RETURN
+        !  RETURN
+          NOLOGS = 0
         ENDIF
-      
-        ILOG = 1
-        JLOG = NOLOGS     
-        CALL R9LOGLEN (ILOG, JLOG, NOLOGS, MINLEN, MAXLEN, TRIM,
+        IF(NOLOGS.GT.0)THEN
+          ILOG = 1
+          JLOG = NOLOGS     
+          CALL R9LOGLEN (ILOG, JLOG, NOLOGS, MINLEN, MAXLEN, TRIM,
      &                 LOGLEN, LEFTOV, ERRFLG)
-        IF(ERRFLG .NE. 0) RETURN
+          IF(ERRFLG .NE. 0) RETURN
+        ENDIF
       ENDIF
       
       TLOGS = INT(NOLOGP + NOLOGS)
       
 !---------------------------------------------------------------------      
 
-      CALL R9LOGDIB(TLOGS, TRIM, STUMP, LOGLEN, LOGDIA, COEFFS)
+      CALL R9LOGDIB(TLOGS, TRIM, STUMP, LOGLEN, LOGDIA, COEFFS,BOLHT)
 
 !...      WRITE OUT ALL LOGLEN/LOGDIA TO DEBUG FILE
       IF (DEBUG%MODEL) THEN
@@ -220,7 +234,7 @@ C
 120      FORMAT (A)
          WRITE  (LUDBG, 130)ILOG, JLOG, numseg, MAXLEN,TRIM,LEFTOV
 130      FORMAT (3I5,F6.1, F7.1, 2X, F7.1)      
-      END IF
+   		  END IF
 
       IF(JLOG .GT. 0) THEN
         IF(JLOG .GT. 20) THEN
@@ -276,7 +290,7 @@ C
 C_______________________________________________________________________
 C
       SUBROUTINE R9LOGDIB(NUMSEG, TRIM, STUMP, LOGLEN, LOGDIA, 
-     &                    COEFFS)
+     &                    COEFFS,BOLHT)
 C_______________________________________________________________________
 C
       USE CLKCOEF_MOD
@@ -287,7 +301,7 @@ C
 !...  Parameters
       INTEGER NUMSEG, I
       REAL    TRIM, STUMP, LOGLEN(20), LOGDIA(21,3)
-      REAL    DIB
+      REAL    DIB, BOLHT(21)
       TYPE(CLKCOEF):: COEFFS
       
       
@@ -303,12 +317,12 @@ c--     Get DIB at 4.5'
         LOGDIA(1,2)= DIB
         LOGDIA(1,1)=INT(DIB+0.499)
 !        LOGDIA(1,3)= 0.0
-        
+        BOLHT(1) = HT
 c--     Get DIB at all log ends
         HT=STUMP
         DO 850 I=1,NUMSEG
           HT=HT+TRIM+LOGLEN(I)
-          
+          BOLHT(I+1) = HT
 !------------------------------------------------------      
 !..       don't need below for logs methinks
 c--       Never let height get above sawtimber height
@@ -365,8 +379,8 @@ C
 125      FORMAT (A)
          WRITE  (LUDBG, 150)TLOGS, TLOGVOL, TCFVOL
 150      FORMAT (I4, 2F8.1)      
-      END IF
-   
+	END IF
+   		
       DO 200 I=1,TLOGS
         LOGVOL(4,I) = 0.00272708*(LOGDIA(I,2)**2 + LOGDIA(I+1,2)**2)
      &                * LOGLEN(I)
@@ -399,7 +413,7 @@ C
 450      FORMAT (I4, 2F8.1)
          WRITE  (LUDBG, 500) ' -->Exit R9LOGCUFT'
 500      FORMAT (A)      
-      END IF
+   	END IF
 
 
       END SUBROUTINE R9LGCFT

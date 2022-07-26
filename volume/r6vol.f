@@ -1,8 +1,6 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  01-18-2013
 C 01/18/2013 added calculation for stump vol(14 and tip VOL(15)
+c 04/13/2017 removed stump and tip vol calc to voinit
       SUBROUTINE R6VOL(VOLEQ,FORST,DBHOB,BTR,FCLASS,MTOPP,HT1,HTTYPE,
      >           VOL,LOGVOL,NOLOGP,LOGDIA,SCALEN,DBTBH,HT1PRD,CTYPE,
      >           ERRFLAG)
@@ -30,7 +28,7 @@ C      INITIALIZE VARIABLES
 
       DO 30 I=1,20
         VDEF(I)=0.0
-        lggrd(i) = 0 
+        lggrd(i) = 0.0 
 C        IF (I.LE.11) VOL(I)=0
   30  CONTINUE
    
@@ -55,10 +53,10 @@ C ADD DECIMAL IF HT IS IN LOGS
       IF (HTTYPE.EQ.'L' .OR. HTTYPE.EQ.'l') THEN
          HT1=HT1/10
          IF(HT1.GT.20)THEN
-           ERRFLAG = 7
-           RETURN
-         ENDIF
-      ENDIF
+	      ERRFLAG = 7
+	      RETURN
+	   ENDIF
+	ENDIF
 
       IF(FCLASS .LE. 0) THEN
         IF(CTYPE .EQ. 'F') THEN
@@ -114,7 +112,9 @@ c            only total cubic volume possible
 c            call the total cubic routines
              CALL R6VOL3(DBHOB,DBTBH,FCLASS,TTH,ZONE,VOL)
           ENDIF
-      ENDIF                                  
+      ENDIF   
+c  one foot stump should be deducted from TTH, so it need the following line (YW 2017/06/09)
+c     TTH = TTH -1.0                                     
       CALL R6DIBS(ZONE,DBHOB,BTR,FCLASS,MTOPP,TLH,TTH,NOLOGP,
      >            LOGDIA,SCALEN,XLEN,TAPCOF)
 
@@ -189,13 +189,14 @@ c        logvol(5,i)=LOGVOL(4,I)
           LOGDIA(I+1,2) = TDI2
   600 CONTINUE
 C     calculate stump vol as 1 foot cylindar
-      IF(VOL(14).LT.0.01) VOL(14)=0.005454154*LOGDIA(1,2)**2
+c      IF(VOL(14).LT.0.01) VOL(14)=0.005454154*LOGDIA(1,2)**2
       
       LOGDIA(1,1) = 0
       LOGDIA(1,2) = 0
 c     calculate stem tip volume
-      IF(VOL(4).GT.0.0) VOL(15)=VOL(1)-VOL(4)-VOL(14)
-      IF(VOL(15).LT.0.0) VOL(15)=0.0
+c      IF(VOL(4).GT.0.0) VOL(15)=VOL(1)-VOL(4)-VOL(14)
+c      VOL(15)=0.002727*LOGDIA(LOGS+1,2)**2*(TTH-HT1PRD)
+c      IF(VOL(15).LT.0.0) VOL(15)=0.0
  1000 RETURN
       END
 
@@ -204,20 +205,20 @@ c***********************************************************************
       SUBROUTINE GETFCLASS(VOLEQ,FORST,DBHOB,FCLASS)
       
       CHARACTER*2 FORST
-      CHARACTER*3 SPEC
-      CHARACTER*10 VOLEQ
-      REAL DBHOB
-      INTEGER IFORST,FCLASS
+	CHARACTER*3 SPEC
+	CHARACTER*10 VOLEQ
+	REAL DBHOB
+	INTEGER IFORST,FCLASS
 
-      SPEC = VOLEQ(8:10)
-      IF(SPEC .EQ. '000') THEN
-        FCLASS = 80
-        RETURN
-      ENDIF
+	SPEC = VOLEQ(8:10)
+	IF(SPEC .EQ. '000') THEN
+	   FCLASS = 80
+	   RETURN
+	ENDIF
 
       IF(FORST(2:2) .LT. '0') THEN
-         FORST(2:2) = FORST(1:1)
-         FORST(1:1) = '0'
+	   FORST(2:2) = FORST(1:1)
+	   FORST(1:1) = '0'
          IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
       ENDIF
 
@@ -226,25 +227,25 @@ c***********************************************************************
       IF(IFORST.EQ.4 .OR. IFORST.EQ.7 .OR. IFORST.EQ.14 .OR. 
      >                                               IFORST.EQ.16)THEN
          CALL FORMCL_BM(SPEC,IFORST,DBHOB,FCLASS)
-      ELSE IF(IFORST.EQ.10  .OR. IFORST.EQ.11)THEN
+	ELSE IF(IFORST.EQ.10  .OR. IFORST.EQ.11)THEN
          CALL FORMCL_CA(SPEC,IFORST,DBHOB,FCLASS)
-      ELSE IF(IFORST.EQ.8 .OR. IFORST.EQ.17 )THEN
+	ELSE IF(IFORST.EQ.8 .OR. IFORST.EQ.17 )THEN
          CALL FORMCL_EC (SPEC,IFORST,DBHOB,FCLASS)
-      ELSE IF(IFORST.EQ.21)THEN
+	ELSE IF(IFORST.EQ.21)THEN
          CALL FORMCL_NI (SPEC,IFORST,DBHOB,FCLASS)
-      ELSE IF(IFORST.EQ.12  .OR. IFORST.EQ.9)THEN
+	ELSE IF(IFORST.EQ.12  .OR. IFORST.EQ.9)THEN
          CALL FORMCL_PN (SPEC,IFORST,DBHOB,FCLASS)
-      ELSE IF(IFORST.EQ.1 .OR. IFORST.EQ.2 .OR. IFORST.EQ.20)THEN
+	ELSE IF(IFORST.EQ.1 .OR. IFORST.EQ.2 .OR. IFORST.EQ.20)THEN
          CALL FORMCL_SO (SPEC,IFORST,DBHOB,FCLASS)
-      ELSE IF(IFORST.EQ.6 .OR. IFORST.EQ.15 .OR. IFORST.EQ.18 .OR.
+	ELSE IF(IFORST.EQ.6 .OR. IFORST.EQ.15 .OR. IFORST.EQ.18 .OR.
      >                                IFORST.EQ.3 .OR. IFORST.EQ.5)THEN
          CALL FORMCL_WC (SPEC,IFORST,DBHOB,FCLASS)
-      ELSE 
-          FCLASS = 80
+	ELSE 
+          FCLASS = 80.
       ENDIF
-
+	
       RETURN
-      END
+	END
 
 c VARIABLES DEFINED IN THE CALL LIST
 c      VOLEQ - Volume equation number (10 digits)

@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  09-14-2007
 C  FILE CONTAINS THE FOLLOWING ROUTINES:
 C         BRK_OT
@@ -70,7 +67,7 @@ c                                      R3 PONDEROSA PINE
       C3 = BK(6,JSPR)
       D0 = BK(7,JSPR)
       D1 = BK(8,JSPR)
-      D2 = BK(9,JSPR)
+	D2 = BK(9,JSPR)
 
 c**********************************************************************
 C      IF(HT2.LT.(THT-2.0)) THEN
@@ -86,7 +83,7 @@ c         if DBTBH is missing, then calculate
       IF (DBTBH.LE.0) THEN
         IF(JSPR.LE.1) THEN
 c                      Black Hills
-           DBHIB = REAL(DBHOB*(D0+D1*ALOG(DBHOB)))
+           DBHIB = DBHOB*(D0+D1*ALOG(DBHOB))
         ELSE IF(JSPR.EQ.2) THEN
 c                      San Juan Model
            IF(GEOSUB.EQ.'07') THEN
@@ -95,7 +92,7 @@ C                 Use Dixie bark model
 C               DBHIB = -0.789251+0.922976*DBHOB
            ELSEIF(GEOSUB.EQ.'13')THEN
 C                 Use San Juan bark model 
-               DBHIB = REAL(DBHOB*(D0+D1*ALOG(DBHOB)))
+               DBHIB = DBHOB*(D0+D1*ALOG(DBHOB))
            ELSE IF(GEOSUB.EQ.'01') THEN
 C                 Use A-S, Gila bark model           
                DBHIB = -0.649171195+0.925582344*DBHOB
@@ -105,7 +102,7 @@ C                 Use region wide bark model
            ENDIF
         ELSE IF(JSPR.EQ.3) THEN
 c                      Dixie Model
-           DBHIB = REAL(DBHOB*(D0+D1*ALOG(DBHOB)))
+           DBHIB = DBHOB*(D0+D1*ALOG(DBHOB))
 
         ELSEIF (JSPR.EQ.4) THEN
 c                            R2 Lodgepole model
@@ -113,20 +110,20 @@ c                            R2 Lodgepole model
                DBHIB = DBHOB*(0.925915+0.0153361 * alog(DBHOB))
            ELSE
 C                          Northern Wyoming Bark Model
-               DBHIB = REAL(DBHOB*(D0 + D1*ALOG(DBHOB)))
+               DBHIB = DBHOB*(D0 + D1*ALOG(DBHOB))
            ENDIF
         ELSE IF(JSPR.EQ.5)THEN
 C                     Douglas Fir
-               DBHIB = REAL(D0 + D1*DBHOB)
+               DBHIB = D0 + D1*DBHOB
         ELSE IF(JSPR.EQ.6)THEN
 C                     White fir
-               DBHIB = REAL(D0 + D1*DBHOB)
+               DBHIB = D0 + D1*DBHOB
         ELSE IF(JSPR.EQ.7)THEN
 c                     Aspen Model
-               DBHIB = REAL(D0 + D1*DBHOB)
+               DBHIB = D0 + D1*DBHOB
         ELSE IF(JSPR.EQ.8)THEN
 C                     r3 ponderosa pine
-               DBHIB = REAL(D0 + D1*DBHOB + D2*DBHOB*DBHOB)
+               DBHIB = D0 + D1*DBHOB + D2*DBHOB*DBHOB
         ENDIF
         DBTBH = DBHOB - DBHIB
       ELSE
@@ -138,7 +135,7 @@ C     IF(JSPR.EQ.5)THEN
 
 CELSE
       IF (HT2.GT.4.5) THEN
-         IF(DR.GT.0.01) THEN
+         IF(DR.GT.0.0) THEN
             PY = (DR * ((B2-1)/(B2-DR**B3))) - ((DR**B5 -1)/DBTBH)
          ELSE
             PY = 0.0
@@ -157,7 +154,7 @@ c         Use Wenzel non-lin stump model
       ENDIF
 C     ENDIF
 
-      DBT = REAL(PY * DBTBH)
+      DBT = PY * DBTBH
 
       DIB = DOB - DBT
          
@@ -355,28 +352,28 @@ c                                              limits on U1 to U5
 
 c                                         Define geometric parameters
 c                                        (These outcomes are SINGLE precision)
-      R1= REAL(dexp(U1)/ (1.0d0 + dexp(U1)))                            
-      R2= REAL(dexp(U2)/ (1.0d0 + dexp(U2)))                             
-      R3= REAL(dexp(U3)/ (1.0d0 + dexp(U3)))                             
-      R4= REAL(dexp(U4)/ (1.0d0 + dexp(U4)))                             
+      R1= dexp(U1)/ (1.0d0 + dexp(U1))                             
+      R2= dexp(U2)/ (1.0d0 + dexp(U2))                             
+      R3= dexp(U3)/ (1.0d0 + dexp(U3))                             
+      R4= dexp(U4)/ (1.0d0 + dexp(U4))                             
       IF (U5 .le. 7.0d0) then
-          R5= REAL(0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5)))                        
+          R5= 0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5))                        
         else
           R5=1.0
         endif
 
-      A3=REAL(U6)
-      RHI1 =  REAL(dexp(U7) / ( 1.0d0 + dexp(U7) ))
+      A3=U6
+      RHI1 =  dexp(U7) / ( 1.0d0 + dexp(U7) )
       if (RHI1.gt. 0.5 ) RHI1=0.5 
 
-      RHLONGI= REAL(U9)   
+      RHLONGI= U9    
       RHI2 = RHI1 + RHLONGI
 
 c      RHC = RHI2 + (1.0D0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8))
 c      If (RHC .lt. RHI2 +0.01) then
 c          RHC = MIN( RHI2+0.01, (RHI2+1.0)/2.0 )
 c        endif
-      RHC=REAL(U8) 
+      RHC=U8 
       if (RHC .lt. RHI2+.01) RHC= min( RHI2+.01, (RHI2+1.)/2.0 )
 
 C     PUT COEFFICIENTS INTO AN ARRAY FOR EASIER PASSING
@@ -476,8 +473,8 @@ c                             define heights h1 and h2 with h2 > h1
 c                                         both heights are above BH
        t3=(h1-bh)/(HTTOT-bh)
        t4=(h2-bh)/(HTTOT-bh)                                
-       CORR = REAL(exp( q1*(t4-t3) + q2*(t4*t4-t3*t3)/2.0D0
-     >                  +q3*(t4*t4*t4 - t3*t3*t3)/3.0D0))   
+       CORR = exp( q1*(t4-t3) + q2*(t4*t4-t3*t3)/2.0D0
+     >                  +q3*(t4*t4*t4 - t3*t3*t3)/3.0D0)     
        GO TO 100
       endif
 
@@ -485,8 +482,8 @@ c                                         both heights are above BH
 c                                              h1 < Bh  and h2 > BH
          t3=(h2-bh)/(HTTOT-bh)                             
          T2 = (BH-H1)/BH    
-         CORR = REAL(q5*exp( q4*t2 + q1*t3 +q2*t3*t3/2.0d0 
-     >                    +q3*t3**3 / 3.0d0 ))      
+         CORR = q5*exp( q4*t2 + q1*t3 +q2*t3*t3/2.0d0 
+     >                    +q3*t3**3 / 3.0d0 )       
          go to 100
         endif
 
@@ -494,7 +491,7 @@ c                                              h1 < Bh and H2 < Bh
 c                                              note: t2 < t1
        T2 = (BH-H2)/BH                                                   
        T1 = (BH-H1)/BH                                                   
-       CORR=REAL(exp( q4* (t1-t2)))        
+       CORR=exp( q4* (t1-t2))        
 
 C100    IF (  abs(CORR) .gt. 1.0  .and.  ier_UNIT.ne.0) 
 C     1     write(IER_UNIT,102) JSP, H1,H2, CORR
@@ -612,24 +609,24 @@ C     REGION 3 PONDEROSA PINE
 
       JSPR = JSP - 22
 
-      VA00 = REAL(V(1, JSPR))
-      VA01 = REAL(V(2, JSPR))
-      VA02 = REAL(V(3, JSPR))
-      VB00 = REAL(V(4, JSPR))
-      VB01 = REAL(V(5, JSPR))
-      VC0  = REAL(V(6, JSPR))
+      VA00 = V(1, JSPR)
+      VA01 = V(2, JSPR)
+      VA02 = V(3, JSPR)
+      VB00 = V(4, JSPR)
+      VB01 = V(5, JSPR)
+      VC0  = V(6, JSPR)
       
-      VX1  = REAL(V(7,JSPR))
-      VX2  = REAL(V(8,JSPR))
-      VX3  = REAL(V(9,JSPR))
+      VX1  = V(7,JSPR)
+      VX2  = V(8,JSPR)
+      VX3  = V(9,JSPR)
 
-      VA03 = REAL(V(10, JSPR))
-      VE00 = REAL(V(11, JSPR))
-      VE01 = REAL(V(12, JSPR))
-      VE02 = REAL(V(13, JSPR))
-      VF00 = REAL(V(14, JSPR))
-      VF01 = REAL(V(15, JSPR))
-      VG0  = REAL(V(16, JSPR))
+      VA03 = V(10, JSPR)
+      VE00 = V(11, JSPR)
+      VE01 = V(12, JSPR)
+      VE02 = V(13, JSPR)
+      VF00 = V(14, JSPR)
+      VF01 = V(15, JSPR)
+      VG0  = V(16, JSPR) 
                           
       BH = 4.5
       
@@ -637,10 +634,10 @@ C     REGION 3 PONDEROSA PINE
       DRATIO = DBHOB/DMEDIAN 
       LOGHT = log(HTTOT)
 
-       VA0 = REAL(VA00 + VA01*LOGHT + VA02*DRATIO  + VA03*LOGHT*DRATIO)
+       VA0 = VA00 + VA01*LOGHT + VA02*DRATIO  + VA03*LOGHT*DRATIO
        VB0 = VB00 + VB01*LOGHT
 
-       VE0 = REAL(VE00 + VE01*LOGHT + VE02*DRATIO)
+       VE0 = VE00 + VE01*LOGHT + VE02*DRATIO
        VF0 = VF00 + VF01*LOGHT
 
        VC = VC0 + VX1*LOGHT 
@@ -748,22 +745,22 @@ c                                              limits on U1 to U5
       if (u9.lt. 0.0d0)  U9 = 0.0d0
 
 c     This code taken from RF_SHP2 from the REG1 program
-      R1 =  REAL(dexp(U1) / ( 1.0d0 + dexp(U1) ))
-      R2 =  REAL(dexp(U2) / ( 1.0d0 + dexp(U2) ))
-      R3 =  REAL(dexp(U3) / ( 1.0d0 + dexp(U3) ))
-      R4 =  REAL(dexp(U4) / ( 1.0d0 + dexp(U4) ))
-      R5 =  REAL(0.5 + 0.5*dexp(U5) / ( 1.0d0 + dexp(U5) ))
+      R1 =  dexp(U1) / ( 1.0d0 + dexp(U1) )
+      R2 =  dexp(U2) / ( 1.0d0 + dexp(U2) )
+      R3 =  dexp(U3) / ( 1.0d0 + dexp(U3) )
+      R4 =  dexp(U4) / ( 1.0d0 + dexp(U4) )
+      R5 =  0.5 + 0.5*dexp(U5) / ( 1.0d0 + dexp(U5) )
       
       IF (U5 .gt. 7.0) R5 = 1.0
       
-      a3 = REAL(U6)
-      RHI1 =  REAL(dexp(U7) / ( 1.0d0 + dexp(U7) ))
+      a3 = U6
+      RHI1 =  dexp(U7) / ( 1.0d0 + dexp(U7) )
       
       IF (RHI1.GT. 0.5) RHI1=0.5
       
-      RHLONGI = REAL(U9)    
+      RHLONGI = U9    
       RHI2 = RHI1 + RHLONGI
-      RHC = REAL(U8)
+      RHC = U8
       IF (RHC.LT.RHI2+0.01) RHC = MIN(RHI2 + 0.01,
      >                                         (RHI2 + 1.0)/2.0)
       RHFW(1) = RHI1     
@@ -824,8 +821,8 @@ c                             define heights h1 and h2 with h2 > h1
 c                                         both heights are above BH
           T3=(H1-4.5)/(HTTOT-4.5)
           T4=(H2-4.5)/(HTTOT-4.5)                                
-          COR_BH = REAL(exp( Q1 * (T4-T3) + Q2 * (T4*T4-T3*T3)/2.0d0 +
-     >          Q3 * (T4*T4*T4 - T3*T3*T3)/3.0d0)) 
+          COR_BH = exp( Q1 * (T4 - T3) + Q2 * (T4*T4 - T3*T3)/2.0d0 +
+     >          Q3 * (T4*T4*T4 - T3*T3*T3)/3.0d0) 
           IF(COR_BH.GT.0.999)  COR_BH = 0.999
           RETURN
       ENDIF
@@ -834,8 +831,8 @@ c                                         both heights are above BH
 c                                              h1 < Bh  and h2 > BH
          T3 = (H2 - 4.5)/(HTTOT - 4.5)                             
          T2 = (4.5 - H1)/4.5   
-         COR_BH = REAL(Q5 * exp( Q4 * T2 + Q1 * T3 + Q2*T3*T3/2.0d0 +
-     >            Q3*T3*T3*T3 / 3.0d0) )      
+         COR_BH = Q5 * exp( Q4 * T2 + Q1 * T3 + Q2*T3*T3/2.0d0 +
+     >            Q3*T3*T3*T3 / 3.0d0)       
          IF(COR_BH .GT. 0.999) COR_BH = 0.999
          IF(COR_BH .LT.-0.999) COR_BH = -0.999
          RETURN
@@ -847,7 +844,7 @@ c                                              note: t2 < t1
        T1 = (4.5 - H1)/4.5                                                   
        CORR = exp( Q4 * (T1-T2))        
       
-       COR_BH = REAL(CORR)
+       COR_BH = CORR
       RETURN
 
       END    
@@ -875,15 +872,15 @@ c
                  
 c                                                     below BH
       IF (HUP .LT. 4.5) THEN 
-         LVARHAT = REAL(-.15512542D+01-.82366251*HUP +.10190777*DBHOB)
+         LVARHAT = -.15512542D+01-.82366251*HUP +.10190777*DBHOB
          VARHAT = exp(LVARHAT)
 c                                                     above breast height
       ELSEIF (HUP .GT. 4.5) THEN
          
          RH = (HUP - 4.5)/(HTTOT - 4.5)
-         LVARHAT = REAL((-.72335700D+01 + .22333875D+01*LOG(DBHOB)) +
+         LVARHAT = (-.72335700D+01 + .22333875D+01*LOG(DBHOB)) +
      >             (.25870429D+01-.43950365D-01*LOG(DBHOB)) *
-     >             RH**(-.57411597D+00 + .67914946D+00*log(DBHOB)))
+     >             RH**(-.57411597D+00 + .67914946D+00*log(DBHOB))
          VARHAT = exp(LVARHAT)
 c                                                     at breast height
       ELSE

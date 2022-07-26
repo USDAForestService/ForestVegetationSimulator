@@ -1,12 +1,11 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  09-15-2016
 C 01/11/2013 added volume calculation for stump vol(14) and tip vol(15)
 C 11/06/2012 Changed errflag to 12 when NUMLOGS > 20
 C 09/15/2016 Added output variable LOGDIA,LOGLEN,LOGVOL to the routine
+C 03/20/2017 Added BOLHT variable and modified volume calculation for 
+C            topwood/tip volume (it was overestimated)
       SUBROUTINE R4VOL(REGN,VOLEQ,MTOPP,HTTOT,DBHOB,HT1PRD,VOL,NOLOGP,
-     >           NOLOGS,LOGDIA,LOGLEN,LOGVOL,
+     >           NOLOGS,LOGDIA,LOGLEN,LOGVOL,BOLHT,
      +           CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG,ERRFLAG)
       IMPLICIT NONE
 C**********************************************************************
@@ -21,29 +20,30 @@ C                            BUT MAY BE USED IN RMSTAND, FVS, ETC
       REAL STUMPD,TOPLEN,TOTLGS,TRM,VOL(15),VOLR4(3)
       REAL NOLOGP,NOLOGS,DRATIO
       REAL LOGVOL(7,20),LOGDIA(21,3),LOGLEN(20)
+      REAL DIBSM(20),DIBLG(20),BOLHT(21),TOPVOL,HTUP,DIB
 
 C
 C  COEFFICIENTS TO DETERMINE HEIGHT TO 2/3 DBHOB (OUTSIDE BARK),
 C  STUMP DIAMETER,  AND DIAMETER (INSIDE BARK) AT 2/3 TOTAL HTTOT.
-C
-      DATA CFCOEF/0.5563,0.4496,0.2359,0.8435,1.1152,0.5405,1.2552,
-     + 0.4302,0.4727,2.0461,0.6294,1.2467,0.5334,0.5301,0.8315,
-     + 0.5028,0.7572,0.6310,0.4850,0.6076,-0.0636,-0.3956,
-     + -0.7237,-0.2800,-0.3678,-0.5908,-0.1727,-0.5229,-0.0508,-0.5080,
-     + -0.0939,-0.1615,-0.0071,0.2327,0.0967,-0.0942,-0.4527,-0.1026,
-     + -0.3636,-0.1730,0.9900,1.2756,1.6343,1.0264,0.9828,
-     + 1.3374,0.9435,1.3824,1.0615,0.9113,0.9886,0.9013,1.0127,0.8748,
-     + 0.8293,1.0600,1.1502,1.0230,1.2324,1.0585,
-     + -0.2,-0.041,-0.041,-0.041,-0.191,-0.191,-0.131,-0.131, 
-     + -0.159,-0.041,-0.488,-0.200,-0.200,-0.365,-0.365,-0.365,-0.143,
-     + -0.143,0.000,-0.153,0.964,0.884,0.884,0.884,0.943,0.943,
-     + 0.886,0.886,0.832,0.884,0.894,0.964,0.964,0.887,0.887,0.887,
-     + 0.933,0.933,0.887,0.883,
-     + -0.201,-0.041,-0.041,-0.041,-0.192,-0.192,-0.159,
-     + -0.159,-0.055,-0.041,-0.445,-0.201,-0.201,-0.367,-0.367,-0.367,
-     + -0.144,-0.144,0.000,-0.143,0.968,0.888,0.888,0.888,
-     + 0.947,0.947,0.891,0.891,0.837,0.888,0.897,0.968,0.968,
-     + 0.891,0.891,0.891,0.937,0.937,0.893,0.886/
+C  comment out 03/21/2017 YW
+c      DATA CFCOEF/0.5563,0.4496,0.2359,0.8435,1.1152,0.5405,1.2552,
+c     + 0.4302,0.4727,2.0461,0.6294,1.2467,0.5334,0.5301,0.8315,
+c     + 0.5028,0.7572,0.6310,0.4850,0.6076,-0.0636,-0.3956,
+c     + -0.7237,-0.2800,-0.3678,-0.5908,-0.1727,-0.5229,-0.0508,-0.5080,
+c     + -0.0939,-0.1615,-0.0071,0.2327,0.0967,-0.0942,-0.4527,-0.1026,
+c     + -0.3636,-0.1730,0.9900,1.2756,1.6343,1.0264,0.9828,
+c     + 1.3374,0.9435,1.3824,1.0615,0.9113,0.9886,0.9013,1.0127,0.8748,
+c     + 0.8293,1.0600,1.1502,1.0230,1.2324,1.0585,
+c     + -0.2,-0.041,-0.041,-0.041,-0.191,-0.191,-0.131,-0.131, 
+c     + -0.159,-0.041,-0.488,-0.200,-0.200,-0.365,-0.365,-0.365,-0.143,
+c     + -0.143,0.000,-0.153,0.964,0.884,0.884,0.884,0.943,0.943,
+c     + 0.886,0.886,0.832,0.884,0.894,0.964,0.964,0.887,0.887,0.887,
+c     + 0.933,0.933,0.887,0.883,
+c     + -0.201,-0.041,-0.041,-0.041,-0.192,-0.192,-0.159,
+c     + -0.159,-0.055,-0.041,-0.445,-0.201,-0.201,-0.367,-0.367,-0.367,
+c     + -0.144,-0.144,0.000,-0.143,0.968,0.888,0.888,0.888,
+c     + 0.947,0.947,0.891,0.891,0.837,0.888,0.897,0.968,0.968,
+c     + 0.891,0.891,0.891,0.937,0.937,0.893,0.886/
 C
 C  SCRIBNER DECIMAL C TABLE FOR LENGTHS 2' THRU 20', DIA 6" TO 75"
 C
@@ -109,51 +109,51 @@ C    HTTOT=IHT          !1/94 NOT USED THIS PGM. MAY BE USED BY OTHER PGMS
 C*********************************************************
 C  DETERMINE INDEX 'II' FOR HT67, STUMPD, AND DIB67
 C  BASED ON TAPER EQUATION NUMBER (VOLEQ)
-C
-      IF(VOLEQ(8:10).EQ.'746') THEN
-        II=1
-      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'400') THEN
-        II=2
-      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'405') THEN
-        II=3
-      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'401') THEN
-        II=4
-      ELSEIF(VOLEQ(8:10).EQ.'019'.AND.VOLEQ(1:3).EQ.'400') THEN
-        II=5
-      ELSEIF(VOLEQ(8:10).EQ.'019'.AND.VOLEQ(1:3).EQ.'405') THEN
-        II=6
-      ELSEIF(VOLEQ(8:10).EQ.'015'.AND.VOLEQ(1:3).EQ.'400') THEN
-        II=7
-      ELSEIF(VOLEQ(8:10).EQ.'015'.AND.VOLEQ(1:3).EQ.'401') THEN
-        II=8
-      ELSEIF(VOLEQ(8:10).EQ.'081') THEN
-        II=9
-      ELSEIF(VOLEQ(8:10).EQ.'073') THEN
-        II=10
-      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'403') THEN
-        II=11
-      ELSEIF(VOLEQ(8:10).EQ.'108'.AND.VOLEQ(1:3).EQ.'400') THEN
-        II=12
-      ELSEIF(VOLEQ(8:10).EQ.'108'.AND.VOLEQ(1:3).EQ.'401') THEN
-        II=13
-      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'401') THEN
-        II=14
-      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'402') THEN
-        II=15
-      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'400') THEN
-        II=16
-      ELSEIF(VOLEQ(8:10).EQ.'093'.AND.VOLEQ(1:3).EQ.'400') THEN
-        II=17
-      ELSEIF(VOLEQ(8:10).EQ.'093'.AND.VOLEQ(1:3).EQ.'407') THEN
-        II=18
-      ELSEIF(VOLEQ(8:10).EQ.'020') THEN
-        II=19
-      ELSEIF(VOLEQ(8:10).EQ.'117') THEN
-        II=20
-      ELSE
-        ERRFLAG = 1
-        RETURN
-      ENDIF
+C comment out 03/21/2017 YW
+c      IF(VOLEQ(8:10).EQ.'746') THEN
+c        II=1
+c      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'400') THEN
+c        II=2
+c      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'405') THEN
+c        II=3
+c      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'401') THEN
+c        II=4
+c      ELSEIF(VOLEQ(8:10).EQ.'019'.AND.VOLEQ(1:3).EQ.'400') THEN
+c        II=5
+c      ELSEIF(VOLEQ(8:10).EQ.'019'.AND.VOLEQ(1:3).EQ.'405') THEN
+c        II=6
+c      ELSEIF(VOLEQ(8:10).EQ.'015'.AND.VOLEQ(1:3).EQ.'400') THEN
+c        II=7
+c      ELSEIF(VOLEQ(8:10).EQ.'015'.AND.VOLEQ(1:3).EQ.'401') THEN
+c        II=8
+c      ELSEIF(VOLEQ(8:10).EQ.'081') THEN
+c        II=9
+c      ELSEIF(VOLEQ(8:10).EQ.'073') THEN
+c        II=10
+c      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'403') THEN
+c        II=11
+c      ELSEIF(VOLEQ(8:10).EQ.'108'.AND.VOLEQ(1:3).EQ.'400') THEN
+c        II=12
+c      ELSEIF(VOLEQ(8:10).EQ.'108'.AND.VOLEQ(1:3).EQ.'401') THEN
+c        II=13
+c      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'401') THEN
+c        II=14
+c      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'402') THEN
+c        II=15
+c      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'400') THEN
+c        II=16
+c      ELSEIF(VOLEQ(8:10).EQ.'093'.AND.VOLEQ(1:3).EQ.'400') THEN
+c        II=17
+c      ELSEIF(VOLEQ(8:10).EQ.'093'.AND.VOLEQ(1:3).EQ.'407') THEN
+c        II=18
+c      ELSEIF(VOLEQ(8:10).EQ.'020') THEN
+c        II=19
+c      ELSEIF(VOLEQ(8:10).EQ.'117') THEN
+c        II=20
+c      ELSE
+c        ERRFLAG = 1
+c        RETURN
+c      ENDIF
 
       IF(DBHOB .LT. 1.0)THEN
         ERRFLAG = 3
@@ -166,20 +166,27 @@ C
 C*********************************************************
 c  sutract one foot from height for mathis equations
       THT = HTTOT-1.0
-      HT67=CFCOEF(II,1) * DBHOB**CFCOEF(II,2) * THT**CFCOEF(II,3)
-C !1/94 NEW VARIABLE.  WAS STUMPD(3) CF & STUMPD(2) CORDS
-      BUTTCF= CFCOEF(II,5) * DBHOB + CFCOEF(II,4)
-                              
       if(THT.LE.5.0)then         !6/2002  If small tree use smailians and return
           VOL(1) = DBHOB*DBHOB*HTTOT*0.00272708
           RETURN
       endif
-      STUMPD=(BUTTCF**2*THT/(THT-4.))**.5
-      D67 = CFCOEF(II,7) * DBHOB  * (2./3.) + CFCOEF(II,6)
-      CF0 = .002727 * (HT67 * STUMPD**2 + D67**2 * THT)
-      F = CF0/(.005454 * STUMPD**2 * THT)
-      B = (1.0-F) / (2.0*F)
+      
+c      HT67=CFCOEF(II,1) * DBHOB**CFCOEF(II,2) * THT**CFCOEF(II,3)
+C !1/94 NEW VARIABLE.  WAS STUMPD(3) CF & STUMPD(2) CORDS
+c      BUTTCF= CFCOEF(II,5) * DBHOB + CFCOEF(II,4)
+                              
+c      STUMPD=(BUTTCF**2*THT/(THT-4.))**.5
+c      D67 = CFCOEF(II,7) * DBHOB  * (2./3.) + CFCOEF(II,6)
+c      CF0 = .002727 * (HT67 * STUMPD**2 + D67**2 * THT)
+c      F = CF0/(.005454 * STUMPD**2 * THT)
+c      B = (1.0-F) / (2.0*F)
+      
       TRM=0.5    !TRIM
+      
+      HTUP = 0.0
+      DIB = 0.0
+      CALL R4MATTAPER(VOLEQ,DBHOB,HTTOT,STUMPD,BUTTCF,CF0,B,
+     + HTUP,DIB,ERRFLAG )
 C*****************************************************************
 C  LOOP TO COMPUTE GROSS VOLS
 C  !LIMIT BF TOP DIAMETER TO 6 INCHES MINIMUM
@@ -190,6 +197,9 @@ C  NUM = LOG NUMBER - UP TO 20 PER TREE
         DO 300 NUM = 1,20
           DSM(NUM) = 0.0
           DLG(NUM) = 0.0
+          DIBSM(NUM) = 0.0
+          DIBLG(NUM) = 0.0
+          BOLHT(NUM) = 0.0
 300     CONTINUE
         NUMLGS = 0
         MERLEN = 0.0
@@ -256,14 +266,21 @@ C  DETERMINE WHAT THE TOTAL NUMBER OF LOGS ACTUALLY IS
             LEN = 16.
 C  BUTT LOG CALCULATIONS, IF THERE IS MORE THAN 1 LOG IN THE TREE
 C  NUMLGS IS INTEGER VALUE OF TOTLGS
-            NUMLGS = INT(TOTLGS)
+            NUMLGS = TOTLGS
             IF(NUMLGS.GT.1)THEN
               NUM=1
 C  !1/94 BUTTCF NEW VAR. WAS STUMPD(M)
-              IF(M.EQ.2 .OR. M.EQ.3) DLG(1)=INT(BUTTCF + .499)
-              IF(M.EQ.1) DLG(1) = INT(STUMPD + .499)
+              IF(M.EQ.2 .OR. M.EQ.3) THEN
+                DLG(1)=INT(BUTTCF + .499)
+                DIBLG(1)=BUTTCF
+              ENDIF
+              IF(M.EQ.1) THEN
+                DLG(1) = INT(STUMPD + .499)
+                DIBLG(1)=STUMPD
+              ENDIF
        
               DSM(1) = INT(STUMPD*((THT - 16.5)/THT)**B + .499)
+              DIBSM(1) = STUMPD*((THT - 16.5)/THT)**B
 C     CUBIC VOLUME              
               IF(M.EQ.3)THEN
                  CFVOL = INT(.002727*(DLG(1)**2+
@@ -271,11 +288,11 @@ C     CUBIC VOLUME
 c                 LOGVOL(3,I) = CFVOL
                  LOGVOL(4,NUM) = CFVOL
                  VOLR4(M)=VOLR4(M)+CFVOL
-              ENDIF
+	        ENDIF
               
 C     BOARD FOOT VOLUME
               IF(M.EQ.1) THEN
-           
+	           
                  IF(REGN.EQ.7) THEN
                     CALL SCRIB (DSM(1),16.0,'N',BFSCR)
                     LOGVOL(1,NUM) = BFSCR
@@ -285,11 +302,11 @@ C     BOARD FOOT VOLUME
                       DO 555, J = 1,15
                         VOL(J) = 0.0
 555                   CONTINUE
-                      RETURN
+                     RETURN
                     ENDIF
                     BFSCR = SCRIBC(INT(DSM(1)-5.),INT((16./2.)))
                     LOGVOL(1,NUM) = BFSCR*10
-                 ENDIF
+	           ENDIF
 c                 LOGVOL(1,I) = BFSCR
                  VOLR4(M)=VOLR4(M) + BFSCR
 
@@ -316,8 +333,10 @@ C Changed errflag to 12 (YW 11/06/2012)
 
                 DO 1100 NUM = 2,NUMLGS-1
                   DLG(NUM) = DSM(NUM-1)
+                  DIBLG(NUM) = DIBSM(NUM-1)
                   DSM(NUM)=INT(STUMPD*((THT-16.5*FLOAT(NUM))/THT)**B
      +            +.499)
+                  DIBSM(NUM)=STUMPD*((THT-16.5*FLOAT(NUM))/THT)**B
 C     CUBIC VOLUME              
                   IF(M.EQ.3)THEN
                     CFVOL = INT(.002727*(DLG(NUM)**2+DSM(NUM)**2)*
@@ -360,13 +379,21 @@ C  NOTE THAT CORDWOOD (M=2) ADDS TRIM INTO VOLR4
 C  TOP LOGS, AND/OR SINGLE LOG TREE
             NUM=NUMLGS
             IF(NUMLGS.EQ.1)THEN
-              IF(M.EQ.2 .OR. M.EQ.3) DLG(1)=INT(BUTTCF + .499)
-              IF(M.EQ.1)  DLG(1) = INT(STUMPD + .499)
+              IF(M.EQ.2 .OR. M.EQ.3) THEN
+                DLG(1)=INT(BUTTCF + .499)
+                DIBLG(1)=BUTTCF
+              ENDIF
+              IF(M.EQ.1)THEN
+                DLG(1) = INT(STUMPD + .499)
+                DIBLG(1)=STUMPD
+              ENDIF
             ELSE
               DLG(NUMLGS) = DSM(NUMLGS-1)
+              DIBLG(NUMLGS) = DIBSM(NUMLGS-1)
             ENDIF
             LEN = TOPLEN-TRM
             DSM(NUMLGS)=INT(STUMPD*((THT-MERLEN)/THT)**B+.499)
+            DIBSM(NUMLGS)=STUMPD*((THT-MERLEN)/THT)**B
 C     CUBIC VOLUME              
             IF(M.EQ.3)THEN
                CFVOL =INT(.002727*(DLG(NUMLGS)**2+DSM(NUMLGS)**2)*
@@ -374,7 +401,7 @@ C     CUBIC VOLUME
 c               LOGVOL(3,I) = CFVOL
                LOGVOL(4,NUM) = CFVOL
                VOLR4(M)=VOLR4(M)+CFVOL
-            ENDIF
+	      ENDIF
 C     BOARD FOOT VOLUME
             IF(M.EQ.1) THEN
                IF(REGN.EQ.7) THEN
@@ -390,7 +417,7 @@ C     BOARD FOOT VOLUME
                      ENDIF
                   BFSCR = SCRIBC(INT(DSM(NUMLGS)-5.),INT((LEN/2)))
                   LOGVOL(1,NUM) = BFSCR*10
-               ENDIF
+	         ENDIF
 c               LOGVOL(1,I) = BFSCR
                VOLR4(M)=VOLR4(M) + BFSCR
 
@@ -407,11 +434,11 @@ C  NOTE THAT CORDWOOD (M=2) ADDS TRIM INTO VOLR4
 C**********************************************************************
 C  CONVERT & STORE VOLUMES IN DESCRIPTIVE VARIABLES
       CFGRS=VOLR4(3)
-      IF(REGN .EQ. 7) THEN
-        BFGRS = VOLR4(1)
-      ELSE
-        BFGRS=VOLR4(1)*10
-      ENDIF
+	IF(REGN .EQ. 7) THEN
+	   BFGRS = VOLR4(1)
+	ELSE
+	   BFGRS=VOLR4(1)*10
+	ENDIF
       CORDS=VOLR4(2)/90
 C  CONVERT TO NAT CRUISE VOL STANDARDS
       IF(CUTFLG .EQ. 1) VOL(1) = CF0
@@ -431,21 +458,39 @@ C       so set tip vol to 0. YW 20130111
       IF(SPFLG.EQ.1 .AND. CDPFLG.EQ.1) VOL(9)=CF0/90-CORDS
 
 c calculate stump volume as 1 foot cylinder of STUMPD. YW 20130111
-      VOL(14)=STUMPD**2*0.005454154
+c      VOL(14)=STUMPD**2*0.005454154
 C     IF(CUPFLG.EQ.1.OR.BFPFLG.EQ.1.OR.CDPFLG.EQ.1)NOLOGP = MERLEN/16.5
       IF(CUPFLG.EQ.1.OR.BFPFLG.EQ.1.OR.CDPFLG.EQ.1)NOLOGP = TOTLGS
       IF(SPFLG.EQ.1) NOLOGS = (THT-MERLEN)/16.5
       
-      LOGDIA(1,1) = DLG(1)
-      DO 100, I=1,NUMLGS
+	LOGDIA(1,1) = DLG(1)
+	LOGDIA(1,2) = DIBLG(1)
+	BOLHT(1) = 1.0
+	DO 100, I=1,NUMLGS
          LOGDIA(I+1,1) = DSM(I)
-         IF(I.EQ.NUMLGS)THEN
-            LOGLEN(I) = TOPLEN - TRM
-         ELSE
+         LOGDIA(I+1,2) = DIBSM(I)
+	   IF(I.EQ.NUMLGS)THEN
+	      LOGLEN(I) = TOPLEN - TRM
+	   ELSE
             LOGLEN(I) = 16.0      
-         ENDIF
-
+	   ENDIF
+C        Get BOLHT
+         BOLHT(I+1) = BOLHT(I) + LOGLEN(I) + 0.5
+         
   100 CONTINUE
+C     YW 03/20/2017
+C     The Topwood volume VOL(7) or the Tip volume VOL(15) calculated above is 
+C     not accurate. It overestimates the volume. I is recalculated below:
+      IF(HTTOT.GT.0)THEN
+        TOPVOL = LOGDIA(NUMLGS+1,2)**2*(HTTOT-BOLHT(NUMLGS+1))*0.002727
+        IF(SPFLG.EQ.1 .AND. CUPFLG.EQ.1)THEN
+          VOL(7)=TOPVOL
+          VOL(15)=0.0
+        ELSEIF(CUPFLG.EQ.1)THEN
+          VOL(7)=0.0
+          VOL(15)=TOPVOL        
+        ENDIF
+      ENDIF
       RETURN
       END
 C THIS ROUTINE CALCULATES GROSS BF, GROSS CF, AND CORDWOOD TREE VOLUMES
@@ -495,3 +540,122 @@ C          VOL(2) = GROSS BF MAINSTEM       VOL(7) GROSS CF TOPWOOD
 C          VOL(3) = NET BF MAINSTEM         VOL(8) NET CF TOPWOOD
 C          VOL(4) = GROSS CF MAINSTEM       VOL(9) CORDS TOPWOOD
 C          VOL(5) = NET CF MAINSTEM
+C ************************************************************************
+      SUBROUTINE R4MATTAPER(VOLEQ,DBHOB,HTTOT,STUMPD,BUTTCF,CF0,B,
+     + HTUP,DIB,ERRFLAG )
+C This subroutine calculate Diameter inside bark and any given height (HTUP).
+C It also calculate the height above ground and any given DIB.
+      IMPLICIT NONE
+C**********************************************************************
+      CHARACTER*10 VOLEQ
+      REAL DBHOB,HTTOT,STUMPD,BUTTCF,B,HTUP,DIB,THT
+      REAL CFCOEF(20,7)
+      INTEGER II,ERRFLAG
+      REAL HT67,D67,CF0,F,PHT
+C
+C  COEFFICIENTS TO DETERMINE HEIGHT TO 2/3 DBHOB (OUTSIDE BARK),
+C  STUMP DIAMETER,  AND DIAMETER (INSIDE BARK) AT 2/3 TOTAL HTTOT.
+C
+      DATA CFCOEF/0.5563,0.4496,0.2359,0.8435,1.1152,0.5405,1.2552,
+     + 0.4302,0.4727,2.0461,0.6294,1.2467,0.5334,0.5301,0.8315,
+     + 0.5028,0.7572,0.6310,0.4850,0.6076,-0.0636,-0.3956,
+     + -0.7237,-0.2800,-0.3678,-0.5908,-0.1727,-0.5229,-0.0508,-0.5080,
+     + -0.0939,-0.1615,-0.0071,0.2327,0.0967,-0.0942,-0.4527,-0.1026,
+     + -0.3636,-0.1730,0.9900,1.2756,1.6343,1.0264,0.9828,
+     + 1.3374,0.9435,1.3824,1.0615,0.9113,0.9886,0.9013,1.0127,0.8748,
+     + 0.8293,1.0600,1.1502,1.0230,1.2324,1.0585,
+     + -0.2,-0.041,-0.041,-0.041,-0.191,-0.191,-0.131,-0.131, 
+     + -0.159,-0.041,-0.488,-0.200,-0.200,-0.365,-0.365,-0.365,-0.143,
+     + -0.143,0.000,-0.153,0.964,0.884,0.884,0.884,0.943,0.943,
+     + 0.886,0.886,0.832,0.884,0.894,0.964,0.964,0.887,0.887,0.887,
+     + 0.933,0.933,0.887,0.883,
+     + -0.201,-0.041,-0.041,-0.041,-0.192,-0.192,-0.159,
+     + -0.159,-0.055,-0.041,-0.445,-0.201,-0.201,-0.367,-0.367,-0.367,
+     + -0.144,-0.144,0.000,-0.143,0.968,0.888,0.888,0.888,
+     + 0.947,0.947,0.891,0.891,0.837,0.888,0.897,0.968,0.968,
+     + 0.891,0.891,0.891,0.937,0.937,0.893,0.886/
+
+      ERRFLAG = 0
+      IF(DBHOB .LT. 1.0)THEN
+        ERRFLAG = 3
+        RETURN
+      ENDIF
+      IF(HTTOT .LE. 4.5) THEN
+        ERRFLAG = 4
+        RETURN
+      ENDIF
+      
+C*********************************************************
+C  DETERMINE INDEX 'II' FOR HT67, STUMPD, AND DIB67
+C  BASED ON TAPER EQUATION NUMBER (VOLEQ)
+C
+      IF(VOLEQ(8:10).EQ.'746') THEN
+        II=1
+      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'400') THEN
+        II=2
+      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'405') THEN
+        II=3
+      ELSEIF(VOLEQ(8:10).EQ.'202'.AND.VOLEQ(1:3).EQ.'401') THEN
+        II=4
+      ELSEIF(VOLEQ(8:10).EQ.'019'.AND.VOLEQ(1:3).EQ.'400') THEN
+        II=5
+      ELSEIF(VOLEQ(8:10).EQ.'019'.AND.VOLEQ(1:3).EQ.'405') THEN
+        II=6
+      ELSEIF(VOLEQ(8:10).EQ.'015'.AND.VOLEQ(1:3).EQ.'400') THEN
+        II=7
+      ELSEIF(VOLEQ(8:10).EQ.'015'.AND.VOLEQ(1:3).EQ.'401') THEN
+        II=8
+      ELSEIF(VOLEQ(8:10).EQ.'081') THEN
+        II=9
+      ELSEIF(VOLEQ(8:10).EQ.'073') THEN
+        II=10
+      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'403') THEN
+        II=11
+      ELSEIF(VOLEQ(8:10).EQ.'108'.AND.VOLEQ(1:3).EQ.'400') THEN
+        II=12
+      ELSEIF(VOLEQ(8:10).EQ.'108'.AND.VOLEQ(1:3).EQ.'401') THEN
+        II=13
+      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'401') THEN
+        II=14
+      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'402') THEN
+        II=15
+      ELSEIF(VOLEQ(8:10).EQ.'122'.AND.VOLEQ(1:3).EQ.'400') THEN
+        II=16
+      ELSEIF(VOLEQ(8:10).EQ.'093'.AND.VOLEQ(1:3).EQ.'400') THEN
+        II=17
+      ELSEIF(VOLEQ(8:10).EQ.'093'.AND.VOLEQ(1:3).EQ.'407') THEN
+        II=18
+      ELSEIF(VOLEQ(8:10).EQ.'020') THEN
+        II=19
+      ELSEIF(VOLEQ(8:10).EQ.'117') THEN
+        II=20
+      ELSE
+        ERRFLAG = 1
+        RETURN
+      ENDIF
+      
+c  sutract one foot from height for mathis equations
+      THT = HTTOT-1.0
+      HT67=CFCOEF(II,1) * DBHOB**CFCOEF(II,2) * THT**CFCOEF(II,3)
+      BUTTCF= CFCOEF(II,5) * DBHOB + CFCOEF(II,4)
+      STUMPD=(BUTTCF**2*THT/(THT-4.))**.5
+      D67 = CFCOEF(II,7) * DBHOB  * (2./3.) + CFCOEF(II,6)
+      CF0 = .002727 * (HT67 * STUMPD**2 + D67**2 * THT)
+      F = CF0/(.005454 * STUMPD**2 * THT)
+      B = (1.0-F) / (2.0*F)
+      
+C Calculate DIB at a given height above ground
+      IF(HTUP.GT.0.AND.HTUP.LT.HTTOT)THEN
+        IF(HTUP.LE.1.0)THEN
+          DIB = STUMPD
+        ELSE
+          PHT = HTUP - 1.0
+          DIB = STUMPD*((THT-PHT)/THT)**B
+        ENDIF
+C calculate Height to a given DIB
+      ELSEIF(DIB.GT.0.AND.DIB.LT.STUMPD)THEN
+        PHT = THT-THT*(DIB/STUMPD)**(1/B)
+        HTUP = PHT + 1.0
+      ENDIF      
+      RETURN
+      END

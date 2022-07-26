@@ -1,8 +1,6 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  01-18-2013
 C 01/18/2013 Added stump and tip vol calculation
+c 04/13/2017 moved stum and tip vol calc to volinit
       SUBROUTINE R10VOLO(EQNUM,DBHOB,HTTOT,HT1PRD,HTYPE,MTOPP,TLOGS, 
      >       VOL,LOGSPAN,LOGDIA,logvol,BFPFLG,CUPFLG,ERRFLAG)
 
@@ -104,10 +102,12 @@ c place values into logdia and loglen first
         CALL R10TAPO (DBHOB,THT,LTYPE,MTOPP,CHK,NLOG,HMERCH,CL,HTSEG,
      >                                                         DIB,VS,V)
 
-        NCNT = INT(NLOG+4.)
+        NCNT = NLOG+4
 
 c fill logdia array      
         HTSEG(1) = 1.0
+C Correction for stump when DBH > 36 (08/19/2021)
+        IF(DBHOB.GT.36) HTSEG(1)=HTSEG(2)-16.3        
         LOGDIA(1,2) = DIB(1)
         LOGDIA(1,1) = ANINT(DIB(1))
         DO 30, I=1,INT(NLOG)   
@@ -126,7 +126,7 @@ C******************************************************************
            DO 100, I=1,INT(TLOGS)
    
               DI = LOGDIA(I+1,1)
-              DI1 = INT(DI)
+              DI1 = DI
               DI2 = DI1 + 1
               W2 = 10. * (DI - DI1)
               W1 = 10. - W2
@@ -143,7 +143,7 @@ C
                  NCHK = 2 * NCHK  
               ELSE
                  IF(I.EQ.INT(NLOG)) BF1(I) = 20. * CL/16.3
-                 JBF = INT(BF1(I) +0.5)
+                 JBF = BF1(I) +0.5
                  BF1(I) = JBF
                  BF16 = BF16 + BF1(I)   
                  CHK = I/2   
@@ -163,7 +163,7 @@ C  LOOK UP BD. FT. 32 FT. LOGS
                     BF32 = BF32 + BF2(I)  
                  ELSE
                     IF(I.EQ.INT(NLOG)) BF2(I) = 50. * (16.3 + CL)/32.6
-                    KBF = INT(BF2(I) + 0.5)
+                    KBF = BF2(I) + 0.5
                     BF2(I) = KBF
                     BF32 = BF32 + BF2(I)  
                  ENDIF
@@ -189,14 +189,14 @@ C    INTERNATIONAL LOGIC
 
   100      CONTINUE  
 
-           AJ = NLOG/2.
-           KAJ = INT(AJ)
+           AJ = NLOG/2
+           KAJ = AJ
            KAJ = KAJ * 2 
 
            DO 140, IKD = 2,KAJ,2
-              KBF2 = INT(BF2(IKD) + 0.5)
-              KDBFF = INT(DBF(IKD-1) + 0.50000001)
-              KDBFS = INT(DBF(IKD) + 0.50000001)
+              KBF2 = BF2(IKD) + 0.5  
+              KDBFF = DBF(IKD-1) + 0.50000001
+              KDBFS = DBF(IKD) + 0.50000001  
               KDBFC = KDBFF + KDBFS 
 
               IF(KDBFC.NE.KBF2) THEN
@@ -207,9 +207,9 @@ C    INTERNATIONAL LOGIC
   140      CONTINUE
   
            DO  150, I=1,INT(TLOGS)
-              ITEMP = INT(BF1(I) + 0.5)   
+              ITEMP = BF1(I) + 0.5   
               BF1(I) = ITEMP
-              ITEMP = INT(DBF(I) + 0.5)  
+              ITEMP = DBF(I) + 0.5   
               DBF(I) = ITEMP
 
               BFCHUG = BFCHUG + ANINT(BF1(I)*10.0)/10.0
@@ -296,12 +296,12 @@ C--     LOG DEFECTS, AND NET VOLUMES FOR THE TREE             *
 C--        MOVED TO NETVOL.FOR
 C**************************************************************
 C     Calculate stump and tip volume
-      STUMP=1.0
-      IF(DBHOB.LT.36.0) STUMP=DBHOB/36.0
-      IF(LOGDIA(1,2).GT.0.0) VOL(14)=0.005454154*LOGDIA(1,2)**2*STUMP
-      IF(VOL(4).GT.0.0 .AND. VOL(1).GT.0.0)THEN
-        VOL(15)=VOL(1)-VOL(4)-VOL(14)
-      ENDIF
+c      STUMP=1.0
+c      IF(DBHOB.LT.36.0) STUMP=DBHOB/36.0
+c      IF(LOGDIA(1,2).GT.0.0) VOL(14)=0.005454154*LOGDIA(1,2)**2*STUMP
+c      IF(VOL(4).GT.0.0 .AND. VOL(1).GT.0.0)THEN
+c        VOL(15)=VOL(1)-VOL(4)-VOL(14)
+c      ENDIF
  1000 CONTINUE
 
       RETURN

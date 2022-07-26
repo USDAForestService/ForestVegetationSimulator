@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 c     Subroutines to calculate diameter inside and ouside bark diameter between 0 and 4.5 and also stump volume.
 c     From Raile, G 1982. Estimating stump volume. Res. Pap. NC-224 St Paul, USDA FS North Central Forest Experimental Station
 c     Created by Y. Wang 03/13/2012
@@ -19,8 +16,8 @@ c     Created by Y. Wang 03/13/2012
       return
       END
       
-      SUBROUTINE STUMPCOEF(SPN, DOBB, DIBA, DIBB)
-      INTEGER SPN, IDX, SPLIST(23)
+      SUBROUTINE STUMPCOEF(SPCD, DOBB, DIBA, DIBB)
+      INTEGER SPCD, SPN, IDX, SPLIST(23)
       REAL dob_b(23), dib_a(23), dib_b(23)
       INTEGER DONE,LAST,ERRFLAG
       INTEGER spgrp123(55),spgrp4(39),spgrp5(9),spgrp6(27),spgrp7(18)
@@ -86,11 +83,14 @@ C     Jenkins species group 10 use 833
      +                       .12506,.14082,.14335,.11424,.10740,
      +                       .12152,.17071,.10640,.06478,.08593,
      +                       .14240,.17626,.15803/
+     
+      SPN = SPCD
 5     CONTINUE
       idx = 0
-      DOBB = 0;
-      DIBA = 1;
-      DIBB = 0;
+      DOBB = 0
+      DIBA = 1
+      DIBB = 0
+      
       DO I=1,23
         if(spn.eq.splist(I)) then
           idx = I
@@ -246,24 +246,30 @@ C  Raile and sum of segments using Smailian formula
 
 C  This rubroutine searches an array to find the maching element
       SUBROUTINE SEARCH(M,ARY,SPC,DONE,ERRFLAG)
-      INTEGER M
+      INTEGER M, I
       integer ARY(M)
-      INTEGER SPC,FIRST,LAST,HALF,DONE,ERRFLAG
+      INTEGER SPC,LOC,FIRST,LAST,HALF,DONE,ERRFLAG
       FIRST=1
       LAST=M
       DONE=0
-      DO 5, WHILE (DONE.EQ.0)
-         HALF = (LAST - FIRST +1)/2 + FIRST
-          IF(ARY(HALF) .EQ. SPC)THEN
-             DONE = HALF
-          ELSEIF(FIRST .EQ. LAST) THEN
-             ERRFLAG = 1
-             DONE = -1
-         ELSE IF (ARY(HALF) .LT. SPC) THEN
-             FIRST = HALF
-          ELSE
-             LAST = HALF - 1
-          ENDIF
+!      DO 5, WHILE (DONE.EQ.0)
+!         HALF = (LAST - FIRST +1)/2 + FIRST
+!          IF(ARY(HALF) .EQ. SPC)THEN
+!             DONE = HALF
+!          ELSEIF(FIRST .EQ. LAST) THEN
+!             ERRFLAG = 1
+!             DONE = -1
+!         ELSE IF (ARY(HALF) .LT. SPC) THEN
+!             FIRST = HALF
+!          ELSE
+!             LAST = HALF - 1
+!          ENDIF
+      DO 5 I = FIRST, LAST
+        IF(ARY(I).EQ.SPC)THEN
+          DONE = I
+          EXIT
+        ENDIF
   5   CONTINUE 
+      IF(DONE.EQ.0) ERRFLAG = 1
       RETURN
       END       

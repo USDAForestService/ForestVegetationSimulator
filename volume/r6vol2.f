@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  03-29-2004
       SUBROUTINE R6VOL2(VOLEQ,DBHOB,HT,VOL,ERRFLAG)
 C  CREATED:   06-05-91
