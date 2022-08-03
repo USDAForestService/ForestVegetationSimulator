@@ -1,2 +1,4 @@
 # Ensure source files lists are unix type line endings (lf) for correct make building
-FVS*sourceList.txt eol=lf
+* text=auto
+
+FVS*sourceList.txt text eol=lf
