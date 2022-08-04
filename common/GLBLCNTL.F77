@@ -1,6 +1,6 @@
 CODE SEGMENT GLBLCNTL
 C----------
-C COMMON $Id$
+C COMMON $Id: GLBLCNTL.F77 3950 2022-04-01 11:51:52Z nickcrookston $
 C----------
 C
       character(len=250) :: keywordfile,restartfile,stopptfile

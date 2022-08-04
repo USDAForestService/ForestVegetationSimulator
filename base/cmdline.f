@@ -1,5 +1,5 @@
 C----------
-C BASE $Id$
+C BASE $Id: cmdline.f 3950 2022-04-01 11:51:52Z nickcrookston $
 C----------
 c     This is a collection of routines that provide an interface to
 c     elements of the FVS command line parameters, including the stop/

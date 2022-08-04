@@ -1,6 +1,6 @@
 CODE SEGMENT ARRAYS
 C----------
-C COMMON $Id$
+C COMMON $Id: ARRAYS.F77 3958 2022-04-14 07:53:29Z nickcrookston $
 C----------
 C
       LOGICAL LBIRTH(MAXTRE)

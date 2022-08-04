@@ -1,6 +1,6 @@
 CODE SEGMENT CONTRL
 C----------
-C COMMON $Id$
+C COMMON $Id: CONTRL.F77 3950 2022-04-01 11:51:52Z nickcrookston $
 C----------
 C
       CHARACTER*2 VARACD

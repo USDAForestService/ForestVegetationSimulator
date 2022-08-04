@@ -1,7 +1,7 @@
       SUBROUTINE FMFINT (IYR, BYRAM, FLAME, FTYP, HPA, ICALL)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id$
+C FIRE-BASE $Id: fmfint.f 3958 2022-04-14 07:53:29Z nickcrookston $
 C----------
 *     CALLED FROM FMBURN
 *                 FMPOFL
