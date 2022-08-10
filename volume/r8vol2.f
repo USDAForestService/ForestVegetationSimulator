@@ -363,13 +363,13 @@ c     *********************************************
 c        check for httwo equal zero and totht > 0
       IF((EQN.EQ.4.OR.EQN.EQ.7.OR.EQN.EQ.9).AND.
      >             (HTTOT.GT.0.AND.HTTWO.LE.0.AND.CTYPE.EQ.'F'))THEN
-	      IF(HTTOT .LT. 20) THEN
-	        ERRFLAG = 4
-	        GOTO 999
+	  IF(HTTOT .LT. 20) THEN
+	     ERRFLAG = 4
+	     GOTO 999
         ENDIF
-	      THTFLAG = 1
-	    ELSE
-  	    THTFLAG = 0
+	  THTFLAG = 1
+	ELSE
+  	  THTFLAG = 0
       ENDIF
 
       IF (SPEC.EQ.SPECPR .AND. EQN.EQ.EQNPR .AND. GEOA.EQ.GEOAPR) THEN
