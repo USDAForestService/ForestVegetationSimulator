@@ -36,6 +36,13 @@ C  merchantability rules for the specified species and product.
       INTEGER OPT,EVOD
       REAL FCLSS,THT,FCDIB,FCMIN,DBH,HT2
 
+C  DW 08/22 initializations of variables otherwise uninitialized prior to MRULES call
+      OPT = 0
+      EVOD = 0
+      MINLENT = 0
+      BTR = 0
+      DBTBH = 0
+
       if(volEq(10:10).lt.'0' .or. volEq(10:10).gt.'9') then
         tmpStr=volEq(8:9)
         volEq(8:10)='0'//tmpStr

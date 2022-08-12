@@ -134,8 +134,9 @@ c         Use Wenzel modified hyperbolic model for greater than BH
 C     IF(JSPR.EQ.5)THEN
 
 CELSE
+C  DW 08/22 Propose changing DR to filter values less than 0.01 to prevent underflow
       IF (HT2.GT.4.5) THEN
-         IF(DR.GT.0.0) THEN
+         IF(DR.GT.0.01) THEN
             PY = (DR * ((B2-1)/(B2-DR**B3))) - ((DR**B5 -1)/DBTBH)
          ELSE
             PY = 0.0

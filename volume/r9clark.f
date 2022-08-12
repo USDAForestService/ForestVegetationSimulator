@@ -517,6 +517,13 @@ C  merchantability rules for the specified species and product.
       CHARACTER*1 COR
 !      real      r,c,e,p,b,a,a4,b4,a17,b17
 
+C  DW 08/22 initializations of variables otherwise uninitialized prior to MRULES call
+      OPT = 0
+      EVOD = 0
+      MINLENT = 0
+      BTR = 0
+      DBTBH = 0
+
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R9PREP'
    10    FORMAT (A)   

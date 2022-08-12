@@ -580,7 +580,9 @@ C
         ERRFLAG = 3
         RETURN
       ENDIF
-      IF(HTTOT .LE. 4.5) THEN
+      
+C   DSW 08/22 Proposed modification to prevent div by zero error in STUMPD calc
+      IF(HTTOT .LE. 5.0) THEN
         ERRFLAG = 4
         RETURN
       ENDIF

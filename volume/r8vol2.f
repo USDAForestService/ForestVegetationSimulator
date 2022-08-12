@@ -1624,6 +1624,13 @@ C     Shared variables
       TYPE(CLKCOEF):: COEFFS
       REAL LOGLEN2(20), DBHIB,DIB17,topHt,totHt,a,b
 
+C  DW 08/22 initializations of variables otherwise uninitialized prior to MRULES call
+      OPT = 0
+      EVOD = 0
+      MINLENT = 0
+      BTR = 0
+      DBTBH = 0
+
       READ(VOLEQ(3:3),'(I1)')EQN
       REGN = 8
       DO 102,I=1,20
