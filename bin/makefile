@@ -95,8 +95,8 @@ ifndef sourceFileList
 FVSak$(SLIBSUFX) FVSak$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSak) $(shell cat $(addsuffix _sourceList.txt,FVSak))
 	$(MAKE) --file=makefile FVSak.setup
 
-FVSbc$(SLIBSUFX) FVSbc$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSbc) $(shell cat $(addsuffix _sourceList.txt,FVSbc))
-	$(MAKE) --file=makefile FVSbc.setup
+#FVSbc$(SLIBSUFX) FVSbc$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSbc) $(shell cat $(addsuffix _sourceList.txt,FVSbc))
+#	$(MAKE) --file=makefile FVSbc.setup
 
 FVSbm$(SLIBSUFX) FVSbm$(PRGSUFX)  : $(addsuffix _sourceList.txt,FVSbm) $(shell cat $(addsuffix _sourceList.txt,FVSbm))
 	$(MAKE) --file=makefile FVSbm.setup
@@ -137,8 +137,8 @@ FVSne$(SLIBSUFX) FVSne$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSne) $(shell ca
 FVSoc$(SLIBSUFX) FVSoc$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSoc) $(shell cat $(addsuffix _sourceList.txt,FVSoc))
 	$(MAKE) --file=makefile FVSoc.setup
 
-FVSon$(SLIBSUFX) FVSon$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSon) $(shell cat $(addsuffix _sourceList.txt,FVSon))
-	$(MAKE) --file=makefile FVSon.setup
+#FVSon$(SLIBSUFX) FVSon$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSon) $(shell cat $(addsuffix _sourceList.txt,FVSon))
+#	$(MAKE) --file=makefile FVSon.setup
 
 FVSop$(SLIBSUFX) FVSop$(PRGSUFX) : $(addsuffix _sourceList.txt,FVSop) $(shell cat $(addsuffix _sourceList.txt,FVSop))
 	$(MAKE) --file=makefile FVSop.setup

@@ -80,6 +80,11 @@ C     Temp variable for BEH equation
       INTEGER ZONE
       REAL FC_HT,D17,TTH,DBHIB
 
+C  DW 08/22 initializations of variables otherwise uninitialized prior to MRULES call
+      OPT = 0
+      EVOD = 0
+      MINLENT = 0
+
 c      LOGST = 0      ! commented out for variable log cruising
 C     changed to set LOGST = 0 for NOT variable log cruising (CTYPE = V)
 C     YW 05/10/2016
@@ -1451,6 +1456,12 @@ c     in the merch piece.
       REAL LOGLEN(20),LOGVOL(7,20),LOGDIA(21,3),D2,LEN,MINBFD
       REAL DBHIB,MAXLEN,MINLEN,MERCHL,MINLENT,MTOPS,STUMP,TRIM,BTR
 	REAL DIBL,DIBS,LENGTH,LOGV,LOGVOL32(20),TOPV16,BOTV16,R,LMERCH
+
+C  DW 08/22 initializations of variables otherwise uninitialized prior to MRULES call
+      OPT = 0
+      EVOD = 0
+      MINLENT = 0
+      BTR = 0
 
       DBHIB = DBH-DBTBH
 c     check top diameter not greater than DBH inside bark. (YW 2014/07/02)      

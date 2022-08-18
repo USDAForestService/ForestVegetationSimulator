@@ -75,7 +75,8 @@ C **************************************************************
 !     ARRAYS
 ! initialize profile model  
 !C  heck for a DBH of less than 1.  Drop out of volume if true.  10/97
-      if(dbhob.lt.1) then
+!   Added check for height 08/2022 DW       
+      if(dbhob.lt.1 .or. HTTOT.lt.5) then
         errflag = 3
         goto 1000
       endif
