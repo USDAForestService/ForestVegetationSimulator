@@ -122,15 +122,15 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
      >    VARACD.EQ.'NE' .OR. VARACD.EQ.'ON') THEN
         TBLNAME = 'FVS_ATRTList_East_Metric'
         NTCUFT  = 'TCuM'
-        NMCUFT  = 'SCuM'
-        NBDFT   = 'NCuM'
+        NMCUFT  = 'MCuM'
+        NBDFT   = 'CCuM'
         NAMDCF  = 'Ht2TDMCM'
         NAMDBF  = 'Ht2TDSBM'
       ELSE
         TBLNAME = 'FVS_ATRTList_Metric'
         NTCUFT  = 'TCuM'
         NMCUFT  = 'MCuM'
-        NBDFT   = 'NCuM'
+        NBDFT   = 'CCuM'
         NAMDCF  = 'Ht2TDCM '
         NAMDBF  = 'Ht2TDBM '
       ENDIF
@@ -281,7 +281,7 @@ C
      -        ',',CFV(I)*FT3toM3,',',WK1(I)*FT3toM3,
      -        ',',BFV(I)*FT3toM3,',',ICDF,',',IBDF,
      -        ',',NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM),',',ESTHT*FTtoM,
-     -        ',',IPVEC(ITRE(I)),',',HT2TD(I,2)*FTtoM*0.0,
+     -        ',',IPVEC(ITRE(I)),',',HT2TD(I,2)*FTtoM,
      -        ',',HT2TD(I,1)*FTtoM,',',TREAGE,');'
 
            IRCODE = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))

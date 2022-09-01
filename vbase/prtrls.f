@@ -377,7 +377,7 @@ C----------
      >       1X,F6.2,1X,I5,1X,F6.1,1X,F6.1,1X,F7.1,1X,I2,1X,I2,
      >       1X,I3)
           ELSE
-            WRITE(KOLIST,21) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
+            WRITE(KOLIST,20) TID,I,NSP(ISP(I),1)(1:2),ISP(I),IMC(I),
      >      ISPECL(I),IPVEC(ITRE(I)),P,DP,DBH(I),DGI  ,HT(I),HTG(I),
      >      ICR(I),CW,
      >      IDMR,PCT(I),IPTBAL,CFV(I),WK1(I),BFV(I),ICDF,IBDF,

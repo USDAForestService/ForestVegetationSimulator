@@ -24,6 +24,7 @@ fvsAddActivity()
 ## first run
 fvsSetCmdLine("--keywordfile=base.key")
 
+fvsRun(7,0)
 fvsRun(2,2030)
 fvsGetStandIDs()
 
@@ -89,6 +90,23 @@ fvsGetSummary()
 
 # continue the run for the next stand.
 fvsRun()
+
+# test fvsInteractRun
+fvsSetCmdLine("--keywordfile=base.key") 
+testInteract <- function(msg) 
+{
+  cat("msg=",msg," ids=",unlist(fvsGetStandIDs()),         
+      " year=",fvsGetEventMonitorVariables("year"),"\n")
+  fvsGetRestartcode()
+}
+rtn = fvsInteractRun(
+        BeforeEM1  = 'testInteract("BeforeEM1  ")', 
+        AfterEM1   = 'testInteract("AfterEM1   ")', 
+        BeforeEM2  = 'testInteract("BeforeEM2  ")', 
+        AfterEM2   = 'testInteract("AfterEM2   ")', 
+        BeforeAdd  = 'testInteract("BeforeAdd  ")', 
+        BeforeEstab= 'testInteract("BeforeEstab")', 
+        SimEnd     = 'testInteract("SimEnd     ")')
 
 
 

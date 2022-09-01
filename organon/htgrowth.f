@@ -910,7 +910,7 @@ C
       SUBROUTINE HG_FERT(CYCLG,VERSION,ISPGRP,SI_1,PN,YF,FERTADJ)
       IMPLICIT NONE
       REAL*4 SI_1,PN(5),YF(5),FERTADJ,PF1,PF2,PF3,PF4,PF5,FALDWN,XTIME,
-     1       FERTX1,FERTX2,TEM1,TEM2
+     1       FERTX1,FERTX2
       INTEGER*4 CYCLG,VERSION,ISPGRP,I
       IF(VERSION .LE. 3) THEN
          IF(ISPGRP .EQ. 1)THEN
@@ -939,16 +939,7 @@ C
       DO I=2,5
          FERTX1=FERTX1+(PN(I)/800.0)*EXP((PF3/PF2)*(YF(1)-YF(I)))
       ENDDO
-
-C     FERTX2=EXP(PF3*(XTIME-YF(1))+PF4*(SI_1/100.0)**PF5)
-C     Break apart equation to limit value used in EXP function.
-C     Value less than -86.0 will cause underflow error with single
-C     precision real variable. 7/12/22 LD
-
-      TEM1=(PF3*(XTIME-YF(1))+PF4*(SI_1/100.0)**PF5)
-      TEM2=MAX(-86.0,TEM1)
-      FERTX2=EXP(TEM2)
-
+      FERTX2=EXP(PF3*(XTIME-YF(1))+PF4*(SI_1/100.0)**PF5)
       FERTADJ=1.0+(PF1*((PN(1)/800.0)+FERTX1)**PF2*FERTX2)*FALDWN
       RETURN
       END

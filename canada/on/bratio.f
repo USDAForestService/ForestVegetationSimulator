@@ -81,21 +81,23 @@ C     happens, recalculate based on a smaller ratio.
       HDRAT = H_M / D_CM
 
       IF (IS .EQ. 5 .OR. IS .EQ. 70) THEN
-C       (WHITE PINE)      
+C       (WHITE PINE)
         BRATIO = 1.0 - 0.04513 * D_CM ** (1.168567 - 1.0)
 
       ELSE IF (IS .EQ. 9 .OR. IS .EQ. 72) THEN
-C       (BLACK SPRUCE)      
+C       (BLACK SPRUCE)
 C        Note: equation goes negative at HDRAT>14.8679)
-        IF (HDRAT .LT. 14.8) THEN
-          BRATIO = 1.0 - 0.067259 * HDRAT
+C        IF (HDRAT .LT. 14.8) THEN
+         IF (HDRAT .LT. 14.0) THEN
+         BRATIO = 1.0 - 0.067259 * HDRAT
         ELSE
           BRATIO = 1.0 - 0.067259 * 14.0
         END IF
       ELSE IF (IS .EQ. 11 .OR. IS .EQ. 14) THEN
-C       (WHITE CEDAR, ALSO USED FOR NORTHERN RED CEDAR)      
+C       (WHITE CEDAR, ALSO USED FOR NORTHERN RED CEDAR)
 C        Note: equation goes negative at HDRAT>7.31797)
-        IF (HDRAT .LT. 7.3) THEN
+C        IF (HDRAT .LT. 7.3) THEN
+        IF (HDRAT .LT. 7.0) THEN
           BRATIO = 1.0 - 0.13665 * HDRAT
         ELSE
           BRATIO = 1.0 - 0.13665 * 7.0
@@ -107,13 +109,21 @@ C        Note: equation goes negative at HDRAT>7.31797)
      &         IS .EQ. 51 .OR. IS .EQ. 52 .OR. IS .EQ. 54 .OR. 
      &         IS .EQ. 57 .OR. IS .EQ. 59 .OR. IS .EQ. 64 .OR. 
      &         IS .EQ. 65 .OR. IS .EQ. 66 .OR. IS .EQ. 67) THEN
-C       SUGAR/RED MAPLE (ONT SP: 30,32)      
+C       SUGAR/RED MAPLE (ONT SP: 30,32)
 C           Note: equation goes negative at HDRAT>8.954)
-        IF (HDRAT .LT. 8.9) THEN
+C        IF (HDRAT .LT. 8.9) THEN
+        IF (HDRAT .LT. 8.0) THEN
           BRATIO = 1.0 - 0.111681 * HDRAT
         ELSE
           BRATIO = 1.0 - 0.111681 * 8.0
         END IF
+C---------------
+C--SARAH TEMP FOR DEBUGGING
+C---------------
+C      WRITE(16,9023) D,H,HDRAT, BRATIO
+C 9023 FORMAT(' IN BRATIO, DBH=',F7.2,
+C     &       ', HEIGHT=',F7.2,', HDRAT=',F7.4,',BRATIO.=',F7.4)
+
 
       END IF
 

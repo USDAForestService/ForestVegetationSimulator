@@ -51,21 +51,15 @@ C----------
       INCLUDE  'METRIC.F77'
       INCLUDE  'BCPLOT.F77'
 
-C     NUMBER OF ENTRIES FOR NELSON (NCNT) AND KAMLOOPS (KCNT)
-C     FOR ALL SITE SERIES
-
       INTEGER   NCNT,KCNT
       INTEGER   NCNT2,KCNT2,ACNT2
 
-      PARAMETER (NCNT=20)   ! was 52
-      PARAMETER (KCNT=11)   ! was 37
+      PARAMETER (NCNT=20) ! number of explicit BEC/ss Nelson
+      PARAMETER (KCNT=11) ! number of explicit BEC/ss Kamloops
 
-C     NUMBER OF BEC/SUBZONE ENTRIES FOR NELSON (NCNT2) AND KAMLOOPS (KCNT2)
-C     AND COMBINED (ACNT2)
-
-      PARAMETER (NCNT2= 9) ! was 19
-      PARAMETER (KCNT2= 6) ! was 18
-      PARAMETER (ACNT2=12) ! was 27
+      PARAMETER (NCNT2= 9) ! number of explicit BEC/szn Nelson
+      PARAMETER (KCNT2= 6) ! number of explicit BEC/szn Kamloops
+      PARAMETER (ACNT2=12) ! number of explicit BEC/szn Nelson and Kamloops
 
 C     DECLARE STRUCTURE FOR LARGE TREE HEIGHT GROWTH MODIFIER
 C     AND MORTALITY MODIFIER
@@ -79,14 +73,15 @@ C     AND MORTALITY MODIFIER
 
 C     LBEC8 IS A COPY OF LTDGOK
 
-      LOGICAL      LBEC8(MAXSP), LOK1, LOK2
+      LOGICAL      LBEC8(MAXSP), LOK1, LOK2, LBECNEW
 
       CHARACTER*1  CH(MAXSP)
       CHARACTER*44 SPLST
+      CHARACTER*15 COLDBEC
 
-      CHARACTER*10 KAMCODE(KCNT),  NELCODE(NCNT)
-      CHARACTER*7 KAMCOD2(KCNT2), NELCOD2(NCNT2)
-      INTEGER     KAMINDX(KCNT), NELINDX(NCNT)
+!      CHARACTER*10 KAMCODE(KCNT),  NELCODE(NCNT)
+!      CHARACTER*7 KAMCOD2(KCNT2), NELCOD2(NCNT2)
+!      INTEGER     KAMINDX(KCNT), NELINDX(NCNT)
       INTEGER     I,J,IP
       INTEGER     IREGN, IBEC, INOSPP, IBECX, IBECY
 
@@ -231,69 +226,69 @@ C     GROWTH
      &               0.0     ,  0.0     ,  0.0     ,  0.0,
      &               0.0     , -0.064699,  0.0      /
 
-C     ALLOWABLE BEC VARIANTS FOR KAMLOOPS
-
-      DATA KAMCODE /  'PPxh1/01', 'PPxh1/03',  'PPxh1/06',  'PPxh1/07',
-     &                'PPxh2/03',
-     &                 'MSdk/01',  'MSdk/03',  'MSdk/04',
-     &                'MSdm1/04',
-     &                 'MSxk/05',
-     &              'ESSFdc1/03' /
-
-C     BEC/VARIANT CODES (ONE FOR EACH LINE OF PRECEDING BLOCK)
-
-      DATA KAMCOD2 /  'PPxh1',
-     &                'PPxh2',
-     &                'MSdk',
-     &                'MSdm1',
-     &                'MSxk',
-     &              'ESSFdc1' /
-
-C     CORRESPONDING HABITAT CODES FOR KAMLOOPS
-
-      DATA KAMINDX / 130, 130, 310, 310,
-     &               130,
-     &               660, 470, 250,
-     &               250,
-     &               320,
-     &               730 /
-
-C     ALLOWABLE BEC VARIANTS FOR NELSON
-
-      DATA NELCODE /  'PPdh1/01',
-     &                'PPdh2/01',
-     &                 'MSdk/01',   'MSdk/03',   'MSdk/04',  'MSdk/05',
-     &                'MSdm1/01',  'MSdm1/02',  'MSdm1/03', 'MSdm1/04',
-     &               'ESSFdk/01', 'ESSFdk/04',
-     &              'ESSFdc1/03',
-     &               'ESSFwm/01', 'ESSFwm/02', 'ESSFwm/03','ESSFwm/04',
-     &              'ESSFwc1/02',
-     &              'ESSFwc4/02','ESSFwc4/03' /
-
-C     BEC/VARIANT CODES (ONE FOR EACH LINE OF PRECEDING BLOCK)
-
-      DATA NELCOD2 /  'PPdh1',
-     &                'PPdh2',
-     &                'MSdk',
-     &                'MSdm1',
-     &              'ESSFdk',
-     &              'ESSFdc1',
-     &              'ESSFwm',
-     &              'ESSFwc1',
-     &              'ESSFwc4' /
-
-C     CORRESPONDING HABITAT CODES FOR NELSON
-
-      DATA NELINDX / 130,
-     &               130,
-     &               660, 470, 250, 420,
-     &               620, 320, 730, 250,
-     &               670, 670,
-     &               730,
-     &               620, 670, 670, 620,
-     &               640,
-     &               670, 670 /
-
+!C     ALLOWABLE BEC VARIANTS FOR KAMLOOPS
+!
+!      DATA KAMCODE /  'PPxh1/01', 'PPxh1/03',  'PPxh1/06',  'PPxh1/07',
+!     &                'PPxh2/03',
+!     &                 'MSdk/01',  'MSdk/03',  'MSdk/04',
+!     &                'MSdm1/04',
+!     &                 'MSxk/05',
+!     &              'ESSFdc1/03' /
+!
+!C     BEC/VARIANT CODES (ONE FOR EACH LINE OF PRECEDING BLOCK)
+!
+!      DATA KAMCOD2 /  'PPxh1',
+!     &                'PPxh2',
+!     &                'MSdk',
+!     &                'MSdm1',
+!     &                'MSxk',
+!     &              'ESSFdc1' /
+!
+!C     CORRESPONDING HABITAT CODES FOR KAMLOOPS
+!
+!      DATA KAMINDX / 130, 130, 310, 310,
+!     &               130,
+!     &               660, 470, 250,
+!     &               250,
+!     &               320,
+!     &               730 /
+!
+!C     ALLOWABLE BEC VARIANTS FOR NELSON
+!
+!      DATA NELCODE /  'PPdh1/01',
+!     &                'PPdh2/01',
+!     &                 'MSdk/01',   'MSdk/03',   'MSdk/04',  'MSdk/05',
+!     &                'MSdm1/01',  'MSdm1/02',  'MSdm1/03', 'MSdm1/04',
+!     &               'ESSFdk/01', 'ESSFdk/04',
+!     &              'ESSFdc1/03',
+!     &               'ESSFwm/01', 'ESSFwm/02', 'ESSFwm/03','ESSFwm/04',
+!     &              'ESSFwc1/02',
+!     &              'ESSFwc4/02','ESSFwc4/03' /
+!
+!C     BEC/VARIANT CODES (ONE FOR EACH LINE OF PRECEDING BLOCK)
+!
+!      DATA NELCOD2 /  'PPdh1',
+!     &                'PPdh2',
+!     &                'MSdk',
+!     &                'MSdm1',
+!     &              'ESSFdk',
+!     &              'ESSFdc1',
+!     &              'ESSFwm',
+!     &              'ESSFwc1',
+!     &              'ESSFwc4' /
+!
+!C     CORRESPONDING HABITAT CODES FOR NELSON
+!
+!      DATA NELINDX / 130,
+!     &               130,
+!     &               660, 470, 250, 420,
+!     &               620, 320, 730, 250,
+!     &               670, 670,
+!     &               730,
+!     &               620, 670, 670, 620,
+!     &               640,
+!     &               670, 670 /
+!
 C     BEC-SPECIFIC PARAMETERS FOR NELSON WHITE PINE (PW)
 
       DATA NPW /  0.0,
@@ -871,71 +866,214 @@ C     IF LV2HDR IS .TRUE. BECSET HAS ALREADY BEEN CALLED, ALL PARAMETERS ASSIGNE
       IF (LV2ATV .AND. LV2HDR) RETURN
       LV2HDR = .TRUE.
 
-C     LTDG (LARGE TREE DIAMETER GROWTH) REPARAM IS INITIALLY NOT DEFINED
-ccc      DO I = 1,MAXSP
-ccc        LLTDGOK(I)  = .FALSE.
-ccc      ENDDO
-
-      IBEC = 0
-      IREGN = 0
-C      READ (BEC%Series,'(I4)') iSeries
-
+      IREGN   = 0
+      IBEC    = 0
+      IBECX   = 0
+      IBECY   = 0
+      LBECNEW = .FALSE.
+      COLDBEC = ''
+      
 C     ** LARGE TREE ADJUSTMENT **
 C     IBECX IS THE INDEX TO THE EXISTENCE OF AN ADJUSTMENT PARAMETER AT THE
 C     SITE SERIES. IBEC IS THE HABITAT CODE MATCHING THE STRING CONTAINING
 C     THE SITE SERIES. NO MATCH GIVES IBECX=0, IBEC=0
-
-      IBECX = 0
+      
       IF (INDEX(BEC%Region,'KAM') .GT. 0 .OR.
      >    INDEX(BEC%Region,'CAR') .GT. 0) THEN
         IREGN = 1
-        DO I = 1,KCNT
-          IF (INDEX(BEC%PrettyName,KAMCODE(I)) .GT. 0) THEN
-            IBEC = KAMINDX(I)
-            IBECX = I
-            GOTO 22
-          ENDIF
-        ENDDO
+        SELECT CASE (BEC%PrettyName)
+          CASE ('PPxh1/01')
+            IBEC = 130
+            IBECX =  1
+            IBECY =  1
+          CASE ('PPxh1/03')
+            IBEC = 130
+            IBECX =  2
+            IBECY =  1
+          CASE ('PPxh1/06')
+            IBEC = 310
+            IBECX =  3
+            IBECY =  1
+          CASE ('PPxh1/07')
+            IBEC = 310
+            IBECX =  4
+            IBECY =  1
+
+          CASE ('PPxh2/03')
+            IBEC = 130
+            IBECX =  5
+            IBECY =  2
+
+          CASE ('MSdk/01')
+            IBEC = 660
+            IBECX =  6
+            IBECY =  3
+          CASE ('MSdk/03')
+            IBEC = 470
+            IBECX =  7
+            IBECY =  3
+          CASE ('MSdk/04')
+            IBEC = 250
+            IBECX =  8
+            IBECY =  3
+            
+          CASE ('MSdm1/04')
+            IBEC = 250
+            IBECX =  9
+            IBECY =  4
+
+          CASE ('MSxk/05')
+            IBEC = 320
+            IBECX = 10
+            IBECY =  5
+            
+          CASE ('ESSFdc1/03')
+            IBEC = 730
+            IBECX = 11
+            IBECY =  6
+
+          CASE DEFAULT  ! MSdk/01 is default
+            IBEC = 660
+            IBECX =  6
+            IBECY =  3
+            COLDBEC = BEC%PrettyName
+            BEC%PrettyName='MSdk/01'
+            BEC%FullName=  'MSdk'
+            LBECNEW = .TRUE.           
+
+        END SELECT      
+
       ELSEIF (INDEX(BEC%Region,'NEL') .GT. 0) THEN
         IREGN = 2
-        DO I = 1,NCNT
-          IF (INDEX(BEC%PrettyName,NELCODE(I)) .GT. 0) THEN
-            IBEC = NELINDX(I)
-            IBECX = I
-            GOTO 22
-          ENDIF
-        ENDDO
+        SELECT CASE (BEC%PrettyName)
+          CASE ('PPdh1/01')
+            IBEC = 130
+            IBECX =  1
+            IBECY =  1
+
+          CASE ('PPdh2/01')
+            IBEC = 130
+            IBECX =  2
+            IBECY =  2
+            
+          CASE ('MSdk/01')
+            IBEC = 660
+            IBECX =  3
+            IBECY =  3
+          CASE ('MSdk/03')
+            IBEC = 470
+            IBECX =  4
+            IBECY =  3
+          CASE ('MSdk/04')
+            IBEC = 250
+            IBECX =  5
+            IBECY =  3
+          CASE ('MSdk/05')
+            IBEC = 420
+            IBECX =  6
+            IBECY =  3
+
+          CASE ('MSdm1/01')
+            IBEC = 620
+            IBECX =  7
+            IBECY =  4
+          CASE ('MSdm1/02')
+            IBEC = 320
+            IBECX =  8
+            IBECY =  4
+          CASE ('MSdm1/03')
+            IBEC = 730
+            IBECX =  9
+            IBECY =  4
+          CASE ('MSdm1/04')
+            IBEC = 250
+            IBECX = 10
+            IBECY =  4
+
+          CASE ('ESSFdk/01')
+            IBEC = 670
+            IBECX = 11
+            IBECY =  5
+          CASE ('ESSFdk/04')
+            IBEC = 670
+            IBECX = 12
+            IBECY =  5
+            
+          CASE ('ESSFdc1/03')
+            IBEC = 730
+            IBECX = 13
+            IBECY =  6
+            
+          CASE ('ESSFwm/01')
+            IBEC = 620
+            IBECX = 14
+            IBECY =  7
+          CASE ('ESSFwm/02')
+            IBEC = 670
+            IBECX = 15
+            IBECY =  7
+          CASE ('ESSFwm/03')
+            IBEC = 670
+            IBECX = 16
+            IBECY =  7
+          CASE ('ESSFwm/04')
+            IBEC = 620
+            IBECX = 17
+            IBECY =  7
+
+          CASE ('ESSFwc1/02')
+            IBEC = 640
+            IBECX = 18
+            IBECY =  8
+
+          CASE ('ESSFwc4/02')
+            IBEC = 670
+            IBECX = 19
+            IBECY =  9
+          CASE ('ESSFwc4/03')
+            IBEC = 670
+            IBECX = 20
+            IBECY =  9
+
+          CASE DEFAULT  ! MSdk/01 is default; change zones if no match
+            IBEC = 660
+            IBECX =  3
+            IBECY =  3
+            COLDBEC = BEC%PrettyName            
+            BEC%PrettyName='MSdk/01'
+            BEC%FullName=  'MSdk'
+            LBECNEW = .TRUE.
+          END SELECT      
       ENDIF
 
 C     ** LARGE TREE ADJUSTMENT **
 C     IBECY IS THE INDEX TO THE ADJUSTMENT PARAMETER AT THE
 C     SUBZONE. NO MATCH GIVES IBECY=0
 
-   22 IBECY = 0
-      IF (IREGN .EQ. 1) THEN
-        DO I = 1, KCNT2
-          IF (INDEX(BEC%FullName,KAMCOD2(I)) .GT. 0) THEN
-            IBECY = I
-            GOTO 23
-          ENDIF
-        ENDDO
-      ELSEIF (IREGN .EQ. 2) THEN
-        DO I = 1, NCNT2
-          IF (INDEX(BEC%FullName,NELCOD2(I)) .GT. 0) THEN
-            IBECY = I
-            GOTO 23
-          ENDIF
-        ENDDO
-      ENDIF
+   !22 IBECY = 0
+   !   IF (IREGN .EQ. 1) THEN
+   !     DO I = 1, KCNT2
+   !       IF (INDEX(BEC%FullName,KAMCOD2(I)) .GT. 0) THEN
+   !         IBECY = I
+   !         GOTO 23
+   !       ENDIF
+   !     ENDDO
+   !   ELSEIF (IREGN .EQ. 2) THEN
+   !     DO I = 1, NCNT2
+   !       IF (INDEX(BEC%FullName,NELCOD2(I)) .GT. 0) THEN
+   !         IBECY = I
+   !         GOTO 23
+   !       ENDIF
+   !     ENDDO
+   !   ENDIF
 
 C     HEIGHT GROWTH, MORTALITY MODEL ADJUSTMENT
-C
 C     FIND INDEX TO ALL-REGIONS SUBZONE. NO MATCH OR NO
 C     PARAMETERIZATION GIVES JBECY=0. NOTE THAT LTHGMOD IS USED
 C     IN THE TEST, BUT THAT IT APPLIES TO MORTMOD AS WELL, SINCE
 C     THEY ARE IDENTICAL W.R.T. TO BECszn AND OK ELEMENTS.
 
-   23 JBECY = 0
+      JBECY = 0
       DO I = 1,ACNT2
         IF (INDEX(BEC%FullName,LTHGMOD(I)%BECszn) .GT. 0 .AND.
      >     LTHGMOD(I)%OK) THEN
@@ -949,56 +1087,57 @@ C     WRITE HEADER INFO
    24 CONTINUE
       WRITE (JOSTND, "(/1X,T12,80('='))")
       WRITE (JOSTND, "(
-     &  /1X,T12,'BC VERSION 2 CALIBRATION OF LARGE-TREE ',
+     &  /T12,'BC VERSION 2 CALIBRATION OF LARGE-TREE ',
      &   'DIAMETER-GROWTH, LARGE TREE HEIGHT-DIAMETER,',
-     &  /1X,T12,'SMALL TREE HEIGHT-GROWTH, MAXIMUM BASAL AREA, ',
+     &  /T12,'SMALL TREE HEIGHT-GROWTH, MAXIMUM BASAL AREA, ',
      &   'HEIGHT GROWTH MODIFICATION',
-     &  /1X,T12,'AND MORTALITY MODIFICATION MODELS')")
+     &  /T12,'AND MORTALITY MODIFICATION MODELS')")
 
 C     IF IBEC IS ZERO, THE USER HAS PROVIDED A BEC/SS WHICH CURRENTLY
 C     HAS NO MATCH AND THE DEFAULT HABITAT CODE IS APPLIED. OTHERWISE,
 C     COMPARE WITH EXISTING HABITAT CODE.
 
-      IF (IBEC .EQ. 0) THEN
-        KODTYP = 260 ! use NI default
-        WRITE (JOSTND, 28) BEC%PrettyName, BEC%Region, KODTYP
-   28   FORMAT (/1X,T12,'THE BEC VARIANT ',A,' HAS NO EXACT LARGE-',
-     &    'TREE RECALIBRATION',/1X,T13,'MAPPING IN THE ',A,
-     &    'REGION; USING DEFAULT HABITAT TYPE= ',I3)
+      KODTYP = IBEC
+      IF (LBECNEW) THEN
         CALL ERRGRO(.TRUE.,3)
+        WRITE (JOSTND, 28) trim(COLDBEC), BEC%Region,
+     &     trim(BEC%PrettyName), KODTYP
+   28   FORMAT (/T12,'THE BEC VARIANT ', A,' HAS NO EXACT LARGE-',
+     &    'TREE RECALIBRATION MAPPING IN',/T12, 'THE ', A,
+     &    ' REGION; SWITCHING TO BEC VARIANT ', A, ' USING DEFAULT ',
+     &    'HABITAT TYPE= ', I3)
       ELSE
-        WRITE (JOSTND, 30) BEC%PrettyName, IBEC, BEC%Region
-   30   FORMAT (/1X,T12,'THE BEC VARIANT ',A,' MAPS TO HABITAT ',
-     &    'TYPE ',I3,' IN THE ',A,' REGION.')
-        KODTYP = IBEC
+        WRITE (JOSTND, 30) trim(BEC%PrettyName), KODTYP, BEC%Region
+   30   FORMAT (/T13,'THE BEC VARIANT ', A, ' MAPS TO HABITAT ',
+     &    'TYPE ', I3, ' IN THE ', A, ' REGION.')
        
 C     need to assign ITYPE here too, this is based on code in /ie/habtyp.f and /ie/blkdat.f
 
       SELECT CASE (KODTYP)
-      CASE(130)
-        ITYPE = 1
-      CASE(250)
-        ITYPE = 4
-      CASE(310)
-        ITYPE = 7
-      CASE(320)
-        ITYPE = 8
-      CASE(420)
-        ITYPE = 10
-      CASE(470)
-        ITYPE = 11
-      CASE(620)
-        ITYPE = 19
-      CASE(640)
-        ITYPE = 20
-      CASE(660)
-        ITYPE = 21
-      CASE(670)
-        ITYPE = 22
-      CASE(730)
-        ITYPE = 27
-      CASE DEFAULT
-        ITYPE = 4
+        CASE(130)
+          ITYPE = 1
+        CASE(250)
+          ITYPE = 4
+        CASE(310)
+          ITYPE = 7
+        CASE(320)
+          ITYPE = 8
+        CASE(420)
+          ITYPE = 10
+        CASE(470)
+          ITYPE = 11
+        CASE(620)
+          ITYPE = 19
+        CASE(640)
+          ITYPE = 20
+        CASE(660)
+          ITYPE = 21
+        CASE(670)
+          ITYPE = 22
+        CASE(730)
+          ITYPE = 27
+        CASE DEFAULT
+          ITYPE = 21
       END SELECT
 
 cKOTTYP = 130, MTYPE=, JTYP=4,  Itype=  1
@@ -1089,10 +1228,10 @@ C     NOT AVAILABLE.
       ENDDO
 
       IF (INOSPP .GT. 0) THEN
-        WRITE(JOSTND, "(/1X,T12,'LARGE-TREE DIAMETER-GROWTH ',
-     >      'RE-PARAMETERIZATION IS NOT AVAILABLE FOR'/1X,T13,
+        WRITE(JOSTND, "(/T12,'LARGE-TREE DIAMETER-GROWTH ',
+     >      'RE-PARAMETERIZATION IS NOT AVAILABLE FOR'/T12,
      >      'THE FOLLOWING SPECIES:',2(/1X),
-     >      T13,A)") SPLST(1:(IP-1))
+     >      T12,A)") SPLST(1:(IP-1))
       ENDIF
 
 C      IF THERE ARE SOME SPP W/ REPARAMETERIZATION COEFFICIENTS
@@ -1331,8 +1470,8 @@ C     PRINT HEIGHT COEFFICIENTS IF DESIRED (NON-BLANK 7TH FIELD OF
 C     BECINFO KEYWORD)
 
        WRITE (JOSTND,41)
-   41  FORMAT (/1X,T12,'THE FOLLOWING DIAMETER-HEIGHT MODEL '
-     &  'COEFFICIENTS WILL BE USED FOR DUBBING',/1X,T13,
+   41  FORMAT (/T12,'THE FOLLOWING DIAMETER-HEIGHT MODEL '
+     &  'COEFFICIENTS WILL BE USED FOR DUBBING',/T12,
      &  'MISSING HEIGHTS. MARKED COEFFICIENTS FIT A '
      &  'CM/M MODEL; OTHERS AN IN/FT MODEL:',2(/1X),T13,'SPP',
      &  T17,'       C0',T27,'       C1',T37,'NEW'/1X,
@@ -1356,8 +1495,8 @@ C
 C     VERSION 2 - REPARAMETERIZATION OF HEIGHT GROWTH MODEL
 C
       IF (JBECY .EQ. 0) THEN
-        WRITE(JOSTND, "(/1X,T12,'LARGE-TREE HEIGHT-GROWTH ',
-     >    'ADJUSTMENT IS NOT CURRENTLY AVAILABLE FOR'/1X,T13,
+        WRITE(JOSTND, "(/T12,'LARGE-TREE HEIGHT-GROWTH ',
+     >    'ADJUSTMENT IS NOT CURRENTLY AVAILABLE FOR'/T12,
      >    'THIS BEC/SUBZONE.')")
       ELSE
 
@@ -1388,17 +1527,17 @@ C     NOT AVAILABLE. THESE ALWAYS HAVE LO=0 AND HI=5.
         ENDDO
 
         IF (INOSPP .GT. 0)
-     >  WRITE(JOSTND, "(/1X,T12,'LARGE TREE HEIGHT GROWTH ',
-     >    'ADJUSTMENT IS NOT AVAILABLE FOR'/1X,T12,
-     >    'THE FOLLOWING SPECIES:',2(/1X),T12,A)")
+     >  WRITE(JOSTND, "(/T12,'LARGE TREE HEIGHT GROWTH ',
+     >    'ADJUSTMENT IS NOT AVAILABLE FOR'/T12,
+     >    'THE FOLLOWING SPECIES:',2(/1X),T13,A)")
      >     SPLST(1:(IP-1))
 
         IF (INOSPP .LT. MAXSP) THEN
           WRITE (JOSTND, 61)
    61     FORMAT (/1X,T12,'THE FOLLOWING BREAKPOINTS '
      &      'WILL BE USED FOR ADJUSTING HEIGHT GROWTH',
-     &      2(/1X),T12,'SPP',T17,'  LOW (M)',T27,' HIGH (M)',
-     &      /1X,T12,3("-"),T17,9("-"),T27,9("-"))
+     &      2(/1X),T13,'SPP',T17,'  LOW (M)',T27,' HIGH (M)',
+     &      /1X,T13,3("-"),T17,9("-"),T27,9("-"))
 
           DO I = 1,MAXSP
             LOK2 = ((LTHGMOD(JBECY)%LO(I) .EQ. 0) .AND.
@@ -1417,8 +1556,8 @@ C
 C     VERSION 2 - REPARAMETERIZATION OF MORTALITY MODEL
 
       IF (JBECY .EQ. 0) THEN
-        WRITE(JOSTND, "(/1X,T12,'LARGE-TREE HEIGHT-GROWTH ',
-     >    'ADJUSTMENT IS NOT CURRENTLY AVAILABLE FOR'/1X,T12,
+        WRITE(JOSTND, "(/T12,'LARGE-TREE HEIGHT-GROWTH ',
+     >    'ADJUSTMENT IS NOT CURRENTLY AVAILABLE FOR'/T12,
      >    'THIS BEC/SUBZONE.')")
         ELSE
 
@@ -1449,17 +1588,17 @@ C       NOT AVAILABLE. THESE ALWAYS HAVE LO=0 AND HI=5.
         ENDDO
 
         IF (INOSPP .GT. 0)
-     >  WRITE(JOSTND, "(/1X,T12,'MORTALITY ',
-     >    'ADJUSTMENT IS NOT AVAILABLE FOR'/1X,T12,
-     >    'THE FOLLOWING SPECIES:',2(/1X),T12,A)")
+     >  WRITE(JOSTND, "(/T12,'MORTALITY ',
+     >    'ADJUSTMENT IS NOT AVAILABLE FOR'/T12,
+     >    'THE FOLLOWING SPECIES:',2(/1X),T13,A)")
      >     SPLST(1:(IP-1))
 
         IF (INOSPP .LT. MAXSP) THEN
           WRITE (JOSTND, 71)
-   71     FORMAT (/1X,T12,'THE FOLLOWING BREAKPOINTS '
+   71     FORMAT (/T12,'THE FOLLOWING BREAKPOINTS '
      &      'WILL BE USED FOR ADJUSTING MORTALITY',
-     &      2(/1X),T12,'SPP',T17,' LOW (CM)',T27,'HIGH (CM)',
-     &      /1X,T12,3("-"),T17,9("-"),T27,9("-"))
+     &      2(/1X),T13,'SPP',T17,' LOW (CM)',T27,'HIGH (CM)',
+     &      /T13,3("-"),T17,9("-"),T27,9("-"))
 
           DO I = 1,MAXSP
             LOK2 = ((MORTMOD(JBECY)%LO(I) .EQ. 0) .AND.
@@ -1467,13 +1606,13 @@ C       NOT AVAILABLE. THESE ALWAYS HAVE LO=0 AND HI=5.
             IF (.NOT.LOK2) THEN
               WRITE (JOSTND, 72) JSP(I),
      >          MORTMOD(JBECY)%Lo(I),MORTMOD(JBECY)%Hi(I)
-   72         FORMAT(T12,A3,T17,I9,T27,I9)
+   72         FORMAT(T13,A3,T17,I9,T27,I9)
             ENDIF
           ENDDO
         ENDIF
       ENDIF
 
-      WRITE (JOSTND, "(/1X,T12,80('='))")
+      WRITE (JOSTND, "(/T12,80('='))")
 
       RETURN
 
@@ -1570,7 +1709,7 @@ C     GREATER OF THE TWO IS USED.
 
       X03 = ALGSLP((XDIA3*INtoCM),XMORT,YMORT,4)
 
-C     APPLY MORTALITY-EFFETS THROUGH MULTIPLICATIVE
+C     APPLY MORTALITY-EFFECTS THROUGH MULTIPLICATIVE
 C     CHANGE ON DIAMETER GROWTH: THEREFORE A ZERO
 C     MORTALITY BECOMES A 1 FOR DG MULTIPLIER; A 1 FOR
 C     MORTALITY BECOMES A 0 FOR DG MULTIPLIER.

@@ -61,7 +61,7 @@ c     initialize the multiple report routine (this does not open a file)
       call genrpt
       
       keywordfile = " "
-      maxStoppts = 6
+      maxStoppts = 7
       stopptfile = " "
       fvsRtnCode = 0
       restartcode = 0
@@ -460,7 +460,7 @@ cc      print *,"in fvsStopPoint,minorstopptyear=",minorstopptyear,
 cc     -  " minorstopptcode=",minorstopptcode," icyc=",icyc,"iy(icyc)=",
 cc     -  iy(icyc)," iy(icyc+1)=",iy(icyc+1)
 
-      if (minorstopptyear == 0 .or. minorstopptcode == 0) return
+      if (minorstopptcode == 0) return
 
       IF (minorstopptcode > 0 .and. minorstopptcode /= LOCODE) return
 

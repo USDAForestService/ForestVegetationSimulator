@@ -123,14 +123,14 @@ C     Column names change from: TCuFt, MCuFt, BdFt to MCuFt, SCuFt, SBdFt
         TBLNAME = 'FVS_CutList_East_Metric'
         NTCUFT  = 'TCuM'
         NMCUFT  = 'MCuM'
-        NBDFT   = 'SBdM'
+        NBDFT   = 'CCuM'
         NAMDCF  = 'Ht2TDMCM'
         NAMDBF  = 'Ht2TDSCM'
       ELSE
         TBLNAME = 'FVS_CutList_Metric'
         NTCUFT  = 'TCuM'
         NMCUFT  = 'MCuM'
-        NBDFT   = 'BdM'
+        NBDFT   = 'CCuM'
         NAMDCF  = 'Ht2TDCM '
         NAMDBF  = 'Ht2TDBM '
       ENDIF
@@ -276,12 +276,12 @@ C           LOAD SPECIES CODES FROM FVS, PLANTS AND FIA ARRAYS.
      -        ",'",TRIM(CSPECIE3),"',",
      -        IMC(I),',',ISPECL(I),',',ITRE(I),
      -        ',',P/ACRtoHA,',',DP/ACRtoHA,',',DBH(I)*INtoCM,
-     -        ',',DGI*INtoCM,',',HT(I)*FTtoM,',',HTG(I),
+     -        ',',DGI*INtoCM,',',HT(I)*FTtoM,',',HTG(I)*FTtoM,
      -        ',',ICR(I),',',CW*FTtoM,',',IDMR,',',PCT(I),',',IPTBAL,
      -        ',',CFV(I)*FT3toM3,',',WK1(I)*FT3toM3,
      -        ',',BFV(I)*FT3toM3,',',ICDF,',',IBDF,
      -        ',',NINT(FLOAT(ITRUNC(I)+5)*.01*FTtoM),',',ESTHT*FTtoM,
-     -        ',',IPVEC(ITRE(I)),',',HT2TD(I,2)*FTtoM*0.0,
+     -        ',',IPVEC(ITRE(I)),',',HT2TD(I,2)*FTtoM,
      -        ',',HT2TD(I,1)*FTtoM,',',TREAGE,');'
 
            IRCODE = fsql3_exec(IoutDBref,trim(SQLStmtStr)//CHAR(0))

@@ -1,0 +1,55 @@
+Hardwood output DB dump
+-----------------------
+FVS_Cases                FVS_Summary_East_Metric
+---FVS_Cases---
+cid  name         type  notnull  dflt_value  pk
+---  -----------  ----  -------  ----------  --
+0    CaseID       text  0                    1 
+1    Stand_CN     text  1                    0 
+2    StandID      text  1                    0 
+3    MgmtID       text  0                    0 
+4    RunTitle     text  0                    0 
+5    KeywordFile  text  0                    0 
+6    SamplingWt   real  0                    0 
+7    Variant      text  0                    0 
+8    Version      text  0                    0 
+9    RV           text  0                    0 
+10   Groups       text  0                    0 
+11   RunDateTime  text  0                    0 
+StandID
+Hardwood
+---FVS_Summary_East_Metric---
+cid  name     type  notnull  dflt_value  pk
+---  -------  ----  -------  ----------  --
+0    CaseID   text  1                    0 
+1    StandID  text  1                    0 
+2    Year     int   0                    0 
+3    Age      int   0                    0 
+4    Tph      int   0                    0 
+5    BA       int   0                    0 
+6    SDI      int   0                    0 
+7    CCF      int   0                    0 
+8    TopHt    int   0                    0 
+9    QMD      real  0                    0 
+10   TCuM     int   0                    0 
+11   MCuM     int   0                    0 
+12   CCuM     int   0                    0 
+13   RTph     int   0                    0 
+14   RTCuM    int   0                    0 
+15   RMCuM    int   0                    0 
+16   RCCuM    int   0                    0 
+17   ATBA     int   0                    0 
+18   ATSDI    int   0                    0 
+19   ATCCF    int   0                    0 
+20   ATTopHt  int   0                    0 
+21   ATQMD    real  0                    0 
+22   PrdLen   int   0                    0 
+23   Acc      int   0                    0 
+24   Mort     int   0                    0 
+25   MAI      real  0                    0 
+26   ForTyp   int   0                    0 
+27   SizeCls  int   0                    0 
+28   StkCls   int   0                    0 
+---FVS_CutList_East_Metric---
+---FVS_TreeList_East_Metric---
+---End of DB dump---
