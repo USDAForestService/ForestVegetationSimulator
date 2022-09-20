@@ -3,6 +3,6 @@ C----------
 C COMMON $Id$
 C----------
 C
-      DATA SVN/"4004"/
+      DATA SVN/"FS2022.4"/
 C
 C-----END SEGMENT
