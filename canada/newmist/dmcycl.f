@@ -12,12 +12,16 @@ C record four life history compartments are maintained:
 C
 C   IMMATURE:      Young infections not yet large enough to produce
 C                   flowers
+C                   (IMMAT = 1)
 C   LATENT         Infections large enough to flower, but suppressed
 C                   by low light conditions
-C   FLOWERING      Flowering infections that contribute to spread and
-C                   intensification
+C                   (LATENT = 2)
 C   NON-FLOWERING  Once-flowering infections that have been
 C                   suppressed by low light conditions (swellings)
+C                   (SUPRSD = 3)
+C   FLOWERING      Flowering infections that contribute to spread and
+C                   intensification
+C                   (ACTIVE = 4)
 C
 C These compartments are equilibrated when the routine is first
 C entered, by doing a 30 year iteration of the pools, followed by
@@ -109,7 +113,7 @@ C     CRTHRD  DMCOM
 C     DMTINY  DMCOM
 C     IMMAT   DMCOM
 C     LATENT  DMCOM
-C     SUPRSD   DMCOM
+C     SUPRSD  DMCOM
 C     ACTIVE  DMCOM
 C     DMFLWR  DMCOM
 C     DMSURV  DMCOM
@@ -160,8 +164,8 @@ C Local variables.
       REAL    ALGSLP
 
 
-      DATA Spin / 30 /
-      DATA MYACTS /2004/
+      DATA Spin   /  30/
+      DATA MYACTS /2010/   ! Bio-control scheduling code
 
       XTiny = LOG(DMTINY)
 
@@ -336,7 +340,8 @@ C         AGE-STRUCTURE (NOT QUITE RIGHT).
 
           FProp2 = 1.0/FLOAT(DMFLWR(ISPC))
 
-C         COMPUTE MULTIPLICATIVE MORTALITY AND SUPPRESSION FOR EACH SPECIES;
+C         COMPUTE MULTIPLICATIVE MORTALITY AND SUPPRESSION FOR EACH SPECIES
+C         FOR BIOLOGICAL CONTROL EFFECTS.
 C         CONVERT FROM SUM(LOG(SURVIVAL)) TO MORTALITY; SAME FOR SUPPRESSION
 C         BOUND FOR NUMERICAL CONTROL
 
@@ -364,7 +369,7 @@ C             TVOL(I,J) "SHOULD" NEVER BE ZERO, BUT IN PRACTICE SOMETIMES IS.
                 New = DMTINY
               ENDIF
 
-C SUM ALL THE LIVE MATERIAL INTO 'x'; RESCALE x SO THAT IT LOADING IS ASYMPTOTIC
+C SUM ALL THE LIVE MATERIAL INTO 'x'; RESCALE x SO THAT LOADING IS ASYMPTOTIC
 C TO DMCAP (nominally 3.0); r=1/3
 C
 C   DM' = DM + [3 - DM] * [1 - EXP(-r * New)]
@@ -476,7 +481,8 @@ C             REMOVE NATURAL MORTALITY: ALL CATEGORIES
               xDedBC   = xDedBC * SpSurv
 
 C             ADD NEW RECRUITS: IMM
-              xImm   = xImm + New         ! new S+I
+              xImm   = xImm + New         ! new S+I             !! working here 15-Sep-2022
+                                          !! Initially this will only be immature until they are in the ACTIVE category
 
 C             AFTER SPINNING TO PRIME THE POOLS, ADJUST PARAMETERS BACK SO
 C             THAT 'XACT' EQUALS THE ORIGINAL VALUE. IN CASES WHERE THE ORIGINAL
@@ -541,7 +547,7 @@ C 'DMCAP' PREVENTS IMMENSE NUMBERS OF INFECTIONS IN A "MESH" VOLUME OF CANOPY.
             ENDDO     ! end of j CRTHRD loop
           ENDDO     ! end of i3 loop
    99   CONTINUE  ! end of 99 ISPC loop
-      ENDDO     ! end of IFINT year loop
+      ENDDO     ! end of IFINT year loop (cycle or cycle + Spinup)
 
       ZPDn = .TRUE.
 

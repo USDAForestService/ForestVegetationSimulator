@@ -109,7 +109,7 @@ C....
 C.... The RELATIVE opacities of DMOPAQ() are taken from the April 1993
 C.... Model Review Workshop Report, Table 4.1 (p.29). 
 C.... These values can be changed by the keyword DMOPQ.
-C.... The 15 (MAXSP) spcecies codes for the IB variant are:
+C.... The 15 (MAXSP) spcecies codes for the BC variant are:
 C....
 C.... 'PW','LW','FD','BG','HW','CW','PL','SE','BL','PY',
 C.... 'EP','AT','AC','OC','OH'
