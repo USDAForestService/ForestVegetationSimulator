@@ -20,6 +20,6 @@ lst02 :
 	-diff -w lst01.tmp lst01.tmp.save
 	rm lst01.tmp lst01.tmp.save
 	@echo Test lst02 ended
-		 
- 
 
+clean : 
+	rm -rfv lst.stop lst01.out lst01.sng lst01.sum FVS_Data.db FVSOut.db

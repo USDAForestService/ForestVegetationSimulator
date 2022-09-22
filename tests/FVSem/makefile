@@ -19,5 +19,6 @@ emt02 :
 	-diff -w emt01.tmp emt01.tmp.save
 	rm emt01.tmp emt01.tmp.save
 	@echo Test emt02 ended
-		
-	
+
+clean : 
+	rm -rfv emt.stop emt01.out emt01.sng emt01.sum FVS_Data.db FVSOut.db

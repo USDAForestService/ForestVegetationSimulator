@@ -1,6 +1,4 @@
 
-# $Id$
-
 all : iet01 iet02 iet03 compress iedb calibStats DBReportTest econdb \
 	firedb climdb ffe_svs climate climatePutGet maxActs ccadj
 
@@ -145,3 +143,33 @@ ccadj :
 	rm -f ccadj.tmp ccadj.tmp.save
 	@echo Test THINcc with a CCADJ keyword ended
 	@echo Tests\FVSie\makefile finished
+
+clean : 
+#	remove calibStats files
+	rm -rfv calibStats_dump.txt calibStats.db calibStats.out 
+#	remove ccadj files
+	rm -rfv ccadj.out ccadj.sum
+#	remove Clim files
+	rm -rfv Clim.db.txt Clim.out ClimOut.db
+#	remove climate files
+	rm -rfv climate.out climate.stop climate.sum 
+#	remove compress files
+	rm -rfv compress.out
+#	remove DBReportTest files
+	rm -rfv DBReportTest_dump.txt DBReportTest.db DBReportTest.out DBReportTest.sng
+#	remove ffe_svs files
+	rm -rfv ffe_svs.out ffe_svs.sng ffe_svs.stop ffe_svs.sum 
+#	remove fire files
+	rm -rfv fireTest_db_dump.txt fireTest.out fireTest.sng
+#	remove FVS files
+	rm -rfv FVSieFireOutput.db FVSieOut.db FVSOut.db
+#	remove ie files
+	rm -rfv ie_db_dump.txt ie.out 
+#	remove iet01 files
+	rm -rfv iet01.out iet01.sum iet01.trl iet01_Out.db iet01_db_dump.txt
+#	remove iet02 files
+	rm -rfv iet02_db_dump.txt iet02.stop 
+#	remove iet03 files
+	rm -rfv iet03.out iet03.sng iet03.stop iet03.sum 
+#	remove test files
+	rm -rfv TestDataBase.db TestDataBase.dump TestDataBase.out TestDataBase.trl

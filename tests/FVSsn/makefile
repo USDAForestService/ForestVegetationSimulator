@@ -26,4 +26,7 @@ sndb :
 	../../bin/FVSsn --keywordfile=sn.key  
 	-sqlite3 snout.db < snTablesTest.sql > snout.txt
 	-diff -w snout.txt snout.txt.save
-	
+
+clean : 
+	rm -rfv sn.out sn.sng snout.db snout.db.sum snout.txt
+	rm -rfv snt.stop snt01.out snt01.sng snt01.sum snt01.trl FVS_Data.db FVSOut.db

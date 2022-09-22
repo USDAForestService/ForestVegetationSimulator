@@ -19,4 +19,6 @@ wst02 :
 	-diff -w wst01.tmp wst01.tmp.save
 	rm wst01.tmp wst01.tmp.save
 	@echo Test wst02 ended
-			
+
+clean:
+	rm -rfv wst.stop wst01.out wst01.sng wst01.sum FVS_Data.db FVSOut.db

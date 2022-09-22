@@ -19,4 +19,6 @@ cit02 :
 	-diff -w cit01.tmp cit01.tmp.save
 	rm cit01.tmp cit01.tmp.save
 	@echo Test cit02 ended
-	
+
+clean : 
+	rm -rfv cit.stop cit01.out cit01.sng cit01.sum FVS_Data.db FVSOut.db

@@ -130,3 +130,5 @@ YSM-SkyRanch :
 
 	@echo "Test YSM-SkyRanch (15 stands) ended (Ignore STOP 20)"
 
+clean:
+# Do nothing, no rule

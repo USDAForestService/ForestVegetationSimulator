@@ -1,4 +1,4 @@
-# $Id: makefile 734 2013-03-22 22:39:10Z ncrookston.fs@gmail.com $
+# makefile 734 2013-03-22 22:39:10Z ncrookston.fs@gmail.com $
 
 all : Hardwood
 
@@ -54,3 +54,6 @@ Hardwood :
 	@echo "---End of DB dump---" >> FVSOutHardwoodDBdump.txt
 	-diff -w FVSOutHardwoodDBdump.txt FVSOutHardwoodDBdump.txt.save
 	@echo "Test Hardwood (1 stand) ended"
+
+clean:
+# Do nothing, no rule

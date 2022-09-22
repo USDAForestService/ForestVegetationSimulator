@@ -89,3 +89,9 @@ CR_FFE_Reg_db :
 	-diff -w CR_FFE_Reg_db_Out.txt CR_FFE_Reg_db_Out.txt.save
 	@echo Test CR_FFE_Reg_db ended
 
+clean : 
+	rm -rfv CalibStats_dump.txt CalibStats.db CalibStats.out CalibStats.sum
+	rm -rfv Clim.out ClimOut.db ClimOut.db.txt
+	rm -rfv CR_FFE_Reg_db_Out.db CR_FFE_Reg_db_Out.txt CR_FFE_Reg_db.out CR_FFE_Reg_db.sng CR_FFE_Reg_db.trl
+	rm -rfv crt.stop crt01.out crt01.sng crt01.sum FVS_Data.db FVSOut.db fort.13
+

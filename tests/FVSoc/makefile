@@ -1,5 +1,4 @@
 
-#all : oct01
 all : oct01 oct02
 
 
@@ -22,5 +21,5 @@ oct02 :
 	rm oct01.tmp oct01.tmp.save
 	@echo Test oct02 ended
 
-	
-	
+clean : 
+	rm -rfv oct.stop oct01.out oct01.sng oct01.sum FVS_Data.db FVSOut.db

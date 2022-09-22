@@ -19,4 +19,6 @@ ttt02 :
 	-diff -w ttt01.tmp ttt01.tmp.save
 	rm ttt01.tmp ttt01.tmp.save
 	@echo Test ttt02 ended
-			
+
+clean:
+	rm -rfv ttt.stop ttt01.out ttt01.sng ttt01.sum FVS_Data.db FVSOut.db
