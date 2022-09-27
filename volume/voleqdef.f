@@ -2303,39 +2303,68 @@ C//////////////////////////////////////////////////////////////////
       CHARACTER*10 VOLEQ
       CHARACTER*2 FORST
       INTEGER SPEC,ERRFLAG,FORNUM
-
-      CHARACTER*10 TONEQN(15), CHUEQN(15)
-      INTEGER FIA(13), FIRST, HALF, LAST, DONE,I
-C     SPECIES
-C     Pacific silver fir,Subalpine fir,   Alaska yellow cedar,White spruce,    Sitka spruce,
-C     Lodgepole pine,    Western redcedar,Western hemlock,    Mountain Hemlock,Other Softwood,
-C     Red Alder,         Black cottonwood,Other Hardwood
-
-
-      DATA (FIA(I),I=1,13)/    011,   019,   042,   094,   098,
-     >                         108,   242,   263,   264,   298,   
-     >                         351,   747,   998/
-
-      DATA (TONEQN(I),I=1,15)/
-     >'A00F32W260','A00F32W260','A00F32W042','A00DVEW094','A00F32W098',
-     >'A00F32W260','A00F32W242','A00F32W260','A00F32W260','A00F32W260',
-     >'A32CURW351','A00F32W260','A00F32W260',
-     >'A02F32W098','A02F32W260'/
-      
-      
-      DATA (CHUEQN(I),I=1,15)/
-     >'A01DEMW000','A01DEMW000','A00DVEW094','A00DVEW094','A00F32W098',
-     >'A01DEMW000','A01DEMW000','A00F32W260','A01DEMW000','A16DEMW098',
-     >'A32CURW351','A00DVEW747','A16DEMW098',
-     >'A16DEMW098','A16DEMW098'/
+      CHARACTER*10 TONEQN(23),CHUEQN(23),OTHEREQN(25)
+      INTEGER FIA(23), FIRST, HALF, LAST, DONE,I
 C
-C  SEARCH FOR VALID EQUATION NUMBER
+C     AK SPECIES LIST
+C     Pacific silver fir  Subalpine fir     Alaska yellow Cedar  Tamarack
+C     White spruce        Lutz's spruce     Black spruce         Sitka spurce
+C     Lodgepole pine      Western redcedar  Western hemlock      Mountain Hemlock
+C     Other Softwood      Alder species     Red alder            Paper birch
+C     Alaska birch        Balsam poplar     Quaking aspen        Black cottonwood
+C     Willow species      Scouler's willow  Other hardwood
 C
+C     LUTZ SPRUCE IS TREATED AS FIA CODE 94 (WHITE SPRUCE)
+      DATA FIA / 011, 019, 042, 071, 094,
+     >           094, 095, 098, 108, 242,
+     >           263, 264, 299, 350, 351,
+     >           375, 376, 741, 746, 747,
+     >           920, 928, 998/
+C
+C     DEFAULT VOLUME EQUATIONS FOR LOCATION CODES: 703, 1002, 1003, 1005,
+C     8134, 8135, 8112
+      DATA TONEQN /
+     > 'A00F32W260','A00F32W260','A00F32W042','A00DVEW094','A00DVEW094',
+     > 'A00DVEW094','A00DVEW094','A00F32W098','A00F32W260','A00F32W242',
+     > 'A00F32W260','A00F32W260','A00DVEW094','A32CURW351','A32CURW351',
+     > 'A00DVEW375','A00DVEW375','A00DVEW747','A00DVEW375','A00DVEW747',
+     > 'A00DVEW747','A00DVEW747','A00DVEW747'/
+
+C     DEFAULT VOLUME EQUATIONS FOR LOCATION CODES: 1004, 713, 720, 7400, 7401,
+C     7402, 7403, 7404, 7405, 7406, 7407, 7408
+      DATA CHUEQN /
+     > 'A01DEMW000','A01DEMW000','A00DVEW094','A00DVEW094','A00DVEW094',
+     > 'A00DVEW094','A00DVEW094','A00F32W098','A01DEMW000','A01DEMW000',
+     > 'A00F32W260','A01DEMW000','A00DVEW094','A32CURW351','A32CURW351',
+     > 'A00DVEW375','A00DVEW375','A00DVEW747','A00DVEW375','A00DVEW747',
+     > 'A00DVEW747','A00DVEW747','A00DVEW747'/
+
+C     OTHER VALID EQUATIONS THAT CAN BE USED -- THESE ARE NOT DEFAULT
+C     EQUATION NUMBERS.
+      DATA OTHEREQN /
+     > 'A00FW2W042','A16DEMW042','A61DEMW042','A32DEMW042','A01DVEW094',
+     > 'A02DVEW094','A16DEMW098','A00FW2W098','A02F32W098','A02FW2W098',
+     > 'A02DEMW000','A32CURW000','A32DEMW098','A61DEMW098','A00FW2W242',
+     > 'A00FW3W242','A61DEMW242','A16DEMW242','A32DEMW242','A00FW2W260',
+     > 'A02F32W260','A02FW2W260','A16CURW260','A01DVEW375','A01DVEW747'/
+C
+C     SEARCH FOR VALID EQUATION NUMBER IN TONEQN AND CHUEQN
       IF(SPEC.EQ.9999)THEN
-        DO I=1,15
+        DO I=1,23
         IF((VOLEQ.EQ.TONEQN(I)).OR.(VOLEQ.EQ.CHUEQN(I)))THEN
 C
-C  FOUND VALID EQUATION NUMBER
+C     FOUND VALID EQUATION NUMBER
+C
+          SPEC=8888
+          RETURN
+        ENDIF
+        ENDDO
+C
+C     SEARCH FOR VALID EQUATION NUMBER IN OTHEREQN
+        DO I=1,25
+        IF(VOLEQ.EQ.OTHEREQN(I))THEN
+C
+C     FOUND VALID EQUATION NUMBER
 C
           SPEC=8888
           RETURN
@@ -2345,34 +2374,40 @@ C
       ENDIF
 C
       READ(FORST,'(I2)')FORNUM
-      LAST = 13
+      LAST = 23
       FIRST = 1
       DONE = 0
-
-      DO 5, WHILE (DONE.EQ.0)
+C
+C     CHECK FOR VALID SPECIES
+      DO WHILE (DONE.EQ.0)
          HALF = (LAST - FIRST +1)/2 + FIRST
           IF(FIA(HALF) .EQ. SPEC)THEN
              DONE = HALF
-          ELSEIF(FIRST .EQ. LAST) THEN
+          ELSE IF(FIRST .EQ. LAST) THEN
              ERRFLAG = 1
              DONE = -1
-         ELSE IF (FIA(HALF) .LT. SPEC) THEN
+          ELSE IF (FIA(HALF) .LT. SPEC) THEN
              FIRST = HALF
           ELSE
              LAST = HALF - 1
           ENDIF
-  5   CONTINUE 
-      
-C           If not found, use Other Hardwood
+      ENDDO
+
+C     IF SPECIES NOT FOUND, USE OTHER SOFTWOOD
+C     LUTZ SPRUCE WILL NEVER BE FOUND IN THE ABOVE LOOP SINCE
+C     IT DOES NOT HAVE A FIA CODE. AS SUCH IT WILL BE ASSIGNED 
+C     THE EQUATION NUMBER FOR OTHER SOFTWOOD (INDEX 13).
       IF(DONE .LT. 0) DONE = 13
-
+C
+C     DETERMINE DEFAULT EQUATION NUMBER TO USE BASED ON INDEX (DONE)
+C     AND FOREST NUMBER
       IF(FORNUM .EQ. 4) THEN
-         VOLEQ = CHUEQN(DONE)   
+         VOLEQ = CHUEQN(DONE)
       ELSE
-         VOLEQ = TONEQN(DONE)   
-       ENDIF
+         VOLEQ = TONEQN(DONE)
+      ENDIF
 
-       RETURN
+      RETURN
       END
 
 C =======================================================================
