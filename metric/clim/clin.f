@@ -1,8 +1,10 @@
       SUBROUTINE CLIN (DEBUG,LKECHO)
       IMPLICIT NONE
 C----------
-C METRIC-CLIM $Id$
+C METRIC-CLIM $Id: clin.f 4010 2022-06-28 22:23:31Z donrobinson $
 C----------
+C
+C     CLIMATE EXTENSION
 C
 COMMONS
 C
@@ -155,8 +157,10 @@ C                        OPTION NUMBER 2 -- CLIMDATA
         ENDDO
         IF (I1.EQ.0) THEN
           IF (NYEARS.EQ.MXCLYEARS) THEN
-            WRITE (JOSTND,'(T12,"TOO MANY YEARS IN CLIMATE DATA. ",'//
-     >                    ' "RECORDS READ = ", I4)') I2
+            WRITE (JOSTND,220) I2
+  220       FORMAT (/,'********   CLIMATE ERROR: ',
+     >                'TOO MANY YEARS IN CLIMATE DATA.',/
+     >                 T27,'RECORDS READ = ', I4)
             NATTRS=0
             NYEARS=0
             INDXSPECIES=0
@@ -186,7 +190,9 @@ C             READ TO THE END OF DATA MARK (-999)
   291 FORMAT (T12,'RECORDS READ=',I4,'; NUMBER OF ATTRIBUTES=',
      >  I4,'; NUMBER OF YEARS=',I4)
       IF (NYEARS*NATTRS.EQ.0) THEN
-        WRITE (JOSTND,'(T12,"NO CLIMATE DATA FOR THIS STAND.")')
+        WRITE (JOSTND,2915)
+ 2915   FORMAT (/,'********   CLIMATE ERROR: ',
+     >            'NO CLIMATE DATA FOR THIS STAND.')
         NATTRS=0
         NYEARS=0
         INDXSPECIES=0
@@ -295,7 +301,9 @@ C             READ TO THE END OF DATA MARK (-999)
           IF (INDXSPECIES(I).EQ.0) I2=I2+1
         ENDDO
         IF (I2.GT.0) THEN
-          WRITE (JOSTND,'(/T12,''SPECIES WITHOUT ATTRIBUTES:'')')
+          WRITE (JOSTND,2935)
+ 2935     FORMAT (/,'********   CLIMATE WARNING: ',
+     >              'SPECIES WITHOUT ATTRIBUTES:')
           DO I=1,MAXSP
             IF (INDXSPECIES(I).EQ.0) WRITE (JOSTND,294)
      >             I,JSP(I),PLNJSP(I)
@@ -313,8 +321,8 @@ c      CALL ESNOAU ('********',LKECHO)
       GOTO 10
   296 CONTINUE
       WRITE (JOSTND,297)
-  297 FORMAT (/,' ********',T12,
-     >          'ERROR: FILE READ ERROR, DATA NOT STORED.')
+  297 FORMAT (/,'********   CLIMATE ERROR: ',
+     >          'FILE READ ERROR, DATA NOT STORED.')
       NATTRS=0
       NYEARS=0
       INDXSPECIES=0
@@ -327,7 +335,8 @@ c      CALL ESNOAU ('********',LKECHO)
       ENDIF
   298 CONTINUE
       WRITE (JOSTND,299)
-  299 FORMAT (T12,'FILE OPEN ERROR, FILE NOT READ.')
+  299 FORMAT (/,'********   CLIMATE ERROR: ',
+     >          'FILE OPEN ERROR, FILE NOT READ.')
       CALL RCDSET (2,.TRUE.)
       GOTO 10
   300 CONTINUE
@@ -519,7 +528,7 @@ C
       ENDIF 
       GOTO 10
   700 CONTINUE
-C                        OPTION NUMBER 7 -- CLIMREPT
+C                        OPTION NUMBER 6 -- CLIMREPT
       JCLREF = 0
       IF (LKECHO) WRITE(JOSTND,710) KEYWRD
   710   FORMAT (/A8,'   GENERATE FVS-CLIMATE REPORT.')
@@ -555,3 +564,4 @@ C                        OPTION NUMBER 7 -- SETATTR
       PASKEY = TABLE(IPAS)
       RETURN
       END
+

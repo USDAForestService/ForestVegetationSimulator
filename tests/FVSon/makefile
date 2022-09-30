@@ -1,4 +1,4 @@
-# makefile 734 2013-03-22 22:39:10Z ncrookston.fs@gmail.com $
+# $Id: makefile 734 2013-03-22 22:39:10Z ncrookston.fs@gmail.com $
 
 all : Hardwood
 
@@ -14,24 +14,16 @@ Hardwood :
 	@echo "Hardwood output DB dump"
 	rm -f FVSOutHardwoodDBdump.txt
 	@echo "Hardwood output DB dump" > FVSOutHardwoodDBdump.txt
-	@echo "-----------------------" >> FVSOutHardwoodDBdump.txt
 	-sqlite3 FVSOutHardwood.db ".tables" >> FVSOutHardwoodDBdump.txt
-	@echo "---FVS_Cases---" >> FVSOutHardwoodDBdump.txt
-	-sqlite3 FVSOutHardwood.db ".header on" ".mode col" "pragma table_info('FVS_Cases')" >> FVSOutHardwoodDBdump.txt
+	@echo "FVS_Cases" >> FVSOutHardwoodDBdump.txt
 	-sqlite3 FVSOutHardwood.db ".header on" ".mode csv" \
   "select StandID \
    from FVS_Cases" >> FVSOutHardwoodDBdump.txt
-	@echo "---FVS_Summary_East_Metric---" >> FVSOutHardwoodDBdump.txt
-	-sqlite3 FVSOutHardwood.db ".header on" ".mode col" "pragma table_info('FVS_Summary_East_Metric')" >> FVSOutHardwoodDBdump.txt
+	@echo "FVS_Summary_East_Metric" >> FVSOutHardwoodDBdump.txt
 	-sqlite3 FVSOutHardwood.db ".header on" ".mode col" \
-  "select StandID,Year,Age,Tph,BA,SDI,CCF,TopHt,round(QMD,2), \
-          MCuM,SCuM,NCuM,RTph,RMCuM,RSCuM,RNCuM,ATBA,ATSDI,ATCCF, \
-          ATTopHt,round(ATQMD,2),PrdLen,Acc,Mort,round(MAI,2), \
-          ForTyp,SizeCls,StkCls  \
+  "select count(*)  \
    from FVS_Summary_East_Metric" >> FVSOutHardwoodDBdump.txt
-
 	@echo "---FVS_CutList_East_Metric---" >> FVSOutHardwoodDBdump.txt
-	-sqlite3 FVSOutHardwood.db ".header on" ".mode col" "pragma table_info('FVS_CutList_East_Metric')" >> FVSOutHardwoodDBdump.txt
 	-sqlite3 FVSOutHardwood.db ".header on" ".mode csv" \
   "select count(*) \
    from FVS_CutList_East_Metric" >> FVSOutHardwoodDBdump.txt
@@ -40,9 +32,7 @@ Hardwood :
    from FVS_CutList_East_Metric \
    group by SpeciesFVS \
    order by SpeciesFVS" >> FVSOutHardwoodDBdump.txt
-
 	@echo "---FVS_TreeList_East_Metric---" >> FVSOutHardwoodDBdump.txt
-	-sqlite3 FVSOutHardwood.db ".header on" ".mode col" "pragma table_info('FVS_TreeList_East_Metric')" >> FVSOutHardwoodDBdump.txt
 	-sqlite3 FVSOutHardwood.db ".header on" ".mode csv" \
   "select count(*) \
    from FVS_TreeList_East_Metric" >> FVSOutHardwoodDBdump.txt
@@ -54,6 +44,3 @@ Hardwood :
 	@echo "---End of DB dump---" >> FVSOutHardwoodDBdump.txt
 	-diff -w FVSOutHardwoodDBdump.txt FVSOutHardwoodDBdump.txt.save
 	@echo "Test Hardwood (1 stand) ended"
-
-clean:
-# Do nothing, no rule

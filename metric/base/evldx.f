@@ -1,7 +1,7 @@
       SUBROUTINE EVLDX (XLDREG,NXLDX,INSTR,IRC)
       IMPLICIT NONE
 C----------
-C METRIC-BASE $Id$
+C METRIC-BASE $Id: evldx.f 4010 2022-06-28 22:23:31Z donrobinson $
 C----------
 C
 C     CALLED FROM ALGEVL
@@ -68,9 +68,9 @@ C
       ITMPDX(1) = 0
 
       CALL DBCHK (LDEB,'EVLDX',5,ICYC)
-
       IF (LDEB) WRITE (JOSTND,5) INSTR,NXLDX
     5 FORMAT (/' IN EVLDX, INSTR=',I6,'; NXLDX=',I3)
+
 C----------
 C     DECODE THE INSTRUCTION AND EXECUTE: LOAD A CONSTANT.
 C----------
@@ -363,7 +363,7 @@ C----------
             LINCL=.FALSE.
           ENDIF
    95     CONTINUE
-C         IF(JPNUM.GT.0 .AND. JPNUM.NE.ITRE(I)) LINCL=.FALSE.
+          IF(JPNUM.GT.0 .AND. JPNUM.NE.ITRE(I)) LINCL=.FALSE.
           IF (LINCL .AND.
      >       (K.EQ.0  .OR. K.EQ.IMC(I)) .AND.
      >       (DBH(I).GE.XLDBH)          .AND.
@@ -1217,11 +1217,8 @@ C----------
         IF (J.LT.0 .AND. NSPGRP.LT.-J) GOTO 1002
 C----------
 C----------
-C       CALCULATE PERCENTAGE IN HEIGHT DISTRIBUTION FOR USE IN 
-C       IDENTIFYING CO-DOMINANT AND DOMINANT TREES.
-C----------     
-        CALL RDPSRT(ITRN,HT,IPNTR,.TRUE.)
-        CALL PCTILE (ITRN,IPNTR,PROB,HPCT,JUNK)        
+C       COMPUTE ACORNS
+C---------- 
         ACRN=0.
         XLDREG(1)=0.
         ILIM=ITRN
@@ -1246,8 +1243,7 @@ C----------
   452       CONTINUE
           ENDIF
           IF(LINCL .AND.
-     >      (DBH(I).GE.5.0) .AND.
-     >      (HPCT(I).GE.60.0)) THEN
+     >      (DBH(I).GE.5.0)) THEN
             DCM = DBH(I)*2.54
             TPA3 = PROB(I)
             ACRN = 0.
