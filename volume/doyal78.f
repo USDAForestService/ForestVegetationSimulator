@@ -1,6 +1,4 @@
-C----------
-C VOLUME $Id$
-C----------
+!== last modified  01-25-2005
       SUBROUTINE DOYAL78 (DBHOB,HT1PRD,VOL,ERRFLAG)
 
 C    PROGRAM DOYLE FORM CLASS 78
@@ -56,7 +54,7 @@ C
         RETURN
       ENDIF
 
-      INDEX = INT(ANINT(DBHOB) - 9.)
+      INDEX = ANINT(DBHOB) - 9
 
       LHT1 = HT1PRD / 10.0
 

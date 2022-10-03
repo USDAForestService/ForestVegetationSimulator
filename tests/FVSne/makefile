@@ -19,7 +19,7 @@ net02 :
 	-diff -w net01.tmp net01.tmp.save
 	rm net01.tmp net01.tmp.save
 	@echo Test net02 ended
-		 
- 
- 
+
+clean : 
+	rm -rfv net.stop net01.out net01.sng net01.sum FVS_Data.db FVSOut.db
 

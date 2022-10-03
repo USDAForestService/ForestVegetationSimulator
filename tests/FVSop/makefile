@@ -19,7 +19,6 @@ opt02 :
 	-diff -w opt01.tmp opt01.tmp.save
 	rm opt01.tmp opt01.tmp.save
 	@echo Test opt02 ended
-		 
- 
- 
 
+clean : 
+	rm -rfv opt.stop opt01.out opt01.sng opt01.sum FVS_Data.db FVSOut.db

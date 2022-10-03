@@ -30,5 +30,7 @@ sot03 :
 	-diff -w sot03.tmp sot03.tmp.save
 	rm sot03.tmp sot03.tmp.save
 	@echo Test sot03 ended
-	
 
+clean:
+	rm -rfv sot.stop sot01.out sot01.sng sot01.sum FVS_Data.db FVSOut.db
+	rm -rfv sot03.out sot03.sum

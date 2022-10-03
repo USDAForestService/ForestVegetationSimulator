@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 C YW 2016/03/08 Modofied the DIB calculation for TOPHT less than 17.3 to avoid Nan vaue error.
       SUBROUTINE R8PREPCOEF(VOLEQ, COEFFS, ERRFLAG)
       USE CLKCOEF_MOD
@@ -14,16 +11,14 @@ C      *** LOCAL VARIABLES ***
       INTEGER SPEC,GEOA,EQN,SPECPR,GEOAPR,EQNPR,SPGRP
       INTEGER PTR,FIRST,LAST,HALF,GSPEC,CHECK,DONEFLAG,LASTFLAG
       INTEGER DIBCNT,TOTCNT,FOURCNT,NINECNT
-      INCLUDE 'R8CLKCOEF.INC'
-      INCLUDE 'R8DIB.INC'
+      INCLUDE 'r8clkcoef.inc'      !'R8CLKCOEF.INC'
+      INCLUDE 'r8dib.inc'          !'R8DIB.INC'
 
-      SPECPR = 0
-      EQNPR = 0
-      GEOAPR = 0
+
 
       READ(VOLEQ(8:10),'(I3)')SPEC
       READ(VOLEQ(2:2),'(I1)')GEOA
-
+	
       IF (GEOA.LT.1 .OR. GEOA.GT.9 .OR. GEOA.EQ.8)THEN
          ERRFLAG = 1
          GO TO 999
@@ -68,32 +63,32 @@ C     BINARY SEARCH FOR CORRECT COEFFICIENTS
       LAST = 182
       DO 5, WHILE (DONEFLAG.EQ.0)
          IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
           HALF=((LAST-FIRST+1)/2) + FIRST   
 
-          CHECK= INT(R8CF(HALF,1)*1000. + R8CF(HALF,2))
-C  FOUND THE COEFFECIENTS
+          CHECK=R8CF(HALF,1)*1000+R8CF(HALF,2)
+	!FOUND THE COEFFECIENTS
           IF(GSPEC.EQ.CHECK)THEN      
              PTR = HALF
              DONEFLAG=1
-C  MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
           ELSEIF(GSPEC.GT.CHECK)THEN  
              FIRST = HALF
-C  MOVE UP THE LIST
+	!MOVE UP THE LIST
           ELSEIF(GSPEC.LT.CHECK)THEN   
              LAST = HALF - 1
           ENDIF
-C  DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
           IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0)THEN   
-C  END ROUTINE, NO MATCH
-             IF(GEOA.EQ.9) THEN   
+	!END ROUTINE, NO MATCH
+	       IF(GEOA.EQ.9) THEN   
                 SPECPR = 0
                 EQNPR = 0
                 GEOAPR = 0
                 ERRFLAG = 6
                 GO TO 999
-C  SET GEOAPR TO 9 AND RETRY THE SEARCH
-             ELSE                  
+	!SET GEOAPR TO 9 AND RETRY THE SEARCH
+	       ELSE                  
                 GEOA = 9
                 GSPEC = GEOA*1000 + SPEC
                 FIRST = 1
@@ -105,7 +100,7 @@ C  SET GEOAPR TO 9 AND RETRY THE SEARCH
 
 C     END BINARY SEARCH
 
-      SPGRP = INT(R8CF(PTR,3) + .5)                
+      SPGRP = R8CF(PTR,3) + .5                 
       IF (SPGRP.NE.100 .AND. SPGRP.NE.300 .AND. SPGRP.NE.500)THEN
         ERRFLAG = 6
         GO TO 999
@@ -120,21 +115,21 @@ C     END BINARY SEARCH
       LAST = 49
       DO 10, WHILE (DONEFLAG.EQ.0)
          IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
          HALF=((LAST-FIRST+1)/2) + FIRST   
           
-C  FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
          IF((INT(DIBMEN(HALF,1)+.5)).EQ.SPEC) THEN      
             DIBCNT = HALF
             DONEFLAG=1
-C  MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
          ELSEIF((INT(DIBMEN(HALF,1)+.5)).GT.SPEC)THEN  
             LAST = HALF -1
-C  MOVE UP THE LIST
+	!MOVE UP THE LIST
          ELSEIF((INT(DIBMEN(HALF,1)+.5)).LT.SPEC)THEN   
             FIRST = HALF
          ENDIF
-C  DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -158,21 +153,21 @@ C***********************************************************************
          LAST = 49
          DO 20, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST   
           
-C  FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
             IF((INT(TOTAL(HALF,1)+.5)) .EQ. SPEC)THEN      
                TOTCNT = HALF
                DONEFLAG=1
-C  MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
             ELSEIF((INT(TOTAL(HALF,1)+.5)).GT.SPEC)THEN  
                LAST = HALF -1
-C  MOVE UP THE LIST
+	!MOVE UP THE LIST
             ELSEIF((INT(TOTAL(HALF,1)+.5)).LT.SPEC)THEN   
                FIRST = HALF 
             ENDIF
-C  DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0)THEN
                ERRFLAG = 6
                GO TO 999   
@@ -195,21 +190,21 @@ C  DID NOT FIND A MATCH
          LAST = 49
          DO 40, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST   
           
-C  FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
             IF((INT(FOUR(HALF,1)+.5)) .EQ. SPEC)THEN
                FOURCNT = HALF
                DONEFLAG=1
-C  MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
             ELSEIF((INT(FOUR(HALF,1)+.5)).GT.SPEC)THEN
                LAST = HALF -1
-C  MOVE UP THE LIST
+	!MOVE UP THE LIST
             ELSEIF((INT(FOUR(HALF,1)+.5)).LT.SPEC)THEN
                FIRST = HALF
             ENDIF
-C  DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -252,21 +247,21 @@ C  DID NOT FIND A MATCH
          LAST = 34
          DO 80, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST
           
-C  FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
             IF((INT(NINE(HALF,1)+.5)) .EQ. SPEC)THEN
                NINECNT = HALF
                DONEFLAG=1
-C  MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
             ELSEIF((INT(NINE(HALF,1)+.5)).GT.SPEC)THEN
                LAST = HALF -1
-C  MOVE UP THE LIST
+	!MOVE UP THE LIST
             ELSEIF((INT(NINE(HALF,1)+.5)).LT.SPEC)THEN
                FIRST = HALF
             ENDIF
-C  DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -295,25 +290,20 @@ C-------------------------------------------------------------------------------
       
       implicit none
       TYPE(CLKCOEF):: COEFFS
-      CHARACTER*10 VOLEQ
+      CHARACTER*10 VOLEQ, VOLEQ0
       CHARACTER*2 FORST
       CHARACTER*1 CTYPE
-      CHARACTER*2 CDANUW
       INTEGER ERRFLAG, EQN, IS, IB, IT, IM
       REAL DBHOB, HTTOT, HTUP, DIB, DIB17, DBHIB, TOPHT, HIGHHT,UPSHT1
       REAL R,C,E,P,B,A,Q, A17, B17, DX, AD, BD, VOLTMP(15)
+      INTEGER SI, BA
       REAL HTONE, HTTWO, MTOPP
+      REAL DXcalc,FAC, topDib, totHt
 
 c      INCLUDE 'R8CLKCOEF.INC'
 c      INCLUDE 'R8DIB.INC'
-C----------
-C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
-C----------
-      CDANUW(1:2) = FORST(1:2)
-C
-C----------
-C  INITIALIZE ALL COEFFICIENTS TO ZERO.
-C----------
+
+C  DW 08/22 Add initialization of COEFFS variables to prevent underflow is left otherwise uninitialized
       COEFFS%DBHIB = 0.0
       COEFFS%DIB17 = 0.0
       COEFFS%R     = 0.0
@@ -389,6 +379,7 @@ C CALL R8VOL2 TO GET THE UPSHT1. THIS WILL BE SAME AS FVS
      >                  ERRFLAG)
            UPSHT1 = HTTWO
          ENDIF
+         
          TOPHT = UPSHT1
          DIB17=DBHOB*(A17+B17*(17.3/TOPHT)**2)
 c         dib=(is*(dbhib**2*(1+(c+e/dbhib**3)*((1-highht/topht)**r
@@ -417,8 +408,36 @@ C when TOPHT < 17.3 (YW 2016/03/08)
            ENDIF
          ELSEIF(IT.GT.0)THEN
            IF(TOPHT.GT.17.3)THEN
-           dib = (IT*(DIB17**2-(DIB17**2-DX**2)*(1-((TOPHT-HTUP)/
-     &      (TOPHT-17.3))**Q)))**0.5
+             IF(HTUP.LE.TOPHT)THEN
+               dib = (IT*(DIB17**2-(DIB17**2-DX**2)*(1-((TOPHT-HTUP)/
+     &        (TOPHT-17.3))**Q)))**0.5
+             ELSE
+C   For the part above UPSHT1, need to use total height equation
+C   If HTTOT is not provided, using R9 logic to calculate the total height.
+C   The dib is calculated with total equation
+               VOLEQ0 = VOLEQ
+               VOLEQ0(3:3) = '0'
+               CALL R8PREPCOEF(VOLEQ0, COEFFS, ERRFLAG)
+               COEFFS%DBHIB = DBHIB
+               COEFFS%DIB17 = DIB17
+               IF(HTTOT.LE.0.0)THEN
+                 topDib = DX
+                 a = COEFFS%A
+                 b = COEFFS%B
+                 CALL r9totHt(totHt,htTot,dbhIb,dib17,topHt,topDib,a,b,
+     &                  errFlag)
+                 HTTOT = totHt
+               ENDIF
+               COEFFS%TOTHT = HTTOT
+               CALL R9DIB(DXcalc, UPSHT1, COEFFS)
+               FAC = DX/DXcalc
+               IF(HTUP.LT.HTTOT) THEN
+                 CALL R9DIB(dib, HTUP, COEFFS)
+               ELSE
+                 dib = 0.0
+               ENDIF
+               dib = dib*FAC
+             ENDIF  
            ELSE
            dib = (DX**2-(highht-topht)/(httot-topht)*DX**2)**0.5
            ENDIF

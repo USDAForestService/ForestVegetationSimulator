@@ -19,4 +19,7 @@ ktt02 :
 	-diff -w ktt01.tmp ktt01.tmp.save
 	rm ktt01.tmp ktt01.tmp.save
 	@echo Test ktt02 ended
-			
+
+clean : 
+	rm -rfv ktt.stop ktt01.out ktt01.sng ktt01.sum FVS_Data.db FVSOut.db
+

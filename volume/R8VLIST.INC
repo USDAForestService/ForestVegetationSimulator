@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 c== last modified  10-21-2000
 
       !INTEGER I

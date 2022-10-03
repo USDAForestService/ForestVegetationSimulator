@@ -1,7 +1,7 @@
       SUBROUTINE FMIN (ICALL,NSP,LKECHO)
       IMPLICIT NONE
 C----------
-C METRIC-FIRE-BASE $Id$
+C METRIC-FIRE-BASE $Id: fmin.f 4014 2022-07-07 20:53:52Z donrobinson $
 C----------
 C
 C     FIRE - FIRE & SNAG MODEL
@@ -726,7 +726,7 @@ C
      >  (ICLS,SNPRCL(ICLS)*INtoCM,ICLS=1,6)
  1350 FORMAT (/A8,'   THE LOWER BOUNDARY FOR EACH DBH CLASS FOR ',
      &  'PRINTING THE SNAG OUTPUT (IN CM): ',
-     &  /T12,6('CLASS',I2,'=',F4.1:'; '))
+     &  /T12,6('CLASS',I2,'=',F7.1:'; '))
       GOTO 10
  1400 CONTINUE
 C                        OPTION NUMBER 14 -- LANDOUT

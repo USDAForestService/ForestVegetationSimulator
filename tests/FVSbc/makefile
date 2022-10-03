@@ -5,7 +5,8 @@ all : StandStructure YSM-SkyRanch
 StandStructure :
 	@echo "Test StandStructure (4 stands)"
 	rm -f FVS-BC.Stand.Structure.Out.db
-	rm -f StandStructure.out StandStructure.sng
+	rm -f StandStructure.out
+	rm -f StandStructure.sng
 	-../../bin/FVSbc --keywordfile=StandStructure.key
 	grep -v "\-999" StandStructure.sum      > StandStructure.tmp
 	grep -v "\-999" StandStructure.sum.save > StandStructure.tmp.save
@@ -44,7 +45,7 @@ StandStructure :
    Canopy_Ht,round(Canopy_Density,2), \
    Fuel_Mod1,Fuel_Mod2,Fuel_Mod3,Fuel_Mod4, \
    Fuel_Wt1,Fuel_Wt2,Fuel_Wt3,Fuel_Wt4 \
-   from FVS_PotFire" >> StandStructureDBdump.txt
+   from FVS_PotFire_Metric" >> StandStructureDBdump.txt
 	@echo "FVS_PotFire_Cond" >> StandStructureDBdump.txt
 	-sqlite3 FVS-BC.Stand.Structure.Out.db ".header on" ".mode csv" \
   "select StandID,Fire_Condition,round(Wind_Speed,2),Temperature, \
@@ -52,7 +53,7 @@ StandStructure :
    round(Hundred_Hr_Moisture,2),round(Thousand_Hr_Moisture,2), \
    round(Duff_Moisture,2),round(Live_Woody_Moisture,2), \
    round(Live_Herb_Moisture,2) \
-   from FVS_PotFire_Cond" >> StandStructureDBdump.txt
+   from FVS_PotFire_Cond_Metric" >> StandStructureDBdump.txt
 	@echo "FVS_SnagDet" >> StandStructureDBdump.txt
 	-sqlite3 FVS-BC.Stand.Structure.Out.db ".header on" ".mode csv" \
   "select StandID,Year,SpeciesFVS,SpeciesPLANTS,SpeciesFIA,DBH_Class, \
@@ -61,7 +62,7 @@ StandStructure :
    round(Current_Vol_Hard,2),round(Current_Vol_Soft,2), \
    round(Total_Volume,2),Year_Died, \
    round(Density_Hard,2),round(Density_Soft,2),round(Density_Total,2) \
-   from FVS_SnagDet" >> StandStructureDBdump.txt
+   from FVS_SnagDet_Metric" >> StandStructureDBdump.txt
 	@echo "FVS_SnagSum" >> StandStructureDBdump.txt
 	-sqlite3 FVS-BC.Stand.Structure.Out.db ".header on" ".mode csv" \
   "select StandID,Year, \
@@ -80,7 +81,7 @@ StandStructure :
    round(Soft_snags_class6,2), \
    round(Soft_snags_total,2), \
    round(Hard_soft_snags_total,2) \
-   from FVS_SnagSum" >> StandStructureDBdump.txt
+   from FVS_SnagSum_Metric" >> StandStructureDBdump.txt
 	@echo "FVS_Summary_Metric" >> StandStructureDBdump.txt
 	-sqlite3 FVS-BC.Stand.Structure.Out.db ".header on" ".mode csv" \
   "select count(*) \
@@ -128,5 +129,7 @@ YSM-SkyRanch :
    from FVS_Summary_Metric" >> YSM-SkyRanchDBdump.txt
 	-diff -w YSM-SkyRanchDBdump.txt YSM-SkyRanchDBdump.txt.save
 
-	@echo "Test YSM-SkyRanch (15 stands) ended (Ignore STOP 20)"
+	@echo "Test YSM-SkyRanch (15 stands) ended"
 
+clean:
+# Do nothing, no rule

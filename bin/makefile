@@ -1,5 +1,3 @@
-#	$Id$	
-
 # Notes: If OS is defined, then then we are 64 bit windows, otherwise, we are Linix 
 # x86_64 or mac osx x86_64. These two are automatically picked as OS is always defined on windows
 
@@ -65,11 +63,18 @@ export FFLAGS = $(PIC) -g -cpp -DCMP${CC} -Wall -Wno-integer-division -ffpe-trap
 export CFLAGS = $(PIC) -DANSI -DCMP${CC} -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION $(WIN) 
 export LD = gfortran
 
+# Lists are: FVSprgs (all varaints), CANprgs (Canada variants), USprgs (US variants)
+
 ifndef sourceFileList
 export FVSprgs = $(subst _sourceList.txt,,$(shell ls FVS*_sourceList.txt))
 $(info FVSprgs: $(FVSprgs))
 endif
 
+CANprgs := FVSbc FVSon
+$(info CANprgs: $(CANprgs))
+
+USprgs := FVSak FVSbm FVSca FVSci FVScr FVScs FVSec FVSem FVSie FVSkt FVSls FVSnc FVSne FVSoc FVSop FVSpn FVSsn FVSso FVStt FVSut FVSwc FVSws
+$(info USprgs: $(USprgs))
 
 # the following variables are not processed until sourceFileList is defined...and that happens
 # when the first rule fires (the %.setup rule).
@@ -80,12 +85,19 @@ ifdef sourceFileList
   export includes = $(notdir $(filter %.F77 %.INC %.h,$(sourceList)))
   export mods = $(notdir $(filter %_mod.f, $(sourceList)))
   export mods_mods = $(addsuffix .mod,$(basename $(mods)))
-  export source = $(notdir $(filter %.c %.f %.cpp, $(sourceList)))
+  export source = $(notdir $(filter %.c %.f %.F %.for %.cpp, $(sourceList)))
   export object = $(addsuffix .o,$(basename $(source)))
  endif
 endif
 
+# Targets are: all (All varaints), Canada (Canada variants), US (US variants)
+#              clean (removes build directories containing copies of source files and objects)
+
 all : $(addsuffix $(SLIBSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSprgs))
+
+Canada : $(addsuffix $(SLIBSUFX),$(CANprgs)) $(addsuffix $(PRGSUFX),$(CANprgs))
+
+US : $(addsuffix $(SLIBSUFX),$(USprgs)) $(addsuffix $(PRGSUFX),$(USprgs))
 
 clean :
 	rm -frv *_buildDir $(addsuffix $(SLIBSUFX),$(FVSprgs)) $(addsuffix $(PRGSUFX),$(FVSprgs))
@@ -191,6 +203,12 @@ endif
 	$(FCprf)$(FC) $(FFLAGS) -c $<
 
 %.o : %.f $(includes) $(mods_mods)
+	$(FCprf)$(FC) $(FFLAGS) -c -o $@ $<
+
+%.o : %.for $(includes) $(mods_mods)
+	$(FCprf)$(FC) $(FFLAGS) -c -o $@ $<
+
+%.o : %.F $(includes) $(mods_mods)
 	$(FCprf)$(FC) $(FFLAGS) -c -o $@ $<
 
 %.o : %.c 

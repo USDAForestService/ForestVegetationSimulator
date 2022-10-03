@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  09-14-2007
       SUBROUTINE SF_SHP(JSP,GEOSUB,SETOPT,DBHOB,TOTALH,RFLW,RHFW,DBTBH,
      >                  DBT_USER,DBHIB)

@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  10-26-2005
 C     FILE CONTAINS THE FOLLOWING ROUTINES:
 C          SHP_C2
@@ -312,7 +309,7 @@ c                                     Move all coed to JRSP=10
                F(I, JRSP) = F(I, 23)                            
  24          continue
            else
-             geotemp = geosub
+	       geotemp = geosub
              DO 25 I=10,47
                 F(I, JRSP) = F(I, JSP)                            
  25          continue
@@ -409,28 +406,28 @@ c                                              limits on U1 to U5
 
 c                                         Define geometric parameters
 c                                        (These outcomes are SINGLE precision)
-      R1= REAL(dexp(U1)/ (1.0d0 + dexp(U1)))                             
-      R2= REAL(dexp(U2)/ (1.0d0 + dexp(U2)))                             
-      R3= REAL(dexp(U3)/ (1.0d0 + dexp(U3)))                             
-      R4= REAL(dexp(U4)/ (1.0d0 + dexp(U4)))                             
+      R1= dexp(U1)/ (1.0d0 + dexp(U1))                             
+      R2= dexp(U2)/ (1.0d0 + dexp(U2))                             
+      R3= dexp(U3)/ (1.0d0 + dexp(U3))                             
+      R4= dexp(U4)/ (1.0d0 + dexp(U4))                             
       IF (U5 .le. 7.0d0) then
-          R5= REAL(0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5)))                        
+          R5= 0.5d0 + 0.5d0*dexp(U5)/ (1.0d0 + dexp(U5))                        
       else
           R5=1.0
       end if
 
-      A3=REAL(U6)
-      RHI1 =  REAL(dexp(U7) / ( 1.0d0 + dexp(U7) ))
+      A3=U6
+      RHI1 =  dexp(U7) / ( 1.0d0 + dexp(U7) )
       if (RHI1.gt. 0.5 ) RHI1=0.5 
 
-      RHLONGI= REAL(U9)  
+      RHLONGI= U9    
       RHI2 = RHI1 + RHLONGI
 
 c      RHC = RHI2 + (1.0D0 - RHI2) * dexp(U8)/( 1.0d0 + dexp(U8))
 c      If (RHC .lt. RHI2 +0.01) then
 c          RHC = MIN( RHI2+0.01, (RHI2+1.0)/2.0 )
 c        end if
-      RHC=REAL(U8) 
+      RHC=U8 
       if (RHC .lt. RHI2+.01) RHC= min( RHI2+.01, (RHI2+1.)/2.0 )
 
 C     PUT COEFFICIENTS INTO AN ARRAY FOR EASIER PASSING
@@ -577,7 +574,7 @@ C100    IF (  abs(CORR) .gt. 1.0  .and.  ier_UNIT.ne.0)
 C     1     write(IER_UNIT,102) JSP, H1,H2, CORR
 C102        FORMAT(' CORRC2 ERROR on JSP=',i3,'  H1,H2, corr =',3f8.2)
 
-100   COR_C2 = REAL(CORR)
+100   COR_C2 = CORR
 
        return
        END
@@ -807,12 +804,12 @@ C                                     Special adjustment from 4 ft to BH
                 VMOD1 = .FALSE.
              ENDIF
                           
-             LVARHAT = REAL(VE0 + VF0*XU**VG0)
+             LVARHAT = VE0 + VF0*XU**VG0 
                 if (LVARHAT .gt. 15.0)   LVARHAT= 15.0
                 if (LVARHAT .lt. -15.0)  LVARHAT= -15.0
              VARHAT  = exp(LVARHAT)
              SE_LNX  = SQRT(VARHAT)
-             IF (VMOD1)  SE_LNX = REAL(SE_LNX * X/XU)
+             IF (VMOD1)  SE_LNX = SE_LNX * X/XU
                     
        else if (h.eq. BH)  then
 c                                                at BH
@@ -835,13 +832,13 @@ c                                                above BH
                 VMOD2 = .FALSE.
              ENDIF
               
-             LVARHAT = REAL(VA0+VB0*XU**VC+VX2*(HT/50.)**VX3/(1.0-XU))
+             LVARHAT = VA0 + VB0*XU**VC + VX2*(HT/50.)**VX3 /(1.0-XU)
                 if (LVARHAT .gt. 15.0)   LVARHAT= 15.0
                 if (LVARHAT .lt. -15.0)  LVARHAT= -15.0  
              VARHAT = exp(LVARHAT) 
              SE_LNX  = SQRT(VARHAT)
              
-             IF (VMOD2) SE_LNX = REAL(STD_FRAC * SE_LNX)
+             IF (VMOD2) SE_LNX = STD_FRAC * SE_LNX
        else
 c                                This is above total ht - meaningless.
              VARHAT = 1.0 
@@ -1286,7 +1283,7 @@ c
 c                                         One of the two above-BH models
          if (B(1) .eq. 0.0) then
             DR = MIN( DOB/DBH , 1.0 ) 
-C  exponential underflow check
+	!exponential underflow check
             if(dr .lt. 0.07) dr = 0.07   
             DBT = DBT_BH * (
      >            ( DR*(B(2)-1.0) / (B(2) - DR**B(3)))

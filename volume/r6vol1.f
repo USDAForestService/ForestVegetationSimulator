@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
       SUBROUTINE R6VOL1(IAPZ,DBHOB,FCLASS,XLOGS,LOGDIA,LOGVOL,INTBF)
 C== last modified  08-13-2003
 C ENTER WITH COMPUTED DIBS FOR 1 TO 20 LOGS IN A TREE.
@@ -50,23 +47,22 @@ C IFTR(127-132) APPLY ONLY TO  8-FT LOGS WITH DIB (6-11)
 
 
 C     ***** CLEAR PREVIOUS TREE *****
-      DO I=1,20
+      DO 10 I=1,20
         INTBF(I) = 0
         LOGVOL(1,I) = 0
-        LOGVOL(4,I) = 0
-      ENDDO
+   10   LOGVOL(4,I) = 0
 
          X = 0.0
 
-      LOGS = INT(AINT(XLOGS))
+      LOGS = AINT(XLOGS)
       IF(IAPZ.EQ.1) GO TO 40
 
 C     ***** (WESTSIDE) 32-FT LOG SCALE *****
       DO 20 I=1,LOGS,2
-      KD = INT(LOGDIA(I,1))
+      KD = LOGDIA(I,1)
       KBOT = KD+6
       IF (KD.LE.11) KBOT=KD
-      KD = INT(LOGDIA(I+1,1))
+      KD = LOGDIA(I+1,1)
       KTOP = KD+6
       IF (KD.LE.11) KTOP=KD
 
@@ -79,7 +75,7 @@ C     ***** GET 16-FT SCALE FOR BOTH HALFS OF LOG *****
       R = TOPV16 / (TOPV16 + BOTV16)
 
 C     ***** GET 32-FT SCALE FOR ENTIRE LOG *****
-      KD = INT(LOGDIA(I+1,1))
+      KD = LOGDIA(I+1,1)
       K = KTOP
       IF (KD.GE.6.AND.KD.LE.11) K=KD+6
       IV32 = (IFTR(K) * 32 + 500) / 1000
@@ -90,15 +86,14 @@ C  INTERNATIONAL BDFT
       INTBF(I) = BFINT
 
 C     ***** PROPORTIONATE 32-FT SCALE BY LOG HALFS *****
-      ITOPGV = INT(REAL(IV32) * R + 0.5)
+      ITOPGV = IV32 * R + 0.5
       IBOTGV = IV32 - ITOPGV
       LOGVOL(1,I+1) = ITOPGV
-      LOGVOL(1,I) = IBOTGV
-   20 CONTINUE
+   20 LOGVOL(1,I) = IBOTGV
       GO TO 60
                     
 C     ***** SINGLE 16-FT LOG (TOP OR BUTT OF TREE) *****
-   30 IBOTGV = INT(BOTV16)
+   30 IBOTGV = BOTV16
       LOGVOL(1,I) = IBOTGV
 
 C  INTERNATIONAL BDFT
@@ -109,7 +104,7 @@ C  INTERNATIONAL BDFT
 
 C     ***** (EASTSIDE) 16-FT LOG SCALE *****
    40 DO 50 I=1,LOGS
-      KD = INT(LOGDIA(I,1))
+      KD = LOGDIA(I,1)
       K = KD+6
       IF (KD.LE.11) K=KD
       IG = (IFTR(K) * 16 + 500) / 1000
@@ -118,12 +113,11 @@ C  INTERNATIONAL BDFT
       CALL INTL14(LOGDIA(I,1),16.0,BFINT)
       INTBF(I) = BFINT
 
-      LOGVOL(1,I) = IG
-   50 CONTINUE
+   50 LOGVOL(1,I) = IG
 
       X = XLOGS - LOGS
       IF (X.EQ.0.0) GO TO 60
-      KD = INT(LOGDIA(LOGS+1,1))
+      KD = LOGDIA(LOGS+1,1)
       IF (KD.LT.6) K=KD+0
       IF (KD.GE.6) K=KD+121
       IF (KD.GE.12) K=KD+6
@@ -148,9 +142,8 @@ C     ***** EASTSIDE HALF LOG AT TOP *****
      >                                    LOGDIA(LOGS,1)**2*F)/2.0*8.0
 
 C     ***** REMAINING LOGS *****
-   70 DO I=2,LOGS
-        LOGVOL(4,I) = (LOGDIA(I,1)**2 * F  +  
+   70 DO 80 I=2,LOGS
+   80    LOGVOL(4,I) = (LOGDIA(I,1)**2 * F  +  
      >                              LOGDIA(I-1,1)**2 * F) / 2.0 * 16.0
-      ENDDO
       RETURN
       END

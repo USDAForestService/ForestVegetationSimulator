@@ -20,6 +20,5 @@ akt02 :
 	rm akt01.tmp akt01.tmp.save
 	@echo Test akt02 ended
 
-
-	
-		
+clean : 
+	rm -rfv akt.stop akt01.out akt01.sng akt01.sum FVS_Data.db FVSOut.db

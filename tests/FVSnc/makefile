@@ -28,5 +28,7 @@ ffe :
 	-diff -w ffe.tmp ffe.tmp.save
 	rm ffe.tmp ffe.tmp.save
 	@echo Test ffe ended
- 
 
+clean : 
+	rm -rfv nct.stop nct01.out nct01.sng nct01.sum FVS_Data.db FVSOut.db
+	rm -rfv ffe.out ffe.sng ffe.sum

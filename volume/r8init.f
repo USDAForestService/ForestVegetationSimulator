@@ -1,10 +1,7 @@
-C----------
-C VOLUME $Id$
-C----------
+!== last modified  6-4-2014
       SUBROUTINE R8INIT(VOLEQ,DBHMIN,BFMIND,B,VFLAG,ERRFLAG)
 
 C CREATED  : 11-8-2002
-!== last modified  6-4-2014
 
 C PURPOSE  : THIS SUBROUTINE SETS VALUES USED TO CALC THE MERCH HT OF A TREE
 C Reversion history:
@@ -12,6 +9,7 @@ C 12/05/11  YW Added an array for the coefficients from Ed etal 1984. The old
 C              coef was incorrect for (B4, B5 and B6),
 C 06/04/2014 YW Changed the species list to be the one from FVS SN variant and 
 C               use coefficient from SN variant nbolts.f
+C 08/19/2021 YW Correct typo for variable VFLAG
 C*********************************
 C       DECLARE VARIBLES         *
 C*********************************
@@ -20,12 +18,10 @@ C*********************************
       CHARACTER*10 VOLEQ
       CHARACTER*3 S_SPEC(MAXSP),SPEC,CHECK
       INTEGER VFLAG,ERRFLAG,DONEFLAG,FIRST,HALF,LAST,LASTFLAG,PTR
-      REAL B(6),BFMIND,DBHMIN
+	REAL B(6),BFMIND,DBHMIN
       REAL S_B1(2,135),S_B2(2,135),S_B3(2,135),S_B4(2,135),S_B5(2,135)
       REAL S_B6(2,135),COEFB(26,6)
-      INTEGER IDANUW
-      INTEGER SPGRPCD(138)
-C      INTEGER SPCD
+      INTEGER SPGRPCD(138),SPCD
       REAL B1(MAXSP),B2(MAXSP),B3(MAXSP),B4(MAXSP),B5(MAXSP),B6(MAXSP)
       REAL CSB1(MAXSP),CSB2(MAXSP),CSB3(MAXSP),CSB4(MAXSP),
      &          CSB5(MAXSP),CSB6(MAXSP)
@@ -749,10 +745,6 @@ C
      &  0.01618,  0.08228,  0.05841,  0.12594,  0.12594,
      &  0.12594,  0.12594,  0.23316,  0.10771,  0.10771/
 
-C----------
-C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
-C----------
-      IDANUW = ERRFLAG
 C----------------------------------------------------------------------
 C     MAIN LOGIC
       PTR = 0
@@ -811,6 +803,7 @@ C     END BINARY SEARCH
       ELSE
          BFMIND = 12
       ENDIF
+!      IF(VGLAG.EQ.1)THEN
       IF(VFLAG.EQ.1)THEN
         B(1) = B1(PTR)
         B(2) = B2(PTR)
@@ -826,5 +819,5 @@ C     END BINARY SEARCH
         B(5) = CSB5(PTR)
         B(6) = CSB6(PTR)      
       ENDIF
-      RETURN
+ 998  RETURN
       END

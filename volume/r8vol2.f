@@ -1,8 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
-      SUBROUTINE R8VOL2(VOLEQ,VOL,DBHOB,HTONE,HTTWO,MTOPP,HTTOT,CTYPE,
-     >                  ERRFLAG)
 !== last modified  03-12-2014
 !== tdh added httwo = httot before prod 08
 C YW added to also check httot > 20 for prod 08 and changed subroutine PROD8 to return zero volume for height < 17.3
@@ -12,7 +7,10 @@ C               Broken height is entered to the field HT1PRD
 C YW 02/26/2014 Modified TOTHT subrouine to have broken height less then HTTWO and also set HTTOT variable when 
 C               total height is passed in with UPSHT1(HTTWO) variable befor cal TOTHT subroutine.
 C YW 03/12/2014 Fixed HT479 for smal tree problem (HT2<17.3)
-C
+C YW 04/13/2017 Modified R8CLARK for the log volume calculation to also include logs for topwood
+C YW 07/13/2018 Modified R8CLARK to check number of logs over 20 and return errflag 12
+      SUBROUTINE R8VOL2(VOLEQ,VOL,DBHOB,HTONE,HTTWO,MTOPP,HTTOT,CTYPE,
+     >                  ERRFLAG)
 C      *** SUBROUTINE TO CALCULATE NEW VOLUMES ***
 C      ***          FOR REGION 8               ***
 C      This routine is used for calculating volumes using
@@ -35,8 +33,8 @@ CREV   Revised TDH 06/01/11 Changed error handling/goto 998.
 C      ***  PASSED VARIABLES ***
       INTEGER ERRFLAG !,I,J
       character*10 VOLEQ
-      CHARACTER*1 CTYPE
-      REAL VOL(15),DBHOB,HTONE,HTTWO,MTOPP,HTTOT,fclss
+	    CHARACTER*1 CTYPE
+      REAL VOL(15),DBHOB,HTONE,HTTWO,DF1,MTOPP,HTTOT,fclss
 
 C      *** LOCAL VARIABLES ***
       INTEGER SPEC,GEOA,EQN,SPECPR,GEOAPR,EQNPR,SPGRP
@@ -61,7 +59,7 @@ c       INCLUDE 'COMM2'
 c       INCLUDE 'COMM3'
 c       INCLUDE 'COMM8'
 
-      INCLUDE 'R8DIB.INC'
+      INCLUDE 'r8dib.inc'    !'R8DIB.INC'
 
 C      *** SET ALL VARIABLES USED TO SKIP COEF. LOOKUPS TO ZERO ***
       DATA SPECPR,GEOAPR,EQNPR,SPGRP / 0,0,0,0 /       
@@ -321,7 +319,7 @@ C- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       READ(VOLEQ(8:10),'(I3)')SPEC
 C       READ (SP,'(I3)') SPEC
       READ(VOLEQ(2:2),'(I1)')GEOA
-
+	
 C       GEOA = INT ((VOLEQ(2) - 800) / 10)
       IF (GEOA.LT.1 .OR. GEOA.GT.9 .OR. GEOA.EQ.8)THEN
          ERRFLAG = 1
@@ -332,8 +330,8 @@ C       GEOA = INT ((VOLEQ(2) - 800) / 10)
 C       EQN  = VOLEQ(2) - (800 + GEOA * 10)
 
       
-      IF(EQN. NE. 0 .AND. EQN .NE. 4 .AND. EQN .NE. 7 .AND. EQN .NE. 9
-     > .AND. EQN .NE. 8) THEN
+      IF(EQN.NE.0 .AND. EQN.NE.4 .AND. EQN.NE.7 .AND. EQN.NE.9
+     > .AND. EQN.NE.8) THEN
         ERRFLAG = 1  
         GO TO 999
       ENDIF
@@ -365,13 +363,13 @@ c     *********************************************
 c        check for httwo equal zero and totht > 0
       IF((EQN.EQ.4.OR.EQN.EQ.7.OR.EQN.EQ.9).AND.
      >             (HTTOT.GT.0.AND.HTTWO.LE.0.AND.CTYPE.EQ.'F'))THEN
-        IF(HTTOT .LT. 20) THEN
-          ERRFLAG = 4
-          GOTO 999
+	  IF(HTTOT .LT. 20) THEN
+	     ERRFLAG = 4
+	     GOTO 999
         ENDIF
-        THTFLAG = 1
-      ELSE
-        THTFLAG = 0
+	  THTFLAG = 1
+	ELSE
+  	  THTFLAG = 0
       ENDIF
 
       IF (SPEC.EQ.SPECPR .AND. EQN.EQ.EQNPR .AND. GEOA.EQ.GEOAPR) THEN
@@ -389,10 +387,10 @@ c  The broken height is entered to the field HT1PRD (YW 02/07/2014)
      >              TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
      >              TPO,TBO,TAO,TAFI,TBFI,THTFLAG) 
            ENDIF
-         ELSEIF(EQN.EQ.8) THEN
-      
-           IF(HTTWO.LT.20.AND.HTTOT.GT.20) HTTWO = HTTOT
-           CALL PROD8(VOL,DBHOB,HTTWO,FIXDI,SPEC,SPGRP,TR,TC,TE,TP,TB,
+	   ELSEIF(EQN.EQ.8) THEN
+	      
+	      IF(HTTWO.LT.20.AND.HTTOT.GT.20) HTTWO = HTTOT
+	      CALL PROD8(VOL,DBHOB,HTTWO,FIXDI,SPEC,SPGRP,TR,TC,TE,TP,TB,
      >       TA,AD,BD,TAF,TBF,TRO,TCO,TEO,TPO,TBO,TAO,TAFI,TBFI,MTOPP)
      
          ELSE
@@ -401,9 +399,9 @@ c  The broken height is entered to the field HT1PRD (YW 02/07/2014)
                CALL TOTHT(VOL,DBHOB,HTTOT,HTTWO,FIXDI,SPEC,SPGRP,
      >          TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
      >          TPO,TBO,TAO,TAFI,TBFI,THTFLAG)       
-       
-               HTONE = HTTWO
-       
+	       
+	          HTONE = HTTWO
+	       
             ENDIF
 
             CALL HT479(EQN,VOL,DBHOB,HTONE,HTTWO,FIXDI,FCLSS,SPEC,SPGRP,
@@ -428,32 +426,32 @@ C     BINARY SEARCH FOR CORRECT COEFFICIENTS
       LAST = 182
       DO 5, WHILE (DONEFLAG.EQ.0)
          IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  !DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
           HALF=((LAST-FIRST+1)/2) + FIRST   
 
-          CHECK=INT(R8CF(HALF,1)*1000.+R8CF(HALF,2))
-C  !FOUND THE COEFFECIENTS
+          CHECK=R8CF(HALF,1)*1000+R8CF(HALF,2)
+	!FOUND THE COEFFECIENTS
           IF(GSPEC.EQ.CHECK)THEN      
              PTR = HALF
              DONEFLAG=1
-C  !MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
           ELSEIF(GSPEC.GT.CHECK)THEN  
              FIRST = HALF
-C  !MOVE UP THE LIST
+	!MOVE UP THE LIST
           ELSEIF(GSPEC.LT.CHECK)THEN   
              LAST = HALF - 1
           ENDIF
-C  !DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
           IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0)THEN   
-C  !END ROUTINE, NO MATCH
-          IF(GEOA.EQ.9) THEN   
+	!END ROUTINE, NO MATCH
+	       IF(GEOA.EQ.9) THEN   
                 SPECPR = 0
                 EQNPR = 0
                 GEOAPR = 0
                 ERRFLAG = 6
                 GO TO 999
-C  !SET GEOAPR TO 9 AND RETRY THE SEARCH
-          ELSE                  
+	!SET GEOAPR TO 9 AND RETRY THE SEARCH
+	       ELSE                  
                 GEOA = 9
                 GSPEC = GEOA*1000 + SPEC
                 FIRST = 1
@@ -465,7 +463,7 @@ C  !SET GEOAPR TO 9 AND RETRY THE SEARCH
 
 C     END BINARY SEARCH
 
-      SPGRP = INT(R8CF(PTR,3) + .5)               
+      SPGRP = R8CF(PTR,3) + .5                 
       IF (SPGRP.NE.100 .AND. SPGRP.NE.300 .AND. SPGRP.NE.500)THEN
         ERRFLAG = 6
         GO TO 999
@@ -483,21 +481,21 @@ C     END BINARY SEARCH
       LAST = 49
       DO 10, WHILE (DONEFLAG.EQ.0)
          IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  !DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
          HALF=((LAST-FIRST+1)/2) + FIRST   
           
-C  !FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
          IF((INT(DIBMEN(HALF,1)+.5)).EQ.SPEC) THEN      
             DIBCNT = HALF
             DONEFLAG=1
-C  !MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
          ELSEIF((INT(DIBMEN(HALF,1)+.5)).GT.SPEC)THEN  
             LAST = HALF -1
-C  !MOVE UP THE LIST
+	!MOVE UP THE LIST
          ELSEIF((INT(DIBMEN(HALF,1)+.5)).LT.SPEC)THEN   
             FIRST = HALF
          ENDIF
-C  !DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -518,21 +516,21 @@ C***********************************************************************
          LAST = 49
          DO 20, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  !DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST   
           
-C  !FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
             IF((INT(TOTAL(HALF,1)+.5)) .EQ. SPEC)THEN      
                TOTCNT = HALF
                DONEFLAG=1
-C  !MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
             ELSEIF((INT(TOTAL(HALF,1)+.5)).GT.SPEC)THEN  
                LAST = HALF -1
-C  !MOVE UP THE LIST
+	!MOVE UP THE LIST
             ELSEIF((INT(TOTAL(HALF,1)+.5)).LT.SPEC)THEN   
                FIRST = HALF 
             ENDIF
-C  !DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0)THEN
                ERRFLAG = 6
                GO TO 999   
@@ -558,17 +556,17 @@ C  !DID NOT FIND A MATCH
       ENDIF
 
       IF(THTFLAG.EQ.1) THEN
-         CALL TOTHT(VOL,DBHOB,HTTOT,HTTWO,FIXDI,SPEC,SPGRP,
-     >              TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
-     >              TPO,TBO,TAO,TAFI,TBFI,THTFLAG)
-         HTONE = HTTWO
+           CALL TOTHT(VOL,DBHOB,HTTOT,HTTWO,FIXDI,SPEC,SPGRP,
+     >                TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
+     >                TPO,TBO,TAO,TAFI,TBFI,THTFLAG)
+	   HTONE = HTTWO
       ENDIF
 
       IF ((EQN.EQ.0 .OR. EQN.EQ.8)) THEN
-         IF(HTTWO.LT.20.AND.HTTOT.GT.20) HTTWO = HTTOT
+	   IF(HTTWO.LT.20.AND.HTTOT.GT.20) HTTWO = HTTOT
 
          IF(EQN.EQ.8) THEN
-            CALL PROD8(VOL,DBHOB,HTTWO,FIXDI,SPEC,SPGRP,TR,TC,TE,TP,TB,
+	      CALL PROD8(VOL,DBHOB,HTTWO,FIXDI,SPEC,SPGRP,TR,TC,TE,TP,TB,
      >       TA,AD,BD,TAF,TBF,TRO,TCO,TEO,TPO,TBO,TAO,TAFI,TBFI,MTOPP)
          ELSE
 c  Modified the total height equation work for broken top
@@ -584,7 +582,7 @@ c  The broken height is entered to the field HT1PRD (YW 02/07/2014)
      >                TR,TC,TE,TP,TB,TA,AD,BD,TAF,TBF,TRO,TCO,TEO,
      >                TPO,TBO,TAO,TAFI,TBFI,THTFLAG)
            ENDIF
-        ENDIF
+	   ENDIF
 
       ELSEIF (EQN.EQ.4) THEN
          DONEFLAG = 0
@@ -593,21 +591,21 @@ c  The broken height is entered to the field HT1PRD (YW 02/07/2014)
          LAST = 49
          DO 40, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  !DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST   
           
-C  !FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
             IF((INT(FOUR(HALF,1)+.5)) .EQ. SPEC)THEN
                FOURCNT = HALF
                DONEFLAG=1
-C  !MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
             ELSEIF((INT(FOUR(HALF,1)+.5)).GT.SPEC)THEN
                LAST = HALF -1
-C  !MOVE UP THE LIST
+	!MOVE UP THE LIST
             ELSEIF((INT(FOUR(HALF,1)+.5)).LT.SPEC)THEN
                FIRST = HALF
             ENDIF
-C  !DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -658,21 +656,21 @@ C        IF FVS, USE FCLSS TO FIND VOLUME TO 4 INCH TOP
          LAST = 34
          DO 80, WHILE (DONEFLAG.EQ.0)
             IF(FIRST.EQ.LAST) LASTFLAG = 1
-C  !DETERMINE WHERE TO CHECK
+	!DETERMINE WHERE TO CHECK
             HALF=((LAST-FIRST+1)/2) + FIRST
           
-C  !FOUND THE COEFFECIENTS
+	!FOUND THE COEFFECIENTS
             IF((INT(NINE(HALF,1)+.5)) .EQ. SPEC)THEN
                NINECNT = HALF
                DONEFLAG=1
-C  !MOVE DOWN THE LIST
+	!MOVE DOWN THE LIST
             ELSEIF((INT(NINE(HALF,1)+.5)).GT.SPEC)THEN
                LAST = HALF -1
-C  !MOVE UP THE LIST
+	!MOVE UP THE LIST
             ELSEIF((INT(NINE(HALF,1)+.5)).LT.SPEC)THEN
                FIRST = HALF
             ENDIF
-C  !DID NOT FIND A MATCH
+	!DID NOT FIND A MATCH
             IF(LASTFLAG.EQ.1 .AND. DONEFLAG.EQ.0) THEN
                ERRFLAG = 6
                GO TO 999
@@ -717,7 +715,7 @@ C      *** DECLARE PASSED VARIABLES ***
 
 C      *** DECLARE LOCAL VARIABLES ***
       REAL DIB2, DIB3, FCLSS,FCLSS2, V,W,X,Y,Z,T,V1,V2,QA,QB,QC,
-     >      HT,LOWER,UPPER,L1,L2,L3,U1,U2,U3,S1,S2,S3,
+     >      HT,SEG1,SEG2,SEG3,LOWER,UPPER,L1,L2,L3,U1,U2,U3,S1,S2,S3,
      >      VO,WO,XO,YO,ZO,DBH2,DBH3,FCDOB,FCDOB2,UPPERD,UPPERD2
       INTEGER IS,IB,IT,IM,I1,I2,I3,I4,I5,I6
       REAL FCMIN, FCDIB, VOLINI,DIB,HT2TMP
@@ -770,11 +768,11 @@ C      THT = TREEHT
 
 C      CALCULATE VARIABLES FOR HEIGHT
       IF (UPPERD .LE. 4) THEN
-         UPPERD2 = 16
-      ELSEIF (UPPERD .LE. 7) THEN
-         UPPERD2 = 49
-      ELSEIF (UPPERD.LE. 9) THEN
-         UPPERD2 = 81
+            UPPERD2 = 16
+	ELSEIF (UPPERD .LE. 7) THEN
+	   UPPERD2 = 49
+	ELSEIF (UPPERD.LE. 9) THEN
+	   UPPERD2 = 81
       ENDIF
 
       DBH2 = DBH**2
@@ -900,11 +898,11 @@ c      VOL(5) = VOL(4)
 
 c      OPEN (UNIT=FCLSOUT, FILE='fclass.txt', ACCESS = 'APPEND',
 c     &       STATUS='UNKNOWN')
-c       WRITE (FCLSOUT,100)DBH,',',FCLSS,',',FCLSCLC
+c	       WRITE (FCLSOUT,100)DBH,',',FCLSS,',',FCLSCLC
 c 100         FORMAT(F4.1,A,F4.1,A,F4.1)
 c      CLOSE(FCLSOUT)
 C      Calculate stump vol
-       VOL(14)=0.005454154*DIB**2*LOWER       
+c       VOL(14)=0.005454154*DIB**2*LOWER       
 
   998 RETURN
       END
@@ -1084,14 +1082,14 @@ C--      VOL(5) = VOLM
 
        ENDIF
 C      Calculate stump vol
-       VOL(14)=0.005454154*DIB**2*STUMP       
+c       VOL(14)=0.005454154*DIB**2*STUMP       
 !       OPEN (UNIT=FCLSOUT, FILE='fclass.txt', ACCESS = 'APPEND',
 !     &       STATUS='UNKNOWN')
-!         WRITE (FCLSOUT,100)DBH,',',FCLSS,',',FCLSCLC
+!	       WRITE (FCLSOUT,100)DBH,',',FCLSS,',',FCLSCLC
 ! 100         FORMAT(F4.1,A,F4.1,A,F4.1)
 !      CLOSE(FCLSOUT)
 
-       RETURN
+ 999   RETURN
        END
 
 c**********************************************************************
@@ -1103,8 +1101,8 @@ C                HEIGHT (HT), DIB, AND FORM CLASS USING EQUATIONS
 C                FOR A 4, 7, OR 9 INCH DIAMETER TOP
 
        REAL VOLU, DIB,FCLSS,FIXDI,R,C,E,P,Q,HT,HT2
-       REAL TERML1,TERML2,TERML3,TERMU1,TERMU2,TERMU3
-       REAL TL1,TL2,TL3,TU1,TU2,TU3
+	 REAL TERML1,TERML2,TERML3,TERMU1,TERMU2,TERMU3
+	REAL TL1,TL2,TL3,TU1,TU2,TU3
        REAL DIB2, FCLSS2, DIB3, LOWER, UPPER, L1,
      >      L2, L3, U1, U2, U3, V, W, X, Y, Z, T, G
        REAL V1,X1,Y1,G1
@@ -1188,48 +1186,48 @@ C      SETS INDICATOR VARIABLES
       TL1 = 1.0 - L1/HT2
       IF(TL1 .LT. 0.01) THEN
          TERML1 = 0.0
-      ELSE
-         TERML1 = TL1**R*(HT2-L1)
-      ENDIF
+	ELSE
+	   TERML1 = TL1**R*(HT2-L1)
+	ENDIF
 
       TU1 = 1.0 - U1/HT2
       IF(TU1 .LT. 0.01)THEN
          TERMU1 = 0.0
-      ELSE
-         TERMU1 = TU1**R*(HT2-U1)
-      ENDIF
+	ELSE
+	   TERMU1 = TU1**R*(HT2-U1)
+	ENDIF
 
       TL2 = 1.0 - L2/HT2
       IF(TL2.LT. 0.01)THEN
          TERML2 = 0.0
-      ELSE
-         TERML2 = TL2**P*(HT2-L2)
-      ENDIF
+	ELSE
+	   TERML2 = TL2**P*(HT2-L2)
+	ENDIF
 
       TU2 = 1.0 - U2/HT2
       IF(TU2 .LT. 0.01)THEN
          TERMU2 = 0.0
-      ELSE
-         TERMU2 = TU2**P*(HT2-U2)
-      ENDIF
+	ELSE
+	   TERMU2 = TU2**P*(HT2-U2)
+	ENDIF
 
-      TL3 = 1.0 - L3/HT2
+	TL3 = 1.0 - L3/HT2
       IF(TL3 .LT. 0.01)THEN
          TERML3 = 0.0
-      ELSE
-         TERML3 = TL3**Q *(HT2-L3)
-      ENDIF
+	ELSE
+	   TERML3 = TL3**Q *(HT2-L3)
+	ENDIF
 
       TU3 = 1.0 - U3/HT2
       IF(TU3 .LT. 0.01)THEN
          TERMU3 = 0.0
-      ELSE
-         TERMU3 = TU3**Q *(HT2-U3)
-      ENDIF
+	ELSE
+	   TERMU3 = TU3**Q *(HT2-U3)
+	ENDIF
 
-      VOLU = 0.005454 * (I1*DIB2*((1.-V*W)*(U1-L1)+
+	VOLU = 0.005454 * (I1*DIB2*((1.-V*W)*(U1-L1)+
      >   W*((TERML1)-(TERMU1))/(R+1))+
-     >   I2*I3*(T*(U2-L2)+Z*((TERML2)-
+     >	I2*I3*(T*(U2-L2)+Z*((TERML2)-
      >   (TERMU2))/(P+1.))+ I4*(N*(U3-L3)+ 
      >   CAPR*((TERML3)-
      >   (TERMU3))/(Q+1.)))
@@ -1247,7 +1245,7 @@ c     >    U3/HT2)**Q *(HT2-U3))/(Q+1.)))
 
 
 ************************************************************************
-      SUBROUTINE PROD8(VOL,DBH,TREEHT,D,SPEC,SPGRP,      
+	SUBROUTINE PROD8(VOL,DBH,TREEHT,D,SPEC,SPGRP,      
      >                   R,C,E,P,B,A,AD,BD,AF,BF,
      >                   RO,CO,EO,PO,BO,AO,AFI,BFI,MTOPP)
 ************************************************************************
@@ -1272,16 +1270,16 @@ C      *** DECLARE LOCAL VARIABLES ***
        REAL THT, FCMIN, FCDIB, VOLINI,DIB,DBHIB
       INTEGER LAST,TOPLOP,I,FIRST,HALF,ERRFLG
       REAL MHT,TOP1,MINLEN,STUMP,HT2,VOLM,VOL4,Q
-
+	
 C     return Zero volume for tree height less than 17.3 (YW 10/11/2012)
-      IF (TREEHT.LT.17.3) THEN
-        VOL(4) = 0.0
-        VOL(7) = 0.0
-        RETURN
-      ENDIF
-
+	IF (TREEHT.LT.17.3) THEN
+	  VOL(4) = 0.0
+	  VOL(7) = 0.0
+	  RETURN
+	ENDIF
+	
       MINLEN = 12.0
-      STUMP = 0.5
+	STUMP = 0.5
       Q = 0
       EQN = '0'
 
@@ -1297,7 +1295,7 @@ C      CALCULATE DIAMETER AT 17.3 FEET (FORMCLASS)
 
        THT = TREEHT
 
-       FCLSS = DBH * (AF + BF * (17.3/THT)**2)
+  2    FCLSS = DBH * (AF + BF * (17.3/THT)**2)
        If (FCLSS.LT.0) FCLSS = 0.0
 
        IF (SPEC.EQ.221 .OR. SPEC.EQ.222 .OR. SPEC.EQ.544) GO TO 8
@@ -1420,7 +1418,7 @@ C--     THAT ARE CLOSE - 5.995 AND ABOVE WILL BE CONVERTED TO 6
 
           DIB=INT((DIB+.005)*10.0)
           IF(TOP1 .EQ. DIB) THEN
-             GO TO 100
+	      GO TO 100
           ELSE IF (TOP1 .LT. DIB) THEN
 C--          MOVE UP STEM
              FIRST = HALF
@@ -1441,14 +1439,14 @@ C     IF HEIGHT MINUS STUMP IS GE 12.0, FIND VOLUME
 
 C     FIND TOPWOOD VOLUME
          VOL(4) = VOLM
-         VOL(7) = VOL4 - VOLM
-         IF(VOL(7).LT.0.0001) VOL(7) = 0.0
-       ELSE
-         VOL(4) = 0
+	   VOL(7) = VOL4 - VOLM
+	   IF(VOL(7).LT.0.0001) VOL(7) = 0.0
+	 ELSE
+	   VOL(4) = 0
          VOL(7) = VOL4
        ENDIF
 C     calculate stump vol
-      VOL(14)=0.005454154*DBHIB**2*STUMP       
+c      VOL(14)=0.005454154*DBHIB**2*STUMP       
 C     RETURN VOLUMES
 
 
@@ -1473,12 +1471,6 @@ C  volume calculation.
       real      r,c,e,p,b,a,q,g,w,x,y,z,t,jj,rr,n
       real      l1,l2,l3,u1,u2,u3
       character*1 topdob
-      INTEGER IDANUW
-C----------
-C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
-C----------
-      IDANUW = ERRFLG
-C
 
       volume=0.0
 
@@ -1574,14 +1566,6 @@ C  are the coefficients for inside-bark diameter calculation.
       real      dib,topht,dbhib,dib17
       real      highht
       real      r,c,e,p,b,a,q
-      REAL RDANUW
-      INTEGER IDANUW
-C----------
-C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
-C----------
-      IDANUW = ERRFLG
-      RDANUW = Q
-C
 
       dib=0.0
 
@@ -1624,35 +1608,29 @@ C ----------------------------------------------------------------------
      &              SPFLG,PROD,ERRFLG,CTYPE,UPSHT1,
      &              TLOGS,NOLOGP,NOLOGS)
       USE VOLINPUT_MOD
-
+      USE CLKCOEF_MOD
       implicit none
 C     Shared variables
-      CHARACTER FORST*2,PROD*2,VOLEQ*10
+      CHARACTER FORST*2,PROD*2,VOLEQ*10, VOLEQTMP*10
       INTEGER   CUTFLG,BFPFLG,CUPFLG,SPFLG,CDPFLG,ERRFLG,I,J,REGN
       REAL      MINBFD,MAXLEN,MINLEN,MERCHL,MTOPP,MTOPS,STUMP,TRIM
-      REAL      DBHOB,HT1PRD,HT2PRD,HTTOT,UPSHT1 
+      REAL      DBHOB,HT1PRD,HT2PRD,HTTOT,TOPDIB,UPSHT1 
       REAL      LOGVOL(7,20),LOGDIA(21,3),BOLHT(21),VOL(15),LOGLEN(20)
       CHARACTER*1 CTYPE, COR
       INTEGER OPT, EVOD,NUMSEG,EQN
       REAL MINLENT, BTR, DBTBH,LMERCH, CFVOL, TLOGVOL
       INTEGER   TLOGS
       REAL NOLOGP,NOLOGS 
-      REAL RDANUW
-      INTEGER IDANUW
-C----------
-C  DUMMY ARGUMENT NOT USED WARNING SUPPRESSION SECTION
-C----------
-      IDANUW = CDPFLG
-      IDANUW = CUPFLG
-      IDANUW = CUTFLG
-      RDANUW = HT2PRD
-      RDANUW = NOLOGS
-      IDANUW = SPFLG
-C
-C
-      BTR = 0.
-      DBTBH = 0.
-C
+      TYPE(CLKCOEF):: COEFFS
+      REAL LOGLEN2(20), DBHIB,DIB17,topHt,totHt,a,b
+
+C  DW 08/22 initializations of variables otherwise uninitialized prior to MRULES call
+      OPT = 0
+      EVOD = 0
+      MINLENT = 0
+      BTR = 0
+      DBTBH = 0
+
       READ(VOLEQ(3:3),'(I1)')EQN
       REGN = 8
       DO 102,I=1,20
@@ -1663,52 +1641,76 @@ C
         LOGDIA(I,2) = 0.0
         LOGDIA(I,3) = 0.0
         BOLHT(I)=0.0
+        LOGLEN(I) = 0.0
+        LOGLEN2(I) = 0.0
   102 CONTINUE        
        
       DO 104, I=1,15
        VOL(I) = 0.0
   104 CONTINUE
 
-C The HT1PRD field is also used by pulpwood broken top height (YW 2/7/14)
-      IF(UPSHT1.LE.0 .AND. HT1PRD.GT.0.AND.PROD.EQ.'01')UPSHT1=HT1PRD
-      
+C The HT1PRD field is also used by pulpwood broken top height (YW 2/7/14)    	
+c	IF(UPSHT1.LE.0 .AND. HT1PRD.GT.0.AND.PROD.EQ.'01')UPSHT1=HT1PRD
+      IF(UPSHT1.LE.0.AND.HT1PRD.GT.0.AND.(EQN.EQ.7.OR.EQN.EQ.9))THEN
+        UPSHT1=HT1PRD
+      ENDIF
+C     YW added on 6/16/2017 for HT1PRD      
+      IF(UPSHT1.GT.0.AND.HT1PRD.LE.0.1.AND.(EQN.EQ.7.OR.EQN.EQ.9))THEN
+        HT1PRD = UPSHT1
+      ENDIF
+      IF(UPSHT1.LE.0.AND.HT1PRD.LE.0.AND.HTTOT.LE.0)THEN
+        ERRFLG = 7
+        RETURN
+      ENDIF
       CALL R8VOL2 (VOLEQ,VOL,DBHOB,HT1PRD,UPSHT1,MTOPP,HTTOT,
      >                      CTYPE, ERRFLG)
       IF(ERRFLG.GT.0) RETURN
       CFVOL = VOL(4)
 C CALCULATE BOARDFOOT VOLUME
-      IF(BFPFLG.EQ.1.AND.(EQN.EQ.7.OR.EQN.EQ.9))THEN
+C      IF(BFPFLG.EQ.1.AND.(EQN.EQ.7.OR.EQN.EQ.9))THEN
+C Calculate log volume (03/28/2017)
 c     MRULES IS EXTERNAL AND CONTAINS THE MERCHANDIZING RULES SETTINGS
         CALL MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,MINLEN,
      >           MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
      >           PROD)
 C IF USER MODIFIED MRULE, THEN NO NEED TO CALL MRULES
-        IF(MRULEMOD.EQ.'Y')THEN
-          IF(NEWCOR.EQ.'Y'.OR.NEWCOR.EQ.'N') COR = NEWCOR
-          IF(NEWEVOD.GT.0) EVOD = NEWEVOD
-          IF(NEWOPT.GT.0) OPT = NEWOPT
-          IF(NEWMAXLEN.GT.0) MAXLEN = NEWMAXLEN
-          IF(NEWMINLEN.GT.0) MINLEN = NEWMINLEN
-          IF(NEWMERCHL.GT.0) MERCHL = NEWMERCHL
-          IF(NEWMINLENT.GT.0) MINLENT = NEWMINLENT
-          IF(NEWMTOPP.GT.0) MTOPP = NEWMTOPP
-          IF(NEWMTOPS.GT.0) MTOPS = NEWMTOPS
-          IF(NEWSTUMP.GT.0) STUMP = NEWSTUMP
-          IF(NEWTRIM.GT.0) TRIM = NEWTRIM
-          IF(NEWBTR.GT.0) BTR = NEWBTR
-          IF(NEWDBTBH.GT.0) DBTBH = NEWDBTBH
-          IF(NEWMINBFD.GT.0) MINBFD = NEWMINBFD
+C The following has been added to MRULES, so I comment out (03/22/2017)
+c        IF(MRULEMOD.EQ.'Y')THEN
+c          IF(NEWCOR.EQ.'Y'.OR.NEWCOR.EQ.'N') COR = NEWCOR
+c          IF(NEWEVOD.GT.0) EVOD = NEWEVOD
+c          IF(NEWOPT.GT.0) OPT = NEWOPT
+c          IF(NEWMAXLEN.GT.0) MAXLEN = NEWMAXLEN
+c          IF(NEWMINLEN.GT.0) MINLEN = NEWMINLEN
+c          IF(NEWMERCHL.GT.0) MERCHL = NEWMERCHL
+c          IF(NEWMINLENT.GT.0) MINLENT = NEWMINLENT
+c          IF(NEWMTOPP.GT.0) MTOPP = NEWMTOPP
+c          IF(NEWMTOPS.GT.0) MTOPS = NEWMTOPS
+c          IF(NEWSTUMP.GT.0) STUMP = NEWSTUMP
+c          IF(NEWTRIM.GT.0) TRIM = NEWTRIM
+c          IF(NEWBTR.GT.0) BTR = NEWBTR
+c          IF(NEWDBTBH.GT.0) DBTBH = NEWDBTBH
+c          IF(NEWMINBFD.GT.0) MINBFD = NEWMINBFD
 C RESET INDICATOR VARIABLE
-          MRULEMOD='N'          
+c          MRULEMOD='N'          
 c        ELSE      
-        ENDIF
+c        ENDIF
 C--         SUBROUTINE "NUMLOG" WILL DETERMINE THE NUMBER OF
 C--         MERCHANTABLE SEGMENTS IN A GIVEN MERCHANTABLE LENGTH
 C--         OF TREE STEM, ACCORDING TO ONE OF THE DEFINED SEGMENTATION
 C--         RULES IN THE VOLUME ESTIMATOR HANDBOOK FSH ???.
+       IF(PROD.EQ.'01')THEN
+C        First do the sawlog
+         LMERCH = STUMP
+         IF(HT1PRD.GT.0.0)THEN  
            LMERCH = HT1PRD - STUMP
            CALL NUMLOG(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,NUMSEG)
-      
+           IF(NUMSEG.GT.20)THEN
+             ERRFLG = 12
+             do 131,i=1,15
+               vol(i)=0.0
+131          continue
+             RETURN
+           ENDIF
 C--         SUBROUTINE "SEGMNT" WILL DETERMINE THE LENGTH OF EACH
 C--         SEGMENT, GIVEN A MERCHANTABLE LENGTH OF TREE STEM AND
 C--         THE NUMBER OF SEGMENTS IN IT (DETERMINED IN SUBROUTINE
@@ -1717,15 +1719,143 @@ C--         ONE OF THE DEFINED SEGMENTATION RULES IN THE VOLUME
 C--         ESTIMATOR HANDBOOK FSH ???.
            CALL SEGMNT(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,NUMSEG,
      >               LOGLEN)
-           TLOGS = NUMSEG
            NOLOGP = NUMSEG
-           CALL R8LOGDIB(VOLEQ, FORST, DBHOB, HTTOT, UPSHT1, 
-     &         NUMSEG, TRIM, STUMP, BOLHT,LOGLEN, LOGDIA,ERRFLG)
+           LMERCH = STUMP
+           DO I = 1, NOLOGP
+             LMERCH = LMERCH + LOGLEN(I) + TRIM
+           ENDDO
+           
+         ENDIF
+C        Then do the topwood/pulp
+         IF(SPFLG.GT.0)THEN
+           CFVOL = CFVOL + VOL(7)
+           IF(HT2PRD.LE.0.0)THEN
+              CALL R8PREPCOEF(VOLEQ, COEFFS, ERRFLG)
+              DBHIB = COEFFS%A4+COEFFS%B4*DBHOB
+              DIB17=DBHOB*(COEFFS%A17+COEFFS%B17*(17.3/UPSHT1)**2)
+
+               IF(HTTOT.LE.0.0)THEN
+                 topDib = COEFFS%FIXDI
+                 topHt = UPSHT1
+               ENDIF
+
+             VOLEQTMP = VOLEQ
+             VOLEQTMP(3:3) = '0'
+             CALL R8PREPCOEF(VOLEQTMP, COEFFS, ERRFLG)
+             COEFFS%DBHIB = DBHIB
+             COEFFS%DIB17 = DIB17
+             IF(HTTOT.LE.0.0)THEN
+               a = COEFFS%A
+               b = COEFFS%B
+               CALL r9totHt(totHt,htTot,dbhIb,dib17,topHt,topDib,a,b,
+     &               errFlg)
+               HTTOT = totHt
+             ENDIF
+             COEFFS%TOTHT = HTTOT
+             CALL r9ht(HT2PRD,COEFFS,COEFFS%FIXDI,errFlg)
+           ENDIF
+           IF(HT2PRD.GT.HT1PRD)THEN
+             NUMSEG = 0
+             LMERCH = HT2PRD - LMERCH
+             CALL NUMLOG(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,NUMSEG)
+             IF(NUMSEG.GT.20)THEN
+               ERRFLG = 12
+               do 132,i=1,15
+                 vol(i)=0.0
+132            continue
+               RETURN
+             ENDIF
+             CALL SEGMNT(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,NUMSEG,
+     >               LOGLEN2)
+             NOLOGS = NUMSEG
+             IF(NOLOGS.GT.0)THEN
+               DO I = 1, NOLOGS
+                 LOGLEN(NOLOGP+I) = LOGLEN2(I)
+               ENDDO
+             ENDIF
+           ENDIF
+         ENDIF
+                
+         TLOGS = NOLOGP + NOLOGS
+         NUMSEG = NOLOGP
+         CALL R8LOGDIB(VOLEQ, FORST, DBHOB, HTTOT, UPSHT1, 
+     &        TLOGS, TRIM, STUMP, BOLHT,LOGLEN, LOGDIA,ERRFLG)
 C CALCULATE LOG BOARDFOOT USING R9 ROUTINE
+         IF(BFPFLG.EQ.1)THEN
            CALL R9BDFT(VOL,LOGLEN,NUMSEG,LOGDIA,ERRFLG,LOGVOL)
+         ENDIF
 C CALCULATE LOG CUBIC VOLUME AND ADJUST LOG VOLUME WITH MERCH CUBIC VOL
 C USING R9 ROUTINE
-           CALL R9LGCFT(NUMSEG, LOGLEN, LOGDIA, LOGVOL,TLOGVOL,CFVOL)  
+         CALL R9LGCFT(TLOGS, LOGLEN, LOGDIA, LOGVOL,TLOGVOL,CFVOL)  
+       ELSE  ! For non-sawtimber log volume calc (03/28/2017)
+C If pult height is not provided, calculate it       
+           IF(HT2PRD.LE.0.0)THEN
+              CALL R8PREPCOEF(VOLEQ, COEFFS, ERRFLG)
+              DBHIB = COEFFS%A4+COEFFS%B4*DBHOB
+              IF(UPSHT1.LE.0.0.AND.HT1PRD.GT.0.0) UPSHT1=HT1PRD
+              DIB17=DBHOB*(COEFFS%A17+COEFFS%B17*(17.3/UPSHT1)**2)
+
+               IF(HTTOT.LE.0.0)THEN
+                 topDib = COEFFS%FIXDI
+                 topHt = UPSHT1
+               ENDIF
+
+             VOLEQTMP = VOLEQ
+             VOLEQTMP(3:3) = '0'
+             CALL R8PREPCOEF(VOLEQTMP, COEFFS, ERRFLG)
+             COEFFS%DBHIB = DBHIB
+             COEFFS%DIB17 = DIB17
+             IF(HTTOT.LE.0.0)THEN
+               a = COEFFS%A
+               b = COEFFS%B
+               CALL r9totHt(totHt,htTot,dbhIb,dib17,topHt,topDib,a,b,
+     &               errFlg)
+               HTTOT = totHt
+             ENDIF
+             COEFFS%TOTHT = HTTOT
+             CALL r9ht(HT2PRD,COEFFS,COEFFS%FIXDI,errFlg)
+           ENDIF
+           IF((HT2PRD-STUMP).GT.MERCHL)THEN
+             NUMSEG = 0
+             LMERCH = HT2PRD - STUMP
+             CALL NUMLOG(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,NUMSEG)
+             IF(NUMSEG.GT.20)THEN
+               ERRFLG = 12
+               do 133,i=1,15
+                 vol(i)=0.0
+133            continue               
+               RETURN
+             ENDIF
+             CALL SEGMNT(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,NUMSEG,
+     >               LOGLEN)
+             NOLOGS = NUMSEG
+             TLOGS = NOLOGS
+             CALL R8LOGDIB(VOLEQ, FORST, DBHOB, HTTOT, UPSHT1, 
+     &        TLOGS, TRIM, STUMP, BOLHT,LOGLEN, LOGDIA,ERRFLG)
+C For non-saw prod, it should not calculate boardfoot volume. This is in R9clark (07/12/2017)
+C So I comment out the following lines (07/12/2017)
+C CALCULATE LOG BOARDFOOT USING R9 ROUTINE
+c            IF(BFPFLG.EQ.1)THEN
+c              CALL R9BDFT(VOL,LOGLEN,NUMSEG,LOGDIA,ERRFLG,LOGVOL)
+c            ENDIF
+C CALCULATE LOG CUBIC VOLUME AND ADJUST LOG VOLUME WITH MERCH CUBIC VOL
+C USING R9 ROUTINE
+            CALL R9LGCFT(TLOGS, LOGLEN, LOGDIA, LOGVOL,TLOGVOL,CFVOL)  
+             
+           ENDIF
+       ENDIF
+C The following is copied fron R8vol (YW 2016/03/10)
+C     ROUND THE VOLUMES 10TH CUBIC FOOT, NEAREST BDFT
+	VOL(2) = ANINT(VOL(2))
+	VOL(4) = ANINT(VOL(4)*10.0)/10.0
+	VOL(7) = ANINT(VOL(7)*10.0)/10.0
+	VOL(10) = ANINT(VOL(10))
+	VOL(12) = ANINT(VOL(12))
+c Changed to NOT reset VOL(4) to 0.5 for PROD 08 (09/06/2012)
+      IF(PROD.EQ.'08') THEN
+        IF(VOL(4).LT.0.5.AND.VOL(7).LT.0.5) VOL(7) = 0.5
+      ELSE
+        IF(VOL(4) .LT. 0.5) VOL(4) = 0.5
       ENDIF
       
       END
@@ -1768,13 +1898,14 @@ c--     Get DIB at all log ends
 C CHECK THE HEIGHT FOR THE LAST LOG. THE HEIGHT MAY BE SLIGHTLY HIGHER THAN
 C THE UPSHT1 BECAUSE OF ROUNDING FOR SEGMENT. IN THIS CASE, THE LAST LOGDIB
 C WIL USE VOLEQ DEFAULT TOP DIB
-          IF(HT.GT.UPSHT1)THEN
-            CALL R8PREPCOEF(VOLEQ, COEFFS, ERRFLAG)
-            DIB = COEFFS%FIXDI
-          ELSE          
+c Now R8CLKDIB can calculate DIB above UPSHT1, so I comment out the following lines (03/24/2017)
+c          IF(HT.GT.UPSHT1)THEN
+c            CALL R8PREPCOEF(VOLEQ, COEFFS, ERRFLAG)
+c            DIB = COEFFS%FIXDI
+c          ELSE          
             CALL R8CLKDIB(VOLEQ,FORST,DBHOB, HTTOT, UPSHT1,HT,DIB,
      +                  ERRFLAG)
-          ENDIF
+c          ENDIF
           IF(DIB.GT.0)THEN
             LOGDIA(I+1,2)= DIB    
             LOGDIA(I+1,1)=INT(DIB+0.499)
@@ -1783,4 +1914,72 @@ C WIL USE VOLEQ DEFAULT TOP DIB
           ENDIF
 850     CONTINUE
       ENDIF
+      END
+C-------------------------------------------------------------------------
+C This subroutine calculate the height to a given DIB using Clark 4, 7, 9 equation
+      SUBROUTINE R8CLKHT(VOLEQ, DBHOB, HTTOT, UPSTEMHT, DIB, HT)
+      USE CLKCOEF_MOD
+      
+      implicit none
+      CHARACTER*10 VOLEQ
+      REAL DBHOB,HTTOT,UPSTEMHT,DIB,HT,D,F
+      REAL GG,WW,XX,YY,ZZ,TT,JJ,RR,NN
+      REAL r,c,e,p,q,b,a,a4,b4,a17,b17,Dx,Hx
+      TYPE(CLKCOEF):: COEFFS
+      INTEGER ERRFLAG,IS,IB,IT
+      REAL DIB2,D2,F2,Dx2,D3,SEG1,SEG2,SEG3
+      
+      CALL R8PREPCOEF(VOLEQ, COEFFS, ERRFLAG)
+      r=COEFFS%r
+      c=COEFFS%c
+      e=COEFFS%e
+      p=COEFFS%p
+      q=COEFFS%q
+      b=COEFFS%b
+      a=COEFFS%a
+      a4=COEFFS%a4
+      b4=COEFFS%b4
+      a17=COEFFS%a17
+      b17=COEFFS%b17
+      Dx=COEFFS%FIXDI
+      Dx2=Dx*Dx
+      Hx=UPSTEMHT
+      DIB2=DIB*DIB
+      
+
+C calculate DBHIB and F17IB      
+      D=a4+b4*DBHOB
+      F=DBHOB*(a17+b17*(17.3/Hx)**2)
+      D2=D*D
+      D3=D2*D
+      F2=F*F
+      
+      IS=0
+      IB=0
+      IT=0
+      IF(DIB2.GE.D2) IS=1
+      IF(DIB2.LT.D2.AND.DIB2.GE.F2) IB=1
+      IF(DIB2.LT.F2) IT=1
+      
+      GG=(1-4.5/Hx)**r
+      WW=(c+e/D3)/(1+GG)
+      XX=(1-4.5/Hx)**p
+      YY=(1-17.3/Hx)**p
+      ZZ=(D2-F2)/(XX-YY)
+      TT=D2-ZZ*XX
+      JJ=(1-17.3/Hx)**q
+      RR=(F2-Dx2)/JJ
+      NN=F2-RR*JJ
+      
+      SEG1=0
+      SEG2=0
+      SEG3=0
+      IF(IS.EQ.1) SEG1=Hx*(1-((DIB2/D2-1)/WW+GG)**(1/r))
+      IF(IB.EQ.1) SEG2=Hx*(1-(XX-(D2-DIB2)/ZZ)**(1/p))
+      IF(IT.EQ.1) SEG3=Hx*(1-(JJ-(F2-DIB2)/RR)**(1/q))
+      HT = SEG1+SEG2+SEG3
+      RETURN
+c      HT=IS*Hx*(1-((DIB2/D2-1)/WW+GG)**(1/r))
+c     +  +IB*Hx*(1-(XX-(D2-DIB2)/ZZ)**(1/p))
+c     +  +IT*Hx*(1-(JJ-(F2-DIB2)/RR)**(1/q))
       END

@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  08-13-2003
       SUBROUTINE R6DIBS (IAPZ,DBHOB,IBTR,FCLASS,MTOPP,TLH,TH,
      >                   XLOGS,LOGDIA,SL,XL,A)
@@ -14,15 +11,14 @@ C BY ANY PROGRAM OF THE CRS6 SYSTEM.
 
       AIFC=FCLASS
 C     ***** CLEAR PREVIOUS TREE *****
-      DO I=1,20
+      DO 5 I=1,20
         SL(I) = 0.0
-        XL(I) = 0.0
-      ENDDO
+    5   XL(I) = 0.0
 
-      DO I=1,21
+      DO 7 I=1,21
         LOGDIA(I,1) = 0.0
         LOGDIA(I,2) = 0.0
-      ENDDO
+    7 CONTINUE
 
       FC16=0.0
       FC32=0.0
@@ -43,7 +39,7 @@ C     ***** DBHOB-SIGHTING - COMPUTE LOGDIA(1,2) WITH FC *****
       GO TO 20
 
 C     ***** 16-FT SIGHTING - COMPUTE LOGDIA(1,2) WITH BTR *****
-      DOB16 = DBHOB
+   10 DOB16 = DBHOB
       LOGDIA(1,2) = DOB16 * IBTR
       DBHOB = LOGDIA(1,2) / FC16
 
@@ -63,7 +59,7 @@ c      IF (IBTR.GT.0) DBHOB=LOGDIA(1,2)/FC16
       GO TO 130
 
 C     ***** MORE THAN ONE LOG IN TREE *****
-   30 ILH = INT(TLH)
+   30 ILH = TLH
       S = TLH - ILH
       IF(S.EQ.0.0) GO TO 40
 
@@ -151,7 +147,7 @@ C     ***** ROUND ANY SHORT LENGTH AT TOP OF TREE *****
 
 C     ***** ROUND DIBS TO NEAREST INCH *****
   130 DO 140 I=1,20
-        ID = INT(LOGDIA(I,2) + 0.5)
+        ID = LOGDIA(I,2) + 0.5
         LOGDIA(I,1) = ID
   140   continue
       RETURN
@@ -171,7 +167,7 @@ C     ***** GET TAPER COEFFICIENT *****
   210 IF ( TLH .EQ. 0.0 ) GO TO 500
       IF ( IBTR .GT. 0 ) GO TO 400
       GO TO 300
-      IF ( IBTR .GT. 0 ) GO TO 600
+  220 IF ( IBTR .GT. 0 ) GO TO 600
       GO TO 500
 
 
@@ -188,11 +184,11 @@ C      LOGDIA(1,1) = ID
 C      RETURN
       GO TO 370
 
-C     ***** TWO 16 S *****
+C     ***** TWO 16'S *****
   320 IF (LOGS.GT.2) GO TO 330
       XLOGS = 2.0
       LOGDIA(2,2) = MTOPP
-      ID = INT(LOGDIA(2,2) + 0.5)
+      ID = LOGDIA(2,2) + 0.5
       LOGDIA(2,1) = ID
       SL(2) = 16.3
       LOGDIA(1,2) = IFIX( (LOGDIA(2,2)+DBHOB) / 2.0 + 0.5 )
@@ -216,7 +212,7 @@ C     ***** PROJECT TAPER FROM LOGDIA(2,2) TO LOGDIA(1,2) *****
       DR = T + (HR / (AT*HR+BT))
       LOGDIA(1,2) = IFIX( LOGDIA(2,2)/DR+0.5 )
 
-C     ***** THREE 16 S *****
+C     ***** THREE 16'S *****
       IF (LOGS.GT.3) GO TO 340
       XLOGS = 3.0
       LOGDIA(3,2) = MTOPP
@@ -226,21 +222,19 @@ C  331  LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
 C      RETURN
       GO TO 370
 
-C     ***** FOUR OR MORE 16 S *****
+C     ***** FOUR OR MORE 16'S *****
   340 H1 = (LOGS-2) * 16.3
-      DO I=3,INT(LOGS)
+      DO 350 I=3,INT(LOGS)
         HX = H1 - (I-2)*16.3
         HR = HX/H1
         DR = T + (HR / (AT*HR+BT))
         LOGDIA(I,2) = LOGDIA(2,2)*DR
-        SL(I) = 16.3
-      ENDDO
+  350   SL(I) = 16.3
       XLOGS = LOGS
 
 C     ***** ROUND DIBS *****
-  370 DO I=1,20
-        LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
-      ENDDO
+  370 DO 360 I=1,20
+  360   LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
       RETURN
 
 
@@ -263,7 +257,7 @@ C     ***** REDUCE TOPDIB IF CONFLICT WITH LOGDIA(1,2) *****
       LOGDIA(1,2) = IFIX( DOB16*BTR+0.5 )
       IF (LOGDIA(1,2).LE.MTOPP) MTOPP=LOGDIA(1,2)-1.0
 
-C     ***** TWO 16 S *****
+C     ***** TWO 16'S *****
       IF (LOGS.GT.2) GO TO 420
       XLOGS = 2.0
       LOGDIA(2,2) = MTOPP
@@ -275,18 +269,17 @@ C  411   LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
 C      RETURN
       GO TO 450
 
-C     ***** THREE OR MORE 16 S *****
+C     ***** THREE OR MORE 16'S *****
   420 T = MTOPP/LOGDIA(1,2)
       AT = A / (1.0 - (A*T))
       BT = (1.0 / (1.0-T)) -AT
       H1 = (LOGS-1) * 16.3
-      DO I=2,INT(LOGS)
+      DO 430 I=2,INT(LOGS)
         HX = H1 - (I-1)*16.3
         HR = HX/H1
         DR = T + (HR / (AT*HR+BT))
         LOGDIA(I,2) = LOGDIA(1,2)*DR
-        SL(I) = 16.3
-      ENDDO
+  430   SL(I) = 16.3
       XLOGS = LOGS
 
 C     ***** COMPUTE DBHOB *****
@@ -294,9 +287,8 @@ C     ***** COMPUTE DBHOB *****
       IF (DBHOB.LE.LOGDIA(1,1)) DBHOB= LOGDIA(1,1)+2.0
 
 C     ***** ROUND DIBS *****
-  450 DO I=1,20
-        LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
-      ENDDO
+  450 DO 440 I=1,20
+  440   LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
       RETURN
 
 
@@ -378,9 +370,8 @@ C     ***** ROUND ANY SHORT LENGTH AT TOP OF TREE *****
       SL(I) = 0.0
 
 C     ***** ROUND DIBS *****
-  560 DO I=1,20
-        LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
-      ENDDO
+  560 DO 570 I=1,20
+  570   LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
       RETURN
 
 
@@ -433,9 +424,8 @@ C     ***** COMPUTE DBHOB *****
       IF (DBHOB.LE.LOGDIA(1,2)) DBHOB = LOGDIA(1,2)+2.0
 
 C     ***** ROUND DIBS *****
-  650 DO I=1,20
-        LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
-      ENDDO
+  650 DO 660 I=1,20
+  660   LOGDIA(I,1) = IFIX( LOGDIA(I,2)+0.5 )
       RETURN
 
 

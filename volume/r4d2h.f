@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 C_______________________________________________________________________
 C
       SUBROUTINE R4D2H (VOLEQ,HTTOT,DBHOB,DRC,FCLASS,VOL,ERRFLAG)
@@ -16,6 +13,7 @@ C
 !REV  Created ??? 
 !REV  Revised TDH 01/12/2010
 !REV  Fixed bug, missing '.' in species 066 equation
+!REV  Added 402DVEW065 and 403DVEW065 YW 2018/09/04
 
 !**********************************************************************
 
@@ -26,7 +24,7 @@ C
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 10) ' -->Enter R4D2H'
    10    FORMAT (A)   
-      END IF
+   		END IF
       
 c     look for drc, if not use dbhob
       IF (DBHOB .LE. 0.0 .AND. DRC.LE.0.0) THEN
@@ -55,7 +53,7 @@ c     look for drc, if not use dbhob
   115      FORMAT (4F8.1)  
         ENDIF
 
-      IF(FCLASS .GT. 0) THEN
+      IF(FCLASS .EQ. 1) THEN
          MSTEM = 1
       ELSE
          MSTEM = 0
@@ -78,12 +76,19 @@ c     Rocky Mountain Juniper
 c     Utah Juniper
       ELSEIF (VOLEQ(8:10).EQ.'065')THEN
          IF(VOLEQ(2:3) .EQ. '01')THEN
+C         --W. Colorado, E. Utah, Wyoming
             VOL(1) = (-0.08728+0.135420*D2H**(1./3.)-0.019587*MSTEM)**3.
-            VOL(4) = VOL(1)
+         ELSEIF(VOLEQ(2:3) .EQ. '02')THEN
+C         --Ely BLM District Nevada
+            VOL(1) = (-.03655+.135689*D2H**(1./3.)-0.018476*MSTEM)**3.
+         ELSEIF(VOLEQ(2:3) .EQ. '03')THEN
+C         --Winnemucca and Susanville BLM Districts in Nevada
+            VOL(1) = (.04829+.114358*D2H**(1./3.)-0.045779*MSTEM)**3.
          ELSE
+C         --S. Idaho, Parts of Nevada, W. Utah
             VOL(1) = (-0.13386+0.133726*D2H**(1./3.)+0.036329*MSTEM)**3.
-            VOL(4) = VOL(1)
          ENDIF
+         VOL(4) = VOL(1)
 c     Single Leaf Pinyon Pine
       ELSEIF (VOLEQ(8:10).EQ.'133')THEN
         VOL(1) = (-0.14240 + 0.148190*D2H**(1./3.)-0.016712*MSTEM)**3.
