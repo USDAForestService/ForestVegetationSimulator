@@ -13,7 +13,7 @@ c     the routine name. See apisubs.c for the C functions that are used to call
 c     the fortran routines. 
 
       subroutine fvsDimSizes(ntrees,ncycles,nplots,maxtrees,maxspecies,
-     -                       maxplots,maxcycles)
+     &                       maxplots,maxcycles)
       implicit none
       include "PRGPRM.F77"
       include "CONTRL.F77"
@@ -24,7 +24,7 @@ c     the fortran routines.
 !DEC$ ATTRIBUTES REFERENCE :: MAXSPECIES, MAXPLOTS, MAXCYCLES
 
       integer :: ntrees,ncycles,nplots,maxtrees,maxspecies,maxplots,
-     -           maxcycles
+     &           maxcycles
       if (LSTART) then
         ntrees = IREC1
       else
@@ -40,7 +40,7 @@ c     the fortran routines.
       end
 
       subroutine fvsSummary(summary,icycle,ncycles,maxrow,maxcol,
-     -                      rtnCode)
+     &                      rtnCode)
       implicit none
 
       include "PRGPRM.F77"
@@ -66,36 +66,38 @@ c     the fortran routines.
       end    
 
 #ifdef CMPgcc
-      subroutine fvsTreeAttrC(namei,nch,actioni,ntrees,attr,rtnCode)
-     -           bind(c, name="fvsTreeAttrC") 
+      subroutine fvsTreeAttrC(namei2,nch2,actioni2,ntrees2,attr2,
+     &                       rtnCode2)
+     &           bind(c, name="fvsTreeAttrC") 
       use iso_c_binding
       implicit none
 
 c     C-callable version of fvsTreeAttr where namei and actioni are 
 c     C-bindings of their correspoinding arguments.
 
-      integer(c_int), bind(c) :: nch,rtnCode,ntrees
-      real(c_double), dimension(ntrees), bind(c) :: attr
-      character(c_char), dimension(10), bind(c) :: namei,actioni
+      integer(c_int), bind(c) :: nch2,rtnCode2,ntrees2
+      real(c_double), dimension(ntrees2), bind(c) :: attr2
+      character(c_char), dimension(10), bind(c) :: namei2,actioni2
       character name*10,action*4
       integer i
       
-      if (nch == 0 .or. nch > 10) then
-        rtnCode = 4
+      if (nch2 == 0 .or. nch2 > 10) then
+        rtnCode2 = 4
         return
       endif
       name=" "
-      do i=1,nch
-        name(i:i) = namei(i)
+      do i=1,nch2
+        name(i:i) = namei2(i)
       enddo
       action="get"
-      if (actioni(1) == "s") action="set"
-      call fvsTreeAttr(name,nch,action,ntrees,attr,rtnCode)
+      if (actioni2(1) == "s") action="set"
+      call fvsTreeAttr(name,nch2,action,ntrees2,attr2,rtnCode2)
       return
       end
 #endif
 
-      subroutine fvsTreeAttr(name,nch,action,ntrees,attr,rtnCode)
+      subroutine fvsTreeAttr(name,nch,action,ntrees,attr,
+     &                       rtnCode)
       implicit none
 
 c     set and/or gets the named tree attributes
@@ -237,8 +239,9 @@ c
       end
 
 #ifdef CMPgcc
-      subroutine fvsSpeciesAttrC(namei,nch,actioni,attr,rtnCode)
-     -           bind(c, name="fvsSpeciesAttrC") 
+      subroutine fvsSpeciesAttrC(namei1,nch1,actioni1,attr1,
+     &                           rtnCode1)
+     &           bind(c, name="fvsSpeciesAttrC") 
       use iso_c_binding
       implicit none
 
@@ -247,23 +250,23 @@ c     C-bindings of their correspoinding arguments.
 
       include "PRGPRM.F77"
 
-      integer(c_int), bind(c) :: nch,rtnCode
-      real(c_double), dimension(MAXSP), bind(c) :: attr
-      character(c_char), dimension(10), bind(c) :: namei,actioni
+      integer(c_int), bind(c) :: nch1,rtnCode1
+      real(c_double), dimension(MAXSP), bind(c) :: attr1
+      character(c_char), dimension(10), bind(c) :: namei1,actioni1
       character name*10,action*4
       integer i
       
-      if (nch == 0 .or. nch > 10) then
-        rtnCode = 4
+      if (nch1 == 0 .or. nch1 > 10) then
+        rtnCode1 = 4
         return
       endif
       name=" "
-      do i=1,nch
-        name(i:i) = namei(i)
+      do i=1,nch1
+        name(i:i) = namei1(i)
       enddo
       action="get"
-      if (actioni(1) == "s") action="set"
-      call fvsSpeciesAttr(name,nch,action,attr,rtnCode)
+      if (actioni1(1) == "s") action="set"
+      call fvsSpeciesAttr(name,nch1,action,attr1,rtnCode1)
       return
       end
 #endif
@@ -374,31 +377,32 @@ c     volume calculation-related vectors
       end
 
 #ifdef CMPgcc
-      subroutine fvsEvmonAttrC(namei,nch,actioni,attr,rtnCode)
-     -           bind(c, name="fvsEvmonAttrC") 
+      subroutine fvsEvmonAttrC(namei3,nch3,actioni3,attr3,
+     &                         rtnCode3)
+     &           bind(c, name="fvsEvmonAttrC") 
       use iso_c_binding
       implicit none
 
 c     C-callable version of fvsSpeciesAttr where namei and actioni are 
 c     C-bindings of their correspoinding arguments.
 
-      integer(c_int), bind(c) :: nch,rtnCode
-      real(c_double), bind(c) :: attr
-      character(c_char), dimension(9), bind(c) :: namei,actioni
+      integer(c_int), bind(c) :: nch3,rtnCode3
+      real(c_double), bind(c) :: attr3
+      character(c_char), dimension(9), bind(c) :: namei3,actioni3
       character name*9,action*4
       integer i
       
-      if (nch == 0 .or. nch > 9) then
-        rtnCode = 4
+      if (nch3 == 0 .or. nch3 > 9) then
+        rtnCode3 = 4
         return
       endif
       name=" "
-      do i=1,nch
-        name(i:i) = namei(i)
+      do i=1,nch3
+        name(i:i) = namei3(i)
       enddo
       action="get"
-      if (actioni(1) == "s") action="set"
-      call fvsEvmonAttr(name,nch,action,attr,rtnCode)
+      if (actioni3(1) == "s") action="set"
+      call fvsEvmonAttr(name,nch3,action,attr3,rtnCode3)
       return
       end
 #endif
@@ -731,7 +735,7 @@ c
       end
       
       subroutine fvsAddTrees(in_dbh,in_species,in_ht,in_cratio,
-     -                       in_plot,in_tpa,ntrees,rtnCode)
+     &                       in_plot,in_tpa,ntrees,rtnCode)
       implicit none
 
 c     rtnCode = 0 when all is OK
@@ -752,8 +756,8 @@ c                 or when ntrees is zero
 !DEC$ ATTRIBUTES REFERENCE :: IN_PLOT, IN_TPA, NTREES, RTNCODE
       
       real(kind=8) :: in_dbh(ntrees),in_species(ntrees),
-     -    in_ht(ntrees),in_cratio(ntrees),in_plot(ntrees),
-     -    in_tpa(ntrees)
+     &    in_ht(ntrees),in_cratio(ntrees),in_plot(ntrees),
+     &    in_tpa(ntrees)
       real :: cw,crdum
       integer :: ntrees,rtnCode,i
       
@@ -825,7 +829,8 @@ c     next time dist is called.
       end
       
       subroutine fvsSpeciesCode(fvs_code,fia_code,plant_code,
-     -                          indx,nchfvs,nchfia,nchplant,rtnCode)
+     &                          indx,nchfvs,nchfia,nchplant,
+     &                          rtnCode)
       implicit none
 
 c     rtnCode = 0 when all is OK
@@ -863,8 +868,9 @@ c     indx    = species index
       end
 
 #ifdef CMPgcc
-      subroutine fvsSpeciesCodeC(fvs_code,fia_code,plant_code,indx) 
-     -           bind(c, name="fvsSpeciesCodeC") 
+      subroutine fvsSpeciesCodeC(fvs_code,fia_code,plant_code,
+     &                           indx) 
+     &           bind(c, name="fvsSpeciesCodeC") 
       use iso_c_binding
       implicit none
                   
@@ -929,7 +935,7 @@ c     indx    = species index
 
 #ifdef CMPgcc
       subroutine fvsStandIDC(sID,sCN,mID,mCase)
-     -           bind(c, name="fvsStandIDC") 
+     &           bind(c, name="fvsStandIDC") 
       use iso_c_binding
       implicit none
                        
@@ -991,20 +997,20 @@ c     indx    = species index
       end
 
 #ifdef CMPgcc
-      subroutine fvsCloseFileC(filenamei,nch)
-     -           bind(c, name="fvsCloseFileC") 
+      subroutine fvsCloseFileC(filenamei4,nch4)
+     &           bind(c, name="fvsCloseFileC") 
       use iso_c_binding
       implicit none
                        
-      integer(c_int), bind(c) :: nch
+      integer(c_int), bind(c) :: nch4
       integer i
-      character(c_char), dimension(nch), bind(c) :: filenamei
+      character(c_char), dimension(nch4), bind(c) :: filenamei4
       character*255 filename
 
-      do i=1,nch
-        filename(i:i) = filenamei(i)
+      do i=1,nch4
+        filename(i:i) = filenamei4(i)
       enddo 
-      call fvsCloseFile(filename,nch)
+      call fvsCloseFile(filename,nch4)
       return
       end
 #endif
@@ -1064,7 +1070,7 @@ C     add an activity to the schedule.
       end
       
       subroutine fvsSVSDimSizes(nsvsobjs,ndeadobjs,ncwdobjs,
-     -                          mxsvsobjs,mxdeadobjs,mxcwdobjs)
+     &                          mxsvsobjs,mxdeadobjs,mxcwdobjs)
       implicit none
       include "PRGPRM.F77"
       include "SVDATA.F77"
@@ -1076,7 +1082,7 @@ C     add an activity to the schedule.
 !DEC$ ATTRIBUTES REFERENCE :: MXSVSOBJS,MXDEADOBJS,MXCWDOBJS
 
       integer :: nsvsobjs,  ndeadobjs,  ncwdobjs,  
-     -           mxsvsobjs, mxdeadobjs, mxcwdobjs 
+     &           mxsvsobjs, mxdeadobjs, mxcwdobjs 
       
       nsvsobjs   =  NSVOBJ
       ndeadobjs  =  NDEAD
@@ -1088,30 +1094,31 @@ C     add an activity to the schedule.
       end
 
 #ifdef CMPgcc
-      subroutine fvsSVSObjDataC(namei,nch,actioni,nobjs,attr,rtnCode)
-     -           bind(c, name="fvsSVSObjDataC") 
+      subroutine fvsSVSObjDataC(namei5,nch5,actioni5,nobjs5,attr5,
+     &                          rtnCode5)
+     &           bind(c, name="fvsSVSObjDataC") 
       use iso_c_binding
       implicit none
 
 c     C-callable version of fvsSVSObjData 
 
-      integer(c_int), bind(c) :: nch,rtnCode,nobjs
-      real(c_double), dimension(nobjs), bind(c) :: attr
-      character(c_char), dimension(10), bind(c) :: namei,actioni
+      integer(c_int), bind(c) :: nch5,rtnCode5,nobjs5
+      real(c_double), dimension(nobjs5), bind(c) :: attr5
+      character(c_char), dimension(10), bind(c) :: namei5,actioni5
       character name*10,action*4
       integer i
       
-      if (nch == 0 .or. nch > 10) then
-        rtnCode = 4
+      if (nch5 == 0 .or. nch5 > 10) then
+        rtnCode5 = 4
         return
       endif
       name=" "
-      do i=1,nch
-        name(i:i) = namei(i)
+      do i=1,nch5
+        name(i:i) = namei5(i)
       enddo
       action="get"
-      if (actioni(1) == "s") action="set"
-      call fvsSVSObjData(name,nch,action,nobjs,attr,rtnCode)
+      if (actioni5(1) == "s") action="set"
+      call fvsSVSObjData(name,nch5,action,nobjs5,attr5,rtnCode5)
       return
       end
 #endif
@@ -1439,31 +1446,32 @@ C     CWD section:
       end
 
 #ifdef CMPgcc
-      subroutine fvsFFEAttrsC(namei,nch,actioni,nobjs,attr,rtnCode)
-     -           bind(c, name="fvsFFEAttrsC") 
+      subroutine fvsFFEAttrsC(namei6,nch6,actioni6,nobjs6,attr6,
+     &                        rtnCode6)
+     &           bind(c, name="fvsFFEAttrsC") 
       use iso_c_binding
       implicit none
 
 c     C-callable version of fvsTreeAttr where namei and actioni are 
 c     C-bindings of their correspoinding arguments.
 
-      integer(c_int), bind(c) :: nch,rtnCode,nobjs
-      real(c_double), dimension(nobjs), bind(c) :: attr
-      character(c_char), dimension(10), bind(c) :: namei,actioni
+      integer(c_int), bind(c) :: nch6,rtnCode6,nobjs6
+      real(c_double), dimension(nobjs), bind(c) :: attr6
+      character(c_char), dimension(10), bind(c) :: namei6,actioni6
       character name*10,action*4
       integer i
       
-      if (nch == 0 .or. nch > 10) then
-        rtnCode = 4
+      if (nch6 == 0 .or. nch6 > 10) then
+        rtnCode6 = 4
         return
       endif
       name=" "
-      do i=1,nch
-        name(i:i) = namei(i)
+      do i=1,nch6
+        name(i:i) = namei6(i)
       enddo
       action="get"
-      if (actioni(1) == "s") action="set"
-      call fvsFFEAttrs(name,nch,action,nobjs,attr,rtnCode)
+      if (actioni6(1) == "s") action="set"
+      call fvsFFEAttrs(name,nch6,action,nobjs6,attr6,rtnCode6)
       return
       end     
 #endif
@@ -1571,29 +1579,30 @@ c               4= the length of the "name" string was too big or small
       end
       
 #ifdef CMPgcc
-      subroutine fvsUnitConversionC(namei,nch,value,rtnCode)
-     -           bind(c, name="fvsUnitConversionC") 
+      subroutine fvsUnitConversionC(namei7,nch7,value7,
+     &                              rtnCode7)
+     &           bind(c, name="fvsUnitConversionC") 
       use iso_c_binding
       implicit none
 
 c     C-callable version of fvsUnitConversionC where namei is a
 c     C-bindings of name
 
-      integer(c_int), bind(c) :: nch,rtnCode
-      real(c_double), bind(c) :: value
-      character(c_char), dimension(15), bind(c) :: namei
+      integer(c_int), bind(c) :: nch7,rtnCode7
+      real(c_double), bind(c) :: value7
+      character(c_char), dimension(15), bind(c) :: namei7
       character name*15
       integer i
       
-      if (nch == 0 .or. nch > 15) then
-        rtnCode = 1
+      if (nch7 == 0 .or. nch7 > 15) then
+        rtnCode7 = 1
         return
       endif
       name=" "
-      do i=1,nch
-        name(i:i) = namei(i)
+      do i=1,nch7
+        name(i:i) = namei7(i)
       enddo
-      call fvsUnitConversion(name,nch,value,rtnCode)
+      call fvsUnitConversion(name,nch7,value7,rtnCode7)
       return
       end
 #endif
