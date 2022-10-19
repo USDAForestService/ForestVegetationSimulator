@@ -1456,7 +1456,7 @@ c     C-callable version of fvsTreeAttr where namei and actioni are
 c     C-bindings of their correspoinding arguments.
 
       integer(c_int), bind(c) :: nch6,rtnCode6,nobjs6
-      real(c_double), dimension(nobjs), bind(c) :: attr6
+      real(c_double), dimension(nobjs6), bind(c) :: attr6
       character(c_char), dimension(10), bind(c) :: namei6,actioni6
       character name*10,action*4
       integer i
