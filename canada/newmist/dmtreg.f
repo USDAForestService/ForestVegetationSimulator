@@ -8,7 +8,7 @@ C--------------------------------------------------------------------
 C Purpose:
 C   This routine is the main processing point for the NISI (New &
 C Improved Spread & Intensification) Model. It carries out the
-C following operations: ...
+C following operations:
 C--------------------------------------------------------------------
 C
 C Called by:
@@ -215,11 +215,9 @@ C default) values of DMDMR() and DMRATE().
       IF (.NOT. DCDn) THEN
 
         DO i = 1,ITRN
-          IF (DMRATE(i) .GT. 0) THEN
-            DO j = 1,CRTHRD
-              DMINF(i,j,ACTIVE) = FLOAT(DMDMR(DMRATE(i),j))
-            ENDDO
-          ENDIF
+          DO j = 1,CRTHRD
+            DMINF(i,j,ACTIVE) = FLOAT(DMDMR(DMRATE(i),j))
+          ENDDO
         ENDDO
 
 C Create values for DMOPQ2() based on the user's (or default) value

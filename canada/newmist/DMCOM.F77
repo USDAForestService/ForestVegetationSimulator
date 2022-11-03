@@ -130,7 +130,7 @@ C********************************************************************
       PARAMETER(PIE=3.14159)
       PARAMETER(HLFPIE=1.57080)
       PARAMETER(TWOPIE=6.283185)
-      PARAMETER(DMTINY=1.0E-6)
+      PARAMETER(DMTINY=1.0E-10)
 
       PARAMETER(MAXBC=5) ! max biological control systems
 

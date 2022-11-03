@@ -32,10 +32,10 @@ C     ARGUMENT LIST
 C     LOCAL VARIABLES
 
       INTEGER(SQLSMALLINT_KIND)::ColNumber
-	INTEGER           ID,I
+      INTEGER           ID,I
 
-      DOUBLE PRECISION  SPDMR4B, SPDMI4B
-	INTEGER           ISPINF4,ISPMRT4,ISPPIN4,ISPPMR4,ISPPOC4
+      DOUBLE PRECISION  SPDMR4B,SPDMI4B
+      INTEGER           ISPINF4,ISPMRT4,ISPPIN4,ISPPMR4,ISPPOC4
 
       CHARACTER*2000    SQLStmtStr
       CHARACTER(LEN=20) TABLENAME
@@ -1173,7 +1173,7 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -      INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),ICASE,
      -      int(4,SQLLEN_KIND),SQL_NULL_PTR)
             
-	      ! 3 StandID inserted through SqlStmt
+     ! 3 StandID inserted through SqlStmt
 
             ColNumber=ColNumber+1       ! 4 YEAR
             iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,
@@ -1181,8 +1181,8 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
      -      INT(15,SQLUINTEGER_KIND),INT(0,SQLSMALLINT_KIND),IYEAR,
      -      int(4,SQLLEN_KIND),SQL_NULL_PTR)
             
-	      ! 5 TreeID  inserted through SqlStmt
-	      ! 6 Species inserted through SqlStmt
+     ! 5 TreeID  inserted through SqlStmt
+     ! 6 Species inserted through SqlStmt
 
             ColNumber=ColNumber+1     ! 7 TPA
             iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,
@@ -1240,7 +1240,7 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
             DO K = 1,ACTIVE
               DO J = 1,CRTHRD
-	          ColNumber=ColNumber+1     ! 22-33 DMINF
+               ColNumber=ColNumber+1     ! 22-33 DMINF
                iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -            SQL_PARAM_INPUT,SQL_F_DOUBLE,SQL_DOUBLE,
      -            INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
@@ -1250,7 +1250,7 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
             DO K = 1,ACTIVE
               DO J = 1,CRTHRD
-	          ColNumber=ColNumber+1     ! 34-45 DMINF_BC
+               ColNumber=ColNumber+1     ! 34-45 DMINF_BC
                iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -            SQL_PARAM_INPUT,SQL_F_DOUBLE,SQL_DOUBLE,
      -            INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
@@ -1260,7 +1260,7 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
             K = DEAD_BC
             DO J = 1,CRTHRD
-	         ColNumber=ColNumber+1     ! 46-48 DMINF-DEAD
+               ColNumber=ColNumber+1     ! 46-48 DMINF-DEAD
                iRet=fvsSQLBindParameter(StmtHndlOut,ColNumber,
      -            SQL_PARAM_INPUT,SQL_F_DOUBLE,SQL_DOUBLE,
      -            INT(15,SQLUINTEGER_KIND),INT(5,SQLSMALLINT_KIND),
@@ -1279,7 +1279,7 @@ C           CLOSE CURSOR
 
 C     RELEASE STATEMENT HANDLE
 
-  100 iRet=fvsSQLFreeHandle(SQL_HANDLE_STMT,StmtHndlOut)      
+  100 iRet=fvsSQLFreeHandle(SQL_HANDLE_STMT,StmtHndlOut)
 
       END
 c------------------------
@@ -1306,8 +1306,8 @@ C     ARGUMENT LIST
 C     LOCAL VARIABLES
 
       INTEGER(SQLSMALLINT_KIND)::ColNumber
-	INTEGER           ID,I,IHT
-	REAL              XLIGHT(MXHT)
+      INTEGER           ID,I,IHT
+      REAL              XLIGHT(MXHT)
 
       DOUBLE PRECISION  LIGHTB
 
@@ -1470,11 +1470,11 @@ C       CLOSE CURSOR
         CALL DBSDIAGS(SQL_HANDLE_STMT,StmtHndlOut,
      -    'DBSMIS6:Inserting Row')
 
-	ENDDO
+        ENDDO
 
 C       RELEASE STATEMENT HANDLE
 
   100 iRet=fvsSQLFreeHandle(SQL_HANDLE_STMT,StmtHndlOut)
 
-	RETURN
+      RETURN
       END
