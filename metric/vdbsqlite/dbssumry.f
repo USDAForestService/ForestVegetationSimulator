@@ -72,6 +72,7 @@ C
       CHARACTER*2000 SQLStmtStr
       CHARACTER(len=*) NPLT
 C
+C
 COMMONS END
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
@@ -375,8 +376,9 @@ C
 C
       IYEAR    = IY(ICYC)
       IAGEOUT  = IOSUM(2,ICYC)
-      ICCF     = IOSUM(12,ICYC)
-      ITOPHT   = IOSUM(13,ICYC)
+c     ICCF     = IOSUM(12,ICYC)      
+      ICCF     = IBTCCF(ICYC)
+      ITOPHT   = IBTAVH(ICYC)
       IOSDI    = ISDI(ICYC)
       DPTPA    = OLDTPA/GROSPC
       DPBA     = OLDBA/GROSPC
@@ -441,8 +443,8 @@ C
      >    (VARACD .EQ. 'ON')) THEN
 C                       
           SQLStmtStr='CREATE TABLE '//TRIM(TABLENAME)//
-     -               ' (CaseID char,'//
-     -                 'StandID char,'//
+     -               ' (CaseID text not null,'//
+     -                 'StandID text not null,'//
      -                 'Year int,'//
      -                 'RmvCode int,'//
      -                 'Age int,'//
@@ -475,8 +477,8 @@ C
 C       WESTERN VARIANT VOLUME NOMENCLATURE
 C
           SQLStmtStr='CREATE TABLE '//TRIM(TABLENAME)//
-     -               ' (CaseID char,'//
-     -                 'StandID char,'//
+     -               ' (CaseID text not null,'//
+     -                 'StandID text not null,'//
      -                 'Year int,'//
      -                 'RmvCode int,'//
      -                 'Age int,'//
