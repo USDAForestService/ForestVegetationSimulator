@@ -316,8 +316,8 @@ C
       IF (ITREELIST .EQ. 0) RETURN
       IF ((IREC2.GE.MAXTP1).OR.(ITPLAB.EQ.3).OR.
      >         (ICYC.GE.1)) THEN
-        iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
         iRet = fsql3_finalize(IoutDBref)
+        iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
         RETURN
       ENDIF
 
