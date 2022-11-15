@@ -376,7 +376,6 @@ C
 C
       IYEAR    = IY(ICYC)
       IAGEOUT  = IOSUM(2,ICYC)
-c     ICCF     = IOSUM(12,ICYC)      
       ICCF     = IBTCCF(ICYC)
       ITOPHT   = IBTAVH(ICYC)
       IOSDI    = ISDI(ICYC)
@@ -660,6 +659,7 @@ C
         DPRBDFT  = 0.
       ENDDO
       iRet = fsql3_finalize(IoutDBref)
+
       if (iRet.ne.0) then
          ISUMARY = 0
       ENDIF

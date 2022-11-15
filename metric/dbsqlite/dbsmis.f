@@ -221,8 +221,9 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         iRet = fsql3_reset(IoutDBref) 
       ENDDO
 
-      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
+
       if (iRet.ne.0) then
          IDM1 = 0
          RETURN
@@ -446,10 +447,11 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
       iRet = fsql3_step(IoutDBref)
       iRet = fsql3_finalize(IoutDBref)
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
+      
       if (iRet.ne.0) then
          IDM2 = 0
       ENDIF
-      RETURN
 
       RETURN
       END
@@ -660,11 +662,11 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
       ENDDO
 
-      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
+
       if (iRet.ne.0) then
          IDM3 = 0
-         RETURN
       ENDIF
 
       RETURN
@@ -994,6 +996,10 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
       iRet = fsql3_finalize(IoutDBref)
       iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
+
+      if (iRet.ne.0) then
+         IDM5 = 0
+      ENDIF
 
       RETURN
       END
