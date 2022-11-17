@@ -87,7 +87,7 @@ double f1(double y,double Dx,double Tp);
 double integration_function(double x,double y,double Dx,double Tp);
 
 //FILE *fcustomin;
-FILE *fout;
+FILE *cfout;
 static int bPrintOut = 1;
 
 static double FuelModel[13];
@@ -209,7 +209,7 @@ int CFIM_DRIVER (
 
 	if (bPrintOut == 1)
 	{
-		if((fout=fopen("CFIMdebug.txt","w+")) == NULL)
+		if((cfout=fopen("CFIMdebug.txt","w+")) == NULL)
 			bPrintOut = 0;
 		else
 			bPrintOut = 2;
@@ -220,18 +220,18 @@ int CFIM_DRIVER (
 		if (bPrintOut == 2)
 		{
 			//print headers
-			fprintf(fout,"wind\t slope\t temp\t StandHeight\t" );
-			fprintf(fout,"Moisture\t Moisture\t Moisture\t Moisture\t Moisture\t" );
-			fprintf(fout,"CanBaseHt\t FMC\t SurfFuel\t" );
-			fprintf(fout,"Tp\t flag\t Byram\t taur\t ROS\t");
-			fprintf(fout,"flamedepth\t flameheight\t FlameLength\n");
+			fprintf(cfout,"wind\t slope\t temp\t StandHeight\t" );
+			fprintf(cfout,"Moisture\t Moisture\t Moisture\t Moisture\t Moisture\t" );
+			fprintf(cfout,"CanBaseHt\t FMC\t SurfFuel\t" );
+			fprintf(cfout,"Tp\t flag\t Byram\t taur\t ROS\t");
+			fprintf(cfout,"flamedepth\t flameheight\t FlameLength\n");
 			bPrintOut++;
 		}
 			
-			//fprintf(fout,"%lf\t%lf\t%lf\t%lf\t%lf\n",(double)(i-1)*in.tstep,Tp,Qtotal,convectenergy,radenergy);
-		fprintf(fout,"%lf\t%lf\t%lf\t%lf\t",in.u10, in.slope, in.Ta, in.sh);
-		fprintf(fout,"%lf\t%lf\t%lf\t%lf\t%lf\t",in.FuelMoisture[0],in.FuelMoisture[1],in.FuelMoisture[2],in.FuelMoisture[3],in.FuelMoisture[4]);
-		fprintf(fout,"%lf\t%lf\t%lf\t",in.canbaseht, in.FMC, surfuel);
+			//fprintf(cfout,"%lf\t%lf\t%lf\t%lf\t%lf\n",(double)(i-1)*in.tstep,Tp,Qtotal,convectenergy,radenergy);
+		fprintf(cfout,"%lf\t%lf\t%lf\t%lf\t",in.u10, in.slope, in.Ta, in.sh);
+		fprintf(cfout,"%lf\t%lf\t%lf\t%lf\t%lf\t",in.FuelMoisture[0],in.FuelMoisture[1],in.FuelMoisture[2],in.FuelMoisture[3],in.FuelMoisture[4]);
+		fprintf(cfout,"%lf\t%lf\t%lf\t",in.canbaseht, in.FMC, surfuel);
 
 		in.u10 = CFIM_Input[0];
 		in.slope = CFIM_Input[1];
@@ -323,8 +323,8 @@ int CFIM_DRIVER (
 
 	if (bPrintOut > 1)
 	{
-		fprintf(fout,"%lf\t%hd\t%lf\t%lf\t%lf\t",Tp, flag, iByram, taur, ROS);
-		fprintf(fout,"%lf\t%lf\t%lf\n",flamedepth, flameheight, FlameLength);
+		fprintf(cfout,"%lf\t%hd\t%lf\t%lf\t%lf\t",Tp, flag, iByram, taur, ROS);
+		fprintf(cfout,"%lf\t%lf\t%lf\n",flamedepth, flameheight, FlameLength);
 	}
 
 //    if(flag<=0)
@@ -1205,7 +1205,7 @@ double getconvectflux(double Dx,double Tp)  //Dx is distance from flame leading 
     h=Nusselt*thermcond/in.diameter;        //in W/m^2/K
 //    printf("\nh= %lf\n",h);
 //    printf("\nTair= %lf\n",Tair);
-    //fprintf(fout,"%lf\t",Tair);
+    //fprintf(cfout,"%lf\t",Tair);
     flux=h*(Tair-Tp);       //positive flux means energy goes INTO the fuel particle
     return(flux);
 }
