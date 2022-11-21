@@ -1,9 +1,7 @@
       SUBROUTINE REVISE (VAR,REV)
       IMPLICIT NONE
 C----------
-C CANADA-ON $Id$
-C----------
-C  (DON'T CHANGE THIS DATE UNLESS THE SUBROUTINE LOGIC CHANGES.)
+C CANADA-BC
 C----------
 C
 C  THIS ROUTINE PROVIDES THE LATEST REVISION DATE FOR EACH VARIANT
@@ -12,15 +10,12 @@ C  CALLED FROM GROHED, FILOPN, SUMHED, SUMOUT, ECVOLS, PRTRLS,
 C  AND DGDRIV.
 C----------
       CHARACTER VAR*2,REV*10
-C----------
-C ONTARIO - BASED ON LAKE STATES
-C----------
-      SELECT CASE (VAR)
-        CASE('ON')
-          REV = '10/01/12'
-        CASE DEFAULT
-          REV = 'UNKNOWN '
-      END SELECT
+
+C---------------------------
+C LS -> ONTARIO
+C---------------------------
 C
+      VAR=VAR
+      REV="20221118"
       RETURN
       END

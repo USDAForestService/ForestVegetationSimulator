@@ -75,6 +75,7 @@
 ../canada/on/nbolt.f
 ../canada/on/onsthg.f
 ../canada/on/regent.f
+../canada/on/revise.f
 ../canada/on/rgnthw.f
 ../canada/on/rgntsw.f
 ../canada/on/sitset.f
@@ -110,7 +111,6 @@
 ../vbase/fortyp.f
 ../vbase/prtexm.f
 ../vbase/ptbal.f
-../vbase/revise.f
 ../vbase/sdical.f
 ../vbase/stkval.f
 ../vbase/svout.f
