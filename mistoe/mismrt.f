@@ -154,18 +154,6 @@ C....       Calculate the mortality rate based on current DMR.
 
             DMMORT=PMCSP(ISPC,1)+PMCSP(ISPC,2)*IDMR+
      &         PMCSP(ISPC,3)*IDMR**2
-            
-c
-c added 15-Nov-2022 to implement custom mortality for ENC - DR
-c
-            select case (idmr)
-            case (5)
-              DMMORT = 0.029
-            case (6)
-              DMMORT = 0.151
-            case default
-              DMMORT = 0.0
-            end select
 
 C....       Multiply by user input multiplier.
 
