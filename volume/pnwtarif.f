@@ -31,11 +31,13 @@ C  2018/08/08 YW Added species code 116, 119 and 020 for FIA equation
       SPEC = VOLEQ(8:10)
       READ(SPEC,'(i3)') SPN
       READ(VOLEQ(2:3), '(I2)') SCRBLOGL
+C     Move initialization of variables prior to any regional filtering
+      CV4 = 0.0
+      CVT = 0.0
+      CVTS = 0.0
+      TARIF = 0.0
+
       IF(VOLEQ(1:1).EQ.'6')THEN
-        CV4 = 0.0
-        CVT = 0.0
-        CVTS = 0.0
-        TARIF = 0.0
 C       REGION 6 EQUATION
         IF(SPEC.EQ.'202') THEN
           IF(SCRBLOGL.EQ.32)THEN

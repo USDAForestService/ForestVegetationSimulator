@@ -1,0 +1,60 @@
+This document describes the files present in the National Volume Estimator Library (volume/VolumeLibrary) 
+that have been modified for FVS, stored directly under the volume directory, and are to be used for build source files.
+These files should remain under the volume/ directory and referred to in the FVSxx_sourceList.txt files as ..volume/<fileName>, 
+while all other NVEL code should be referred to under the volume library directory ..volume/VolumeLibrary/<NVEL_filename>
+
+CALCDIA.F subroutine CALCDIA2: 
+Added filter for HTTOT less than 5 to prevent raising a negative number to a power (08/22)
+
+f_other.f: 
+Increased filter on DR variable from IF(DR.GT.0.0) to IF(DR.GT.0.01) to prevent underflow error when computing PV in brk_ot subroutine. (08/22)
+
+mrules_mod.f:
+Removal of nonconforming tab characters
+
+pnwtarif.f:
+Moved initialization of variables CT4, CVT, CVTS, and TARIF prior to any regional filtering to prevent use of uninitialized variables in R5 logic (11/22)
+
+PROFILE.F subroutines, VOLINTRP and PROFILE: 
+Added initialization of variables otherwise uninitialized prior to variables being passed to MRULES. (08/22)
+
+R1KEMP.F subroutine R1KEMP: 
+Added initialization of BFNET variable to prevent nan error in logical comparison. (08/22)
+
+R2oldv.f:
+File modified to include initialization of TCUFT to 0.0 to prevent evaluation of uninitialized variable (11/22)
+
+r4vol.f: 
+increased HTTOT filter from HTTOT .LE. 4.5 to HTTOT .LE. 5.0 to prevent a divide by zero error in the STUMPD calculation within r4mattaper subroutine. (08/22)
+
+R8CLKDIB.F subroutine R8CLKDIB: 
+Added initialization of COEFFS Type (Struct) variables to prevent underflow or nan errors in subsequent calculations. (08/22)
+
+r8prep.f:
+Added initialization of variables otherwise uninitialized prior to variables being passed to MRULES. (08/22)
+Increased filter to catch trees less than 17.4' in height to ensure dubbed top ht is used in place of total measured ht in tree 17.3-17.4 ft (09/22)
+
+r8vol2.f:
+Added initialization of variables otherwise uninitialized prior to variables being passed to MRULES in r8clark subroutine. (08/22)
+
+r9clark:
+Added initialization of variables otherwise uninitialized prior to variables being passed to MRULES in r9prep subroutine. (08/22)
+Increased filter to catch trees less than 17.4' in height to ensure dubbed top ht is used in place of total measured ht in tree 17.3-17.4 ft (09/22)
+
+R10D2H.f:
+Moved initialization of local variables to prevent use of uninitialized variables in R5 logic (11/22)
+
+voleqdef.f:
+This file was modified during AK variant development to expand available species.
+species code 298 recoded to 299
+File again modified in October 2022 to expand available voleq set to encompass entire volume equation library list of possible equations, 
+with exception of Flewelling 3 pt profiles models. (10/22)
+
+
+The following files in the volume/ directory are base FVS files, separate from the NVEL, and should not be deleted or otherwise removed from the volume/ directory.
+fvsbrucedemars.f
+fvshannbare.f
+fvsoldfst.f
+fvsoldgro.f
+fvsoldsec.f
+fvsierralog.f

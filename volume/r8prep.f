@@ -324,11 +324,11 @@ C    This includes MTOPP, MTOPS, sawDib, plpDib, topDib
         plpDib = 4
       endif
 
-C-----Get top height and top DIB
+C-----Get top height and top DIB Oct 2022 Increase filter to 17.4' from 17.3 DW
       short=.false.
       IF(htTot.gt.0.0) then
         topDib=0.0
-        if(htTot.ge.17.3) then
+        if(htTot.ge.17.4) then
           topHt=htTot
         else
           short=.true.
@@ -379,7 +379,7 @@ c        ENDIF
 777       topDib=4
           !topDib=FIXDI4
           IF(upsHT1.GT.0.0)THEN
-            if(upsHt1.ge.17.3) then
+            if(upsHt1.ge.17.4) then
               topHt=upsHt1
             else
               short=.true.
@@ -387,7 +387,7 @@ c        ENDIF
               shrtHt=upsHt1
             endif
           ELSE
-            if(ht2Prd.ge.17.3) then
+            if(ht2Prd.ge.17.4) then
               topHt=ht2Prd
             else
               short=.true.
@@ -473,7 +473,7 @@ c        ENDIF
         !topDib=FIXDI79
 c       if sawtimber topHt is provided, no recalc topHt. 11/15/2011 (yw)
           if(upsHt1.gt.0) then
-            if(upsHt1.ge.17.3) then
+            if(upsHt1.ge.17.4) then
               topHt=upsHt1
             else
               short=.true.
@@ -482,7 +482,7 @@ c       if sawtimber topHt is provided, no recalc topHt. 11/15/2011 (yw)
             endif
             if(ht1prd.le.0.AND.MTOPP.EQ.topDib) ht1Prd = upsHt1
           else        
-            if(ht1Prd.ge.17.3) then
+            if(ht1Prd.ge.17.4) then
               topHt = ht1Prd
             else
               short=.true.

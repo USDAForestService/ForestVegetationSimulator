@@ -21,9 +21,9 @@
         
         REAL           STUMP
         REAL           TRIM
-        REAL		   BTR
-        REAL		   DBTBH
-        REAL		   MINBFD
+        REAL           BTR
+        REAL           DBTBH
+        REAL           MINBFD
         
         CHARACTER*1    COR 
         

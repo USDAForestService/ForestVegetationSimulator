@@ -692,11 +692,11 @@ c      merchL=8.0
       endif
       
       dbhIb = coefA(sppIdx,3)+coefA(sppIdx,4)*dbhOb
-C-----Get top height and top DIB
+C-----Get top height and top DIB 10/2022 increase httot to 17.4 from 17.3 DW
       short=.false.
       if(htTot.gt.0.0) then
         topDib=0.0
-        if(htTot.ge.17.3) then
+        if(htTot.ge.17.4) then 
           topHt=htTot
         else
           short=.true.
@@ -705,7 +705,7 @@ C-----Get top height and top DIB
         endif
       elseif(ht2Prd.gt.0) then
         topDib=4.0
-        if(ht2Prd.ge.17.3) then
+        if(ht2Prd.ge.17.4) then
           topHt=ht2Prd
         else
             short=.true.
@@ -720,7 +720,7 @@ C-----Get top height and top DIB
         endif
 c       if sawtimber topHt is provided, no recalc topHt. 11/15/2011 (yw)
         if(upsHt1.gt.0) then
-          if(upsHt1.ge.17.3) then
+          if(upsHt1.ge.17.4) then
             topHt=upsHt1
           else
             short=.true.
@@ -731,7 +731,7 @@ c            shrtHt=ht1Prd
 ! For R9, HT1PRD is not same as UPSHT1. So comment out the foling line          
 c          if(ht1prd.le.0) ht1Prd = upsHt1
         else        
-          if(ht1Prd.ge.17.3) then
+          if(ht1Prd.ge.17.4) then
 c         Use linear extrapolation from sawDib to topDib
               if((dbhOb-sawDib).GT.0) then
                 topHt=4.5+(ht1prd-4.5)*(dbhOb-topDib)/(dbhOb-sawDib)
@@ -926,7 +926,7 @@ C  a and b are coefficients for inside-bark calculations.
       totHt=0.0
 
       if(htTot.gt.0.0) then
-        if(htTot.gt.17.3) then
+        if(htTot.gt.17.4) then
           totHt=htTot
         else
 c       short tree using the topHt (17.4) YW(02/12/2016)

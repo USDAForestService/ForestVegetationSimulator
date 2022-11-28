@@ -240,7 +240,6 @@ C
          IMORTF = 0
       ENDIF
       iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
-      
       RETURN
       END
 
