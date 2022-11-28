@@ -390,7 +390,7 @@
 ../volume/R8VLIST.INC
 ../volume/R9COEFF.INC
 ../volume/REGNDFTDATA.INC
-../volume/WDBKWTDATA.INC
+../volume/wdbkwtdata.inc
 
 ../vvolume/fvsvol.f
 ../vvolume/twigbf.f
