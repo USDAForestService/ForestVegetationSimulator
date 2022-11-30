@@ -21,6 +21,7 @@ C**************************************************************
       TREVOL = 0.0
       grsbdt=0.0
       GCUFT=0.0
+      TCUFT=0.0
       ERRFLAG = 0
 !     Changed the FCLASS to be: 1 = single, others = multistem
 !     2018/09/12

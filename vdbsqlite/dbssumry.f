@@ -37,7 +37,7 @@ COMMONS END
 C
       CALL DBSCASE(1)
 
-C     DEFINE TAABLENAME
+C     DEFINE TABLENAME
 
       IF ((VARACD .EQ. 'CS') .OR. (VARACD .EQ. 'LS') .OR.
      >    (VARACD .EQ. 'NE') .OR. (VARACD .EQ. 'SN')) THEN
@@ -279,7 +279,7 @@ C
 C
       IYEAR    = IY(ICYC)
       IAGEOUT  = IOSUM(2,ICYC)
-      ICCF     = IOSUM(12,ICYC)
+      ICCF     = IBTCCF(ICYC)
       ITOPHT   = IBTAVH(ICYC)
       IOSDI    = ISDI(ICYC)
       DPTPA    = OLDTPA/GROSPC
@@ -518,10 +518,9 @@ C
         DPRBDFT  = 0.
       ENDDO
       iRet = fsql3_finalize(IoutDBref)
+
       if (iRet.ne.0) then
          ISUMARY = 0
       ENDIF
       RETURN
       END
-
-

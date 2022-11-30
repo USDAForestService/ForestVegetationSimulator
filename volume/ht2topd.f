@@ -38,11 +38,6 @@ C     Variables for Clark profile
       TYPE(CLKCOEF):: COEFFSO
       LOGICAL SHORT    
       
-C  DW 08/22 initializations of variables otherwise uninitialized prior to MRULES call
-      OPT = 0
-      EVOD = 0
-      MINLENT = 0
-
       MDL = VOLEQ(4:6)
 c      TOPD = STEMDIB
       STEMHT = 0.0
