@@ -1,5 +1,5 @@
       SUBROUTINE BALMOD(ISPC,D,BA,RMSQD,GM,DEBUG)
-	IMPLICIT NONE
+      IMPLICIT NONE
 C----------
 C CANADA-ON $Id$
 C----------
@@ -16,7 +16,7 @@ COMMONS
 C----------
       LOGICAL DEBUG
       INTEGER ISPC
-	REAL    D,BA,RMSQD,GM
+      REAL    D,BA,RMSQD,GM
 
       GM = 1.0
       RETURN

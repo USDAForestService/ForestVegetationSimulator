@@ -73,7 +73,7 @@ C
 COMMONS END
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
-     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
+     >        fsql3_bind_double,fsql3_finalize,
      >        fsql3_bind_text
 
       IF(IREG5.NE.1) RETURN

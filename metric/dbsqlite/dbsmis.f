@@ -221,8 +221,9 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
         iRet = fsql3_reset(IoutDBref) 
       ENDDO
 
-      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
+
       if (iRet.ne.0) then
          IDM1 = 0
          RETURN
@@ -446,10 +447,11 @@ C     BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
       iRet = fsql3_step(IoutDBref)
       iRet = fsql3_finalize(IoutDBref)
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
+      
       if (iRet.ne.0) then
          IDM2 = 0
       ENDIF
-      RETURN
 
       RETURN
       END
@@ -660,11 +662,11 @@ C       BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
       ENDDO
 
-      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
       iRet = fsql3_finalize(IoutDBref)
+      iRet = fsql3_exec(IoutDBref,"Commit;"//CHAR(0))
+
       if (iRet.ne.0) then
          IDM3 = 0
-         RETURN
       ENDIF
 
       RETURN
@@ -753,7 +755,7 @@ C     LOCAL VARIABLES
      >        fsql3_step,fsql3_reset,fsql3_bind_text      
 
       INTEGER ColNumber,I,J,K,L,I1,I2,I3,ISPC
-      INTEGER IDCMP1,IDCMP2,ITRNK
+      INTEGER IDCMP1,IDCMP2
       DATA    IDCMP1,IDCMP2/10000000,20000000/
 
       DOUBLE PRECISION PB,DBHB,HTB,CWB
@@ -886,9 +888,10 @@ C           COMPRESSED OR GENERATED THROUGH THE ESTAB SYSTEM.
             ENDIF
 
 C           DOUBLE PRECISION COPIES OF SINGLE PRECISION INPUTS
+C           CONVERT BREAKPOINTS FROM MESH-UNITS TO METERS
 
             DO J = 1,BPCNT
-              BRKPNTB(J) = BRKPNT(I,J)
+              BRKPNTB(J) = BRKPNT(I,J) * REAL(MESH)
             ENDDO
             DO J = 1,CRTHRD
               NEWSPRB(J) = NEWSPR(I,J)
@@ -993,6 +996,10 @@ C           BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
 
       iRet = fsql3_finalize(IoutDBref)
       iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
+
+      if (iRet.ne.0) then
+         IDM5 = 0
+      ENDIF
 
       RETURN
       END
