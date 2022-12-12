@@ -1,8 +1,8 @@
 CODE SEGMENT INCLUDESVN
 C----------
-C COMMON $Id$
+C COMMON 
 C----------
 C
-      DATA SVN/"FS2022.4"/
+      DATA SVN/"FS2023.1"/
 C
 C-----END SEGMENT
