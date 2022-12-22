@@ -239,9 +239,8 @@ C
       if (iRet.ne.0) then
          IMORTF = 0
       ENDIF
-      RETURN
       iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
-
+      RETURN
       END
 
 

@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  01-10-2003
       SUBROUTINE SF_TAPER (RHFW,RFLW,TAPCOE)
 c             calculater taper coefficients, given geometric properties
@@ -87,18 +84,18 @@ c                 Lower Segment            Appendix A, Eqns A16 thru A26
       A4 = S3
                                      
 c     convert to single precision
-      TAPCOE(1) = REAL(A0)
-      TAPCOE(2) = REAL(A1)
-      TAPCOE(3) = REAL(A2)
-      TAPCOE(4) = REAL(A4)
-      TAPCOE(5) = REAL(B0)
-      TAPCOE(6) = REAL(B1)
-      TAPCOE(7) = REAL(B2)
-      TAPCOE(8) = REAL(B4)
-      TAPCOE(9) = REAL(C1)
-      TAPCOE(10) = REAL(C2)
-      TAPCOE(11) = REAL(E1)
-      TAPCOE(12) = REAL(E2)
+      TAPCOE(1) = A0
+      TAPCOE(2) = A1
+      TAPCOE(3) = A2
+      TAPCOE(4) = A4
+      TAPCOE(5) = B0
+      TAPCOE(6) = B1
+      TAPCOE(7) = B2
+      TAPCOE(8) = B4
+      TAPCOE(9) = C1
+      TAPCOE(10) = C2
+      TAPCOE(11) = E1
+      TAPCOE(12) = E2
         
       RETURN
       END           

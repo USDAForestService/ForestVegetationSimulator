@@ -20,5 +20,5 @@ cat02 :
 	rm cat01.tmp cat01.tmp.save
 	@echo Test cat02 ended
 
-	
-	
+clean : 
+	rm -rfv cat.stop cat01.out cat01.sng cat01.sum FVS_Data.db FVSOut.db

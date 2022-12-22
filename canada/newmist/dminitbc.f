@@ -82,7 +82,7 @@ C.... Common include files.
 
 C.... Local variable declarations.
 
-      INTEGER i, j
+      INTEGER i, j, k, l
       INTEGER TPDMR(0:6, CRTHRD)
       REAL    x, y, tmp(MXTHRX)
       REAL    TSEED 
@@ -97,9 +97,9 @@ C.... This is initialized this way so that if multiple stands are run through
 C.... the model then the array DMDMR will get re-initialized properly for each
 C.... stand.
 
-      DATA TPDMR  / 0, 0, 0, 0, 1, 1, 2,
-     &              0, 0, 1, 2, 2, 2, 2,
-     &              0, 1, 1, 1, 1, 2, 2 /
+      DATA TPDMR  / 0, 0, 0, 0, 0, 1, 2,
+     &              0, 0, 0, 1, 2, 2, 2,
+     &              0, 1, 2, 2, 2, 2, 2 /
 
 C.... TPOPAQ is the dummy array used to load the array DMOPAQ.
 C.... This is initialized this way so that if multiple stands are run through
@@ -109,7 +109,7 @@ C....
 C.... The RELATIVE opacities of DMOPAQ() are taken from the April 1993
 C.... Model Review Workshop Report, Table 4.1 (p.29). 
 C.... These values can be changed by the keyword DMOPQ.
-C.... The 15 (MAXSP) spcecies codes for the IB variant are:
+C.... The 15 (MAXSP) spcecies codes for the BC variant are:
 C....
 C.... 'PW','LW','FD','BG','HW','CW','PL','SE','BL','PY',
 C.... 'EP','AT','AC','OC','OH'
@@ -132,11 +132,26 @@ C.... 'EP','AT','AC','OC','OH'
      &  1.5, !OC=FD
      &  2.0/ !OH=EP
                                
-C.... Zero 0-6 DM rating. This probably redundant.
+C.... Zero 0-6 DM rating and all DM pools
 
-      DO 10 i = 1, MAXTRE
+      DO i = 1, MAXTRE
          DMRATE(i) = 0
-   10 CONTINUE    
+         DO j = 1, CRTHRD
+           DO k = 1, DEAD_BC 
+             DMINF(i,j,k) = 0.0
+           ENDDO
+        ENDDO
+      ENDDO
+      
+      DO i = 1, MAXTRE
+         DO j = 1, CRTHRD
+           DO k = 1, ACTIVE 
+              DO L = 1,MAXBC
+                DMINF_BC(i,j,k,l) = 0.0
+              ENDDO
+           ENDDO
+        ENDDO
+      ENDDO
                                                                         
 C.... Initialize logical triggers to .FALSE. These are responsible for  
 C.... notifying whether the initial crown third assignments have been

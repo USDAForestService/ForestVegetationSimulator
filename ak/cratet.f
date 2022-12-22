@@ -478,7 +478,23 @@ C----------
      &           '  H=', F10.5)
         ENDIF
       ENDIF
+
+C ADJUST HEIGHT IMPUTATION BASED ON SPECIES
+C AD, WI, OH: ASSUME MULTIPLIER OF 0.45
+C SU: ASSUME MULTIPLIER OF 0.65
+C ALL OTHER SPECIES: ASSUME A MULTIPLIER OF 1.00
+
+      SELECT CASE (ISPC)
+        CASE(14,21,23)
+          H = H * 0.45
+        CASE(22)
+          H = H * 0.65
+        CASE DEFAULT
+          H = H * 1.00
+      END SELECT
+
       IF(H .LE. 4.5) H=4.5
+
   144 CONTINUE
       IF(TKILL) GO TO 142
       HT(II)=H

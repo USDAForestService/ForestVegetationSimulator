@@ -372,7 +372,6 @@ C NEW REDWOOD EQUATION
         CASE(6)
           RIP = 2.901447 + (0.578694*D) + (-0.001793*PTBAL)
           RIP = 1.0/(1.0 + EXP(RIP))                           !annual RIP
-          IF(RIP .LT. 0.0001) RIP = 0.0001                     !constrain RIP
           IF(DEBUG) WRITE(JOSTND,*)'IN MORTS RW DEBUG',' DBH=',D,
      & ' PTBAL=',PTBAL,' RIP=',RIP
       END SELECT
@@ -420,7 +419,10 @@ C----------
       IF(XCHECK.LT.0.0) XCHECK=0.0
       X=X* (1.0-XCHECK)
    29 CONTINUE
-      IF (RIP.LT.0.00001) RIP=0.00001
+C     CHANGED MINIMUM ANNUAL MORTALITY RATE (RIP) TO 0.001 TO ENSURE
+C     THAT STANDS DO NOT EXCEED MAXIMUM BA AND SDI.
+C      IF (RIP.LT.0.00001) RIP=0.00001
+      IF (RIP.LT.0.001) RIP=0.001
       WKI=P*(1.0-(1.0-RIP)**FINT)*X
       IF(DEBUG)WRITE(JOSTND,*)'IN MORTS EQ I,XCHECK,X,P,RIP,FINT,WKI= ',
      &I,XCHECK,X,P,RIP,FINT,WKI

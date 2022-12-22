@@ -19,4 +19,6 @@ utt02 :
 	-diff -w utt01.tmp utt01.tmp.save
 	rm utt01.tmp utt01.tmp.save
 	@echo Test utt02 ended
-			
+
+clean:
+	rm -rfv utt.stop utt01.out utt01.sng utt01.sum FVS_Data.db FVSOut.db

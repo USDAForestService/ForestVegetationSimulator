@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  4-9-2002
       SUBROUTINE R10TAPO(DBHOB,HT2,LTYPE,MTOPP,CHK,NLOG,HMERCH,CL,SH,
      >                                                    DIB,VS,V)
@@ -400,7 +397,7 @@ C ***   NEXT, GET LOG AND TREE VOLUMES
 
       ENDIF
 
-      RETURN
+  900 RETURN
       END   
 
 

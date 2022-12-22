@@ -1,7 +1,6 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  12-12-2002
+C YW 04/13/2017 Added 260, 240 and 090 to be valid species code for R1ALLENB
+C               This is to make species code match with R1ALLENC.
       SUBROUTINE R1ALLENC(VOLEQ,DBHOB,HTTOT,TOPD,BTR,CUVOL,TCVOL,CFSTMP,
      >                    ERRFLAG)
 C----------
@@ -353,13 +352,13 @@ C----------
           ISPC = 3
       ELSEIF(VOLEQ(8:10).EQ.'017')THEN
           ISPC = 4
-      ELSEIF(VOLEQ(8:10).EQ.'263')THEN
+      ELSEIF(VOLEQ(8:10).EQ.'263'.OR.VOLEQ(8:10).EQ.'260')THEN
           ISPC = 5
-      ELSEIF(VOLEQ(8:10).EQ.'242')THEN
+      ELSEIF(VOLEQ(8:10).EQ.'242'.OR.VOLEQ(8:10).EQ.'240')THEN
           ISPC = 6
       ELSEIF(VOLEQ(8:10).EQ.'108')THEN
           ISPC = 7
-      ELSEIF(VOLEQ(8:10).EQ.'093')THEN
+      ELSEIF(VOLEQ(8:10).EQ.'093'.OR.VOLEQ(8:10).EQ.'090')THEN
           ISPC = 8
       ELSEIF(VOLEQ(8:10).EQ.'019')THEN
           ISPC = 9
@@ -396,11 +395,11 @@ C----------
       VT=0.0
       IF(TOPD.EQ.8.0) GO TO 15
       HDRATA=HTTOT/DBHOB
-      ID = INT(DBHOB - 0.5)
+      ID = DBHOB - 0.5
 
       IF(ID.GT.100) ID = 100
-
-      ITD = INT(TOPD - 0.5)
+      IF(TOPD.LT.1.0) TOPD = 6.0   !ADDED TO AVOID ITD = 0
+      ITD = TOPD - 0.5
       IF(ITD.GT.100) ITD = 100
 
       IF(D2H.GT.D2HBRK(ISPC)) GO TO 10
@@ -420,7 +419,7 @@ C----------
    10 DTOPK = 0.4*DBHOB
       IF(DTOPK.LT.4.0) DTOPK = 4.0
       IF(DTOPK.GT.8.0) DTOPK = 8.0
-      IVTD = INT(DTOPK - 0.5)
+      IVTD = DTOPK - 0.5
       VT = COFBVS(ISPC) * SQRT(HDRATA/HDRATM(ID)) * 
      >     (DTOPK**3*HDRATM(IVTD) - TOPD**3*HDRATM(ITD)) -
      >     (DTOPK**2-TOPD**2)*0.12153

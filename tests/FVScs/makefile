@@ -19,5 +19,6 @@ cst02 :
 	-diff -w cst01.tmp cst01.tmp.save
 	rm cst01.tmp cst01.tmp.save
 	@echo Test cst02 ended
-			
-	
+
+clean : 
+	rm -rfv cst.stop cst01.out cst01.sng cst01.sum FVS_Data.db FVSOut.db

@@ -21,4 +21,5 @@ bmt02 :
 	rm bmt01.tmp bmt01.tmp.save
 	@echo Test bmt02 ended
 
-	
+clean : 
+	rm -rfv bmt.stop bmt01.out bmt01.sng bmt01.sum FVS_Data.db FVSOut.db

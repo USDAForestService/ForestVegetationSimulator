@@ -1,6 +1,6 @@
 CODE SEGMENT CONTRL
 C----------
-C COMMON $Id$
+C COMMON 
 C----------
 C
       CHARACTER*2 VARACD

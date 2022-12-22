@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
       MODULE CLKCOEF_MOD
 
 !     Module to store clark equation coefficients
@@ -11,6 +8,8 @@ C----------
       TYPE CLKCOEF
       SEQUENCE
         REAL DBHIB,DIB17,R,C,E,P,B,A,A4,B4,A17,B17,TOTHT,Q,FIXDI,DX
+        REAL AFI,BFI
+        INTEGER SPGRP
       END TYPE CLKCOEF
    
    

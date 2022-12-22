@@ -1,0 +1,20 @@
+May 20, 2022
+
+Materials produced by employees of the United States Federal Government as part
+of their official duties  are not entitled to domestic copyright protection
+under United States law and are therefore in the U.S. public domain. The Forest
+Vegetation Simulator is free and open-source software. It is released without
+any conditions upon its use, and is available to everyone without restriction.
+
+The software is provided "as is" without warranty of any kind, either expressed
+or implied, including, but not limited to, the implied warranties of
+merchantability and fitness for a particular purpose. In no event shall the
+author be held liable for any damages arising from the use of this software.
+
+The software package may include certain open source components that are subject
+to open source licenses, in which case, the embedded open source software is
+owned by a third party. The open source software is not subject to the terms and
+conditions of this license. Instead, each item of open source software is
+licensed under its applicable license terms. Nothing in this license limits your
+rights under, nor grants you rights that supersede, the terms and conditions of
+any applicable license terms for the open source software.

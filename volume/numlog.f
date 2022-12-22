@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  4-9-2002
       SUBROUTINE NUMLOG(OPT,EVOD,LMERCH,MAXLEN,MINLEN,TRIM,
      >           NUMSEG)

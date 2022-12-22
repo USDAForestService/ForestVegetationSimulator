@@ -97,8 +97,7 @@ C
       INTEGER IDCMP1,IDCMP2,ITRNK
       DATA IDCMP1,IDCMP2/10000000,20000000/
       REAL TEM
-      REAL*8 CW,P,DGI,DP,ESTHT,TREAGE,DDBH,DHT,DHTG,DPCT,
-     >       DCFV,DWK1,DBFV,DHT2TD2,DHT2TD1
+      REAL*8 CW,P,DGI,DP,ESTHT,TREAGE
       DOUBLE PRECISION XB
 
       integer fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
@@ -391,8 +390,8 @@ C
       IF (ITREELIST .EQ. 0) RETURN
       IF ((IREC2.GE.MAXTP1).OR.(ITPLAB.EQ.3).OR.
      >         (ICYC.GE.1)) THEN
-        iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
         iRet = fsql3_finalize(IoutDBref)
+        iRet = fsql3_exec (IoutDBref,"Commit;"//Char(0))
         RETURN
       ENDIF
 

@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  4-9-2002
       subroutine r6fix(DBHOB,FCLASS,tlh,tth,httype,logvol)
 c        subroutine applying PNW fix for bdft appraisal

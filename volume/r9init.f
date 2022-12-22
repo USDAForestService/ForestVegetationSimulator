@@ -1,34 +1,32 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  6-12-2007
 C***********************************************************************
 C***********************************************************************
       SUBROUTINE R9_MHTS(IFORST,VOLEQ,DBH,HTTOT,SI,BA,HT1PRD,HT2PRD,
-     >                   PROD,ERRFLAG)
+     >           PROD,ERRFLAG,MTOPP)
 C***********************************************************************
 C CALCULATES THE MERCH HTS BASED ON TOTAL TREE HEIGHT BY FORST AND SPECIES
+C YW 07/13/2018 Added variable MTOPP to the subroutine and use the variable to replace hardcoded 9.6
       CHARACTER*10 VOLEQ
       CHARACTER*2 PROD
       INTEGER SI,BA,VFLAG,ERRFLAG,IFORST
-      REAL DBH,HTTOT,HT1PRD,HT2PRD,B(6),BFMIND,DBHMIN,BFTOPD,TOPD
-      REAL SAWBOL,ESTSHT,FACTOR,PULBOL,ESTCHT,ESTTHT
+	REAL DBH,HTTOT,HT1PRD,HT2PRD,B(6),BFMIND,DBHMIN,BFTOPD,TOPD
+      REAL SAWBOL,ESTSHT,FACTOR,PULBOL,ESTCHT,ESTTHT,MTOPP
 
       IF(BA.LE.0) BA = 90
-
+      
       IF(IFORST.EQ.2 .OR. IFORST.EQ.3 .OR. IFORST.EQ.4 .OR. IFORST.EQ.6
      >   .OR. IFORST.EQ.7 .OR. IFORST.EQ.9 .OR. IFORST.EQ.10) THEN
 C     LS
         IF(SI.LE.0)SI = 60
-        VFLAG = 1
-      ELSEIF (IFORST.EQ.5 .OR. IFORST.EQ.8 .OR. IFORST.EQ.12) THEN
+	  VFLAG = 1
+	ELSEIF (IFORST.EQ.5 .OR. IFORST.EQ.8 .OR. IFORST.EQ.12) THEN
 C     CS      
         IF(SI.LE.0)SI = 65
-        VFLAG = 2
-      ELSE
+	  VFLAG = 2
+	ELSE
 C     NE
         IF(SI.LE.0)SI = 55
-        VFLAG = 3
+	  VFLAG = 3
       ENDIF
       CALL R9INIT(VOLEQ,B,VFLAG,ERRFLAG)
 
@@ -36,58 +34,62 @@ C     NE
          IF(IFORST .EQ. 3) THEN
             DBHMIN = 4.0
             BFMIND = 9.0
-      ELSEIF(IFORST.EQ.5)THEN
+	   ELSEIF(IFORST.EQ.5)THEN
             DBHMIN = 4.0
             BFMIND = 9.0
-      ELSE
+	   ELSE
             DBHMIN = 5.0
             BFMIND = 9.0
-      ENDIF
-         BFTOPD = 7.6
+	   ENDIF
+C         BFTOPD = 7.6
+         IF(MTOPP.LT.0.1) MTOPP = 7.6
+         BFTOPD = MTOPP
          TOPD = 4.0
       ELSE
          IF(IFORST.EQ.4 .OR. IFORST.EQ.10 .OR. IFORST.EQ.13 .OR. 
      >                                     IFORST.EQ.21) THEN
             DBHMIN = 5.0
             BFMIND = 11.0
-      ELSEIF(IFORST.EQ.3)THEN
-            IF(VOLEQ(8:10).EQ."746".OR.VOLEQ(8:10).EQ."741".OR.
+	   ELSEIF(IFORST.EQ.3)THEN
+	      IF(VOLEQ(8:10).EQ."746".OR.VOLEQ(8:10).EQ."741".OR.
      >                               VOLEQ(8:10).EQ."743") THEN
                BFMIND = 11.0
-            ELSE   
+            ELSE	   
                BFMIND = 9.0
-            ENDIF
+	      ENDIF
             DBHMIN = 5.0
          ELSEIF(IFORST.EQ.5)THEN
-            BFMIND = 9.0
-            DBHMIN = 5.0
-         ELSEIF(IFORST.EQ.7)THEN
-            IF(VOLEQ(8:10).EQ."746".OR.VOLEQ(8:10).EQ."741".OR.
+	      BFMIND = 9.0
+	      DBHMIN = 5.0
+	   ELSEIF(IFORST.EQ.7)THEN
+	      IF(VOLEQ(8:10).EQ."746".OR.VOLEQ(8:10).EQ."741".OR.
      >                               VOLEQ(8:10).EQ."743") THEN
                BFMIND = 9.0
-            ELSE
+            ELSE	   
                BFMIND = 11.0
-            ENDIF
+	      ENDIF
             DBHMIN = 5.0
-         ELSEIF(IFORST.EQ.20)THEN
-            IF(VOLEQ(8:10).EQ."375") THEN
+	   ELSEIF(IFORST.EQ.20)THEN
+	      IF(VOLEQ(8:10).EQ."375") THEN
                BFMIND = 9.0
-            ELSE
+            ELSE	   
                BFMIND = 11.0
-            ENDIF
+	      ENDIF
             DBHMIN = 8.0
-         ELSEIF(IFORST.EQ.22)THEN
-            IF(VOLEQ(8:10).EQ."375") THEN
+	   ELSEIF(IFORST.EQ.22)THEN
+	      IF(VOLEQ(8:10).EQ."375") THEN
                BFMIND = 8.0
-            ELSE
+            ELSE	   
                BFMIND = 11.0
-            ENDIF
+	      ENDIF
             DBHMIN = 5.0
-         ELSE
+	   ELSE
             DBHMIN = 6.0
             BFMIND = 11.0
-         ENDIF
-         BFTOPD = 9.6
+	   ENDIF
+C         BFTOPD = 9.6
+         IF(MTOPP.LT.0.1) MTOPP = 9.6
+         BFTOPD = MTOPP
          TOPD = 4.0
       ENDIF
       
@@ -96,11 +98,11 @@ C  COMPUTE ESTIMATED TOTAL TREE HEIGHT.
 C----------
       IF(PROD.NE."01" .AND. PROD.NE."02") THEN
         IF(DBH .LT. BFMIND) THEN
-          PROD = "02"
-        ELSE
-          PROD = "01"
-        ENDIF
-      ENDIF
+	     PROD = "02"
+      	ELSE
+	      PROD = "01"
+      	ENDIF
+	ENDIF
 
       IF(DBH .LT. DBHMIN .OR. ERRFLAG.GT.0) THEN
          HT1PRD=0
@@ -113,8 +115,8 @@ C----------
      &         **B(5)*BA**B(6)
          
          IF(HTTOT .LE. 0) THEN
-         HTTOT = ESTTHT
-      ENDIF
+	      HTTOT = ESTTHT
+	   ENDIF
 C----------
 C  COMPUTE THE NUMBER OF 8' BOLTS TO SPECIFIED PULPWOOD TOP DIAMETER.
 C----------
@@ -141,7 +143,7 @@ C----------
      &         **B(5)*BA**B(6)
          SAWBOL=ESTSHT*(HTTOT/ESTTHT)
          HT1PRD=INT(SAWBOL/8.333333)
-      IF(HT1PRD.LE.0 .AND. HT2PRD.GT.1) HT1PRD=1
+	   IF(HT1PRD.LE.0 .AND. HT2PRD.GT.1) HT1PRD=1
       ENDIF
 
   100 CONTINUE
@@ -164,7 +166,7 @@ C*********************************
       CHARACTER*10 VOLEQ
       CHARACTER*3 SPEC_LIST(149),SPEC
       INTEGER VFLAG,I,ERRFLAG
-      REAL B(6)
+	REAL B(6)
       REAL LS_B1(149),LS_B2(149),LS_B3(149),LS_B4(149),LS_B5(149)
       REAL CS_B1(149),CS_B2(149),CS_B3(149),CS_B4(149),CS_B5(149)
       REAL NE_B1(149),NE_B2(149),NE_B3(149),NE_B4(149),NE_B5(149)

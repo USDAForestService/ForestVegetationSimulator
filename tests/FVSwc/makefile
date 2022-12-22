@@ -19,4 +19,6 @@ wct02 :
 	-diff -w wct01.tmp wct01.tmp.save
 	rm wct01.tmp wct01.tmp.save
 	@echo Test wct02 ended
-			
+
+clean:
+	rm -rfv wct.stop wct01.out wct01.sng wct01.sum FVS_Data.db FVSOut.db

@@ -130,7 +130,7 @@ C********************************************************************
       PARAMETER(PIE=3.14159)
       PARAMETER(HLFPIE=1.57080)
       PARAMETER(TWOPIE=6.283185)
-      PARAMETER(DMTINY=1.0E-6)
+      PARAMETER(DMTINY=1.0E-10)
 
       PARAMETER(MAXBC=5) ! max biological control systems
 
@@ -264,8 +264,8 @@ C                          successful infection and the earliest
 C                          possible flowering under optimal
 C                          mistletoe conditions.
 C     REAL    DMCAP       The species-specific maximum density of
-C                          infections that re permitted to occupy
-C                          crown. Units are "DM equivalent", which
+C                          infections that are permitted to occupy
+C                          a crown-third. Units are "DM equivalent", which
 C                          means that they are measured the same
 C                          way as DMR: the number of infections
 C                          required per MESH**3, to give an

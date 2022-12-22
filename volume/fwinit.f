@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  04-02-2014
       SUBROUTINE FWINIT(VOLEQ,DBHOB,HTTOT,MHT,MTOPP,UPSHT1,UPSHT2,
      >     UPSD1,UPSD2,AVGZ1,AVGZ2,HTREF,DBTBH,JSP,RHFW,RFLW,
@@ -177,8 +174,8 @@ c         White fir model
            JSP = 27
         ELSE IF(SPEC.EQ.'746')THEN
 c         Aspen model
-          JSP = 28
-        ELSE
+	     JSP = 28
+	  ELSE
           ERRFLAG = 1
           RETURN
         ENDIF
@@ -243,17 +240,17 @@ c         Western Red Cedar
           ELSE IF(SPEC.EQ.'098') THEN
 c         Spruce
             IF(GEOSUB.EQ.'02') THEN
-              JSP=35
+	        JSP=35
             ELSE
               JSP = 33
-            ENDIF
+	      ENDIF
           ELSE IF(SPEC.EQ.'263'.OR.SPEC.EQ.'260'.OR.SPEC.EQ.'264') THEN
 c         Hemlock
             IF(GEOSUB.EQ.'02') THEN
-              JSP=36
+	        JSP=36
             ELSE
               JSP = 34
-            ENDIF
+    	      ENDIF
           ELSE
             ERRFLAG = 1
             RETURN
@@ -277,7 +274,7 @@ C    check for total height
            errflag = 11
            return
         endif
-        if(upsht1 .gt. 0) threeflag = 1
+     	  if(upsht1 .gt. 0) threeflag = 1
       ELSE
          CALL sf_2pt(JSP,GEOSUB,SETOPT,DBHOB,HTTOT,DBTBH,F,RHFW,
      >                                              RFLW,TAPCOE)
@@ -301,8 +298,8 @@ c                                                       Specify upper dob(s)
            ELSE
                NEXTRA = 1
            ENDIF
-        ELSE IF(FCLASS .GT. 0)THEN
-           NEXTRA = 1
+	  ELSE IF(FCLASS .GT. 0)THEN
+	     NEXTRA = 1
            UPSHT1 = 17.5
 C          FCLASS for 32 foot log (YW 04/02/14)           
            IF(VOLEQ(5:5).EQ.'3') UPSHT1 = 33.6

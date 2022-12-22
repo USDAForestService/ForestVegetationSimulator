@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  10-4-2002
       SUBROUTINE SF_HS(JSP,GEOSUB,IEXTRA,SETOPT,DBH,TOTALH,DBTBH,
      >                 HEXTRA,Z,RHFW,RFLW,TAPCOE,F,FMOD,PINV_Z,DIB,H)

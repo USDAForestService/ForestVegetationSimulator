@@ -1,6 +1,3 @@
-C----------
-C VOLUME $Id$
-C----------
 !== last modified  4-9-2002
       SUBROUTINE SF_YHAT3(JSP,geosub,NEXTRA,SETOPT,DBH,THT,H,DIB,
      >                    HEX,ZEX,FMOD,PINV_Z,EDIB)

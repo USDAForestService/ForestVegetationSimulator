@@ -19,7 +19,6 @@ ect02 :
 	-diff -w ect01.tmp ect01.tmp.save
 	rm ect01.tmp ect01.tmp.save
 	@echo Test ect02 ended
-		 
- 
- 
 
+clean : 
+	rm -rfv ect.stop ect01.out ect01.sng ect01.sum FVS_Data.db FVSOut.db
