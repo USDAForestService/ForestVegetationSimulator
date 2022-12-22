@@ -101,6 +101,7 @@ C     TKILL = LTKIL
       LCONE  = LC
       IT     = 0
       CTKFLG = LTKIL
+      BTKFLG = .FALSE.
 
       IF(METHC(ISPC).EQ.6) THEN
          CALL NATCRS (VN,VM,BBFV,ISPC,D,H,LTKIL,BARK,IHT,VMAX,

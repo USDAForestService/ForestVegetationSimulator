@@ -76,6 +76,7 @@
 ../canada/bc/natcrz.f
 ../canada/bc/r6crwd.f
 ../canada/bc/regent.f
+../canada/bc/revise.f
 ../canada/bc/sitset.f
 ../canada/bc/spctrn.f
 ../canada/bc/vols.f
@@ -99,7 +100,6 @@
 ../vbase/fortyp.f
 ../vbase/prtexm.f
 ../vbase/ptbal.f
-../vbase/revise.f
 ../vbase/sdical.f
 ../vbase/stkval.f
 ../vbase/svout.f
