@@ -72,7 +72,7 @@ C     INTEGER LHt      MESH band in which lower breakpoint lies
 C     INTEGER UHt      MESH band in which upper breakpoint lies
 C     INTEGER MidHt    MESH band for midpoint of crownthird
 C     INTEGER Spin     Startup time delay (30 years)
-C     INTEGER EPoint   Last year of timestep loop (usually 10)
+C     INTEGER LastYr   Last year of timestep loop (usually 10)
 C     INTEGER LghtIndx height-index position of each crownthird
 C     REAL    SpSurv   Annual survival rate of mistletoe
 C     REAL    New      New S+I addition to crownthird pool
@@ -135,15 +135,15 @@ C**********************************************************************
 
 C Local variables.
 
-      LOGICAL LOK
+      LOGICAL LOK, DEBUG, TF1, TF2
       INTEGER i, j, k, m, N, L, r, s
       INTEGER ISPC, ISPP, i1, i2, i3, BCT, IHT
       INTEGER LHt, UHt, MidHt(MAXTRE,CRTHRD)
-      INTEGER Spin, EPoint
+      INTEGER Spin, LastYr
       INTEGER IYR,JYR,NTODO,IACTK,NPAR,MYACTS(1)
 
       REAL    SpSurv
-      REAL    New, FProp2, HtWt
+      REAL    New, FProp2, HtWt, xNow, xPrv
       REAL    ImmLat, LatAct, ActSpr,SprAct
       REAL    xImm, xLat, xSpr, xAct, xDedBC
       REAL    xImmBC(MAXBC), xLatBC(MAXBC)
@@ -153,7 +153,7 @@ C Local variables.
       REAL    ImmBCImm(MAXBC),LatBCLat(MAXBC)
       REAL    SprBCSpr(MAXBC),ActBCAct(MAXBC)
       REAL    SprDedBC,ActDedBC
-      REAL    mult,x,y,XTiny
+      REAL    x,y,XTiny
       REAL    xOriginal(MAXTRE,CRTHRD),TVol(MAXTRE,CRTHRD)
       REAL    FProp(MAXTRE,CRTHRD),BProp(MAXTRE,CRTHRD)
       REAL    FvecX(4), FvecY(4), BvecX(4), BvecY(4)
@@ -163,21 +163,15 @@ C Local variables.
 
       REAL    ALGSLP
 
-
       DATA Spin   /  30/
       DATA MYACTS /2010/   ! Bio-control scheduling code
+      
+C-----------
+C  CHECK FOR DEBUG.
+C-----------
+      CALL DBCHK (DEBUG,'DMCYCL',6,ICYC)      
 
       XTiny = LOG(DMTINY)
-
-C     IF THIS IS THE FIRST ENTRY TO THIS ROUTINE, THEN SPIN WHEELS TO
-C     FILL UP ALL THE POOLS (OTHERWISE THEY ARE ZERO ON FIRST ENTRY. THE
-C     FLAG 'ZPDN' IS SET TO .TRUE. AT THE END OF THE ROUTINE.
-
-      IF (ZPDn) THEN
-        EPoint = IFINT
-      ELSE
-        EPoint = IFINT + Spin
-      ENDIF
 
 C     THIS LOOP WALKS THROUGH THE CROWN THIRD IN MESH METER BANDS FROM
 C     'LHT' TO 'UHT'. IT IS ASSUMED THAT THE COVER MODEL-DERIVED 'VOLUME'
@@ -219,7 +213,7 @@ C     THERE IS PROBABLY A CLEVER WAY OF ORGANIZING DMLTRX() SO THAT IT
 C     CAN BE PASSED DIRECTLY TO ALGSLP. HELP YOURSELF IF YOU ARE FEELING
 C     CLEVER TODAY.
 
-      DO 98 ISPC = 1,MAXSP
+      DO ISPC = 1,MAXSP
 
         I1 = ISCT(ISPC,1)
         IF (I1 .EQ. 0) GOTO 98
@@ -248,17 +242,29 @@ C       IN CYCLE 1
      >        ALGSLP(FLOAT(IHT),FvecX,FvecY,DMLtnp(ISPC,1))
             BProp(i,j) =
      >        ALGSLP(FLOAT(IHT),BvecX,BvecY,DMLtnp(ISPC,2))
-            MidHt(I,J) = IHT
-            xOriginal(I,J) = DMINF(i,j,ACTIVE)
+            MidHt(i,j) = IHT
+            xOriginal(i,j) = DMINF(i,j,ACTIVE)
           ENDDO
         ENDDO
-   98 CONTINUE
+   98 ENDDO
 
-C     MAIN LOOP OVER YEARS. IN MOST CYCLES EPOINT IS THE CYCLE LENGTH;
-C     IN THE FIRST CYCLE THERE ARE 'SPIN' FOR TURNS TO HELP EQUILIBRATE
+C     IF THIS IS THE BEGINNING OF THE SIMULATION, THEN SPIN WHEELS TO
+C     ALLOCATE TO OTHER POOLS BESIDES 'ACTIVE'. OTHERWISE THEY ARE ZERO
+C     ON FIRST ENTRY. THE FLAG 'ZPDN' IS SET TO .TRUE. AT THE END OF THE ROUTINE.
+
+      IF (ZPDn) THEN
+        LastYr = IFINT
+      ELSE
+        LastYr = IFINT + Spin
+      ENDIF
+
+C     MAIN LOOP OVER YEARS. IN MOST CYCLES LastYr IS THE CYCLE LENGTH;
+C     IN THE FIRST CYCLE THERE ARE 'SPIN' EXTRA LOOPS TO HELP EQUILIBRATE
 C     THE INITIAL POOLS
 
-      DO m = 1,EPoint
+
+
+      DO M = 1, LastYr
 
 C       ZERO BC-MORTALITY, BC-SUPPRESSION THIS YEAR
 
@@ -326,7 +332,7 @@ C       THESE ARE CONVERTED TO THEIR COMPLEMENTS LATER ON.
           ENDDO
         ENDIF
 
-        DO 99 ISPC = 1,MAXSP
+        DO ISPC = 1,MAXSP
 
           I1 = ISCT(ISPC,1)
           IF (I1 .EQ. 0) GOTO 99
@@ -358,10 +364,19 @@ C         BOUND FOR NUMERICAL CONTROL
 
           DO I3 = I1,I2
             I = IND1(I3)
-            DO j = 1,CRTHRD
 
-C             CONVERT THE NEW INPUTS INTO DENSITY AND ADD TO EXISTING POOLS.
-C             TVOL(I,J) "SHOULD" NEVER BE ZERO, BUT IN PRACTICE SOMETIMES IS.
+            DO j = 1,CRTHRD
+              
+              IF(DEBUG) WRITE(JOSTND,1) i,j, m
+    1         FORMAT('DMCYCL-1: i= ',I4, ' j= ', I4, ' m= ', I4)
+              
+C             CONVERT THE NEW INPUTS INTO MESH BASED ENSITY AND ADD TO EXISTING POOLS.
+C             TVOL(I,J) SHOULD NEVER BE ZERO, BUT IN PRACTICE SOMETIMES IS.
+
+              IF(DEBUG) WRITE(JOSTND,2)
+     >          NewSpr(i,j), NewInt(i,j), TVol(i,j) 
+    2         FORMAT('DMCYCL-2: NewSpr=',F10.6, ' NewInt= ', F10.6, ',
+     >          TVol= ', F10.6)
 
               IF (TVol(i,j) .GT. DMTINY) THEN
                 New = (NewSpr(i,j) + NewInt(i,j)) / TVol(i,j)
@@ -369,30 +384,14 @@ C             TVOL(I,J) "SHOULD" NEVER BE ZERO, BUT IN PRACTICE SOMETIMES IS.
                 New = DMTINY
               ENDIF
 
-C SUM ALL THE LIVE MATERIAL INTO 'x'; RESCALE x SO THAT LOADING IS ASYMPTOTIC
-C TO DMCAP (nominally 3.0); r=1/3
-C
-C   DM' = DM + [3 - DM] * [1 - EXP(-r * New)]
-C
-C CARRYING CAPACITY IS SET TO 3 DM UNITS !!  New IS RESCALED SO THAT THE
-C TOTAL LIVE POOL SIZE IS CONSTRAINED TO 3. LUCKILY ALL THE RESCALING
-C HAPPENS IN ONE POOL ONLY, SO THERE IS NO NEED TO PARTITION IT.
+              IF(DEBUG) WRITE(JOSTND,3)
+     >          NewSpr(i,j), NewInt(i,j), TVol(i,j) 
+    3         FORMAT('DMCYCL-3: NewSpr=',F10.6, ' NewInt= ', F10.6, ',
+     >          TVol= ', F10.6)
 
-              x = 0.0
-              DO L = 1,ACTIVE
-                x = x + DMINF(i,j,L)
-                DO N = 1,MAXBC
-                  x = x + DMINF_BC(i,j,L,N)
-                ENDDO
-              ENDDO
-              New = (DMCAP(ISPC) - x) *
-     >          (1.0 - EXP((-1.0/DMCAP(ISPC)) * New))
-
-C             MESH-POSITION OF EACH CROWNTHIRD: FOR BCMORT, BCSUPP INDEX
-
+C             MESH-POSITION OF EACH CROWNTHIRD; NEEDED FOR BCMORT, BCSUPP
               IHT = MIDHT(I,J)
 
-C             ASSIGN TEMPORARY VARIABLES
               xImm = DMINF(i,j,IMMAT)
               xLat = DMINF(i,j,LATENT)
               xSpr = DMINF(i,j,SUPRSD)
@@ -405,15 +404,19 @@ C             ASSIGN TEMPORARY VARIABLES
               ENDDO
               xDedBC = DMINF(i,j,DEAD_BC)
 
-C             COMPUTE AND REMOVE BC-KILL: IMM,LAT,SPR,ACT
-              xImm = xImm * (1.0 - BCMORT(ISPC,IMMAT,IHT))
-              xLat = xLat * (1.0 - BCMORT(ISPC,LATENT,IHT))
+              IF(DEBUG) WRITE(JOSTND,4)
+    4         FORMAT('DMCYCL-4')
+              
+C             COMPUTE AND TRANSFER TO BC-KILL: IMM,LAT,SPR,ACT
+              xImm     = xImm * (1.0 - BCMORT(ISPC,IMMAT,IHT))
+              xLat     = xLat * (1.0 - BCMORT(ISPC,LATENT,IHT))
               SprDedBC = xSpr * BCMORT(ISPC,SUPRSD,IHT)
               ActDedBC = xAct * BCMORT(ISPC,ACTIVE,IHT)
               xSpr     = xSpr - SprDedBC
               xAct     = xAct - ActDedBC
 
-C             COMPUTE AND REMOVE TRANSITIONS TO BC-SUPPRESSED: IMM,LAT,SPR,ACT
+              
+C             COMPUTE AND TRANSFER TO BC-SUPPRESSED FOR IMM,LAT,SPR,ACT
               DO L = 1,MAXBC
                 ImmImmBC(L) = xImm * BCSUPP(ISPC,IMMAT, IHT,L)
                 LatLatBC(L) = xLat * BCSUPP(ISPC,LATENT,IHT,L)
@@ -425,7 +428,8 @@ C             COMPUTE AND REMOVE TRANSITIONS TO BC-SUPPRESSED: IMM,LAT,SPR,ACT
                 xAct        = xAct - ActActBC(L)
               ENDDO
 
-C             COMPUTE TRANSITIONS: ALL CATEGORIES
+C             COMPUTE TRANSFERS FOR LIFE-HISTORY POOLS
+C             BASED IB LIGHT AND BC
               ImmLat = xImm * FProp2
               LatAct = xLat * FProp(i,j)
               SprAct = xSpr * FProp(i,j)
@@ -437,7 +441,7 @@ C             COMPUTE TRANSITIONS: ALL CATEGORIES
                 ActBCAct(L) = xActBC(L) * (1.0 - BC(L)%HfLf(ACTIVE))
               ENDDO
 
-C             REMOVE TRANSITIONS: ALL CATEGORIES
+C             TRANSFER BY REMOVAL AMONG POOLS
               xImm   = xImm - ImmLat
               xLat   = xLat - LatAct
               xSpr   = xSpr - SprAct
@@ -449,7 +453,7 @@ C             REMOVE TRANSITIONS: ALL CATEGORIES
                 xActBC(L) = xActBC(L) - ActBCAct(L)
               ENDDO
 
-C             ADD TRANSITIONS: ALL CATEGORIES
+C             TRANSFER BY ADDITION AMONG POOLS
               xLat   = xLat + ImmLat
               xSpr   = xSpr + ActSpr
               xAct   = xAct + LatAct
@@ -467,7 +471,7 @@ C             ADD TRANSITIONS: ALL CATEGORIES
               xDedBC   = xDedBC + SprDedBC
               xDedBC   = xDedBC + ActDedBC
 
-C             REMOVE NATURAL MORTALITY: ALL CATEGORIES
+C             REMOVE BY NATURAL MORTALITY: ALL POOLS
               xImm   = xImm * SpSurv
               xLat   = xLat * SpSurv
               xSpr   = xSpr * SpSurv
@@ -478,78 +482,112 @@ C             REMOVE NATURAL MORTALITY: ALL CATEGORIES
                 xSprBC(L) = xSprBC(L) * SpSurv
                 xActBC(L) = xActBC(L) * SpSurv
               ENDDO
-              xDedBC   = xDedBC * SpSurv
+              xDedBC = xDedBC * SpSurv
 
-C             ADD NEW RECRUITS: IMM
-              xImm   = xImm + New         ! new S+I             !! working here 15-Sep-2022
-                                          !! Initially this will only be immature until they are in the ACTIVE category
+C             LAST, ADD NEW SPREAD & INTENSIFICATION TO THE IMM POOL
+              xImm   = xImm + New
 
-C             AFTER SPINNING TO PRIME THE POOLS, ADJUST PARAMETERS BACK SO
-C             THAT 'XACT' EQUALS THE ORIGINAL VALUE. IN CASES WHERE THE ORIGINAL
-C             VALUE 'XORIGINAL'IS ZERO, THE MULTIPLIER TERM IS ADJUSTED SO THAT
-C             THE ADJUSTED POOL VALUES ARE ARBITRARILY SET TO 5% OF THE POST-SPIN
-C             VALUE.
+C             Adjust for "pushback" of DM loading, following M-M style kinetics
+C             RESCALE TO ADJUST ALL POOL SIZES BASED ON THE DMCAP
+C             CARRYING CAPACITY OF THE CROWNTHIRD, USING OBSERVABLE
+C             CATEGORIES. xNow IS THE CURRENT OBSERVABLES, xPrv is the 
+C             PREVIOUS, AND X IS THE ADJUSTED VALUE, USED TO RESCALE ALL POOLS.
+C
+C             DM' = DM + [3 - DM] * [1 - EXP(-r * New)]
 
-              IF (.NOT. ZPDn .AND. m .EQ. Spin) THEN
-                y = xAct + xSpr + xDedBC
-                DO L = 1,MAXBC
-                  y = y + xSprBC(L) + xActBC(L)
-                ENDDO
-                IF ((xOriginal(i,j) * y) .GT. DMTINY) THEN
-                  mult = xOriginal(i,j) / y
-                ELSE
-                  mult = 0.05
-                END IF
-                xImm = xImm * mult
-                xLat = xLat * mult
-                xSpr = xSpr * mult
-                xAct = xAct * mult
-                DO L = 1,MAXBC
-                  xImmBC(L) = xImmBC(L) * mult
-                  xLatBC(L) = xLatBC(L) * mult
-                  xSprBC(L) = xSprBC(L) * mult
-                  xActBC(L) = xActBC(L) * mult
-                ENDDO
-                xDedBC = xDedBC * mult
-              END IF
-
-C             ASSIGN PERMANENT VARIABLES
-              DMINF(i,j,IMMAT)  = xImm
-              DMINF(i,j,LATENT) = xLat
-              DMINF(i,j,SUPRSD) = xSpr
-              DMINF(i,j,ACTIVE) = xAct
+              xNow = xAct + xSpr
               DO L = 1,MAXBC
-                DMINF_BC(i,j,IMMAT,L)  = xImmBC(L)
-                DMINF_BC(i,j,LATENT,L) = xLatBC(L)
-                DMINF_BC(i,j,SUPRSD,L) = xSprBC(L)
-                DMINF_BC(i,j,ACTIVE,L) = xActBC(L)
+                xNow = xNow + xActBC(L) + xSprBC(L) 
               ENDDO
-              DMINF(i,j,DEAD_BC) = xDedBC
 
-C 'DMCAP' PREVENTS IMMENSE NUMBERS OF INFECTIONS IN A "MESH" VOLUME OF CANOPY.
-
-              x = DMINF(i,j,ACTIVE) + DMINF(i,j,SUPRSD)
-     >          + DMINF(i,j,DEAD_BC)
+              xPrv = DMINF(i,j,ACTIVE) + DMINF(i,j,SUPRSD)
               DO L = 1,MAXBC
-                x = x + DMINF_BC(i,j,ACTIVE,L) + DMINF_BC(i,j,SUPRSD,L)
+                xPrv = xPrv + DMINF_BC(i,j,SUPRSD,L) +
+     >                        DMINF_BC(i,j,ACTIVE,L)
               ENDDO
-              IF (x .GT. DMCAP(ISPC)) THEN
-                y = DMCAP(ISPC) / x
-                DMINF(i,j,SUPRSD) = DMINF(i,j,SUPRSD) * y
-                DMINF(i,j,ACTIVE) = DMINF(i,j,ACTIVE) * y
+
+              New = xPrv + (DMCAP(ISPC) - xPrv) *
+     >          (1.0 - EXP((-1.0/DMCAP(ISPC)) * (xNow-xPrv)))
+
+              IF(DEBUG) WRITE(JOSTND,5) New, xNow
+    5         FORMAT('DMCYCL-5; New= ', F10.6, ', xNow= ', F10.6)
+
+              tf1 = .false.
+              tf2 = .false.
+
+              IF(DEBUG) WRITE(JOSTND,6) tf1, tf2
+    6         FORMAT('DMCYCL-6; tf1= ', L6, ' tf2= ', L6)
+
+c              tf1 = isnan(New/xNow)
+c              IF(DEBUG) WRITE(JOSTND,7) tf1
+c    7         FORMAT('DMCYCL-7; tf1= ', L6)
+
+c              x = New/xNow
+c              tf2 = isnan(x)
+c              IF(DEBUG) WRITE(JOSTND,8) tf2
+c    8         FORMAT('DMCYCL-8 isnan= ', L6)
+
+              if (xNow > DMTINY) then
+                x = New/xNow
+              else
+                x = 1.0
+              endif
+
+              IF(DEBUG) WRITE(JOSTND,9) x
+    9         FORMAT('DMCYCL-9; x= ', F10.6)
+
+              xImm = xImm * x
+              xLat = xLat * x
+              xSpr = xSpr * x
+              xAct = xAct * x
+              DO L = 1,MAXBC
+                xImmBC(L) = xImmBC(L) * x
+                xLatBC(L) = xLatBC(L) * x
+                xSprBC(L) = xSprBC(L) * x
+                xActBC(L) = xActBC(L) * x
+              ENDDO
+              xDedBC = xDedBC * x
+
+C             After the one-time spinup period, adjust the pools so that they 
+C             agree with the inventory.
+              x = 1.0
+              if (m .eq. Spin .and. .not. ZpDn) then
+                xNow = xAct + xSpr
                 DO L = 1,MAXBC
-                  DMINF_BC(i,j,SUPRSD,L) = DMINF_BC(i,j,SUPRSD,L) * y
-                  DMINF_BC(i,j,ACTIVE,L) = DMINF_BC(i,j,ACTIVE,L) * y
+                  xNow = xNow + xActBC(L) + xSprBC(L)
                 ENDDO
-                DMINF(i,j,DEAD_BC) = DMINF(i,j,DEAD_BC) * y
-              END IF
+                if (xNow > DMTINY) then
+                  x = xOriginal(i,j)/xNow
+                else
+                  x = 1.0
+                endif
+                
+c                if (isnan(x)) then
+c                  x = 1.0
+c                endif
+              endif
+
+C             WRITE THE TEMPORARY VALUES BACK TO PERMANENT VARIABLES
+              DMINF(i,j,IMMAT)  = xImm * x
+              DMINF(i,j,LATENT) = xLat * x
+              DMINF(i,j,SUPRSD) = xSpr * x
+              DMINF(i,j,ACTIVE) = xAct * x
+              DO L = 1,MAXBC
+                DMINF_BC(i,j,IMMAT,L)  = xImmBC(L) * x
+                DMINF_BC(i,j,LATENT,L) = xLatBC(L) * x
+                DMINF_BC(i,j,SUPRSD,L) = xSprBC(L) * x
+                DMINF_BC(i,j,ACTIVE,L) = xActBC(L) * x
+              ENDDO
+              DMINF(i,j,DEAD_BC) = xDedBC * x
 
             ENDDO     ! end of j CRTHRD loop
-          ENDDO     ! end of i3 loop
-   99   CONTINUE  ! end of 99 ISPC loop
-      ENDDO     ! end of IFINT year loop (cycle or cycle + Spinup)
+          ENDDO     ! end of i tree loop
+   99   ENDDO     ! end of ISPC/99 species loop
+      ENDDO     ! end of m IFINT year loop (cycle or cycle + Spinup)
+      ZpDn = .TRUE.
 
-      ZPDn = .TRUE.
-
+      IF(DEBUG) WRITE(JOSTND,999)
+  999 FORMAT('DMCYCL-999: leaving sub')
+      
       RETURN
       END

@@ -1682,7 +1682,8 @@ C
       SELECT CASE (VARACD)
 C
         CASE ('SN')
-          ITOPD8=1
+C  Updates to fvsvol.f now allow for this option in R8 (Q1 2023)
+          ITOPD8=0
 C
         CASE DEFAULT
           ITOPD8=0
@@ -1933,7 +1934,9 @@ C
       SELECT CASE (VARACD)
 C
         CASE ('SN')
-          ITOPD8=1
+C          ITOPD8=1
+C  Updates to fvsvol.f now allow for this option in R8 (Q1 2023)
+          ITOPD8=0
 C
         CASE DEFAULT
           ITOPD8=0

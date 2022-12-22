@@ -35,6 +35,33 @@ C    2020/12/21 Added volume correction factor for small tree (DBH<6) total cubi
         ERRFLAG = 4
         RETURN
       ENDIF
+
+c     Initialize local variables DW 11/22
+      A=0.0
+      B=0.0
+      C=0.0
+      BA=0.0
+      CVTS=0.0
+      TATS=0.0
+      TARIF=0.0
+      TV=0.0
+      CV4=0.0
+      R64=0.0
+      CV6=0.0
+      B6=0.0
+      BCU1=0.0
+      SV6=0.0
+      BCU2=0.0
+      IV6=0.0
+      R84=0.0
+      CV8=0.0
+      RS86=0.0
+      SV8=0.0
+      RI86=0.0
+      IV8=0.0
+      CVSL=0.0
+      SCFT=0.0
+      XINIT=0.0
     
       IF((voleq(3:3) .eq. '0') .or. (voleq(3:3) .eq. 'O') .or.
      +   (voleq(3:3) .eq. 'o')) THEN

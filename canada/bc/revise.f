@@ -1,9 +1,7 @@
       SUBROUTINE REVISE (VAR,REV)
       IMPLICIT NONE
 C----------
-C CANADA-BC $Id$
-C----------
-C    $$ DON'T CHANGE THIS DATE UNLESS THE SUBROUTINE LOGIC CHANGES.
+C CANADA-BC
 C----------
 C
 C  THIS ROUTINE PROVIDES THE LATEST REVISION DATE FOR EACH VARIANT
@@ -16,12 +14,8 @@ C----------
 C---------------------------
 C NORTH IDAHO -> INTERIOR BC
 C---------------------------
-      SELECT CASE (VAR)
-        CASE('BC')
-          REV = '10/01/12'
-        CASE DEFAULT
-          REV = 'UNKNOWN '
-      END SELECT
 C
+      VAR=VAR
+      REV="20221118"
       RETURN
       END

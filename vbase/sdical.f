@@ -109,10 +109,11 @@ C     SET NUMBER OF INVENTORY POINTS IN DATA AND INITIALIZE ARRAY
 C     TO STORE BA BY SPECIES AND POINT
 
       NPNT = INT(PI)
-      DO 21 I=1,MAXSP
-        DO 21 II=1,(NPNT+10)   ! initialize for up to 10 unregistered plots
+      DO I=1,MAXSP
+        DO II=1,(NPNT+10)   ! initialize for up to 10 unregistered plots
           BAXPSP(I,II) = 0.0
-   21 CONTINUE
+        END DO
+      END DO
 
       IF(ITRN .LE. 0) GO TO 55
       DO 30 II=1,ITRN

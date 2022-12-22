@@ -386,18 +386,18 @@
 ../strp/estump.f
 ../strp/esuckr.f
 
-../volume/BEQINFO.INC
-../volume/BEQREFINFO.INC
-../volume/BIOEQCOEF.INC
-../volume/BIOEQINFO.INC
-../volume/R8CFO.INC
-../volume/R8CLIST.INC
-../volume/R8CLKCOEF.INC
-../volume/R8DIB.INC
-../volume/R8VLIST.INC
-../volume/R9COEFF.INC
-../volume/REGNDFTDATA.INC
-../volume/WDBKWTDATA.INC
+../volume/beqinfo.inc
+../volume/beqrefinfo.inc
+../volume/bioeqcoef.inc
+../volume/bioeqinfo.inc
+../volume/r8cfo.inc
+../volume/r8clist.inc
+../volume/r8clkcoef.inc
+../volume/r8dib.inc
+../volume/r8vlist.inc
+../volume/r9coeff.inc
+../volume/regndftdata.inc
+../volume/wdbkwtdata.inc
 
 ../vvolume/fvsvol.f
 ../vvolume/twigbf.f

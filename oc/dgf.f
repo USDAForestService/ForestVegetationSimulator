@@ -338,7 +338,7 @@ C----------
 C  RELATIVE DENSITY (ZEIDI) ON THE POINT
 C  CONSTRAIN RD IF NEEDED
       IF (XMAXPT(ITRE(I)).LE.0.0) THEN
-        PRD = 0.01
+        PRD = 0.0
       ELSE
         PRD = ZRD(ITRE(I)) / XMAXPT(ITRE(I))
       ENDIF
