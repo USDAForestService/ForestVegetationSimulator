@@ -99,16 +99,16 @@ c     second growth submodel
 c                                            Set counter for regional adjs
 c                               Check for regional modifications requested
       JRSP=JSP - 30
-	!SPRUCE AND HEMLOCK USE SAME MODEL FORM
-	IF(JRSP .EQ. 4) JRSP = 3  
-	IF(JRSP .EQ. 5 .OR. JRSP.EQ.6) JRSP = 4  
+      !SPRUCE AND HEMLOCK USE SAME MODEL FORM
+      IF(JRSP .EQ. 4) JRSP = 3  
+      IF(JRSP .EQ. 5 .OR. JRSP.EQ.6) JRSP = 4  
 
 c     Check for spruce hemlock second growth sub-model
-	IF(JRSP.EQ.3 .AND. GEOCODE.EQ.'01') THEN
+      IF(JRSP.EQ.3 .AND. GEOCODE.EQ.'01') THEN
          F(25,JRSP) = SUBF(1)
-	   F(34,JRSP) = SUBF(2)
-	   F(42,JRSP) = SUBF(3)
-	ENDIF
+         F(34,JRSP) = SUBF(2)
+         F(42,JRSP) = SUBF(3)
+      ENDIF
 
       DMEDIAN = f(10,JRSP) *(HT-4.5)**(f(11,JRSP)+f(12,JRSP)*HT)
       DFORM = DBHIB/DMEDIAN -1.0d0
@@ -230,8 +230,8 @@ C     SPRUCE HEMLOCK SECOND GROWTH
 
       BH = 4.5
       JSPR = JSP - 30
-	IF(JSPR .EQ. 4) JSPR = 3
-	IF(JSPR .EQ. 5 .OR. JSPR.EQ.6) JSPR = 4  
+      IF(JSPR .EQ. 4) JSPR = 3
+      IF(JSPR .EQ. 5 .OR. JSPR.EQ.6) JSPR = 4  
       
       Q1=V(1, JSPR)
       Q2=V(2, JSPR)
@@ -365,8 +365,8 @@ C     SPRUCE HEMLOCK SECOND GROWTH
 
 
       JSPR = JSP - 30
-	IF(JSPR .EQ. 4) JSPR = 3
-	IF(JSPR .EQ. 5 .OR. JSPR.EQ.6) JSPR = 4  
+      IF(JSPR .EQ. 4) JSPR = 3
+      IF(JSPR .EQ. 5 .OR. JSPR.EQ.6) JSPR = 4  
 
 c     coef 1-16 are coef 61 to 76 in coef file
       VA00 = V(1, JSPR)
@@ -478,6 +478,7 @@ c     Note:  coefficients are from SF_SET2 (possibly file BARKBHC2.COE)
       REAL DBHIB,HTTOT,DBHOB
 
 c                                       Use Global or regional Lead coef ?
+C Function only called from SF_SHP.F  if JSP GE 31, LE 36), JSPR will alway be 1-6
       JSPR = JSP - 30
 
       IF(JSPR == 1) THEN

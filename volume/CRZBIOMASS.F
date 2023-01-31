@@ -338,6 +338,10 @@ C to Diameter at Breast Height. WJAF 14(1), 1999
          Pied = 0
          Quga = 0
          stm = 1
+C Add initialization of drcp, prcq 01/2023 DW
+         drcp = 0
+         drcq = 0 
+         
          IF(FCLASS.GT.1) stm = 0
 C        Pinyon pine species         
          IF(SPCD.EQ.106.OR.SPCD.EQ.133.OR.SPCD.EQ.134

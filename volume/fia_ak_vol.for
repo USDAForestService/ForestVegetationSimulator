@@ -14,11 +14,18 @@
      & ERRFLG)
       CHARACTER*10 VOLEQ
       REAL DBHOB,HTTOT,MTOPP,BFMIND,VOL(15)
-      INTEGER ERRFLG,SPN,I,J
+      INTEGER ERRFLG,SPN
       REAL CV4,CV6,CV8,DBH,THT,CVTS,TOP
       VOL = 0.0
       DBH = DBHOB
       THT = HTTOT
+
+C Added initialization of variables 01/2023 DW
+      CV4  = 0
+      CV6  = 0
+      CV8  = 0
+      CVTS = 0
+
       IF(DBH.LT.1.0.OR.THT.LT.0.0) RETURN
       IF(BFMIND.LT.0.1) BFMIND = 9.0
       IF(MTOPP.LT.0.1) MTOPP = 6.0
@@ -183,10 +190,16 @@ C I added a 1 foot cylinder the size of DBH outside bark to approximate volume t
       CHARACTER*10 VOLEQ
       REAL DBHOB,HTTOT,MTOPP,BFMIND,VOL(15)
       INTEGER ERRFLG,SPN,I,J
-      REAL CV4,SV6,IV,DBH,HT,TOP
+      REAL CV4,CV6,IV,DBH,HT,TOP
       VOL = 0.0
       DBH = DBHOB
       HT = HTTOT
+
+C Added initialization of variables 01/2023 DW
+      CV4 = 0
+      CV6 = 0
+      IV  = 0
+      
       IF(DBH.LT.1.0.OR.HT.LT.0.0) RETURN
       IF(BFMIND.LT.0.1) BFMIND = 9.0
       IF(MTOPP.LT.0.1) MTOPP = 6.0
@@ -324,7 +337,7 @@ C I added a 1 foot cylinder the size of DBH outside bark to approximate volume t
         MLOGS = INT((MHT-STUMP)/16.3)
 !--  Compute and accumulate whole log volumes
         HTUP = STUMP
-        DO 10 I = 1,MLOGS
+        DO 10 I = 1,INT(MLOGS)
           HTUP = HTUP+16.3
           RELHT = (HT - HTUP) / (HT - 4.5)
           CALL RELATIVE_DIA(SPN,DBH,HT,RELHT,GEOSUB,RELD)

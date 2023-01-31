@@ -807,7 +807,8 @@ C      IMPLICIT DOUBLE PRECISION (A-H, O-Z)
       DATA U11, U12, U2/ 3.3372438d0, -4.0010883d0, -2.2145198d0/
 
       IENTRY=1  
-      BH = 4.5       
+      BH = 4.5      
+       
 20     IF (H.gt. BH) then
              T = (H-BH)/(HTTOT-BH) 
            else
