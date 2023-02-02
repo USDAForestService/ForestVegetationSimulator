@@ -9,6 +9,11 @@ C  DEVELOPED BY DONNELLY, FMSC. WRITES FIA SPECIES CODE/FVS SPECIES
 C  CODE TRANSLATION TABLE
 C  THIS SUBROUTINE FOLLOWS SE-TWIGS SUBROUTINES BLOCK1, CONV1, AND
 C  CONV2.
+C
+C Note: This version of sitset.f has been replaced Q2 2023 to update
+C       Merchantability specifications for National Forests in NC, 
+C       per FSH 2409.18 Ch 50 Supplement R8_NC_2409.18-2022-1
+C       ** DELETE THIS FILE ONCE ALL TESTING HAS BEEN COMPLETE **
 C----------
 COMMONS
 C
@@ -381,44 +386,22 @@ C
       IF(IREGN.EQ.8)THEN
         IF(DBHMIN(ISPC).LE.0.)THEN                 !SET **DBHMIN** DEFAULT
           IF((ISPC.LE.17).OR.(ISPC.EQ.88))THEN   !SOFTWOODS
-            IF(IFOR.EQ.11)THEN
-              IF((KODIST.EQ.3).OR.(KODIST.EQ.10))THEN
-                DBHMIN(ISPC)=5.6
-              ELSE 
-                DBHMIN(ISPC)=8.0
-              ENDIF
-            ELSE  
-              IF((ISPC.EQ.7).OR.(ISPC.EQ.13))THEN
-                DBHMIN(ISPC)=6.
-              ELSE
-                DBHMIN(ISPC)=4.
-              ENDIF
+            IF((ISPC.EQ.7).OR.(ISPC.EQ.13))THEN
+              DBHMIN(ISPC)=6.
+            ELSE
+              DBHMIN(ISPC)=4.
             ENDIF
           ELSE                                   !HARDWOODS
-            IF(IFOR.EQ.11)THEN
-              IF((KODIST.EQ.3).OR.(KODIST.EQ.10))THEN
-                DBHMIN(ISPC)=6.
-              ELSE
-                DBHMIN(ISPC)=8.
-              ENDIF
-            ELSE  
-              IF((ISPC.EQ.39).OR.(ISPC.EQ.43).OR.(ISPC.EQ.44).OR.
-     &           (ISPC.EQ.52).OR.(ISPC.EQ.53).OR.(ISPC.EQ.55).OR.
-     &           (ISPC.EQ.63))THEN
-                DBHMIN(ISPC)=6.
-              ELSE
-                DBHMIN(ISPC)=4.
-              ENDIF
+            IF((ISPC.EQ.39).OR.(ISPC.EQ.43).OR.(ISPC.EQ.44).OR.
+     &         (ISPC.EQ.52).OR.(ISPC.EQ.53).OR.(ISPC.EQ.55).OR.
+     &         (ISPC.EQ.63))THEN
+              DBHMIN(ISPC)=6.
+            ELSE
+              DBHMIN(ISPC)=4.
             ENDIF
           ENDIF
         ENDIF
-        IF(TOPD(ISPC).LE.0.)THEN              !SET **TOPD** DEFAULT
-          IF(IFOR.EQ.11)THEN
-            TOPD(ISPC)=3.5
-          ELSE
-            TOPD(ISPC)=4.
-          ENDIF
-        ENDIF
+        IF(TOPD(ISPC).LE.0.)TOPD(ISPC)=4.        !SET **TOPD** DEFAULT
         IF(BFMIND(ISPC).LE.0.)THEN                 !SET **BFMIND** DEFAULT
           IF((ISPC.LE.17).OR.(ISPC.EQ.88))THEN   !SOFTWOODS
             SELECT CASE(IFOR)
@@ -428,54 +411,18 @@ C
               ELSE
                 BFMIND(ISPC)=10.
               ENDIF
-            CASE(11)
-              IF((KODIST.EQ.3).OR.(KODIST.EQ.10))THEN
-                BFMIND(ISPC)=11.0
-              ELSEIF((ISPC.EQ.2).OR.(ISPC.EQ.12).OR. ! SYP, SPRUCE, FIR GROUP
-     &               (ISPC.EQ.15).OR.(ISPC.EQ.16).OR.(ISPC.EQ.17))THEN
-                BFMIND(ISPC)=12.
-              ELSE
-                BFMIND(ISPC)=10.
-              ENDIF
             CASE DEFAULT
               BFMIND(ISPC)=10.
             END SELECT
           ELSE                                   !HARDWOODS
-            IF(IFOR.EQ.11)THEN
-              IF((KODIST.EQ.3).OR.(KODIST.EQ.10))THEN
-                BFMIND(ISPC)=13.
-              ELSE
-                BFMIND(ISPC)=15.
-              ENDIF
-            ELSE
-              BFMIND(ISPC)=12.
-            ENDIF
+            BFMIND(ISPC)=12.
           ENDIF
         ENDIF
         IF(BFTOPD(ISPC).LE.0.)THEN                 !SET **BFTOPD** DEFAULT
           IF((ISPC.LE.17).OR.(JSP(ISPC)(1:2).EQ.'OS'))THEN
-            IF(IFOR.EQ.11)THEN
-              IF((KODIST.EQ.3).OR.(KODIST.EQ.10))THEN
-                BFTOPD(ISPC)=6.3
-              ELSEIF((ISPC.EQ.2).OR.(ISPC.EQ.12).OR. ! SYP, SPRUCE, FIR GROUP
-     &               (ISPC.EQ.15).OR.(ISPC.EQ.16).OR.(ISPC.EQ.17))THEN
-                BFTOPD(ISPC)=9.
-              ELSE
-                BFTOPD(ISPC)=6.3
-              ENDIF
-            ELSE
-              BFTOPD(ISPC)=7.
-            ENDIF
-          ELSE                                       !HARDWOODS
-            IF(IFOR.EQ.11)THEN
-              IF((KODIST.EQ.3).OR.(KODIST.EQ.10))THEN
-                BFTOPD(ISPC)=8.
-              ELSE
-                BFTOPD(ISPC)=11.
-              ENDIF
-            ELSE
-              BFTOPD(ISPC)=9.
-            ENDIF
+            BFTOPD(ISPC)=7.
+          ELSE
+            BFTOPD(ISPC)=9.
           ENDIF
         ENDIF
       ELSE                                     !REGION 9

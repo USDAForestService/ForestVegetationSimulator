@@ -545,6 +545,8 @@ C  calc Tip volume and save to VOL(15)
       IF(STUMP.LE.0) STUMP = 1.0
 C  calc stump DIB
       HTUP = STUMP
+C  this line traps cases where the calls to calcdia2 do not return a DIB.
+      DIB = -1.0
       IF((REGN.EQ.9.OR.(VOLEQ(1:1).EQ.'8'.AND.VOLEQ(3:3).EQ.'1'))
      + .AND.HTTOT.EQ.0)THEN
 c        UPSHT1=HT1PRD
@@ -560,7 +562,7 @@ c        UPSD2 = MTOPS
      &    DRCOB,HTTOT,UPSHT1,UPSHT2,UPSD1,UPSD2,HTREF,AVGZ1,
      &    AVGZ2,FCLASS,DBTBH,BTR,HTUP,DIB,DOB,ERRFLAG)   
       ENDIF
-     
+C sometimes DIB is not computed or is returned as a negative number.
       IF(DIB.GT.0.0) VOL(14)=0.005454154*DIB**2*STUMP
       ENDIF  !end stump vol calc
 C  If stump DIB is not calculated, use the following to calculate stump VOL         
