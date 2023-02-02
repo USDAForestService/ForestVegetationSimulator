@@ -36,9 +36,13 @@ fvsGetEventMonitorVariables(c("myaba","another"))
 # get and output tree attributes
 fvsGetTreeAttrs(treeAttrs)
 
+fvsSetSpeciesAttrs(list(baimult=rep(1.1,fvsGetDims()["maxspecies"]),
+                        mortmult=rep(.9,fvsGetDims()["maxspecies"])))
+
 # get and set some species attributes
-spAttrs = fvsGetSpeciesAttrs(c("spsdi","spccf","spsiteindx"))
+spAttrs = fvsGetSpeciesAttrs(c("baimult","spsdi","spccf","spsiteindx"))
 spAttrs
+
 rtn = fvsSetSpeciesAttrs(spAttrs)
 cat ("rtn = ",rtn,"\n")
 
