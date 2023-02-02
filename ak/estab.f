@@ -1,7 +1,7 @@
       SUBROUTINE ESTAB (KDT)
       IMPLICIT NONE
 C----------
-C AK $Id: estab.f 3617 2021-05-28 17:02:44Z lancedavid $
+C AK estab.f
 C----------
 C
 COMMONS
@@ -68,7 +68,7 @@ C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa          0.5 FT
 C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis 0.5 FT
 C   4     TA   tamarack            071  LALA   Larix laricina            0.5 FT
 C   5     WS   white spruce        094  PIGL   Picea glauca              0.5 FT
-C   6     LS   Lutz’s spruce            PILU   Picea lutzii              0.5 FT
+C   6     LS   Lutzâ€™s spruce            PILU   Picea lutzii              0.5 FT
 C   7     BE   black spruce        095  PIMA   Picea mariana             0.5 FT
 C   8     SS   Sitka spruce        098  PISI   Picea sitchensis          0.5 FT
 C   9     LP   lodgepole pine      108  PICO   Pinus contorta            1.0 FT
@@ -84,7 +84,7 @@ C  18     BA   balsam poplar       741  POBA2  Populus balsamifera       1.0 FT
 C  19     AS   quaking aspen       746  POTR5  Populus tremuloides       1.0 FT
 C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa       1.0 FT
 C  21     WI   willow species      920  SALIX  Salix species             1.0 FT
-C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana         1.0 FT
+C  22     SU   Scoulerâ€™s willow    928  SASC   Salix scouleriana         1.0 FT
 C  23     OH   other hardwoods     998  2TD                              1.0 FT
 C----------
 C  VARIABLE DECLARATIONS:
