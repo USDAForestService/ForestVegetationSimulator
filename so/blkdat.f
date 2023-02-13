@@ -209,7 +209,7 @@ C    30 = CURL-LEAF MOUNTAIN MAHOGANY (MC) CERCOCARPUS LEDIFOLIUS
 C                                          (FROM WC)
 C    31 = BIRCHLEAF MOUNTAIN MAHOGANY (MB) CERCOCARPUS MONTANUS VAR 
 C                                          GLABER (FROM WC)
-C    32 = OTHER SOFTWOOD            (OS)   DOUGLAS-FIR (DF) (FROM SO)
+C    32 = OTHER SOFTWOOD            (OS)   DOUGLAS-FIR (DF) (FROM SO) updated to 299 02/2022
 C    33 = OTHER HARDWOOD            (OH)   MISC. HARDWOOD (FROM WC)
 
 C----------
@@ -223,7 +223,7 @@ C
      &'119','117','202','015','264','081','108','093','021','122',
      &'064','017','019','011','022','101','073','242','263','231',
      &'352','351','312','746','747','768','815','920','431','475',
-     &'478','298','998'/
+     &'478','299','998'/
 C
       DATA PLNJSP /
      & 'PIMO3 ','PILA  ','PSME  ','ABCO  ','TSME  ',
