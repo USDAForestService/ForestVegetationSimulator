@@ -700,53 +700,53 @@ C     Utah juniper,          Western Larch,         Incense cedar,       Brewer 
 C     White bark pine,       Knobcone pine,         Foxtail pine,        Lodgepole pine,      Coulter pine,
 C     Limber pine,           Jeffrey pine,          Sugar pine,          Western white pine,  Ponderosa pine,
 C     Monterey pine,         Grey pine,             Singleleaf pinyon,   Washoe pine,         Great Basin bristlecone pine
-C     Bigcone Douglas-fir,   Douglas-fir,
-C     Redwood,               Giant sequoia,         Pacific yew,         Western red cedar,   California nutmeg, 
-C     Western hemlock,       Mountain hemlock,      Other softwoods,     Koa,                 Bigleaf maple,
-C     California buckeye,    Red alder,             White alder          Pacific madrone,     Golden chinkapin, 
-C     Curl-leaf Mtn Mahogany,Birchleaf Mtn Mahogany,Pacific dogwood,     Eucalyptus,          Oregon Ash,
-C     Walnut,                Tanoak,                Ohia,                California sycamore, Quacking aspen, 
-C     Black cottonwood,      Bitter Cherry,         California live oak, Canyon live oak,     Blue oak, 
-C     Engelmann's oak,       Oregon white oak,      California black oak,California white oak,Interior live oak,
-C     Willow,                California laurel,     Other hardwoods,     unkown
+C     Bigcone Douglas-fir,   Douglas-fir,           Redwood,             Giant sequoia,       Pacific yew,
+C     Western red cedar,     California nutmeg,     Western hemlock,     Mountain hemlock,    Other softwoods,     
+C     Bigleaf maple,         California buckeye,    Red alder,           White alder          Pacific madrone,     
+C     Golden chinkapin,      Curl-leaf Mtn Mahogany,Birchleaf Mtn Mahogany,Pacific dogwood,   Oregon Ash,
+C     Walnut,                Tanoak,                California sycamore, Quacking aspen,      Black cottonwood,  
+C     Bitter Cherry,         California live oak,   Canyon live oak,     Blue oak,            Engelmann's oak,       
+C     Oregon white oak,      California black oak,  California white oak,Interior live oak,   Willow,                
+C     California laurel,     Other hardwoods,       unkown
 
-      DATA (FIA(I),I=1,32)/   11,   15,   17,   19,   20,
+C     Sharpnack equations removed as well as references to koa, eucalyptus, Ohia
+
+      DATA (FIA(I),I=1,68)/   11,   15,   17,   19,   20,
      >                        21,   22,   41,   62,   64,
      >                        65,   73,   81,   92,   93,
-     >                       101,  103,  104,  108,  109,
+     >                       101,  103,  104,  108,  109, ! 20
      >                       113,  116,  117,  119,  122,
      >                       124,  127,  133,  137,  142,
-     >                       201,  202/  
-      DATA (FIA(I),I=33,71)/ 211,  212,  231,  242,  251,
-     >                       263,  264,  299,  301,  312,
-     >                       333,  351,  352,  361,  431,
-     >                       475,  478,  492,  510,  542,
-     >                       600,  631,  671,  730,  746, 
-     >                       747,  768,  801,  805,  807,
-     >                       811,  815,  818,  821,  839,
-     >                       920,  981,  998,  999/
-
+     >                       201,  202,  211,  212,  231,  
+     >                       242,  251,  263,  264,  299, ! 40
+     >                       312,  333,  351,  352,  361,  
+     >                       431,  475,  478,  492,  542,
+     >                       600,  631,  730,  746,  747,  
+     >                       768,  801,  805,  807,  811, ! 60
+     >                       815,  818,  821,  839,  920,  
+     >                       981,  998,  999/
+     
       DATA (EQNUM(I),I=1,102)/
      >'500WO2W015','500WO2W015','500WO2W015','500WO2W020','500WO2W020',
      >'500WO2W020','500WO2W020','500WO2W081','500DVEW060','500DVEW060',
      >'500DVEW060','500WO2W202','500WO2W081','500WO2W015','500WO2W015',
-     >'500WO2W108','500WO2W108','500WO2W108','500WO2W108','500WO2W108',
+     >'500WO2W108','500WO2W108','500WO2W108','500WO2W108','500WO2W108',  ! 20
      >'500WO2W108','500WO2W116','500WO2W117','500WO2W117','500WO2W122',
      >'500WO2W108','500WO2W108','500WO2W116','500WO2W117','500WO2W108',
-     >'500WO2W202','500WO2W202','500WO2W211','500DVEW212','500WO2W108',
-     >'500WO2W081','500DVEW807','500WO2W015','500WO2W015','500WO2W108',
+     >'500WO2W202','500WO2W202','500WO2W211','500DVEW212','500WO2W108', 
+     >'500WO2W081','500DVEW807','500WO2W015','500WO2W015','500WO2W108',  ! 40
      >'500DVEW312','500DVEW807','500DVEW351','500DVEW351','500DVEW361',
-     >'500DVEW431','500DVEW801','500DVEW801','500DVEW807','500DVEW807',
+     >'500DVEW431','500DVEW801','500DVEW801','500DVEW807','500DVEW807',  
      >'500DVEW818','500DVEW631','500DVEW818','500DVEW818','500DVEW818',
-     >'500DVEW801','500DVEW801','500DVEW805','500DVEW807','500DVEW811',
+     >'500DVEW801','500DVEW801','500DVEW805','500DVEW807','500DVEW811',  ! 60
      >'500DVEW815','500DVEW818','500DVEW821','500DVEW839','500DVEW807',
      >'500DVEW981','500DVEW981','500DVEW631','532WO2W015','532WO2W020',
      >'532WO2W081','532WO2W108','532WO2W117','532WO2W122','532WO2W202',
-     >'532WO2W020','532WO2W202','532WO2W081','532WO2W116','616BEHW000',
+     >'532WO2W020','532WO2W202','532WO2W081','532WO2W116','616BEHW000',  ! 80
      >'532WO2W108','532WO2W122','532WO2W211','532WO2W117','532WO2W015',
      >'516TRFW015','532TRFW015','516TRFW021','532TRFW021','516TRFW060',
      >'532TRFW060','516TRFW081','532TRFW081','516TRFW108','532TRFW108',
-     >'516TRFW117','532TRFW117','516TRFW122','532TRFW122','516TRFW202',
+     >'516TRFW117','532TRFW117','516TRFW122','532TRFW122','516TRFW202',  ! 100
      >'616TRFW211','632TRFW211'/
 C
 C  SEARCH FOR VALID EQUATION NUMBER
@@ -766,81 +766,9 @@ C
 C
       READ(FORST,'(I2)')FORNUM
       DONE = 0
-C     white fir
-c      IF(SPEC.EQ.15)THEN
-c          IF((VAR.EQ.'CA').OR.(VAR.EQ.'ca').OR.
-c     &       (VAR.EQ.'OC').OR.(VAR.EQ.'oc'))THEN
-c              IF((FORNUM.EQ.5).OR.(FORNUM.EQ.6).OR.
-c     >           (FORNUM.EQ.8).OR.(FORNUM.EQ.14))THEN
-C                 VOLEQ=EQNUM(72)
-c              DONE=72
-c              ENDIF
-c          ENDIF
-C     California red fir
-c      ELSEIF(SPEC.EQ.20)THEN
-c          IF((VAR.EQ.'CA').OR.(VAR.EQ.'ca').OR.
-c     &       (VAR.EQ.'OC').OR.(VAR.EQ.'oc'))THEN
-c              IF((FORNUM.EQ.5).OR.(FORNUM.EQ.6).OR.
-c     >           (FORNUM.EQ.8).OR.(FORNUM.EQ.14))THEN
-C                 VOLEQ=EQNUM(73)
-c              DONE=73
-c              ENDIF
-c          ENDIF
-C     incense cedar
-c      ELSEIF(SPEC.EQ.81)THEN
-c          IF((VAR.EQ.'CA').OR.(VAR.EQ.'ca').OR.
-c     &       (VAR.EQ.'OC').OR.(VAR.EQ.'oc'))THEN
-c              IF((FORNUM.EQ.5).OR.(FORNUM.EQ.6).OR.
-c     >           (FORNUM.EQ.8).OR.(FORNUM.EQ.14))THEN
-C                 VOLEQ=EQNUM(74)
-c                  DONE=74
-c              ENDIF
-c          ENDIF
-C     Whitebark pine
-      IF(SPEC.EQ.101) THEN
-          IF(VAR.EQ.'SO' .OR. VAR.EQ.'so') THEN
-               DONE=30
-          ELSE
-               DONE=40   
-          ENDIF
-C     lodgepole pine
-c      ELSEIF(SPEC.EQ.108)THEN
-c          IF((VAR.EQ.'CA').OR.(VAR.EQ.'ca').OR.
-c     &       (VAR.EQ.'OC').OR.(VAR.EQ.'oc'))THEN
-c              IF((FORNUM.EQ.5).OR.(FORNUM.EQ.6).OR.
-c     >           (FORNUM.EQ.8).OR.(FORNUM.EQ.14))THEN
-c              DONE=75
-c              ENDIF
-c          ENDIF
-C     sugar pine
-c      ELSEIF(SPEC.EQ.117)THEN
-c          IF((VAR.EQ.'CA').OR.(VAR.EQ.'ca').OR.
-c     &       (VAR.EQ.'OC').OR.(VAR.EQ.'oc'))THEN
-c              IF((FORNUM.EQ.5).OR.(FORNUM.EQ.6).OR.
-c     >           (FORNUM.EQ.8).OR.(FORNUM.EQ.14))THEN
-c                 DONE=76
-c              ENDIF
-c          ENDIF
-C     ponderosa pine
-c      ELSEIF(SPEC.EQ.122)THEN
-c          IF((VAR.EQ.'CA').OR.(VAR.EQ.'ca').OR.
-c     &       (VAR.EQ.'OC').OR.(VAR.EQ.'oc'))THEN
-c              IF((FORNUM.EQ.5).OR.(FORNUM.EQ.6).OR.
-c     >           (FORNUM.EQ.8).OR.(FORNUM.EQ.14))THEN
-c                 DONE=77
-c              ENDIF
-c          ENDIF
-C     Douglas fir
-c      ELSEIF(SPEC.EQ.202)THEN
-c          IF((VAR.EQ.'CA').OR.(VAR.EQ.'ca').OR.
-c     &       (VAR.EQ.'OC').OR.(VAR.EQ.'oc'))THEN
-c              IF((FORNUM.EQ.5).OR.(FORNUM.EQ.6).OR.
-c     >           (FORNUM.EQ.8).OR.(FORNUM.EQ.14))THEN
-c                 DONE=78
-c              ENDIF
-c          ENDIF
+
 C     other softwoods
-      ELSEIF(SPEC.EQ.299 .OR. SPEC.EQ.290) THEN
+      IF(SPEC.EQ.299 .OR. SPEC.EQ.290) THEN
           IF(VAR.EQ.'SO' .OR. VAR.EQ.'so') THEN
               DONE=30
           ELSEIF(VAR.EQ.'NC' .OR. VAR.EQ.'nc') THEN
@@ -851,17 +779,17 @@ C     other softwoods
 C     other hardwoods
       ELSEIF(SPEC.EQ.998.) THEN
           IF(VAR.EQ.'SO' .OR. VAR.EQ.'so') THEN
-              DONE=70
-          ELSEIF(VAR.EQ.'WS' .OR. VAR.EQ.'ws') THEN
               DONE=67
+          ELSEIF(VAR.EQ.'WS' .OR. VAR.EQ.'ws') THEN
+              DONE=64
           ELSEIF(VAR.EQ.'NC' .OR. VAR.EQ.'nc') THEN
-              DONE=70
+              DONE=67
           ELSE
-              DONE=60
+              DONE=57
           ENDIF
-C      ELSE
        ENDIF
-       LAST = 71
+
+       LAST = 68
 
        FIRST = 1
 
@@ -2371,7 +2299,7 @@ C     8134, 8135, 8112
       DATA TONEQN /
      > 'A00F32W260','A00F32W260','A00F32W042','A00DVEW094','A00DVEW094',
      > 'A00DVEW094','A00DVEW094','A00F32W098','A00F32W260','A00F32W242',
-     > 'A00F32W260','A00F32W260','A00DVEW094','A32CURW351','A32CURW351',
+     > 'A00F32W260','A00F32W260','A00DVEW094','A00DVEW747','A32CURW351',
      > 'A00DVEW375','A00DVEW375','A00DVEW747','A00DVEW375','A00DVEW747',
      > 'A00DVEW747','A00DVEW747','A00DVEW747'/
 
@@ -2380,7 +2308,7 @@ C     7402, 7403, 7404, 7405, 7406, 7407, 7408
       DATA CHUEQN /
      > 'A01DEMW000','A01DEMW000','A00DVEW094','A00DVEW094','A00DVEW094',
      > 'A00DVEW094','A00DVEW094','A00F32W098','A01DEMW000','A01DEMW000',
-     > 'A00F32W260','A01DEMW000','A00DVEW094','A32CURW351','A32CURW351',
+     > 'A00F32W260','A01DEMW000','A00DVEW094','A00DVEW747','A32CURW351',
      > 'A00DVEW375','A00DVEW375','A00DVEW747','A00DVEW375','A00DVEW747',
      > 'A00DVEW747','A00DVEW747','A00DVEW747'/
 

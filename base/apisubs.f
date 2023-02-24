@@ -228,6 +228,12 @@ c
       case ("special")
         if (action=="get") attr = ispecl(:ntrees)
         if (action=="set") ispecl(:ntrees) = int(attr,4)     
+      case ("kutkod")
+        if (action=="get") attr = kutkod(:ntrees)
+        if (action=="set") kutkod(:ntrees) = int(attr,4)     
+      case ("wk6")
+        if (action=="get") attr = wk6(:ntrees)
+        if (action=="set") wk6(:ntrees) = real(attr,4)   
       case default
         rtnCode = 1
         attr = 0

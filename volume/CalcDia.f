@@ -9,7 +9,7 @@
 ! YW 2016/01/13 Added BTR default value for Region 3 Santa Fe forest DF and PP
 !  CalcDia.f90 
 !  FUNCTIONS/SUBROUTINES exported from VOLLIB.dll:
-!	CALCDIA      - subroutine 
+!  CALCDIA      - subroutine 
 !
       subroutine CALCDIA(REGN,FORST,VOLEQ,STUMP,DBHOB,
      &    DRCOB,HTTOT,UPSHT1,UPSHT2,UPSD1,UPSD2,HTREF,AVGZ1,
@@ -55,7 +55,7 @@ C **************************************************************
       REAL HTTOT,HTUP,MHT,MTOPP,UHT,CUVOL
       REAL DBHOB,DRCOB,DBTBH,BTR,STUMP,TOP6
       INTEGER FCLASS
-!	  3RD POINT VARIABLES
+!    3RD POINT VARIABLES
       REAL UPSD1,UPSD2,UPSHT1,UPSHT2,AVGZ1,AVGZ2    
       INTEGER HTREF
 !     OUTPUTS
@@ -113,8 +113,8 @@ C **************************************************************
         ELSEIF (VOLEQ(4:6).EQ.'CZ3' .OR. VOLEQ(4:6).EQ.'cz3') THEN
 !        initialize Czaplewski three point model
          IF(HTTOT.LE.4.5)THEN
-  	         ERRFLAG = 4
-	         GOTO 1000
+           ERRFLAG = 4
+           GOTO 1000
          ENDIF
          UHT = HTTOT * 0.95
          if(UPSHT1.LE.0 .or. UPSD1.LE.0) THEN 
@@ -132,8 +132,8 @@ C **************************************************************
         ELSE
 !C       CHECK FOR TOTAL TREE HEIGHT
         IF(HTTOT.LE.4.5)THEN
-	     ERRFLAG = 4
-	     GOTO 1000
+          ERRFLAG = 4
+          GOTO 1000
         ENDIF
       ENDIF
 ! GET THE DIAMETERS
@@ -206,13 +206,13 @@ C YW 04/04/2017
       INTEGER      REGN,ERRFLAG 
       
 !   Tree variables
-      REAL 		HTTOT,HTUP,DIB,DOB 
-      REAL 		DBHOB,DRCOB,DBTBH,BTR,STUMP  
+      REAL HTTOT,HTUP,DIB,DOB 
+      REAL DBHOB,DRCOB,DBTBH,BTR,STUMP  
       INTEGER   FCLASS 
     
-!	3RD POINT VARIABLES
+!  3RD POINT VARIABLES
       REAL      UPSD1,UPSD2,UPSHT1,UPSHT2,AVGZ1,AVGZ2    
-      INTEGER 	HTREF
+      INTEGER   HTREF
       
       DBHOB = REAL(DBHOB_d)
       HTTOT = REAL(HTTOT_d)
@@ -258,13 +258,13 @@ C YW 11/29/2018
       INTEGER      REGN,ERRFLAG 
       
 !   Tree variables
-      REAL 		HTTOT,HTUP,DIB,DOB 
-      REAL 		DBHOB,DRCOB,DBTBH,BTR,STUMP  
+      REAL      HTTOT,HTUP,DIB,DOB 
+      REAL      DBHOB,DRCOB,DBTBH,BTR,STUMP  
       INTEGER   FCLASS 
     
-!	3RD POINT VARIABLES
+!  3RD POINT VARIABLES
       REAL      UPSD1,UPSD2,UPSHT1,UPSHT2,AVGZ1,AVGZ2    
-      INTEGER 	HTREF
+      INTEGER   HTREF
       
       DBHOB = REAL(DBHOB_d)
       HTTOT = REAL(HTTOT_d)
@@ -415,8 +415,8 @@ c         White fir model
            JSP = 27
         ELSE IF(SPEC.EQ.'746')THEN
 c         Aspen model
-	     JSP = 28
-	  ELSE
+          JSP = 28
+      ELSE
           ERRFLAG = 1
           RETURN
         ENDIF
@@ -481,17 +481,17 @@ c         Western Red Cedar
           ELSE IF(SPEC.EQ.'098') THEN
 c         Spruce
             IF(GEOSUB.EQ.'02') THEN
-	        JSP=35
+              JSP=35
             ELSE
               JSP = 33
-	      ENDIF
+            ENDIF
           ELSE IF(SPEC.EQ.'263'.OR.SPEC.EQ.'260'.OR.SPEC.EQ.'264') THEN
 c         Hemlock
             IF(GEOSUB.EQ.'02') THEN
-	        JSP=36
+              JSP=36
             ELSE
               JSP = 34
-    	      ENDIF
+            ENDIF
           ELSE
             ERRFLAG = 1
             RETURN

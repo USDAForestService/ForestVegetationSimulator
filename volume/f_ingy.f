@@ -309,7 +309,7 @@ c                                     Move all coed to JRSP=10
                F(I, JRSP) = F(I, 23)                            
  24          continue
            else
-	       geotemp = geosub
+             geotemp = geosub
              DO 25 I=10,47
                 F(I, JRSP) = F(I, JSP)                            
  25          continue
@@ -1283,7 +1283,7 @@ c
 c                                         One of the two above-BH models
          if (B(1) .eq. 0.0) then
             DR = MIN( DOB/DBH , 1.0 ) 
-	!exponential underflow check
+!exponential underflow check
             if(dr .lt. 0.07) dr = 0.07   
             DBT = DBT_BH * (
      >            ( DR*(B(2)-1.0) / (B(2) - DR**B(3)))
