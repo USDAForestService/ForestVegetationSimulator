@@ -67,7 +67,7 @@ c                                      R3 PONDEROSA PINE
       C3 = BK(6,JSPR)
       D0 = BK(7,JSPR)
       D1 = BK(8,JSPR)
-	D2 = BK(9,JSPR)
+      D2 = BK(9,JSPR)
 
 c**********************************************************************
 C      IF(HT2.LT.(THT-2.0)) THEN
