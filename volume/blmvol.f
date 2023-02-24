@@ -27,8 +27,10 @@ C **************************************************************
       CHARACTER*10 VOLEQ
       CHARACTER*1 COR, HTTYPE
 
-      INTEGER EVOD,NUMSEG,OPT,TAPEQU,FCLASS,ERRFLAG,I,J,lcnt
-      INTEGER PROFILE, bfpflg,cupflg,tlogs,ITAPER
+      INTEGER EVOD,NUMSEG,OPT,TAPEQU,FCLASS,ERRFLAG,I,J
+      INTEGER PROFILE, bfpflg,cupflg,tlogs
+C Temporary comment out of apparent unused variables, delete after test comfirms - 01/2023 DW      
+C      INTEGER ITAPER, lcnt
 
       REAL DBHOB,DIB,DBHIB,LOGVOL(7,20),MTOPP,D2
       REAL HTTOT,TTH,D17,TLH,LENGTH,MERCHL,HALFLOG,DIBL,DIBS
@@ -61,11 +63,12 @@ C     ALL OTHER SPECIES
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 90) ' -->Enter BLMVOL'
    90    FORMAT (A)   
-   		   
+
          WRITE  (LUDBG, 100)'  VOLEQ     MTOPP HTTOT HT1PRD DBHOB 
      &    HTTYPE FCLASS'
 100      FORMAT (A)
-  		   WRITE  (LUDBG, 104)VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
+
+         WRITE  (LUDBG, 104)VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
      &                       FCLASS
 104      FORMAT(A, 1X, F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 5X, A, 
      &          1X, I5)
@@ -73,7 +76,8 @@ C     ALL OTHER SPECIES
          WRITE  (LUDBG, 300)'TLOGS NOLOGP NOLOGS BFPFLG CUPFLG
      &                        ERRFLAG'
   300    FORMAT (A)
-  		   WRITE  (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,BFPFLG,CUPFLG,
+
+         WRITE  (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,BFPFLG,CUPFLG,
      &                         ERRFLAG
   320    FORMAT(1X, I2, 2X, F5.1, 2X, F5.1, 2X, A, 1X, I5, I5, 1X,I5)
       ENDIF
@@ -106,12 +110,12 @@ C   SET ALL POTENTIAL VOLUMES AND AVG NUM OF LOGS TO ZERO
 C   IF DBHOB OR HT EQUALS ZERO THEN DON'T CALCULATE THE VOLUME
 
       IF(DBHOB.LE. 0.0) THEN
-          ERRFLAG = 3
+        ERRFLAG = 3
       ENDIF
      
       IF(FCLASS .LE. 0) THEN
-          ERRFLAG = 2
-	    GO TO 1000
+        ERRFLAG = 2
+        GO TO 1000
       ENDIF
 
 
@@ -148,130 +152,130 @@ c         itaper = 0
 c         IF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B01'
 c     >               .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
 c            TAPEQU = ITAPER
-c	      PROFILE = 1
+c            PROFILE = 1
 c         ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B01'
 c     >               .AND. ITAPER .EQ. 0) THEN
 c            TAPEQU = 1
-c	      PROFILE = 1
+c            PROFILE = 1
 c         ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B02'
 c     >               .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
 c            TAPEQU = ITAPER
-c	      PROFILE = 2
+c            PROFILE = 2
 c         ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B02'
 c     >               .AND. ITAPER .EQ. 0) THEN
 c            TAPEQU = 2
-c	      PROFILE = 2
+c            PROFILE = 2
 c         ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B03'
 c     >                .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
 c            TAPEQU = ITAPER
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B03'
 c     >               .AND. ITAPER .EQ. 0) THEN
 c            TAPEQU = 3
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B04')THEN
 c            TAPEQU = 4
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'211')THEN
 c            TAPEQU = 5
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B05')THEN
 c            TAPEQU = 6
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'122' .AND. VOLEQ(1:3).EQ.'B01')THEN
 c            TAPEQU = 10
-c	      PROFILE = 3
+c            PROFILE = 3
 c         ELSEIF(VOLEQ(8:10).EQ.'122' .AND. VOLEQ(1:3).EQ.'B00')THEN
 c            TAPEQU = 11 
-c	      PROFILE = 3
+c            PROFILE = 3
 c         ELSEIF(VOLEQ(8:10).EQ.'116')THEN
 c            TAPEQU = 12 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'117')THEN
 c            TAPEQU = 13 
-c	      PROFILE = 4
+c            PROFILE = 4
 c         ELSEIF(VOLEQ(8:10).EQ.'119')THEN
 c            TAPEQU = 14 
-c	      PROFILE = 5
+c            PROFILE = 5
 c         ELSEIF(VOLEQ(8:10).EQ.'108')THEN
 c            TAPEQU = 15 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'231')THEN
 c            TAPEQU = 20 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'631')THEN
 c            TAPEQU = 21 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'351')THEN
 c            TAPEQU = 22 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'998')THEN
 c            TAPEQU = 23 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'312')THEN
 c            TAPEQU = 24 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'361')THEN
 c            TAPEQU = 25 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'431')THEN
 c            TAPEQU = 26 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'542')THEN
 c            TAPEQU = 27 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'747')THEN
 c            TAPEQU = 28 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'800')THEN
 c            TAPEQU = 29 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'015' .AND. VOLEQ(1:3).EQ.'B01')THEN
 c            TAPEQU = 30
-c	      PROFILE = 6
+c            PROFILE = 6
 c         ELSEIF(VOLEQ(8:10).EQ.'015' .AND. (VOLEQ(1:3).EQ.'B00' .OR. 
 c     >                  VOLEQ(1:3).EQ.'B02'))THEN
 c            TAPEQU = 31 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'021')THEN
 c            TAPEQU = 32
-c	      PROFILE = 7
+c            PROFILE = 7
 c         ELSEIF(VOLEQ(8:10).EQ.'017')THEN
 c            TAPEQU = 33 
-c	      PROFILE = 6
+c            PROFILE = 6
 c         ELSEIF(VOLEQ(8:10).EQ.'011')THEN
 c            TAPEQU = 34 
-c	      PROFILE = 7
+c            PROFILE = 7
 c         ELSEIF(VOLEQ(8:10).EQ.'022')THEN
 c            TAPEQU = 35 
-c	      PROFILE = 7
+c            PROFILE = 7
 c         ELSEIF(VOLEQ(8:10).EQ.'093')THEN
 c            TAPEQU = 41 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'098')THEN
 c            TAPEQU = 42 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'260' .OR. VOLEQ(8:10).EQ.'263')THEN
 c            TAPEQU = 48 
-c	      PROFILE = 8
+c            PROFILE = 8
 c         ELSEIF(VOLEQ(8:10).EQ.'081')THEN
 c            TAPEQU = 51 
-c	      PROFILE = 9
+c            PROFILE = 9
 c         ELSEIF(VOLEQ(8:10).EQ.'042')THEN
 c            TAPEQU = 52             
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'041')THEN
 c            TAPEQU = 53 
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ELSEIF(VOLEQ(8:10).EQ.'242')THEN
 c            TAPEQU = 54 
-c	      PROFILE = 9
+c            PROFILE = 9
 c         ELSEIF(VOLEQ(8:10).EQ.'073')THEN
 c            TAPEQU = 55 
-c	      PROFILE = 9
+c            PROFILE = 9
 c         ELSE
 c            TAPEQU = 56
-c	      PROFILE = 10
+c            PROFILE = 10
 c         ENDIF
       ENDIF
 
@@ -391,7 +395,8 @@ c check for half logs
               WRITE  (LUDBG, 400)'  DBHOB   TTH    TLH     HGT2   D17'
      &        //'   MTOPP  HTLOG  D2   PROFILE'
 400            FORMAT (A)
-  		         WRITE  (LUDBG, 420)DBHOB,TTH,TLH,HGT2,D17,MTOPP,HTLOG,
+
+               WRITE  (LUDBG, 420)DBHOB,TTH,TLH,HGT2,D17,MTOPP,HTLOG,
      >         D2, PROFILE
 420            FORMAT(9F7.1) 
             ENDIF
@@ -937,130 +942,130 @@ C **************************************************************
          IF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B01'
      >               .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
             TAPEQU = ITAPER
-	      PROFILE = 1
+            PROFILE = 1
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B01'
      >               .AND. ITAPER .EQ. 0) THEN
             TAPEQU = 1
-	      PROFILE = 1
+            PROFILE = 1
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B02'
      >               .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
             TAPEQU = ITAPER
-	      PROFILE = 2
+            PROFILE = 2
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B02'
      >               .AND. ITAPER .EQ. 0) THEN
             TAPEQU = 2
-	      PROFILE = 2
+            PROFILE = 2
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B03'
      >                .AND. ITAPER .GT. 0 .AND. ITAPER .LT.4) THEN
             TAPEQU = ITAPER
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B03'
      >               .AND. ITAPER .EQ. 0) THEN
             TAPEQU = 3
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B04')THEN
             TAPEQU = 4
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'211')THEN
             TAPEQU = 5
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'202' .AND. VOLEQ(1:3).EQ.'B05')THEN
             TAPEQU = 6
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'122' .AND. VOLEQ(1:3).EQ.'B01')THEN
             TAPEQU = 10
-	      PROFILE = 3
+            PROFILE = 3
          ELSEIF(VOLEQ(8:10).EQ.'122' .AND. VOLEQ(1:3).EQ.'B00')THEN
             TAPEQU = 11 
-	      PROFILE = 3
+            PROFILE = 3
          ELSEIF(VOLEQ(8:10).EQ.'116')THEN
             TAPEQU = 12 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'117')THEN
             TAPEQU = 13 
-	      PROFILE = 4
+            PROFILE = 4
          ELSEIF(VOLEQ(8:10).EQ.'119')THEN
             TAPEQU = 14 
-	      PROFILE = 5
+            PROFILE = 5
          ELSEIF(VOLEQ(8:10).EQ.'108')THEN
             TAPEQU = 15 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'231')THEN
             TAPEQU = 20 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'631')THEN
             TAPEQU = 21 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'351')THEN
             TAPEQU = 22 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'998')THEN
             TAPEQU = 23 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'312')THEN
             TAPEQU = 24 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'361')THEN
             TAPEQU = 25 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'431')THEN
             TAPEQU = 26 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'542')THEN
             TAPEQU = 27 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'747')THEN
             TAPEQU = 28 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'800')THEN
             TAPEQU = 29 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'015' .AND. VOLEQ(1:3).EQ.'B01')THEN
             TAPEQU = 30
-	      PROFILE = 6
+            PROFILE = 6
          ELSEIF(VOLEQ(8:10).EQ.'015' .AND. (VOLEQ(1:3).EQ.'B00' .OR. 
      >                  VOLEQ(1:3).EQ.'B02'))THEN
             TAPEQU = 31 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'021')THEN
             TAPEQU = 32
-	      PROFILE = 7
+            PROFILE = 7
          ELSEIF(VOLEQ(8:10).EQ.'017')THEN
             TAPEQU = 33 
-	      PROFILE = 6
+            PROFILE = 6
          ELSEIF(VOLEQ(8:10).EQ.'011')THEN
             TAPEQU = 34 
-	      PROFILE = 7
+            PROFILE = 7
          ELSEIF(VOLEQ(8:10).EQ.'022')THEN
             TAPEQU = 35 
-	      PROFILE = 7
+            PROFILE = 7
          ELSEIF(VOLEQ(8:10).EQ.'093')THEN
             TAPEQU = 41 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'098')THEN
             TAPEQU = 42 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'260' .OR. VOLEQ(8:10).EQ.'263')THEN
             TAPEQU = 48 
-	      PROFILE = 8
+            PROFILE = 8
          ELSEIF(VOLEQ(8:10).EQ.'081')THEN
             TAPEQU = 51 
-	      PROFILE = 9
+            PROFILE = 9
          ELSEIF(VOLEQ(8:10).EQ.'042')THEN
             TAPEQU = 52             
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'041')THEN
             TAPEQU = 53 
-	      PROFILE = 10
+            PROFILE = 10
          ELSEIF(VOLEQ(8:10).EQ.'242')THEN
             TAPEQU = 54 
-	      PROFILE = 9
+            PROFILE = 9
          ELSEIF(VOLEQ(8:10).EQ.'073')THEN
             TAPEQU = 55 
-	      PROFILE = 9
+            PROFILE = 9
          ELSE
             TAPEQU = 56
-	      PROFILE = 10
+            PROFILE = 10
          ENDIF      
       RETURN
       END

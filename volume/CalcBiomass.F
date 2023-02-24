@@ -534,7 +534,7 @@ C This subroutine return the species default weight factor for R
       INTEGER REGN,SPEC
       CHARACTER*2 FORST
       CHARACTER*12 BMSEQ(8), BIOEQ
-      CHARACTER*40 REF(8)
+      CHARACTER*48 REF(8)
       WF = 0.0
       CALL CRZSPDFT(REGN,FORST,SPEC,WF,BMSEQ,REF)
       

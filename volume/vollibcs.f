@@ -592,7 +592,7 @@ C________________________________________________________________________
       
       CHARACTER(2)   FORST
       CHARACTER(12)  BMSEQ(8), BEQ 
-      CHARACTER(40) REF(8)
+      CHARACTER(48) REF(8)
       
       FORST   = FORSTI(1:2)
       

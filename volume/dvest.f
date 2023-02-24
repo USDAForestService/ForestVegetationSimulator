@@ -137,13 +137,13 @@ C******************************
       
 C     ROUND ALL VOLUMES 10TH CUBIC AND CORD, NEAREST BDFT
       VOL(1) =  ANINT(VOL(1)*10.0)/10.0
-	VOL(2) = ANINT(VOL(2))
-	VOL(4) = ANINT(VOL(4)*10.0)/10.0
+      VOL(2) = ANINT(VOL(2))
+      VOL(4) = ANINT(VOL(4)*10.0)/10.0
       VOL(6) = ANINT(VOL(6)*1000.0)/1000.0
-	VOL(7) = ANINT(VOL(7)*10.0)/10.0
-	VOL(9) = ANINT(VOL(9)*1000.0)/1000.0
-	VOL(10) = ANINT(VOL(10))
+      VOL(7) = ANINT(VOL(7)*10.0)/10.0
+      VOL(9) = ANINT(VOL(9)*1000.0)/1000.0
+      VOL(10) = ANINT(VOL(10))
 
       RETURN
       END
-                                                                     
+

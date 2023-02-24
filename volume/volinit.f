@@ -8,9 +8,9 @@
 !...  Prepare parameters and data for call to appropriate volume
 !...  equations. 
 
-			USE CHARMOD
-			USE DEBUG_MOD
-            USE VOLINPUT_MOD
+      USE CHARMOD
+      USE DEBUG_MOD
+      USE VOLINPUT_MOD
       IMPLICIT NONE
 
 !REV  Created TDH 04/01/09 
@@ -40,7 +40,7 @@ C YW 2020/11/06 Changed the subroutine name to call FIA volume equations
       CHARACTER*10 VOLEQ,FIAVTYPE,GEOSUB,NVELEQ
       CHARACTER*3  MDL,SPECIES
       CHARACTER*2  DIST,VAR
-   
+
       CHARACTER*10 EQNUM
       INTEGER      SPEC
 
@@ -48,34 +48,50 @@ C YW 2020/11/06 Changed the subroutine name to call FIA volume equations
       INTEGER        REGN,HTTFLL,BA,SI
       REAL           STUMP,MTOPP,MTOPS,THT1,MAXLEN
       INTEGER        CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG,ERRFLAG
-      REAL         TIPDIB,TIPLEN
-      
+C Temporary comment out of apparent unused variables, delete after test comfirms - 01/2023 DW
+C      REAL         TIPDIB,TIPLEN
+
 !   Tree variables
-      REAL 			HTTOT,HT1PRD,HT2PRD,LEFTOV 
-      REAL 			DBHOB,DRCOB,DBTBH,BTR,CR,TRIM
+      REAL           HTTOT,HT1PRD,HT2PRD,LEFTOV 
+      REAL           DBHOB,DRCOB,DBTBH,BTR,TRIM
+C Temporary comment out of apparent unused variables, delete after test comfirms - 01/2023 DW
+C      REAL         CR      
       INTEGER        FCLASS,HTLOG,SPCODE, WHOLELOGS
     
-!	3RD POINT VARIABLES
+!   3RD POINT VARIABLES
       REAL           UPSD1,UPSD2,UPSHT1,UPSHT2,AVGZ1,AVGZ2    
-      INTEGER 			 HTREF
-    
+      INTEGER        HTREF
+
 !   OUTPUTS
       REAL           NOLOGP,NOLOGS
       INTEGER        TLOGS,IFORST, IDIST
-    
+
 !   ARRAYS
       INTEGER        I15,I21,I20,I7,I3,I,J
-      REAL 					 VOL(I15),LOGVOL(I7,I20)
-      REAL				   LOGDIA(I21,I3),LOGLEN(I20),BOLHT(I21)
+      REAL           VOL(I15),LOGVOL(I7,I20)
+      REAL           LOGDIA(I21,I3),LOGLEN(I20),BOLHT(I21)
 C  variables for stump dia and vol
       INTEGER SPN
-      REAL STUMPDIB, STUMPDOB, VOLIB, VOLOB    
-      REAL DIB,DOB,HTUP,MHT,FIAVOL,BFMIND
-      
+C Temporary comment out of apparent unused variables, delete after test comfirms - 01/2023 DW
+C      REAL         STUMPDIB,STUMPDOB, FIAVOL
+      REAL          VOLIB, VOLOB    
+      REAL DIB,DOB,HTUP,MHT,BFMIND
+
 c  test biomass calc variable
-      REAL WF(3), BMS(8)
-      INTEGER SPCD, FOREST 
-      
+      INTEGER FOREST 
+C Temporary comment out of apparent unused variables, delete after test comfirms - 01/2023 DW
+C      REAL WF(3), BMS(8)
+C      INTEGER SPCD
+
+C Initialize variables cleanup -DW 01/2023
+      FIAVTYPE = "          "
+      NVELEQ   = "          "
+      GEOSUB   = "          "
+      VOLIB    = 0.0
+      VOLOB    = 0.0
+      DIB      = 0.0
+      DOB      = 0.0
+
 C Test fiaeq2nveleq 2019/08/21
 !      CHARACTER*12 FIABEQ,NVELBEQ,GEOSUB2
 !      INTEGER BEQNUM,STEMS
@@ -90,8 +106,8 @@ C Test fiaeq2nveleq 2019/08/21
 !      CALL BiomassLibrary2(NVELBEQ,DBHOB,HTTOT,CR,HT1PRD, 
 !     + HT2PRD,TOPD,STEMS,VOL,BIOMS,ERRFLAG,SPN,GEOSUB2)
 !      CONTINUE
-          
- !********************************************************************
+
+!********************************************************************
 
 !=====================================================================
 
@@ -100,11 +116,11 @@ C Test fiaeq2nveleq 2019/08/21
 !--------versions of the call.  comment or uncomment to use------------
 !--------also need to comment/uncomment close at bottom----------------
 
- !     SPECIES = VOLEQ(8:10)
- !     READ(SPECIES,'(i3)') SPCODE
+!     SPECIES = VOLEQ(8:10)
+!     READ(SPECIES,'(i3)') SPCODE
 
- !     IF(SPCODE .EQ. 202 .AND. DBHOB .EQ. 10.0 .AND. 
- !    &     HTTOT == 90.0) THEN
+!     IF(SPCODE .EQ. 202 .AND. DBHOB .EQ. 10.0 .AND. 
+!    &     HTTOT == 90.0) THEN
 !      IF(VOLEQ .EQ.'F06FW2W202') THEN
 !        ANY_DEBUG = .TRUE.
 !        DEBUG%VOLEQ = .TRUE.
@@ -114,11 +130,11 @@ C Test fiaeq2nveleq 2019/08/21
 !        DEBUG%VOLEQ = .FALSE.
 !        DEBUG%MODEL = .FALSE.
 !      ENDIF
- !     ANY_DEBUG = .TRUE.
- !     DEBUG%MODEL = .TRUE.
+!     ANY_DEBUG = .TRUE.
+!     DEBUG%MODEL = .TRUE.
       IF (ANY_DEBUG) THEN
-	       OPEN (UNIT=LUDBG, FILE='Debug.txt', STATUS='UNKNOWN')
-	       WRITE (LUDBG,1)'Debugging NVEL'
+        OPEN (UNIT=LUDBG, FILE='Debug.txt', STATUS='UNKNOWN')
+        WRITE (LUDBG,1)'Debugging NVEL'
    1     FORMAT(A)
       END IF
       
@@ -128,21 +144,20 @@ C Test fiaeq2nveleq 2019/08/21
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 2) ' -->Enter VOLINIT'
     2    FORMAT (A)   
-   		END IF
-  
-  
-  
+      END IF
+
+
 !  VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,FCLASS,
 !     +               VOL,LOGDIA,LOGLEN,LOGVOL,TLOGS,NOLOGP,NOLOGS,
 !     +               CONSPEC, BFPFLG,CUPFLG,errflag
-  
-  
-  
-   		IF (DEBUG%MODEL) THEN
+
+
+
+      IF (DEBUG%MODEL) THEN
         WRITE  (LUDBG, 100)'FORST VOLEQ     MTOPP HTTOT HT1PRD DBHOB 
      &   HTTYPE FCLASS'
 100     FORMAT (A)
-  		  WRITE  (LUDBG, 104)FORST,VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
+        WRITE  (LUDBG, 104)FORST,VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
      +    FCLASS
 104     FORMAT(A,2X,A, 1X, F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 5X,
      &    A, 1X, I5)
@@ -151,7 +166,7 @@ C Test fiaeq2nveleq 2019/08/21
         WRITE (LUDBG, 300)'TLOGS NOLOGP NOLOGS CONSPEC 
      &    BFPFLG CUPFLG ERRFLAG'
   300   FORMAT (A)
-  		  WRITE (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,CONSPEC,BFPFLG,CUPFLG,
+        WRITE (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,CONSPEC,BFPFLG,CUPFLG,
      +    ERRFLAG
   320   FORMAT(1X, I2, 2X, F5.1, 2X, F5.1, 5X, A,1X, I5, I5, 1X,I5)
        ENDIF
@@ -193,7 +208,7 @@ C Test fiaeq2nveleq 2019/08/21
       IF(VOLEQREGN.EQ.'P'.OR.VOLEQREGN.EQ.'R'.OR.
      &   VOLEQREGN.EQ.'N'.OR.VOLEQREGN.EQ.'S') THEN
         GEOSUB = '0'
-        FIAVOL = 0.0
+C        FIAVOL = 0.0
         VOL = 0.0
 C       the default for stump and mtopp should be here for FIA equation (20190214)        
         IF(STUMP.EQ.0.0) STUMP = 1.0
@@ -236,7 +251,7 @@ c  save FCLASS value
       
       IF(FORST(2:2) .LT. '0') THEN
         FORST(2:2) = FORST(1:1)
-	    FORST(1:1) = '0'
+      FORST(1:1) = '0'
         IF(FORST(2:2) .LT. '0') FORST(2:2) = '0'
       ENDIF
       READ(FORST,'(i2)') IFORST
@@ -530,6 +545,8 @@ C  calc Tip volume and save to VOL(15)
       IF(STUMP.LE.0) STUMP = 1.0
 C  calc stump DIB
       HTUP = STUMP
+C  this line traps cases where the calls to calcdia2 do not return a DIB.
+      DIB = -1.0
       IF((REGN.EQ.9.OR.(VOLEQ(1:1).EQ.'8'.AND.VOLEQ(3:3).EQ.'1'))
      + .AND.HTTOT.EQ.0)THEN
 c        UPSHT1=HT1PRD
@@ -545,7 +562,7 @@ c        UPSD2 = MTOPS
      &    DRCOB,HTTOT,UPSHT1,UPSHT2,UPSD1,UPSD2,HTREF,AVGZ1,
      &    AVGZ2,FCLASS,DBTBH,BTR,HTUP,DIB,DOB,ERRFLAG)   
       ENDIF
-     
+C sometimes DIB is not computed or is returned as a negative number.
       IF(DIB.GT.0.0) VOL(14)=0.005454154*DIB**2*STUMP
       ENDIF  !end stump vol calc
 C  If stump DIB is not calculated, use the following to calculate stump VOL         
@@ -591,7 +608,7 @@ C YW R6 requests to use 102.4 for cuft to Cord 2020/03/18
         WRITE  (LUDBG, 100)'FORST VOLEQ     MTOPP HTTOT HT1PRD DBHOB 
      &   HTTYPE FCLASS'
 500     FORMAT (A)
-  		  WRITE  (LUDBG, 104)FORST,VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
+        WRITE  (LUDBG, 104)FORST,VOLEQ,MTOPP,HTTOT,HT1PRD,DBHOB,HTTYPE,
      +    FCLASS
 504     FORMAT(A,2X,A, 1X, F5.1, 1X, F5.1, 2X, F5.1, 2X, F5.1, 5X,
      &    A, 1X, I5)
@@ -600,7 +617,7 @@ C YW R6 requests to use 102.4 for cuft to Cord 2020/03/18
         WRITE (LUDBG, 300)'TLOGS NOLOGP NOLOGS CONSPEC 
      &    BFPFLG CUPFLG ERRFLAG'
   508   FORMAT (A)
-  		  WRITE (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,CONSPEC,BFPFLG,CUPFLG,
+        WRITE (LUDBG, 320)TLOGS,NOLOGP,NOLOGS,CONSPEC,BFPFLG,CUPFLG,
      +    ERRFLAG
   520   FORMAT(1X, I2, 2X, F5.1, 2X, F5.1, 5X, A,1X, I5, I5, 1X,I5)
        ENDIF
@@ -616,7 +633,7 @@ C YW R6 requests to use 102.4 for cuft to Cord 2020/03/18
       IF (DEBUG%MODEL) THEN
          WRITE  (LUDBG, 20) ' <--Exit VOLINIT'
    20    FORMAT (A//)   
-   		END IF
+      END IF
 
 !--------manual debugging code-----------------------------------------     
 
