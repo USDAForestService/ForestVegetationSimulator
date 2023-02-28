@@ -75,7 +75,7 @@ addtrees <- subset(addtrees,dbh<2)[,c("dbh","species","ht","cratio","plot","tpa"
 # these trees will be added to the run at 2013
 addtrees
 
-# add a yearloss and thindbh for 1993
+# add a yardloss and thindbh for 1993
 fvsAddActivity(1993,"base_yardloss",c(0.50, 0.70, 0.50))
 fvsAddActivity(1993,"base_thindbh",c(0.00,12.00,1.00,0.00,0.00))
 
@@ -86,7 +86,13 @@ fvsRun(6,2013)
 fvsAddTrees(addtrees)
 fvsGetTreeAttrs(treeAttrs)
 
-# continue the run
+# continyue the run until 2033, stoppoint 2, then simulate a harvest of 50% OF species 3
+fvsRun(2,2033)
+curTrees <- fvsGetTreeAttrs(c("species"))
+cut = ifelse(curTrees$species == 3, .5, 0)
+fvsCutNow(cut)
+
+## continue the run
 fvsRun(0,0)
 
 #get and output summary statistics
