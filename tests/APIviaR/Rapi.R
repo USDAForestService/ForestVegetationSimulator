@@ -21,10 +21,10 @@ fvsGetSpeciesCodes()
 # list supported activity codes
 fvsAddActivity()
 
+
 ## first run
 fvsSetCmdLine("--keywordfile=base.key")
 
-fvsRun(7,0)
 fvsRun(2,2030)
 fvsGetStandIDs()
 
@@ -72,7 +72,7 @@ fvsRun(2,1993)
 addtrees <- fvsGetTreeAttrs(treeAttrs) 
 addtrees <- subset(addtrees,dbh<2)[,c("dbh","species","ht","cratio","plot","tpa")]
 
-# these trees will be added to the run at 2013
+cat ("these trees will be added to the run at 2013\n")
 addtrees
 
 # add a yardloss and thindbh for 1993
@@ -118,5 +118,15 @@ rtn = fvsInteractRun(
         BeforeEstab= 'testInteract("BeforeEstab")', 
         SimEnd     = 'testInteract("SimEnd     ")')
 
+## test stop point 7
+fvsSetCmdLine("--keywordfile=base.key")
+fvsRun()
+sp7no=fvsGetSummary()
+fvsSetCmdLine("--keywordfile=base.key")
+fvsRun(7,0)
+fvsRun()
+sp7yes=fvsGetSummary()
+good=identical(sp7no,sp7yes)
+cat("stop point 7 test result=",good," (should be TRUE)\n")
 
 

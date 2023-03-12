@@ -50,15 +50,10 @@ C
 !DEC$ ATTRIBUTES DLLEXPORT, C, DECORATE, ALIAS : "FVS" :: FVS
 !DEC$ ATTRIBUTES REFERENCE :: IRTNCD
 
-Cx      INTEGER I,IA,N,K,NTODO,ITODO,IACTK,IDAT,NP                  !Remove these
       INTEGER I,IA,N,K
       REAL STAGEA,STAGEB
       LOGICAL DEBUG,LCVGO
       INTEGER IBA
-Cx      CHARACTER*150 SYSCMD                                        !Remove these
-Cx      INTEGER MYACT(1)                                            !Remove these
-Cx      REAL PRM(1)                                                 !Remove these
-Cx      DATA MYACT/100/                                             !Remove these
       INTEGER IRSTRTCD,ISTOPDONE,IRTNCD,ISTOPRES,lenCl
 C
 C     ******************     EXECUTION BEGINS     ******************
@@ -83,6 +78,7 @@ C     FIND THE RESTART, AND BRANCH AS REQUIRED
 
       call fvsRestart (IRSTRTCD)
       call fvsGetRtnCode(IRTNCD)
+      debug=.true.
       IF (DEBUG) WRITE(JOSTND,*) "In FVS, IRSTRTCD=",IRSTRTCD,
      >                           " IRTNCD=",IRTNCD
       if (IRTNCD.ne.0) return
@@ -164,12 +160,6 @@ C
 C     CALCULATE TREES/ACRE ( = LOAD PROB )
 C
       CALL NOTRE
-      CALL fvsStopPoint (7,ISTOPRES)
-      IF (ISTOPRES.NE.0) RETURN
-      CALL fvsGetRtnCode(IRTNCD)
-      IF (IRTNCD.NE.0) RETURN 
-C     BRANCH HERE IF RESTARTING FROM STOPCODE 7
-   19 CONTINUE
 C
 C     WESTERN ROOT DISEASE MODEL VER. 3.0 INITIALIZATION
 C
@@ -189,6 +179,15 @@ C     SET THE OPTION POINTERS FOR THE INITIALIZATION PHASE TO
 C     THE CYCLE-1 OPTIONS.
 C
       CALL OPCSET(ICYC)
+C
+C     PROCESS STOPPOINT 7
+      
+      CALL fvsStopPoint (7,ISTOPRES)
+      IF (ISTOPRES.NE.0) RETURN
+      CALL fvsGetRtnCode(IRTNCD)
+      IF (IRTNCD.NE.0) RETURN 
+C     BRANCH HERE IF RESTARTING FROM STOPCODE 7
+   19 CONTINUE
 C
 C     CALIBRATE GROWTH FUNCTIONS AND FILL GAPS
 C     SDICLS IS CALLED HERE SO CROWNS WILL DUB CORRECTLY IN VARIANTS
