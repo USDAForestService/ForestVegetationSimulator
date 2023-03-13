@@ -78,7 +78,7 @@ C     FIND THE RESTART, AND BRANCH AS REQUIRED
 
       call fvsRestart (IRSTRTCD)
       call fvsGetRtnCode(IRTNCD)
-      debug=.true.
+
       IF (DEBUG) WRITE(JOSTND,*) "In FVS, IRSTRTCD=",IRSTRTCD,
      >                           " IRTNCD=",IRTNCD
       if (IRTNCD.ne.0) return
