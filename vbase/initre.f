@@ -1112,6 +1112,11 @@ C
       ENDIF
       PRMS(1)=EFF
       IF (LNOTBK(2)) PRMS(1)=ARRAY(2)
+      IF (PRMS(1).LT.0.) THEN
+        CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
+        CALL ERRGRO (.TRUE.,4)
+        GOTO 10
+      ENDIF
       IF (LNOTBK(3)) THEN
          PRMS(2)=ARRAY(3)
          I=2

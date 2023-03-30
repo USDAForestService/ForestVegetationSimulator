@@ -21,10 +21,10 @@ fvsGetSpeciesCodes()
 # list supported activity codes
 fvsAddActivity()
 
+
 ## first run
 fvsSetCmdLine("--keywordfile=base.key")
 
-fvsRun(7,0)
 fvsRun(2,2030)
 fvsGetStandIDs()
 
@@ -36,9 +36,13 @@ fvsGetEventMonitorVariables(c("myaba","another"))
 # get and output tree attributes
 fvsGetTreeAttrs(treeAttrs)
 
+fvsSetSpeciesAttrs(list(baimult=rep(1.1,fvsGetDims()["maxspecies"]),
+                        mortmult=rep(.9,fvsGetDims()["maxspecies"])))
+
 # get and set some species attributes
-spAttrs = fvsGetSpeciesAttrs(c("spsdi","spccf","spsiteindx"))
+spAttrs = fvsGetSpeciesAttrs(c("baimult","spsdi","spccf","spsiteindx"))
 spAttrs
+
 rtn = fvsSetSpeciesAttrs(spAttrs)
 cat ("rtn = ",rtn,"\n")
 
@@ -68,10 +72,10 @@ fvsRun(2,1993)
 addtrees <- fvsGetTreeAttrs(treeAttrs) 
 addtrees <- subset(addtrees,dbh<2)[,c("dbh","species","ht","cratio","plot","tpa")]
 
-# these trees will be added to the run at 2013
+cat ("these trees will be added to the run at 2013\n")
 addtrees
 
-# add a yearloss and thindbh for 1993
+# add a yardloss and thindbh for 1993
 fvsAddActivity(1993,"base_yardloss",c(0.50, 0.70, 0.50))
 fvsAddActivity(1993,"base_thindbh",c(0.00,12.00,1.00,0.00,0.00))
 
@@ -82,7 +86,13 @@ fvsRun(6,2013)
 fvsAddTrees(addtrees)
 fvsGetTreeAttrs(treeAttrs)
 
-# continue the run
+# continyue the run until 2033, stoppoint 2, then simulate a harvest of 50% OF species 3
+fvsRun(2,2033)
+curTrees <- fvsGetTreeAttrs(c("species"))
+cut = ifelse(curTrees$species == 3, .5, 0)
+fvsCutNow(cut)
+
+## continue the run
 fvsRun(0,0)
 
 #get and output summary statistics
@@ -108,5 +118,15 @@ rtn = fvsInteractRun(
         BeforeEstab= 'testInteract("BeforeEstab")', 
         SimEnd     = 'testInteract("SimEnd     ")')
 
+## test stop point 7
+fvsSetCmdLine("--keywordfile=base.key")
+fvsRun()
+sp7no=fvsGetSummary()
+fvsSetCmdLine("--keywordfile=base.key")
+fvsRun(7,0)
+fvsRun()
+sp7yes=fvsGetSummary()
+good=identical(sp7no,sp7yes)
+cat("stop point 7 test result=",good," (should be TRUE)\n")
 
 
