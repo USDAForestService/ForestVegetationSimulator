@@ -51,6 +51,28 @@ C     VARIABLE DECLARATIONS.
       LOGICAL DEBUG
       INTEGER I,J
       REAL    WMULT,SAVWND,FLAME,BYRAM,RINIT1,CFB
+C
+C     INITIALIZE VARAIBLES THAT ARE NOT PASSED AS PARAMETERS.
+C
+      I      = 0
+      J      = 0
+      IRTNCD = 0
+      OLDND  = 0
+      OLDNL  = 0
+      B      = 0.0
+      BOUNDL = 0.0
+      BOUNDU = 0.0
+      BYRAM  = 0.0
+      CFB    = 0.0
+      DIFF   = 0.0
+      HPA2   = 0.0
+      HPA3   = 0.0
+      INIT1  = 0.0
+      FLAME  = 0.0
+      OLDEPT = 0.0
+      RACT   = 0.0
+      RINIT1 = 0.0
+      SAVWND = 0.0
 
       CALL DBCHK (DEBUG,'FMCFIR',6,ICYC)
       IF (DEBUG) WRITE(JOSTND,7) ICYC,FMOIS,CBD
