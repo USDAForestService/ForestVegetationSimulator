@@ -19,7 +19,7 @@ C SOUTHEAST ALASKA / COASTAL BRITISH COLUMBIA
 C----------
         CASE('AK')
         REV = '20230518'
-        
+
 C----------
 C BLUE MOUNTAINS
 C----------
@@ -31,7 +31,7 @@ C INLAND CALIFORNIA / SOUTHERN CASCADES
 C----------
         CASE('CA')
         REV = '20230518'
-
+        
 C----------
 C CENTRAL IDAHO
 C----------
