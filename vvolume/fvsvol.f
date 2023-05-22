@@ -37,7 +37,7 @@ C----------
       REAL FC,DBTBH,TVOL1,TVOL2,TVOL4,TVOL7,TDIBB,TDIBC
       REAL NOLOGP,NOLOGS
       REAL BOLHT(21),LOGLEN(20),TVOL(15)
-      REAL HT1PRD,HT2PRD,X1,MTOPP,MTOPS,STUMP,TOPDIAM
+      REAL HT1PRD,HT2PRD,MTOPP,MTOPS,STUMP,TOPDIAM
       REAL XTOPD,HTC1,HTC2
       REAL DRCOB,UPSHT1,UPSHT2,UPSD1,UPSD2,AVGZ1,AVGZ2
       LOGICAL TKILL,CTKFLG,BTKFLG,LCONE,DEBUG
@@ -173,7 +173,6 @@ C      I1=0     ! no longer in use a.o. 10/28/2022 to prevent address space poll
       I15=15    ! Dimension of VOL(x) array
       I20=20    ! second dimension of LOGVOL(,x) array, dimension of LOGLEN(x)
       I21=21    ! first dimension of LOGDIA(x,) array, dimension of BOLHT(x)
-C      X1=0.    ! no longer in use a.o. 10/28/2022 to prevent address space pollution
 
 C     Initialize independant volinit variables to prevent shared address space
       HTLOG = 0 ! Replaces I1 in position 11 of volinit call
@@ -248,8 +247,8 @@ C
      & 'CALLING VOLINIT CF ISPC,IREGN,FORST,VOLEQ = ',
      &                      ISPC,IREGN,FORST,VOLEQ
       IF(DEBUG)WRITE(JOSTND,*)
-     & '  TOPDIAM,MTOPS,STUMP,D,X1,HTTYPE,H,I1 = ',
-     &    TOPDIAM,MTOPS,STUMP,D,X1,HTTYPE,H,I1
+     & '  TOPDIAM,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
+     &    TOPDIAM,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1
       IF(DEBUG)WRITE(JOSTND,*)'  HT1PRD,HT2PRD,IFC,DBTBH,BARK = ',
      &                           HT1PRD,HT2PRD,IFC,DBTBH,BARK
       IF(DEBUG)WRITE(JOSTND,*)'  CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG = ',
@@ -352,7 +351,6 @@ C       I1=0 ! no longer in use a.o. 10/28/2022 to prevent address space polluti
         I15=15
         I20=20
         I21=21
-C       X1=0. ! no longer in use a.o. 10/28/2022 to prevent address space pollution
 
 C     Initialize independant volinit variables to prevent shared address space
       HTLOG = 0 ! Replaces I1 in position 11 of volinit call
@@ -410,8 +408,8 @@ C  CONSTANTS
      & 'CALLING VOLINIT BF ISPC,IREGN,FORST,VOLEQ = ',
      &                      ISPC,IREGN,FORST,VOLEQ
       IF(DEBUG)WRITE(JOSTND,*)
-     & '  MTOPP,MTOPS,STUMP,D,X1,HTTYPE,H,I1 = ',
-     &    MTOPP,MTOPS,STUMP,D,X1,HTTYPE,H,I1
+     & '  MTOPP,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
+     &    MTOPP,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1
       IF(DEBUG)WRITE(JOSTND,*)'  HT1PRD,HT2PRD,IFC,DBTBH,BARK = ',
      &                           HT1PRD,HT2PRD,IFC,DBTBH,BARK
       IF(DEBUG)WRITE(JOSTND,*)'  CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG = ',

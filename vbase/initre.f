@@ -399,7 +399,7 @@ C
      >    '; HABITAT TYPE=',I3,
      >    '; AGE=',I5,'; ASPECT AZIMUTH IN DEGREES= ',F4.0,
      >    '; SLOPE= ' ,F4.0,'%'/
-     >    T12,'ELEVATION(10''S FEET)=',F5.1,';  REFERENCE CODE= ',A4)
+     >    T12,'ELEVATION(100''S FEET)=',F5.1,';  REFERENCE CODE= ',A4)
 C
         CASE ('SN')
           WRITE(JOSTND,135) KODFOR,PCOM,
@@ -869,7 +869,7 @@ C
      >    '; HABITAT TYPE=',I3,
      >    '; AGE=',I5,'; ASPECT AZIMUTH IN DEGREES= ',F4.0,
      >    '; SLOPE= ',F4.0,'%'/
-     >    T12,'ELEVATION(10''S FEET)=',F5.1,'; REFERENCE CODE= ',A4)
+     >    T12,'ELEVATION(100''S FEET)=',F5.1,'; REFERENCE CODE= ',A4)
 C
         CASE ('SN')
           IF(LKECHO)WRITE(JOSTND,2413) KEYWRD,KODFOR,PCOM,
@@ -1112,6 +1112,11 @@ C
       ENDIF
       PRMS(1)=EFF
       IF (LNOTBK(2)) PRMS(1)=ARRAY(2)
+      IF (PRMS(1).LT.0.) THEN
+        CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
+        CALL ERRGRO (.TRUE.,4)
+        GOTO 10
+      ENDIF
       IF (LNOTBK(3)) THEN
          PRMS(2)=ARRAY(3)
          I=2
