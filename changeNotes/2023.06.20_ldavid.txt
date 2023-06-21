@@ -1,0 +1,39 @@
+Subject: New error (FVS40) - single record TPA exceeds 1000
+
+Name: Lance David
+
+Date: 06/20/2023
+
+Variants affected: All
+
+Description: When processing some input data sets, first noticed with FIA,
+             expanded TPA values for a single tree record can be extremely
+             high. This extreme TPA value can result in mathematical errors
+             first found in the calulation of potential flame length in FFE.
+             This error is actually handled by FVS as a warning and the
+             label "ERROR" is only used so that it will be reported by the
+             interface and obvious to the user in the event a terminal error
+             does occur. This error has two lines so that the offending tree
+             record can be identified and required first line be written by
+             errgro.f and second line written by notre.f where sample design
+             expansion factor(s) are applied to inventory tree records. The
+             error message written to main output file looks like this:
+
+             ********   FVS40 ERROR:  TREE RECORD REPRESENTING GREATER THAN 
+             1000 TPA ENCOUNTERD. MAY CAUSE MATHEMATICAL ERRORS.
+
+             ********   FVS40 ERROR:  TREE_ID=     5 TREE INDEX=   5 
+             SPECIES= 31 DIAMETER=  0.1 TPA=13320.00
+
+Impact on users: Users will be notified when tree records individually
+                 representing greater than 1000 TPA are encountered. This will
+                 be helpful if a matematical error does occur later in the
+                 projection. Otherwise, the user may ignore the message but
+                 should consider that 1000 trees or more behaving identially
+                 in a projection is appropriate.
+
+
+Files:
+base\errgro.f - Added FVS40 error.
+
+base\notre.f - Added second line of FVS40 error which identifies tree record
