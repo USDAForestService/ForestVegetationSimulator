@@ -10,6 +10,7 @@ C
 C  Parse out the info in the volume equation (volEq).  Check to see if 
 C  the specified measurements are reasonable.  Get coefficients and 
 C  merchantability rules for the specified species and product.
+!  2023/06/09 YW Set DIB17 = 0.1 when DIB17 is <= 0 to avoid divided by 0 error      
       
       USE DEBUG_MOD
       USE CLKCOEF_MOD
@@ -337,7 +338,7 @@ C-----Get top height and top DIB Oct 2022 Increase filter to 17.4' from 17.3 DW
         endif
 C               
         COEFFS%DIB17=dbhOb*(COEFFS%A17+COEFFS%B17*(17.3/topHt)**2)
-        IF(COEFFS%DIB17.LT.0.0) COEFFS%DIB17=0.0
+        IF(COEFFS%DIB17.LT.0.0) COEFFS%DIB17=0.1
 
         FCLSS = COEFFS%DIB17
         DBH = dbhOb
@@ -396,7 +397,7 @@ c        ENDIF
             endif
           ENDIF
          COEFFS%DIB17=dbhOb*(COEFFS%A17+COEFFS%B17*(17.3/topHt)**2)
-         IF(COEFFS%DIB17.LT.0.0) COEFFS%DIB17=0.0
+         IF(COEFFS%DIB17.LT.0.0) COEFFS%DIB17=0.1
           
          DBH=dbhOb
          HT2=topHt
@@ -494,7 +495,7 @@ c       if sawtimber topHt is provided, no recalc topHt. 11/15/2011 (yw)
         FCLSS = COEFFS%DIB17
         IF (FCLSS.LT.FIXDI79) FCLSS = FIXDI79
         COEFFS%DIB17 = FCLSS
-        IF(COEFFS%DIB17.LT.0.0) COEFFS%DIB17=0.0
+        IF(COEFFS%DIB17.LT.0.0) COEFFS%DIB17=0.1
         
       endif
       if(dbhOb.le.topDib) errFlg=11
