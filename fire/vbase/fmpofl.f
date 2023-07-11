@@ -489,6 +489,9 @@ C     SET THE VERTIAL PLOT SIZE
      >     FLM1,FLM2,AVHT,SSUM,P,PTR1,PTR2,CRIT,AVCBHT
 
       DOUBLE PRECISION Z,PT1,PT2,Q,PDF
+
+      LOGICAL CHKFLG
+
       PTR1=0.
       PTR2=0.
       AVCBHT=-1.
@@ -535,7 +538,14 @@ C        FIRST, DECIDE WHICH TREES ARE ON THE VIRTUAL PLOT...
          DO II=1,MXI
             I=INDX(II)
             CALL RANN(RAN)
-            IF (PRB(I).GT.1000. .OR. RAN .GT. EXP(-PRB(I)*PSIZE)) THEN
+            CHKFLG = .FALSE.
+            IF (PRB(I).GT.1000.) THEN
+               CHKFLG = .TRUE.
+            ELSE IF (RAN .GT. EXP(-PRB(I)*PSIZE)) THEN
+               CHKFLG = .TRUE.
+            ENDIF
+
+            IF (CHKFLG) THEN
                NYES=NYES+1
                YES(NYES)=I
 
