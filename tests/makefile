@@ -15,6 +15,8 @@ US : $(addsuffix .test,$(USDirs))
 
 clean : $(addsuffix .clean,$(TestDirs))
 
+clean_US : $(addsuffix .clean,$(USDirs))
+
 %.test : 
 	cd $(basename $@); ${MAKE} --ignore-errors
 
