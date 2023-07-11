@@ -76,7 +76,7 @@ C
          CALL ERRGRO (.TRUE.,40)
          WRITE(JOSTND,32) IDTREE(I),I,ISP(I),DBH(I),PROB(I)
    32    FORMAT(/,
-     &   '********   FVS40 ERROR:  TREE_ID=',I6,' TREE INDEX=',
+     &   '********   FVS40 WARNING:  TREE_ID=',I6,' TREE INDEX=',
      &   I4,' SPECIES=',I3,' DIAMETER=',F5.1,' TPA=',F8.2)
       ENDIF
 
