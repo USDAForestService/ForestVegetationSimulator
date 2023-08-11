@@ -1,0 +1,57 @@
+Subject: FIA Damage Agent codes for Dwarf Mistletoe and Root Disease
+
+Name: Lance David
+
+Date: 08/04/2023
+
+Variants affected: Western US variants including DM and RD extentions
+
+Description: FIA datasets prepared for FVS input contains FIA Damage Agent
+             codes for dwarf distletoe and root disease. The Dwarf Mistletoe
+             and Western Root Disease models damge code processing has been
+             updated to recognize the appropriate codes. The reference for
+             these codes was the FSVEG User Guide, Appendix K. Details of the
+             damage code processing are:
+
+             DWARF MISTLETOE
+             When a FIA dwarf mistletoe damage code representing Arceuthobium
+             is encountered, severity codes of 1-6 will be retained; otherwise,
+             the severity code will be set to 3. Hosts of DM differs by FVS
+             variant is controlled by the model to stay with specific host
+             species where encountered in the input data if the tree species is
+             specified as host in the model. If species is not specified as host
+             in the model, damage code will be ignored.
+             A significant difference with the handling of FVS codes (30-34) is
+             that the severity code of 0 is interpreted as tree that was
+             inspected for dwarf mistletoe and none was found; therefore, no
+             default severity code is assigned as with the FIA codes getting a
+             severity code of 3. This is to follow the historical field sampling
+             protocols as opposed to the FIA codes that are recorded if dwarf
+             mistletoe is found but severity is not recorded.
+
+             WESTERN ROOT DISEASE
+             Added new array for FIA Damage Agent codes (IFIADAM) which
+             parallels the existing array holding the FVS damage codes (IDAMC)
+             for represented root diseases. The IFIADAM array references were
+             added to the conditionals so that FVS codes are checked first and
+             then FIA codes. There are far more root disease agent codes in the
+             FIA list than represented by the Root Disease Model and only the
+             specific FIA codes are recognized. The RD model does recognize a
+             non-specific disease type and that is paired with the FIA code
+             21000. Severity code associated with root/butt disease with the
+             FIA datasets are always a 2.
+
+
+Impact on users: FIA Damage Agent codes for the specific agents recognized by
+                 Dwarf Mistletoe model and Western Root Disease model are now
+                 acknowleged by these FVS extentions.
+
+
+Files:
+mistoe\misdam.f - Added recognition of FIA codes (default severity is 3):
+                  23001, 23004, 23006, 23007, 23008, 23009, 23010, 23011,
+                  23012, 23013, 23014, 23015, 23016, 23017, 23021
+
+
+rd\rddam.f - Added recognition of FIA codes (severity code always 2):
+             21000, 21001, 21010, 21017

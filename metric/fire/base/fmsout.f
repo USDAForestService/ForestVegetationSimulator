@@ -1,7 +1,7 @@
       SUBROUTINE FMSOUT (IYR)
       IMPLICIT NONE
 C----------
-C METRIC-FIRE-BASE $Id$
+C METRIC-FIRE-BASE
 C----------
 *     SINGLE-STAND VERSION
 *     CALLED FROM: FMMAIN
@@ -296,10 +296,14 @@ C     the total heights and dbhs to get the class-averages.
   410       CONTINUE
   420    CONTINUE
   430 CONTINUE
+
+      inquire(unit=JSNOUT,opened=LOK)
+      if (LOK) close(unit=JSNOUT)
+
   500 CONTINUE
 
   999 CONTINUE
-     
+
       DEALLOCATE(TOTDH)
       DEALLOCATE(TOTDS)
       DEALLOCATE(TOTHTH)

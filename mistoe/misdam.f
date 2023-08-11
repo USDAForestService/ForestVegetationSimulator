@@ -1,6 +1,6 @@
       SUBROUTINE MISDAM(ITREE,ICODES)
 ***********************************************************************
-C MISTOE $Id$
+C MISTOE
 *----------------------------------------------------------------------
 *  Purpose:
 *     Processes damage codes to determine whether the tree in
@@ -66,11 +66,29 @@ C.... this routine).
 C.... Process damage codes.
 
       DO 100 J=1,5,2
-         IF(ICODES(J).EQ.30.OR.ICODES(J).EQ.31.OR.ICODES(J).EQ.32.
-     &      OR.ICODES(J).EQ.33.OR.ICODES(J).EQ.34) THEN
+         IF((ICODES(J).GE.30 .AND. ICODES(J).LE.34)) THEN 
             IMIST(ITREE)=ICODES(J+1)
             IF(IMIST(ITREE).GT.6) IMIST(ITREE)=6
             IF(IMIST(ITREE).LT.0) IMIST(ITREE)=0
+
+C....       PROCESS FIA DWARF MISTLETO DAMAGE CODES.
+C....       WHEN FIA CODES FOR ARCEUTHOBIUM ARE FOUND, THE
+C....       SEVERITY CODES 1 - 6 WILL BE RETAINED. OTHERWISE,
+C....       SEVERITY CODE 3 IS ASSIGNED.
+
+         ELSEIF (ICODES(J).EQ.23001 .OR. ICODES(J).EQ.23004
+     &      .OR. ICODES(J).EQ.23006 .OR. ICODES(J).EQ.23007
+     &      .OR. ICODES(J).EQ.23008 .OR. ICODES(J).EQ.23009
+     &      .OR. ICODES(J).EQ.23010 .OR. ICODES(J).EQ.23011
+     &      .OR. ICODES(J).EQ.23012 .OR. ICODES(J).EQ.23013
+     &      .OR. ICODES(J).EQ.23014 .OR. ICODES(J).EQ.23015
+     &      .OR. ICODES(J).EQ.23016 .OR. ICODES(J).EQ.23017
+     &      .OR. ICODES(J).EQ.23021) THEN
+            IF(ICODES(J+1).GE.1 .AND. ICODES(J+1).LE.6) THEN
+               IMIST(ITREE)=ICODES(J+1)
+            ELSE
+               IMIST(ITREE)=3
+            ENDIF
          ENDIF
   100 CONTINUE
 
