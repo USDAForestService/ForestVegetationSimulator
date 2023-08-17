@@ -28,14 +28,14 @@ C MISTOE $Id$
 *   3        YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
 *   4        TA   tamarack            071  LALA   Larix laricina
 *   5        WS   white spruce        094  PIGL   Picea glauca
-*   6        LS   Lutz’s spruce            PILU   Picea lutzii
+*   6        LS   Lutzï¿½s spruce            PILU   Picea lutzii
 *   7        BE   black spruce        095  PIMA   Picea mariana
 *   8        SS   Sitka spruce        098  PISI   Picea sitchensis
 *   9    dm  LP   lodgepole pine      108  PICO   Pinus contorta
 *  10        RC   western redcedar    242  THPL   Thuja plicata
 *  11    dm  WH   western hemlock     263  TSHE   Tsuga heterophylla
 *  12    dm  MH   mountain hemlock    264  TSME   Tsuga mertensiana
-*  13        OS   other softwoods     298  2TE
+*  13        OS   other softwoods     298  2TN
 *  14        AD   alder species       350  ALNUS  Alnus species
 *  15        RA   red alder           351  ALRU2  Alnus rubra
 *  16        PB   paper birch         375  BEPA   Betula papyrifera
@@ -44,8 +44,8 @@ C MISTOE $Id$
 *  19        AS   quaking aspen       746  POTR5  Populus tremuloides
 *  20        CW   black cottonwood    747  POBAT  Populus trichocarpa
 *  21        WI   willow species      920  SALIX  Salix species
-*  22        SU   Scouler’s willow    928  SASC   Salix scouleriana
-*  23        OH   other hardwoods     998  2TD
+*  22        SU   Scoulerï¿½s willow    928  SASC   Salix scouleriana
+*  23        OH   other hardwoods     998  2TB
 *----------------------------------------------------------------------
 *
 *  Call list definitions:
