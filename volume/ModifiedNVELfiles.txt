@@ -5,51 +5,62 @@ while all other NVEL code should be referred to under the volume library directo
 
 CALCDIA.F subroutine CALCDIA2: 
 Added filter for HTTOT less than 5 to prevent raising a negative number to a power (08/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 f_other.f: 
 Increased filter on DR variable from IF(DR.GT.0.0) to IF(DR.GT.0.01) to prevent underflow error when computing PV in brk_ot subroutine. (08/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 mrules_mod.f:
 Removal of nonconforming tab characters
 
 pnwtarif.f:
 Moved initialization of variables CT4, CVT, CVTS, and TARIF prior to any regional filtering to prevent use of uninitialized variables in R5 logic (11/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 PROFILE.F subroutines, VOLINTRP and PROFILE: 
 Added initialization of variables otherwise uninitialized prior to variables being passed to MRULES. (08/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 R1KEMP.F subroutine R1KEMP: 
 Added initialization of BFNET variable to prevent nan error in logical comparison. (08/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 R2oldv.f:
 File modified to include initialization of TCUFT to 0.0 to prevent evaluation of uninitialized variable (11/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 r4vol.f: 
 increased HTTOT filter from HTTOT .LE. 4.5 to HTTOT .LE. 5.0 to prevent a divide by zero error in the STUMPD calculation within r4mattaper subroutine. (08/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 R8CLKDIB.F subroutine R8CLKDIB: 
 Added initialization of COEFFS Type (Struct) variables to prevent underflow or nan errors in subsequent calculations. (08/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 r8prep.f:
 Added initialization of variables otherwise uninitialized prior to variables being passed to MRULES. (08/22)
 Increased filter to catch trees less than 17.4' in height to ensure dubbed top ht is used in place of total measured ht in tree 17.3-17.4 ft (09/22)
+YW set DIB17 to 0.1 when DIB17 <= 0 to avoid div by zero error.  This has NOT been published to NVEL as of July 25, 2023.  Need to copy r8Prep from volume to volume/NVEL
 
 r8vol2.f:
 Added initialization of variables otherwise uninitialized prior to variables being passed to MRULES in r8clark subroutine. (08/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 r9clark:
 Added initialization of variables otherwise uninitialized prior to variables being passed to MRULES in r9prep subroutine. (08/22)
 Increased filter to catch trees less than 17.4' in height to ensure dubbed top ht is used in place of total measured ht in tree 17.3-17.4 ft (09/22)
+Updates were made to this file in June of 2023 to avoid a underflow error in R9Cuft Subroutine.  These changes have not been added to the NVEL repository as of July 2023.  Need to copy file from volume to volume/NVEL
 
 R10D2H.f:
 Moved initialization of local variables to prevent use of uninitialized variables in R5 logic (11/22)
+As of NVEL release March 2023, This change has been incorporated and FVS can use the base NVEL subroutine.
 
 voleqdef.f:
 This file was modified during AK variant development to expand available species.
 species code 298 recoded to 299
 File again modified in October 2022 to expand available voleq set to encompass entire volume equation library list of possible equations, 
 with exception of Flewelling 3 pt profiles models. (10/22)
-
 
 The following files in the volume/ directory are base FVS files, separate from the NVEL, and should not be deleted or otherwise removed from the volume/ directory.
 fvsbrucedemars.f
@@ -58,3 +69,51 @@ fvsoldfst.f
 fvsoldgro.f
 fvsoldsec.f
 fvsierralog.f
+
+===================================================================================================================================================================
+
+UPDATES: 
+This section details updates from the inclusion of the latest NVEL files from the March 2023 NVEL Release
+
+===================================================================================================================================================================
+
+MRULES.F - Crash on line 38 in comparison of BTR and DBTBH which were passed into MRULES.F without prior initialization from NVBC subroutine.  While these variables were passed into VOLINITNEW, they are not
+            parameters of NVBC.  Is correct remediation to include these variables an arguments into NVBC or initialize to zero prior to calling MRULES.F.
+            TEMPORARY TEST: initialize to zero just to find other issues with akt01 test.  Added initialization of other missing variables: 
+                C -- Initialize additional variables for MRULES call
+                EVOD = 0
+                COR=' '
+                OPT = 0
+                MAXLEN=0.
+                MINLEN=0.
+                MERCHL=0.
+                MINLENT=0.
+                TRIM=0.
+                BTR=0.
+                DBTBH=0.
+                MINBFD=0.
+
+            Crash of AKT01 fixed.
+
+NVB_CalcLOGVOL.F - Crash on line 834 whre DIBL is passed into subroutine by NVBC without being initialized in NVBC.  Other calls to NVB_CalcLOGVOL seem to set DIBL to LOGDIA(1,1) (when LMERCH GE MERCHL), 
+                     the call in question is in the event that LMERCH GE MINLENT.
+                     TEMPORARY TEST: SET DIBL to LOGDIA(1.1) just prot to NVB_CalcLogVol call on under continue tag number 600 in NVBC.
+                Solved crash in BMT01
+                *** FOUND SAME WITH H2 VARIABLE : STILL NEED TO REPORT TO YINGFANG ***
+
+NSVB.F , CalcVOLWT Subroutine: Crash in ELSEIF(equation .EQ.5), WDSG is not initialized or defined before being passed to CalcVOLWT from CALC_EQVW.  
+                    TEMP FIX: Initialize to zero in CALC_EQVW
+
+NSVB.F NVBC Subroutine, crash in MC = (GRNWF - DRYWF) / DRYWF, when DRYWF =0.  Temp patch add check for zero condition.  
+    Likewise, if DRYWF .LE. 0, MC is never initialized, and is invalid when called in GRNBIO = BRYBIO*(1+MC)
+
+CalcDia.F, CALCDIA2 subroutine: A check was added to conditional IF dohob .lt. 1 .or. httot .lt. 5, as DBHOB and HTTOT use different error codes, a misspelling on the dbhob check causes a crash (how did this even compile?)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+UPDATES August 15, 2023:
+
+CalcDia2 can return without an initialized DIB in event HTTOT is lt 5 (possibly other scenarios as well).  Best to initialize in VolInit or CalcDia2?
+
+CS Variant: Crash in NVBC, line 304, `IF(LMERCH.GE.MINLENT)THEN` Minlent is uninitialized.  Not set in `ELSEIF(REGN.EQ.9.AND.(MDL.EQ.'CLK'.OR.VOLEQ(1:3).EQ.'NVB'))` block in MRULES
+LS, NE same issue.  Similar for SN, but R8 block
+

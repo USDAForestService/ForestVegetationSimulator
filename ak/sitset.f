@@ -17,7 +17,7 @@ C   2     AF   subalpine fir       019  ABLA   Abies lasiocarpa
 C   3     YC   Alaska cedar        042  CANO9  Callitropsis nootkatensis
 C   4     TA   tamarack            071  LALA   Larix laricina
 C   5     WS   white spruce        094  PIGL   Picea glauca
-C   6     LS   Lutz’s spruce            PILU   Picea lutzii
+C   6     LS   Lutzï¿½s spruce            PILU   Picea lutzii
 C   7     BE   black spruce        095  PIMA   Picea mariana
 C   8     SS   Sitka spruce        098  PISI   Picea sitchensis
 C   9     LP   lodgepole pine      108  PICO   Pinus contorta
@@ -33,7 +33,7 @@ C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
 C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
 C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
 C  21     WI   willow species      920  SALIX  Salix species
-C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  22     SU   Scoulerï¿½s willow    928  SASC   Salix scouleriana
 C  23     OH   other hardwoods     998  2TD
 C----------
 COMMONS
@@ -287,18 +287,28 @@ C----------
       ENDIF
 C LOAD VOLUME ARRAYS USING VOLEQDEF
       DO ISPC=1,MAXSP
-      READ(FIAJSP(ISPC),'(I4)')IFIASP
-      IF(((METHC(ISPC).EQ.6).OR.(METHC(ISPC).EQ.9)).AND.
-     &     (VEQNNC(ISPC).EQ.'          '))THEN
-        CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
-        VEQNNC(ISPC)=VOLEQ
-      ENDIF
-      IF(((METHB(ISPC).EQ.6).OR.(METHB(ISPC).EQ.9)).AND.
-     &     (VEQNNB(ISPC).EQ.'          '))THEN
-        CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
-        VEQNNB(ISPC)=VOLEQ
-      ENDIF
-      ENDDO
+        READ(FIAJSP(ISPC),'(I4)')IFIASP
+!       Determine default cubic volume equation
+        IF(VEQNNC(ISPC).EQ.'          ') THEN
+          IF(METHC(ISPC).EQ.6 .OR. METHC(ISPC).EQ.9) THEN
+            CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,
+     +                    ERRFLAG)
+          ELSEIF(METHC(ISPC).EQ.10) THEN
+            CALL NVB_DefaultEq(IREGN,FORST,DIST,IFIASP,VOLEQ)
+          END IF
+          VEQNNC(ISPC)=VOLEQ
+        END IF
+!       Determine default board foot volume equation
+        IF(VEQNNB(ISPC).EQ.'          ') THEN
+          IF(METHB(ISPC).EQ.6 .OR. METHB(ISPC).EQ.9) THEN
+            CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,
+     +                    ERRFLAG)
+          ELSEIF(METHB(ISPC).EQ.10) THEN
+            CALL NVB_DefaultEq(IREGN,FORST,DIST,IFIASP,VOLEQ)
+          END IF
+          VEQNNB(ISPC)=VOLEQ
+        END IF
+      END DO 
 C----------
 C  IF FIA CODES WERE IN INPUT DATA, WRITE TRANSLATION TABLE
 C---------
