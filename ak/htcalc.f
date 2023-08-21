@@ -27,7 +27,7 @@ C   9        LP   lodgepole pine      108  PICO   Pinus contorta
 C  10        RC   western redcedar    242  THPL   Thuja plicata
 C  11        WH   western hemlock     263  TSHE   Tsuga heterophylla
 C  12        MH   mountain hemlock    264  TSME   Tsuga mertensiana
-C  13     P  OS   other softwoods     298  2TE
+C  13     P  OS   other softwoods     298  2TN
 C  14        AD   alder species       350  ALNUS  Alnus species
 C  15        RA   red alder           351  ALRU2  Alnus rubra
 C  16     P  PB   paper birch         375  BEPA   Betula papyrifera
@@ -37,7 +37,7 @@ C  19     P  AS   quaking aspen       746  POTR5  Populus tremuloides
 C  20     P  CW   black cottonwood    747  POBAT  Populus trichocarpa
 C  21     P  WI   willow species      920  SALIX  Salix species
 C  22     P  SU   Scouler’s willow    928  SASC   Salix scouleriana
-C  23     P  OH   other hardwoods     998  2TD
+C  23     P  OH   other hardwoods     998  2TB
 C----------
 
 C----------

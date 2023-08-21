@@ -297,6 +297,7 @@ C      REAL         DBHIB
         IF(HTTOT.GT.0.0) THEN
           H1=HTTOT-XLEN-1.0
           HX=HTTOT-HTUP
+          IF(H1 .LE. 0) RETURN
           HR=HX/H1
           DR=HR/(0.62*HR+0.38)
           D2=D17*DR
