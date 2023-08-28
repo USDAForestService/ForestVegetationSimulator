@@ -75,15 +75,20 @@ C....       PROCESS FIA DWARF MISTLETO DAMAGE CODES.
 C....       WHEN FIA CODES FOR ARCEUTHOBIUM ARE FOUND, THE
 C....       SEVERITY CODES 1 - 6 WILL BE RETAINED. OTHERWISE,
 C....       SEVERITY CODE 3 IS ASSIGNED.
+C....
+C....    These codes are from the FIA website document 8/25/2023
+C....    FIA Database Description and User Guide for Phase 2 (version 9.0.1)
+C....    pages H-29 and H-30
+C....
+         ELSEIF (ICODES(J).EQ.23005 .OR. ICODES(J).EQ.23006
+     &      .OR. ICODES(J).EQ.23007 .OR. ICODES(J).EQ.23008
+     &      .OR. ICODES(J).EQ.23009 .OR. ICODES(J).EQ.23010
+     &      .OR. ICODES(J).EQ.23011 .OR. ICODES(J).EQ.23012
+     &      .OR. ICODES(J).EQ.23013 .OR. ICODES(J).EQ.23014
+     &      .OR. ICODES(J).EQ.23015 .OR. ICODES(J).EQ.23016
+     &      .OR. ICODES(J).EQ.23017 .OR. ICODES(J).EQ.23021
+     &      .OR. ICODES(J).EQ.23023 .OR. ICODES(J).EQ.23024) THEN
 
-         ELSEIF (ICODES(J).EQ.23001 .OR. ICODES(J).EQ.23004
-     &      .OR. ICODES(J).EQ.23006 .OR. ICODES(J).EQ.23007
-     &      .OR. ICODES(J).EQ.23008 .OR. ICODES(J).EQ.23009
-     &      .OR. ICODES(J).EQ.23010 .OR. ICODES(J).EQ.23011
-     &      .OR. ICODES(J).EQ.23012 .OR. ICODES(J).EQ.23013
-     &      .OR. ICODES(J).EQ.23014 .OR. ICODES(J).EQ.23015
-     &      .OR. ICODES(J).EQ.23016 .OR. ICODES(J).EQ.23017
-     &      .OR. ICODES(J).EQ.23021) THEN
             IF(ICODES(J+1).GE.1 .AND. ICODES(J+1).LE.6) THEN
                IMIST(ITREE)=ICODES(J+1)
             ELSE
