@@ -422,16 +422,16 @@
 
 ../volume/NVEL/bia_behres.f
 ../volume/NVEL/bia_johnson.f
-../volume/NVEL/BIOMASSFORMULA.F
+../volume/NVEL/biomassformula.f
 ../volume/NVEL/blmtap.f
 ../volume/NVEL/blmvol.f
 ../volume/NVEL/brk_up.f
-../volume/NVEL/BROWN.F
-../volume/NVEL/CalcBiomass.F
-../volume/NVEL/CalcDia.f
+../volume/NVEL/brown.f
+../volume/NVEL/calcbiomass.f
+../volume/NVEL/calcdia.f
 ../volume/NVEL/charmod.f
 ../volume/NVEL/clkcoef_mod.f
-../volume/NVEL/CRZBIOMASS.F
+../volume/NVEL/crzbiomass.f
 ../volume/NVEL/debug_mod.f
 ../volume/NVEL/doyal78.f
 ../volume/NVEL/dvest.f
@@ -476,12 +476,12 @@
 ../volume/NVEL/honer.f
 ../volume/NVEL/ht2topd.f
 ../volume/NVEL/intl78.f
-../volume/NVEL/JENKINS.F
+../volume/NVEL/jenkins.f
 ../volume/NVEL/mrules.f
 ../volume/NVEL/mrules_mod.f
 ../volume/NVEL/nsvb.f
 ../volume/NVEL/numlog.f
-../volume/NVEL/pmtProfile.f
+../volume/NVEL/pmtprofile.f
 ../volume/NVEL/pnwtarif.f
 ../volume/NVEL/profile.f
 ../volume/NVEL/profile2.f
