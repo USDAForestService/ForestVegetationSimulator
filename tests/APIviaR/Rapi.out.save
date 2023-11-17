@@ -213,6 +213,33 @@ $caseID
 22     1.1 841.2368  0.000000   98.00000
 23     1.1 841.2368  0.000000    0.00000
 > 
+> spAttrs = fvsGetSpeciesAttrs(c("maxdbh","minmort","maxdbhcd","maxht"))
+> spAttrs
+   maxdbh minmort maxdbhcd maxht
+1     999       1        0   999
+2     999       1        0   999
+3     999       1        0   999
+4     999       1        0   999
+5     999       1        0   999
+6     999       1        0   999
+7     999       1        0   999
+8     999       1        0   999
+9     999       1        0   999
+10    999       1        0   999
+11    999       1        0   999
+12    999       1        0   999
+13    999       1        0   999
+14    999       1        0   999
+15    999       1        0   999
+16    999       1        0   999
+17    999       1        0   999
+18    999       1        0   999
+19    999       1        0   999
+20    999       1        0   999
+21    999       1        0   999
+22    999       1        0   999
+23    999       1        0   999
+> 
 > rtn = fvsSetSpeciesAttrs(spAttrs)
 > cat ("rtn = ",rtn,"\n")
 rtn =  0 
@@ -311,7 +338,7 @@ these trees will be added to the run at 2013
 > ## continue the run
 > fvsRun(0,0)
 
-                  IE FVS VARIANT -- RV:20230106  
+                  IE FVS VARIANT -- RV:20230929  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -336,7 +363,7 @@ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
 2080   139 250 361 119 18.2 10978     0     0     0 250 361 119 18.2 200  98
 2090   121 258 361 125 19.8 11999     0     0     0 258 361 125 19.8   0   0
 
-                  IE FVS VARIANT -- RV:20230106  
+                  IE FVS VARIANT -- RV:20230929  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -361,7 +388,7 @@ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
 2080   114 241 338 126 19.7 11058     0     0     0 241 338 126 19.7 181  99
 2090    99 246 335 133 21.3 11880     0     0     0 246 335 133 21.3   0   0
 
-                  IE FVS VARIANT -- RV:20230106  
+                  IE FVS VARIANT -- RV:20230929  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -512,7 +539,7 @@ msg= BeforeEstab  ids= S248112  NONE   year= 2010
 2080   134 170 265 114 15.3  7649     0     0     0 170 265 114 15.3 201  52
 2090   125 192 287 122 16.8  9143     0     0     0 192 287 122 16.8   0   0
 
-                  IE FVS VARIANT -- RV:20230106  
+                  IE FVS VARIANT -- RV:20230929  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -537,7 +564,7 @@ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
 2080   114 241 338 126 19.7 11058     0     0     0 241 338 126 19.7 181  99
 2090    99 246 335 133 21.3 11880     0     0     0 246 335 133 21.3   0   0
 
-                  IE FVS VARIANT -- RV:20230106  
+                  IE FVS VARIANT -- RV:20230929  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -562,7 +589,7 @@ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
 2080   116 240 339 125 19.5 11212     0     0     0 240 339 125 19.5 180 101
 2090   101 244 334 131 21.1 12010     0     0     0 244 334 131 21.1   0   0
 
-                  IE FVS VARIANT -- RV:20230106  
+                  IE FVS VARIANT -- RV:20230929  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -645,7 +672,7 @@ stop point 7 test result= TRUE  (should be TRUE)
 2080   114 241 338 126 19.7 11058     0     0     0 241 338 126 19.7 181  99
 2090    99 246 335 133 21.3 11880     0     0     0 246 335 133 21.3   0   0
 
-                  IE FVS VARIANT -- RV:20230106  
+                  IE FVS VARIANT -- RV:20230929  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
@@ -670,7 +697,7 @@ YEAR /ACRE  BA SDI  HT  QMD CU FT /ACRE CU FT BD FT  BA SDI  HT  QMD ACC MOR
 2080   116 240 339 125 19.5 11212     0     0     0 240 339 125 19.5 180 101
 2090   101 244 334 131 21.1 12010     0     0     0 244 334 131 21.1   0   0
 
-                  IE FVS VARIANT -- RV:20230106  
+                  IE FVS VARIANT -- RV:20230929  
 
 
         STAND = S248112                     MANAGEMENT CODE = NONE
