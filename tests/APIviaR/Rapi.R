@@ -43,6 +43,9 @@ fvsSetSpeciesAttrs(list(baimult=rep(1.1,fvsGetDims()["maxspecies"]),
 spAttrs = fvsGetSpeciesAttrs(c("baimult","spsdi","spccf","spsiteindx"))
 spAttrs
 
+spAttrs = fvsGetSpeciesAttrs(c("maxdbh","minmort","maxdbhcd","maxht"))
+spAttrs
+
 rtn = fvsSetSpeciesAttrs(spAttrs)
 cat ("rtn = ",rtn,"\n")
 

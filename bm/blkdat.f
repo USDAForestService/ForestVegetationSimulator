@@ -134,8 +134,8 @@ C    15 = QUAKING ASPEN        746 AS  POTR5  POPULUS TREMULOIDES
 C                                             (AS FROM UT)
 C    16 = BLACK COTTONWOOD     747 CW  POBAT  POPULUS BALSAMIFERA var. 
 C                                             TRICHOCARPA (CW FROM WC)
-C    17 = OTHER SOFTWOOD       299 OS  2TE    (PP FROM BM)
-C    18 = OTHER HARDWOOD       998 OH  2TD    (OT FROM WC)
+C    17 = OTHER SOFTWOOD       299 OS  2TN    (PP FROM BM)
+C    18 = OTHER HARDWOOD       998 OH  2TB    (OT FROM WC)
 C----------
       DATA JSP /
      & 'WP ',   'WL ',   'DF ',   'GF ',   'MH ',   'WJ ',   'LP ',

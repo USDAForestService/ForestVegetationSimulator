@@ -93,14 +93,21 @@ C.... Argument variable declarations.
 C.... Local variable declarations.
 
       INTEGER IDAMC(ITOTRR+1), J, K, NSRD
+      INTEGER IFIADAM(ITOTRR+1)
       LOGICAL DEBUG          
      
 C.... Data statements.
 C.... Input tree data root disease damage codes
-C.... RD model RRTYPE (Annos-P, Annos-S, Armillaria, Phellinus,
-C....                  non-specified root disease)
-C....              1  2  3  4
+C.... RD RRTYPE        FVS CODE  FIA CODE 
+C....   1-Annos-P         64     21010
+C....   2-Annos-S         64     21010
+C....   3-Armillaria      61     21001
+C....   4-Phellinus       62     21017
+C....   5-non-specified   60     21000
+C....     root disease
+C.... RRTYPE CODE 1  2  3  4
       DATA IDAMC /64,64,61,62,60/
+      DATA IFIADAM /21010, 21010, 21001, 21017, 21000/
       DATA NSRD /5/
 
 C.... See if we need to do some debug.
@@ -173,13 +180,20 @@ C....    Trees that have been cut in previous rotations and have now
 C....    been infected with root disease are flagged as stumps by
 C....    recording them as dead and recording a value of 1.5 in the 
 C....    variable HT(II).
-
+C....
+C....    FVS CODES CHECKED FIRST AND THEN FIA CODES
          IF (ICODES(1) .EQ. IDAMC(IRRSP) .OR. 
      &       ICODES(1) .EQ. IDAMC(NSRD) .OR.
      &       ICODES(3) .EQ. IDAMC(IRRSP) .OR. 
      &       ICODES(3) .EQ. IDAMC(NSRD) .OR. 
      &       ICODES(5) .EQ. IDAMC(IRRSP) .OR. 
      &       ICODES(5) .EQ. IDAMC(NSRD) .OR. 
+     &       ICODES(1) .EQ. IFIADAM(IRRSP) .OR. 
+     &       ICODES(1) .EQ. IFIADAM(NSRD) .OR.
+     &       ICODES(3) .EQ. IFIADAM(IRRSP) .OR. 
+     &       ICODES(3) .EQ. IFIADAM(NSRD) .OR. 
+     &       ICODES(5) .EQ. IFIADAM(IRRSP) .OR. 
+     &       ICODES(5) .EQ. IFIADAM(NSRD) .OR. 
      &       (HT(II) .GT. 0 .AND. HT(II) .LE. 1.5)) THEN
             
 C....       Place a flag in the tree list that identifies this as an infected
@@ -203,8 +217,10 @@ C....    and whose DBH < 5".  This recommendation for 'suspect' trees was
 C....    made by Byler and Goheen.
 
          DO 900 J=1,5,2
-            IF ((ICODES(J) .EQ. IDAMC(IRRSP) .OR.
-     &          ICODES(J) .EQ. IDAMC(NSRD))
+            IF((ICODES(J) .EQ. IDAMC(IRRSP) .OR.
+     &          ICODES(J) .EQ. IDAMC(NSRD)  .OR.
+     &          ICODES(J) .EQ. IFIADAM(IRRSP) .OR.
+     &          ICODES(J) .EQ. IFIADAM(NSRD))
      &         .AND. ICODES(J+1) .EQ. 1 
      &         .AND. DBH(II) .LE. 5.0) THEN
 
@@ -216,8 +232,10 @@ C....          Tree is uninfected but within a center.
                RINUF(IRRSP) = RINUF(IRRSP) + 1.0
                GOTO 9000
              
-            ELSEIF ((ICODES(J) .EQ. IDAMC(IRRSP) .OR.
-     &              ICODES(J) .EQ. IDAMC(NSRD))
+            ELSEIF((ICODES(J) .EQ. IDAMC(IRRSP) .OR.
+     &              ICODES(J) .EQ. IDAMC(NSRD)  .OR.
+     &              ICODES(J) .EQ. IFIADAM(IRRSP) .OR.
+     &              ICODES(J) .EQ. IFIADAM(NSRD))
      &             .AND. ICODES(J+1) .LE. 1
      &             .AND. DBH(II) .GT. 5.0) THEN
 
@@ -230,8 +248,10 @@ C....          Tree is within 30 feet of infected tree.
                RINNF(IRRSP) = RINNF(IRRSP) + 1.0
                GOTO 9000
 
-            ELSEIF ((ICODES(J) .EQ. IDAMC(IRRSP) .OR. 
-     &              ICODES(J) .EQ. IDAMC(NSRD))
+            ELSEIF((ICODES(J) .EQ. IDAMC(IRRSP) .OR. 
+     &              ICODES(J) .EQ. IDAMC(NSRD)  .OR.
+     &              ICODES(J) .EQ. IFIADAM(IRRSP) .OR.
+     &              ICODES(J) .EQ. IFIADAM(NSRD))
      &             .AND. ICODES(J+1) .EQ. 2) THEN
            
 C....          Pathogen or diagnostic symptoms detected.
@@ -243,8 +263,10 @@ C....          Pathogen or diagnostic symptoms detected.
                RINNF(IRRSP) = RINNF(IRRSP) + 1.0
                GOTO 9000
 
-            ELSEIF ((ICODES(J) .EQ. IDAMC(IRRSP) .OR.
-     &              ICODES(J) .EQ. IDAMC(NSRD))
+            ELSEIF((ICODES(J) .EQ. IDAMC(IRRSP) .OR.
+     &              ICODES(J) .EQ. IDAMC(NSRD)  .OR.
+     &              ICODES(J) .EQ. IFIADAM(IRRSP) .OR.
+     &              ICODES(J) .EQ. IFIADAM(NSRD))
      &             .AND. ICODES(J+1) .EQ. 3) THEN
            
 C....          Crown deterioration.
