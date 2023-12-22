@@ -284,30 +284,6 @@ C----------
       PBAL=PBA*(1.0-(PCT(I)/100.))
       IF(PBAL.LE.0.0)PBAL = BAL
 C----------
-C  FORT BRAGG 8=LONGLEAF(121); 13=LOBLOLLY(131)
-C----------
-      IF(IFOR .EQ. 20)THEN
-        BARK = BRATIO(ISPC,D,HT(I))
-        IF(ISPC .EQ. 8)THEN
-          DG5=(D*BARK)*((-0.4553*(0.09737-EXP(-0.2428*D))) 
-     &        + 0.05574*(FLOAT(ICR(I))/100.) - 0.0002965*BA 
-     &        - 0.00002481*PBA - 0.001192*((PCT(I)/100.)**(-0.9663)) 
-     &        + 0.0010110*SITEAR(ISPC) - 0.007711*RELHT) 
-        ELSEIF(ISPC .EQ. 13)THEN
-          DG5=(D*BARK)*((-0.3428*(-0.1741-EXP(-0.1328*D))) 
-     &        + 0.1145*(FLOAT(ICR(I))/100.) - 0.0001682*BA 
-     &        - 0.00003978*PBA - 0.159400*((PCT(I)/100.)**(-0.1299)) 
-     &        + 0.0006204*SITEAR(ISPC) + 0.02474*RELHT) 
-        ENDIF
-        IF(DG5 .LT. 0.01)DG5=0.01
-        DDS = ALOG((DG5*(2.0*D*BARK+DG5)))
-        IF(DEBUG)WRITE(JOSTND,220)ISPC,I,D,HT(I),BARK,ICR(I),BA,PBA,
-     &  PCT(I),SITEAR(ISPC),RELHT,DG5,DDS
-  220   FORMAT(' ISPC,I,D,H,BARK,ICR,BA,PBA,PCT,SI,',
-     &  'RELHT,DG5,DDS= ',/,2I5,2F8.2,F8.5,I5,6F10.4,F10.6)
-        GO TO 225  
-      ENDIF
-C----------
 C  CALCULATION OF DDS FOR SOUTHERN VARIENT
 C  THE FIRST GROUP OF TERMS REFLECT INDIVIDUALTREE AND STAND CONDITIONS
 C----------
@@ -365,7 +341,29 @@ C
   224   FORMAT(' FOREST TYPE D1,D2,D3,D4,D5,D6,D7, D8 =',
      &  /,15F7.3)
       ENDIF
-  225 CONTINUE
+C----------
+C  FORT BRAGG 8=LONGLEAF(121); 13=LOBLOLLY(131)
+C----------
+      IF(IFOR .EQ. 20 .AND. (ISPC .EQ. 8 .OR. ISPC .EQ. 13))THEN
+        BARK = BRATIO(ISPC,D,HT(I))
+        IF(ISPC .EQ. 8)THEN
+          DG5=(D*BARK)*((-0.4553*(0.09737-EXP(-0.2428*D))) 
+     &        + 0.05574*(FLOAT(ICR(I))/100.) - 0.0002965*BA 
+     &        - 0.00002481*PBA - 0.001192*((PCT(I)/100.)**(-0.9663)) 
+     &        + 0.0010110*SITEAR(ISPC) - 0.007711*RELHT) 
+        ELSEIF(ISPC .EQ. 13)THEN
+          DG5=(D*BARK)*((-0.3428*(-0.1741-EXP(-0.1328*D))) 
+     &        + 0.1145*(FLOAT(ICR(I))/100.) - 0.0001682*BA 
+     &        - 0.00003978*PBA - 0.159400*((PCT(I)/100.)**(-0.1299)) 
+     &        + 0.0006204*SITEAR(ISPC) + 0.02474*RELHT) 
+        ENDIF
+        IF(DG5 .LT. 0.01)DG5=0.01
+        DDS = ALOG((DG5*(2.0*D*BARK+DG5)))
+        IF(DEBUG)WRITE(JOSTND,220)ISPC,I,D,HT(I),BARK,ICR(I),BA,PBA,
+     &  PCT(I),SITEAR(ISPC),RELHT,DG5,DDS
+  220   FORMAT(' ISPC,I,D,H,BARK,ICR,BA,PBA,PCT,SI,',
+     &  'RELHT,DG5,DDS= ',/,2I5,2F8.2,F8.5,I5,6F10.4,F10.6)
+      ENDIF
 C
       IF(DDS.LT.-9.21) DDS=-9.21
 C

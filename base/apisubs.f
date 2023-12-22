@@ -370,6 +370,19 @@ c     volume calculation-related vectors
       case ("reghmult")
         if (action=="get") attr = xrhmlt
         if (action=="set") xrhmlt = real(attr,4)     
+C     values from TREESZCP keyword
+      case ("maxdbh")
+        if (action=="get") attr = sizcap(:MAXSP,1)
+        if (action=="set") sizcap(:MAXSP,1) = real(attr,4)
+      case ("minmort")
+        if (action=="get") attr = sizcap(:MAXSP,2)
+        if (action=="set") sizcap(:MAXSP,2) = real(attr,4)
+      case ("maxdbhcd")
+        if (action=="get") attr = sizcap(:MAXSP,3)
+        if (action=="set") sizcap(:MAXSP,3) = real(attr,4)
+      case ("maxht")
+        if (action=="get") attr = sizcap(:MAXSP,4)
+        if (action=="set") sizcap(:MAXSP,4) = real(attr,4)
 
       case default
         rtnCode = 1
