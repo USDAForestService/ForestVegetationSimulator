@@ -264,7 +264,7 @@ C
 C
 COMMONS
 C
-      INTEGER IYEAR,ICCF,ITOPHT,IOSDI,IPRDLEN,IHRVC,IAGEOUT
+      INTEGER IYEAR,ICCF,ITOPHT,IOSDI,IPRDLEN,IHRVC,IAGEOUT,IFRTP
       DOUBLE PRECISION DPTPA,DPTPTPA,DPBA,DPQMD,DPTCUFT,DPTPTCUFT,
      > DPMCUFT,DPTPMCUFT,DPBDFT,DPTPBDFT,DPACC,DPMORT,DPMAI,DPRTPA,
      > DPRTCUFT,DPRMCUFT,DPRBDFT
@@ -305,10 +305,15 @@ C
       DPRBDFT  = 0.
       IPRDLEN  = 0
       DPACC    = 0.
+      DPMORT   = 0.
       IPRDLEN  = IOSUM(14,ICYC)
-      DPACC    = OACC(7)/GROSPC
-      DPMORT   = OMORT(7)/GROSPC
+      IF (ICYC.LE.NCYC) THEN
+C       NO ACCCRETION OR MORTALITY ON LAST RECORD OF SUMMARY (END OF PROJECTION)
+        DPACC    = OACC(7)/GROSPC
+        DPMORT   = OMORT(7)/GROSPC
+      ENDIF
       DPMAI    = BCYMAI(ICYC)
+      IFRTP    = IOSUM(18,ICYC)           ! added 1/18/2014
       IF (ICYC.LE.NCYC) THEN
         DPRTPA   = ONTREM(7)/GROSPC
         DPRTCUFT = OCVREM(7)/GROSPC
@@ -495,7 +500,7 @@ C
         ColNumber=ColNumber+1
         iRet = fsql3_bind_double(IoutDBref,ColNumber,DPMAI)
         ColNumber=ColNumber+1
-        iRet = fsql3_bind_int(IoutDBref,ColNumber,IFORTP)
+        iRet = fsql3_bind_int(IoutDBref,ColNumber,IFRTP)
         ColNumber=ColNumber+1
         iRet = fsql3_bind_int(IoutDBref,ColNumber,ISZCL)
         ColNumber=ColNumber+1
