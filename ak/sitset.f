@@ -33,7 +33,7 @@ C  18     BA   balsam poplar       741  POBA2  Populus balsamifera
 C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
 C  20     CW   black cottonwood    747  POBAT  Populus trichocarpa
 C  21     WI   willow species      920  SALIX  Salix species
-C  22     SU   Scouler�s willow    928  SASC   Salix scouleriana
+C  22     SU   Scouler's willow    928  SASC   Salix scouleriana
 C  23     OH   other hardwoods     998  2TB
 C----------
 COMMONS
@@ -287,28 +287,18 @@ C----------
       ENDIF
 C LOAD VOLUME ARRAYS USING VOLEQDEF
       DO ISPC=1,MAXSP
-        READ(FIAJSP(ISPC),'(I4)')IFIASP
-!       Determine default cubic volume equation
-        IF(VEQNNC(ISPC).EQ.'          ') THEN
-          IF(METHC(ISPC).EQ.6 .OR. METHC(ISPC).EQ.9) THEN
-            CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,
-     +                    ERRFLAG)
-          ELSEIF(METHC(ISPC).EQ.10) THEN
-            CALL NVB_DefaultEq(IREGN,FORST,DIST,IFIASP,VOLEQ)
-          END IF
-          VEQNNC(ISPC)=VOLEQ
-        END IF
-!       Determine default board foot volume equation
-        IF(VEQNNB(ISPC).EQ.'          ') THEN
-          IF(METHB(ISPC).EQ.6 .OR. METHB(ISPC).EQ.9) THEN
-            CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,
-     +                    ERRFLAG)
-          ELSEIF(METHB(ISPC).EQ.10) THEN
-            CALL NVB_DefaultEq(IREGN,FORST,DIST,IFIASP,VOLEQ)
-          END IF
-          VEQNNB(ISPC)=VOLEQ
-        END IF
-      END DO 
+      READ(FIAJSP(ISPC),'(I4)')IFIASP
+      IF(((METHC(ISPC).EQ.6).OR.(METHC(ISPC).EQ.9)).AND.
+     &     (VEQNNC(ISPC).EQ.'          '))THEN
+        CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
+        VEQNNC(ISPC)=VOLEQ
+      ENDIF
+      IF(((METHB(ISPC).EQ.6).OR.(METHB(ISPC).EQ.9)).AND.
+     &     (VEQNNB(ISPC).EQ.'          '))THEN
+        CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
+        VEQNNB(ISPC)=VOLEQ
+      ENDIF
+      ENDDO
 C----------
 C  IF FIA CODES WERE IN INPUT DATA, WRITE TRANSLATION TABLE
 C---------
