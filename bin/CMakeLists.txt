@@ -25,7 +25,7 @@ endif()
 
 #file(GLOB tobuild FVSbc_sourceList.txt)
 #file(GLOB tobuild FVSon_sourceList.txt)
-file(GLOB tobuild FVSbc_sourceList.txt)
+file(GLOB tobuild FVS*_sourceList.txt)
 
 list(SORT tobuild)
 message(STATUS "tobuild = ${tobuild}")
@@ -124,7 +124,7 @@ foreach (fn ${fileList})
     list (APPEND includeDirs  ${pname})
   endif()
 
-  if (${extname} STREQUAL ".f")
+  if (${extname} STREQUAL ".f" OR ${extname} STREQUAL ".F" OR ${extname} STREQUAL ".for" )
     if (${fname} STREQUAL "main.f")
       list (APPEND FsourceMAIN ${fn})
     else()
