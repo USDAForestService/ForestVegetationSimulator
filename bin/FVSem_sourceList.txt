@@ -512,7 +512,7 @@
 ../volume/NVEL/r8vol2.f
 ../volume/NVEL/r8vlist.f
 ../volume/NVEL/r8prep.f
-../volume/NVEL/r9clark.f
+../volume/r9clark_fvsMod.f
 ../volume/NVEL/r9clarkdib.f
 ../volume/NVEL/r9init.f
 ../volume/NVEL/r9logs.f
