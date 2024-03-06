@@ -226,28 +226,18 @@ C
       ENDIF
 C
       DO ISPC=1,MAXSP
-        READ(FIAJSP(ISPC),'(I4)')IFIASP
-!       Determine default cubic volume equation
-        IF(VEQNNC(ISPC).EQ.'          ') THEN
-          IF(METHC(ISPC).EQ.6 .OR. METHC(ISPC).EQ.9) THEN
-            CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,
-     +                    ERRFLAG)
-          ELSEIF(METHC(ISPC).EQ.10) THEN
-            CALL NVB_DefaultEq(IREGN,FORST,DIST,IFIASP,VOLEQ)
-          END IF
-          VEQNNC(ISPC)=VOLEQ
-        END IF
-!       Determine default board foot volume equation
-        IF(VEQNNB(ISPC).EQ.'          ') THEN
-          IF(METHB(ISPC).EQ.6 .OR. METHB(ISPC).EQ.9) THEN
-            CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,
-     +                    ERRFLAG)
-          ELSEIF(METHB(ISPC).EQ.10) THEN
-            CALL NVB_DefaultEq(IREGN,FORST,DIST,IFIASP,VOLEQ)
-          END IF
-          VEQNNB(ISPC)=VOLEQ
-        END IF
-      END DO  
+      READ(FIAJSP(ISPC),'(I4)')IFIASP
+      IF(((METHC(ISPC).EQ.6).OR.(METHC(ISPC).EQ.9)).AND.
+     &     (VEQNNC(ISPC).EQ.'          '))THEN
+        CALL VOLEQDEF(VAR,IRDUM,FORDUM,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
+        VEQNNC(ISPC)=VOLEQ
+      ENDIF
+      IF(((METHB(ISPC).EQ.6).OR.(METHB(ISPC).EQ.9)).AND.
+     &     (VEQNNB(ISPC).EQ.'          '))THEN
+        CALL VOLEQDEF(VAR,IRDUM,FORDUM,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
+        VEQNNB(ISPC)=VOLEQ
+      ENDIF
+      ENDDO
 C----------
 C  IF FIA CODES WERE IN INPUT DATA, WRITE TRANSLATION TABLE
 C---------
