@@ -1,7 +1,7 @@
       SUBROUTINE FMIN (ICALL,NSP,LKECHO)
       IMPLICIT NONE
 C----------
-C FIRE-BASE $Id$
+C FIRE-BASE
 C----------
 C
 C     FIRE - FIRE & SNAG MODEL
@@ -197,7 +197,7 @@ C
      &   I3,') IS MARKED FOR CUTTING IN SUBSEQUENT SALVAGE',
      &       ' OPERATIONS. ')
       ELSE
-        IF(LKECHO)WRITE(JOSTND,111) KEYWRD,IDT,KARD(2)(1:ILEN),JSP
+        IF(LKECHO) WRITE(JOSTND,111) KEYWRD,IDT,KARD(2)(1:ILEN),JSP
   111   FORMAT(/A8,'   DATE/CYCLE ',I4,' SPECIES=',A,' (CODE=',
      &   I3,') IS MARKED TO BE LEFT IN SUBSEQUENT SALVAGE',
      &       ' OPERATIONS. ')
@@ -673,7 +673,7 @@ C
       IDT = 1
       PRMS(1)=200.
       PRMS(2)=-1.  ! reporting interval no longer used with cycle boundary FFE
-      PRMS(3)=35.
+      PRMS(3)=REAL(JSNOUT)
       PRMS(4)=0.
 
       IF (LNOTBK(1)) IDT= IFIX(ARRAY(1))

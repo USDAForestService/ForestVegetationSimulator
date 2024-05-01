@@ -670,6 +670,10 @@ c      maxLen=8.0
 c      minLen=4.0
 c      trim=0.3
 c      merchL=8.0
+       CALL MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,MINLEN,
+     >           MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
+     >           PROD)
+
       if(mTopP.ne.0) then
         sawDib=mTopP
       else
@@ -784,9 +788,9 @@ C     total height, except a17 and b17, which correspond to the top DIB.
         return
       endif
       
-       CALL MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,MINLEN,
-     >           MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
-     >           PROD)
+!       CALL MRULES(REGN,FORST,VOLEQ,DBHOB,COR,EVOD,OPT,MAXLEN,MINLEN,
+!     >           MERCHL,MINLENT,MTOPP,MTOPS,STUMP,TRIM,BTR,DBTBH,MINBFD,
+!     >           PROD)
       
 
 
@@ -1131,8 +1135,8 @@ C  for inside-bark calculations.
 !...  Local variables
       integer   i
       real      r,c,e,p,b,a,totHt,dbhIb,dib17
-      real      Is,Ib,It,Im,StTot
-      REAL Ds,Db,Dt, Y
+      real      Is,Ib,It,Im,StTot, Y
+      REAL Ds,Db,Dt
 !======================================================================      
 
 !...  reassign the coefficients to local variables to keep things tidy   		
@@ -1200,19 +1204,18 @@ C-----Get DIB at specified height
       Ds = 0.0
       Db = 0.0
       Dt = 0.0
-
-      IF((1.0-17.3/TOTHT).LT.0.005748.AND.P.GT.14)THEN
-        Y = 0
-      ELSE
-        Y=(1.0-17.3/TOTHT)**P
-      ENDIF
-
       IF(Is.EQ.1.0)THEN
         Ds = (DBHIB**2 * (1 + (C + E/DBHIB**3)*
      &   ((1-StTot)**R - (1-4.5/TOTHT)**R)/
      &   (1-(1-4.5/TOTHT)**R)))
       ENDIF
       IF(Ib.EQ.1.0)THEN
+        IF((1.0-17.3/totht).LT.0.005748.AND.p.GT.14)THEN
+          Y = 0
+        ELSE
+          Y=(1.0-17.3/totht)**p
+        ENDIF
+
         Db = (DBHIB**2-(DBHIB**2-DIB17**2)*
      &   ((1-4.5/TOTHT)**P
      &     -(1-stemHt/TOTHT)**P)/((1-4.5/TOTHT)
@@ -1224,7 +1227,7 @@ C-----Get DIB at specified height
      &   +Im*((1-B)/A**2)*(A-(stemHt-17.3)/
      &   (TOTHT-17.3))**2))
       ENDIF
-      StmDib = (Ds+Db+Dt)**0.5
+      IF((Ds+Db+Dt).GT.0) StmDib = (Ds+Db+Dt)**0.5
       
       if(stmDib.lt.0.0) stmDib=0.0
       

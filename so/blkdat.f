@@ -232,7 +232,7 @@ C
      & 'PIAL  ','LAOC  ','THPL  ','TSHE  ','TABR2 ',
      & 'ALRH2 ','ALRU2 ','ACMA3 ','POTR5 ','POBAT ',
      & 'PREM  ','QUGA4 ','SALIX ','CHCHC4','CELE3 ',
-     & 'CEMOG ','2TE   ','2TD   '/
+     & 'CEMOG ','2TN   ','2TB   '/
 C
       DATA JTYPE /130,170,250,260,280,290,310,320,330,420,
      &            470,510,520,530,540,550,570,610,620,640,
