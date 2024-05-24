@@ -50,48 +50,48 @@
 23 "OS" "299" "2TN"  
 > # list supported activity codes
 > fvsAddActivity()
-BASE_TREELIST  BASE_CRNMULT  BASE_MANAGED    BASE_FIXCW  BASE_BAIMULT 
-           80            81            82            90            91 
- BASE_HTGMULT BASE_REGHMULT BASE_MORTMULT ESTB_SPECMULT BASE_REGDMULT 
-           92            93            94            95            96 
- BASE_FIXMORT    BASE_FIXDG   BASE_FIXHTG   BASE_SYSTEM    DBIN_SQLIN 
-           97            98            99           100           101 
-  DBIN_SQLOUT  BASE_HTGSTOP  BASE_TOPKILL  BASE_SETSITE BASE_ATRTLIST 
-          102           110           111           120           198 
- BASE_CUTLIST  BASE_MINHARV BASE_SPECPREF BASE_TCONDMLT BASE_YARDLOSS 
-          199           200           201           202           203 
-BASE_FVSSTAND BASE_CRUZFILE BASE_MCDEFECT BASE_BFDEFECT   BASE_VOLUME 
-          204           205           215           216           217 
-BASE_BFVOLUME BASE_THINAUTO  BASE_THINBTA  BASE_THINATA  BASE_THINBBA 
-          218           222           223           224           225 
- BASE_THINABA BASE_THINPRSC  BASE_THINDBH  BASE_SALVAGE  BASE_THINSDI 
-          226           227           228           229           230 
-  BASE_THINCC   BASE_THINHT BASE_THINMIST BASE_THINRDEN   BASE_THINPT 
-          231           232           233           234           235 
-BASE_THINRDSL BASE_SETPTHIN    BASE_PRUNE BASE_COMPRESS BASE_FERTILIZ 
-          236           248           249           250           260 
-   ESTB_TALLY ESTB_TALLYONE ESTB_TALLYTWO    ESTB_PLANT  ESTB_NATURAL 
-          427           428           429           430           431 
-ESTB_ADDTREES ESTB_STOCKADJ    ESTB_HTADJ BASE_RESETAGE   ESTB_SPROUT 
-          432           440           442           443           450 
- ESTB_NATURAL ESTB_BURNPREP ESTB_MECHPREP    COVR_COVER MIST_MISTMULT 
-          490           491           493           900          2001 
-MIST_MISTPREF MIST_MISTMORT MIST_MISTHMOD MIST_MISTGMOD MIST_MISTPINF 
-         2002          2003          2004          2005          2006 
-MIST_MISTABLE   FIRE_SALVSP FIRE_SOILHEAT FIRE_BURNREPT FIRE_MOISTURE 
-         2007          2501          2503          2504          2505 
- FIRE_SIMFIRE FIRE_FLAMEADJ  FIRE_POTFIRE  FIRE_SNAGOUT  FIRE_FUELOUT 
-         2506          2507          2508          2512          2515 
- FIRE_SALVAGE FIRE_FUELINIT FIRE_SNAGINIT FIRE_PILEBURN FIRE_FUELTRET 
-         2520          2521          2522          2523          2525 
-FIRE_FUELREPT FIRE_MORTREPT  FIRE_DROUGHT FIRE_FUELMOVE FIRE_FUELMODL 
-         2527          2528          2529          2530          2538 
-FIRE_DEFULMOD FIRE_CARBREPT  FIRE_CARBCUT FIRE_CANFPROF FIRE_FUELFOTO 
-         2539          2544          2545          2547          2548 
-FIRE_FIRECALC FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT 
-         2549          2550          2551          2552          2553 
- ECON_PRETEND ECON_SEVSTART  ECON_SPECCST  ECON_SPECRVN ECON_STRTECON 
-         2605          2606          2607          2608          2609 
+BASE_TREELIST  BASE_CRNMULT  BASE_MANAGED    BASE_FIXCW   BASE_BAIMULT 
+           80            81            82            90             91 
+ BASE_HTGMULT BASE_REGHMULT BASE_MORTMULT ESTB_SPECMULT  BASE_REGDMULT 
+           92            93            94            95             96 
+ BASE_FIXMORT    BASE_FIXDG   BASE_FIXHTG   BASE_SYSTEM     DBIN_SQLIN 
+           97            98            99           100            101 
+  DBIN_SQLOUT  BASE_HTGSTOP  BASE_TOPKILL  BASE_SETSITE  BASE_ATRTLIST 
+          102           110           111           120            198 
+ BASE_CUTLIST  BASE_MINHARV BASE_SPECPREF BASE_TCONDMLT  BASE_YARDLOSS 
+          199           200           201           202            203 
+BASE_FVSSTAND BASE_CRUZFILE BASE_MCDEFECT BASE_BFDEFECT    BASE_VOLUME 
+          204           205           215           216            217 
+BASE_BFVOLUME BASE_THINAUTO  BASE_THINBTA  BASE_THINATA   BASE_THINBBA 
+          218           222           223           224            225 
+ BASE_THINABA BASE_THINPRSC  BASE_THINDBH  BASE_SALVAGE   BASE_THINSDI 
+          226           227           228           229            230 
+  BASE_THINCC   BASE_THINHT BASE_THINMIST BASE_THINRDEN    BASE_THINPT 
+          231           232           233           234            235 
+BASE_THINRDSL BASE_SETPTHIN    BASE_PRUNE BASE_COMPRESS  BASE_FERTILIZ 
+          236           248           249           250            260 
+   ESTB_TALLY ESTB_TALLYONE ESTB_TALLYTWO    ESTB_PLANT   ESTB_NATURAL 
+          427           428           429           430            431 
+ESTB_ADDTREES ESTB_STOCKADJ    ESTB_HTADJ BASE_RESETAGE    ESTB_SPROUT 
+          432           440           442           443            450 
+ESTB_BURNPREP ESTB_MECHPREP    COVR_COVER MIST_MISTMULT  MIST_MISTPREF
+           491           493           900          2001          2002
+ MIST_MISTMORT MIST_MISTHMOD MIST_MISTGMOD MIST_MISTPINF MIST_MISTABLE
+          2003          2004          2005          2006          2007
+   FIRE_SALVSP FIRE_SOILHEAT FIRE_BURNREPT FIRE_MOISTURE  FIRE_SIMFIRE
+          2501          2503          2504          2505          2506
+ FIRE_FLAMEADJ  FIRE_POTFIRE  FIRE_SNAGOUT  FIRE_FUELOUT  FIRE_SALVAGE
+          2507          2508          2512          2515          2520
+ FIRE_FUELINIT FIRE_SNAGINIT FIRE_PILEBURN FIRE_FUELTRET FIRE_FUELREPT
+          2521          2522          2523          2525          2527
+ FIRE_MORTREPT  FIRE_DROUGHT FIRE_FUELMOVE FIRE_FUELMODL FIRE_DEFULMOD
+          2528          2529          2530          2538          2539
+ FIRE_CARBREPT  FIRE_CARBCUT FIRE_CANFPROF FIRE_FUELFOTO FIRE_FIRECALC
+          2544          2545          2547          2548          2549
+ FIRE_FMODLIST FIRE_DWDVLOUT FIRE_DWDCVOUT FIRE_FUELSOFT  ECON_PRETEND
+          2550          2551          2552          2553          2605
+ ECON_SEVSTART  ECON_SPECCST  ECON_SPECRVN ECON_STRTECON 
+          2606          2607          2608          2609 
 > 
 > 
 > ## first run
