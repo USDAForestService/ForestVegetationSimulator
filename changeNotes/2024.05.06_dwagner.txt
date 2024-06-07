@@ -1,0 +1,56 @@
+Modification of cs/balmod.f
+
+Title:	Underflow in CS/BALMOD.F
+Class: 	
+
+Date: 	April 29, 2024
+Reported By:	R Houtman
+Email:	
+
+Product:	CS Variant Command Line Executable	Version:	
+Platform:		Version:	
+Browser:	N/A	Version: 	N/A
+URL: N/A
+
+Description:
+An underflow error is produced during the GMOD computation in cs/balmod.f, due to an extremely small values as the result of the EXP(x) portion of the subroutine.  
+Step to Produce / Reproduce:
+Inputs required to reproduce:
+Species: other hardwood
+Diameter: 8.1
+BAL: 0 (Computed in calling routine regent.f)
+BA: 29.92
+Remediation:
+Lower limit of REAL variable is 10E-38.  Determined the lowest value where EXP(x) would be greater than 10E-38 (log(base(e)) = -85.19.  
+
+Added if statement to screen for this value before being computed by EXP(x) and set the resultant to 0 if x is less than -85
+
+Original code:
+        GMOD = B3(ISPC)*(1.-EXP(-1.0*(B1(ISPC)/(BALTMP+TRBA)+B2(ISPC)*D*D)
+    &      *(1.-TEMBA/210.)**.5))
+
+Revised code:
+      PART1 = 0
+      PART2 = 0
+      PART3 = 0
+      PART4 = 0 
+C
+      PART1 = -1.0*(B1(ISPC)/(BAL+TRBA)+B2(ISPC)*D*D)
+      PART2 = (1.-TEMBA/210.)**.5
+      PART3 = PART1 * PART2
+
+      IF(PART3.GT.-85) PART4 = EXP(PART3)
+
+      GMOD = B3(ISPC)*(1.-PART4)
+
+This change passed all the standard CS tests without issue.  
+
+The following block has also been removed and testing was successful.
+       IF BAL .LE. 1.0 THEN
+        BALTMP = 1.0
+       ELSE
+         BALTMP = BAL
+ 
+A previous version of this report noted the removal of this block as causing a error.  This was due to BALTMP having not been initialized prior to being used in the GMOD call.  This has been corrected.
+Bug Report	(format modified from noverse.com)
+
