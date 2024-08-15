@@ -343,6 +343,7 @@
 ../dbsqlite/dbscase.f
 ../dbsqlite/dbsclose.f
 ../dbsqlite/dbscmpu.f
+../dbsqlite/dbserror.f
 ../dbsqlite/dbsevm.f
 ../dbsqlite/dbsexecsql.f
 ../dbsqlite/dbsfmcanpr.f

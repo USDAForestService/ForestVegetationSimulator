@@ -55,8 +55,8 @@ C-----------
 C  CHECK FOR DEBUG.
 C-----------
       CALL DBCHK (DEBUG,'FMCADD',6,ICYC)
-      IF (DEBUG) WRITE(JOSTND,7) ICYC
-  7   FORMAT(' ENTERING FMCADD CYCLE = ',I2)  
+      IF (DEBUG) WRITE(JOSTND,7) ICYC,NYRS,TFMAX
+  7   FORMAT(' ENTERING FMCADD CYCLE = ',I2,' NYRS=',I4,' TFMAX=',I4)  
     
 C.... Begin routine.
 

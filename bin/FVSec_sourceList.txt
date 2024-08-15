@@ -312,6 +312,7 @@
 ../dbsqlite/dbscuts.f
 ../dbsqlite/dbsecharv.f
 ../dbsqlite/dbsecsum.f
+../dbsqlite/dbserror.f
 ../dbsqlite/dbsevm.f
 ../dbsqlite/dbsexecsql.f
 ../dbsqlite/dbsfmburn.f

@@ -72,13 +72,13 @@ DBReportTest :
 
 econdb :
 	@echo Test econ database read and write
-	rm -f TestDataBase.db
-	-../../bin/FVSie --keywordfile=TestDataBase.key
-	-sqlite3 TestDataBase.db "select Year,SpeciesPlants,Total_Value \
-   from FVS_EconHarvestValue;" > TestDataBase.dump
-	-sqlite3 TestDataBase.db "select round(pnv,1),Mrch_BoardFoot_Volume \
-   from FVS_EconSummary;" >> TestDataBase.dump
-	-diff -w TestDataBase.dump TestDataBase.dump.save
+	rm -f EconDB_Out.db
+	-../../bin/FVSie --keywordfile=EconDB.key
+	-sqlite3 EconDB_Out.db "select Year,SpeciesPLANTS,Total_Value \
+   from FVS_EconHarvestValue;" > EconDB_Out.dump
+	-sqlite3 EconDB_Out.db "select round(PNV,1),Mrch_BoardFoot_Volume \
+   from FVS_EconSummary;" >> EconDB_Out.dump
+	-diff -w EconDB_Out.dump EconDB_Out.dump.save
 	@echo Test econ database ended
 
 firedb :
@@ -172,4 +172,4 @@ clean :
 #	remove iet03 files
 	rm -rfv iet03.out iet03.sng iet03.stop iet03.sum 
 #	remove test files
-	rm -rfv TestDataBase.db TestDataBase.dump TestDataBase.out TestDataBase.trl
+	rm -rfv EconDB_Out.db EconDB_Out.dump EconDB.out EconDB.trl
