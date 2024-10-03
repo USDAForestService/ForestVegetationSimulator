@@ -90,6 +90,16 @@ s16y2015c0302u01c79p085115,38,0.5,0.56
 0,CaseID,text,1,,0
 1,StandID,text,1,,0
 2,TreeSize,text,1,,0
+3,SpeciesFVSnum,int,1,,0
+4,SpeciesFVS,text,1,,0
+5,SpeciesPLANTS,text,1,,0
+6,SpeciesFIA,text,1,,0
+7,NumTrees,int,0,,0
+8,ScaleFactor,real,0,,0
+9,StdErrRatio,real,0,,0
+10,WeightToInput,real,0,,0
+11,ReadCorMult,real,0,,0
+=======
 3,SpeciesFVS,text,1,,0
 4,SpeciesPLANTS,text,1,,0
 5,SpeciesFIA,text,1,,0

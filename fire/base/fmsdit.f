@@ -96,6 +96,9 @@ C
 C       Also calculate the annual amount of old crown material to fall
 C       as a result of crown lifting in the current FVS cycle.  See
 C       documentation of FMOLDC for further explanation.
+C       Apply a minimum value of 0.001 ounce check on OLDCRW to avoid a
+C       floating point error when call is not mortality reconciliation.
+C       LRD 09/19/24
 
           OLDBOT = OLDHT(I) - OLDCRL(I)
           NEWBOT = HT(I) - (HT(I) * FLOAT(ICR(I)) / 100.0)
@@ -103,7 +106,11 @@ C       documentation of FMOLDC for further explanation.
           IF ((OLDCRL(I) .GT. 0.001).AND.(NEWBOT-OLDBOT.GT.0.0)) THEN
             X = ( (NEWBOT-OLDBOT) / OLDCRL(I) ) / CYCLEN
             DO J=0,5
-              OLDCRW(I,J) = X * OLDCRW(I,J)
+              IF (OLDCRW(I,J) .LT. 0.0000625) THEN
+                OLDCRW(I,J) = 0.0
+              ELSE
+                OLDCRW(I,J) = X * OLDCRW(I,J)
+              ENDIF
             ENDDO
           ELSE
             DO J=0,5

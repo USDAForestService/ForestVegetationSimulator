@@ -89,6 +89,7 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
      -      'CaseID text not null,'//
      -      'StandID text not null,'//
      -      'TreeSize text not null,'//
+     -      'SpeciesFVSnum int not null,'//
      -      'SpeciesFVS    text not null,'//
      -      'SpeciesPLANTS text not null,'//
      -      'SpeciesFIA    text not null,'//
@@ -109,12 +110,12 @@ C     CALL DBSCASE TO MAKE SURE WE HAVE AN UP TO DATE CASEID
         TSZ = 'SM'
       ENDIF
       WRITE(SQLStmtStr,*) 'INSERT INTO FVS_CalibStats ',
-     - ' (CaseID,StandID,TreeSize,',
+     - ' (CaseID,StandID,TreeSize,SpeciesFVSnum,',
      - 'SpeciesFVS,SpeciesPLANTS,SpeciesFIA,',
      - 'NumTrees,ScaleFactor,',
      - 'StdErrRatio,WeightToInput,ReadCorMult) ',
      - " VALUES ('",CASEID,"','",TRIM(NPLT),"','",TSZ,
-     - "',?,?,?,?,?,?,?,?);"
+     - "',?,?,?,?,?,?,?,?,?);"
       iRet = fsql3_exec(IoutDBref,"Begin;"//CHAR(0))
       iRet = fsql3_prepare(IoutDBref, TRIM(SQLStmtStr)//CHAR(0))
       IF (iRet .NE. 0) THEN
@@ -141,7 +142,10 @@ C
 
 C         BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
           
-          ColNumber=1                 ! SpeciesFVS
+          ColNumber=1                 ! SpeciesFVSnum
+          iRet = fsql3_bind_int(IoutDBref,ColNumber,K)
+
+          ColNumber=ColNumber+1       ! SpeciesFVS
           iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP1,
      >                                    LEN_TRIM(CSP1))
 

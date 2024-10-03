@@ -1,0 +1,19 @@
+Comment
+**3***********************************************************
+**3** This file is AddFile1bb.txt (Ref 52) a third level    **
+**3** initiated from AddFile1b.txt (Ref 51).                **
+**3** Contains no additional addfiles.                      **
+**3** Plant DF replacing LP
+**3***********************************************************
+End
+COMPUTE            0
+PLNTPA = (BTPA - ATPA) * 0.75
+END
+NoAutoES
+Estab
+Plant              0 PARMS(DF,PLNTPA,100.0,3,1,0)
+Plant              0 PARMS(ES,PLNTPA,100.0,3,1,0)
+END
+**3********************************************
+**3*********** End of AddFile1bb.txt **********
+**3********************************************

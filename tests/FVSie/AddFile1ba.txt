@@ -1,0 +1,16 @@
+Comment
+**3***********************************************************
+**3** This file is AddFile1ba.txt (Ref 52) a third level    **
+**3** initiated from AddFile1b.txt (Ref 51).                **
+**3** Contains no additional addfiles.                      **
+**3** Cut LP
+**************************************************************
+End
+IF                 0
+BBA GT 150.0
+THEN
+ThinABA            0       110       1.0         0       999         0       999
+ENDIF
+**3********************************************
+**3*********** End of AddFile1ba.txt **********
+**3********************************************

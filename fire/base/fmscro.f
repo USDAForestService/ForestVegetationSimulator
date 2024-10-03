@@ -136,10 +136,15 @@ C        but only do this if it's not mortality reconciliation time (icall =4)
 C        since then oldcrw is no longer holding the dead part of the crown
 C        that is to fall each year, but is carrying the crown weight instead.
 C        SAR 11/20/12
+C        Apply a minimum value of 0.001 ounce check on OLDCRW to avoid a
+C        floating point error when call is not mortality reconciliation.
+C        LRD 09/19/24
+
 
          ANNUAL = CROWNW(I,SIZE)
          IF (ICALL .NE. 4) THEN
-         IF (SIZE .GT. 0) ANNUAL = ANNUAL + YRSCYC*OLDCRW(I,SIZE)*X
+           IF (OLDCRW(I,SIZE) .LT. 0.0000625) OLDCRW(I,SIZE) = 0.0
+           IF (SIZE .GT. 0) ANNUAL = ANNUAL + YRSCYC*OLDCRW(I,SIZE)*X
          ENDIF
          ANNUAL = ANNUAL * DSNAGS / RLIFE
 

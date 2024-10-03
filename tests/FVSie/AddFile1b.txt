@@ -1,0 +1,27 @@
+Comment
+**2*****************************************************************
+**2** This file is AddFile1b.txt (Ref 51) initiated from Ref 50   **
+**2** Using Unit 52 for two addfiles:                             **
+**2** Addfile1ba.txt and AddFile1bb.txt                           **
+**2*****************************************************************
+End
+Open              52         0         0        80         0
+AddFile1ba.txt
+Addfile           52
+Close             52        51
+**2**********************************************************
+**2** Back in AddFile1b.txt between 1ba and 1bb          ****
+**2**********************************************************
+Open              52         0         0        80         0
+AddFile1bb.txt
+Addfile           52
+Close             52        51
+**2*****************************************************************
+**2**** End of AddFiles in AddFile1b                            ****
+**2**** Input returned to this file (Ref 51)for any additional  ****
+**2**** keywords that can exist here...                         ****
+**2****                                                         ****
+**2**** And then an additional CLOSE to return input to         ****
+**2**** parent addfile which is Ref 50.                         ****
+**2*****************************************************************
+Close             52        50

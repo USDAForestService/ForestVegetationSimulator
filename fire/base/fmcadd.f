@@ -86,9 +86,18 @@ C           Random breakage of each woody crown component:
 C           Dead material from crown lifting (NOTE:  foliage isn't being
 C           included here because it's assumed that the leaf-lifespan
 C           data used above already incorporates the death of some foliage 
-C           due to crown lifting):
-    
-                AMT = (FMPROB(I) * OLDCRW(I,SIZE)) * P2T
+C           due to crown lifting). 
+C           Additional test to avoid super small values that cause
+C           floating point error. If record will contribute less
+C           than 0.001 ounce per acre, AMT contribution is zero.
+C           LRD 9/19/24
+
+                IF ((FMPROB(I) * OLDCRW(I,SIZE)) .LT. 0.0000625) THEN
+                  AMT = 0.0
+                ELSE
+                  AMT = (FMPROB(I) * OLDCRW(I,SIZE)) * P2T
+                ENDIF
+
                 CWD(1,SIZE,2,DKCL) = CWD(1,SIZE,2,DKCL) + AMT
                 CWDNEW(1,SIZE) = CWDNEW(1,SIZE) + AMT
     

@@ -1,0 +1,31 @@
+Comment
+**1************************************************************
+**1** This file is AddFile1.txt (Ref 50) a first level       **
+**1** that was initiated from the main keyword file (Ref 15) **
+**1** Using Unit 51 for two second level addfiles:           **
+**1** Addfile1a.txt and AddFile1b.txt                        **
+**1************************************************************
+End
+Open              51         0         0        80         0
+AddFile1a.txt
+Addfile           51
+Close             51        50
+**1**********************************************************
+**1** Back in AddFile1.txt between 1a and 1b             ****
+**1**********************************************************
+Open              51         0         0        80         0
+AddFile1b.txt
+Addfile           51
+Close             51        50
+**1**********************************************************
+**1** If there are additional keywords, include them     ****
+**1** here because CLOSE keyword above has set input to  ****
+**1** this file (Ref 50).                                ****
+**1**                                                    ****
+**1** The following CLOSE simply returns input to parent ****
+**1** addfile which is main keyword file (Ref 15) which  ****
+**1** is the default for field 2 of Close keyword.       ****
+**1**                                                    ****
+**1** End of AddFile1.txt                                ****
+**1**********************************************************
+Close             51

@@ -1,0 +1,17 @@
+Comment
+**2**************************************************************
+**2** This file is AddFile1a.txt (Ref 51) a second level       **
+**2** initiated from AddFile1.txt (Ref 50).                    **
+**2** Contains no additional addfiles.                         **
+**2**************************************************************
+End
+Compute            0
+LiveTPA=SPMCDBH(1,All,0,0,200,0,500,0,0)
+LiveBA=SPMCDBH(2,All,0,0,200,0,500,0,0)
+LiveQMD=SPMCDBH(5,All,0,0,200,0,500,0,0)
+StdAcre=SampWt
+StdElev=Elev
+End
+**2*******************************************
+**2*********** End of AddFile1a.txt **********
+**2*******************************************

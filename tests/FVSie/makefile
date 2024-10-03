@@ -1,6 +1,6 @@
 
 all : iet01 iet02 iet03 compress iedb calibStats DBReportTest econdb \
-	firedb climdb ffe_svs climate climatePutGet maxActs ccadj
+	firedb climdb ffe_svs climate climatePutGet maxActs ccadj nested
 
 iet01 :
 	@echo Test iet01, basic functionality
@@ -142,6 +142,15 @@ ccadj :
 	-diff -w ccadj.tmp ccadj.tmp.save
 	rm -f ccadj.tmp ccadj.tmp.save
 	@echo Test THINcc with a CCADJ keyword ended
+
+nested :
+	@echo Test Nested Addfile keyword
+	-../../bin/FVSie --keywordfile=NestedAddFile.key
+	-grep -v "\-999" NestedAddFile.sum      > NestedAddFile.tmp
+	-grep -v "\-999" NestedAddFile.sum.save > NestedAddFile.tmp.save
+	-diff -w NestedAddFile.tmp NestedAddFile.tmp.save
+	rm -f NestedAddFile.tmp NestedAddFile.tmp.save
+	@echo Test Nested Addfile keyword ended
 	@echo Tests\FVSie\makefile finished
 
 clean : 
@@ -171,5 +180,10 @@ clean :
 	rm -rfv iet02_db_dump.txt iet02.stop 
 #	remove iet03 files
 	rm -rfv iet03.out iet03.sng iet03.stop iet03.sum 
+#	remove Econ files
+	rm -rfv EconDB_Out.db EconDB_Out.dump EconDB.out EconDB.trl
+#	remove Nested AddFile files
+	rm -rfv NestedOut.db NestedAddFile.out NestedAddFile.sum NestedAddFile.trl NestedAddFile.chp
+=======
 #	remove test files
 	rm -rfv EconDB_Out.db EconDB_Out.dump EconDB.out EconDB.trl
