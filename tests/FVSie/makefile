@@ -55,9 +55,9 @@ calibStats :
 	@echo Test FVS_CalibStats read and write
 	rm -f calibStats.db
 	-../../bin/FVSie --keywordfile=calibStats.key
-	-sqlite3 calibStats.db ".header on" "select StandID,TreeSize,SpeciesFVS,\
-     NumTrees,round(ScaleFactor,3),round(StdErrRatio,2) \
-   from FVS_CalibStats" > calibStats_dump.txt
+	-sqlite3 calibStats.db ".header on" "select StandID,TreeSize,SpeciesFVSnum,\
+        SpeciesFVS,NumTrees,round(ScaleFactor,3),round(StdErrRatio,2) \
+        from FVS_CalibStats" > calibStats_dump.txt
 	-diff -w calibStats_dump.txt calibStats_dump.txt.save
 	@echo Test FVS_CalibStats ended
 
@@ -184,6 +184,6 @@ clean :
 	rm -rfv EconDB_Out.db EconDB_Out.dump EconDB.out EconDB.trl
 #	remove Nested AddFile files
 	rm -rfv NestedOut.db NestedAddFile.out NestedAddFile.sum NestedAddFile.trl NestedAddFile.chp
-=======
 #	remove test files
 	rm -rfv EconDB_Out.db EconDB_Out.dump EconDB.out EconDB.trl
+

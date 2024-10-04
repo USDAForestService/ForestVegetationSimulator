@@ -143,7 +143,7 @@ C
 C         BIND SQL STATEMENT PARAMETERS TO FORTRAN VARIABLES
           
           ColNumber=1                 ! SpeciesFVSnum
-          iRet = fsql3_bind_int(IoutDBref,ColNumber,K)
+          iRet = fsql3_bind_int(IoutDBref,ColNumber,KK)
 
           ColNumber=ColNumber+1       ! SpeciesFVS
           iRet = fsql3_bind_text(IoutDBref,ColNumber,CSP1,
