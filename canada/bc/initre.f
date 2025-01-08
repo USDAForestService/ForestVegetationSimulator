@@ -5291,7 +5291,7 @@ C
           IF(ISPEC.NE.8888)THEN
             DO IG=2,IULIM
             IGSP = ISPGRP(IGRP,IG)
-            VEQNNB(IGSP)='          '
+            VEQNNB(IGSP)='           '
             ENDDO
             ILEN=ISPGRP(-IS,92)
             IF(LNOTBK(2))KEYWRD='        '
@@ -5426,7 +5426,7 @@ C
 C
           IF(ISPEC.NE.8888)THEN
             DO I=1,MAXSP
-            VEQNNB(I)='          '
+            VEQNNB(I)='           '
             ENDDO
             IF(LNOTBK(2))KEYWRD='        '
             WRITE(JOSTND,13016)KEYWRD
@@ -5555,7 +5555,7 @@ C
           ENDIF
 C
           IF(ISPEC.NE.8888)THEN
-            VEQNNB(IS)='          '
+            VEQNNB(IS)='           '
             KARD(3)='***INVALID'
             IF(.NOT.LNOTBK(2))WRITE(JOSTND,13030)KEYWRD,KARD(1)(1:3),IS
           ELSE

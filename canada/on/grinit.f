@@ -139,8 +139,8 @@ C----------
       XMMULT(I) = 1.
       XMDIA1(I) = 0.
       XMDIA2(I) = 99999.
-      VEQNNB(I) = '          '
-      VEQNNC(I) = '          '
+      VEQNNB(I) = '           '
+      VEQNNC(I) = '           '
       STMP(I)   = 30.0     * CMtoFT
       DBHMIN(I) = ONMTD(I) * CMtoIN
       TOPD(I)   = 10.0     * CMtoIN

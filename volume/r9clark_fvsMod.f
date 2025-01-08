@@ -71,7 +71,7 @@ C
       implicit none
       
 C     Shared variables
-      character forst*2,prod*2,volEq*10
+      character forst*2,prod*2,volEq*11
       integer   geog,iProd,cutFlg,bfpFlg,cupFlg,spFlg,cdpFlg
       integer   errFlg,REGN
       real      minBfD,maxLen,minLen,merchL,mTopP,mTopS,stump,trim
@@ -511,7 +511,7 @@ C  merchantability rules for the specified species and product.
       real      mTopP,mTopS,trim,minBfD,ht1Prd,ht2Prd,htTot
       TYPE(CLKCOEF):: COEFFS
       real      plpDib,sawDib,shrtHt,dbhIb
-      character volEq*10,forst*2,prod*2,tmpStr*2
+      character volEq*11,forst*2,prod*2,tmpStr*2
       logical   short
       INTEGER REGN, OPT,EVOD
       REAL MINLENT,BTR,DBTBH
@@ -833,7 +833,7 @@ C  inside-bark coefficients corresponding to the specified top diameter.
       integer   errFlg
       real      dbhOb,topHt,topDib,ht1Prd,ht2Prd,htTot,upsHt1
       real      sawDib,plpDib
-      character*10 volEq
+      character*11 volEq
 !...  Local variables
       INTEGER   I
       REAL      dbhIb,dib17,a4,b4,a17,b17

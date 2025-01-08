@@ -7,7 +7,7 @@ C***********************************************************************
      >                   PROD,ERRFLAG)
 C***********************************************************************
 C CALCULATES THE MERCH HTS BASED ON TOTAL TREE HEIGHT BY FORST AND SPECIES
-      CHARACTER*10 VOLEQ
+      CHARACTER*11 VOLEQ
       CHARACTER*2 PROD
       INTEGER SI,BA,VFLAG,ERRFLAG,IFORST
 	REAL DBH,HTTOT,HT1PRD,HT2PRD,B(6),BFMIND,DBHMIN,BFTOPD,TOPD
@@ -159,7 +159,7 @@ C PURPOSE  : THIS SUBROUTINE SETS VALUES USED TO CALC THE MERCH HT OF A TREE
 C*********************************
 C       DECLARE VARIBLES         *
 C*********************************
-      CHARACTER*10 VOLEQ
+      CHARACTER*11 VOLEQ
       CHARACTER*3 SPEC_LIST(149),SPEC
       INTEGER VFLAG,I,ERRFLAG
 	REAL B(6),BFMIND,DBHMIN,BFTOPD,TOPD
