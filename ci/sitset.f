@@ -30,7 +30,7 @@ C
 C
 COMMONS
 C----------
-      CHARACTER FORST*2,DIST*2,PROD*2,VAR*2,VOLEQ*10
+      CHARACTER FORST*2,DIST*2,PROD*2,VAR*2,VOLEQ*11
       INTEGER IFIASP,ERRFLAG,ISPC,I,INTFOR,IREGN,J,JJ,K
       REAL BAMAXA(130),SLO,SHI,TEM,SLOSSP,SHISSP
       REAL R4SDI(MAXSP)
@@ -138,7 +138,7 @@ C----------
 C  SET SDIDEF AND BAMAX VALUES WHICH HAVE NOT BEEN SET BY KEYWORD.
 C  If a user sets BAMAX, then set the SDI maximums by species with this equation:
 C     SDIDEF(I)=BAMAX/(0.5454154*(PMSDIU/100.))
-C  If a user hasn’t set BAMAX, then set SDI maximums based on region. 
+C  If a user hasnï¿½t set BAMAX, then set SDI maximums based on region. 
 C  If in R1 (ifor eq 1), then set the SDI maximums by species based on habitat type: 
 C          BAMAX=BAMAXA(ICINDX)
 C          SDIDEF(I)=BAMAX/(0.5454154*(PMSDIU/100.)) 
@@ -193,12 +193,12 @@ C
       DO ISPC=1,MAXSP
       READ(FIAJSP(ISPC),'(I4)')IFIASP
       IF(((METHC(ISPC).EQ.6).OR.(METHC(ISPC).EQ.9)).AND.
-     &     (VEQNNC(ISPC).EQ.'          '))THEN
+     &     (VEQNNC(ISPC).EQ.'           '))THEN
         CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
         VEQNNC(ISPC)=VOLEQ
       ENDIF
       IF(((METHB(ISPC).EQ.6).OR.(METHB(ISPC).EQ.9)).AND.
-     &     (VEQNNB(ISPC).EQ.'          '))THEN
+     &     (VEQNNB(ISPC).EQ.'           '))THEN
         CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
         VEQNNB(ISPC)=VOLEQ
       ENDIF

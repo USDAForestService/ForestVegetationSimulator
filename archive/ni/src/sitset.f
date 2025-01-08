@@ -83,12 +83,12 @@ C----------
       DO ISPC=1,MAXSP
       READ(FIAJSP(ISPC),'(I4)')IFIASP
       IF(((METHC(ISPC).EQ.6).OR.(METHC(ISPC).EQ.9)).AND.
-     &     (VEQNNC(ISPC).EQ.'          '))THEN
+     &     (VEQNNC(ISPC).EQ.'           '))THEN
         CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
         VEQNNC(ISPC)=VOLEQ
       ENDIF
       IF(((METHB(ISPC).EQ.6).OR.(METHB(ISPC).EQ.9)).AND.
-     &     (VEQNNB(ISPC).EQ.'          '))THEN
+     &     (VEQNNB(ISPC).EQ.'           '))THEN
         CALL VOLEQDEF(VAR,IREGN,FORST,DIST,IFIASP,PROD,VOLEQ,ERRFLAG)
         VEQNNB(ISPC)=VOLEQ
       ENDIF
