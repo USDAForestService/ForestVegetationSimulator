@@ -177,10 +177,10 @@ C
           IF(JJ.GT.MAXSP)JJ=MAXSP
           WRITE(JOSTND,990)(NSP(K,1)(1:2),K=J,JJ)
   990     FORMAT(/'    SPECIES ',5X,10(A2,6X))
-          WRITE(JOSTND,994)(SITEAR(K),K=J,JJ )
-  994     FORMAT(' SITE INDEX ',   10F8.0)
+          WRITE(JOSTND,994)(NINT(SITEAR(K)),K=J,JJ )
+  994     FORMAT(' SITE INDEX ',   10I8.0)
           WRITE(JOSTND,991)(SDIDEF(K),K=J,JJ )
-  991     FORMAT('    SDI MAX ',   10F8.0)
+  991     FORMAT('    SDI MAX ',   10I8.0)
           IF(JJ .EQ. MAXSP)GO TO 993
   992     CONTINUE
   993     CONTINUE
@@ -368,7 +368,8 @@ C  SET PAST VOLUME VARIABLES FOR USE NEXT CYCLE
 C----------
       DO 215 I=1,ITRN
       PTOCFV(I)=CFV(I)
-      PMRCFV(I)=WK1(I)
+      PMRCFV(I)=MCFV(I)
+      PSCFV(I)=SCFV(I)
       PMRBFV(I)=BFV(I)
       PDBH(I)=DBH(I)
       PHT(I)=HT(I)

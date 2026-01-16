@@ -83,6 +83,9 @@ C     INITIAL VALUES FOR "Version 2" active and processed; respectively
       LV2HDR = .FALSE.
 
       VARACD = 'BC'
+      ECOREG = ''
+      CFCTYPE = ''
+      BFCTYPE = ''
       CALL LNKINT
       DO 5 I=1,MAXSP
       IORDER(I) = 0
@@ -106,6 +109,9 @@ C     INITIAL VALUES FOR "Version 2" active and processed; respectively
       BFSTMP(I) = 30.0 * CMtoFT     ! cm not used, but here anyway
       BFTOPD(I) = 10.0 * CMtoIN     ! cm not used, but here anyway
       BFMIND(I) = 17.5 * CMtoIN     ! cm not used, but here anyway
+      SCFSTMP(I) = 30.0 * CMtoFT
+      SCFTOPD(I) = 10.0 * CMtoIN
+      SCFMIND(I) = 17.5 * CMtoIN 
       BFLA0(I) = 0.0
       BFLA1(I) = 1.0
       CFLA0(I) = 0.0
@@ -141,8 +147,10 @@ C     INITIAL VALUES FOR "Version 2" active and processed; respectively
       CALCSDI = ' '
       DBHMIN(7) = 12.5 * CMtoIN    ! PL uses 12.5 cm 
       BFMIND(7) = 12.5 * CMtoIN    ! cm not used, but to be consistent
+      SCFMIND(7) = 12.5 * CMtoIN    ! cm not used, but to be consistent
       CFMIN = 0.
       TCFMIN =0.
+      SCFMIN = 0.
       BFMIN = 0.
       BAMIN = 0.
       TCWT = 0.
@@ -167,12 +175,14 @@ C----------
    11 CONTINUE
 C----------
       MANAGD = 0
+      ISTDORG = 0
       ALPHA = 0.05
       BJPHI = 0.74
       BJTHET = 0.42
       ASPECT = 0.
       LAUTON = .FALSE.
       LFIA = .FALSE.
+      LFIANVB = .FALSE.
       AUTMAX = 60.0
       AUTMIN = 45.0
       BAF = 40.
