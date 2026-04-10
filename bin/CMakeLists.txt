@@ -161,8 +161,8 @@ add_library(FVSfofem SHARED ${CsourceFFE})
 add_library(FVS_${varName} SHARED ${FsourceFVS})
 add_executable (${prgName} ${FsourceMAIN})
 
-target_link_libraries(${prgName} FVS_${varName} FVSsql FVSfofem )
-target_link_libraries(FVS_${varName} FVSsql FVSfofem )
+target_link_libraries(${prgName} FVS_${varName} FVSsql FVSfofem -pthread -ldl )
+target_link_libraries(FVS_${varName} FVSsql FVSfofem -pthread -ldl )
 
 set_target_properties(${prgName} PROPERTIES LINKER_LANGUAGE Fortran)
 
