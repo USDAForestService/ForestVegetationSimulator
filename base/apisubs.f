@@ -737,6 +737,8 @@ c
         iv=449
       case ("ecbdft")
         iv=450
+      case ("loccode")
+        iv=160
       case ("shrubwt")
         if (action=="get") attr = flive(1)
         if (action=="set") flive(1) = real(attr,4)
