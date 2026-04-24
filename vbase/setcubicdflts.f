@@ -63,39 +63,39 @@ C  SET DBHMIN DEFAULTS
 
              SELECT CASE(AKMERCHCAT)
                CASE(1)
-                 DBHMIN(ISPC) = 6
-                 TOPD(ISPC)   = 4
-                 SCFMIND(ISPC)= 9
-                 SCFTOPD(ISPC)= 6
+                 DBHMIN(ISPC) = 6.
+                 TOPD(ISPC)   = 4.
+                 SCFMIND(ISPC)= 9.
+                 SCFTOPD(ISPC)= 6.
                CASE(2)
-                 DBHMIN(ISPC) = 5
-                 TOPD(ISPC)   = 4
-                 SCFMIND(ISPC)= 9
-                 SCFTOPD(ISPC)= 6
+                 DBHMIN(ISPC) = 5.
+                 TOPD(ISPC)   = 4.
+                 SCFMIND(ISPC)= 9.
+                 SCFTOPD(ISPC)= 6.
                CASE(3)
-                 DBHMIN(ISPC) = 9
-                 TOPD(ISPC)   = 7
-                 SCFMIND(ISPC)= 9
-                 SCFTOPD(ISPC)= 7
+                 DBHMIN(ISPC) = 9.
+                 TOPD(ISPC)   = 7.
+                 SCFMIND(ISPC)= 9.
+                 SCFTOPD(ISPC)= 7.
                CASE (4)
-                 DBHMIN(ISPC) = 9
-                 TOPD(ISPC)   = 6
-                 SCFMIND(ISPC)= 9
-                 SCFTOPD(ISPC)= 6
+                 DBHMIN(ISPC) = 9.
+                 TOPD(ISPC)   = 6.
+                 SCFMIND(ISPC)= 9.
+                 SCFTOPD(ISPC)= 6.
                CASE DEFAULT
-                 DBHMIN(ISPC) = 9
-                 TOPD(ISPC)   = 7
-                 SCFMIND(ISPC)= 9
-                 SCFTOPD(ISPC)= 7
+                 DBHMIN(ISPC) = 9.
+                 TOPD(ISPC)   = 7.
+                 SCFMIND(ISPC)= 9.
+                 SCFTOPD(ISPC)= 7.
              END SELECT
            END DO
 
          CASE ("BM")
            DO ISPC=1,MAXSP
-             STMP(ISPC)    = 1
+             STMP(ISPC)    = 1.
              DBHMIN(ISPC)  = 7.0
              TOPD(ISPC)    = 4.5
-             SCFSTMP(ISPC) = 1
+             SCFSTMP(ISPC) = 1.
              SCFMIND(ISPC) = 7.0
              SCFTOPD(ISPC) = 4.5
            END DO
@@ -104,9 +104,9 @@ C  SET DBHMIN DEFAULTS
 
          CASE ("CA")
            DO ISPC=1,MAXSP
-             STMP(ISPC)    = 1
+             STMP(ISPC)    = 1.
              DBHMIN(ISPC)  = 7.0
-             SCFSTMP(ISPC) = 1
+             SCFSTMP(ISPC) = 1.
              SCFMIND(ISPC) = 7.0
              SELECT CASE (IFOR)
                CASE(6:10)
@@ -122,10 +122,10 @@ C  SET DBHMIN DEFAULTS
 
          CASE ("CI")
            DO ISPC=1,MAXSP
-             STMP(ISPC)    = 1
+             STMP(ISPC)    = 1.
              DBHMIN(ISPC)  = 8.0
              TOPD(ISPC)    = 6.0
-             SCFSTMP(ISPC) = 1
+             SCFSTMP(ISPC) = 1.
              SCFMIND(ISPC) = 8.0
              SCFTOPD(ISPC) = 6.0
            END DO
@@ -135,8 +135,8 @@ C  SET DBHMIN DEFAULTS
          CASE ("CR")
           IF (IMODTY .LE. 0 .OR. IMODTY .GT. 5) IMODTY=CRDEFMT(IFOR)
            DO ISPC=1,MAXSP
-             STMP(ISPC)    = 1
-             SCFSTMP(ISPC) = 1
+             STMP(ISPC)    = 1.
+             SCFSTMP(ISPC) = 1.
              SELECT CASE (IMODTY)
                CASE (1,2,4,5)
                  DBHMIN(ISPC)  = 5.0
@@ -170,8 +170,8 @@ C  SET DBHMIN DEFAULTS
 
          CASE ("EC")
            DO ISPC=1,MAXSP
-             STMP(ISPC)    = 1
-             SCFSTMP(ISPC) = 1 
+             STMP(ISPC)    = 1.
+             SCFSTMP(ISPC) = 1.
              DBHMIN(ISPC)  = 7.
              TOPD(ISPC)    = 4.5
              SCFMIND(ISPC) = 7.0
@@ -182,8 +182,8 @@ C  SET DBHMIN DEFAULTS
 
          CASE ("EM")
            DO ISPC=1,MAXSP
-             STMP(ISPC)    = 1
-             SCFSTMP(ISPC) = 1 
+             STMP(ISPC)    = 1.
+             SCFSTMP(ISPC) = 1.
              DBHMIN(ISPC)  = 7.0
              TOPD(ISPC)    = 4.5
              SCFMIND(ISPC) = 7.0
@@ -194,8 +194,8 @@ C  SET DBHMIN DEFAULTS
 
          CASE ("IE")
            DO ISPC=1,MAXSP
-             STMP(ISPC)    = 1
-             SCFSTMP(ISPC) = 1 
+             STMP(ISPC)    = 1.
+             SCFSTMP(ISPC) = 1.
              DBHMIN(ISPC)  = 7.0
              TOPD(ISPC)    = 4.5
              SCFMIND(ISPC) = 7.0
@@ -206,8 +206,8 @@ C  SET DBHMIN DEFAULTS
 
          CASE ("KT")
            DO ISPC=1,MAXSP
-             STMP(ISPC)    = 1
-             SCFSTMP(ISPC) = 1 
+             STMP(ISPC)    = 1.
+             SCFSTMP(ISPC) = 1.
              DBHMIN(ISPC)  = 7.0
              TOPD(ISPC)    = 4.5
              SCFMIND(ISPC) = 7.0
@@ -219,11 +219,11 @@ C  SET DBHMIN DEFAULTS
          CASE ("LS")
            DO ISPC=1,MAXSP
              STMP(ISPC)    = 0.5
-             SCFSTMP(ISPC) = 1
+             SCFSTMP(ISPC) = 1.
              DBHMIN(ISPC)  = 5.
-             IF((ISPC.GE.40.AND.ISPC.LE.42.AND.IFOR.EQ.2).OR.IFOR.EQ.6)
-     >           DBHMIN(ISPC) = 6
              TOPD(ISPC)    = 4.
+             IF((ISPC.GE.40.AND.ISPC.LE.42.AND.IFOR.EQ.2)
+     >        .OR.(IFOR.EQ.6.AND.ISPC.GT.14)) DBHMIN(ISPC) = 6.
              IF(ISPC .LE. 14) THEN
                SCFMIND(ISPC) = 9.
                SCFTOPD(ISPC) = 7.6
@@ -268,7 +268,7 @@ C  SET DBHMIN DEFAULTS
 
            CASE ("NE")
              DO ISPC=1,MAXSP
-               STMP(ISPC)    = 1.
+               STMP(ISPC)    = 0.5
                SCFSTMP(ISPC) = 1.   
                DBHMIN(ISPC)  = 5.
                IF((IFOR .EQ. 1 .OR. IFOR .EQ. 3) .AND. ISPC .GT. 25)

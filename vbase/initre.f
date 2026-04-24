@@ -6339,6 +6339,7 @@ C
       IF(LNOTBK(1)) THEN
         IF(ARRAY(1).EQ.0 .OR. ARRAY(1).EQ.1) THEN
           MRCHLMTS=ARRAY(1)
+          IF(MRCHLMTS.EQ.1) CFCTYPE = 'F'
         ELSE
           IF(LKECHO)WRITE(JOSTND,14701) KEYWRD
 14701        FORMAT (/A8, '   INVALID MERCHANTABILITY STANDARD ',
@@ -6347,19 +6348,28 @@ C
         END IF
       END IF 
 
+C     ABILITY TO MODIFY CFCTYPE REMOVED 04/2026 DWAGNER
+!       IF(LNOTBK(2)) THEN
+!         IF(ARRAY(2).EQ.0) THEN
+!           CFCTYPE = 'I'
+!         ELSE IF(ARRAY(2).EQ.1) THEN
+!           CFCTYPE = 'F'
+!         ELSE
+!           ! CALL ERRORS
+!           IF(LKECHO)WRITE(JOSTND,14702) KEYWRD
+! 14702      FORMAT (/A8, '   INVALID CRUISE TYPE REQUESTED.  ',
+!      >             'CRUISE TYPE "I" (FIA) WILL BE USED BY DEFAULT.')
+!            CALL ERRGRO(.TRUE., 42)
+!            CFCTYPE = 'I'
+!         END IF
+!       END IF
+
       IF(LNOTBK(2)) THEN
-        IF(ARRAY(2).EQ.0) THEN
-          CFCTYPE = 'I'
-        ELSE IF(ARRAY(2).EQ.1) THEN
-          CFCTYPE = 'F'
-        ELSE
-          ! CALL ERRORS
-          IF(LKECHO)WRITE(JOSTND,14702) KEYWRD
-14702      FORMAT (/A8, '   INVALID CRUISE TYPE REQUESTED.  ',
-     >             'CRUISE TYPE "I" (FIA) WILL BE USED BY DEFAULT.')
-           CALL ERRGRO(.TRUE., 42)
-           CFCTYPE = 'I'
-        END IF
+        ! CALL ERRORS
+        IF(LKECHO)WRITE(JOSTND,14702) KEYWRD
+14702   FORMAT (/A8, '   FIELD TWO HAS BEEN DISABLED.  ',
+     >             'CRUISE TYPE WILL BE BASED ON FIELD 1 INPUT.')
+        CALL ERRGRO(.TRUE., 42)
       END IF
 
       DO ISPC=1,MAXSP

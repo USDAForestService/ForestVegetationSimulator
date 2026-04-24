@@ -31,7 +31,7 @@ C
 C
 COMMONS
 C
-      INTEGER NSTK,I,KODE,JSTND
+      INTEGER NSTK,I,KODE,JSTND,ICOUNT
       REAL SUMPRB,X
       CHARACTER*255 CNAME
       EQUIVALENCE (NSTK,SUMPRB)
@@ -40,6 +40,7 @@ C
       HTADJ(I)=0.0
       XESMLT(I)=1.0
    10 CONTINUE
+      ICOUNT=0
       ITRNRM=0
       NSTK=0
       NBWHST=0
@@ -68,7 +69,15 @@ C
         CNAME=TRIM(KWDFIL)//'_RegenRpt.txt'
 C        CALL MYOPEN (JOREGT,CNAME,4,133, 0,1,1,0,KODE)
         CALL MYOPEN (JOREGT,CNAME,1,133, 0,1,1,0,KODE)
-        IF(KODE.GT.0) WRITE(*,'(''OPEN FAILED FOR '',I4)') JOREGT
+        DO WHILE (KODE /= 0)
+          ICOUNT = ICOUNT + 1
+          CALL SLEEP(1)
+          CALL MYOPEN (JOREGT,CNAME,1,133, 0,1,1,0,KODE)
+          IF(ICOUNT .GE. 5) THEN
+            WRITE(*,'(''OPEN FAILED FOR '',I4)') JOREGT
+            EXIT
+          END IF
+        END DO
       ENDIF
       RETURN
 C
