@@ -435,6 +435,33 @@ C     SAVE INPUT SLOPE AND ASPECT VALUES IN NON-DECODED VALUES.
 C
       IASPEC=IFIX(ASPECT)
       ISLOP=IFIX(SLOPE)
+
+C     TEST OUTPUT NEW LOCATION OF FIA MERCH SPEC SETTING
+      IF(LFIANVB) THEN
+        SELECT CASE (MRCHLMTS)
+        CASE(0)
+          DO ISPC=1,MAXSP
+            READ(FIAJSP(ISPC), '(I3)') IFIACODE
+            ! Minimum merch for both softwood and hardwood
+            IF(IFIACODE.GT.0 .OR. 
+     &        (VARACD.EQ.'AK'.AND.JSP(ISPC).EQ.'LS')) THEN
+              IF(DBHMIN(ISPC) .LE. 0.0) DBHMIN(ISPC) = 5
+              IF(TOPD(ISPC) .LE. 0.0) TOPD(ISPC) = 4
+              IF(STMP(ISPC) .LE. 0.0) STMP(ISPC) = 1
+              IF(SCFSTMP(ISPC) .LE. 0.0) SCFSTMP(ISPC) = 1
+              IF(IFIACODE.LT.300) THEN              ! Softwood sawlog
+                IF(SCFMIND(ISPC) .LE. 0.0) SCFMIND(ISPC)= 9
+                IF(SCFTOPD(ISPC) .LE. 0.0) SCFTOPD(ISPC) = 7
+              ELSE                                  ! Hardwood sawlog
+                IF(SCFMIND(ISPC) .LE. 0.0) SCFMIND(ISPC)= 11
+                IF(SCFTOPD(ISPC) .LE. 0.0) SCFTOPD(ISPC) = 9
+              END IF
+            END IF
+          END DO
+        CASE(1)
+          CALL SETCUBICDFLTS
+        END SELECT
+      END IF
 C
 C   CALL SITSET TO SET CONTROLLING VALUES THAT HAVE NOT BEEN SET
 C   USING KEYWORDS.  THEN DUMP SITE INDEX ARRAY.
@@ -6333,7 +6360,24 @@ C  ==========  OPTION NUMBER 147: FIAVBC  ==========================FIAVBC
 C
 14700 CONTINUE
 
-      LFIANVB = .TRUE.
+      !Set merch specs to 0 if FIAVBC has not been called yet.
+      IF(.NOT. LFIANVB) THEN
+        LFIANVB = .TRUE.
+C         ZERO OUT ANY USER DEFINED CUBIC FOOT DEFECT
+        CFLA0 = 0
+        CFLA1 = 1
+        CFDEFT = 0
+        DO ISPC=1,MAXSP
+          METHC(ISPC) = 10
+          DBHMIN(ISPC) = 0.0
+          TOPD(ISPC) = 0.0
+          STMP(ISPC) = 0.0
+          SCFSTMP(ISPC) = 0.0
+          SCFMIND(ISPC) = 0.0
+          SCFTOPD(ISPC) = 0.0
+        END DO
+      END IF
+
       MRCHLMTS = 0
       CFCTYPE = 'I'
       IF(LNOTBK(1)) THEN
@@ -6349,20 +6393,6 @@ C
       END IF 
 
 C     ABILITY TO MODIFY CFCTYPE REMOVED 04/2026 DWAGNER
-!       IF(LNOTBK(2)) THEN
-!         IF(ARRAY(2).EQ.0) THEN
-!           CFCTYPE = 'I'
-!         ELSE IF(ARRAY(2).EQ.1) THEN
-!           CFCTYPE = 'F'
-!         ELSE
-!           ! CALL ERRORS
-!           IF(LKECHO)WRITE(JOSTND,14702) KEYWRD
-! 14702      FORMAT (/A8, '   INVALID CRUISE TYPE REQUESTED.  ',
-!      >             'CRUISE TYPE "I" (FIA) WILL BE USED BY DEFAULT.')
-!            CALL ERRGRO(.TRUE., 42)
-!            CFCTYPE = 'I'
-!         END IF
-!       END IF
 
       IF(LNOTBK(2)) THEN
         ! CALL ERRORS
@@ -6372,43 +6402,28 @@ C     ABILITY TO MODIFY CFCTYPE REMOVED 04/2026 DWAGNER
         CALL ERRGRO(.TRUE., 42)
       END IF
 
-      DO ISPC=1,MAXSP
-        METHC(ISPC) = 10
-      END DO
-C       SET MERCH DEFAULTS BASED ON FIA STANDARDS
-      IF(MRCHLMTS.EQ.0) THEN
-        DO ISPC=1,MAXSP
-          READ(FIAJSP(ISPC), '(I3)') IFIACODE
-          IF(IFIACODE.GT.0 .OR. 
-     &      (VARACD.EQ.'AK'.AND.JSP(ISPC).EQ.'LS')) THEN ! Minimum merch for both softwood and hardwood
-            DBHMIN(ISPC) = 5
-            TOPD(ISPC) = 4
-            STMP(ISPC) = 1
-            SCFSTMP = 1
-            IF(IFIACODE.LT.300) THEN              ! Softwood sawlog
-              SCFMIND(ISPC) = 9
-              SCFTOPD(ISPC) = 7
-            ELSE                                  ! Hardwood sawlog
-              SCFMIND(ISPC) = 11
-              SCFTOPD(ISPC) = 9
-            END IF
-          END IF
-        END DO
-      ELSE
-        CALL SETCUBICDFLTS
+      IF(LKECHO) THEN
+        IF(MRCHLMTS .EQ. 0) THEN 
+          WRITE(JOSTND,14711) KEYWRD
+        ELSEIF(MRCHLMTS .EQ. 1) THEN
+          WRITE(JOSTND,14712) KEYWRD
+        END IF
+14711   FORMAT (/A8, '   KEYWORD HAS BEEN REQUESTED. ',
+     >  'ALL CUBIC FOOT VOLUME COMPUTATIONS WILL BE BASED ON FIA ',
+     >  'METHODOLOGIES,',/,
+     >  '           USING FIA MERCHANTABILITY SPECIFICATIONS',
+     >  ' (SEE FVS_INVREFERENCE TABLE FOR SPECIES SPECIFIC VALUES).',
+     >  /,'           NO OTHER USER REQUESTS TO ALTER CUBIC FOOT ', 
+     >  'VOLUME ESTIMATES OR DEFECT WILL BE PERMITTED.')
+
+14712   FORMAT (/A8, '   KEYWORD HAS BEEN REQUESTED. ',
+     >  'ALL CUBIC FOOT VOLUME COMPUTATIONS WILL BE BASED ON FIA ',
+     >  'METHODOLOGIES,',/,
+     >  '           USING NFS MERCHANTABILITY SPECIFICATIONS',
+     >  ' (SEE FVS_INVREFERENCE TABLE FOR SPECIES SPECIFIC VALUES).',
+     >  /,'           NO OTHER USER REQUESTS TO ALTER CUBIC FOOT ', 
+     >  'VOLUME ESTIMATES OR DEFECT WILL BE PERMITTED.')
       END IF
-
-C       ZERO OUT ANY USER DEFINED CUBIC FOOT DEFECT
-      CFLA0 = 0
-      CFLA1 = 1
-      CFDEFT = 0
-
-      IF(LKECHO)WRITE(JOSTND,14711) KEYWRD
-14711    FORMAT (/A8, '   KEYWORD HAS BEEN REQUESTED. ',
-     >   'ALL CUBIC FOOT VOLUME COMPUTATIONS WILL BE BASED ON FIA ',
-     >   'METHODOLOGIES.',/,
-     >   '           NO OTHER USER REQUESTS TO ALTER CUBIC FOOT ', 
-     >   'VOLUME ESTIMATES OR DEFECT WILL BE PERMITTED.')
 
 C     SPECIES CODE PROCESSING.
 C
