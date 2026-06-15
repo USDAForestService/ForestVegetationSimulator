@@ -1,6 +1,7 @@
 ## $Id$
 ## Revised for VS2026 and Intel oneAPI (ifx)
 ## April 2026 - Don Robinson (ESSA), Google Gemini
+## June 2026 - David Diaz (Vibrant Planet), updated to inject version and build metadata
 
 cmake_minimum_required(VERSION 4.3)
 
@@ -68,7 +69,107 @@ endif()
 
 project(FVS LANGUAGES C CXX Fortran)
 
-# --- 3. COMPILER CONFIGURATION ---
+# --- 3. VERSION AND BUILD METADATA ---
+# Derived from git at cmake configure time. All fields fall back to
+# 'unknown' if git is unavailable or the directory is not a git repo.
+#
+# A -dirty suffix indicates uncommitted changes in the working tree.
+# A -dirty binary should not be used in production or deliverable contexts.
+get_filename_component(FVS_ROOT "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+find_package(Git)
+
+if(Git_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} -C ${FVS_ROOT} remote get-url origin
+        OUTPUT_VARIABLE FVS_GIT_REMOTE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+        RESULT_VARIABLE _fvs_git_rc)
+    if(NOT _fvs_git_rc EQUAL 0 OR FVS_GIT_REMOTE STREQUAL "")
+        set(FVS_GIT_REMOTE unknown)
+    endif()
+
+    string(REGEX REPLACE ".*/([^/]+)/[^/]*(\\.git)?$" "\\1" FVS_GIT_ORG "${FVS_GIT_REMOTE}")
+    if(FVS_GIT_ORG STREQUAL "" OR FVS_GIT_ORG STREQUAL FVS_GIT_REMOTE)
+        set(FVS_GIT_ORG unknown)
+    endif()
+
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} -C ${FVS_ROOT} describe --tags --exact-match
+        OUTPUT_VARIABLE FVS_GIT_VERSION
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+        RESULT_VARIABLE _fvs_git_rc)
+    if(NOT _fvs_git_rc EQUAL 0 OR FVS_GIT_VERSION STREQUAL "")
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} -C ${FVS_ROOT} describe --tags
+            OUTPUT_VARIABLE FVS_GIT_VERSION
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            ERROR_QUIET
+            RESULT_VARIABLE _fvs_git_rc)
+    endif()
+    if(NOT _fvs_git_rc EQUAL 0 OR FVS_GIT_VERSION STREQUAL "")
+        set(FVS_GIT_VERSION unknown)
+    endif()
+
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} -C ${FVS_ROOT} rev-parse --short HEAD
+        OUTPUT_VARIABLE FVS_GIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+        RESULT_VARIABLE _fvs_git_rc)
+    if(NOT _fvs_git_rc EQUAL 0 OR FVS_GIT_HASH STREQUAL "")
+        set(FVS_GIT_HASH unknown)
+    endif()
+
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} -C ${FVS_ROOT} log -1 --format=%cd --date=format:%Y%m%d
+        OUTPUT_VARIABLE FVS_GIT_DATE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+        RESULT_VARIABLE _fvs_git_rc)
+    if(NOT _fvs_git_rc EQUAL 0 OR FVS_GIT_DATE STREQUAL "")
+        set(FVS_GIT_DATE unknown)
+    endif()
+
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} -C ${FVS_ROOT} rev-parse --abbrev-ref HEAD
+        OUTPUT_VARIABLE FVS_GIT_BRANCH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+        RESULT_VARIABLE _fvs_git_rc)
+    if(NOT _fvs_git_rc EQUAL 0 OR FVS_GIT_BRANCH STREQUAL "")
+        set(FVS_GIT_BRANCH unknown)
+    endif()
+
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} -C ${FVS_ROOT} status --porcelain
+        OUTPUT_VARIABLE _fvs_git_dirty
+        ERROR_QUIET)
+    if(NOT _fvs_git_dirty STREQUAL "")
+        set(FVS_GIT_VERSION "${FVS_GIT_VERSION}-dirty")
+        set(FVS_GIT_HASH "${FVS_GIT_HASH}-dirty")
+        message(WARNING "WARNING: working tree has uncommitted changes.")
+        message(WARNING "WARNING: Version will be marked -dirty.")
+        message(WARNING "WARNING: Do not use this build in production or deliverable contexts.")
+    endif()
+else()
+    set(FVS_GIT_REMOTE unknown)
+    set(FVS_GIT_ORG unknown)
+    set(FVS_GIT_VERSION unknown)
+    set(FVS_GIT_HASH unknown)
+    set(FVS_GIT_DATE unknown)
+    set(FVS_GIT_BRANCH unknown)
+endif()
+
+message(STATUS "FVS_GIT_REMOTE:  ${FVS_GIT_REMOTE}")
+message(STATUS "FVS_GIT_ORG:     ${FVS_GIT_ORG}")
+message(STATUS "FVS_GIT_VERSION: ${FVS_GIT_VERSION}")
+message(STATUS "FVS_GIT_HASH:    ${FVS_GIT_HASH}")
+message(STATUS "FVS_GIT_DATE:    ${FVS_GIT_DATE}")
+message(STATUS "FVS_GIT_BRANCH:  ${FVS_GIT_BRANCH}")
+
+# --- 4. COMPILER CONFIGURATION ---
 set(CMAKE_Fortran_Format FIXED)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -78,7 +179,7 @@ else()
     add_compile_definitions(ANSI CMPgcc)
 endif()
 
-# --- 4. SOURCE CATEGORIZATION ---
+# --- 5. SOURCE CATEGORIZATION ---
 file(GLOB sl_file FVS*_sourceList.txt)
 get_filename_component(slfn ${sl_file} NAME)
 string(REPLACE "_sourceList.txt" "" prgName ${slfn})
@@ -138,7 +239,14 @@ if(includeDirs)
     list(REVERSE includeDirs)
 endif()
 
-# --- 5. PROPERTY ASSIGNMENT  ---
+# --- 6. PROPERTY ASSIGNMENT  ---
+
+foreach(src ${FsourceFVS} ${FsourceMAIN})
+    get_filename_component(src_name ${src} NAME)
+    if(src_name STREQUAL "version.f" OR src_name STREQUAL "main.f")
+        set_source_files_properties(${src} PROPERTIES Fortran_FORMAT FREE)
+    endif()
+endforeach()
 
 # Apply Fortran-specific indexing to .f77 and .inc
 if(FortranHeaders)
@@ -160,7 +268,7 @@ endif()
 ## Combine lists for target definition
 #set(AllHeaders ${FortranHeaders} ${CHeaders})
 
-# --- 6. TARGET DEFINITIONS ---
+# --- 7. TARGET DEFINITIONS ---
 include_directories(BEFORE ${includeDirs} "${CMAKE_CURRENT_BINARY_DIR}")
 
 add_library(FVSsql SHARED ${CsourceSQL})
@@ -168,13 +276,21 @@ add_library(FVSfofem SHARED ${CsourceFFE})
 add_library(FVS_${varName} SHARED ${FsourceFVS} ${FortranHeaders})
 add_executable(${prgName} ${FsourceMAIN} ${FortranHeaders})
 
-# --- 7. TARGET PROPERTIES & LINKING ---
+# --- 8. TARGET PROPERTIES & LINKING ---
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT ${prgName})
 
 set_target_properties(FVS_${varName} PROPERTIES 
     Fortran_PREPROCESS ON
     WINDOWS_EXPORT_ALL_SYMBOLS TRUE
     LINKER_LANGUAGE Fortran
+)
+target_compile_definitions(FVS_${varName} PRIVATE
+    "FVS_GIT_ORG=\"${FVS_GIT_ORG}\""
+    "FVS_GIT_VERSION=\"${FVS_GIT_VERSION}\""
+    "FVS_GIT_HASH=\"${FVS_GIT_HASH}\""
+    "FVS_GIT_DATE=\"${FVS_GIT_DATE}\""
+    "FVS_GIT_BRANCH=\"${FVS_GIT_BRANCH}\""
+    "FVS_GIT_REMOTE=\"${FVS_GIT_REMOTE}\""
 )
 set_target_properties(${prgName} PROPERTIES 
     Fortran_PREPROCESS ON
