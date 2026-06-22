@@ -526,8 +526,11 @@ C----------
         ENDIF
         IF(BBFV.LT.0.)BBFV=0.
       ENDIF
-      IF(DEBUG)WRITE(JOSTND,*)'  IN FVSVOL D, VN, VM, VMAX, BBFV = ',
-     &                            D, VN, VM, VMAX, BBFV
+C---- NATCRS does not have VN,VM as dummy arguments (they belong to the
+C---- OCFVOL entry); referencing them here derefs an unassociated dummy and
+C---- aborts when DEBUG is on. Trace this entry's own cubic results instead.
+      IF(DEBUG)WRITE(JOSTND,*)'  IN NATCRS D,TCF,MCF,SCF,VMAX,BBFV = ',
+     &                            D, TCF, MCF, SCF, VMAX, BBFV
       CTKFLG = .TRUE.
       BTKFLG = .TRUE.
       RETURN
