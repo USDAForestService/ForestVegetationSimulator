@@ -20,7 +20,9 @@ C
       CHARACTER*7    SDITYPE
 
       INTEGER fsql3_tableexists,fsql3_exec,fsql3_bind_int,fsql3_step,
-     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize
+     >        fsql3_prepare,fsql3_bind_double,fsql3_finalize,
+     >        fsql3_addcolifabsent
+
 
       CALL DBSCASE(1)
 
@@ -31,6 +33,7 @@ C
         SQLStmtStr='CREATE TABLE '//TRIM(TABLENAME)//
      -             ' (CaseID text not null, '//
      -             'StandID text not null, '//
+     -             'LocationCode int, '//
      -             'SpeciesNum int, '//
      -             'SpeciesFVS text, '//
      -             'SpeciesPlants text, '//
@@ -58,6 +61,14 @@ C
         ENDIF
       ENDIF
 
+C--------
+C     CHECK EXISTING TABLE FOR COLUMN(S) ADDED WITH LOCCODE UPGRADE (2026)
+C     `LocationCode`, 
+C     TO ACCOUNT FOR ADDING TO DATABASE CREATED PROIR TO UPGRADE
+C--------
+      iRet= fsql3_addcolifabsent(IoutDBref,TRIM(TABLENAME)//CHAR(0),
+     >        "LocationCode"//CHAR(0),"int"//CHAR(0))
+
       DO I=1,MAXSP
         IF(TRIM(JSP(I)).EQ.'') CYCLE
         ISPPSDI=NINT(SDIDEF(I))
@@ -84,13 +95,13 @@ C
         END IF
 
         SQLStmtStr='INSERT INTO '//TRIM(TABLENAME)//
-     -             ' (CaseID,StandID,'//
+     -             ' (CaseID,StandID,LocationCode,'//
      -             'SpeciesNum,SpeciesFVS,SpeciesPlants,SpeciesFIA,'//
      -             'SDIType,SDIMax,SiteIndex,'//
      -             'CFCruiseType,CFVolEq,CFMinDBH,CFTopDia,CFStump,'//
      -             'CFSawMinDBH,CFSawTopDia,CFSawStump,'//
      -             'BFVolEQ,BFMinDBH,BFTopDia,BFStump)'//
-     -             " VALUES('"//CASEID//"','"//TRIM(NPLT)//"',?,'"//
+     -             " VALUES('"//CASEID//"','"//TRIM(NPLT)//"',?,?,'"//
      -             TRIM(JSP(I))//"','"//TRIM(PLNJSP(I))//"','"//
      -             TRIM(FIAJSP(I))//"','"// 
      -             SDITYPE//"',"//'?,?,'//
@@ -105,6 +116,9 @@ C
         ENDIF
 
         ColNumber = 1
+        iRet= fsql3_bind_int(IoutDBref,ColNumber,KODFOR)
+        
+        ColNumber = ColNumber + 1
         iRet= fsql3_bind_int(IoutDBref,ColNumber,I)
 
         ColNumber = ColNumber + 1

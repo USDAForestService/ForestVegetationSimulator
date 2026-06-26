@@ -565,6 +565,10 @@ c
         iv=157
       case ("bfolcrb")
         iv=158
+      case ("bgmd")
+        iv=159
+      case ("loccode")
+        iv=160
       case ("atpa")
         iv=201
       case ("atcuft")
@@ -638,6 +642,8 @@ c
       case ("afolcrb")
         iv=236
       case ("rfolcrb")
+        iv=237
+      case ("agmd")
         iv=237
       case ("acc")
         iv=301
