@@ -158,56 +158,46 @@ C-----------
       BIODRYIN(IZERO)=0.
       BIOGRN(IZERO)=0.
   100 CONTINUE
-C
+
+      DBTBH = D*(1-BARK)
+      VOLEQ=VEQNNC(ISPC)
+      STUMP=STMP(ISPC)
+      PROD='02'
+C  OLD COMMENT BELOW NEEDS TO BE DELETED
 C  REGION 9 INPUTS OUTSIDE-BARK TOP DIAMETERS TO VOLINIT
 C  REGION 8 DOES NOT CARE, TOP DIAMETERS ARE HARD WIRED
 C  WESTERN VARIANTS INPUT INSIDE-BARK TOP DIAMETERS 
 C  MTOPP (primary product - CuFt, Sawlog)
 C  MTOPS (secondary product - Cuft, Pulpwood)
-C
-      IF((IREGN.EQ.8).OR.(IREGN.EQ.9).OR.LFIANVB)THEN
-        MTOPP=SCFTOPD(ISPC)
-        MTOPS=TOPD(ISPC)
-      ELSE
-        MTOPS=TOPD(ISPC)*BARK
-      ENDIF
-C----------
-C  CALL TO VOLUME INTERFACE - VOLINIT - CUBIC VOLUMES
-C  INITIALIZE CONSTANT ARGUMENTS, AND VARIABLES
-C----------
-      IF(DEBUG) WRITE(JOSTND,*)
-     &  'IREGN,ISPC,D,BFMIND,DBHMIN,MTOPP,MTOPS = ',
-     &  IREGN,ISPC,D,BFMIND(ISPC),DBHMIN(ISPC),MTOPP,MTOPS
-     
-      VOLEQ=VEQNNC(ISPC)
-      STUMP=STMP(ISPC)
-      PROD='02'
+C  OLD COMMENT ABOVE NEEDS TO BE DELETED
 
-C     Setting top diameter spec for calculating height to diameter for
-C     Merch CuFt.
-C     Region 5 uses inside bark diameter,
-C     Region 9 computes a saw timber CuFt, VOL(4),
-C     other regions need top diameter set at secondary product for this
-C     step of process. That is why TOPDIAM for Region 9 is set to MTOPP
-C     here which is the saw timber spec instead of typical CuFt spec, MTOPS.
-C
-      IF(.NOT.LFIANVB .AND. IREGN.EQ.5) THEN
-        TOPDIAM=TOPD(ISPC)*BARK
-      ELSE
-        TOPDIAM=MTOPS
-      ENDIF
+C  SPRING 2026 -- DWAGNER
+C  WE NOW UNDERSTAND THAT TOP DIAMETERS, AS TRACKED BY FVS
+C  AND DESCRIBED IN THE VARIANT OVERVIEW DOCUMNENTATION
+C  CAN BE INPUT DIRECTLY INTO NVEL WITHOUT MODIFICATION FOR 
+C  BARK THICKNESS.
+C  ALL VARIANTS OTHER THAN SN, ARE STORED AS TOP DIAMETER INSIDE BARK,
+C  THE SN VARIANT IS OUTSIDE BARK BUT BARK THICKNESS IS HANDLED IN NVEL.
+C  
+C  FIANVB EQUATIONS USE OUTSIDE BARK DIAMETERS, BUT NVEL IS DESIGNED WITH THAT INTENT
+C  THUS, ALL TOPDIAMETERS CAN BE PASSED TO NVEL AS IS, AND NOT MODIFIED FOR BARK THICKNESS,
+C  BUT NFS SPECS SHOULD NOT BE USED WITH CRUISE TYPE 'I', AND FIAVBC SPECS SHOULD NOT BE USED 
+C  WITH CRUISETYPE 'F' SINCE THERE ARE DIFFENCE IN THE ASSUMPTIONS OF THE TOP DIAMETER INPUTS.
+C  'F' ASSUMES TOP DIAMETER OUTSIDE BARK
+C  'I' ASSUMES TOP DIAMETER INSIDE BARK
 
-      DBTBH = D*(1-BARK)
+C  WESTERN VARIANTS USING DEFAULT NFS EQUATIONS DO NOT COMPUTE SAWLOG CUBIC VOLUME, 
+C  THUS MTOPS AND TOPDIAM BOTH EQUAL THE TOPD FOR THAT SPECIES
 
-      IF((LFIANVB .OR. IREGN.EQ.9 .OR. IREGN.EQ.8) 
-     &    .AND. D.GE.SCFMIND(ISPC))THEN
-        STUMP=SCFSTMP(ISPC)
-        TOPDIAM=MTOPP
-        PROD='01'
+      MTOPS=TOPD(ISPC)
+      TOPDIAM=TOPD(ISPC)
+
+      IF((IREGN.EQ.8.OR.IREGN.EQ.9.OR.LFIANVB)
+     &    .AND.D.GE.SCFMIND(ISPC))THEN
+          STUMP=SCFSTMP(ISPC)
+          TOPDIAM=SCFTOPD(ISPC)
+          PROD='01'
       ENDIF
-C
-C       Tree DBH meets min merch for Pulp/CuFT only
-C
 
 C      I1=0     ! no longer in use a.o. 10/28/2022 to prevent address space pollution
       I3=3      ! second dimension of LOGDIA(,x) array
@@ -284,7 +274,7 @@ C  SECONDARY PRODUCT
      & 'CALLING VOLINIT CF ISPC,IREGN,FORST,VOLEQ = ',
      &                      ISPC,IREGN,FORST,VOLEQ
       IF(DEBUG)WRITE(JOSTND,*)
-     & '  TOPDIAM,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
+     & '  SCFTopD,MCFTopD,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
      &    TOPDIAM,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1
       IF(DEBUG)WRITE(JOSTND,*)'  HT1PRD,HT2PRD,IFC,DBTBH,BARK = ',
      &                           HT1PRD,HT2PRD,IFC,DBTBH,BARK
@@ -348,11 +338,11 @@ C     for the tree volume to be included.
 
       IF(LFIANVB) BIODRYIN = BIODRY
 
-
-
 C----------
 C  END OF CF SECTION
 C----------
+
+
 
 C  IF THE BF VOLUME EQUATION IS DIFFERENT THAN THE CF VOLUME EQ OR
 C  THE TOP DIAMETER SPECIFICATION FOR THE CUFT AND BDFT PRODUCTS
@@ -376,11 +366,7 @@ C        ENDIF
         ENDDO
 
         STUMP=BFSTMP(ISPC)
-        IF(IREGN.EQ.8 .OR. IREGN.EQ.9) THEN
-          MTOPP=BFTOPD(ISPC)
-        ELSE
-          MTOPP=BFTOPD(ISPC)*BARK
-        END IF
+        MTOPP=BFTOPD(ISPC)
         PROD='01'
 C       I1=0 ! no longer in use a.o. 10/28/2022 to prevent address space pollution
         I3=3
@@ -403,47 +389,47 @@ C     Initialize independant volinit variables to prevent shared address space
 C----------
 C  CONSTANT CHARACTER ARGUMENTS
 C----------
-        CTYPE=BFCTYPE
+      CTYPE=BFCTYPE
 C----------
 C  PRODUCT FLAGS
 C----------
 C  TOAL CUBIC
-        CUTFLG=1
+      CUTFLG=1
 C  BF
-        BFPFLG=1
+      BFPFLG=1
 C  MERCH CUBIC
-        CUPFLG=1
+      CUPFLG=1
 C  CORDWOOD
-        CDPFLG=0
+      CDPFLG=0
 C  SECONDARY PRODUCT
-        SPFLG=0
+      SPFLG=0
 C  CONSTANTS
-        TLOGS = 0
-        NOLOGP = 0.
-        NOLOGS = 0.
-        IF((IREGN.NE.8)
-     &     .AND.(VOLEQ(4:6).NE.'DVE'))THEN
-          HT1PRD=0.
-          HT2PRD=0.
-        ENDIF
-        IF((IREGN.EQ.8).AND.(VOLEQ(4:6).EQ.'CLK'))THEN
-          HT1PRD=0.
-          HT2PRD=0.
-        ENDIF
-        IERR    = 0
-        SIDUM   = 0
-        BADUM   = 0
-        HTTDUM  = 0
-        CONSPEC = '   '
-        HT1PRD  = 0.
-        HT2PRD  = 0.
-        PCULL   = 0
-        PDECAY  = 0
+      TLOGS = 0
+      NOLOGP = 0.
+      NOLOGS = 0.
+      IF((IREGN.NE.8)
+     &   .AND.(VOLEQ(4:6).NE.'DVE'))THEN
+        HT1PRD=0.
+        HT2PRD=0.
+      ENDIF
+      IF((IREGN.EQ.8).AND.(VOLEQ(4:6).EQ.'CLK'))THEN
+        HT1PRD=0.
+        HT2PRD=0.
+      ENDIF
+      IERR    = 0
+      SIDUM   = 0
+      BADUM   = 0
+      HTTDUM  = 0
+      CONSPEC = '   '
+      HT1PRD  = 0.
+      HT2PRD  = 0.
+      PCULL   = 0
+      PDECAY  = 0
 C----------
 C  GET FORM CLASS FOR THIS TREE.
 C----------
-        CALL FORMCL(ISPC,IFOR,D,FC)
-        IFC=IFIX(FC)
+      CALL FORMCL(ISPC,IFOR,D,FC)
+      IFC=IFIX(FC)
 
       DBTBH = D*(1-BARK)
 
@@ -451,7 +437,7 @@ C----------
      & 'CALLING VOLINIT BF ISPC,IREGN,FORST,VOLEQ = ',
      &                      ISPC,IREGN,FORST,VOLEQ
       IF(DEBUG)WRITE(JOSTND,*)
-     & '  MTOPP,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
+     & '  BFTopD,MCFTopD,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
      &    MTOPP,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1
       IF(DEBUG)WRITE(JOSTND,*)'  HT1PRD,HT2PRD,IFC,DBTBH,BARK = ',
      &                           HT1PRD,HT2PRD,IFC,DBTBH,BARK
@@ -526,8 +512,8 @@ C----------
         ENDIF
         IF(BBFV.LT.0.)BBFV=0.
       ENDIF
-      IF(DEBUG)WRITE(JOSTND,*)'  IN FVSVOL D, VN, VM, VMAX, BBFV = ',
-     &                            D, VN, VM, VMAX, BBFV
+      IF(DEBUG)WRITE(JOSTND,*)'  IN FVSVOL D, TVOL, MCF, SCF, BBFV = ',
+     &                            D, TCF, MCF, SCF, BBFV
       CTKFLG = .TRUE.
       BTKFLG = .TRUE.
       RETURN

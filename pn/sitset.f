@@ -199,6 +199,7 @@ C----------
         DO I=1,MAXSP
         IF((DBHMIN(I) .LE. 0.).AND.(I.EQ.11)) DBHMIN(I) = 6.0
         IF((BFMIND(I) .LE. 0.).AND.(I.EQ.11)) BFMIND(I) = 6.0
+        IF((SCFMIND(I) .LE. 0.).AND.(I.EQ.11)) SCFMIND(I) = 6.0
         IF(DBHMIN(I) .LE. 0.) DBHMIN(I) = 7.0
         IF(TOPD(I) .LE. 0.) TOPD(I) = 4.5
         IF(BFTOPD(I) .LE. 0.) BFTOPD(I) = 4.5

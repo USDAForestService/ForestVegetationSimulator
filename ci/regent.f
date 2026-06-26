@@ -571,9 +571,7 @@ C
       SPBAL=PBAL(ISPC)
       SHTBA=HTBA(ISPC)
       SCNST=CNST(ISPC)
-      SDHCN=DHCN(ISPC)
-      SDHHT=DHHT(ISPC)
-      SDHCR=DHCR(ISPC)
+
 C----------
 C  PROCESS NEXT TREE RECORD.  STORE INTERMEDIATE HEIGHTS IN WK3.
 C----------
@@ -842,6 +840,7 @@ C----------
         IF(.NOT.LSKIPH)SCALE2 = YR/FLOAT(NTYR)
       END SELECT
 C
+      XRHGRO=XRHMLT(ISPC)
       XRDGRO=XRDMLT(ISPC)
       XMX=XMAX(ISPC)
       XMN=XMIN(ISPC)
@@ -997,6 +996,9 @@ C----------
         DBH(K)=D+0.001*HK
       ELSE
         IF(CIVAR)THEN
+          SDHCN=DHCN(ISPC)
+          SDHHT=DHHT(ISPC)
+          SDHCR=DHCR(ISPC)
           DK =EXP(  SDHCN + SDHHT*ALOG(HK) + SDHCR*ALOG(RCR) )
           IF(H .LT. 4.5) THEN
             DKK=D
