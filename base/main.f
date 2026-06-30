@@ -9,6 +9,7 @@ C     PROCSS THE COMMAND LINE. Passing an empty string signals that the
 C     real command line arguments will be fetched.
 C
       lenCl = 0
+      i = 0
       CALL fvsSetCmdLine(' ',lenCL,rtnCode)
       IF (rtnCode.NE.0) GOTO 10
 
