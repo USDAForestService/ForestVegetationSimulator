@@ -155,6 +155,11 @@ C     MINIMUM DIAMETER USED FOR SURVIVAL CALCULATIONS
      & 0.50, 0.50, 0.50, 0.10, 0.10, 0.10, 0.10, 0.50, 0.50, 0.50,
      & 0.50, 0.50, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10,
      & 0.10, 0.10, 0.10/
+C
+      WKIT2 = 0.0
+      DO I =1,6
+        PRM(I)=0.0
+      ENDDO
 C-----------
 C  CHECK FOR DEBUG.
 C-----------
@@ -390,7 +395,6 @@ C----------
       SUMDR10A=0   
       TA=0
   59  CONTINUE
-      WKIT2=0.0
       DO 60 I=1,ITRN
       WKI=WK2(I)*(PASS)
       IF (WKI.GT.PROB(I)) WKI=PROB(I)

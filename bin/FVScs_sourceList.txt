@@ -27,7 +27,6 @@
 ../common/GGCOM.F77
 ../common/GLBLCNTL.F77
 ../common/HTCAL.F77
-../common/INCLUDESVN.F77
 ../common/KEYCOM.F77
 ../common/METRIC.F77
 ../common/MULTCM.F77
@@ -211,6 +210,7 @@
 ../base/lbunin.f
 ../base/lnkchn.f
 ../base/lnkint.f
+../base/version.f
 ../base/main.f
 ../base/mbacal.f
 ../base/meansd.f

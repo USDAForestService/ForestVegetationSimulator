@@ -417,9 +417,9 @@ C         aspen
             DCYDUM=0
             WDSTDUM=0
             BIODUM=0
-            LDDUM=0
-            CTKFDUM=0
-            BTKDUM=0
+            LDDUM=.FALSE.
+            CTKFDUM=.FALSE.
+            BTKDUM=.FALSE.
 
             CALL NATCRS (V,VM,SCFDUM,BFDUM,SPI,D,H,.FALSE.,
      &                   CRDUM,BRKDUM,ITRNC,VMDUM,BFVDUM,
