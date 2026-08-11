@@ -1,3 +1,6 @@
-.gitignore
-bin/*
-tests/*
+bin/FVS??
+bin/FVS??.exe
+bin/FVS??.dll
+bin/FVS??.so
+bin/FVS??.dylib
+bin/FVS??_buildDir
