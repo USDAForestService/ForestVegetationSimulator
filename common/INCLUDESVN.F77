@@ -1,8 +1,0 @@
-CODE SEGMENT INCLUDESVN
-C----------
-C COMMON 
-C----------
-C
-      DATA SVN/"FS2026.1"/
-C
-C-----END SEGMENT

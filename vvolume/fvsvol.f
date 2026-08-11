@@ -20,26 +20,25 @@ C
       INCLUDE 'PLOT.F77'
       INCLUDE 'VOLSTD.F77'
 
-      COMMON/FVSVOLCOM/IREGN,FORST,VOLEQ,MTOPP,MTOPS,PROD
+      COMMON/FVSVOLCOM/VOLEQ,MTOPP,MTOPS,IREGN,FORST,PROD
 C
 COMMONS
 C----------
-      CHARACTER*1 BFTOP,CFTOP,CTYPE,HTTYPE,LIVEDEAD
+      CHARACTER*1 CTYPE,HTTYPE,LIVEDEAD
       CHARACTER*2 FORST,PROD
       CHARACTER*4 CONSPEC,FIASP
       CHARACTER*11 EQNC,EQNB,VOLEQ
       INTEGER CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG
       INTEGER IT,ITRNC,ISPC,INTFOR,IERR,IZERO,FIASPCD
       INTEGER I1,IREGN,IFC
-      INTEGER I,II,I3,I7,I15,I20,I21,I01,I02
+      INTEGER I,II,I3,I7,I15,I20,I21
       INTEGER ITD,BADUM,SIDUM,HTTDUM,IDIST,TLOGS
       INTEGER HTLOG,HTREF
       REAL VMAX,BFMAX,BARK,BRATIO,H,D,BBF,BBFV,BV,VM,VN,VVN
-      REAL FC,DBTBH,TVOL1,TVOL2,TVOL4,TVOL7,TDIBB,TDIBC
+      REAL FC,DBTBH,TVOL1,TVOL4,TVOL7,TDIBB,TDIBC
       REAL NOLOGP,NOLOGS
       REAL BOLHT(21),LOGLEN(20),TVOL(15)
       REAL HT1PRD,HT2PRD,MTOPP,MTOPS,STUMP,TOPDIAM
-      REAL XTOPD,HTC1,HTC2
       REAL DRCOB,UPSHT1,UPSHT2,UPSD1,UPSD2,AVGZ1,AVGZ2,RCULL,PCULL
       REAL TCF,MCF,SCF,CLMSTOP,RCRATIO,BRKHT
       LOGICAL TKILL,CTKFLG,BTKFLG,LCONE,DEBUG
@@ -158,56 +157,46 @@ C-----------
       BIODRYIN(IZERO)=0.
       BIOGRN(IZERO)=0.
   100 CONTINUE
-C
+
+      DBTBH = D*(1-BARK)
+      VOLEQ=VEQNNC(ISPC)
+      STUMP=STMP(ISPC)
+      PROD='02'
+C  OLD COMMENT BELOW NEEDS TO BE DELETED
 C  REGION 9 INPUTS OUTSIDE-BARK TOP DIAMETERS TO VOLINIT
 C  REGION 8 DOES NOT CARE, TOP DIAMETERS ARE HARD WIRED
 C  WESTERN VARIANTS INPUT INSIDE-BARK TOP DIAMETERS 
 C  MTOPP (primary product - CuFt, Sawlog)
 C  MTOPS (secondary product - Cuft, Pulpwood)
-C
-      IF((IREGN.EQ.8).OR.(IREGN.EQ.9).OR.LFIANVB)THEN
-        MTOPP=SCFTOPD(ISPC)
-        MTOPS=TOPD(ISPC)
-      ELSE
-        MTOPS=TOPD(ISPC)*BARK
-      ENDIF
-C----------
-C  CALL TO VOLUME INTERFACE - VOLINIT - CUBIC VOLUMES
-C  INITIALIZE CONSTANT ARGUMENTS, AND VARIABLES
-C----------
-      IF(DEBUG) WRITE(JOSTND,*)
-     &  'IREGN,ISPC,D,BFMIND,DBHMIN,MTOPP,MTOPS = ',
-     &  IREGN,ISPC,D,BFMIND(ISPC),DBHMIN(ISPC),MTOPP,MTOPS
-     
-      VOLEQ=VEQNNC(ISPC)
-      STUMP=STMP(ISPC)
-      PROD='02'
+C  OLD COMMENT ABOVE NEEDS TO BE DELETED
 
-C     Setting top diameter spec for calculating height to diameter for
-C     Merch CuFt.
-C     Region 5 uses inside bark diameter,
-C     Region 9 computes a saw timber CuFt, VOL(4),
-C     other regions need top diameter set at secondary product for this
-C     step of process. That is why TOPDIAM for Region 9 is set to MTOPP
-C     here which is the saw timber spec instead of typical CuFt spec, MTOPS.
-C
-      IF(.NOT.LFIANVB .AND. IREGN.EQ.5) THEN
-        TOPDIAM=TOPD(ISPC)*BARK
-      ELSE
-        TOPDIAM=MTOPS
-      ENDIF
+C  SPRING 2026 -- DWAGNER
+C  WE NOW UNDERSTAND THAT TOP DIAMETERS, AS TRACKED BY FVS
+C  AND DESCRIBED IN THE VARIANT OVERVIEW DOCUMNENTATION
+C  CAN BE INPUT DIRECTLY INTO NVEL WITHOUT MODIFICATION FOR 
+C  BARK THICKNESS.
+C  ALL VARIANTS OTHER THAN SN, ARE STORED AS TOP DIAMETER INSIDE BARK,
+C  THE SN VARIANT IS OUTSIDE BARK BUT BARK THICKNESS IS HANDLED IN NVEL.
+C  
+C  FIANVB EQUATIONS USE OUTSIDE BARK DIAMETERS, BUT NVEL IS DESIGNED WITH THAT INTENT
+C  THUS, ALL TOPDIAMETERS CAN BE PASSED TO NVEL AS IS, AND NOT MODIFIED FOR BARK THICKNESS,
+C  BUT NFS SPECS SHOULD NOT BE USED WITH CRUISE TYPE 'I', AND FIAVBC SPECS SHOULD NOT BE USED 
+C  WITH CRUISETYPE 'F' SINCE THERE ARE DIFFENCE IN THE ASSUMPTIONS OF THE TOP DIAMETER INPUTS.
+C  'F' ASSUMES TOP DIAMETER OUTSIDE BARK
+C  'I' ASSUMES TOP DIAMETER INSIDE BARK
 
-      DBTBH = D*(1-BARK)
+C  WESTERN VARIANTS USING DEFAULT NFS EQUATIONS DO NOT COMPUTE SAWLOG CUBIC VOLUME, 
+C  THUS MTOPS AND TOPDIAM BOTH EQUAL THE TOPD FOR THAT SPECIES
 
-      IF((LFIANVB .OR. IREGN.EQ.9 .OR. IREGN.EQ.8) 
-     &    .AND. D.GE.SCFMIND(ISPC))THEN
-        STUMP=SCFSTMP(ISPC)
-        TOPDIAM=MTOPP
-        PROD='01'
+      MTOPS=TOPD(ISPC)
+      TOPDIAM=TOPD(ISPC)
+
+      IF((IREGN.EQ.8.OR.IREGN.EQ.9.OR.LFIANVB)
+     &    .AND.D.GE.SCFMIND(ISPC))THEN
+          STUMP=SCFSTMP(ISPC)
+          TOPDIAM=SCFTOPD(ISPC)
+          PROD='01'
       ENDIF
-C
-C       Tree DBH meets min merch for Pulp/CuFT only
-C
 
 C      I1=0     ! no longer in use a.o. 10/28/2022 to prevent address space pollution
       I3=3      ! second dimension of LOGDIA(,x) array
@@ -284,7 +273,7 @@ C  SECONDARY PRODUCT
      & 'CALLING VOLINIT CF ISPC,IREGN,FORST,VOLEQ = ',
      &                      ISPC,IREGN,FORST,VOLEQ
       IF(DEBUG)WRITE(JOSTND,*)
-     & '  TOPDIAM,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
+     & '  SCFTopD,MCFTopD,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
      &    TOPDIAM,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1
       IF(DEBUG)WRITE(JOSTND,*)'  HT1PRD,HT2PRD,IFC,DBTBH,BARK = ',
      &                           HT1PRD,HT2PRD,IFC,DBTBH,BARK
@@ -343,16 +332,16 @@ C     for the tree volume to be included.
         IF(IREGN.EQ.8 .AND. PROD.EQ.'01' .AND. HT1PRD.LT.10.)THEN
           TVOL(4)=0.
           TVOL(2)=0.
-          ENDIF
         ENDIF
+      ENDIF
 
       IF(LFIANVB) BIODRYIN = BIODRY
-
-
 
 C----------
 C  END OF CF SECTION
 C----------
+
+
 
 C  IF THE BF VOLUME EQUATION IS DIFFERENT THAN THE CF VOLUME EQ OR
 C  THE TOP DIAMETER SPECIFICATION FOR THE CUFT AND BDFT PRODUCTS
@@ -372,15 +361,11 @@ C          WRITE(BFTOP,'(I1)')NINT(BFTOPD(ISPC))
 C          VOLEQ(3:3)=BFTOP
 C        ENDIF
         DO IZERO=1,15
-        TVOL(IZERO)=0.
+          TVOL(IZERO)=0.
         ENDDO
 
         STUMP=BFSTMP(ISPC)
-        IF(IREGN.EQ.8 .OR. IREGN.EQ.9) THEN
-          MTOPP=BFTOPD(ISPC)
-        ELSE
-          MTOPP=BFTOPD(ISPC)*BARK
-        END IF
+        MTOPP=BFTOPD(ISPC)
         PROD='01'
 C       I1=0 ! no longer in use a.o. 10/28/2022 to prevent address space pollution
         I3=3
@@ -390,16 +375,16 @@ C       I1=0 ! no longer in use a.o. 10/28/2022 to prevent address space polluti
         I21=21
 
 C     Initialize independant volinit variables to prevent shared address space
-      HTLOG = 0 ! Replaces I1 in position 11 of volinit call
-      HTREF = 0 ! Replaces I1 in position 18 of volinit call
+        HTLOG = 0 ! Replaces I1 in position 11 of volinit call
+        HTREF = 0 ! Replaces I1 in position 18 of volinit call
 
-      DRCOB = 0.  ! Replaces X1 in position 08 of volinit call
-      UPSHT1 = 0. ! Replaces X1 in position 14 of volinit call
-      UPSHT2 = 0. ! Replaces X1 in position 15 of volinit call
-      UPSD1 = 0.  ! Replaces X1 in position 16 of volinit call
-      UPSD2 = 0.  ! Replaces X1 in position 17 of volinit call
-      AVGZ1 = 0.  ! Replaces X1 in position 19 of volinit call
-      AVGZ2 = 0.  ! Replaces X1 in position 20 of volinit call
+        DRCOB = 0.  ! Replaces X1 in position 08 of volinit call
+        UPSHT1 = 0. ! Replaces X1 in position 14 of volinit call
+        UPSHT2 = 0. ! Replaces X1 in position 15 of volinit call
+        UPSD1 = 0.  ! Replaces X1 in position 16 of volinit call
+        UPSD2 = 0.  ! Replaces X1 in position 17 of volinit call
+        AVGZ1 = 0.  ! Replaces X1 in position 19 of volinit call
+        AVGZ2 = 0.  ! Replaces X1 in position 20 of volinit call
 C----------
 C  CONSTANT CHARACTER ARGUMENTS
 C----------
@@ -421,8 +406,7 @@ C  CONSTANTS
         TLOGS = 0
         NOLOGP = 0.
         NOLOGS = 0.
-        IF((IREGN.NE.8)
-     &     .AND.(VOLEQ(4:6).NE.'DVE'))THEN
+        IF((IREGN.NE.8).AND.(VOLEQ(4:6).NE.'DVE'))THEN
           HT1PRD=0.
           HT2PRD=0.
         ENDIF
@@ -445,23 +429,23 @@ C----------
         CALL FORMCL(ISPC,IFOR,D,FC)
         IFC=IFIX(FC)
 
-      DBTBH = D*(1-BARK)
+        DBTBH = D*(1-BARK)
 
-      IF(DEBUG)WRITE(JOSTND,*)
-     & 'CALLING VOLINIT BF ISPC,IREGN,FORST,VOLEQ = ',
+        IF(DEBUG)WRITE(JOSTND,*)
+     &   'CALLING VOLINIT BF ISPC,IREGN,FORST,VOLEQ = ',
      &                      ISPC,IREGN,FORST,VOLEQ
-      IF(DEBUG)WRITE(JOSTND,*)
-     & '  MTOPP,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
-     &    MTOPP,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1
-      IF(DEBUG)WRITE(JOSTND,*)'  HT1PRD,HT2PRD,IFC,DBTBH,BARK = ',
-     &                           HT1PRD,HT2PRD,IFC,DBTBH,BARK
-      IF(DEBUG)WRITE(JOSTND,*)'  CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG = ',
-     &                           CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG
-      IF(DEBUG)WRITE(JOSTND,*)
-     & '  CONSPEC=',CONSPEC,' PROD=',PROD,' HTTDUM=',HTTDUM,
-     & ' LIVEDEAD=',LIVEDEAD,' BADUM=',BADUM,' SIDUM= ',SIDUM
-      IF(DEBUG)WRITE(JOSTND,*)'  CTYPE,IERR,IDIST = ',
-     &                           CTYPE,IERR,IDIST
+        IF(DEBUG)WRITE(JOSTND,*)
+     &   '  BFTopD,MCFTopD,STUMP,D,DRCOB,HTTYPE,H,I1 = ',
+     &      MTOPP,MTOPS,STUMP,D,DRCOB,HTTYPE,H,I1
+        IF(DEBUG)WRITE(JOSTND,*)'  HT1PRD,HT2PRD,IFC,DBTBH,BARK = ',
+     &                             HT1PRD,HT2PRD,IFC,DBTBH,BARK
+        IF(DEBUG)WRITE(JOSTND,*)'  CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG = '
+     &                             ,CUTFLG,BFPFLG,CUPFLG,CDPFLG,SPFLG
+        IF(DEBUG)WRITE(JOSTND,*)
+     &   '  CONSPEC=',CONSPEC,' PROD=',PROD,' HTTDUM=',HTTDUM,
+     &   ' LIVEDEAD=',LIVEDEAD,' BADUM=',BADUM,' SIDUM= ',SIDUM
+        IF(DEBUG)WRITE(JOSTND,*)'  CTYPE,IERR,IDIST = ',
+     &                             CTYPE,IERR,IDIST
 
         CALL VOLINITNVB(IREGN,FORST,VOLEQ,MTOPP,MTOPS,STUMP,D,
      +   DRCOB,HTTYPE,H,HTLOG,HT1PRD,HT2PRD,UPSHT1,UPSHT2,UPSD1,UPSD2,
@@ -471,15 +455,15 @@ C----------
      +   BADUM,SIDUM,CTYPE,IERR,IDIST,BRKHT,BRKTD,FIASPCD,BIODRY,
      +   BIOGRN,MRULFLG,MERRLS,CLMSTOP)
 
-      IF(DEBUG)WRITE(JOSTND,*)
-     & 'AFTER VOLINIT BF IERR,PROD,HT1PRD,HT2PRD= ',
+        IF(DEBUG)WRITE(JOSTND,*)
+     &   'AFTER VOLINIT BF IERR,PROD,HT1PRD,HT2PRD= ',
      &                   IERR,PROD,HT1PRD,HT2PRD
-      IF(DEBUG)WRITE(JOSTND,*)'   TVOL = ',TVOL
-      IF(DEBUG)WRITE(JOSTND,*)'   LOGVOL= ',LOGVOL
-      IF(DEBUG)WRITE(JOSTND,*)'   LOGDIA= ',LOGDIA
-      IF(DEBUG)WRITE(JOSTND,*)'   LOGLEN= ',LOGLEN
-      IF(DEBUG)WRITE(JOSTND,*)'   BOLHT,TLOGS,NOLOGP,NOLOGS= ',
-     &                            BOLHT,TLOGS,NOLOGP,NOLOGS
+        IF(DEBUG)WRITE(JOSTND,*)'   TVOL = ',TVOL
+        IF(DEBUG)WRITE(JOSTND,*)'   LOGVOL= ',LOGVOL
+        IF(DEBUG)WRITE(JOSTND,*)'   LOGDIA= ',LOGDIA
+        IF(DEBUG)WRITE(JOSTND,*)'   LOGLEN= ',LOGLEN
+        IF(DEBUG)WRITE(JOSTND,*)'   BOLHT,TLOGS,NOLOGP,NOLOGS= ',
+     &                              BOLHT,TLOGS,NOLOGP,NOLOGS
 
         IF(D.GE.BFMIND(ISPC))THEN
           IF(IT.GT.0)HT2TD(IT,1)=HT1PRD
@@ -501,7 +485,6 @@ C
           TVOL(2)=0.
         ENDIF  
       ENDIF                   ! END OF BF SECTION
-  500 CONTINUE
 C----------
 C  SET RETURN VALUES.
 C----------
@@ -526,8 +509,8 @@ C----------
         ENDIF
         IF(BBFV.LT.0.)BBFV=0.
       ENDIF
-      IF(DEBUG)WRITE(JOSTND,*)'  IN FVSVOL D, VN, VM, VMAX, BBFV = ',
-     &                            D, VN, VM, VMAX, BBFV
+      IF(DEBUG)WRITE(JOSTND,*)'  IN FVSVOL D, TVOL, MCF, SCF, BBFV = ',
+     &                            D, TCF, MCF, SCF, BBFV
       CTKFLG = .TRUE.
       BTKFLG = .TRUE.
       RETURN

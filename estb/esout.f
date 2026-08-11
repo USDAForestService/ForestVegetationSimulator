@@ -68,9 +68,9 @@ C      REWIND JOREGT
       ICOUNT=0
       DO WHILE (ISTAT /= 0)
         ICOUNT = ICOUNT + 1
-        CALL SLEEP(1)
+        CALL SLEEP(100)
         CLOSE (JOREGT, STATUS="DELETE",IOSTAT=ISTAT)
-        IF(ICOUNT .GE. 10) THEN
+        IF(ICOUNT .GE. 5) THEN
           WRITE(*,*) 'ATTEMPT TO CLOSE FILE AT ESOUT LINE 60 FAILED'
           EXIT
         END IF

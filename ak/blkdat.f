@@ -77,7 +77,7 @@ C  19     AS   quaking aspen       746  POTR5  Populus tremuloides
 C  20     CW   black cottonwood    747  POBAT  Populus balsamifera 
 C                                              ssp. trichocarpa
 C  21     WI   willow              920  SALIX  Salix
-C  22     SU   Scouler’s willow    928  SASC   Salix scouleriana
+C  22     SU   Scouler's willow    928  SASC   Salix scouleriana
 C  23     OH   other hardwood      998  2TB
 C
 C----------
