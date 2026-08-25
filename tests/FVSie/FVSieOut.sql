@@ -1,5 +1,6 @@
-.tables
-.mode csv
+.mode tabs
+.separator ","
+SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 select 'Cases', StandID, RunTitle, KeywordFile, SamplingWt, Variant 
   from FVS_Cases;
 select 'Compute', StandID, Year, round(MYBBA,2), round(MYABA,2), round(MYBAR,2), 

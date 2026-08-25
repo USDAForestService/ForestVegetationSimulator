@@ -1,5 +1,6 @@
-.tables
-.mode csv
+.mode tabs
+.separator ","
+SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 select StandID, RunTitle, KeywordFile, SamplingWt, Variant from FVS_Cases;
 select StandID, Year, TPA, BA, TCuFt, RTPA, Mort from FVS_Summary;
 select 'FVS_TreeList--------', Count(*) from FVS_TreeList;

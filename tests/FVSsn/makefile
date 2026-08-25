@@ -24,8 +24,8 @@ sndb :
 	@echo sn variant database read and write, tests a lot of tables
 	rm -f snout.db
 	../../bin/FVSsn --keywordfile=sn.key  
-	-sqlite3 snout.db < snTablesTest.sql > snout.txt
-	-diff -w snout.txt snout.txt.save
+	sqlite3 snout.db < snTablesTest.sql > snout.txt
+	diff -w snout.txt snout.txt.save
 
 clean : 
 	rm -rfv sn.out sn.sng snout.db snout.db.sum snout.txt
