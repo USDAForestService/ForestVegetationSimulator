@@ -204,8 +204,8 @@
 ../base/lbunin.f
 ../base/lnkchn.f
 ../base/lnkint.f
-../base/version.f
-../base/main.f
+../base/version.f90
+../base/main.f90
 ../base/mbacal.f
 ../base/meansd.f
 ../base/msbmrt.f
