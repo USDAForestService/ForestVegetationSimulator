@@ -232,9 +232,9 @@ endif
 .PRECIOUS : $(object) $(mods_mods) 
 
 # FVSVERSION module (base/version.f) — consumers must compile after version.o
-fvsvERSION.mod : version.o
+fvsversion.mod : version.o
 
-grohed.o main.o revise.o dbscase.o : fvsvERSION.mod
+grohed.o main.o revise.o dbscase.o : fvsversion.mod
  
 ifeq (${OSARCH},w64) 
 %.prg : $(object) 
@@ -253,7 +253,7 @@ endif
 version.o : version.f $(includes)
 	$(FCprf)$(FC) $(FFLAGS) -ffree-form -c -o $@ $<
 
-main.o : main.f $(includes) fvsvERSION.mod
+main.o : main.f $(includes) fvsversion.mod
 	$(FCprf)$(FC) $(FFLAGS) -ffree-form -c -o $@ $<
 
 %.o : %.f $(includes) $(mods_mods)
