@@ -1,5 +1,6 @@
-.tables
-.mode csv
+.mode tabs
+.separator ","
+SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 select 'Cases', StandID, RunTitle, KeywordFile, SamplingWt, Variant from FVS_Cases;
 select 'BurnReport', Duff_Moisture from FVS_BurnReport;
 select 'Consumption', round(Consumption_6to12,2) from FVS_Consumption;

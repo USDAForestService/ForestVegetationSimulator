@@ -1,4 +1,6 @@
-.tables
+.mode tabs
+.separator ","
+SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
 select count(*) from FVS_ATRTList   ;
 select count(*) from FVS_Down_Wood_Cov   ;
 select count(*) from FVS_Mortality       ;

@@ -72,9 +72,13 @@ export LD = gfortran
 # A -dirty suffix indicates uncommitted changes in the working tree.
 # A -dirty binary should not be used in production or deliverable contexts.
 # --------------------------------------------------------------------------
+
+# Define source remote name for your environment. This is the remote that will be used to determine the git org and version.
+GIT_REMOTE_NAME := origin
+
 FVS_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
 
-GIT_REMOTE  := $(shell git -C $(FVS_ROOT) remote get-url open-source 2>/dev/null || echo unknown)
+GIT_REMOTE  := $(shell git -C $(FVS_ROOT) remote get-url $(GIT_REMOTE_NAME) 2>/dev/null || echo unknown)
 GIT_ORG     := $(shell u="$(GIT_REMOTE)"; \
                o=$$(echo "$$u" | sed -E 's#.*[:/]([^/]+)/[^/]*(\.git)?$$#\1#'); \
                test -n "$$o" && echo "$$o" || echo unknown)
@@ -127,7 +131,7 @@ ifdef sourceFileList
   export includes = $(notdir $(filter %.F77 %.INC %.h,$(sourceList)))
   export mods = $(notdir $(filter %_mod.f, $(sourceList)))
   export mods_mods = $(addsuffix .mod,$(basename $(mods)))
-  export source = $(notdir $(filter %.c %.f %.F %.for %.cpp, $(sourceList)))
+  export source = $(notdir $(filter %.c %.f %.f90 %.F %.for %.cpp, $(sourceList)))
   export object = $(addsuffix .o,$(basename $(source)))
  endif
 endif
@@ -231,10 +235,10 @@ endif
 
 .PRECIOUS : $(object) $(mods_mods) 
 
-# FVSVERSION module (base/version.f) — consumers must compile after version.o
-fvsvERSION.mod : version.o
+# FVSVERSION module (base/version.f90) — consumers must compile after version.o
+fvsversion.mod : version.o
 
-grohed.o main.o revise.o dbscase.o : fvsvERSION.mod
+grohed.o main.o revise.o dbscase.o : fvsversion.mod
  
 ifeq (${OSARCH},w64) 
 %.prg : $(object) 
@@ -249,14 +253,10 @@ endif
 %.mod : %.f $(includes)
 	$(FCprf)$(FC) $(FFLAGS) -c $<
 
-# Free-form Fortran (version metadata and CLI entry point)
-version.o : version.f $(includes)
-	$(FCprf)$(FC) $(FFLAGS) -ffree-form -c -o $@ $<
-
-main.o : main.f $(includes) fvsvERSION.mod
-	$(FCprf)$(FC) $(FFLAGS) -ffree-form -c -o $@ $<
-
 %.o : %.f $(includes) $(mods_mods)
+	$(FCprf)$(FC) $(FFLAGS) -c -o $@ $<
+
+%.o : %.f90 $(includes) $(mods_mods)
 	$(FCprf)$(FC) $(FFLAGS) -c -o $@ $<
 
 %.o : %.for $(includes) $(mods_mods)

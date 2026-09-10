@@ -884,8 +884,10 @@ C
 C  ==========  OPTION NUMBER 14: STDINFO  ===========================STDINFO
 C
  2400 CONTINUE
-      KODFOR=IFIX(ARRAY(1))
-      CALL FORKOD
+      IF(LNOTBK(1)) THEN
+        KODFOR=IFIX(ARRAY(1))
+        CALL FORKOD
+      END IF
       IF ( LNOTBK(7) )THEN
         WRITE(CPVREF,'(I10)')IFIX(ARRAY(7))
       ELSE

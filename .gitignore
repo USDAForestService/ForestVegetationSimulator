@@ -4,3 +4,5 @@ bin/FVS??.dll
 bin/FVS??.so
 bin/FVS??.dylib
 bin/FVS??_buildDir
+bin/BuildAll_MinGW.bat
+bin/BuildAll_VS10.bat
