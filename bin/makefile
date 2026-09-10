@@ -72,9 +72,13 @@ export LD = gfortran
 # A -dirty suffix indicates uncommitted changes in the working tree.
 # A -dirty binary should not be used in production or deliverable contexts.
 # --------------------------------------------------------------------------
+
+# Define source remote name for your environment. This is the remote that will be used to determine the git org and version.
+GIT_REMOTE_NAME := origin
+
 FVS_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
 
-GIT_REMOTE  := $(shell git -C $(FVS_ROOT) remote get-url open-source 2>/dev/null || echo unknown)
+GIT_REMOTE  := $(shell git -C $(FVS_ROOT) remote get-url $(GIT_REMOTE_NAME) 2>/dev/null || echo unknown)
 GIT_ORG     := $(shell u="$(GIT_REMOTE)"; \
                o=$$(echo "$$u" | sed -E 's#.*[:/]([^/]+)/[^/]*(\.git)?$$#\1#'); \
                test -n "$$o" && echo "$$o" || echo unknown)
