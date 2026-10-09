@@ -63,7 +63,9 @@ C
       INTEGER fsql3_close,fsql3_errmsg,fsql3_finalize,I
       LOGICAL LCOUT,LCIN
       
-      IF(IoutDBref.GE.0 .AND. LCOUT) THEN
+C     IN MEMORY MODE THE OUTPUT DATABASE STAYS OPEN UNTIL
+C     fvsSetMemoryTables TURNS MEMORY MODE OFF.
+      IF(IoutDBref.GE.0 .AND. LCOUT .AND. IMEMDB.EQ.0) THEN
         I = fsql3_finalize(IoutDBref)
         IF (I.NE.0) THEN
           I = fsql3_errmsg(IoutDBref,Msg,MxMsg)

@@ -16,5 +16,6 @@ C
       DATA DSNIN /"FVS_Data.db"/
       DATA IoutDBref/-1/
       DATA IinDBref /-1/
+      DATA IMEMDB   /0/
 
       END
