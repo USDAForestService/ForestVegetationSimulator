@@ -351,6 +351,7 @@
 ../dbsqlite/dbstreesin.f
 ../dbsqlite/dbstrls.f
 ../dbsqlite/fvsqlite3.c
+../dbsqlite/dbstables.f
 ../dbsqlite/sqlite3.c
 ../dbsqlite/sqlite3.h
 ../dbsqlite/uuidgen.f

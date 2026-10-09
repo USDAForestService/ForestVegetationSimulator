@@ -72,7 +72,15 @@ C
 
       KODE=0
       IF (LCOUT) THEN
-        I = fsql3_open(IoutDBref,trim(DSNOUT)//CHAR(0))
+        IF (IMEMDB.EQ.1) THEN
+C         MEMORY MODE: ONE IN-MEMORY OUTPUT DATABASE FOR THE WHOLE RUN.
+C         DBSCLOSE LEAVES IT OPEN, SO ONLY OPEN IT THE FIRST TIME.
+          I = 0
+          IF (IoutDBref.EQ.-1)
+     >      I = fsql3_open(IoutDBref,":memory:"//CHAR(0))
+        ELSE
+          I = fsql3_open(IoutDBref,trim(DSNOUT)//CHAR(0))
+        ENDIF
         IF (I.NE.0) THEN
           I = fsql3_errmsg(IoutDBref,Msg,MxMsg)
           print *," IoutDBref=",IoutDBref,
