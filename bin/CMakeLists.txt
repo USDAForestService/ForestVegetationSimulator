@@ -302,5 +302,5 @@ if(MSVC OR CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
     target_compile_options(${prgName} PRIVATE "/MP")
 endif()
 
-target_link_libraries(FVS_${varName} PRIVATE FVSsql FVSfofem)
-target_link_libraries(${prgName} PRIVATE FVS_${varName})
+target_link_libraries(FVS_${varName} PRIVATE FVSsql FVSfofem -pthread -ldl)
+target_link_libraries(${prgName} PRIVATE FVS_${varName} -pthread -ldl)
