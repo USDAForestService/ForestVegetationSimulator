@@ -1135,6 +1135,19 @@ C     from within FVS. nch is the length of filename.
       implicit none
 
 C     add an activity to the schedule.
+C
+C     rtnCode = 0: added
+C             = 1: not added; activity arrays full or idt <= 0
+C             = 2: not added; idt is before the current cycle (in cycle
+C                  1, before the inventory year) or at/after the end
+C                  of the projection
+C             = 3: not added; no stand in progress (add at stop point 7
+C                  or later)
+C
+C     an activity dated in the current cycle runs only if its step has
+C     not already run in this cycle. cutting activities (THIN* and the
+C     others done by CUTS) for the current cycle must be added at stop
+C     point 1 or 2.
 
       include "PRGPRM.F77"
       include "CONTRL.F77"
@@ -1148,6 +1161,14 @@ C     add an activity to the schedule.
       real(kind=8) inprms(nprms)
       real(kind=4) prms(mxtopass)
 
+      if (ICYC == 0) then
+        rtnCode = 3
+        return
+      endif
+      if (idt < IY(ICYC) .or. idt >= IY(NCYC+1)) then
+        rtnCode = 2
+        return
+      endif
       if (nprms > 0) then 
         do i=1,min(nprms,mxtopass)
           prms(i) = real(inprms(i),kind=4)
