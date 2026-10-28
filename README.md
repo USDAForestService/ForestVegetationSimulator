@@ -1,6 +1,3 @@
-# NOTICE: Temporary Delay on GitHub Response / Review
-Due to high priority projects, any issues and pull requests will be delayed in response for a few weeks.  Thank you for your understanding.
-
 <body>
 <h1>What is FVS?</h1>
 <p>The Forest Vegetation Simulator (FVS) is a family of individual-tree, distance-independent, forest growth simulation models.  It is a system of highly integrated analytical tools that is based upon a body of scientific research and experience.  Since the development of the first model for northern Idaho in 1973, FVS has evolved into a collection of 'variants' which represent different geographic areas across the county.  FVS can simulate a wide range of silvicultural treatments for most major forest tree species, forest types, and stand conditions.</p>
