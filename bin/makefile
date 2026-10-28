@@ -80,7 +80,7 @@ FVS_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
 
 GIT_REMOTE  := $(shell git -C $(FVS_ROOT) remote get-url $(GIT_REMOTE_NAME) 2>/dev/null || echo unknown)
 GIT_ORG     := $(shell u="$(GIT_REMOTE)"; \
-               o=$$(echo "$$u" | sed -E 's#.*[:/]([^/]+)/[^/]*(\.git)?$$#\1#'); \
+                o=$$(echo "$$u" | sed -E 's|.*[:/]([^/]+)/[^/]*(\.git)?$$|\1|'); \
                test -n "$$o" && echo "$$o" || echo unknown)
 GIT_VERSION := $(shell git -C $(FVS_ROOT) describe --tags --exact-match 2>/dev/null || \
                git -C $(FVS_ROOT) describe --tags 2>/dev/null || echo unknown)
