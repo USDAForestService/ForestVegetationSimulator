@@ -59,21 +59,21 @@ C.... Parameter include files.
       IDRYB    = INTS( 17)
       IDRYE    = INTS( 18)
       IFAPAS   = INTS( 19)
-      IFLALB   = INTS( 20)
-      IFLALE   = INTS( 21)
+C     INTS( 20) -- Not used.
+C     INTS( 21) -- Not used.
       IFLPAS   = INTS( 22)
-      IFMBRB   = INTS( 23)
-      IFMBRE   = INTS( 24)
-      IFMFLB   = INTS( 25)
-      IFMFLE   = INTS( 26)
-      IFMMRB   = INTS( 27)
-      IFMMRE   = INTS( 28)
+C     INTS( 23) -- Not used.
+C     INTS( 24) -- Not used.
+C     INTS( 25) -- Not used.
+C     INTS( 26) -- Not used.
+C     INTS( 27) -- Not used.
+C     INTS( 28) -- Not used.
       IFMYR1   = INTS( 29)
       IFMYR2   = INTS( 30)
       IFTYR    = INTS( 31)
       IMRPAS   = INTS( 32)
-      IPFLMB   = INTS( 33)
-      IPFLME   = INTS( 34)
+C     INTS( 33) -- Not used.
+C     INTS( 34) -- Not used.
       IPFPAS   = INTS( 35)
       ISALVC   = INTS( 36)
       ISALVS   = INTS( 37)
@@ -96,23 +96,15 @@ C.... Parameter include files.
       ICANSP   = INTS( 54)
       BURNSEAS = INTS( 55)
       IDSHEAT  = INTS( 56)
-      ISHEATB  = INTS( 57)
-      ISHEATE  = INTS( 58)
       SOILTP   = INTS( 59) 
-      ICFPB    = INTS( 60)
-      ICFPE    = INTS( 61) 
       NSNAGSALV= INTS( 62)
       NYRS     = INTS( 63)
 C------- Carbon reporting INTEGER variables --------
       ICHABT   = INTS( 64)
       ICHPAS   = INTS( 65)
-      ICHRVB   = INTS( 66)
-      ICHRVE   = INTS( 67)
       ICMETRC  = INTS( 68)
       ICMETH   = INTS( 69)
       ICRPAS   = INTS( 70)
-      ICRPTB   = INTS( 71)
-      ICRPTE   = INTS( 72)
       IDCHRV   = INTS( 73)
       IDCRPT   = INTS( 74)
 C------- new FFE INTEGER variables --------    
@@ -122,11 +114,7 @@ C------- new FFE INTEGER variables --------
       ITRNL    = INTS( 78)       
 C------- new FFE INTEGER variables for down wood reports --------      
       IDWPAS   = INTS( 79)
-      IDWRPB   = INTS( 80)
-      IDWRPE   = INTS( 81)
       IDCPAS   = INTS( 82)
-      IDWCVB   = INTS( 83)
-      IDWCVE   = INTS( 84)
       IDDWRP   = INTS( 85)
       IDDWCV   = INTS( 86)  
 

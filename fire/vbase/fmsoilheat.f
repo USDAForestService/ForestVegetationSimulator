@@ -73,14 +73,11 @@ C----------
 C     CHECK FOR DEBUG
 
       CALL DBCHK (DEBUG,'FMSOILHEAT',10,ICYC)
-      IF (DEBUG) WRITE(JOSTND,7) ICYC, IYR, ISHEATB, ISHEATE, IDSHEAT
-    7 FORMAT(' FMSOILHEAT CYCLE=',I2,' IYR=',I5,' ISHEATB,ISHEATE=',
-     >         2I5,' IDSHEAT=',I5)
+      IF (DEBUG) WRITE(JOSTND,7) ICYC, IYR, IDSHEAT
+    7 FORMAT(' FMSOILHEAT CYCLE=',I2,' IYR=',I5,' IDSHEAT=',I5)
 
 C     RETURN IF REPORT IS NOT REQUESTED BY KEYWORD (BEGIN YEAR REMAINS 9999)
 C     THIS USED TO BE BASED ON A REPORTING PERIOD, BEGIN AND END YEAR.
-
-      IF (ISHEATB .EQ. 9999) RETURN
 
       if (idsheat.eq.0) call getid(idsheat)
 
@@ -250,18 +247,15 @@ C
 
       call getlun (jrout)
 
-      if (isheatb.lt.0) then
-c         isheatb=-isheatb
-         write (jrout,30) idsheat,idsheat,idsheat,idsheat,nplt,
+      write (jrout,30) idsheat,idsheat,idsheat,idsheat,nplt,
      >                    mgmid,idsheat,idsheat,(i,i=0,13),idsheat
-   30    format (1x,i5/1x,i5,1x, 75('-')/1x,i5,t21,
+   30 format (1x,i5/1x,i5,1x, 75('-')/1x,i5,t21,
      >     'FOFEM SOIL HEATING ESTIMATES FOR SIMULATED FIRES'/
      >     1x,i5,' STAND ID: ',A,' MGMT ID: ',A,T71,'DEPTH WHERE'/
      >     1x,i5,'       --TEMP IN CELCIUS AT THESE DEPTHS ',
      >               'BELOW SURFACE (CM)---  TEMP EXCEEDS'/
      >     1x,i5,' YEAR ',14i4,'   60  275 C'/
      >     1x,i5,1x, 75('-'))
-      endif
 
       write (jrout,40) idsheat,iyr,
      >                 (int(fofem_output(i)),i=1,16)
