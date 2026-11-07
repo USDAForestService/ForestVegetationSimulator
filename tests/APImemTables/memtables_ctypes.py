@@ -55,10 +55,11 @@ Row = dict[str, float | str]
 def check_tables_match(file_db: Path, mem_db: Path) -> list[str]:
     """Check that memory mode produces the same tables as the file output.
 
-    Every table must exist in both, with the same columns, the same declared
-    types (from fvsTableColumns) and the same rows. CaseID and the FVS_Cases
-    run time differ between runs and are ignored, as is row order. NULL is
-    compared equal to NaN and to empty text, which is how the API returns it.
+    Every table must exist in both, with the same columns in the same order,
+    the same declared types (from fvsTableColumns) and the same rows. CaseID
+    and the FVS_Cases run time differ between runs and are ignored, as is row
+    order. NULL is compared equal to NaN and to empty text, which is how the
+    API returns it.
 
     Args:
         file_db: Database FVS wrote with memory mode off.
@@ -78,10 +79,8 @@ def check_tables_match(file_db: Path, mem_db: Path) -> list[str]:
         )
     for name in sorted(fnames & mnames):
         fcols, mcols = _column_types(fcon, name), _column_types(mcon, name)
-        if fcols.keys() != mcols.keys():
-            errors.append(
-                f"{name}: columns differ {sorted(fcols.keys() ^ mcols.keys())}"
-            )
+        if list(fcols) != list(mcols):
+            errors.append(f"{name}: columns differ: file {list(fcols)}, mem {list(mcols)}")
             continue
         if fcols != mcols:
             errors.append(
@@ -200,7 +199,9 @@ def _drain(lib: ctypes.CDLL, tables: dict[str, dict]) -> None:
     for name in _table_list(lib):
         types, rows = _read_table(lib, name)
         entry = tables.setdefault(name, {"types": {}, "rows": []})
-        entry["types"].update(types)  # FVS_Compute can gain columns between stands
+        # FVS_Compute can gain columns between stands; new ones go at the end,
+        # as ALTER TABLE ADD COLUMN does in the file database
+        entry["types"].update(types)
         entry["rows"] += rows
         rc = c_int()
         lib.fvscleartable_(name.encode(), byref(c_int(len(name))), byref(rc))
@@ -220,7 +221,7 @@ def _table_list(lib: ctypes.CDLL) -> list[str]:
 
 
 def _read_table(lib: ctypes.CDLL, name: str) -> tuple[dict[str, str], list[Row]]:
-    """Declared type of each column (numeric columns first) and every row of a table."""
+    """Declared type of each column and every row of a table, in table order."""
     bname, nch = name.encode(), c_int(len(name))
     nrow, nnum, ntxt, rc = c_int(), c_int(), c_int(), c_int()
     lib.fvstabledims_(
@@ -228,32 +229,31 @@ def _read_table(lib: ctypes.CDLL, name: str) -> tuple[dict[str, str], list[Row]]
     )
     assert rc.value == 0, f"fvsTableDims({name}) rc={rc.value}"
 
-    sizes = [1, 1, 1, 1]
+    ncol = nnum.value + ntxt.value
+    istxt = (c_int * ncol)()
+    sizes = [1, 1]
     while True:
         bufs = [create_string_buffer(s) for s in sizes]
         ns = [c_int(s) for s in sizes]
         lib.fvstablecolumns_(
             bname,
             byref(nch),
+            byref(c_int(ncol)),
             bufs[0],
             byref(ns[0]),
             bufs[1],
             byref(ns[1]),
-            bufs[2],
-            byref(ns[2]),
-            bufs[3],
-            byref(ns[3]),
+            istxt,
             byref(rc),
         )
         if rc.value != 2:
             break
         sizes = [max(s, n.value) for s, n in zip(sizes, ns)]
     assert rc.value == 0, f"fvsTableColumns({name}) rc={rc.value}"
-    numnames, txtnames, numtypes, txttypes = (
-        _split0(b, n.value) for b, n in zip(bufs, ns)
-    )
-    assert len(numnames) == nnum.value and len(txtnames) == ntxt.value
-    types = dict(zip(numnames + txtnames, numtypes + txttypes, strict=True))
+    colnames, coltypes = (_split0(b, n.value) for b, n in zip(bufs, ns))
+    flags = istxt[:ncol]
+    assert len(colnames) == ncol and sum(flags) == ntxt.value
+    types = dict(zip(colnames, coltypes, strict=True))
 
     rows: list[Row] = []
     n = nrow.value
@@ -292,9 +292,11 @@ def _read_table(lib: ctypes.CDLL, name: str) -> tuple[dict[str, str], list[Row]]
 
         k, t = nnum.value, ntxt.value
         for i in range(n):
-            row = dict(zip(numnames, values[i * k : (i + 1) * k]))
-            row.update(zip(txtnames, txt[i * t : (i + 1) * t]))
-            rows.append(row)
+            nums = iter(values[i * k : (i + 1) * k])
+            txts = iter(txt[i * t : (i + 1) * t])
+            rows.append(
+                {c: next(txts if f else nums) for c, f in zip(colnames, flags)}
+            )
     return types, rows
 
 
