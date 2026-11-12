@@ -1,15 +1,17 @@
 !--------------------------------------------------------------------------
-! BASE version.f
+! BASE version.f90
 !
 ! Provides the FVSVERSION module, which exposes build provenance metadata
 ! injected at compile time by bin/makefile via -D preprocessor flags.
 !
 ! Subroutines:
-!   fvsGetVersion(version, nch)   Short version string for --version flag
-!   fvsGetBuildInfo(info, nch)    Full provenance block for --build-info flag
+!   fvsGetVersion(buf, buflen, nch)    Short version string for --version
+!   fvsGetBuildInfo(buf, buflen, nch)  Full provenance block for --build-info
 !
 ! Both subroutines are also callable via the shared library API from R,
-! Python, or any language with a Fortran or C FFI.
+! Python, or any language with a Fortran or C FFI. BIND(C) exports them as
+! fvsgetversion_ and fvsgetbuildinfo_, the same naming gfortran gives the
+! other FVS API routines, so R's .Fortran("fvsGetVersion") finds them.
 !
 ! All metadata derives from the FVS source repo at build time.
 ! Re-run `make` to refresh after tagging or committing.
@@ -76,7 +78,7 @@ MODULE FVSVERSION
   !
   ! C/ctypes callers: allocate FVS_VERSION_BUFLEN bytes and pass its size.
   !------------------------------------------------------------------------
-  SUBROUTINE fvsGetVersion(buf, buflen, nch)
+  SUBROUTINE fvsGetVersion(buf, buflen, nch) BIND(C, name="fvsgetversion_")
     CHARACTER(KIND=C_CHAR), INTENT(OUT) :: buf(*)
     INTEGER(KIND=C_INT),    INTENT(IN)  :: buflen
     INTEGER(KIND=C_INT),    INTENT(OUT) :: nch
@@ -108,7 +110,7 @@ MODULE FVSVERSION
   !   CALL fvsGetBuildInfo(buf, FVS_BUILDINFO_BUFLEN, nch)
   !   WRITE(*,'(A)') buf(1:nch)
   !------------------------------------------------------------------------
-  SUBROUTINE fvsGetBuildInfo(buf, buflen, nch)
+  SUBROUTINE fvsGetBuildInfo(buf, buflen, nch) BIND(C, name="fvsgetbuildinfo_")
     CHARACTER(KIND=C_CHAR), INTENT(OUT) :: buf(*)
     INTEGER(KIND=C_INT),    INTENT(IN)  :: buflen
     INTEGER(KIND=C_INT),    INTENT(OUT) :: nch
