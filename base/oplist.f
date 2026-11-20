@@ -29,6 +29,7 @@ C
 COMMONS
 C
       INTEGER NTRSLT,I1,I,ICY,I2,II,IACTK,IDT,KEY,LOC,J1,J2,J,ID,K
+      INTEGER IKEY,IKEY2
       CHARACTER*26 NPLT
       CHARACTER*4  MGMID
       CHARACTER*72 ITITLE
@@ -36,13 +37,13 @@ C
       LOGICAL LINE,LFIRST
       CHARACTER*8 KEYWRD,UNKNOW,TITL,SCHED,SUMMR
       CHARACTER*4 TAB2(17)
-      PARAMETER (NTRSLT=148)
+      PARAMETER (NTRSLT=146)
       INTEGER ITRSL1(NTRSLT),ITRSL2(NTRSLT)
       INTEGER IOPCYHLD(MAXACT)             ! Used for temp hold of IOPCYC array
       DATA ITRSL1/
      >       33,   80,   81,   82,   90,   91,   92,   93,   94,   95,
-     >       96,   97,   98,   99,  100,  101,  102,  110,  111,  120,
-     >      198,  199,  200,  201,  202,  203,  204,  205,  206,  215,
+     >       96,   97,   98,   99,  101,  102,  110,  111,  120,
+     >      198,  199,  200,  201,  202,  203,  204,  206,  215,
      >      216,  217,  218,  222,  223,  224,  225,  226,  227,  228,
      >      229,  230,  231,  232,  233,  234,  235,  236,  237,  248,
      >      249,  250,  260,  427,  428,  429,  430,  431,  432,  440,
@@ -58,8 +59,8 @@ C
 C
       DATA ITRSL2/
      >       33,   17,   96,  102,    3,   58,   62,   70,   59,  207,
-     >       45,   88,  110,  111,  118,  616,  603,   38,   37,  138,
-     >      135,   92,   48,   49,   71,  103,  107,  120,  144,   41,
+     >       45,   88,  110,  111,  616,  603,   38,   37,  138,
+     >      135,   92,   48,   49,   71,  103,  107,  144,   41,
      >       42,   43,   44,   23,   24,   25,   26,   27,   28,   29,
      >       30,  112,  115,   35,  122,  124,  129,  136,  141,  128,
      >      108,   78,   34,  216,  211,  212,  202,  203,  229,  213,
@@ -337,5 +338,14 @@ C     WRITE END-OF-TABLE
 C
       WRITE (JOSTND,180)
   180 FORMAT (130('-'))
+      RETURN
+C
+C     OPKEY RETURNS THE KEYWORD TABLE INDEX FOR ACTIVITY CODE IKEY,
+C     OR 0 IF IKEY IS NOT A KNOWN ACTIVITY CODE.
+C
+      ENTRY OPKEY(IKEY)
+      CALL OPBISR (NTRSLT,ITRSL1,IKEY,IKEY2)
+      IKEY=0
+      IF (IKEY2.GT.0) IKEY=ITRSL2(IKEY2)
       RETURN
       END
