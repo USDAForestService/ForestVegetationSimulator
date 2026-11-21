@@ -4,26 +4,26 @@ all : iet01 iet02 iet03 compress iedb calibStats DBReportTest econdb \
 
 iet01 :
 	@echo Test iet01, basic functionality
-	rm -f iet01_Out.db
+	rm -f iet01_out.db
 	-../../bin/FVSie --keywordfile=iet01.key
 	-grep -v "\-999" iet01.sum      > iet01.tmp
 	-grep -v "\-999" iet01.sum.save > iet01.tmp.save
 	-diff -w iet01.tmp iet01.tmp.save
 	rm -f iet01.tmp iet01.tmp.save
-	-sqlite3 iet01_Out.db < iet01_Out_sqlite.sql > iet01_db_dump.txt
+	-sqlite3 iet01_out.db < iet01_out_sqlite.sql > iet01_db_dump.txt
 	-diff -w iet01_db_dump.txt iet01_db_dump.txt.save
 	@echo Test iet01 ended
 
 iet02 :
 	@echo Test iet02, test use of stop/restart, same as iet01.
-	rm -f iet01_Out.db
+	rm -f iet01_out.db
 	-../../bin/FVSie --keywordfile=iet01.key --stoppoint=2,2040,iet02.stop
 	-../../bin/FVSie --restart=iet02.stop
 	grep -v "\-999" iet01.sum      > iet01.tmp
 	grep -v "\-999" iet01.sum.save > iet01.tmp.save
 	-diff -w iet01.tmp iet01.tmp.save
 	rm -f iet01.tmp iet01.tmp.save
-	-sqlite3 iet01_Out.db < iet01_Out_sqlite.sql > iet02_db_dump.txt
+	-sqlite3 iet01_out.db < iet01_out_sqlite.sql > iet02_db_dump.txt
 	-diff -w iet02_db_dump.txt iet02_db_dump.txt.save
 	@echo Test iet02 ended
 
@@ -166,7 +166,7 @@ clean :
 #	remove ie files
 	rm -rfv ie_db_dump.txt ie.out 
 #	remove iet01 files
-	rm -rfv iet01.out iet01.sum iet01.trl iet01_Out.db iet01_db_dump.txt
+	rm -rfv iet01.out iet01.sum iet01.trl iet01_out.db iet01_db_dump.txt
 #	remove iet02 files
 	rm -rfv iet02_db_dump.txt iet02.stop 
 #	remove iet03 files
