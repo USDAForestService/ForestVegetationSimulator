@@ -286,7 +286,17 @@ c     nch     = the number of characters in "name"
 c     action  = char string that is one of "set" or "get" (case sensitive)
 c     attr    = a vector of length data, always "double"
 c     rtnCode = 0 is OK, 1= "name" not found,
+c               2= not set; the cubic specs (mc*, scf*) are locked by
+c                  FIAVBC
+c               3= not set; method 10 (NSVB) can only be chosen with
+c                  the VOLUME/BFVOLUME keywords
 c               4= the length of the "name" string was too big or small
+c
+c     the volume specs (bf*, mc*, scf*, frmcls) set here apply from the
+c     next volume calculation, so set them at a stop point before that
+c     cycle's volumes are computed. at stop point 7 they apply from the
+c     start of the run, like the VOLUME/BFVOLUME keywords, but they
+c     can't change which volume equation a species uses.
 c
       include "PRGPRM.F77"
       include "PLOT.F77"
@@ -299,6 +309,7 @@ c
 !DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, ACTION, ATTR, RTNCODE
 
       integer :: nch,rtnCode
+      integer :: iold(MAXSP),inew(MAXSP)
       real(kind=8)      :: attr(MAXSP)
       character(len=10) :: name
       character(len=4)  :: action
@@ -312,6 +323,35 @@ c
       action=action(1:3)
 
       rtnCode = 0
+      if (action=="set") then
+c       FIAVBC sets the cubic specs and blocks the VOLUME keyword, so
+c       the API can't change them either.
+        select case(name)
+        case ("mcmind","mctopd","mcstmp","mcmeth",
+     >        "scfmind","scftopd","scfstmp")
+          if (LFIANVB) then
+            rtnCode = 2
+            return
+          endif
+        end select
+c       each species' volume equation is chosen from its method when
+c       the keywords are read (sitset), before any stop point. a switch
+c       to or from method 10 (NSVB) here would leave the old equation in
+c       place, so refuse it. other method changes, and setting 10 to 10,
+c       are allowed.
+        if (name=="mcmeth" .or. name=="bfmeth") then
+          if (name=="mcmeth") then
+            iold = methc
+          else
+            iold = methb
+          endif
+          inew = int(attr,4)
+          if (any(inew /= iold .and. (inew == 10 .or. iold == 10))) then
+            rtnCode = 3
+            return
+          endif
+        endif
+      endif
       select case(name)
       case ("spccf")
         if (action=="get") attr = reldsp
@@ -352,6 +392,15 @@ c     volume calculation-related vectors
       case ("mcmeth")
         if (action=="get") attr = methc
         if (action=="set") methc = int(attr,4)
+      case ("scfmind")
+        if (action=="get") attr = scfmind
+        if (action=="set") scfmind = real(attr,4)
+      case ("scftopd")
+        if (action=="get") attr = scftopd
+        if (action=="set") scftopd = real(attr,4)
+      case ("scfstmp")
+        if (action=="get") attr = scfstmp
+        if (action=="set") scfstmp = real(attr,4)
       case ("baimult")
         if (action=="get") attr = xdmult
         if (action=="set") xdmult = real(attr,4)
