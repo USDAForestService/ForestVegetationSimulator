@@ -1143,6 +1143,8 @@ C                  1, before the inventory year) or at/after the end
 C                  of the projection
 C             = 3: not added; no stand in progress (add at stop point 7
 C                  or later)
+C             = 4: not added; iactk is not a recognized activity code
+C                  that can be scheduled through the API
 C
 C     an activity dated in the current cycle runs only if its step has
 C     not already run in this cycle. cutting activities (THIN* and the
@@ -1156,7 +1158,7 @@ C     point 1 or 2.
 !DEC$ ATTRIBUTES C,DECORATE :: FVSADDACTIVITY
 !DEC$ ATTRIBUTES REFERENCE :: IDT, IACTK, INPRMS, NPRMS, RTNCODE
       
-      integer :: i,idt,iactk,nprms,rtnCode,kode
+      integer :: i,idt,iactk,nprms,rtnCode,kode,key
       integer, parameter :: mxtopass=20
       real(kind=8) inprms(nprms)
       real(kind=4) prms(mxtopass)
@@ -1167,6 +1169,14 @@ C     point 1 or 2.
       endif
       if (idt < IY(ICYC) .or. idt >= IY(NCYC+1)) then
         rtnCode = 2
+        return
+      endif
+C     33 (COMPUTE) is in the table, but its parameters index the event
+C     monitor's parsed expressions, so it can't come from the API.
+      key = iactk
+      call opkey(key)
+      if (key == 0 .or. iactk == 33) then
+        rtnCode = 4
         return
       endif
       if (nprms > 0) then 
