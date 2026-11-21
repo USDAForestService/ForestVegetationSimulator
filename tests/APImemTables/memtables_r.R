@@ -40,10 +40,11 @@ ignoreCols <- c("CaseID", "RunDateTime")
 
 #' Check that memory mode produces the same tables as the file output.
 #'
-#' Every table must exist in both, with the same columns, the same declared
-#' types (from fvsTableColumns) and the same rows. CaseID and the FVS_Cases
-#' run time differ between runs and are ignored, as is row order. NULL is
-#' compared equal to NaN and to empty text, which is how the API returns it.
+#' Every table must exist in both, with the same columns in the same order,
+#' the same declared types (from fvsTableColumns) and the same rows. CaseID
+#' and the FVS_Cases run time differ between runs and are ignored, as is row
+#' order. NULL is compared equal to NaN and to empty text, which is how the
+#' API returns it.
 #'
 #' @param fileDb Database FVS wrote with memory mode off.
 #' @param memDb The tables read through the API in memory mode, as written by
@@ -63,13 +64,12 @@ checkTablesMatch <- function(fileDb, memDb) {
   for (name in sort(intersect(fnames, mnames))) {
     fcols <- .columnTypes(fcon, name)
     mcols <- .columnTypes(mcon, name)
-    if (!setequal(names(fcols), names(mcols))) {
-      errors <- c(errors, sprintf("%s: columns differ [%s]", name,
-        toString(union(setdiff(names(fcols), names(mcols)),
-                       setdiff(names(mcols), names(fcols))))))
+    if (!identical(names(fcols), names(mcols))) {
+      errors <- c(errors, sprintf("%s: columns differ: file [%s], mem [%s]",
+        name, toString(names(fcols)), toString(names(mcols))))
       next
     }
-    if (!identical(fcols[names(mcols)], mcols)) {
+    if (!identical(fcols, mcols)) {
       errors <- c(errors, sprintf("%s: declared types differ", name))
       next
     }
@@ -160,7 +160,8 @@ checkOutUnchanged <- function(fileOut, memOut) {
   for (name in .tableList()) {
     t <- .readTable(name)
     old <- tables[[name]]
-    # FVS_Compute can gain columns between stands
+    # FVS_Compute can gain columns between stands; new ones go at the end,
+    # as ALTER TABLE ADD COLUMN does in the file database
     types <- c(old$types, t$types[setdiff(names(t$types), names(old$types))])
     tables[[name]] <- list(types = types, rows = c(old$rows, list(t$rows)))
     rc <- .Fortran("fvsClearTable", charToRaw(name), nchar(name),
@@ -177,21 +178,22 @@ checkOutUnchanged <- function(fileOut, memOut) {
   .split0(r[[1]], r[[2]])
 }
 
-#' Declared type of each column (numeric columns first) and every row of a
-#' table, as list(types, rows); rows is a data.frame in the same column order.
+#' Declared type of each column and every row of a table, in table order, as
+#' list(types, rows); rows is a data.frame in the same column order.
 .readTable <- function(name) {
   nm <- charToRaw(name)
   nch <- nchar(name)
   d <- .Fortran("fvsTableDims", nm, nch, nrow = 0L, nnum = 0L, ntxt = 0L,
                 rtnCode = 0L)
   stopifnot(d$rtnCode == 0)
-  cols <- .Fortran("fvsTableColumns", nm, nch, raw(4096), 4096L, raw(4096),
-                   4096L, raw(4096), 4096L, raw(4096), 4096L, rtnCode = 0L)
+  ncol <- d$nnum + d$ntxt
+  cols <- .Fortran("fvsTableColumns", nm, nch, ncol, raw(4096), 4096L,
+                   raw(4096), 4096L, istxt = integer(ncol), rtnCode = 0L)
   stopifnot(cols$rtnCode == 0)
-  numcols <- .split0(cols[[3]], cols[[4]])
-  txtcols <- .split0(cols[[5]], cols[[6]])
-  types <- setNames(c(.split0(cols[[7]], cols[[8]]), .split0(cols[[9]], cols[[10]])),
-                    c(numcols, txtcols))
+  colnames <- .split0(cols[[4]], cols[[5]])
+  types <- setNames(.split0(cols[[6]], cols[[7]]), colnames)
+  numcols <- colnames[cols$istxt == 0]
+  txtcols <- colnames[cols$istxt == 1]
   stopifnot(length(numcols) == d$nnum, length(txtcols) == d$ntxt)
 
   num <- .Fortran("fvsTableNum", nm, nch, 1L, nrows = d$nrow, d$nnum,
@@ -214,7 +216,7 @@ checkOutUnchanged <- function(fileOut, memOut) {
                  dimnames = list(NULL, txtcols))
     rows <- cbind(rows, as.data.frame(tv, stringsAsFactors = FALSE))
   }
-  list(types = types, rows = rows)
+  list(types = types, rows = rows[colnames])
 }
 
 #' Entries of a char(0)-separated buffer of which n bytes are used.

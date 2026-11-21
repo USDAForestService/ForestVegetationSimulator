@@ -7,7 +7,9 @@
 !     Tables are named as in the output database (e.g. "FVS_Summary2"). Every
 !     column whose declared type is text (TEXT, CHAR, CLOB) is a text column,
 !     every other column is a numeric column returned as real(real64), with
-!     NULL returned as NaN. Columns keep table order within each group. Rows
+!     NULL returned as NaN. fvsTableNum and fvsTableTxt return their
+!     columns in table order within each group; fvsTableColumns gives the
+!     full table order and istxt flags that map values back into it. Rows
 !     are numbered from 1 in the order written.
 !
 !     Name and text lists are returned in one character buffer, each entry
@@ -394,60 +396,53 @@
       nnum = size(istxt) - ntxt
       end subroutine fvsTableDims
 
-!     Column names and declared types of table name (nch characters). Each type 
-!     list matches its name list entry for entry; types are upper case as 
+!     Column names and declared types of table name (nch characters), in
+!     table order, and which columns are text. Types are upper case as
 !     declared (e.g. "INT", "REAL", "TEXT").
-!     numcols  = buffer for the numeric column names
-!     nnumch   = in: length of numcols; out: characters used or needed
-!     txtcols  = buffer for the text column names
-!     ntxtch   = in: length of txtcols; out: characters used or needed
-!     numtypes = buffer for the numeric columns' declared types
-!     nnumtch  = in: length of numtypes; out: characters used or needed
-!     txttypes = buffer for the text columns' declared types
-!     ntxttch  = in: length of txttypes; out: characters used or needed
-      subroutine fvsTableColumns(name, nch, numcols, nnumch, txtcols,
-     &                           ntxtch, numtypes, nnumtch, txttypes,
-     &                           ntxttch, rtnCode)
+!     ncol    = number of columns (nnum + ntxt from fvsTableDims); must equal
+!               the table's, otherwise rtnCode = 2 and ncol is set to the
+!               table's
+!     cols    = buffer for the column names
+!     ncolch  = in: length of cols; out: characters used or needed
+!     types   = buffer for the declared types
+!     ntypch  = in: length of types; out: characters used or needed
+!     istxt   = istxt(i) = 1 if column i is a text column (fvsTableTxt),
+!               0 if numeric (fvsTableNum)
+      subroutine fvsTableColumns(name, nch, ncol, cols, ncolch, types,
+     &                           ntypch, istxt, rtnCode)
       use dbstables_mod
       implicit none
 
 !DEC$ ATTRIBUTES DLLEXPORT,C,DECORATE,ALIAS:'FVSTABLECOLUMNS'::FVSTABLECOLUMNS
-!DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, NUMCOLS, NNUMCH, TXTCOLS
-!DEC$ ATTRIBUTES REFERENCE :: NTXTCH, NUMTYPES, NNUMTCH, TXTTYPES
-!DEC$ ATTRIBUTES REFERENCE :: NTXTTCH, RTNCODE
+!DEC$ ATTRIBUTES REFERENCE :: NAME, NCH, NCOL, COLS, NCOLCH, TYPES
+!DEC$ ATTRIBUTES REFERENCE :: NTYPCH, ISTXT, RTNCODE
 
       character(len=1), intent(in) :: name(*)
       integer, intent(in) :: nch
-      character(len=1), intent(out) :: numcols(*), txtcols(*)
-      character(len=1), intent(out) :: numtypes(*), txttypes(*)
-      integer, intent(inout) :: nnumch, ntxtch, nnumtch, ntxttch
-      integer, intent(out) :: rtnCode
+      integer, intent(inout) :: ncol, ncolch, ntypch
+      character(len=1), intent(out) :: cols(*), types(*)
+      integer, intent(out) :: istxt(*), rtnCode
       character(len=NAMELEN) :: tname
       character(len=NAMELEN), allocatable :: colnm(:), coltype(:)
-      logical, allocatable :: istxt(:)
-      integer :: i, mxnum, mxtxt, mxnumt, mxtxtt
+      logical, allocatable :: lstxt(:)
+      integer :: i, mxcol, mxtyp
 
-      mxnum = nnumch
-      mxtxt = ntxtch
-      mxnumt = nnumtch
-      mxtxtt = ntxttch
-      nnumch = 0
-      ntxtch = 0
-      nnumtch = 0
-      ntxttch = 0
+      mxcol = ncolch
+      mxtyp = ntypch
+      ncolch = 0
+      ntypch = 0
       call tbl_check(name, nch, tname, rtnCode)
       if (rtnCode /= RC_OK) return
-      call tbl_columns(tname, colnm, istxt, coltype)
-      do i = 1, size(colnm)
-        if (istxt(i)) then
-          call tbl_put(txtcols, mxtxt, ntxtch, trim(colnm(i)), rtnCode)
-          call tbl_put(txttypes, mxtxtt, ntxttch, trim(coltype(i)),
-     &      rtnCode)
-        else
-          call tbl_put(numcols, mxnum, nnumch, trim(colnm(i)), rtnCode)
-          call tbl_put(numtypes, mxnumt, nnumtch, trim(coltype(i)),
-     &      rtnCode)
-        end if
+      call tbl_columns(tname, colnm, lstxt, coltype)
+      if (ncol /= size(colnm)) then
+        ncol = size(colnm)
+        rtnCode = RC_TOO_SMALL
+        return
+      end if
+      do i = 1, ncol
+        call tbl_put(cols, mxcol, ncolch, trim(colnm(i)), rtnCode)
+        call tbl_put(types, mxtyp, ntypch, trim(coltype(i)), rtnCode)
+        istxt(i) = merge(1, 0, lstxt(i))
       end do
       end subroutine fvsTableColumns
 
